@@ -393,7 +393,7 @@ func (gr *GenericReconciler) mergeReconcilePolicy(
 	ctx context.Context,
 	log logr.Logger,
 	obj genruntime.MetaObject,
-) reconcilers.ReconcilePolicies {
+) annotations.ReconcilePolicies {
 	// If no configured default policy, we set it to 'manage'
 	defaultReconcilePolicy := gr.Config.DefaultReconcilePolicy
 	if defaultReconcilePolicy == "" {
@@ -418,7 +418,7 @@ func (gr *GenericReconciler) mergeReconcilePolicy(
 		}
 	}
 
-	reconcilePolicy, err := reconcilers.ParseReconcilePolicy(policyStr, defaultReconcilePolicy)
+	reconcilePolicy, err := annotations.ParseReconcilePolicy(policyStr, defaultReconcilePolicy)
 	if err != nil {
 		log.Error(
 			err,
@@ -432,7 +432,7 @@ func (gr *GenericReconciler) mergeReconcilePolicy(
 	// above this fails closed, since a namespace we couldn't read may say to skip
 	inheritedPolicy := annotations.ReconcilePolicySkip
 	if namespaceRead {
-		inheritedPolicy, err = reconcilers.ParseReconcilePolicy(namespacePolicyStr, defaultReconcilePolicy)
+		inheritedPolicy, err = annotations.ParseReconcilePolicy(namespacePolicyStr, defaultReconcilePolicy)
 		if err != nil {
 			log.V(Verbose).Info(
 				"Namespace has an unusable reconcile policy. Applying default policy instead",
@@ -443,7 +443,7 @@ func (gr *GenericReconciler) mergeReconcilePolicy(
 
 	log.V(Verbose).Info("Retrieved reconcile policy", "policy", reconcilePolicy, "source", source)
 
-	return reconcilers.ReconcilePolicies{
+	return annotations.ReconcilePolicies{
 		Effective: reconcilePolicy,
 		Inherited: inheritedPolicy,
 		Default:   defaultReconcilePolicy,

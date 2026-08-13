@@ -18,7 +18,7 @@ import (
 func Test_ReconcilePolicyForAnnotation_givenAnnotation_resolvesItAsTheReconcilerWould(t *testing.T) {
 	t.Parallel()
 
-	policies := reconcilers.ReconcilePolicies{
+	policies := annotations.ReconcilePolicies{
 		// Belongs to the resource being reconciled, and must not decide another resource's policy
 		Effective: annotations.ReconcilePolicyDetachOnDelete,
 		Inherited: annotations.ReconcilePolicySkip,
@@ -65,7 +65,7 @@ func Test_ReconcilePolicyForAnnotation_givenUnusableAnnotation_doesNotOverrideAS
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	ctx := reconcilers.WithReconcilePolicies(context.Background(), reconcilers.ReconcilePolicies{
+	ctx := reconcilers.WithReconcilePolicies(context.Background(), annotations.ReconcilePolicies{
 		Effective: annotations.ReconcilePolicyManage,
 		Inherited: annotations.ReconcilePolicyManage,
 		Default:   annotations.ReconcilePolicySkip,
@@ -89,7 +89,7 @@ func Test_ReconcilePolicyFromContext_givenPolicies_returnsTheEffectiveOne(t *tes
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			ctx := reconcilers.WithReconcilePolicies(context.Background(), reconcilers.ReconcilePolicies{
+			ctx := reconcilers.WithReconcilePolicies(context.Background(), annotations.ReconcilePolicies{
 				Effective: effective,
 				Inherited: annotations.ReconcilePolicySkip,
 				Default:   annotations.ReconcilePolicyManage,
