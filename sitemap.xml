@@ -694,6 +694,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20220901/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dataprotection/v20230101/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20230101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/v20230301/</loc>
@@ -711,6 +713,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/cache/v20230701/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/v20230801/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dataprotection/v20231101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20231230/</loc>
   </url><url>
