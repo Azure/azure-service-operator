@@ -228,6 +228,10 @@ import (
 	containerservice_v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
 	containerservice_v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
 	containerservice_v20251002pw "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/webhook"
+	databasewatcher_customizations "github.com/Azure/azure-service-operator/v2/api/databasewatcher/customizations"
+	databasewatcher_v20241001p "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview"
+	databasewatcher_v20241001ps "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview/storage"
+	databasewatcher_v20241001pw "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview/webhook"
 	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
 	datafactory_v1api20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
 	datafactory_v1api20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
@@ -1391,6 +1395,70 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.ManagedClustersAgentPool)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.TrustedAccessRoleBinding)})
+	result = append(result, &registration.StorageType{Obj: new(databasewatcher_v20241001ps.SharedPrivateLink)})
+	result = append(result, &registration.StorageType{
+		Obj: new(databasewatcher_v20241001ps.Target),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.sqlDb.connectionServerNameFromConfig",
+				Func: indexDatabasewatcherTargetSqlDbConnectionServerNameFromConfig,
+			},
+			{
+				Key:  ".spec.properties.sqlEp.connectionServerNameFromConfig",
+				Func: indexDatabasewatcherTargetSqlEpConnectionServerNameFromConfig,
+			},
+			{
+				Key:  ".spec.properties.sqlMi.connectionServerNameFromConfig",
+				Func: indexDatabasewatcherTargetSqlMiConnectionServerNameFromConfig,
+			},
+			{
+				Key:  ".spec.properties.sqlVm.connectionServerNameFromConfig",
+				Func: indexDatabasewatcherTargetSqlVmConnectionServerNameFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.properties.sqlDb.connectionServerNameFromConfig",
+						".spec.properties.sqlEp.connectionServerNameFromConfig",
+						".spec.properties.sqlMi.connectionServerNameFromConfig",
+						".spec.properties.sqlVm.connectionServerNameFromConfig",
+					},
+					&databasewatcher_v20241001ps.TargetList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(databasewatcher_v20241001ps.Watcher),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.datastore.kustoClusterUriFromConfig",
+				Func: indexDatabasewatcherWatcherKustoClusterUriFromConfig,
+			},
+			{
+				Key:  ".spec.datastore.kustoDataIngestionUriFromConfig",
+				Func: indexDatabasewatcherWatcherKustoDataIngestionUriFromConfig,
+			},
+			{
+				Key:  ".spec.datastore.kustoManagementUrlFromConfig",
+				Func: indexDatabasewatcherWatcherKustoManagementUrlFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.datastore.kustoClusterUriFromConfig",
+						".spec.datastore.kustoDataIngestionUriFromConfig",
+						".spec.datastore.kustoManagementUrlFromConfig",
+					},
+					&databasewatcher_v20241001ps.WatcherList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(datafactory_v20180601s.Factory)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVault)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVaultsBackupInstance)})
@@ -5102,6 +5170,28 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedCluster)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedClustersAgentPool)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.TrustedAccessRoleBinding)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(databasewatcher_v20241001p.SharedPrivateLink),
+			Defaulter: &databasewatcher_v20241001pw.SharedPrivateLink{},
+			Validator: &databasewatcher_v20241001pw.SharedPrivateLink{},
+		},
+		&registration.KnownType{
+			Obj:       new(databasewatcher_v20241001p.Target),
+			Defaulter: &databasewatcher_v20241001pw.Target{},
+			Validator: &databasewatcher_v20241001pw.Target{},
+		},
+		&registration.KnownType{
+			Obj:       new(databasewatcher_v20241001p.Watcher),
+			Defaulter: &databasewatcher_v20241001pw.Watcher{},
+			Validator: &databasewatcher_v20241001pw.Watcher{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(databasewatcher_v20241001ps.SharedPrivateLink)},
+		&registration.KnownType{Obj: new(databasewatcher_v20241001ps.Target)},
+		&registration.KnownType{Obj: new(databasewatcher_v20241001ps.Watcher)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(datafactory_v1api20180601.Factory),
 		Defaulter: &datafactory_v1api20180601w.Factory{},
@@ -8409,6 +8499,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20250801s.AddToScheme(scheme)
 	_ = containerservice_v20251002p.AddToScheme(scheme)
 	_ = containerservice_v20251002ps.AddToScheme(scheme)
+	_ = databasewatcher_v20241001p.AddToScheme(scheme)
+	_ = databasewatcher_v20241001ps.AddToScheme(scheme)
 	_ = datafactory_v1api20180601.AddToScheme(scheme)
 	_ = datafactory_v1api20180601s.AddToScheme(scheme)
 	_ = datafactory_v20180601.AddToScheme(scheme)
@@ -8713,6 +8805,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
 	result = append(result, &containerservice_customizations.TrustedAccessRoleBindingExtension{})
+	result = append(result, &databasewatcher_customizations.SharedPrivateLinkExtension{})
+	result = append(result, &databasewatcher_customizations.TargetExtension{})
+	result = append(result, &databasewatcher_customizations.WatcherExtension{})
 	result = append(result, &datafactory_customizations.FactoryExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultsBackupInstanceExtension{})
@@ -9996,6 +10091,123 @@ func indexContainerserviceManagedClusterServerAppSecret(rawObj client.Object) []
 		return nil
 	}
 	return obj.Spec.AadProfile.ServerAppSecret.Index()
+}
+
+// indexDatabasewatcherTargetSqlDbConnectionServerNameFromConfig an index function for databasewatcher_v20241001ps.Target .spec.properties.sqlDb.connectionServerNameFromConfig
+func indexDatabasewatcherTargetSqlDbConnectionServerNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*databasewatcher_v20241001ps.Target)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlDb == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlDb.ConnectionServerNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.SqlDb.ConnectionServerNameFromConfig.Index()
+}
+
+// indexDatabasewatcherTargetSqlEpConnectionServerNameFromConfig an index function for databasewatcher_v20241001ps.Target .spec.properties.sqlEp.connectionServerNameFromConfig
+func indexDatabasewatcherTargetSqlEpConnectionServerNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*databasewatcher_v20241001ps.Target)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlEp == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlEp.ConnectionServerNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.SqlEp.ConnectionServerNameFromConfig.Index()
+}
+
+// indexDatabasewatcherTargetSqlMiConnectionServerNameFromConfig an index function for databasewatcher_v20241001ps.Target .spec.properties.sqlMi.connectionServerNameFromConfig
+func indexDatabasewatcherTargetSqlMiConnectionServerNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*databasewatcher_v20241001ps.Target)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlMi == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlMi.ConnectionServerNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.SqlMi.ConnectionServerNameFromConfig.Index()
+}
+
+// indexDatabasewatcherTargetSqlVmConnectionServerNameFromConfig an index function for databasewatcher_v20241001ps.Target .spec.properties.sqlVm.connectionServerNameFromConfig
+func indexDatabasewatcherTargetSqlVmConnectionServerNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*databasewatcher_v20241001ps.Target)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlVm == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlVm.ConnectionServerNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.SqlVm.ConnectionServerNameFromConfig.Index()
+}
+
+// indexDatabasewatcherWatcherKustoClusterUriFromConfig an index function for databasewatcher_v20241001ps.Watcher .spec.datastore.kustoClusterUriFromConfig
+func indexDatabasewatcherWatcherKustoClusterUriFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*databasewatcher_v20241001ps.Watcher)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Datastore == nil {
+		return nil
+	}
+	if obj.Spec.Datastore.KustoClusterUriFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Datastore.KustoClusterUriFromConfig.Index()
+}
+
+// indexDatabasewatcherWatcherKustoDataIngestionUriFromConfig an index function for databasewatcher_v20241001ps.Watcher .spec.datastore.kustoDataIngestionUriFromConfig
+func indexDatabasewatcherWatcherKustoDataIngestionUriFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*databasewatcher_v20241001ps.Watcher)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Datastore == nil {
+		return nil
+	}
+	if obj.Spec.Datastore.KustoDataIngestionUriFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Datastore.KustoDataIngestionUriFromConfig.Index()
+}
+
+// indexDatabasewatcherWatcherKustoManagementUrlFromConfig an index function for databasewatcher_v20241001ps.Watcher .spec.datastore.kustoManagementUrlFromConfig
+func indexDatabasewatcherWatcherKustoManagementUrlFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*databasewatcher_v20241001ps.Watcher)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Datastore == nil {
+		return nil
+	}
+	if obj.Spec.Datastore.KustoManagementUrlFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Datastore.KustoManagementUrlFromConfig.Index()
 }
 
 // indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.default.administratorLoginPassword

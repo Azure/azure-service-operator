@@ -127,6 +127,10 @@ var exclusions = []*regexp.Regexp{
 
 	// Excluding quota as Azure Quota API does not support deletion - quotas are read-only system resources
 	regexp.MustCompile(`quota/.*_quota.yaml`),
+
+	// Excluding databasewatcher sharedprivatelink as its managed private endpoint must be torn
+	// down before the server it points at
+	regexp.MustCompile(`databasewatcher/.*_sharedprivatelink.yaml`),
 }
 
 // referenceKey identifies a resource by its Kind and Name for rename tracking.
