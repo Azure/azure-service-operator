@@ -31,6 +31,8 @@ Move `ReconcilePolicies` to `pkg/common/annotations`, alongside `ReconcilePolicy
 
 Add `ForAnnotation(annotation string) ReconcilePolicyValue` to the value. An empty annotation returns `Inherited`; a non-empty annotation is parsed against `Default`. This keeps secondary-resource policy resolution centralized without requiring context or duplicating precedence rules in extensions.
 
+Move `ParseReconcilePolicy` from `internal/reconcilers` into `pkg/common/annotations` as part of this change. Both `ForAnnotation` and `GenericReconciler.mergeReconcilePolicy` use that shared parser, avoiding duplicated rules and an import cycle between `genruntime` and the internal reconciler packages.
+
 The zero value is not assigned an implicit `manage` meaning. Reconciliation and tests must provide the resolved value explicitly.
 
 ## Resolution and Data Flow
