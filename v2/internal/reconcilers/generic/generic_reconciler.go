@@ -238,7 +238,6 @@ func (gr *GenericReconciler) createOrUpdate(ctx context.Context, log logr.Logger
 
 	genruntime.AddLabel(metaObj, labels.LastReconciledVersionLabel, version.BuildVersion)
 	reconcilePolicies := gr.mergeReconcilePolicy(ctx, log, metaObj)
-	ctx = reconcilers.WithReconcilePolicies(ctx, reconcilePolicies)
 	if !reconcilePolicies.Effective.AllowsModify() {
 		return ctrl.Result{}, gr.handleSkipReconcile(ctx, log, metaObj, reconcilePolicies)
 	}
@@ -251,7 +250,6 @@ func (gr *GenericReconciler) createOrUpdate(ctx context.Context, log logr.Logger
 func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaObj genruntime.MetaObject) (ctrl.Result, error) {
 	// Check the reconcile policy to ensure we're allowed to issue a delete
 	reconcilePolicies := gr.mergeReconcilePolicy(ctx, log, metaObj)
-	ctx = reconcilers.WithReconcilePolicies(ctx, reconcilePolicies)
 	if !reconcilePolicies.Effective.AllowsDelete() {
 		log.V(Info).Info("Bypassing delete of resource due to policy", "policy", reconcilePolicies.Effective)
 		controllerutil.RemoveFinalizer(metaObj, genruntime.ReconcilerFinalizer)

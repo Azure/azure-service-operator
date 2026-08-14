@@ -29,8 +29,7 @@ const (
 )
 
 // ReconcilePolicies are the reconcile policies in effect during a reconcile, none of which a resource
-// extension can work out on its own. Read them with ReconcilePolicyFromContext or
-// ReconcilePolicyForAnnotation rather than combining them.
+// extension can work out on its own. Read them with Effective or ForAnnotation rather than combining them.
 type ReconcilePolicies struct {
 	// Effective is the policy for the resource being reconciled, resolved from its own annotation, its
 	// namespace, and the operator's configuration.
