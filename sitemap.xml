@@ -732,6 +732,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v20240701/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/databasewatcher/v20241001preview/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/v20241101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v20241101/</loc>

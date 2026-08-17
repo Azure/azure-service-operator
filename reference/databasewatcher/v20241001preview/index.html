@@ -17,26 +17,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Resource Versioning | Azure Service Operator</title>
-<meta name="description" content="How ASO versions resources Each ASO resource version corresponds directly to an Azure API version. For example, resources.azure.com/v1api20200601 maps to the 2020-06-01 version of the Azure Resource Manager API. When multiple API versions are available for a resource, ASO offers a separate CRD version for each one.
-Internally, Kubernetes stores every resource using a single canonical storage version, regardless of which API version you use when creating or updating it. ASO handles conversion between versions automatically, so you can interact with a resource using any supported version and ASO takes care of the rest.">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/versioning/">
+<title>databasewatcher.azure.com/v20241001preview | Azure Service Operator</title>
+<meta name="description" content="APIVersion Value Description “2024-10-01-preview” SharedPrivateLink Generator information: - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DatabaseWatcher/​watchers/​{watcherName}/​sharedPrivateLinkResources/​{sharedPrivateLinkResourceName}
+Used by: SharedPrivateLinkList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SharedPrivateLink_SpecOptional status SharedPrivateLink_STATUSOptional SharedPrivateLink_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional dnsZone The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is ‘adx-cluster-21187695.eastus.kusto.windows.net’, then the value is eastus; if the host name is ‘sql-mi-23961134.767d5869f605.database.windows.net’, then the value is 767d5869f605. stringOptional groupId The group id from the provider of resource the shared private link resource is for. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SharedPrivateLinkOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a databasewatcher.azure.com/Watcher resource genruntime.KnownResourceReferenceRequired privateLinkResourceReference The resource ID of the resource the shared private link resource is for. genruntime.ResourceReferenceRequired requestMessage The request message for requesting approval of the shared private link resource. stringRequired SharedPrivateLink_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional dnsZone The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is ‘adx-cluster-21187695.eastus.kusto.windows.net’, then the value is eastus; if the host name is ‘sql-mi-23961134.767d5869f605.database.windows.net’, then the value is 767d5869f605. stringOptional groupId The group id from the provider of resource the shared private link resource is for. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional privateLinkResourceId The resource ID of the resource the shared private link resource is for. stringOptional provisioningState The provisioning state of the resource. AzureResourceManagerResourceProvisioningState_STATUSOptional requestMessage The request message for requesting approval of the shared private link resource. stringOptional status Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected. SharedPrivateLinkResourceStatus_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional SharedPrivateLinkList Generator information: - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DatabaseWatcher/​watchers/​{watcherName}/​sharedPrivateLinkResources/​{sharedPrivateLinkResourceName}">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/databasewatcher/v20241001preview/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="Resource Versioning">
-  <meta property="og:description" content="How ASO versions resources Each ASO resource version corresponds directly to an Azure API version. For example, resources.azure.com/v1api20200601 maps to the 2020-06-01 version of the Azure Resource Manager API. When multiple API versions are available for a resource, ASO offers a separate CRD version for each one.
-Internally, Kubernetes stores every resource using a single canonical storage version, regardless of which API version you use when creating or updating it. ASO handles conversion between versions automatically, so you can interact with a resource using any supported version and ASO takes care of the rest.">
+  <meta property="og:title" content="databasewatcher.azure.com/v20241001preview">
+  <meta property="og:description" content="APIVersion Value Description “2024-10-01-preview” SharedPrivateLink Generator information: - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DatabaseWatcher/​watchers/​{watcherName}/​sharedPrivateLinkResources/​{sharedPrivateLinkResourceName}
+Used by: SharedPrivateLinkList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SharedPrivateLink_SpecOptional status SharedPrivateLink_STATUSOptional SharedPrivateLink_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional dnsZone The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is ‘adx-cluster-21187695.eastus.kusto.windows.net’, then the value is eastus; if the host name is ‘sql-mi-23961134.767d5869f605.database.windows.net’, then the value is 767d5869f605. stringOptional groupId The group id from the provider of resource the shared private link resource is for. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SharedPrivateLinkOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a databasewatcher.azure.com/Watcher resource genruntime.KnownResourceReferenceRequired privateLinkResourceReference The resource ID of the resource the shared private link resource is for. genruntime.ResourceReferenceRequired requestMessage The request message for requesting approval of the shared private link resource. stringRequired SharedPrivateLink_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional dnsZone The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is ‘adx-cluster-21187695.eastus.kusto.windows.net’, then the value is eastus; if the host name is ‘sql-mi-23961134.767d5869f605.database.windows.net’, then the value is 767d5869f605. stringOptional groupId The group id from the provider of resource the shared private link resource is for. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional privateLinkResourceId The resource ID of the resource the shared private link resource is for. stringOptional provisioningState The provisioning state of the resource. AzureResourceManagerResourceProvisioningState_STATUSOptional requestMessage The request message for requesting approval of the shared private link resource. stringOptional status Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected. SharedPrivateLinkResourceStatus_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional SharedPrivateLinkList Generator information: - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DatabaseWatcher/​watchers/​{watcherName}/​sharedPrivateLinkResources/​{sharedPrivateLinkResourceName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
-    <meta property="article:section" content="guide">
+    <meta property="article:section" content="reference">
 
-  <meta itemprop="name" content="Resource Versioning">
-  <meta itemprop="description" content="How ASO versions resources Each ASO resource version corresponds directly to an Azure API version. For example, resources.azure.com/v1api20200601 maps to the 2020-06-01 version of the Azure Resource Manager API. When multiple API versions are available for a resource, ASO offers a separate CRD version for each one.
-Internally, Kubernetes stores every resource using a single canonical storage version, regardless of which API version you use when creating or updating it. ASO handles conversion between versions automatically, so you can interact with a resource using any supported version and ASO takes care of the rest.">
-  <meta itemprop="wordCount" content="283">
+  <meta itemprop="name" content="databasewatcher.azure.com/v20241001preview">
+  <meta itemprop="description" content="APIVersion Value Description “2024-10-01-preview” SharedPrivateLink Generator information: - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DatabaseWatcher/​watchers/​{watcherName}/​sharedPrivateLinkResources/​{sharedPrivateLinkResourceName}
+Used by: SharedPrivateLinkList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SharedPrivateLink_SpecOptional status SharedPrivateLink_STATUSOptional SharedPrivateLink_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional dnsZone The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is ‘adx-cluster-21187695.eastus.kusto.windows.net’, then the value is eastus; if the host name is ‘sql-mi-23961134.767d5869f605.database.windows.net’, then the value is 767d5869f605. stringOptional groupId The group id from the provider of resource the shared private link resource is for. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SharedPrivateLinkOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a databasewatcher.azure.com/Watcher resource genruntime.KnownResourceReferenceRequired privateLinkResourceReference The resource ID of the resource the shared private link resource is for. genruntime.ResourceReferenceRequired requestMessage The request message for requesting approval of the shared private link resource. stringRequired SharedPrivateLink_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional dnsZone The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is ‘adx-cluster-21187695.eastus.kusto.windows.net’, then the value is eastus; if the host name is ‘sql-mi-23961134.767d5869f605.database.windows.net’, then the value is 767d5869f605. stringOptional groupId The group id from the provider of resource the shared private link resource is for. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional privateLinkResourceId The resource ID of the resource the shared private link resource is for. stringOptional provisioningState The provisioning state of the resource. AzureResourceManagerResourceProvisioningState_STATUSOptional requestMessage The request message for requesting approval of the shared private link resource. stringOptional status Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected. SharedPrivateLinkResourceStatus_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional SharedPrivateLinkList Generator information: - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DatabaseWatcher/​watchers/​{watcherName}/​sharedPrivateLinkResources/​{sharedPrivateLinkResourceName}">
+  <meta itemprop="wordCount" content="4515">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Resource Versioning">
-  <meta name="twitter:description" content="How ASO versions resources Each ASO resource version corresponds directly to an Azure API version. For example, resources.azure.com/v1api20200601 maps to the 2020-06-01 version of the Azure Resource Manager API. When multiple API versions are available for a resource, ASO offers a separate CRD version for each one.
-Internally, Kubernetes stores every resource using a single canonical storage version, regardless of which API version you use when creating or updating it. ASO handles conversion between versions automatically, so you can interact with a resource using any supported version and ASO takes care of the rest.">
+  <meta name="twitter:title" content="databasewatcher.azure.com/v20241001preview">
+  <meta name="twitter:description" content="APIVersion Value Description “2024-10-01-preview” SharedPrivateLink Generator information: - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DatabaseWatcher/​watchers/​{watcherName}/​sharedPrivateLinkResources/​{sharedPrivateLinkResourceName}
+Used by: SharedPrivateLinkList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SharedPrivateLink_SpecOptional status SharedPrivateLink_STATUSOptional SharedPrivateLink_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional dnsZone The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is ‘adx-cluster-21187695.eastus.kusto.windows.net’, then the value is eastus; if the host name is ‘sql-mi-23961134.767d5869f605.database.windows.net’, then the value is 767d5869f605. stringOptional groupId The group id from the provider of resource the shared private link resource is for. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SharedPrivateLinkOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a databasewatcher.azure.com/Watcher resource genruntime.KnownResourceReferenceRequired privateLinkResourceReference The resource ID of the resource the shared private link resource is for. genruntime.ResourceReferenceRequired requestMessage The request message for requesting approval of the shared private link resource. stringRequired SharedPrivateLink_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional dnsZone The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is ‘adx-cluster-21187695.eastus.kusto.windows.net’, then the value is eastus; if the host name is ‘sql-mi-23961134.767d5869f605.database.windows.net’, then the value is 767d5869f605. stringOptional groupId The group id from the provider of resource the shared private link resource is for. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional privateLinkResourceId The resource ID of the resource the shared private link resource is for. stringOptional provisioningState The provisioning state of the resource. AzureResourceManagerResourceProvisioningState_STATUSOptional requestMessage The request message for requesting approval of the shared private link resource. stringOptional status Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected. SharedPrivateLinkResourceStatus_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional SharedPrivateLinkList Generator information: - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DatabaseWatcher/​watchers/​{watcherName}/​sharedPrivateLinkResources/​{sharedPrivateLinkResourceName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -53,7 +57,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link active" href="/azure-service-operator/guide/"><span>Guide</span></a>
+        <a class="nav-link" href="/azure-service-operator/guide/"><span>Guide</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/blogs/"><span>Blog</span></a>
@@ -65,7 +69,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
         <a class="nav-link" href="/azure-service-operator/tools/"><span>Tools</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
+        <a class="nav-link active" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
@@ -101,20 +105,20 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <ul class="ul-1">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorgetting-started-li">
   <a href="/azure-service-operator/getting-started/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorgetting-started"><span class="">Getting Started</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguide-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguide-li">
   <a href="/azure-service-operator/guide/" title="User’s Guide" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguide"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-helm-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-helm-li">
   <a href="/azure-service-operator/guide/installing-from-helm/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-helm"><span class="">Installation: From Helm</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-yaml-li">
   <a href="/azure-service-operator/guide/installing-from-yaml/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidecrd-management-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidecrd-management-li">
   <a href="/azure-service-operator/guide/crd-management/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="">CRD management in ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideupgrading-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideupgrading-li">
   <a href="/azure-service-operator/guide/upgrading/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" title="Frequently Asked Questions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidediagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidediagnosing-problems-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling-li">
@@ -125,13 +129,13 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency"><span class="">Reconciliation Frequencey</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguideversioning-li">
-  <a href="/azure-service-operator/guide/versioning/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideversioning"><span class="td-sidebar-nav-active-item">Resource Versioning</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideadoption-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideversioning-li">
+  <a href="/azure-service-operator/guide/versioning/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideversioning"><span class="">Resource Versioning</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations and Labels used by the operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations and Labels</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
@@ -144,14 +148,14 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebest-practices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebest-practices-li">
   <a href="/azure-service-operator/guide/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practicessecurity-li">
   <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2200-li">
@@ -188,25 +192,25 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideexpressions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideexpressions-li">
   <a href="/azure-service-operator/guide/expressions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">CEL Expressions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconditions-li">
   <a href="/azure-service-operator/guide/conditions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideaso-controller-settings-options-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideaso-controller-settings-options-li">
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideoperatorspec-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideoperatorspec-li">
   <a href="/azure-service-operator/guide/operatorspec/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideoperatorspec"><span class="">Configuring OperatorSpec</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidesecrets-li">
   <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidekeyvaults-li">
   <a href="/azure-service-operator/guide/keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidekeyvaults"><span class="">KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideownership-li">
   <a href="/azure-service-operator/guide/ownership/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideownership"><span class="">Ownership</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideasov1-asov2-migration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideasov1-asov2-migration-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideasov1-asov2-migration"><span class="">ASOv1 to ASOv2 migration guide</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
@@ -227,7 +231,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer"><span class="">Storage Container</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideuninstalling-li">
   <a href="/azure-service-operator/guide/uninstalling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
 </li>
   </ul>
@@ -278,10 +282,10 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/tools/generator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortoolsgenerator"><span class="">generator</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencealertsmanagement-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencealertsmanagement-li">
   <a href="/azure-service-operator/reference/alertsmanagement/" title="AlertsManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencealertsmanagement"><span class="">AlertsManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20210401-li">
@@ -294,7 +298,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/alertsmanagement/v20230301/" title="alertsmanagement.azure.com/v20230301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv20230301"><span class="">v20230301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceapimanagement-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapimanagement-li">
   <a href="/azure-service-operator/reference/apimanagement/" title="ApiManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapimanagement"><span class="">ApiManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20220801-li">
@@ -311,7 +315,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/apimanagement/v20240501/" title="apimanagement.azure.com/v20240501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv20240501"><span class="">v20240501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceapp-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapp-li">
   <a href="/azure-service-operator/reference/app/" title="App Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapp"><span class="">App</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappv1api20240301-li">
@@ -324,7 +328,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/app/v20250101/" title="app.azure.com/v20250101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappv20250101"><span class="">v20250101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceappconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" title="AppConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">AppConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
@@ -335,7 +339,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/appconfiguration/v20240601/" title="appconfiguration.azure.com/v20240601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv20240601"><span class="">v20240601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceauthorization-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" title="Authorization Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">Authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
@@ -348,7 +352,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/authorization/v20220401/" title="authorization.azure.com/v20220401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv20220401"><span class="">v20220401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" title="Batch Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">Batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
@@ -359,7 +363,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/batch/v20240701/" title="batch.azure.com/v20240701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv20240701"><span class="">v20240701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" title="Cache Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">Cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
@@ -394,7 +398,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/cache/v20250701/" title="cache.azure.com/v20250701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev20250701"><span class="">v20250701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" title="Cdn Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">Cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
@@ -407,7 +411,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/cdn/v20230501/" title="cdn.azure.com/v20230501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv20230501"><span class="">v20230501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecognitiveservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecognitiveservices-li">
   <a href="/azure-service-operator/reference/cognitiveservices/" title="CognitiveServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecognitiveservices"><span class="">CognitiveServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecognitiveservicesv1api20250601-li">
@@ -416,14 +420,14 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/cognitiveservices/v20250601/" title="cognitiveservices.azure.com/v20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecognitiveservicesv20250601"><span class="">v20250601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecommunication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecommunication-li">
   <a href="/azure-service-operator/reference/communication/" title="Communication Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecommunication"><span class="">Communication</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecommunicationv20230401-li">
   <a href="/azure-service-operator/reference/communication/v20230401/" title="communication.azure.com/v20230401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecommunicationv20230401"><span class="">v20230401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">Compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
@@ -460,7 +464,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/compute/v20250401/" title="compute.azure.com/v20250401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev20250401"><span class="">v20250401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerinstance-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" title="ContainerInstance Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">ContainerInstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
@@ -469,7 +473,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/containerinstance/v20211001/" title="containerinstance.azure.com/v20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev20211001"><span class="">v20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" title="ContainerRegistry Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">ContainerRegistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
@@ -478,7 +482,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/containerregistry/v1api20230701/" title="containerregistry.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20230701"><span class="">v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" title="ContainerService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">ContainerService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
@@ -491,14 +495,14 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/containerservice/v20251002preview/" title="containerservice.azure.com/v20251002preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev20251002preview"><span class="">v20251002preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedatabasewatcher-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencedatabasewatcher-li">
   <a href="/azure-service-operator/reference/databasewatcher/" title="DatabaseWatcher Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatabasewatcher"><span class="">DatabaseWatcher</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatabasewatcherv20241001preview-li">
-  <a href="/azure-service-operator/reference/databasewatcher/v20241001preview/" title="databasewatcher.azure.com/v20241001preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatabasewatcherv20241001preview"><span class="">v20241001preview</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencedatabasewatcherv20241001preview-li">
+  <a href="/azure-service-operator/reference/databasewatcher/v20241001preview/" title="databasewatcher.azure.com/v20241001preview" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatabasewatcherv20241001preview"><span class="td-sidebar-nav-active-item">v20241001preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedatafactory-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
   <a href="/azure-service-operator/reference/datafactory/" title="DataFactory Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">DataFactory</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
@@ -507,7 +511,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/datafactory/v20180601/" title="datafactory.azure.com/v20180601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv20180601"><span class="">v20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedataprotection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedataprotection-li">
   <a href="/azure-service-operator/reference/dataprotection/" title="DataProtection Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedataprotection"><span class="">DataProtection</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
@@ -520,14 +524,14 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/dataprotection/v20231101/" title="dataprotection.azure.com/v20231101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv20231101"><span class="">v20231101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" title="DBforMariaDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">DBforMariaDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
   <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" title="dbformariadb.azure.com/v1api20180601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" title="DBforMySQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">DBforMySQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
@@ -554,7 +558,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/dbformysql/v20250601preview/" title="dbformysql.azure.com/v20250601preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv20250601preview"><span class="">v20250601preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbforpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" title="DBforPostgreSQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">DBforPostgreSQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
@@ -573,14 +577,14 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/dbforpostgresql/v20250801/" title="dbforpostgresql.azure.com/v20250801" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv20250801"><span class="">v20250801</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedevices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedevices-li">
   <a href="/azure-service-operator/reference/devices/" title="Devices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedevices"><span class="">Devices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedevicesv1api20210702-li">
   <a href="/azure-service-operator/reference/devices/v1api20210702/" title="devices.azure.com/v1api20210702" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedevicesv1api20210702"><span class="">v1api20210702</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedocumentdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" title="DocumentDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">DocumentDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
@@ -597,14 +601,14 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/documentdb/v20260315/" title="documentdb.azure.com/v20260315" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv20260315"><span class="">v20260315</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceentra-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceentra-li">
   <a href="/azure-service-operator/reference/entra/" title="Entra Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceentra"><span class="">Entra</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceentrav1-li">
   <a href="/azure-service-operator/reference/entra/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceentrav1"><span class="">entra.azure.com/</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" title="EventGrid Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">EventGrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
@@ -613,7 +617,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/eventgrid/v20200601/" title="eventgrid.azure.com/v20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv20200601"><span class="">v20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" title="EventHub Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">EventHub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
@@ -622,14 +626,14 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/eventhub/v1api20240101/" title="eventhub.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20240101"><span class="">v1api20240101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
   <a href="/azure-service-operator/reference/network.frontdoor/" title="Frontdoor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetworkfrontdoor"><span class="">Frontdoor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501-li">
   <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" title="network.frontdoor.azure.com/v1api20220501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="">v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" title="Insights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">Insights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20171001-li">
@@ -660,7 +664,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/insights/v1api20250101preview/" title="insights.azure.com/v1api20250101preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20250101preview"><span class="">v1api20250101preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" title="KeyVault Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">KeyVault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
@@ -669,7 +673,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/keyvault/v1api20230701/" title="keyvault.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20230701"><span class="">v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/" title="KubernetesConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekubernetesconfiguration"><span class="">KubernetesConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501-li">
@@ -678,7 +682,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20241101/" title="kubernetesconfiguration.azure.com/v1api20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20241101"><span class="">v1api20241101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekusto-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekusto-li">
   <a href="/azure-service-operator/reference/kusto/" title="Kusto Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekusto"><span class="">Kusto</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekustov1api20230815-li">
@@ -689,7 +693,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/kusto/v20240413/" title="kusto.azure.com/v20240413" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekustov20240413"><span class="">v20240413</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
@@ -698,7 +702,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" title="machinelearningservices.azure.com/v1api20240401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">v1api20240401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemanagedidentity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" title="ManagedIdentity Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">ManagedIdentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
@@ -709,14 +713,14 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/managedidentity/v1api20230131/" title="managedidentity.azure.com/v1api20230131" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20230131"><span class="">v1api20230131</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemonitor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemonitor-li">
   <a href="/azure-service-operator/reference/monitor/" title="Monitor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemonitor"><span class="">Monitor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemonitorv1api20230403-li">
   <a href="/azure-service-operator/reference/monitor/v1api20230403/" title="monitor.azure.com/v1api20230403" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemonitorv1api20230403"><span class="">v1api20230403</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" title="Network Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
@@ -743,14 +747,14 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/network/v20250301/" title="network.azure.com/v20250301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv20250301"><span class="">v20250301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenotificationhubs-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenotificationhubs-li">
   <a href="/azure-service-operator/reference/notificationhubs/" title="NotificationHubs Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenotificationhubs"><span class="">NotificationHubs</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenotificationhubsv1api20230901-li">
   <a href="/azure-service-operator/reference/notificationhubs/v1api20230901/" title="notificationhubs.azure.com/v1api20230901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenotificationhubsv1api20230901"><span class="">v1api20230901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceoperationalinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" title="OperationalInsights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">OperationalInsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
@@ -759,28 +763,28 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/operationalinsights/v20250701/" title="operationalinsights.azure.com/v20250701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv20250701"><span class="">v20250701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencequota-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencequota-li">
   <a href="/azure-service-operator/reference/quota/" title="Quota Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencequota"><span class="">Quota</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencequotav1api20250901-li">
   <a href="/azure-service-operator/reference/quota/v1api20250901/" title="quota.azure.com/v1api20250901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencequotav1api20250901"><span class="">v1api20250901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceredhatopenshift-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceredhatopenshift-li">
   <a href="/azure-service-operator/reference/redhatopenshift/" title="RedHatOpenShift Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceredhatopenshift"><span class="">RedHatOpenShift</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122-li">
   <a href="/azure-service-operator/reference/redhatopenshift/v1api20231122/" title="redhatopenshift.azure.com/v1api20231122" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122"><span class="">v1api20231122</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceresources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" title="Resources Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">Resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
   <a href="/azure-service-operator/reference/resources/v1api20200601/" title="resources.azure.com/v1api20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesearch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesearch-li">
   <a href="/azure-service-operator/reference/search/" title="Search Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesearch"><span class="">Search</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20220901-li">
@@ -789,7 +793,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/search/v1api20231101/" title="search.azure.com/v1api20231101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20231101"><span class="">v1api20231101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceservicebus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" title="ServiceBus Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">ServiceBus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
@@ -802,7 +806,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/servicebus/v1api20240101/" title="servicebus.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20240101"><span class="">v1api20240101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesignalrservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" title="SignalRService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">SignalRService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
@@ -811,7 +815,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/signalrservice/v1api20240301/" title="signalrservice.azure.com/v1api20240301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20240301"><span class="">v1api20240301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
   <a href="/azure-service-operator/reference/sql/" title="Sql Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">Sql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1-li">
@@ -824,7 +828,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/sql/v20250101/" title="sql.azure.com/v20250101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv20250101"><span class="">v20250101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencestorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" title="Storage Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">Storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
@@ -843,7 +847,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/storage/v20250601/" title="storage.azure.com/v20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20250601"><span class="">v20250601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesubscription-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" title="Subscription Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">Subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
@@ -852,7 +856,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/subscription/v20211001/" title="subscription.azure.com/v20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv20211001"><span class="">v20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesynapse-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
   <a href="/azure-service-operator/reference/synapse/" title="Synapse Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">Synapse</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
@@ -861,7 +865,7 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
   <a href="/azure-service-operator/reference/synapse/v20210601/" title="synapse.azure.com/v20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev20210601"><span class="">v20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceweb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
   <a href="/azure-service-operator/reference/web/" title="Web Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">Web</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
@@ -1048,9 +1052,76 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#how-aso-versions-resources">How ASO versions resources</a></li>
-    <li><a href="#which-api-version-does-aso-use-when-talking-to-azure">Which API version does ASO use when talking to Azure?</a></li>
-    <li><a href="#how-to-change-the-api-version-of-a-resource">How to change the API version of a resource</a></li>
+    <li><a href="#APIVersion">APIVersion</a></li>
+    <li><a href="#SharedPrivateLink">SharedPrivateLink</a>
+      <ul>
+        <li><a href="#SharedPrivateLink_Spec">SharedPrivateLink_Spec</a></li>
+        <li><a href="#SharedPrivateLink_STATUS">SharedPrivateLink_STATUS</a></li>
+      </ul>
+    </li>
+    <li><a href="#SharedPrivateLinkList">SharedPrivateLinkList</a></li>
+    <li><a href="#Target">Target</a>
+      <ul>
+        <li><a href="#Target_Spec">Target_Spec</a></li>
+        <li><a href="#Target_STATUS">Target_STATUS</a></li>
+      </ul>
+    </li>
+    <li><a href="#TargetList">TargetList</a></li>
+    <li><a href="#Watcher">Watcher</a>
+      <ul>
+        <li><a href="#Watcher_Spec">Watcher_Spec</a></li>
+        <li><a href="#Watcher_STATUS">Watcher_STATUS</a></li>
+      </ul>
+    </li>
+    <li><a href="#WatcherList">WatcherList</a></li>
+    <li><a href="#SharedPrivateLink_Spec">SharedPrivateLink_Spec</a></li>
+    <li><a href="#SharedPrivateLink_STATUS">SharedPrivateLink_STATUS</a></li>
+    <li><a href="#Target_Spec">Target_Spec</a></li>
+    <li><a href="#Target_STATUS">Target_STATUS</a></li>
+    <li><a href="#Watcher_Spec">Watcher_Spec</a></li>
+    <li><a href="#Watcher_STATUS">Watcher_STATUS</a></li>
+    <li><a href="#AzureResourceManagerResourceProvisioningState_STATUS">AzureResourceManagerResourceProvisioningState_STATUS</a></li>
+    <li><a href="#DatabaseWatcherProvisioningState_STATUS">DatabaseWatcherProvisioningState_STATUS</a></li>
+    <li><a href="#Datastore">Datastore</a></li>
+    <li><a href="#Datastore_STATUS">Datastore_STATUS</a></li>
+    <li><a href="#ManagedServiceIdentity">ManagedServiceIdentity</a></li>
+    <li><a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a></li>
+    <li><a href="#SharedPrivateLinkOperatorSpec">SharedPrivateLinkOperatorSpec</a></li>
+    <li><a href="#SharedPrivateLinkResourceStatus_STATUS">SharedPrivateLinkResourceStatus_STATUS</a></li>
+    <li><a href="#SystemData_STATUS">SystemData_STATUS</a></li>
+    <li><a href="#TargetOperatorSpec">TargetOperatorSpec</a></li>
+    <li><a href="#TargetProperties">TargetProperties</a></li>
+    <li><a href="#TargetProperties_STATUS">TargetProperties_STATUS</a></li>
+    <li><a href="#WatcherOperatorSpec">WatcherOperatorSpec</a></li>
+    <li><a href="#WatcherStatus_STATUS">WatcherStatus_STATUS</a></li>
+    <li><a href="#KustoOfferingType">KustoOfferingType</a></li>
+    <li><a href="#KustoOfferingType_STATUS">KustoOfferingType_STATUS</a></li>
+    <li><a href="#ManagedServiceIdentityType">ManagedServiceIdentityType</a></li>
+    <li><a href="#ManagedServiceIdentityType_STATUS">ManagedServiceIdentityType_STATUS</a></li>
+    <li><a href="#SqlDbElasticPoolTargetProperties">SqlDbElasticPoolTargetProperties</a></li>
+    <li><a href="#SqlDbElasticPoolTargetProperties_STATUS">SqlDbElasticPoolTargetProperties_STATUS</a></li>
+    <li><a href="#SqlDbSingleDatabaseTargetProperties">SqlDbSingleDatabaseTargetProperties</a></li>
+    <li><a href="#SqlDbSingleDatabaseTargetProperties_STATUS">SqlDbSingleDatabaseTargetProperties_STATUS</a></li>
+    <li><a href="#SqlMiTargetProperties">SqlMiTargetProperties</a></li>
+    <li><a href="#SqlMiTargetProperties_STATUS">SqlMiTargetProperties_STATUS</a></li>
+    <li><a href="#SqlVmTargetProperties">SqlVmTargetProperties</a></li>
+    <li><a href="#SqlVmTargetProperties_STATUS">SqlVmTargetProperties_STATUS</a></li>
+    <li><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a></li>
+    <li><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a></li>
+    <li><a href="#UserAssignedIdentity_STATUS">UserAssignedIdentity_STATUS</a></li>
+    <li><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails</a></li>
+    <li><a href="#SqlDbElasticPoolTargetProperties_TargetType">SqlDbElasticPoolTargetProperties_TargetType</a></li>
+    <li><a href="#SqlDbElasticPoolTargetProperties_TargetType_STATUS">SqlDbElasticPoolTargetProperties_TargetType_STATUS</a></li>
+    <li><a href="#SqlDbSingleDatabaseTargetProperties_TargetType">SqlDbSingleDatabaseTargetProperties_TargetType</a></li>
+    <li><a href="#SqlDbSingleDatabaseTargetProperties_TargetType_STATUS">SqlDbSingleDatabaseTargetProperties_TargetType_STATUS</a></li>
+    <li><a href="#SqlMiTargetProperties_TargetType">SqlMiTargetProperties_TargetType</a></li>
+    <li><a href="#SqlMiTargetProperties_TargetType_STATUS">SqlMiTargetProperties_TargetType_STATUS</a></li>
+    <li><a href="#SqlVmTargetProperties_TargetType">SqlVmTargetProperties_TargetType</a></li>
+    <li><a href="#SqlVmTargetProperties_TargetType_STATUS">SqlVmTargetProperties_TargetType_STATUS</a></li>
+    <li><a href="#TargetAuthenticationType">TargetAuthenticationType</a></li>
+    <li><a href="#TargetAuthenticationType_STATUS">TargetAuthenticationType_STATUS</a></li>
+    <li><a href="#VaultSecret">VaultSecret</a></li>
+    <li><a href="#VaultSecret_STATUS">VaultSecret_STATUS</a></li>
   </ul>
 </nav>
       </div>
@@ -1065,52 +1136,2166 @@ Internally, Kubernetes stores every resource using a single canonical storage ve
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/guide/">Guide</a></li>
+    <a href="/azure-service-operator/reference/">Supported Resources</a></li>
+  <li class="breadcrumb-item">
+    <a href="/azure-service-operator/reference/databasewatcher/">DatabaseWatcher</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Resource Versioning</li>
+    v20241001preview</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>Resource Versioning</h1>
+	<h1>databasewatcher.azure.com/v20241001preview</h1>
 	
 	<header class="article-meta">
 		
 </header>
-	<h2 id="how-aso-versions-resources">How ASO versions resources</h2>
-<p>Each ASO resource version corresponds directly to an Azure API version. For example, <code>resources.azure.com/v1api20200601</code>
-maps to the <code>2020-06-01</code> version of the Azure Resource Manager API. When multiple API versions are available for a
-resource, ASO offers a separate CRD version for each one.</p>
-<p>Internally, Kubernetes stores every resource using a single canonical <strong>storage version</strong>, regardless of which API
-version you use when creating or updating it. ASO handles conversion between versions automatically, so you can
-interact with a resource using any supported version and ASO takes care of the rest.</p>
-<h2 id="which-api-version-does-aso-use-when-talking-to-azure">Which API version does ASO use when talking to Azure?</h2>
-<p>ASO tracks the API version you last used when applying the resource and uses that version when communicating
-with Azure. This matters because different Azure API versions can have different behavior and different required fields.</p>
-<p>For example, if you create a resource using <code>v1api20200601</code>, ASO sends requests to Azure using the <code>2020-06-01</code> API.
-If you later re-apply the resource using <code>v1api20220601</code>, ASO switches to using the <code>2022-06-01</code> API going forward.</p>
-<h2 id="how-to-change-the-api-version-of-a-resource">How to change the API version of a resource</h2>
-<p>To move a resource to a newer (or different) API version, update the <code>apiVersion</code> in your YAML manifest and apply it
-with <code>kubectl apply</code>.</p>
-<p>For example, to upgrade a <code>ResourceGroup</code> from <code>v1api20200601</code> to <code>v1api20240301</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">resources.azure.com/v1api20240301</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ResourceGroup</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-sample-rg</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">westus2</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl apply -f resourcegroup.yaml
-</span></span></code></pre></div><p>After the apply, ASO begins using the new API version when communicating with Azure.</p>
-
-
-<div class="alert alert-primary" role="alert">
-<h4 class="alert-heading">Note</h4>
-
-    You cannot change the <code>apiVersion</code> of a resource using <code>kubectl edit</code>. Kubernetes does not allow modifications to
-<code>apiVersion</code> or <code>kind</code> through edit. You must use <code>kubectl apply</code> (or similar) with an updated manifest instead.
-
-</div>
-
+	<!-- Documentation generated by crddoc. DO NOT EDIT. -->
+<h2 id="APIVersion">APIVersion</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;2024-10-01-preview&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SharedPrivateLink">SharedPrivateLink</h2>
+<p>Generator information: - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DatabaseWatcher/​watchers/​{watcherName}/​sharedPrivateLinkResources/​{sharedPrivateLinkResourceName}</p>
+<p>Used by: <a href="#SharedPrivateLinkList">SharedPrivateLinkList</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#SharedPrivateLink_Spec">SharedPrivateLink_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td></td>
+          <td><a href="#SharedPrivateLink_STATUS">SharedPrivateLink_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="SharedPrivateLink_Spec">SharedPrivateLink_Spec</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dnsZone</td>
+          <td>The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is &lsquo;adx-cluster-21187695.eastus.kusto.windows.net&rsquo;, then the value is <code>eastus</code>; if the host name is &lsquo;sql-mi-23961134.767d5869f605.database.windows.net&rsquo;, then the value is <code>767d5869f605</code>.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>groupId</td>
+          <td>The group id from the provider of resource the shared private link resource is for.</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#SharedPrivateLinkOperatorSpec">SharedPrivateLinkOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a databasewatcher.azure.com/Watcher resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>privateLinkResourceReference</td>
+          <td>The resource ID of the resource the shared private link resource is for.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>requestMessage</td>
+          <td>The request message for requesting approval of the shared private link resource.</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="SharedPrivateLink_STATUS">SharedPrivateLink_STATUS</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dnsZone</td>
+          <td>The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is &lsquo;adx-cluster-21187695.eastus.kusto.windows.net&rsquo;, then the value is <code>eastus</code>; if the host name is &lsquo;sql-mi-23961134.767d5869f605.database.windows.net&rsquo;, then the value is <code>767d5869f605</code>.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>groupId</td>
+          <td>The group id from the provider of resource the shared private link resource is for.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>privateLinkResourceId</td>
+          <td>The resource ID of the resource the shared private link resource is for.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The provisioning state of the resource.</td>
+          <td><a href="#AzureResourceManagerResourceProvisioningState_STATUS">AzureResourceManagerResourceProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>requestMessage</td>
+          <td>The request message for requesting approval of the shared private link resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td>Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected.</td>
+          <td><a href="#SharedPrivateLinkResourceStatus_STATUS">SharedPrivateLinkResourceStatus_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SharedPrivateLinkList">SharedPrivateLinkList</h2>
+<p>Generator information: - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DatabaseWatcher/​watchers/​{watcherName}/​sharedPrivateLinkResources/​{sharedPrivateLinkResourceName}</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>items</td>
+          <td></td>
+          <td><a href="#SharedPrivateLink">SharedPrivateLink[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Target">Target</h2>
+<p>Generator information: - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DatabaseWatcher/​watchers/​{watcherName}/​targets/​{targetName}</p>
+<p>Used by: <a href="#TargetList">TargetList</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#Target_Spec">Target_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td></td>
+          <td><a href="#Target_STATUS">Target_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="Target_Spec">Target_Spec</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#TargetOperatorSpec">TargetOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a databasewatcher.azure.com/Watcher resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>The resource-specific properties for this resource.</td>
+          <td><a href="#TargetProperties">TargetProperties</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="Target_STATUS">Target_STATUS</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>The resource-specific properties for this resource.</td>
+          <td><a href="#TargetProperties_STATUS">TargetProperties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TargetList">TargetList</h2>
+<p>Generator information: - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DatabaseWatcher/​watchers/​{watcherName}/​targets/​{targetName}</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>items</td>
+          <td></td>
+          <td><a href="#Target">Target[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Watcher">Watcher</h2>
+<p>Generator information: - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DatabaseWatcher/​watchers/​{watcherName}</p>
+<p>Used by: <a href="#WatcherList">WatcherList</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#Watcher_Spec">Watcher_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td></td>
+          <td><a href="#Watcher_STATUS">Watcher_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="Watcher_Spec">Watcher_Spec</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>datastore</td>
+          <td>The data store for collected monitoring data.</td>
+          <td><a href="#Datastore">Datastore</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>defaultAlertRuleIdentityResourceReference</td>
+          <td>The resource ID of a user-assigned managed identity that will be assigned to a new alert rule.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>The managed service identities assigned to this resource.</td>
+          <td><a href="#ManagedServiceIdentity">ManagedServiceIdentity</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The geo-location where the resource lives</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#WatcherOperatorSpec">WatcherOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="Watcher_STATUS">Watcher_STATUS</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>datastore</td>
+          <td>The data store for collected monitoring data.</td>
+          <td><a href="#Datastore_STATUS">Datastore_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>defaultAlertRuleIdentityResourceId</td>
+          <td>The resource ID of a user-assigned managed identity that will be assigned to a new alert rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>The managed service identities assigned to this resource.</td>
+          <td><a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The geo-location where the resource lives</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The provisioning state of the resource watcher.</td>
+          <td><a href="#DatabaseWatcherProvisioningState_STATUS">DatabaseWatcherProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td>The monitoring collection status of the watcher.</td>
+          <td><a href="#WatcherStatus_STATUS">WatcherStatus_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="WatcherList">WatcherList</h2>
+<p>Generator information: - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DatabaseWatcher/​watchers/​{watcherName}</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>items</td>
+          <td></td>
+          <td><a href="#Watcher">Watcher[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SharedPrivateLink_Spec">SharedPrivateLink_Spec</h2>
+<p>Used by: <a href="#SharedPrivateLink">SharedPrivateLink</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dnsZone</td>
+          <td>The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is &lsquo;adx-cluster-21187695.eastus.kusto.windows.net&rsquo;, then the value is <code>eastus</code>; if the host name is &lsquo;sql-mi-23961134.767d5869f605.database.windows.net&rsquo;, then the value is <code>767d5869f605</code>.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>groupId</td>
+          <td>The group id from the provider of resource the shared private link resource is for.</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#SharedPrivateLinkOperatorSpec">SharedPrivateLinkOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a databasewatcher.azure.com/Watcher resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>privateLinkResourceReference</td>
+          <td>The resource ID of the resource the shared private link resource is for.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>requestMessage</td>
+          <td>The request message for requesting approval of the shared private link resource.</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SharedPrivateLink_STATUS">SharedPrivateLink_STATUS</h2>
+<p>Used by: <a href="#SharedPrivateLink">SharedPrivateLink</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dnsZone</td>
+          <td>The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is &lsquo;adx-cluster-21187695.eastus.kusto.windows.net&rsquo;, then the value is <code>eastus</code>; if the host name is &lsquo;sql-mi-23961134.767d5869f605.database.windows.net&rsquo;, then the value is <code>767d5869f605</code>.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>groupId</td>
+          <td>The group id from the provider of resource the shared private link resource is for.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>privateLinkResourceId</td>
+          <td>The resource ID of the resource the shared private link resource is for.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The provisioning state of the resource.</td>
+          <td><a href="#AzureResourceManagerResourceProvisioningState_STATUS">AzureResourceManagerResourceProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>requestMessage</td>
+          <td>The request message for requesting approval of the shared private link resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td>Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected.</td>
+          <td><a href="#SharedPrivateLinkResourceStatus_STATUS">SharedPrivateLinkResourceStatus_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Target_Spec">Target_Spec</h2>
+<p>Used by: <a href="#Target">Target</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#TargetOperatorSpec">TargetOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a databasewatcher.azure.com/Watcher resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>The resource-specific properties for this resource.</td>
+          <td><a href="#TargetProperties">TargetProperties</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Target_STATUS">Target_STATUS</h2>
+<p>Used by: <a href="#Target">Target</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>The resource-specific properties for this resource.</td>
+          <td><a href="#TargetProperties_STATUS">TargetProperties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Watcher_Spec">Watcher_Spec</h2>
+<p>Used by: <a href="#Watcher">Watcher</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>datastore</td>
+          <td>The data store for collected monitoring data.</td>
+          <td><a href="#Datastore">Datastore</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>defaultAlertRuleIdentityResourceReference</td>
+          <td>The resource ID of a user-assigned managed identity that will be assigned to a new alert rule.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>The managed service identities assigned to this resource.</td>
+          <td><a href="#ManagedServiceIdentity">ManagedServiceIdentity</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The geo-location where the resource lives</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#WatcherOperatorSpec">WatcherOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Watcher_STATUS">Watcher_STATUS</h2>
+<p>The DatabaseWatcherProviderHub resource.</p>
+<p>Used by: <a href="#Watcher">Watcher</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>datastore</td>
+          <td>The data store for collected monitoring data.</td>
+          <td><a href="#Datastore_STATUS">Datastore_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>defaultAlertRuleIdentityResourceId</td>
+          <td>The resource ID of a user-assigned managed identity that will be assigned to a new alert rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>The managed service identities assigned to this resource.</td>
+          <td><a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The geo-location where the resource lives</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The provisioning state of the resource watcher.</td>
+          <td><a href="#DatabaseWatcherProvisioningState_STATUS">DatabaseWatcherProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td>The monitoring collection status of the watcher.</td>
+          <td><a href="#WatcherStatus_STATUS">WatcherStatus_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AzureResourceManagerResourceProvisioningState_STATUS">AzureResourceManagerResourceProvisioningState_STATUS</h2>
+<p>The provisioning state of a resource type.</p>
+<p>Used by: <a href="#SharedPrivateLink_STATUS">SharedPrivateLink_STATUS</a>, <a href="#SqlDbElasticPoolTargetProperties_STATUS">SqlDbElasticPoolTargetProperties_STATUS</a>, <a href="#SqlDbSingleDatabaseTargetProperties_STATUS">SqlDbSingleDatabaseTargetProperties_STATUS</a>, <a href="#SqlMiTargetProperties_STATUS">SqlMiTargetProperties_STATUS</a>, and <a href="#SqlVmTargetProperties_STATUS">SqlVmTargetProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Canceled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DatabaseWatcherProvisioningState_STATUS">DatabaseWatcherProvisioningState_STATUS</h2>
+<p>The status of the last provisioning operation performed on the resource.</p>
+<p>Used by: <a href="#Watcher_STATUS">Watcher_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Canceled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Datastore">Datastore</h2>
+<p>The properties of a data store.</p>
+<p>Used by: <a href="#Watcher_Spec">Watcher_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>adxClusterResourceReference</td>
+          <td>The Azure resource ID of an Azure Data Explorer cluster.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kustoClusterDisplayName</td>
+          <td>The Kusto cluster display name.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kustoClusterUri</td>
+          <td>The Kusto cluster URI.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kustoClusterUriFromConfig</td>
+          <td>The Kusto cluster URI.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kustoDatabaseName</td>
+          <td>The name of a Kusto database.</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>kustoDataIngestionUri</td>
+          <td>The Kusto data ingestion URI.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kustoDataIngestionUriFromConfig</td>
+          <td>The Kusto data ingestion URI.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kustoManagementUrl</td>
+          <td>The Kusto management URL.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kustoManagementUrlFromConfig</td>
+          <td>The Kusto management URL.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kustoOfferingType</td>
+          <td>The type of a Kusto offering.</td>
+          <td><a href="#KustoOfferingType">KustoOfferingType</a><br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Datastore_STATUS">Datastore_STATUS</h2>
+<p>The properties of a data store.</p>
+<p>Used by: <a href="#Watcher_STATUS">Watcher_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>adxClusterResourceId</td>
+          <td>The Azure resource ID of an Azure Data Explorer cluster.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kustoClusterDisplayName</td>
+          <td>The Kusto cluster display name.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kustoClusterUri</td>
+          <td>The Kusto cluster URI.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kustoDatabaseName</td>
+          <td>The name of a Kusto database.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kustoDataIngestionUri</td>
+          <td>The Kusto data ingestion URI.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kustoManagementUrl</td>
+          <td>The Kusto management URL.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kustoOfferingType</td>
+          <td>The type of a Kusto offering.</td>
+          <td><a href="#KustoOfferingType_STATUS">KustoOfferingType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ManagedServiceIdentity">ManagedServiceIdentity</h2>
+<p>Managed service identity (system assigned and/or user assigned identities)</p>
+<p>Used by: <a href="#Watcher_Spec">Watcher_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>type</td>
+          <td>Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).</td>
+          <td><a href="#ManagedServiceIdentityType">ManagedServiceIdentityType</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>userAssignedIdentities</td>
+          <td></td>
+          <td><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</h2>
+<p>Managed service identity (system assigned and/or user assigned identities)</p>
+<p>Used by: <a href="#Watcher_STATUS">Watcher_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>principalId</td>
+          <td>The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tenantId</td>
+          <td>The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).</td>
+          <td><a href="#ManagedServiceIdentityType_STATUS">ManagedServiceIdentityType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>userAssignedIdentities</td>
+          <td></td>
+          <td><a href="#UserAssignedIdentity_STATUS">map[string]UserAssignedIdentity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SharedPrivateLinkOperatorSpec">SharedPrivateLinkOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#SharedPrivateLink_Spec">SharedPrivateLink_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SharedPrivateLinkResourceStatus_STATUS">SharedPrivateLinkResourceStatus_STATUS</h2>
+<p>Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected.</p>
+<p>Used by: <a href="#SharedPrivateLink_STATUS">SharedPrivateLink_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Approved&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Disconnected&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Pending&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Rejected&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SystemData_STATUS">SystemData_STATUS</h2>
+<p>Metadata pertaining to creation and last modification of the resource.</p>
+<p>Used by: <a href="#SharedPrivateLink_STATUS">SharedPrivateLink_STATUS</a>, <a href="#Target_STATUS">Target_STATUS</a>, and <a href="#Watcher_STATUS">Watcher_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>createdAt</td>
+          <td>The timestamp of resource creation (UTC).</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>createdBy</td>
+          <td>The identity that created the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>createdByType</td>
+          <td>The type of identity that created the resource.</td>
+          <td><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lastModifiedAt</td>
+          <td>The timestamp of resource last modification (UTC)</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lastModifiedBy</td>
+          <td>The identity that last modified the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>lastModifiedByType</td>
+          <td>The type of identity that last modified the resource.</td>
+          <td><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TargetOperatorSpec">TargetOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#Target_Spec">Target_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TargetProperties">TargetProperties</h2>
+<p>Used by: <a href="#Target_Spec">Target_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>sqlDb</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#SqlDbSingleDatabaseTargetProperties">SqlDbSingleDatabaseTargetProperties</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlEp</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#SqlDbElasticPoolTargetProperties">SqlDbElasticPoolTargetProperties</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlMi</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#SqlMiTargetProperties">SqlMiTargetProperties</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlVm</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#SqlVmTargetProperties">SqlVmTargetProperties</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TargetProperties_STATUS">TargetProperties_STATUS</h2>
+<p>Used by: <a href="#Target_STATUS">Target_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>sqlDb</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#SqlDbSingleDatabaseTargetProperties_STATUS">SqlDbSingleDatabaseTargetProperties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlEp</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#SqlDbElasticPoolTargetProperties_STATUS">SqlDbElasticPoolTargetProperties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlMi</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#SqlMiTargetProperties_STATUS">SqlMiTargetProperties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlVm</td>
+          <td>Mutually exclusive with all other properties</td>
+          <td><a href="#SqlVmTargetProperties_STATUS">SqlVmTargetProperties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="WatcherOperatorSpec">WatcherOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#Watcher_Spec">Watcher_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="WatcherStatus_STATUS">WatcherStatus_STATUS</h2>
+<p>The monitoring collection status of a watcher.</p>
+<p>Used by: <a href="#Watcher_STATUS">Watcher_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Running&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Starting&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Stopped&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Stopping&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KustoOfferingType">KustoOfferingType</h2>
+<p>The type of Kusto offering.</p>
+<p>Used by: <a href="#Datastore">Datastore</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;adx&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;fabric&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;free&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KustoOfferingType_STATUS">KustoOfferingType_STATUS</h2>
+<p>The type of Kusto offering.</p>
+<p>Used by: <a href="#Datastore_STATUS">Datastore_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;adx&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;fabric&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;free&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ManagedServiceIdentityType">ManagedServiceIdentityType</h2>
+<p>Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).</p>
+<p>Used by: <a href="#ManagedServiceIdentity">ManagedServiceIdentity</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned, UserAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;UserAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ManagedServiceIdentityType_STATUS">ManagedServiceIdentityType_STATUS</h2>
+<p>Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).</p>
+<p>Used by: <a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned, UserAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;UserAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlDbElasticPoolTargetProperties">SqlDbElasticPoolTargetProperties</h2>
+<p>Used by: <a href="#TargetProperties">TargetProperties</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>anchorDatabaseResourceReference</td>
+          <td>The Azure resource ID of the anchor database used to connect to an elastic pool.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>connectionServerName</td>
+          <td>The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be &lsquo;sql-logical-server-22092780.database.windows.net&rsquo;; for an Azure SQL managed instance in the Azure commercial cloud, the value might be &lsquo;sql-mi-39441134.767d5869f605.database.windows.net&rsquo;. Port number and instance name must be specified separately.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>connectionServerNameFromConfig</td>
+          <td>The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be &lsquo;sql-logical-server-22092780.database.windows.net&rsquo;; for an Azure SQL managed instance in the Azure commercial cloud, the value might be &lsquo;sql-mi-39441134.767d5869f605.database.windows.net&rsquo;. Port number and instance name must be specified separately.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>readIntent</td>
+          <td>Set to true to monitor a high availability replica of specified target, if any.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlEpResourceReference</td>
+          <td>The Azure resource ID of an Azure SQL DB elastic pool target.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>targetAuthenticationType</td>
+          <td>The type of authentication to use when connecting to a target.</td>
+          <td><a href="#TargetAuthenticationType">TargetAuthenticationType</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>targetType</td>
+          <td>Discriminator property for TargetProperties.</td>
+          <td><a href="#SqlDbElasticPoolTargetProperties_TargetType">SqlDbElasticPoolTargetProperties_TargetType</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>targetVault</td>
+          <td>To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored.</td>
+          <td><a href="#VaultSecret">VaultSecret</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlDbElasticPoolTargetProperties_STATUS">SqlDbElasticPoolTargetProperties_STATUS</h2>
+<p>Used by: <a href="#TargetProperties_STATUS">TargetProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>anchorDatabaseResourceId</td>
+          <td>The Azure resource ID of the anchor database used to connect to an elastic pool.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>connectionServerName</td>
+          <td>The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be &lsquo;sql-logical-server-22092780.database.windows.net&rsquo;; for an Azure SQL managed instance in the Azure commercial cloud, the value might be &lsquo;sql-mi-39441134.767d5869f605.database.windows.net&rsquo;. Port number and instance name must be specified separately.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The provisioning state of the resource.</td>
+          <td><a href="#AzureResourceManagerResourceProvisioningState_STATUS">AzureResourceManagerResourceProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>readIntent</td>
+          <td>Set to true to monitor a high availability replica of specified target, if any.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlEpResourceId</td>
+          <td>The Azure resource ID of an Azure SQL DB elastic pool target.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>targetAuthenticationType</td>
+          <td>The type of authentication to use when connecting to a target.</td>
+          <td><a href="#TargetAuthenticationType_STATUS">TargetAuthenticationType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>targetType</td>
+          <td>Discriminator property for TargetProperties.</td>
+          <td><a href="#SqlDbElasticPoolTargetProperties_TargetType_STATUS">SqlDbElasticPoolTargetProperties_TargetType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>targetVault</td>
+          <td>To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored.</td>
+          <td><a href="#VaultSecret_STATUS">VaultSecret_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlDbSingleDatabaseTargetProperties">SqlDbSingleDatabaseTargetProperties</h2>
+<p>Used by: <a href="#TargetProperties">TargetProperties</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>connectionServerName</td>
+          <td>The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be &lsquo;sql-logical-server-22092780.database.windows.net&rsquo;; for an Azure SQL managed instance in the Azure commercial cloud, the value might be &lsquo;sql-mi-39441134.767d5869f605.database.windows.net&rsquo;. Port number and instance name must be specified separately.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>connectionServerNameFromConfig</td>
+          <td>The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be &lsquo;sql-logical-server-22092780.database.windows.net&rsquo;; for an Azure SQL managed instance in the Azure commercial cloud, the value might be &lsquo;sql-mi-39441134.767d5869f605.database.windows.net&rsquo;. Port number and instance name must be specified separately.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>readIntent</td>
+          <td>Set to true to monitor a high availability replica of specified target, if any.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlDbResourceReference</td>
+          <td>The Azure resource ID of an Azure SQL DB database target.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>targetAuthenticationType</td>
+          <td>The type of authentication to use when connecting to a target.</td>
+          <td><a href="#TargetAuthenticationType">TargetAuthenticationType</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>targetType</td>
+          <td>Discriminator property for TargetProperties.</td>
+          <td><a href="#SqlDbSingleDatabaseTargetProperties_TargetType">SqlDbSingleDatabaseTargetProperties_TargetType</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>targetVault</td>
+          <td>To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored.</td>
+          <td><a href="#VaultSecret">VaultSecret</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlDbSingleDatabaseTargetProperties_STATUS">SqlDbSingleDatabaseTargetProperties_STATUS</h2>
+<p>Used by: <a href="#TargetProperties_STATUS">TargetProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>connectionServerName</td>
+          <td>The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be &lsquo;sql-logical-server-22092780.database.windows.net&rsquo;; for an Azure SQL managed instance in the Azure commercial cloud, the value might be &lsquo;sql-mi-39441134.767d5869f605.database.windows.net&rsquo;. Port number and instance name must be specified separately.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The provisioning state of the resource.</td>
+          <td><a href="#AzureResourceManagerResourceProvisioningState_STATUS">AzureResourceManagerResourceProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>readIntent</td>
+          <td>Set to true to monitor a high availability replica of specified target, if any.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlDbResourceId</td>
+          <td>The Azure resource ID of an Azure SQL DB database target.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>targetAuthenticationType</td>
+          <td>The type of authentication to use when connecting to a target.</td>
+          <td><a href="#TargetAuthenticationType_STATUS">TargetAuthenticationType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>targetType</td>
+          <td>Discriminator property for TargetProperties.</td>
+          <td><a href="#SqlDbSingleDatabaseTargetProperties_TargetType_STATUS">SqlDbSingleDatabaseTargetProperties_TargetType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>targetVault</td>
+          <td>To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored.</td>
+          <td><a href="#VaultSecret_STATUS">VaultSecret_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlMiTargetProperties">SqlMiTargetProperties</h2>
+<p>Used by: <a href="#TargetProperties">TargetProperties</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>connectionServerName</td>
+          <td>The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be &lsquo;sql-logical-server-22092780.database.windows.net&rsquo;; for an Azure SQL managed instance in the Azure commercial cloud, the value might be &lsquo;sql-mi-39441134.767d5869f605.database.windows.net&rsquo;. Port number and instance name must be specified separately.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>connectionServerNameFromConfig</td>
+          <td>The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be &lsquo;sql-logical-server-22092780.database.windows.net&rsquo;; for an Azure SQL managed instance in the Azure commercial cloud, the value might be &lsquo;sql-mi-39441134.767d5869f605.database.windows.net&rsquo;. Port number and instance name must be specified separately.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>connectionTcpPort</td>
+          <td>The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>readIntent</td>
+          <td>Set to true to monitor a high availability replica of specified target, if any.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlMiResourceReference</td>
+          <td>The Azure resource ID of an Azure SQL Managed Instance target.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>targetAuthenticationType</td>
+          <td>The type of authentication to use when connecting to a target.</td>
+          <td><a href="#TargetAuthenticationType">TargetAuthenticationType</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>targetType</td>
+          <td>Discriminator property for TargetProperties.</td>
+          <td><a href="#SqlMiTargetProperties_TargetType">SqlMiTargetProperties_TargetType</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>targetVault</td>
+          <td>To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored.</td>
+          <td><a href="#VaultSecret">VaultSecret</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlMiTargetProperties_STATUS">SqlMiTargetProperties_STATUS</h2>
+<p>Used by: <a href="#TargetProperties_STATUS">TargetProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>connectionServerName</td>
+          <td>The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be &lsquo;sql-logical-server-22092780.database.windows.net&rsquo;; for an Azure SQL managed instance in the Azure commercial cloud, the value might be &lsquo;sql-mi-39441134.767d5869f605.database.windows.net&rsquo;. Port number and instance name must be specified separately.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>connectionTcpPort</td>
+          <td>The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The provisioning state of the resource.</td>
+          <td><a href="#AzureResourceManagerResourceProvisioningState_STATUS">AzureResourceManagerResourceProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>readIntent</td>
+          <td>Set to true to monitor a high availability replica of specified target, if any.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlMiResourceId</td>
+          <td>The Azure resource ID of an Azure SQL Managed Instance target.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>targetAuthenticationType</td>
+          <td>The type of authentication to use when connecting to a target.</td>
+          <td><a href="#TargetAuthenticationType_STATUS">TargetAuthenticationType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>targetType</td>
+          <td>Discriminator property for TargetProperties.</td>
+          <td><a href="#SqlMiTargetProperties_TargetType_STATUS">SqlMiTargetProperties_TargetType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>targetVault</td>
+          <td>To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored.</td>
+          <td><a href="#VaultSecret_STATUS">VaultSecret_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlVmTargetProperties">SqlVmTargetProperties</h2>
+<p>Used by: <a href="#TargetProperties">TargetProperties</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>connectionServerName</td>
+          <td>The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be &lsquo;sql-logical-server-22092780.database.windows.net&rsquo;; for an Azure SQL managed instance in the Azure commercial cloud, the value might be &lsquo;sql-mi-39441134.767d5869f605.database.windows.net&rsquo;. Port number and instance name must be specified separately.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>connectionServerNameFromConfig</td>
+          <td>The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be &lsquo;sql-logical-server-22092780.database.windows.net&rsquo;; for an Azure SQL managed instance in the Azure commercial cloud, the value might be &lsquo;sql-mi-39441134.767d5869f605.database.windows.net&rsquo;. Port number and instance name must be specified separately.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>connectionTcpPort</td>
+          <td>The TCP port number to optionally use in the connection string when connecting to an Azure SQL VM target.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlNamedInstanceName</td>
+          <td>The SQL instance name to optionally use in the connection string when connecting to an Azure SQL VM target.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlVmResourceReference</td>
+          <td>The Azure resource ID of an Azure SQL VM target.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>targetAuthenticationType</td>
+          <td>The type of authentication to use when connecting to a target.</td>
+          <td><a href="#TargetAuthenticationType">TargetAuthenticationType</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>targetType</td>
+          <td>Discriminator property for TargetProperties.</td>
+          <td><a href="#SqlVmTargetProperties_TargetType">SqlVmTargetProperties_TargetType</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>targetVault</td>
+          <td>To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored.</td>
+          <td><a href="#VaultSecret">VaultSecret</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlVmTargetProperties_STATUS">SqlVmTargetProperties_STATUS</h2>
+<p>Used by: <a href="#TargetProperties_STATUS">TargetProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>connectionServerName</td>
+          <td>The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be &lsquo;sql-logical-server-22092780.database.windows.net&rsquo;; for an Azure SQL managed instance in the Azure commercial cloud, the value might be &lsquo;sql-mi-39441134.767d5869f605.database.windows.net&rsquo;. Port number and instance name must be specified separately.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>connectionTcpPort</td>
+          <td>The TCP port number to optionally use in the connection string when connecting to an Azure SQL VM target.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The provisioning state of the resource.</td>
+          <td><a href="#AzureResourceManagerResourceProvisioningState_STATUS">AzureResourceManagerResourceProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlNamedInstanceName</td>
+          <td>The SQL instance name to optionally use in the connection string when connecting to an Azure SQL VM target.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sqlVmResourceId</td>
+          <td>The Azure resource ID of an Azure SQL VM target.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>targetAuthenticationType</td>
+          <td>The type of authentication to use when connecting to a target.</td>
+          <td><a href="#TargetAuthenticationType_STATUS">TargetAuthenticationType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>targetType</td>
+          <td>Discriminator property for TargetProperties.</td>
+          <td><a href="#SqlVmTargetProperties_TargetType_STATUS">SqlVmTargetProperties_TargetType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>targetVault</td>
+          <td>To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored.</td>
+          <td><a href="#VaultSecret_STATUS">VaultSecret_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</h2>
+<p>Used by: <a href="#SystemData_STATUS">SystemData_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</h2>
+<p>Used by: <a href="#SystemData_STATUS">SystemData_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Application&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Key&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;User&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="UserAssignedIdentity_STATUS">UserAssignedIdentity_STATUS</h2>
+<p>User assigned identity properties</p>
+<p>Used by: <a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>clientId</td>
+          <td>The client ID of the assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>principalId</td>
+          <td>The principal ID of the assigned identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="UserAssignedIdentityDetails">UserAssignedIdentityDetails</h2>
+<p>Information about the user assigned identity for the resource</p>
+<p>Used by: <a href="#ManagedServiceIdentity">ManagedServiceIdentity</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>reference</td>
+          <td></td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlDbElasticPoolTargetProperties_TargetType">SqlDbElasticPoolTargetProperties_TargetType</h2>
+<p>Used by: <a href="#SqlDbElasticPoolTargetProperties">SqlDbElasticPoolTargetProperties</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;SqlEp&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlDbElasticPoolTargetProperties_TargetType_STATUS">SqlDbElasticPoolTargetProperties_TargetType_STATUS</h2>
+<p>Used by: <a href="#SqlDbElasticPoolTargetProperties_STATUS">SqlDbElasticPoolTargetProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;SqlEp&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlDbSingleDatabaseTargetProperties_TargetType">SqlDbSingleDatabaseTargetProperties_TargetType</h2>
+<p>Used by: <a href="#SqlDbSingleDatabaseTargetProperties">SqlDbSingleDatabaseTargetProperties</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;SqlDb&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlDbSingleDatabaseTargetProperties_TargetType_STATUS">SqlDbSingleDatabaseTargetProperties_TargetType_STATUS</h2>
+<p>Used by: <a href="#SqlDbSingleDatabaseTargetProperties_STATUS">SqlDbSingleDatabaseTargetProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;SqlDb&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlMiTargetProperties_TargetType">SqlMiTargetProperties_TargetType</h2>
+<p>Used by: <a href="#SqlMiTargetProperties">SqlMiTargetProperties</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;SqlMi&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlMiTargetProperties_TargetType_STATUS">SqlMiTargetProperties_TargetType_STATUS</h2>
+<p>Used by: <a href="#SqlMiTargetProperties_STATUS">SqlMiTargetProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;SqlMi&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlVmTargetProperties_TargetType">SqlVmTargetProperties_TargetType</h2>
+<p>Used by: <a href="#SqlVmTargetProperties">SqlVmTargetProperties</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;SqlVm&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SqlVmTargetProperties_TargetType_STATUS">SqlVmTargetProperties_TargetType_STATUS</h2>
+<p>Used by: <a href="#SqlVmTargetProperties_STATUS">SqlVmTargetProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;SqlVm&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TargetAuthenticationType">TargetAuthenticationType</h2>
+<p>The type of authentication to use when connecting to a target.</p>
+<p>Used by: <a href="#SqlDbElasticPoolTargetProperties">SqlDbElasticPoolTargetProperties</a>, <a href="#SqlDbSingleDatabaseTargetProperties">SqlDbSingleDatabaseTargetProperties</a>, <a href="#SqlMiTargetProperties">SqlMiTargetProperties</a>, and <a href="#SqlVmTargetProperties">SqlVmTargetProperties</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Aad&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Sql&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TargetAuthenticationType_STATUS">TargetAuthenticationType_STATUS</h2>
+<p>The type of authentication to use when connecting to a target.</p>
+<p>Used by: <a href="#SqlDbElasticPoolTargetProperties_STATUS">SqlDbElasticPoolTargetProperties_STATUS</a>, <a href="#SqlDbSingleDatabaseTargetProperties_STATUS">SqlDbSingleDatabaseTargetProperties_STATUS</a>, <a href="#SqlMiTargetProperties_STATUS">SqlMiTargetProperties_STATUS</a>, and <a href="#SqlVmTargetProperties_STATUS">SqlVmTargetProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Aad&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Sql&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="VaultSecret">VaultSecret</h2>
+<p>The vault specific details required if using SQL authentication to connect to a target.</p>
+<p>Used by: <a href="#SqlDbElasticPoolTargetProperties">SqlDbElasticPoolTargetProperties</a>, <a href="#SqlDbSingleDatabaseTargetProperties">SqlDbSingleDatabaseTargetProperties</a>, <a href="#SqlMiTargetProperties">SqlMiTargetProperties</a>, and <a href="#SqlVmTargetProperties">SqlVmTargetProperties</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>akvResourceReference</td>
+          <td>The Azure resource ID of the Key Vault instance storing database authentication secrets.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>akvTargetPassword</td>
+          <td>The path to the Key Vault secret storing the password for authentication to a target.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>akvTargetUser</td>
+          <td>The path to the Key Vault secret storing the login name (aka user name, aka account name) for authentication to a target.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="VaultSecret_STATUS">VaultSecret_STATUS</h2>
+<p>The vault specific details required if using SQL authentication to connect to a target.</p>
+<p>Used by: <a href="#SqlDbElasticPoolTargetProperties_STATUS">SqlDbElasticPoolTargetProperties_STATUS</a>, <a href="#SqlDbSingleDatabaseTargetProperties_STATUS">SqlDbSingleDatabaseTargetProperties_STATUS</a>, <a href="#SqlMiTargetProperties_STATUS">SqlMiTargetProperties_STATUS</a>, and <a href="#SqlVmTargetProperties_STATUS">SqlVmTargetProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>akvResourceId</td>
+          <td>The Azure resource ID of the Key Vault instance storing database authentication secrets.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>akvTargetPassword</td>
+          <td>The path to the Key Vault secret storing the password for authentication to a target.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>akvTargetUser</td>
+          <td>The path to the Key Vault secret storing the login name (aka user name, aka account name) for authentication to a target.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 
 	
 </div>
