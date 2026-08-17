@@ -26,7 +26,7 @@ type Webtest_STATUS struct {
 // Metadata describing a web test for an Azure resource.
 type WebTestProperties_STATUS struct {
 	// Configuration: An XML configuration specification for a WebTest.
-	Configuration *WebTestProperties_Configuration_STATUS `json:"Configuration,omitempty"`
+	Configuration *WebTestPropertiesConfiguration_STATUS `json:"Configuration,omitempty"`
 
 	// Description: User defined description for this WebTest.
 	Description *string `json:"Description,omitempty"`
@@ -53,7 +53,7 @@ type WebTestProperties_STATUS struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Request: The collection of request properties
-	Request *WebTestProperties_Request_STATUS `json:"Request,omitempty"`
+	Request *WebTestPropertiesRequest_STATUS `json:"Request,omitempty"`
 
 	// RetryEnabled: Allow for retries should this WebTest fail.
 	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
@@ -65,18 +65,13 @@ type WebTestProperties_STATUS struct {
 	Timeout *int `json:"Timeout,omitempty"`
 
 	// ValidationRules: The collection of validation rule properties
-	ValidationRules *WebTestProperties_ValidationRules_STATUS `json:"ValidationRules,omitempty"`
+	ValidationRules *WebTestPropertiesValidationRules_STATUS `json:"ValidationRules,omitempty"`
 }
 
 // Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.
 type WebTestGeolocation_STATUS struct {
 	// Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
-}
-
-type WebTestProperties_Configuration_STATUS struct {
-	// WebTest: The XML specification of a WebTest to run against an application.
-	WebTest *string `json:"WebTest,omitempty"`
 }
 
 type WebTestProperties_Kind_STATUS string
@@ -94,7 +89,14 @@ var webTestProperties_Kind_STATUS_Values = map[string]WebTestProperties_Kind_STA
 	"standard":  WebTestProperties_Kind_STATUS_Standard,
 }
 
-type WebTestProperties_Request_STATUS struct {
+// An XML configuration specification for a WebTest.
+type WebTestPropertiesConfiguration_STATUS struct {
+	// WebTest: The XML specification of a WebTest to run against an application.
+	WebTest *string `json:"WebTest,omitempty"`
+}
+
+// The collection of request properties
+type WebTestPropertiesRequest_STATUS struct {
 	// FollowRedirects: Follow redirects for this web test.
 	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
 
@@ -114,9 +116,10 @@ type WebTestProperties_Request_STATUS struct {
 	RequestUrl *string `json:"RequestUrl,omitempty"`
 }
 
-type WebTestProperties_ValidationRules_STATUS struct {
+// The collection of validation rule properties
+type WebTestPropertiesValidationRules_STATUS struct {
 	// ContentValidation: The collection of content validation properties
-	ContentValidation *WebTestProperties_ValidationRules_ContentValidation_STATUS `json:"ContentValidation,omitempty"`
+	ContentValidation *WebTestPropertiesValidationRulesContentValidation_STATUS `json:"ContentValidation,omitempty"`
 
 	// ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.
 	ExpectedHttpStatusCode *int `json:"ExpectedHttpStatusCode,omitempty"`
@@ -141,7 +144,8 @@ type HeaderField_STATUS struct {
 	Value *string `json:"value,omitempty"`
 }
 
-type WebTestProperties_ValidationRules_ContentValidation_STATUS struct {
+// The collection of content validation properties
+type WebTestPropertiesValidationRulesContentValidation_STATUS struct {
 	// ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
 	ContentMatch *string `json:"ContentMatch,omitempty"`
 

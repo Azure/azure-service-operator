@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/keyvault.json
+// - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2023-07-01/keyvault.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type Vault struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (vault *Vault) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/keyvault.json
+// - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2023-07-01/keyvault.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type VaultList struct {
 	metav1.TypeMeta `json:",inline"`

@@ -1,0 +1,9 @@
+apiVersion: apimanagement.azure.com/v20240501
+kind: ProductGroup
+metadata:
+  name: sampleproductgroup
+  namespace: default
+spec:
+  azureName: samplegroup  # This must match the group name
+  owner:
+    name: sampleproduct

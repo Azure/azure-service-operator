@@ -102,11 +102,11 @@ func Insights_WebTest_20220615_CRUD(tc *testcommon.KubePerTestContext, rg *resou
 					Id: to.Ptr("us-ca-sjc-azr"), // This is US west...
 				},
 			},
-			Request: &insightswebtest20220615.WebTestProperties_Request{
+			Request: &insightswebtest20220615.WebTestPropertiesRequest{
 				HttpVerb:   to.Ptr("GET"),
 				RequestUrl: to.Ptr("https://github.com/Azure/azure-service-operator"),
 			},
-			ValidationRules: &insightswebtest20220615.WebTestProperties_ValidationRules{
+			ValidationRules: &insightswebtest20220615.WebTestPropertiesValidationRules{
 				ExpectedHttpStatusCode:        to.Ptr(200),
 				SSLCheck:                      to.Ptr(true),
 				SSLCertRemainingLifetimeCheck: to.Ptr(7),

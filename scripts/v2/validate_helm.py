@@ -13,14 +13,14 @@ logging.basicConfig(encoding='utf-8', level=logging.INFO)
 def get_yaml(yaml_path):
     with open(yaml_path, "r") as f:
         aso_yaml_file = f.read()
-        aso_yaml = yaml.full_load_all(aso_yaml_file)
+        aso_yaml = yaml.safe_load_all(aso_yaml_file)
         return aso_yaml
 
 def get_helm_templates(helm_dir):
     helm_res = subprocess.check_output(
         f"helm template asov2 {helm_dir} --namespace=azureserviceoperator-system".split(" "))
 
-    helm_resources = yaml.full_load_all(helm_res.decode("utf-8"))
+    helm_resources = yaml.safe_load_all(helm_res.decode("utf-8"))
     return helm_resources
 
 def validate_helm(helm_dir, yaml_path):

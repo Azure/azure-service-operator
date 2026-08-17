@@ -14,7 +14,16 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-// State is an immutable instance that captures the information being passed along the pipeline
+// State is an immutable instance that captures the information being passed along the pipeline.
+//
+// Conceptually the State is immutable: each "With…" method returns a new *State whose internal
+// data structures (definitions, stagesSeen, stagesExpected, stateInfo) are treated as logically
+// independent from those of the receiver. In practice, several of those structures are shared by
+// reference rather than deep-copied — this is safe because all mutation is done through the
+// "With…" methods.
+//
+// Clients MUST use those methods to create new states rather than mutating the fields of an existing state,
+// and MUST NOT mutate the fields directly.
 type State struct {
 	definitions    astmodel.TypeDefinitionSet // set of type definitions generated so far
 	stagesSeen     set.Set[string]            // set of ids of the stages already run
@@ -101,10 +110,16 @@ func (s *State) CheckFinalState() error {
 	return kerrors.NewAggregate(errs)
 }
 
-// copy creates a new independent copy of the state
+// copy creates a new State instance based on the receiver.
+//
+// definitions, stagesSeen, and stagesExpected are intentionally shared by reference with the
+// receiver: see the documentation on State for the reasoning. The caller is responsible for
+// ensuring any mutations after copy() preserve the logical immutability of earlier states
+// (in practice, all callers either replace the field outright or apply a single targeted
+// mutation immediately after).
 func (s *State) copy() *State {
 	return &State{
-		definitions:    s.definitions.Copy(),
+		definitions:    s.definitions,
 		stagesSeen:     s.stagesSeen,
 		stagesExpected: s.stagesExpected,
 		stateInfo:      maps.Clone(s.stateInfo),

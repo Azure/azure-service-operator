@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAzureADAdministrators.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/ServerAzureADAdministrators.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}
 type ServersAdministrator struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersAdministrator{}
 
 // ConvertFrom populates our ServersAdministrator from the provided hub ServersAdministrator
 func (administrator *ServersAdministrator) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersAdministrator)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersAdministrator but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersAdministrator
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return administrator.AssignProperties_From_ServersAdministrator(source)
+	err = administrator.AssignProperties_From_ServersAdministrator(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to administrator")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersAdministrator from our ServersAdministrator
 func (administrator *ServersAdministrator) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersAdministrator)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersAdministrator but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersAdministrator
+	err := administrator.AssignProperties_To_ServersAdministrator(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from administrator")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return administrator.AssignProperties_To_ServersAdministrator(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersAdministrator{}
@@ -87,17 +101,6 @@ func (administrator *ServersAdministrator) SecretDestinationExpressions() []*cor
 		return nil
 	}
 	return administrator.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersAdministrator{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (administrator *ServersAdministrator) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersAdministrator_STATUS); ok {
-		return administrator.Spec.Initialize_From_ServersAdministrator_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersAdministrator_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersAdministrator{}
@@ -238,7 +241,7 @@ func (administrator *ServersAdministrator) OriginalGVK() *schema.GroupVersionKin
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAzureADAdministrators.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/ServerAzureADAdministrators.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}
 type ServersAdministratorList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -582,30 +585,6 @@ func (administrator *ServersAdministrator_Spec) AssignProperties_To_ServersAdmin
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersAdministrator_STATUS populates our ServersAdministrator_Spec from the provided source ServersAdministrator_STATUS
-func (administrator *ServersAdministrator_Spec) Initialize_From_ServersAdministrator_STATUS(source *ServersAdministrator_STATUS) error {
-
-	// AdministratorType
-	if source.AdministratorType != nil {
-		administratorType := genruntime.ToEnum(string(*source.AdministratorType), administratorProperties_AdministratorType_Values)
-		administrator.AdministratorType = &administratorType
-	} else {
-		administrator.AdministratorType = nil
-	}
-
-	// Login
-	administrator.Login = genruntime.ClonePointerToString(source.Login)
-
-	// Sid
-	administrator.Sid = genruntime.ClonePointerToString(source.Sid)
-
-	// TenantId
-	administrator.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// No error
 	return nil

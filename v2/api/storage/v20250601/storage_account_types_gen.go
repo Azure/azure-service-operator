@@ -408,7 +408,7 @@ type StorageAccount_Spec struct {
 	Location *string `json:"location,omitempty"`
 
 	// MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
-	// 1.0 for this property.
+	// 1.0 for this property. Minimum TLS version 1.3 version is not supported.
 	MinimumTlsVersion *MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// NetworkAcls: Network rule set
@@ -2319,7 +2319,7 @@ type StorageAccount_STATUS struct {
 	Location *string `json:"location,omitempty"`
 
 	// MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
-	// 1.0 for this property.
+	// 1.0 for this property. Minimum TLS version 1.3 version is not supported.
 	MinimumTlsVersion *MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
 
 	// Name: The name of the resource
@@ -4055,9 +4055,8 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 	return nil
 }
 
-// Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier
-// is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs
-// storage account type.
+// The default access tier for block blobs in the storage account. Required for storage accounts where kind = BlobStorage.
+// See more details in: https://learn.microsoft.com/azure/storage/blobs/access-tiers-overview.
 // +kubebuilder:validation:Enum={"Cold","Cool","Hot","Premium"}
 type AccessTier string
 
@@ -4076,9 +4075,8 @@ var accessTier_Values = map[string]AccessTier{
 	"premium": AccessTier_Premium,
 }
 
-// Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier
-// is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs
-// storage account type.
+// The default access tier for block blobs in the storage account. Required for storage accounts where kind = BlobStorage.
+// See more details in: https://learn.microsoft.com/azure/storage/blobs/access-tiers-overview.
 type AccessTier_STATUS string
 
 const (
@@ -7387,7 +7385,7 @@ var largeFileSharesState_STATUS_Values = map[string]LargeFileSharesState_STATUS{
 }
 
 // Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this
-// property.
+// property. Minimum TLS version 1.3 version is not supported.
 // +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2","TLS1_3"}
 type MinimumTlsVersion string
 
@@ -7407,7 +7405,7 @@ var minimumTlsVersion_Values = map[string]MinimumTlsVersion{
 }
 
 // Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this
-// property.
+// property. Minimum TLS version 1.3 version is not supported.
 type MinimumTlsVersion_STATUS string
 
 const (

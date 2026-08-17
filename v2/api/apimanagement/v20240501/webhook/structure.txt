@@ -19,6 +19,8 @@ Backend: Object (0 properties)
 
 Certificate: Object (0 properties)
 
+Diagnostic: Object (0 properties)
+
 Group: Object (0 properties)
 
 Logger: Object (0 properties)
@@ -32,6 +34,8 @@ PolicyFragment: Object (0 properties)
 Product: Object (0 properties)
 
 ProductApi: Object (0 properties)
+
+ProductGroup: Object (0 properties)
 
 ProductPolicy: Object (0 properties)
 

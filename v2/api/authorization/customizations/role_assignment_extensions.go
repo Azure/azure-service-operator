@@ -17,8 +17,8 @@ import (
 	"github.com/rotisserie/eris"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	api "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
-	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
+	api "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401"
+	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"

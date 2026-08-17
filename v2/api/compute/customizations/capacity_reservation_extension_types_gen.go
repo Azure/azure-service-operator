@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	v20250401 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401"
-	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401/storage"
+	compute_v1api20250401 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401"
+	compute_v1api20250401s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401/storage"
+	compute_v20250401 "github.com/Azure/azure-service-operator/v2/api/compute/v20250401"
+	compute_v20250401s "github.com/Azure/azure-service-operator/v2/api/compute/v20250401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type CapacityReservationExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *CapacityReservationExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20250401.CapacityReservation{},
-		&storage.CapacityReservation{}}
+		&compute_v1api20250401.CapacityReservation{},
+		&compute_v1api20250401s.CapacityReservation{},
+		&compute_v20250401.CapacityReservation{},
+		&compute_v20250401s.CapacityReservation{}}
 }

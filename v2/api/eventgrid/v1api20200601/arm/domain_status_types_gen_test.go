@@ -19,6 +19,11 @@ import (
 
 func Test_DomainProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -106,6 +111,11 @@ func AddRelatedPropertyGeneratorsForDomainProperties_STATUS(gens map[string]gopt
 
 func Test_Domain_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -187,6 +197,11 @@ func AddRelatedPropertyGeneratorsForDomain_STATUS(gens map[string]gopter.Gen) {
 
 func Test_InboundIpRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -249,6 +264,11 @@ func AddIndependentPropertyGeneratorsForInboundIpRule_STATUS(gens map[string]gop
 
 func Test_InputSchemaMapping_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -319,6 +339,11 @@ func AddRelatedPropertyGeneratorsForInputSchemaMapping_STATUS(gens map[string]go
 
 func Test_JsonFieldWithDefault_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -381,6 +406,11 @@ func AddIndependentPropertyGeneratorsForJsonFieldWithDefault_STATUS(gens map[str
 
 func Test_JsonField_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -441,6 +471,11 @@ func AddIndependentPropertyGeneratorsForJsonField_STATUS(gens map[string]gopter.
 
 func Test_JsonInputSchemaMappingProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -507,6 +542,11 @@ func AddRelatedPropertyGeneratorsForJsonInputSchemaMappingProperties_STATUS(gens
 
 func Test_JsonInputSchemaMapping_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -582,6 +622,11 @@ func AddRelatedPropertyGeneratorsForJsonInputSchemaMapping_STATUS(gens map[strin
 
 func Test_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -643,6 +688,11 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_Domain_
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

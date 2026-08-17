@@ -15,3 +15,6 @@ spec:
     - name: admin-settings
       key: tenantId
       value: self.status.tenantId
+    - name: admin-settings
+      key: principalId
+      value: self.status.principalId

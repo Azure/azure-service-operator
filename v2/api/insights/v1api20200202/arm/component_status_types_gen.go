@@ -93,10 +93,10 @@ type ApplicationInsightsComponentProperties_STATUS struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForIngestion *ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS `json:"publicNetworkAccessForIngestion,omitempty"`
 
 	// PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.
-	PublicNetworkAccessForQuery *PublicNetworkAccessType_STATUS `json:"publicNetworkAccessForQuery,omitempty"`
+	PublicNetworkAccessForQuery *ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS `json:"publicNetworkAccessForQuery,omitempty"`
 
 	// Request_Source: Describes what tool created this Application Insights component. Customers using this API should set
 	// this to the default 'rest'.
@@ -154,6 +154,32 @@ var applicationInsightsComponentProperties_IngestionMode_STATUS_Values = map[str
 	"loganalytics":                              ApplicationInsightsComponentProperties_IngestionMode_STATUS_LogAnalytics,
 }
 
+type ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS string
+
+const (
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS_Disabled = ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS("Disabled")
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS_Enabled  = ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS("Enabled")
+)
+
+// Mapping from string to ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS
+var applicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS_Values = map[string]ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS{
+	"disabled": ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS_Disabled,
+	"enabled":  ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS_Enabled,
+}
+
+type ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS string
+
+const (
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS_Disabled = ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS("Disabled")
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS_Enabled  = ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS("Enabled")
+)
+
+// Mapping from string to ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS
+var applicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS_Values = map[string]ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS{
+	"disabled": ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS_Disabled,
+	"enabled":  ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS_Enabled,
+}
+
 type ApplicationInsightsComponentProperties_Request_Source_STATUS string
 
 const ApplicationInsightsComponentProperties_Request_Source_STATUS_Rest = ApplicationInsightsComponentProperties_Request_Source_STATUS("rest")
@@ -170,18 +196,4 @@ type PrivateLinkScopedResource_STATUS struct {
 
 	// ScopeId: The private link scope unique Identifier.
 	ScopeId *string `json:"ScopeId,omitempty"`
-}
-
-// The network access type for operating on the Application Insights Component. By default it is Enabled
-type PublicNetworkAccessType_STATUS string
-
-const (
-	PublicNetworkAccessType_STATUS_Disabled = PublicNetworkAccessType_STATUS("Disabled")
-	PublicNetworkAccessType_STATUS_Enabled  = PublicNetworkAccessType_STATUS("Enabled")
-)
-
-// Mapping from string to PublicNetworkAccessType_STATUS
-var publicNetworkAccessType_STATUS_Values = map[string]PublicNetworkAccessType_STATUS{
-	"disabled": PublicNetworkAccessType_STATUS_Disabled,
-	"enabled":  PublicNetworkAccessType_STATUS_Enabled,
 }

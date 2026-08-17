@@ -6,6 +6,8 @@ on:
       - reopened
       - opened
 
+permissions: {}
+
 jobs:
   label_issues:
     runs-on: ubuntu-latest

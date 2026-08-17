@@ -31,7 +31,7 @@ func Test_Insights_ScheduledQueryRule_CRUD(t *testing.T) {
 			Criteria: &insights.ScheduledQueryRuleCriteria{
 				AllOf: []insights.Condition{
 					{
-						FailingPeriods: &insights.Condition_FailingPeriods{
+						FailingPeriods: &insights.ConditionFailingPeriods{
 							MinFailingPeriodsToAlert:  to.Ptr(1),
 							NumberOfEvaluationPeriods: to.Ptr(1),
 						},

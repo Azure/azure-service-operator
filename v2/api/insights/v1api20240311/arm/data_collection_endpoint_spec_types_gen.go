@@ -10,9 +10,9 @@ type DataCollectionEndpoint_Spec struct {
 	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
 
 	// Kind: The kind of the resource.
-	Kind *DataCollectionEndpoint_Kind_Spec `json:"kind,omitempty"`
+	Kind *KnownDataCollectionEndpointResourceKind `json:"kind,omitempty"`
 
-	// Location: The geo-location where the resource lives.
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
@@ -43,20 +43,6 @@ func (endpoint *DataCollectionEndpoint_Spec) GetType() string {
 	return "Microsoft.Insights/dataCollectionEndpoints"
 }
 
-// +kubebuilder:validation:Enum={"Linux","Windows"}
-type DataCollectionEndpoint_Kind_Spec string
-
-const (
-	DataCollectionEndpoint_Kind_Spec_Linux   = DataCollectionEndpoint_Kind_Spec("Linux")
-	DataCollectionEndpoint_Kind_Spec_Windows = DataCollectionEndpoint_Kind_Spec("Windows")
-)
-
-// Mapping from string to DataCollectionEndpoint_Kind_Spec
-var dataCollectionEndpoint_Kind_Spec_Values = map[string]DataCollectionEndpoint_Kind_Spec{
-	"linux":   DataCollectionEndpoint_Kind_Spec_Linux,
-	"windows": DataCollectionEndpoint_Kind_Spec_Windows,
-}
-
 // Definition of data collection endpoint.
 type DataCollectionEndpointSpec struct {
 	// Description: Description of the data collection endpoint.
@@ -64,6 +50,21 @@ type DataCollectionEndpointSpec struct {
 
 	// NetworkAcls: Network access control rules for the endpoints.
 	NetworkAcls *NetworkRuleSet `json:"networkAcls,omitempty"`
+}
+
+// The kind of the resource.
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type KnownDataCollectionEndpointResourceKind string
+
+const (
+	KnownDataCollectionEndpointResourceKind_Linux   = KnownDataCollectionEndpointResourceKind("Linux")
+	KnownDataCollectionEndpointResourceKind_Windows = KnownDataCollectionEndpointResourceKind("Windows")
+)
+
+// Mapping from string to KnownDataCollectionEndpointResourceKind
+var knownDataCollectionEndpointResourceKind_Values = map[string]KnownDataCollectionEndpointResourceKind{
+	"linux":   KnownDataCollectionEndpointResourceKind_Linux,
+	"windows": KnownDataCollectionEndpointResourceKind_Windows,
 }
 
 // Managed service identity (system assigned and/or user assigned identities)
@@ -82,7 +83,7 @@ type Sku struct {
 	// Family: If the service has different generations of hardware, for the same SKU, then that can be captured here.
 	Family *string `json:"family,omitempty"`
 
-	// Name: The name of the SKU. E.g. P3. It is typically a letter+number code
+	// Name: The name of the SKU. Ex - P3. It is typically a letter+number code
 	Name *string `json:"name,omitempty"`
 
 	// Size: The SKU size. When the name field is the combination of tier and some other value, this would be the standalone
@@ -116,7 +117,7 @@ var managedServiceIdentityType_Values = map[string]ManagedServiceIdentityType{
 // Definition of the network rules.
 type NetworkRuleSet struct {
 	// PublicNetworkAccess: The configuration to set whether network access from public internet to the endpoints are allowed.
-	PublicNetworkAccess *NetworkRuleSet_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *KnownPublicNetworkAccessOptions `json:"publicNetworkAccess,omitempty"`
 }
 
 // This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not
@@ -143,18 +144,19 @@ var skuTier_Values = map[string]SkuTier{
 type UserAssignedIdentityDetails struct {
 }
 
+// The configuration to set whether network access from public internet to the endpoints are allowed.
 // +kubebuilder:validation:Enum={"Disabled","Enabled","SecuredByPerimeter"}
-type NetworkRuleSet_PublicNetworkAccess string
+type KnownPublicNetworkAccessOptions string
 
 const (
-	NetworkRuleSet_PublicNetworkAccess_Disabled           = NetworkRuleSet_PublicNetworkAccess("Disabled")
-	NetworkRuleSet_PublicNetworkAccess_Enabled            = NetworkRuleSet_PublicNetworkAccess("Enabled")
-	NetworkRuleSet_PublicNetworkAccess_SecuredByPerimeter = NetworkRuleSet_PublicNetworkAccess("SecuredByPerimeter")
+	KnownPublicNetworkAccessOptions_Disabled           = KnownPublicNetworkAccessOptions("Disabled")
+	KnownPublicNetworkAccessOptions_Enabled            = KnownPublicNetworkAccessOptions("Enabled")
+	KnownPublicNetworkAccessOptions_SecuredByPerimeter = KnownPublicNetworkAccessOptions("SecuredByPerimeter")
 )
 
-// Mapping from string to NetworkRuleSet_PublicNetworkAccess
-var networkRuleSet_PublicNetworkAccess_Values = map[string]NetworkRuleSet_PublicNetworkAccess{
-	"disabled":           NetworkRuleSet_PublicNetworkAccess_Disabled,
-	"enabled":            NetworkRuleSet_PublicNetworkAccess_Enabled,
-	"securedbyperimeter": NetworkRuleSet_PublicNetworkAccess_SecuredByPerimeter,
+// Mapping from string to KnownPublicNetworkAccessOptions
+var knownPublicNetworkAccessOptions_Values = map[string]KnownPublicNetworkAccessOptions{
+	"disabled":           KnownPublicNetworkAccessOptions_Disabled,
+	"enabled":            KnownPublicNetworkAccessOptions_Enabled,
+	"securedbyperimeter": KnownPublicNetworkAccessOptions_SecuredByPerimeter,
 }

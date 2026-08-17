@@ -37,6 +37,7 @@ addSecrets                                 azure      Replace properties flagged
 addConfigMaps                              azure      Replace properties flagged as a configMap with genruntime.ConfigMapReference. For properties flagged as an optional configMap, add a new <property>FromConfig property.
 addSerializationTypeTag                               Adds a property tag to properties with special serialization instructions to initialize empty collections when serializing the payload to Azure
 makeOneOfDiscriminantRequired              azure      Fix one of types to a discriminator which is not omitempty/optional
+addAzureNameFromConfig                     azure      Injects the AzureNameFromConfig property into Spec types for resources that support it
 applyKubernetesResourceInterface           azure      Add the KubernetesResource interface to every resource
 flattenProperties                                     Apply flattening to properties marked for flattening
 stripUnused                                           Strip unused types for test
@@ -52,6 +53,7 @@ createConversionGraph                      azure      Create the graph of conver
 repairSkippingProperties                   azure      Repair property bag serialization for properties that skip resource or object versions
 createConversionGraph                      azure      Create the graph of conversions between versions of each resource group
 injectOriginalVersionProperty              azure      Inject the property OriginalVersion into each Storage Spec type
+injectAzureNameFromConfigMethod            azure      Inject GetAzureNameFromConfig method on storage specs that have the AzureNameFromConfig property
 injectPropertyAssignmentFunctions          azure      Inject property assignment functions AssignFrom() and AssignTo() into resources and objects
 implementConvertibleSpecInterface          azure      Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec on each Spec type
 implementConvertibleStatusInterface        azure      Inject ConvertStatusTo() and ConvertStatusFrom() to implement genruntime.ConvertibleStatus on each Status type

@@ -576,8 +576,13 @@ type ApplicationGatewayPrivateLinkConfiguration struct {
 // Storage version of v1api20220701.ApplicationGatewayPrivateLinkConfiguration_STATUS
 // Private Link Configuration on an application gateway.
 type ApplicationGatewayPrivateLinkConfiguration_STATUS struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Etag              *string                                               `json:"etag,omitempty"`
+	Id                *string                                               `json:"id,omitempty"`
+	IpConfigurations  []ApplicationGatewayPrivateLinkIpConfiguration_STATUS `json:"ipConfigurations,omitempty"`
+	Name              *string                                               `json:"name,omitempty"`
+	PropertyBag       genruntime.PropertyBag                                `json:"$propertyBag,omitempty"`
+	ProvisioningState *string                                               `json:"provisioningState,omitempty"`
+	Type              *string                                               `json:"type,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayProbe
@@ -1270,10 +1275,27 @@ type ApplicationGatewayPathRule struct {
 // Storage version of v1api20220701.ApplicationGatewayPrivateLinkIpConfiguration
 // The application gateway private link ip configuration.
 type ApplicationGatewayPrivateLinkIpConfiguration struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Name                      *string                `json:"name,omitempty"`
+	Primary                   *bool                  `json:"primary,omitempty"`
+	PrivateIPAddress          *string                `json:"privateIPAddress,omitempty"`
+	PrivateIPAllocationMethod *string                `json:"privateIPAllocationMethod,omitempty"`
+	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Subnet                    *SubResource           `json:"subnet,omitempty"`
+}
 
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+// Storage version of v1api20220701.ApplicationGatewayPrivateLinkIpConfiguration_STATUS
+// The application gateway private link ip configuration.
+type ApplicationGatewayPrivateLinkIpConfiguration_STATUS struct {
+	Etag                      *string                `json:"etag,omitempty"`
+	Id                        *string                `json:"id,omitempty"`
+	Name                      *string                `json:"name,omitempty"`
+	Primary                   *bool                  `json:"primary,omitempty"`
+	PrivateIPAddress          *string                `json:"privateIPAddress,omitempty"`
+	PrivateIPAllocationMethod *string                `json:"privateIPAllocationMethod,omitempty"`
+	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProvisioningState         *string                `json:"provisioningState,omitempty"`
+	Subnet                    *SubResource_STATUS    `json:"subnet,omitempty"`
+	Type                      *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayProbeHealthResponseMatch

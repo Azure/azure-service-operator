@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,22 +14,19 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=authorization.azure.com,resources=roledefinitions,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=authorization.azure.com,resources={roledefinitions/status,roledefinitions/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,authorization}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20220401.RoleDefinition
 // Generator information:
-// - Generated from: /authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json
+// - Generated from: /authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json
 // - ARM URI: /{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}
 type RoleDefinition struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -46,6 +45,28 @@ func (definition *RoleDefinition) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (definition *RoleDefinition) SetConditions(conditions conditions.Conditions) {
 	definition.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &RoleDefinition{}
+
+// ConvertFrom populates our RoleDefinition from the provided hub RoleDefinition
+func (definition *RoleDefinition) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.RoleDefinition)
+	if !ok {
+		return fmt.Errorf("expected authorization/v20220401/storage/RoleDefinition but received %T instead", hub)
+	}
+
+	return definition.AssignProperties_From_RoleDefinition(source)
+}
+
+// ConvertTo populates the provided hub RoleDefinition from our RoleDefinition
+func (definition *RoleDefinition) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.RoleDefinition)
+	if !ok {
+		return fmt.Errorf("expected authorization/v20220401/storage/RoleDefinition but received %T instead", hub)
+	}
+
+	return definition.AssignProperties_To_RoleDefinition(destination)
 }
 
 var _ configmaps.Exporter = &RoleDefinition{}
@@ -142,8 +163,75 @@ func (definition *RoleDefinition) SetStatus(status genruntime.ConvertibleStatus)
 	return nil
 }
 
-// Hub marks that this RoleDefinition is the hub type for conversion
-func (definition *RoleDefinition) Hub() {}
+// AssignProperties_From_RoleDefinition populates our RoleDefinition from the provided source RoleDefinition
+func (definition *RoleDefinition) AssignProperties_From_RoleDefinition(source *storage.RoleDefinition) error {
+
+	// ObjectMeta
+	definition.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec RoleDefinition_Spec
+	err := spec.AssignProperties_From_RoleDefinition_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_RoleDefinition_Spec() to populate field Spec")
+	}
+	definition.Spec = spec
+
+	// Status
+	var status RoleDefinition_STATUS
+	err = status.AssignProperties_From_RoleDefinition_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_RoleDefinition_STATUS() to populate field Status")
+	}
+	definition.Status = status
+
+	// Invoke the augmentConversionForRoleDefinition interface (if implemented) to customize the conversion
+	var definitionAsAny any = definition
+	if augmentedDefinition, ok := definitionAsAny.(augmentConversionForRoleDefinition); ok {
+		err := augmentedDefinition.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RoleDefinition populates the provided destination RoleDefinition from our RoleDefinition
+func (definition *RoleDefinition) AssignProperties_To_RoleDefinition(destination *storage.RoleDefinition) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *definition.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.RoleDefinition_Spec
+	err := definition.Spec.AssignProperties_To_RoleDefinition_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_RoleDefinition_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.RoleDefinition_STATUS
+	err = definition.Status.AssignProperties_To_RoleDefinition_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_RoleDefinition_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForRoleDefinition interface (if implemented) to customize the conversion
+	var definitionAsAny any = definition
+	if augmentedDefinition, ok := definitionAsAny.(augmentConversionForRoleDefinition); ok {
+		err := augmentedDefinition.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (definition *RoleDefinition) OriginalGVK() *schema.GroupVersionKind {
@@ -157,12 +245,17 @@ func (definition *RoleDefinition) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20220401.RoleDefinition
 // Generator information:
-// - Generated from: /authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json
+// - Generated from: /authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json
 // - ARM URI: /{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}
 type RoleDefinitionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RoleDefinition `json:"items"`
+}
+
+type augmentConversionForRoleDefinition interface {
+	AssignPropertiesFrom(src *storage.RoleDefinition) error
+	AssignPropertiesTo(dst *storage.RoleDefinition) error
 }
 
 // Storage version of v1api20220401.RoleDefinition_Spec
@@ -191,20 +284,224 @@ var _ genruntime.ConvertibleSpec = &RoleDefinition_Spec{}
 
 // ConvertSpecFrom populates our RoleDefinition_Spec from the provided source
 func (definition *RoleDefinition_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == definition {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.RoleDefinition_Spec)
+	if ok {
+		// Populate our instance from source
+		return definition.AssignProperties_From_RoleDefinition_Spec(src)
 	}
 
-	return source.ConvertSpecTo(definition)
+	// Convert to an intermediate form
+	src = &storage.RoleDefinition_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = definition.AssignProperties_From_RoleDefinition_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our RoleDefinition_Spec
 func (definition *RoleDefinition_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == definition {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.RoleDefinition_Spec)
+	if ok {
+		// Populate destination from our instance
+		return definition.AssignProperties_To_RoleDefinition_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(definition)
+	// Convert to an intermediate form
+	dst = &storage.RoleDefinition_Spec{}
+	err := definition.AssignProperties_To_RoleDefinition_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_RoleDefinition_Spec populates our RoleDefinition_Spec from the provided source RoleDefinition_Spec
+func (definition *RoleDefinition_Spec) AssignProperties_From_RoleDefinition_Spec(source *storage.RoleDefinition_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AssignableScopesReferences
+	if source.AssignableScopesReferences != nil {
+		assignableScopesReferenceList := make([]genruntime.ResourceReference, len(source.AssignableScopesReferences))
+		for assignableScopesReferenceIndex, assignableScopesReferenceItem := range source.AssignableScopesReferences {
+			assignableScopesReferenceList[assignableScopesReferenceIndex] = assignableScopesReferenceItem.Copy()
+		}
+		definition.AssignableScopesReferences = assignableScopesReferenceList
+	} else {
+		definition.AssignableScopesReferences = nil
+	}
+
+	// AzureName
+	definition.AzureName = source.AzureName
+
+	// Description
+	definition.Description = genruntime.ClonePointerToString(source.Description)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RoleDefinitionOperatorSpec
+		err := operatorSpec.AssignProperties_From_RoleDefinitionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_RoleDefinitionOperatorSpec() to populate field OperatorSpec")
+		}
+		definition.OperatorSpec = &operatorSpec
+	} else {
+		definition.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	definition.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		definition.Owner = &owner
+	} else {
+		definition.Owner = nil
+	}
+
+	// Permissions
+	if source.Permissions != nil {
+		permissionList := make([]Permission, len(source.Permissions))
+		for permissionIndex, permissionItem := range source.Permissions {
+			var permission Permission
+			err := permission.AssignProperties_From_Permission(&permissionItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_Permission() to populate field Permissions")
+			}
+			permissionList[permissionIndex] = permission
+		}
+		definition.Permissions = permissionList
+	} else {
+		definition.Permissions = nil
+	}
+
+	// RoleName
+	definition.RoleName = genruntime.ClonePointerToString(source.RoleName)
+
+	// Type
+	definition.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		definition.PropertyBag = propertyBag
+	} else {
+		definition.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRoleDefinition_Spec interface (if implemented) to customize the conversion
+	var definitionAsAny any = definition
+	if augmentedDefinition, ok := definitionAsAny.(augmentConversionForRoleDefinition_Spec); ok {
+		err := augmentedDefinition.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RoleDefinition_Spec populates the provided destination RoleDefinition_Spec from our RoleDefinition_Spec
+func (definition *RoleDefinition_Spec) AssignProperties_To_RoleDefinition_Spec(destination *storage.RoleDefinition_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(definition.PropertyBag)
+
+	// AssignableScopesReferences
+	if definition.AssignableScopesReferences != nil {
+		assignableScopesReferenceList := make([]genruntime.ResourceReference, len(definition.AssignableScopesReferences))
+		for assignableScopesReferenceIndex, assignableScopesReferenceItem := range definition.AssignableScopesReferences {
+			assignableScopesReferenceList[assignableScopesReferenceIndex] = assignableScopesReferenceItem.Copy()
+		}
+		destination.AssignableScopesReferences = assignableScopesReferenceList
+	} else {
+		destination.AssignableScopesReferences = nil
+	}
+
+	// AzureName
+	destination.AzureName = definition.AzureName
+
+	// Description
+	destination.Description = genruntime.ClonePointerToString(definition.Description)
+
+	// OperatorSpec
+	if definition.OperatorSpec != nil {
+		var operatorSpec storage.RoleDefinitionOperatorSpec
+		err := definition.OperatorSpec.AssignProperties_To_RoleDefinitionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_RoleDefinitionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = definition.OriginalVersion
+
+	// Owner
+	if definition.Owner != nil {
+		owner := definition.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Permissions
+	if definition.Permissions != nil {
+		permissionList := make([]storage.Permission, len(definition.Permissions))
+		for permissionIndex, permissionItem := range definition.Permissions {
+			var permission storage.Permission
+			err := permissionItem.AssignProperties_To_Permission(&permission)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_Permission() to populate field Permissions")
+			}
+			permissionList[permissionIndex] = permission
+		}
+		destination.Permissions = permissionList
+	} else {
+		destination.Permissions = nil
+	}
+
+	// RoleName
+	destination.RoleName = genruntime.ClonePointerToString(definition.RoleName)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(definition.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRoleDefinition_Spec interface (if implemented) to customize the conversion
+	var definitionAsAny any = definition
+	if augmentedDefinition, ok := definitionAsAny.(augmentConversionForRoleDefinition_Spec); ok {
+		err := augmentedDefinition.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220401.RoleDefinition_STATUS
@@ -230,20 +527,214 @@ var _ genruntime.ConvertibleStatus = &RoleDefinition_STATUS{}
 
 // ConvertStatusFrom populates our RoleDefinition_STATUS from the provided source
 func (definition *RoleDefinition_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == definition {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.RoleDefinition_STATUS)
+	if ok {
+		// Populate our instance from source
+		return definition.AssignProperties_From_RoleDefinition_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(definition)
+	// Convert to an intermediate form
+	src = &storage.RoleDefinition_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = definition.AssignProperties_From_RoleDefinition_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our RoleDefinition_STATUS
 func (definition *RoleDefinition_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == definition {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.RoleDefinition_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return definition.AssignProperties_To_RoleDefinition_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(definition)
+	// Convert to an intermediate form
+	dst = &storage.RoleDefinition_STATUS{}
+	err := definition.AssignProperties_To_RoleDefinition_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_RoleDefinition_STATUS populates our RoleDefinition_STATUS from the provided source RoleDefinition_STATUS
+func (definition *RoleDefinition_STATUS) AssignProperties_From_RoleDefinition_STATUS(source *storage.RoleDefinition_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AssignableScopes
+	definition.AssignableScopes = genruntime.CloneSliceOfString(source.AssignableScopes)
+
+	// Conditions
+	definition.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// CreatedBy
+	definition.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
+
+	// CreatedOn
+	definition.CreatedOn = genruntime.ClonePointerToString(source.CreatedOn)
+
+	// Description
+	definition.Description = genruntime.ClonePointerToString(source.Description)
+
+	// Id
+	definition.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	definition.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Permissions
+	if source.Permissions != nil {
+		permissionList := make([]Permission_STATUS, len(source.Permissions))
+		for permissionIndex, permissionItem := range source.Permissions {
+			var permission Permission_STATUS
+			err := permission.AssignProperties_From_Permission_STATUS(&permissionItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_Permission_STATUS() to populate field Permissions")
+			}
+			permissionList[permissionIndex] = permission
+		}
+		definition.Permissions = permissionList
+	} else {
+		definition.Permissions = nil
+	}
+
+	// PropertiesType
+	definition.PropertiesType = genruntime.ClonePointerToString(source.PropertiesType)
+
+	// RoleName
+	definition.RoleName = genruntime.ClonePointerToString(source.RoleName)
+
+	// Type
+	definition.Type = genruntime.ClonePointerToString(source.Type)
+
+	// UpdatedBy
+	definition.UpdatedBy = genruntime.ClonePointerToString(source.UpdatedBy)
+
+	// UpdatedOn
+	definition.UpdatedOn = genruntime.ClonePointerToString(source.UpdatedOn)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		definition.PropertyBag = propertyBag
+	} else {
+		definition.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRoleDefinition_STATUS interface (if implemented) to customize the conversion
+	var definitionAsAny any = definition
+	if augmentedDefinition, ok := definitionAsAny.(augmentConversionForRoleDefinition_STATUS); ok {
+		err := augmentedDefinition.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RoleDefinition_STATUS populates the provided destination RoleDefinition_STATUS from our RoleDefinition_STATUS
+func (definition *RoleDefinition_STATUS) AssignProperties_To_RoleDefinition_STATUS(destination *storage.RoleDefinition_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(definition.PropertyBag)
+
+	// AssignableScopes
+	destination.AssignableScopes = genruntime.CloneSliceOfString(definition.AssignableScopes)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(definition.Conditions)
+
+	// CreatedBy
+	destination.CreatedBy = genruntime.ClonePointerToString(definition.CreatedBy)
+
+	// CreatedOn
+	destination.CreatedOn = genruntime.ClonePointerToString(definition.CreatedOn)
+
+	// Description
+	destination.Description = genruntime.ClonePointerToString(definition.Description)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(definition.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(definition.Name)
+
+	// Permissions
+	if definition.Permissions != nil {
+		permissionList := make([]storage.Permission_STATUS, len(definition.Permissions))
+		for permissionIndex, permissionItem := range definition.Permissions {
+			var permission storage.Permission_STATUS
+			err := permissionItem.AssignProperties_To_Permission_STATUS(&permission)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_Permission_STATUS() to populate field Permissions")
+			}
+			permissionList[permissionIndex] = permission
+		}
+		destination.Permissions = permissionList
+	} else {
+		destination.Permissions = nil
+	}
+
+	// PropertiesType
+	destination.PropertiesType = genruntime.ClonePointerToString(definition.PropertiesType)
+
+	// RoleName
+	destination.RoleName = genruntime.ClonePointerToString(definition.RoleName)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(definition.Type)
+
+	// UpdatedBy
+	destination.UpdatedBy = genruntime.ClonePointerToString(definition.UpdatedBy)
+
+	// UpdatedOn
+	destination.UpdatedOn = genruntime.ClonePointerToString(definition.UpdatedOn)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRoleDefinition_STATUS interface (if implemented) to customize the conversion
+	var definitionAsAny any = definition
+	if augmentedDefinition, ok := definitionAsAny.(augmentConversionForRoleDefinition_STATUS); ok {
+		err := augmentedDefinition.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForRoleDefinition_Spec interface {
+	AssignPropertiesFrom(src *storage.RoleDefinition_Spec) error
+	AssignPropertiesTo(dst *storage.RoleDefinition_Spec) error
+}
+
+type augmentConversionForRoleDefinition_STATUS interface {
+	AssignPropertiesFrom(src *storage.RoleDefinition_STATUS) error
+	AssignPropertiesTo(dst *storage.RoleDefinition_STATUS) error
 }
 
 // Storage version of v1api20220401.Permission
@@ -256,6 +747,80 @@ type Permission struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_Permission populates our Permission from the provided source Permission
+func (permission *Permission) AssignProperties_From_Permission(source *storage.Permission) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Actions
+	permission.Actions = genruntime.CloneSliceOfString(source.Actions)
+
+	// DataActions
+	permission.DataActions = genruntime.CloneSliceOfString(source.DataActions)
+
+	// NotActions
+	permission.NotActions = genruntime.CloneSliceOfString(source.NotActions)
+
+	// NotDataActions
+	permission.NotDataActions = genruntime.CloneSliceOfString(source.NotDataActions)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		permission.PropertyBag = propertyBag
+	} else {
+		permission.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPermission interface (if implemented) to customize the conversion
+	var permissionAsAny any = permission
+	if augmentedPermission, ok := permissionAsAny.(augmentConversionForPermission); ok {
+		err := augmentedPermission.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Permission populates the provided destination Permission from our Permission
+func (permission *Permission) AssignProperties_To_Permission(destination *storage.Permission) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(permission.PropertyBag)
+
+	// Actions
+	destination.Actions = genruntime.CloneSliceOfString(permission.Actions)
+
+	// DataActions
+	destination.DataActions = genruntime.CloneSliceOfString(permission.DataActions)
+
+	// NotActions
+	destination.NotActions = genruntime.CloneSliceOfString(permission.NotActions)
+
+	// NotDataActions
+	destination.NotDataActions = genruntime.CloneSliceOfString(permission.NotDataActions)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPermission interface (if implemented) to customize the conversion
+	var permissionAsAny any = permission
+	if augmentedPermission, ok := permissionAsAny.(augmentConversionForPermission); ok {
+		err := augmentedPermission.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220401.Permission_STATUS
 // Role definition permissions.
 type Permission_STATUS struct {
@@ -266,6 +831,80 @@ type Permission_STATUS struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_Permission_STATUS populates our Permission_STATUS from the provided source Permission_STATUS
+func (permission *Permission_STATUS) AssignProperties_From_Permission_STATUS(source *storage.Permission_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Actions
+	permission.Actions = genruntime.CloneSliceOfString(source.Actions)
+
+	// DataActions
+	permission.DataActions = genruntime.CloneSliceOfString(source.DataActions)
+
+	// NotActions
+	permission.NotActions = genruntime.CloneSliceOfString(source.NotActions)
+
+	// NotDataActions
+	permission.NotDataActions = genruntime.CloneSliceOfString(source.NotDataActions)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		permission.PropertyBag = propertyBag
+	} else {
+		permission.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPermission_STATUS interface (if implemented) to customize the conversion
+	var permissionAsAny any = permission
+	if augmentedPermission, ok := permissionAsAny.(augmentConversionForPermission_STATUS); ok {
+		err := augmentedPermission.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Permission_STATUS populates the provided destination Permission_STATUS from our Permission_STATUS
+func (permission *Permission_STATUS) AssignProperties_To_Permission_STATUS(destination *storage.Permission_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(permission.PropertyBag)
+
+	// Actions
+	destination.Actions = genruntime.CloneSliceOfString(permission.Actions)
+
+	// DataActions
+	destination.DataActions = genruntime.CloneSliceOfString(permission.DataActions)
+
+	// NotActions
+	destination.NotActions = genruntime.CloneSliceOfString(permission.NotActions)
+
+	// NotDataActions
+	destination.NotDataActions = genruntime.CloneSliceOfString(permission.NotDataActions)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPermission_STATUS interface (if implemented) to customize the conversion
+	var permissionAsAny any = permission
+	if augmentedPermission, ok := permissionAsAny.(augmentConversionForPermission_STATUS); ok {
+		err := augmentedPermission.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220401.RoleDefinitionOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RoleDefinitionOperatorSpec struct {
@@ -273,6 +912,141 @@ type RoleDefinitionOperatorSpec struct {
 	NamingConvention     *string                       `json:"namingConvention,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_RoleDefinitionOperatorSpec populates our RoleDefinitionOperatorSpec from the provided source RoleDefinitionOperatorSpec
+func (operator *RoleDefinitionOperatorSpec) AssignProperties_From_RoleDefinitionOperatorSpec(source *storage.RoleDefinitionOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// NamingConvention
+	operator.NamingConvention = genruntime.ClonePointerToString(source.NamingConvention)
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRoleDefinitionOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRoleDefinitionOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RoleDefinitionOperatorSpec populates the provided destination RoleDefinitionOperatorSpec from our RoleDefinitionOperatorSpec
+func (operator *RoleDefinitionOperatorSpec) AssignProperties_To_RoleDefinitionOperatorSpec(destination *storage.RoleDefinitionOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// NamingConvention
+	destination.NamingConvention = genruntime.ClonePointerToString(operator.NamingConvention)
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRoleDefinitionOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRoleDefinitionOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForPermission interface {
+	AssignPropertiesFrom(src *storage.Permission) error
+	AssignPropertiesTo(dst *storage.Permission) error
+}
+
+type augmentConversionForPermission_STATUS interface {
+	AssignPropertiesFrom(src *storage.Permission_STATUS) error
+	AssignPropertiesTo(dst *storage.Permission_STATUS) error
+}
+
+type augmentConversionForRoleDefinitionOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.RoleDefinitionOperatorSpec) error
+	AssignPropertiesTo(dst *storage.RoleDefinitionOperatorSpec) error
 }
 
 func init() {

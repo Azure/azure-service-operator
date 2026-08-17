@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/workbooks_API.json
+// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/ApplicationInsights/stable/2023-06-01/workbooks_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooks/{resourceName}
 type Workbook struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (workbook *Workbook) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/workbooks_API.json
+// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/ApplicationInsights/stable/2023-06-01/workbooks_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooks/{resourceName}
 type WorkbookList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -856,7 +856,7 @@ type Workbook_STATUS struct {
 	Identity *ManagedServiceIdentity_STATUS `json:"identity,omitempty"`
 
 	// Kind: The kind of workbook. Only valid value is shared.
-	Kind *Workbook_Kind_STATUS `json:"kind,omitempty"`
+	Kind *ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS `json:"kind,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -879,7 +879,7 @@ type Workbook_STATUS struct {
 	// StorageUri: The resourceId to the storage account when bring your own storage is used
 	StorageUri *string `json:"storageUri,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
@@ -1018,7 +1018,7 @@ func (workbook *Workbook_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	if typedInput.Kind != nil {
 		var temp string
 		temp = string(*typedInput.Kind)
-		kind := Workbook_Kind_STATUS(temp)
+		kind := ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS(temp)
 		workbook.Kind = &kind
 	}
 
@@ -1170,7 +1170,7 @@ func (workbook *Workbook_STATUS) AssignProperties_From_Workbook_STATUS(source *s
 	// Kind
 	if source.Kind != nil {
 		kind := *source.Kind
-		kindTemp := genruntime.ToEnum(kind, workbook_Kind_STATUS_Values)
+		kindTemp := genruntime.ToEnum(kind, applicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS_Values)
 		workbook.Kind = &kindTemp
 	} else {
 		workbook.Kind = nil
@@ -1328,6 +1328,16 @@ func (workbook *Workbook_STATUS) AssignProperties_To_Workbook_STATUS(destination
 
 	// No error
 	return nil
+}
+
+// The kind of workbook. Only valid value is shared.
+type ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS string
+
+const ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS_Shared = ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS("shared")
+
+// Mapping from string to ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS
+var applicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS_Values = map[string]ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS{
+	"shared": ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS_Shared,
 }
 
 // Managed service identity (system assigned and/or user assigned identities)
@@ -1803,6 +1813,7 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	return nil
 }
 
+// The kind of workbook. Only valid value is shared.
 // +kubebuilder:validation:Enum={"shared"}
 type Workbook_Kind_Spec string
 
@@ -1811,15 +1822,6 @@ const Workbook_Kind_Spec_Shared = Workbook_Kind_Spec("shared")
 // Mapping from string to Workbook_Kind_Spec
 var workbook_Kind_Spec_Values = map[string]Workbook_Kind_Spec{
 	"shared": Workbook_Kind_Spec_Shared,
-}
-
-type Workbook_Kind_STATUS string
-
-const Workbook_Kind_STATUS_Shared = Workbook_Kind_STATUS("shared")
-
-// Mapping from string to Workbook_Kind_STATUS
-var workbook_Kind_STATUS_Values = map[string]Workbook_Kind_STATUS{
-	"shared": Workbook_Kind_STATUS_Shared,
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure

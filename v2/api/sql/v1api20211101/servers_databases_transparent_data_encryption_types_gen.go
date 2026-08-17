@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/TransparentDataEncryptions.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/TransparentDataEncryptions.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{tdeName}
 type ServersDatabasesTransparentDataEncryption struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersDatabasesTransparentDataEncryption{}
 
 // ConvertFrom populates our ServersDatabasesTransparentDataEncryption from the provided hub ServersDatabasesTransparentDataEncryption
 func (encryption *ServersDatabasesTransparentDataEncryption) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersDatabasesTransparentDataEncryption)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesTransparentDataEncryption but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersDatabasesTransparentDataEncryption
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return encryption.AssignProperties_From_ServersDatabasesTransparentDataEncryption(source)
+	err = encryption.AssignProperties_From_ServersDatabasesTransparentDataEncryption(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to encryption")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersDatabasesTransparentDataEncryption from our ServersDatabasesTransparentDataEncryption
 func (encryption *ServersDatabasesTransparentDataEncryption) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersDatabasesTransparentDataEncryption)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesTransparentDataEncryption but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersDatabasesTransparentDataEncryption
+	err := encryption.AssignProperties_To_ServersDatabasesTransparentDataEncryption(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from encryption")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return encryption.AssignProperties_To_ServersDatabasesTransparentDataEncryption(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersDatabasesTransparentDataEncryption{}
@@ -87,17 +101,6 @@ func (encryption *ServersDatabasesTransparentDataEncryption) SecretDestinationEx
 		return nil
 	}
 	return encryption.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersDatabasesTransparentDataEncryption{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (encryption *ServersDatabasesTransparentDataEncryption) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersDatabasesTransparentDataEncryption_STATUS); ok {
-		return encryption.Spec.Initialize_From_ServersDatabasesTransparentDataEncryption_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersDatabasesTransparentDataEncryption_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersDatabasesTransparentDataEncryption{}
@@ -237,7 +240,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption) OriginalGVK() *sche
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/TransparentDataEncryptions.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/TransparentDataEncryptions.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{tdeName}
 type ServersDatabasesTransparentDataEncryptionList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -448,21 +451,6 @@ func (encryption *ServersDatabasesTransparentDataEncryption_Spec) AssignProperti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersDatabasesTransparentDataEncryption_STATUS populates our ServersDatabasesTransparentDataEncryption_Spec from the provided source ServersDatabasesTransparentDataEncryption_STATUS
-func (encryption *ServersDatabasesTransparentDataEncryption_Spec) Initialize_From_ServersDatabasesTransparentDataEncryption_STATUS(source *ServersDatabasesTransparentDataEncryption_STATUS) error {
-
-	// State
-	if source.State != nil {
-		state := genruntime.ToEnum(string(*source.State), transparentDataEncryptionProperties_State_Values)
-		encryption.State = &state
-	} else {
-		encryption.State = nil
 	}
 
 	// No error

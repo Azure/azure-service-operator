@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v20260315/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,8 +18,60 @@ import (
 	"testing"
 )
 
+func Test_AuthenticationMethodLdapProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AuthenticationMethodLdapProperties to AuthenticationMethodLdapProperties via AssignProperties_To_AuthenticationMethodLdapProperties & AssignProperties_From_AuthenticationMethodLdapProperties returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAuthenticationMethodLdapProperties, AuthenticationMethodLdapPropertiesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAuthenticationMethodLdapProperties tests if a specific instance of AuthenticationMethodLdapProperties can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAuthenticationMethodLdapProperties(subject AuthenticationMethodLdapProperties) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AuthenticationMethodLdapProperties
+	err := copied.AssignProperties_To_AuthenticationMethodLdapProperties(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AuthenticationMethodLdapProperties
+	err = actual.AssignProperties_From_AuthenticationMethodLdapProperties(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AuthenticationMethodLdapProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -97,8 +150,60 @@ func AddRelatedPropertyGeneratorsForAuthenticationMethodLdapProperties(gens map[
 	gens["ServerCertificates"] = gen.SliceOf(CertificateGenerator())
 }
 
+func Test_AuthenticationMethodLdapProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AuthenticationMethodLdapProperties_STATUS to AuthenticationMethodLdapProperties_STATUS via AssignProperties_To_AuthenticationMethodLdapProperties_STATUS & AssignProperties_From_AuthenticationMethodLdapProperties_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAuthenticationMethodLdapProperties_STATUS, AuthenticationMethodLdapProperties_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAuthenticationMethodLdapProperties_STATUS tests if a specific instance of AuthenticationMethodLdapProperties_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAuthenticationMethodLdapProperties_STATUS(subject AuthenticationMethodLdapProperties_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AuthenticationMethodLdapProperties_STATUS
+	err := copied.AssignProperties_To_AuthenticationMethodLdapProperties_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AuthenticationMethodLdapProperties_STATUS
+	err = actual.AssignProperties_From_AuthenticationMethodLdapProperties_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AuthenticationMethodLdapProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -177,8 +282,60 @@ func AddRelatedPropertyGeneratorsForAuthenticationMethodLdapProperties_STATUS(ge
 	gens["ServerCertificates"] = gen.SliceOf(Certificate_STATUSGenerator())
 }
 
+func Test_CassandraClusters_DataCenter_Properties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CassandraClusters_DataCenter_Properties_STATUS to DataCenterResourceProperties_STATUS via AssignProperties_To_DataCenterResourceProperties_STATUS & AssignProperties_From_DataCenterResourceProperties_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCassandraClusters_DataCenter_Properties_STATUS, CassandraClusters_DataCenter_Properties_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCassandraClusters_DataCenter_Properties_STATUS tests if a specific instance of CassandraClusters_DataCenter_Properties_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCassandraClusters_DataCenter_Properties_STATUS(subject CassandraClusters_DataCenter_Properties_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DataCenterResourceProperties_STATUS
+	err := copied.AssignProperties_To_DataCenterResourceProperties_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CassandraClusters_DataCenter_Properties_STATUS
+	err = actual.AssignProperties_From_DataCenterResourceProperties_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CassandraClusters_DataCenter_Properties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -266,8 +423,60 @@ func AddRelatedPropertyGeneratorsForCassandraClusters_DataCenter_Properties_STAT
 	gens["SeedNodes"] = gen.SliceOf(SeedNode_STATUSGenerator())
 }
 
+func Test_CassandraClusters_DataCenter_Properties_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CassandraClusters_DataCenter_Properties_Spec to DataCenterResourceProperties via AssignProperties_To_DataCenterResourceProperties & AssignProperties_From_DataCenterResourceProperties returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCassandraClusters_DataCenter_Properties_Spec, CassandraClusters_DataCenter_Properties_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCassandraClusters_DataCenter_Properties_Spec tests if a specific instance of CassandraClusters_DataCenter_Properties_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCassandraClusters_DataCenter_Properties_Spec(subject CassandraClusters_DataCenter_Properties_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DataCenterResourceProperties
+	err := copied.AssignProperties_To_DataCenterResourceProperties(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CassandraClusters_DataCenter_Properties_Spec
+	err = actual.AssignProperties_From_DataCenterResourceProperties(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CassandraClusters_DataCenter_Properties_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -349,8 +558,108 @@ func AddRelatedPropertyGeneratorsForCassandraClusters_DataCenter_Properties_Spec
 	gens["AuthenticationMethodLdapProperties"] = gen.PtrOf(AuthenticationMethodLdapPropertiesGenerator())
 }
 
+func Test_CassandraDataCenter_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CassandraDataCenter to hub returns original",
+		prop.ForAll(RunResourceConversionTestForCassandraDataCenter, CassandraDataCenterGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForCassandraDataCenter tests if a specific instance of CassandraDataCenter round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForCassandraDataCenter(subject CassandraDataCenter) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.CassandraDataCenter
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual CassandraDataCenter
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_CassandraDataCenter_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CassandraDataCenter to CassandraDataCenter via AssignProperties_To_CassandraDataCenter & AssignProperties_From_CassandraDataCenter returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCassandraDataCenter, CassandraDataCenterGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCassandraDataCenter tests if a specific instance of CassandraDataCenter can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCassandraDataCenter(subject CassandraDataCenter) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CassandraDataCenter
+	err := copied.AssignProperties_To_CassandraDataCenter(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CassandraDataCenter
+	err = actual.AssignProperties_From_CassandraDataCenter(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CassandraDataCenter_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -411,8 +720,60 @@ func AddRelatedPropertyGeneratorsForCassandraDataCenter(gens map[string]gopter.G
 	gens["Status"] = CassandraDataCenter_STATUSGenerator()
 }
 
+func Test_CassandraDataCenterOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CassandraDataCenterOperatorSpec to CassandraDataCenterOperatorSpec via AssignProperties_To_CassandraDataCenterOperatorSpec & AssignProperties_From_CassandraDataCenterOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCassandraDataCenterOperatorSpec, CassandraDataCenterOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCassandraDataCenterOperatorSpec tests if a specific instance of CassandraDataCenterOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCassandraDataCenterOperatorSpec(subject CassandraDataCenterOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CassandraDataCenterOperatorSpec
+	err := copied.AssignProperties_To_CassandraDataCenterOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CassandraDataCenterOperatorSpec
+	err = actual.AssignProperties_From_CassandraDataCenterOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CassandraDataCenterOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -466,8 +827,60 @@ func CassandraDataCenterOperatorSpecGenerator() gopter.Gen {
 	return cassandraDataCenterOperatorSpecGenerator
 }
 
+func Test_CassandraDataCenter_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CassandraDataCenter_STATUS to CassandraDataCenter_STATUS via AssignProperties_To_CassandraDataCenter_STATUS & AssignProperties_From_CassandraDataCenter_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCassandraDataCenter_STATUS, CassandraDataCenter_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCassandraDataCenter_STATUS tests if a specific instance of CassandraDataCenter_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCassandraDataCenter_STATUS(subject CassandraDataCenter_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CassandraDataCenter_STATUS
+	err := copied.AssignProperties_To_CassandraDataCenter_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CassandraDataCenter_STATUS
+	err = actual.AssignProperties_From_CassandraDataCenter_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CassandraDataCenter_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -543,8 +956,60 @@ func AddRelatedPropertyGeneratorsForCassandraDataCenter_STATUS(gens map[string]g
 	gens["Properties"] = gen.PtrOf(CassandraClusters_DataCenter_Properties_STATUSGenerator())
 }
 
+func Test_CassandraDataCenter_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CassandraDataCenter_Spec to CassandraDataCenter_Spec via AssignProperties_To_CassandraDataCenter_Spec & AssignProperties_From_CassandraDataCenter_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCassandraDataCenter_Spec, CassandraDataCenter_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCassandraDataCenter_Spec tests if a specific instance of CassandraDataCenter_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCassandraDataCenter_Spec(subject CassandraDataCenter_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CassandraDataCenter_Spec
+	err := copied.AssignProperties_To_CassandraDataCenter_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CassandraDataCenter_Spec
+	err = actual.AssignProperties_From_CassandraDataCenter_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CassandraDataCenter_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

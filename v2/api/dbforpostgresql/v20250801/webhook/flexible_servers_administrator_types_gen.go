@@ -43,9 +43,9 @@ func (administrator *FlexibleServersAdministrator) Default(ctx context.Context, 
 	return nil
 }
 
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
+// defaultAzureName defaults the Azure name of the resource to the Kubernetes name, but only when AzureNameFromConfig is not set
 func (administrator *FlexibleServersAdministrator) defaultAzureName(ctx context.Context, obj *v20250801.FlexibleServersAdministrator) error {
-	if obj.Spec.AzureName == "" {
+	if obj.Spec.AzureName == "" && obj.Spec.AzureNameFromConfig == nil {
 		obj.Spec.AzureName = obj.Name
 	}
 	return nil

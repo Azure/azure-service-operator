@@ -71,7 +71,7 @@ Factory: Resource
 │   │       └── Type: *Enum (1 value)
 │   │           └── "FactoryVSTSConfiguration"
 │   └── Tags: map[string]string
-└── Status: Object (17 properties)
+└── Status: Object (18 properties)
     ├── AdditionalProperties: map[string]v1.JSON
     ├── Conditions: conditions.Condition[]
     ├── CreateTime: *string
@@ -134,6 +134,21 @@ Factory: Resource
     │       ├── TenantId: *string
     │       └── Type: *Enum (1 value)
     │           └── "FactoryVSTSConfiguration"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Tags: map[string]string
     ├── Type: *string
     └── Version: *string

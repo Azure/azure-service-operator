@@ -19,6 +19,11 @@ import (
 
 func Test_AddressSpace_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -93,6 +98,11 @@ func AddRelatedPropertyGeneratorsForAddressSpace(gens map[string]gopter.Gen) {
 
 func Test_AddressSpace_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -168,6 +178,11 @@ func AddRelatedPropertyGeneratorsForAddressSpace_STATUS(gens map[string]gopter.G
 
 func Test_DhcpOptions_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -228,6 +243,11 @@ func AddIndependentPropertyGeneratorsForDhcpOptions(gens map[string]gopter.Gen) 
 
 func Test_DhcpOptions_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -288,6 +308,11 @@ func AddIndependentPropertyGeneratorsForDhcpOptions_STATUS(gens map[string]gopte
 
 func Test_FlowLog_STATUS_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -349,6 +374,11 @@ func AddIndependentPropertyGeneratorsForFlowLog_STATUS_SubResourceEmbedded(gens 
 
 func Test_VirtualNetwork_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -410,6 +440,11 @@ func AddRelatedPropertyGeneratorsForVirtualNetwork(gens map[string]gopter.Gen) {
 
 func Test_VirtualNetworkBgpCommunities_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -471,6 +506,11 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities(gens map[st
 
 func Test_VirtualNetworkBgpCommunities_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -533,6 +573,11 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_STATUS(gens
 
 func Test_VirtualNetworkEncryption_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -595,6 +640,11 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkEncryption(gens map[string
 
 func Test_VirtualNetworkEncryption_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -657,6 +707,11 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkEncryption_STATUS(gens map
 
 func Test_VirtualNetworkOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -712,6 +767,11 @@ func VirtualNetworkOperatorSpecGenerator() gopter.Gen {
 
 func Test_VirtualNetwork_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -808,6 +868,11 @@ func AddRelatedPropertyGeneratorsForVirtualNetwork_STATUS(gens map[string]gopter
 
 func Test_VirtualNetwork_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

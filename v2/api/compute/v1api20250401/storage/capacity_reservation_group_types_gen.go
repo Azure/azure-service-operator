@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v20250401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,22 +14,19 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=compute.azure.com,resources=capacityreservationgroups,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=compute.azure.com,resources={capacityreservationgroups/status,capacityreservationgroups/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,compute}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20250401.CapacityReservationGroup
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/ComputeRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}
 type CapacityReservationGroup struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -46,6 +45,28 @@ func (group *CapacityReservationGroup) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (group *CapacityReservationGroup) SetConditions(conditions conditions.Conditions) {
 	group.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &CapacityReservationGroup{}
+
+// ConvertFrom populates our CapacityReservationGroup from the provided hub CapacityReservationGroup
+func (group *CapacityReservationGroup) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.CapacityReservationGroup)
+	if !ok {
+		return fmt.Errorf("expected compute/v20250401/storage/CapacityReservationGroup but received %T instead", hub)
+	}
+
+	return group.AssignProperties_From_CapacityReservationGroup(source)
+}
+
+// ConvertTo populates the provided hub CapacityReservationGroup from our CapacityReservationGroup
+func (group *CapacityReservationGroup) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.CapacityReservationGroup)
+	if !ok {
+		return fmt.Errorf("expected compute/v20250401/storage/CapacityReservationGroup but received %T instead", hub)
+	}
+
+	return group.AssignProperties_To_CapacityReservationGroup(destination)
 }
 
 var _ configmaps.Exporter = &CapacityReservationGroup{}
@@ -143,8 +164,75 @@ func (group *CapacityReservationGroup) SetStatus(status genruntime.ConvertibleSt
 	return nil
 }
 
-// Hub marks that this CapacityReservationGroup is the hub type for conversion
-func (group *CapacityReservationGroup) Hub() {}
+// AssignProperties_From_CapacityReservationGroup populates our CapacityReservationGroup from the provided source CapacityReservationGroup
+func (group *CapacityReservationGroup) AssignProperties_From_CapacityReservationGroup(source *storage.CapacityReservationGroup) error {
+
+	// ObjectMeta
+	group.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec CapacityReservationGroup_Spec
+	err := spec.AssignProperties_From_CapacityReservationGroup_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_CapacityReservationGroup_Spec() to populate field Spec")
+	}
+	group.Spec = spec
+
+	// Status
+	var status CapacityReservationGroup_STATUS
+	err = status.AssignProperties_From_CapacityReservationGroup_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_CapacityReservationGroup_STATUS() to populate field Status")
+	}
+	group.Status = status
+
+	// Invoke the augmentConversionForCapacityReservationGroup interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForCapacityReservationGroup); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CapacityReservationGroup populates the provided destination CapacityReservationGroup from our CapacityReservationGroup
+func (group *CapacityReservationGroup) AssignProperties_To_CapacityReservationGroup(destination *storage.CapacityReservationGroup) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *group.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.CapacityReservationGroup_Spec
+	err := group.Spec.AssignProperties_To_CapacityReservationGroup_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_CapacityReservationGroup_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.CapacityReservationGroup_STATUS
+	err = group.Status.AssignProperties_To_CapacityReservationGroup_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_CapacityReservationGroup_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForCapacityReservationGroup interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForCapacityReservationGroup); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (group *CapacityReservationGroup) OriginalGVK() *schema.GroupVersionKind {
@@ -158,12 +246,17 @@ func (group *CapacityReservationGroup) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20250401.CapacityReservationGroup
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/ComputeRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}
 type CapacityReservationGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []CapacityReservationGroup `json:"items"`
+}
+
+type augmentConversionForCapacityReservationGroup interface {
+	AssignPropertiesFrom(src *storage.CapacityReservationGroup) error
+	AssignPropertiesTo(dst *storage.CapacityReservationGroup) error
 }
 
 // Storage version of v1api20250401.CapacityReservationGroup_Spec
@@ -191,20 +284,200 @@ var _ genruntime.ConvertibleSpec = &CapacityReservationGroup_Spec{}
 
 // ConvertSpecFrom populates our CapacityReservationGroup_Spec from the provided source
 func (group *CapacityReservationGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == group {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.CapacityReservationGroup_Spec)
+	if ok {
+		// Populate our instance from source
+		return group.AssignProperties_From_CapacityReservationGroup_Spec(src)
 	}
 
-	return source.ConvertSpecTo(group)
+	// Convert to an intermediate form
+	src = &storage.CapacityReservationGroup_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = group.AssignProperties_From_CapacityReservationGroup_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our CapacityReservationGroup_Spec
 func (group *CapacityReservationGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == group {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.CapacityReservationGroup_Spec)
+	if ok {
+		// Populate destination from our instance
+		return group.AssignProperties_To_CapacityReservationGroup_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(group)
+	// Convert to an intermediate form
+	dst = &storage.CapacityReservationGroup_Spec{}
+	err := group.AssignProperties_To_CapacityReservationGroup_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_CapacityReservationGroup_Spec populates our CapacityReservationGroup_Spec from the provided source CapacityReservationGroup_Spec
+func (group *CapacityReservationGroup_Spec) AssignProperties_From_CapacityReservationGroup_Spec(source *storage.CapacityReservationGroup_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	group.AzureName = source.AzureName
+
+	// Location
+	group.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec CapacityReservationGroupOperatorSpec
+		err := operatorSpec.AssignProperties_From_CapacityReservationGroupOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_CapacityReservationGroupOperatorSpec() to populate field OperatorSpec")
+		}
+		group.OperatorSpec = &operatorSpec
+	} else {
+		group.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	group.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		group.Owner = &owner
+	} else {
+		group.Owner = nil
+	}
+
+	// ReservationType
+	group.ReservationType = genruntime.ClonePointerToString(source.ReservationType)
+
+	// SharingProfile
+	if source.SharingProfile != nil {
+		var sharingProfile ResourceSharingProfile
+		err := sharingProfile.AssignProperties_From_ResourceSharingProfile(source.SharingProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceSharingProfile() to populate field SharingProfile")
+		}
+		group.SharingProfile = &sharingProfile
+	} else {
+		group.SharingProfile = nil
+	}
+
+	// Tags
+	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Zones
+	group.Zones = genruntime.CloneSliceOfString(source.Zones)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		group.PropertyBag = propertyBag
+	} else {
+		group.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCapacityReservationGroup_Spec interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForCapacityReservationGroup_Spec); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CapacityReservationGroup_Spec populates the provided destination CapacityReservationGroup_Spec from our CapacityReservationGroup_Spec
+func (group *CapacityReservationGroup_Spec) AssignProperties_To_CapacityReservationGroup_Spec(destination *storage.CapacityReservationGroup_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
+
+	// AzureName
+	destination.AzureName = group.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(group.Location)
+
+	// OperatorSpec
+	if group.OperatorSpec != nil {
+		var operatorSpec storage.CapacityReservationGroupOperatorSpec
+		err := group.OperatorSpec.AssignProperties_To_CapacityReservationGroupOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_CapacityReservationGroupOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = group.OriginalVersion
+
+	// Owner
+	if group.Owner != nil {
+		owner := group.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// ReservationType
+	destination.ReservationType = genruntime.ClonePointerToString(group.ReservationType)
+
+	// SharingProfile
+	if group.SharingProfile != nil {
+		var sharingProfile storage.ResourceSharingProfile
+		err := group.SharingProfile.AssignProperties_To_ResourceSharingProfile(&sharingProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceSharingProfile() to populate field SharingProfile")
+		}
+		destination.SharingProfile = &sharingProfile
+	} else {
+		destination.SharingProfile = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(group.Tags)
+
+	// Zones
+	destination.Zones = genruntime.CloneSliceOfString(group.Zones)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCapacityReservationGroup_Spec interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForCapacityReservationGroup_Spec); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20250401.CapacityReservationGroup_STATUS
@@ -232,20 +505,294 @@ var _ genruntime.ConvertibleStatus = &CapacityReservationGroup_STATUS{}
 
 // ConvertStatusFrom populates our CapacityReservationGroup_STATUS from the provided source
 func (group *CapacityReservationGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == group {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.CapacityReservationGroup_STATUS)
+	if ok {
+		// Populate our instance from source
+		return group.AssignProperties_From_CapacityReservationGroup_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(group)
+	// Convert to an intermediate form
+	src = &storage.CapacityReservationGroup_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = group.AssignProperties_From_CapacityReservationGroup_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our CapacityReservationGroup_STATUS
 func (group *CapacityReservationGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == group {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.CapacityReservationGroup_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return group.AssignProperties_To_CapacityReservationGroup_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(group)
+	// Convert to an intermediate form
+	dst = &storage.CapacityReservationGroup_STATUS{}
+	err := group.AssignProperties_To_CapacityReservationGroup_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_CapacityReservationGroup_STATUS populates our CapacityReservationGroup_STATUS from the provided source CapacityReservationGroup_STATUS
+func (group *CapacityReservationGroup_STATUS) AssignProperties_From_CapacityReservationGroup_STATUS(source *storage.CapacityReservationGroup_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CapacityReservations
+	if source.CapacityReservations != nil {
+		capacityReservationList := make([]SubResourceReadOnly_STATUS, len(source.CapacityReservations))
+		for capacityReservationIndex, capacityReservationItem := range source.CapacityReservations {
+			var capacityReservation SubResourceReadOnly_STATUS
+			err := capacityReservation.AssignProperties_From_SubResourceReadOnly_STATUS(&capacityReservationItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_SubResourceReadOnly_STATUS() to populate field CapacityReservations")
+			}
+			capacityReservationList[capacityReservationIndex] = capacityReservation
+		}
+		group.CapacityReservations = capacityReservationList
+	} else {
+		group.CapacityReservations = nil
+	}
+
+	// Conditions
+	group.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	group.Id = genruntime.ClonePointerToString(source.Id)
+
+	// InstanceView
+	if source.InstanceView != nil {
+		var instanceView CapacityReservationGroupInstanceView_STATUS
+		err := instanceView.AssignProperties_From_CapacityReservationGroupInstanceView_STATUS(source.InstanceView)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_CapacityReservationGroupInstanceView_STATUS() to populate field InstanceView")
+		}
+		group.InstanceView = &instanceView
+	} else {
+		group.InstanceView = nil
+	}
+
+	// Location
+	group.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	group.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ReservationType
+	group.ReservationType = genruntime.ClonePointerToString(source.ReservationType)
+
+	// SharingProfile
+	if source.SharingProfile != nil {
+		var sharingProfile ResourceSharingProfile_STATUS
+		err := sharingProfile.AssignProperties_From_ResourceSharingProfile_STATUS(source.SharingProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceSharingProfile_STATUS() to populate field SharingProfile")
+		}
+		group.SharingProfile = &sharingProfile
+	} else {
+		group.SharingProfile = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		group.SystemData = &systemDatum
+	} else {
+		group.SystemData = nil
+	}
+
+	// Tags
+	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	group.Type = genruntime.ClonePointerToString(source.Type)
+
+	// VirtualMachinesAssociated
+	if source.VirtualMachinesAssociated != nil {
+		virtualMachinesAssociatedList := make([]SubResourceReadOnly_STATUS, len(source.VirtualMachinesAssociated))
+		for virtualMachinesAssociatedIndex, virtualMachinesAssociatedItem := range source.VirtualMachinesAssociated {
+			var virtualMachinesAssociated SubResourceReadOnly_STATUS
+			err := virtualMachinesAssociated.AssignProperties_From_SubResourceReadOnly_STATUS(&virtualMachinesAssociatedItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_SubResourceReadOnly_STATUS() to populate field VirtualMachinesAssociated")
+			}
+			virtualMachinesAssociatedList[virtualMachinesAssociatedIndex] = virtualMachinesAssociated
+		}
+		group.VirtualMachinesAssociated = virtualMachinesAssociatedList
+	} else {
+		group.VirtualMachinesAssociated = nil
+	}
+
+	// Zones
+	group.Zones = genruntime.CloneSliceOfString(source.Zones)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		group.PropertyBag = propertyBag
+	} else {
+		group.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCapacityReservationGroup_STATUS interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForCapacityReservationGroup_STATUS); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CapacityReservationGroup_STATUS populates the provided destination CapacityReservationGroup_STATUS from our CapacityReservationGroup_STATUS
+func (group *CapacityReservationGroup_STATUS) AssignProperties_To_CapacityReservationGroup_STATUS(destination *storage.CapacityReservationGroup_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
+
+	// CapacityReservations
+	if group.CapacityReservations != nil {
+		capacityReservationList := make([]storage.SubResourceReadOnly_STATUS, len(group.CapacityReservations))
+		for capacityReservationIndex, capacityReservationItem := range group.CapacityReservations {
+			var capacityReservation storage.SubResourceReadOnly_STATUS
+			err := capacityReservationItem.AssignProperties_To_SubResourceReadOnly_STATUS(&capacityReservation)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_SubResourceReadOnly_STATUS() to populate field CapacityReservations")
+			}
+			capacityReservationList[capacityReservationIndex] = capacityReservation
+		}
+		destination.CapacityReservations = capacityReservationList
+	} else {
+		destination.CapacityReservations = nil
+	}
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(group.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(group.Id)
+
+	// InstanceView
+	if group.InstanceView != nil {
+		var instanceView storage.CapacityReservationGroupInstanceView_STATUS
+		err := group.InstanceView.AssignProperties_To_CapacityReservationGroupInstanceView_STATUS(&instanceView)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_CapacityReservationGroupInstanceView_STATUS() to populate field InstanceView")
+		}
+		destination.InstanceView = &instanceView
+	} else {
+		destination.InstanceView = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(group.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(group.Name)
+
+	// ReservationType
+	destination.ReservationType = genruntime.ClonePointerToString(group.ReservationType)
+
+	// SharingProfile
+	if group.SharingProfile != nil {
+		var sharingProfile storage.ResourceSharingProfile_STATUS
+		err := group.SharingProfile.AssignProperties_To_ResourceSharingProfile_STATUS(&sharingProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceSharingProfile_STATUS() to populate field SharingProfile")
+		}
+		destination.SharingProfile = &sharingProfile
+	} else {
+		destination.SharingProfile = nil
+	}
+
+	// SystemData
+	if group.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := group.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(group.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(group.Type)
+
+	// VirtualMachinesAssociated
+	if group.VirtualMachinesAssociated != nil {
+		virtualMachinesAssociatedList := make([]storage.SubResourceReadOnly_STATUS, len(group.VirtualMachinesAssociated))
+		for virtualMachinesAssociatedIndex, virtualMachinesAssociatedItem := range group.VirtualMachinesAssociated {
+			var virtualMachinesAssociated storage.SubResourceReadOnly_STATUS
+			err := virtualMachinesAssociatedItem.AssignProperties_To_SubResourceReadOnly_STATUS(&virtualMachinesAssociated)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_SubResourceReadOnly_STATUS() to populate field VirtualMachinesAssociated")
+			}
+			virtualMachinesAssociatedList[virtualMachinesAssociatedIndex] = virtualMachinesAssociated
+		}
+		destination.VirtualMachinesAssociated = virtualMachinesAssociatedList
+	} else {
+		destination.VirtualMachinesAssociated = nil
+	}
+
+	// Zones
+	destination.Zones = genruntime.CloneSliceOfString(group.Zones)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCapacityReservationGroup_STATUS interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForCapacityReservationGroup_STATUS); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForCapacityReservationGroup_Spec interface {
+	AssignPropertiesFrom(src *storage.CapacityReservationGroup_Spec) error
+	AssignPropertiesTo(dst *storage.CapacityReservationGroup_Spec) error
+}
+
+type augmentConversionForCapacityReservationGroup_STATUS interface {
+	AssignPropertiesFrom(src *storage.CapacityReservationGroup_STATUS) error
+	AssignPropertiesTo(dst *storage.CapacityReservationGroup_STATUS) error
 }
 
 // Storage version of v1api20250401.CapacityReservationGroupInstanceView_STATUS
@@ -253,6 +800,120 @@ type CapacityReservationGroupInstanceView_STATUS struct {
 	CapacityReservations  []CapacityReservationInstanceViewWithName_STATUS `json:"capacityReservations,omitempty"`
 	PropertyBag           genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
 	SharedSubscriptionIds []SubResourceReadOnly_STATUS                     `json:"sharedSubscriptionIds,omitempty"`
+}
+
+// AssignProperties_From_CapacityReservationGroupInstanceView_STATUS populates our CapacityReservationGroupInstanceView_STATUS from the provided source CapacityReservationGroupInstanceView_STATUS
+func (view *CapacityReservationGroupInstanceView_STATUS) AssignProperties_From_CapacityReservationGroupInstanceView_STATUS(source *storage.CapacityReservationGroupInstanceView_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CapacityReservations
+	if source.CapacityReservations != nil {
+		capacityReservationList := make([]CapacityReservationInstanceViewWithName_STATUS, len(source.CapacityReservations))
+		for capacityReservationIndex, capacityReservationItem := range source.CapacityReservations {
+			var capacityReservation CapacityReservationInstanceViewWithName_STATUS
+			err := capacityReservation.AssignProperties_From_CapacityReservationInstanceViewWithName_STATUS(&capacityReservationItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_CapacityReservationInstanceViewWithName_STATUS() to populate field CapacityReservations")
+			}
+			capacityReservationList[capacityReservationIndex] = capacityReservation
+		}
+		view.CapacityReservations = capacityReservationList
+	} else {
+		view.CapacityReservations = nil
+	}
+
+	// SharedSubscriptionIds
+	if source.SharedSubscriptionIds != nil {
+		sharedSubscriptionIdList := make([]SubResourceReadOnly_STATUS, len(source.SharedSubscriptionIds))
+		for sharedSubscriptionIdIndex, sharedSubscriptionIdItem := range source.SharedSubscriptionIds {
+			var sharedSubscriptionId SubResourceReadOnly_STATUS
+			err := sharedSubscriptionId.AssignProperties_From_SubResourceReadOnly_STATUS(&sharedSubscriptionIdItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_SubResourceReadOnly_STATUS() to populate field SharedSubscriptionIds")
+			}
+			sharedSubscriptionIdList[sharedSubscriptionIdIndex] = sharedSubscriptionId
+		}
+		view.SharedSubscriptionIds = sharedSubscriptionIdList
+	} else {
+		view.SharedSubscriptionIds = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		view.PropertyBag = propertyBag
+	} else {
+		view.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCapacityReservationGroupInstanceView_STATUS interface (if implemented) to customize the conversion
+	var viewAsAny any = view
+	if augmentedView, ok := viewAsAny.(augmentConversionForCapacityReservationGroupInstanceView_STATUS); ok {
+		err := augmentedView.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CapacityReservationGroupInstanceView_STATUS populates the provided destination CapacityReservationGroupInstanceView_STATUS from our CapacityReservationGroupInstanceView_STATUS
+func (view *CapacityReservationGroupInstanceView_STATUS) AssignProperties_To_CapacityReservationGroupInstanceView_STATUS(destination *storage.CapacityReservationGroupInstanceView_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
+
+	// CapacityReservations
+	if view.CapacityReservations != nil {
+		capacityReservationList := make([]storage.CapacityReservationInstanceViewWithName_STATUS, len(view.CapacityReservations))
+		for capacityReservationIndex, capacityReservationItem := range view.CapacityReservations {
+			var capacityReservation storage.CapacityReservationInstanceViewWithName_STATUS
+			err := capacityReservationItem.AssignProperties_To_CapacityReservationInstanceViewWithName_STATUS(&capacityReservation)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_CapacityReservationInstanceViewWithName_STATUS() to populate field CapacityReservations")
+			}
+			capacityReservationList[capacityReservationIndex] = capacityReservation
+		}
+		destination.CapacityReservations = capacityReservationList
+	} else {
+		destination.CapacityReservations = nil
+	}
+
+	// SharedSubscriptionIds
+	if view.SharedSubscriptionIds != nil {
+		sharedSubscriptionIdList := make([]storage.SubResourceReadOnly_STATUS, len(view.SharedSubscriptionIds))
+		for sharedSubscriptionIdIndex, sharedSubscriptionIdItem := range view.SharedSubscriptionIds {
+			var sharedSubscriptionId storage.SubResourceReadOnly_STATUS
+			err := sharedSubscriptionIdItem.AssignProperties_To_SubResourceReadOnly_STATUS(&sharedSubscriptionId)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_SubResourceReadOnly_STATUS() to populate field SharedSubscriptionIds")
+			}
+			sharedSubscriptionIdList[sharedSubscriptionIdIndex] = sharedSubscriptionId
+		}
+		destination.SharedSubscriptionIds = sharedSubscriptionIdList
+	} else {
+		destination.SharedSubscriptionIds = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCapacityReservationGroupInstanceView_STATUS interface (if implemented) to customize the conversion
+	var viewAsAny any = view
+	if augmentedView, ok := viewAsAny.(augmentConversionForCapacityReservationGroupInstanceView_STATUS); ok {
+		err := augmentedView.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20250401.CapacityReservationGroupOperatorSpec
@@ -263,16 +924,314 @@ type CapacityReservationGroupOperatorSpec struct {
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
+// AssignProperties_From_CapacityReservationGroupOperatorSpec populates our CapacityReservationGroupOperatorSpec from the provided source CapacityReservationGroupOperatorSpec
+func (operator *CapacityReservationGroupOperatorSpec) AssignProperties_From_CapacityReservationGroupOperatorSpec(source *storage.CapacityReservationGroupOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCapacityReservationGroupOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForCapacityReservationGroupOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CapacityReservationGroupOperatorSpec populates the provided destination CapacityReservationGroupOperatorSpec from our CapacityReservationGroupOperatorSpec
+func (operator *CapacityReservationGroupOperatorSpec) AssignProperties_To_CapacityReservationGroupOperatorSpec(destination *storage.CapacityReservationGroupOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCapacityReservationGroupOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForCapacityReservationGroupOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20250401.ResourceSharingProfile
 type ResourceSharingProfile struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SubscriptionIds []SubResource          `json:"subscriptionIds,omitempty"`
 }
 
+// AssignProperties_From_ResourceSharingProfile populates our ResourceSharingProfile from the provided source ResourceSharingProfile
+func (profile *ResourceSharingProfile) AssignProperties_From_ResourceSharingProfile(source *storage.ResourceSharingProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// SubscriptionIds
+	if source.SubscriptionIds != nil {
+		subscriptionIdList := make([]SubResource, len(source.SubscriptionIds))
+		for subscriptionIdIndex, subscriptionIdItem := range source.SubscriptionIds {
+			var subscriptionId SubResource
+			err := subscriptionId.AssignProperties_From_SubResource(&subscriptionIdItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubscriptionIds")
+			}
+			subscriptionIdList[subscriptionIdIndex] = subscriptionId
+		}
+		profile.SubscriptionIds = subscriptionIdList
+	} else {
+		profile.SubscriptionIds = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResourceSharingProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForResourceSharingProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ResourceSharingProfile populates the provided destination ResourceSharingProfile from our ResourceSharingProfile
+func (profile *ResourceSharingProfile) AssignProperties_To_ResourceSharingProfile(destination *storage.ResourceSharingProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// SubscriptionIds
+	if profile.SubscriptionIds != nil {
+		subscriptionIdList := make([]storage.SubResource, len(profile.SubscriptionIds))
+		for subscriptionIdIndex, subscriptionIdItem := range profile.SubscriptionIds {
+			var subscriptionId storage.SubResource
+			err := subscriptionIdItem.AssignProperties_To_SubResource(&subscriptionId)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubscriptionIds")
+			}
+			subscriptionIdList[subscriptionIdIndex] = subscriptionId
+		}
+		destination.SubscriptionIds = subscriptionIdList
+	} else {
+		destination.SubscriptionIds = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResourceSharingProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForResourceSharingProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20250401.ResourceSharingProfile_STATUS
 type ResourceSharingProfile_STATUS struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SubscriptionIds []SubResource_STATUS   `json:"subscriptionIds,omitempty"`
+}
+
+// AssignProperties_From_ResourceSharingProfile_STATUS populates our ResourceSharingProfile_STATUS from the provided source ResourceSharingProfile_STATUS
+func (profile *ResourceSharingProfile_STATUS) AssignProperties_From_ResourceSharingProfile_STATUS(source *storage.ResourceSharingProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// SubscriptionIds
+	if source.SubscriptionIds != nil {
+		subscriptionIdList := make([]SubResource_STATUS, len(source.SubscriptionIds))
+		for subscriptionIdIndex, subscriptionIdItem := range source.SubscriptionIds {
+			var subscriptionId SubResource_STATUS
+			err := subscriptionId.AssignProperties_From_SubResource_STATUS(&subscriptionIdItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubscriptionIds")
+			}
+			subscriptionIdList[subscriptionIdIndex] = subscriptionId
+		}
+		profile.SubscriptionIds = subscriptionIdList
+	} else {
+		profile.SubscriptionIds = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResourceSharingProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForResourceSharingProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ResourceSharingProfile_STATUS populates the provided destination ResourceSharingProfile_STATUS from our ResourceSharingProfile_STATUS
+func (profile *ResourceSharingProfile_STATUS) AssignProperties_To_ResourceSharingProfile_STATUS(destination *storage.ResourceSharingProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// SubscriptionIds
+	if profile.SubscriptionIds != nil {
+		subscriptionIdList := make([]storage.SubResource_STATUS, len(profile.SubscriptionIds))
+		for subscriptionIdIndex, subscriptionIdItem := range profile.SubscriptionIds {
+			var subscriptionId storage.SubResource_STATUS
+			err := subscriptionIdItem.AssignProperties_To_SubResource_STATUS(&subscriptionId)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubscriptionIds")
+			}
+			subscriptionIdList[subscriptionIdIndex] = subscriptionId
+		}
+		destination.SubscriptionIds = subscriptionIdList
+	} else {
+		destination.SubscriptionIds = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResourceSharingProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForResourceSharingProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForCapacityReservationGroupInstanceView_STATUS interface {
+	AssignPropertiesFrom(src *storage.CapacityReservationGroupInstanceView_STATUS) error
+	AssignPropertiesTo(dst *storage.CapacityReservationGroupInstanceView_STATUS) error
+}
+
+type augmentConversionForCapacityReservationGroupOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.CapacityReservationGroupOperatorSpec) error
+	AssignPropertiesTo(dst *storage.CapacityReservationGroupOperatorSpec) error
+}
+
+type augmentConversionForResourceSharingProfile interface {
+	AssignPropertiesFrom(src *storage.ResourceSharingProfile) error
+	AssignPropertiesTo(dst *storage.ResourceSharingProfile) error
+}
+
+type augmentConversionForResourceSharingProfile_STATUS interface {
+	AssignPropertiesFrom(src *storage.ResourceSharingProfile_STATUS) error
+	AssignPropertiesTo(dst *storage.ResourceSharingProfile_STATUS) error
 }
 
 // Storage version of v1api20250401.CapacityReservationInstanceViewWithName_STATUS
@@ -285,6 +1244,118 @@ type CapacityReservationInstanceViewWithName_STATUS struct {
 	UtilizationInfo *CapacityReservationUtilization_STATUS `json:"utilizationInfo,omitempty"`
 }
 
+// AssignProperties_From_CapacityReservationInstanceViewWithName_STATUS populates our CapacityReservationInstanceViewWithName_STATUS from the provided source CapacityReservationInstanceViewWithName_STATUS
+func (name *CapacityReservationInstanceViewWithName_STATUS) AssignProperties_From_CapacityReservationInstanceViewWithName_STATUS(source *storage.CapacityReservationInstanceViewWithName_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	name.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Statuses
+	if source.Statuses != nil {
+		statusList := make([]InstanceViewStatus_STATUS, len(source.Statuses))
+		for statusIndex, statusItem := range source.Statuses {
+			var status InstanceViewStatus_STATUS
+			err := status.AssignProperties_From_InstanceViewStatus_STATUS(&statusItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_InstanceViewStatus_STATUS() to populate field Statuses")
+			}
+			statusList[statusIndex] = status
+		}
+		name.Statuses = statusList
+	} else {
+		name.Statuses = nil
+	}
+
+	// UtilizationInfo
+	if source.UtilizationInfo != nil {
+		var utilizationInfo CapacityReservationUtilization_STATUS
+		err := utilizationInfo.AssignProperties_From_CapacityReservationUtilization_STATUS(source.UtilizationInfo)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_CapacityReservationUtilization_STATUS() to populate field UtilizationInfo")
+		}
+		name.UtilizationInfo = &utilizationInfo
+	} else {
+		name.UtilizationInfo = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		name.PropertyBag = propertyBag
+	} else {
+		name.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCapacityReservationInstanceViewWithName_STATUS interface (if implemented) to customize the conversion
+	var nameAsAny any = name
+	if augmentedName, ok := nameAsAny.(augmentConversionForCapacityReservationInstanceViewWithName_STATUS); ok {
+		err := augmentedName.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CapacityReservationInstanceViewWithName_STATUS populates the provided destination CapacityReservationInstanceViewWithName_STATUS from our CapacityReservationInstanceViewWithName_STATUS
+func (name *CapacityReservationInstanceViewWithName_STATUS) AssignProperties_To_CapacityReservationInstanceViewWithName_STATUS(destination *storage.CapacityReservationInstanceViewWithName_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(name.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(name.Name)
+
+	// Statuses
+	if name.Statuses != nil {
+		statusList := make([]storage.InstanceViewStatus_STATUS, len(name.Statuses))
+		for statusIndex, statusItem := range name.Statuses {
+			var status storage.InstanceViewStatus_STATUS
+			err := statusItem.AssignProperties_To_InstanceViewStatus_STATUS(&status)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_InstanceViewStatus_STATUS() to populate field Statuses")
+			}
+			statusList[statusIndex] = status
+		}
+		destination.Statuses = statusList
+	} else {
+		destination.Statuses = nil
+	}
+
+	// UtilizationInfo
+	if name.UtilizationInfo != nil {
+		var utilizationInfo storage.CapacityReservationUtilization_STATUS
+		err := name.UtilizationInfo.AssignProperties_To_CapacityReservationUtilization_STATUS(&utilizationInfo)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_CapacityReservationUtilization_STATUS() to populate field UtilizationInfo")
+		}
+		destination.UtilizationInfo = &utilizationInfo
+	} else {
+		destination.UtilizationInfo = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCapacityReservationInstanceViewWithName_STATUS interface (if implemented) to customize the conversion
+	var nameAsAny any = name
+	if augmentedName, ok := nameAsAny.(augmentConversionForCapacityReservationInstanceViewWithName_STATUS); ok {
+		err := augmentedName.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20250401.SubResource
 type SubResource struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -293,10 +1364,147 @@ type SubResource struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
+// AssignProperties_From_SubResource populates our SubResource from the provided source SubResource
+func (resource *SubResource) AssignProperties_From_SubResource(source *storage.SubResource) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		resource.Reference = &reference
+	} else {
+		resource.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		resource.PropertyBag = propertyBag
+	} else {
+		resource.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSubResource interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SubResource populates the provided destination SubResource from our SubResource
+func (resource *SubResource) AssignProperties_To_SubResource(destination *storage.SubResource) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
+
+	// Reference
+	if resource.Reference != nil {
+		reference := resource.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSubResource interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20250401.SubResource_STATUS
 type SubResource_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_SubResource_STATUS populates our SubResource_STATUS from the provided source SubResource_STATUS
+func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(source *storage.SubResource_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		resource.PropertyBag = propertyBag
+	} else {
+		resource.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSubResource_STATUS interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SubResource_STATUS populates the provided destination SubResource_STATUS from our SubResource_STATUS
+func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(destination *storage.SubResource_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSubResource_STATUS interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForCapacityReservationInstanceViewWithName_STATUS interface {
+	AssignPropertiesFrom(src *storage.CapacityReservationInstanceViewWithName_STATUS) error
+	AssignPropertiesTo(dst *storage.CapacityReservationInstanceViewWithName_STATUS) error
+}
+
+type augmentConversionForSubResource interface {
+	AssignPropertiesFrom(src *storage.SubResource) error
+	AssignPropertiesTo(dst *storage.SubResource) error
+}
+
+type augmentConversionForSubResource_STATUS interface {
+	AssignPropertiesFrom(src *storage.SubResource_STATUS) error
+	AssignPropertiesTo(dst *storage.SubResource_STATUS) error
 }
 
 func init() {

@@ -98,7 +98,12 @@ type ManagedServiceIdentity_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
-	Type                   *ManagedServiceIdentityType_STATUS     `json:"type,omitempty"`
+	Type *ManagedServiceIdentityType_STATUS `json:"type,omitempty"`
+
+	// UserAssignedIdentities: The set of user assigned identities associated with the resource. The userAssignedIdentities
+	// dictionary keys will be ARM resource ids in the form:
+	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+	// The dictionary values can be empty objects ({}) in requests.
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 

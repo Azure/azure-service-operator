@@ -158,8 +158,15 @@ ApplicationGateway: Resource
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PrivateLinkConfigurations: Object (2 properties)[]
-│   │   ├── IpConfigurations: Object (1 property)[]
-│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── IpConfigurations: Object (5 properties)[]
+│   │   │   ├── Name: *string
+│   │   │   ├── Primary: *bool
+│   │   │   ├── PrivateIPAddress: *string
+│   │   │   ├── PrivateIPAllocationMethod: *Enum (2 values)
+│   │   │   │   ├── "Dynamic"
+│   │   │   │   └── "Static"
+│   │   │   └── Subnet: *Object (1 property)
+│   │   │       └── Reference: *genruntime.ResourceReference
 │   │   └── Name: *string
 │   ├── Probes: Object (12 properties)[]
 │   │   ├── Host: *string
@@ -505,8 +512,33 @@ ApplicationGateway: Resource
     │   └── "Stopping"
     ├── PrivateEndpointConnections: Object (1 property)[]
     │   └── Id: *string
-    ├── PrivateLinkConfigurations: Object (1 property)[]
-    │   └── Id: *string
+    ├── PrivateLinkConfigurations: Object (6 properties)[]
+    │   ├── Etag: *string
+    │   ├── Id: *string
+    │   ├── IpConfigurations: Object (9 properties)[]
+    │   │   ├── Etag: *string
+    │   │   ├── Id: *string
+    │   │   ├── Name: *string
+    │   │   ├── Primary: *bool
+    │   │   ├── PrivateIPAddress: *string
+    │   │   ├── PrivateIPAllocationMethod: *Enum (2 values)
+    │   │   │   ├── "Dynamic"
+    │   │   │   └── "Static"
+    │   │   ├── ProvisioningState: *Enum (4 values)
+    │   │   │   ├── "Deleting"
+    │   │   │   ├── "Failed"
+    │   │   │   ├── "Succeeded"
+    │   │   │   └── "Updating"
+    │   │   ├── Subnet: *Object (1 property)
+    │   │   │   └── Id: *string
+    │   │   └── Type: *string
+    │   ├── Name: *string
+    │   ├── ProvisioningState: *Enum (4 values)
+    │   │   ├── "Deleting"
+    │   │   ├── "Failed"
+    │   │   ├── "Succeeded"
+    │   │   └── "Updating"
+    │   └── Type: *string
     ├── Probes: Object (1 property)[]
     │   └── Id: *string
     ├── ProvisioningState: *Enum (4 values)

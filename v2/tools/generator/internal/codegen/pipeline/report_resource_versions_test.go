@@ -109,7 +109,7 @@ func TestResourceVersionsReportGroupInfo_GivenGroup_ReturnsExpectedResult(t *tes
 
 	storagePkg := test.MakeLocalPackageReference("storage", "v20230101")
 
-	storageAccount := ResourceVersionsReportResourceItem{
+	storageAccount := resourceVersionsReportItem{
 		name:          astmodel.MakeInternalTypeName(storagePkg, "StorageAccount"),
 		armType:       "Microsoft.Storage/storageAccounts",
 		armVersion:    "2023-01-01",
@@ -118,21 +118,21 @@ func TestResourceVersionsReportGroupInfo_GivenGroup_ReturnsExpectedResult(t *tes
 
 	alertsManagementPkg := test.MakeLocalPackageReference("alertsmanagement", "v20210401")
 
-	smartDetector := ResourceVersionsReportResourceItem{
+	smartDetector := resourceVersionsReportItem{
 		name:          astmodel.MakeInternalTypeName(alertsManagementPkg, "SmartDetector"),
 		armType:       "microsoft.alertsManagement/smartDetectorAlertRules",
 		armVersion:    "2021-04-01",
 		supportedFrom: "v2.11.0",
 	}
 
-	prometheusRuleGroup := ResourceVersionsReportResourceItem{
+	prometheusRuleGroup := resourceVersionsReportItem{
 		name:    astmodel.MakeInternalTypeName(alertsManagementPkg, "PrometheusRuleGroup"),
 		armType: "Microsoft.AlertsManagement/prometheusRuleGroups",
 	}
 
 	cases := map[string]struct {
 		group            string
-		items            set.Set[ResourceVersionsReportResourceItem]
+		items            set.Set[resourceVersionsReportItem]
 		expectedGroup    string
 		expectedProvider string
 		expectedTitle    string
@@ -179,6 +179,83 @@ func TestResourceVersionsReportGroupInfo_GivenGroup_ReturnsExpectedResult(t *tes
 			g.Expect(info.Group).To(Equal(c.expectedGroup))
 			g.Expect(info.Provider).To(Equal(c.expectedProvider))
 			g.Expect(info.Title).To(Equal(c.expectedTitle))
+		})
+	}
+}
+
+// TestResourceVersionsReport_SupportedFrom_OverridesForHybridMigrationGroup verifies that we
+// report the correct "Supported From" version for resources in a group whose migration to
+// Hybrid versioning has not yet been released. See #5534.
+func TestResourceVersionsReport_SupportedFrom_OverridesForHybridMigrationGroup(t *testing.T) {
+	t.Parallel()
+
+	// authorization is registered in versionMigrationHybridReleases with an upcoming migration
+	// release, so pre-migration resources in that group should be reported as available in that
+	// upcoming release (not their original release).
+	authorizationHybridRelease, ok := astmodel.HybridMigrationReleaseForGroup("authorization")
+	NewGomegaWithT(t).Expect(ok).To(BeTrue(), "authorization must be registered as a hybrid migration group")
+
+	newStylePkg := test.MakeLocalPackageReference("authorization", "v20220401")
+	legacyStylePkg := newStylePkg.WithVersionPrefix(astmodel.GeneratorVersion) // v1api prefix
+	cdnPkg := test.MakeLocalPackageReference("cdn", "v20230501").WithVersionPrefix(astmodel.GeneratorVersion)
+
+	roleAssignmentNewStyle := astmodel.MakeInternalTypeName(newStylePkg, "RoleAssignment")
+	roleAssignmentLegacyStyle := astmodel.MakeInternalTypeName(legacyStylePkg, "RoleAssignment")
+	cdnProfile := astmodel.MakeInternalTypeName(cdnPkg, "Profile")
+
+	cases := map[string]struct {
+		name           astmodel.InternalTypeName
+		configuredFrom string
+		expected       string
+	}{
+		"NewStyleAuthorizationResource_UsesMigrationRelease": {
+			// The `v`-prefixed variant of a resource introduced pre-v2.17 in an unreleased hybrid group
+			// should have its Supported From bumped to the migration release.
+			name:           roleAssignmentNewStyle,
+			configuredFrom: "v2.4.0",
+			expected:       authorizationHybridRelease,
+		},
+		"LegacyStyleAuthorizationResource_KeepsOriginal": {
+			// The `v1api`-prefixed variant retains the original supportedFrom because it has always
+			// been available at that release.
+			name:           roleAssignmentLegacyStyle,
+			configuredFrom: "v2.4.0",
+			expected:       "v2.4.0",
+		},
+		"NonHybridGroup_KeepsOriginal": {
+			// cdn is Legacy (not Hybrid) so the original supportedFrom is preserved regardless.
+			name:           cdnProfile,
+			configuredFrom: "v2.0.0",
+			expected:       "v2.0.0",
+		},
+		"PreGARelease_MappedToV200": {
+			// v2.0.0-alpha.X strings continue to be normalized to v2.0.0 for older legacy resources.
+			name:           roleAssignmentLegacyStyle,
+			configuredFrom: "v2.0.0-alpha.2",
+			expected:       "v2.0.0",
+		},
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			cfg := config.NewConfiguration()
+			g.Expect(cfg.ObjectModelConfiguration.ModifyType(
+				c.name,
+				func(tc *config.TypeConfiguration) error {
+					tc.SupportedFrom.Set(c.configuredFrom)
+					return nil
+				},
+			)).To(Succeed())
+
+			report := &ResourceVersionsReport{
+				reportConfiguration:      cfg.SupportedResourcesReport,
+				objectModelConfiguration: cfg.ObjectModelConfiguration,
+			}
+
+			g.Expect(report.supportedFrom(c.name)).To(Equal(c.expected))
 		})
 	}
 }

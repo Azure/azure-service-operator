@@ -80,21 +80,21 @@ func Test_Insights_ScheduledQueryRule_20250101preview_CRUD(t *testing.T) {
 			Criteria: &insights.ScheduledQueryRuleCriteria{
 				AllOf: []insights.Condition{
 					{
-						FailingPeriods: &insights.Condition_FailingPeriods{
+						FailingPeriods: &insights.ConditionFailingPeriods{
 							MinFailingPeriodsToAlert:  to.Ptr(1),
 							NumberOfEvaluationPeriods: to.Ptr(1),
 						},
-						Operator:                  to.Ptr(insights.Condition_Operator_LessThan),
+						Operator:                  to.Ptr(insights.ConditionOperator_LessThan),
 						Query:                     to.Ptr("requests | summarize CountByCountry=count() by client_CountryOrRegion"),
 						ResourceIdColumnReference: nil,
 						Threshold:                 to.Ptr(10.0),
-						TimeAggregation:           to.Ptr(insights.Condition_TimeAggregation_Count),
+						TimeAggregation:           to.Ptr(insights.TimeAggregation_Count),
 					},
 				},
 			},
 			EvaluationFrequency: to.Ptr("PT10M"),
-			Identity: &insights.Identity{
-				Type: to.Ptr(insights.Identity_Type_UserAssigned),
+			Identity: &insights.MicrosoftCommonIdentity{
+				Type: to.Ptr(insights.MicrosoftCommonIdentityType_UserAssigned),
 				UserAssignedIdentities: []insights.UserAssignedIdentityDetails{
 					{
 						Reference: *tc.MakeReferenceFromResource(mi),
@@ -106,7 +106,7 @@ func Test_Insights_ScheduledQueryRule_20250101preview_CRUD(t *testing.T) {
 			ScopesReferences: []genruntime.ResourceReference{
 				*tc.MakeReferenceFromResource(component),
 			},
-			Severity:   to.Ptr(insights.ScheduledQueryRuleProperties_Severity_0),
+			Severity:   to.Ptr(insights.AlertSeverity_0),
 			WindowSize: to.Ptr("PT10M"),
 		},
 	}

@@ -70,10 +70,10 @@ type ApplicationInsightsComponentProperties struct {
 	IngestionMode *ApplicationInsightsComponentProperties_IngestionMode `json:"IngestionMode,omitempty"`
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForIngestion *ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
 
 	// PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.
-	PublicNetworkAccessForQuery *PublicNetworkAccessType `json:"publicNetworkAccessForQuery,omitempty"`
+	PublicNetworkAccessForQuery *ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery `json:"publicNetworkAccessForQuery,omitempty"`
 
 	// Request_Source: Describes what tool created this Application Insights component. Customers using this API should set
 	// this to the default 'rest'.
@@ -131,6 +131,34 @@ var applicationInsightsComponentProperties_IngestionMode_Values = map[string]App
 	"loganalytics":                              ApplicationInsightsComponentProperties_IngestionMode_LogAnalytics,
 }
 
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion string
+
+const (
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_Disabled = ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion("Disabled")
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_Enabled  = ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion("Enabled")
+)
+
+// Mapping from string to ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion
+var applicationInsightsComponentProperties_PublicNetworkAccessForIngestion_Values = map[string]ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion{
+	"disabled": ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_Disabled,
+	"enabled":  ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery string
+
+const (
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_Disabled = ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery("Disabled")
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_Enabled  = ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery("Enabled")
+)
+
+// Mapping from string to ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery
+var applicationInsightsComponentProperties_PublicNetworkAccessForQuery_Values = map[string]ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery{
+	"disabled": ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_Disabled,
+	"enabled":  ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_Enabled,
+}
+
 // +kubebuilder:validation:Enum={"rest"}
 type ApplicationInsightsComponentProperties_Request_Source string
 
@@ -139,19 +167,4 @@ const ApplicationInsightsComponentProperties_Request_Source_Rest = ApplicationIn
 // Mapping from string to ApplicationInsightsComponentProperties_Request_Source
 var applicationInsightsComponentProperties_Request_Source_Values = map[string]ApplicationInsightsComponentProperties_Request_Source{
 	"rest": ApplicationInsightsComponentProperties_Request_Source_Rest,
-}
-
-// The network access type for operating on the Application Insights Component. By default it is Enabled
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type PublicNetworkAccessType string
-
-const (
-	PublicNetworkAccessType_Disabled = PublicNetworkAccessType("Disabled")
-	PublicNetworkAccessType_Enabled  = PublicNetworkAccessType("Enabled")
-)
-
-// Mapping from string to PublicNetworkAccessType
-var publicNetworkAccessType_Values = map[string]PublicNetworkAccessType{
-	"disabled": PublicNetworkAccessType_Disabled,
-	"enabled":  PublicNetworkAccessType_Enabled,
 }

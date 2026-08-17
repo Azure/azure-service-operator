@@ -43,6 +43,7 @@ var wholeSampleExclusions = []*regexp.Regexp{
 	regexp.MustCompile(`/subscription/`),                        // Can't easily be run/recorded in our standard subscription
 	regexp.MustCompile(`/redhatopenshift/`),                     // This requires SP creation
 	regexp.MustCompile(`/documentdb/sqldatabase/v1api20210515`), // This is blocked by corp policy (can't set DisableLocalAuth)
+	regexp.MustCompile(`/compute/v20250401`),                    // Quota restrictions mean we can't rerecord capacity reservation
 }
 
 var exclusions = []*regexp.Regexp{
@@ -50,6 +51,11 @@ var exclusions = []*regexp.Regexp{
 	// Individual resource exclusions
 	// ------------------------------
 	regexp.MustCompile(`insights/.*_webtest.yaml`), // Excluding webtest as it contains hidden link reference
+
+	// Classic CDN endpoint (Microsoft.Cdn/profiles/endpoints) can only be created under a classic Microsoft
+	// CDN profile, and Azure no longer allows creating new classic Microsoft CDN profiles. Keep the sample
+	// file present so scripts/v2/check_samples.py is satisfied, but skip it in the samples test.
+	regexp.MustCompile(`cdn/v.*20210601/.*_profilesendpoint.yaml`),
 
 	// db users aren't ARM resources
 	regexp.MustCompile(`sql/.*_user.yaml`),
@@ -64,6 +70,11 @@ var exclusions = []*regexp.Regexp{
 
 	// Requires creating multiple linked SQL servers which is hard to do in the samples
 	regexp.MustCompile(`sql/.*_serversfailovergroup.yaml`),
+
+	// Excluding sql serverskey and serversencryptionprotector as they require a keyvault key URI
+	// which can't be created via ASO (no Keyvault/Keys resource support)
+	regexp.MustCompile(`sql/.*_serverskey.yaml`),
+	regexp.MustCompile(`sql/.*_serversencryptionprotector.yaml`),
 
 	// TODO: Unable to test diskencryptionsets sample since it requires keyvault/key URI.
 	// TODO: we don't support Keyvault/Keys to automate the process
@@ -117,8 +128,9 @@ var exclusions = []*regexp.Regexp{
 	// Excluding quota as Azure Quota API does not support deletion - quotas are read-only system resources
 	regexp.MustCompile(`quota/.*_quota.yaml`),
 
-	// Excluding flexible servers administrator as we don't currently support AzureNameFromConfig and it is required for the sample
-	regexp.MustCompile(`dbforpostgresql/.*_flexibleserversadministrator.yaml`),
+	// Excluding databasewatcher sharedprivatelink as its managed private endpoint must be torn
+	// down before the server it points at
+	regexp.MustCompile(`databasewatcher/.*_sharedprivatelink.yaml`),
 }
 
 // referenceKey identifies a resource by its Kind and Name for rename tracking.
@@ -377,9 +389,10 @@ func PathContains(path string, matches []string) bool {
 }
 
 func IsSampleFolderExcluded(path string) bool {
-	// Allow the cache v20250401 sample test to run while keeping all other
+	// Allow the cache v20250401 and v20250701 sample tests to run while keeping all other
 	// cache sample folders excluded (linked-cache deletion issues).
-	if strings.Contains(path, "/cache/v20250401") {
+	if strings.Contains(path, "/cache/v20250401") ||
+		strings.Contains(path, "/cache/v20250701") {
 		return false
 	}
 

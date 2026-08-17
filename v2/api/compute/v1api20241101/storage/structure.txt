@@ -101,7 +101,29 @@ AvailabilitySet: Resource
         ├── Id: *string
         └── PropertyBag: genruntime.PropertyBag
 
+augmentConversionForAvailabilitySet: Interface
+
+augmentConversionForAvailabilitySetOperatorSpec: Interface
+
+augmentConversionForAvailabilitySet_STATUS: Interface
+
+augmentConversionForAvailabilitySet_Spec: Interface
+
+augmentConversionForDefaultVirtualMachineScaleSetInfo_STATUS: Interface
+
+augmentConversionForEventGridAndResourceGraph: Interface
+
+augmentConversionForEventGridAndResourceGraph_STATUS: Interface
+
 augmentConversionForInstanceViewStatus_STATUS: Interface
+
+augmentConversionForScheduledEventsAdditionalPublishingTargets: Interface
+
+augmentConversionForScheduledEventsAdditionalPublishingTargets_STATUS: Interface
+
+augmentConversionForScheduledEventsPolicy: Interface
+
+augmentConversionForScheduledEventsPolicy_STATUS: Interface
 
 augmentConversionForSku: Interface
 
@@ -112,4 +134,14 @@ augmentConversionForSubResource: Interface
 augmentConversionForSubResource_STATUS: Interface
 
 augmentConversionForSystemData_STATUS: Interface
+
+augmentConversionForUserInitiatedReboot: Interface
+
+augmentConversionForUserInitiatedReboot_STATUS: Interface
+
+augmentConversionForUserInitiatedRedeploy: Interface
+
+augmentConversionForUserInitiatedRedeploy_STATUS: Interface
+
+augmentConversionForVirtualMachineScaleSetMigrationInfo_STATUS: Interface
 

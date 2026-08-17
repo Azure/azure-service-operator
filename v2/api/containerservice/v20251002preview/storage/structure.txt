@@ -112,13 +112,13 @@ ManagedCluster: Resource
 │   │   ├── Managed: *bool
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── ServerAppID: *string
-│   │   ├── ServerAppSecret: *string
+│   │   ├── ServerAppSecret: *genruntime.SecretReference
 │   │   └── TenantID: *string
 │   ├── AddonProfiles: map[string]Object (3 properties)
 │   │   ├── Config: map[string]string
 │   │   ├── Enabled: *bool
 │   │   └── PropertyBag: genruntime.PropertyBag
-│   ├── AgentPoolProfiles: Object (56 properties)[]
+│   ├── AgentPoolProfiles: Object (57 properties)[]
 │   │   ├── ArtifactStreamingProfile: *Object (2 properties)
 │   │   │   ├── Enabled: *bool
 │   │   │   └── PropertyBag: genruntime.PropertyBag
@@ -236,6 +236,7 @@ ManagedCluster: Resource
 │   │   ├── NodeCustomizationProfile: *Object (2 properties)
 │   │   │   ├── NodeCustomizationReference: *genruntime.ResourceReference
 │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── NodeImageVersion: *string
 │   │   ├── NodeInitializationTaints: string[]
 │   │   ├── NodeLabels: map[string]string
 │   │   ├── NodePublicIPPrefixReference: *genruntime.ResourceReference
@@ -707,14 +708,13 @@ ManagedCluster: Resource
 │           ├── Enabled: *bool
 │           └── PropertyBag: genruntime.PropertyBag
 └── Status: Object (62 properties)
-    ├── AadProfile: *Object (8 properties)
+    ├── AadProfile: *Object (7 properties)
     │   ├── AdminGroupObjectIDs: string[]
     │   ├── ClientAppID: *string
     │   ├── EnableAzureRBAC: *bool
     │   ├── Managed: *bool
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── ServerAppID: *string
-    │   ├── ServerAppSecret: *string
     │   └── TenantID: *string
     ├── AddonProfiles: map[string]Object (4 properties)
     │   ├── Config: map[string]string
@@ -1400,7 +1400,7 @@ ManagedCluster: Resource
 
 ManagedClustersAgentPool: Resource
 ├── Owner: containerservice/v20251002preview.ManagedCluster
-├── Spec: Object (59 properties)
+├── Spec: Object (60 properties)
 │   ├── ArtifactStreamingProfile: *Object (2 properties)
 │   │   ├── Enabled: *bool
 │   │   └── PropertyBag: genruntime.PropertyBag
@@ -1518,6 +1518,7 @@ ManagedClustersAgentPool: Resource
 │   ├── NodeCustomizationProfile: *Object (2 properties)
 │   │   ├── NodeCustomizationReference: *genruntime.ResourceReference
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── NodeImageVersion: *string
 │   ├── NodeInitializationTaints: string[]
 │   ├── NodeLabels: map[string]string
 │   ├── NodePublicIPPrefixReference: *genruntime.ResourceReference

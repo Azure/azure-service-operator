@@ -15,6 +15,11 @@ import (
 
 func Test_Address_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForAddress)
 }
 
@@ -67,6 +72,11 @@ func AddressGenerator() *rapid.Generator[Address] {
 
 func Test_Person_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForPerson)
 }
 
@@ -120,6 +130,11 @@ func PersonGenerator() *rapid.Generator[Person] {
 
 func Test_Person_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForPerson_STATUS)
 }
 
@@ -171,6 +186,11 @@ func Person_STATUSGenerator() *rapid.Generator[Person_STATUS] {
 
 func Test_Person_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForPerson_Spec)
 }
 

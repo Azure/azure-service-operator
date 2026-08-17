@@ -9,6 +9,8 @@ package astmodel
 const (
 	APIVersionProperty                       = "APIVersion" // Used by armconversion package
 	AzureNameProperty                        = "AzureName"
+	AzureNameFromConfigProperty              = "AzureNameFromConfig"
+	GetAzureNameFromConfigFunc               = "GetAzureNameFromConfig"
 	NameProperty                             = "Name" // Used by armconversion package
 	OwnerProperty                            = "Owner"
 	SetAzureNameFunc                         = "SetAzureName"

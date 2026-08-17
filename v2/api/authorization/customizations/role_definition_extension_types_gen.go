@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	v20220401 "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
-	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
+	authorization_v1api20220401 "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
+	authorization_v1api20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
+	authorization_v20220401 "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401"
+	authorization_v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type RoleDefinitionExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *RoleDefinitionExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20220401.RoleDefinition{},
-		&storage.RoleDefinition{}}
+		&authorization_v1api20220401.RoleDefinition{},
+		&authorization_v1api20220401s.RoleDefinition{},
+		&authorization_v20220401.RoleDefinition{},
+		&authorization_v20220401s.RoleDefinition{}}
 }

@@ -13,9 +13,9 @@ type DataCollectionRule_Spec struct {
 	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
 
 	// Kind: The kind of the resource.
-	Kind *DataCollectionRule_Kind_Spec `json:"kind,omitempty"`
+	Kind *KnownDataCollectionRuleResourceKind `json:"kind,omitempty"`
 
-	// Location: The geo-location where the resource lives.
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
@@ -44,20 +44,6 @@ func (rule *DataCollectionRule_Spec) GetName() string {
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/dataCollectionRules"
 func (rule *DataCollectionRule_Spec) GetType() string {
 	return "Microsoft.Insights/dataCollectionRules"
-}
-
-// +kubebuilder:validation:Enum={"Linux","Windows"}
-type DataCollectionRule_Kind_Spec string
-
-const (
-	DataCollectionRule_Kind_Spec_Linux   = DataCollectionRule_Kind_Spec("Linux")
-	DataCollectionRule_Kind_Spec_Windows = DataCollectionRule_Kind_Spec("Windows")
-)
-
-// Mapping from string to DataCollectionRule_Kind_Spec
-var dataCollectionRule_Kind_Spec_Values = map[string]DataCollectionRule_Kind_Spec{
-	"linux":   DataCollectionRule_Kind_Spec_Linux,
-	"windows": DataCollectionRule_Kind_Spec_Windows,
 }
 
 // Definition of what monitoring data to collect and where that data should be sent.
@@ -91,6 +77,21 @@ type DataCollectionRuleSpec struct {
 
 	// StreamDeclarations: Declaration of custom streams used in this rule.
 	StreamDeclarations map[string]StreamDeclaration `json:"streamDeclarations,omitempty"`
+}
+
+// The kind of the resource.
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type KnownDataCollectionRuleResourceKind string
+
+const (
+	KnownDataCollectionRuleResourceKind_Linux   = KnownDataCollectionRuleResourceKind("Linux")
+	KnownDataCollectionRuleResourceKind_Windows = KnownDataCollectionRuleResourceKind("Windows")
+)
+
+// Mapping from string to KnownDataCollectionRuleResourceKind
+var knownDataCollectionRuleResourceKind_Values = map[string]KnownDataCollectionRuleResourceKind{
+	"linux":   KnownDataCollectionRuleResourceKind_Linux,
+	"windows": KnownDataCollectionRuleResourceKind_Windows,
 }
 
 // An agent setting
@@ -246,7 +247,7 @@ type AdxDestination struct {
 type AgentSetting struct {
 	// Name: The name of the setting.
 	// Must be part of the list of supported settings
-	Name *AgentSetting_Name `json:"name,omitempty"`
+	Name *KnownAgentSettingName `json:"name,omitempty"`
 
 	// Value: The value of the setting
 	Value *string `json:"value,omitempty"`
@@ -273,7 +274,7 @@ type ColumnDefinition struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the column data.
-	Type *ColumnDefinition_Type `json:"type,omitempty"`
+	Type *KnownColumnDefinitionType `json:"type,omitempty"`
 }
 
 type DataImportSources struct {
@@ -296,7 +297,7 @@ type EtwProviderDataSource struct {
 	Keyword *string `json:"keyword,omitempty"`
 
 	// LogLevel: Minimal level of detail to be logged
-	LogLevel *EtwProviderDataSource_LogLevel `json:"logLevel,omitempty"`
+	LogLevel *KnownEtwProviderDataSourceLogLevel `json:"logLevel,omitempty"`
 
 	// Name: A friendly name for the data source.
 	// This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -306,7 +307,7 @@ type EtwProviderDataSource struct {
 	Provider *string `json:"provider,omitempty"`
 
 	// ProviderType: Provider type specification: By Manifest GUID or by Event Source name
-	ProviderType *EtwProviderDataSource_ProviderType `json:"providerType,omitempty"`
+	ProviderType *KnownEtwProviderType `json:"providerType,omitempty"`
 
 	// Streams: List of streams that this data source will be sent to
 	Streams []string `json:"streams,omitempty"`
@@ -386,7 +387,7 @@ type LogFilesDataSource struct {
 	FilePatterns []string `json:"filePatterns,omitempty"`
 
 	// Format: The data format of the log files
-	Format *LogFilesDataSource_Format `json:"format,omitempty"`
+	Format *KnownLogFilesDataSourceFormat `json:"format,omitempty"`
 
 	// Name: A friendly name for the data source.
 	// This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -436,7 +437,10 @@ type MonitoringAccountDestination struct {
 // Enables Otel logs to be collected by this data collection rule.
 type OtelLogsDataSource struct {
 	// EnrichWithReference: Specifies the reference alias to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -452,12 +456,15 @@ type OtelLogsDataSource struct {
 	ResourceAttributeRouting *OtelDataSourceResourceAttributeRouting `json:"resourceAttributeRouting,omitempty"`
 
 	// Streams: List of streams that this data source will be sent to.
-	Streams []OtelLogsDataSource_Streams `json:"streams,omitempty"`
+	Streams []KnownOtelLogsDataSourceStreams `json:"streams,omitempty"`
 }
 
 type OtelLogsDirectDataSource struct {
 	// EnrichWithReference: Specifies the reference to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -469,13 +476,16 @@ type OtelLogsDirectDataSource struct {
 	ReplaceResourceIdWithReference *bool `json:"replaceResourceIdWithReference,omitempty"`
 
 	// Streams: List of streams that this data source will be sent to.
-	Streams []OtelLogsDirectDataSource_Streams `json:"streams,omitempty"`
+	Streams []KnownOtelLogsDirectDataSourceStreams `json:"streams,omitempty"`
 }
 
 // Definition of OTel metrics configuration.
 type OtelMetricsDataSource struct {
 	// EnrichWithReference: Specifies the reference to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -493,7 +503,10 @@ type OtelMetricsDataSource struct {
 // Definition of OTel metrics configuration.
 type OtelMetricsDirectDataSource struct {
 	// EnrichWithReference: Specifies the reference to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -507,7 +520,10 @@ type OtelMetricsDirectDataSource struct {
 // Enables Otel Traces to be collected by this data collection rule.
 type OtelTracesDataSource struct {
 	// EnrichWithReference: Specifies the reference to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -525,13 +541,16 @@ type OtelTracesDataSource struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []OtelTracesDataSource_Streams `json:"streams,omitempty"`
+	Streams []KnownOtelTracesDataSourceStreams `json:"streams,omitempty"`
 }
 
 // Enables Otel Traces to be collected by this data collection rule.
 type OtelTracesDirectDataSource struct {
 	// EnrichWithReference: Specifies the reference to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -545,7 +564,7 @@ type OtelTracesDirectDataSource struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []OtelTracesDirectDataSource_Streams `json:"streams,omitempty"`
+	Streams []KnownOtelTracesDirectDataSourceStreams `json:"streams,omitempty"`
 }
 
 // Definition of which performance counters will be collected and how they will be collected by this data collection
@@ -591,7 +610,7 @@ type PerformanceCountersOTelDataSource struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []PerformanceCountersOTelDataSource_Streams `json:"streams,omitempty"`
+	Streams []KnownPerformanceCountersOTelDataSourceStreams `json:"streams,omitempty"`
 }
 
 // Definition of platform telemetry data source configuration
@@ -650,10 +669,10 @@ type StorageTableDestination struct {
 // Only collected from Linux machines.
 type SyslogDataSource struct {
 	// FacilityNames: The list of facility names.
-	FacilityNames []SyslogDataSource_FacilityNames `json:"facilityNames,omitempty"`
+	FacilityNames []KnownSyslogDataSourceFacilityNames `json:"facilityNames,omitempty"`
 
 	// LogLevels: The log levels to collect.
-	LogLevels []SyslogDataSource_LogLevels `json:"logLevels,omitempty"`
+	LogLevels []KnownSyslogDataSourceLogLevels `json:"logLevels,omitempty"`
 
 	// Name: A friendly name for the data source.
 	// This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -697,84 +716,10 @@ type WindowsFirewallLogsDataSource struct {
 	Name *string `json:"name,omitempty"`
 
 	// ProfileFilter: Firewall logs profile filter
-	ProfileFilter []WindowsFirewallLogsDataSource_ProfileFilter `json:"profileFilter,omitempty"`
+	ProfileFilter []KnownWindowsFirewallLogsDataSourceProfileFilter `json:"profileFilter,omitempty"`
 
 	// Streams: Firewall logs streams
 	Streams []string `json:"streams,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"MaxDiskQuotaInMB","Tags","UseTimeReceivedForForwardedEvents"}
-type AgentSetting_Name string
-
-const (
-	AgentSetting_Name_MaxDiskQuotaInMB                  = AgentSetting_Name("MaxDiskQuotaInMB")
-	AgentSetting_Name_Tags                              = AgentSetting_Name("Tags")
-	AgentSetting_Name_UseTimeReceivedForForwardedEvents = AgentSetting_Name("UseTimeReceivedForForwardedEvents")
-)
-
-// Mapping from string to AgentSetting_Name
-var agentSetting_Name_Values = map[string]AgentSetting_Name{
-	"maxdiskquotainmb":                  AgentSetting_Name_MaxDiskQuotaInMB,
-	"tags":                              AgentSetting_Name_Tags,
-	"usetimereceivedforforwardedevents": AgentSetting_Name_UseTimeReceivedForForwardedEvents,
-}
-
-// +kubebuilder:validation:Enum={"boolean","datetime","dynamic","int","long","real","string"}
-type ColumnDefinition_Type string
-
-const (
-	ColumnDefinition_Type_Boolean  = ColumnDefinition_Type("boolean")
-	ColumnDefinition_Type_Datetime = ColumnDefinition_Type("datetime")
-	ColumnDefinition_Type_Dynamic  = ColumnDefinition_Type("dynamic")
-	ColumnDefinition_Type_Int      = ColumnDefinition_Type("int")
-	ColumnDefinition_Type_Long     = ColumnDefinition_Type("long")
-	ColumnDefinition_Type_Real     = ColumnDefinition_Type("real")
-	ColumnDefinition_Type_String   = ColumnDefinition_Type("string")
-)
-
-// Mapping from string to ColumnDefinition_Type
-var columnDefinition_Type_Values = map[string]ColumnDefinition_Type{
-	"boolean":  ColumnDefinition_Type_Boolean,
-	"datetime": ColumnDefinition_Type_Datetime,
-	"dynamic":  ColumnDefinition_Type_Dynamic,
-	"int":      ColumnDefinition_Type_Int,
-	"long":     ColumnDefinition_Type_Long,
-	"real":     ColumnDefinition_Type_Real,
-	"string":   ColumnDefinition_Type_String,
-}
-
-// +kubebuilder:validation:Enum={"Critical","Error","Informational","Verbose","Warning"}
-type EtwProviderDataSource_LogLevel string
-
-const (
-	EtwProviderDataSource_LogLevel_Critical      = EtwProviderDataSource_LogLevel("Critical")
-	EtwProviderDataSource_LogLevel_Error         = EtwProviderDataSource_LogLevel("Error")
-	EtwProviderDataSource_LogLevel_Informational = EtwProviderDataSource_LogLevel("Informational")
-	EtwProviderDataSource_LogLevel_Verbose       = EtwProviderDataSource_LogLevel("Verbose")
-	EtwProviderDataSource_LogLevel_Warning       = EtwProviderDataSource_LogLevel("Warning")
-)
-
-// Mapping from string to EtwProviderDataSource_LogLevel
-var etwProviderDataSource_LogLevel_Values = map[string]EtwProviderDataSource_LogLevel{
-	"critical":      EtwProviderDataSource_LogLevel_Critical,
-	"error":         EtwProviderDataSource_LogLevel_Error,
-	"informational": EtwProviderDataSource_LogLevel_Informational,
-	"verbose":       EtwProviderDataSource_LogLevel_Verbose,
-	"warning":       EtwProviderDataSource_LogLevel_Warning,
-}
-
-// +kubebuilder:validation:Enum={"EventSource","Manifest"}
-type EtwProviderDataSource_ProviderType string
-
-const (
-	EtwProviderDataSource_ProviderType_EventSource = EtwProviderDataSource_ProviderType("EventSource")
-	EtwProviderDataSource_ProviderType_Manifest    = EtwProviderDataSource_ProviderType("Manifest")
-)
-
-// Mapping from string to EtwProviderDataSource_ProviderType
-var etwProviderDataSource_ProviderType_Values = map[string]EtwProviderDataSource_ProviderType{
-	"eventsource": EtwProviderDataSource_ProviderType_EventSource,
-	"manifest":    EtwProviderDataSource_ProviderType_Manifest,
 }
 
 type EventHubDataSource struct {
@@ -789,18 +734,268 @@ type EventHubDataSource struct {
 	Stream *string `json:"stream,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"json","text"}
-type LogFilesDataSource_Format string
+// The name of the setting.
+// Must be part of the list of supported settings
+// +kubebuilder:validation:Enum={"MaxDiskQuotaInMB","Tags","UseTimeReceivedForForwardedEvents"}
+type KnownAgentSettingName string
 
 const (
-	LogFilesDataSource_Format_Json = LogFilesDataSource_Format("json")
-	LogFilesDataSource_Format_Text = LogFilesDataSource_Format("text")
+	KnownAgentSettingName_MaxDiskQuotaInMB                  = KnownAgentSettingName("MaxDiskQuotaInMB")
+	KnownAgentSettingName_Tags                              = KnownAgentSettingName("Tags")
+	KnownAgentSettingName_UseTimeReceivedForForwardedEvents = KnownAgentSettingName("UseTimeReceivedForForwardedEvents")
 )
 
-// Mapping from string to LogFilesDataSource_Format
-var logFilesDataSource_Format_Values = map[string]LogFilesDataSource_Format{
-	"json": LogFilesDataSource_Format_Json,
-	"text": LogFilesDataSource_Format_Text,
+// Mapping from string to KnownAgentSettingName
+var knownAgentSettingName_Values = map[string]KnownAgentSettingName{
+	"maxdiskquotainmb":                  KnownAgentSettingName_MaxDiskQuotaInMB,
+	"tags":                              KnownAgentSettingName_Tags,
+	"usetimereceivedforforwardedevents": KnownAgentSettingName_UseTimeReceivedForForwardedEvents,
+}
+
+// The type of the column data.
+// +kubebuilder:validation:Enum={"boolean","datetime","dynamic","int","long","real","string"}
+type KnownColumnDefinitionType string
+
+const (
+	KnownColumnDefinitionType_Boolean  = KnownColumnDefinitionType("boolean")
+	KnownColumnDefinitionType_Datetime = KnownColumnDefinitionType("datetime")
+	KnownColumnDefinitionType_Dynamic  = KnownColumnDefinitionType("dynamic")
+	KnownColumnDefinitionType_Int      = KnownColumnDefinitionType("int")
+	KnownColumnDefinitionType_Long     = KnownColumnDefinitionType("long")
+	KnownColumnDefinitionType_Real     = KnownColumnDefinitionType("real")
+	KnownColumnDefinitionType_String   = KnownColumnDefinitionType("string")
+)
+
+// Mapping from string to KnownColumnDefinitionType
+var knownColumnDefinitionType_Values = map[string]KnownColumnDefinitionType{
+	"boolean":  KnownColumnDefinitionType_Boolean,
+	"datetime": KnownColumnDefinitionType_Datetime,
+	"dynamic":  KnownColumnDefinitionType_Dynamic,
+	"int":      KnownColumnDefinitionType_Int,
+	"long":     KnownColumnDefinitionType_Long,
+	"real":     KnownColumnDefinitionType_Real,
+	"string":   KnownColumnDefinitionType_String,
+}
+
+// Minimal level of detail to be logged
+// +kubebuilder:validation:Enum={"Critical","Error","Informational","Verbose","Warning"}
+type KnownEtwProviderDataSourceLogLevel string
+
+const (
+	KnownEtwProviderDataSourceLogLevel_Critical      = KnownEtwProviderDataSourceLogLevel("Critical")
+	KnownEtwProviderDataSourceLogLevel_Error         = KnownEtwProviderDataSourceLogLevel("Error")
+	KnownEtwProviderDataSourceLogLevel_Informational = KnownEtwProviderDataSourceLogLevel("Informational")
+	KnownEtwProviderDataSourceLogLevel_Verbose       = KnownEtwProviderDataSourceLogLevel("Verbose")
+	KnownEtwProviderDataSourceLogLevel_Warning       = KnownEtwProviderDataSourceLogLevel("Warning")
+)
+
+// Mapping from string to KnownEtwProviderDataSourceLogLevel
+var knownEtwProviderDataSourceLogLevel_Values = map[string]KnownEtwProviderDataSourceLogLevel{
+	"critical":      KnownEtwProviderDataSourceLogLevel_Critical,
+	"error":         KnownEtwProviderDataSourceLogLevel_Error,
+	"informational": KnownEtwProviderDataSourceLogLevel_Informational,
+	"verbose":       KnownEtwProviderDataSourceLogLevel_Verbose,
+	"warning":       KnownEtwProviderDataSourceLogLevel_Warning,
+}
+
+// Provider type specification: By Manifest GUID or by Event Source name
+// +kubebuilder:validation:Enum={"EventSource","Manifest"}
+type KnownEtwProviderType string
+
+const (
+	KnownEtwProviderType_EventSource = KnownEtwProviderType("EventSource")
+	KnownEtwProviderType_Manifest    = KnownEtwProviderType("Manifest")
+)
+
+// Mapping from string to KnownEtwProviderType
+var knownEtwProviderType_Values = map[string]KnownEtwProviderType{
+	"eventsource": KnownEtwProviderType_EventSource,
+	"manifest":    KnownEtwProviderType_Manifest,
+}
+
+// The data format of the log files
+// +kubebuilder:validation:Enum={"json","text"}
+type KnownLogFilesDataSourceFormat string
+
+const (
+	KnownLogFilesDataSourceFormat_Json = KnownLogFilesDataSourceFormat("json")
+	KnownLogFilesDataSourceFormat_Text = KnownLogFilesDataSourceFormat("text")
+)
+
+// Mapping from string to KnownLogFilesDataSourceFormat
+var knownLogFilesDataSourceFormat_Values = map[string]KnownLogFilesDataSourceFormat{
+	"json": KnownLogFilesDataSourceFormat_Json,
+	"text": KnownLogFilesDataSourceFormat_Text,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft-OTel-Logs"}
+type KnownOtelLogsDataSourceStreams string
+
+const KnownOtelLogsDataSourceStreams_MicrosoftOTelLogs = KnownOtelLogsDataSourceStreams("Microsoft-OTel-Logs")
+
+// Mapping from string to KnownOtelLogsDataSourceStreams
+var knownOtelLogsDataSourceStreams_Values = map[string]KnownOtelLogsDataSourceStreams{
+	"microsoft-otel-logs": KnownOtelLogsDataSourceStreams_MicrosoftOTelLogs,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft-OTel-Logs"}
+type KnownOtelLogsDirectDataSourceStreams string
+
+const KnownOtelLogsDirectDataSourceStreams_MicrosoftOTelLogs = KnownOtelLogsDirectDataSourceStreams("Microsoft-OTel-Logs")
+
+// Mapping from string to KnownOtelLogsDirectDataSourceStreams
+var knownOtelLogsDirectDataSourceStreams_Values = map[string]KnownOtelLogsDirectDataSourceStreams{
+	"microsoft-otel-logs": KnownOtelLogsDirectDataSourceStreams_MicrosoftOTelLogs,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft-OTel-Traces-Events","Microsoft-OTel-Traces-Resources","Microsoft-OTel-Traces-Spans"}
+type KnownOtelTracesDataSourceStreams string
+
+const (
+	KnownOtelTracesDataSourceStreams_MicrosoftOTelTracesEvents    = KnownOtelTracesDataSourceStreams("Microsoft-OTel-Traces-Events")
+	KnownOtelTracesDataSourceStreams_MicrosoftOTelTracesResources = KnownOtelTracesDataSourceStreams("Microsoft-OTel-Traces-Resources")
+	KnownOtelTracesDataSourceStreams_MicrosoftOTelTracesSpans     = KnownOtelTracesDataSourceStreams("Microsoft-OTel-Traces-Spans")
+)
+
+// Mapping from string to KnownOtelTracesDataSourceStreams
+var knownOtelTracesDataSourceStreams_Values = map[string]KnownOtelTracesDataSourceStreams{
+	"microsoft-otel-traces-events":    KnownOtelTracesDataSourceStreams_MicrosoftOTelTracesEvents,
+	"microsoft-otel-traces-resources": KnownOtelTracesDataSourceStreams_MicrosoftOTelTracesResources,
+	"microsoft-otel-traces-spans":     KnownOtelTracesDataSourceStreams_MicrosoftOTelTracesSpans,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft-OTel-Traces-Events","Microsoft-OTel-Traces-Resources","Microsoft-OTel-Traces-Spans"}
+type KnownOtelTracesDirectDataSourceStreams string
+
+const (
+	KnownOtelTracesDirectDataSourceStreams_MicrosoftOTelTracesEvents    = KnownOtelTracesDirectDataSourceStreams("Microsoft-OTel-Traces-Events")
+	KnownOtelTracesDirectDataSourceStreams_MicrosoftOTelTracesResources = KnownOtelTracesDirectDataSourceStreams("Microsoft-OTel-Traces-Resources")
+	KnownOtelTracesDirectDataSourceStreams_MicrosoftOTelTracesSpans     = KnownOtelTracesDirectDataSourceStreams("Microsoft-OTel-Traces-Spans")
+)
+
+// Mapping from string to KnownOtelTracesDirectDataSourceStreams
+var knownOtelTracesDirectDataSourceStreams_Values = map[string]KnownOtelTracesDirectDataSourceStreams{
+	"microsoft-otel-traces-events":    KnownOtelTracesDirectDataSourceStreams_MicrosoftOTelTracesEvents,
+	"microsoft-otel-traces-resources": KnownOtelTracesDirectDataSourceStreams_MicrosoftOTelTracesResources,
+	"microsoft-otel-traces-spans":     KnownOtelTracesDirectDataSourceStreams_MicrosoftOTelTracesSpans,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft-OtelPerfMetrics"}
+type KnownPerformanceCountersOTelDataSourceStreams string
+
+const KnownPerformanceCountersOTelDataSourceStreams_MicrosoftOtelPerfMetrics = KnownPerformanceCountersOTelDataSourceStreams("Microsoft-OtelPerfMetrics")
+
+// Mapping from string to KnownPerformanceCountersOTelDataSourceStreams
+var knownPerformanceCountersOTelDataSourceStreams_Values = map[string]KnownPerformanceCountersOTelDataSourceStreams{
+	"microsoft-otelperfmetrics": KnownPerformanceCountersOTelDataSourceStreams_MicrosoftOtelPerfMetrics,
+}
+
+// +kubebuilder:validation:Enum={"alert","audit","auth","authpriv","clock","cron","daemon","ftp","kern","local0","local1","local2","local3","local4","local5","local6","local7","lpr","mail","mark","news","nopri","ntp","*","syslog","user","uucp"}
+type KnownSyslogDataSourceFacilityNames string
+
+const (
+	KnownSyslogDataSourceFacilityNames_Alert    = KnownSyslogDataSourceFacilityNames("alert")
+	KnownSyslogDataSourceFacilityNames_Audit    = KnownSyslogDataSourceFacilityNames("audit")
+	KnownSyslogDataSourceFacilityNames_Auth     = KnownSyslogDataSourceFacilityNames("auth")
+	KnownSyslogDataSourceFacilityNames_Authpriv = KnownSyslogDataSourceFacilityNames("authpriv")
+	KnownSyslogDataSourceFacilityNames_Clock    = KnownSyslogDataSourceFacilityNames("clock")
+	KnownSyslogDataSourceFacilityNames_Cron     = KnownSyslogDataSourceFacilityNames("cron")
+	KnownSyslogDataSourceFacilityNames_Daemon   = KnownSyslogDataSourceFacilityNames("daemon")
+	KnownSyslogDataSourceFacilityNames_Ftp      = KnownSyslogDataSourceFacilityNames("ftp")
+	KnownSyslogDataSourceFacilityNames_Kern     = KnownSyslogDataSourceFacilityNames("kern")
+	KnownSyslogDataSourceFacilityNames_Local0   = KnownSyslogDataSourceFacilityNames("local0")
+	KnownSyslogDataSourceFacilityNames_Local1   = KnownSyslogDataSourceFacilityNames("local1")
+	KnownSyslogDataSourceFacilityNames_Local2   = KnownSyslogDataSourceFacilityNames("local2")
+	KnownSyslogDataSourceFacilityNames_Local3   = KnownSyslogDataSourceFacilityNames("local3")
+	KnownSyslogDataSourceFacilityNames_Local4   = KnownSyslogDataSourceFacilityNames("local4")
+	KnownSyslogDataSourceFacilityNames_Local5   = KnownSyslogDataSourceFacilityNames("local5")
+	KnownSyslogDataSourceFacilityNames_Local6   = KnownSyslogDataSourceFacilityNames("local6")
+	KnownSyslogDataSourceFacilityNames_Local7   = KnownSyslogDataSourceFacilityNames("local7")
+	KnownSyslogDataSourceFacilityNames_Lpr      = KnownSyslogDataSourceFacilityNames("lpr")
+	KnownSyslogDataSourceFacilityNames_Mail     = KnownSyslogDataSourceFacilityNames("mail")
+	KnownSyslogDataSourceFacilityNames_Mark     = KnownSyslogDataSourceFacilityNames("mark")
+	KnownSyslogDataSourceFacilityNames_News     = KnownSyslogDataSourceFacilityNames("news")
+	KnownSyslogDataSourceFacilityNames_Nopri    = KnownSyslogDataSourceFacilityNames("nopri")
+	KnownSyslogDataSourceFacilityNames_Ntp      = KnownSyslogDataSourceFacilityNames("ntp")
+	KnownSyslogDataSourceFacilityNames_Star     = KnownSyslogDataSourceFacilityNames("*")
+	KnownSyslogDataSourceFacilityNames_Syslog   = KnownSyslogDataSourceFacilityNames("syslog")
+	KnownSyslogDataSourceFacilityNames_User     = KnownSyslogDataSourceFacilityNames("user")
+	KnownSyslogDataSourceFacilityNames_Uucp     = KnownSyslogDataSourceFacilityNames("uucp")
+)
+
+// Mapping from string to KnownSyslogDataSourceFacilityNames
+var knownSyslogDataSourceFacilityNames_Values = map[string]KnownSyslogDataSourceFacilityNames{
+	"alert":    KnownSyslogDataSourceFacilityNames_Alert,
+	"audit":    KnownSyslogDataSourceFacilityNames_Audit,
+	"auth":     KnownSyslogDataSourceFacilityNames_Auth,
+	"authpriv": KnownSyslogDataSourceFacilityNames_Authpriv,
+	"clock":    KnownSyslogDataSourceFacilityNames_Clock,
+	"cron":     KnownSyslogDataSourceFacilityNames_Cron,
+	"daemon":   KnownSyslogDataSourceFacilityNames_Daemon,
+	"ftp":      KnownSyslogDataSourceFacilityNames_Ftp,
+	"kern":     KnownSyslogDataSourceFacilityNames_Kern,
+	"local0":   KnownSyslogDataSourceFacilityNames_Local0,
+	"local1":   KnownSyslogDataSourceFacilityNames_Local1,
+	"local2":   KnownSyslogDataSourceFacilityNames_Local2,
+	"local3":   KnownSyslogDataSourceFacilityNames_Local3,
+	"local4":   KnownSyslogDataSourceFacilityNames_Local4,
+	"local5":   KnownSyslogDataSourceFacilityNames_Local5,
+	"local6":   KnownSyslogDataSourceFacilityNames_Local6,
+	"local7":   KnownSyslogDataSourceFacilityNames_Local7,
+	"lpr":      KnownSyslogDataSourceFacilityNames_Lpr,
+	"mail":     KnownSyslogDataSourceFacilityNames_Mail,
+	"mark":     KnownSyslogDataSourceFacilityNames_Mark,
+	"news":     KnownSyslogDataSourceFacilityNames_News,
+	"nopri":    KnownSyslogDataSourceFacilityNames_Nopri,
+	"ntp":      KnownSyslogDataSourceFacilityNames_Ntp,
+	"*":        KnownSyslogDataSourceFacilityNames_Star,
+	"syslog":   KnownSyslogDataSourceFacilityNames_Syslog,
+	"user":     KnownSyslogDataSourceFacilityNames_User,
+	"uucp":     KnownSyslogDataSourceFacilityNames_Uucp,
+}
+
+// +kubebuilder:validation:Enum={"Alert","Critical","Debug","Emergency","Error","Info","Notice","*","Warning"}
+type KnownSyslogDataSourceLogLevels string
+
+const (
+	KnownSyslogDataSourceLogLevels_Alert     = KnownSyslogDataSourceLogLevels("Alert")
+	KnownSyslogDataSourceLogLevels_Critical  = KnownSyslogDataSourceLogLevels("Critical")
+	KnownSyslogDataSourceLogLevels_Debug     = KnownSyslogDataSourceLogLevels("Debug")
+	KnownSyslogDataSourceLogLevels_Emergency = KnownSyslogDataSourceLogLevels("Emergency")
+	KnownSyslogDataSourceLogLevels_Error     = KnownSyslogDataSourceLogLevels("Error")
+	KnownSyslogDataSourceLogLevels_Info      = KnownSyslogDataSourceLogLevels("Info")
+	KnownSyslogDataSourceLogLevels_Notice    = KnownSyslogDataSourceLogLevels("Notice")
+	KnownSyslogDataSourceLogLevels_Star      = KnownSyslogDataSourceLogLevels("*")
+	KnownSyslogDataSourceLogLevels_Warning   = KnownSyslogDataSourceLogLevels("Warning")
+)
+
+// Mapping from string to KnownSyslogDataSourceLogLevels
+var knownSyslogDataSourceLogLevels_Values = map[string]KnownSyslogDataSourceLogLevels{
+	"alert":     KnownSyslogDataSourceLogLevels_Alert,
+	"critical":  KnownSyslogDataSourceLogLevels_Critical,
+	"debug":     KnownSyslogDataSourceLogLevels_Debug,
+	"emergency": KnownSyslogDataSourceLogLevels_Emergency,
+	"error":     KnownSyslogDataSourceLogLevels_Error,
+	"info":      KnownSyslogDataSourceLogLevels_Info,
+	"notice":    KnownSyslogDataSourceLogLevels_Notice,
+	"*":         KnownSyslogDataSourceLogLevels_Star,
+	"warning":   KnownSyslogDataSourceLogLevels_Warning,
+}
+
+// +kubebuilder:validation:Enum={"Domain","Private","Public"}
+type KnownWindowsFirewallLogsDataSourceProfileFilter string
+
+const (
+	KnownWindowsFirewallLogsDataSourceProfileFilter_Domain  = KnownWindowsFirewallLogsDataSourceProfileFilter("Domain")
+	KnownWindowsFirewallLogsDataSourceProfileFilter_Private = KnownWindowsFirewallLogsDataSourceProfileFilter("Private")
+	KnownWindowsFirewallLogsDataSourceProfileFilter_Public  = KnownWindowsFirewallLogsDataSourceProfileFilter("Public")
+)
+
+// Mapping from string to KnownWindowsFirewallLogsDataSourceProfileFilter
+var knownWindowsFirewallLogsDataSourceProfileFilter_Values = map[string]KnownWindowsFirewallLogsDataSourceProfileFilter{
+	"domain":  KnownWindowsFirewallLogsDataSourceProfileFilter_Domain,
+	"private": KnownWindowsFirewallLogsDataSourceProfileFilter_Private,
+	"public":  KnownWindowsFirewallLogsDataSourceProfileFilter_Public,
 }
 
 // Settings for different log file formats
@@ -818,74 +1013,12 @@ type OtelDataSourceResourceAttributeRouting struct {
 	AttributeValue *string `json:"attributeValue,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Microsoft-OTel-Logs"}
-type OtelLogsDataSource_Streams string
-
-const OtelLogsDataSource_Streams_MicrosoftOTelLogs = OtelLogsDataSource_Streams("Microsoft-OTel-Logs")
-
-// Mapping from string to OtelLogsDataSource_Streams
-var otelLogsDataSource_Streams_Values = map[string]OtelLogsDataSource_Streams{
-	"microsoft-otel-logs": OtelLogsDataSource_Streams_MicrosoftOTelLogs,
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-OTel-Logs"}
-type OtelLogsDirectDataSource_Streams string
-
-const OtelLogsDirectDataSource_Streams_MicrosoftOTelLogs = OtelLogsDirectDataSource_Streams("Microsoft-OTel-Logs")
-
-// Mapping from string to OtelLogsDirectDataSource_Streams
-var otelLogsDirectDataSource_Streams_Values = map[string]OtelLogsDirectDataSource_Streams{
-	"microsoft-otel-logs": OtelLogsDirectDataSource_Streams_MicrosoftOTelLogs,
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-OTel-Traces-Events","Microsoft-OTel-Traces-Resources","Microsoft-OTel-Traces-Spans"}
-type OtelTracesDataSource_Streams string
-
-const (
-	OtelTracesDataSource_Streams_MicrosoftOTelTracesEvents    = OtelTracesDataSource_Streams("Microsoft-OTel-Traces-Events")
-	OtelTracesDataSource_Streams_MicrosoftOTelTracesResources = OtelTracesDataSource_Streams("Microsoft-OTel-Traces-Resources")
-	OtelTracesDataSource_Streams_MicrosoftOTelTracesSpans     = OtelTracesDataSource_Streams("Microsoft-OTel-Traces-Spans")
-)
-
-// Mapping from string to OtelTracesDataSource_Streams
-var otelTracesDataSource_Streams_Values = map[string]OtelTracesDataSource_Streams{
-	"microsoft-otel-traces-events":    OtelTracesDataSource_Streams_MicrosoftOTelTracesEvents,
-	"microsoft-otel-traces-resources": OtelTracesDataSource_Streams_MicrosoftOTelTracesResources,
-	"microsoft-otel-traces-spans":     OtelTracesDataSource_Streams_MicrosoftOTelTracesSpans,
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-OTel-Traces-Events","Microsoft-OTel-Traces-Resources","Microsoft-OTel-Traces-Spans"}
-type OtelTracesDirectDataSource_Streams string
-
-const (
-	OtelTracesDirectDataSource_Streams_MicrosoftOTelTracesEvents    = OtelTracesDirectDataSource_Streams("Microsoft-OTel-Traces-Events")
-	OtelTracesDirectDataSource_Streams_MicrosoftOTelTracesResources = OtelTracesDirectDataSource_Streams("Microsoft-OTel-Traces-Resources")
-	OtelTracesDirectDataSource_Streams_MicrosoftOTelTracesSpans     = OtelTracesDirectDataSource_Streams("Microsoft-OTel-Traces-Spans")
-)
-
-// Mapping from string to OtelTracesDirectDataSource_Streams
-var otelTracesDirectDataSource_Streams_Values = map[string]OtelTracesDirectDataSource_Streams{
-	"microsoft-otel-traces-events":    OtelTracesDirectDataSource_Streams_MicrosoftOTelTracesEvents,
-	"microsoft-otel-traces-resources": OtelTracesDirectDataSource_Streams_MicrosoftOTelTracesResources,
-	"microsoft-otel-traces-spans":     OtelTracesDirectDataSource_Streams_MicrosoftOTelTracesSpans,
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-OtelPerfMetrics"}
-type PerformanceCountersOTelDataSource_Streams string
-
-const PerformanceCountersOTelDataSource_Streams_MicrosoftOtelPerfMetrics = PerformanceCountersOTelDataSource_Streams("Microsoft-OtelPerfMetrics")
-
-// Mapping from string to PerformanceCountersOTelDataSource_Streams
-var performanceCountersOTelDataSource_Streams_Values = map[string]PerformanceCountersOTelDataSource_Streams{
-	"microsoft-otelperfmetrics": PerformanceCountersOTelDataSource_Streams_MicrosoftOtelPerfMetrics,
-}
-
 type StorageBlob struct {
 	// BlobUrl: Url of the storage blob
 	BlobUrl *string `json:"blobUrl,omitempty"`
 
 	// LookupType: The type of lookup to perform on the blob
-	LookupType *StorageBlob_LookupType `json:"lookupType,omitempty"`
+	LookupType *KnownStorageBlobLookupType `json:"lookupType,omitempty"`
 
 	// Name: The name of the enrichment data source used as an alias when referencing this data source in data flows
 	Name *string `json:"name,omitempty"`
@@ -894,158 +1027,52 @@ type StorageBlob struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"alert","audit","auth","authpriv","clock","cron","daemon","ftp","kern","local0","local1","local2","local3","local4","local5","local6","local7","lpr","mail","mark","news","nopri","ntp","*","syslog","user","uucp"}
-type SyslogDataSource_FacilityNames string
+// The type of lookup to perform on the blob
+// +kubebuilder:validation:Enum={"Cidr","String"}
+type KnownStorageBlobLookupType string
 
 const (
-	SyslogDataSource_FacilityNames_Alert    = SyslogDataSource_FacilityNames("alert")
-	SyslogDataSource_FacilityNames_Audit    = SyslogDataSource_FacilityNames("audit")
-	SyslogDataSource_FacilityNames_Auth     = SyslogDataSource_FacilityNames("auth")
-	SyslogDataSource_FacilityNames_Authpriv = SyslogDataSource_FacilityNames("authpriv")
-	SyslogDataSource_FacilityNames_Clock    = SyslogDataSource_FacilityNames("clock")
-	SyslogDataSource_FacilityNames_Cron     = SyslogDataSource_FacilityNames("cron")
-	SyslogDataSource_FacilityNames_Daemon   = SyslogDataSource_FacilityNames("daemon")
-	SyslogDataSource_FacilityNames_Ftp      = SyslogDataSource_FacilityNames("ftp")
-	SyslogDataSource_FacilityNames_Kern     = SyslogDataSource_FacilityNames("kern")
-	SyslogDataSource_FacilityNames_Local0   = SyslogDataSource_FacilityNames("local0")
-	SyslogDataSource_FacilityNames_Local1   = SyslogDataSource_FacilityNames("local1")
-	SyslogDataSource_FacilityNames_Local2   = SyslogDataSource_FacilityNames("local2")
-	SyslogDataSource_FacilityNames_Local3   = SyslogDataSource_FacilityNames("local3")
-	SyslogDataSource_FacilityNames_Local4   = SyslogDataSource_FacilityNames("local4")
-	SyslogDataSource_FacilityNames_Local5   = SyslogDataSource_FacilityNames("local5")
-	SyslogDataSource_FacilityNames_Local6   = SyslogDataSource_FacilityNames("local6")
-	SyslogDataSource_FacilityNames_Local7   = SyslogDataSource_FacilityNames("local7")
-	SyslogDataSource_FacilityNames_Lpr      = SyslogDataSource_FacilityNames("lpr")
-	SyslogDataSource_FacilityNames_Mail     = SyslogDataSource_FacilityNames("mail")
-	SyslogDataSource_FacilityNames_Mark     = SyslogDataSource_FacilityNames("mark")
-	SyslogDataSource_FacilityNames_News     = SyslogDataSource_FacilityNames("news")
-	SyslogDataSource_FacilityNames_Nopri    = SyslogDataSource_FacilityNames("nopri")
-	SyslogDataSource_FacilityNames_Ntp      = SyslogDataSource_FacilityNames("ntp")
-	SyslogDataSource_FacilityNames_Star     = SyslogDataSource_FacilityNames("*")
-	SyslogDataSource_FacilityNames_Syslog   = SyslogDataSource_FacilityNames("syslog")
-	SyslogDataSource_FacilityNames_User     = SyslogDataSource_FacilityNames("user")
-	SyslogDataSource_FacilityNames_Uucp     = SyslogDataSource_FacilityNames("uucp")
+	KnownStorageBlobLookupType_Cidr   = KnownStorageBlobLookupType("Cidr")
+	KnownStorageBlobLookupType_String = KnownStorageBlobLookupType("String")
 )
 
-// Mapping from string to SyslogDataSource_FacilityNames
-var syslogDataSource_FacilityNames_Values = map[string]SyslogDataSource_FacilityNames{
-	"alert":    SyslogDataSource_FacilityNames_Alert,
-	"audit":    SyslogDataSource_FacilityNames_Audit,
-	"auth":     SyslogDataSource_FacilityNames_Auth,
-	"authpriv": SyslogDataSource_FacilityNames_Authpriv,
-	"clock":    SyslogDataSource_FacilityNames_Clock,
-	"cron":     SyslogDataSource_FacilityNames_Cron,
-	"daemon":   SyslogDataSource_FacilityNames_Daemon,
-	"ftp":      SyslogDataSource_FacilityNames_Ftp,
-	"kern":     SyslogDataSource_FacilityNames_Kern,
-	"local0":   SyslogDataSource_FacilityNames_Local0,
-	"local1":   SyslogDataSource_FacilityNames_Local1,
-	"local2":   SyslogDataSource_FacilityNames_Local2,
-	"local3":   SyslogDataSource_FacilityNames_Local3,
-	"local4":   SyslogDataSource_FacilityNames_Local4,
-	"local5":   SyslogDataSource_FacilityNames_Local5,
-	"local6":   SyslogDataSource_FacilityNames_Local6,
-	"local7":   SyslogDataSource_FacilityNames_Local7,
-	"lpr":      SyslogDataSource_FacilityNames_Lpr,
-	"mail":     SyslogDataSource_FacilityNames_Mail,
-	"mark":     SyslogDataSource_FacilityNames_Mark,
-	"news":     SyslogDataSource_FacilityNames_News,
-	"nopri":    SyslogDataSource_FacilityNames_Nopri,
-	"ntp":      SyslogDataSource_FacilityNames_Ntp,
-	"*":        SyslogDataSource_FacilityNames_Star,
-	"syslog":   SyslogDataSource_FacilityNames_Syslog,
-	"user":     SyslogDataSource_FacilityNames_User,
-	"uucp":     SyslogDataSource_FacilityNames_Uucp,
-}
-
-// +kubebuilder:validation:Enum={"Alert","Critical","Debug","Emergency","Error","Info","Notice","*","Warning"}
-type SyslogDataSource_LogLevels string
-
-const (
-	SyslogDataSource_LogLevels_Alert     = SyslogDataSource_LogLevels("Alert")
-	SyslogDataSource_LogLevels_Critical  = SyslogDataSource_LogLevels("Critical")
-	SyslogDataSource_LogLevels_Debug     = SyslogDataSource_LogLevels("Debug")
-	SyslogDataSource_LogLevels_Emergency = SyslogDataSource_LogLevels("Emergency")
-	SyslogDataSource_LogLevels_Error     = SyslogDataSource_LogLevels("Error")
-	SyslogDataSource_LogLevels_Info      = SyslogDataSource_LogLevels("Info")
-	SyslogDataSource_LogLevels_Notice    = SyslogDataSource_LogLevels("Notice")
-	SyslogDataSource_LogLevels_Star      = SyslogDataSource_LogLevels("*")
-	SyslogDataSource_LogLevels_Warning   = SyslogDataSource_LogLevels("Warning")
-)
-
-// Mapping from string to SyslogDataSource_LogLevels
-var syslogDataSource_LogLevels_Values = map[string]SyslogDataSource_LogLevels{
-	"alert":     SyslogDataSource_LogLevels_Alert,
-	"critical":  SyslogDataSource_LogLevels_Critical,
-	"debug":     SyslogDataSource_LogLevels_Debug,
-	"emergency": SyslogDataSource_LogLevels_Emergency,
-	"error":     SyslogDataSource_LogLevels_Error,
-	"info":      SyslogDataSource_LogLevels_Info,
-	"notice":    SyslogDataSource_LogLevels_Notice,
-	"*":         SyslogDataSource_LogLevels_Star,
-	"warning":   SyslogDataSource_LogLevels_Warning,
-}
-
-// +kubebuilder:validation:Enum={"Domain","Private","Public"}
-type WindowsFirewallLogsDataSource_ProfileFilter string
-
-const (
-	WindowsFirewallLogsDataSource_ProfileFilter_Domain  = WindowsFirewallLogsDataSource_ProfileFilter("Domain")
-	WindowsFirewallLogsDataSource_ProfileFilter_Private = WindowsFirewallLogsDataSource_ProfileFilter("Private")
-	WindowsFirewallLogsDataSource_ProfileFilter_Public  = WindowsFirewallLogsDataSource_ProfileFilter("Public")
-)
-
-// Mapping from string to WindowsFirewallLogsDataSource_ProfileFilter
-var windowsFirewallLogsDataSource_ProfileFilter_Values = map[string]WindowsFirewallLogsDataSource_ProfileFilter{
-	"domain":  WindowsFirewallLogsDataSource_ProfileFilter_Domain,
-	"private": WindowsFirewallLogsDataSource_ProfileFilter_Private,
-	"public":  WindowsFirewallLogsDataSource_ProfileFilter_Public,
+// Mapping from string to KnownStorageBlobLookupType
+var knownStorageBlobLookupType_Values = map[string]KnownStorageBlobLookupType{
+	"cidr":   KnownStorageBlobLookupType_Cidr,
+	"string": KnownStorageBlobLookupType_String,
 }
 
 // Settings for text log files
 type LogFileTextSettings struct {
 	// RecordStartTimestampFormat: One of the supported timestamp formats
-	RecordStartTimestampFormat *LogFileTextSettings_RecordStartTimestampFormat `json:"recordStartTimestampFormat,omitempty"`
+	RecordStartTimestampFormat *KnownLogFileTextSettingsRecordStartTimestampFormat `json:"recordStartTimestampFormat,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Cidr","String"}
-type StorageBlob_LookupType string
-
-const (
-	StorageBlob_LookupType_Cidr   = StorageBlob_LookupType("Cidr")
-	StorageBlob_LookupType_String = StorageBlob_LookupType("String")
-)
-
-// Mapping from string to StorageBlob_LookupType
-var storageBlob_LookupType_Values = map[string]StorageBlob_LookupType{
-	"cidr":   StorageBlob_LookupType_Cidr,
-	"string": StorageBlob_LookupType_String,
-}
-
+// One of the supported timestamp formats
 // +kubebuilder:validation:Enum={"dd/MMM/yyyy:HH:mm:ss zzz","ddMMyy HH:mm:ss","ISO 8601","M/D/YYYY HH:MM:SS AM/PM","MMM d hh:mm:ss","Mon DD, YYYY HH:MM:SS","YYYY-MM-DD HH:MM:SS","yyMMdd HH:mm:ss","yyyy-MM-ddTHH:mm:ssK"}
-type LogFileTextSettings_RecordStartTimestampFormat string
+type KnownLogFileTextSettingsRecordStartTimestampFormat string
 
 const (
-	LogFileTextSettings_RecordStartTimestampFormat_DdMMMYyyyHHMmSsZzz = LogFileTextSettings_RecordStartTimestampFormat("dd/MMM/yyyy:HH:mm:ss zzz")
-	LogFileTextSettings_RecordStartTimestampFormat_DdMMyyHHMmSs       = LogFileTextSettings_RecordStartTimestampFormat("ddMMyy HH:mm:ss")
-	LogFileTextSettings_RecordStartTimestampFormat_ISO8601            = LogFileTextSettings_RecordStartTimestampFormat("ISO 8601")
-	LogFileTextSettings_RecordStartTimestampFormat_MDYYYYHHMMSSAMPM   = LogFileTextSettings_RecordStartTimestampFormat("M/D/YYYY HH:MM:SS AM/PM")
-	LogFileTextSettings_RecordStartTimestampFormat_MMMDHhMmSs         = LogFileTextSettings_RecordStartTimestampFormat("MMM d hh:mm:ss")
-	LogFileTextSettings_RecordStartTimestampFormat_MonDDYYYYHHMMSS    = LogFileTextSettings_RecordStartTimestampFormat("Mon DD, YYYY HH:MM:SS")
-	LogFileTextSettings_RecordStartTimestampFormat_YYYYMMDDHHMMSS     = LogFileTextSettings_RecordStartTimestampFormat("YYYY-MM-DD HH:MM:SS")
-	LogFileTextSettings_RecordStartTimestampFormat_YyMMddHHMmSs       = LogFileTextSettings_RecordStartTimestampFormat("yyMMdd HH:mm:ss")
-	LogFileTextSettings_RecordStartTimestampFormat_YyyyMMDdTHHMmSsK   = LogFileTextSettings_RecordStartTimestampFormat("yyyy-MM-ddTHH:mm:ssK")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_DdMMMYyyyHHMmSsZzz = KnownLogFileTextSettingsRecordStartTimestampFormat("dd/MMM/yyyy:HH:mm:ss zzz")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_DdMMyyHHMmSs       = KnownLogFileTextSettingsRecordStartTimestampFormat("ddMMyy HH:mm:ss")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_ISO8601            = KnownLogFileTextSettingsRecordStartTimestampFormat("ISO 8601")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_MDYYYYHHMMSSAMPM   = KnownLogFileTextSettingsRecordStartTimestampFormat("M/D/YYYY HH:MM:SS AM/PM")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_MMMDHhMmSs         = KnownLogFileTextSettingsRecordStartTimestampFormat("MMM d hh:mm:ss")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_MonDDYYYYHHMMSS    = KnownLogFileTextSettingsRecordStartTimestampFormat("Mon DD, YYYY HH:MM:SS")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_YYYYMMDDHHMMSS     = KnownLogFileTextSettingsRecordStartTimestampFormat("YYYY-MM-DD HH:MM:SS")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_YyMMddHHMmSs       = KnownLogFileTextSettingsRecordStartTimestampFormat("yyMMdd HH:mm:ss")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_YyyyMMDdTHHMmSsK   = KnownLogFileTextSettingsRecordStartTimestampFormat("yyyy-MM-ddTHH:mm:ssK")
 )
 
-// Mapping from string to LogFileTextSettings_RecordStartTimestampFormat
-var logFileTextSettings_RecordStartTimestampFormat_Values = map[string]LogFileTextSettings_RecordStartTimestampFormat{
-	"dd/mmm/yyyy:hh:mm:ss zzz": LogFileTextSettings_RecordStartTimestampFormat_DdMMMYyyyHHMmSsZzz,
-	"ddmmyy hh:mm:ss":          LogFileTextSettings_RecordStartTimestampFormat_DdMMyyHHMmSs,
-	"iso 8601":                 LogFileTextSettings_RecordStartTimestampFormat_ISO8601,
-	"m/d/yyyy hh:mm:ss am/pm":  LogFileTextSettings_RecordStartTimestampFormat_MDYYYYHHMMSSAMPM,
-	"mmm d hh:mm:ss":           LogFileTextSettings_RecordStartTimestampFormat_MMMDHhMmSs,
-	"mon dd, yyyy hh:mm:ss":    LogFileTextSettings_RecordStartTimestampFormat_MonDDYYYYHHMMSS,
-	"yyyy-mm-dd hh:mm:ss":      LogFileTextSettings_RecordStartTimestampFormat_YYYYMMDDHHMMSS,
-	"yymmdd hh:mm:ss":          LogFileTextSettings_RecordStartTimestampFormat_YyMMddHHMmSs,
-	"yyyy-mm-ddthh:mm:ssk":     LogFileTextSettings_RecordStartTimestampFormat_YyyyMMDdTHHMmSsK,
+// Mapping from string to KnownLogFileTextSettingsRecordStartTimestampFormat
+var knownLogFileTextSettingsRecordStartTimestampFormat_Values = map[string]KnownLogFileTextSettingsRecordStartTimestampFormat{
+	"dd/mmm/yyyy:hh:mm:ss zzz": KnownLogFileTextSettingsRecordStartTimestampFormat_DdMMMYyyyHHMmSsZzz,
+	"ddmmyy hh:mm:ss":          KnownLogFileTextSettingsRecordStartTimestampFormat_DdMMyyHHMmSs,
+	"iso 8601":                 KnownLogFileTextSettingsRecordStartTimestampFormat_ISO8601,
+	"m/d/yyyy hh:mm:ss am/pm":  KnownLogFileTextSettingsRecordStartTimestampFormat_MDYYYYHHMMSSAMPM,
+	"mmm d hh:mm:ss":           KnownLogFileTextSettingsRecordStartTimestampFormat_MMMDHhMmSs,
+	"mon dd, yyyy hh:mm:ss":    KnownLogFileTextSettingsRecordStartTimestampFormat_MonDDYYYYHHMMSS,
+	"yyyy-mm-dd hh:mm:ss":      KnownLogFileTextSettingsRecordStartTimestampFormat_YYYYMMDDHHMMSS,
+	"yymmdd hh:mm:ss":          KnownLogFileTextSettingsRecordStartTimestampFormat_YyMMddHHMmSs,
+	"yyyy-mm-ddthh:mm:ssk":     KnownLogFileTextSettingsRecordStartTimestampFormat_YyyyMMDdTHHMmSsK,
 }

@@ -362,9 +362,6 @@ type ManagedClusterAADProfile_STATUS struct {
 	// ServerAppID: (DEPRECATED) The server AAD application ID. Learn more at https://aka.ms/aks/aad-legacy.
 	ServerAppID *string `json:"serverAppID,omitempty"`
 
-	// ServerAppSecret: (DEPRECATED) The server AAD application secret. Learn more at https://aka.ms/aks/aad-legacy.
-	ServerAppSecret *string `json:"serverAppSecret,omitempty"`
-
 	// TenantID: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment
 	// subscription.
 	TenantID *string `json:"tenantID,omitempty"`

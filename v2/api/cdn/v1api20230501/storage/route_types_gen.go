@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=cdn.azure.com,resources=routes,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=cdn.azure.com,resources={routes/status,routes/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,cdn}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (route *Route) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (route *Route) SetConditions(conditions conditions.Conditions) {
 	route.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &Route{}
+
+// ConvertFrom populates our Route from the provided hub Route
+func (route *Route) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.Route)
+	if !ok {
+		return fmt.Errorf("expected cdn/v20230501/storage/Route but received %T instead", hub)
+	}
+
+	return route.AssignProperties_From_Route(source)
+}
+
+// ConvertTo populates the provided hub Route from our Route
+func (route *Route) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.Route)
+	if !ok {
+		return fmt.Errorf("expected cdn/v20230501/storage/Route but received %T instead", hub)
+	}
+
+	return route.AssignProperties_To_Route(destination)
 }
 
 var _ configmaps.Exporter = &Route{}
@@ -143,8 +164,75 @@ func (route *Route) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// Hub marks that this Route is the hub type for conversion
-func (route *Route) Hub() {}
+// AssignProperties_From_Route populates our Route from the provided source Route
+func (route *Route) AssignProperties_From_Route(source *storage.Route) error {
+
+	// ObjectMeta
+	route.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec Route_Spec
+	err := spec.AssignProperties_From_Route_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_Route_Spec() to populate field Spec")
+	}
+	route.Spec = spec
+
+	// Status
+	var status Route_STATUS
+	err = status.AssignProperties_From_Route_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_Route_STATUS() to populate field Status")
+	}
+	route.Status = status
+
+	// Invoke the augmentConversionForRoute interface (if implemented) to customize the conversion
+	var routeAsAny any = route
+	if augmentedRoute, ok := routeAsAny.(augmentConversionForRoute); ok {
+		err := augmentedRoute.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Route populates the provided destination Route from our Route
+func (route *Route) AssignProperties_To_Route(destination *storage.Route) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *route.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.Route_Spec
+	err := route.Spec.AssignProperties_To_Route_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_Route_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.Route_STATUS
+	err = route.Status.AssignProperties_To_Route_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_Route_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForRoute interface (if implemented) to customize the conversion
+	var routeAsAny any = route
+	if augmentedRoute, ok := routeAsAny.(augmentConversionForRoute); ok {
+		err := augmentedRoute.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (route *Route) OriginalGVK() *schema.GroupVersionKind {
@@ -164,6 +252,11 @@ type RouteList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Route `json:"items"`
+}
+
+type augmentConversionForRoute interface {
+	AssignPropertiesFrom(src *storage.Route) error
+	AssignPropertiesTo(dst *storage.Route) error
 }
 
 // Storage version of v1api20230501.Route_Spec
@@ -197,20 +290,306 @@ var _ genruntime.ConvertibleSpec = &Route_Spec{}
 
 // ConvertSpecFrom populates our Route_Spec from the provided source
 func (route *Route_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == route {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.Route_Spec)
+	if ok {
+		// Populate our instance from source
+		return route.AssignProperties_From_Route_Spec(src)
 	}
 
-	return source.ConvertSpecTo(route)
+	// Convert to an intermediate form
+	src = &storage.Route_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = route.AssignProperties_From_Route_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our Route_Spec
 func (route *Route_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == route {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.Route_Spec)
+	if ok {
+		// Populate destination from our instance
+		return route.AssignProperties_To_Route_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(route)
+	// Convert to an intermediate form
+	dst = &storage.Route_Spec{}
+	err := route.AssignProperties_To_Route_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Route_Spec populates our Route_Spec from the provided source Route_Spec
+func (route *Route_Spec) AssignProperties_From_Route_Spec(source *storage.Route_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	route.AzureName = source.AzureName
+
+	// CacheConfiguration
+	if source.CacheConfiguration != nil {
+		var cacheConfiguration AfdRouteCacheConfiguration
+		err := cacheConfiguration.AssignProperties_From_AfdRouteCacheConfiguration(source.CacheConfiguration)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_AfdRouteCacheConfiguration() to populate field CacheConfiguration")
+		}
+		route.CacheConfiguration = &cacheConfiguration
+	} else {
+		route.CacheConfiguration = nil
+	}
+
+	// CustomDomains
+	if source.CustomDomains != nil {
+		customDomainList := make([]ActivatedResourceReference, len(source.CustomDomains))
+		for customDomainIndex, customDomainItem := range source.CustomDomains {
+			var customDomain ActivatedResourceReference
+			err := customDomain.AssignProperties_From_ActivatedResourceReference(&customDomainItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference() to populate field CustomDomains")
+			}
+			customDomainList[customDomainIndex] = customDomain
+		}
+		route.CustomDomains = customDomainList
+	} else {
+		route.CustomDomains = nil
+	}
+
+	// EnabledState
+	route.EnabledState = genruntime.ClonePointerToString(source.EnabledState)
+
+	// ForwardingProtocol
+	route.ForwardingProtocol = genruntime.ClonePointerToString(source.ForwardingProtocol)
+
+	// HttpsRedirect
+	route.HttpsRedirect = genruntime.ClonePointerToString(source.HttpsRedirect)
+
+	// LinkToDefaultDomain
+	route.LinkToDefaultDomain = genruntime.ClonePointerToString(source.LinkToDefaultDomain)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RouteOperatorSpec
+		err := operatorSpec.AssignProperties_From_RouteOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_RouteOperatorSpec() to populate field OperatorSpec")
+		}
+		route.OperatorSpec = &operatorSpec
+	} else {
+		route.OperatorSpec = nil
+	}
+
+	// OriginGroup
+	if source.OriginGroup != nil {
+		var originGroup ResourceReference
+		err := originGroup.AssignProperties_From_ResourceReference(source.OriginGroup)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field OriginGroup")
+		}
+		route.OriginGroup = &originGroup
+	} else {
+		route.OriginGroup = nil
+	}
+
+	// OriginPath
+	route.OriginPath = genruntime.ClonePointerToString(source.OriginPath)
+
+	// OriginalVersion
+	route.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		route.Owner = &owner
+	} else {
+		route.Owner = nil
+	}
+
+	// PatternsToMatch
+	route.PatternsToMatch = genruntime.CloneSliceOfString(source.PatternsToMatch)
+
+	// RuleSets
+	if source.RuleSets != nil {
+		ruleSetList := make([]ResourceReference, len(source.RuleSets))
+		for ruleSetIndex, ruleSetItem := range source.RuleSets {
+			var ruleSet ResourceReference
+			err := ruleSet.AssignProperties_From_ResourceReference(&ruleSetItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field RuleSets")
+			}
+			ruleSetList[ruleSetIndex] = ruleSet
+		}
+		route.RuleSets = ruleSetList
+	} else {
+		route.RuleSets = nil
+	}
+
+	// SupportedProtocols
+	route.SupportedProtocols = genruntime.CloneSliceOfString(source.SupportedProtocols)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		route.PropertyBag = propertyBag
+	} else {
+		route.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRoute_Spec interface (if implemented) to customize the conversion
+	var routeAsAny any = route
+	if augmentedRoute, ok := routeAsAny.(augmentConversionForRoute_Spec); ok {
+		err := augmentedRoute.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Route_Spec populates the provided destination Route_Spec from our Route_Spec
+func (route *Route_Spec) AssignProperties_To_Route_Spec(destination *storage.Route_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(route.PropertyBag)
+
+	// AzureName
+	destination.AzureName = route.AzureName
+
+	// CacheConfiguration
+	if route.CacheConfiguration != nil {
+		var cacheConfiguration storage.AfdRouteCacheConfiguration
+		err := route.CacheConfiguration.AssignProperties_To_AfdRouteCacheConfiguration(&cacheConfiguration)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_AfdRouteCacheConfiguration() to populate field CacheConfiguration")
+		}
+		destination.CacheConfiguration = &cacheConfiguration
+	} else {
+		destination.CacheConfiguration = nil
+	}
+
+	// CustomDomains
+	if route.CustomDomains != nil {
+		customDomainList := make([]storage.ActivatedResourceReference, len(route.CustomDomains))
+		for customDomainIndex, customDomainItem := range route.CustomDomains {
+			var customDomain storage.ActivatedResourceReference
+			err := customDomainItem.AssignProperties_To_ActivatedResourceReference(&customDomain)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference() to populate field CustomDomains")
+			}
+			customDomainList[customDomainIndex] = customDomain
+		}
+		destination.CustomDomains = customDomainList
+	} else {
+		destination.CustomDomains = nil
+	}
+
+	// EnabledState
+	destination.EnabledState = genruntime.ClonePointerToString(route.EnabledState)
+
+	// ForwardingProtocol
+	destination.ForwardingProtocol = genruntime.ClonePointerToString(route.ForwardingProtocol)
+
+	// HttpsRedirect
+	destination.HttpsRedirect = genruntime.ClonePointerToString(route.HttpsRedirect)
+
+	// LinkToDefaultDomain
+	destination.LinkToDefaultDomain = genruntime.ClonePointerToString(route.LinkToDefaultDomain)
+
+	// OperatorSpec
+	if route.OperatorSpec != nil {
+		var operatorSpec storage.RouteOperatorSpec
+		err := route.OperatorSpec.AssignProperties_To_RouteOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_RouteOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginGroup
+	if route.OriginGroup != nil {
+		var originGroup storage.ResourceReference
+		err := route.OriginGroup.AssignProperties_To_ResourceReference(&originGroup)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field OriginGroup")
+		}
+		destination.OriginGroup = &originGroup
+	} else {
+		destination.OriginGroup = nil
+	}
+
+	// OriginPath
+	destination.OriginPath = genruntime.ClonePointerToString(route.OriginPath)
+
+	// OriginalVersion
+	destination.OriginalVersion = route.OriginalVersion
+
+	// Owner
+	if route.Owner != nil {
+		owner := route.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PatternsToMatch
+	destination.PatternsToMatch = genruntime.CloneSliceOfString(route.PatternsToMatch)
+
+	// RuleSets
+	if route.RuleSets != nil {
+		ruleSetList := make([]storage.ResourceReference, len(route.RuleSets))
+		for ruleSetIndex, ruleSetItem := range route.RuleSets {
+			var ruleSet storage.ResourceReference
+			err := ruleSetItem.AssignProperties_To_ResourceReference(&ruleSet)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field RuleSets")
+			}
+			ruleSetList[ruleSetIndex] = ruleSet
+		}
+		destination.RuleSets = ruleSetList
+	} else {
+		destination.RuleSets = nil
+	}
+
+	// SupportedProtocols
+	destination.SupportedProtocols = genruntime.CloneSliceOfString(route.SupportedProtocols)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRoute_Spec interface (if implemented) to customize the conversion
+	var routeAsAny any = route
+	if augmentedRoute, ok := routeAsAny.(augmentConversionForRoute_Spec); ok {
+		err := augmentedRoute.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230501.Route_STATUS
@@ -241,20 +620,320 @@ var _ genruntime.ConvertibleStatus = &Route_STATUS{}
 
 // ConvertStatusFrom populates our Route_STATUS from the provided source
 func (route *Route_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == route {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.Route_STATUS)
+	if ok {
+		// Populate our instance from source
+		return route.AssignProperties_From_Route_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(route)
+	// Convert to an intermediate form
+	src = &storage.Route_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = route.AssignProperties_From_Route_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our Route_STATUS
 func (route *Route_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == route {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.Route_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return route.AssignProperties_To_Route_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(route)
+	// Convert to an intermediate form
+	dst = &storage.Route_STATUS{}
+	err := route.AssignProperties_To_Route_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Route_STATUS populates our Route_STATUS from the provided source Route_STATUS
+func (route *Route_STATUS) AssignProperties_From_Route_STATUS(source *storage.Route_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CacheConfiguration
+	if source.CacheConfiguration != nil {
+		var cacheConfiguration AfdRouteCacheConfiguration_STATUS
+		err := cacheConfiguration.AssignProperties_From_AfdRouteCacheConfiguration_STATUS(source.CacheConfiguration)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_AfdRouteCacheConfiguration_STATUS() to populate field CacheConfiguration")
+		}
+		route.CacheConfiguration = &cacheConfiguration
+	} else {
+		route.CacheConfiguration = nil
+	}
+
+	// Conditions
+	route.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// CustomDomains
+	if source.CustomDomains != nil {
+		customDomainList := make([]ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded, len(source.CustomDomains))
+		for customDomainIndex, customDomainItem := range source.CustomDomains {
+			var customDomain ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
+			err := customDomain.AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(&customDomainItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded() to populate field CustomDomains")
+			}
+			customDomainList[customDomainIndex] = customDomain
+		}
+		route.CustomDomains = customDomainList
+	} else {
+		route.CustomDomains = nil
+	}
+
+	// DeploymentStatus
+	route.DeploymentStatus = genruntime.ClonePointerToString(source.DeploymentStatus)
+
+	// EnabledState
+	route.EnabledState = genruntime.ClonePointerToString(source.EnabledState)
+
+	// EndpointName
+	route.EndpointName = genruntime.ClonePointerToString(source.EndpointName)
+
+	// ForwardingProtocol
+	route.ForwardingProtocol = genruntime.ClonePointerToString(source.ForwardingProtocol)
+
+	// HttpsRedirect
+	route.HttpsRedirect = genruntime.ClonePointerToString(source.HttpsRedirect)
+
+	// Id
+	route.Id = genruntime.ClonePointerToString(source.Id)
+
+	// LinkToDefaultDomain
+	route.LinkToDefaultDomain = genruntime.ClonePointerToString(source.LinkToDefaultDomain)
+
+	// Name
+	route.Name = genruntime.ClonePointerToString(source.Name)
+
+	// OriginGroup
+	if source.OriginGroup != nil {
+		var originGroup ResourceReference_STATUS
+		err := originGroup.AssignProperties_From_ResourceReference_STATUS(source.OriginGroup)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field OriginGroup")
+		}
+		route.OriginGroup = &originGroup
+	} else {
+		route.OriginGroup = nil
+	}
+
+	// OriginPath
+	route.OriginPath = genruntime.ClonePointerToString(source.OriginPath)
+
+	// PatternsToMatch
+	route.PatternsToMatch = genruntime.CloneSliceOfString(source.PatternsToMatch)
+
+	// ProvisioningState
+	route.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// RuleSets
+	if source.RuleSets != nil {
+		ruleSetList := make([]ResourceReference_STATUS, len(source.RuleSets))
+		for ruleSetIndex, ruleSetItem := range source.RuleSets {
+			var ruleSet ResourceReference_STATUS
+			err := ruleSet.AssignProperties_From_ResourceReference_STATUS(&ruleSetItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field RuleSets")
+			}
+			ruleSetList[ruleSetIndex] = ruleSet
+		}
+		route.RuleSets = ruleSetList
+	} else {
+		route.RuleSets = nil
+	}
+
+	// SupportedProtocols
+	route.SupportedProtocols = genruntime.CloneSliceOfString(source.SupportedProtocols)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		route.SystemData = &systemDatum
+	} else {
+		route.SystemData = nil
+	}
+
+	// Type
+	route.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		route.PropertyBag = propertyBag
+	} else {
+		route.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRoute_STATUS interface (if implemented) to customize the conversion
+	var routeAsAny any = route
+	if augmentedRoute, ok := routeAsAny.(augmentConversionForRoute_STATUS); ok {
+		err := augmentedRoute.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Route_STATUS populates the provided destination Route_STATUS from our Route_STATUS
+func (route *Route_STATUS) AssignProperties_To_Route_STATUS(destination *storage.Route_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(route.PropertyBag)
+
+	// CacheConfiguration
+	if route.CacheConfiguration != nil {
+		var cacheConfiguration storage.AfdRouteCacheConfiguration_STATUS
+		err := route.CacheConfiguration.AssignProperties_To_AfdRouteCacheConfiguration_STATUS(&cacheConfiguration)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_AfdRouteCacheConfiguration_STATUS() to populate field CacheConfiguration")
+		}
+		destination.CacheConfiguration = &cacheConfiguration
+	} else {
+		destination.CacheConfiguration = nil
+	}
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(route.Conditions)
+
+	// CustomDomains
+	if route.CustomDomains != nil {
+		customDomainList := make([]storage.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded, len(route.CustomDomains))
+		for customDomainIndex, customDomainItem := range route.CustomDomains {
+			var customDomain storage.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
+			err := customDomainItem.AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(&customDomain)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded() to populate field CustomDomains")
+			}
+			customDomainList[customDomainIndex] = customDomain
+		}
+		destination.CustomDomains = customDomainList
+	} else {
+		destination.CustomDomains = nil
+	}
+
+	// DeploymentStatus
+	destination.DeploymentStatus = genruntime.ClonePointerToString(route.DeploymentStatus)
+
+	// EnabledState
+	destination.EnabledState = genruntime.ClonePointerToString(route.EnabledState)
+
+	// EndpointName
+	destination.EndpointName = genruntime.ClonePointerToString(route.EndpointName)
+
+	// ForwardingProtocol
+	destination.ForwardingProtocol = genruntime.ClonePointerToString(route.ForwardingProtocol)
+
+	// HttpsRedirect
+	destination.HttpsRedirect = genruntime.ClonePointerToString(route.HttpsRedirect)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(route.Id)
+
+	// LinkToDefaultDomain
+	destination.LinkToDefaultDomain = genruntime.ClonePointerToString(route.LinkToDefaultDomain)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(route.Name)
+
+	// OriginGroup
+	if route.OriginGroup != nil {
+		var originGroup storage.ResourceReference_STATUS
+		err := route.OriginGroup.AssignProperties_To_ResourceReference_STATUS(&originGroup)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field OriginGroup")
+		}
+		destination.OriginGroup = &originGroup
+	} else {
+		destination.OriginGroup = nil
+	}
+
+	// OriginPath
+	destination.OriginPath = genruntime.ClonePointerToString(route.OriginPath)
+
+	// PatternsToMatch
+	destination.PatternsToMatch = genruntime.CloneSliceOfString(route.PatternsToMatch)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(route.ProvisioningState)
+
+	// RuleSets
+	if route.RuleSets != nil {
+		ruleSetList := make([]storage.ResourceReference_STATUS, len(route.RuleSets))
+		for ruleSetIndex, ruleSetItem := range route.RuleSets {
+			var ruleSet storage.ResourceReference_STATUS
+			err := ruleSetItem.AssignProperties_To_ResourceReference_STATUS(&ruleSet)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field RuleSets")
+			}
+			ruleSetList[ruleSetIndex] = ruleSet
+		}
+		destination.RuleSets = ruleSetList
+	} else {
+		destination.RuleSets = nil
+	}
+
+	// SupportedProtocols
+	destination.SupportedProtocols = genruntime.CloneSliceOfString(route.SupportedProtocols)
+
+	// SystemData
+	if route.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := route.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(route.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRoute_STATUS interface (if implemented) to customize the conversion
+	var routeAsAny any = route
+	if augmentedRoute, ok := routeAsAny.(augmentConversionForRoute_STATUS); ok {
+		err := augmentedRoute.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230501.ActivatedResourceReference
@@ -266,11 +945,133 @@ type ActivatedResourceReference struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
+// AssignProperties_From_ActivatedResourceReference populates our ActivatedResourceReference from the provided source ActivatedResourceReference
+func (reference *ActivatedResourceReference) AssignProperties_From_ActivatedResourceReference(source *storage.ActivatedResourceReference) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	if source.Reference != nil {
+		referenceTemp := source.Reference.Copy()
+		reference.Reference = &referenceTemp
+	} else {
+		reference.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		reference.PropertyBag = propertyBag
+	} else {
+		reference.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForActivatedResourceReference interface (if implemented) to customize the conversion
+	var referenceAsAny any = reference
+	if augmentedReference, ok := referenceAsAny.(augmentConversionForActivatedResourceReference); ok {
+		err := augmentedReference.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ActivatedResourceReference populates the provided destination ActivatedResourceReference from our ActivatedResourceReference
+func (reference *ActivatedResourceReference) AssignProperties_To_ActivatedResourceReference(destination *storage.ActivatedResourceReference) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
+
+	// Reference
+	if reference.Reference != nil {
+		referenceTemp := reference.Reference.Copy()
+		destination.Reference = &referenceTemp
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForActivatedResourceReference interface (if implemented) to customize the conversion
+	var referenceAsAny any = reference
+	if augmentedReference, ok := referenceAsAny.(augmentConversionForActivatedResourceReference); ok {
+		err := augmentedReference.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
 // Reference to another resource along with its state.
 type ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded populates our ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded from the provided source ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
+func (embedded *ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded) AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(source *storage.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		embedded.PropertyBag = propertyBag
+	} else {
+		embedded.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded populates the provided destination ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded from our ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
+func (embedded *ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded) AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(destination *storage.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230501.AfdRouteCacheConfiguration
@@ -282,6 +1083,92 @@ type AfdRouteCacheConfiguration struct {
 	QueryStringCachingBehavior *string                `json:"queryStringCachingBehavior,omitempty"`
 }
 
+// AssignProperties_From_AfdRouteCacheConfiguration populates our AfdRouteCacheConfiguration from the provided source AfdRouteCacheConfiguration
+func (configuration *AfdRouteCacheConfiguration) AssignProperties_From_AfdRouteCacheConfiguration(source *storage.AfdRouteCacheConfiguration) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CompressionSettings
+	if source.CompressionSettings != nil {
+		var compressionSetting CompressionSettings
+		err := compressionSetting.AssignProperties_From_CompressionSettings(source.CompressionSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_CompressionSettings() to populate field CompressionSettings")
+		}
+		configuration.CompressionSettings = &compressionSetting
+	} else {
+		configuration.CompressionSettings = nil
+	}
+
+	// QueryParameters
+	configuration.QueryParameters = genruntime.ClonePointerToString(source.QueryParameters)
+
+	// QueryStringCachingBehavior
+	configuration.QueryStringCachingBehavior = genruntime.ClonePointerToString(source.QueryStringCachingBehavior)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		configuration.PropertyBag = propertyBag
+	} else {
+		configuration.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdRouteCacheConfiguration interface (if implemented) to customize the conversion
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForAfdRouteCacheConfiguration); ok {
+		err := augmentedConfiguration.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AfdRouteCacheConfiguration populates the provided destination AfdRouteCacheConfiguration from our AfdRouteCacheConfiguration
+func (configuration *AfdRouteCacheConfiguration) AssignProperties_To_AfdRouteCacheConfiguration(destination *storage.AfdRouteCacheConfiguration) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+
+	// CompressionSettings
+	if configuration.CompressionSettings != nil {
+		var compressionSetting storage.CompressionSettings
+		err := configuration.CompressionSettings.AssignProperties_To_CompressionSettings(&compressionSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_CompressionSettings() to populate field CompressionSettings")
+		}
+		destination.CompressionSettings = &compressionSetting
+	} else {
+		destination.CompressionSettings = nil
+	}
+
+	// QueryParameters
+	destination.QueryParameters = genruntime.ClonePointerToString(configuration.QueryParameters)
+
+	// QueryStringCachingBehavior
+	destination.QueryStringCachingBehavior = genruntime.ClonePointerToString(configuration.QueryStringCachingBehavior)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdRouteCacheConfiguration interface (if implemented) to customize the conversion
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForAfdRouteCacheConfiguration); ok {
+		err := augmentedConfiguration.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501.AfdRouteCacheConfiguration_STATUS
 // Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
 type AfdRouteCacheConfiguration_STATUS struct {
@@ -289,6 +1176,102 @@ type AfdRouteCacheConfiguration_STATUS struct {
 	PropertyBag                genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 	QueryParameters            *string                     `json:"queryParameters,omitempty"`
 	QueryStringCachingBehavior *string                     `json:"queryStringCachingBehavior,omitempty"`
+}
+
+// AssignProperties_From_AfdRouteCacheConfiguration_STATUS populates our AfdRouteCacheConfiguration_STATUS from the provided source AfdRouteCacheConfiguration_STATUS
+func (configuration *AfdRouteCacheConfiguration_STATUS) AssignProperties_From_AfdRouteCacheConfiguration_STATUS(source *storage.AfdRouteCacheConfiguration_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CompressionSettings
+	if source.CompressionSettings != nil {
+		var compressionSetting CompressionSettings_STATUS
+		err := compressionSetting.AssignProperties_From_CompressionSettings_STATUS(source.CompressionSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_CompressionSettings_STATUS() to populate field CompressionSettings")
+		}
+		configuration.CompressionSettings = &compressionSetting
+	} else {
+		configuration.CompressionSettings = nil
+	}
+
+	// QueryParameters
+	configuration.QueryParameters = genruntime.ClonePointerToString(source.QueryParameters)
+
+	// QueryStringCachingBehavior
+	configuration.QueryStringCachingBehavior = genruntime.ClonePointerToString(source.QueryStringCachingBehavior)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		configuration.PropertyBag = propertyBag
+	} else {
+		configuration.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdRouteCacheConfiguration_STATUS interface (if implemented) to customize the conversion
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForAfdRouteCacheConfiguration_STATUS); ok {
+		err := augmentedConfiguration.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AfdRouteCacheConfiguration_STATUS populates the provided destination AfdRouteCacheConfiguration_STATUS from our AfdRouteCacheConfiguration_STATUS
+func (configuration *AfdRouteCacheConfiguration_STATUS) AssignProperties_To_AfdRouteCacheConfiguration_STATUS(destination *storage.AfdRouteCacheConfiguration_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+
+	// CompressionSettings
+	if configuration.CompressionSettings != nil {
+		var compressionSetting storage.CompressionSettings_STATUS
+		err := configuration.CompressionSettings.AssignProperties_To_CompressionSettings_STATUS(&compressionSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_CompressionSettings_STATUS() to populate field CompressionSettings")
+		}
+		destination.CompressionSettings = &compressionSetting
+	} else {
+		destination.CompressionSettings = nil
+	}
+
+	// QueryParameters
+	destination.QueryParameters = genruntime.ClonePointerToString(configuration.QueryParameters)
+
+	// QueryStringCachingBehavior
+	destination.QueryStringCachingBehavior = genruntime.ClonePointerToString(configuration.QueryStringCachingBehavior)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdRouteCacheConfiguration_STATUS interface (if implemented) to customize the conversion
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForAfdRouteCacheConfiguration_STATUS); ok {
+		err := augmentedConfiguration.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForRoute_Spec interface {
+	AssignPropertiesFrom(src *storage.Route_Spec) error
+	AssignPropertiesTo(dst *storage.Route_Spec) error
+}
+
+type augmentConversionForRoute_STATUS interface {
+	AssignPropertiesFrom(src *storage.Route_STATUS) error
+	AssignPropertiesTo(dst *storage.Route_STATUS) error
 }
 
 // Storage version of v1api20230501.RouteOperatorSpec
@@ -299,6 +1282,145 @@ type RouteOperatorSpec struct {
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
+// AssignProperties_From_RouteOperatorSpec populates our RouteOperatorSpec from the provided source RouteOperatorSpec
+func (operator *RouteOperatorSpec) AssignProperties_From_RouteOperatorSpec(source *storage.RouteOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRouteOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRouteOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RouteOperatorSpec populates the provided destination RouteOperatorSpec from our RouteOperatorSpec
+func (operator *RouteOperatorSpec) AssignProperties_To_RouteOperatorSpec(destination *storage.RouteOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRouteOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRouteOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForActivatedResourceReference interface {
+	AssignPropertiesFrom(src *storage.ActivatedResourceReference) error
+	AssignPropertiesTo(dst *storage.ActivatedResourceReference) error
+}
+
+type augmentConversionForActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *storage.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *storage.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded) error
+}
+
+type augmentConversionForAfdRouteCacheConfiguration interface {
+	AssignPropertiesFrom(src *storage.AfdRouteCacheConfiguration) error
+	AssignPropertiesTo(dst *storage.AfdRouteCacheConfiguration) error
+}
+
+type augmentConversionForAfdRouteCacheConfiguration_STATUS interface {
+	AssignPropertiesFrom(src *storage.AfdRouteCacheConfiguration_STATUS) error
+	AssignPropertiesTo(dst *storage.AfdRouteCacheConfiguration_STATUS) error
+}
+
+type augmentConversionForRouteOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.RouteOperatorSpec) error
+	AssignPropertiesTo(dst *storage.RouteOperatorSpec) error
+}
+
 // Storage version of v1api20230501.CompressionSettings
 // settings for compression.
 type CompressionSettings struct {
@@ -307,12 +1429,166 @@ type CompressionSettings struct {
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_CompressionSettings populates our CompressionSettings from the provided source CompressionSettings
+func (settings *CompressionSettings) AssignProperties_From_CompressionSettings(source *storage.CompressionSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ContentTypesToCompress
+	settings.ContentTypesToCompress = genruntime.CloneSliceOfString(source.ContentTypesToCompress)
+
+	// IsCompressionEnabled
+	if source.IsCompressionEnabled != nil {
+		isCompressionEnabled := *source.IsCompressionEnabled
+		settings.IsCompressionEnabled = &isCompressionEnabled
+	} else {
+		settings.IsCompressionEnabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCompressionSettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForCompressionSettings); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CompressionSettings populates the provided destination CompressionSettings from our CompressionSettings
+func (settings *CompressionSettings) AssignProperties_To_CompressionSettings(destination *storage.CompressionSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// ContentTypesToCompress
+	destination.ContentTypesToCompress = genruntime.CloneSliceOfString(settings.ContentTypesToCompress)
+
+	// IsCompressionEnabled
+	if settings.IsCompressionEnabled != nil {
+		isCompressionEnabled := *settings.IsCompressionEnabled
+		destination.IsCompressionEnabled = &isCompressionEnabled
+	} else {
+		destination.IsCompressionEnabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCompressionSettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForCompressionSettings); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501.CompressionSettings_STATUS
 // settings for compression.
 type CompressionSettings_STATUS struct {
 	ContentTypesToCompress []string               `json:"contentTypesToCompress,omitempty"`
 	IsCompressionEnabled   *bool                  `json:"isCompressionEnabled,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_CompressionSettings_STATUS populates our CompressionSettings_STATUS from the provided source CompressionSettings_STATUS
+func (settings *CompressionSettings_STATUS) AssignProperties_From_CompressionSettings_STATUS(source *storage.CompressionSettings_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ContentTypesToCompress
+	settings.ContentTypesToCompress = genruntime.CloneSliceOfString(source.ContentTypesToCompress)
+
+	// IsCompressionEnabled
+	if source.IsCompressionEnabled != nil {
+		isCompressionEnabled := *source.IsCompressionEnabled
+		settings.IsCompressionEnabled = &isCompressionEnabled
+	} else {
+		settings.IsCompressionEnabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCompressionSettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForCompressionSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CompressionSettings_STATUS populates the provided destination CompressionSettings_STATUS from our CompressionSettings_STATUS
+func (settings *CompressionSettings_STATUS) AssignProperties_To_CompressionSettings_STATUS(destination *storage.CompressionSettings_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// ContentTypesToCompress
+	destination.ContentTypesToCompress = genruntime.CloneSliceOfString(settings.ContentTypesToCompress)
+
+	// IsCompressionEnabled
+	if settings.IsCompressionEnabled != nil {
+		isCompressionEnabled := *settings.IsCompressionEnabled
+		destination.IsCompressionEnabled = &isCompressionEnabled
+	} else {
+		destination.IsCompressionEnabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCompressionSettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForCompressionSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForCompressionSettings interface {
+	AssignPropertiesFrom(src *storage.CompressionSettings) error
+	AssignPropertiesTo(dst *storage.CompressionSettings) error
+}
+
+type augmentConversionForCompressionSettings_STATUS interface {
+	AssignPropertiesFrom(src *storage.CompressionSettings_STATUS) error
+	AssignPropertiesTo(dst *storage.CompressionSettings_STATUS) error
 }
 
 func init() {

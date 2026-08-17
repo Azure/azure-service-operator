@@ -5,7 +5,8 @@ package v20251015
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/storage"
+	v20251015s "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/storage"
+	v20260315s "github.com/Azure/azure-service-operator/v2/api/documentdb/v20260315/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_CassandraCluster_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -36,7 +42,7 @@ func RunResourceConversionTestForCassandraCluster(subject CassandraCluster) stri
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.CassandraCluster
+	var hub v20260315s.CassandraCluster
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -63,6 +69,11 @@ func RunResourceConversionTestForCassandraCluster(subject CassandraCluster) stri
 
 func Test_CassandraCluster_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -78,7 +89,7 @@ func RunPropertyAssignmentTestForCassandraCluster(subject CassandraCluster) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CassandraCluster
+	var other v20251015s.CassandraCluster
 	err := copied.AssignProperties_To_CassandraCluster(&other)
 	if err != nil {
 		return err.Error()
@@ -105,6 +116,11 @@ func RunPropertyAssignmentTestForCassandraCluster(subject CassandraCluster) stri
 
 func Test_CassandraCluster_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -166,6 +182,11 @@ func AddRelatedPropertyGeneratorsForCassandraCluster(gens map[string]gopter.Gen)
 
 func Test_CassandraClusterOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -181,7 +202,7 @@ func RunPropertyAssignmentTestForCassandraClusterOperatorSpec(subject CassandraC
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CassandraClusterOperatorSpec
+	var other v20251015s.CassandraClusterOperatorSpec
 	err := copied.AssignProperties_To_CassandraClusterOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -208,6 +229,11 @@ func RunPropertyAssignmentTestForCassandraClusterOperatorSpec(subject CassandraC
 
 func Test_CassandraClusterOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -263,6 +289,11 @@ func CassandraClusterOperatorSpecGenerator() gopter.Gen {
 
 func Test_CassandraCluster_Properties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -278,7 +309,7 @@ func RunPropertyAssignmentTestForCassandraCluster_Properties_STATUS(subject Cass
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CassandraCluster_Properties_STATUS
+	var other v20251015s.CassandraCluster_Properties_STATUS
 	err := copied.AssignProperties_To_CassandraCluster_Properties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -305,6 +336,11 @@ func RunPropertyAssignmentTestForCassandraCluster_Properties_STATUS(subject Cass
 
 func Test_CassandraCluster_Properties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -403,6 +439,11 @@ func AddRelatedPropertyGeneratorsForCassandraCluster_Properties_STATUS(gens map[
 
 func Test_CassandraCluster_Properties_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -418,7 +459,7 @@ func RunPropertyAssignmentTestForCassandraCluster_Properties_Spec(subject Cassan
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CassandraCluster_Properties_Spec
+	var other v20251015s.CassandraCluster_Properties_Spec
 	err := copied.AssignProperties_To_CassandraCluster_Properties_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -445,6 +486,11 @@ func RunPropertyAssignmentTestForCassandraCluster_Properties_Spec(subject Cassan
 
 func Test_CassandraCluster_Properties_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -529,6 +575,11 @@ func AddRelatedPropertyGeneratorsForCassandraCluster_Properties_Spec(gens map[st
 
 func Test_CassandraCluster_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -544,7 +595,7 @@ func RunPropertyAssignmentTestForCassandraCluster_STATUS(subject CassandraCluste
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CassandraCluster_STATUS
+	var other v20251015s.CassandraCluster_STATUS
 	err := copied.AssignProperties_To_CassandraCluster_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -571,6 +622,11 @@ func RunPropertyAssignmentTestForCassandraCluster_STATUS(subject CassandraCluste
 
 func Test_CassandraCluster_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -653,6 +709,11 @@ func AddRelatedPropertyGeneratorsForCassandraCluster_STATUS(gens map[string]gopt
 
 func Test_CassandraCluster_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -668,7 +729,7 @@ func RunPropertyAssignmentTestForCassandraCluster_Spec(subject CassandraCluster_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CassandraCluster_Spec
+	var other v20251015s.CassandraCluster_Spec
 	err := copied.AssignProperties_To_CassandraCluster_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -695,6 +756,11 @@ func RunPropertyAssignmentTestForCassandraCluster_Spec(subject CassandraCluster_
 
 func Test_CassandraCluster_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -776,6 +842,11 @@ func AddRelatedPropertyGeneratorsForCassandraCluster_Spec(gens map[string]gopter
 
 func Test_CassandraError_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -791,7 +862,7 @@ func RunPropertyAssignmentTestForCassandraError_STATUS(subject CassandraError_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CassandraError_STATUS
+	var other v20251015s.CassandraError_STATUS
 	err := copied.AssignProperties_To_CassandraError_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -818,6 +889,11 @@ func RunPropertyAssignmentTestForCassandraError_STATUS(subject CassandraError_ST
 
 func Test_CassandraError_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -882,6 +958,11 @@ func AddIndependentPropertyGeneratorsForCassandraError_STATUS(gens map[string]go
 
 func Test_Certificate_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -897,7 +978,7 @@ func RunPropertyAssignmentTestForCertificate(subject Certificate) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Certificate
+	var other v20251015s.Certificate
 	err := copied.AssignProperties_To_Certificate(&other)
 	if err != nil {
 		return err.Error()
@@ -924,6 +1005,11 @@ func RunPropertyAssignmentTestForCertificate(subject Certificate) string {
 
 func Test_Certificate_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -978,6 +1064,11 @@ func CertificateGenerator() gopter.Gen {
 
 func Test_Certificate_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -993,7 +1084,7 @@ func RunPropertyAssignmentTestForCertificate_STATUS(subject Certificate_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Certificate_STATUS
+	var other v20251015s.Certificate_STATUS
 	err := copied.AssignProperties_To_Certificate_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1020,6 +1111,11 @@ func RunPropertyAssignmentTestForCertificate_STATUS(subject Certificate_STATUS) 
 
 func Test_Certificate_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1074,6 +1170,11 @@ func Certificate_STATUSGenerator() gopter.Gen {
 
 func Test_ManagedCassandraManagedServiceIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1089,7 +1190,7 @@ func RunPropertyAssignmentTestForManagedCassandraManagedServiceIdentity(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedCassandraManagedServiceIdentity
+	var other v20251015s.ManagedCassandraManagedServiceIdentity
 	err := copied.AssignProperties_To_ManagedCassandraManagedServiceIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -1116,6 +1217,11 @@ func RunPropertyAssignmentTestForManagedCassandraManagedServiceIdentity(subject 
 
 func Test_ManagedCassandraManagedServiceIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1177,6 +1283,11 @@ func AddIndependentPropertyGeneratorsForManagedCassandraManagedServiceIdentity(g
 
 func Test_ManagedCassandraManagedServiceIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1192,7 +1303,7 @@ func RunPropertyAssignmentTestForManagedCassandraManagedServiceIdentity_STATUS(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedCassandraManagedServiceIdentity_STATUS
+	var other v20251015s.ManagedCassandraManagedServiceIdentity_STATUS
 	err := copied.AssignProperties_To_ManagedCassandraManagedServiceIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1219,6 +1330,11 @@ func RunPropertyAssignmentTestForManagedCassandraManagedServiceIdentity_STATUS(s
 
 func Test_ManagedCassandraManagedServiceIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1282,6 +1398,11 @@ func AddIndependentPropertyGeneratorsForManagedCassandraManagedServiceIdentity_S
 
 func Test_SeedNode_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1297,7 +1418,7 @@ func RunPropertyAssignmentTestForSeedNode(subject SeedNode) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SeedNode
+	var other v20251015s.SeedNode
 	err := copied.AssignProperties_To_SeedNode(&other)
 	if err != nil {
 		return err.Error()
@@ -1324,6 +1445,11 @@ func RunPropertyAssignmentTestForSeedNode(subject SeedNode) string {
 
 func Test_SeedNode_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1384,6 +1510,11 @@ func AddIndependentPropertyGeneratorsForSeedNode(gens map[string]gopter.Gen) {
 
 func Test_SeedNode_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1399,7 +1530,7 @@ func RunPropertyAssignmentTestForSeedNode_STATUS(subject SeedNode_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SeedNode_STATUS
+	var other v20251015s.SeedNode_STATUS
 	err := copied.AssignProperties_To_SeedNode_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1426,6 +1557,11 @@ func RunPropertyAssignmentTestForSeedNode_STATUS(subject SeedNode_STATUS) string
 
 func Test_SeedNode_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

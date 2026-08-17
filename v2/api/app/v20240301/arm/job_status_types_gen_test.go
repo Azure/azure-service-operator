@@ -19,6 +19,11 @@ import (
 
 func Test_JobConfiguration_EventTriggerConfig_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -95,6 +100,11 @@ func AddRelatedPropertyGeneratorsForJobConfiguration_EventTriggerConfig_STATUS(g
 
 func Test_JobConfiguration_ManualTriggerConfig_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -157,6 +167,11 @@ func AddIndependentPropertyGeneratorsForJobConfiguration_ManualTriggerConfig_STA
 
 func Test_JobConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -238,6 +253,11 @@ func AddRelatedPropertyGeneratorsForJobConfiguration_STATUS(gens map[string]gopt
 
 func Test_JobConfiguration_ScheduleTriggerConfig_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -301,6 +321,11 @@ func AddIndependentPropertyGeneratorsForJobConfiguration_ScheduleTriggerConfig_S
 
 func Test_JobScaleRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -377,6 +402,11 @@ func AddRelatedPropertyGeneratorsForJobScaleRule_STATUS(gens map[string]gopter.G
 
 func Test_JobScale_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -453,6 +483,11 @@ func AddRelatedPropertyGeneratorsForJobScale_STATUS(gens map[string]gopter.Gen) 
 
 func Test_JobTemplate_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -515,6 +550,11 @@ func AddRelatedPropertyGeneratorsForJobTemplate_STATUS(gens map[string]gopter.Ge
 
 func Test_Job_Properties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -600,6 +640,11 @@ func AddRelatedPropertyGeneratorsForJob_Properties_STATUS(gens map[string]gopter
 
 func Test_Job_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

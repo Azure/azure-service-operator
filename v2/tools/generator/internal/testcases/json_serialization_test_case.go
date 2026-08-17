@@ -197,6 +197,16 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 	// t.Parallel()
 	declareParallel := astbuilder.CallExprAsStmt(t, "Parallel")
 
+	// if testing.Short() {
+	//     return
+	// }
+	checkShort := astbuilder.SimpleIf(
+		astbuilder.CallQualifiedFunc(testingPackage, "Short"),
+		astbuilder.Returns(),
+	)
+	checkShort.Decs.Before = dst.EmptyLine
+	checkShort.Decs.After = dst.EmptyLine
+
 	// parameters := gopter.DefaultTestParameters()
 	defineParameters := astbuilder.ShortDeclaration(
 		parametersLocal,
@@ -261,6 +271,7 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 		testingPackage,
 		o.testName,
 		declareParallel,
+		checkShort,
 		defineParameters,
 		configureMinSuccessfulTests,
 		configureMaxSize,

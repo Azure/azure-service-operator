@@ -148,6 +148,7 @@
 | DataMaskingEntity_Mode_STATUS                                |               |                      |               |           |                  | v20240501 |
 | DataMaskingEntity_STATUS                                     |               |                      |               |           |                  | v20240501 |
 | DataMasking_STATUS                                           |               |                      |               |           |                  | v20240501 |
+| Diagnostic                                                   |               |                      |               |           |                  | v20240501 |
 | DiagnosticContractProperties                                 |               |                      |               |           |                  | v20240501 |
 | DiagnosticContractProperties_AlwaysLog                       |               |                      |               |           |                  | v20240501 |
 | DiagnosticContractProperties_AlwaysLog_STATUS                |               |                      |               |           |                  | v20240501 |
@@ -158,6 +159,8 @@
 | DiagnosticContractProperties_STATUS                          |               |                      |               |           |                  | v20240501 |
 | DiagnosticContractProperties_Verbosity                       |               |                      |               |           |                  | v20240501 |
 | DiagnosticContractProperties_Verbosity_STATUS                |               |                      |               |           |                  | v20240501 |
+| Diagnostic_STATUS                                            |               |                      |               |           |                  | v20240501 |
+| Diagnostic_Spec                                              |               |                      |               |           |                  | v20240501 |
 | FailureStatusCodeRange                                       |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
 | FailureStatusCodeRange_STATUS                                |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
 | GatewayCertificateAuthorityContractProperties                |               |                      |               |           |                  | v20240501 |
@@ -229,6 +232,9 @@
 | ProductContractProperties_STATUS                             | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | ProductContractProperties_State                              | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | ProductContractProperties_State_STATUS                       | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| ProductGroup                                                 |               |                      |               |           |                  | v20240501 |
+| ProductGroup_STATUS                                          |               |                      |               |           |                  | v20240501 |
+| ProductGroup_Spec                                            |               |                      |               |           |                  | v20240501 |
 | ProductPolicy                                                | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | ProductPolicy_STATUS                                         | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | ProductPolicy_Spec                                           | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |

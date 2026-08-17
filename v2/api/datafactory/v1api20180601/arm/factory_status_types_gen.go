@@ -12,10 +12,14 @@ import (
 type Factory_STATUS struct {
 	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
 
-	// ETag: Etag identifies change in the resource.
+	// ETag: If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.
+	// Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in
+	// the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header
+	// fields.
 	ETag *string `json:"eTag,omitempty"`
 
-	// Id: The resource identifier.
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Identity: Managed service identity of the factory.
@@ -24,16 +28,19 @@ type Factory_STATUS struct {
 	// Location: The resource location.
 	Location *string `json:"location,omitempty"`
 
-	// Name: The resource name.
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the factory.
 	Properties *FactoryProperties_STATUS `json:"properties,omitempty"`
 
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
 	// Tags: The resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: The resource type.
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -46,7 +53,7 @@ type FactoryIdentity_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-	Type *FactoryIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *FactoryIdentityType_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: List of user assigned identities for the factory.
 	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
@@ -67,7 +74,7 @@ type FactoryProperties_STATUS struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for the data factory.
-	PublicNetworkAccess *FactoryProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 
 	// PurviewConfiguration: Purview information of the factory.
 	PurviewConfiguration *PurviewConfiguration_STATUS `json:"purviewConfiguration,omitempty"`
@@ -77,6 +84,27 @@ type FactoryProperties_STATUS struct {
 
 	// Version: Version of the factory.
 	Version *string `json:"version,omitempty"`
+}
+
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData_STATUS struct {
+	// CreatedAt: The timestamp of resource creation (UTC).
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// CreatedBy: The identity that created the resource.
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	// CreatedByType: The type of identity that created the resource.
+	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: The identity that last modified the resource.
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the resource.
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
 // Definition of CMK for the factory.
@@ -95,32 +123,20 @@ type EncryptionConfiguration_STATUS struct {
 	VaultBaseUrl *string `json:"vaultBaseUrl,omitempty"`
 }
 
-type FactoryIdentity_Type_STATUS string
+// The identity type.
+type FactoryIdentityType_STATUS string
 
 const (
-	FactoryIdentity_Type_STATUS_SystemAssigned             = FactoryIdentity_Type_STATUS("SystemAssigned")
-	FactoryIdentity_Type_STATUS_SystemAssignedUserAssigned = FactoryIdentity_Type_STATUS("SystemAssigned,UserAssigned")
-	FactoryIdentity_Type_STATUS_UserAssigned               = FactoryIdentity_Type_STATUS("UserAssigned")
+	FactoryIdentityType_STATUS_SystemAssigned             = FactoryIdentityType_STATUS("SystemAssigned")
+	FactoryIdentityType_STATUS_SystemAssignedUserAssigned = FactoryIdentityType_STATUS("SystemAssigned,UserAssigned")
+	FactoryIdentityType_STATUS_UserAssigned               = FactoryIdentityType_STATUS("UserAssigned")
 )
 
-// Mapping from string to FactoryIdentity_Type_STATUS
-var factoryIdentity_Type_STATUS_Values = map[string]FactoryIdentity_Type_STATUS{
-	"systemassigned":              FactoryIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned,userassigned": FactoryIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                FactoryIdentity_Type_STATUS_UserAssigned,
-}
-
-type FactoryProperties_PublicNetworkAccess_STATUS string
-
-const (
-	FactoryProperties_PublicNetworkAccess_STATUS_Disabled = FactoryProperties_PublicNetworkAccess_STATUS("Disabled")
-	FactoryProperties_PublicNetworkAccess_STATUS_Enabled  = FactoryProperties_PublicNetworkAccess_STATUS("Enabled")
-)
-
-// Mapping from string to FactoryProperties_PublicNetworkAccess_STATUS
-var factoryProperties_PublicNetworkAccess_STATUS_Values = map[string]FactoryProperties_PublicNetworkAccess_STATUS{
-	"disabled": FactoryProperties_PublicNetworkAccess_STATUS_Disabled,
-	"enabled":  FactoryProperties_PublicNetworkAccess_STATUS_Enabled,
+// Mapping from string to FactoryIdentityType_STATUS
+var factoryIdentityType_STATUS_Values = map[string]FactoryIdentityType_STATUS{
+	"systemassigned":              FactoryIdentityType_STATUS_SystemAssigned,
+	"systemassigned,userassigned": FactoryIdentityType_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                FactoryIdentityType_STATUS_UserAssigned,
 }
 
 type FactoryRepoConfiguration_STATUS struct {
@@ -168,16 +184,64 @@ func (configuration *FactoryRepoConfiguration_STATUS) UnmarshalJSON(data []byte)
 // Definition of a single parameter for an entity.
 type GlobalParameterSpecification_STATUS struct {
 	// Type: Global Parameter type.
-	Type *GlobalParameterSpecification_Type_STATUS `json:"type,omitempty"`
+	Type *GlobalParameterType_STATUS `json:"type,omitempty"`
 
 	// Value: Value of parameter.
 	Value map[string]v1.JSON `json:"value,omitempty"`
+}
+
+// Whether or not public network access is allowed for the data factory.
+type PublicNetworkAccess_STATUS string
+
+const (
+	PublicNetworkAccess_STATUS_Disabled = PublicNetworkAccess_STATUS("Disabled")
+	PublicNetworkAccess_STATUS_Enabled  = PublicNetworkAccess_STATUS("Enabled")
+)
+
+// Mapping from string to PublicNetworkAccess_STATUS
+var publicNetworkAccess_STATUS_Values = map[string]PublicNetworkAccess_STATUS{
+	"disabled": PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  PublicNetworkAccess_STATUS_Enabled,
 }
 
 // Purview configuration.
 type PurviewConfiguration_STATUS struct {
 	// PurviewResourceId: Purview resource id.
 	PurviewResourceId *string `json:"purviewResourceId,omitempty"`
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 // Managed Identity used for CMK.
@@ -247,25 +311,26 @@ type FactoryVSTSConfiguration_STATUS struct {
 	Type FactoryVSTSConfiguration_Type_STATUS `json:"type,omitempty"`
 }
 
-type GlobalParameterSpecification_Type_STATUS string
+// Global Parameter type.
+type GlobalParameterType_STATUS string
 
 const (
-	GlobalParameterSpecification_Type_STATUS_Array  = GlobalParameterSpecification_Type_STATUS("Array")
-	GlobalParameterSpecification_Type_STATUS_Bool   = GlobalParameterSpecification_Type_STATUS("Bool")
-	GlobalParameterSpecification_Type_STATUS_Float  = GlobalParameterSpecification_Type_STATUS("Float")
-	GlobalParameterSpecification_Type_STATUS_Int    = GlobalParameterSpecification_Type_STATUS("Int")
-	GlobalParameterSpecification_Type_STATUS_Object = GlobalParameterSpecification_Type_STATUS("Object")
-	GlobalParameterSpecification_Type_STATUS_String = GlobalParameterSpecification_Type_STATUS("String")
+	GlobalParameterType_STATUS_Array  = GlobalParameterType_STATUS("Array")
+	GlobalParameterType_STATUS_Bool   = GlobalParameterType_STATUS("Bool")
+	GlobalParameterType_STATUS_Float  = GlobalParameterType_STATUS("Float")
+	GlobalParameterType_STATUS_Int    = GlobalParameterType_STATUS("Int")
+	GlobalParameterType_STATUS_Object = GlobalParameterType_STATUS("Object")
+	GlobalParameterType_STATUS_String = GlobalParameterType_STATUS("String")
 )
 
-// Mapping from string to GlobalParameterSpecification_Type_STATUS
-var globalParameterSpecification_Type_STATUS_Values = map[string]GlobalParameterSpecification_Type_STATUS{
-	"array":  GlobalParameterSpecification_Type_STATUS_Array,
-	"bool":   GlobalParameterSpecification_Type_STATUS_Bool,
-	"float":  GlobalParameterSpecification_Type_STATUS_Float,
-	"int":    GlobalParameterSpecification_Type_STATUS_Int,
-	"object": GlobalParameterSpecification_Type_STATUS_Object,
-	"string": GlobalParameterSpecification_Type_STATUS_String,
+// Mapping from string to GlobalParameterType_STATUS
+var globalParameterType_STATUS_Values = map[string]GlobalParameterType_STATUS{
+	"array":  GlobalParameterType_STATUS_Array,
+	"bool":   GlobalParameterType_STATUS_Bool,
+	"float":  GlobalParameterType_STATUS_Float,
+	"int":    GlobalParameterType_STATUS_Int,
+	"object": GlobalParameterType_STATUS_Object,
+	"string": GlobalParameterType_STATUS_String,
 }
 
 type FactoryGitHubConfiguration_Type_STATUS string

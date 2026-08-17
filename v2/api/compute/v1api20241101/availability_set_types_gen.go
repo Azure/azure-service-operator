@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2024-11-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}
 type AvailabilitySet struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +51,36 @@ var _ conversion.Convertible = &AvailabilitySet{}
 
 // ConvertFrom populates our AvailabilitySet from the provided hub AvailabilitySet
 func (availabilitySet *AvailabilitySet) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.AvailabilitySet)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20241101/storage/AvailabilitySet but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.AvailabilitySet
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return availabilitySet.AssignProperties_From_AvailabilitySet(source)
+	err = availabilitySet.AssignProperties_From_AvailabilitySet(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to availabilitySet")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub AvailabilitySet from our AvailabilitySet
 func (availabilitySet *AvailabilitySet) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.AvailabilitySet)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20241101/storage/AvailabilitySet but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.AvailabilitySet
+	err := availabilitySet.AssignProperties_To_AvailabilitySet(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from availabilitySet")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return availabilitySet.AssignProperties_To_AvailabilitySet(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &AvailabilitySet{}
@@ -87,17 +101,6 @@ func (availabilitySet *AvailabilitySet) SecretDestinationExpressions() []*core.D
 		return nil
 	}
 	return availabilitySet.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &AvailabilitySet{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (availabilitySet *AvailabilitySet) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*AvailabilitySet_STATUS); ok {
-		return availabilitySet.Spec.Initialize_From_AvailabilitySet_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type AvailabilitySet_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &AvailabilitySet{}
@@ -238,7 +241,7 @@ func (availabilitySet *AvailabilitySet) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2024-11-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}
 type AvailabilitySetList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -674,61 +677,6 @@ func (availabilitySet *AvailabilitySet_Spec) AssignProperties_To_AvailabilitySet
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AvailabilitySet_STATUS populates our AvailabilitySet_Spec from the provided source AvailabilitySet_STATUS
-func (availabilitySet *AvailabilitySet_Spec) Initialize_From_AvailabilitySet_STATUS(source *AvailabilitySet_STATUS) error {
-
-	// Location
-	availabilitySet.Location = genruntime.ClonePointerToString(source.Location)
-
-	// PlatformFaultDomainCount
-	availabilitySet.PlatformFaultDomainCount = genruntime.ClonePointerToInt(source.PlatformFaultDomainCount)
-
-	// PlatformUpdateDomainCount
-	availabilitySet.PlatformUpdateDomainCount = genruntime.ClonePointerToInt(source.PlatformUpdateDomainCount)
-
-	// ProximityPlacementGroup
-	if source.ProximityPlacementGroup != nil {
-		var proximityPlacementGroup SubResource
-		err := proximityPlacementGroup.Initialize_From_SubResource_STATUS(source.ProximityPlacementGroup)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field ProximityPlacementGroup")
-		}
-		availabilitySet.ProximityPlacementGroup = &proximityPlacementGroup
-	} else {
-		availabilitySet.ProximityPlacementGroup = nil
-	}
-
-	// ScheduledEventsPolicy
-	if source.ScheduledEventsPolicy != nil {
-		var scheduledEventsPolicy ScheduledEventsPolicy
-		err := scheduledEventsPolicy.Initialize_From_ScheduledEventsPolicy_STATUS(source.ScheduledEventsPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ScheduledEventsPolicy_STATUS() to populate field ScheduledEventsPolicy")
-		}
-		availabilitySet.ScheduledEventsPolicy = &scheduledEventsPolicy
-	} else {
-		availabilitySet.ScheduledEventsPolicy = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		availabilitySet.Sku = &sku
-	} else {
-		availabilitySet.Sku = nil
-	}
-
-	// Tags
-	availabilitySet.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1696,49 +1644,6 @@ func (policy *ScheduledEventsPolicy) AssignProperties_To_ScheduledEventsPolicy(d
 	return nil
 }
 
-// Initialize_From_ScheduledEventsPolicy_STATUS populates our ScheduledEventsPolicy from the provided source ScheduledEventsPolicy_STATUS
-func (policy *ScheduledEventsPolicy) Initialize_From_ScheduledEventsPolicy_STATUS(source *ScheduledEventsPolicy_STATUS) error {
-
-	// ScheduledEventsAdditionalPublishingTargets
-	if source.ScheduledEventsAdditionalPublishingTargets != nil {
-		var scheduledEventsAdditionalPublishingTarget ScheduledEventsAdditionalPublishingTargets
-		err := scheduledEventsAdditionalPublishingTarget.Initialize_From_ScheduledEventsAdditionalPublishingTargets_STATUS(source.ScheduledEventsAdditionalPublishingTargets)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ScheduledEventsAdditionalPublishingTargets_STATUS() to populate field ScheduledEventsAdditionalPublishingTargets")
-		}
-		policy.ScheduledEventsAdditionalPublishingTargets = &scheduledEventsAdditionalPublishingTarget
-	} else {
-		policy.ScheduledEventsAdditionalPublishingTargets = nil
-	}
-
-	// UserInitiatedReboot
-	if source.UserInitiatedReboot != nil {
-		var userInitiatedReboot UserInitiatedReboot
-		err := userInitiatedReboot.Initialize_From_UserInitiatedReboot_STATUS(source.UserInitiatedReboot)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UserInitiatedReboot_STATUS() to populate field UserInitiatedReboot")
-		}
-		policy.UserInitiatedReboot = &userInitiatedReboot
-	} else {
-		policy.UserInitiatedReboot = nil
-	}
-
-	// UserInitiatedRedeploy
-	if source.UserInitiatedRedeploy != nil {
-		var userInitiatedRedeploy UserInitiatedRedeploy
-		err := userInitiatedRedeploy.Initialize_From_UserInitiatedRedeploy_STATUS(source.UserInitiatedRedeploy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UserInitiatedRedeploy_STATUS() to populate field UserInitiatedRedeploy")
-		}
-		policy.UserInitiatedRedeploy = &userInitiatedRedeploy
-	} else {
-		policy.UserInitiatedRedeploy = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations.
 type ScheduledEventsPolicy_STATUS struct {
 	// ScheduledEventsAdditionalPublishingTargets: The configuration parameters used while publishing
@@ -2020,22 +1925,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	return nil
 }
 
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Capacity
-	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// Name
-	sku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Tier
-	sku.Tier = genruntime.ClonePointerToString(source.Tier)
-
-	// No error
-	return nil
-}
-
 // Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is
 // currently on, you need to deallocate the VMs in the scale set before you modify the SKU name.
 type Sku_STATUS struct {
@@ -2206,21 +2095,6 @@ func (resource *SubResource) AssignProperties_To_SubResource(destination *storag
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SubResource_STATUS populates our SubResource from the provided source SubResource_STATUS
-func (resource *SubResource) Initialize_From_SubResource_STATUS(source *SubResource_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
 	}
 
 	// No error
@@ -2777,25 +2651,6 @@ func (targets *ScheduledEventsAdditionalPublishingTargets) AssignProperties_To_S
 	return nil
 }
 
-// Initialize_From_ScheduledEventsAdditionalPublishingTargets_STATUS populates our ScheduledEventsAdditionalPublishingTargets from the provided source ScheduledEventsAdditionalPublishingTargets_STATUS
-func (targets *ScheduledEventsAdditionalPublishingTargets) Initialize_From_ScheduledEventsAdditionalPublishingTargets_STATUS(source *ScheduledEventsAdditionalPublishingTargets_STATUS) error {
-
-	// EventGridAndResourceGraph
-	if source.EventGridAndResourceGraph != nil {
-		var eventGridAndResourceGraph EventGridAndResourceGraph
-		err := eventGridAndResourceGraph.Initialize_From_EventGridAndResourceGraph_STATUS(source.EventGridAndResourceGraph)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_EventGridAndResourceGraph_STATUS() to populate field EventGridAndResourceGraph")
-		}
-		targets.EventGridAndResourceGraph = &eventGridAndResourceGraph
-	} else {
-		targets.EventGridAndResourceGraph = nil
-	}
-
-	// No error
-	return nil
-}
-
 type ScheduledEventsAdditionalPublishingTargets_STATUS struct {
 	// EventGridAndResourceGraph: The configuration parameters used while creating eventGridAndResourceGraph Scheduled Event
 	// setting.
@@ -3012,21 +2867,6 @@ func (reboot *UserInitiatedReboot) AssignProperties_To_UserInitiatedReboot(desti
 	return nil
 }
 
-// Initialize_From_UserInitiatedReboot_STATUS populates our UserInitiatedReboot from the provided source UserInitiatedReboot_STATUS
-func (reboot *UserInitiatedReboot) Initialize_From_UserInitiatedReboot_STATUS(source *UserInitiatedReboot_STATUS) error {
-
-	// AutomaticallyApprove
-	if source.AutomaticallyApprove != nil {
-		automaticallyApprove := *source.AutomaticallyApprove
-		reboot.AutomaticallyApprove = &automaticallyApprove
-	} else {
-		reboot.AutomaticallyApprove = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Specifies Reboot related Scheduled Event related configurations.
 type UserInitiatedReboot_STATUS struct {
 	// AutomaticallyApprove: Specifies Reboot Scheduled Event related configurations.
@@ -3180,21 +3020,6 @@ func (redeploy *UserInitiatedRedeploy) AssignProperties_To_UserInitiatedRedeploy
 	return nil
 }
 
-// Initialize_From_UserInitiatedRedeploy_STATUS populates our UserInitiatedRedeploy from the provided source UserInitiatedRedeploy_STATUS
-func (redeploy *UserInitiatedRedeploy) Initialize_From_UserInitiatedRedeploy_STATUS(source *UserInitiatedRedeploy_STATUS) error {
-
-	// AutomaticallyApprove
-	if source.AutomaticallyApprove != nil {
-		automaticallyApprove := *source.AutomaticallyApprove
-		redeploy.AutomaticallyApprove = &automaticallyApprove
-	} else {
-		redeploy.AutomaticallyApprove = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Specifies Redeploy related Scheduled Event related configurations.
 type UserInitiatedRedeploy_STATUS struct {
 	// AutomaticallyApprove: Specifies Redeploy Scheduled Event related configurations.
@@ -3342,21 +3167,6 @@ func (graph *EventGridAndResourceGraph) AssignProperties_To_EventGridAndResource
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_EventGridAndResourceGraph_STATUS populates our EventGridAndResourceGraph from the provided source EventGridAndResourceGraph_STATUS
-func (graph *EventGridAndResourceGraph) Initialize_From_EventGridAndResourceGraph_STATUS(source *EventGridAndResourceGraph_STATUS) error {
-
-	// Enable
-	if source.Enable != nil {
-		enable := *source.Enable
-		graph.Enable = &enable
-	} else {
-		graph.Enable = nil
 	}
 
 	// No error

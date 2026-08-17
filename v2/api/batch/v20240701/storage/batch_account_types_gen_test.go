@@ -15,6 +15,11 @@ import (
 
 func Test_AutoStorageBaseProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForAutoStorageBaseProperties)
 }
 
@@ -69,6 +74,11 @@ func AutoStorageBasePropertiesGenerator() *rapid.Generator[AutoStorageBaseProper
 
 func Test_AutoStorageProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForAutoStorageProperties_STATUS)
 }
 
@@ -125,6 +135,11 @@ func AutoStorageProperties_STATUSGenerator() *rapid.Generator[AutoStoragePropert
 
 func Test_BatchAccount_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForBatchAccount)
 }
 
@@ -178,6 +193,11 @@ func BatchAccountGenerator() *rapid.Generator[BatchAccount] {
 
 func Test_BatchAccountIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForBatchAccountIdentity)
 }
 
@@ -232,6 +252,11 @@ func BatchAccountIdentityGenerator() *rapid.Generator[BatchAccountIdentity] {
 
 func Test_BatchAccountIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForBatchAccountIdentity_STATUS)
 }
 
@@ -290,6 +315,11 @@ func BatchAccountIdentity_STATUSGenerator() *rapid.Generator[BatchAccountIdentit
 
 func Test_BatchAccountOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForBatchAccountOperatorSpec)
 }
 
@@ -336,6 +366,11 @@ func BatchAccountOperatorSpecGenerator() *rapid.Generator[BatchAccountOperatorSp
 
 func Test_BatchAccount_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForBatchAccount_STATUS)
 }
 
@@ -425,6 +460,11 @@ func BatchAccount_STATUSGenerator() *rapid.Generator[BatchAccount_STATUS] {
 
 func Test_BatchAccount_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForBatchAccount_Spec)
 }
 
@@ -499,6 +539,11 @@ func BatchAccount_SpecGenerator() *rapid.Generator[BatchAccount_Spec] {
 
 func Test_ComputeNodeIdentityReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForComputeNodeIdentityReference)
 }
 
@@ -545,6 +590,11 @@ func ComputeNodeIdentityReferenceGenerator() *rapid.Generator[ComputeNodeIdentit
 
 func Test_ComputeNodeIdentityReference_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForComputeNodeIdentityReference_STATUS)
 }
 
@@ -597,6 +647,11 @@ func ComputeNodeIdentityReference_STATUSGenerator() *rapid.Generator[ComputeNode
 
 func Test_EncryptionProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForEncryptionProperties)
 }
 
@@ -651,6 +706,11 @@ func EncryptionPropertiesGenerator() *rapid.Generator[EncryptionProperties] {
 
 func Test_EncryptionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForEncryptionProperties_STATUS)
 }
 
@@ -705,6 +765,11 @@ func EncryptionProperties_STATUSGenerator() *rapid.Generator[EncryptionPropertie
 
 func Test_EndpointAccessProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForEndpointAccessProfile)
 }
 
@@ -759,6 +824,11 @@ func EndpointAccessProfileGenerator() *rapid.Generator[EndpointAccessProfile] {
 
 func Test_EndpointAccessProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForEndpointAccessProfile_STATUS)
 }
 
@@ -813,6 +883,11 @@ func EndpointAccessProfile_STATUSGenerator() *rapid.Generator[EndpointAccessProf
 
 func Test_IPRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForIPRule)
 }
 
@@ -865,6 +940,11 @@ func IPRuleGenerator() *rapid.Generator[IPRule] {
 
 func Test_IPRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForIPRule_STATUS)
 }
 
@@ -917,6 +997,11 @@ func IPRule_STATUSGenerator() *rapid.Generator[IPRule_STATUS] {
 
 func Test_KeyVaultProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForKeyVaultProperties)
 }
 
@@ -968,6 +1053,11 @@ func KeyVaultPropertiesGenerator() *rapid.Generator[KeyVaultProperties] {
 
 func Test_KeyVaultProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForKeyVaultProperties_STATUS)
 }
 
@@ -1020,6 +1110,11 @@ func KeyVaultProperties_STATUSGenerator() *rapid.Generator[KeyVaultProperties_ST
 
 func Test_KeyVaultReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForKeyVaultReference)
 }
 
@@ -1071,6 +1166,11 @@ func KeyVaultReferenceGenerator() *rapid.Generator[KeyVaultReference] {
 
 func Test_KeyVaultReference_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForKeyVaultReference_STATUS)
 }
 
@@ -1124,6 +1224,11 @@ func KeyVaultReference_STATUSGenerator() *rapid.Generator[KeyVaultReference_STAT
 
 func Test_NetworkProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForNetworkProfile)
 }
 
@@ -1176,6 +1281,11 @@ func NetworkProfileGenerator() *rapid.Generator[NetworkProfile] {
 
 func Test_NetworkProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForNetworkProfile_STATUS)
 }
 
@@ -1229,6 +1339,11 @@ func NetworkProfile_STATUSGenerator() *rapid.Generator[NetworkProfile_STATUS] {
 
 func Test_PrivateEndpointConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForPrivateEndpointConnection_STATUS)
 }
 
@@ -1281,6 +1396,11 @@ func PrivateEndpointConnection_STATUSGenerator() *rapid.Generator[PrivateEndpoin
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForSystemData_STATUS)
 }
 
@@ -1337,6 +1457,11 @@ func SystemData_STATUSGenerator() *rapid.Generator[SystemData_STATUS] {
 
 func Test_UserAssignedIdentities_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForUserAssignedIdentities_STATUS)
 }
 
@@ -1390,6 +1515,11 @@ func UserAssignedIdentities_STATUSGenerator() *rapid.Generator[UserAssignedIdent
 
 func Test_UserAssignedIdentityDetails_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForUserAssignedIdentityDetails)
 }
 
@@ -1436,6 +1566,11 @@ func UserAssignedIdentityDetailsGenerator() *rapid.Generator[UserAssignedIdentit
 
 func Test_VirtualMachineFamilyCoreQuota_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForVirtualMachineFamilyCoreQuota_STATUS)
 }
 

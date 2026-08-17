@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=cdn.azure.com,resources=securitypolicies,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=cdn.azure.com,resources={securitypolicies/status,securitypolicies/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,cdn}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (policy *SecurityPolicy) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (policy *SecurityPolicy) SetConditions(conditions conditions.Conditions) {
 	policy.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &SecurityPolicy{}
+
+// ConvertFrom populates our SecurityPolicy from the provided hub SecurityPolicy
+func (policy *SecurityPolicy) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.SecurityPolicy)
+	if !ok {
+		return fmt.Errorf("expected cdn/v20230501/storage/SecurityPolicy but received %T instead", hub)
+	}
+
+	return policy.AssignProperties_From_SecurityPolicy(source)
+}
+
+// ConvertTo populates the provided hub SecurityPolicy from our SecurityPolicy
+func (policy *SecurityPolicy) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.SecurityPolicy)
+	if !ok {
+		return fmt.Errorf("expected cdn/v20230501/storage/SecurityPolicy but received %T instead", hub)
+	}
+
+	return policy.AssignProperties_To_SecurityPolicy(destination)
 }
 
 var _ configmaps.Exporter = &SecurityPolicy{}
@@ -143,8 +164,75 @@ func (policy *SecurityPolicy) SetStatus(status genruntime.ConvertibleStatus) err
 	return nil
 }
 
-// Hub marks that this SecurityPolicy is the hub type for conversion
-func (policy *SecurityPolicy) Hub() {}
+// AssignProperties_From_SecurityPolicy populates our SecurityPolicy from the provided source SecurityPolicy
+func (policy *SecurityPolicy) AssignProperties_From_SecurityPolicy(source *storage.SecurityPolicy) error {
+
+	// ObjectMeta
+	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec SecurityPolicy_Spec
+	err := spec.AssignProperties_From_SecurityPolicy_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicy_Spec() to populate field Spec")
+	}
+	policy.Spec = spec
+
+	// Status
+	var status SecurityPolicy_STATUS
+	err = status.AssignProperties_From_SecurityPolicy_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicy_STATUS() to populate field Status")
+	}
+	policy.Status = status
+
+	// Invoke the augmentConversionForSecurityPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForSecurityPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SecurityPolicy populates the provided destination SecurityPolicy from our SecurityPolicy
+func (policy *SecurityPolicy) AssignProperties_To_SecurityPolicy(destination *storage.SecurityPolicy) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.SecurityPolicy_Spec
+	err := policy.Spec.AssignProperties_To_SecurityPolicy_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicy_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.SecurityPolicy_STATUS
+	err = policy.Status.AssignProperties_To_SecurityPolicy_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicy_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForSecurityPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForSecurityPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (policy *SecurityPolicy) OriginalGVK() *schema.GroupVersionKind {
@@ -164,6 +252,11 @@ type SecurityPolicyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SecurityPolicy `json:"items"`
+}
+
+type augmentConversionForSecurityPolicy interface {
+	AssignPropertiesFrom(src *storage.SecurityPolicy) error
+	AssignPropertiesTo(dst *storage.SecurityPolicy) error
 }
 
 // Storage version of v1api20230501.SecurityPolicy_Spec
@@ -187,20 +280,176 @@ var _ genruntime.ConvertibleSpec = &SecurityPolicy_Spec{}
 
 // ConvertSpecFrom populates our SecurityPolicy_Spec from the provided source
 func (policy *SecurityPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == policy {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.SecurityPolicy_Spec)
+	if ok {
+		// Populate our instance from source
+		return policy.AssignProperties_From_SecurityPolicy_Spec(src)
 	}
 
-	return source.ConvertSpecTo(policy)
+	// Convert to an intermediate form
+	src = &storage.SecurityPolicy_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = policy.AssignProperties_From_SecurityPolicy_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our SecurityPolicy_Spec
 func (policy *SecurityPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == policy {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.SecurityPolicy_Spec)
+	if ok {
+		// Populate destination from our instance
+		return policy.AssignProperties_To_SecurityPolicy_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(policy)
+	// Convert to an intermediate form
+	dst = &storage.SecurityPolicy_Spec{}
+	err := policy.AssignProperties_To_SecurityPolicy_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_SecurityPolicy_Spec populates our SecurityPolicy_Spec from the provided source SecurityPolicy_Spec
+func (policy *SecurityPolicy_Spec) AssignProperties_From_SecurityPolicy_Spec(source *storage.SecurityPolicy_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	policy.AzureName = source.AzureName
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SecurityPolicyOperatorSpec
+		err := operatorSpec.AssignProperties_From_SecurityPolicyOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyOperatorSpec() to populate field OperatorSpec")
+		}
+		policy.OperatorSpec = &operatorSpec
+	} else {
+		policy.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	policy.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		policy.Owner = &owner
+	} else {
+		policy.Owner = nil
+	}
+
+	// Parameters
+	if source.Parameters != nil {
+		var parameter SecurityPolicyPropertiesParameters
+		err := parameter.AssignProperties_From_SecurityPolicyPropertiesParameters(source.Parameters)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyPropertiesParameters() to populate field Parameters")
+		}
+		policy.Parameters = &parameter
+	} else {
+		policy.Parameters = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicy_Spec interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForSecurityPolicy_Spec); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SecurityPolicy_Spec populates the provided destination SecurityPolicy_Spec from our SecurityPolicy_Spec
+func (policy *SecurityPolicy_Spec) AssignProperties_To_SecurityPolicy_Spec(destination *storage.SecurityPolicy_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// AzureName
+	destination.AzureName = policy.AzureName
+
+	// OperatorSpec
+	if policy.OperatorSpec != nil {
+		var operatorSpec storage.SecurityPolicyOperatorSpec
+		err := policy.OperatorSpec.AssignProperties_To_SecurityPolicyOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = policy.OriginalVersion
+
+	// Owner
+	if policy.Owner != nil {
+		owner := policy.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Parameters
+	if policy.Parameters != nil {
+		var parameter storage.SecurityPolicyPropertiesParameters
+		err := policy.Parameters.AssignProperties_To_SecurityPolicyPropertiesParameters(&parameter)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyPropertiesParameters() to populate field Parameters")
+		}
+		destination.Parameters = &parameter
+	} else {
+		destination.Parameters = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicy_Spec interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForSecurityPolicy_Spec); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230501.SecurityPolicy_STATUS
@@ -221,20 +470,200 @@ var _ genruntime.ConvertibleStatus = &SecurityPolicy_STATUS{}
 
 // ConvertStatusFrom populates our SecurityPolicy_STATUS from the provided source
 func (policy *SecurityPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == policy {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.SecurityPolicy_STATUS)
+	if ok {
+		// Populate our instance from source
+		return policy.AssignProperties_From_SecurityPolicy_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(policy)
+	// Convert to an intermediate form
+	src = &storage.SecurityPolicy_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = policy.AssignProperties_From_SecurityPolicy_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our SecurityPolicy_STATUS
 func (policy *SecurityPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == policy {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.SecurityPolicy_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return policy.AssignProperties_To_SecurityPolicy_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(policy)
+	// Convert to an intermediate form
+	dst = &storage.SecurityPolicy_STATUS{}
+	err := policy.AssignProperties_To_SecurityPolicy_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_SecurityPolicy_STATUS populates our SecurityPolicy_STATUS from the provided source SecurityPolicy_STATUS
+func (policy *SecurityPolicy_STATUS) AssignProperties_From_SecurityPolicy_STATUS(source *storage.SecurityPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// DeploymentStatus
+	policy.DeploymentStatus = genruntime.ClonePointerToString(source.DeploymentStatus)
+
+	// Id
+	policy.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	policy.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Parameters
+	if source.Parameters != nil {
+		var parameter SecurityPolicyPropertiesParameters_STATUS
+		err := parameter.AssignProperties_From_SecurityPolicyPropertiesParameters_STATUS(source.Parameters)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
+		}
+		policy.Parameters = &parameter
+	} else {
+		policy.Parameters = nil
+	}
+
+	// ProfileName
+	policy.ProfileName = genruntime.ClonePointerToString(source.ProfileName)
+
+	// ProvisioningState
+	policy.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		policy.SystemData = &systemDatum
+	} else {
+		policy.SystemData = nil
+	}
+
+	// Type
+	policy.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForSecurityPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SecurityPolicy_STATUS populates the provided destination SecurityPolicy_STATUS from our SecurityPolicy_STATUS
+func (policy *SecurityPolicy_STATUS) AssignProperties_To_SecurityPolicy_STATUS(destination *storage.SecurityPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(policy.Conditions)
+
+	// DeploymentStatus
+	destination.DeploymentStatus = genruntime.ClonePointerToString(policy.DeploymentStatus)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(policy.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(policy.Name)
+
+	// Parameters
+	if policy.Parameters != nil {
+		var parameter storage.SecurityPolicyPropertiesParameters_STATUS
+		err := policy.Parameters.AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS(&parameter)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
+		}
+		destination.Parameters = &parameter
+	} else {
+		destination.Parameters = nil
+	}
+
+	// ProfileName
+	destination.ProfileName = genruntime.ClonePointerToString(policy.ProfileName)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(policy.ProvisioningState)
+
+	// SystemData
+	if policy.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := policy.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(policy.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForSecurityPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForSecurityPolicy_Spec interface {
+	AssignPropertiesFrom(src *storage.SecurityPolicy_Spec) error
+	AssignPropertiesTo(dst *storage.SecurityPolicy_Spec) error
+}
+
+type augmentConversionForSecurityPolicy_STATUS interface {
+	AssignPropertiesFrom(src *storage.SecurityPolicy_STATUS) error
+	AssignPropertiesTo(dst *storage.SecurityPolicy_STATUS) error
 }
 
 // Storage version of v1api20230501.SecurityPolicyOperatorSpec
@@ -245,16 +674,293 @@ type SecurityPolicyOperatorSpec struct {
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
+// AssignProperties_From_SecurityPolicyOperatorSpec populates our SecurityPolicyOperatorSpec from the provided source SecurityPolicyOperatorSpec
+func (operator *SecurityPolicyOperatorSpec) AssignProperties_From_SecurityPolicyOperatorSpec(source *storage.SecurityPolicyOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicyOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSecurityPolicyOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SecurityPolicyOperatorSpec populates the provided destination SecurityPolicyOperatorSpec from our SecurityPolicyOperatorSpec
+func (operator *SecurityPolicyOperatorSpec) AssignProperties_To_SecurityPolicyOperatorSpec(destination *storage.SecurityPolicyOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicyOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSecurityPolicyOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501.SecurityPolicyPropertiesParameters
 type SecurityPolicyPropertiesParameters struct {
 	PropertyBag            genruntime.PropertyBag                          `json:"$propertyBag,omitempty"`
 	WebApplicationFirewall *SecurityPolicyWebApplicationFirewallParameters `json:"webApplicationFirewall,omitempty"`
 }
 
+// AssignProperties_From_SecurityPolicyPropertiesParameters populates our SecurityPolicyPropertiesParameters from the provided source SecurityPolicyPropertiesParameters
+func (parameters *SecurityPolicyPropertiesParameters) AssignProperties_From_SecurityPolicyPropertiesParameters(source *storage.SecurityPolicyPropertiesParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// WebApplicationFirewall
+	if source.WebApplicationFirewall != nil {
+		var webApplicationFirewall SecurityPolicyWebApplicationFirewallParameters
+		err := webApplicationFirewall.AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters(source.WebApplicationFirewall)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters() to populate field WebApplicationFirewall")
+		}
+		parameters.WebApplicationFirewall = &webApplicationFirewall
+	} else {
+		parameters.WebApplicationFirewall = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicyPropertiesParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForSecurityPolicyPropertiesParameters); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SecurityPolicyPropertiesParameters populates the provided destination SecurityPolicyPropertiesParameters from our SecurityPolicyPropertiesParameters
+func (parameters *SecurityPolicyPropertiesParameters) AssignProperties_To_SecurityPolicyPropertiesParameters(destination *storage.SecurityPolicyPropertiesParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// WebApplicationFirewall
+	if parameters.WebApplicationFirewall != nil {
+		var webApplicationFirewall storage.SecurityPolicyWebApplicationFirewallParameters
+		err := parameters.WebApplicationFirewall.AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters(&webApplicationFirewall)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters() to populate field WebApplicationFirewall")
+		}
+		destination.WebApplicationFirewall = &webApplicationFirewall
+	} else {
+		destination.WebApplicationFirewall = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicyPropertiesParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForSecurityPolicyPropertiesParameters); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501.SecurityPolicyPropertiesParameters_STATUS
 type SecurityPolicyPropertiesParameters_STATUS struct {
 	PropertyBag            genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
 	WebApplicationFirewall *SecurityPolicyWebApplicationFirewallParameters_STATUS `json:"webApplicationFirewall,omitempty"`
+}
+
+// AssignProperties_From_SecurityPolicyPropertiesParameters_STATUS populates our SecurityPolicyPropertiesParameters_STATUS from the provided source SecurityPolicyPropertiesParameters_STATUS
+func (parameters *SecurityPolicyPropertiesParameters_STATUS) AssignProperties_From_SecurityPolicyPropertiesParameters_STATUS(source *storage.SecurityPolicyPropertiesParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// WebApplicationFirewall
+	if source.WebApplicationFirewall != nil {
+		var webApplicationFirewall SecurityPolicyWebApplicationFirewallParameters_STATUS
+		err := webApplicationFirewall.AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters_STATUS(source.WebApplicationFirewall)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
+		}
+		parameters.WebApplicationFirewall = &webApplicationFirewall
+	} else {
+		parameters.WebApplicationFirewall = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicyPropertiesParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForSecurityPolicyPropertiesParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS populates the provided destination SecurityPolicyPropertiesParameters_STATUS from our SecurityPolicyPropertiesParameters_STATUS
+func (parameters *SecurityPolicyPropertiesParameters_STATUS) AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS(destination *storage.SecurityPolicyPropertiesParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// WebApplicationFirewall
+	if parameters.WebApplicationFirewall != nil {
+		var webApplicationFirewall storage.SecurityPolicyWebApplicationFirewallParameters_STATUS
+		err := parameters.WebApplicationFirewall.AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS(&webApplicationFirewall)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
+		}
+		destination.WebApplicationFirewall = &webApplicationFirewall
+	} else {
+		destination.WebApplicationFirewall = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicyPropertiesParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForSecurityPolicyPropertiesParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForSecurityPolicyOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.SecurityPolicyOperatorSpec) error
+	AssignPropertiesTo(dst *storage.SecurityPolicyOperatorSpec) error
+}
+
+type augmentConversionForSecurityPolicyPropertiesParameters interface {
+	AssignPropertiesFrom(src *storage.SecurityPolicyPropertiesParameters) error
+	AssignPropertiesTo(dst *storage.SecurityPolicyPropertiesParameters) error
+}
+
+type augmentConversionForSecurityPolicyPropertiesParameters_STATUS interface {
+	AssignPropertiesFrom(src *storage.SecurityPolicyPropertiesParameters_STATUS) error
+	AssignPropertiesTo(dst *storage.SecurityPolicyPropertiesParameters_STATUS) error
 }
 
 // Storage version of v1api20230501.SecurityPolicyWebApplicationFirewallParameters
@@ -265,12 +971,246 @@ type SecurityPolicyWebApplicationFirewallParameters struct {
 	WafPolicy    *ResourceReference                                `json:"wafPolicy,omitempty"`
 }
 
+// AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters populates our SecurityPolicyWebApplicationFirewallParameters from the provided source SecurityPolicyWebApplicationFirewallParameters
+func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters(source *storage.SecurityPolicyWebApplicationFirewallParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Associations
+	if source.Associations != nil {
+		associationList := make([]SecurityPolicyWebApplicationFirewallAssociation, len(source.Associations))
+		for associationIndex, associationItem := range source.Associations {
+			var association SecurityPolicyWebApplicationFirewallAssociation
+			err := association.AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation(&associationItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation() to populate field Associations")
+			}
+			associationList[associationIndex] = association
+		}
+		parameters.Associations = associationList
+	} else {
+		parameters.Associations = nil
+	}
+
+	// Type
+	parameters.Type = genruntime.ClonePointerToString(source.Type)
+
+	// WafPolicy
+	if source.WafPolicy != nil {
+		var wafPolicy ResourceReference
+		err := wafPolicy.AssignProperties_From_ResourceReference(source.WafPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field WafPolicy")
+		}
+		parameters.WafPolicy = &wafPolicy
+	} else {
+		parameters.WafPolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicyWebApplicationFirewallParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForSecurityPolicyWebApplicationFirewallParameters); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters populates the provided destination SecurityPolicyWebApplicationFirewallParameters from our SecurityPolicyWebApplicationFirewallParameters
+func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters(destination *storage.SecurityPolicyWebApplicationFirewallParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// Associations
+	if parameters.Associations != nil {
+		associationList := make([]storage.SecurityPolicyWebApplicationFirewallAssociation, len(parameters.Associations))
+		for associationIndex, associationItem := range parameters.Associations {
+			var association storage.SecurityPolicyWebApplicationFirewallAssociation
+			err := associationItem.AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation(&association)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation() to populate field Associations")
+			}
+			associationList[associationIndex] = association
+		}
+		destination.Associations = associationList
+	} else {
+		destination.Associations = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(parameters.Type)
+
+	// WafPolicy
+	if parameters.WafPolicy != nil {
+		var wafPolicy storage.ResourceReference
+		err := parameters.WafPolicy.AssignProperties_To_ResourceReference(&wafPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field WafPolicy")
+		}
+		destination.WafPolicy = &wafPolicy
+	} else {
+		destination.WafPolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicyWebApplicationFirewallParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForSecurityPolicyWebApplicationFirewallParameters); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501.SecurityPolicyWebApplicationFirewallParameters_STATUS
 type SecurityPolicyWebApplicationFirewallParameters_STATUS struct {
 	Associations []SecurityPolicyWebApplicationFirewallAssociation_STATUS `json:"associations,omitempty"`
 	PropertyBag  genruntime.PropertyBag                                   `json:"$propertyBag,omitempty"`
 	Type         *string                                                  `json:"type,omitempty"`
 	WafPolicy    *ResourceReference_STATUS                                `json:"wafPolicy,omitempty"`
+}
+
+// AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters_STATUS populates our SecurityPolicyWebApplicationFirewallParameters_STATUS from the provided source SecurityPolicyWebApplicationFirewallParameters_STATUS
+func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters_STATUS(source *storage.SecurityPolicyWebApplicationFirewallParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Associations
+	if source.Associations != nil {
+		associationList := make([]SecurityPolicyWebApplicationFirewallAssociation_STATUS, len(source.Associations))
+		for associationIndex, associationItem := range source.Associations {
+			var association SecurityPolicyWebApplicationFirewallAssociation_STATUS
+			err := association.AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&associationItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
+			}
+			associationList[associationIndex] = association
+		}
+		parameters.Associations = associationList
+	} else {
+		parameters.Associations = nil
+	}
+
+	// Type
+	parameters.Type = genruntime.ClonePointerToString(source.Type)
+
+	// WafPolicy
+	if source.WafPolicy != nil {
+		var wafPolicy ResourceReference_STATUS
+		err := wafPolicy.AssignProperties_From_ResourceReference_STATUS(source.WafPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field WafPolicy")
+		}
+		parameters.WafPolicy = &wafPolicy
+	} else {
+		parameters.WafPolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicyWebApplicationFirewallParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForSecurityPolicyWebApplicationFirewallParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS populates the provided destination SecurityPolicyWebApplicationFirewallParameters_STATUS from our SecurityPolicyWebApplicationFirewallParameters_STATUS
+func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS(destination *storage.SecurityPolicyWebApplicationFirewallParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// Associations
+	if parameters.Associations != nil {
+		associationList := make([]storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS, len(parameters.Associations))
+		for associationIndex, associationItem := range parameters.Associations {
+			var association storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS
+			err := associationItem.AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&association)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
+			}
+			associationList[associationIndex] = association
+		}
+		destination.Associations = associationList
+	} else {
+		destination.Associations = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(parameters.Type)
+
+	// WafPolicy
+	if parameters.WafPolicy != nil {
+		var wafPolicy storage.ResourceReference_STATUS
+		err := parameters.WafPolicy.AssignProperties_To_ResourceReference_STATUS(&wafPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field WafPolicy")
+		}
+		destination.WafPolicy = &wafPolicy
+	} else {
+		destination.WafPolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicyWebApplicationFirewallParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForSecurityPolicyWebApplicationFirewallParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForSecurityPolicyWebApplicationFirewallParameters interface {
+	AssignPropertiesFrom(src *storage.SecurityPolicyWebApplicationFirewallParameters) error
+	AssignPropertiesTo(dst *storage.SecurityPolicyWebApplicationFirewallParameters) error
+}
+
+type augmentConversionForSecurityPolicyWebApplicationFirewallParameters_STATUS interface {
+	AssignPropertiesFrom(src *storage.SecurityPolicyWebApplicationFirewallParameters_STATUS) error
+	AssignPropertiesTo(dst *storage.SecurityPolicyWebApplicationFirewallParameters_STATUS) error
 }
 
 // Storage version of v1api20230501.SecurityPolicyWebApplicationFirewallAssociation
@@ -281,6 +1221,94 @@ type SecurityPolicyWebApplicationFirewallAssociation struct {
 	PropertyBag     genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation populates our SecurityPolicyWebApplicationFirewallAssociation from the provided source SecurityPolicyWebApplicationFirewallAssociation
+func (association *SecurityPolicyWebApplicationFirewallAssociation) AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation(source *storage.SecurityPolicyWebApplicationFirewallAssociation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Domains
+	if source.Domains != nil {
+		domainList := make([]ActivatedResourceReference, len(source.Domains))
+		for domainIndex, domainItem := range source.Domains {
+			var domain ActivatedResourceReference
+			err := domain.AssignProperties_From_ActivatedResourceReference(&domainItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference() to populate field Domains")
+			}
+			domainList[domainIndex] = domain
+		}
+		association.Domains = domainList
+	} else {
+		association.Domains = nil
+	}
+
+	// PatternsToMatch
+	association.PatternsToMatch = genruntime.CloneSliceOfString(source.PatternsToMatch)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		association.PropertyBag = propertyBag
+	} else {
+		association.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicyWebApplicationFirewallAssociation interface (if implemented) to customize the conversion
+	var associationAsAny any = association
+	if augmentedAssociation, ok := associationAsAny.(augmentConversionForSecurityPolicyWebApplicationFirewallAssociation); ok {
+		err := augmentedAssociation.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation populates the provided destination SecurityPolicyWebApplicationFirewallAssociation from our SecurityPolicyWebApplicationFirewallAssociation
+func (association *SecurityPolicyWebApplicationFirewallAssociation) AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation(destination *storage.SecurityPolicyWebApplicationFirewallAssociation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(association.PropertyBag)
+
+	// Domains
+	if association.Domains != nil {
+		domainList := make([]storage.ActivatedResourceReference, len(association.Domains))
+		for domainIndex, domainItem := range association.Domains {
+			var domain storage.ActivatedResourceReference
+			err := domainItem.AssignProperties_To_ActivatedResourceReference(&domain)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference() to populate field Domains")
+			}
+			domainList[domainIndex] = domain
+		}
+		destination.Domains = domainList
+	} else {
+		destination.Domains = nil
+	}
+
+	// PatternsToMatch
+	destination.PatternsToMatch = genruntime.CloneSliceOfString(association.PatternsToMatch)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicyWebApplicationFirewallAssociation interface (if implemented) to customize the conversion
+	var associationAsAny any = association
+	if augmentedAssociation, ok := associationAsAny.(augmentConversionForSecurityPolicyWebApplicationFirewallAssociation); ok {
+		err := augmentedAssociation.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501.SecurityPolicyWebApplicationFirewallAssociation_STATUS
 // settings for security policy patterns to match
 type SecurityPolicyWebApplicationFirewallAssociation_STATUS struct {
@@ -289,11 +1317,170 @@ type SecurityPolicyWebApplicationFirewallAssociation_STATUS struct {
 	PropertyBag     genruntime.PropertyBag                                                          `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS populates our SecurityPolicyWebApplicationFirewallAssociation_STATUS from the provided source SecurityPolicyWebApplicationFirewallAssociation_STATUS
+func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS(source *storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Domains
+	if source.Domains != nil {
+		domainList := make([]ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded, len(source.Domains))
+		for domainIndex, domainItem := range source.Domains {
+			var domain ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
+			err := domain.AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&domainItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")
+			}
+			domainList[domainIndex] = domain
+		}
+		association.Domains = domainList
+	} else {
+		association.Domains = nil
+	}
+
+	// PatternsToMatch
+	association.PatternsToMatch = genruntime.CloneSliceOfString(source.PatternsToMatch)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		association.PropertyBag = propertyBag
+	} else {
+		association.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicyWebApplicationFirewallAssociation_STATUS interface (if implemented) to customize the conversion
+	var associationAsAny any = association
+	if augmentedAssociation, ok := associationAsAny.(augmentConversionForSecurityPolicyWebApplicationFirewallAssociation_STATUS); ok {
+		err := augmentedAssociation.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS populates the provided destination SecurityPolicyWebApplicationFirewallAssociation_STATUS from our SecurityPolicyWebApplicationFirewallAssociation_STATUS
+func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS(destination *storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(association.PropertyBag)
+
+	// Domains
+	if association.Domains != nil {
+		domainList := make([]storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded, len(association.Domains))
+		for domainIndex, domainItem := range association.Domains {
+			var domain storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
+			err := domainItem.AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&domain)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")
+			}
+			domainList[domainIndex] = domain
+		}
+		destination.Domains = domainList
+	} else {
+		destination.Domains = nil
+	}
+
+	// PatternsToMatch
+	destination.PatternsToMatch = genruntime.CloneSliceOfString(association.PatternsToMatch)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityPolicyWebApplicationFirewallAssociation_STATUS interface (if implemented) to customize the conversion
+	var associationAsAny any = association
+	if augmentedAssociation, ok := associationAsAny.(augmentConversionForSecurityPolicyWebApplicationFirewallAssociation_STATUS); ok {
+		err := augmentedAssociation.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
 // Reference to another resource along with its state.
 type ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded populates our ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded from the provided source ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
+func (embedded *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(source *storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		embedded.PropertyBag = propertyBag
+	} else {
+		embedded.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded populates the provided destination ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded from our ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
+func (embedded *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(destination *storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForSecurityPolicyWebApplicationFirewallAssociation interface {
+	AssignPropertiesFrom(src *storage.SecurityPolicyWebApplicationFirewallAssociation) error
+	AssignPropertiesTo(dst *storage.SecurityPolicyWebApplicationFirewallAssociation) error
+}
+
+type augmentConversionForSecurityPolicyWebApplicationFirewallAssociation_STATUS interface {
+	AssignPropertiesFrom(src *storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS) error
+	AssignPropertiesTo(dst *storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS) error
+}
+
+type augmentConversionForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) error
 }
 
 func init() {

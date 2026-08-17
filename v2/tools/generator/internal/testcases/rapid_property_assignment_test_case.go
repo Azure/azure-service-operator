@@ -313,6 +313,16 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 	// t.Parallel()
 	declareParallel := astbuilder.CallExprAsStmt(t, "Parallel")
 
+	// if testing.Short() {
+	//     return
+	// }
+	checkShort := astbuilder.SimpleIf(
+		astbuilder.CallQualifiedFunc(testingPackage, "Short"),
+		astbuilder.Returns(),
+	)
+	checkShort.Decs.Before = dst.EmptyLine
+	checkShort.Decs.After = dst.EmptyLine
+
 	rapidCheck := astbuilder.CallQualifiedFuncAsStmt(
 		rapidPackage,
 		"Check",
@@ -338,6 +348,7 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 		testingPackage,
 		r.testName,
 		declareParallel,
+		checkShort,
 		rapidCheck,
 	)
 

@@ -595,6 +595,180 @@ Certificate_Spec: Object (2 properties)
     │   └── SecretIdentifier: *string
     └── Password: *string
 
+Diagnostic_STATUS: Object (4 properties)
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (10 properties)
+│   ├── AlwaysLog: *Enum (1 value)
+│   │   └── "allErrors"
+│   ├── Backend: *Object (2 properties)
+│   │   ├── Request: *Object (3 properties)
+│   │   │   ├── Body: *Object (1 property)
+│   │   │   │   └── Bytes: *int
+│   │   │   ├── DataMasking: *Object (2 properties)
+│   │   │   │   ├── Headers: Object (2 properties)[]
+│   │   │   │   │   ├── Mode: *Enum (2 values)
+│   │   │   │   │   │   ├── "Hide"
+│   │   │   │   │   │   └── "Mask"
+│   │   │   │   │   └── Value: *string
+│   │   │   │   └── QueryParams: Object (2 properties)[]
+│   │   │   │       ├── Mode: *Enum (2 values)
+│   │   │   │       │   ├── "Hide"
+│   │   │   │       │   └── "Mask"
+│   │   │   │       └── Value: *string
+│   │   │   └── Headers: string[]
+│   │   └── Response: *Object (3 properties)
+│   │       ├── Body: *Object (1 property)
+│   │       │   └── Bytes: *int
+│   │       ├── DataMasking: *Object (2 properties)
+│   │       │   ├── Headers: Object (2 properties)[]
+│   │       │   │   ├── Mode: *Enum (2 values)
+│   │       │   │   │   ├── "Hide"
+│   │       │   │   │   └── "Mask"
+│   │       │   │   └── Value: *string
+│   │       │   └── QueryParams: Object (2 properties)[]
+│   │       │       ├── Mode: *Enum (2 values)
+│   │       │       │   ├── "Hide"
+│   │       │       │   └── "Mask"
+│   │       │       └── Value: *string
+│   │       └── Headers: string[]
+│   ├── Frontend: *Object (2 properties)
+│   │   ├── Request: *Object (3 properties)
+│   │   │   ├── Body: *Object (1 property)
+│   │   │   │   └── Bytes: *int
+│   │   │   ├── DataMasking: *Object (2 properties)
+│   │   │   │   ├── Headers: Object (2 properties)[]
+│   │   │   │   │   ├── Mode: *Enum (2 values)
+│   │   │   │   │   │   ├── "Hide"
+│   │   │   │   │   │   └── "Mask"
+│   │   │   │   │   └── Value: *string
+│   │   │   │   └── QueryParams: Object (2 properties)[]
+│   │   │   │       ├── Mode: *Enum (2 values)
+│   │   │   │       │   ├── "Hide"
+│   │   │   │       │   └── "Mask"
+│   │   │   │       └── Value: *string
+│   │   │   └── Headers: string[]
+│   │   └── Response: *Object (3 properties)
+│   │       ├── Body: *Object (1 property)
+│   │       │   └── Bytes: *int
+│   │       ├── DataMasking: *Object (2 properties)
+│   │       │   ├── Headers: Object (2 properties)[]
+│   │       │   │   ├── Mode: *Enum (2 values)
+│   │       │   │   │   ├── "Hide"
+│   │       │   │   │   └── "Mask"
+│   │       │   │   └── Value: *string
+│   │       │   └── QueryParams: Object (2 properties)[]
+│   │       │       ├── Mode: *Enum (2 values)
+│   │       │       │   ├── "Hide"
+│   │       │       │   └── "Mask"
+│   │       │       └── Value: *string
+│   │       └── Headers: string[]
+│   ├── HttpCorrelationProtocol: *Enum (3 values)
+│   │   ├── "Legacy"
+│   │   ├── "None"
+│   │   └── "W3C"
+│   ├── LogClientIp: *bool
+│   ├── LoggerId: *string
+│   ├── Metrics: *bool
+│   ├── OperationNameFormat: *Enum (2 values)
+│   │   ├── "Name"
+│   │   └── "Url"
+│   ├── Sampling: *Object (2 properties)
+│   │   ├── Percentage: *float64
+│   │   └── SamplingType: *Enum (1 value)
+│   │       └── "fixed"
+│   └── Verbosity: *Enum (3 values)
+│       ├── "error"
+│       ├── "information"
+│       └── "verbose"
+└── Type: *string
+
+Diagnostic_Spec: Object (2 properties)
+├── Name: string
+└── Properties: *Object (10 properties)
+    ├── AlwaysLog: *Enum (1 value)
+    │   └── "allErrors"
+    ├── Backend: *Object (2 properties)
+    │   ├── Request: *Object (3 properties)
+    │   │   ├── Body: *Object (1 property)
+    │   │   │   └── Bytes: *int
+    │   │   ├── DataMasking: *Object (2 properties)
+    │   │   │   ├── Headers: Object (2 properties)[]
+    │   │   │   │   ├── Mode: *Enum (2 values)
+    │   │   │   │   │   ├── "Hide"
+    │   │   │   │   │   └── "Mask"
+    │   │   │   │   └── Value: *string
+    │   │   │   └── QueryParams: Object (2 properties)[]
+    │   │   │       ├── Mode: *Enum (2 values)
+    │   │   │       │   ├── "Hide"
+    │   │   │       │   └── "Mask"
+    │   │   │       └── Value: *string
+    │   │   └── Headers: string[]
+    │   └── Response: *Object (3 properties)
+    │       ├── Body: *Object (1 property)
+    │       │   └── Bytes: *int
+    │       ├── DataMasking: *Object (2 properties)
+    │       │   ├── Headers: Object (2 properties)[]
+    │       │   │   ├── Mode: *Enum (2 values)
+    │       │   │   │   ├── "Hide"
+    │       │   │   │   └── "Mask"
+    │       │   │   └── Value: *string
+    │       │   └── QueryParams: Object (2 properties)[]
+    │       │       ├── Mode: *Enum (2 values)
+    │       │       │   ├── "Hide"
+    │       │       │   └── "Mask"
+    │       │       └── Value: *string
+    │       └── Headers: string[]
+    ├── Frontend: *Object (2 properties)
+    │   ├── Request: *Object (3 properties)
+    │   │   ├── Body: *Object (1 property)
+    │   │   │   └── Bytes: *int
+    │   │   ├── DataMasking: *Object (2 properties)
+    │   │   │   ├── Headers: Object (2 properties)[]
+    │   │   │   │   ├── Mode: *Enum (2 values)
+    │   │   │   │   │   ├── "Hide"
+    │   │   │   │   │   └── "Mask"
+    │   │   │   │   └── Value: *string
+    │   │   │   └── QueryParams: Object (2 properties)[]
+    │   │   │       ├── Mode: *Enum (2 values)
+    │   │   │       │   ├── "Hide"
+    │   │   │       │   └── "Mask"
+    │   │   │       └── Value: *string
+    │   │   └── Headers: string[]
+    │   └── Response: *Object (3 properties)
+    │       ├── Body: *Object (1 property)
+    │       │   └── Bytes: *int
+    │       ├── DataMasking: *Object (2 properties)
+    │       │   ├── Headers: Object (2 properties)[]
+    │       │   │   ├── Mode: *Enum (2 values)
+    │       │   │   │   ├── "Hide"
+    │       │   │   │   └── "Mask"
+    │       │   │   └── Value: *string
+    │       │   └── QueryParams: Object (2 properties)[]
+    │       │       ├── Mode: *Enum (2 values)
+    │       │       │   ├── "Hide"
+    │       │       │   └── "Mask"
+    │       │       └── Value: *string
+    │       └── Headers: string[]
+    ├── HttpCorrelationProtocol: *Enum (3 values)
+    │   ├── "Legacy"
+    │   ├── "None"
+    │   └── "W3C"
+    ├── LogClientIp: *bool
+    ├── LoggerId: *string
+    ├── Metrics: *bool
+    ├── OperationNameFormat: *Enum (2 values)
+    │   ├── "Name"
+    │   └── "Url"
+    ├── Sampling: *Object (2 properties)
+    │   ├── Percentage: *int
+    │   └── SamplingType: *Enum (1 value)
+    │       └── "fixed"
+    └── Verbosity: *Enum (3 values)
+        ├── "error"
+        ├── "information"
+        └── "verbose"
+
 Group_STATUS: Object (4 properties)
 ├── Id: *string
 ├── Name: *string
@@ -721,6 +895,11 @@ Policy_Spec: Object (2 properties)
 ProductApi_STATUS: Object (0 properties)
 
 ProductApi_Spec: Object (1 property)
+└── Name: string
+
+ProductGroup_STATUS: Object (0 properties)
+
+ProductGroup_Spec: Object (1 property)
 └── Name: string
 
 ProductPolicy_STATUS: Object (4 properties)

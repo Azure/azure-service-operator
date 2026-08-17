@@ -1,3 +1,20 @@
+typeTransformers:
+  - name: ContainerApp_Spec;ManagedEnvironment_Spec;Job_Spec;SessionPool_Spec
+    property: Identity
+    target:
+      name: ManagedServiceIdentity
+      version: v6
+      optional: true
+    because: Multiple incompatible versions of ManagedServiceIdentity are being imported from different versions of common
+
+  - name: ContainerApp_STATUS;ManagedEnvironment_STATUS;Job_STATUS;SessionPool_STATUS
+    property: Identity
+    target:
+      name: ManagedServiceIdentity_STATUS
+      version: v6
+      optional: true
+    because: Multiple incompatible versions of ManagedServiceIdentity_STATUS are being imported from different versions of common
+
 groupModelConfiguration:
   2025-01-01:
     ContainerApp:

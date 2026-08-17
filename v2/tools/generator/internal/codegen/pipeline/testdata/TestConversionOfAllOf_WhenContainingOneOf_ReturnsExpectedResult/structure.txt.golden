@@ -16,7 +16,7 @@ ReadOnlyFollowingDatabase: Object (5 properties)
 ├── DatabaseShareOrigin: string
 ├── HotCachePeriod: string
 ├── Kind: Enum (1 value)
-│   └── ReadOnlyFollowingDatabase
+│   └── "ReadOnlyFollowingDatabase"
 ├── Location: string
 └── Name: Validated<string> (1 rule)
     └── Rule 0: MaxLength: 96
@@ -25,7 +25,7 @@ ReadWriteDatabase: Object (5 properties)
 ├── HotCachePeriod: string
 ├── KeyVaultURL: string
 ├── Kind: Enum (1 value)
-│   └── ReadWriteDatabase
+│   └── "ReadWriteDatabase"
 ├── Location: string
 └── Name: Validated<string> (1 rule)
     └── Rule 0: MaxLength: 96

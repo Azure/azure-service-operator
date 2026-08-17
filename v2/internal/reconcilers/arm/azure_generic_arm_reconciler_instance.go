@@ -19,7 +19,6 @@ import (
 	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -115,6 +114,18 @@ func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFrom
 }
 
 func (r *azureDeploymentReconcilerInstance) AddInitialResourceState(ctx context.Context) error {
+	// Resolve AzureNameFromConfig before building the ARM ID, since AzureName() depends on the annotation
+	// If the spec supports AzureNameFromConfig, resolve the name from the ConfigMap and store it
+	// as an annotation. We must not modify spec directly since the object will be saved back to etcd and we don't
+	// want to trigger another reconcile.
+	resolvedName, err := r.resolveAzureNameFromConfig(ctx)
+	if err != nil {
+		return err
+	}
+	if resolvedName != "" {
+		genruntime.AddAnnotation(r.Obj, annotations.AzureNameFromConfig, resolvedName)
+	}
+
 	armResource, err := r.ConvertResourceToARMResource(ctx)
 	if err != nil {
 		return err
@@ -429,6 +440,71 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(
 	}
 
 	return check, nil
+}
+
+// resolveAzureNameFromConfig resolves the Azure name from a ConfigMap if the resource supports AzureNameFromConfig.
+// Returns the resolved name (empty string if the resource doesn't use this feature), or an error if resolution fails
+// or the name has changed from a previously resolved value.
+func (r *azureDeploymentReconcilerInstance) resolveAzureNameFromConfig(ctx context.Context) (string, error) {
+	resourceSpec := r.Obj.GetSpec()
+	provider, ok := resourceSpec.(genruntime.AzureNameFromConfigProvider)
+	if !ok {
+		return "", nil
+	}
+
+	configRef := provider.GetAzureNameFromConfig()
+	if configRef == nil {
+		return "", nil
+	}
+
+	namespacedRef := configRef.AsNamespacedRef(r.Obj.GetNamespace())
+	resolvedName, err := r.ResourceResolver.ResolveConfigMapReference(ctx, namespacedRef)
+	if err != nil {
+		return "", conditions.NewReadyConditionImpactingError(
+			err,
+			conditions.ConditionSeverityError,
+			conditions.ReasonFailed,
+		)
+	}
+
+	if resolvedName == "" {
+		return "", conditions.NewReadyConditionImpactingError(
+			eris.Errorf("resolved azureNameFromConfig %s is empty", namespacedRef.String()),
+			conditions.ConditionSeverityError,
+			conditions.ReasonFailed,
+		)
+	}
+
+	if err := r.ensureAzureNameUnchanged(resolvedName); err != nil {
+		return "", err
+	}
+
+	return resolvedName, nil
+}
+
+// ensureAzureNameUnchanged checks that the resolved Azure name hasn't changed from a previously stored value.
+// AzureName is immutable once set.
+func (r *azureDeploymentReconcilerInstance) ensureAzureNameUnchanged(resolvedName string) error {
+	existingAnnotations := r.Obj.GetAnnotations()
+	if existingAnnotations == nil {
+		return nil
+	}
+
+	existing, ok := existingAnnotations[annotations.AzureNameFromConfig]
+	if !ok || existing == resolvedName {
+		return nil
+	}
+
+	return conditions.NewReadyConditionImpactingError(
+		eris.Errorf(
+			"cannot change AzureName for %s: ConfigMap value changed from %q to %q",
+			r.Obj.GetType(),
+			existing,
+			resolvedName,
+		),
+		conditions.ConditionSeverityError,
+		conditions.ReasonFailed,
+	)
 }
 
 // checkSubscription checks if subscription on resource matches with credentials used while creating a resource.
@@ -954,36 +1030,6 @@ func ConvertToARMResourceImpl(
 	return result, nil
 }
 
-// skipDeletionPrecheck is a set of resource groups for which we skip the pre-deletion existence check.
-// This is to bypass the need to re-record every test in one go - we enable the extra check group by group.
-var skipDeletionPrecheck = sets.NewString(
-	"compute.azure.com",
-	"containerinstance.azure.com",
-	"containerregistry.azure.com",
-	"containerservice.azure.com",
-	"datafactory.azure.com",
-	"dbformariadb.azure.com",
-	"dbforpostgresql.azure.com",
-	"devices.azure.com",
-	"documentdb.azure.com",
-	"eventgrid.azure.com",
-	"insights.azure.com",
-	"keyvault.azure.com",
-	"kubernetesconfiguration.azure.com",
-	"machinelearningservices.azure.com",
-	"network.azure.com",
-	"network.frontdoor.azure.com",
-	"operationalinsights.azure.com",
-	"redhatopenshift.azure.com",
-	"resources.azure.com",
-	"search.azure.com",
-	"servicebus.azure.com",
-	"sql.azure.com",
-	"storage.azure.com",
-	"subscription.azure.com",
-	"synapse.azure.com",
-)
-
 // deleteResource deletes a resource in ARM. This function is used as the default deletion handler and can
 // have its behavior modified by resources implementing the genruntime.Deleter extension
 func (r *azureDeploymentReconcilerInstance) deleteResource(
@@ -1006,16 +1052,11 @@ func (r *azureDeploymentReconcilerInstance) deleteResource(
 	}
 
 	// Check to see if the resource has already been deleted from Azure - if so, we're done.
-	// But, first check to see if this resource is in a deny group, and skip the check if so.
-	// This is to allow us to fix up remaining issues one by one instead of all at once.
-	group := obj.GetObjectKind().GroupVersionKind().Group
-	if !skipDeletionPrecheck.Has(group) {
-		if _, _, err := r.getStatus(ctx, obj, resourceID); err != nil {
-			if genericarmclient.IsNotFoundError(err) {
-				// Resource no longer exists
-				log.V(Info).Info("Resource is already gone, skipping issue of DELETE to Azure")
-				return ctrl.Result{}, nil
-			}
+	if _, _, err := r.getStatus(ctx, obj, resourceID); err != nil {
+		if genericarmclient.IsNotFoundError(err) {
+			// Resource no longer exists
+			log.V(Info).Info("Resource is already gone, skipping issue of DELETE to Azure")
+			return ctrl.Result{}, nil
 		}
 	}
 

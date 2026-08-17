@@ -28,7 +28,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20180601.Factory
 // Generator information:
-// - Generated from: /datafactory/resource-manager/Microsoft.DataFactory/DataFactory/stable/2018-06-01/datafactory.json
+// - Generated from: /datafactory/resource-manager/Microsoft.DataFactory/DataFactory/stable/2018-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}
 type Factory struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -159,7 +159,7 @@ func (factory *Factory) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v20180601.Factory
 // Generator information:
-// - Generated from: /datafactory/resource-manager/Microsoft.DataFactory/DataFactory/stable/2018-06-01/datafactory.json
+// - Generated from: /datafactory/resource-manager/Microsoft.DataFactory/DataFactory/stable/2018-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}
 type FactoryList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -237,6 +237,7 @@ type Factory_STATUS struct {
 	PublicNetworkAccess  *string                                        `json:"publicNetworkAccess,omitempty"`
 	PurviewConfiguration *PurviewConfiguration_STATUS                   `json:"purviewConfiguration,omitempty"`
 	RepoConfiguration    *FactoryRepoConfiguration_STATUS               `json:"repoConfiguration,omitempty"`
+	SystemData           *SystemData_STATUS                             `json:"systemData,omitempty"`
 	Tags                 map[string]string                              `json:"tags,omitempty"`
 	Type                 *string                                        `json:"type,omitempty"`
 	Version              *string                                        `json:"version,omitempty"`
@@ -352,6 +353,18 @@ type PurviewConfiguration struct {
 type PurviewConfiguration_STATUS struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PurviewResourceId *string                `json:"purviewResourceId,omitempty"`
+}
+
+// Storage version of v20180601.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData_STATUS struct {
+	CreatedAt          *string                `json:"createdAt,omitempty"`
+	CreatedBy          *string                `json:"createdBy,omitempty"`
+	CreatedByType      *string                `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20180601.CMKIdentityDefinition

@@ -52,22 +52,36 @@ var _ conversion.Convertible = &Account{}
 
 // ConvertFrom populates our Account from the provided hub Account
 func (account *Account) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Account)
-	if !ok {
-		return fmt.Errorf("expected cognitiveservices/v1api20250601/storage/Account but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Account
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return account.AssignProperties_From_Account(source)
+	err = account.AssignProperties_From_Account(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to account")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Account from our Account
 func (account *Account) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Account)
-	if !ok {
-		return fmt.Errorf("expected cognitiveservices/v1api20250601/storage/Account but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Account
+	err := account.AssignProperties_To_Account(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from account")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return account.AssignProperties_To_Account(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Account{}
@@ -88,17 +102,6 @@ func (account *Account) SecretDestinationExpressions() []*core.DestinationExpres
 		return nil
 	}
 	return account.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Account{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (account *Account) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Account_STATUS); ok {
-		return account.Spec.Initialize_From_Account_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Account_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Account{}
@@ -635,58 +638,6 @@ func (account *Account_Spec) AssignProperties_To_Account_Spec(destination *stora
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Account_STATUS populates our Account_Spec from the provided source Account_STATUS
-func (account *Account_Spec) Initialize_From_Account_STATUS(source *Account_STATUS) error {
-
-	// Identity
-	if source.Identity != nil {
-		var identity Identity
-		err := identity.Initialize_From_Identity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Identity_STATUS() to populate field Identity")
-		}
-		account.Identity = &identity
-	} else {
-		account.Identity = nil
-	}
-
-	// Kind
-	account.Kind = genruntime.ClonePointerToString(source.Kind)
-
-	// Location
-	account.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Properties
-	if source.Properties != nil {
-		var property AccountProperties
-		err := property.Initialize_From_AccountProperties_STATUS(source.Properties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AccountProperties_STATUS() to populate field Properties")
-		}
-		account.Properties = &property
-	} else {
-		account.Properties = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		account.Sku = &sku
-	} else {
-		account.Sku = nil
-	}
-
-	// Tags
-	account.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1936,177 +1887,6 @@ func (properties *AccountProperties) AssignProperties_To_AccountProperties(desti
 	return nil
 }
 
-// Initialize_From_AccountProperties_STATUS populates our AccountProperties from the provided source AccountProperties_STATUS
-func (properties *AccountProperties) Initialize_From_AccountProperties_STATUS(source *AccountProperties_STATUS) error {
-
-	// AllowProjectManagement
-	if source.AllowProjectManagement != nil {
-		allowProjectManagement := *source.AllowProjectManagement
-		properties.AllowProjectManagement = &allowProjectManagement
-	} else {
-		properties.AllowProjectManagement = nil
-	}
-
-	// AllowedFqdnList
-	properties.AllowedFqdnList = genruntime.CloneSliceOfString(source.AllowedFqdnList)
-
-	// AmlWorkspace
-	if source.AmlWorkspace != nil {
-		var amlWorkspace UserOwnedAmlWorkspace
-		err := amlWorkspace.Initialize_From_UserOwnedAmlWorkspace_STATUS(source.AmlWorkspace)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UserOwnedAmlWorkspace_STATUS() to populate field AmlWorkspace")
-		}
-		properties.AmlWorkspace = &amlWorkspace
-	} else {
-		properties.AmlWorkspace = nil
-	}
-
-	// ApiProperties
-	if source.ApiProperties != nil {
-		var apiProperty ApiProperties
-		err := apiProperty.Initialize_From_ApiProperties_STATUS(source.ApiProperties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ApiProperties_STATUS() to populate field ApiProperties")
-		}
-		properties.ApiProperties = &apiProperty
-	} else {
-		properties.ApiProperties = nil
-	}
-
-	// AssociatedProjects
-	properties.AssociatedProjects = genruntime.CloneSliceOfString(source.AssociatedProjects)
-
-	// CustomSubDomainName
-	properties.CustomSubDomainName = genruntime.ClonePointerToString(source.CustomSubDomainName)
-
-	// DefaultProject
-	properties.DefaultProject = genruntime.ClonePointerToString(source.DefaultProject)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		properties.DisableLocalAuth = &disableLocalAuth
-	} else {
-		properties.DisableLocalAuth = nil
-	}
-
-	// DynamicThrottlingEnabled
-	if source.DynamicThrottlingEnabled != nil {
-		dynamicThrottlingEnabled := *source.DynamicThrottlingEnabled
-		properties.DynamicThrottlingEnabled = &dynamicThrottlingEnabled
-	} else {
-		properties.DynamicThrottlingEnabled = nil
-	}
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption Encryption
-		err := encryption.Initialize_From_Encryption_STATUS(source.Encryption)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Encryption_STATUS() to populate field Encryption")
-		}
-		properties.Encryption = &encryption
-	} else {
-		properties.Encryption = nil
-	}
-
-	// Locations
-	if source.Locations != nil {
-		var location MultiRegionSettings
-		err := location.Initialize_From_MultiRegionSettings_STATUS(source.Locations)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_MultiRegionSettings_STATUS() to populate field Locations")
-		}
-		properties.Locations = &location
-	} else {
-		properties.Locations = nil
-	}
-
-	// NetworkAcls
-	if source.NetworkAcls != nil {
-		var networkAcl NetworkRuleSet
-		err := networkAcl.Initialize_From_NetworkRuleSet_STATUS(source.NetworkAcls)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_NetworkRuleSet_STATUS() to populate field NetworkAcls")
-		}
-		properties.NetworkAcls = &networkAcl
-	} else {
-		properties.NetworkAcls = nil
-	}
-
-	// NetworkInjections
-	if source.NetworkInjections != nil {
-		networkInjectionList := make([]NetworkInjection, len(source.NetworkInjections))
-		for networkInjectionIndex, networkInjectionItem := range source.NetworkInjections {
-			var networkInjection NetworkInjection
-			err := networkInjection.Initialize_From_NetworkInjection_STATUS(&networkInjectionItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_NetworkInjection_STATUS() to populate field NetworkInjections")
-			}
-			networkInjectionList[networkInjectionIndex] = networkInjection
-		}
-		properties.NetworkInjections = networkInjectionList
-	} else {
-		properties.NetworkInjections = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), accountProperties_PublicNetworkAccess_Values)
-		properties.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		properties.PublicNetworkAccess = nil
-	}
-
-	// RaiMonitorConfig
-	if source.RaiMonitorConfig != nil {
-		var raiMonitorConfig RaiMonitorConfig
-		err := raiMonitorConfig.Initialize_From_RaiMonitorConfig_STATUS(source.RaiMonitorConfig)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RaiMonitorConfig_STATUS() to populate field RaiMonitorConfig")
-		}
-		properties.RaiMonitorConfig = &raiMonitorConfig
-	} else {
-		properties.RaiMonitorConfig = nil
-	}
-
-	// Restore
-	if source.Restore != nil {
-		restore := *source.Restore
-		properties.Restore = &restore
-	} else {
-		properties.Restore = nil
-	}
-
-	// RestrictOutboundNetworkAccess
-	if source.RestrictOutboundNetworkAccess != nil {
-		restrictOutboundNetworkAccess := *source.RestrictOutboundNetworkAccess
-		properties.RestrictOutboundNetworkAccess = &restrictOutboundNetworkAccess
-	} else {
-		properties.RestrictOutboundNetworkAccess = nil
-	}
-
-	// UserOwnedStorage
-	if source.UserOwnedStorage != nil {
-		userOwnedStorageList := make([]UserOwnedStorage, len(source.UserOwnedStorage))
-		for userOwnedStorageIndex, userOwnedStorageItem := range source.UserOwnedStorage {
-			var userOwnedStorage UserOwnedStorage
-			err := userOwnedStorage.Initialize_From_UserOwnedStorage_STATUS(&userOwnedStorageItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_UserOwnedStorage_STATUS() to populate field UserOwnedStorage")
-			}
-			userOwnedStorageList[userOwnedStorageIndex] = userOwnedStorage
-		}
-		properties.UserOwnedStorage = userOwnedStorageList
-	} else {
-		properties.UserOwnedStorage = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Properties of Cognitive Services account.
 type AccountProperties_STATUS struct {
 	// AbusePenalty: The abuse penalty.
@@ -3240,33 +3020,6 @@ func (identity *Identity) AssignProperties_To_Identity(destination *storage.Iden
 	return nil
 }
 
-// Initialize_From_Identity_STATUS populates our Identity from the provided source Identity_STATUS
-func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), identity_Type_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Identity for the resource.
 type Identity_STATUS struct {
 	// PrincipalId: The principal ID of resource identity.
@@ -3590,33 +3343,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Capacity
-	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// Family
-	sku.Family = genruntime.ClonePointerToString(source.Family)
-
-	// Name
-	sku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Size
-	sku.Size = genruntime.ClonePointerToString(source.Size)
-
-	// Tier
-	if source.Tier != nil {
-		tier := genruntime.ToEnum(string(*source.Tier), sku_Tier_Values)
-		sku.Tier = &tier
-	} else {
-		sku.Tier = nil
 	}
 
 	// No error
@@ -4663,50 +4389,6 @@ func (properties *ApiProperties) AssignProperties_To_ApiProperties(destination *
 	return nil
 }
 
-// Initialize_From_ApiProperties_STATUS populates our ApiProperties from the provided source ApiProperties_STATUS
-func (properties *ApiProperties) Initialize_From_ApiProperties_STATUS(source *ApiProperties_STATUS) error {
-
-	// AadClientId
-	properties.AadClientId = genruntime.ClonePointerToString(source.AadClientId)
-
-	// AadTenantId
-	properties.AadTenantId = genruntime.ClonePointerToString(source.AadTenantId)
-
-	// AdditionalProperties
-	if source.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		properties.AdditionalProperties = additionalPropertyMap
-	} else {
-		properties.AdditionalProperties = nil
-	}
-
-	// QnaAzureSearchEndpointId
-	properties.QnaAzureSearchEndpointId = genruntime.ClonePointerToString(source.QnaAzureSearchEndpointId)
-
-	// QnaRuntimeEndpoint
-	properties.QnaRuntimeEndpoint = genruntime.ClonePointerToString(source.QnaRuntimeEndpoint)
-
-	// StatisticsEnabled
-	if source.StatisticsEnabled != nil {
-		statisticsEnabled := *source.StatisticsEnabled
-		properties.StatisticsEnabled = &statisticsEnabled
-	} else {
-		properties.StatisticsEnabled = nil
-	}
-
-	// SuperUser
-	properties.SuperUser = genruntime.ClonePointerToString(source.SuperUser)
-
-	// WebsiteName
-	properties.WebsiteName = genruntime.ClonePointerToString(source.WebsiteName)
-
-	// No error
-	return nil
-}
-
 // The api properties for special APIs.
 type ApiProperties_STATUS struct {
 	// AadClientId: (Metrics Advisor Only) The Azure AD Client Id (Application Id).
@@ -5245,33 +4927,6 @@ func (encryption *Encryption) AssignProperties_To_Encryption(destination *storag
 	return nil
 }
 
-// Initialize_From_Encryption_STATUS populates our Encryption from the provided source Encryption_STATUS
-func (encryption *Encryption) Initialize_From_Encryption_STATUS(source *Encryption_STATUS) error {
-
-	// KeySource
-	if source.KeySource != nil {
-		keySource := genruntime.ToEnum(string(*source.KeySource), encryption_KeySource_Values)
-		encryption.KeySource = &keySource
-	} else {
-		encryption.KeySource = nil
-	}
-
-	// KeyVaultProperties
-	if source.KeyVaultProperties != nil {
-		var keyVaultProperty KeyVaultProperties
-		err := keyVaultProperty.Initialize_From_KeyVaultProperties_STATUS(source.KeyVaultProperties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
-		}
-		encryption.KeyVaultProperties = &keyVaultProperty
-	} else {
-		encryption.KeyVaultProperties = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Properties to configure Encryption
 type Encryption_STATUS struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
@@ -5559,37 +5214,6 @@ func (settings *MultiRegionSettings) AssignProperties_To_MultiRegionSettings(des
 	return nil
 }
 
-// Initialize_From_MultiRegionSettings_STATUS populates our MultiRegionSettings from the provided source MultiRegionSettings_STATUS
-func (settings *MultiRegionSettings) Initialize_From_MultiRegionSettings_STATUS(source *MultiRegionSettings_STATUS) error {
-
-	// Regions
-	if source.Regions != nil {
-		regionList := make([]RegionSetting, len(source.Regions))
-		for regionIndex, regionItem := range source.Regions {
-			var region RegionSetting
-			err := region.Initialize_From_RegionSetting_STATUS(&regionItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_RegionSetting_STATUS() to populate field Regions")
-			}
-			regionList[regionIndex] = region
-		}
-		settings.Regions = regionList
-	} else {
-		settings.Regions = nil
-	}
-
-	// RoutingMethod
-	if source.RoutingMethod != nil {
-		routingMethod := genruntime.ToEnum(string(*source.RoutingMethod), multiRegionSettings_RoutingMethod_Values)
-		settings.RoutingMethod = &routingMethod
-	} else {
-		settings.RoutingMethod = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The multiregion settings Cognitive Services account.
 type MultiRegionSettings_STATUS struct {
 	Regions []RegionSetting_STATUS `json:"regions,omitempty"`
@@ -5854,37 +5478,6 @@ func (injection *NetworkInjection) AssignProperties_To_NetworkInjection(destinat
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NetworkInjection_STATUS populates our NetworkInjection from the provided source NetworkInjection_STATUS
-func (injection *NetworkInjection) Initialize_From_NetworkInjection_STATUS(source *NetworkInjection_STATUS) error {
-
-	// Scenario
-	if source.Scenario != nil {
-		scenario := genruntime.ToEnum(string(*source.Scenario), networkInjection_Scenario_Values)
-		injection.Scenario = &scenario
-	} else {
-		injection.Scenario = nil
-	}
-
-	// SubnetArmReference
-	if source.SubnetArmId != nil {
-		subnetArmReference := genruntime.CreateResourceReferenceFromARMID(*source.SubnetArmId)
-		injection.SubnetArmReference = &subnetArmReference
-	} else {
-		injection.SubnetArmReference = nil
-	}
-
-	// UseMicrosoftManagedNetwork
-	if source.UseMicrosoftManagedNetwork != nil {
-		useMicrosoftManagedNetwork := *source.UseMicrosoftManagedNetwork
-		injection.UseMicrosoftManagedNetwork = &useMicrosoftManagedNetwork
-	} else {
-		injection.UseMicrosoftManagedNetwork = nil
 	}
 
 	// No error
@@ -6234,61 +5827,6 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *s
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NetworkRuleSet_STATUS populates our NetworkRuleSet from the provided source NetworkRuleSet_STATUS
-func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *NetworkRuleSet_STATUS) error {
-
-	// Bypass
-	if source.Bypass != nil {
-		bypass := genruntime.ToEnum(string(*source.Bypass), networkRuleSet_Bypass_Values)
-		ruleSet.Bypass = &bypass
-	} else {
-		ruleSet.Bypass = nil
-	}
-
-	// DefaultAction
-	if source.DefaultAction != nil {
-		defaultAction := genruntime.ToEnum(string(*source.DefaultAction), networkRuleSet_DefaultAction_Values)
-		ruleSet.DefaultAction = &defaultAction
-	} else {
-		ruleSet.DefaultAction = nil
-	}
-
-	// IpRules
-	if source.IpRules != nil {
-		ipRuleList := make([]IpRule, len(source.IpRules))
-		for ipRuleIndex, ipRuleItem := range source.IpRules {
-			var ipRule IpRule
-			err := ipRule.Initialize_From_IpRule_STATUS(&ipRuleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_IpRule_STATUS() to populate field IpRules")
-			}
-			ipRuleList[ipRuleIndex] = ipRule
-		}
-		ruleSet.IpRules = ipRuleList
-	} else {
-		ruleSet.IpRules = nil
-	}
-
-	// VirtualNetworkRules
-	if source.VirtualNetworkRules != nil {
-		virtualNetworkRuleList := make([]VirtualNetworkRule, len(source.VirtualNetworkRules))
-		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range source.VirtualNetworkRules {
-			var virtualNetworkRule VirtualNetworkRule
-			err := virtualNetworkRule.Initialize_From_VirtualNetworkRule_STATUS(&virtualNetworkRuleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VirtualNetworkRule_STATUS() to populate field VirtualNetworkRules")
-			}
-			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
-		}
-		ruleSet.VirtualNetworkRules = virtualNetworkRuleList
-	} else {
-		ruleSet.VirtualNetworkRules = nil
 	}
 
 	// No error
@@ -6779,24 +6317,6 @@ func (config *RaiMonitorConfig) AssignProperties_To_RaiMonitorConfig(destination
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RaiMonitorConfig_STATUS populates our RaiMonitorConfig from the provided source RaiMonitorConfig_STATUS
-func (config *RaiMonitorConfig) Initialize_From_RaiMonitorConfig_STATUS(source *RaiMonitorConfig_STATUS) error {
-
-	// AdxStorageResourceReference
-	if source.AdxStorageResourceId != nil {
-		adxStorageResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.AdxStorageResourceId)
-		config.AdxStorageResourceReference = &adxStorageResourceReference
-	} else {
-		config.AdxStorageResourceReference = nil
-	}
-
-	// IdentityClientId
-	config.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
 
 	// No error
 	return nil
@@ -7345,24 +6865,6 @@ func (workspace *UserOwnedAmlWorkspace) AssignProperties_To_UserOwnedAmlWorkspac
 	return nil
 }
 
-// Initialize_From_UserOwnedAmlWorkspace_STATUS populates our UserOwnedAmlWorkspace from the provided source UserOwnedAmlWorkspace_STATUS
-func (workspace *UserOwnedAmlWorkspace) Initialize_From_UserOwnedAmlWorkspace_STATUS(source *UserOwnedAmlWorkspace_STATUS) error {
-
-	// IdentityClientId
-	workspace.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		workspace.ResourceReference = &resourceReference
-	} else {
-		workspace.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The user owned AML account for Cognitive Services account.
 type UserOwnedAmlWorkspace_STATUS struct {
 	// IdentityClientId: Identity Client id of a AML account resource.
@@ -7448,21 +6950,21 @@ type UserOwnedStorage struct {
 var _ genruntime.ARMTransformer = &UserOwnedStorage{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (storage *UserOwnedStorage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if storage == nil {
+func (ownedStorage *UserOwnedStorage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if ownedStorage == nil {
 		return nil, nil
 	}
 	result := &arm.UserOwnedStorage{}
 
 	// Set property "IdentityClientId":
-	if storage.IdentityClientId != nil {
-		identityClientId := *storage.IdentityClientId
+	if ownedStorage.IdentityClientId != nil {
+		identityClientId := *ownedStorage.IdentityClientId
 		result.IdentityClientId = &identityClientId
 	}
 
 	// Set property "ResourceId":
-	if storage.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*storage.ResourceReference)
+	if ownedStorage.ResourceReference != nil {
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*ownedStorage.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -7473,12 +6975,12 @@ func (storage *UserOwnedStorage) ConvertToARM(resolved genruntime.ConvertToARMRe
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (storage *UserOwnedStorage) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (ownedStorage *UserOwnedStorage) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &arm.UserOwnedStorage{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (storage *UserOwnedStorage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (ownedStorage *UserOwnedStorage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(arm.UserOwnedStorage)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UserOwnedStorage, got %T", armInput)
@@ -7487,7 +6989,7 @@ func (storage *UserOwnedStorage) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// Set property "IdentityClientId":
 	if typedInput.IdentityClientId != nil {
 		identityClientId := *typedInput.IdentityClientId
-		storage.IdentityClientId = &identityClientId
+		ownedStorage.IdentityClientId = &identityClientId
 	}
 
 	// no assignment for property "ResourceReference"
@@ -7497,17 +6999,17 @@ func (storage *UserOwnedStorage) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_UserOwnedStorage populates our UserOwnedStorage from the provided source UserOwnedStorage
-func (storage *UserOwnedStorage) AssignProperties_From_UserOwnedStorage(source *storage.UserOwnedStorage) error {
+func (ownedStorage *UserOwnedStorage) AssignProperties_From_UserOwnedStorage(source *storage.UserOwnedStorage) error {
 
 	// IdentityClientId
-	storage.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
+	ownedStorage.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
 
 	// ResourceReference
 	if source.ResourceReference != nil {
 		resourceReference := source.ResourceReference.Copy()
-		storage.ResourceReference = &resourceReference
+		ownedStorage.ResourceReference = &resourceReference
 	} else {
-		storage.ResourceReference = nil
+		ownedStorage.ResourceReference = nil
 	}
 
 	// No error
@@ -7515,16 +7017,16 @@ func (storage *UserOwnedStorage) AssignProperties_From_UserOwnedStorage(source *
 }
 
 // AssignProperties_To_UserOwnedStorage populates the provided destination UserOwnedStorage from our UserOwnedStorage
-func (storage *UserOwnedStorage) AssignProperties_To_UserOwnedStorage(destination *storage.UserOwnedStorage) error {
+func (ownedStorage *UserOwnedStorage) AssignProperties_To_UserOwnedStorage(destination *storage.UserOwnedStorage) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// IdentityClientId
-	destination.IdentityClientId = genruntime.ClonePointerToString(storage.IdentityClientId)
+	destination.IdentityClientId = genruntime.ClonePointerToString(ownedStorage.IdentityClientId)
 
 	// ResourceReference
-	if storage.ResourceReference != nil {
-		resourceReference := storage.ResourceReference.Copy()
+	if ownedStorage.ResourceReference != nil {
+		resourceReference := ownedStorage.ResourceReference.Copy()
 		destination.ResourceReference = &resourceReference
 	} else {
 		destination.ResourceReference = nil
@@ -7535,24 +7037,6 @@ func (storage *UserOwnedStorage) AssignProperties_To_UserOwnedStorage(destinatio
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UserOwnedStorage_STATUS populates our UserOwnedStorage from the provided source UserOwnedStorage_STATUS
-func (storage *UserOwnedStorage) Initialize_From_UserOwnedStorage_STATUS(source *UserOwnedStorage_STATUS) error {
-
-	// IdentityClientId
-	storage.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		storage.ResourceReference = &resourceReference
-	} else {
-		storage.ResourceReference = nil
 	}
 
 	// No error
@@ -7570,12 +7054,12 @@ type UserOwnedStorage_STATUS struct {
 var _ genruntime.FromARMConverter = &UserOwnedStorage_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (storage *UserOwnedStorage_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (ownedStorage *UserOwnedStorage_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &arm.UserOwnedStorage_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (storage *UserOwnedStorage_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (ownedStorage *UserOwnedStorage_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(arm.UserOwnedStorage_STATUS)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UserOwnedStorage_STATUS, got %T", armInput)
@@ -7584,13 +7068,13 @@ func (storage *UserOwnedStorage_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	// Set property "IdentityClientId":
 	if typedInput.IdentityClientId != nil {
 		identityClientId := *typedInput.IdentityClientId
-		storage.IdentityClientId = &identityClientId
+		ownedStorage.IdentityClientId = &identityClientId
 	}
 
 	// Set property "ResourceId":
 	if typedInput.ResourceId != nil {
 		resourceId := *typedInput.ResourceId
-		storage.ResourceId = &resourceId
+		ownedStorage.ResourceId = &resourceId
 	}
 
 	// No error
@@ -7598,28 +7082,28 @@ func (storage *UserOwnedStorage_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_UserOwnedStorage_STATUS populates our UserOwnedStorage_STATUS from the provided source UserOwnedStorage_STATUS
-func (storage *UserOwnedStorage_STATUS) AssignProperties_From_UserOwnedStorage_STATUS(source *storage.UserOwnedStorage_STATUS) error {
+func (ownedStorage *UserOwnedStorage_STATUS) AssignProperties_From_UserOwnedStorage_STATUS(source *storage.UserOwnedStorage_STATUS) error {
 
 	// IdentityClientId
-	storage.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
+	ownedStorage.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
 
 	// ResourceId
-	storage.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
+	ownedStorage.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
 
 	// No error
 	return nil
 }
 
 // AssignProperties_To_UserOwnedStorage_STATUS populates the provided destination UserOwnedStorage_STATUS from our UserOwnedStorage_STATUS
-func (storage *UserOwnedStorage_STATUS) AssignProperties_To_UserOwnedStorage_STATUS(destination *storage.UserOwnedStorage_STATUS) error {
+func (ownedStorage *UserOwnedStorage_STATUS) AssignProperties_To_UserOwnedStorage_STATUS(destination *storage.UserOwnedStorage_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// IdentityClientId
-	destination.IdentityClientId = genruntime.ClonePointerToString(storage.IdentityClientId)
+	destination.IdentityClientId = genruntime.ClonePointerToString(ownedStorage.IdentityClientId)
 
 	// ResourceId
-	destination.ResourceId = genruntime.ClonePointerToString(storage.ResourceId)
+	destination.ResourceId = genruntime.ClonePointerToString(ownedStorage.ResourceId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -7743,16 +7227,6 @@ func (rule *IpRule) AssignProperties_To_IpRule(destination *storage.IpRule) erro
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_IpRule_STATUS populates our IpRule from the provided source IpRule_STATUS
-func (rule *IpRule) Initialize_From_IpRule_STATUS(source *IpRule_STATUS) error {
-
-	// Value
-	rule.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil
@@ -7949,25 +7423,6 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_KeyVaultProperties_STATUS populates our KeyVaultProperties from the provided source KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties) Initialize_From_KeyVaultProperties_STATUS(source *KeyVaultProperties_STATUS) error {
-
-	// IdentityClientId
-	properties.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
-
-	// KeyName
-	properties.KeyName = genruntime.ClonePointerToString(source.KeyName)
-
-	// KeyVaultUri
-	properties.KeyVaultUri = genruntime.ClonePointerToString(source.KeyVaultUri)
-
-	// KeyVersion
-	properties.KeyVersion = genruntime.ClonePointerToString(source.KeyVersion)
 
 	// No error
 	return nil
@@ -8314,27 +7769,6 @@ func (setting *RegionSetting) AssignProperties_To_RegionSetting(destination *sto
 	return nil
 }
 
-// Initialize_From_RegionSetting_STATUS populates our RegionSetting from the provided source RegionSetting_STATUS
-func (setting *RegionSetting) Initialize_From_RegionSetting_STATUS(source *RegionSetting_STATUS) error {
-
-	// Customsubdomain
-	setting.Customsubdomain = genruntime.ClonePointerToString(source.Customsubdomain)
-
-	// Name
-	setting.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Value
-	if source.Value != nil {
-		value := *source.Value
-		setting.Value = &value
-	} else {
-		setting.Value = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The call rate limit Cognitive Services account.
 type RegionSetting_STATUS struct {
 	// Customsubdomain: Maps the region to the regional custom subdomain.
@@ -8567,32 +8001,6 @@ func (rule *VirtualNetworkRule) AssignProperties_To_VirtualNetworkRule(destinati
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualNetworkRule_STATUS populates our VirtualNetworkRule from the provided source VirtualNetworkRule_STATUS
-func (rule *VirtualNetworkRule) Initialize_From_VirtualNetworkRule_STATUS(source *VirtualNetworkRule_STATUS) error {
-
-	// IgnoreMissingVnetServiceEndpoint
-	if source.IgnoreMissingVnetServiceEndpoint != nil {
-		ignoreMissingVnetServiceEndpoint := *source.IgnoreMissingVnetServiceEndpoint
-		rule.IgnoreMissingVnetServiceEndpoint = &ignoreMissingVnetServiceEndpoint
-	} else {
-		rule.IgnoreMissingVnetServiceEndpoint = nil
-	}
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		rule.Reference = &reference
-	} else {
-		rule.Reference = nil
-	}
-
-	// State
-	rule.State = genruntime.ClonePointerToString(source.State)
 
 	// No error
 	return nil

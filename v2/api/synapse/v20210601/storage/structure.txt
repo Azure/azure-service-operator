@@ -23,7 +23,7 @@ Workspace: Resource
 │   │   ├── Cmk: *Object (3 properties)
 │   │   │   ├── KekIdentity: *Object (3 properties)
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   ├── UseSystemAssignedIdentity: *v1.JSON
+│   │   │   │   ├── UseSystemAssignedIdentity: *bool
 │   │   │   │   └── UserAssignedIdentityReference: *genruntime.ResourceReference
 │   │   │   ├── Key: *Object (3 properties)
 │   │   │   │   ├── KeyVaultUrl: *string
@@ -92,7 +92,7 @@ Workspace: Resource
     │   ├── Cmk: *Object (4 properties)
     │   │   ├── KekIdentity: *Object (3 properties)
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   ├── UseSystemAssignedIdentity: *v1.JSON
+    │   │   │   ├── UseSystemAssignedIdentity: *bool
     │   │   │   └── UserAssignedIdentity: *string
     │   │   ├── Key: *Object (3 properties)
     │   │   │   ├── KeyVaultUrl: *string

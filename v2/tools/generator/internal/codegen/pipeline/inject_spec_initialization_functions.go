@@ -284,7 +284,11 @@ func (s *specInitializationScanner) visitMapType(
 	if !ok {
 		// If the status type DOESN'T have a map here, something is awry - they should have very similar structures
 		// as they're both created from the same Swagger spec
-		return nil, eris.Errorf("status type does not have a map where spec type does")
+		return nil, eris.Errorf(
+			"status type does not have a map where spec type does (spec %s, status %s)",
+			astmodel.DebugDescription(spec),
+			astmodel.DebugDescription(ctx),
+		)
 	}
 
 	// Visit the key and value types

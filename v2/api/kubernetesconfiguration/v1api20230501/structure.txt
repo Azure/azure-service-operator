@@ -209,7 +209,7 @@ FluxConfiguration: Resource
 │   │   └── "GitRepository"
 │   ├── Suspend: *bool
 │   └── WaitForReconciliation: *bool
-└── Status: Object (23 properties)
+└── Status: Object (24 properties)
     ├── AzureBlob: *Object (7 properties)
     │   ├── ContainerName: *string
     │   ├── LocalAuthRef: *string
@@ -316,6 +316,21 @@ FluxConfiguration: Resource
     │       ├── Status: *string
     │       └── Type: *string
     ├── Suspend: *bool
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Type: *string
     └── WaitForReconciliation: *bool
 

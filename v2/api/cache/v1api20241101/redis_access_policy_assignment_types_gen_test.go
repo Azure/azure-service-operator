@@ -5,7 +5,8 @@ package v1api20241101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	cache_v1api20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	cache_v20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v20241101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_RedisAccessPolicyAssignment_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -36,7 +42,7 @@ func RunResourceConversionTestForRedisAccessPolicyAssignment(subject RedisAccess
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.RedisAccessPolicyAssignment
+	var hub cache_v20241101s.RedisAccessPolicyAssignment
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -63,6 +69,11 @@ func RunResourceConversionTestForRedisAccessPolicyAssignment(subject RedisAccess
 
 func Test_RedisAccessPolicyAssignment_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -78,7 +89,7 @@ func RunPropertyAssignmentTestForRedisAccessPolicyAssignment(subject RedisAccess
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisAccessPolicyAssignment
+	var other cache_v1api20241101s.RedisAccessPolicyAssignment
 	err := copied.AssignProperties_To_RedisAccessPolicyAssignment(&other)
 	if err != nil {
 		return err.Error()
@@ -105,6 +116,11 @@ func RunPropertyAssignmentTestForRedisAccessPolicyAssignment(subject RedisAccess
 
 func Test_RedisAccessPolicyAssignment_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -167,6 +183,11 @@ func AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment(gens map[string]
 
 func Test_RedisAccessPolicyAssignmentOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -182,7 +203,7 @@ func RunPropertyAssignmentTestForRedisAccessPolicyAssignmentOperatorSpec(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisAccessPolicyAssignmentOperatorSpec
+	var other cache_v1api20241101s.RedisAccessPolicyAssignmentOperatorSpec
 	err := copied.AssignProperties_To_RedisAccessPolicyAssignmentOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -209,6 +230,11 @@ func RunPropertyAssignmentTestForRedisAccessPolicyAssignmentOperatorSpec(subject
 
 func Test_RedisAccessPolicyAssignmentOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -264,6 +290,11 @@ func RedisAccessPolicyAssignmentOperatorSpecGenerator() gopter.Gen {
 
 func Test_RedisAccessPolicyAssignment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -279,7 +310,7 @@ func RunPropertyAssignmentTestForRedisAccessPolicyAssignment_STATUS(subject Redi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisAccessPolicyAssignment_STATUS
+	var other cache_v1api20241101s.RedisAccessPolicyAssignment_STATUS
 	err := copied.AssignProperties_To_RedisAccessPolicyAssignment_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -306,6 +337,11 @@ func RunPropertyAssignmentTestForRedisAccessPolicyAssignment_STATUS(subject Redi
 
 func Test_RedisAccessPolicyAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -393,6 +429,11 @@ func AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(gens map[
 
 func Test_RedisAccessPolicyAssignment_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -408,7 +449,7 @@ func RunPropertyAssignmentTestForRedisAccessPolicyAssignment_Spec(subject RedisA
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisAccessPolicyAssignment_Spec
+	var other cache_v1api20241101s.RedisAccessPolicyAssignment_Spec
 	err := copied.AssignProperties_To_RedisAccessPolicyAssignment_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -435,6 +476,11 @@ func RunPropertyAssignmentTestForRedisAccessPolicyAssignment_Spec(subject RedisA
 
 func Test_RedisAccessPolicyAssignment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

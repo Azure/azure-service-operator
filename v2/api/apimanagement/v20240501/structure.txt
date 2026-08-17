@@ -722,6 +722,193 @@ Certificate: Resource
     ├── Thumbprint: *string
     └── Type: *string
 
+Diagnostic: Resource
+├── Owner: Service
+├── Spec: Object (13 properties)
+│   ├── AlwaysLog: *Enum (1 value)
+│   │   └── "allErrors"
+│   ├── AzureName: Validated<string> (3 rules)
+│   │   ├── Rule 0: MaxLength: 80
+│   │   ├── Rule 1: MinLength: 1
+│   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+│   ├── Backend: *Object (2 properties)
+│   │   ├── Request: *Object (3 properties)
+│   │   │   ├── Body: *Object (1 property)
+│   │   │   │   └── Bytes: Validated<*int> (1 rule)
+│   │   │   │       └── Rule 0: Maximum: 8192
+│   │   │   ├── DataMasking: *Object (2 properties)
+│   │   │   │   ├── Headers: Object (2 properties)[]
+│   │   │   │   │   ├── Mode: *Enum (2 values)
+│   │   │   │   │   │   ├── "Hide"
+│   │   │   │   │   │   └── "Mask"
+│   │   │   │   │   └── Value: *string
+│   │   │   │   └── QueryParams: Object (2 properties)[]
+│   │   │   │       ├── Mode: *Enum (2 values)
+│   │   │   │       │   ├── "Hide"
+│   │   │   │       │   └── "Mask"
+│   │   │   │       └── Value: *string
+│   │   │   └── Headers: string[]
+│   │   └── Response: *Object (3 properties)
+│   │       ├── Body: *Object (1 property)
+│   │       │   └── Bytes: Validated<*int> (1 rule)
+│   │       │       └── Rule 0: Maximum: 8192
+│   │       ├── DataMasking: *Object (2 properties)
+│   │       │   ├── Headers: Object (2 properties)[]
+│   │       │   │   ├── Mode: *Enum (2 values)
+│   │       │   │   │   ├── "Hide"
+│   │       │   │   │   └── "Mask"
+│   │       │   │   └── Value: *string
+│   │       │   └── QueryParams: Object (2 properties)[]
+│   │       │       ├── Mode: *Enum (2 values)
+│   │       │       │   ├── "Hide"
+│   │       │       │   └── "Mask"
+│   │       │       └── Value: *string
+│   │       └── Headers: string[]
+│   ├── Frontend: *Object (2 properties)
+│   │   ├── Request: *Object (3 properties)
+│   │   │   ├── Body: *Object (1 property)
+│   │   │   │   └── Bytes: Validated<*int> (1 rule)
+│   │   │   │       └── Rule 0: Maximum: 8192
+│   │   │   ├── DataMasking: *Object (2 properties)
+│   │   │   │   ├── Headers: Object (2 properties)[]
+│   │   │   │   │   ├── Mode: *Enum (2 values)
+│   │   │   │   │   │   ├── "Hide"
+│   │   │   │   │   │   └── "Mask"
+│   │   │   │   │   └── Value: *string
+│   │   │   │   └── QueryParams: Object (2 properties)[]
+│   │   │   │       ├── Mode: *Enum (2 values)
+│   │   │   │       │   ├── "Hide"
+│   │   │   │       │   └── "Mask"
+│   │   │   │       └── Value: *string
+│   │   │   └── Headers: string[]
+│   │   └── Response: *Object (3 properties)
+│   │       ├── Body: *Object (1 property)
+│   │       │   └── Bytes: Validated<*int> (1 rule)
+│   │       │       └── Rule 0: Maximum: 8192
+│   │       ├── DataMasking: *Object (2 properties)
+│   │       │   ├── Headers: Object (2 properties)[]
+│   │       │   │   ├── Mode: *Enum (2 values)
+│   │       │   │   │   ├── "Hide"
+│   │       │   │   │   └── "Mask"
+│   │       │   │   └── Value: *string
+│   │       │   └── QueryParams: Object (2 properties)[]
+│   │       │       ├── Mode: *Enum (2 values)
+│   │       │       │   ├── "Hide"
+│   │       │       │   └── "Mask"
+│   │       │       └── Value: *string
+│   │       └── Headers: string[]
+│   ├── HttpCorrelationProtocol: *Enum (3 values)
+│   │   ├── "Legacy"
+│   │   ├── "None"
+│   │   └── "W3C"
+│   ├── LogClientIp: *bool
+│   ├── LoggerReference: *genruntime.ResourceReference
+│   ├── Metrics: *bool
+│   ├── OperationNameFormat: *Enum (2 values)
+│   │   ├── "Name"
+│   │   └── "Url"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── Sampling: *Object (2 properties)
+│   │   ├── Percentage: Validated<*int> (2 rules)
+│   │   │   ├── Rule 0: Maximum: 100
+│   │   │   └── Rule 1: Minimum: 0
+│   │   └── SamplingType: *Enum (1 value)
+│   │       └── "fixed"
+│   └── Verbosity: *Enum (3 values)
+│       ├── "error"
+│       ├── "information"
+│       └── "verbose"
+└── Status: Object (14 properties)
+    ├── AlwaysLog: *Enum (1 value)
+    │   └── "allErrors"
+    ├── Backend: *Object (2 properties)
+    │   ├── Request: *Object (3 properties)
+    │   │   ├── Body: *Object (1 property)
+    │   │   │   └── Bytes: *int
+    │   │   ├── DataMasking: *Object (2 properties)
+    │   │   │   ├── Headers: Object (2 properties)[]
+    │   │   │   │   ├── Mode: *Enum (2 values)
+    │   │   │   │   │   ├── "Hide"
+    │   │   │   │   │   └── "Mask"
+    │   │   │   │   └── Value: *string
+    │   │   │   └── QueryParams: Object (2 properties)[]
+    │   │   │       ├── Mode: *Enum (2 values)
+    │   │   │       │   ├── "Hide"
+    │   │   │       │   └── "Mask"
+    │   │   │       └── Value: *string
+    │   │   └── Headers: string[]
+    │   └── Response: *Object (3 properties)
+    │       ├── Body: *Object (1 property)
+    │       │   └── Bytes: *int
+    │       ├── DataMasking: *Object (2 properties)
+    │       │   ├── Headers: Object (2 properties)[]
+    │       │   │   ├── Mode: *Enum (2 values)
+    │       │   │   │   ├── "Hide"
+    │       │   │   │   └── "Mask"
+    │       │   │   └── Value: *string
+    │       │   └── QueryParams: Object (2 properties)[]
+    │       │       ├── Mode: *Enum (2 values)
+    │       │       │   ├── "Hide"
+    │       │       │   └── "Mask"
+    │       │       └── Value: *string
+    │       └── Headers: string[]
+    ├── Conditions: conditions.Condition[]
+    ├── Frontend: *Object (2 properties)
+    │   ├── Request: *Object (3 properties)
+    │   │   ├── Body: *Object (1 property)
+    │   │   │   └── Bytes: *int
+    │   │   ├── DataMasking: *Object (2 properties)
+    │   │   │   ├── Headers: Object (2 properties)[]
+    │   │   │   │   ├── Mode: *Enum (2 values)
+    │   │   │   │   │   ├── "Hide"
+    │   │   │   │   │   └── "Mask"
+    │   │   │   │   └── Value: *string
+    │   │   │   └── QueryParams: Object (2 properties)[]
+    │   │   │       ├── Mode: *Enum (2 values)
+    │   │   │       │   ├── "Hide"
+    │   │   │       │   └── "Mask"
+    │   │   │       └── Value: *string
+    │   │   └── Headers: string[]
+    │   └── Response: *Object (3 properties)
+    │       ├── Body: *Object (1 property)
+    │       │   └── Bytes: *int
+    │       ├── DataMasking: *Object (2 properties)
+    │       │   ├── Headers: Object (2 properties)[]
+    │       │   │   ├── Mode: *Enum (2 values)
+    │       │   │   │   ├── "Hide"
+    │       │   │   │   └── "Mask"
+    │       │   │   └── Value: *string
+    │       │   └── QueryParams: Object (2 properties)[]
+    │       │       ├── Mode: *Enum (2 values)
+    │       │       │   ├── "Hide"
+    │       │       │   └── "Mask"
+    │       │       └── Value: *string
+    │       └── Headers: string[]
+    ├── HttpCorrelationProtocol: *Enum (3 values)
+    │   ├── "Legacy"
+    │   ├── "None"
+    │   └── "W3C"
+    ├── Id: *string
+    ├── LogClientIp: *bool
+    ├── LoggerId: *string
+    ├── Metrics: *bool
+    ├── Name: *string
+    ├── OperationNameFormat: *Enum (2 values)
+    │   ├── "Name"
+    │   └── "Url"
+    ├── Sampling: *Object (2 properties)
+    │   ├── Percentage: *float64
+    │   └── SamplingType: *Enum (1 value)
+    │       └── "fixed"
+    ├── Type: *string
+    └── Verbosity: *Enum (3 values)
+        ├── "error"
+        ├── "information"
+        └── "verbose"
+
 Group: Resource
 ├── Owner: Service
 ├── Spec: Object (7 properties)
@@ -929,6 +1116,19 @@ ProductApi: Resource
 │   │   ├── Rule 0: MaxLength: 256
 │   │   ├── Rule 1: MinLength: 1
 │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   └── Owner: *genruntime.KnownResourceReference
+└── Status: Object (1 property)
+    └── Conditions: conditions.Condition[]
+
+ProductGroup: Resource
+├── Owner: Product
+├── Spec: Object (3 properties)
+│   ├── AzureName: Validated<string> (2 rules)
+│   │   ├── Rule 0: MaxLength: 256
+│   │   └── Rule 1: MinLength: 1
 │   ├── OperatorSpec: *Object (2 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   └── SecretExpressions: *core.DestinationExpression[]

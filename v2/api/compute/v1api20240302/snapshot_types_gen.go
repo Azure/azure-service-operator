@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2024-03-02/DiskRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}
 type Snapshot struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +51,36 @@ var _ conversion.Convertible = &Snapshot{}
 
 // ConvertFrom populates our Snapshot from the provided hub Snapshot
 func (snapshot *Snapshot) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Snapshot)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20240302/storage/Snapshot but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Snapshot
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return snapshot.AssignProperties_From_Snapshot(source)
+	err = snapshot.AssignProperties_From_Snapshot(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to snapshot")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Snapshot from our Snapshot
 func (snapshot *Snapshot) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Snapshot)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20240302/storage/Snapshot but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Snapshot
+	err := snapshot.AssignProperties_To_Snapshot(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from snapshot")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return snapshot.AssignProperties_To_Snapshot(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Snapshot{}
@@ -87,17 +101,6 @@ func (snapshot *Snapshot) SecretDestinationExpressions() []*core.DestinationExpr
 		return nil
 	}
 	return snapshot.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Snapshot{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (snapshot *Snapshot) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Snapshot_STATUS); ok {
-		return snapshot.Spec.Initialize_From_Snapshot_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Snapshot_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Snapshot{}
@@ -238,7 +241,7 @@ func (snapshot *Snapshot) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2024-03-02/DiskRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}
 type SnapshotList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -1267,202 +1270,6 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *st
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Snapshot_STATUS populates our Snapshot_Spec from the provided source Snapshot_STATUS
-func (snapshot *Snapshot_Spec) Initialize_From_Snapshot_STATUS(source *Snapshot_STATUS) error {
-
-	// CompletionPercent
-	if source.CompletionPercent != nil {
-		completionPercent := *source.CompletionPercent
-		snapshot.CompletionPercent = &completionPercent
-	} else {
-		snapshot.CompletionPercent = nil
-	}
-
-	// CopyCompletionError
-	if source.CopyCompletionError != nil {
-		var copyCompletionError CopyCompletionError
-		err := copyCompletionError.Initialize_From_CopyCompletionError_STATUS(source.CopyCompletionError)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CopyCompletionError_STATUS() to populate field CopyCompletionError")
-		}
-		snapshot.CopyCompletionError = &copyCompletionError
-	} else {
-		snapshot.CopyCompletionError = nil
-	}
-
-	// CreationData
-	if source.CreationData != nil {
-		var creationDatum CreationData
-		err := creationDatum.Initialize_From_CreationData_STATUS(source.CreationData)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CreationData_STATUS() to populate field CreationData")
-		}
-		snapshot.CreationData = &creationDatum
-	} else {
-		snapshot.CreationData = nil
-	}
-
-	// DataAccessAuthMode
-	if source.DataAccessAuthMode != nil {
-		dataAccessAuthMode := genruntime.ToEnum(string(*source.DataAccessAuthMode), dataAccessAuthMode_Values)
-		snapshot.DataAccessAuthMode = &dataAccessAuthMode
-	} else {
-		snapshot.DataAccessAuthMode = nil
-	}
-
-	// DiskAccessReference
-	if source.DiskAccessId != nil {
-		diskAccessReference := genruntime.CreateResourceReferenceFromARMID(*source.DiskAccessId)
-		snapshot.DiskAccessReference = &diskAccessReference
-	} else {
-		snapshot.DiskAccessReference = nil
-	}
-
-	// DiskSizeGB
-	snapshot.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption Encryption
-		err := encryption.Initialize_From_Encryption_STATUS(source.Encryption)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Encryption_STATUS() to populate field Encryption")
-		}
-		snapshot.Encryption = &encryption
-	} else {
-		snapshot.Encryption = nil
-	}
-
-	// EncryptionSettingsCollection
-	if source.EncryptionSettingsCollection != nil {
-		var encryptionSettingsCollection EncryptionSettingsCollection
-		err := encryptionSettingsCollection.Initialize_From_EncryptionSettingsCollection_STATUS(source.EncryptionSettingsCollection)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
-		}
-		snapshot.EncryptionSettingsCollection = &encryptionSettingsCollection
-	} else {
-		snapshot.EncryptionSettingsCollection = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		snapshot.ExtendedLocation = &extendedLocation
-	} else {
-		snapshot.ExtendedLocation = nil
-	}
-
-	// HyperVGeneration
-	if source.HyperVGeneration != nil {
-		hyperVGeneration := genruntime.ToEnum(string(*source.HyperVGeneration), hyperVGeneration_Values)
-		snapshot.HyperVGeneration = &hyperVGeneration
-	} else {
-		snapshot.HyperVGeneration = nil
-	}
-
-	// Incremental
-	if source.Incremental != nil {
-		incremental := *source.Incremental
-		snapshot.Incremental = &incremental
-	} else {
-		snapshot.Incremental = nil
-	}
-
-	// Location
-	snapshot.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NetworkAccessPolicy
-	if source.NetworkAccessPolicy != nil {
-		networkAccessPolicy := genruntime.ToEnum(string(*source.NetworkAccessPolicy), networkAccessPolicy_Values)
-		snapshot.NetworkAccessPolicy = &networkAccessPolicy
-	} else {
-		snapshot.NetworkAccessPolicy = nil
-	}
-
-	// OsType
-	if source.OsType != nil {
-		osType := genruntime.ToEnum(string(*source.OsType), operatingSystemTypes_Values)
-		snapshot.OsType = &osType
-	} else {
-		snapshot.OsType = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), publicNetworkAccess_Values)
-		snapshot.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		snapshot.PublicNetworkAccess = nil
-	}
-
-	// PurchasePlan
-	if source.PurchasePlan != nil {
-		var purchasePlan DiskPurchasePlan
-		err := purchasePlan.Initialize_From_DiskPurchasePlan_STATUS(source.PurchasePlan)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DiskPurchasePlan_STATUS() to populate field PurchasePlan")
-		}
-		snapshot.PurchasePlan = &purchasePlan
-	} else {
-		snapshot.PurchasePlan = nil
-	}
-
-	// SecurityProfile
-	if source.SecurityProfile != nil {
-		var securityProfile DiskSecurityProfile
-		err := securityProfile.Initialize_From_DiskSecurityProfile_STATUS(source.SecurityProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DiskSecurityProfile_STATUS() to populate field SecurityProfile")
-		}
-		snapshot.SecurityProfile = &securityProfile
-	} else {
-		snapshot.SecurityProfile = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku SnapshotSku
-		err := sku.Initialize_From_SnapshotSku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SnapshotSku_STATUS() to populate field Sku")
-		}
-		snapshot.Sku = &sku
-	} else {
-		snapshot.Sku = nil
-	}
-
-	// SupportedCapabilities
-	if source.SupportedCapabilities != nil {
-		var supportedCapability SupportedCapabilities
-		err := supportedCapability.Initialize_From_SupportedCapabilities_STATUS(source.SupportedCapabilities)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SupportedCapabilities_STATUS() to populate field SupportedCapabilities")
-		}
-		snapshot.SupportedCapabilities = &supportedCapability
-	} else {
-		snapshot.SupportedCapabilities = nil
-	}
-
-	// SupportsHibernation
-	if source.SupportsHibernation != nil {
-		supportsHibernation := *source.SupportsHibernation
-		snapshot.SupportsHibernation = &supportsHibernation
-	} else {
-		snapshot.SupportsHibernation = nil
-	}
-
-	// Tags
-	snapshot.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -2591,24 +2398,6 @@ func (error *CopyCompletionError) AssignProperties_To_CopyCompletionError(destin
 	return nil
 }
 
-// Initialize_From_CopyCompletionError_STATUS populates our CopyCompletionError from the provided source CopyCompletionError_STATUS
-func (error *CopyCompletionError) Initialize_From_CopyCompletionError_STATUS(source *CopyCompletionError_STATUS) error {
-
-	// ErrorCode
-	if source.ErrorCode != nil {
-		errorCode := genruntime.ToEnum(string(*source.ErrorCode), copyCompletionErrorReason_Values)
-		error.ErrorCode = &errorCode
-	} else {
-		error.ErrorCode = nil
-	}
-
-	// ErrorMessage
-	error.ErrorMessage = genruntime.ClonePointerToString(source.ErrorMessage)
-
-	// No error
-	return nil
-}
-
 // Indicates the error details if the background copy of a resource created via the CopyStart operation fails.
 type CopyCompletionError_STATUS struct {
 	// ErrorCode: Indicates the error code if the background copy of a resource created via the CopyStart operation fails.
@@ -2876,21 +2665,6 @@ func (snapshotSku *SnapshotSku) AssignProperties_To_SnapshotSku(destination *sto
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SnapshotSku_STATUS populates our SnapshotSku from the provided source SnapshotSku_STATUS
-func (snapshotSku *SnapshotSku) Initialize_From_SnapshotSku_STATUS(source *SnapshotSku_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), snapshotStorageAccountTypes_Values)
-		snapshotSku.Name = &name
-	} else {
-		snapshotSku.Name = nil
 	}
 
 	// No error

@@ -10,124 +10,110 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_ResourceGroup_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of ResourceGroup round trips to the hub storage version and back losslessly
 func Test_ResourceGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ResourceGroup to hub returns original",
-		prop.ForAll(RunResourceConversionTestForResourceGroup, ResourceGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ResourceGroupGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.ResourceGroup
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual ResourceGroup
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForResourceGroup tests if a specific instance of ResourceGroup round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForResourceGroup(subject ResourceGroup) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.ResourceGroup
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual ResourceGroup
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_ResourceGroup_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ResourceGroup can be assigned to storage and back losslessly
 func Test_ResourceGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ResourceGroup to ResourceGroup via AssignProperties_To_ResourceGroup & AssignProperties_From_ResourceGroup returns original",
-		prop.ForAll(RunPropertyAssignmentTestForResourceGroup, ResourceGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
 
-// RunPropertyAssignmentTestForResourceGroup tests if a specific instance of ResourceGroup can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForResourceGroup(subject ResourceGroup) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ResourceGroup
-	err := copied.AssignProperties_To_ResourceGroup(&other)
-	if err != nil {
-		return err.Error()
+	if testing.Short() {
+		return
 	}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ResourceGroup
-	err = actual.AssignProperties_From_ResourceGroup(&other)
-	if err != nil {
-		return err.Error()
-	}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ResourceGroupGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ResourceGroup
+		err := copied.AssignProperties_To_ResourceGroup(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	return ""
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ResourceGroup
+		err = actual.AssignProperties_From_ResourceGroup(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ResourceGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ResourceGroup via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceGroup, ResourceGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, RunJSONSerializationTestForResourceGroup)
 }
 
 // RunJSONSerializationTestForResourceGroup runs a test to see if a specific instance of ResourceGroup round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceGroup(subject ResourceGroup) string {
+func RunJSONSerializationTestForResourceGroup(t *rapid.T) {
+	subject := ResourceGroupGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ResourceGroup
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -136,101 +122,94 @@ func RunJSONSerializationTestForResourceGroup(subject ResourceGroup) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ResourceGroup instances for property testing - lazily instantiated by ResourceGroupGenerator()
-var resourceGroupGenerator gopter.Gen
+var resourceGroupGenerator *rapid.Generator[ResourceGroup]
 
 // ResourceGroupGenerator returns a generator of ResourceGroup instances for property testing.
-func ResourceGroupGenerator() gopter.Gen {
+func ResourceGroupGenerator() *rapid.Generator[ResourceGroup] {
 	if resourceGroupGenerator != nil {
 		return resourceGroupGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForResourceGroup(generators)
-	resourceGroupGenerator = gen.Struct(reflect.TypeOf(ResourceGroup{}), generators)
+	spec := ResourceGroup_SpecGenerator()
+	status := ResourceGroup_STATUSGenerator()
+
+	resourceGroupGenerator = rapid.Custom(func(t *rapid.T) ResourceGroup {
+		var result ResourceGroup
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return resourceGroupGenerator
 }
 
-// AddRelatedPropertyGeneratorsForResourceGroup is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForResourceGroup(gens map[string]gopter.Gen) {
-	gens["Spec"] = ResourceGroup_SpecGenerator()
-	gens["Status"] = ResourceGroup_STATUSGenerator()
-}
-
+// Test_ResourceGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ResourceGroupOperatorSpec can be assigned to storage and back losslessly
 func Test_ResourceGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ResourceGroupOperatorSpec to ResourceGroupOperatorSpec via AssignProperties_To_ResourceGroupOperatorSpec & AssignProperties_From_ResourceGroupOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForResourceGroupOperatorSpec, ResourceGroupOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
 
-// RunPropertyAssignmentTestForResourceGroupOperatorSpec tests if a specific instance of ResourceGroupOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForResourceGroupOperatorSpec(subject ResourceGroupOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ResourceGroupOperatorSpec
-	err := copied.AssignProperties_To_ResourceGroupOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
+	if testing.Short() {
+		return
 	}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ResourceGroupOperatorSpec
-	err = actual.AssignProperties_From_ResourceGroupOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ResourceGroupOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ResourceGroupOperatorSpec
+		err := copied.AssignProperties_To_ResourceGroupOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	return ""
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ResourceGroupOperatorSpec
+		err = actual.AssignProperties_From_ResourceGroupOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ResourceGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ResourceGroupOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceGroupOperatorSpec, ResourceGroupOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, RunJSONSerializationTestForResourceGroupOperatorSpec)
 }
 
 // RunJSONSerializationTestForResourceGroupOperatorSpec runs a test to see if a specific instance of ResourceGroupOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceGroupOperatorSpec(subject ResourceGroupOperatorSpec) string {
+func RunJSONSerializationTestForResourceGroupOperatorSpec(t *rapid.T) {
+	subject := ResourceGroupOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ResourceGroupOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -239,95 +218,87 @@ func RunJSONSerializationTestForResourceGroupOperatorSpec(subject ResourceGroupO
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ResourceGroupOperatorSpec instances for property testing - lazily instantiated by
 // ResourceGroupOperatorSpecGenerator()
-var resourceGroupOperatorSpecGenerator gopter.Gen
+var resourceGroupOperatorSpecGenerator *rapid.Generator[ResourceGroupOperatorSpec]
 
 // ResourceGroupOperatorSpecGenerator returns a generator of ResourceGroupOperatorSpec instances for property testing.
-func ResourceGroupOperatorSpecGenerator() gopter.Gen {
+func ResourceGroupOperatorSpecGenerator() *rapid.Generator[ResourceGroupOperatorSpec] {
 	if resourceGroupOperatorSpecGenerator != nil {
 		return resourceGroupOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	resourceGroupOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ResourceGroupOperatorSpec{}), generators)
+	resourceGroupOperatorSpecGenerator = rapid.Just(ResourceGroupOperatorSpec{})
 
 	return resourceGroupOperatorSpecGenerator
 }
 
+// Test_ResourceGroupProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ResourceGroupProperties_STATUS can be assigned to storage and back losslessly
 func Test_ResourceGroupProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ResourceGroupProperties_STATUS to ResourceGroupProperties_STATUS via AssignProperties_To_ResourceGroupProperties_STATUS & AssignProperties_From_ResourceGroupProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForResourceGroupProperties_STATUS, ResourceGroupProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
 
-// RunPropertyAssignmentTestForResourceGroupProperties_STATUS tests if a specific instance of ResourceGroupProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForResourceGroupProperties_STATUS(subject ResourceGroupProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ResourceGroupProperties_STATUS
-	err := copied.AssignProperties_To_ResourceGroupProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
+	if testing.Short() {
+		return
 	}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ResourceGroupProperties_STATUS
-	err = actual.AssignProperties_From_ResourceGroupProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ResourceGroupProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ResourceGroupProperties_STATUS
+		err := copied.AssignProperties_To_ResourceGroupProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	return ""
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ResourceGroupProperties_STATUS
+		err = actual.AssignProperties_From_ResourceGroupProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ResourceGroupProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ResourceGroupProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceGroupProperties_STATUS, ResourceGroupProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, RunJSONSerializationTestForResourceGroupProperties_STATUS)
 }
 
 // RunJSONSerializationTestForResourceGroupProperties_STATUS runs a test to see if a specific instance of ResourceGroupProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceGroupProperties_STATUS(subject ResourceGroupProperties_STATUS) string {
+func RunJSONSerializationTestForResourceGroupProperties_STATUS(t *rapid.T) {
+	subject := ResourceGroupProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ResourceGroupProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -336,101 +307,93 @@ func RunJSONSerializationTestForResourceGroupProperties_STATUS(subject ResourceG
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ResourceGroupProperties_STATUS instances for property testing - lazily instantiated by
 // ResourceGroupProperties_STATUSGenerator()
-var resourceGroupProperties_STATUSGenerator gopter.Gen
+var resourceGroupProperties_STATUSGenerator *rapid.Generator[ResourceGroupProperties_STATUS]
 
 // ResourceGroupProperties_STATUSGenerator returns a generator of ResourceGroupProperties_STATUS instances for property testing.
-func ResourceGroupProperties_STATUSGenerator() gopter.Gen {
+func ResourceGroupProperties_STATUSGenerator() *rapid.Generator[ResourceGroupProperties_STATUS] {
 	if resourceGroupProperties_STATUSGenerator != nil {
 		return resourceGroupProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceGroupProperties_STATUS(generators)
-	resourceGroupProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(ResourceGroupProperties_STATUS{}), generators)
+	provisioningState := rapid.Ptr(rapid.String(), true)
+
+	resourceGroupProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) ResourceGroupProperties_STATUS {
+		var result ResourceGroupProperties_STATUS
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		return result
+	})
 
 	return resourceGroupProperties_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForResourceGroupProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceGroupProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_ResourceGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ResourceGroup_STATUS can be assigned to storage and back losslessly
 func Test_ResourceGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ResourceGroup_STATUS to ResourceGroup_STATUS via AssignProperties_To_ResourceGroup_STATUS & AssignProperties_From_ResourceGroup_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForResourceGroup_STATUS, ResourceGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
 
-// RunPropertyAssignmentTestForResourceGroup_STATUS tests if a specific instance of ResourceGroup_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForResourceGroup_STATUS(subject ResourceGroup_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ResourceGroup_STATUS
-	err := copied.AssignProperties_To_ResourceGroup_STATUS(&other)
-	if err != nil {
-		return err.Error()
+	if testing.Short() {
+		return
 	}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ResourceGroup_STATUS
-	err = actual.AssignProperties_From_ResourceGroup_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ResourceGroup_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ResourceGroup_STATUS
+		err := copied.AssignProperties_To_ResourceGroup_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	return ""
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ResourceGroup_STATUS
+		err = actual.AssignProperties_From_ResourceGroup_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ResourceGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ResourceGroup_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceGroup_STATUS, ResourceGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, RunJSONSerializationTestForResourceGroup_STATUS)
 }
 
 // RunJSONSerializationTestForResourceGroup_STATUS runs a test to see if a specific instance of ResourceGroup_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceGroup_STATUS(subject ResourceGroup_STATUS) string {
+func RunJSONSerializationTestForResourceGroup_STATUS(t *rapid.T) {
+	subject := ResourceGroup_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ResourceGroup_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -439,122 +402,103 @@ func RunJSONSerializationTestForResourceGroup_STATUS(subject ResourceGroup_STATU
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ResourceGroup_STATUS instances for property testing - lazily instantiated by
 // ResourceGroup_STATUSGenerator()
-var resourceGroup_STATUSGenerator gopter.Gen
+var resourceGroup_STATUSGenerator *rapid.Generator[ResourceGroup_STATUS]
 
 // ResourceGroup_STATUSGenerator returns a generator of ResourceGroup_STATUS instances for property testing.
-// We first initialize resourceGroup_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ResourceGroup_STATUSGenerator() gopter.Gen {
+func ResourceGroup_STATUSGenerator() *rapid.Generator[ResourceGroup_STATUS] {
 	if resourceGroup_STATUSGenerator != nil {
 		return resourceGroup_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceGroup_STATUS(generators)
-	resourceGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(ResourceGroup_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(ResourceGroupProperties_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceGroup_STATUS(generators)
-	AddRelatedPropertyGeneratorsForResourceGroup_STATUS(generators)
-	resourceGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(ResourceGroup_STATUS{}), generators)
+	resourceGroup_STATUSGenerator = rapid.Custom(func(t *rapid.T) ResourceGroup_STATUS {
+		var result ResourceGroup_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Location = ptrString.Draw(t, "Location")
+		result.ManagedBy = ptrString.Draw(t, "ManagedBy")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return resourceGroup_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForResourceGroup_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ManagedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForResourceGroup_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForResourceGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ResourceGroupProperties_STATUSGenerator())
-}
-
+// Test_ResourceGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ResourceGroup_Spec can be assigned to storage and back losslessly
 func Test_ResourceGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ResourceGroup_Spec to ResourceGroup_Spec via AssignProperties_To_ResourceGroup_Spec & AssignProperties_From_ResourceGroup_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForResourceGroup_Spec, ResourceGroup_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
 
-// RunPropertyAssignmentTestForResourceGroup_Spec tests if a specific instance of ResourceGroup_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForResourceGroup_Spec(subject ResourceGroup_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ResourceGroup_Spec
-	err := copied.AssignProperties_To_ResourceGroup_Spec(&other)
-	if err != nil {
-		return err.Error()
+	if testing.Short() {
+		return
 	}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ResourceGroup_Spec
-	err = actual.AssignProperties_From_ResourceGroup_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ResourceGroup_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ResourceGroup_Spec
+		err := copied.AssignProperties_To_ResourceGroup_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	return ""
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ResourceGroup_Spec
+		err = actual.AssignProperties_From_ResourceGroup_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ResourceGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ResourceGroup_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceGroup_Spec, ResourceGroup_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, RunJSONSerializationTestForResourceGroup_Spec)
 }
 
 // RunJSONSerializationTestForResourceGroup_Spec runs a test to see if a specific instance of ResourceGroup_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceGroup_Spec(subject ResourceGroup_Spec) string {
+func RunJSONSerializationTestForResourceGroup_Spec(t *rapid.T) {
+	subject := ResourceGroup_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ResourceGroup_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -563,48 +507,35 @@ func RunJSONSerializationTestForResourceGroup_Spec(subject ResourceGroup_Spec) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ResourceGroup_Spec instances for property testing - lazily instantiated by ResourceGroup_SpecGenerator()
-var resourceGroup_SpecGenerator gopter.Gen
+var resourceGroup_SpecGenerator *rapid.Generator[ResourceGroup_Spec]
 
 // ResourceGroup_SpecGenerator returns a generator of ResourceGroup_Spec instances for property testing.
-// We first initialize resourceGroup_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ResourceGroup_SpecGenerator() gopter.Gen {
+func ResourceGroup_SpecGenerator() *rapid.Generator[ResourceGroup_Spec] {
 	if resourceGroup_SpecGenerator != nil {
 		return resourceGroup_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceGroup_Spec(generators)
-	resourceGroup_SpecGenerator = gen.Struct(reflect.TypeOf(ResourceGroup_Spec{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	azureName := rapid.String()
+	operatorSpec := rapid.Ptr(ResourceGroupOperatorSpecGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceGroup_Spec(generators)
-	AddRelatedPropertyGeneratorsForResourceGroup_Spec(generators)
-	resourceGroup_SpecGenerator = gen.Struct(reflect.TypeOf(ResourceGroup_Spec{}), generators)
+	resourceGroup_SpecGenerator = rapid.Custom(func(t *rapid.T) ResourceGroup_Spec {
+		var result ResourceGroup_Spec
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.Location = ptrString.Draw(t, "Location")
+		result.ManagedBy = ptrString.Draw(t, "ManagedBy")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return resourceGroup_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForResourceGroup_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceGroup_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ManagedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForResourceGroup_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForResourceGroup_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(ResourceGroupOperatorSpecGenerator())
 }

@@ -140,6 +140,8 @@ func NewEnv(resource reflect.Type) (*cel.Env, error) {
 
 	// coerce between type slices
 	typesList := coerceList(types)
+	// Add resourceID types so they are registered alongside the main native types
+	typesList = append(typesList, resourceIDNativeTypes()...)
 	typesList = append(typesList, ext.ParseStructField(ParseStructTag))
 
 	// The typesList of supported env functions was taken from Kubernetes here:
@@ -170,6 +172,9 @@ func NewEnv(resource reflect.Type) (*cel.Env, error) {
 		// TODO: if there is user need. Adding them should be non-breaking.
 		cel.Variable("self", cel.ObjectType(selfPath)),
 		cel.Variable("secret", cel.MapType(cel.StringType, cel.StringType)),
+
+		// Custom functions
+		parseResourceIDFunction(),
 	)
 	// cel.ClearMacros can be used to disable macros.
 	// See https://github.com/google/cel-spec/blob/master/doc/langdef.md#macros

@@ -30,7 +30,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2020-02-02/components_API.json
+// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/ApplicationInsights/stable/2020-02-02/components_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}
 type Component struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -264,7 +264,7 @@ func (component *Component) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2020-02-02/components_API.json
+// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/ApplicationInsights/stable/2020-02-02/components_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}
 type ComponentList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -332,10 +332,10 @@ type Component_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForIngestion *ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
 
 	// PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.
-	PublicNetworkAccessForQuery *PublicNetworkAccessType `json:"publicNetworkAccessForQuery,omitempty"`
+	PublicNetworkAccessForQuery *ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery `json:"publicNetworkAccessForQuery,omitempty"`
 
 	// Request_Source: Describes what tool created this Application Insights component. Customers using this API should set
 	// this to the default 'rest'.
@@ -444,13 +444,13 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if component.PublicNetworkAccessForIngestion != nil {
 		var temp string
 		temp = string(*component.PublicNetworkAccessForIngestion)
-		publicNetworkAccessForIngestion := arm.PublicNetworkAccessType(temp)
+		publicNetworkAccessForIngestion := arm.ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion(temp)
 		result.Properties.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	}
 	if component.PublicNetworkAccessForQuery != nil {
 		var temp string
 		temp = string(*component.PublicNetworkAccessForQuery)
-		publicNetworkAccessForQuery := arm.PublicNetworkAccessType(temp)
+		publicNetworkAccessForQuery := arm.ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery(temp)
 		result.Properties.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	}
 	if component.Request_Source != nil {
@@ -611,7 +611,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
 			var temp string
 			temp = string(*typedInput.Properties.PublicNetworkAccessForIngestion)
-			publicNetworkAccessForIngestion := PublicNetworkAccessType(temp)
+			publicNetworkAccessForIngestion := ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion(temp)
 			component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 		}
 	}
@@ -622,7 +622,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
 			var temp string
 			temp = string(*typedInput.Properties.PublicNetworkAccessForQuery)
-			publicNetworkAccessForQuery := PublicNetworkAccessType(temp)
+			publicNetworkAccessForQuery := ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery(temp)
 			component.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 		}
 	}
@@ -820,7 +820,7 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *st
 	// PublicNetworkAccessForIngestion
 	if source.PublicNetworkAccessForIngestion != nil {
 		publicNetworkAccessForIngestion := *source.PublicNetworkAccessForIngestion
-		publicNetworkAccessForIngestionTemp := genruntime.ToEnum(publicNetworkAccessForIngestion, publicNetworkAccessType_Values)
+		publicNetworkAccessForIngestionTemp := genruntime.ToEnum(publicNetworkAccessForIngestion, applicationInsightsComponentProperties_PublicNetworkAccessForIngestion_Values)
 		component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestionTemp
 	} else {
 		component.PublicNetworkAccessForIngestion = nil
@@ -829,7 +829,7 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *st
 	// PublicNetworkAccessForQuery
 	if source.PublicNetworkAccessForQuery != nil {
 		publicNetworkAccessForQuery := *source.PublicNetworkAccessForQuery
-		publicNetworkAccessForQueryTemp := genruntime.ToEnum(publicNetworkAccessForQuery, publicNetworkAccessType_Values)
+		publicNetworkAccessForQueryTemp := genruntime.ToEnum(publicNetworkAccessForQuery, applicationInsightsComponentProperties_PublicNetworkAccessForQuery_Values)
 		component.PublicNetworkAccessForQuery = &publicNetworkAccessForQueryTemp
 	} else {
 		component.PublicNetworkAccessForQuery = nil
@@ -1099,7 +1099,7 @@ func (component *Component_Spec) Initialize_From_Component_STATUS(source *Compon
 
 	// PublicNetworkAccessForIngestion
 	if source.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := genruntime.ToEnum(string(*source.PublicNetworkAccessForIngestion), publicNetworkAccessType_Values)
+		publicNetworkAccessForIngestion := genruntime.ToEnum(string(*source.PublicNetworkAccessForIngestion), applicationInsightsComponentProperties_PublicNetworkAccessForIngestion_Values)
 		component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	} else {
 		component.PublicNetworkAccessForIngestion = nil
@@ -1107,7 +1107,7 @@ func (component *Component_Spec) Initialize_From_Component_STATUS(source *Compon
 
 	// PublicNetworkAccessForQuery
 	if source.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := genruntime.ToEnum(string(*source.PublicNetworkAccessForQuery), publicNetworkAccessType_Values)
+		publicNetworkAccessForQuery := genruntime.ToEnum(string(*source.PublicNetworkAccessForQuery), applicationInsightsComponentProperties_PublicNetworkAccessForQuery_Values)
 		component.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	} else {
 		component.PublicNetworkAccessForQuery = nil
@@ -1236,10 +1236,10 @@ type Component_STATUS struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForIngestion *ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS `json:"publicNetworkAccessForIngestion,omitempty"`
 
 	// PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.
-	PublicNetworkAccessForQuery *PublicNetworkAccessType_STATUS `json:"publicNetworkAccessForQuery,omitempty"`
+	PublicNetworkAccessForQuery *ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS `json:"publicNetworkAccessForQuery,omitempty"`
 
 	// Request_Source: Describes what tool created this Application Insights component. Customers using this API should set
 	// this to the default 'rest'.
@@ -1540,7 +1540,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
 			var temp string
 			temp = string(*typedInput.Properties.PublicNetworkAccessForIngestion)
-			publicNetworkAccessForIngestion := PublicNetworkAccessType_STATUS(temp)
+			publicNetworkAccessForIngestion := ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS(temp)
 			component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 		}
 	}
@@ -1551,7 +1551,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
 			var temp string
 			temp = string(*typedInput.Properties.PublicNetworkAccessForQuery)
-			publicNetworkAccessForQuery := PublicNetworkAccessType_STATUS(temp)
+			publicNetworkAccessForQuery := ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS(temp)
 			component.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 		}
 	}
@@ -1750,7 +1750,7 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 	// PublicNetworkAccessForIngestion
 	if source.PublicNetworkAccessForIngestion != nil {
 		publicNetworkAccessForIngestion := *source.PublicNetworkAccessForIngestion
-		publicNetworkAccessForIngestionTemp := genruntime.ToEnum(publicNetworkAccessForIngestion, publicNetworkAccessType_STATUS_Values)
+		publicNetworkAccessForIngestionTemp := genruntime.ToEnum(publicNetworkAccessForIngestion, applicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS_Values)
 		component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestionTemp
 	} else {
 		component.PublicNetworkAccessForIngestion = nil
@@ -1759,7 +1759,7 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 	// PublicNetworkAccessForQuery
 	if source.PublicNetworkAccessForQuery != nil {
 		publicNetworkAccessForQuery := *source.PublicNetworkAccessForQuery
-		publicNetworkAccessForQueryTemp := genruntime.ToEnum(publicNetworkAccessForQuery, publicNetworkAccessType_STATUS_Values)
+		publicNetworkAccessForQueryTemp := genruntime.ToEnum(publicNetworkAccessForQuery, applicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS_Values)
 		component.PublicNetworkAccessForQuery = &publicNetworkAccessForQueryTemp
 	} else {
 		component.PublicNetworkAccessForQuery = nil
@@ -2061,6 +2061,60 @@ var applicationInsightsComponentProperties_IngestionMode_STATUS_Values = map[str
 	"loganalytics":                              ApplicationInsightsComponentProperties_IngestionMode_STATUS_LogAnalytics,
 }
 
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion string
+
+const (
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_Disabled = ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion("Disabled")
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_Enabled  = ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion("Enabled")
+)
+
+// Mapping from string to ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion
+var applicationInsightsComponentProperties_PublicNetworkAccessForIngestion_Values = map[string]ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion{
+	"disabled": ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_Disabled,
+	"enabled":  ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_Enabled,
+}
+
+type ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS string
+
+const (
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS_Disabled = ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS("Disabled")
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS_Enabled  = ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS("Enabled")
+)
+
+// Mapping from string to ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS
+var applicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS_Values = map[string]ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS{
+	"disabled": ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS_Disabled,
+	"enabled":  ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery string
+
+const (
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_Disabled = ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery("Disabled")
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_Enabled  = ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery("Enabled")
+)
+
+// Mapping from string to ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery
+var applicationInsightsComponentProperties_PublicNetworkAccessForQuery_Values = map[string]ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery{
+	"disabled": ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_Disabled,
+	"enabled":  ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_Enabled,
+}
+
+type ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS string
+
+const (
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS_Disabled = ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS("Disabled")
+	ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS_Enabled  = ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS("Enabled")
+)
+
+// Mapping from string to ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS
+var applicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS_Values = map[string]ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS{
+	"disabled": ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS_Disabled,
+	"enabled":  ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS_Enabled,
+}
+
 // +kubebuilder:validation:Enum={"rest"}
 type ApplicationInsightsComponentProperties_Request_Source string
 
@@ -2275,35 +2329,6 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLin
 
 	// No error
 	return nil
-}
-
-// The network access type for operating on the Application Insights Component. By default it is Enabled
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type PublicNetworkAccessType string
-
-const (
-	PublicNetworkAccessType_Disabled = PublicNetworkAccessType("Disabled")
-	PublicNetworkAccessType_Enabled  = PublicNetworkAccessType("Enabled")
-)
-
-// Mapping from string to PublicNetworkAccessType
-var publicNetworkAccessType_Values = map[string]PublicNetworkAccessType{
-	"disabled": PublicNetworkAccessType_Disabled,
-	"enabled":  PublicNetworkAccessType_Enabled,
-}
-
-// The network access type for operating on the Application Insights Component. By default it is Enabled
-type PublicNetworkAccessType_STATUS string
-
-const (
-	PublicNetworkAccessType_STATUS_Disabled = PublicNetworkAccessType_STATUS("Disabled")
-	PublicNetworkAccessType_STATUS_Enabled  = PublicNetworkAccessType_STATUS("Enabled")
-)
-
-// Mapping from string to PublicNetworkAccessType_STATUS
-var publicNetworkAccessType_STATUS_Values = map[string]PublicNetworkAccessType_STATUS{
-	"disabled": PublicNetworkAccessType_STATUS_Disabled,
-	"enabled":  PublicNetworkAccessType_STATUS_Enabled,
 }
 
 type ComponentOperatorConfigMaps struct {

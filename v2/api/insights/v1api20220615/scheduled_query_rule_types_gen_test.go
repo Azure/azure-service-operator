@@ -20,6 +20,11 @@ import (
 
 func Test_Actions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -62,6 +67,11 @@ func RunPropertyAssignmentTestForActions(subject Actions) string {
 
 func Test_Actions_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -124,6 +134,11 @@ func AddIndependentPropertyGeneratorsForActions(gens map[string]gopter.Gen) {
 
 func Test_Actions_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -166,6 +181,11 @@ func RunPropertyAssignmentTestForActions_STATUS(subject Actions_STATUS) string {
 
 func Test_Actions_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -229,6 +249,11 @@ func AddIndependentPropertyGeneratorsForActions_STATUS(gens map[string]gopter.Ge
 
 func Test_Condition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -271,6 +296,11 @@ func RunPropertyAssignmentTestForCondition(subject Condition) string {
 
 func Test_Condition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -356,35 +386,40 @@ func AddIndependentPropertyGeneratorsForCondition(gens map[string]gopter.Gen) {
 // AddRelatedPropertyGeneratorsForCondition is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForCondition(gens map[string]gopter.Gen) {
 	gens["Dimensions"] = gen.SliceOf(DimensionGenerator())
-	gens["FailingPeriods"] = gen.PtrOf(Condition_FailingPeriodsGenerator())
+	gens["FailingPeriods"] = gen.PtrOf(ConditionFailingPeriodsGenerator())
 }
 
-func Test_Condition_FailingPeriods_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ConditionFailingPeriods_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Condition_FailingPeriods to Condition_FailingPeriods via AssignProperties_To_Condition_FailingPeriods & AssignProperties_From_Condition_FailingPeriods returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCondition_FailingPeriods, Condition_FailingPeriodsGenerator()))
+		"Round trip from ConditionFailingPeriods to ConditionFailingPeriods via AssignProperties_To_ConditionFailingPeriods & AssignProperties_From_ConditionFailingPeriods returns original",
+		prop.ForAll(RunPropertyAssignmentTestForConditionFailingPeriods, ConditionFailingPeriodsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCondition_FailingPeriods tests if a specific instance of Condition_FailingPeriods can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCondition_FailingPeriods(subject Condition_FailingPeriods) string {
+// RunPropertyAssignmentTestForConditionFailingPeriods tests if a specific instance of ConditionFailingPeriods can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForConditionFailingPeriods(subject ConditionFailingPeriods) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Condition_FailingPeriods
-	err := copied.AssignProperties_To_Condition_FailingPeriods(&other)
+	var other storage.ConditionFailingPeriods
+	err := copied.AssignProperties_To_ConditionFailingPeriods(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Condition_FailingPeriods
-	err = actual.AssignProperties_From_Condition_FailingPeriods(&other)
+	var actual ConditionFailingPeriods
+	err = actual.AssignProperties_From_ConditionFailingPeriods(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -401,20 +436,25 @@ func RunPropertyAssignmentTestForCondition_FailingPeriods(subject Condition_Fail
 	return ""
 }
 
-func Test_Condition_FailingPeriods_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ConditionFailingPeriods_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Condition_FailingPeriods via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCondition_FailingPeriods, Condition_FailingPeriodsGenerator()))
+		"Round trip of ConditionFailingPeriods via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConditionFailingPeriods, ConditionFailingPeriodsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCondition_FailingPeriods runs a test to see if a specific instance of Condition_FailingPeriods round trips to JSON and back losslessly
-func RunJSONSerializationTestForCondition_FailingPeriods(subject Condition_FailingPeriods) string {
+// RunJSONSerializationTestForConditionFailingPeriods runs a test to see if a specific instance of ConditionFailingPeriods round trips to JSON and back losslessly
+func RunJSONSerializationTestForConditionFailingPeriods(subject ConditionFailingPeriods) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -422,7 +462,7 @@ func RunJSONSerializationTestForCondition_FailingPeriods(subject Condition_Faili
 	}
 
 	// Deserialize back into memory
-	var actual Condition_FailingPeriods
+	var actual ConditionFailingPeriods
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -440,55 +480,60 @@ func RunJSONSerializationTestForCondition_FailingPeriods(subject Condition_Faili
 	return ""
 }
 
-// Generator of Condition_FailingPeriods instances for property testing - lazily instantiated by
-// Condition_FailingPeriodsGenerator()
-var condition_FailingPeriodsGenerator gopter.Gen
+// Generator of ConditionFailingPeriods instances for property testing - lazily instantiated by
+// ConditionFailingPeriodsGenerator()
+var conditionFailingPeriodsGenerator gopter.Gen
 
-// Condition_FailingPeriodsGenerator returns a generator of Condition_FailingPeriods instances for property testing.
-func Condition_FailingPeriodsGenerator() gopter.Gen {
-	if condition_FailingPeriodsGenerator != nil {
-		return condition_FailingPeriodsGenerator
+// ConditionFailingPeriodsGenerator returns a generator of ConditionFailingPeriods instances for property testing.
+func ConditionFailingPeriodsGenerator() gopter.Gen {
+	if conditionFailingPeriodsGenerator != nil {
+		return conditionFailingPeriodsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCondition_FailingPeriods(generators)
-	condition_FailingPeriodsGenerator = gen.Struct(reflect.TypeOf(Condition_FailingPeriods{}), generators)
+	AddIndependentPropertyGeneratorsForConditionFailingPeriods(generators)
+	conditionFailingPeriodsGenerator = gen.Struct(reflect.TypeOf(ConditionFailingPeriods{}), generators)
 
-	return condition_FailingPeriodsGenerator
+	return conditionFailingPeriodsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCondition_FailingPeriods is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCondition_FailingPeriods(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForConditionFailingPeriods is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForConditionFailingPeriods(gens map[string]gopter.Gen) {
 	gens["MinFailingPeriodsToAlert"] = gen.PtrOf(gen.Int())
 	gens["NumberOfEvaluationPeriods"] = gen.PtrOf(gen.Int())
 }
 
-func Test_Condition_FailingPeriods_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ConditionFailingPeriods_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Condition_FailingPeriods_STATUS to Condition_FailingPeriods_STATUS via AssignProperties_To_Condition_FailingPeriods_STATUS & AssignProperties_From_Condition_FailingPeriods_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCondition_FailingPeriods_STATUS, Condition_FailingPeriods_STATUSGenerator()))
+		"Round trip from ConditionFailingPeriods_STATUS to ConditionFailingPeriods_STATUS via AssignProperties_To_ConditionFailingPeriods_STATUS & AssignProperties_From_ConditionFailingPeriods_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForConditionFailingPeriods_STATUS, ConditionFailingPeriods_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCondition_FailingPeriods_STATUS tests if a specific instance of Condition_FailingPeriods_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCondition_FailingPeriods_STATUS(subject Condition_FailingPeriods_STATUS) string {
+// RunPropertyAssignmentTestForConditionFailingPeriods_STATUS tests if a specific instance of ConditionFailingPeriods_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForConditionFailingPeriods_STATUS(subject ConditionFailingPeriods_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Condition_FailingPeriods_STATUS
-	err := copied.AssignProperties_To_Condition_FailingPeriods_STATUS(&other)
+	var other storage.ConditionFailingPeriods_STATUS
+	err := copied.AssignProperties_To_ConditionFailingPeriods_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Condition_FailingPeriods_STATUS
-	err = actual.AssignProperties_From_Condition_FailingPeriods_STATUS(&other)
+	var actual ConditionFailingPeriods_STATUS
+	err = actual.AssignProperties_From_ConditionFailingPeriods_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -505,20 +550,25 @@ func RunPropertyAssignmentTestForCondition_FailingPeriods_STATUS(subject Conditi
 	return ""
 }
 
-func Test_Condition_FailingPeriods_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ConditionFailingPeriods_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Condition_FailingPeriods_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCondition_FailingPeriods_STATUS, Condition_FailingPeriods_STATUSGenerator()))
+		"Round trip of ConditionFailingPeriods_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConditionFailingPeriods_STATUS, ConditionFailingPeriods_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCondition_FailingPeriods_STATUS runs a test to see if a specific instance of Condition_FailingPeriods_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCondition_FailingPeriods_STATUS(subject Condition_FailingPeriods_STATUS) string {
+// RunJSONSerializationTestForConditionFailingPeriods_STATUS runs a test to see if a specific instance of ConditionFailingPeriods_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForConditionFailingPeriods_STATUS(subject ConditionFailingPeriods_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -526,7 +576,7 @@ func RunJSONSerializationTestForCondition_FailingPeriods_STATUS(subject Conditio
 	}
 
 	// Deserialize back into memory
-	var actual Condition_FailingPeriods_STATUS
+	var actual ConditionFailingPeriods_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -544,31 +594,36 @@ func RunJSONSerializationTestForCondition_FailingPeriods_STATUS(subject Conditio
 	return ""
 }
 
-// Generator of Condition_FailingPeriods_STATUS instances for property testing - lazily instantiated by
-// Condition_FailingPeriods_STATUSGenerator()
-var condition_FailingPeriods_STATUSGenerator gopter.Gen
+// Generator of ConditionFailingPeriods_STATUS instances for property testing - lazily instantiated by
+// ConditionFailingPeriods_STATUSGenerator()
+var conditionFailingPeriods_STATUSGenerator gopter.Gen
 
-// Condition_FailingPeriods_STATUSGenerator returns a generator of Condition_FailingPeriods_STATUS instances for property testing.
-func Condition_FailingPeriods_STATUSGenerator() gopter.Gen {
-	if condition_FailingPeriods_STATUSGenerator != nil {
-		return condition_FailingPeriods_STATUSGenerator
+// ConditionFailingPeriods_STATUSGenerator returns a generator of ConditionFailingPeriods_STATUS instances for property testing.
+func ConditionFailingPeriods_STATUSGenerator() gopter.Gen {
+	if conditionFailingPeriods_STATUSGenerator != nil {
+		return conditionFailingPeriods_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCondition_FailingPeriods_STATUS(generators)
-	condition_FailingPeriods_STATUSGenerator = gen.Struct(reflect.TypeOf(Condition_FailingPeriods_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForConditionFailingPeriods_STATUS(generators)
+	conditionFailingPeriods_STATUSGenerator = gen.Struct(reflect.TypeOf(ConditionFailingPeriods_STATUS{}), generators)
 
-	return condition_FailingPeriods_STATUSGenerator
+	return conditionFailingPeriods_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCondition_FailingPeriods_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCondition_FailingPeriods_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForConditionFailingPeriods_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForConditionFailingPeriods_STATUS(gens map[string]gopter.Gen) {
 	gens["MinFailingPeriodsToAlert"] = gen.PtrOf(gen.Int())
 	gens["NumberOfEvaluationPeriods"] = gen.PtrOf(gen.Int())
 }
 
 func Test_Condition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -611,6 +666,11 @@ func RunPropertyAssignmentTestForCondition_STATUS(subject Condition_STATUS) stri
 
 func Test_Condition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -697,11 +757,16 @@ func AddIndependentPropertyGeneratorsForCondition_STATUS(gens map[string]gopter.
 // AddRelatedPropertyGeneratorsForCondition_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForCondition_STATUS(gens map[string]gopter.Gen) {
 	gens["Dimensions"] = gen.SliceOf(Dimension_STATUSGenerator())
-	gens["FailingPeriods"] = gen.PtrOf(Condition_FailingPeriods_STATUSGenerator())
+	gens["FailingPeriods"] = gen.PtrOf(ConditionFailingPeriods_STATUSGenerator())
 }
 
 func Test_Dimension_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -744,6 +809,11 @@ func RunPropertyAssignmentTestForDimension(subject Dimension) string {
 
 func Test_Dimension_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -806,6 +876,11 @@ func AddIndependentPropertyGeneratorsForDimension(gens map[string]gopter.Gen) {
 
 func Test_Dimension_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -848,6 +923,11 @@ func RunPropertyAssignmentTestForDimension_STATUS(subject Dimension_STATUS) stri
 
 func Test_Dimension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -910,6 +990,11 @@ func AddIndependentPropertyGeneratorsForDimension_STATUS(gens map[string]gopter.
 
 func Test_ScheduledQueryRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -953,6 +1038,11 @@ func RunResourceConversionTestForScheduledQueryRule(subject ScheduledQueryRule) 
 
 func Test_ScheduledQueryRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -995,6 +1085,11 @@ func RunPropertyAssignmentTestForScheduledQueryRule(subject ScheduledQueryRule) 
 
 func Test_ScheduledQueryRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -1056,6 +1151,11 @@ func AddRelatedPropertyGeneratorsForScheduledQueryRule(gens map[string]gopter.Ge
 
 func Test_ScheduledQueryRuleCriteria_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1098,6 +1198,11 @@ func RunPropertyAssignmentTestForScheduledQueryRuleCriteria(subject ScheduledQue
 
 func Test_ScheduledQueryRuleCriteria_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1159,6 +1264,11 @@ func AddRelatedPropertyGeneratorsForScheduledQueryRuleCriteria(gens map[string]g
 
 func Test_ScheduledQueryRuleCriteria_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1201,6 +1311,11 @@ func RunPropertyAssignmentTestForScheduledQueryRuleCriteria_STATUS(subject Sched
 
 func Test_ScheduledQueryRuleCriteria_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1262,6 +1377,11 @@ func AddRelatedPropertyGeneratorsForScheduledQueryRuleCriteria_STATUS(gens map[s
 
 func Test_ScheduledQueryRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1304,6 +1424,11 @@ func RunPropertyAssignmentTestForScheduledQueryRuleOperatorSpec(subject Schedule
 
 func Test_ScheduledQueryRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1359,6 +1484,11 @@ func ScheduledQueryRuleOperatorSpecGenerator() gopter.Gen {
 
 func Test_ScheduledQueryRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1401,6 +1531,11 @@ func RunPropertyAssignmentTestForScheduledQueryRule_STATUS(subject ScheduledQuer
 
 func Test_ScheduledQueryRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1507,6 +1642,11 @@ func AddRelatedPropertyGeneratorsForScheduledQueryRule_STATUS(gens map[string]go
 
 func Test_ScheduledQueryRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1549,6 +1689,11 @@ func RunPropertyAssignmentTestForScheduledQueryRule_Spec(subject ScheduledQueryR
 
 func Test_ScheduledQueryRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1648,6 +1793,11 @@ func AddRelatedPropertyGeneratorsForScheduledQueryRule_Spec(gens map[string]gopt
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1690,6 +1840,11 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

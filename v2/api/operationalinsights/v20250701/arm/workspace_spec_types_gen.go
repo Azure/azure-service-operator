@@ -3,7 +3,10 @@
 // Licensed under the MIT license.
 package arm
 
-import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+import (
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+)
 
 type Workspace_Spec struct {
 	// Etag: The etag of the workspace.
@@ -43,7 +46,7 @@ func (workspace *Workspace_Spec) GetType() string {
 // Identity for the resource.
 type Identity struct {
 	// Type: Type of managed service identity.
-	Type                   *Identity_Type                         `json:"type,omitempty"`
+	Type                   *IdentityType                          `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -61,10 +64,10 @@ type WorkspaceProperties struct {
 	ForceCmkForQuery *bool `json:"forceCmkForQuery,omitempty"`
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForIngestion *PublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
 
 	// PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.
-	PublicNetworkAccessForQuery *PublicNetworkAccessType `json:"publicNetworkAccessForQuery,omitempty"`
+	PublicNetworkAccessForQuery *PublicNetworkAccessForQuery `json:"publicNetworkAccessForQuery,omitempty"`
 
 	// Replication: workspace replication properties.
 	Replication *WorkspaceReplicationProperties `json:"replication,omitempty"`
@@ -80,37 +83,53 @@ type WorkspaceProperties struct {
 	WorkspaceCapping *WorkspaceCapping `json:"workspaceCapping,omitempty"`
 }
 
+// Type of managed service identity.
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
-type Identity_Type string
+type IdentityType string
 
 const (
-	Identity_Type_None           = Identity_Type("None")
-	Identity_Type_SystemAssigned = Identity_Type("SystemAssigned")
-	Identity_Type_UserAssigned   = Identity_Type("UserAssigned")
+	IdentityType_None           = IdentityType("None")
+	IdentityType_SystemAssigned = IdentityType("SystemAssigned")
+	IdentityType_UserAssigned   = IdentityType("UserAssigned")
 )
 
-// Mapping from string to Identity_Type
-var identity_Type_Values = map[string]Identity_Type{
-	"none":           Identity_Type_None,
-	"systemassigned": Identity_Type_SystemAssigned,
-	"userassigned":   Identity_Type_UserAssigned,
+// Mapping from string to IdentityType
+var identityType_Values = map[string]IdentityType{
+	"none":           IdentityType_None,
+	"systemassigned": IdentityType_SystemAssigned,
+	"userassigned":   IdentityType_UserAssigned,
 }
 
-// The network access type for operating on the Log Analytics Workspace. By default it is Enabled
 // +kubebuilder:validation:Enum={"Disabled","Enabled","SecuredByPerimeter"}
-type PublicNetworkAccessType string
+type PublicNetworkAccessForIngestion string
 
 const (
-	PublicNetworkAccessType_Disabled           = PublicNetworkAccessType("Disabled")
-	PublicNetworkAccessType_Enabled            = PublicNetworkAccessType("Enabled")
-	PublicNetworkAccessType_SecuredByPerimeter = PublicNetworkAccessType("SecuredByPerimeter")
+	PublicNetworkAccessForIngestion_Disabled           = PublicNetworkAccessForIngestion("Disabled")
+	PublicNetworkAccessForIngestion_Enabled            = PublicNetworkAccessForIngestion("Enabled")
+	PublicNetworkAccessForIngestion_SecuredByPerimeter = PublicNetworkAccessForIngestion("SecuredByPerimeter")
 )
 
-// Mapping from string to PublicNetworkAccessType
-var publicNetworkAccessType_Values = map[string]PublicNetworkAccessType{
-	"disabled":           PublicNetworkAccessType_Disabled,
-	"enabled":            PublicNetworkAccessType_Enabled,
-	"securedbyperimeter": PublicNetworkAccessType_SecuredByPerimeter,
+// Mapping from string to PublicNetworkAccessForIngestion
+var publicNetworkAccessForIngestion_Values = map[string]PublicNetworkAccessForIngestion{
+	"disabled":           PublicNetworkAccessForIngestion_Disabled,
+	"enabled":            PublicNetworkAccessForIngestion_Enabled,
+	"securedbyperimeter": PublicNetworkAccessForIngestion_SecuredByPerimeter,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled","SecuredByPerimeter"}
+type PublicNetworkAccessForQuery string
+
+const (
+	PublicNetworkAccessForQuery_Disabled           = PublicNetworkAccessForQuery("Disabled")
+	PublicNetworkAccessForQuery_Enabled            = PublicNetworkAccessForQuery("Enabled")
+	PublicNetworkAccessForQuery_SecuredByPerimeter = PublicNetworkAccessForQuery("SecuredByPerimeter")
+)
+
+// Mapping from string to PublicNetworkAccessForQuery
+var publicNetworkAccessForQuery_Values = map[string]PublicNetworkAccessForQuery{
+	"disabled":           PublicNetworkAccessForQuery_Disabled,
+	"enabled":            PublicNetworkAccessForQuery_Enabled,
+	"securedbyperimeter": PublicNetworkAccessForQuery_SecuredByPerimeter,
 }
 
 // Information about the user assigned identity for the resource
@@ -125,6 +144,8 @@ type WorkspaceCapping struct {
 
 // Workspace features.
 type WorkspaceFeatures struct {
+	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
+
 	// ClusterResourceId: Dedicated LA cluster resourceId that is linked to the workspaces.
 	ClusterResourceId *string `json:"clusterResourceId,omitempty"`
 
@@ -158,31 +179,32 @@ type WorkspaceSku struct {
 	CapacityReservationLevel *int `json:"capacityReservationLevel,omitempty"`
 
 	// Name: The name of the SKU.
-	Name *WorkspaceSku_Name `json:"name,omitempty"`
+	Name *WorkspaceSkuName `json:"name,omitempty"`
 }
 
+// The name of the SKU.
 // +kubebuilder:validation:Enum={"CapacityReservation","Free","LACluster","PerGB2018","PerNode","Premium","Standalone","Standard"}
-type WorkspaceSku_Name string
+type WorkspaceSkuName string
 
 const (
-	WorkspaceSku_Name_CapacityReservation = WorkspaceSku_Name("CapacityReservation")
-	WorkspaceSku_Name_Free                = WorkspaceSku_Name("Free")
-	WorkspaceSku_Name_LACluster           = WorkspaceSku_Name("LACluster")
-	WorkspaceSku_Name_PerGB2018           = WorkspaceSku_Name("PerGB2018")
-	WorkspaceSku_Name_PerNode             = WorkspaceSku_Name("PerNode")
-	WorkspaceSku_Name_Premium             = WorkspaceSku_Name("Premium")
-	WorkspaceSku_Name_Standalone          = WorkspaceSku_Name("Standalone")
-	WorkspaceSku_Name_Standard            = WorkspaceSku_Name("Standard")
+	WorkspaceSkuName_CapacityReservation = WorkspaceSkuName("CapacityReservation")
+	WorkspaceSkuName_Free                = WorkspaceSkuName("Free")
+	WorkspaceSkuName_LACluster           = WorkspaceSkuName("LACluster")
+	WorkspaceSkuName_PerGB2018           = WorkspaceSkuName("PerGB2018")
+	WorkspaceSkuName_PerNode             = WorkspaceSkuName("PerNode")
+	WorkspaceSkuName_Premium             = WorkspaceSkuName("Premium")
+	WorkspaceSkuName_Standalone          = WorkspaceSkuName("Standalone")
+	WorkspaceSkuName_Standard            = WorkspaceSkuName("Standard")
 )
 
-// Mapping from string to WorkspaceSku_Name
-var workspaceSku_Name_Values = map[string]WorkspaceSku_Name{
-	"capacityreservation": WorkspaceSku_Name_CapacityReservation,
-	"free":                WorkspaceSku_Name_Free,
-	"lacluster":           WorkspaceSku_Name_LACluster,
-	"pergb2018":           WorkspaceSku_Name_PerGB2018,
-	"pernode":             WorkspaceSku_Name_PerNode,
-	"premium":             WorkspaceSku_Name_Premium,
-	"standalone":          WorkspaceSku_Name_Standalone,
-	"standard":            WorkspaceSku_Name_Standard,
+// Mapping from string to WorkspaceSkuName
+var workspaceSkuName_Values = map[string]WorkspaceSkuName{
+	"capacityreservation": WorkspaceSkuName_CapacityReservation,
+	"free":                WorkspaceSkuName_Free,
+	"lacluster":           WorkspaceSkuName_LACluster,
+	"pergb2018":           WorkspaceSkuName_PerGB2018,
+	"pernode":             WorkspaceSkuName_PerNode,
+	"premium":             WorkspaceSkuName_Premium,
+	"standalone":          WorkspaceSkuName_Standalone,
+	"standard":            WorkspaceSkuName_Standard,
 }

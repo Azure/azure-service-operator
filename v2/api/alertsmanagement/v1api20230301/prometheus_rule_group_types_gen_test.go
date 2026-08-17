@@ -21,6 +21,11 @@ import (
 
 func Test_PrometheusRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -63,6 +68,11 @@ func RunPropertyAssignmentTestForPrometheusRule(subject PrometheusRule) string {
 
 func Test_PrometheusRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -149,6 +159,11 @@ func AddRelatedPropertyGeneratorsForPrometheusRule(gens map[string]gopter.Gen) {
 
 func Test_PrometheusRuleGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -192,6 +207,11 @@ func RunResourceConversionTestForPrometheusRuleGroup(subject PrometheusRuleGroup
 
 func Test_PrometheusRuleGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -234,6 +254,11 @@ func RunPropertyAssignmentTestForPrometheusRuleGroup(subject PrometheusRuleGroup
 
 func Test_PrometheusRuleGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -296,6 +321,11 @@ func AddRelatedPropertyGeneratorsForPrometheusRuleGroup(gens map[string]gopter.G
 
 func Test_PrometheusRuleGroupAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -338,6 +368,11 @@ func RunPropertyAssignmentTestForPrometheusRuleGroupAction(subject PrometheusRul
 
 func Test_PrometheusRuleGroupAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -401,6 +436,11 @@ func AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction(gens map[strin
 
 func Test_PrometheusRuleGroupAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -443,6 +483,11 @@ func RunPropertyAssignmentTestForPrometheusRuleGroupAction_STATUS(subject Promet
 
 func Test_PrometheusRuleGroupAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -507,6 +552,11 @@ func AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction_STATUS(gens ma
 
 func Test_PrometheusRuleGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -549,6 +599,11 @@ func RunPropertyAssignmentTestForPrometheusRuleGroupOperatorSpec(subject Prometh
 
 func Test_PrometheusRuleGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -604,6 +659,11 @@ func PrometheusRuleGroupOperatorSpecGenerator() gopter.Gen {
 
 func Test_PrometheusRuleGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -646,6 +706,11 @@ func RunPropertyAssignmentTestForPrometheusRuleGroup_STATUS(subject PrometheusRu
 
 func Test_PrometheusRuleGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -733,6 +798,11 @@ func AddRelatedPropertyGeneratorsForPrometheusRuleGroup_STATUS(gens map[string]g
 
 func Test_PrometheusRuleGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -775,6 +845,11 @@ func RunPropertyAssignmentTestForPrometheusRuleGroup_Spec(subject PrometheusRule
 
 func Test_PrometheusRuleGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -859,6 +934,11 @@ func AddRelatedPropertyGeneratorsForPrometheusRuleGroup_Spec(gens map[string]gop
 
 func Test_PrometheusRuleResolveConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -901,6 +981,11 @@ func RunPropertyAssignmentTestForPrometheusRuleResolveConfiguration(subject Prom
 
 func Test_PrometheusRuleResolveConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -963,6 +1048,11 @@ func AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration(gens 
 
 func Test_PrometheusRuleResolveConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1005,6 +1095,11 @@ func RunPropertyAssignmentTestForPrometheusRuleResolveConfiguration_STATUS(subje
 
 func Test_PrometheusRuleResolveConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1067,6 +1162,11 @@ func AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration_STATU
 
 func Test_PrometheusRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1109,6 +1209,11 @@ func RunPropertyAssignmentTestForPrometheusRule_STATUS(subject PrometheusRule_ST
 
 func Test_PrometheusRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1196,6 +1301,11 @@ func AddRelatedPropertyGeneratorsForPrometheusRule_STATUS(gens map[string]gopter
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1238,6 +1348,11 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
