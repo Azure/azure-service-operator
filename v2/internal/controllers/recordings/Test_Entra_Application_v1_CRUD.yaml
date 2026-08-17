@@ -38,7 +38,7 @@ interactions:
                 - Accept-Encoding
         status: 200 OK
         code: 200
-        duration: 285.45536ms
+        duration: 309.846601ms
     - id: 1
       request:
         proto: HTTP/1.1
@@ -46,7 +46,7 @@ interactions:
         proto_minor: 1
         content_length: 0
         host: graph.microsoft.com
-        body: '{"description":null,"web":null,"spa":null,"publicClient":null,"isFallbackPublicClient":null,"groupMembershipClaims":null,"@odata.type":"#microsoft.graph.application","displayName":"ASO Test Application","signInAudience":"AzureADMyOrg"}'
+        body: '{"spa":null,"groupMembershipClaims":null,"description":null,"web":null,"publicClient":null,"isFallbackPublicClient":null,"@odata.type":"#microsoft.graph.application","displayName":"ASO Test Application","signInAudience":"AzureADMyOrg"}'
         headers:
             Accept:
                 - application/json
@@ -55,7 +55,7 @@ interactions:
             Test-Request-Canonical-Hash:
                 - 8b9b6fa3b2aab5dd17d6778f477dd4bb02b20b4c9e9b6c0130772b8261631c7b
             Test-Request-Hash:
-                - 3d912403900de97e4b5c7ff261de54bb79eddab9786589e40a414a39df78cb11
+                - 180ead3657b849898e8e9c1a6a93ffe37754c55bc5ed6045171dfcbbabbeb41c
         url: https://graph.microsoft.com/v1.0/applications
         method: POST
       response:
@@ -66,14 +66,14 @@ interactions:
             - chunked
         content_length: -1
         uncompressed: true
-        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#applications/$entity","id":"12bffd98-e5b5-4a9e-a8c1-25ac9b532f27","deletedDateTime":null,"appId":"e9cd4cdd-db0c-4d5e-a4f1-3b189514f799","applicationTemplateId":null,"disabledByMicrosoftStatus":null,"createdByAppId":"04b07795-8ddb-461a-bbee-02f9e1bf7b46","createdDateTime":"2001-02-03T04:05:06Z","displayName":"ASO Test Application","description":null,"groupMembershipClaims":null,"identifierUris":[],"isDeviceOnlyAuthSupported":null,"isDisabled":null,"isFallbackPublicClient":null,"nativeAuthenticationApisEnabled":null,"notes":null,"publisherDomain":"bevanarpsoutlook.onmicrosoft.com","serviceManagementReference":null,"signInAudience":"AzureADMyOrg","tags":[],"tokenEncryptionKeyId":null,"uniqueName":null,"samlMetadataUrl":null,"defaultRedirectUri":null,"certification":null,"optionalClaims":null,"servicePrincipalLockConfiguration":null,"requestSignatureVerification":null,"addIns":[],"api":{"acceptMappedClaims":null,"knownClientApplications":[],"requestedAccessTokenVersion":null,"oauth2PermissionScopes":[],"preAuthorizedApplications":[]},"appRoles":[],"info":{"logoUrl":null,"marketingUrl":null,"privacyStatementUrl":null,"supportUrl":null,"termsOfServiceUrl":null},"keyCredentials":[],"parentalControlSettings":{"countriesBlockedForMinors":[],"legalAgeGroupRule":"Allow"},"passwordCredentials":[],"publicClient":{"redirectUris":[]},"requiredResourceAccess":[],"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null},"web":{"homePageUrl":null,"logoutUrl":null,"redirectUris":[],"implicitGrantSettings":{"enableAccessTokenIssuance":false,"enableIdTokenIssuance":false},"redirectUriSettings":[]},"spa":{"redirectUris":[]}}'
+        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#applications/$entity","id":"1ab82f11-ed83-4fd0-9968-5cfea5bc46ff","deletedDateTime":null,"appId":"9a82a37f-aaea-4561-b4a2-3f2d5166267c","applicationTemplateId":null,"disabledByMicrosoftStatus":null,"createdByAppId":"04b07795-8ddb-461a-bbee-02f9e1bf7b46","createdDateTime":"2001-02-03T04:05:06Z","displayName":"ASO Test Application","description":null,"groupMembershipClaims":null,"identifierUris":[],"isDeviceOnlyAuthSupported":null,"isDisabled":null,"isFallbackPublicClient":null,"nativeAuthenticationApisEnabled":null,"notes":null,"publisherDomain":"redactedtenant.onmicrosoft.com","serviceManagementReference":null,"signInAudience":"AzureADMyOrg","tags":[],"tokenEncryptionKeyId":null,"uniqueName":null,"samlMetadataUrl":null,"defaultRedirectUri":null,"certification":null,"optionalClaims":null,"requestSignatureVerification":null,"addIns":[],"api":{"acceptMappedClaims":null,"knownClientApplications":[],"requestedAccessTokenVersion":null,"oauth2PermissionScopes":[],"preAuthorizedApplications":[]},"appRoles":[],"info":{"logoUrl":null,"marketingUrl":null,"privacyStatementUrl":null,"supportUrl":null,"termsOfServiceUrl":null},"keyCredentials":[],"parentalControlSettings":{"countriesBlockedForMinors":[],"legalAgeGroupRule":"Allow"},"passwordCredentials":[],"publicClient":{"redirectUris":[]},"requiredResourceAccess":[],"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null},"web":{"homePageUrl":null,"logoutUrl":null,"redirectUris":[],"implicitGrantSettings":{"enableAccessTokenIssuance":false,"enableIdTokenIssuance":false},"redirectUriSettings":[]},"servicePrincipalLockConfiguration":{"isEnabled":true,"allProperties":true,"credentialsWithUsageVerify":null,"credentialsWithUsageSign":null,"identifierUris":null,"tokenEncryptionKeyId":null},"spa":{"redirectUris":[]}}'
         headers:
             Cache-Control:
                 - no-cache
             Content-Type:
                 - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
             Location:
-                - https://graph.microsoft.com/v1.0/9b0c84c7-21c4-4c92-ae62-d9c1eb53333f/directoryObjects/12bffd98-e5b5-4a9e-a8c1-25ac9b532f27/Microsoft.DirectoryServices.Application
+                - https://graph.microsoft.com/v1.0/00000000-0000-0000-0000-000000000000/directoryObjects/1ab82f11-ed83-4fd0-9968-5cfea5bc46ff/Microsoft.DirectoryServices.Application
             Odata-Version:
                 - "4.0"
             Strict-Transport-Security:
@@ -82,7 +82,7 @@ interactions:
                 - Accept-Encoding
         status: 201 Created
         code: 201
-        duration: 335.179619ms
+        duration: 292.355445ms
     - id: 2
       request:
         proto: HTTP/1.1
@@ -93,7 +93,7 @@ interactions:
         headers:
             Accept:
                 - application/json
-        url: https://graph.microsoft.com/v1.0/applications/12bffd98-e5b5-4a9e-a8c1-25ac9b532f27
+        url: https://graph.microsoft.com/v1.0/applications/1ab82f11-ed83-4fd0-9968-5cfea5bc46ff
         method: GET
       response:
         proto: HTTP/1.1
@@ -103,7 +103,7 @@ interactions:
             - chunked
         content_length: -1
         uncompressed: true
-        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#applications/$entity","id":"12bffd98-e5b5-4a9e-a8c1-25ac9b532f27","deletedDateTime":null,"appId":"e9cd4cdd-db0c-4d5e-a4f1-3b189514f799","applicationTemplateId":null,"disabledByMicrosoftStatus":null,"createdByAppId":"04b07795-8ddb-461a-bbee-02f9e1bf7b46","createdDateTime":"2001-02-03T04:05:06Z","displayName":"ASO Test Application","description":null,"groupMembershipClaims":null,"identifierUris":[],"isDeviceOnlyAuthSupported":null,"isDisabled":null,"isFallbackPublicClient":null,"nativeAuthenticationApisEnabled":null,"notes":null,"publisherDomain":"bevanarpsoutlook.onmicrosoft.com","serviceManagementReference":null,"signInAudience":"AzureADMyOrg","tags":[],"tokenEncryptionKeyId":null,"uniqueName":null,"samlMetadataUrl":null,"defaultRedirectUri":null,"certification":null,"optionalClaims":null,"servicePrincipalLockConfiguration":null,"requestSignatureVerification":null,"addIns":[],"api":{"acceptMappedClaims":null,"knownClientApplications":[],"requestedAccessTokenVersion":null,"oauth2PermissionScopes":[],"preAuthorizedApplications":[]},"appRoles":[],"info":{"logoUrl":null,"marketingUrl":null,"privacyStatementUrl":null,"supportUrl":null,"termsOfServiceUrl":null},"keyCredentials":[],"parentalControlSettings":{"countriesBlockedForMinors":[],"legalAgeGroupRule":"Allow"},"passwordCredentials":[],"publicClient":{"redirectUris":[]},"requiredResourceAccess":[],"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null},"web":{"homePageUrl":null,"logoutUrl":null,"redirectUris":[],"implicitGrantSettings":{"enableAccessTokenIssuance":false,"enableIdTokenIssuance":false},"redirectUriSettings":[]},"spa":{"redirectUris":[]}}'
+        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#applications/$entity","id":"1ab82f11-ed83-4fd0-9968-5cfea5bc46ff","deletedDateTime":null,"appId":"9a82a37f-aaea-4561-b4a2-3f2d5166267c","applicationTemplateId":null,"disabledByMicrosoftStatus":null,"createdByAppId":"04b07795-8ddb-461a-bbee-02f9e1bf7b46","createdDateTime":"2001-02-03T04:05:06Z","displayName":"ASO Test Application","description":null,"groupMembershipClaims":null,"identifierUris":[],"isDeviceOnlyAuthSupported":null,"isDisabled":null,"isFallbackPublicClient":null,"nativeAuthenticationApisEnabled":null,"notes":null,"publisherDomain":"redactedtenant.onmicrosoft.com","serviceManagementReference":null,"signInAudience":"AzureADMyOrg","tags":[],"tokenEncryptionKeyId":null,"uniqueName":null,"samlMetadataUrl":null,"defaultRedirectUri":null,"certification":null,"optionalClaims":null,"requestSignatureVerification":null,"addIns":[],"api":{"acceptMappedClaims":null,"knownClientApplications":[],"requestedAccessTokenVersion":null,"oauth2PermissionScopes":[],"preAuthorizedApplications":[]},"appRoles":[],"info":{"logoUrl":null,"marketingUrl":null,"privacyStatementUrl":null,"supportUrl":null,"termsOfServiceUrl":null},"keyCredentials":[],"parentalControlSettings":{"countriesBlockedForMinors":[],"legalAgeGroupRule":"Allow"},"passwordCredentials":[],"publicClient":{"redirectUris":[]},"requiredResourceAccess":[],"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null},"web":{"homePageUrl":null,"logoutUrl":null,"redirectUris":[],"implicitGrantSettings":{"enableAccessTokenIssuance":false,"enableIdTokenIssuance":false},"redirectUriSettings":[]},"servicePrincipalLockConfiguration":{"isEnabled":true,"allProperties":true,"credentialsWithUsageVerify":null,"credentialsWithUsageSign":null,"identifierUris":null,"tokenEncryptionKeyId":null},"spa":{"redirectUris":[]}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -117,7 +117,7 @@ interactions:
                 - Accept-Encoding
         status: 200 OK
         code: 200
-        duration: 78.954507ms
+        duration: 74.263266ms
     - id: 3
       request:
         proto: HTTP/1.1
@@ -125,7 +125,7 @@ interactions:
         proto_minor: 1
         content_length: 0
         host: graph.microsoft.com
-        body: '{"spa":null,"publicClient":null,"isFallbackPublicClient":null,"groupMembershipClaims":null,"description":null,"web":null,"@odata.type":"#microsoft.graph.application","displayName":"ASO Test Application Updated","signInAudience":"AzureADMyOrg"}'
+        body: '{"spa":null,"publicClient":null,"groupMembershipClaims":null,"web":null,"isFallbackPublicClient":null,"description":null,"@odata.type":"#microsoft.graph.application","displayName":"ASO Test Application Updated","signInAudience":"AzureADMyOrg"}'
         headers:
             Accept:
                 - application/json
@@ -134,8 +134,8 @@ interactions:
             Test-Request-Canonical-Hash:
                 - 05a65a6eca532ecda922cd32a664356b95a1e7e3e619ea02942b82e46ba80466
             Test-Request-Hash:
-                - bf068f8181b0fd7f7f0a06ff07687490dea727ebb7d490cac3c69d18a7bb65de
-        url: https://graph.microsoft.com/v1.0/applications/12bffd98-e5b5-4a9e-a8c1-25ac9b532f27
+                - 6c8816b0127d598ac4bcfcc8644b1e38c33f6e32f6d93a99b508e48617b7c195
+        url: https://graph.microsoft.com/v1.0/applications/1ab82f11-ed83-4fd0-9968-5cfea5bc46ff
         method: PATCH
       response:
         proto: HTTP/1.1
@@ -150,7 +150,7 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 228.374754ms
+        duration: 146.508844ms
     - id: 4
       request:
         proto: HTTP/1.1
@@ -161,7 +161,7 @@ interactions:
         headers:
             Accept:
                 - application/json
-        url: https://graph.microsoft.com/v1.0/applications/12bffd98-e5b5-4a9e-a8c1-25ac9b532f27
+        url: https://graph.microsoft.com/v1.0/applications/1ab82f11-ed83-4fd0-9968-5cfea5bc46ff
         method: GET
       response:
         proto: HTTP/1.1
@@ -171,7 +171,7 @@ interactions:
             - chunked
         content_length: -1
         uncompressed: true
-        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#applications/$entity","id":"12bffd98-e5b5-4a9e-a8c1-25ac9b532f27","deletedDateTime":null,"appId":"e9cd4cdd-db0c-4d5e-a4f1-3b189514f799","applicationTemplateId":null,"disabledByMicrosoftStatus":null,"createdByAppId":"04b07795-8ddb-461a-bbee-02f9e1bf7b46","createdDateTime":"2001-02-03T04:05:06Z","displayName":"ASO Test Application Updated","description":null,"groupMembershipClaims":null,"identifierUris":[],"isDeviceOnlyAuthSupported":null,"isDisabled":null,"isFallbackPublicClient":null,"nativeAuthenticationApisEnabled":null,"notes":null,"publisherDomain":"bevanarpsoutlook.onmicrosoft.com","serviceManagementReference":null,"signInAudience":"AzureADMyOrg","tags":[],"tokenEncryptionKeyId":null,"uniqueName":null,"samlMetadataUrl":null,"defaultRedirectUri":null,"certification":null,"optionalClaims":null,"servicePrincipalLockConfiguration":null,"requestSignatureVerification":null,"addIns":[],"api":{"acceptMappedClaims":null,"knownClientApplications":[],"requestedAccessTokenVersion":null,"oauth2PermissionScopes":[],"preAuthorizedApplications":[]},"appRoles":[],"info":{"logoUrl":null,"marketingUrl":null,"privacyStatementUrl":null,"supportUrl":null,"termsOfServiceUrl":null},"keyCredentials":[],"parentalControlSettings":{"countriesBlockedForMinors":[],"legalAgeGroupRule":"Allow"},"passwordCredentials":[],"publicClient":{"redirectUris":[]},"requiredResourceAccess":[],"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null},"web":{"homePageUrl":null,"logoutUrl":null,"redirectUris":[],"implicitGrantSettings":{"enableAccessTokenIssuance":false,"enableIdTokenIssuance":false},"redirectUriSettings":[]},"spa":{"redirectUris":[]}}'
+        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#applications/$entity","id":"1ab82f11-ed83-4fd0-9968-5cfea5bc46ff","deletedDateTime":null,"appId":"9a82a37f-aaea-4561-b4a2-3f2d5166267c","applicationTemplateId":null,"disabledByMicrosoftStatus":null,"createdByAppId":"04b07795-8ddb-461a-bbee-02f9e1bf7b46","createdDateTime":"2001-02-03T04:05:06Z","displayName":"ASO Test Application Updated","description":null,"groupMembershipClaims":null,"identifierUris":[],"isDeviceOnlyAuthSupported":null,"isDisabled":null,"isFallbackPublicClient":null,"nativeAuthenticationApisEnabled":null,"notes":null,"publisherDomain":"redactedtenant.onmicrosoft.com","serviceManagementReference":null,"signInAudience":"AzureADMyOrg","tags":[],"tokenEncryptionKeyId":null,"uniqueName":null,"samlMetadataUrl":null,"defaultRedirectUri":null,"certification":null,"optionalClaims":null,"requestSignatureVerification":null,"addIns":[],"api":{"acceptMappedClaims":null,"knownClientApplications":[],"requestedAccessTokenVersion":null,"oauth2PermissionScopes":[],"preAuthorizedApplications":[]},"appRoles":[],"info":{"logoUrl":null,"marketingUrl":null,"privacyStatementUrl":null,"supportUrl":null,"termsOfServiceUrl":null},"keyCredentials":[],"parentalControlSettings":{"countriesBlockedForMinors":[],"legalAgeGroupRule":"Allow"},"passwordCredentials":[],"publicClient":{"redirectUris":[]},"requiredResourceAccess":[],"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null},"web":{"homePageUrl":null,"logoutUrl":null,"redirectUris":[],"implicitGrantSettings":{"enableAccessTokenIssuance":false,"enableIdTokenIssuance":false},"redirectUriSettings":[]},"servicePrincipalLockConfiguration":{"isEnabled":true,"allProperties":true,"credentialsWithUsageVerify":null,"credentialsWithUsageSign":null,"identifierUris":null,"tokenEncryptionKeyId":null},"spa":{"redirectUris":[]}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -185,7 +185,7 @@ interactions:
                 - Accept-Encoding
         status: 200 OK
         code: 200
-        duration: 82.367861ms
+        duration: 72.44841ms
     - id: 5
       request:
         proto: HTTP/1.1
@@ -196,7 +196,7 @@ interactions:
         headers:
             Accept:
                 - application/json
-        url: https://graph.microsoft.com/v1.0/applications/12bffd98-e5b5-4a9e-a8c1-25ac9b532f27
+        url: https://graph.microsoft.com/v1.0/applications/1ab82f11-ed83-4fd0-9968-5cfea5bc46ff
         method: DELETE
       response:
         proto: HTTP/1.1
@@ -211,4 +211,4 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 179.515887ms
+        duration: 113.268044ms
