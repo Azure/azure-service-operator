@@ -23,6 +23,7 @@ To install the CRDs for these resources, your ASO configuration must include `al
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                                                                | ARM Version | CRD Version | Supported From | Sample                                                                                                                                        |
 |---------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
 | [PrometheusRuleGroup]({{< relref "/reference/alertsmanagement/v20230301#PrometheusRuleGroup" >}})       | 2023-03-01  | v20230301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/alertsmanagement/v20230301/v20230301_prometheusrulegroup.yaml)    |
@@ -45,6 +46,7 @@ Development of these new resources is complete and they will be available in the
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                                                                 | ARM Version | CRD Version | Supported From | Sample                                                                                                                                                               |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Api]({{< relref "/reference/apimanagement/v20240501#Api" >}})                                                                                           | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_api.yaml)                                              |
@@ -82,6 +84,7 @@ To install the CRDs for these resources, your ASO configuration must include `ap
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                           | ARM Version | CRD Version | Supported From | Sample                                                                                                                       |
 |------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
 | [AuthConfig]({{< relref "/reference/app/v20250101#AuthConfig" >}})                 | 2025-01-01  | v20250101   | v2.20.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20250101/v20250101_authconfig.yaml)         |
@@ -98,6 +101,7 @@ To install the CRDs for these resources, your ASO configuration must include `ap
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                        | ARM Version | CRD Version | Supported From | Sample                                                                                                                                    |
 |-------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
 | [ConfigurationStore]({{< relref "/reference/appconfiguration/v20240601#ConfigurationStore" >}}) | 2024-06-01  | v20240601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v20240601/v20240601_configurationstore.yaml) |
@@ -124,6 +128,7 @@ Development of these new resources is complete and they will be available in the
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                 | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                     |
 |------------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 | [RoleAssignment]({{< relref "/reference/authorization/v1api20220401#RoleAssignment" >}}) | 2022-04-01  | v1api20220401 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v1api20220401/v1api20220401_roleassignment.yaml) |
@@ -138,6 +143,7 @@ To install the CRDs for these resources, your ASO configuration must include `ba
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                 | ARM Version | CRD Version | Supported From | Sample                                                                                                                   |
 |--------------------------------------------------------------------------|-------------|-------------|----------------|--------------------------------------------------------------------------------------------------------------------------|
 | [BatchAccount]({{< relref "/reference/batch/v20240701#BatchAccount" >}}) | 2024-07-01  | v20240701   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/batch/v20240701/v20240701_batchaccount.yaml) |
@@ -187,6 +193,7 @@ Development of these new resources is complete and they will be available in the
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                    |
 |--------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Redis]({{< relref "/reference/cache/v1api20241101#Redis" >}})                                                                             | 2024-11-01  | v1api20241101 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20241101/v1api20241101_redis.yaml)                                 |
@@ -208,6 +215,7 @@ To install the CRDs for these resources, your ASO configuration must include `cd
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                       | ARM Version | CRD Version | Supported From | Sample                                                                                                                     |
 |--------------------------------------------------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------|
 | [AfdCustomDomain]({{< relref "/reference/cdn/v20230501#AfdCustomDomain" >}})   | 2023-05-01  | v20230501   | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_afdcustomdomain.yaml)  |
@@ -240,6 +248,7 @@ Development of these new resources is complete and they will be available in the
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                     |
 |--------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 | [Account]({{< relref "/reference/cognitiveservices/v1api20250601#Account" >}})       | 2025-06-01  | v1api20250601 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cognitiveservices/v1api20250601/v1api20250601_account.yaml)    |
@@ -255,6 +264,7 @@ To install the CRDs for these resources, your ASO configuration must include `co
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                                                         | ARM Version | CRD Version | Supported From | Sample                                                                                                                                   |
 |--------------------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------|
 | [CommunicationService]({{< relref "/reference/communication/v20230401#CommunicationService" >}}) | 2023-04-01  | v20230401   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/communication/v20230401/v20230401_communicationservice.yaml) |
@@ -271,6 +281,7 @@ To install the CRDs for these resources, your ASO configuration must include `co
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                           | ARM Version | CRD Version | Supported From | Sample                                                                                                                                         |
 |--------------------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
 | [AvailabilitySet]({{< relref "/reference/compute/v20241101#AvailabilitySet" >}})                                   | 2024-11-01  | v20241101   | v2.20.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20241101/v20241101_availabilityset.yaml)                  |
@@ -303,6 +314,7 @@ Development of these new resources is complete and they will be available in the
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                 |
 |----------------------------------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | [ContainerGroup]({{< relref "/reference/containerinstance/v1api20211001#ContainerGroup" >}}) | 2021-10-01  | v1api20211001 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerinstance/v1api/v1api20211001_containergroup.yaml) |
@@ -316,6 +328,7 @@ To install the CRDs for these resources, your ASO configuration must include `co
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                               | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                              |
 |--------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Registry]({{< relref "/reference/containerregistry/v1api20230701#Registry" >}})                       | 2023-07-01  | v1api20230701 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v1api20230701/v1api20230701_registry.yaml)            |
@@ -330,6 +343,7 @@ To install the CRDs for these resources, your ASO configuration must include `co
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                        | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                  |
 |-----------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Fleet]({{< relref "/reference/containerservice/v1api20250301#Fleet" >}})                                       | 2025-03-01  | v1api20250301 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250301/v1api20250301_fleet.yaml)                    |
@@ -352,11 +366,11 @@ To install the CRDs for these resources, your ASO configuration must include `da
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource          | ARM Version        | CRD Version      | Supported From | Sample                                                                                                                                                |
-|-------------------|--------------------|------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| SharedPrivateLink | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_sharedprivatelink.yaml) |
-| Target            | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_target.yaml)            |
-| Watcher           | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_watcher.yaml)           |
+| Resource                                                                                            | ARM Version        | CRD Version      | Supported From | Sample                                                                                                                                                |
+|-----------------------------------------------------------------------------------------------------|--------------------|------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [SharedPrivateLink]({{< relref "/reference/databasewatcher/v20241001preview#SharedPrivateLink" >}}) | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_sharedprivatelink.yaml) |
+| [Target]({{< relref "/reference/databasewatcher/v20241001preview#Target" >}})                       | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_target.yaml)            |
+| [Watcher]({{< relref "/reference/databasewatcher/v20241001preview#Watcher" >}})                     | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_watcher.yaml)           |
 
 ## DataFactory
 
@@ -367,6 +381,7 @@ To install the CRDs for these resources, your ASO configuration must include `da
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                             | ARM Version | CRD Version | Supported From | Sample                                                                                                                    |
 |----------------------------------------------------------------------|-------------|-------------|----------------|---------------------------------------------------------------------------------------------------------------------------|
 | [Factory]({{< relref "/reference/datafactory/v20180601#Factory" >}}) | 2018-06-01  | v20180601   | v2.20.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/datafactory/v20180601/v20180601_factory.yaml) |
@@ -380,6 +395,7 @@ To install the CRDs for these resources, your ASO configuration must include `da
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                      | ARM Version | CRD Version | Supported From | Sample                                                                                                                                          |
 |---------------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
 | [BackupVault]({{< relref "/reference/dataprotection/v20231101#BackupVault" >}})                               | 2023-11-01  | v20231101   | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dataprotection/v20231101/v20231101_backupvault.yaml)                |
@@ -395,6 +411,7 @@ To install the CRDs for these resources, your ASO configuration must include `db
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                                              | ARM Version | CRD Version   | Supported From | Sample                                                                                                                           |
 |---------------------------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------|
 | [Configuration]({{< relref "/reference/dbformariadb/v1api20180601#Configuration" >}}) | 2018-06-01  | v1api20180601 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformariadb/v1api/v1api20180601_configuration.yaml) |
@@ -409,11 +426,12 @@ To install the CRDs for these resources, your ASO configuration must include `db
 
 Azure Database for MySQL - Single Server is on the retirement path and is [scheduled for retirement by September 16, 2024](https://learn.microsoft.com/en-us/azure/mysql/single-server/whats-happening-to-mysql-single-server). We will not be supporting it in ASO v2.
 
-Existing instances of *Single Server* can be migrated to *Azure Database for MySQL - Flexible Server* using the [Azure Database migration Service](https://azure.microsoft.com/en-us/products/database-migration).
+Existing instances of _Single Server_ can be migrated to _Azure Database for MySQL - Flexible Server_ using the [Azure Database migration Service](https://azure.microsoft.com/en-us/products/database-migration).
 
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                      | ARM Version | CRD Version | Supported From | Sample                                                                                                                                        |
 |---------------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
 | [FlexibleServer]({{< relref "/reference/dbformysql/v20241230#FlexibleServer" >}})                             | 2024-12-30  | v20241230   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserver.yaml)               |
@@ -432,6 +450,7 @@ To install the CRDs for these resources, your ASO configuration must include `db
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                                                                 | ARM Version | CRD Version | Supported From | Sample                                                                                                                                                                |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [FlexibleServer]({{< relref "/reference/dbforpostgresql/v20250801#FlexibleServer" >}})                                                                   | 2025-08-01  | v20250801   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20250801/v20250801_flexibleserver.yaml)                                  |
@@ -453,6 +472,7 @@ To install the CRDs for these resources, your ASO configuration must include `de
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                           | ARM Version | CRD Version   | Supported From | Sample                                                                                                               |
 |--------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------|
 | [IotHub]({{< relref "/reference/devices/v1api20210702#IotHub" >}}) | 2021-07-02  | v1api20210702 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/devices/v1api/v1api20210702_iothub.yaml) |
@@ -475,6 +495,7 @@ Development of these new resources is complete and they will be available in the
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                                                      | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                                       |
 |-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [CassandraCluster]({{< relref "/reference/documentdb/v20251015#CassandraCluster" >}})                                                         | 2025-10-15  | v20251015     | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20251015/v20251015_cassandracluster.yaml)                                  |
@@ -506,6 +527,7 @@ To install the CRDs for these resources, your ASO configuration must include `en
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                            | ARM Version | CRD Version | Supported From | Sample                                                                                                      |
 |---------------------------------------------------------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------|
 | [SecurityGroup]({{< relref "/reference/entra/v1#SecurityGroup" >}}) | v1          | v1          | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/entra/v1/v1_securitygroup.yaml) |
@@ -530,6 +552,7 @@ Development of these new resources is complete and they will be available in the
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                                               | ARM Version | CRD Version | Supported From | Sample                                                                                                                            |
 |----------------------------------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------|
 | [Domain]({{< relref "/reference/eventgrid/v20200601#Domain" >}})                       | 2020-06-01  | v20200601   | v2.20.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20200601/v20200601_domain.yaml)            |
@@ -546,6 +569,7 @@ To install the CRDs for these resources, your ASO configuration must include `ev
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                                        | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                      |
 |---------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Namespace]({{< relref "/reference/eventhub/v1api20240101#Namespace" >}})                                                       | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api20240101/v1api20240101_namespace.yaml)                            |
@@ -563,6 +587,7 @@ To install the CRDs for these resources, your ASO configuration must include `in
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                          | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                 |
 |-------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [ActionGroup]({{< relref "/reference/insights/v1api20230101#ActionGroup" >}})                                     | 2023-01-01         | v1api20230101        | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20230101_actiongroup.yaml)                             |
@@ -588,6 +613,7 @@ To install the CRDs for these resources, your ASO configuration must include `ke
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                          | ARM Version | CRD Version   | Supported From | Sample                                                                                                                       |
 |-------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
 | [Vault]({{< relref "/reference/keyvault/v1api20230701#Vault" >}}) | 2023-07-01  | v1api20230701 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v1api20230701/v1api20230701_vault.yaml) |
@@ -601,6 +627,7 @@ To install the CRDs for these resources, your ASO configuration must include `ku
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                 | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                  |
 |----------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Extension]({{< relref "/reference/kubernetesconfiguration/v1api20241101#Extension" >}})                 | 2024-11-01  | v1api20241101 | v2.13.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kubernetesconfiguration/v1api20241101/v1api20241101_extension.yaml)         |
@@ -623,6 +650,7 @@ Development of these new resources is complete and they will be available in the
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                  |
 |--------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
 | [Cluster]({{< relref "/reference/kusto/v1api20240413#Cluster" >}})                         | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_cluster.yaml)             |
@@ -639,6 +667,7 @@ To install the CRDs for these resources, your ASO configuration must include `ma
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                       | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
 |----------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Registry]({{< relref "/reference/machinelearningservices/v1api20240401#Registry" >}})                         | 2024-04-01  | v1api20240401 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api20240401/v1api20240401_registry.yaml)             |
@@ -655,6 +684,7 @@ To install the CRDs for these resources, your ASO configuration must include `ma
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                    |
 |----------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [FederatedIdentityCredential]({{< relref "/reference/managedidentity/v1api20230131#FederatedIdentityCredential" >}}) | 2023-01-31  | v1api20230131 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api20230131/v1api20230131_federatedidentitycredential.yaml) |
@@ -669,6 +699,7 @@ To install the CRDs for these resources, your ASO configuration must include `mo
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                        |
 |----------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------|
 | [Account]({{< relref "/reference/monitor/v1api20230403#Account" >}}) | 2023-04-03  | v1api20230403 | v2.8.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/monitor/v1api20230403/v1api20230403_account.yaml) |
@@ -690,6 +721,7 @@ Development of these new resources is complete and they will be available in the
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                        |
 |--------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [ApplicationGateway]({{< relref "/reference/network/v1api20220701#ApplicationGateway" >}})                                           | 2022-07-01  | v1api20220701 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_applicationgateway.yaml)                      |
@@ -757,6 +789,7 @@ To install the CRDs for these resources, your ASO configuration must include `ne
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                                                                                 | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                               |
 |--------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [WebApplicationFirewallPolicy]({{< relref "/reference/network.frontdoor/v1api20220501#WebApplicationFirewallPolicy" >}}) | 2022-05-01  | v1api20220501 | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network.frontdoor/v1api/v1api20220501_webapplicationfirewallpolicy.yaml) |
@@ -770,6 +803,7 @@ To install the CRDs for these resources, your ASO configuration must include `no
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                                                                                          | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                           |
 |-----------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Namespace]({{< relref "/reference/notificationhubs/v1api20230901#Namespace" >}})                                                 | 2023-09-01  | v1api20230901 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/notificationhubs/v1api20230901/v1api20230901_namespace.yaml)                         |
@@ -786,6 +820,7 @@ To install the CRDs for these resources, your ASO configuration must include `op
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                         | ARM Version | CRD Version | Supported From | Sample                                                                                                                          |
 |----------------------------------------------------------------------------------|-------------|-------------|----------------|---------------------------------------------------------------------------------------------------------------------------------|
 | [Workspace]({{< relref "/reference/operationalinsights/v20250701#Workspace" >}}) | 2025-07-01  | v20250701   | v2.17.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/operationalinsights/v1api/v20250701_workspace.yaml) |
@@ -799,6 +834,7 @@ To install the CRDs for these resources, your ASO configuration must include `qu
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                       | ARM Version | CRD Version   | Supported From | Sample                                                                                                                    |
 |----------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------|
 | [Quota]({{< relref "/reference/quota/v1api20250901#Quota" >}}) | 2025-09-01  | v1api20250901 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/quota/v1api20250901/v1api20250901_quota.yaml) |
@@ -812,6 +848,7 @@ To install the CRDs for these resources, your ASO configuration must include `re
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                                                       | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                 |
 |------------------------------------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | [OpenShiftCluster]({{< relref "/reference/redhatopenshift/v1api20231122#OpenShiftCluster" >}}) | 2023-11-22  | v1api20231122 | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/redhatopenshift/v1api/v1api20231122_openshiftcluster.yaml) |
@@ -825,6 +862,7 @@ To install the CRDs for these resources, your ASO configuration must include `re
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                                           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                        |
 |------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------|
 | [ResourceGroup]({{< relref "/reference/resources/v1api20200601#ResourceGroup" >}}) | 2020-06-01  | v1api20200601 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/resources/v1api/v1api20200601_resourcegroup.yaml) |
@@ -838,6 +876,7 @@ To install the CRDs for these resources, your ASO configuration must include `se
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                        | ARM Version | CRD Version   | Supported From | Sample                                                                                                                             |
 |---------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------|
 | [SearchService]({{< relref "/reference/search/v1api20231101#SearchService" >}}) | 2023-11-01  | v1api20231101 | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/search/v1api20231101/v1api20231101_searchservice.yaml) |
@@ -851,6 +890,7 @@ To install the CRDs for these resources, your ASO configuration must include `se
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                                    | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
 |-----------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Namespace]({{< relref "/reference/servicebus/v1api20240101#Namespace" >}})                                                 | 2024-01-01  | v1api20240101 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespace.yaml)                         |
@@ -870,6 +910,7 @@ To install the CRDs for these resources, your ASO configuration must include `si
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                        | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                         |
 |-------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
 | [CustomCertificate]({{< relref "/reference/signalrservice/v1api20240301#CustomCertificate" >}}) | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api20240301/v1api20240301_customcertificate.yaml) |
@@ -941,6 +982,7 @@ Development of these new resources is complete and they will be available in the
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                                                                                                         | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                            |
 |--------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Server]({{< relref "/reference/sql/v1api20211101#Server" >}})                                                                                   | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_server.yaml)                                          |
@@ -976,6 +1018,7 @@ To install the CRDs for these resources, your ASO configuration must include `st
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
+
 | Resource                                                                                                                   | ARM Version | CRD Version | Supported From | Sample                                                                                                                                             |
 |----------------------------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
 | [StorageAccount]({{< relref "/reference/storage/v20250601#StorageAccount" >}})                                             | 2025-06-01  | v20250601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccount.yaml)                       |
@@ -1006,6 +1049,7 @@ Development of these new resources is complete and they will be available in the
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                              | ARM Version | CRD Version   | Supported From | Sample                                                                                                                           |
 |-----------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------|
 | [Alias]({{< relref "/reference/subscription/v1api20211001#Alias" >}}) | 2021-10-01  | v1api20211001 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/subscription/v1api20211001/v1api20211001_alias.yaml) |
@@ -1019,6 +1063,7 @@ To install the CRDs for these resources, your ASO configuration must include `sy
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                                                     | ARM Version | CRD Version | Supported From | Sample                                                                                                                              |
 |----------------------------------------------------------------------------------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | [Workspace]({{< relref "/reference/synapse/v20210601#Workspace" >}})                         | 2021-06-01  | v20210601   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/synapse/v20210601/v20210601_workspace.yaml)             |
@@ -1043,9 +1088,9 @@ Development of these new resources is complete and they will be available in the
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 | Resource                                                                           | ARM Version | CRD Version | Supported From | Sample                                                                                                                       |
 |------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
 | [ServerFarm]({{< relref "/reference/web/v20220301#ServerFarm" >}})                 | 2022-03-01  | v20220301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20220301/v20220301_serverfarm.yaml)         |
 | [Site]({{< relref "/reference/web/v20220301#Site" >}})                             | 2022-03-01  | v20220301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20220301/v20220301_site.yaml)               |
 | [SitesSourcecontrol]({{< relref "/reference/web/v20220301#SitesSourcecontrol" >}}) | 2022-03-01  | v20220301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20220301/v20220301_sitessourcecontrol.yaml) |
-
