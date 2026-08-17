@@ -292,6 +292,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/databaseusers/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/databasewatcher/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/datafactory/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/secrets/</loc>
