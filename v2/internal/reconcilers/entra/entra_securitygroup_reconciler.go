@@ -68,7 +68,7 @@ func (r *EntraSecurityGroupReconciler) CreateOrUpdate(
 ) (ctrl.Result, error) {
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", group.Name)
+		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", obj.GetName())
 	}
 
 	// If we already know the Entra ID of the group (captured in an annotation), we can update it directly
@@ -109,7 +109,7 @@ func (r *EntraSecurityGroupReconciler) Delete(
 
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", group.Name)
+		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", obj.GetName())
 	}
 
 	// If don't know the Entra ID of the group (captured in an annotation), there's nothing to do.
@@ -201,12 +201,19 @@ func (r *EntraSecurityGroupReconciler) update(
 	}
 
 	if result == nil {
-		// Didn't get a result back from the patch, load the group again to get the latest state
-		log.V(Status).Info("No result returned from update, reloading group to get latest state")
+		// Didn't get a result back from the patch, load the group again to get the latest status
+		log.V(Status).Info("No result returned from update, reloading group to get latest status")
 
 		result, err = r.loadGroupByID(ctx, id, client.Client())
 		if err != nil {
 			return ctrl.Result{}, eris.Wrapf(err, "getting group by ID %s after update returned no result", id)
+		}
+
+		if result == nil {
+			// Group was deleted between the patch and the reload
+			log.V(Status).Info("Group no longer exists after update")
+			setEntraID(group, "")
+			return ctrl.Result{Requeue: true}, nil
 		}
 	}
 
@@ -331,7 +338,7 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 ) error {
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
-		return eris.Wrapf(err, "updating status of security group %s", group.Name)
+		return eris.Wrapf(err, "updating status of security group %s", obj.GetName())
 	}
 
 	client, err := r.EntraClientFactory(ctx, obj)
@@ -348,13 +355,12 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 
 	groupable, err := r.loadGroupByID(ctx, id, client.Client())
 	if err != nil {
-		// If the group doesn't exist, nothing to do as we're probably in the midst of deleting it
-		if isNotFound(err) {
-			return nil
-		}
-
-		// If the error is not a 404, return the error
 		return eris.Wrapf(err, "failed to update status of security group %s", id)
+	}
+
+	// If the group doesn't exist, nothing to do as we're probably in the midst of deleting it
+	if groupable == nil {
+		return nil
 	}
 
 	group.Status.AssignFromGroup(groupable)

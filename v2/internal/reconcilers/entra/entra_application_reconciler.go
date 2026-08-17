@@ -129,12 +129,7 @@ func (r *EntraApplicationReconciler) Delete(
 			return ctrl.Result{}, nil
 		}
 
-		var displayName string
-		if app.Spec.DisplayName != nil {
-			displayName = *app.Spec.DisplayName
-		}
-
-		return ctrl.Result{}, eris.Wrapf(err, "failed to delete application %q (%s)", displayName, id)
+		return ctrl.Result{}, eris.Wrapf(err, "failed to delete application %q", obj.GetName())
 	}
 
 	return ctrl.Result{}, nil
