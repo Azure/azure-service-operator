@@ -177,7 +177,6 @@ func (status *ApplicationStatus) AssignFromApplication(model models.Applicationa
 	if name := model.GetDisplayName(); name != nil {
 		status.DisplayName = name
 	}
-
 }
 
 // WebApplication specifies web application configuration

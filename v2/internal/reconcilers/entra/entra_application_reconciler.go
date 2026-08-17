@@ -106,13 +106,14 @@ func (r *EntraApplicationReconciler) Delete(
 ) (ctrl.Result, error) {
 	log.V(Status).Info("Deleting Entra application")
 
+	// Ensure we have an application (as we shouldn't delete anything else)
 	app, err := r.asApplication(obj)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "deleting application %s", obj.GetName())
 	}
 
 	// If we don't know the Entra ID of the application (captured in an annotation), there's nothing to do.
-	id, ok := getEntraID(obj)
+	id, ok := getEntraID(app)
 	if !ok {
 		return ctrl.Result{}, nil
 	}
