@@ -67,7 +67,7 @@ func (r *EntraApplicationReconciler) CreateOrUpdate(
 ) (ctrl.Result, error) {
 	app, err := r.asApplication(obj)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "creating or updating application %s", app.Name)
+		return ctrl.Result{}, eris.Wrapf(err, "creating or updating application %s", obj.GetName())
 	}
 
 	// If we already know the Entra ID of the application (captured in an annotation), we can update it directly
@@ -108,7 +108,7 @@ func (r *EntraApplicationReconciler) Delete(
 
 	app, err := r.asApplication(obj)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "deleting application %s", app.Name)
+		return ctrl.Result{}, eris.Wrapf(err, "deleting application %s", obj.GetName())
 	}
 
 	// If we don't know the Entra ID of the application (captured in an annotation), there's nothing to do.
@@ -339,7 +339,7 @@ func (r *EntraApplicationReconciler) UpdateStatus(
 ) error {
 	app, err := r.asApplication(obj)
 	if err != nil {
-		return eris.Wrapf(err, "updating status of application %s", app.Name)
+		return eris.Wrapf(err, "updating status of application %s", obj.GetName())
 	}
 
 	client, err := r.EntraClientFactory(ctx, obj)
