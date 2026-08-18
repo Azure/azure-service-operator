@@ -1,0 +1,59 @@
+# VaultKey manages an RSA cryptographic key inside an existing Key Vault
+# (Microsoft.KeyVault/vaults/keys).
+#
+# IMPORTANT - please read before using this resource:
+#
+# 1. Generation-only: Azure Key Vault generates the key material itself when this
+#    resource is created. There is no field on this resource (and none in the underlying
+#    ARM API) through which key material can be supplied - this resource cannot be used to
+#    import an existing key. Private key material never transits the Kubernetes cluster,
+#    this CR, or any Secret.
+#
+# 2. Immutable after creation: every field under spec.properties (kty, keySize, curveName,
+#    keyOps, attributes, release_policy, rotationPolicy) and spec.tags is immutable once the
+#    resource has been created in Azure. A validating webhook rejects any attempt to change
+#    them. To change key parameters, delete this resource and create a new one.
+#
+# 3. Deletion does not destroy the key: Microsoft.KeyVault/vaults/keys has no ARM DELETE (or
+#    UPDATE) operation, so deleting this CR does NOT disable, modify, or delete/purge the key
+#    in Azure Key Vault. Like other ASO resources that cannot be deleted in Azure, deletion of
+#    the CR is blocked while the key still exists; set the standard
+#    serviceoperator.azure.com/reconcile-policy annotation (detach-on-delete or skip) to remove
+#    the CR while leaving the key in Azure, or delete and purge the key via the Key Vault
+#    data-plane first.
+apiVersion: keyvault.azure.com/v20230701
+kind: VaultKey
+metadata:
+  name: samplevaultkey
+  namespace: default
+spec:
+  owner:
+    name: samplevault
+  properties:
+    kty: RSA
+    keySize: 2048
+    keyOps:
+      - sign
+      - verify
+      - wrapKey
+      - unwrapKey
+    attributes:
+      enabled: true
+      # exportable must be false (or omitted) - true is unconditionally rejected by the
+      # validating webhook for this resource.
+      exportable: false
+    rotationPolicy:
+      lifetimeActions:
+        - action:
+            type: notify
+          trigger:
+            # Notify 30 days before the key's expiry date.
+            timeBeforeExpiry: P30D
+        - action:
+            type: rotate
+          trigger:
+            # Rotate the key 90 days after it was created.
+            timeAfterCreate: P90D
+  tags:
+    team: identity
+    environment: sample

@@ -42,6 +42,14 @@ groupModelConfiguration:
     Vault:
       $exportAs: Vault
       $supportedFrom: v2.5.0
+    Vaults_Key:
+      $exportAs: VaultKey
+      $supportedFrom: v2.21.0
+      # VaultKey is generation-only: asoctl import is deliberately unsupported. The generated
+      # Initialize_From function could only round-trip tags (spec.properties is required but not
+      # recoverable from status in a form that preserves the generation-only contract), so an
+      # import would produce an unappliable resource. Better to skip the resource explicitly.
+      $importable: false
     VaultProperties:
       TenantId:
         $importConfigMapMode: optional
