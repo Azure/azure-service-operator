@@ -228,7 +228,7 @@ func Test_TargetPostReconcileCheck_givenSkippedTarget_leavesTheWatcherAlone(t *t
 	target, watcher := startableTargetAndWatcher()
 
 	// The watcher may be managed even while the target it belongs to is not
-	check := startCheckWithPolicies(g, server, target, watcher, reconcilers.ReconcilePolicies{
+	check := startCheckWithPolicies(g, server, target, watcher, annotations.ReconcilePolicies{
 		Effective: annotations.ReconcilePolicySkip,
 		Inherited: annotations.ReconcilePolicyManage,
 		Default:   annotations.ReconcilePolicyManage,
@@ -305,7 +305,7 @@ func Test_TargetPostReconcileCheck_givenForeignWatcher_refusesBeforeResolvingIts
 	})
 
 	// This operator leaves things alone unless told otherwise; the operator that owns the watcher may not
-	check := startCheckWithPolicies(g, server, target, watcher, reconcilers.ReconcilePolicies{
+	check := startCheckWithPolicies(g, server, target, watcher, annotations.ReconcilePolicies{
 		Effective: annotations.ReconcilePolicyManage,
 		Inherited: annotations.ReconcilePolicySkip,
 		Default:   annotations.ReconcilePolicySkip,
@@ -354,7 +354,7 @@ func startCheck(
 	target *databasewatcher.Target,
 	watcher *databasewatcher.Watcher,
 ) func() (extensions.PostReconcileCheckResult, error) {
-	return startCheckWithPolicies(g, server, target, watcher, reconcilers.ReconcilePolicies{
+	return startCheckWithPolicies(g, server, target, watcher, annotations.ReconcilePolicies{
 		Effective: annotations.ReconcilePolicyManage,
 		Inherited: annotations.ReconcilePolicyManage,
 		Default:   annotations.ReconcilePolicyManage,
@@ -366,7 +366,7 @@ func startCheckWithPolicies(
 	server *httptest.Server,
 	target *databasewatcher.Target,
 	watcher *databasewatcher.Watcher,
-	policies reconcilers.ReconcilePolicies,
+	policies annotations.ReconcilePolicies,
 ) func() (extensions.PostReconcileCheckResult, error) {
 	cfg := cloud.Configuration{
 		Services: map[cloud.ServiceName]cloud.ServiceConfiguration{
@@ -383,8 +383,6 @@ func startCheckWithPolicies(
 	})
 	g.Expect(err).ToNot(HaveOccurred())
 
-	ctx := reconcilers.WithReconcilePolicies(context.Background(), policies)
-
 	next := func(
 		_ context.Context,
 		_ genruntime.MetaObject,
@@ -392,12 +390,15 @@ func startCheckWithPolicies(
 		_ *resolver.Resolver,
 		_ *genericarmclient.GenericClient,
 		_ logr.Logger,
+		_ annotations.ReconcilePolicies,
 	) (extensions.PostReconcileCheckResult, error) {
 		return extensions.PostReconcileCheckResultSuccess(), nil
 	}
 
 	return func() (extensions.PostReconcileCheckResult, error) {
 		extension := &customizations.TargetExtension{}
-		return extension.PostReconcileCheck(ctx, target, watcher, nil, armClient, logr.Discard(), next)
+		return extension.PostReconcileCheck(
+			context.Background(), target, watcher, nil, armClient, logr.Discard(), policies, next,
+		)
 	}
 }

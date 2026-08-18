@@ -42,6 +42,7 @@ func (extension *TargetExtension) PostReconcileCheck(
 	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
+	reconcilePolicies annotations.ReconcilePolicies,
 	next extensions.PostReconcileCheckFunc,
 ) (extensions.PostReconcileCheckResult, error) {
 	target, ok := obj.(*databasewatcher.Target)
@@ -56,14 +57,14 @@ func (extension *TargetExtension) PostReconcileCheck(
 
 	// This check still runs when the policy forbids modification, and a target ARM was never given is no
 	// reason to start anything
-	if !reconcilers.ReconcilePolicyFromContext(ctx).AllowsModify() {
-		return next(ctx, obj, owner, resourceResolver, armClient, log)
+	if !reconcilePolicies.Effective.AllowsModify() {
+		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
 	}
 
 	// A target owned by an ARM ID has no watcher of ours to start
 	watcher, ok := owner.(*databasewatcher.Watcher)
 	if !ok {
-		return next(ctx, obj, owner, resourceResolver, armClient, log)
+		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
 	}
 
 	// Nothing below holds for a watcher another operator has claimed
@@ -72,8 +73,8 @@ func (extension *TargetExtension) PostReconcileCheck(
 	}
 
 	// A policy that forbids modifying the watcher forbids starting it
-	if !startAllowed(ctx, watcher) {
-		return next(ctx, obj, owner, resourceResolver, armClient, log)
+	if !startAllowed(reconcilePolicies, watcher) {
+		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
 	}
 
 	// ARM rejects the start (WatcherStartFailedDueToNoDataStore), so say what's missing
@@ -108,7 +109,7 @@ func (extension *TargetExtension) PostReconcileCheck(
 	}
 
 	if status == watcherStatusRunning {
-		return next(ctx, obj, owner, resourceResolver, armClient, log)
+		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
 	}
 
 	// Any other status means an action is already under way, and a start now would conflict with it
@@ -218,11 +219,11 @@ func describeCredential(obj genruntime.MetaObject) string {
 	return fmt.Sprintf("credential %q", credential)
 }
 
-// startAllowed reports whether the watcher's own policy permits modifying it, the context's being the
-// target's.
-func startAllowed(ctx context.Context, watcher *databasewatcher.Watcher) bool {
-	return reconcilers.ReconcilePolicyForAnnotation(
-		ctx, watcher.GetAnnotations()[annotations.ReconcilePolicy],
+// startAllowed reports whether the watcher's own policy permits modifying it, the policies in hand being
+// the target's.
+func startAllowed(policies annotations.ReconcilePolicies, watcher *databasewatcher.Watcher) bool {
+	return policies.ForAnnotation(
+		watcher.GetAnnotations()[annotations.ReconcilePolicy],
 	).AllowsModify()
 }
 

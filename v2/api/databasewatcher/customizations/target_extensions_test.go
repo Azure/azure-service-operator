@@ -29,7 +29,7 @@ import (
 const ourOperator = "azureserviceoperator-system"
 
 // managed is the usual case: nothing anywhere says to leave these resources alone
-var managed = reconcilers.ReconcilePolicies{
+var managed = annotations.ReconcilePolicies{
 	Effective: annotations.ReconcilePolicyManage,
 	Inherited: annotations.ReconcilePolicyManage,
 	Default:   annotations.ReconcilePolicyManage,
@@ -39,7 +39,7 @@ func Test_StartAllowed_givenPolicies_returnsExpectedResult(t *testing.T) {
 	t.Parallel()
 
 	cases := map[string]struct {
-		policies      reconcilers.ReconcilePolicies
+		policies      annotations.ReconcilePolicies
 		watcherPolicy string
 		expected      bool
 	}{
@@ -58,7 +58,7 @@ func Test_StartAllowed_givenPolicies_returnsExpectedResult(t *testing.T) {
 			expected:      true,
 		},
 		"Skip inherited from the namespace or the operator": {
-			policies: reconcilers.ReconcilePolicies{
+			policies: annotations.ReconcilePolicies{
 				Effective: annotations.ReconcilePolicyManage,
 				Inherited: annotations.ReconcilePolicySkip,
 				Default:   annotations.ReconcilePolicyManage,
@@ -66,7 +66,7 @@ func Test_StartAllowed_givenPolicies_returnsExpectedResult(t *testing.T) {
 			expected: false,
 		},
 		"Watcher annotated manage overrides an inherited skip": {
-			policies: reconcilers.ReconcilePolicies{
+			policies: annotations.ReconcilePolicies{
 				Effective: annotations.ReconcilePolicyManage,
 				Inherited: annotations.ReconcilePolicySkip,
 				Default:   annotations.ReconcilePolicyManage,
@@ -83,7 +83,7 @@ func Test_StartAllowed_givenPolicies_returnsExpectedResult(t *testing.T) {
 		},
 		// A namespace saying skip does not reach an annotated resource, so it must not decide this either
 		"Unreadable policy is not overridden by a skipping namespace": {
-			policies: reconcilers.ReconcilePolicies{
+			policies: annotations.ReconcilePolicies{
 				Effective: annotations.ReconcilePolicyManage,
 				Inherited: annotations.ReconcilePolicySkip,
 				Default:   annotations.ReconcilePolicyManage,
@@ -92,7 +92,7 @@ func Test_StartAllowed_givenPolicies_returnsExpectedResult(t *testing.T) {
 			expected:      true,
 		},
 		"Unreadable policy under an operator that skips": {
-			policies: reconcilers.ReconcilePolicies{
+			policies: annotations.ReconcilePolicies{
 				Effective: annotations.ReconcilePolicyManage,
 				Inherited: annotations.ReconcilePolicyManage,
 				Default:   annotations.ReconcilePolicySkip,
@@ -112,9 +112,7 @@ func Test_StartAllowed_givenPolicies_returnsExpectedResult(t *testing.T) {
 				watcher.SetAnnotations(map[string]string{annotations.ReconcilePolicy: c.watcherPolicy})
 			}
 
-			ctx := reconcilers.WithReconcilePolicies(context.Background(), c.policies)
-
-			g.Expect(startAllowed(ctx, watcher)).To(Equal(c.expected))
+			g.Expect(startAllowed(c.policies, watcher)).To(Equal(c.expected))
 		})
 	}
 }
@@ -357,7 +355,7 @@ func Test_ForeignWatcher_givenOperators_returnsExpectedReason(t *testing.T) {
 	}
 }
 
-// runPostReconcileCheck invokes checker with a context that permits modification, a next that reports
+// runPostReconcileCheck invokes checker with policies that permit modification, a next that reports
 // success, and no ARM client, so that only the paths that don't call Azure are exercised.
 func runPostReconcileCheck(
 	checker extensions.PostReconciliationChecker,
@@ -371,13 +369,14 @@ func runPostReconcileCheck(
 		_ *resolver.Resolver,
 		_ *genericarmclient.GenericClient,
 		_ logr.Logger,
+		_ annotations.ReconcilePolicies,
 	) (extensions.PostReconcileCheckResult, error) {
 		return extensions.PostReconcileCheckResultSuccess(), nil
 	}
 
-	ctx := reconcilers.WithReconcilePolicies(context.Background(), managed)
-
-	return checker.PostReconcileCheck(ctx, obj, owner, nil, nil, logr.Discard(), next)
+	return checker.PostReconcileCheck(
+		context.Background(), obj, owner, nil, nil, logr.Discard(), managed, next,
+	)
 }
 
 // ourTarget is a target this operator has claimed, which is what every target is by the time an
