@@ -126,7 +126,7 @@ func TestEscapeStringLiteral(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			result := EscapeStringLiteral(c.input)
+			result := escapeStringLiteral(c.input)
 			g.Expect(result).To(Equal(c.expected))
 		})
 	}
@@ -168,7 +168,7 @@ func TestEscapeIdentifier(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			result := EscapeIdentifier(c.input)
+			result := escapeIdentifier(c.input)
 			g.Expect(result).To(Equal(c.expected))
 		})
 	}

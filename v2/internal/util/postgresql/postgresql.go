@@ -45,7 +45,14 @@ func CreateUser(ctx context.Context, db *sql.DB, username string, password strin
 	if err := FindBadChars(username); err != nil {
 		return nil, eris.Wrap(err, "problem found with username")
 	}
-	_, err := db.ExecContext(ctx, fmt.Sprintf("CREATE USER %s WITH PASSWORD %s", EscapeIdentifier(username), EscapeStringLiteral(password)))
+	_, err := db.ExecContext(
+		ctx,
+		fmt.Sprintf(
+			"CREATE USER %s WITH PASSWORD %s",
+			escapeIdentifier(username),
+			escapeStringLiteral(password),
+		),
+	)
 	if err != nil {
 		return nil, eris.Wrapf(err, "failed to create user %s", username)
 	}
@@ -53,7 +60,14 @@ func CreateUser(ctx context.Context, db *sql.DB, username string, password strin
 }
 
 func UpdateUser(ctx context.Context, db *sql.DB, user SQLUser, password string) error {
-	_, err := db.ExecContext(ctx, fmt.Sprintf("ALTER USER %s WITH PASSWORD %s", EscapeIdentifier(user.Name), EscapeStringLiteral(password)))
+	_, err := db.ExecContext(
+		ctx,
+		fmt.Sprintf(
+			"ALTER USER %s WITH PASSWORD %s",
+			escapeIdentifier(user.Name),
+			escapeStringLiteral(password),
+		),
+	)
 	if err != nil {
 		return eris.Wrapf(err, "failed to alter user %s", user.Name)
 	}
@@ -89,7 +103,7 @@ func DropUser(ctx context.Context, db *sql.DB, user string) error {
 		return eris.Wrap(err, "problem found with username")
 	}
 
-	_, err := db.ExecContext(ctx, fmt.Sprintf("DROP USER IF EXISTS %s", EscapeIdentifier(user)))
+	_, err := db.ExecContext(ctx, fmt.Sprintf("DROP USER IF EXISTS %s", escapeIdentifier(user)))
 	return err
 }
 
@@ -125,7 +139,7 @@ func CreateRoleWithPermissions(ctx context.Context, db *sql.DB, roleName string,
 		return eris.Wrap(err, "problem found with permissions")
 	}
 
-	_, err := db.ExecContext(ctx, fmt.Sprintf("CREATE ROLE %s WITH %s", EscapeIdentifier(roleName), permissionString))
+	_, err := db.ExecContext(ctx, fmt.Sprintf("CREATE ROLE %s WITH %s", escapeIdentifier(roleName), permissionString))
 	if err != nil {
 		return eris.Wrap(err, "failed to create role")
 	}
@@ -138,18 +152,18 @@ type SQLUser struct {
 	Name string
 }
 
-// EscapeStringLiteral escapes a string for use as a PostgreSQL string literal.
+// escapeStringLiteral escapes a string for use as a PostgreSQL string literal.
 // It wraps the value in single quotes and escapes any internal single quotes by doubling them.
 // This is safe against SQL injection for string literals.
-func EscapeStringLiteral(value string) string {
+func escapeStringLiteral(value string) string {
 	escaped := strings.ReplaceAll(value, "'", "''")
 	return "'" + escaped + "'"
 }
 
-// EscapeIdentifier escapes a string for use as a PostgreSQL identifier (e.g., username, role name).
+// escapeIdentifier escapes a string for use as a PostgreSQL identifier (e.g., username, role name).
 // It wraps the value in double quotes and escapes any internal double quotes by doubling them.
 // This is safe against SQL injection for identifiers.
-func EscapeIdentifier(value string) string {
+func escapeIdentifier(value string) string {
 	escaped := strings.ReplaceAll(value, "\"", "\"\"")
 	return "\"" + escaped + "\""
 }

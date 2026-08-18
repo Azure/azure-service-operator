@@ -67,7 +67,7 @@ func TestFindBadChars(t *testing.T) {
 	}
 }
 
-func TestEscapeStringContent(t *testing.T) {
+func TestEscapeStringLiteral(t *testing.T) {
 	t.Parallel()
 
 	cases := []struct {
@@ -78,27 +78,27 @@ func TestEscapeStringContent(t *testing.T) {
 		{
 			name:     "no special chars",
 			input:    "simplepassword",
-			expected: "simplepassword",
+			expected: "'simplepassword'",
 		},
 		{
 			name:     "single quote is doubled",
 			input:    "pass'word",
-			expected: "pass''word",
+			expected: "'pass''word'",
 		},
 		{
 			name:     "semicolons are preserved",
 			input:    "pass;word",
-			expected: "pass;word",
+			expected: "'pass;word'",
 		},
 		{
 			name:     "double dashes are preserved",
 			input:    "pass--word",
-			expected: "pass--word",
+			expected: "'pass--word'",
 		},
 		{
 			name:     "complex special chars",
 			input:    "p@ss;w'rd--/*test",
-			expected: "p@ss;w''rd--/*test",
+			expected: "'p@ss;w''rd--/*test'",
 		},
 	}
 
@@ -108,13 +108,13 @@ func TestEscapeStringContent(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			result := escapeStringContent(c.input)
+			result := escapeStringLiteral(c.input)
 			g.Expect(result).To(Equal(c.expected))
 		})
 	}
 }
 
-func TestEscapeIdentifierContent(t *testing.T) {
+func TestEscapeIdentifier(t *testing.T) {
 	t.Parallel()
 
 	cases := []struct {
@@ -125,17 +125,17 @@ func TestEscapeIdentifierContent(t *testing.T) {
 		{
 			name:     "no special chars",
 			input:    "username",
-			expected: "username",
+			expected: "\"username\"",
 		},
 		{
 			name:     "double quote is doubled",
 			input:    "user\"name",
-			expected: "user\"\"name",
+			expected: "\"user\"\"name\"",
 		},
 		{
 			name:     "other special chars are preserved",
 			input:    "user;name",
-			expected: "user;name",
+			expected: "\"user;name\"",
 		},
 	}
 
@@ -145,7 +145,7 @@ func TestEscapeIdentifierContent(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			result := escapeIdentifierContent(c.input)
+			result := escapeIdentifier(c.input)
 			g.Expect(result).To(Equal(c.expected))
 		})
 	}

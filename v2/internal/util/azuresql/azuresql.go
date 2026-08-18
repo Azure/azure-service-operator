@@ -94,16 +94,17 @@ func CreateOrUpdateUser(ctx context.Context, db *sql.DB, username string, passwo
 		return eris.Wrap(err, "problem found with username")
 	}
 
+	//nolint:gosec // SQL identifiers cannot be parameterized; values are escaped for their SQL contexts.
 	tsql := fmt.Sprintf(`
-IF NOT EXISTS (SELECT name FROM sysusers WHERE name='%[1]s')
+IF NOT EXISTS (SELECT name FROM sysusers WHERE name=%[1]s)
 	BEGIN
-		CREATE USER "%[2]s" WITH PASSWORD='%[3]s';
+		CREATE USER %[2]s WITH PASSWORD=%[3]s;
 	END
 ELSE
 	BEGIN
-		ALTER USER "%[2]s" WITH PASSWORD='%[3]s';
+		ALTER USER %[2]s WITH PASSWORD=%[3]s;
 	END;
-`, escapeStringContent(username), escapeIdentifierContent(username), escapeStringContent(password))
+`, escapeStringLiteral(username), escapeIdentifier(username), escapeStringLiteral(password))
 	_, err := db.ExecContext(ctx, tsql)
 	if err != nil {
 		return err
@@ -169,16 +170,16 @@ func DropUser(ctx context.Context, db *sql.DB, username string) error {
 	return err
 }
 
-// escapeStringContent escapes a string for use within a SQL string literal (single-quoted).
-// It escapes single quotes by doubling them. The caller is responsible for wrapping in quotes.
-func escapeStringContent(value string) string {
-	return strings.ReplaceAll(value, "'", "''")
+// escapeStringLiteral escapes and wraps a value for use as a SQL string literal.
+func escapeStringLiteral(value string) string {
+	escaped := strings.ReplaceAll(value, "'", "''")
+	return "'" + escaped + "'"
 }
 
-// escapeIdentifierContent escapes a string for use within a SQL identifier (double-quoted).
-// It escapes double quotes by doubling them. The caller is responsible for wrapping in quotes.
-func escapeIdentifierContent(value string) string {
-	return strings.ReplaceAll(value, "\"", "\"\"")
+// escapeIdentifier escapes and wraps a value for use as a double-quoted SQL identifier.
+func escapeIdentifier(value string) string {
+	escaped := strings.ReplaceAll(value, "\"", "\"\"")
+	return "\"" + escaped + "\""
 }
 
 func findBadChars(str string) error {
