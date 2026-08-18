@@ -188,7 +188,7 @@ watching ASO resources, writing status, creating output secrets/configmaps — i
 
 Introduce a new namespaced CRD (e.g., `ASOCredential` or `CredentialBinding`) that only cluster admins can create,
 replacing the use of Secrets as the credential mechanism for Workload Identity. This is conceptually similar to
-the approach used by the External Secrets Operator (see [Appendix: External Secrets Operator](#appendix-external-secrets-operator)
+the approach used by the External Secrets Operator (see [Appendix: External Secrets Operator](#appendix-external-secrets-operator-eso)
 for a detailed comparison).
 
 **Setup:**
