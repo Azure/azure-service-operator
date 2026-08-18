@@ -1,4 +1,4 @@
-apiVersion: containerregistry.azure.com/v20250401
+apiVersion: containerregistry.azure.com/v20251101
 kind: RegistryCacheRule
 metadata:
   name: sample-cache-rule
