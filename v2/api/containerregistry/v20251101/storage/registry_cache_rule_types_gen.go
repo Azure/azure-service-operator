@@ -25,9 +25,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v20250401.RegistryCacheRule
+// Storage version of v20251101.RegistryCacheRule
 // Generator information:
-// - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-04-01/containerregistry.json
+// - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/containerregistry.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}
 type RegistryCacheRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -75,9 +75,9 @@ func (rule *RegistryCacheRule) AzureName() string {
 	return rule.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2025-04-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2025-11-01"
 func (rule RegistryCacheRule) GetAPIVersion() string {
-	return "2025-04-01"
+	return "2025-11-01"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -156,9 +156,9 @@ func (rule *RegistryCacheRule) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v20250401.RegistryCacheRule
+// Storage version of v20251101.RegistryCacheRule
 // Generator information:
-// - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-04-01/containerregistry.json
+// - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/containerregistry.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}
 type RegistryCacheRuleList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -166,13 +166,13 @@ type RegistryCacheRuleList struct {
 	Items           []RegistryCacheRule `json:"items"`
 }
 
-// Storage version of v20250401.APIVersion
-// +kubebuilder:validation:Enum={"2025-04-01"}
+// Storage version of v20251101.APIVersion
+// +kubebuilder:validation:Enum={"2025-11-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("2025-04-01")
+const APIVersion_Value = APIVersion("2025-11-01")
 
-// Storage version of v20250401.RegistryCacheRule_Spec
+// Storage version of v20251101.RegistryCacheRule_Spec
 type RegistryCacheRule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -213,7 +213,7 @@ func (rule *RegistryCacheRule_Spec) ConvertSpecTo(destination genruntime.Convert
 	return destination.ConvertSpecFrom(rule)
 }
 
-// Storage version of v20250401.RegistryCacheRule_STATUS
+// Storage version of v20251101.RegistryCacheRule_STATUS
 type RegistryCacheRule_STATUS struct {
 	Conditions              []conditions.Condition `json:"conditions,omitempty"`
 	CreationDate            *string                `json:"creationDate,omitempty"`
@@ -248,7 +248,7 @@ func (rule *RegistryCacheRule_STATUS) ConvertStatusTo(destination genruntime.Con
 	return destination.ConvertStatusFrom(rule)
 }
 
-// Storage version of v20250401.RegistryCacheRuleOperatorSpec
+// Storage version of v20251101.RegistryCacheRuleOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RegistryCacheRuleOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
@@ -256,7 +256,7 @@ type RegistryCacheRuleOperatorSpec struct {
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
-// Storage version of v20250401.SystemData_STATUS
+// Storage version of v20251101.SystemData_STATUS
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`

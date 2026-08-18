@@ -83,12 +83,12 @@ func AddIndependentPropertyGeneratorsForCacheRuleProperties_STATUS(gens map[stri
 	gens["CreationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["CredentialSetResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		CacheRuleProperties_ProvisioningState_STATUS_Canceled,
-		CacheRuleProperties_ProvisioningState_STATUS_Creating,
-		CacheRuleProperties_ProvisioningState_STATUS_Deleting,
-		CacheRuleProperties_ProvisioningState_STATUS_Failed,
-		CacheRuleProperties_ProvisioningState_STATUS_Succeeded,
-		CacheRuleProperties_ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_Canceled,
+		ProvisioningState_STATUS_Creating,
+		ProvisioningState_STATUS_Deleting,
+		ProvisioningState_STATUS_Failed,
+		ProvisioningState_STATUS_Succeeded,
+		ProvisioningState_STATUS_Updating))
 	gens["SourceRepository"] = gen.PtrOf(gen.AlphaString())
 	gens["TargetRepository"] = gen.PtrOf(gen.AlphaString())
 }

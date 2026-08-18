@@ -14,9 +14,9 @@ type RegistryCacheRule_Spec struct {
 
 var _ genruntime.ARMResourceSpec = &RegistryCacheRule_Spec{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2025-04-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2025-11-01"
 func (rule RegistryCacheRule_Spec) GetAPIVersion() string {
-	return "2025-04-01"
+	return "2025-11-01"
 }
 
 // GetName returns the Name of the resource

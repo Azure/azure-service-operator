@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	v20250401 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20250401"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20250401/storage"
+	v20251101 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +15,6 @@ type RegistryCacheRuleExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *RegistryCacheRuleExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20250401.RegistryCacheRule{},
+		&v20251101.RegistryCacheRule{},
 		&storage.RegistryCacheRule{}}
 }

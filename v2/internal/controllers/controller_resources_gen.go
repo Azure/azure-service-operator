@@ -212,9 +212,9 @@ import (
 	containerregistry_v20230701 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701"
 	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
 	containerregistry_v20230701w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/webhook"
-	containerregistry_v20250401 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20250401"
-	containerregistry_v20250401s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20250401/storage"
-	containerregistry_v20250401w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20250401/webhook"
+	containerregistry_v20251101 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101"
+	containerregistry_v20251101s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/storage"
+	containerregistry_v20251101w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/webhook"
 	containerservice_customizations "github.com/Azure/azure-service-operator/v2/api/containerservice/customizations"
 	containerservice_v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
 	containerservice_v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
@@ -1318,7 +1318,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20230701s.RegistryReplication)})
-	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20250401s.RegistryCacheRule)})
+	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20251101s.RegistryCacheRule)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.Fleet)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsAutoUpgradeProfile)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsMember)})
@@ -4939,11 +4939,11 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(containerregistry_v20230701s.Registry)}, &registration.KnownType{Obj: new(containerregistry_v20230701s.RegistryReplication)})
 	result = append(result, &registration.KnownType{
-		Obj:       new(containerregistry_v20250401.RegistryCacheRule),
-		Defaulter: &containerregistry_v20250401w.RegistryCacheRule{},
-		Validator: &containerregistry_v20250401w.RegistryCacheRule{},
+		Obj:       new(containerregistry_v20251101.RegistryCacheRule),
+		Defaulter: &containerregistry_v20251101w.RegistryCacheRule{},
+		Validator: &containerregistry_v20251101w.RegistryCacheRule{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(containerregistry_v20250401s.RegistryCacheRule)})
+	result = append(result, &registration.KnownType{Obj: new(containerregistry_v20251101s.RegistryCacheRule)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -8299,8 +8299,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerregistry_v20210901s.AddToScheme(scheme)
 	_ = containerregistry_v20230701.AddToScheme(scheme)
 	_ = containerregistry_v20230701s.AddToScheme(scheme)
-	_ = containerregistry_v20250401.AddToScheme(scheme)
-	_ = containerregistry_v20250401s.AddToScheme(scheme)
+	_ = containerregistry_v20251101.AddToScheme(scheme)
+	_ = containerregistry_v20251101s.AddToScheme(scheme)
 	_ = containerservice_v20240901.AddToScheme(scheme)
 	_ = containerservice_v20240901s.AddToScheme(scheme)
 	_ = containerservice_v20250301.AddToScheme(scheme)

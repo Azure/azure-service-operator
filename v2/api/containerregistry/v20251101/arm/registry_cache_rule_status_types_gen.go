@@ -4,19 +4,20 @@
 package arm
 
 type RegistryCacheRule_STATUS struct {
-	// Id: The resource ID.
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
-	// Name: The name of the resource.
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The properties of the cache rule.
 	Properties *CacheRuleProperties_STATUS `json:"properties,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
-	// Type: The type of the resource.
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -29,7 +30,7 @@ type CacheRuleProperties_STATUS struct {
 	CredentialSetResourceId *string `json:"credentialSetResourceId,omitempty"`
 
 	// ProvisioningState: Provisioning state of the resource.
-	ProvisioningState *CacheRuleProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// SourceRepository: Source repository pulled from upstream.
 	SourceRepository *string `json:"sourceRepository,omitempty"`
@@ -50,7 +51,7 @@ type SystemData_STATUS struct {
 	// CreatedByType: The type of identity that created the resource.
 	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
 
-	// LastModifiedAt: The timestamp of resource modification (UTC).
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
 
 	// LastModifiedBy: The identity that last modified the resource.
@@ -60,25 +61,26 @@ type SystemData_STATUS struct {
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-type CacheRuleProperties_ProvisioningState_STATUS string
+// The provisioning state of the archive at the time the operation was called.
+type ProvisioningState_STATUS string
 
 const (
-	CacheRuleProperties_ProvisioningState_STATUS_Canceled  = CacheRuleProperties_ProvisioningState_STATUS("Canceled")
-	CacheRuleProperties_ProvisioningState_STATUS_Creating  = CacheRuleProperties_ProvisioningState_STATUS("Creating")
-	CacheRuleProperties_ProvisioningState_STATUS_Deleting  = CacheRuleProperties_ProvisioningState_STATUS("Deleting")
-	CacheRuleProperties_ProvisioningState_STATUS_Failed    = CacheRuleProperties_ProvisioningState_STATUS("Failed")
-	CacheRuleProperties_ProvisioningState_STATUS_Succeeded = CacheRuleProperties_ProvisioningState_STATUS("Succeeded")
-	CacheRuleProperties_ProvisioningState_STATUS_Updating  = CacheRuleProperties_ProvisioningState_STATUS("Updating")
+	ProvisioningState_STATUS_Canceled  = ProvisioningState_STATUS("Canceled")
+	ProvisioningState_STATUS_Creating  = ProvisioningState_STATUS("Creating")
+	ProvisioningState_STATUS_Deleting  = ProvisioningState_STATUS("Deleting")
+	ProvisioningState_STATUS_Failed    = ProvisioningState_STATUS("Failed")
+	ProvisioningState_STATUS_Succeeded = ProvisioningState_STATUS("Succeeded")
+	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
 )
 
-// Mapping from string to CacheRuleProperties_ProvisioningState_STATUS
-var cacheRuleProperties_ProvisioningState_STATUS_Values = map[string]CacheRuleProperties_ProvisioningState_STATUS{
-	"canceled":  CacheRuleProperties_ProvisioningState_STATUS_Canceled,
-	"creating":  CacheRuleProperties_ProvisioningState_STATUS_Creating,
-	"deleting":  CacheRuleProperties_ProvisioningState_STATUS_Deleting,
-	"failed":    CacheRuleProperties_ProvisioningState_STATUS_Failed,
-	"succeeded": CacheRuleProperties_ProvisioningState_STATUS_Succeeded,
-	"updating":  CacheRuleProperties_ProvisioningState_STATUS_Updating,
+// Mapping from string to ProvisioningState_STATUS
+var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
+	"canceled":  ProvisioningState_STATUS_Canceled,
+	"creating":  ProvisioningState_STATUS_Creating,
+	"deleting":  ProvisioningState_STATUS_Deleting,
+	"failed":    ProvisioningState_STATUS_Failed,
+	"succeeded": ProvisioningState_STATUS_Succeeded,
+	"updating":  ProvisioningState_STATUS_Updating,
 }
 
 type SystemData_CreatedByType_STATUS string
