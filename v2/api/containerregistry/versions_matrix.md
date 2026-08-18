@@ -1,9 +1,8 @@
-| Type Definitions in package "containerregistry"    | v1api20210901 | v1api20230701 | v20250401 |
+| Type Definitions in package "containerregistry"    | v1api20210901 | v1api20230701 | v20251101 |
 |----------------------------------------------------|---------------|---------------|-----------|
-| APIVersion                                         | v1api20210901 | v1api20230701 | v20250401 |
-| CacheRuleProperties                                |               |               | v20250401 |
-| CacheRuleProperties_ProvisioningState_STATUS       |               |               | v20250401 |
-| CacheRuleProperties_STATUS                         |               |               | v20250401 |
+| APIVersion                                         | v1api20210901 | v1api20230701 | v20251101 |
+| CacheRuleProperties                                |               |               | v20251101 |
+| CacheRuleProperties_STATUS                         |               |               | v20251101 |
 | EncryptionProperty                                 | v1api20210901 | v1api20230701 |           |
 | EncryptionProperty_STATUS                          | v1api20210901 | v1api20230701 |           |
 | EncryptionProperty_Status                          | v1api20210901 | v1api20230701 |           |
@@ -29,14 +28,15 @@
 | Policies                                           | v1api20210901 | v1api20230701 |           |
 | Policies_STATUS                                    | v1api20210901 | v1api20230701 |           |
 | PrivateEndpointConnection_STATUS                   | v1api20210901 | v1api20230701 |           |
+| ProvisioningState_STATUS                           |               |               | v20251101 |
 | QuarantinePolicy                                   | v1api20210901 | v1api20230701 |           |
 | QuarantinePolicy_STATUS                            | v1api20210901 | v1api20230701 |           |
 | QuarantinePolicy_Status                            | v1api20210901 | v1api20230701 |           |
 | QuarantinePolicy_Status_STATUS                     | v1api20210901 | v1api20230701 |           |
 | Registry                                           | v1api20210901 | v1api20230701 |           |
-| RegistryCacheRule                                  |               |               | v20250401 |
-| RegistryCacheRule_STATUS                           |               |               | v20250401 |
-| RegistryCacheRule_Spec                             |               |               | v20250401 |
+| RegistryCacheRule                                  |               |               | v20251101 |
+| RegistryCacheRule_STATUS                           |               |               | v20251101 |
+| RegistryCacheRule_Spec                             |               |               | v20251101 |
 | RegistryProperties                                 | v1api20210901 | v1api20230701 |           |
 | RegistryProperties_NetworkRuleBypassOptions        | v1api20210901 | v1api20230701 |           |
 | RegistryProperties_NetworkRuleBypassOptions_STATUS | v1api20210901 | v1api20230701 |           |
@@ -66,9 +66,9 @@
 | Sku_STATUS                                         | v1api20210901 | v1api20230701 |           |
 | Sku_Tier_STATUS                                    | v1api20210901 | v1api20230701 |           |
 | Status_STATUS                                      | v1api20210901 | v1api20230701 |           |
-| SystemData_CreatedByType_STATUS                    | v1api20210901 | v1api20230701 | v20250401 |
-| SystemData_LastModifiedByType_STATUS               | v1api20210901 | v1api20230701 | v20250401 |
-| SystemData_STATUS                                  | v1api20210901 | v1api20230701 | v20250401 |
+| SystemData_CreatedByType_STATUS                    | v1api20210901 | v1api20230701 | v20251101 |
+| SystemData_LastModifiedByType_STATUS               | v1api20210901 | v1api20230701 | v20251101 |
+| SystemData_STATUS                                  | v1api20210901 | v1api20230701 | v20251101 |
 | TrustPolicy                                        | v1api20210901 | v1api20230701 |           |
 | TrustPolicy_STATUS                                 | v1api20210901 | v1api20230701 |           |
 | TrustPolicy_Status                                 | v1api20210901 | v1api20230701 |           |
