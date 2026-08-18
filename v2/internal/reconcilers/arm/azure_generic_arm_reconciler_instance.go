@@ -182,7 +182,18 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	r.Log.V(Status).Info(msg)
 	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionBeginDelete), msg)
 
+	// Ensure that we call any user implementation of extensions.Deleter if present;
+	// by default we issues a DELETE via ARM
 	deleter := extensions.CreateDeleter(r.Extension, r.deleteResource)
+	return r.executeDeletion(ctx, deleter)
+}
+
+// executeDeletion executes the deletion of a resource using the provided deleter function.
+// It handles the result of the deletion, including monitoring for completion or handling errors.
+func (r *azureDeploymentReconcilerInstance) executeDeletion(
+	ctx context.Context,
+	deleter extensions.DeleteFunc,
+) (ctrl.Result, error) {
 	result, err := deleter(ctx, r.Log, r.ResourceResolver, r.ARMConnection.Client(), r.Obj)
 	if err != nil {
 		// Something went wrong
@@ -282,27 +293,28 @@ func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context
 		return ctrl.Result{}, nil
 	}
 
+	// Ensure that we call any user implementation of extensions.Deleter if present;
+	// by default we return an error saying that deletion is not possible in Azure.
+	deleter := extensions.CreateDeleter(r.Extension, r.cannotDeleteResource)
+	return r.executeDeletion(ctx, deleter)
+}
+
+func (r *azureDeploymentReconcilerInstance) cannotDeleteResource(
+	_ context.Context,
+	log logr.Logger,
+	_ *resolver.Resolver,
+	_ *genericarmclient.GenericClient,
+	obj genruntime.ARMMetaObject,
+) (extensions.DeleteResult, error) {
 	msg := fmt.Sprintf(
 		"Resource does not support deletion in Azure; set annotation '%s: %s' to permit deletion in Kubernetes",
 		annotations.ReconcilePolicy,
 		annotations.ReconcilePolicyDetachOnDelete,
 	)
-	r.Log.V(Verbose).Info(msg)
-	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionNotPossibleInAzure), msg)
+	log.V(Verbose).Info(msg)
+	r.Recorder.Event(obj, v1.EventTypeNormal, string(DeleteActionNotPossibleInAzure), msg)
 
-	// Return a meaningful error so that the Ready condition is updated to show the user why the resource can't yet be deleted.
-	if err == nil {
-		err = eris.New(msg)
-	} else {
-		err = eris.Wrap(err, msg)
-	}
-
-	return ctrl.Result{},
-		conditions.NewReadyConditionImpactingError(
-			err,
-			conditions.ConditionSeverityWarning,
-			conditions.ReasonDeletionNotSupported,
-		)
+	return extensions.BlockDelete(msg), nil
 }
 
 func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
