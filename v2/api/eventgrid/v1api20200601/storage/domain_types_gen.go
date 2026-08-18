@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &Domain{}
 
 // ConvertFrom populates our Domain from the provided hub Domain
 func (domain *Domain) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Domain)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v20200601/storage/Domain but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Domain
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return domain.AssignProperties_From_Domain(source)
+	err = domain.AssignProperties_From_Domain(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to domain")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Domain from our Domain
 func (domain *Domain) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Domain)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v20200601/storage/Domain but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Domain
+	err := domain.AssignProperties_To_Domain(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from domain")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return domain.AssignProperties_To_Domain(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Domain{}

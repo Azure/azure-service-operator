@@ -2593,6 +2593,11 @@ func (in *StorageQueueEventSubscriptionDestination) DeepCopyInto(out *StorageQue
 		*out = new(string)
 		**out = **in
 	}
+	if in.QueueNameFromConfig != nil {
+		in, out := &in.QueueNameFromConfig, &out.QueueNameFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.ResourceReference != nil {
 		in, out := &in.ResourceReference, &out.ResourceReference
 		*out = new(genruntime.ResourceReference)
@@ -3418,6 +3423,11 @@ func (in *WebHookEventSubscriptionDestination) DeepCopyInto(out *WebHookEventSub
 	if in.AzureActiveDirectoryApplicationIdOrUri != nil {
 		in, out := &in.AzureActiveDirectoryApplicationIdOrUri, &out.AzureActiveDirectoryApplicationIdOrUri
 		*out = new(string)
+		**out = **in
+	}
+	if in.AzureActiveDirectoryApplicationIdOrUriFromConfig != nil {
+		in, out := &in.AzureActiveDirectoryApplicationIdOrUriFromConfig, &out.AzureActiveDirectoryApplicationIdOrUriFromConfig
+		*out = new(genruntime.ConfigMapReference)
 		**out = **in
 	}
 	if in.AzureActiveDirectoryTenantId != nil {
