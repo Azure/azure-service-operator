@@ -11,12 +11,12 @@ import (
 	. "github.com/onsi/gomega"
 
 	registry "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701"
-	containerregistry "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20250401"
+	containerregistry "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func Test_ContainerRegistry_CacheRule_20250401_CRUD(t *testing.T) {
+func Test_ContainerRegistry_CacheRule_20251101_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
