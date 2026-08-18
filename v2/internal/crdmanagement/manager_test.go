@@ -98,77 +98,117 @@ func Test_LoadCRDs_FixesNamespace(t *testing.T) {
 }
 
 /*
- * FindMatchingCRDs tests
+ * CompareCRDs tests
  */
 
-func Test_FindMatchingCRDs_EqualCRDsCompareAsEqual(t *testing.T) {
+func Test_CompareCRDs(t *testing.T) {
 	t.Parallel()
-	g := NewGomegaWithT(t)
 
-	existingCRD := makeBasicCRD("test")
-	goalCRD := makeBasicCRD("test")
-	existing := []apiextensions.CustomResourceDefinition{existingCRD}
-	goal := []apiextensions.CustomResourceDefinition{goalCRD}
+	versionComparator := crdmanagement.CRDComparator{
+		Compare:          crdmanagement.VersionEqual,
+		DifferenceReason: crdmanagement.VersionDifferent,
+	}
+	metadataComparator := crdmanagement.CRDComparator{
+		Compare:          crdmanagement.DesiredMetadataEqual,
+		DifferenceReason: crdmanagement.MetadataDifferent,
+	}
+	groupComparator := crdmanagement.CRDComparator{
+		Compare: func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool {
+			return a.Spec.Group == b.Spec.Group
+		},
+		DifferenceReason: "GroupDifferent",
+	}
 
-	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil, nil)
+	cases := []struct {
+		name        string
+		existing    []apiextensions.CustomResourceDefinition
+		goal        []apiextensions.CustomResourceDefinition
+		comparators []crdmanagement.CRDComparator
+		expected    map[string][]crdmanagement.CRDComparisonResult
+	}{
+		{
+			name:        "Equal CRDs report no difference once",
+			existing:    []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test", "v1.0.0")},
+			goal:        []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test", "v1.0.0")},
+			comparators: []crdmanagement.CRDComparator{versionComparator, metadataComparator, groupComparator},
+			expected: map[string][]crdmanagement.CRDComparisonResult{
+				"test.testrp.azure.com": {
+					{DifferenceResult: crdmanagement.NoDifference},
+				},
+			},
+		},
+		{
+			name:        "Missing CRD has a version difference",
+			goal:        []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test", "v1.0.0")},
+			comparators: []crdmanagement.CRDComparator{versionComparator},
+			expected: map[string][]crdmanagement.CRDComparisonResult{
+				"test.testrp.azure.com": {
+					{DifferenceResult: crdmanagement.VersionDifferent},
+				},
+			},
+		},
+		{
+			name: "Metadata difference omits matching version result",
+			existing: []apiextensions.CustomResourceDefinition{
+				makeBasicCRDWithVersion("test", "v1.0.0"),
+			},
+			goal: func() []apiextensions.CustomResourceDefinition {
+				crd := makeBasicCRDWithVersion("test", "v1.0.0")
+				crd.Labels["cluster.x-k8s.io/provider"] = "infrastructure-azure"
+				return []apiextensions.CustomResourceDefinition{crd}
+			}(),
+			comparators: []crdmanagement.CRDComparator{versionComparator, metadataComparator},
+			expected: map[string][]crdmanagement.CRDComparisonResult{
+				"test.testrp.azure.com": {
+					{DifferenceResult: crdmanagement.MetadataDifferent},
+				},
+			},
+		},
+		{
+			name: "All failed comparators are reported in order",
+			existing: func() []apiextensions.CustomResourceDefinition {
+				crd := makeBasicCRDWithVersion("test", "v1.0.0")
+				crd.Spec.Group = "other.azure.com"
+				return []apiextensions.CustomResourceDefinition{crd}
+			}(),
+			goal:        []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test", "v2.0.0")},
+			comparators: []crdmanagement.CRDComparator{versionComparator, groupComparator},
+			expected: map[string][]crdmanagement.CRDComparisonResult{
+				"test.testrp.azure.com": {
+					{DifferenceResult: crdmanagement.VersionDifferent},
+					{DifferenceResult: "GroupDifferent"},
+				},
+			},
+		},
+		{
+			name: "A later comparator can fail after an earlier comparator succeeds",
+			existing: func() []apiextensions.CustomResourceDefinition {
+				crd := makeBasicCRDWithVersion("test", "v1.0.0")
+				crd.Spec.Group = "other.azure.com"
+				return []apiextensions.CustomResourceDefinition{crd}
+			}(),
+			goal:        []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test", "v1.0.0")},
+			comparators: []crdmanagement.CRDComparator{versionComparator, groupComparator},
+			expected: map[string][]crdmanagement.CRDComparisonResult{
+				"test.testrp.azure.com": {
+					{DifferenceResult: "GroupDifferent"},
+				},
+			},
+		},
+	}
 
-	matching := crdManager.FindMatchingCRDs(existing, goal, crdmanagement.VersionEqual)
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			logger := testcommon.NewTestLogger(t)
+			crdManager := crdmanagement.NewManager(logger, nil, nil)
 
-	g.Expect(matching).To(HaveLen(1))
-}
+			results := crdManager.CompareCRDs(tc.existing, tc.goal, tc.comparators...)
 
-func Test_FindMatchingCRDs_MissingCRD(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	goalCRD := makeBasicCRDWithVersion("test", "v1.0.0")
-	var existing []apiextensions.CustomResourceDefinition
-	goal := []apiextensions.CustomResourceDefinition{goalCRD}
-
-	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil, nil)
-
-	matching := crdManager.FindMatchingCRDs(existing, goal, crdmanagement.VersionEqual)
-
-	g.Expect(matching).To(BeEmpty())
-}
-
-/*
- * FindNonMatchingCRDs tests
- */
-
-func Test_FindNonMatchingCRDs_EqualCRDsCompareAsEqual(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	existingCRD := makeBasicCRD("test")
-	goalCRD := makeBasicCRD("test")
-	existing := []apiextensions.CustomResourceDefinition{existingCRD}
-	goal := []apiextensions.CustomResourceDefinition{goalCRD}
-
-	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil, nil)
-
-	nonMatching := crdManager.FindNonMatchingCRDs(existing, goal, crdmanagement.VersionEqual)
-
-	g.Expect(nonMatching).To(BeEmpty())
-}
-
-func Test_FindNonMatchingCRDs_MissingCRD(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	goalCRD := makeBasicCRDWithVersion("test", "v1.0.0")
-	var existing []apiextensions.CustomResourceDefinition
-	goal := []apiextensions.CustomResourceDefinition{goalCRD}
-
-	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil, nil)
-
-	nonMatching := crdManager.FindNonMatchingCRDs(existing, goal, crdmanagement.VersionEqual)
-
-	g.Expect(nonMatching).To(HaveLen(1))
+			g.Expect(results).To(Equal(tc.expected))
+		})
+	}
 }
 
 /*

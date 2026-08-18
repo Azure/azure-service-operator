@@ -222,14 +222,27 @@ func (m *Manager) LoadOperatorCRDs(
 	return crds, nil
 }
 
-// FindMatchingCRDs finds the CRDs in "goal" that are in "existing" AND compare as equal according to the comparators with
-// the corresponding CRD in "goal"
-func (m *Manager) FindMatchingCRDs(
+// CRDComparator associates a CRD comparison with the result to report when the comparison fails.
+type CRDComparator struct {
+	Compare          func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool
+	DifferenceReason DiffResult
+}
+
+// CRDComparisonResult records the result of applying a comparator to a CRD.
+type CRDComparisonResult struct {
+	DifferenceResult DiffResult
+}
+
+// CompareCRDs compares each CRD in "goal" with the corresponding CRD in "existing".
+// Every comparator is evaluated in a single pass through the goal CRDs, and results are returned in
+// comparator order, allowing callers to define their precedence.
+// If a goal CRD is not found in existing, comparators receive a default initialized CRD.
+func (m *Manager) CompareCRDs(
 	existing []apiextensions.CustomResourceDefinition,
 	goal []apiextensions.CustomResourceDefinition,
-	comparators ...func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool,
-) map[string]apiextensions.CustomResourceDefinition {
-	matching := make(map[string]apiextensions.CustomResourceDefinition)
+	comparators ...CRDComparator,
+) map[string][]CRDComparisonResult {
+	results := make(map[string][]CRDComparisonResult, len(goal))
 
 	// Build a map so lookup is faster
 	existingCRDs := make(map[string]apiextensions.CustomResourceDefinition, len(existing))
@@ -245,46 +258,32 @@ func (m *Manager) FindMatchingCRDs(
 		// "specs are not equal"
 		existingCRD := existingCRDs[goalCRD.Name]
 
-		// Deepcopy to ensure that modifications below don't persist
-		existingCRD = *existingCRD.DeepCopy()
-		goalCRD = *goalCRD.DeepCopy()
+		comparisonResults := make([]CRDComparisonResult, 0, len(comparators))
 
-		equal := true
-		for _, c := range comparators {
-			if !c(existingCRD, goalCRD) { //nolint: gosimple
-				equal = false
-				break
+		for _, comparator := range comparators {
+			if !comparator.Compare(existingCRD, goalCRD) {
+				comparisonResults = append(
+					comparisonResults,
+					CRDComparisonResult{
+						DifferenceResult: comparator.DifferenceReason,
+					},
+				)
 			}
 		}
 
-		if equal {
-			matching[goalCRD.Name] = goalCRD
+		if len(comparisonResults) == 0 {
+			comparisonResults = append(
+				comparisonResults,
+				CRDComparisonResult{
+					DifferenceResult: NoDifference,
+				},
+			)
 		}
+
+		results[goalCRD.Name] = comparisonResults
 	}
 
-	return matching
-}
-
-// FindNonMatchingCRDs finds the CRDs in "goal" that are not in "existing" OR are in "existing" but mismatch with the "goal"
-// based on the comparator functions.
-func (m *Manager) FindNonMatchingCRDs(
-	existing []apiextensions.CustomResourceDefinition,
-	goal []apiextensions.CustomResourceDefinition,
-	comparators ...func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool,
-) map[string]apiextensions.CustomResourceDefinition {
-	// Just invert the comparators and call FindMatchingCRDs
-	invertedComparators := make([]func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool, 0, len(comparators))
-	for _, c := range comparators {
-		c := c
-		invertedComparators = append(
-			invertedComparators,
-			func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool {
-				return !c(a, b)
-			},
-		)
-	}
-
-	return m.FindMatchingCRDs(existing, goal, invertedComparators...)
+	return results
 }
 
 // DetermineCRDsToInstallOrUpgrade examines the set of goal CRDs and installed CRDs to determine the set which should
@@ -324,25 +323,23 @@ func (m *Manager) DetermineCRDsToInstallOrUpgrade(
 		filteredGoalCRDs = append(filteredGoalCRDs, result.CRD)
 	}
 
-	goalCRDsWithDifferentVersion := m.FindNonMatchingCRDs(existingCRDs, filteredGoalCRDs, VersionEqual)
-	for name := range goalCRDsWithDifferentVersion {
+	goalCRDComparisons := m.CompareCRDs(
+		existingCRDs,
+		filteredGoalCRDs,
+		CRDComparator{Compare: VersionEqual, DifferenceReason: VersionDifferent},
+		CRDComparator{Compare: DesiredMetadataEqual, DifferenceReason: MetadataDifferent},
+	)
+	for name, comparisons := range goalCRDComparisons {
 		result, ok := resultMap[name]
 		if !ok {
 			return nil, eris.Errorf("Couldn't find goal CRD %q. This is unexpected!", name)
 		}
 
-		result.DiffResult = VersionDifferent
-	}
-
-	goalCRDsWithDifferentMetadata := m.FindNonMatchingCRDs(existingCRDs, filteredGoalCRDs, DesiredMetadataEqual)
-	for name := range goalCRDsWithDifferentMetadata {
-		result, ok := resultMap[name]
-		if !ok {
-			return nil, eris.Errorf("Couldn't find goal CRD %q. This is unexpected!", name)
-		}
-
-		if result.DiffResult == NoDifference {
-			result.DiffResult = MetadataDifferent
+		for _, comparison := range comparisons {
+			if comparison.DifferenceResult != NoDifference {
+				result.DiffResult = comparison.DifferenceResult
+				break
+			}
 		}
 	}
 
