@@ -116,6 +116,8 @@ func (spec *ApplicationSpec) AssignToApplication(model models.Applicationable) {
 	if len(spec.IdentifierUris) > 0 {
 		model.SetIdentifierUris(spec.IdentifierUris)
 	} else {
+		// Explicitly clear the identifier URIs if none are specified in the spec.
+		// Passing nil would leave any existing values in place
 		model.SetIdentifierUris([]string{})
 	}
 
@@ -150,6 +152,8 @@ func (spec *ApplicationSpec) AssignToApplication(model models.Applicationable) {
 	if len(spec.Tags) > 0 {
 		model.SetTags(spec.Tags)
 	} else {
+		// Explicitly clear the identifier URIs if none are specified in the spec.
+		// Passing nil would leave any existing values in place
 		model.SetTags([]string{})
 	}
 
@@ -276,6 +280,8 @@ func (web *WebApplication) AssignToWebApplication(model models.WebApplicationabl
 	if len(web.RedirectUris) > 0 {
 		model.SetRedirectUris(web.RedirectUris)
 	} else {
+		// Explicitly clear the identifier URIs if none are specified in the spec.
+		// Passing nil would leave any existing values in place
 		model.SetRedirectUris([]string{})
 	}
 
@@ -343,6 +349,8 @@ func (spa *SpaApplication) AssignToSpaApplication(model models.SpaApplicationabl
 	if len(spa.RedirectUris) > 0 {
 		model.SetRedirectUris(spa.RedirectUris)
 	} else {
+		// Explicitly clear the identifier URIs if none are specified in the spec.
+		// Passing nil would leave any existing values in place
 		model.SetRedirectUris([]string{})
 	}
 }
@@ -364,6 +372,8 @@ func (pc *PublicClientApplication) AssignToPublicClientApplication(model models.
 	if len(pc.RedirectUris) > 0 {
 		model.SetRedirectUris(pc.RedirectUris)
 	} else {
+		// Explicitly clear the identifier URIs if none are specified in the spec.
+		// Passing nil would leave any existing values in place
 		model.SetRedirectUris([]string{})
 	}
 }

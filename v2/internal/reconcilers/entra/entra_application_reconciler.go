@@ -117,6 +117,7 @@ func (r *EntraApplicationReconciler) Delete(
 	// Note that there's a hard to handle race condition here:
 	// If we attempt creation of the application in Entra, crash before we update the resource state in etcd,
 	// and then need to delete the resource, we won't have the EntraID to delete the application even though ASO created it.
+	// Tracked by https://github.com/Azure/azure-service-operator/issues/5633
 	//
 
 	id, ok := getEntraID(app)
