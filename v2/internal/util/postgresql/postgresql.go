@@ -42,16 +42,17 @@ func ConnectToDB(ctx context.Context, fullservername string, database string, po
 }
 
 func CreateUser(ctx context.Context, db *sql.DB, username string, password string) (*SQLUser, error) {
-	// make an effort to prevent sql injection
-	// TODO find better solution to check user and password for SQL Injection
 	if err := FindBadChars(username); err != nil {
 		return nil, eris.Wrap(err, "problem found with username")
 	}
-	if err := FindBadChars(password); err != nil {
-		// Don't wrap the original error as it contains the information about the raw password (character and index)
-		return nil, fmt.Errorf("problem found with password: potentially dangerous character sequence found")
-	}
-	_, err := db.ExecContext(ctx, fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD '%s'", username, password))
+	_, err := db.ExecContext(
+		ctx,
+		fmt.Sprintf(
+			"CREATE USER %s WITH PASSWORD %s",
+			escapeIdentifier(username),
+			escapeStringLiteral(password),
+		),
+	)
 	if err != nil {
 		return nil, eris.Wrapf(err, "failed to create user %s", username)
 	}
@@ -59,13 +60,14 @@ func CreateUser(ctx context.Context, db *sql.DB, username string, password strin
 }
 
 func UpdateUser(ctx context.Context, db *sql.DB, user SQLUser, password string) error {
-	// make an effort to prevent sql injection
-	// TODO find better solution to check password for SQL Injection
-	if err := FindBadChars(password); err != nil {
-		// Don't wrap the original error as it contains the information about the raw password (character and index)
-		return fmt.Errorf("problem found with password: potentially dangerous character sequence found")
-	}
-	_, err := db.ExecContext(ctx, fmt.Sprintf("ALTER USER \"%s\" WITH PASSWORD '%s'", user.Name, password))
+	_, err := db.ExecContext(
+		ctx,
+		fmt.Sprintf(
+			"ALTER USER %s WITH PASSWORD %s",
+			escapeIdentifier(user.Name),
+			escapeStringLiteral(password),
+		),
+	)
 	if err != nil {
 		return eris.Wrapf(err, "failed to alter user %s", user.Name)
 	}
@@ -101,7 +103,7 @@ func DropUser(ctx context.Context, db *sql.DB, user string) error {
 		return eris.Wrap(err, "problem found with username")
 	}
 
-	_, err := db.ExecContext(ctx, fmt.Sprintf("DROP USER IF EXISTS \"%s\"", user))
+	_, err := db.ExecContext(ctx, fmt.Sprintf("DROP USER IF EXISTS %s", escapeIdentifier(user)))
 	return err
 }
 
@@ -137,7 +139,7 @@ func CreateRoleWithPermissions(ctx context.Context, db *sql.DB, roleName string,
 		return eris.Wrap(err, "problem found with permissions")
 	}
 
-	_, err := db.ExecContext(ctx, fmt.Sprintf("CREATE ROLE %q WITH %s", roleName, permissionString))
+	_, err := db.ExecContext(ctx, fmt.Sprintf("CREATE ROLE %s WITH %s", escapeIdentifier(roleName), permissionString))
 	if err != nil {
 		return eris.Wrap(err, "failed to create role")
 	}
@@ -150,7 +152,25 @@ type SQLUser struct {
 	Name string
 }
 
-// FindBadChars find the bad chars in a postgresql user
+// escapeStringLiteral escapes a string for use as a PostgreSQL string literal.
+// It wraps the value in single quotes and escapes any internal single quotes by doubling them.
+// This is safe against SQL injection for string literals.
+func escapeStringLiteral(value string) string {
+	escaped := strings.ReplaceAll(value, "'", "''")
+	return "'" + escaped + "'"
+}
+
+// escapeIdentifier escapes a string for use as a PostgreSQL identifier (e.g., username, role name).
+// It wraps the value in double quotes and escapes any internal double quotes by doubling them.
+// This is safe against SQL injection for identifiers.
+func escapeIdentifier(value string) string {
+	escaped := strings.ReplaceAll(value, "\"", "\"\"")
+	return "\"" + escaped + "\""
+}
+
+// FindBadChars checks for potentially dangerous character sequences in identifiers like usernames and role names.
+// Note: This is still used for identifiers (usernames, role names) as an additional safety measure,
+// but is no longer used for passwords since proper escaping via EscapeStringLiteral handles all characters safely.
 func FindBadChars(stack string) error {
 	badChars := []string{
 		"'",
