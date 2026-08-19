@@ -457,3 +457,5 @@ TopicAuthorizationRule: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
+augmentConversionForSystemData_STATUS: Interface
+

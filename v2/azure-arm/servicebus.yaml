@@ -170,3 +170,15 @@ groupModelConfiguration:
       $renameTo: TopicAuthorizationRuleRights_Spec
     Namespaces_Topics_AuthorizationRule_Properties_Rights_STATUS:
       $renameTo: TopicAuthorizationRuleRights_STATUS
+    Namespaces_Queues_AuthorizationRule:
+      $exportAs: QueueAuthorizationRule
+      $supportedFrom: v2.21.0
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - PrimaryConnectionString
+        - SecondaryKey
+        - SecondaryConnectionString
+    Namespaces_Queues_AuthorizationRule_Properties_Rights_Spec:
+      $renameTo: QueueAuthorizationRuleRights_Spec
+    Namespaces_Queues_AuthorizationRule_Properties_Rights_STATUS:
+      $renameTo: QueueAuthorizationRuleRights_STATUS
