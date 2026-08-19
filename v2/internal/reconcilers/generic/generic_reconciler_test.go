@@ -30,7 +30,7 @@ import (
 
 // Namespace decides whether a resource other than the one being reconciled may be touched, so unlike the
 // effective policy it has to fail closed.
-func Test_MergeReconcilePolicy_givenAnnotations_returnsExpectedPolicies(t *testing.T) {
+func Test_MergeReconcilePolicy_GivenAnnotations_ReturnsExpectedPolicies(t *testing.T) {
 	t.Parallel()
 
 	const namespace = "test-namespace"
@@ -165,7 +165,7 @@ func (r *policyRecordingReconciler) UpdateStatus(
 	return nil
 }
 
-func Test_CreateOrUpdate_passesResolvedPoliciesToSelectedPath(t *testing.T) {
+func Test_CreateOrUpdate_PassesResolvedPoliciesToSelectedPath(t *testing.T) {
 	t.Parallel()
 
 	const namespace = "test-namespace"

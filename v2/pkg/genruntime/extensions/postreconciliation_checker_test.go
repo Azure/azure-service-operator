@@ -39,7 +39,7 @@ func (r *recordingPostReconciliationChecker) PostReconcileCheck(
 	return next(ctx, obj, owner, resourceResolver, armClient, log, policies)
 }
 
-func TestCreatePostReconciliationChecker_passesPoliciesToExtension(t *testing.T) {
+func TestCreatePostReconciliationChecker_PassesPoliciesToExtension(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
