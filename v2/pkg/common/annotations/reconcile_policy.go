@@ -28,8 +28,8 @@ const (
 	ReconcilePolicyDetachOnDelete = ReconcilePolicyValue("detach-on-delete")
 )
 
-// ResolvedReconcilePolicies are the resolved reconcile policies in effect during a reconcile, none of which a
-// resource extension can work out on its own. Read them with Effective or ForAnnotation rather than combining them.
+// ResolvedReconcilePolicies are the resolved reconcile policies in effect during a reconcile.
+// Read them with Effective or ForAnnotation() rather than combining them.
 type ResolvedReconcilePolicies struct {
 	// Effective is the policy for the resource being reconciled, resolved from its own annotation, Namespace,
 	// and Global.
