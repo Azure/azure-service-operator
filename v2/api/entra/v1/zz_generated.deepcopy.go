@@ -212,6 +212,51 @@ func (in *ApplicationStatus) DeepCopyInto(out *ApplicationStatus) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Description != nil {
+		in, out := &in.Description, &out.Description
+		*out = new(string)
+		**out = **in
+	}
+	if in.SignInAudience != nil {
+		in, out := &in.SignInAudience, &out.SignInAudience
+		*out = new(SignInAudience)
+		**out = **in
+	}
+	if in.IdentifierUris != nil {
+		in, out := &in.IdentifierUris, &out.IdentifierUris
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+	if in.Web != nil {
+		in, out := &in.Web, &out.Web
+		*out = new(WebApplication)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Spa != nil {
+		in, out := &in.Spa, &out.Spa
+		*out = new(SpaApplication)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.PublicClient != nil {
+		in, out := &in.PublicClient, &out.PublicClient
+		*out = new(PublicClientApplication)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+	if in.IsFallbackPublicClient != nil {
+		in, out := &in.IsFallbackPublicClient, &out.IsFallbackPublicClient
+		*out = new(bool)
+		**out = **in
+	}
+	if in.GroupMembershipClaims != nil {
+		in, out := &in.GroupMembershipClaims, &out.GroupMembershipClaims
+		*out = new(string)
+		**out = **in
+	}
 	if in.Conditions != nil {
 		in, out := &in.Conditions, &out.Conditions
 		*out = make([]conditions.Condition, len(*in))

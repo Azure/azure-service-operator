@@ -156,6 +156,33 @@ type ApplicationStatus struct {
 	// DisplayName: The display name of the application.
 	DisplayName *string `json:"displayName,omitempty"`
 
+	// Description: The description of the application.
+	Description *string `json:"description,omitempty"`
+
+	// SignInAudience: Specifies the Microsoft accounts that are supported for the application.
+	SignInAudience *SignInAudience `json:"signInAudience,omitempty"`
+
+	// IdentifierUris: The URIs that identify the application within its Azure AD tenant, or within a verified custom domain.
+	IdentifierUris []string `json:"identifierUris,omitempty"`
+
+	// Web: Web platform configuration for the application.
+	Web *WebApplication `json:"web,omitempty"`
+
+	// Spa: Single-page application platform configuration.
+	Spa *SpaApplication `json:"spa,omitempty"`
+
+	// PublicClient: Public client (desktop/mobile) platform configuration.
+	PublicClient *PublicClientApplication `json:"publicClient,omitempty"`
+
+	// Tags: Custom strings for categorizing and identifying the application.
+	Tags []string `json:"tags,omitempty"`
+
+	// IsFallbackPublicClient: Specifies the fallback application type as public client.
+	IsFallbackPublicClient *bool `json:"isFallbackPublicClient,omitempty"`
+
+	// GroupMembershipClaims: Configures the groups claim issued in a user or OAuth 2.0 access token.
+	GroupMembershipClaims *string `json:"groupMembershipClaims,omitempty"`
+
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 }
@@ -177,6 +204,36 @@ func (status *ApplicationStatus) AssignFromApplication(model models.Applicationa
 	if name := model.GetDisplayName(); name != nil {
 		status.DisplayName = name
 	}
+
+	if description := model.GetDescription(); description != nil {
+		status.Description = description
+	}
+
+	if signInAudience := model.GetSignInAudience(); signInAudience != nil {
+		audience := SignInAudience(*signInAudience)
+		status.SignInAudience = &audience
+	}
+
+	status.IdentifierUris = model.GetIdentifierUris()
+
+	if web := model.GetWeb(); web != nil {
+		status.Web = &WebApplication{}
+		status.Web.AssignFromWebApplication(web)
+	}
+
+	if spa := model.GetSpa(); spa != nil {
+		status.Spa = &SpaApplication{}
+		status.Spa.AssignFromSpaApplication(spa)
+	}
+
+	if publicClient := model.GetPublicClient(); publicClient != nil {
+		status.PublicClient = &PublicClientApplication{}
+		status.PublicClient.AssignFromPublicClientApplication(publicClient)
+	}
+
+	status.Tags = model.GetTags()
+	status.IsFallbackPublicClient = model.GetIsFallbackPublicClient()
+	status.GroupMembershipClaims = model.GetGroupMembershipClaims()
 }
 
 // WebApplication specifies web application configuration
@@ -201,6 +258,16 @@ func (web *WebApplication) AssignToWebApplication(model models.WebApplicationabl
 	}
 }
 
+// AssignFromWebApplication copies the details of the web application into this instance.
+func (web *WebApplication) AssignFromWebApplication(model models.WebApplicationable) {
+	web.RedirectUris = model.GetRedirectUris()
+
+	if implicitGrantSettings := model.GetImplicitGrantSettings(); implicitGrantSettings != nil {
+		web.ImplicitGrantSettings = &ImplicitGrantSettings{}
+		web.ImplicitGrantSettings.AssignFromImplicitGrantSettings(implicitGrantSettings)
+	}
+}
+
 // ImplicitGrantSettings specifies implicit grant flow settings
 type ImplicitGrantSettings struct {
 	// EnableIdTokenIssuance: Whether to enable ID token issuance in the implicit flow.
@@ -220,6 +287,12 @@ func (settings *ImplicitGrantSettings) AssignToImplicitGrantSettings(model model
 	}
 }
 
+// AssignFromImplicitGrantSettings copies the details of the implicit grant settings into this instance.
+func (settings *ImplicitGrantSettings) AssignFromImplicitGrantSettings(model models.ImplicitGrantSettingsable) {
+	settings.EnableIdTokenIssuance = model.GetEnableIdTokenIssuance()
+	settings.EnableAccessTokenIssuance = model.GetEnableAccessTokenIssuance()
+}
+
 // SpaApplication specifies single-page application configuration
 type SpaApplication struct {
 	// RedirectUris: Redirect URIs for single-page applications.
@@ -231,6 +304,11 @@ func (spa *SpaApplication) AssignToSpaApplication(model models.SpaApplicationabl
 	model.SetRedirectUris(spa.RedirectUris)
 }
 
+// AssignFromSpaApplication copies the details of the SPA application into this instance.
+func (spa *SpaApplication) AssignFromSpaApplication(model models.SpaApplicationable) {
+	spa.RedirectUris = model.GetRedirectUris()
+}
+
 // PublicClientApplication specifies public client (desktop/mobile) configuration
 type PublicClientApplication struct {
 	// RedirectUris: Redirect URIs for public client applications.
@@ -240,6 +318,11 @@ type PublicClientApplication struct {
 // AssignToPublicClientApplication configures the provided instance with the details of the public client application
 func (pc *PublicClientApplication) AssignToPublicClientApplication(model models.PublicClientApplicationable) {
 	model.SetRedirectUris(pc.RedirectUris)
+}
+
+// AssignFromPublicClientApplication copies the details of the public client application into this instance.
+func (pc *PublicClientApplication) AssignFromPublicClientApplication(model models.PublicClientApplicationable) {
+	pc.RedirectUris = model.GetRedirectUris()
 }
 
 // +kubebuilder:validation:Enum=AzureADMyOrg;AzureADMultipleOrgs;AzureADandPersonalMicrosoftAccount;PersonalMicrosoftAccount
