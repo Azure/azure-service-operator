@@ -53,9 +53,11 @@ func (r ReconcilePolicies) ForAnnotation(annotation string) ReconcilePolicyValue
 	return policy
 }
 
-// ParseReconcilePolicy parses provided reconcile policy.
-// defaultPolicyValue is read from DEFAULT_RECONCILE_POLICY env variable or set to 'manage' when missing
-func ParseReconcilePolicy(policy string, defaultReconcilePolicy ReconcilePolicyValue) (ReconcilePolicyValue, error) {
+// ParseReconcilePolicy parses provided reconcile policy, will fallback if the value is missing.
+func ParseReconcilePolicy(
+	policy string,
+	defaultReconcilePolicy ReconcilePolicyValue,
+) (ReconcilePolicyValue, error) {
 	// policy is read from CR annotation, if it's empty it being read from defaultReconcilePolicy
 	switch policy {
 	case "":
