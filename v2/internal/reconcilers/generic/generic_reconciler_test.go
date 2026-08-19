@@ -39,6 +39,7 @@ func Test_MergeReconcilePolicy_givenAnnotations_returnsExpectedPolicies(t *testi
 		objectPolicy      string
 		namespacePolicy   string
 		namespaceMissing  bool
+		expectedError     string
 		expectedEffective annotations.ReconcilePolicyValue
 		expectedNamespace annotations.ReconcilePolicyValue
 	}{
@@ -68,17 +69,9 @@ func Test_MergeReconcilePolicy_givenAnnotations_returnsExpectedPolicies(t *testi
 			expectedEffective: annotations.ReconcilePolicyManage,
 			expectedNamespace: annotations.ReconcilePolicySkip,
 		},
-		"Unreadable namespace, object annotated": {
-			objectPolicy:      string(annotations.ReconcilePolicyManage),
-			namespaceMissing:  true,
-			expectedEffective: annotations.ReconcilePolicyManage,
-			expectedNamespace: annotations.ReconcilePolicySkip,
-		},
-		// The namespace we cannot read may be the one that says to leave everything alone
-		"Unreadable namespace, nothing annotated": {
-			namespaceMissing:  true,
-			expectedEffective: annotations.ReconcilePolicyManage,
-			expectedNamespace: annotations.ReconcilePolicySkip,
+		"Unreadable namespace, returns error": {
+			namespaceMissing: true,
+			expectedError:    "failed to retrieve namespace object",
 		},
 	}
 
@@ -115,10 +108,14 @@ func Test_MergeReconcilePolicy_givenAnnotations_returnsExpectedPolicies(t *testi
 				},
 			}
 
-			policies := reconciler.mergeReconcilePolicy(context.Background(), logr.Discard(), obj)
-
-			g.Expect(policies.Effective).To(Equal(c.expectedEffective))
-			g.Expect(policies.Namespace).To(Equal(c.expectedNamespace))
+			policies, err := reconciler.mergeReconcilePolicy(context.Background(), logr.Discard(), obj)
+			if c.expectedError != "" {
+				g.Expect(err).To(MatchError(ContainSubstring(c.expectedError)))
+			} else {
+				g.Expect(err).NotTo(HaveOccurred())
+				g.Expect(policies.Effective).To(Equal(c.expectedEffective))
+				g.Expect(policies.Namespace).To(Equal(c.expectedNamespace))
+			}
 		})
 	}
 }

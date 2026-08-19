@@ -237,7 +237,11 @@ func (gr *GenericReconciler) createOrUpdate(ctx context.Context, log logr.Logger
 	}
 
 	genruntime.AddLabel(metaObj, labels.LastReconciledVersionLabel, version.BuildVersion)
-	reconcilePolicies := gr.mergeReconcilePolicy(ctx, log, metaObj)
+	reconcilePolicies, err := gr.mergeReconcilePolicy(ctx, log, metaObj)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrap(err, "failed to merge reconcile policy for resource during createOrUpdate")
+	}
+
 	if !reconcilePolicies.Effective.AllowsModify() {
 		return ctrl.Result{}, gr.handleSkipReconcile(ctx, log, metaObj, reconcilePolicies)
 	}
@@ -249,7 +253,11 @@ func (gr *GenericReconciler) createOrUpdate(ctx context.Context, log logr.Logger
 
 func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaObj genruntime.MetaObject) (ctrl.Result, error) {
 	// Check the reconcile policy to ensure we're allowed to issue a delete
-	reconcilePolicies := gr.mergeReconcilePolicy(ctx, log, metaObj)
+	reconcilePolicies, err := gr.mergeReconcilePolicy(ctx, log, metaObj)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrap(err, "failed to merge reconcile policy for resource during delete")
+	}
+
 	if !reconcilePolicies.Effective.AllowsDelete() {
 		log.V(Info).Info("Bypassing delete of resource due to policy", "policy", reconcilePolicies.Effective)
 		controllerutil.RemoveFinalizer(metaObj, genruntime.ReconcilerFinalizer)
@@ -397,7 +405,7 @@ func (gr *GenericReconciler) mergeReconcilePolicy(
 	ctx context.Context,
 	log logr.Logger,
 	obj genruntime.MetaObject,
-) annotations.ResolvedReconcilePolicies {
+) (annotations.ResolvedReconcilePolicies, error) {
 	// If no global policy is configured, use the built-in default of 'manage'.
 	globalReconcilePolicy := gr.Config.DefaultReconcilePolicy
 	if globalReconcilePolicy == "" {
@@ -406,48 +414,44 @@ func (gr *GenericReconciler) mergeReconcilePolicy(
 
 	// We initially get the reconcile policy from the object itself
 	source := "object" // this source field is used only for logging purposes
-	policyStr := obj.GetAnnotations()[annotations.ReconcilePolicy]
+	policyAnnotation := obj.GetAnnotations()[annotations.ReconcilePolicy]
 
-	namespacePolicyStr, err := gr.namespaceReconcilePolicy(ctx, obj.GetNamespace())
+	namespacePolicyAnnotation, err := gr.namespaceReconcilePolicy(ctx, obj.GetNamespace())
 	if err != nil {
-		log.Error(err, "failed to read namespace reconcile policy, applying global policy instead", "namespace", obj.GetNamespace())
+		// Failed to read the namespace, cannot proceed
+		// (Returned error already names the namespace, no need to include the name here)
+		return annotations.ResolvedReconcilePolicies{}, eris.Wrap(err, "reading reconcile policy for namespace")
 	}
 
-	namespaceRead := err == nil
-
 	// If the policy is not defined at object level, then we use the one defined at namespace level
-	if policyStr == "" {
-		if namespaceRead {
-			policyStr = namespacePolicyStr
-			source = "namespace"
-		}
+	if policyAnnotation == "" {
+		policyAnnotation = namespacePolicyAnnotation
+		source = "namespace"
 
-		if policyStr == "" {
+		if policyAnnotation == "" {
 			source = "global"
 		}
 	}
 
-	reconcilePolicy, err := annotations.ParseReconcilePolicy(policyStr, globalReconcilePolicy)
+	reconcilePolicy, err := annotations.ParseReconcilePolicy(policyAnnotation, globalReconcilePolicy)
 	if err != nil {
 		log.Error(
 			err,
 			"failed to get reconcile policy. Applying global policy instead",
 			"chosenPolicy", reconcilePolicy,
-			"policyAnnotation", policyStr,
+			"policyAnnotation", policyAnnotation,
 		)
 	}
 
 	// Resolve the namespace policy independently because resources other than the one being reconciled may
 	// rely on it. Unlike the effective policy, this fails closed when the namespace cannot be read.
 	namespacePolicy := annotations.ReconcilePolicySkip
-	if namespaceRead {
-		namespacePolicy, err = annotations.ParseReconcilePolicy(namespacePolicyStr, globalReconcilePolicy)
-		if err != nil {
-			log.V(Verbose).Info(
-				"Namespace has an unusable reconcile policy. Applying global policy instead",
-				"policyAnnotation", namespacePolicyStr,
-			)
-		}
+	namespacePolicy, err = annotations.ParseReconcilePolicy(namespacePolicyAnnotation, globalReconcilePolicy)
+	if err != nil {
+		log.V(Verbose).Info(
+			"Namespace has an unusable reconcile policy. Applying global policy instead",
+			"policyAnnotation", namespacePolicyAnnotation,
+		)
 	}
 
 	log.V(Verbose).Info("Retrieved reconcile policy", "policy", reconcilePolicy, "source", source)
@@ -456,7 +460,7 @@ func (gr *GenericReconciler) mergeReconcilePolicy(
 		Effective: reconcilePolicy,
 		Namespace: namespacePolicy,
 		Global:    globalReconcilePolicy,
-	}
+	}, nil
 }
 
 // namespaceReconcilePolicy returns the reconcile-policy annotation of the given namespace, and whether
