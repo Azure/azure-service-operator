@@ -71,7 +71,7 @@ func (ex *ResourceExtension) PostReconcileCheck(
     resourceResolver *resolver.Resolver,
     armClient *genericarmclient.GenericClient,
     log logr.Logger,
-    reconcilePolicies annotations.ReconcilePolicies,
+    reconcilePolicies annotations.ResolvedReconcilePolicies,
     next extensions.PostReconcileCheckFunc,
 ) (extensions.PostReconcileCheckResult, error) {
     resource := obj.(*myservice.MyResource)
@@ -102,7 +102,7 @@ func (ex *ResourceExtension) PostReconcileCheck(
     resourceResolver *resolver.Resolver,
     armClient *genericarmclient.GenericClient,
     log logr.Logger,
-    reconcilePolicies annotations.ReconcilePolicies,
+    reconcilePolicies annotations.ResolvedReconcilePolicies,
     next extensions.PostReconcileCheckFunc,
 ) (extensions.PostReconcileCheckResult, error) {
     resource := obj.(*myservice.MyResource)
@@ -140,7 +140,7 @@ func (ex *ResourceExtension) PostReconcileCheck(
     resourceResolver *resolver.Resolver,
     armClient *genericarmclient.GenericClient,
     log logr.Logger,
-    reconcilePolicies annotations.ReconcilePolicies,
+    reconcilePolicies annotations.ResolvedReconcilePolicies,
     next extensions.PostReconcileCheckFunc,
 ) (extensions.PostReconcileCheckResult, error) {
     resource := obj.(*myservice.MyResource)
@@ -236,9 +236,12 @@ When testing `PostReconciliationChecker` extensions:
 - **Don't modify the resource**: This is for validation only
 - **Respect the reconcile policy**: This check runs even when the policy forbids modification, since the
   skip path still updates status. Before acting on Azure, inspect the explicit `reconcilePolicies`
-  parameter. Use `reconcilePolicies.Effective` for the resource being reconciled. To act on another
-  resource, use `reconcilePolicies.ForAnnotation(itsAnnotation)` after confirming that resource belongs
-  to the same operator
+    parameter, which contains policies already resolved by the reconciler. Use
+    `reconcilePolicies.Effective` for the resource being reconciled. To act on another resource, use
+    `reconcilePolicies.ForAnnotation(itsAnnotation)` after confirming that resource belongs to the same
+    operator. `reconcilePolicies.Namespace` is the policy resolved from the namespace annotation or the
+    global policy, while `reconcilePolicies.Global` is resolved from operator configuration or the built-in
+    default
 - **Be patient**: Checks may run many times before succeeding
 - **Use factory methods**: Always uses the factory methods for `PostReconcileCheckResult` to ensure consistency
 - **Provide clear reasons**: Failure messages shown to users
