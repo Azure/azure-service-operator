@@ -51,8 +51,19 @@ func Test_MergeReconcilePolicy_givenAnnotations_returnsExpectedPolicies(t *testi
 			expectedEffective: annotations.ReconcilePolicySkip,
 			expectedInherited: annotations.ReconcilePolicySkip,
 		},
+		"Namespace with invalid policy uses operator default": {
+			namespacePolicy:   "unknown",
+			expectedEffective: annotations.ReconcilePolicyManage,
+			expectedInherited: annotations.ReconcilePolicyManage,
+		},
 		"Object overrides a namespace that says skip": {
 			objectPolicy:      string(annotations.ReconcilePolicyManage),
+			namespacePolicy:   string(annotations.ReconcilePolicySkip),
+			expectedEffective: annotations.ReconcilePolicyManage,
+			expectedInherited: annotations.ReconcilePolicySkip,
+		},
+		"Object with invalid policy does not fall back to namespace": {
+			objectPolicy:      "unknown",
 			namespacePolicy:   string(annotations.ReconcilePolicySkip),
 			expectedEffective: annotations.ReconcilePolicyManage,
 			expectedInherited: annotations.ReconcilePolicySkip,
