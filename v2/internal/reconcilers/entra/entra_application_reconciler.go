@@ -324,12 +324,14 @@ func (r *EntraApplicationReconciler) create(
 		return ctrl.Result{}, eris.Wrapf(err, "failed to create application %s", app.Name)
 	}
 
-	if status != nil {
-		app.Status.AssignFromApplication(status)
+	if status == nil {
+		return ctrl.Result{}, eris.Errorf("failed to create application %s: no result returned", app.Name)
+	}
 
-		if id := status.GetId(); id != nil {
-			setEntraID(app, *id)
-		}
+	app.Status.AssignFromApplication(status)
+
+	if id := status.GetId(); id != nil {
+		setEntraID(app, *id)
 	}
 
 	err = r.saveAssociatedKubernetesResources(ctx, app, log)

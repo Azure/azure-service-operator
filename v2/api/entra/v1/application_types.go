@@ -98,7 +98,10 @@ func (spec *ApplicationSpec) OriginalVersion() string {
 // AssignToApplication configures the provided instance with the details of the application.
 // All fields are always set (even when nil/empty) so that previously-set values can be cleared.
 func (spec *ApplicationSpec) AssignToApplication(model models.Applicationable) {
+	// DisplayName
 	model.SetDisplayName(spec.DisplayName)
+
+	// Description
 	model.SetDescription(spec.Description)
 
 	// SignInAudience
@@ -110,7 +113,11 @@ func (spec *ApplicationSpec) AssignToApplication(model models.Applicationable) {
 	}
 
 	// IdentifierUris
-	model.SetIdentifierUris(spec.IdentifierUris)
+	if len(spec.IdentifierUris) > 0 {
+		model.SetIdentifierUris(spec.IdentifierUris)
+	} else {
+		model.SetIdentifierUris([]string{})
+	}
 
 	// Web
 	if spec.Web != nil {
@@ -140,7 +147,11 @@ func (spec *ApplicationSpec) AssignToApplication(model models.Applicationable) {
 	}
 
 	// Tags
-	model.SetTags(spec.Tags)
+	if len(spec.Tags) > 0 {
+		model.SetTags(spec.Tags)
+	} else {
+		model.SetTags([]string{})
+	}
 
 	model.SetIsFallbackPublicClient(spec.IsFallbackPublicClient)
 	model.SetGroupMembershipClaims(spec.GroupMembershipClaims)
@@ -193,46 +204,60 @@ func (status *ApplicationStatus) AssignFromApplication(model models.Applicationa
 		return
 	}
 
+	// EntraId
 	if id := model.GetId(); id != nil {
 		status.EntraID = id
 	}
 
+	// AppId
 	if appId := model.GetAppId(); appId != nil {
 		status.AppId = appId
 	}
 
+	// DisplayName
 	if name := model.GetDisplayName(); name != nil {
 		status.DisplayName = name
 	}
 
+	// Description
 	if description := model.GetDescription(); description != nil {
 		status.Description = description
 	}
 
+	// SignInAudience
 	if signInAudience := model.GetSignInAudience(); signInAudience != nil {
 		audience := SignInAudience(*signInAudience)
 		status.SignInAudience = &audience
 	}
 
+	// IdentifierUris
 	status.IdentifierUris = model.GetIdentifierUris()
 
+	// Web
 	if web := model.GetWeb(); web != nil {
 		status.Web = &WebApplication{}
 		status.Web.AssignFromWebApplication(web)
 	}
 
+	// Spa
 	if spa := model.GetSpa(); spa != nil {
 		status.Spa = &SpaApplication{}
 		status.Spa.AssignFromSpaApplication(spa)
 	}
 
+	// PublicClient
 	if publicClient := model.GetPublicClient(); publicClient != nil {
 		status.PublicClient = &PublicClientApplication{}
 		status.PublicClient.AssignFromPublicClientApplication(publicClient)
 	}
 
+	// Tags
 	status.Tags = model.GetTags()
+
+	// IsFallbackPublicClient
 	status.IsFallbackPublicClient = model.GetIsFallbackPublicClient()
+
+	// GroupMembershipClaims
 	status.GroupMembershipClaims = model.GetGroupMembershipClaims()
 }
 
@@ -247,8 +272,14 @@ type WebApplication struct {
 
 // AssignToWebApplication configures the provided instance with the details of the web application
 func (web *WebApplication) AssignToWebApplication(model models.WebApplicationable) {
-	model.SetRedirectUris(web.RedirectUris)
+	// RedirectUris
+	if len(web.RedirectUris) > 0 {
+		model.SetRedirectUris(web.RedirectUris)
+	} else {
+		model.SetRedirectUris([]string{})
+	}
 
+	// ImplicitGrantSettings
 	if web.ImplicitGrantSettings != nil {
 		implicitGrant := models.NewImplicitGrantSettings()
 		web.ImplicitGrantSettings.AssignToImplicitGrantSettings(implicitGrant)
@@ -279,11 +310,18 @@ type ImplicitGrantSettings struct {
 
 // AssignToImplicitGrantSettings configures the provided instance with the details of implicit grant settings
 func (settings *ImplicitGrantSettings) AssignToImplicitGrantSettings(model models.ImplicitGrantSettingsable) {
+	// EnableIdTokenIssuance
 	if settings.EnableIdTokenIssuance != nil {
 		model.SetEnableIdTokenIssuance(settings.EnableIdTokenIssuance)
+	} else {
+		model.SetEnableIdTokenIssuance(nil)
 	}
+
+	// EnableAccessTokenIssuance
 	if settings.EnableAccessTokenIssuance != nil {
 		model.SetEnableAccessTokenIssuance(settings.EnableAccessTokenIssuance)
+	} else {
+		model.SetEnableAccessTokenIssuance(nil)
 	}
 }
 
@@ -301,7 +339,12 @@ type SpaApplication struct {
 
 // AssignToSpaApplication configures the provided instance with the details of the SPA application
 func (spa *SpaApplication) AssignToSpaApplication(model models.SpaApplicationable) {
-	model.SetRedirectUris(spa.RedirectUris)
+	// RedirectUris
+	if len(spa.RedirectUris) > 0 {
+		model.SetRedirectUris(spa.RedirectUris)
+	} else {
+		model.SetRedirectUris([]string{})
+	}
 }
 
 // AssignFromSpaApplication copies the details of the SPA application into this instance.
@@ -317,7 +360,12 @@ type PublicClientApplication struct {
 
 // AssignToPublicClientApplication configures the provided instance with the details of the public client application
 func (pc *PublicClientApplication) AssignToPublicClientApplication(model models.PublicClientApplicationable) {
-	model.SetRedirectUris(pc.RedirectUris)
+	// RedirectUris
+	if len(pc.RedirectUris) > 0 {
+		model.SetRedirectUris(pc.RedirectUris)
+	} else {
+		model.SetRedirectUris([]string{})
+	}
 }
 
 // AssignFromPublicClientApplication copies the details of the public client application into this instance.
