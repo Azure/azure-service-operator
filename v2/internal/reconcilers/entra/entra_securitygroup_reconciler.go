@@ -360,6 +360,7 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 
 	// If the group doesn't exist, nothing to do as we're probably in the midst of deleting it
 	if groupable == nil {
+		log.V(Status).Info("Security group no longer exists, skipping status update")
 		return nil
 	}
 

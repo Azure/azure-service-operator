@@ -343,7 +343,7 @@ type ApplicationOperatorSpec struct {
 	// CreationMode: Specifies how ASO will try to create the resource.
 	// Specify "AlwaysCreate" to always create a new application when first reconciled.
 	// Or specify "AdoptOrCreate" to first try to adopt an existing application with the same display name.
-	// If multiple applications with the same display name are found, the resource condition will show an error.
+	// If multiple applications with the same display name are found, the resource ready condition will show an error.
 	// If not specified, defaults to "AdoptOrCreate".
 	CreationMode *CreationMode `json:"creationMode,omitempty"`
 

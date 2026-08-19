@@ -113,6 +113,12 @@ func (r *EntraApplicationReconciler) Delete(
 	}
 
 	// If we don't know the Entra ID of the application (captured in an annotation), there's nothing to do.
+	//
+	// Note that there's a hard to handle race condition here:
+	// If we attempt creation of the application in Entra, crash before we update the resource state in etcd,
+	// and then need to delete the resource, we won't have the EntraID to delete the application even though ASO created it.
+	//
+
 	id, ok := getEntraID(app)
 	if !ok {
 		return ctrl.Result{}, nil
@@ -197,6 +203,13 @@ func (r *EntraApplicationReconciler) update(
 		result, err = r.loadApplicationByID(ctx, id, client.Client())
 		if err != nil {
 			return ctrl.Result{}, eris.Wrapf(err, "getting application by ID %s after update returned no result", id)
+		}
+
+		if result == nil {
+			// Application was deleted between the patch and the reload
+			log.V(Status).Info("Application no longer exists after update")
+			setEntraID(app, "")
+			return ctrl.Result{Requeue: true}, nil
 		}
 	}
 
@@ -352,13 +365,13 @@ func (r *EntraApplicationReconciler) UpdateStatus(
 
 	applicationable, err := r.loadApplicationByID(ctx, id, client.Client())
 	if err != nil {
-		// If the application doesn't exist, nothing to do as we're probably in the midst of deleting it
-		if isNotFound(err) {
-			return nil
-		}
-
-		// If the error is not a 404, return the error
 		return eris.Wrapf(err, "failed to update status of application %s", id)
+	}
+
+	// If the application doesn't exist, nothing to do as we're probably in the midst of deleting it
+	if applicationable == nil {
+		log.V(Status).Info("Application no longer exists, skipping status update")
+		return nil
 	}
 
 	app.Status.AssignFromApplication(applicationable)
