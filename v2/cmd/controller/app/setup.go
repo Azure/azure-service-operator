@@ -94,14 +94,9 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		}
 	}
 
-	tlsMinVersion, err := flgs.TLSVersion()
-	if err != nil {
-		setupLog.Error(err, "invalid TLS version")
-		os.Exit(1)
-	}
 	tlsOpts := []func(*tls.Config){
-		func(cfg *tls.Config) {
-			cfg.MinVersion = tlsMinVersion
+		func(tlsCfg *tls.Config) {
+			tlsCfg.MinVersion = cfg.TLSMinVersion
 		},
 	}
 
