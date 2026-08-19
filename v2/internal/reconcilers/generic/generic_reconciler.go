@@ -408,7 +408,12 @@ func (gr *GenericReconciler) mergeReconcilePolicy(
 	source := "object" // this source field is used only for logging purposes
 	policyStr := obj.GetAnnotations()[annotations.ReconcilePolicy]
 
-	namespacePolicyStr, namespaceRead := gr.namespaceReconcilePolicy(ctx, log, obj.GetNamespace())
+	namespacePolicyStr, err := gr.namespaceReconcilePolicy(ctx, obj.GetNamespace())
+	if err != nil {
+		log.Error(err, "failed to read namespace reconcile policy, applying global policy instead", "namespace", obj.GetNamespace())
+	}
+
+	namespaceRead := err == nil
 
 	// If the policy is not defined at object level, then we use the one defined at namespace level
 	if policyStr == "" {
@@ -458,18 +463,22 @@ func (gr *GenericReconciler) mergeReconcilePolicy(
 // the namespace could be read at all.
 func (gr *GenericReconciler) namespaceReconcilePolicy(
 	ctx context.Context,
-	log logr.Logger,
 	namespace string,
-) (string, bool) {
+) (string, error) {
 	namespaceObject, err := gr.KubeClient.GetObject(
 		ctx,
-		types.NamespacedName{Name: namespace},
-		schema.GroupVersionKind{Group: "", Version: "v1", Kind: "Namespace"},
+		types.NamespacedName{
+			Name: namespace,
+		},
+		schema.GroupVersionKind{
+			Group:   "",
+			Version: "v1",
+			Kind:    "Namespace",
+		},
 	)
 	if err != nil {
-		log.V(Verbose).Info("Error while retrieving namespace object", "error", err)
-		return "", false
+		return "", eris.Wrapf(err, "failed to retrieve namespace object %q while reading annotations", namespace)
 	}
 
-	return namespaceObject.GetAnnotations()[annotations.ReconcilePolicy], true
+	return namespaceObject.GetAnnotations()[annotations.ReconcilePolicy], nil
 }
