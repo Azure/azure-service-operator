@@ -1,0 +1,21 @@
+apiVersion: sql.azure.com/v20211101
+kind: Server
+metadata:
+  name: asotestdbwserver
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-rg
+  location: eastus
+  administratorLogin: myadmin
+  administratorLoginPassword:
+    name: asotestdbwserver-secret
+    key: adminPassword
+  version: "12.0"
+  operatorSpec:
+    configMaps:
+      # A target names the server it watches by its fully qualified domain name, which Azure only
+      # assigns once the server exists
+      fullyQualifiedDomainName:
+        name: asotestdbwserver-config
+        key: fullyQualifiedDomainName

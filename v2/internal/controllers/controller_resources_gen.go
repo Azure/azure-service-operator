@@ -228,6 +228,10 @@ import (
 	containerservice_v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
 	containerservice_v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
 	containerservice_v20251002pw "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/webhook"
+	databasewatcher_customizations "github.com/Azure/azure-service-operator/v2/api/databasewatcher/customizations"
+	databasewatcher_v20241001p "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview"
+	databasewatcher_v20241001ps "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview/storage"
+	databasewatcher_v20241001pw "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview/webhook"
 	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
 	datafactory_v1api20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
 	datafactory_v1api20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
@@ -236,12 +240,18 @@ import (
 	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v20180601/storage"
 	datafactory_v20180601w "github.com/Azure/azure-service-operator/v2/api/datafactory/v20180601/webhook"
 	dataprotection_customizations "github.com/Azure/azure-service-operator/v2/api/dataprotection/customizations"
-	dataprotection_v20230101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
-	dataprotection_v20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/storage"
-	dataprotection_v20230101w "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/webhook"
-	dataprotection_v20231101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
-	dataprotection_v20231101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
-	dataprotection_v20231101w "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/webhook"
+	dataprotection_v1api20230101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
+	dataprotection_v1api20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/storage"
+	dataprotection_v1api20230101w "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/webhook"
+	dataprotection_v1api20231101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
+	dataprotection_v1api20231101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
+	dataprotection_v1api20231101w "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/webhook"
+	dataprotection_v20230101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20230101"
+	dataprotection_v20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20230101/storage"
+	dataprotection_v20230101w "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20230101/webhook"
+	dataprotection_v20231101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20231101"
+	dataprotection_v20231101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20231101/storage"
+	dataprotection_v20231101w "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20231101/webhook"
 	dbformariadb_customizations "github.com/Azure/azure-service-operator/v2/api/dbformariadb/customizations"
 	dbformariadb_v20180601 "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601"
 	dbformariadb_v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
@@ -326,6 +336,9 @@ import (
 	eventgrid_v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601"
 	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/storage"
 	eventgrid_v20200601w "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/webhook"
+	eventgrid_v20250215 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215"
+	eventgrid_v20250215s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215/storage"
+	eventgrid_v20250215w "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215/webhook"
 	eventhub_customizations "github.com/Azure/azure-service-operator/v2/api/eventhub/customizations"
 	eventhub_v20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
 	eventhub_v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
@@ -1382,6 +1395,70 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.ManagedClustersAgentPool)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.TrustedAccessRoleBinding)})
+	result = append(result, &registration.StorageType{Obj: new(databasewatcher_v20241001ps.SharedPrivateLink)})
+	result = append(result, &registration.StorageType{
+		Obj: new(databasewatcher_v20241001ps.Target),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.sqlDb.connectionServerNameFromConfig",
+				Func: indexDatabasewatcherTargetSqlDbConnectionServerNameFromConfig,
+			},
+			{
+				Key:  ".spec.properties.sqlEp.connectionServerNameFromConfig",
+				Func: indexDatabasewatcherTargetSqlEpConnectionServerNameFromConfig,
+			},
+			{
+				Key:  ".spec.properties.sqlMi.connectionServerNameFromConfig",
+				Func: indexDatabasewatcherTargetSqlMiConnectionServerNameFromConfig,
+			},
+			{
+				Key:  ".spec.properties.sqlVm.connectionServerNameFromConfig",
+				Func: indexDatabasewatcherTargetSqlVmConnectionServerNameFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.properties.sqlDb.connectionServerNameFromConfig",
+						".spec.properties.sqlEp.connectionServerNameFromConfig",
+						".spec.properties.sqlMi.connectionServerNameFromConfig",
+						".spec.properties.sqlVm.connectionServerNameFromConfig",
+					},
+					&databasewatcher_v20241001ps.TargetList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(databasewatcher_v20241001ps.Watcher),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.datastore.kustoClusterUriFromConfig",
+				Func: indexDatabasewatcherWatcherKustoClusterUriFromConfig,
+			},
+			{
+				Key:  ".spec.datastore.kustoDataIngestionUriFromConfig",
+				Func: indexDatabasewatcherWatcherKustoDataIngestionUriFromConfig,
+			},
+			{
+				Key:  ".spec.datastore.kustoManagementUrlFromConfig",
+				Func: indexDatabasewatcherWatcherKustoManagementUrlFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.datastore.kustoClusterUriFromConfig",
+						".spec.datastore.kustoDataIngestionUriFromConfig",
+						".spec.datastore.kustoManagementUrlFromConfig",
+					},
+					&databasewatcher_v20241001ps.WatcherList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(datafactory_v20180601s.Factory)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVault)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVaultsBackupInstance)})
@@ -1731,14 +1808,34 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.Domain)})
-	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.DomainsTopic)})
+	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20250215s.Domain)})
+	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20250215s.DomainsTopic)})
 	result = append(result, &registration.StorageType{
-		Obj: new(eventgrid_v20200601s.EventSubscription),
+		Obj: new(eventgrid_v20250215s.EventSubscription),
 		Indexes: []registration.Index{
+			{
+				Key:  ".spec.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig",
+				Func: indexEventgridEventSubscriptionAzureActiveDirectoryApplicationIdOrUriFromConfig,
+			},
+			{
+				Key:  ".spec.deliveryWithResourceIdentity.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig",
+				Func: indexEventgridEventSubscriptionDeliveryWithResourceIdentityAzureActiveDirectoryApplicationIdOrUriFromConfig,
+			},
+			{
+				Key:  ".spec.deliveryWithResourceIdentity.destination.webHook.endpointUrl",
+				Func: indexEventgridEventSubscriptionDeliveryWithResourceIdentityEndpointUrl,
+			},
+			{
+				Key:  ".spec.deliveryWithResourceIdentity.destination.storageQueue.queueNameFromConfig",
+				Func: indexEventgridEventSubscriptionDeliveryWithResourceIdentityQueueNameFromConfig,
+			},
 			{
 				Key:  ".spec.destination.webHook.endpointUrl",
 				Func: indexEventgridEventSubscriptionEndpointUrl,
+			},
+			{
+				Key:  ".spec.destination.storageQueue.queueNameFromConfig",
+				Func: indexEventgridEventSubscriptionQueueNameFromConfig,
 			},
 		},
 		Watches: []registration.Watch{
@@ -1746,13 +1843,25 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Type: &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory(
 					[]string{
+						".spec.deliveryWithResourceIdentity.destination.webHook.endpointUrl",
 						".spec.destination.webHook.endpointUrl",
 					},
-					&eventgrid_v20200601s.EventSubscriptionList{}),
+					&eventgrid_v20250215s.EventSubscriptionList{}),
+			},
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.deliveryWithResourceIdentity.destination.storageQueue.queueNameFromConfig",
+						".spec.deliveryWithResourceIdentity.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig",
+						".spec.destination.storageQueue.queueNameFromConfig",
+						".spec.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig",
+					},
+					&eventgrid_v20250215s.EventSubscriptionList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.Topic)})
+	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20250215s.Topic)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.Namespace)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.NamespacesAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.NamespacesEventhub)})
@@ -5061,6 +5170,28 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedCluster)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedClustersAgentPool)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.TrustedAccessRoleBinding)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(databasewatcher_v20241001p.SharedPrivateLink),
+			Defaulter: &databasewatcher_v20241001pw.SharedPrivateLink{},
+			Validator: &databasewatcher_v20241001pw.SharedPrivateLink{},
+		},
+		&registration.KnownType{
+			Obj:       new(databasewatcher_v20241001p.Target),
+			Defaulter: &databasewatcher_v20241001pw.Target{},
+			Validator: &databasewatcher_v20241001pw.Target{},
+		},
+		&registration.KnownType{
+			Obj:       new(databasewatcher_v20241001p.Watcher),
+			Defaulter: &databasewatcher_v20241001pw.Watcher{},
+			Validator: &databasewatcher_v20241001pw.Watcher{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(databasewatcher_v20241001ps.SharedPrivateLink)},
+		&registration.KnownType{Obj: new(databasewatcher_v20241001ps.Target)},
+		&registration.KnownType{Obj: new(databasewatcher_v20241001ps.Watcher)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(datafactory_v1api20180601.Factory),
 		Defaulter: &datafactory_v1api20180601w.Factory{},
@@ -5073,6 +5204,38 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &datafactory_v20180601w.Factory{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(datafactory_v20180601s.Factory)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(dataprotection_v1api20230101.BackupVault),
+		Defaulter: &dataprotection_v1api20230101w.BackupVault{},
+		Validator: &dataprotection_v1api20230101w.BackupVault{},
+	}, &registration.KnownType{
+		Obj:       new(dataprotection_v1api20230101.BackupVaultsBackupPolicy),
+		Defaulter: &dataprotection_v1api20230101w.BackupVaultsBackupPolicy{},
+		Validator: &dataprotection_v1api20230101w.BackupVaultsBackupPolicy{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(dataprotection_v1api20230101s.BackupVault)}, &registration.KnownType{Obj: new(dataprotection_v1api20230101s.BackupVaultsBackupPolicy)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dataprotection_v1api20231101.BackupVault),
+			Defaulter: &dataprotection_v1api20231101w.BackupVault{},
+			Validator: &dataprotection_v1api20231101w.BackupVault{},
+		},
+		&registration.KnownType{
+			Obj:       new(dataprotection_v1api20231101.BackupVaultsBackupInstance),
+			Defaulter: &dataprotection_v1api20231101w.BackupVaultsBackupInstance{},
+			Validator: &dataprotection_v1api20231101w.BackupVaultsBackupInstance{},
+		},
+		&registration.KnownType{
+			Obj:       new(dataprotection_v1api20231101.BackupVaultsBackupPolicy),
+			Defaulter: &dataprotection_v1api20231101w.BackupVaultsBackupPolicy{},
+			Validator: &dataprotection_v1api20231101w.BackupVaultsBackupPolicy{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dataprotection_v1api20231101s.BackupVault)},
+		&registration.KnownType{Obj: new(dataprotection_v1api20231101s.BackupVaultsBackupInstance)},
+		&registration.KnownType{Obj: new(dataprotection_v1api20231101s.BackupVaultsBackupPolicy)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(dataprotection_v20230101.BackupVault),
 		Defaulter: &dataprotection_v20230101w.BackupVault{},
@@ -5955,6 +6118,34 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(eventgrid_v20200601s.DomainsTopic)},
 		&registration.KnownType{Obj: new(eventgrid_v20200601s.EventSubscription)},
 		&registration.KnownType{Obj: new(eventgrid_v20200601s.Topic)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(eventgrid_v20250215.Domain),
+			Defaulter: &eventgrid_v20250215w.Domain{},
+			Validator: &eventgrid_v20250215w.Domain{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v20250215.DomainsTopic),
+			Defaulter: &eventgrid_v20250215w.DomainsTopic{},
+			Validator: &eventgrid_v20250215w.DomainsTopic{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v20250215.EventSubscription),
+			Defaulter: &eventgrid_v20250215w.EventSubscription{},
+			Validator: &eventgrid_v20250215w.EventSubscription{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v20250215.Topic),
+			Defaulter: &eventgrid_v20250215w.Topic{},
+			Validator: &eventgrid_v20250215w.Topic{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(eventgrid_v20250215s.Domain)},
+		&registration.KnownType{Obj: new(eventgrid_v20250215s.DomainsTopic)},
+		&registration.KnownType{Obj: new(eventgrid_v20250215s.EventSubscription)},
+		&registration.KnownType{Obj: new(eventgrid_v20250215s.Topic)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -8308,10 +8499,16 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20250801s.AddToScheme(scheme)
 	_ = containerservice_v20251002p.AddToScheme(scheme)
 	_ = containerservice_v20251002ps.AddToScheme(scheme)
+	_ = databasewatcher_v20241001p.AddToScheme(scheme)
+	_ = databasewatcher_v20241001ps.AddToScheme(scheme)
 	_ = datafactory_v1api20180601.AddToScheme(scheme)
 	_ = datafactory_v1api20180601s.AddToScheme(scheme)
 	_ = datafactory_v20180601.AddToScheme(scheme)
 	_ = datafactory_v20180601s.AddToScheme(scheme)
+	_ = dataprotection_v1api20230101.AddToScheme(scheme)
+	_ = dataprotection_v1api20230101s.AddToScheme(scheme)
+	_ = dataprotection_v1api20231101.AddToScheme(scheme)
+	_ = dataprotection_v1api20231101s.AddToScheme(scheme)
 	_ = dataprotection_v20230101.AddToScheme(scheme)
 	_ = dataprotection_v20230101s.AddToScheme(scheme)
 	_ = dataprotection_v20231101.AddToScheme(scheme)
@@ -8368,6 +8565,8 @@ func createScheme() *runtime.Scheme {
 	_ = eventgrid_v1api20200601s.AddToScheme(scheme)
 	_ = eventgrid_v20200601.AddToScheme(scheme)
 	_ = eventgrid_v20200601s.AddToScheme(scheme)
+	_ = eventgrid_v20250215.AddToScheme(scheme)
+	_ = eventgrid_v20250215s.AddToScheme(scheme)
 	_ = eventhub_v20211101.AddToScheme(scheme)
 	_ = eventhub_v20211101s.AddToScheme(scheme)
 	_ = eventhub_v20240101.AddToScheme(scheme)
@@ -8606,6 +8805,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
 	result = append(result, &containerservice_customizations.TrustedAccessRoleBindingExtension{})
+	result = append(result, &databasewatcher_customizations.SharedPrivateLinkExtension{})
+	result = append(result, &databasewatcher_customizations.TargetExtension{})
+	result = append(result, &databasewatcher_customizations.WatcherExtension{})
 	result = append(result, &datafactory_customizations.FactoryExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultsBackupInstanceExtension{})
@@ -9891,6 +10093,123 @@ func indexContainerserviceManagedClusterServerAppSecret(rawObj client.Object) []
 	return obj.Spec.AadProfile.ServerAppSecret.Index()
 }
 
+// indexDatabasewatcherTargetSqlDbConnectionServerNameFromConfig an index function for databasewatcher_v20241001ps.Target .spec.properties.sqlDb.connectionServerNameFromConfig
+func indexDatabasewatcherTargetSqlDbConnectionServerNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*databasewatcher_v20241001ps.Target)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlDb == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlDb.ConnectionServerNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.SqlDb.ConnectionServerNameFromConfig.Index()
+}
+
+// indexDatabasewatcherTargetSqlEpConnectionServerNameFromConfig an index function for databasewatcher_v20241001ps.Target .spec.properties.sqlEp.connectionServerNameFromConfig
+func indexDatabasewatcherTargetSqlEpConnectionServerNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*databasewatcher_v20241001ps.Target)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlEp == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlEp.ConnectionServerNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.SqlEp.ConnectionServerNameFromConfig.Index()
+}
+
+// indexDatabasewatcherTargetSqlMiConnectionServerNameFromConfig an index function for databasewatcher_v20241001ps.Target .spec.properties.sqlMi.connectionServerNameFromConfig
+func indexDatabasewatcherTargetSqlMiConnectionServerNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*databasewatcher_v20241001ps.Target)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlMi == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlMi.ConnectionServerNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.SqlMi.ConnectionServerNameFromConfig.Index()
+}
+
+// indexDatabasewatcherTargetSqlVmConnectionServerNameFromConfig an index function for databasewatcher_v20241001ps.Target .spec.properties.sqlVm.connectionServerNameFromConfig
+func indexDatabasewatcherTargetSqlVmConnectionServerNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*databasewatcher_v20241001ps.Target)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlVm == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SqlVm.ConnectionServerNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.SqlVm.ConnectionServerNameFromConfig.Index()
+}
+
+// indexDatabasewatcherWatcherKustoClusterUriFromConfig an index function for databasewatcher_v20241001ps.Watcher .spec.datastore.kustoClusterUriFromConfig
+func indexDatabasewatcherWatcherKustoClusterUriFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*databasewatcher_v20241001ps.Watcher)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Datastore == nil {
+		return nil
+	}
+	if obj.Spec.Datastore.KustoClusterUriFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Datastore.KustoClusterUriFromConfig.Index()
+}
+
+// indexDatabasewatcherWatcherKustoDataIngestionUriFromConfig an index function for databasewatcher_v20241001ps.Watcher .spec.datastore.kustoDataIngestionUriFromConfig
+func indexDatabasewatcherWatcherKustoDataIngestionUriFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*databasewatcher_v20241001ps.Watcher)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Datastore == nil {
+		return nil
+	}
+	if obj.Spec.Datastore.KustoDataIngestionUriFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Datastore.KustoDataIngestionUriFromConfig.Index()
+}
+
+// indexDatabasewatcherWatcherKustoManagementUrlFromConfig an index function for databasewatcher_v20241001ps.Watcher .spec.datastore.kustoManagementUrlFromConfig
+func indexDatabasewatcherWatcherKustoManagementUrlFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*databasewatcher_v20241001ps.Watcher)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Datastore == nil {
+		return nil
+	}
+	if obj.Spec.Datastore.KustoManagementUrlFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Datastore.KustoManagementUrlFromConfig.Index()
+}
+
 // indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.default.administratorLoginPassword
 func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []string {
 	obj, ok := rawObj.(*dbformariadb_v20180601s.Server)
@@ -10374,9 +10693,90 @@ func indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig(rawObj client.Object)
 	return obj.Spec.PrincipalIdFromConfig.Index()
 }
 
-// indexEventgridEventSubscriptionEndpointUrl an index function for eventgrid_v20200601s.EventSubscription .spec.destination.webHook.endpointUrl
+// indexEventgridEventSubscriptionAzureActiveDirectoryApplicationIdOrUriFromConfig an index function for eventgrid_v20250215s.EventSubscription .spec.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig
+func indexEventgridEventSubscriptionAzureActiveDirectoryApplicationIdOrUriFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Destination == nil {
+		return nil
+	}
+	if obj.Spec.Destination.WebHook == nil {
+		return nil
+	}
+	if obj.Spec.Destination.WebHook.AzureActiveDirectoryApplicationIdOrUriFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Destination.WebHook.AzureActiveDirectoryApplicationIdOrUriFromConfig.Index()
+}
+
+// indexEventgridEventSubscriptionDeliveryWithResourceIdentityAzureActiveDirectoryApplicationIdOrUriFromConfig an index function for eventgrid_v20250215s.EventSubscription .spec.deliveryWithResourceIdentity.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig
+func indexEventgridEventSubscriptionDeliveryWithResourceIdentityAzureActiveDirectoryApplicationIdOrUriFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook.AzureActiveDirectoryApplicationIdOrUriFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook.AzureActiveDirectoryApplicationIdOrUriFromConfig.Index()
+}
+
+// indexEventgridEventSubscriptionDeliveryWithResourceIdentityEndpointUrl an index function for eventgrid_v20250215s.EventSubscription .spec.deliveryWithResourceIdentity.destination.webHook.endpointUrl
+func indexEventgridEventSubscriptionDeliveryWithResourceIdentityEndpointUrl(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook.EndpointUrl == nil {
+		return nil
+	}
+	return obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook.EndpointUrl.Index()
+}
+
+// indexEventgridEventSubscriptionDeliveryWithResourceIdentityQueueNameFromConfig an index function for eventgrid_v20250215s.EventSubscription .spec.deliveryWithResourceIdentity.destination.storageQueue.queueNameFromConfig
+func indexEventgridEventSubscriptionDeliveryWithResourceIdentityQueueNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.StorageQueue == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.StorageQueue.QueueNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.DeliveryWithResourceIdentity.Destination.StorageQueue.QueueNameFromConfig.Index()
+}
+
+// indexEventgridEventSubscriptionEndpointUrl an index function for eventgrid_v20250215s.EventSubscription .spec.destination.webHook.endpointUrl
 func indexEventgridEventSubscriptionEndpointUrl(rawObj client.Object) []string {
-	obj, ok := rawObj.(*eventgrid_v20200601s.EventSubscription)
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
 	if !ok {
 		return nil
 	}
@@ -10390,6 +10790,24 @@ func indexEventgridEventSubscriptionEndpointUrl(rawObj client.Object) []string {
 		return nil
 	}
 	return obj.Spec.Destination.WebHook.EndpointUrl.Index()
+}
+
+// indexEventgridEventSubscriptionQueueNameFromConfig an index function for eventgrid_v20250215s.EventSubscription .spec.destination.storageQueue.queueNameFromConfig
+func indexEventgridEventSubscriptionQueueNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Destination == nil {
+		return nil
+	}
+	if obj.Spec.Destination.StorageQueue == nil {
+		return nil
+	}
+	if obj.Spec.Destination.StorageQueue.QueueNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Destination.StorageQueue.QueueNameFromConfig.Index()
 }
 
 // indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.accessPolicies.applicationIdFromConfig

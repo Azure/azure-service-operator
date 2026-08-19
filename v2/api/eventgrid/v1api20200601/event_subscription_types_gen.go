@@ -5280,7 +5280,11 @@ type StorageQueueEventSubscriptionDestination struct {
 	EndpointType *StorageQueueEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// QueueName: The name of the Storage queue under a storage account that is the destination of an event subscription.
-	QueueName *string `json:"queueName,omitempty"`
+	QueueName *string `json:"queueName,omitempty" optionalConfigMapPair:"QueueName"`
+
+	// QueueNameFromConfig: The name of the Storage queue under a storage account that is the destination of an event
+	// subscription.
+	QueueNameFromConfig *genruntime.ConfigMapReference `json:"queueNameFromConfig,omitempty" optionalConfigMapPair:"QueueName"`
 
 	// ResourceReference: The Azure Resource ID of the storage account that contains the queue that is the destination of an
 	// event subscription.
@@ -5306,11 +5310,21 @@ func (destination *StorageQueueEventSubscriptionDestination) ConvertToARM(resolv
 	}
 
 	// Set property "Properties":
-	if destination.QueueName != nil || destination.ResourceReference != nil {
+	if destination.QueueName != nil ||
+		destination.QueueNameFromConfig != nil ||
+		destination.ResourceReference != nil {
 		result.Properties = &arm.StorageQueueEventSubscriptionDestinationProperties{}
 	}
 	if destination.QueueName != nil {
 		queueName := *destination.QueueName
+		result.Properties.QueueName = &queueName
+	}
+	if destination.QueueNameFromConfig != nil {
+		queueNameValue, err := resolved.ResolvedConfigMaps.Lookup(*destination.QueueNameFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property QueueName")
+		}
+		queueName := queueNameValue
 		result.Properties.QueueName = &queueName
 	}
 	if destination.ResourceReference != nil {
@@ -5352,6 +5366,8 @@ func (destination *StorageQueueEventSubscriptionDestination) PopulateFromARM(own
 		}
 	}
 
+	// no assignment for property "QueueNameFromConfig"
+
 	// no assignment for property "ResourceReference"
 
 	// No error
@@ -5372,6 +5388,14 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_Fr
 
 	// QueueName
 	destination.QueueName = genruntime.ClonePointerToString(source.QueueName)
+
+	// QueueNameFromConfig
+	if source.QueueNameFromConfig != nil {
+		queueNameFromConfig := source.QueueNameFromConfig.Copy()
+		destination.QueueNameFromConfig = &queueNameFromConfig
+	} else {
+		destination.QueueNameFromConfig = nil
+	}
 
 	// ResourceReference
 	if source.ResourceReference != nil {
@@ -5400,6 +5424,14 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_To
 
 	// QueueName
 	target.QueueName = genruntime.ClonePointerToString(destination.QueueName)
+
+	// QueueNameFromConfig
+	if destination.QueueNameFromConfig != nil {
+		queueNameFromConfig := destination.QueueNameFromConfig.Copy()
+		target.QueueNameFromConfig = &queueNameFromConfig
+	} else {
+		target.QueueNameFromConfig = nil
+	}
 
 	// ResourceReference
 	if destination.ResourceReference != nil {
@@ -5530,7 +5562,11 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) AssignProper
 type WebHookEventSubscriptionDestination struct {
 	// AzureActiveDirectoryApplicationIdOrUri: The Azure Active Directory Application ID or URI to get the access token that
 	// will be included as the bearer token in delivery requests.
-	AzureActiveDirectoryApplicationIdOrUri *string `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
+	AzureActiveDirectoryApplicationIdOrUri *string `json:"azureActiveDirectoryApplicationIdOrUri,omitempty" optionalConfigMapPair:"AzureActiveDirectoryApplicationIdOrUri"`
+
+	// AzureActiveDirectoryApplicationIdOrUriFromConfig: The Azure Active Directory Application ID or URI to get the access
+	// token that will be included as the bearer token in delivery requests.
+	AzureActiveDirectoryApplicationIdOrUriFromConfig *genruntime.ConfigMapReference `json:"azureActiveDirectoryApplicationIdOrUriFromConfig,omitempty" optionalConfigMapPair:"AzureActiveDirectoryApplicationIdOrUri"`
 
 	// AzureActiveDirectoryTenantId: The Azure Active Directory Tenant ID to get the access token that will be included as the
 	// bearer token in delivery requests.
@@ -5570,6 +5606,7 @@ func (destination *WebHookEventSubscriptionDestination) ConvertToARM(resolved ge
 
 	// Set property "Properties":
 	if destination.AzureActiveDirectoryApplicationIdOrUri != nil ||
+		destination.AzureActiveDirectoryApplicationIdOrUriFromConfig != nil ||
 		destination.AzureActiveDirectoryTenantId != nil ||
 		destination.EndpointUrl != nil ||
 		destination.MaxEventsPerBatch != nil ||
@@ -5578,6 +5615,14 @@ func (destination *WebHookEventSubscriptionDestination) ConvertToARM(resolved ge
 	}
 	if destination.AzureActiveDirectoryApplicationIdOrUri != nil {
 		azureActiveDirectoryApplicationIdOrUri := *destination.AzureActiveDirectoryApplicationIdOrUri
+		result.Properties.AzureActiveDirectoryApplicationIdOrUri = &azureActiveDirectoryApplicationIdOrUri
+	}
+	if destination.AzureActiveDirectoryApplicationIdOrUriFromConfig != nil {
+		azureActiveDirectoryApplicationIdOrUriValue, err := resolved.ResolvedConfigMaps.Lookup(*destination.AzureActiveDirectoryApplicationIdOrUriFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property AzureActiveDirectoryApplicationIdOrUri")
+		}
+		azureActiveDirectoryApplicationIdOrUri := azureActiveDirectoryApplicationIdOrUriValue
 		result.Properties.AzureActiveDirectoryApplicationIdOrUri = &azureActiveDirectoryApplicationIdOrUri
 	}
 	if destination.AzureActiveDirectoryTenantId != nil {
@@ -5623,6 +5668,8 @@ func (destination *WebHookEventSubscriptionDestination) PopulateFromARM(owner ge
 			destination.AzureActiveDirectoryApplicationIdOrUri = &azureActiveDirectoryApplicationIdOrUri
 		}
 	}
+
+	// no assignment for property "AzureActiveDirectoryApplicationIdOrUriFromConfig"
 
 	// Set property "AzureActiveDirectoryTenantId":
 	// copying flattened property:
@@ -5670,6 +5717,14 @@ func (destination *WebHookEventSubscriptionDestination) AssignProperties_From_We
 	// AzureActiveDirectoryApplicationIdOrUri
 	destination.AzureActiveDirectoryApplicationIdOrUri = genruntime.ClonePointerToString(source.AzureActiveDirectoryApplicationIdOrUri)
 
+	// AzureActiveDirectoryApplicationIdOrUriFromConfig
+	if source.AzureActiveDirectoryApplicationIdOrUriFromConfig != nil {
+		azureActiveDirectoryApplicationIdOrUriFromConfig := source.AzureActiveDirectoryApplicationIdOrUriFromConfig.Copy()
+		destination.AzureActiveDirectoryApplicationIdOrUriFromConfig = &azureActiveDirectoryApplicationIdOrUriFromConfig
+	} else {
+		destination.AzureActiveDirectoryApplicationIdOrUriFromConfig = nil
+	}
+
 	// AzureActiveDirectoryTenantId
 	destination.AzureActiveDirectoryTenantId = genruntime.ClonePointerToString(source.AzureActiveDirectoryTenantId)
 
@@ -5707,6 +5762,14 @@ func (destination *WebHookEventSubscriptionDestination) AssignProperties_To_WebH
 
 	// AzureActiveDirectoryApplicationIdOrUri
 	target.AzureActiveDirectoryApplicationIdOrUri = genruntime.ClonePointerToString(destination.AzureActiveDirectoryApplicationIdOrUri)
+
+	// AzureActiveDirectoryApplicationIdOrUriFromConfig
+	if destination.AzureActiveDirectoryApplicationIdOrUriFromConfig != nil {
+		azureActiveDirectoryApplicationIdOrUriFromConfig := destination.AzureActiveDirectoryApplicationIdOrUriFromConfig.Copy()
+		target.AzureActiveDirectoryApplicationIdOrUriFromConfig = &azureActiveDirectoryApplicationIdOrUriFromConfig
+	} else {
+		target.AzureActiveDirectoryApplicationIdOrUriFromConfig = nil
+	}
 
 	// AzureActiveDirectoryTenantId
 	target.AzureActiveDirectoryTenantId = genruntime.ClonePointerToString(destination.AzureActiveDirectoryTenantId)

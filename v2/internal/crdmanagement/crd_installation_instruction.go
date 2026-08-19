@@ -15,7 +15,6 @@ type DiffResult string
 
 const (
 	NoDifference      = DiffResult("NoDifference")
-	SpecDifferent     = DiffResult("SpecDifferent")
 	VersionDifferent  = DiffResult("VersionDifferent")
 	MetadataDifferent = DiffResult("MetadataDifferent")
 )
@@ -24,8 +23,6 @@ func (i DiffResult) DiffReason(crd apiextensions.CustomResourceDefinition) strin
 	switch i {
 	case NoDifference:
 		return fmt.Sprintf("No difference between existing and goal CRD %q", makeMatchString(crd))
-	case SpecDifferent:
-		return fmt.Sprintf("The spec was different between existing and goal CRD %q", makeMatchString(crd))
 	case VersionDifferent:
 		return fmt.Sprintf("The version was different between existing and goal CRD %q", makeMatchString(crd))
 	case MetadataDifferent:

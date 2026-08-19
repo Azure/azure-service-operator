@@ -602,3 +602,263 @@ BackupVaultsBackupPolicy: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
+augmentConversionForAbsoluteDeleteOption: Interface
+
+augmentConversionForAbsoluteDeleteOption_STATUS: Interface
+
+augmentConversionForAdhocBasedTaggingCriteria: Interface
+
+augmentConversionForAdhocBasedTaggingCriteria_STATUS: Interface
+
+augmentConversionForAdhocBasedTriggerContext: Interface
+
+augmentConversionForAdhocBasedTriggerContext_STATUS: Interface
+
+augmentConversionForAuthCredentials: Interface
+
+augmentConversionForAuthCredentials_STATUS: Interface
+
+augmentConversionForAzureBackupParams: Interface
+
+augmentConversionForAzureBackupParams_STATUS: Interface
+
+augmentConversionForAzureBackupRule: Interface
+
+augmentConversionForAzureBackupRule_STATUS: Interface
+
+augmentConversionForAzureMonitorAlertSettings: Interface
+
+augmentConversionForAzureMonitorAlertSettings_STATUS: Interface
+
+augmentConversionForAzureOperationalStoreParameters: Interface
+
+augmentConversionForAzureOperationalStoreParameters_STATUS: Interface
+
+augmentConversionForAzureRetentionRule: Interface
+
+augmentConversionForAzureRetentionRule_STATUS: Interface
+
+augmentConversionForBackupCriteria: Interface
+
+augmentConversionForBackupCriteria_STATUS: Interface
+
+augmentConversionForBackupDatasourceParameters: Interface
+
+augmentConversionForBackupDatasourceParameters_STATUS: Interface
+
+augmentConversionForBackupInstance: Interface
+
+augmentConversionForBackupInstance_STATUS: Interface
+
+augmentConversionForBackupParameters: Interface
+
+augmentConversionForBackupParameters_STATUS: Interface
+
+augmentConversionForBackupPolicy: Interface
+
+augmentConversionForBackupPolicy_STATUS: Interface
+
+augmentConversionForBackupSchedule: Interface
+
+augmentConversionForBackupSchedule_STATUS: Interface
+
+augmentConversionForBackupVault: Interface
+
+augmentConversionForBackupVaultOperatorConfigMaps: Interface
+
+augmentConversionForBackupVaultOperatorSpec: Interface
+
+augmentConversionForBackupVaultResource_STATUS: Interface
+
+augmentConversionForBackupVaultSpec: Interface
+
+augmentConversionForBackupVault_STATUS: Interface
+
+augmentConversionForBackupVault_Spec: Interface
+
+augmentConversionForBackupVaultsBackupInstance: Interface
+
+augmentConversionForBackupVaultsBackupInstanceOperatorSpec: Interface
+
+augmentConversionForBackupVaultsBackupInstance_STATUS: Interface
+
+augmentConversionForBackupVaultsBackupInstance_Spec: Interface
+
+augmentConversionForBackupVaultsBackupPolicy: Interface
+
+augmentConversionForBackupVaultsBackupPolicyOperatorSpec: Interface
+
+augmentConversionForBackupVaultsBackupPolicy_STATUS: Interface
+
+augmentConversionForBackupVaultsBackupPolicy_Spec: Interface
+
+augmentConversionForBaseBackupPolicy: Interface
+
+augmentConversionForBaseBackupPolicy_STATUS: Interface
+
+augmentConversionForBasePolicyRule: Interface
+
+augmentConversionForBasePolicyRule_STATUS: Interface
+
+augmentConversionForBaseResourceProperties: Interface
+
+augmentConversionForBaseResourceProperties_STATUS: Interface
+
+augmentConversionForBlobBackupDatasourceParameters: Interface
+
+augmentConversionForBlobBackupDatasourceParameters_STATUS: Interface
+
+augmentConversionForCopyOnExpiryOption: Interface
+
+augmentConversionForCopyOnExpiryOption_STATUS: Interface
+
+augmentConversionForCopyOption: Interface
+
+augmentConversionForCopyOption_STATUS: Interface
+
+augmentConversionForCrossRegionRestoreSettings: Interface
+
+augmentConversionForCrossRegionRestoreSettings_STATUS: Interface
+
+augmentConversionForCrossSubscriptionRestoreSettings: Interface
+
+augmentConversionForCrossSubscriptionRestoreSettings_STATUS: Interface
+
+augmentConversionForCustomCopyOption: Interface
+
+augmentConversionForCustomCopyOption_STATUS: Interface
+
+augmentConversionForDataStoreInfoBase: Interface
+
+augmentConversionForDataStoreInfoBase_STATUS: Interface
+
+augmentConversionForDataStoreParameters: Interface
+
+augmentConversionForDataStoreParameters_STATUS: Interface
+
+augmentConversionForDatasource: Interface
+
+augmentConversionForDatasourceSet: Interface
+
+augmentConversionForDatasourceSet_STATUS: Interface
+
+augmentConversionForDatasource_STATUS: Interface
+
+augmentConversionForDay: Interface
+
+augmentConversionForDay_STATUS: Interface
+
+augmentConversionForDefaultResourceProperties: Interface
+
+augmentConversionForDefaultResourceProperties_STATUS: Interface
+
+augmentConversionForDeleteOption: Interface
+
+augmentConversionForDeleteOption_STATUS: Interface
+
+augmentConversionForDppIdentityDetails: Interface
+
+augmentConversionForDppIdentityDetails_STATUS: Interface
+
+augmentConversionForFeatureSettings: Interface
+
+augmentConversionForFeatureSettings_STATUS: Interface
+
+augmentConversionForIdentityDetails: Interface
+
+augmentConversionForIdentityDetails_STATUS: Interface
+
+augmentConversionForImmediateCopyOption: Interface
+
+augmentConversionForImmediateCopyOption_STATUS: Interface
+
+augmentConversionForImmutabilitySettings: Interface
+
+augmentConversionForImmutabilitySettings_STATUS: Interface
+
+augmentConversionForInnerError_STATUS: Interface
+
+augmentConversionForInnerError_STATUS_Unrolled: Interface
+
+augmentConversionForKubernetesClusterBackupDatasourceParameters: Interface
+
+augmentConversionForKubernetesClusterBackupDatasourceParameters_STATUS: Interface
+
+augmentConversionForMonitoringSettings: Interface
+
+augmentConversionForMonitoringSettings_STATUS: Interface
+
+augmentConversionForNamespacedNameResource: Interface
+
+augmentConversionForNamespacedNameResource_STATUS: Interface
+
+augmentConversionForPolicyInfo: Interface
+
+augmentConversionForPolicyInfo_STATUS: Interface
+
+augmentConversionForPolicyParameters: Interface
+
+augmentConversionForPolicyParameters_STATUS: Interface
+
+augmentConversionForProtectionStatusDetails_STATUS: Interface
+
+augmentConversionForResourceMoveDetails_STATUS: Interface
+
+augmentConversionForRetentionTag: Interface
+
+augmentConversionForRetentionTag_STATUS: Interface
+
+augmentConversionForScheduleBasedBackupCriteria: Interface
+
+augmentConversionForScheduleBasedBackupCriteria_STATUS: Interface
+
+augmentConversionForScheduleBasedTriggerContext: Interface
+
+augmentConversionForScheduleBasedTriggerContext_STATUS: Interface
+
+augmentConversionForSecretStoreBasedAuthCredentials: Interface
+
+augmentConversionForSecretStoreBasedAuthCredentials_STATUS: Interface
+
+augmentConversionForSecretStoreResource: Interface
+
+augmentConversionForSecretStoreResource_STATUS: Interface
+
+augmentConversionForSecuritySettings: Interface
+
+augmentConversionForSecuritySettings_STATUS: Interface
+
+augmentConversionForSoftDeleteSettings: Interface
+
+augmentConversionForSoftDeleteSettings_STATUS: Interface
+
+augmentConversionForSourceLifeCycle: Interface
+
+augmentConversionForSourceLifeCycle_STATUS: Interface
+
+augmentConversionForStorageSetting: Interface
+
+augmentConversionForStorageSetting_STATUS: Interface
+
+augmentConversionForSystemData_STATUS: Interface
+
+augmentConversionForTaggingCriteria: Interface
+
+augmentConversionForTaggingCriteria_STATUS: Interface
+
+augmentConversionForTargetCopySetting: Interface
+
+augmentConversionForTargetCopySetting_STATUS: Interface
+
+augmentConversionForTriggerContext: Interface
+
+augmentConversionForTriggerContext_STATUS: Interface
+
+augmentConversionForUserAssignedIdentityDetails: Interface
+
+augmentConversionForUserAssignedIdentity_STATUS: Interface
+
+augmentConversionForUserFacingError_STATUS: Interface
+
+augmentConversionForUserFacingError_STATUS_Unrolled: Interface
+
