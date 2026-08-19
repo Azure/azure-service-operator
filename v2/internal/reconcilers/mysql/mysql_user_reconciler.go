@@ -67,7 +67,13 @@ func (r *MySQLUserReconciler) asUser(obj genruntime.MetaObject) (*asomysql.User,
 	return typedObj, nil
 }
 
-func (r *MySQLUserReconciler) CreateOrUpdate(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject, _ annotations.ReconcilePolicies) (ctrl.Result, error) {
+func (r *MySQLUserReconciler) CreateOrUpdate(
+	ctx context.Context,
+	log logr.Logger,
+	eventRecorder record.EventRecorder,
+	obj genruntime.MetaObject,
+	_ annotations.ResolvedReconcilePolicies,
+) (ctrl.Result, error) {
 	user, err := r.asUser(obj)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -137,7 +143,13 @@ func (r *MySQLUserReconciler) Claim(ctx context.Context, log logr.Logger, eventR
 	return nil
 }
 
-func (r *MySQLUserReconciler) UpdateStatus(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject, _ annotations.ReconcilePolicies) error {
+func (r *MySQLUserReconciler) UpdateStatus(
+	ctx context.Context,
+	log logr.Logger,
+	eventRecorder record.EventRecorder,
+	obj genruntime.MetaObject,
+	_ annotations.ResolvedReconcilePolicies,
+) error {
 	user, err := r.asUser(obj)
 	if err != nil {
 		return err

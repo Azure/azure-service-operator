@@ -71,7 +71,7 @@ func (r *EntraSecurityGroupReconciler) CreateOrUpdate(
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
-	_ annotations.ReconcilePolicies,
+	_ annotations.ResolvedReconcilePolicies,
 ) (ctrl.Result, error) {
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
@@ -319,7 +319,7 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
-	_ annotations.ReconcilePolicies,
+	_ annotations.ResolvedReconcilePolicies,
 ) error {
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {

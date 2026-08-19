@@ -28,8 +28,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-// Inherited decides whether a resource other than the one being reconciled may be touched, so unlike the
-// effective policy it has to fail closed
+// Namespace decides whether a resource other than the one being reconciled may be touched, so unlike the
+// effective policy it has to fail closed.
 func Test_MergeReconcilePolicy_givenAnnotations_returnsExpectedPolicies(t *testing.T) {
 	t.Parallel()
 
@@ -40,45 +40,45 @@ func Test_MergeReconcilePolicy_givenAnnotations_returnsExpectedPolicies(t *testi
 		namespacePolicy   string
 		namespaceMissing  bool
 		expectedEffective annotations.ReconcilePolicyValue
-		expectedInherited annotations.ReconcilePolicyValue
+		expectedNamespace annotations.ReconcilePolicyValue
 	}{
 		"Nothing annotated": {
 			expectedEffective: annotations.ReconcilePolicyManage,
-			expectedInherited: annotations.ReconcilePolicyManage,
+			expectedNamespace: annotations.ReconcilePolicyManage,
 		},
 		"Namespace says skip": {
 			namespacePolicy:   string(annotations.ReconcilePolicySkip),
 			expectedEffective: annotations.ReconcilePolicySkip,
-			expectedInherited: annotations.ReconcilePolicySkip,
+			expectedNamespace: annotations.ReconcilePolicySkip,
 		},
-		"Namespace with invalid policy uses operator default": {
+		"Namespace with invalid policy uses global policy": {
 			namespacePolicy:   "unknown",
 			expectedEffective: annotations.ReconcilePolicyManage,
-			expectedInherited: annotations.ReconcilePolicyManage,
+			expectedNamespace: annotations.ReconcilePolicyManage,
 		},
 		"Object overrides a namespace that says skip": {
 			objectPolicy:      string(annotations.ReconcilePolicyManage),
 			namespacePolicy:   string(annotations.ReconcilePolicySkip),
 			expectedEffective: annotations.ReconcilePolicyManage,
-			expectedInherited: annotations.ReconcilePolicySkip,
+			expectedNamespace: annotations.ReconcilePolicySkip,
 		},
 		"Object with invalid policy does not fall back to namespace": {
 			objectPolicy:      "unknown",
 			namespacePolicy:   string(annotations.ReconcilePolicySkip),
 			expectedEffective: annotations.ReconcilePolicyManage,
-			expectedInherited: annotations.ReconcilePolicySkip,
+			expectedNamespace: annotations.ReconcilePolicySkip,
 		},
 		"Unreadable namespace, object annotated": {
 			objectPolicy:      string(annotations.ReconcilePolicyManage),
 			namespaceMissing:  true,
 			expectedEffective: annotations.ReconcilePolicyManage,
-			expectedInherited: annotations.ReconcilePolicySkip,
+			expectedNamespace: annotations.ReconcilePolicySkip,
 		},
 		// The namespace we cannot read may be the one that says to leave everything alone
 		"Unreadable namespace, nothing annotated": {
 			namespaceMissing:  true,
 			expectedEffective: annotations.ReconcilePolicyManage,
-			expectedInherited: annotations.ReconcilePolicySkip,
+			expectedNamespace: annotations.ReconcilePolicySkip,
 		},
 	}
 
@@ -118,14 +118,14 @@ func Test_MergeReconcilePolicy_givenAnnotations_returnsExpectedPolicies(t *testi
 			policies := reconciler.mergeReconcilePolicy(context.Background(), logr.Discard(), obj)
 
 			g.Expect(policies.Effective).To(Equal(c.expectedEffective))
-			g.Expect(policies.Inherited).To(Equal(c.expectedInherited))
+			g.Expect(policies.Namespace).To(Equal(c.expectedNamespace))
 		})
 	}
 }
 
 type policyRecordingReconciler struct {
-	createOrUpdatePolicies *annotations.ReconcilePolicies
-	updateStatusPolicies   *annotations.ReconcilePolicies
+	createOrUpdatePolicies *annotations.ResolvedReconcilePolicies
+	updateStatusPolicies   *annotations.ResolvedReconcilePolicies
 }
 
 func (r *policyRecordingReconciler) CreateOrUpdate(
@@ -133,7 +133,7 @@ func (r *policyRecordingReconciler) CreateOrUpdate(
 	_ logr.Logger,
 	_ record.EventRecorder,
 	_ genruntime.MetaObject,
-	policies annotations.ReconcilePolicies,
+	policies annotations.ResolvedReconcilePolicies,
 ) (ctrl.Result, error) {
 	r.createOrUpdatePolicies = &policies
 	return ctrl.Result{}, nil
@@ -162,7 +162,7 @@ func (r *policyRecordingReconciler) UpdateStatus(
 	_ logr.Logger,
 	_ record.EventRecorder,
 	_ genruntime.MetaObject,
-	policies annotations.ReconcilePolicies,
+	policies annotations.ResolvedReconcilePolicies,
 ) error {
 	r.updateStatusPolicies = &policies
 	return nil
@@ -228,10 +228,10 @@ func Test_CreateOrUpdate_passesResolvedPoliciesToSelectedPath(t *testing.T) {
 			g.Expect(err).NotTo(HaveOccurred())
 			g.Expect(result).To(Equal(ctrl.Result{}))
 
-			expected := annotations.ReconcilePolicies{
+			expected := annotations.ResolvedReconcilePolicies{
 				Effective: c.expectedEffective,
-				Inherited: annotations.ReconcilePolicyManage,
-				Default:   annotations.ReconcilePolicyManage,
+				Namespace: annotations.ReconcilePolicyManage,
+				Global:    annotations.ReconcilePolicyManage,
 			}
 			if c.expectCreate {
 				g.Expect(spy.createOrUpdatePolicies).NotTo(BeNil())

@@ -18,7 +18,7 @@ import (
 )
 
 type recordingPostReconciliationChecker struct {
-	received annotations.ReconcilePolicies
+	received annotations.ResolvedReconcilePolicies
 }
 
 func (*recordingPostReconciliationChecker) GetExtendedResources() []genruntime.KubernetesResource {
@@ -32,7 +32,7 @@ func (r *recordingPostReconciliationChecker) PostReconcileCheck(
 	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
-	policies annotations.ReconcilePolicies,
+	policies annotations.ResolvedReconcilePolicies,
 	next PostReconcileCheckFunc,
 ) (PostReconcileCheckResult, error) {
 	r.received = policies
@@ -43,10 +43,10 @@ func TestCreatePostReconciliationChecker_passesPoliciesToExtension(t *testing.T)
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	expected := annotations.ReconcilePolicies{
+	expected := annotations.ResolvedReconcilePolicies{
 		Effective: annotations.ReconcilePolicySkip,
-		Inherited: annotations.ReconcilePolicyManage,
-		Default:   annotations.ReconcilePolicyDetachOnDelete,
+		Namespace: annotations.ReconcilePolicyManage,
+		Global:    annotations.ReconcilePolicyDetachOnDelete,
 	}
 	extension := &recordingPostReconciliationChecker{}
 

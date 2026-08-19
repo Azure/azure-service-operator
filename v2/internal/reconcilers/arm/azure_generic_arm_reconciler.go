@@ -45,7 +45,7 @@ const (
 )
 
 type (
-	CreateOrUpdateActionFunc = func(ctx context.Context, reconcilePolicies annotations.ReconcilePolicies) (ctrl.Result, error)
+	CreateOrUpdateActionFunc = func(ctx context.Context, reconcilePolicies annotations.ResolvedReconcilePolicies) (ctrl.Result, error)
 	DeleteActionFunc         = func(ctx context.Context) (ctrl.Result, error)
 )
 
@@ -127,7 +127,7 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
-	reconcilePolicies annotations.ReconcilePolicies,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
 ) (ctrl.Result, error) {
 	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {
@@ -185,7 +185,7 @@ func (r *AzureDeploymentReconciler) UpdateStatus(
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
-	reconcilePolicies annotations.ReconcilePolicies,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
 ) error {
 	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {

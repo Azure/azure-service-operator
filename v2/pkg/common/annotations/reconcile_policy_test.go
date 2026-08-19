@@ -62,27 +62,27 @@ func TestParseReconcilePolicy(t *testing.T) {
 	}
 }
 
-func TestReconcilePoliciesForAnnotation(t *testing.T) {
+func TestResolvedReconcilePoliciesForAnnotation(t *testing.T) {
 	t.Parallel()
 
-	policies := ReconcilePolicies{
+	policies := ResolvedReconcilePolicies{
 		Effective: ReconcilePolicyDetachOnDelete,
-		Inherited: ReconcilePolicySkip,
-		Default:   ReconcilePolicyManage,
+		Namespace: ReconcilePolicySkip,
+		Global:    ReconcilePolicyManage,
 	}
 
 	cases := map[string]struct {
 		annotation string
 		expected   ReconcilePolicyValue
 	}{
-		"empty uses inherited": {
+		"empty uses namespace policy": {
 			expected: ReconcilePolicySkip,
 		},
-		"valid annotation overrides inherited": {
+		"valid annotation overrides namespace policy": {
 			annotation: string(ReconcilePolicyManage),
 			expected:   ReconcilePolicyManage,
 		},
-		"invalid annotation uses operator default": {
+		"invalid annotation uses global policy": {
 			annotation: "unknown",
 			expected:   ReconcilePolicyManage,
 		},

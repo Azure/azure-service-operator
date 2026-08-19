@@ -30,7 +30,7 @@ func (extension *VirtualNetworksSubnetExtension) PostReconcileCheck(
 	_ *resolver.Resolver,
 	_ *genericarmclient.GenericClient,
 	_ logr.Logger,
-	_ annotations.ReconcilePolicies,
+	_ annotations.ResolvedReconcilePolicies,
 	_ extensions.PostReconcileCheckFunc,
 ) (extensions.PostReconcileCheckResult, error) {
 	subnet, ok := obj.(*network.VirtualNetworksSubnet)

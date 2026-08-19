@@ -47,7 +47,7 @@ type PostReconciliationChecker interface {
 		resourceResolver *resolver.Resolver,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger,
-		reconcilePolicies annotations.ReconcilePolicies,
+		reconcilePolicies annotations.ResolvedReconcilePolicies,
 		next PostReconcileCheckFunc,
 	) (PostReconcileCheckResult, error)
 }
@@ -59,7 +59,7 @@ type PostReconcileCheckFunc func(
 	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
-	reconcilePolicies annotations.ReconcilePolicies,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
 ) (PostReconcileCheckResult, error)
 
 type PostReconcileCheckResult struct {
@@ -138,7 +138,7 @@ func CreatePostReconciliationChecker(
 		resourceResolver *resolver.Resolver,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger,
-		reconcilePolicies annotations.ReconcilePolicies,
+		reconcilePolicies annotations.ResolvedReconcilePolicies,
 	) (PostReconcileCheckResult, error) {
 		log.V(Status).Info("Extension post-reconcile check running")
 
@@ -178,7 +178,7 @@ func alwaysSucceed(
 	_ *resolver.Resolver,
 	_ *genericarmclient.GenericClient,
 	_ logr.Logger,
-	_ annotations.ReconcilePolicies,
+	_ annotations.ResolvedReconcilePolicies,
 ) (PostReconcileCheckResult, error) {
 	return PostReconcileCheckResultSuccess(), nil
 }

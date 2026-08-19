@@ -74,7 +74,7 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 	resolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
-	reconcilePolicies annotations.ReconcilePolicies,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
 	next extensions.PostReconcileCheckFunc,
 ) (extensions.PostReconcileCheckResult, error) {
 	log.V(Debug).Info("Starting Post-reconcilation for Backup Instance")

@@ -28,28 +28,30 @@ const (
 	ReconcilePolicyDetachOnDelete = ReconcilePolicyValue("detach-on-delete")
 )
 
-// ReconcilePolicies are the reconcile policies in effect during a reconcile, none of which a resource
-// extension can work out on its own. Read them with Effective or ForAnnotation rather than combining them.
-type ReconcilePolicies struct {
-	// Effective is the policy for the resource being reconciled, resolved from its own annotation, its
-	// namespace, and the operator's configuration.
+// ResolvedReconcilePolicies are the resolved reconcile policies in effect during a reconcile, none of which a
+// resource extension can work out on its own. Read them with Effective or ForAnnotation rather than combining them.
+type ResolvedReconcilePolicies struct {
+	// Effective is the policy for the resource being reconciled, resolved from its own annotation, Namespace,
+	// and Global.
 	Effective ReconcilePolicyValue
 
-	// Inherited is the policy a resource in this namespace carrying no annotation of its own would get.
-	Inherited ReconcilePolicyValue
+	// Namespace is the policy for resources in this namespace carrying no annotation of their own, resolved
+	// from the namespace annotation or Global.
+	Namespace ReconcilePolicyValue
 
-	// Default is the policy the operator is configured with, which an unusable annotation falls back to.
-	Default ReconcilePolicyValue
+	// Global is the policy resolved from the operator configuration or the built-in default. An unusable
+	// annotation falls back to this policy.
+	Global ReconcilePolicyValue
 }
 
 // ForAnnotation returns the reconcile policy for a resource other than the one being reconciled, given
 // that resource's own reconcile-policy annotation.
-func (r ReconcilePolicies) ForAnnotation(annotation string) ReconcilePolicyValue {
+func (r ResolvedReconcilePolicies) ForAnnotation(annotation string) ReconcilePolicyValue {
 	if annotation == "" {
-		return r.Inherited
+		return r.Namespace
 	}
 
-	policy, _ := ParseReconcilePolicy(annotation, r.Default)
+	policy, _ := ParseReconcilePolicy(annotation, r.Global)
 	return policy
 }
 

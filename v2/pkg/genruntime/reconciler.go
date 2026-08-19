@@ -25,7 +25,7 @@ type Reconciler interface {
 		log logr.Logger,
 		eventRecorder record.EventRecorder,
 		obj MetaObject,
-		reconcilePolicies annotations.ReconcilePolicies) (ctrl.Result, error)
+		reconcilePolicies annotations.ResolvedReconcilePolicies) (ctrl.Result, error)
 
 	// Delete performs deletion of the resource. This must be idempotent. Removal of the common finalizer is performed elsewhere.
 	// Delete should concern itself with issuing and tracking the resource deletion.
@@ -53,5 +53,5 @@ type Reconciler interface {
 		log logr.Logger,
 		eventRecorder record.EventRecorder,
 		obj MetaObject,
-		reconcilePolicies annotations.ReconcilePolicies) error
+		reconcilePolicies annotations.ResolvedReconcilePolicies) error
 }

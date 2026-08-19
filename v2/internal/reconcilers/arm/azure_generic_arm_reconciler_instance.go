@@ -65,7 +65,7 @@ func newAzureDeploymentReconcilerInstance(
 
 func (r *azureDeploymentReconcilerInstance) CreateOrUpdate(
 	ctx context.Context,
-	reconcilePolicies annotations.ReconcilePolicies,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
 ) (ctrl.Result, error) {
 	action, actionFunc, err := r.DetermineCreateOrUpdateAction()
 	if err != nil {
@@ -174,7 +174,7 @@ func (r *azureDeploymentReconcilerInstance) DetermineCreateOrUpdateAction() (Cre
 // Actions
 //////////////////////////////////////////
 
-func NoAction(_ context.Context, _ annotations.ReconcilePolicies) (ctrl.Result, error) {
+func NoAction(_ context.Context, _ annotations.ResolvedReconcilePolicies) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
@@ -268,7 +268,7 @@ func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context
 
 func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 	ctx context.Context,
-	reconcilePolicies annotations.ReconcilePolicies,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
 ) (ctrl.Result, error) {
 	if r.Obj.AzureName() == "" {
 		err := eris.Errorf(
@@ -585,7 +585,7 @@ const (
 func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateSuccess(
 	ctx context.Context,
 	mode CreateOrUpdateSuccessMode,
-	reconcilePolicies annotations.ReconcilePolicies,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
 ) error {
 	// Ensure that we're checking a resource for a subscription that matches the credentials used to create it.
 	// Note that this check was already run for most create cases, but in the reconcile-policy: skip case, this is the first
@@ -662,7 +662,7 @@ func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateSuccess(
 
 func (r *azureDeploymentReconcilerInstance) postReconciliationCheck(
 	ctx context.Context,
-	reconcilePolicies annotations.ReconcilePolicies,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
 ) (extensions.PostReconcileCheckResult, error) {
 	// Create a checker for access to the extension point, if required
 	checker, extensionFound := extensions.CreatePostReconciliationChecker(r.Extension)
@@ -698,7 +698,7 @@ func (r *azureDeploymentReconcilerInstance) postReconciliationCheck(
 
 func (r *azureDeploymentReconcilerInstance) MonitorResourceCreation(
 	ctx context.Context,
-	reconcilePolicies annotations.ReconcilePolicies,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
 ) (ctrl.Result, error) {
 	pollerID, pollerResumeToken, hasToken := GetPollerResumeToken(r.Obj)
 	if !hasToken {
