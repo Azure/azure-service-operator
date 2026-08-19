@@ -238,6 +238,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2026-05-templating/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2026-07-secure-workload-identity-multitenancy/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/</loc>

@@ -17,30 +17,26 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>alertsmanagement.azure.com/v20210401 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2021-04-01” SmartDetectorAlertRule Generator information: - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/Legacy/stable/2021-04-01/SmartDetectorAlertRulesApi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.alertsManagement/​smartDetectorAlertRules/​{alertRuleName}
-Used by: SmartDetectorAlertRuleList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAlertRule_SpecOptional status SmartDetectorAlertRule_STATUSOptional SmartDetectorAlertRule_Spec Property Description Type actionGroups The alert rule actions. ActionGroupsInformationRequired azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional description The alert rule description. stringOptional detector The alert rule’s detector. DetectorRequired frequency The alert rule frequency in ISO8601 format. The time granularity must be in minutes and minimum value is 1 minute, depending on the detector. stringRequired location The resource location. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SmartDetectorAlertRuleOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired scopeReferences The alert rule resources scope. genruntime.ResourceReference[]Required severity The alert rule severity. AlertRuleProperties_SeverityRequired state The alert rule state. AlertRuleProperties_StateRequired tags The resource tags. map[string]stringOptional throttling The alert rule throttling information. ThrottlingInformationOptional SmartDetectorAlertRule_STATUS Property Description Type actionGroups The alert rule actions. ActionGroupsInformation_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional description The alert rule description. stringOptional detector The alert rule’s detector. Detector_STATUSOptional frequency The alert rule frequency in ISO8601 format. The time granularity must be in minutes and minimum value is 1 minute, depending on the detector. stringOptional id The resource ID. stringOptional location The resource location. stringOptional name The resource name. stringOptional scope The alert rule resources scope. string[]Optional severity The alert rule severity. AlertRuleProperties_Severity_STATUSOptional state The alert rule state. AlertRuleProperties_State_STATUSOptional tags The resource tags. map[string]stringOptional throttling The alert rule throttling information. ThrottlingInformation_STATUSOptional type The resource type. stringOptional SmartDetectorAlertRuleList Generator information: - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/Legacy/stable/2021-04-01/SmartDetectorAlertRulesApi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.alertsManagement/​smartDetectorAlertRules/​{alertRuleName}">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/alertsmanagement/v20210401/">
+<title>2026-07: Secure Workload Identity for Single-Operator Multitenancy | Azure Service Operator</title>
+<meta name="description" content="Context ASO supports single-operator multitenancy via a three-level credential hierarchy:
+Global credentials (via the aso-controller-settings secret in the operator namespace) Per-namespace credentials (via a fixed aso-credential secret in the resource’s namespace) Per-resource credentials (via the serviceoperator.azure.com/credential-from annotation) When using Workload Identity for authentication, each credential secret contains only AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, and AZURE_CLIENT_ID. The operator then uses its own projected ServiceAccount token (system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default) to perform an OAuth2 token exchange with Azure AD, presenting the AZURE_CLIENT_ID from the secret. This works because the Managed Identity has a FederatedIdentityCredential registered for the ASO controller’s ServiceAccount subject.">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2026-07-secure-workload-identity-multitenancy/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="alertsmanagement.azure.com/v20210401">
-  <meta property="og:description" content="APIVersion Value Description “2021-04-01” SmartDetectorAlertRule Generator information: - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/Legacy/stable/2021-04-01/SmartDetectorAlertRulesApi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.alertsManagement/​smartDetectorAlertRules/​{alertRuleName}
-Used by: SmartDetectorAlertRuleList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAlertRule_SpecOptional status SmartDetectorAlertRule_STATUSOptional SmartDetectorAlertRule_Spec Property Description Type actionGroups The alert rule actions. ActionGroupsInformationRequired azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional description The alert rule description. stringOptional detector The alert rule’s detector. DetectorRequired frequency The alert rule frequency in ISO8601 format. The time granularity must be in minutes and minimum value is 1 minute, depending on the detector. stringRequired location The resource location. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SmartDetectorAlertRuleOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired scopeReferences The alert rule resources scope. genruntime.ResourceReference[]Required severity The alert rule severity. AlertRuleProperties_SeverityRequired state The alert rule state. AlertRuleProperties_StateRequired tags The resource tags. map[string]stringOptional throttling The alert rule throttling information. ThrottlingInformationOptional SmartDetectorAlertRule_STATUS Property Description Type actionGroups The alert rule actions. ActionGroupsInformation_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional description The alert rule description. stringOptional detector The alert rule’s detector. Detector_STATUSOptional frequency The alert rule frequency in ISO8601 format. The time granularity must be in minutes and minimum value is 1 minute, depending on the detector. stringOptional id The resource ID. stringOptional location The resource location. stringOptional name The resource name. stringOptional scope The alert rule resources scope. string[]Optional severity The alert rule severity. AlertRuleProperties_Severity_STATUSOptional state The alert rule state. AlertRuleProperties_State_STATUSOptional tags The resource tags. map[string]stringOptional throttling The alert rule throttling information. ThrottlingInformation_STATUSOptional type The resource type. stringOptional SmartDetectorAlertRuleList Generator information: - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/Legacy/stable/2021-04-01/SmartDetectorAlertRulesApi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.alertsManagement/​smartDetectorAlertRules/​{alertRuleName}">
+  <meta property="og:title" content="2026-07: Secure Workload Identity for Single-Operator Multitenancy">
+  <meta property="og:description" content="Context ASO supports single-operator multitenancy via a three-level credential hierarchy:
+Global credentials (via the aso-controller-settings secret in the operator namespace) Per-namespace credentials (via a fixed aso-credential secret in the resource’s namespace) Per-resource credentials (via the serviceoperator.azure.com/credential-from annotation) When using Workload Identity for authentication, each credential secret contains only AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, and AZURE_CLIENT_ID. The operator then uses its own projected ServiceAccount token (system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default) to perform an OAuth2 token exchange with Azure AD, presenting the AZURE_CLIENT_ID from the secret. This works because the Managed Identity has a FederatedIdentityCredential registered for the ASO controller’s ServiceAccount subject.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
-    <meta property="article:section" content="reference">
+    <meta property="article:section" content="design">
 
-  <meta itemprop="name" content="alertsmanagement.azure.com/v20210401">
-  <meta itemprop="description" content="APIVersion Value Description “2021-04-01” SmartDetectorAlertRule Generator information: - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/Legacy/stable/2021-04-01/SmartDetectorAlertRulesApi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.alertsManagement/​smartDetectorAlertRules/​{alertRuleName}
-Used by: SmartDetectorAlertRuleList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAlertRule_SpecOptional status SmartDetectorAlertRule_STATUSOptional SmartDetectorAlertRule_Spec Property Description Type actionGroups The alert rule actions. ActionGroupsInformationRequired azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional description The alert rule description. stringOptional detector The alert rule’s detector. DetectorRequired frequency The alert rule frequency in ISO8601 format. The time granularity must be in minutes and minimum value is 1 minute, depending on the detector. stringRequired location The resource location. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SmartDetectorAlertRuleOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired scopeReferences The alert rule resources scope. genruntime.ResourceReference[]Required severity The alert rule severity. AlertRuleProperties_SeverityRequired state The alert rule state. AlertRuleProperties_StateRequired tags The resource tags. map[string]stringOptional throttling The alert rule throttling information. ThrottlingInformationOptional SmartDetectorAlertRule_STATUS Property Description Type actionGroups The alert rule actions. ActionGroupsInformation_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional description The alert rule description. stringOptional detector The alert rule’s detector. Detector_STATUSOptional frequency The alert rule frequency in ISO8601 format. The time granularity must be in minutes and minimum value is 1 minute, depending on the detector. stringOptional id The resource ID. stringOptional location The resource location. stringOptional name The resource name. stringOptional scope The alert rule resources scope. string[]Optional severity The alert rule severity. AlertRuleProperties_Severity_STATUSOptional state The alert rule state. AlertRuleProperties_State_STATUSOptional tags The resource tags. map[string]stringOptional throttling The alert rule throttling information. ThrottlingInformation_STATUSOptional type The resource type. stringOptional SmartDetectorAlertRuleList Generator information: - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/Legacy/stable/2021-04-01/SmartDetectorAlertRulesApi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.alertsManagement/​smartDetectorAlertRules/​{alertRuleName}">
-  <meta itemprop="wordCount" content="1073">
+  <meta itemprop="name" content="2026-07: Secure Workload Identity for Single-Operator Multitenancy">
+  <meta itemprop="description" content="Context ASO supports single-operator multitenancy via a three-level credential hierarchy:
+Global credentials (via the aso-controller-settings secret in the operator namespace) Per-namespace credentials (via a fixed aso-credential secret in the resource’s namespace) Per-resource credentials (via the serviceoperator.azure.com/credential-from annotation) When using Workload Identity for authentication, each credential secret contains only AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, and AZURE_CLIENT_ID. The operator then uses its own projected ServiceAccount token (system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default) to perform an OAuth2 token exchange with Azure AD, presenting the AZURE_CLIENT_ID from the secret. This works because the Managed Identity has a FederatedIdentityCredential registered for the ASO controller’s ServiceAccount subject.">
+  <meta itemprop="wordCount" content="3876">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="alertsmanagement.azure.com/v20210401">
-  <meta name="twitter:description" content="APIVersion Value Description “2021-04-01” SmartDetectorAlertRule Generator information: - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/Legacy/stable/2021-04-01/SmartDetectorAlertRulesApi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.alertsManagement/​smartDetectorAlertRules/​{alertRuleName}
-Used by: SmartDetectorAlertRuleList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAlertRule_SpecOptional status SmartDetectorAlertRule_STATUSOptional SmartDetectorAlertRule_Spec Property Description Type actionGroups The alert rule actions. ActionGroupsInformationRequired azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional description The alert rule description. stringOptional detector The alert rule’s detector. DetectorRequired frequency The alert rule frequency in ISO8601 format. The time granularity must be in minutes and minimum value is 1 minute, depending on the detector. stringRequired location The resource location. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure SmartDetectorAlertRuleOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired scopeReferences The alert rule resources scope. genruntime.ResourceReference[]Required severity The alert rule severity. AlertRuleProperties_SeverityRequired state The alert rule state. AlertRuleProperties_StateRequired tags The resource tags. map[string]stringOptional throttling The alert rule throttling information. ThrottlingInformationOptional SmartDetectorAlertRule_STATUS Property Description Type actionGroups The alert rule actions. ActionGroupsInformation_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional description The alert rule description. stringOptional detector The alert rule’s detector. Detector_STATUSOptional frequency The alert rule frequency in ISO8601 format. The time granularity must be in minutes and minimum value is 1 minute, depending on the detector. stringOptional id The resource ID. stringOptional location The resource location. stringOptional name The resource name. stringOptional scope The alert rule resources scope. string[]Optional severity The alert rule severity. AlertRuleProperties_Severity_STATUSOptional state The alert rule state. AlertRuleProperties_State_STATUSOptional tags The resource tags. map[string]stringOptional throttling The alert rule throttling information. ThrottlingInformation_STATUSOptional type The resource type. stringOptional SmartDetectorAlertRuleList Generator information: - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/Legacy/stable/2021-04-01/SmartDetectorAlertRulesApi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.alertsManagement/​smartDetectorAlertRules/​{alertRuleName}">
+  <meta name="twitter:title" content="2026-07: Secure Workload Identity for Single-Operator Multitenancy">
+  <meta name="twitter:description" content="Context ASO supports single-operator multitenancy via a three-level credential hierarchy:
+Global credentials (via the aso-controller-settings secret in the operator namespace) Per-namespace credentials (via a fixed aso-credential secret in the resource’s namespace) Per-resource credentials (via the serviceoperator.azure.com/credential-from annotation) When using Workload Identity for authentication, each credential secret contains only AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, and AZURE_CLIENT_ID. The operator then uses its own projected ServiceAccount token (system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default) to perform an OAuth2 token exchange with Azure AD, presenting the AZURE_CLIENT_ID from the secret. This works because the Managed Identity has a FederatedIdentityCredential registered for the ASO controller’s ServiceAccount subject.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -69,13 +65,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
         <a class="nav-link" href="/azure-service-operator/tools/"><span>Tools</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
+        <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/azure-service-operator/design/"><span>Design</span></a>
+        <a class="nav-link active" href="/azure-service-operator/design/"><span>Design</span></a>
       </li>
       </ul>
   </div>
@@ -282,23 +278,23 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/tools/generator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortoolsgenerator"><span class="">generator</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencealertsmanagement-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencealertsmanagement-li">
   <a href="/azure-service-operator/reference/alertsmanagement/" title="AlertsManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencealertsmanagement"><span class="">AlertsManagement</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencealertsmanagementv1api20210401-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20210401-li">
   <a href="/azure-service-operator/reference/alertsmanagement/v1api20210401/" title="alertsmanagement.azure.com/v1api20210401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20210401"><span class="">v1api20210401</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencealertsmanagementv1api20230301-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20230301-li">
   <a href="/azure-service-operator/reference/alertsmanagement/v1api20230301/" title="alertsmanagement.azure.com/v1api20230301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20230301"><span class="">v1api20230301</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencealertsmanagementv20210401-li">
-  <a href="/azure-service-operator/reference/alertsmanagement/v20210401/" title="alertsmanagement.azure.com/v20210401" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv20210401"><span class="td-sidebar-nav-active-item">v20210401</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencealertsmanagementv20230301-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv20210401-li">
+  <a href="/azure-service-operator/reference/alertsmanagement/v20210401/" title="alertsmanagement.azure.com/v20210401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv20210401"><span class="">v20210401</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv20230301-li">
   <a href="/azure-service-operator/reference/alertsmanagement/v20230301/" title="alertsmanagement.azure.com/v20230301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv20230301"><span class="">v20230301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapimanagement-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceapimanagement-li">
   <a href="/azure-service-operator/reference/apimanagement/" title="ApiManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapimanagement"><span class="">ApiManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20220801-li">
@@ -315,7 +311,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/apimanagement/v20240501/" title="apimanagement.azure.com/v20240501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv20240501"><span class="">v20240501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapp-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceapp-li">
   <a href="/azure-service-operator/reference/app/" title="App Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapp"><span class="">App</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappv1api20240301-li">
@@ -328,7 +324,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/app/v20250101/" title="app.azure.com/v20250101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappv20250101"><span class="">v20250101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" title="AppConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">AppConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
@@ -339,7 +335,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/appconfiguration/v20240601/" title="appconfiguration.azure.com/v20240601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv20240601"><span class="">v20240601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" title="Authorization Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">Authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
@@ -352,7 +348,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/authorization/v20220401/" title="authorization.azure.com/v20220401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv20220401"><span class="">v20220401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" title="Batch Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">Batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
@@ -363,7 +359,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/batch/v20240701/" title="batch.azure.com/v20240701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv20240701"><span class="">v20240701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" title="Cache Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">Cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
@@ -398,7 +394,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/cache/v20250701/" title="cache.azure.com/v20250701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev20250701"><span class="">v20250701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" title="Cdn Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">Cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
@@ -411,7 +407,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/cdn/v20230501/" title="cdn.azure.com/v20230501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv20230501"><span class="">v20230501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecognitiveservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecognitiveservices-li">
   <a href="/azure-service-operator/reference/cognitiveservices/" title="CognitiveServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecognitiveservices"><span class="">CognitiveServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecognitiveservicesv1api20250601-li">
@@ -420,14 +416,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/cognitiveservices/v20250601/" title="cognitiveservices.azure.com/v20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecognitiveservicesv20250601"><span class="">v20250601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecommunication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecommunication-li">
   <a href="/azure-service-operator/reference/communication/" title="Communication Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecommunication"><span class="">Communication</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecommunicationv20230401-li">
   <a href="/azure-service-operator/reference/communication/v20230401/" title="communication.azure.com/v20230401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecommunicationv20230401"><span class="">v20230401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">Compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
@@ -464,7 +460,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/compute/v20250401/" title="compute.azure.com/v20250401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev20250401"><span class="">v20250401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" title="ContainerInstance Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">ContainerInstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
@@ -473,7 +469,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/containerinstance/v20211001/" title="containerinstance.azure.com/v20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev20211001"><span class="">v20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" title="ContainerRegistry Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">ContainerRegistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
@@ -482,7 +478,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/containerregistry/v1api20230701/" title="containerregistry.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20230701"><span class="">v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" title="ContainerService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">ContainerService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
@@ -495,14 +491,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/containerservice/v20251002preview/" title="containerservice.azure.com/v20251002preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev20251002preview"><span class="">v20251002preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatabasewatcher-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedatabasewatcher-li">
   <a href="/azure-service-operator/reference/databasewatcher/" title="DatabaseWatcher Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatabasewatcher"><span class="">DatabaseWatcher</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatabasewatcherv20241001preview-li">
   <a href="/azure-service-operator/reference/databasewatcher/v20241001preview/" title="databasewatcher.azure.com/v20241001preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatabasewatcherv20241001preview"><span class="">v20241001preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedatafactory-li">
   <a href="/azure-service-operator/reference/datafactory/" title="DataFactory Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">DataFactory</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
@@ -511,7 +507,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/datafactory/v20180601/" title="datafactory.azure.com/v20180601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv20180601"><span class="">v20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedataprotection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedataprotection-li">
   <a href="/azure-service-operator/reference/dataprotection/" title="DataProtection Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedataprotection"><span class="">DataProtection</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
@@ -524,14 +520,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/dataprotection/v20231101/" title="dataprotection.azure.com/v20231101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv20231101"><span class="">v20231101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" title="DBforMariaDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">DBforMariaDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
   <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" title="dbformariadb.azure.com/v1api20180601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" title="DBforMySQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">DBforMySQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
@@ -558,7 +554,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/dbformysql/v20250601preview/" title="dbformysql.azure.com/v20250601preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv20250601preview"><span class="">v20250601preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" title="DBforPostgreSQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">DBforPostgreSQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
@@ -577,14 +573,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/dbforpostgresql/v20250801/" title="dbforpostgresql.azure.com/v20250801" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv20250801"><span class="">v20250801</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedevices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedevices-li">
   <a href="/azure-service-operator/reference/devices/" title="Devices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedevices"><span class="">Devices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedevicesv1api20210702-li">
   <a href="/azure-service-operator/reference/devices/v1api20210702/" title="devices.azure.com/v1api20210702" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedevicesv1api20210702"><span class="">v1api20210702</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" title="DocumentDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">DocumentDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
@@ -601,14 +597,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/documentdb/v20260315/" title="documentdb.azure.com/v20260315" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv20260315"><span class="">v20260315</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceentra-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceentra-li">
   <a href="/azure-service-operator/reference/entra/" title="Entra Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceentra"><span class="">Entra</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceentrav1-li">
   <a href="/azure-service-operator/reference/entra/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceentrav1"><span class="">entra.azure.com/</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" title="EventGrid Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">EventGrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
@@ -619,7 +615,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/eventgrid/v20250215/" title="eventgrid.azure.com/v20250215" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv20250215"><span class="">v20250215</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" title="EventHub Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">EventHub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
@@ -628,14 +624,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/eventhub/v1api20240101/" title="eventhub.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20240101"><span class="">v1api20240101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
   <a href="/azure-service-operator/reference/network.frontdoor/" title="Frontdoor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetworkfrontdoor"><span class="">Frontdoor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501-li">
   <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" title="network.frontdoor.azure.com/v1api20220501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="">v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" title="Insights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">Insights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20171001-li">
@@ -666,7 +662,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/insights/v1api20250101preview/" title="insights.azure.com/v1api20250101preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20250101preview"><span class="">v1api20250101preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" title="KeyVault Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">KeyVault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
@@ -675,7 +671,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/keyvault/v1api20230701/" title="keyvault.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20230701"><span class="">v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/" title="KubernetesConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekubernetesconfiguration"><span class="">KubernetesConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501-li">
@@ -684,7 +680,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20241101/" title="kubernetesconfiguration.azure.com/v1api20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20241101"><span class="">v1api20241101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekusto-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekusto-li">
   <a href="/azure-service-operator/reference/kusto/" title="Kusto Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekusto"><span class="">Kusto</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekustov1api20230815-li">
@@ -695,7 +691,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/kusto/v20240413/" title="kusto.azure.com/v20240413" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekustov20240413"><span class="">v20240413</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
@@ -704,7 +700,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" title="machinelearningservices.azure.com/v1api20240401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">v1api20240401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" title="ManagedIdentity Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">ManagedIdentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
@@ -715,14 +711,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/managedidentity/v1api20230131/" title="managedidentity.azure.com/v1api20230131" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20230131"><span class="">v1api20230131</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemonitor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemonitor-li">
   <a href="/azure-service-operator/reference/monitor/" title="Monitor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemonitor"><span class="">Monitor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemonitorv1api20230403-li">
   <a href="/azure-service-operator/reference/monitor/v1api20230403/" title="monitor.azure.com/v1api20230403" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemonitorv1api20230403"><span class="">v1api20230403</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" title="Network Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
@@ -749,14 +745,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/network/v20250301/" title="network.azure.com/v20250301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv20250301"><span class="">v20250301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenotificationhubs-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenotificationhubs-li">
   <a href="/azure-service-operator/reference/notificationhubs/" title="NotificationHubs Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenotificationhubs"><span class="">NotificationHubs</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenotificationhubsv1api20230901-li">
   <a href="/azure-service-operator/reference/notificationhubs/v1api20230901/" title="notificationhubs.azure.com/v1api20230901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenotificationhubsv1api20230901"><span class="">v1api20230901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" title="OperationalInsights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">OperationalInsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
@@ -765,28 +761,28 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/operationalinsights/v20250701/" title="operationalinsights.azure.com/v20250701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv20250701"><span class="">v20250701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencequota-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencequota-li">
   <a href="/azure-service-operator/reference/quota/" title="Quota Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencequota"><span class="">Quota</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencequotav1api20250901-li">
   <a href="/azure-service-operator/reference/quota/v1api20250901/" title="quota.azure.com/v1api20250901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencequotav1api20250901"><span class="">v1api20250901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceredhatopenshift-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceredhatopenshift-li">
   <a href="/azure-service-operator/reference/redhatopenshift/" title="RedHatOpenShift Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceredhatopenshift"><span class="">RedHatOpenShift</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122-li">
   <a href="/azure-service-operator/reference/redhatopenshift/v1api20231122/" title="redhatopenshift.azure.com/v1api20231122" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122"><span class="">v1api20231122</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" title="Resources Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">Resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
   <a href="/azure-service-operator/reference/resources/v1api20200601/" title="resources.azure.com/v1api20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesearch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesearch-li">
   <a href="/azure-service-operator/reference/search/" title="Search Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesearch"><span class="">Search</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20220901-li">
@@ -795,7 +791,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/search/v1api20231101/" title="search.azure.com/v1api20231101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20231101"><span class="">v1api20231101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" title="ServiceBus Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">ServiceBus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
@@ -808,7 +804,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/servicebus/v1api20240101/" title="servicebus.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20240101"><span class="">v1api20240101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" title="SignalRService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">SignalRService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
@@ -817,7 +813,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/signalrservice/v1api20240301/" title="signalrservice.azure.com/v1api20240301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20240301"><span class="">v1api20240301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesql-li">
   <a href="/azure-service-operator/reference/sql/" title="Sql Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">Sql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1-li">
@@ -830,7 +826,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/sql/v20250101/" title="sql.azure.com/v20250101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv20250101"><span class="">v20250101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" title="Storage Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">Storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
@@ -849,7 +845,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/storage/v20250601/" title="storage.azure.com/v20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20250601"><span class="">v20250601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" title="Subscription Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">Subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
@@ -858,7 +854,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/subscription/v20211001/" title="subscription.azure.com/v20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv20211001"><span class="">v20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesynapse-li">
   <a href="/azure-service-operator/reference/synapse/" title="Synapse Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">Synapse</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
@@ -867,7 +863,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/reference/synapse/v20210601/" title="synapse.azure.com/v20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev20210601"><span class="">v20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceweb-li">
   <a href="/azure-service-operator/reference/web/" title="Web Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">Web</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
@@ -945,82 +941,82 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   <a href="/azure-service-operator/contributing/upgrade-resource-version/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributingupgrade-resource-version"><span class="">Upgrading a resource</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
   <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
   <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
   <a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
   <a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
   <a href="/azure-service-operator/design/adr-2021-02-property-conversions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
   <a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
   <a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
   <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
   <a href="/azure-service-operator/design/adr-2022-08-evil-discriminator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator"><span class="">2022-08 Evil Discriminator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
   <a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources"><span class="">2022-09: Reading Status properties from other ASO resources</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
   <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
   <a href="/azure-service-operator/design/adr-2022-11-resource-import/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-resource-import"><span class="">2022-11: ASO v1 Migration and Resource Import</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
   <a href="/azure-service-operator/design/adr-2022-11-change-detection/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2022-11-change-detection"><span class="">2022-11: Change Detection</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
   <a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation"><span class="">2022-12: Conversion Augmentation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions"><span class="">2022-12: Reconciliation Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations-li">
   <a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations"><span class="">2023-01: Helm Chart Size Limitations and Workarounds</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-02-adoption-policy-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-02-adoption-policy-li">
   <a href="/azure-service-operator/design/adr-2023-02-adoption-policy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-adoption-policy"><span class="">2023-02: Adoption Policy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension-li">
   <a href="/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension"><span class="">2023-03: Post Reconciliation Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-04-deprecation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-04-deprecation-li">
   <a href="/azure-service-operator/design/adr-2023-04-deprecation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-04-deprecation"><span class="">2023-04: Azure Resource Deprecation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-04-patch-collections-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-04-patch-collections-li">
   <a href="/azure-service-operator/design/adr-2023-04-patch-collections/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-04-patch-collections"><span class="">2023-04: Preventing Resource Drift</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-05-installing-only-selected-crds-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-05-installing-only-selected-crds-li">
   <a href="/azure-service-operator/design/adr-2023-05-installing-only-selected-crds/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-05-installing-only-selected-crds"><span class="">2023-05: Installing only selected CRDs</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults-li">
   <a href="/azure-service-operator/design/adr-2023-07-goal-seeking-keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults"><span class="">2023-07 Goal Seeking KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-07-packagereferences-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-07-packagereferences-li">
   <a href="/azure-service-operator/design/adr-2023-07-packagereferences/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-packagereferences"><span class="">2023-07 Package References</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-09-skipping-properties-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-09-skipping-properties-li">
   <a href="/azure-service-operator/design/adr-2023-09-skipping-properties/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-09-skipping-properties"><span class="">2023-09 Complex Properties that Skip Versions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion-li">
   <a href="/azure-service-operator/design/adr-2024-02-upstream-deletion/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion"><span class="">2024-02 Upstream Deletion</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-04-roleassignment-uuid-generation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-04-roleassignment-uuid-generation-li">
   <a href="/azure-service-operator/design/adr-2024-04-roleassignment-uuid-generation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2024-04-roleassignment-uuid-generation"><span class="">2024-04: RoleAssignments UUID Generation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties-li">
   <a href="/azure-service-operator/design/adr-2024-05-operatorspec-custom-properties/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-05-operatorspec-custom-properties"><span class="">2024-05 OperatorSpec Custom Properties</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap-li">
   <a href="/azure-service-operator/design/adr-2024-07-dynamic-export-to-secret-or-configmap/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2024-07-dynamic-export-to-secret-or-configmap"><span class="">2024-07: Dynamic Export to Secret or ConfigMap</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-10-oneof-resources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2024-10-oneof-resources-li">
   <a href="/azure-service-operator/design/adr-2024-10-oneof-resources/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-10-oneof-resources"><span class="">2024-10 OneOf Resouces</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2026-07-secure-workload-identity-multitenancy-li">
-  <a href="/azure-service-operator/design/adr-2026-07-secure-workload-identity-multitenancy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2026-07-secure-workload-identity-multitenancy"><span class="">2026-07: Secure Workload Identity for Single-Operator Multitenancy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2026-07-secure-workload-identity-multitenancy-li">
+  <a href="/azure-service-operator/design/adr-2026-07-secure-workload-identity-multitenancy/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2026-07-secure-workload-identity-multitenancy"><span class="td-sidebar-nav-active-item">2026-07: Secure Workload Identity for Single-Operator Multitenancy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
   <a href="/azure-service-operator/design/crossplane/" title="Code generation for Crossplane" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigncrossplane"><span class="">Crossplane support</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigndefaulter-validator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigndefaulter-validator-li">
   <a href="/azure-service-operator/design/defaulter-validator/" title="Custom validation and defaulting for code generated resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigndefaulter-validator"><span class="">Custom validation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignsecrets-li">
   <a href="/azure-service-operator/design/secrets/" title="Managing dataplane secrets" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignsecrets"><span class="">Dataplane secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignreconcile-interface-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignreconcile-interface-li">
   <a href="/azure-service-operator/design/reconcile-interface/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignreconcile-interface"><span class="">Improving the Reconciler interface</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignresource-states-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignresource-states-li">
   <a href="/azure-service-operator/design/resource-states/" title="Proposal for reporting resource Status" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignresource-states"><span class="">Resource status</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioning-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesignversioning-li">
   <a href="/azure-service-operator/design/versioning/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="">Resource versioning</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioningcase-studies-li">
@@ -1036,7 +1032,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigntype-references-and-ownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigntype-references-and-ownership-li">
   <a href="/azure-service-operator/design/type-references-and-ownership/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigntype-references-and-ownership"><span class="">Type References &amp; ownership</span></a>
 </li>
   </ul>
@@ -1056,29 +1052,39 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#APIVersion">APIVersion</a></li>
-    <li><a href="#SmartDetectorAlertRule">SmartDetectorAlertRule</a>
+    <li><a href="#context">Context</a>
       <ul>
-        <li><a href="#SmartDetectorAlertRule_Spec">SmartDetectorAlertRule_Spec</a></li>
-        <li><a href="#SmartDetectorAlertRule_STATUS">SmartDetectorAlertRule_STATUS</a></li>
+        <li><a href="#the-security-problem">The Security Problem</a></li>
       </ul>
     </li>
-    <li><a href="#SmartDetectorAlertRuleList">SmartDetectorAlertRuleList</a></li>
-    <li><a href="#SmartDetectorAlertRule_Spec">SmartDetectorAlertRule_Spec</a></li>
-    <li><a href="#SmartDetectorAlertRule_STATUS">SmartDetectorAlertRule_STATUS</a></li>
-    <li><a href="#ActionGroupsInformation">ActionGroupsInformation</a></li>
-    <li><a href="#ActionGroupsInformation_STATUS">ActionGroupsInformation_STATUS</a></li>
-    <li><a href="#AlertRuleProperties_Severity">AlertRuleProperties_Severity</a></li>
-    <li><a href="#AlertRuleProperties_Severity_STATUS">AlertRuleProperties_Severity_STATUS</a></li>
-    <li><a href="#AlertRuleProperties_State">AlertRuleProperties_State</a></li>
-    <li><a href="#AlertRuleProperties_State_STATUS">AlertRuleProperties_State_STATUS</a></li>
-    <li><a href="#Detector">Detector</a></li>
-    <li><a href="#Detector_STATUS">Detector_STATUS</a></li>
-    <li><a href="#SmartDetectorAlertRuleOperatorSpec">SmartDetectorAlertRuleOperatorSpec</a></li>
-    <li><a href="#ThrottlingInformation">ThrottlingInformation</a></li>
-    <li><a href="#ThrottlingInformation_STATUS">ThrottlingInformation_STATUS</a></li>
-    <li><a href="#DetectorParameterDefinition_STATUS">DetectorParameterDefinition_STATUS</a></li>
-    <li><a href="#DetectorParameterDefinition_Type_STATUS">DetectorParameterDefinition_Type_STATUS</a></li>
+    <li><a href="#requirements">Requirements</a></li>
+    <li><a href="#options">Options</a>
+      <ul>
+        <li><a href="#option-1-serviceaccount-impersonation-per-namespace-serviceaccounts-for-azure-auth-only">Option 1: ServiceAccount Impersonation (Per-Namespace ServiceAccounts for Azure Auth Only)</a></li>
+        <li><a href="#option-2-serviceaccount-impersonation-for-both-azure-auth-and-kubernetes-operations">Option 2: ServiceAccount Impersonation for Both Azure Auth AND Kubernetes Operations</a></li>
+        <li><a href="#option-3-admin-controlled-credential-crd-aso-managed-secretstore-equivalent">Option 3: Admin-Controlled Credential CRD (ASO-Managed SecretStore Equivalent)</a></li>
+        <li><a href="#option-4-namespace-labelannotation-allowlist">Option 4: Namespace Label/Annotation Allowlist</a></li>
+        <li><a href="#option-5-admission-webhook-validation">Option 5: Admission Webhook Validation</a></li>
+      </ul>
+    </li>
+    <li><a href="#decision">Decision</a>
+      <ul>
+        <li><a href="#proposed-configuration">Proposed Configuration</a></li>
+        <li><a href="#admin-setup-workflow">Admin Setup Workflow</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#consequences">Consequences</a></li>
+    <li><a href="#experience-report">Experience Report</a></li>
+    <li><a href="#references">References</a></li>
+    <li><a href="#appendix-external-secrets-operator-eso">Appendix: External Secrets Operator (ESO)</a>
+      <ul>
+        <li><a href="#how-external-secrets-operator-works">How External Secrets Operator Works</a></li>
+        <li><a href="#external-secrets-operators-multitenancy-models">External Secrets Operator&rsquo;s Multitenancy Models</a></li>
+        <li><a href="#comparison-with-asos-situation">Comparison with ASO&rsquo;s Situation</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
       </div>
@@ -1093,790 +1099,488 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SmartDetectorAl
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/reference/">Supported Resources</a></li>
-  <li class="breadcrumb-item">
-    <a href="/azure-service-operator/reference/alertsmanagement/">AlertsManagement</a></li>
+    <a href="/azure-service-operator/design/">Design</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    v20210401</li>
+    2026-07: Secure Workload Identity for Single-Operator Multitenancy</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>alertsmanagement.azure.com/v20210401</h1>
+	<h1>2026-07: Secure Workload Identity for Single-Operator Multitenancy</h1>
 	
 	<header class="article-meta">
 		
 </header>
-	<!-- Documentation generated by crddoc. DO NOT EDIT. -->
-<h2 id="APIVersion">APIVersion</h2>
+	<h2 id="context">Context</h2>
+<p>ASO supports <a href="/azure-service-operator/guide/authentication/credential-scope/">single-operator multitenancy</a> via a three-level credential hierarchy:</p>
+<ul>
+<li><strong>Global credentials</strong> (via the <code>aso-controller-settings</code> secret in the operator namespace)</li>
+<li><strong>Per-namespace credentials</strong> (via a fixed <code>aso-credential</code> secret in the resource&rsquo;s namespace)</li>
+<li><strong>Per-resource credentials</strong> (via the <code>serviceoperator.azure.com/credential-from</code> annotation)</li>
+</ul>
+<p>When using <a href="https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview">Workload Identity</a> for
+authentication, each credential secret contains only <code>AZURE_SUBSCRIPTION_ID</code>, <code>AZURE_TENANT_ID</code>, and <code>AZURE_CLIENT_ID</code>.
+The operator then uses its own projected ServiceAccount token
+(<code>system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default</code>) to perform an OAuth2 token exchange
+with Azure AD, presenting the <code>AZURE_CLIENT_ID</code> from the secret. This works because the Managed Identity has a
+FederatedIdentityCredential registered for the ASO controller&rsquo;s ServiceAccount subject.</p>
+<h3 id="the-security-problem">The Security Problem</h3>
+<p>Unlike service principal and certificate authentication modes, none of the values in a Workload Identity credential
+secret (<code>AZURE_SUBSCRIPTION_ID</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>) are truly secret. They are GUIDs that can be discovered through:</p>
+<ul>
+<li>The Azure portal or CLI (e.g. <code>az identity show</code>)</li>
+<li>Azure Resource Graph queries</li>
+<li>Reading secrets in other namespaces if the user has RBAC access to do so</li>
+<li>Social engineering or documentation leaks</li>
+</ul>
+<p>Because all namespaces share the same ServiceAccount token for the Azure token exchange, a user who can create ASO
+resources in <em>any</em> namespace can forge a credential secret referencing <em>any</em> Managed Identity that has a
+FederatedIdentityCredential configured for the ASO ServiceAccount. This is a <strong>privilege escalation vulnerability</strong>:
+a tenant in namespace <code>team-a</code> can create a secret with <code>team-b</code>&rsquo;s <code>AZURE_CLIENT_ID</code> and use <code>team-b</code>&rsquo;s Azure identity
+to manage Azure resources.</p>
+<p>This has been raised as a security concern by multiple users
+(<a href="https://github.com/Azure/azure-service-operator/issues/4810">#4810</a>,
+<a href="https://github.com/Azure/azure-service-operator/issues/4807">#4807</a>).</p>
+<p>The only current mitigation is deploying ASO in
+<a href="/azure-service-operator/guide/authentication/multitenant-deployment/">multi-operator multitenancy</a> mode, where each namespace has its own
+ASO pod and ServiceAccount. This provides true isolation because each pod&rsquo;s Service Account token can only be exchanged for the
+Managed Identity it is federated with. However, multi-operator multitenancy is significantly harder to administer
+(multiple CRD installs, webhook routing, independent upgrades) and does not scale well.</p>
+<h2 id="requirements">Requirements</h2>
+<ol>
+<li><strong>Namespace-level credential isolation</strong>: It must not be possible for a tenant in one namespace to use a Managed
+Identity that has been authorized for a different namespace, even if they know the Client ID.</li>
+<li><strong>Privileged authorization</strong>: The binding between a namespace and an Azure identity must be authorized by a user
+with appropriate privileges (cluster admin or similar), not merely by possession of credential values.</li>
+<li><strong>Self-service bootstrapping</strong>: Teams that have already created a Managed Identity with appropriate
+FederatedIdentityCredentials should be able to bootstrap their namespace without requiring write access to the
+<code>azureserviceoperator-system</code> namespace.</li>
+<li><strong>Backward compatibility</strong>: The existing credential hierarchy and secret format should continue to work for users
+who don&rsquo;t need the hardened mode. This should be opt-in (at least, for now).</li>
+<li><strong>Workload Identity focus</strong>: While the solution should be designed with extensibility in mind, the primary target
+is Workload Identity, as client secret and client certificate authentication modes have genuinely secret credential
+values that provide their own authorization factor.</li>
+<li><strong>Single operator</strong>: The solution must work within the single-operator multitenancy model (one ASO pod for the
+whole cluster).</li>
+<li><strong>Manageable complexity</strong>: The solution should be simpler to administer than multi-operator multitenancy — that is
+the entire motivation for single-operator mode.</li>
+</ol>
+<h2 id="options">Options</h2>
+<h3 id="option-1-serviceaccount-impersonation-per-namespace-serviceaccounts-for-azure-auth-only">Option 1: ServiceAccount Impersonation (Per-Namespace ServiceAccounts for Azure Auth Only)</h3>
+<p>The ASO controller impersonates a namespace-scoped ServiceAccount to obtain a token for Azure AD token exchange,
+instead of using its own ServiceAccount token directly.</p>
+<p><strong>Setup (admin actions):</strong></p>
+<ol>
+<li>Cluster admin installs ASO and configures new ASO configuration <code>AZURE_WORKLOAD_IDENTITY_AUTH_MODE=strict</code>
+(in the global <code>aso-controller-settings</code> secret).</li>
+<li>Cluster admin creates a <code>ServiceAccount</code> in each tenant namespace (e.g., <code>aso-team-a</code> in namespace <code>team-a</code>).</li>
+<li>Cluster admin creates a <code>FederatedIdentityCredential</code> in Azure for <code>team-a</code>&rsquo;s Managed Identity with subject
+<code>system:serviceaccount:team-a:aso-team-a</code>.</li>
+<li>Cluster admin creates an RBAC <code>Role</code>/<code>RoleBinding</code> or <code>ClusterRole</code>/<code>ClusterRoleBinding</code> granting ASO&rsquo;s controller
+ServiceAccount permission to create tokens for (<code>serviceaccounts/token</code>) the per-namespace Service Account.</li>
+<li>The credential secret in <code>team-a</code> references the Client ID of <code>team-a</code>&rsquo;s Managed Identity as before.</li>
+</ol>
+<p><strong>Auth flow:</strong></p>
+<ol>
+<li>User creates an ASO resource in namespace <code>team-a</code>.</li>
+<li>ASO reads the credential secret from <code>team-a</code>, which includes the Client ID and the Service Account name (<code>aso-team-a</code>).</li>
+<li>ASO uses the TokenRequest API to mint a short-lived token for <code>ServiceAccount team-a/aso-team-a</code> with audience
+<code>api://AzureADTokenExchange</code>. The token&rsquo;s subject is <code>system:serviceaccount:team-a:aso-team-a</code>.</li>
+<li>ASO exchanges this token with Azure AD for an access token, presenting the Client ID from the secret.</li>
+<li>Azure AD validates that the FederatedIdentityCredential on the Managed Identity matches the token&rsquo;s subject —
+since the FIC is scoped to <code>team-a</code>&rsquo;s Service Account, other namespaces cannot use this identity even if they know the Client ID.</li>
+</ol>
+<p><strong>Implementation details:</strong></p>
+<ul>
+<li>ASO would use the <a href="https://kubernetes.io/docs/reference/kubernetes-api/authentication-resources/token-request-v1/">Kubernetes TokenRequest API</a>
+to create a short-lived token for the target namespace&rsquo;s Service Account with the <code>api://AzureADTokenExchange</code> audience.
+It would cache this token and manage refreshing it as-needed.</li>
+<li>The controller needs <code>serviceaccounts/token: create</code> permission for the well-known Service Account name. With the fixed-name
+convention, this is a single <code>ClusterRole</code>/<code>ClusterRoleBinding</code> scoped via <code>resourceNames: [&quot;aso-workload&quot;]</code>,
+shipped as part of the ASO Helm chart.</li>
+<li>In the configurable variant (not chosen), a new field in the credential secret would indicate the Service Account name.
+With the fixed-name convention chosen in this design, no credential secret changes are needed.</li>
+</ul>
+<p><strong>Variant: Fixed vs. configurable Service Account name</strong></p>
+<p>There are two sub-variants for how the Service Account name is determined:</p>
+<ul>
+<li><strong>Configurable (per-secret):</strong> The credential secret includes a field (<code>AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT</code>) specifying
+which Service Account to use. This is the most flexible — different credentials in the same namespace could use different SAs.</li>
+<li><strong>Fixed convention:</strong> ASO uses a well-known Service Account name (e.g., <code>aso-workload</code>) in every namespace. No configuration
+is needed — if the Service Account exists and the RBAC grant is in place, ASO uses it automatically.</li>
+</ul>
+<p>The fixed-name approach is simpler to administer and requires no changes to the credential secret format. The
+configurable variant could be offered as a future extension if there&rsquo;s demand.</p>
+<ul>
+<li>When this mode is enabled, if ASO encounters a namespace without the designated Service Account or without the RBAC grant, it
+refuses to authenticate and sets a clear error condition on the resource.</li>
+<li>Note that the per-namespace Service Account only needs to exist and be tokenizable; it doesn&rsquo;t need any Kubernetes RBAC permissions itself.</li>
+<li>Both namespace-scoped credentials and per-resource credentials within that namespace would use the same Service Account for
+token exchange. Since Kubernetes RBAC is also namespace-scoped, there is no hard security boundary between these
+two levels within the same namespace — the isolation boundary is the namespace itself.</li>
+<li>The TokenRequest API call adds a small amount of latency to Azure authentication. However, the Service Account token can be
+requested with a configurable expiration (e.g., 1 hour) and cached, so the extra API call only occurs on initial
+auth and periodic refresh — not on every Azure API call.</li>
+</ul>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Uses native Kubernetes primitives (ServiceAccount, TokenRequest API, RBAC) — no new CRDs.</li>
+<li>RBAC for <code>serviceAccounts/token</code> on the main ASO service account can be scoped to specific Service Account
+names using <code>resourceNames</code>, if desired.</li>
+<li>The authorization gate is the FederatedIdentityCredential in Azure (which requires Azure-level permissions to
+create) and the RBAC grant allowing ASO to mint tokens for the per-namespace Service Account (which requires cluster-admin).
+Without both, ASO can&rsquo;t authenticate in that namespace. Since each serviceAccount must have a FederatedIdentityCredential
+bound to a unique subject (including that Service Account name + namespace), stealing a Client ID is useless since each Client
+ID only works for the Service Account it is bound to.</li>
+<li>Credential secrets retain their existing format — no changes needed.</li>
+<li>Minimal change to ASO&rsquo;s Kubernetes RBAC model and controller architecture.</li>
+<li>Supports self-service bootstrapping: once the ClusterRole is installed with ASO, teams can create the Service Account in their
+own namespace and the FIC in Azure without needing write access to <code>azureserviceoperator-system</code>.</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Requires the <code>AZURE_WORKLOAD_IDENTITY_AUTH_MODE</code> feature to be enabled (at least initially), it is not the default.
+If not enabled, the security benefit is lost.</li>
+<li>Requires cluster admin to create a ServiceAccount and RBAC binding per namespace — this is the &ldquo;cost&rdquo; of security,
+but it&rsquo;s the same cost External Secrets Operator imposes (see <a href="#appendix-external-secrets-operator-eso">Appendix: External Secrets Operator</a>) and
+is significantly less than multi-operator multitenancy.</li>
+<li>Only addresses Workload Identity. Client secret/certificate auth modes don&rsquo;t benefit (though they don&rsquo;t need to,
+as their credentials are genuinely secret).</li>
+<li>Does not provide Kubernetes-level audit trail showing which Service Account performed which operations in which namespace.</li>
+<li>Each namespace requires its own FederatedIdentityCredential on the Managed Identity. Azure limits the number of
+FICs per identity (currently 20), so using the same identity across many namespaces will hit this limit. Users
+needing the same identity in more than 20 namespaces would need to create duplicate Managed Identities with the
+same role assignments, or use the <a href="https://learn.microsoft.com/en-us/azure/aks/identity-bindings-concepts">AKS Identity Bindings feature</a>.</li>
+</ul>
+<h3 id="option-2-serviceaccount-impersonation-for-both-azure-auth-and-kubernetes-operations">Option 2: ServiceAccount Impersonation for Both Azure Auth AND Kubernetes Operations</h3>
+<p>This option extends <a href="#option-1-serviceaccount-impersonation-per-namespace-serviceaccounts-for-azure-auth-only">Option 1</a>
+by also impersonating the per-namespace Service Account for <em>all</em> Kubernetes operations in that namespace: reading secrets,
+watching ASO resources, writing status, creating output secrets/configmaps — in addition to Azure token exchange.</p>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>All the pros of Option 1.</li>
+<li>Full isolation: each namespace&rsquo;s operations are performed under that namespace&rsquo;s Service Account identity.</li>
+<li>Kubernetes audit logs clearly attribute operations to the per-namespace SA.</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>See option 1&rsquo;s cons as well.</li>
+<li>Significantly more complex to implement. The ASO controller currently uses a single informer/cache for all
+namespaces. Impersonating different SAs for different namespaces would require per-namespace clients or
+impersonation headers on every API call.</li>
+<li>Each per-namespace Service Account would need its own RBAC grants for the ASO resource types, secrets, configmaps, and events
+in its namespace. This is a large amount of RBAC to administer.</li>
+<li>Performance implications: per-namespace informer caches or impersonation on every call adds both CPU and memory overhead.
+While the actual resources being monitored would be the same as today, the overhead would be running the informer cache infrastructure
+N times (1x per namespace) rather than once, like we do today.</li>
+<li>Closer to multi-operator multitenancy in management complexity, undermining the simplicity benefit of
+single-operator mode.</li>
+<li>Does not meaningfully reduce the blast radius of an ASO pod compromise compared to Option 1.
+In both cases, the ASO controller&rsquo;s own Service Account retains broad cluster-wide Kubernetes permissions — and in Option 2
+it also has RBAC to mint tokens for every managed namespace&rsquo;s SA, so compromising the ASO pod grants equivalent
+access either way.</li>
+<li>Fundamentally changes ASO&rsquo;s controller architecture in ways that are difficult to make backward-compatible.</li>
+</ul>
+<h3 id="option-3-admin-controlled-credential-crd-aso-managed-secretstore-equivalent">Option 3: Admin-Controlled Credential CRD (ASO-Managed SecretStore Equivalent)</h3>
+<p>Introduce a new namespaced CRD (e.g., <code>ASOCredential</code> or <code>CredentialBinding</code>) that only cluster admins can create,
+replacing the use of Secrets as the credential mechanism for Workload Identity. This is conceptually similar to
+the approach used by the External Secrets Operator (see <a href="#appendix-external-secrets-operator-eso">Appendix: External Secrets Operator</a>
+for a detailed comparison).</p>
+<p><strong>Setup:</strong></p>
+<ol>
+<li>Cluster admin creates an <code>ASOCredential</code> CR in each tenant namespace specifying the Client ID, Tenant ID,
+and Subscription ID.</li>
+<li>ASO watches <code>ASOCredential</code> resources and uses them instead of (or in addition to) credential secrets.</li>
+<li>RBAC for <code>ASOCredential</code> resources is restricted to cluster admins.</li>
+<li>Optionally, ASO is configured with <code>AZURE_DISALLOW_WORKLOAD_IDENTITY_SECRETS=true</code> (in the global
+<code>aso-controller-settings</code> secret) that causes it to reject credential secrets containing Workload Identity
+configuration, ensuring <code>ASOCredential</code> CRDs are the only accepted path for Workload Identity.</li>
+</ol>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Clear admin-controlled authorization boundary (CRD RBAC, not Secret RBAC).</li>
+<li>Auditable — CRD resources are visible via <code>kubectl get asocredentials</code>.</li>
+<li>Does not require per-namespace ServiceAccounts or RBAC for token creation.</li>
+<li>With secrets disabled for Workload Identity, the shared Service Account token is not exploitable — users have no way to
+get ASO to perform a token exchange with an unauthorized Client ID.</li>
+<li>Does not consume FederatedIdentityCredentials per namespace (avoids the 20 FIC-per-identity Azure limit).</li>
+<li>Does not require write access to <code>azureserviceoperator-system</code> for per-namespace setup, but does require a cluster
+admin to create the <code>ASOCredential</code> resource.</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Adds a new CRD to ASO&rsquo;s already large CRD footprint.</li>
+<li>Requires a parallel credential resolution path alongside the existing Secret-based system. CRD cannot be used for
+ServicePrincipal or Certificate based auth because those actually contain secret data and so must be stored in a
+Kubernetes secret.
+<ul>
+<li>The CRD could theoretically hold ServicePrincipal or Certificate credentials too, but Kubernetes <code>Secret</code> resources benefit
+from encryption at rest (via <code>EncryptionConfiguration</code>), audit log redaction, and other special handling
+that CRD specs do not receive by default.</li>
+</ul>
+</li>
+<li>ASO already has a working Secret-based system and users using it for Workload Identity, making migration awkward.</li>
+</ul>
+<h3 id="option-4-namespace-labelannotation-allowlist">Option 4: Namespace Label/Annotation Allowlist</h3>
+<p>The ASO operator configuration includes an allowlist mapping Client IDs to allowed namespaces. The operator rejects
+credential secrets whose Client ID is not explicitly allowed for the secret&rsquo;s namespace.</p>
+<p><strong>Setup:</strong></p>
+<ol>
+<li>Cluster admin configures ASO (via Helm values, global ConfigMap, or operator flags) with a mapping:
+<code>client-id-x → [namespace-a, namespace-b]</code>.</li>
+<li>When ASO reads a credential secret, it checks the Client ID against the allowlist for that namespace.</li>
+<li>If the Client ID is not allowed, reconciliation fails with a clear error.</li>
+</ol>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>No new CRDs or ServiceAccounts required.</li>
+<li>Centralized configuration — admin manages one allowlist.</li>
+<li>Simple conceptual model.</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Centralized configuration does not scale: every namespace/identity change requires updating the operator config
+and potentially restarting the operator.</li>
+<li>Awkward to manage in GitOps workflows where namespace and identity provisioning are decentralized.</li>
+<li>If the allowlist is not enforced (i.e., made optional or left unconfigured), the security benefit is lost — same
+as Option 3 without <code>AZURE_DISALLOW_WORKLOAD_IDENTITY_SECRETS</code> or option 1/2 without <code>AZURE_WORKLOAD_IDENTITY_AUTH_MODE</code>.</li>
+<li>Does not support self-service bootstrapping: every namespace/identity change requires an admin to update the
+allowlist in <code>aso-controller-settings</code> (in the <code>azureserviceoperator-system</code> namespace).</li>
+</ul>
+<h3 id="option-5-admission-webhook-validation">Option 5: Admission Webhook Validation</h3>
+<p>Deploy an admission webhook (built into ASO or external via OPA/Kyverno) that validates credential secrets on
+creation/update, rejecting secrets with unauthorized Client IDs.</p>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Can be implemented with existing tools (Kyverno, OPA Gatekeeper) without ASO changes.</li>
+<li>Preventive — blocks unauthorized secrets before they&rsquo;re created.</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>External policy engines are an additional dependency and management burden.</li>
+<li>Built-in webhook would need the same allowlist configuration as Option 4.</li>
+<li>Users could potentially work around the webhook (e.g., creating the secret before the webhook is deployed,
+or if the webhook is unavailable due to <code>failurePolicy: Ignore</code>).</li>
+<li>Not a defense-in-depth solution — it&rsquo;s a gate at one point, not a fundamental architectural fix.</li>
+<li>Policy management is typically centralized (cluster-scoped policies or operator namespace), limiting self-service
+bootstrapping by teams.</li>
+</ul>
+<h2 id="decision">Decision</h2>
+<p>We choose <strong>Option 1: ServiceAccount Impersonation</strong> (Service Account for Azure token exchange only), using the
+<strong>fixed convention</strong> variant: ASO uses a well-known ServiceAccount name (<code>aso-workload</code>) in every namespace. This option will be
+<strong>disabled by default</strong> and configured via the new <code>AZURE_WORKLOAD_IDENTITY_AUTH_MODE</code> setting in <code>aso-controller-settings</code>.
+This setting accepts two values:</p>
+<ul>
+<li><strong><code>relaxed</code></strong> (default): ASO uses its own Service Account token for all Workload Identity token exchanges, matching current behavior.</li>
+<li><strong><code>strict</code></strong>: ASO requires a per-namespace <code>aso-workload</code> ServiceAccount for namespace-scoped and per-resource
+Workload Identity credentials. The global credential (<code>aso-controller-settings</code>) continues to use ASO&rsquo;s own SA
+token, since it is managed by cluster admins who are already trusted.</li>
+</ul>
+<p>This option provides the strongest security guarantee: the FederatedIdentityCredential is bound to a per-namespace
+ServiceAccount subject, so possessing a Client ID alone is insufficient to use an identity. The real authorization
+boundary is twofold:</p>
+<ol>
+<li><strong>Kubernetes side</strong> (necessary but not the security boundary): The team must be able to create a ServiceAccount
+and a credential Secret in their namespace. These are common namespace-admin permissions. The ClusterRole shipped
+with ASO pre-authorizes token creation for the well-known Service Account name, so no per-namespace cluster-admin approval is
+needed.</li>
+<li><strong>Azure side</strong> (the real security boundary): The team must have Azure-level permissions to create a
+FederatedIdentityCredential on the Managed Identity, binding it to the namespace&rsquo;s Service Account subject. Without this,
+the token exchange will fail — even if the Kubernetes resources exist. This is the authorization gate that
+prevents unauthorized use of an identity.</li>
+</ol>
+<p>Together these mean the Kubernetes setup is a prerequisite, but the actual trust decision is made in Azure: only
+users who can configure a FIC for a given Managed Identity can authorize a namespace to use it. It is worth noting that
+users can configure ASO to do this for them, see
+<a href="/azure-service-operator/guide/authentication/#using-aso-to-create-its-own-credentials">Using ASO to create its own credentials</a>.</p>
+<p>Using a fixed Service Account name means no changes to the credential secret format are needed. The credential secret continues
+to contain only <code>AZURE_SUBSCRIPTION_ID</code>, <code>AZURE_TENANT_ID</code>, and <code>AZURE_CLIENT_ID</code> as before. It also means that
+a ClusterRole/ClusterRoleBinding can be automatically included at ASO install time enabling impersonation of specifically
+those accounts, which makes management easy.</p>
+<h3 id="proposed-configuration">Proposed Configuration</h3>
+<p>When <code>AZURE_WORKLOAD_IDENTITY_AUTH_MODE=strict</code> is set in the global <code>aso-controller-settings</code> secret,
+ASO requires a ServiceAccount named <code>aso-workload</code> to exist in each namespace where namespace-scoped or per-resource
+Workload Identity credentials are used. The global credential continues to use ASO&rsquo;s own Service Account token.
+The credential secret format is unchanged from the current format.</p>
+<p>When this mode is enabled:</p>
+<ol>
+<li>ASO looks for a ServiceAccount named <code>aso-workload</code> in the resource&rsquo;s namespace.</li>
+<li>ASO uses the TokenRequest API to mint a short-lived token for that Service Account with audience
+<code>api://AzureADTokenExchange</code>.</li>
+<li>ASO uses this token (instead of its own projected Service Account token) for the OAuth2 token exchange with Azure AD.</li>
+<li>The FederatedIdentityCredential on the Managed Identity must have subject
+<code>system:serviceaccount:&lt;namespace&gt;:aso-workload</code> (not the ASO controller&rsquo;s SA).</li>
+</ol>
+<p>When <code>AZURE_WORKLOAD_IDENTITY_AUTH_MODE</code> is not set or is <code>relaxed</code>, ASO falls back to the current
+behavior (using its own Service Account token for all namespaces), maintaining backward compatibility.</p>
+<h3 id="admin-setup-workflow">Admin Setup Workflow</h3>
+<p>The RBAC grant for token creation can be done once at the cluster level using the fixed Service Account name. ASO ships this
+<code>ClusterRole</code>/<code>ClusterRoleBinding</code> as part of its Helm chart when the feature is enabled:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># Shipped with ASO (Helm chart) — grants ASO permission to create tokens</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># for any Service Account named &#34;aso-workload&#34; in any namespace</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-token-creator</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">rules</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;serviceaccounts/token&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resourceNames</span>: [<span style="color:#e6db74">&#34;aso-workload&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;create&#34;</span>]
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRoleBinding</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-token-creator</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">subjects</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ServiceAccount</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">azureserviceoperator-default</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">azureserviceoperator-system</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">roleRef</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-token-creator</span>
+</span></span></code></pre></div><p>Per-namespace setup:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 1. Create the well-known ServiceAccount in the tenant namespace</span>
+</span></span><span style="display:flex;"><span>kubectl create serviceaccount aso-workload -n team-a
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. Create the FederatedIdentityCredential in Azure for team-a&#39;s Managed Identity</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#    This can also be done using ASO itself, see:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#    https://azure.github.io/azure-service-operator/guide/authentication/#using-aso-to-create-its-own-credentials</span>
+</span></span><span style="display:flex;"><span>az identity federated-credential create <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --name team-a-aso <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --identity-name team-a-identity <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --resource-group rg-identities <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --issuer <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>AKS_OIDC_ISSUER<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --subject <span style="color:#e6db74">&#34;system:serviceaccount:team-a:aso-workload&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --audience <span style="color:#e6db74">&#34;api://AzureADTokenExchange&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3. Create the credential secret (format unchanged)</span>
+</span></span><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Secret
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: aso-credential
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: team-a
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">stringData:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  AZURE_SUBSCRIPTION_ID: &#34;${SUBSCRIPTION_ID}&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  AZURE_TENANT_ID: &#34;${TENANT_ID}&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  AZURE_CLIENT_ID: &#34;${TEAM_A_CLIENT_ID}&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p>Because the <code>ClusterRole</code> uses <code>resourceNames: [&quot;aso-workload&quot;]</code>, ASO can only create tokens for SAs with that
+exact name — it cannot mint tokens for arbitrary ServiceAccounts.</p>
+<h3 id="faq">FAQ</h3>
+<p>Q: Does this work with the global credential (<code>aso-controller-settings</code>)?</p>
+<p>A: The global credential always uses ASO&rsquo;s own Service Account token, even in <code>strict</code> mode. The global credential is managed by
+cluster admins who are already trusted, so per-namespace Service Account impersonation is unnecessary. <code>strict</code> mode only applies
+to namespace-scoped and per-resource Workload Identity credentials.</p>
+<p>Q: What about <code>ServicePrincipal</code> (client secret/certificate) credentials?</p>
+<p>A: These authentication modes already use genuinely secret credential values (the client secret or certificate private
+key) as the authorization factor. A user who doesn&rsquo;t know the client secret cannot forge a credential. The
+ServiceAccount impersonation feature is specific to Workload Identity where the credential values are all
+non-secret.</p>
+<p>Q: What happens if the ServiceAccount doesn&rsquo;t exist or ASO doesn&rsquo;t have permission to create tokens for it?</p>
+<p>A: ASO will fail the reconciliation with a clear error condition on the resource, indicating that the ServiceAccount
+is missing or the RBAC is not configured. This is the same behavior as other credential resolution failures today.</p>
+<p>Q: In <code>strict</code> mode, can a tenant&rsquo;s resources still fall back to the global credential?</p>
+<p>A: Yes. If a namespace has no namespace-scoped or per-resource credential, ASO will still fall back to the global
+credential (if configured), which uses the ASO controller&rsquo;s own Service Account token. This means tenant resources could be
+managed using the global identity. Whether this is acceptable depends on the admin&rsquo;s intent — some admins
+intentionally configure a global credential as a shared default, while security-conscious admins may want to prevent
+this entirely. Disabling or restricting the global credential fallback is a separate concern that could be addressed
+by a future configuration option (e.g., requiring every namespace to have an explicit credential), but it is
+orthogonal to this design and does not affect the per-namespace isolation guarantees that <code>strict</code> mode provides.
+Today, if admins do not want to allow fallback to the global credential, just do not supply global credential details.</p>
+<h2 id="status">Status</h2>
+<p>Proposed.</p>
+<h2 id="consequences">Consequences</h2>
+<ul>
+<li>When <code>AZURE_WORKLOAD_IDENTITY_AUTH_MODE=strict</code>, cluster admins (or teams with appropriate permissions) will need
+to create a ServiceAccount per tenant namespace. This is additional setup compared to today but significantly less
+than multi-operator multitenancy. In <code>relaxed</code> mode (the default), no changes are needed.</li>
+<li>Users who don&rsquo;t use Workload Identity or don&rsquo;t need cross-tenant isolation are unaffected.</li>
+<li>Documentation for the <a href="/azure-service-operator/guide/authentication/credential-scope/">credential scope guide</a> and
+<a href="/azure-service-operator/guide/authentication/credential-format/">Workload Identity setup</a> will need updates.</li>
+<li>The <code>AZURE_WORKLOAD_IDENTITY_AUTH_MODE=strict</code> setting provides a cluster-wide enforcement mechanism for security-conscious
+organizations.</li>
+</ul>
+<h2 id="experience-report">Experience Report</h2>
+<p>TBC</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://github.com/Azure/azure-service-operator/issues/4810">#4810: Improve single-operator multitenancy credential management for Workload Identity</a></li>
+<li><a href="https://github.com/Azure/azure-service-operator/issues/4807">#4807: What is the best practice for multi-tenancy when using workload identity?</a></li>
+<li><a href="https://github.com/Azure/azure-service-operator/issues/3645">#3645: Support for Namespace scoped RoleAssignments that mitigate privilege escalation risks</a></li>
+<li><a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/">ADR-2022-09: Support For Multiple Credentials Under Global Operator</a></li>
+<li><a href="https://external-secrets.io/latest/guides/multi-tenancy/">External Secrets Operator — Multi Tenancy Guide</a></li>
+<li><a href="https://external-secrets.io/latest/guides/security-best-practices/">External Secrets Operator — Security Best Practices</a></li>
+<li><a href="https://kubernetes.io/docs/reference/kubernetes-api/authentication-resources/token-request-v1/">Kubernetes TokenRequest API</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview">Azure Workload Identity Overview</a></li>
+</ul>
+<h2 id="appendix-external-secrets-operator-eso">Appendix: External Secrets Operator (ESO)</h2>
+<p>The <a href="https://external-secrets.io/">External Secrets Operator</a> (ESO) faces a similar challenge: a cluster-wide
+controller that needs to authenticate to external APIs on behalf of different tenants. ESO&rsquo;s approach provides useful
+contrast for this design.</p>
+<h3 id="how-external-secrets-operator-works">How External Secrets Operator Works</h3>
+<p>ESO introduces dedicated CRDs to model the authentication boundary:</p>
+<ul>
+<li><strong><code>SecretStore</code></strong> (namespaced): Defines <em>how</em> to access an external secret provider, including auth credentials.
+A <code>SecretStore</code> is scoped to a single namespace and cannot reference resources across namespaces.</li>
+<li><strong><code>ClusterSecretStore</code></strong> (cluster-scoped): A cluster-wide store that can be referenced from any namespace, with
+optional <code>namespaceSelector</code> conditions to restrict which namespaces may use it.</li>
+<li><strong><code>ExternalSecret</code></strong> (namespaced): References a <code>SecretStore</code> or <code>ClusterSecretStore</code> and declares what to fetch.</li>
+</ul>
+<p>For service-account-based auth (e.g. Vault Kubernetes auth), ESO requests a token for a <code>serviceAccountRef</code> defined
+in the <code>SecretStore</code>. ESO&rsquo;s RBAC includes <code>serviceaccounts/token: create</code> permission, which can be scoped per-SA
+using <code>resourceNames</code> constraints for hardening.</p>
+<h3 id="external-secrets-operators-multitenancy-models">External Secrets Operator&rsquo;s Multitenancy Models</h3>
+<p>ESO documents three multitenancy models:</p>
+<ol>
+<li><strong>Shared <code>ClusterSecretStore</code></strong>: A single CSS with <code>namespaceSelector</code> conditions. Simple but coarse-grained.</li>
+<li><strong>Managed <code>SecretStore</code> per Namespace</strong>: Cluster admins create namespaced <code>SecretStore</code> resources with
+per-namespace credentials/roles. Access is governed by the external API&rsquo;s own role system.</li>
+<li><strong>ESO as a Service</strong>: Tenants manage their own <code>SecretStore</code> and <code>ExternalSecret</code> resources autonomously.</li>
+</ol>
+<h3 id="comparison-with-asos-situation">Comparison with ASO&rsquo;s Situation</h3>
 <table>
   <thead>
       <tr>
-          <th>Value</th>
-          <th>Description</th>
+          <th>Aspect</th>
+          <th>ESO</th>
+          <th>ASO (current)</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;2021-04-01&rdquo;</td>
-          <td></td>
+          <td>Auth configuration</td>
+          <td>Dedicated CRD (<code>SecretStore</code>) created by admin</td>
+          <td>Kubernetes <code>Secret</code> creatable by any user with secret-create RBAC</td>
+      </tr>
+      <tr>
+          <td>Namespace isolation</td>
+          <td><code>SecretStore</code> enforces namespace boundary by design</td>
+          <td>Secret is namespace-scoped but contents are not secret</td>
+      </tr>
+      <tr>
+          <td>Admin control point</td>
+          <td>CRD creation requires explicit RBAC grant</td>
+          <td>Secret creation is a common permission many users already have</td>
+      </tr>
+      <tr>
+          <td>Service Account token exchange</td>
+          <td>ESO requests tokens for per-store SAs (<code>serviceAccountRef</code>)</td>
+          <td>ASO uses its own single Service Account for all namespaces</td>
+      </tr>
+      <tr>
+          <td>Audit trail</td>
+          <td><code>SecretStore</code> is a visible, auditable API resource</td>
+          <td>Opaque secret contents are not easily auditable</td>
       </tr>
   </tbody>
 </table>
-<h2 id="SmartDetectorAlertRule">SmartDetectorAlertRule</h2>
-<p>Generator information: - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/Legacy/stable/2021-04-01/SmartDetectorAlertRulesApi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.alertsManagement/​smartDetectorAlertRules/​{alertRuleName}</p>
-<p>Used by: <a href="#SmartDetectorAlertRuleList">SmartDetectorAlertRuleList</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>spec</td>
-          <td></td>
-          <td><a href="#SmartDetectorAlertRule_Spec">SmartDetectorAlertRule_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td></td>
-          <td><a href="#SmartDetectorAlertRule_STATUS">SmartDetectorAlertRule_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="SmartDetectorAlertRule_Spec">SmartDetectorAlertRule_Spec</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>actionGroups</td>
-          <td>The alert rule actions.</td>
-          <td><a href="#ActionGroupsInformation">ActionGroupsInformation</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>description</td>
-          <td>The alert rule description.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>detector</td>
-          <td>The alert rule&rsquo;s detector.</td>
-          <td><a href="#Detector">Detector</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>frequency</td>
-          <td>The alert rule frequency in ISO8601 format. The time granularity must be in minutes and minimum value is 1 minute, depending on the detector.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The resource location.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#SmartDetectorAlertRuleOperatorSpec">SmartDetectorAlertRuleOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>scopeReferences</td>
-          <td>The alert rule resources scope.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference[]</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>severity</td>
-          <td>The alert rule severity.</td>
-          <td><a href="#AlertRuleProperties_Severity">AlertRuleProperties_Severity</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>state</td>
-          <td>The alert rule state.</td>
-          <td><a href="#AlertRuleProperties_State">AlertRuleProperties_State</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>The resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>throttling</td>
-          <td>The alert rule throttling information.</td>
-          <td><a href="#ThrottlingInformation">ThrottlingInformation</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="SmartDetectorAlertRule_STATUS">SmartDetectorAlertRule_STATUS</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>actionGroups</td>
-          <td>The alert rule actions.</td>
-          <td><a href="#ActionGroupsInformation_STATUS">ActionGroupsInformation_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>description</td>
-          <td>The alert rule description.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>detector</td>
-          <td>The alert rule&rsquo;s detector.</td>
-          <td><a href="#Detector_STATUS">Detector_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>frequency</td>
-          <td>The alert rule frequency in ISO8601 format. The time granularity must be in minutes and minimum value is 1 minute, depending on the detector.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>The resource ID.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The resource location.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The resource name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>scope</td>
-          <td>The alert rule resources scope.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>severity</td>
-          <td>The alert rule severity.</td>
-          <td><a href="#AlertRuleProperties_Severity_STATUS">AlertRuleProperties_Severity_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>state</td>
-          <td>The alert rule state.</td>
-          <td><a href="#AlertRuleProperties_State_STATUS">AlertRuleProperties_State_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>The resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>throttling</td>
-          <td>The alert rule throttling information.</td>
-          <td><a href="#ThrottlingInformation_STATUS">ThrottlingInformation_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The resource type.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="SmartDetectorAlertRuleList">SmartDetectorAlertRuleList</h2>
-<p>Generator information: - Generated from: /alertsmanagement/resource-manager/Microsoft.AlertsManagement/Legacy/stable/2021-04-01/SmartDetectorAlertRulesApi.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​microsoft.alertsManagement/​smartDetectorAlertRules/​{alertRuleName}</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>items</td>
-          <td></td>
-          <td><a href="#SmartDetectorAlertRule">SmartDetectorAlertRule[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="SmartDetectorAlertRule_Spec">SmartDetectorAlertRule_Spec</h2>
-<p>Used by: <a href="#SmartDetectorAlertRule">SmartDetectorAlertRule</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>actionGroups</td>
-          <td>The alert rule actions.</td>
-          <td><a href="#ActionGroupsInformation">ActionGroupsInformation</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>description</td>
-          <td>The alert rule description.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>detector</td>
-          <td>The alert rule&rsquo;s detector.</td>
-          <td><a href="#Detector">Detector</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>frequency</td>
-          <td>The alert rule frequency in ISO8601 format. The time granularity must be in minutes and minimum value is 1 minute, depending on the detector.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The resource location.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#SmartDetectorAlertRuleOperatorSpec">SmartDetectorAlertRuleOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>scopeReferences</td>
-          <td>The alert rule resources scope.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference[]</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>severity</td>
-          <td>The alert rule severity.</td>
-          <td><a href="#AlertRuleProperties_Severity">AlertRuleProperties_Severity</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>state</td>
-          <td>The alert rule state.</td>
-          <td><a href="#AlertRuleProperties_State">AlertRuleProperties_State</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>The resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>throttling</td>
-          <td>The alert rule throttling information.</td>
-          <td><a href="#ThrottlingInformation">ThrottlingInformation</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="SmartDetectorAlertRule_STATUS">SmartDetectorAlertRule_STATUS</h2>
-<p>Used by: <a href="#SmartDetectorAlertRule">SmartDetectorAlertRule</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>actionGroups</td>
-          <td>The alert rule actions.</td>
-          <td><a href="#ActionGroupsInformation_STATUS">ActionGroupsInformation_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>description</td>
-          <td>The alert rule description.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>detector</td>
-          <td>The alert rule&rsquo;s detector.</td>
-          <td><a href="#Detector_STATUS">Detector_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>frequency</td>
-          <td>The alert rule frequency in ISO8601 format. The time granularity must be in minutes and minimum value is 1 minute, depending on the detector.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>The resource ID.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The resource location.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The resource name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>scope</td>
-          <td>The alert rule resources scope.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>severity</td>
-          <td>The alert rule severity.</td>
-          <td><a href="#AlertRuleProperties_Severity_STATUS">AlertRuleProperties_Severity_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>state</td>
-          <td>The alert rule state.</td>
-          <td><a href="#AlertRuleProperties_State_STATUS">AlertRuleProperties_State_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>The resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>throttling</td>
-          <td>The alert rule throttling information.</td>
-          <td><a href="#ThrottlingInformation_STATUS">ThrottlingInformation_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The resource type.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ActionGroupsInformation">ActionGroupsInformation</h2>
-<p>The Action Groups information, used by the alert rule.</p>
-<p>Used by: <a href="#SmartDetectorAlertRule_Spec">SmartDetectorAlertRule_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>customEmailSubject</td>
-          <td>An optional custom email subject to use in email notifications.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customWebhookPayload</td>
-          <td>An optional custom web-hook payload to use in web-hook notifications.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>groupReferences</td>
-          <td>The Action Group resource IDs.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference[]</a><br/><small>Required</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ActionGroupsInformation_STATUS">ActionGroupsInformation_STATUS</h2>
-<p>The Action Groups information, used by the alert rule.</p>
-<p>Used by: <a href="#SmartDetectorAlertRule_STATUS">SmartDetectorAlertRule_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>customEmailSubject</td>
-          <td>An optional custom email subject to use in email notifications.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customWebhookPayload</td>
-          <td>An optional custom web-hook payload to use in web-hook notifications.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>groupIds</td>
-          <td>The Action Group resource IDs.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AlertRuleProperties_Severity">AlertRuleProperties_Severity</h2>
-<p>Used by: <a href="#SmartDetectorAlertRule_Spec">SmartDetectorAlertRule_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Sev0&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Sev1&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Sev2&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Sev3&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Sev4&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AlertRuleProperties_Severity_STATUS">AlertRuleProperties_Severity_STATUS</h2>
-<p>Used by: <a href="#SmartDetectorAlertRule_STATUS">SmartDetectorAlertRule_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Sev0&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Sev1&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Sev2&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Sev3&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Sev4&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AlertRuleProperties_State">AlertRuleProperties_State</h2>
-<p>Used by: <a href="#SmartDetectorAlertRule_Spec">SmartDetectorAlertRule_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AlertRuleProperties_State_STATUS">AlertRuleProperties_State_STATUS</h2>
-<p>Used by: <a href="#SmartDetectorAlertRule_STATUS">SmartDetectorAlertRule_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Detector">Detector</h2>
-<p>The detector information. By default this is not populated, unless it&rsquo;s specified in expandDetector</p>
-<p>Used by: <a href="#SmartDetectorAlertRule_Spec">SmartDetectorAlertRule_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>id</td>
-          <td>The detector id.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>parameters</td>
-          <td>The detector&rsquo;s parameters.'</td>
-          <td>map[string]v1.JSON<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Detector_STATUS">Detector_STATUS</h2>
-<p>The detector information. By default this is not populated, unless it&rsquo;s specified in expandDetector</p>
-<p>Used by: <a href="#SmartDetectorAlertRule_STATUS">SmartDetectorAlertRule_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>description</td>
-          <td>The Smart Detector description.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>The detector id.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>imagePaths</td>
-          <td>The Smart Detector image path. By default this is not populated, unless it&rsquo;s specified in expandDetector</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The Smart Detector name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>parameterDefinitions</td>
-          <td>The Smart Detector parameters definitions.'</td>
-          <td><a href="#DetectorParameterDefinition_STATUS">DetectorParameterDefinition_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>parameters</td>
-          <td>The detector&rsquo;s parameters.'</td>
-          <td>map[string]v1.JSON<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>supportedCadences</td>
-          <td>The Smart Detector supported cadences.</td>
-          <td>int[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>supportedResourceTypes</td>
-          <td>The Smart Detector supported resource types.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="SmartDetectorAlertRuleOperatorSpec">SmartDetectorAlertRuleOperatorSpec</h2>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#SmartDetectorAlertRule_Spec">SmartDetectorAlertRule_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>configMapExpressions</td>
-          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secretExpressions</td>
-          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ThrottlingInformation">ThrottlingInformation</h2>
-<p>Optional throttling information for the alert rule.</p>
-<p>Used by: <a href="#SmartDetectorAlertRule_Spec">SmartDetectorAlertRule_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>duration</td>
-          <td>The required duration (in ISO8601 format) to wait before notifying on the alert rule again. The time granularity must be in minutes and minimum value is 0 minutes</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ThrottlingInformation_STATUS">ThrottlingInformation_STATUS</h2>
-<p>Optional throttling information for the alert rule.</p>
-<p>Used by: <a href="#SmartDetectorAlertRule_STATUS">SmartDetectorAlertRule_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>duration</td>
-          <td>The required duration (in ISO8601 format) to wait before notifying on the alert rule again. The time granularity must be in minutes and minimum value is 0 minutes</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DetectorParameterDefinition_STATUS">DetectorParameterDefinition_STATUS</h2>
-<p>The detector parameter definition.</p>
-<p>Used by: <a href="#Detector_STATUS">Detector_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>description</td>
-          <td>The detector parameter description.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>displayName</td>
-          <td>The detector parameter display name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>isMandatory</td>
-          <td>A value indicating whether this detector parameter is mandatory.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The detector parameter name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The detector parameter type.</td>
-          <td><a href="#DetectorParameterDefinition_Type_STATUS">DetectorParameterDefinition_Type_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DetectorParameterDefinition_Type_STATUS">DetectorParameterDefinition_Type_STATUS</h2>
-<p>Used by: <a href="#DetectorParameterDefinition_STATUS">DetectorParameterDefinition_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Boolean&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;DateTime&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Double&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Integer&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;String&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
+<p>The key architectural difference is that ESO uses a <strong>dedicated CRD</strong> as the admin-controlled authorization boundary,
+while ASO uses <strong>Kubernetes Secrets</strong>. Since Secrets are a general-purpose resource that many users have permission to
+create, they do not serve as an effective authorization gate for Workload Identity where the credential values
+themselves are not secret.</p>
 
 	
 </div>
