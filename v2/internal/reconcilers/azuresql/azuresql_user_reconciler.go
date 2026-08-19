@@ -181,7 +181,16 @@ func (r *AzureSQLUserReconciler) newDBConnector(log logr.Logger, user *asosql.Us
 		}, nil
 	}
 
+	if user.Spec.AADUser != nil {
+		return &aadUser{
+			user:               user,
+			resourceResolver:   r.ResourceResolver,
+			credentialProvider: r.CredentialProvider,
+			log:                log,
+		}, nil
+	}
+
 	// This is also enforced with a webhook
-	err := eris.Errorf("unknown user type, user must be LocalUser")
+	err := eris.Errorf("unknown user type, user must be LocalUser or AADUser")
 	return nil, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonFailed)
 }
