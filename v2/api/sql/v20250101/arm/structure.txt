@@ -38,9 +38,10 @@ Server_STATUS: Object (9 properties)
 │   │   └── "Enabled"
 │   ├── FederatedClientId: *string
 │   ├── FullyQualifiedDomainName: *string
-│   ├── IsIPv6Enabled: *Enum (2 values)
+│   ├── IsIPv6Enabled: *Enum (3 values)
 │   │   ├── "Disabled"
-│   │   └── "Enabled"
+│   │   ├── "Enabled"
+│   │   └── "SecuredByPerimeter"
 │   ├── KeyId: *string
 │   ├── MinimalTlsVersion: *Enum (5 values)
 │   │   ├── "1.0"
@@ -74,9 +75,10 @@ Server_STATUS: Object (9 properties)
 │   │   ├── "Disabled"
 │   │   ├── "Enabled"
 │   │   └── "SecuredByPerimeter"
-│   ├── RestrictOutboundNetworkAccess: *Enum (2 values)
+│   ├── RestrictOutboundNetworkAccess: *Enum (3 values)
 │   │   ├── "Disabled"
-│   │   └── "Enabled"
+│   │   ├── "Enabled"
+│   │   └── "SecuredByPerimeter"
 │   ├── RetentionDays: *int
 │   ├── State: *string
 │   ├── Version: *string
@@ -129,9 +131,10 @@ Server_Spec: Object (5 properties)
 │   │   ├── "Normal"
 │   │   └── "Restore"
 │   ├── FederatedClientId: *string
-│   ├── IsIPv6Enabled: *Enum (2 values)
+│   ├── IsIPv6Enabled: *Enum (3 values)
 │   │   ├── "Disabled"
-│   │   └── "Enabled"
+│   │   ├── "Enabled"
+│   │   └── "SecuredByPerimeter"
 │   ├── KeyId: *string
 │   ├── MinimalTlsVersion: *Enum (5 values)
 │   │   ├── "1.0"
@@ -144,9 +147,10 @@ Server_Spec: Object (5 properties)
 │   │   ├── "Disabled"
 │   │   ├── "Enabled"
 │   │   └── "SecuredByPerimeter"
-│   ├── RestrictOutboundNetworkAccess: *Enum (2 values)
+│   ├── RestrictOutboundNetworkAccess: *Enum (3 values)
 │   │   ├── "Disabled"
-│   │   └── "Enabled"
+│   │   ├── "Enabled"
+│   │   └── "SecuredByPerimeter"
 │   ├── RetentionDays: *int
 │   └── Version: *string
 └── Tags: map[string]string

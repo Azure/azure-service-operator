@@ -419,8 +419,8 @@ func AddIndependentPropertyGeneratorsForDiagnosticSetting_STATUS(gens map[string
 
 // AddRelatedPropertyGeneratorsForDiagnosticSetting_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDiagnosticSetting_STATUS(gens map[string]gopter.Gen) {
-	gens["Logs"] = gen.SliceOf(LogSettings_STATUSGenerator())
-	gens["Metrics"] = gen.SliceOf(MetricSettings_STATUSGenerator())
+	gens["Logs"] = gen.SliceOf(DiagnosticsLogSettings_STATUSGenerator())
+	gens["Metrics"] = gen.SliceOf(DiagnosticsMetricSettings_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
@@ -551,12 +551,12 @@ func AddIndependentPropertyGeneratorsForDiagnosticSetting_Spec(gens map[string]g
 
 // AddRelatedPropertyGeneratorsForDiagnosticSetting_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDiagnosticSetting_Spec(gens map[string]gopter.Gen) {
-	gens["Logs"] = gen.SliceOf(LogSettingsGenerator())
-	gens["Metrics"] = gen.SliceOf(MetricSettingsGenerator())
+	gens["Logs"] = gen.SliceOf(DiagnosticsLogSettingsGenerator())
+	gens["Metrics"] = gen.SliceOf(DiagnosticsMetricSettingsGenerator())
 	gens["OperatorSpec"] = gen.PtrOf(DiagnosticSettingOperatorSpecGenerator())
 }
 
-func Test_LogSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_DiagnosticsLogSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -567,26 +567,26 @@ func Test_LogSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LogSettings to LogSettings via AssignProperties_To_LogSettings & AssignProperties_From_LogSettings returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLogSettings, LogSettingsGenerator()))
+		"Round trip from DiagnosticsLogSettings to DiagnosticsLogSettings via AssignProperties_To_DiagnosticsLogSettings & AssignProperties_From_DiagnosticsLogSettings returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDiagnosticsLogSettings, DiagnosticsLogSettingsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLogSettings tests if a specific instance of LogSettings can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForLogSettings(subject LogSettings) string {
+// RunPropertyAssignmentTestForDiagnosticsLogSettings tests if a specific instance of DiagnosticsLogSettings can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDiagnosticsLogSettings(subject DiagnosticsLogSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LogSettings
-	err := copied.AssignProperties_To_LogSettings(&other)
+	var other storage.DiagnosticsLogSettings
+	err := copied.AssignProperties_To_DiagnosticsLogSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual LogSettings
-	err = actual.AssignProperties_From_LogSettings(&other)
+	var actual DiagnosticsLogSettings
+	err = actual.AssignProperties_From_DiagnosticsLogSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -603,7 +603,7 @@ func RunPropertyAssignmentTestForLogSettings(subject LogSettings) string {
 	return ""
 }
 
-func Test_LogSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DiagnosticsLogSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -615,13 +615,13 @@ func Test_LogSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of LogSettings via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLogSettings, LogSettingsGenerator()))
+		"Round trip of DiagnosticsLogSettings via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiagnosticsLogSettings, DiagnosticsLogSettingsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLogSettings runs a test to see if a specific instance of LogSettings round trips to JSON and back losslessly
-func RunJSONSerializationTestForLogSettings(subject LogSettings) string {
+// RunJSONSerializationTestForDiagnosticsLogSettings runs a test to see if a specific instance of DiagnosticsLogSettings round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiagnosticsLogSettings(subject DiagnosticsLogSettings) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -629,7 +629,7 @@ func RunJSONSerializationTestForLogSettings(subject LogSettings) string {
 	}
 
 	// Deserialize back into memory
-	var actual LogSettings
+	var actual DiagnosticsLogSettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -647,44 +647,45 @@ func RunJSONSerializationTestForLogSettings(subject LogSettings) string {
 	return ""
 }
 
-// Generator of LogSettings instances for property testing - lazily instantiated by LogSettingsGenerator()
-var logSettingsGenerator gopter.Gen
+// Generator of DiagnosticsLogSettings instances for property testing - lazily instantiated by
+// DiagnosticsLogSettingsGenerator()
+var diagnosticsLogSettingsGenerator gopter.Gen
 
-// LogSettingsGenerator returns a generator of LogSettings instances for property testing.
-// We first initialize logSettingsGenerator with a simplified generator based on the
+// DiagnosticsLogSettingsGenerator returns a generator of DiagnosticsLogSettings instances for property testing.
+// We first initialize diagnosticsLogSettingsGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LogSettingsGenerator() gopter.Gen {
-	if logSettingsGenerator != nil {
-		return logSettingsGenerator
+func DiagnosticsLogSettingsGenerator() gopter.Gen {
+	if diagnosticsLogSettingsGenerator != nil {
+		return diagnosticsLogSettingsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLogSettings(generators)
-	logSettingsGenerator = gen.Struct(reflect.TypeOf(LogSettings{}), generators)
+	AddIndependentPropertyGeneratorsForDiagnosticsLogSettings(generators)
+	diagnosticsLogSettingsGenerator = gen.Struct(reflect.TypeOf(DiagnosticsLogSettings{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLogSettings(generators)
-	AddRelatedPropertyGeneratorsForLogSettings(generators)
-	logSettingsGenerator = gen.Struct(reflect.TypeOf(LogSettings{}), generators)
+	AddIndependentPropertyGeneratorsForDiagnosticsLogSettings(generators)
+	AddRelatedPropertyGeneratorsForDiagnosticsLogSettings(generators)
+	diagnosticsLogSettingsGenerator = gen.Struct(reflect.TypeOf(DiagnosticsLogSettings{}), generators)
 
-	return logSettingsGenerator
+	return diagnosticsLogSettingsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLogSettings is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLogSettings(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDiagnosticsLogSettings is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDiagnosticsLogSettings(gens map[string]gopter.Gen) {
 	gens["Category"] = gen.PtrOf(gen.AlphaString())
 	gens["CategoryGroup"] = gen.PtrOf(gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForLogSettings is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLogSettings(gens map[string]gopter.Gen) {
-	gens["RetentionPolicy"] = gen.PtrOf(RetentionPolicyGenerator())
+// AddRelatedPropertyGeneratorsForDiagnosticsLogSettings is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDiagnosticsLogSettings(gens map[string]gopter.Gen) {
+	gens["RetentionPolicy"] = gen.PtrOf(MicrosoftCommonRetentionPolicyGenerator())
 }
 
-func Test_LogSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_DiagnosticsLogSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -695,26 +696,26 @@ func Test_LogSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LogSettings_STATUS to LogSettings_STATUS via AssignProperties_To_LogSettings_STATUS & AssignProperties_From_LogSettings_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLogSettings_STATUS, LogSettings_STATUSGenerator()))
+		"Round trip from DiagnosticsLogSettings_STATUS to DiagnosticsLogSettings_STATUS via AssignProperties_To_DiagnosticsLogSettings_STATUS & AssignProperties_From_DiagnosticsLogSettings_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDiagnosticsLogSettings_STATUS, DiagnosticsLogSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLogSettings_STATUS tests if a specific instance of LogSettings_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForLogSettings_STATUS(subject LogSettings_STATUS) string {
+// RunPropertyAssignmentTestForDiagnosticsLogSettings_STATUS tests if a specific instance of DiagnosticsLogSettings_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDiagnosticsLogSettings_STATUS(subject DiagnosticsLogSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LogSettings_STATUS
-	err := copied.AssignProperties_To_LogSettings_STATUS(&other)
+	var other storage.DiagnosticsLogSettings_STATUS
+	err := copied.AssignProperties_To_DiagnosticsLogSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual LogSettings_STATUS
-	err = actual.AssignProperties_From_LogSettings_STATUS(&other)
+	var actual DiagnosticsLogSettings_STATUS
+	err = actual.AssignProperties_From_DiagnosticsLogSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -731,7 +732,7 @@ func RunPropertyAssignmentTestForLogSettings_STATUS(subject LogSettings_STATUS) 
 	return ""
 }
 
-func Test_LogSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DiagnosticsLogSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -743,13 +744,13 @@ func Test_LogSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of LogSettings_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLogSettings_STATUS, LogSettings_STATUSGenerator()))
+		"Round trip of DiagnosticsLogSettings_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiagnosticsLogSettings_STATUS, DiagnosticsLogSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLogSettings_STATUS runs a test to see if a specific instance of LogSettings_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForLogSettings_STATUS(subject LogSettings_STATUS) string {
+// RunJSONSerializationTestForDiagnosticsLogSettings_STATUS runs a test to see if a specific instance of DiagnosticsLogSettings_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiagnosticsLogSettings_STATUS(subject DiagnosticsLogSettings_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -757,7 +758,7 @@ func RunJSONSerializationTestForLogSettings_STATUS(subject LogSettings_STATUS) s
 	}
 
 	// Deserialize back into memory
-	var actual LogSettings_STATUS
+	var actual DiagnosticsLogSettings_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -775,44 +776,45 @@ func RunJSONSerializationTestForLogSettings_STATUS(subject LogSettings_STATUS) s
 	return ""
 }
 
-// Generator of LogSettings_STATUS instances for property testing - lazily instantiated by LogSettings_STATUSGenerator()
-var logSettings_STATUSGenerator gopter.Gen
+// Generator of DiagnosticsLogSettings_STATUS instances for property testing - lazily instantiated by
+// DiagnosticsLogSettings_STATUSGenerator()
+var diagnosticsLogSettings_STATUSGenerator gopter.Gen
 
-// LogSettings_STATUSGenerator returns a generator of LogSettings_STATUS instances for property testing.
-// We first initialize logSettings_STATUSGenerator with a simplified generator based on the
+// DiagnosticsLogSettings_STATUSGenerator returns a generator of DiagnosticsLogSettings_STATUS instances for property testing.
+// We first initialize diagnosticsLogSettings_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LogSettings_STATUSGenerator() gopter.Gen {
-	if logSettings_STATUSGenerator != nil {
-		return logSettings_STATUSGenerator
+func DiagnosticsLogSettings_STATUSGenerator() gopter.Gen {
+	if diagnosticsLogSettings_STATUSGenerator != nil {
+		return diagnosticsLogSettings_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLogSettings_STATUS(generators)
-	logSettings_STATUSGenerator = gen.Struct(reflect.TypeOf(LogSettings_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDiagnosticsLogSettings_STATUS(generators)
+	diagnosticsLogSettings_STATUSGenerator = gen.Struct(reflect.TypeOf(DiagnosticsLogSettings_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLogSettings_STATUS(generators)
-	AddRelatedPropertyGeneratorsForLogSettings_STATUS(generators)
-	logSettings_STATUSGenerator = gen.Struct(reflect.TypeOf(LogSettings_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDiagnosticsLogSettings_STATUS(generators)
+	AddRelatedPropertyGeneratorsForDiagnosticsLogSettings_STATUS(generators)
+	diagnosticsLogSettings_STATUSGenerator = gen.Struct(reflect.TypeOf(DiagnosticsLogSettings_STATUS{}), generators)
 
-	return logSettings_STATUSGenerator
+	return diagnosticsLogSettings_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLogSettings_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLogSettings_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDiagnosticsLogSettings_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDiagnosticsLogSettings_STATUS(gens map[string]gopter.Gen) {
 	gens["Category"] = gen.PtrOf(gen.AlphaString())
 	gens["CategoryGroup"] = gen.PtrOf(gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForLogSettings_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLogSettings_STATUS(gens map[string]gopter.Gen) {
-	gens["RetentionPolicy"] = gen.PtrOf(RetentionPolicy_STATUSGenerator())
+// AddRelatedPropertyGeneratorsForDiagnosticsLogSettings_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDiagnosticsLogSettings_STATUS(gens map[string]gopter.Gen) {
+	gens["RetentionPolicy"] = gen.PtrOf(MicrosoftCommonRetentionPolicy_STATUSGenerator())
 }
 
-func Test_MetricSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_DiagnosticsMetricSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -823,26 +825,26 @@ func Test_MetricSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from MetricSettings to MetricSettings via AssignProperties_To_MetricSettings & AssignProperties_From_MetricSettings returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMetricSettings, MetricSettingsGenerator()))
+		"Round trip from DiagnosticsMetricSettings to DiagnosticsMetricSettings via AssignProperties_To_DiagnosticsMetricSettings & AssignProperties_From_DiagnosticsMetricSettings returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDiagnosticsMetricSettings, DiagnosticsMetricSettingsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricSettings tests if a specific instance of MetricSettings can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForMetricSettings(subject MetricSettings) string {
+// RunPropertyAssignmentTestForDiagnosticsMetricSettings tests if a specific instance of DiagnosticsMetricSettings can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDiagnosticsMetricSettings(subject DiagnosticsMetricSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MetricSettings
-	err := copied.AssignProperties_To_MetricSettings(&other)
+	var other storage.DiagnosticsMetricSettings
+	err := copied.AssignProperties_To_DiagnosticsMetricSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MetricSettings
-	err = actual.AssignProperties_From_MetricSettings(&other)
+	var actual DiagnosticsMetricSettings
+	err = actual.AssignProperties_From_DiagnosticsMetricSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -859,7 +861,7 @@ func RunPropertyAssignmentTestForMetricSettings(subject MetricSettings) string {
 	return ""
 }
 
-func Test_MetricSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DiagnosticsMetricSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -871,13 +873,13 @@ func Test_MetricSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MetricSettings via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMetricSettings, MetricSettingsGenerator()))
+		"Round trip of DiagnosticsMetricSettings via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiagnosticsMetricSettings, DiagnosticsMetricSettingsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMetricSettings runs a test to see if a specific instance of MetricSettings round trips to JSON and back losslessly
-func RunJSONSerializationTestForMetricSettings(subject MetricSettings) string {
+// RunJSONSerializationTestForDiagnosticsMetricSettings runs a test to see if a specific instance of DiagnosticsMetricSettings round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiagnosticsMetricSettings(subject DiagnosticsMetricSettings) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -885,7 +887,7 @@ func RunJSONSerializationTestForMetricSettings(subject MetricSettings) string {
 	}
 
 	// Deserialize back into memory
-	var actual MetricSettings
+	var actual DiagnosticsMetricSettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -903,44 +905,45 @@ func RunJSONSerializationTestForMetricSettings(subject MetricSettings) string {
 	return ""
 }
 
-// Generator of MetricSettings instances for property testing - lazily instantiated by MetricSettingsGenerator()
-var metricSettingsGenerator gopter.Gen
+// Generator of DiagnosticsMetricSettings instances for property testing - lazily instantiated by
+// DiagnosticsMetricSettingsGenerator()
+var diagnosticsMetricSettingsGenerator gopter.Gen
 
-// MetricSettingsGenerator returns a generator of MetricSettings instances for property testing.
-// We first initialize metricSettingsGenerator with a simplified generator based on the
+// DiagnosticsMetricSettingsGenerator returns a generator of DiagnosticsMetricSettings instances for property testing.
+// We first initialize diagnosticsMetricSettingsGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func MetricSettingsGenerator() gopter.Gen {
-	if metricSettingsGenerator != nil {
-		return metricSettingsGenerator
+func DiagnosticsMetricSettingsGenerator() gopter.Gen {
+	if diagnosticsMetricSettingsGenerator != nil {
+		return diagnosticsMetricSettingsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricSettings(generators)
-	metricSettingsGenerator = gen.Struct(reflect.TypeOf(MetricSettings{}), generators)
+	AddIndependentPropertyGeneratorsForDiagnosticsMetricSettings(generators)
+	diagnosticsMetricSettingsGenerator = gen.Struct(reflect.TypeOf(DiagnosticsMetricSettings{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricSettings(generators)
-	AddRelatedPropertyGeneratorsForMetricSettings(generators)
-	metricSettingsGenerator = gen.Struct(reflect.TypeOf(MetricSettings{}), generators)
+	AddIndependentPropertyGeneratorsForDiagnosticsMetricSettings(generators)
+	AddRelatedPropertyGeneratorsForDiagnosticsMetricSettings(generators)
+	diagnosticsMetricSettingsGenerator = gen.Struct(reflect.TypeOf(DiagnosticsMetricSettings{}), generators)
 
-	return metricSettingsGenerator
+	return diagnosticsMetricSettingsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMetricSettings is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMetricSettings(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDiagnosticsMetricSettings is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDiagnosticsMetricSettings(gens map[string]gopter.Gen) {
 	gens["Category"] = gen.PtrOf(gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["TimeGrain"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForMetricSettings is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMetricSettings(gens map[string]gopter.Gen) {
-	gens["RetentionPolicy"] = gen.PtrOf(RetentionPolicyGenerator())
+// AddRelatedPropertyGeneratorsForDiagnosticsMetricSettings is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDiagnosticsMetricSettings(gens map[string]gopter.Gen) {
+	gens["RetentionPolicy"] = gen.PtrOf(MicrosoftCommonRetentionPolicyGenerator())
 }
 
-func Test_MetricSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_DiagnosticsMetricSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -951,26 +954,26 @@ func Test_MetricSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from MetricSettings_STATUS to MetricSettings_STATUS via AssignProperties_To_MetricSettings_STATUS & AssignProperties_From_MetricSettings_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMetricSettings_STATUS, MetricSettings_STATUSGenerator()))
+		"Round trip from DiagnosticsMetricSettings_STATUS to DiagnosticsMetricSettings_STATUS via AssignProperties_To_DiagnosticsMetricSettings_STATUS & AssignProperties_From_DiagnosticsMetricSettings_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDiagnosticsMetricSettings_STATUS, DiagnosticsMetricSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricSettings_STATUS tests if a specific instance of MetricSettings_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForMetricSettings_STATUS(subject MetricSettings_STATUS) string {
+// RunPropertyAssignmentTestForDiagnosticsMetricSettings_STATUS tests if a specific instance of DiagnosticsMetricSettings_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDiagnosticsMetricSettings_STATUS(subject DiagnosticsMetricSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MetricSettings_STATUS
-	err := copied.AssignProperties_To_MetricSettings_STATUS(&other)
+	var other storage.DiagnosticsMetricSettings_STATUS
+	err := copied.AssignProperties_To_DiagnosticsMetricSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MetricSettings_STATUS
-	err = actual.AssignProperties_From_MetricSettings_STATUS(&other)
+	var actual DiagnosticsMetricSettings_STATUS
+	err = actual.AssignProperties_From_DiagnosticsMetricSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -987,7 +990,7 @@ func RunPropertyAssignmentTestForMetricSettings_STATUS(subject MetricSettings_ST
 	return ""
 }
 
-func Test_MetricSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DiagnosticsMetricSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -999,13 +1002,13 @@ func Test_MetricSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MetricSettings_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMetricSettings_STATUS, MetricSettings_STATUSGenerator()))
+		"Round trip of DiagnosticsMetricSettings_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiagnosticsMetricSettings_STATUS, DiagnosticsMetricSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMetricSettings_STATUS runs a test to see if a specific instance of MetricSettings_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForMetricSettings_STATUS(subject MetricSettings_STATUS) string {
+// RunJSONSerializationTestForDiagnosticsMetricSettings_STATUS runs a test to see if a specific instance of DiagnosticsMetricSettings_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiagnosticsMetricSettings_STATUS(subject DiagnosticsMetricSettings_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1013,7 +1016,7 @@ func RunJSONSerializationTestForMetricSettings_STATUS(subject MetricSettings_STA
 	}
 
 	// Deserialize back into memory
-	var actual MetricSettings_STATUS
+	var actual DiagnosticsMetricSettings_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1031,45 +1034,45 @@ func RunJSONSerializationTestForMetricSettings_STATUS(subject MetricSettings_STA
 	return ""
 }
 
-// Generator of MetricSettings_STATUS instances for property testing - lazily instantiated by
-// MetricSettings_STATUSGenerator()
-var metricSettings_STATUSGenerator gopter.Gen
+// Generator of DiagnosticsMetricSettings_STATUS instances for property testing - lazily instantiated by
+// DiagnosticsMetricSettings_STATUSGenerator()
+var diagnosticsMetricSettings_STATUSGenerator gopter.Gen
 
-// MetricSettings_STATUSGenerator returns a generator of MetricSettings_STATUS instances for property testing.
-// We first initialize metricSettings_STATUSGenerator with a simplified generator based on the
+// DiagnosticsMetricSettings_STATUSGenerator returns a generator of DiagnosticsMetricSettings_STATUS instances for property testing.
+// We first initialize diagnosticsMetricSettings_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func MetricSettings_STATUSGenerator() gopter.Gen {
-	if metricSettings_STATUSGenerator != nil {
-		return metricSettings_STATUSGenerator
+func DiagnosticsMetricSettings_STATUSGenerator() gopter.Gen {
+	if diagnosticsMetricSettings_STATUSGenerator != nil {
+		return diagnosticsMetricSettings_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricSettings_STATUS(generators)
-	metricSettings_STATUSGenerator = gen.Struct(reflect.TypeOf(MetricSettings_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDiagnosticsMetricSettings_STATUS(generators)
+	diagnosticsMetricSettings_STATUSGenerator = gen.Struct(reflect.TypeOf(DiagnosticsMetricSettings_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricSettings_STATUS(generators)
-	AddRelatedPropertyGeneratorsForMetricSettings_STATUS(generators)
-	metricSettings_STATUSGenerator = gen.Struct(reflect.TypeOf(MetricSettings_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDiagnosticsMetricSettings_STATUS(generators)
+	AddRelatedPropertyGeneratorsForDiagnosticsMetricSettings_STATUS(generators)
+	diagnosticsMetricSettings_STATUSGenerator = gen.Struct(reflect.TypeOf(DiagnosticsMetricSettings_STATUS{}), generators)
 
-	return metricSettings_STATUSGenerator
+	return diagnosticsMetricSettings_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMetricSettings_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMetricSettings_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDiagnosticsMetricSettings_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDiagnosticsMetricSettings_STATUS(gens map[string]gopter.Gen) {
 	gens["Category"] = gen.PtrOf(gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["TimeGrain"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForMetricSettings_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMetricSettings_STATUS(gens map[string]gopter.Gen) {
-	gens["RetentionPolicy"] = gen.PtrOf(RetentionPolicy_STATUSGenerator())
+// AddRelatedPropertyGeneratorsForDiagnosticsMetricSettings_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDiagnosticsMetricSettings_STATUS(gens map[string]gopter.Gen) {
+	gens["RetentionPolicy"] = gen.PtrOf(MicrosoftCommonRetentionPolicy_STATUSGenerator())
 }
 
-func Test_RetentionPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_MicrosoftCommonRetentionPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -1080,26 +1083,26 @@ func Test_RetentionPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RetentionPolicy to RetentionPolicy via AssignProperties_To_RetentionPolicy & AssignProperties_From_RetentionPolicy returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRetentionPolicy, RetentionPolicyGenerator()))
+		"Round trip from MicrosoftCommonRetentionPolicy to MicrosoftCommonRetentionPolicy via AssignProperties_To_MicrosoftCommonRetentionPolicy & AssignProperties_From_MicrosoftCommonRetentionPolicy returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMicrosoftCommonRetentionPolicy, MicrosoftCommonRetentionPolicyGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRetentionPolicy tests if a specific instance of RetentionPolicy can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRetentionPolicy(subject RetentionPolicy) string {
+// RunPropertyAssignmentTestForMicrosoftCommonRetentionPolicy tests if a specific instance of MicrosoftCommonRetentionPolicy can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMicrosoftCommonRetentionPolicy(subject MicrosoftCommonRetentionPolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RetentionPolicy
-	err := copied.AssignProperties_To_RetentionPolicy(&other)
+	var other storage.MicrosoftCommonRetentionPolicy
+	err := copied.AssignProperties_To_MicrosoftCommonRetentionPolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RetentionPolicy
-	err = actual.AssignProperties_From_RetentionPolicy(&other)
+	var actual MicrosoftCommonRetentionPolicy
+	err = actual.AssignProperties_From_MicrosoftCommonRetentionPolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1116,7 +1119,7 @@ func RunPropertyAssignmentTestForRetentionPolicy(subject RetentionPolicy) string
 	return ""
 }
 
-func Test_RetentionPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MicrosoftCommonRetentionPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -1128,13 +1131,13 @@ func Test_RetentionPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RetentionPolicy via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRetentionPolicy, RetentionPolicyGenerator()))
+		"Round trip of MicrosoftCommonRetentionPolicy via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMicrosoftCommonRetentionPolicy, MicrosoftCommonRetentionPolicyGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRetentionPolicy runs a test to see if a specific instance of RetentionPolicy round trips to JSON and back losslessly
-func RunJSONSerializationTestForRetentionPolicy(subject RetentionPolicy) string {
+// RunJSONSerializationTestForMicrosoftCommonRetentionPolicy runs a test to see if a specific instance of MicrosoftCommonRetentionPolicy round trips to JSON and back losslessly
+func RunJSONSerializationTestForMicrosoftCommonRetentionPolicy(subject MicrosoftCommonRetentionPolicy) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1142,7 +1145,7 @@ func RunJSONSerializationTestForRetentionPolicy(subject RetentionPolicy) string 
 	}
 
 	// Deserialize back into memory
-	var actual RetentionPolicy
+	var actual MicrosoftCommonRetentionPolicy
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1160,29 +1163,30 @@ func RunJSONSerializationTestForRetentionPolicy(subject RetentionPolicy) string 
 	return ""
 }
 
-// Generator of RetentionPolicy instances for property testing - lazily instantiated by RetentionPolicyGenerator()
-var retentionPolicyGenerator gopter.Gen
+// Generator of MicrosoftCommonRetentionPolicy instances for property testing - lazily instantiated by
+// MicrosoftCommonRetentionPolicyGenerator()
+var microsoftCommonRetentionPolicyGenerator gopter.Gen
 
-// RetentionPolicyGenerator returns a generator of RetentionPolicy instances for property testing.
-func RetentionPolicyGenerator() gopter.Gen {
-	if retentionPolicyGenerator != nil {
-		return retentionPolicyGenerator
+// MicrosoftCommonRetentionPolicyGenerator returns a generator of MicrosoftCommonRetentionPolicy instances for property testing.
+func MicrosoftCommonRetentionPolicyGenerator() gopter.Gen {
+	if microsoftCommonRetentionPolicyGenerator != nil {
+		return microsoftCommonRetentionPolicyGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRetentionPolicy(generators)
-	retentionPolicyGenerator = gen.Struct(reflect.TypeOf(RetentionPolicy{}), generators)
+	AddIndependentPropertyGeneratorsForMicrosoftCommonRetentionPolicy(generators)
+	microsoftCommonRetentionPolicyGenerator = gen.Struct(reflect.TypeOf(MicrosoftCommonRetentionPolicy{}), generators)
 
-	return retentionPolicyGenerator
+	return microsoftCommonRetentionPolicyGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRetentionPolicy is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRetentionPolicy(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMicrosoftCommonRetentionPolicy is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMicrosoftCommonRetentionPolicy(gens map[string]gopter.Gen) {
 	gens["Days"] = gen.PtrOf(gen.Int())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
-func Test_RetentionPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_MicrosoftCommonRetentionPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -1193,26 +1197,26 @@ func Test_RetentionPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RetentionPolicy_STATUS to RetentionPolicy_STATUS via AssignProperties_To_RetentionPolicy_STATUS & AssignProperties_From_RetentionPolicy_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRetentionPolicy_STATUS, RetentionPolicy_STATUSGenerator()))
+		"Round trip from MicrosoftCommonRetentionPolicy_STATUS to MicrosoftCommonRetentionPolicy_STATUS via AssignProperties_To_MicrosoftCommonRetentionPolicy_STATUS & AssignProperties_From_MicrosoftCommonRetentionPolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMicrosoftCommonRetentionPolicy_STATUS, MicrosoftCommonRetentionPolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRetentionPolicy_STATUS tests if a specific instance of RetentionPolicy_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRetentionPolicy_STATUS(subject RetentionPolicy_STATUS) string {
+// RunPropertyAssignmentTestForMicrosoftCommonRetentionPolicy_STATUS tests if a specific instance of MicrosoftCommonRetentionPolicy_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMicrosoftCommonRetentionPolicy_STATUS(subject MicrosoftCommonRetentionPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RetentionPolicy_STATUS
-	err := copied.AssignProperties_To_RetentionPolicy_STATUS(&other)
+	var other storage.MicrosoftCommonRetentionPolicy_STATUS
+	err := copied.AssignProperties_To_MicrosoftCommonRetentionPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RetentionPolicy_STATUS
-	err = actual.AssignProperties_From_RetentionPolicy_STATUS(&other)
+	var actual MicrosoftCommonRetentionPolicy_STATUS
+	err = actual.AssignProperties_From_MicrosoftCommonRetentionPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1229,7 +1233,7 @@ func RunPropertyAssignmentTestForRetentionPolicy_STATUS(subject RetentionPolicy_
 	return ""
 }
 
-func Test_RetentionPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MicrosoftCommonRetentionPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -1241,13 +1245,13 @@ func Test_RetentionPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *tes
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RetentionPolicy_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRetentionPolicy_STATUS, RetentionPolicy_STATUSGenerator()))
+		"Round trip of MicrosoftCommonRetentionPolicy_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMicrosoftCommonRetentionPolicy_STATUS, MicrosoftCommonRetentionPolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRetentionPolicy_STATUS runs a test to see if a specific instance of RetentionPolicy_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRetentionPolicy_STATUS(subject RetentionPolicy_STATUS) string {
+// RunJSONSerializationTestForMicrosoftCommonRetentionPolicy_STATUS runs a test to see if a specific instance of MicrosoftCommonRetentionPolicy_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForMicrosoftCommonRetentionPolicy_STATUS(subject MicrosoftCommonRetentionPolicy_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1255,7 +1259,7 @@ func RunJSONSerializationTestForRetentionPolicy_STATUS(subject RetentionPolicy_S
 	}
 
 	// Deserialize back into memory
-	var actual RetentionPolicy_STATUS
+	var actual MicrosoftCommonRetentionPolicy_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1273,25 +1277,25 @@ func RunJSONSerializationTestForRetentionPolicy_STATUS(subject RetentionPolicy_S
 	return ""
 }
 
-// Generator of RetentionPolicy_STATUS instances for property testing - lazily instantiated by
-// RetentionPolicy_STATUSGenerator()
-var retentionPolicy_STATUSGenerator gopter.Gen
+// Generator of MicrosoftCommonRetentionPolicy_STATUS instances for property testing - lazily instantiated by
+// MicrosoftCommonRetentionPolicy_STATUSGenerator()
+var microsoftCommonRetentionPolicy_STATUSGenerator gopter.Gen
 
-// RetentionPolicy_STATUSGenerator returns a generator of RetentionPolicy_STATUS instances for property testing.
-func RetentionPolicy_STATUSGenerator() gopter.Gen {
-	if retentionPolicy_STATUSGenerator != nil {
-		return retentionPolicy_STATUSGenerator
+// MicrosoftCommonRetentionPolicy_STATUSGenerator returns a generator of MicrosoftCommonRetentionPolicy_STATUS instances for property testing.
+func MicrosoftCommonRetentionPolicy_STATUSGenerator() gopter.Gen {
+	if microsoftCommonRetentionPolicy_STATUSGenerator != nil {
+		return microsoftCommonRetentionPolicy_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRetentionPolicy_STATUS(generators)
-	retentionPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(RetentionPolicy_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForMicrosoftCommonRetentionPolicy_STATUS(generators)
+	microsoftCommonRetentionPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(MicrosoftCommonRetentionPolicy_STATUS{}), generators)
 
-	return retentionPolicy_STATUSGenerator
+	return microsoftCommonRetentionPolicy_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRetentionPolicy_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRetentionPolicy_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMicrosoftCommonRetentionPolicy_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMicrosoftCommonRetentionPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["Days"] = gen.PtrOf(gen.Int())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
