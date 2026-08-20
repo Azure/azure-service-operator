@@ -301,12 +301,12 @@ groupModelConfiguration:
         $importConfigMapMode: optional
     LoggerContractProperties:
       Credentials:
-        $isSecret: true
+        $importSecretMode: required
       ResourceId:
         $referenceType: arm
     UserCreateParameterProperties:
       Password:
-        $isSecret: true
+        $importSecretMode: required
     UserIdentityContract:
       Id:
         $referenceType: simple
