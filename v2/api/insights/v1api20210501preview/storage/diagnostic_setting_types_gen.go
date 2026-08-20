@@ -28,7 +28,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20210501preview.DiagnosticSetting
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/openapi.json
 // - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
 type DiagnosticSetting struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (setting *DiagnosticSetting) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20210501preview.DiagnosticSetting
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/openapi.json
 // - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
 type DiagnosticSettingList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -182,12 +182,12 @@ type DiagnosticSetting_Spec struct {
 	EventHubAuthorizationRuleReference *genruntime.ResourceReference `armReference:"EventHubAuthorizationRuleId" json:"eventHubAuthorizationRuleReference,omitempty"`
 	EventHubName                       *string                       `json:"eventHubName,omitempty"`
 	LogAnalyticsDestinationType        *string                       `json:"logAnalyticsDestinationType,omitempty"`
-	Logs                               []LogSettings                 `json:"logs,omitempty"`
+	Logs                               []DiagnosticsLogSettings      `json:"logs,omitempty"`
 
 	// MarketplacePartnerReference: The full ARM resource ID of the Marketplace resource to which you would like to send
 	// Diagnostic Logs.
 	MarketplacePartnerReference *genruntime.ResourceReference  `armReference:"MarketplacePartnerId" json:"marketplacePartnerReference,omitempty"`
-	Metrics                     []MetricSettings               `json:"metrics,omitempty"`
+	Metrics                     []DiagnosticsMetricSettings    `json:"metrics,omitempty"`
 	OperatorSpec                *DiagnosticSettingOperatorSpec `json:"operatorSpec,omitempty"`
 	OriginalVersion             string                         `json:"originalVersion,omitempty"`
 
@@ -230,21 +230,21 @@ func (setting *DiagnosticSetting_Spec) ConvertSpecTo(destination genruntime.Conv
 
 // Storage version of v1api20210501preview.DiagnosticSetting_STATUS
 type DiagnosticSetting_STATUS struct {
-	Conditions                  []conditions.Condition  `json:"conditions,omitempty"`
-	EventHubAuthorizationRuleId *string                 `json:"eventHubAuthorizationRuleId,omitempty"`
-	EventHubName                *string                 `json:"eventHubName,omitempty"`
-	Id                          *string                 `json:"id,omitempty"`
-	LogAnalyticsDestinationType *string                 `json:"logAnalyticsDestinationType,omitempty"`
-	Logs                        []LogSettings_STATUS    `json:"logs,omitempty"`
-	MarketplacePartnerId        *string                 `json:"marketplacePartnerId,omitempty"`
-	Metrics                     []MetricSettings_STATUS `json:"metrics,omitempty"`
-	Name                        *string                 `json:"name,omitempty"`
-	PropertyBag                 genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
-	ServiceBusRuleId            *string                 `json:"serviceBusRuleId,omitempty"`
-	StorageAccountId            *string                 `json:"storageAccountId,omitempty"`
-	SystemData                  *SystemData_STATUS      `json:"systemData,omitempty"`
-	Type                        *string                 `json:"type,omitempty"`
-	WorkspaceId                 *string                 `json:"workspaceId,omitempty"`
+	Conditions                  []conditions.Condition             `json:"conditions,omitempty"`
+	EventHubAuthorizationRuleId *string                            `json:"eventHubAuthorizationRuleId,omitempty"`
+	EventHubName                *string                            `json:"eventHubName,omitempty"`
+	Id                          *string                            `json:"id,omitempty"`
+	LogAnalyticsDestinationType *string                            `json:"logAnalyticsDestinationType,omitempty"`
+	Logs                        []DiagnosticsLogSettings_STATUS    `json:"logs,omitempty"`
+	MarketplacePartnerId        *string                            `json:"marketplacePartnerId,omitempty"`
+	Metrics                     []DiagnosticsMetricSettings_STATUS `json:"metrics,omitempty"`
+	Name                        *string                            `json:"name,omitempty"`
+	PropertyBag                 genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ServiceBusRuleId            *string                            `json:"serviceBusRuleId,omitempty"`
+	StorageAccountId            *string                            `json:"storageAccountId,omitempty"`
+	SystemData                  *SystemData_STATUS                 `json:"systemData,omitempty"`
+	Type                        *string                            `json:"type,omitempty"`
+	WorkspaceId                 *string                            `json:"workspaceId,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DiagnosticSetting_STATUS{}
@@ -275,44 +275,44 @@ type DiagnosticSettingOperatorSpec struct {
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
-// Storage version of v1api20210501preview.LogSettings
+// Storage version of v1api20210501preview.DiagnosticsLogSettings
 // Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.
-type LogSettings struct {
-	Category        *string                `json:"category,omitempty"`
-	CategoryGroup   *string                `json:"categoryGroup,omitempty"`
-	Enabled         *bool                  `json:"enabled,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	RetentionPolicy *RetentionPolicy       `json:"retentionPolicy,omitempty"`
+type DiagnosticsLogSettings struct {
+	Category        *string                         `json:"category,omitempty"`
+	CategoryGroup   *string                         `json:"categoryGroup,omitempty"`
+	Enabled         *bool                           `json:"enabled,omitempty"`
+	PropertyBag     genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
+	RetentionPolicy *MicrosoftCommonRetentionPolicy `json:"retentionPolicy,omitempty"`
 }
 
-// Storage version of v1api20210501preview.LogSettings_STATUS
+// Storage version of v1api20210501preview.DiagnosticsLogSettings_STATUS
 // Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.
-type LogSettings_STATUS struct {
-	Category        *string                 `json:"category,omitempty"`
-	CategoryGroup   *string                 `json:"categoryGroup,omitempty"`
-	Enabled         *bool                   `json:"enabled,omitempty"`
-	PropertyBag     genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
-	RetentionPolicy *RetentionPolicy_STATUS `json:"retentionPolicy,omitempty"`
+type DiagnosticsLogSettings_STATUS struct {
+	Category        *string                                `json:"category,omitempty"`
+	CategoryGroup   *string                                `json:"categoryGroup,omitempty"`
+	Enabled         *bool                                  `json:"enabled,omitempty"`
+	PropertyBag     genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+	RetentionPolicy *MicrosoftCommonRetentionPolicy_STATUS `json:"retentionPolicy,omitempty"`
 }
 
-// Storage version of v1api20210501preview.MetricSettings
+// Storage version of v1api20210501preview.DiagnosticsMetricSettings
 // Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric.
-type MetricSettings struct {
-	Category        *string                `json:"category,omitempty"`
-	Enabled         *bool                  `json:"enabled,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	RetentionPolicy *RetentionPolicy       `json:"retentionPolicy,omitempty"`
-	TimeGrain       *string                `json:"timeGrain,omitempty"`
+type DiagnosticsMetricSettings struct {
+	Category        *string                         `json:"category,omitempty"`
+	Enabled         *bool                           `json:"enabled,omitempty"`
+	PropertyBag     genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
+	RetentionPolicy *MicrosoftCommonRetentionPolicy `json:"retentionPolicy,omitempty"`
+	TimeGrain       *string                         `json:"timeGrain,omitempty"`
 }
 
-// Storage version of v1api20210501preview.MetricSettings_STATUS
+// Storage version of v1api20210501preview.DiagnosticsMetricSettings_STATUS
 // Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric.
-type MetricSettings_STATUS struct {
-	Category        *string                 `json:"category,omitempty"`
-	Enabled         *bool                   `json:"enabled,omitempty"`
-	PropertyBag     genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
-	RetentionPolicy *RetentionPolicy_STATUS `json:"retentionPolicy,omitempty"`
-	TimeGrain       *string                 `json:"timeGrain,omitempty"`
+type DiagnosticsMetricSettings_STATUS struct {
+	Category        *string                                `json:"category,omitempty"`
+	Enabled         *bool                                  `json:"enabled,omitempty"`
+	PropertyBag     genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+	RetentionPolicy *MicrosoftCommonRetentionPolicy_STATUS `json:"retentionPolicy,omitempty"`
+	TimeGrain       *string                                `json:"timeGrain,omitempty"`
 }
 
 // Storage version of v1api20210501preview.SystemData_STATUS
@@ -418,17 +418,17 @@ type augmentConversionForSystemData_STATUS interface {
 	AssignPropertiesTo(dst *storage.SystemData_STATUS) error
 }
 
-// Storage version of v1api20210501preview.RetentionPolicy
+// Storage version of v1api20210501preview.MicrosoftCommonRetentionPolicy
 // Specifies the retention policy for the log.
-type RetentionPolicy struct {
+type MicrosoftCommonRetentionPolicy struct {
 	Days        *int                   `json:"days,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20210501preview.RetentionPolicy_STATUS
+// Storage version of v1api20210501preview.MicrosoftCommonRetentionPolicy_STATUS
 // Specifies the retention policy for the log.
-type RetentionPolicy_STATUS struct {
+type MicrosoftCommonRetentionPolicy_STATUS struct {
 	Days        *int                   `json:"days,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

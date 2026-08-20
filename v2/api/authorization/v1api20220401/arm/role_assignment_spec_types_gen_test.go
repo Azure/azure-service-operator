@@ -86,6 +86,8 @@ func AddIndependentPropertyGeneratorsForRoleAssignmentProperties(gens map[string
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
+		RoleAssignmentProperties_PrincipalType_AgentServicePrincipal,
+		RoleAssignmentProperties_PrincipalType_AgentUser,
 		RoleAssignmentProperties_PrincipalType_Device,
 		RoleAssignmentProperties_PrincipalType_ForeignGroup,
 		RoleAssignmentProperties_PrincipalType_Group,
