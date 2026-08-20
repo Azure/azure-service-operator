@@ -29,17 +29,17 @@ import (
 const ourOperator = "azureserviceoperator-system"
 
 // managed is the usual case: nothing anywhere says to leave these resources alone
-var managed = annotations.ReconcilePolicies{
+var managed = annotations.ResolvedReconcilePolicies{
 	Effective: annotations.ReconcilePolicyManage,
-	Inherited: annotations.ReconcilePolicyManage,
-	Default:   annotations.ReconcilePolicyManage,
+	Namespace: annotations.ReconcilePolicyManage,
+	Global:    annotations.ReconcilePolicyManage,
 }
 
 func Test_StartAllowed_givenPolicies_returnsExpectedResult(t *testing.T) {
 	t.Parallel()
 
 	cases := map[string]struct {
-		policies      annotations.ReconcilePolicies
+		policies      annotations.ResolvedReconcilePolicies
 		watcherPolicy string
 		expected      bool
 	}{
@@ -58,18 +58,18 @@ func Test_StartAllowed_givenPolicies_returnsExpectedResult(t *testing.T) {
 			expected:      true,
 		},
 		"Skip inherited from the namespace or the operator": {
-			policies: annotations.ReconcilePolicies{
+			policies: annotations.ResolvedReconcilePolicies{
 				Effective: annotations.ReconcilePolicyManage,
-				Inherited: annotations.ReconcilePolicySkip,
-				Default:   annotations.ReconcilePolicyManage,
+				Namespace: annotations.ReconcilePolicySkip,
+				Global:    annotations.ReconcilePolicyManage,
 			},
 			expected: false,
 		},
 		"Watcher annotated manage overrides an inherited skip": {
-			policies: annotations.ReconcilePolicies{
+			policies: annotations.ResolvedReconcilePolicies{
 				Effective: annotations.ReconcilePolicyManage,
-				Inherited: annotations.ReconcilePolicySkip,
-				Default:   annotations.ReconcilePolicyManage,
+				Namespace: annotations.ReconcilePolicySkip,
+				Global:    annotations.ReconcilePolicyManage,
 			},
 			watcherPolicy: string(annotations.ReconcilePolicyManage),
 			expected:      true,
@@ -83,19 +83,19 @@ func Test_StartAllowed_givenPolicies_returnsExpectedResult(t *testing.T) {
 		},
 		// A namespace saying skip does not reach an annotated resource, so it must not decide this either
 		"Unreadable policy is not overridden by a skipping namespace": {
-			policies: annotations.ReconcilePolicies{
+			policies: annotations.ResolvedReconcilePolicies{
 				Effective: annotations.ReconcilePolicyManage,
-				Inherited: annotations.ReconcilePolicySkip,
-				Default:   annotations.ReconcilePolicyManage,
+				Namespace: annotations.ReconcilePolicySkip,
+				Global:    annotations.ReconcilePolicyManage,
 			},
 			watcherPolicy: "nonsense",
 			expected:      true,
 		},
 		"Unreadable policy under an operator that skips": {
-			policies: annotations.ReconcilePolicies{
+			policies: annotations.ResolvedReconcilePolicies{
 				Effective: annotations.ReconcilePolicyManage,
-				Inherited: annotations.ReconcilePolicyManage,
-				Default:   annotations.ReconcilePolicySkip,
+				Namespace: annotations.ReconcilePolicyManage,
+				Global:    annotations.ReconcilePolicySkip,
 			},
 			watcherPolicy: "nonsense",
 			expected:      false,
@@ -115,6 +115,25 @@ func Test_StartAllowed_givenPolicies_returnsExpectedResult(t *testing.T) {
 			g.Expect(startAllowed(c.policies, watcher)).To(Equal(c.expected))
 		})
 	}
+}
+
+// A watcher always shares its target's namespace, so a mismatch means the policies in hand were resolved
+// somewhere else and can't answer for this watcher
+func Test_StartAllowed_givenWatcherInAnotherNamespace_reportsTheMismatch(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	watcher := &databasewatcher.Watcher{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "watcher",
+			Namespace: "elsewhere",
+		},
+	}
+
+	_, err := startAllowed(managed, watcher)
+
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring("elsewhere"))
 }
 
 func Test_TargetPostReconcileCheck_givenWatcherThatIsNotOursToStart_succeedsWithoutCallingAzure(t *testing.T) {
@@ -369,7 +388,7 @@ func runPostReconcileCheck(
 		_ *resolver.Resolver,
 		_ *genericarmclient.GenericClient,
 		_ logr.Logger,
-		_ annotations.ReconcilePolicies,
+		_ annotations.ResolvedReconcilePolicies,
 	) (extensions.PostReconcileCheckResult, error) {
 		return extensions.PostReconcileCheckResultSuccess(), nil
 	}
