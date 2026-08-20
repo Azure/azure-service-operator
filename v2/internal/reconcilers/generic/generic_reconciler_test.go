@@ -226,9 +226,10 @@ func Test_CreateOrUpdate_PassesResolvedPoliciesToSelectedPath(t *testing.T) {
 			g.Expect(result).To(Equal(ctrl.Result{}))
 
 			expected := annotations.ResolvedReconcilePolicies{
-				Effective: c.expectedEffective,
-				Namespace: annotations.ReconcilePolicyManage,
-				Global:    annotations.ReconcilePolicyManage,
+				Effective:     c.expectedEffective,
+				Namespace:     annotations.ReconcilePolicyManage,
+				NamespaceName: namespace,
+				Global:        annotations.ReconcilePolicyManage,
 			}
 			if c.expectCreate {
 				g.Expect(spy.createOrUpdatePolicies).NotTo(BeNil())

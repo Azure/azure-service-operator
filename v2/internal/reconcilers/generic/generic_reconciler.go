@@ -445,8 +445,7 @@ func (gr *GenericReconciler) mergeReconcilePolicy(
 
 	// Resolve the namespace policy independently because resources other than the one being reconciled may
 	// rely on it. Unlike the effective policy, this fails closed when the namespace cannot be read.
-	namespacePolicy := annotations.ReconcilePolicySkip
-	namespacePolicy, err = annotations.ParseReconcilePolicy(namespacePolicyAnnotation, globalReconcilePolicy)
+	namespacePolicy, err := annotations.ParseReconcilePolicy(namespacePolicyAnnotation, globalReconcilePolicy)
 	if err != nil {
 		log.V(Verbose).Info(
 			"Namespace has an unusable reconcile policy. Applying global policy instead",
@@ -457,9 +456,10 @@ func (gr *GenericReconciler) mergeReconcilePolicy(
 	log.V(Verbose).Info("Retrieved reconcile policy", "policy", reconcilePolicy, "source", source)
 
 	return annotations.ResolvedReconcilePolicies{
-		Effective: reconcilePolicy,
-		Namespace: namespacePolicy,
-		Global:    globalReconcilePolicy,
+		Effective:     reconcilePolicy,
+		Namespace:     namespacePolicy,
+		NamespaceName: obj.GetNamespace(),
+		Global:        globalReconcilePolicy,
 	}, nil
 }
 

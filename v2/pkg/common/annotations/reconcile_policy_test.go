@@ -7,6 +7,8 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 func TestParseReconcilePolicy(t *testing.T) {
@@ -62,29 +64,39 @@ func TestParseReconcilePolicy(t *testing.T) {
 	}
 }
 
-func TestResolvedReconcilePoliciesForAnnotation(t *testing.T) {
+func TestResolvedReconcilePoliciesForResource(t *testing.T) {
 	t.Parallel()
 
 	policies := ResolvedReconcilePolicies{
-		Effective: ReconcilePolicyDetachOnDelete,
-		Namespace: ReconcilePolicySkip,
-		Global:    ReconcilePolicyManage,
+		Effective:     ReconcilePolicyDetachOnDelete,
+		Namespace:     ReconcilePolicySkip,
+		NamespaceName: "expected-namespace",
+		Global:        ReconcilePolicyManage,
 	}
 
 	cases := map[string]struct {
-		annotation string
-		expected   ReconcilePolicyValue
+		namespace     string
+		annotation    string
+		expected      ReconcilePolicyValue
+		expectedError string
 	}{
 		"empty uses namespace policy": {
-			expected: ReconcilePolicySkip,
+			namespace: "expected-namespace",
+			expected:  ReconcilePolicySkip,
 		},
 		"valid annotation overrides namespace policy": {
+			namespace:  "expected-namespace",
 			annotation: string(ReconcilePolicyManage),
 			expected:   ReconcilePolicyManage,
 		},
 		"invalid annotation uses global policy": {
+			namespace:  "expected-namespace",
 			annotation: "unknown",
 			expected:   ReconcilePolicyManage,
+		},
+		"different namespace returns error": {
+			namespace:     "other-namespace",
+			expectedError: "expected resource in namespace \"expected-namespace\", but it was in \"other-namespace\"",
 		},
 	}
 
@@ -93,7 +105,45 @@ func TestResolvedReconcilePoliciesForAnnotation(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			g.Expect(policies.ForAnnotation(c.annotation)).To(Equal(c.expected))
+			resource := &metav1.PartialObjectMetadata{
+				ObjectMeta: metav1.ObjectMeta{
+					Namespace:   c.namespace,
+					Annotations: policyAnnotation(c.annotation),
+				},
+			}
+
+			actual, err := policies.ForResource(resource)
+			if c.expectedError != "" {
+				g.Expect(err).To(MatchError(c.expectedError))
+				return
+			}
+
+			g.Expect(err).NotTo(HaveOccurred())
+			g.Expect(actual).To(Equal(c.expected))
 		})
 	}
+}
+
+func TestResolvedReconcilePoliciesForResource_AllowsMatchingEmptyNamespace(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	policies := ResolvedReconcilePolicies{
+		Namespace: ReconcilePolicySkip,
+		Global:    ReconcilePolicyManage,
+	}
+	resource := &metav1.PartialObjectMetadata{}
+
+	actual, err := policies.ForResource(resource)
+
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(actual).To(Equal(ReconcilePolicySkip))
+}
+
+func policyAnnotation(policy string) map[string]string {
+	if policy == "" {
+		return nil
+	}
+
+	return map[string]string{ReconcilePolicy: policy}
 }

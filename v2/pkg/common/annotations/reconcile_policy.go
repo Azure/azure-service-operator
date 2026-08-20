@@ -3,7 +3,10 @@
 
 package annotations
 
-import "github.com/rotisserie/eris"
+import (
+	"github.com/rotisserie/eris"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+)
 
 // ReconcilePolicy describes the reconcile policy for the resource in question.
 // A reconcile policy describes what action (if any) the operator is allowed to take when
@@ -29,7 +32,7 @@ const (
 )
 
 // ResolvedReconcilePolicies are the resolved reconcile policies in effect during a reconcile.
-// Read them with Effective or ForAnnotation() rather than combining them.
+// Read them with Effective or ForResource() rather than combining them.
 type ResolvedReconcilePolicies struct {
 	// Effective is the policy for the resource being reconciled, resolved from its own annotation, Namespace,
 	// and Global.
@@ -39,20 +42,32 @@ type ResolvedReconcilePolicies struct {
 	// from the namespace annotation or Global.
 	Namespace ReconcilePolicyValue
 
+	// NamespaceName is the namespace from which Namespace was resolved.
+	NamespaceName string
+
 	// Global is the policy resolved from the operator configuration or the built-in default. An unusable
 	// annotation falls back to this policy.
 	Global ReconcilePolicyValue
 }
 
-// ForAnnotation returns the reconcile policy for a resource other than the one being reconciled, given
-// that resource's own reconcile-policy annotation.
-func (r ResolvedReconcilePolicies) ForAnnotation(annotation string) ReconcilePolicyValue {
+// ForResource returns the reconcile policy for a resource other than the one being reconciled.
+// The resource must be in NamespaceName because Namespace was resolved specifically for that namespace.
+func (r ResolvedReconcilePolicies) ForResource(resource metav1.Object) (ReconcilePolicyValue, error) {
+	if resource.GetNamespace() != r.NamespaceName {
+		return "", eris.Errorf(
+			"expected resource in namespace %q, but it was in %q",
+			r.NamespaceName,
+			resource.GetNamespace(),
+		)
+	}
+
+	annotation := resource.GetAnnotations()[ReconcilePolicy]
 	if annotation == "" {
-		return r.Namespace
+		return r.Namespace, nil
 	}
 
 	policy, _ := ParseReconcilePolicy(annotation, r.Global)
-	return policy
+	return policy, nil
 }
 
 // ParseReconcilePolicy parses provided reconcile policy, will fallback if the value is missing.
