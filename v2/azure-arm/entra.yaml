@@ -1,4 +1,6 @@
 groupModelConfiguration:
   v1: # Handcrafted
+    Application:
+      $supportedFrom: v2.21.0
     SecurityGroup:
       $supportedFrom: v2.14.0

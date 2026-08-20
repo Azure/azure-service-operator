@@ -215,6 +215,9 @@ import (
 	containerregistry_v20230701 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701"
 	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
 	containerregistry_v20230701w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/webhook"
+	containerregistry_v20251101 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101"
+	containerregistry_v20251101s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/storage"
+	containerregistry_v20251101w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/webhook"
 	containerservice_customizations "github.com/Azure/azure-service-operator/v2/api/containerservice/customizations"
 	containerservice_v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
 	containerservice_v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
@@ -336,6 +339,9 @@ import (
 	eventgrid_v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601"
 	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/storage"
 	eventgrid_v20200601w "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/webhook"
+	eventgrid_v20250215 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215"
+	eventgrid_v20250215s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215/storage"
+	eventgrid_v20250215w "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215/webhook"
 	eventhub_customizations "github.com/Azure/azure-service-operator/v2/api/eventhub/customizations"
 	eventhub_v20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
 	eventhub_v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
@@ -1328,6 +1334,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20230701s.RegistryReplication)})
+	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20251101s.RegistryCacheRule)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.Fleet)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsAutoUpgradeProfile)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsMember)})
@@ -1805,14 +1812,34 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.Domain)})
-	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.DomainsTopic)})
+	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20250215s.Domain)})
+	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20250215s.DomainsTopic)})
 	result = append(result, &registration.StorageType{
-		Obj: new(eventgrid_v20200601s.EventSubscription),
+		Obj: new(eventgrid_v20250215s.EventSubscription),
 		Indexes: []registration.Index{
+			{
+				Key:  ".spec.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig",
+				Func: indexEventgridEventSubscriptionAzureActiveDirectoryApplicationIdOrUriFromConfig,
+			},
+			{
+				Key:  ".spec.deliveryWithResourceIdentity.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig",
+				Func: indexEventgridEventSubscriptionDeliveryWithResourceIdentityAzureActiveDirectoryApplicationIdOrUriFromConfig,
+			},
+			{
+				Key:  ".spec.deliveryWithResourceIdentity.destination.webHook.endpointUrl",
+				Func: indexEventgridEventSubscriptionDeliveryWithResourceIdentityEndpointUrl,
+			},
+			{
+				Key:  ".spec.deliveryWithResourceIdentity.destination.storageQueue.queueNameFromConfig",
+				Func: indexEventgridEventSubscriptionDeliveryWithResourceIdentityQueueNameFromConfig,
+			},
 			{
 				Key:  ".spec.destination.webHook.endpointUrl",
 				Func: indexEventgridEventSubscriptionEndpointUrl,
+			},
+			{
+				Key:  ".spec.destination.storageQueue.queueNameFromConfig",
+				Func: indexEventgridEventSubscriptionQueueNameFromConfig,
 			},
 		},
 		Watches: []registration.Watch{
@@ -1820,13 +1847,25 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Type: &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory(
 					[]string{
+						".spec.deliveryWithResourceIdentity.destination.webHook.endpointUrl",
 						".spec.destination.webHook.endpointUrl",
 					},
-					&eventgrid_v20200601s.EventSubscriptionList{}),
+					&eventgrid_v20250215s.EventSubscriptionList{}),
+			},
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.deliveryWithResourceIdentity.destination.storageQueue.queueNameFromConfig",
+						".spec.deliveryWithResourceIdentity.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig",
+						".spec.destination.storageQueue.queueNameFromConfig",
+						".spec.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig",
+					},
+					&eventgrid_v20250215s.EventSubscriptionList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.Topic)})
+	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20250215s.Topic)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.Namespace)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.NamespacesAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.NamespacesEventhub)})
@@ -5017,6 +5056,12 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &containerregistry_v20230701w.RegistryReplication{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(containerregistry_v20230701s.Registry)}, &registration.KnownType{Obj: new(containerregistry_v20230701s.RegistryReplication)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(containerregistry_v20251101.RegistryCacheRule),
+		Defaulter: &containerregistry_v20251101w.RegistryCacheRule{},
+		Validator: &containerregistry_v20251101w.RegistryCacheRule{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(containerregistry_v20251101s.RegistryCacheRule)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -6083,6 +6128,34 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(eventgrid_v20200601s.DomainsTopic)},
 		&registration.KnownType{Obj: new(eventgrid_v20200601s.EventSubscription)},
 		&registration.KnownType{Obj: new(eventgrid_v20200601s.Topic)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(eventgrid_v20250215.Domain),
+			Defaulter: &eventgrid_v20250215w.Domain{},
+			Validator: &eventgrid_v20250215w.Domain{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v20250215.DomainsTopic),
+			Defaulter: &eventgrid_v20250215w.DomainsTopic{},
+			Validator: &eventgrid_v20250215w.DomainsTopic{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v20250215.EventSubscription),
+			Defaulter: &eventgrid_v20250215w.EventSubscription{},
+			Validator: &eventgrid_v20250215w.EventSubscription{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v20250215.Topic),
+			Defaulter: &eventgrid_v20250215w.Topic{},
+			Validator: &eventgrid_v20250215w.Topic{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(eventgrid_v20250215s.Domain)},
+		&registration.KnownType{Obj: new(eventgrid_v20250215s.DomainsTopic)},
+		&registration.KnownType{Obj: new(eventgrid_v20250215s.EventSubscription)},
+		&registration.KnownType{Obj: new(eventgrid_v20250215s.Topic)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -8428,6 +8501,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerregistry_v20210901s.AddToScheme(scheme)
 	_ = containerregistry_v20230701.AddToScheme(scheme)
 	_ = containerregistry_v20230701s.AddToScheme(scheme)
+	_ = containerregistry_v20251101.AddToScheme(scheme)
+	_ = containerregistry_v20251101s.AddToScheme(scheme)
 	_ = containerservice_v20240901.AddToScheme(scheme)
 	_ = containerservice_v20240901s.AddToScheme(scheme)
 	_ = containerservice_v20250301.AddToScheme(scheme)
@@ -8502,6 +8577,8 @@ func createScheme() *runtime.Scheme {
 	_ = eventgrid_v1api20200601s.AddToScheme(scheme)
 	_ = eventgrid_v20200601.AddToScheme(scheme)
 	_ = eventgrid_v20200601s.AddToScheme(scheme)
+	_ = eventgrid_v20250215.AddToScheme(scheme)
+	_ = eventgrid_v20250215s.AddToScheme(scheme)
 	_ = eventhub_v20211101.AddToScheme(scheme)
 	_ = eventhub_v20211101s.AddToScheme(scheme)
 	_ = eventhub_v20240101.AddToScheme(scheme)
@@ -8729,6 +8806,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &compute_customizations.VirtualMachineScaleSetsExtensionExtension{})
 	result = append(result, &compute_customizations.VirtualMachinesExtensionExtension{})
 	result = append(result, &containerinstance_customizations.ContainerGroupExtension{})
+	result = append(result, &containerregistry_customizations.RegistryCacheRuleExtension{})
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
 	result = append(result, &containerregistry_customizations.RegistryReplicationExtension{})
 	result = append(result, &containerservice_customizations.FleetExtension{})
@@ -10628,9 +10706,90 @@ func indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig(rawObj client.Object)
 	return obj.Spec.PrincipalIdFromConfig.Index()
 }
 
-// indexEventgridEventSubscriptionEndpointUrl an index function for eventgrid_v20200601s.EventSubscription .spec.destination.webHook.endpointUrl
+// indexEventgridEventSubscriptionAzureActiveDirectoryApplicationIdOrUriFromConfig an index function for eventgrid_v20250215s.EventSubscription .spec.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig
+func indexEventgridEventSubscriptionAzureActiveDirectoryApplicationIdOrUriFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Destination == nil {
+		return nil
+	}
+	if obj.Spec.Destination.WebHook == nil {
+		return nil
+	}
+	if obj.Spec.Destination.WebHook.AzureActiveDirectoryApplicationIdOrUriFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Destination.WebHook.AzureActiveDirectoryApplicationIdOrUriFromConfig.Index()
+}
+
+// indexEventgridEventSubscriptionDeliveryWithResourceIdentityAzureActiveDirectoryApplicationIdOrUriFromConfig an index function for eventgrid_v20250215s.EventSubscription .spec.deliveryWithResourceIdentity.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig
+func indexEventgridEventSubscriptionDeliveryWithResourceIdentityAzureActiveDirectoryApplicationIdOrUriFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook.AzureActiveDirectoryApplicationIdOrUriFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook.AzureActiveDirectoryApplicationIdOrUriFromConfig.Index()
+}
+
+// indexEventgridEventSubscriptionDeliveryWithResourceIdentityEndpointUrl an index function for eventgrid_v20250215s.EventSubscription .spec.deliveryWithResourceIdentity.destination.webHook.endpointUrl
+func indexEventgridEventSubscriptionDeliveryWithResourceIdentityEndpointUrl(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook.EndpointUrl == nil {
+		return nil
+	}
+	return obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook.EndpointUrl.Index()
+}
+
+// indexEventgridEventSubscriptionDeliveryWithResourceIdentityQueueNameFromConfig an index function for eventgrid_v20250215s.EventSubscription .spec.deliveryWithResourceIdentity.destination.storageQueue.queueNameFromConfig
+func indexEventgridEventSubscriptionDeliveryWithResourceIdentityQueueNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.StorageQueue == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.StorageQueue.QueueNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.DeliveryWithResourceIdentity.Destination.StorageQueue.QueueNameFromConfig.Index()
+}
+
+// indexEventgridEventSubscriptionEndpointUrl an index function for eventgrid_v20250215s.EventSubscription .spec.destination.webHook.endpointUrl
 func indexEventgridEventSubscriptionEndpointUrl(rawObj client.Object) []string {
-	obj, ok := rawObj.(*eventgrid_v20200601s.EventSubscription)
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
 	if !ok {
 		return nil
 	}
@@ -10644,6 +10803,24 @@ func indexEventgridEventSubscriptionEndpointUrl(rawObj client.Object) []string {
 		return nil
 	}
 	return obj.Spec.Destination.WebHook.EndpointUrl.Index()
+}
+
+// indexEventgridEventSubscriptionQueueNameFromConfig an index function for eventgrid_v20250215s.EventSubscription .spec.destination.storageQueue.queueNameFromConfig
+func indexEventgridEventSubscriptionQueueNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Destination == nil {
+		return nil
+	}
+	if obj.Spec.Destination.StorageQueue == nil {
+		return nil
+	}
+	if obj.Spec.Destination.StorageQueue.QueueNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Destination.StorageQueue.QueueNameFromConfig.Index()
 }
 
 // indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.accessPolicies.applicationIdFromConfig

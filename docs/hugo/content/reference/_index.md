@@ -313,6 +313,14 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `containerregistry.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource          | ARM Version | CRD Version | Supported From | Sample                                                                                                                                    |
+|-------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| RegistryCacheRule | 2025-11-01  | v20251101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v20251101/v20251101_registrycacherule.yaml) |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
@@ -352,11 +360,11 @@ To install the CRDs for these resources, your ASO configuration must include `da
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource          | ARM Version        | CRD Version      | Supported From | Sample                                                                                                                                                |
-|-------------------|--------------------|------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| SharedPrivateLink | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_sharedprivatelink.yaml) |
-| Target            | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_target.yaml)            |
-| Watcher           | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_watcher.yaml)           |
+| Resource                                                                                            | ARM Version        | CRD Version      | Supported From | Sample                                                                                                                                                |
+|-----------------------------------------------------------------------------------------------------|--------------------|------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [SharedPrivateLink]({{< relref "/reference/databasewatcher/v20241001preview#SharedPrivateLink" >}}) | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_sharedprivatelink.yaml) |
+| [Target]({{< relref "/reference/databasewatcher/v20241001preview#Target" >}})                       | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_target.yaml)            |
+| [Watcher]({{< relref "/reference/databasewatcher/v20241001preview#Watcher" >}})                     | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_watcher.yaml)           |
 
 ## DataFactory
 
@@ -503,6 +511,14 @@ These resource(s) are the latest versions available for use in the current relea
 
 To install the CRDs for these resources, your ASO configuration must include `entra.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                        | ARM Version | CRD Version | Supported From | Sample                                                                                                    |
+|-----------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------|
+| [Application]({{< relref "/reference/entra/v1#Application" >}}) | v1          | v1          | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/entra/v1/v1_application.yaml) |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
@@ -515,6 +531,17 @@ These resource(s) are available for use in the current release of ASO. Different
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 
 To install the CRDs for these resources, your ASO configuration must include `eventgrid.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                               | ARM Version | CRD Version | Supported From | Sample                                                                                                                            |
+|----------------------------------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| [Domain]({{< relref "/reference/eventgrid/v20250215#Domain" >}})                       | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_domain.yaml)            |
+| [DomainsTopic]({{< relref "/reference/eventgrid/v20250215#DomainsTopic" >}})           | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_domainstopic.yaml)      |
+| [EventSubscription]({{< relref "/reference/eventgrid/v20250215#EventSubscription" >}}) | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_eventsubscription.yaml) |
+| [Topic]({{< relref "/reference/eventgrid/v20250215#Topic" >}})                         | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_topic.yaml)             |
 
 ### Released
 

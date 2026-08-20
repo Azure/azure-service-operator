@@ -19,6 +19,7 @@ IgnoreURLs:
   - "/azure-workload-identity/docs/topics/service-account-labels-and-annotations.html#service-account" # Actually starts with 'https://azure.github.io' but gets treated as internal link, which fails. Checked 2025-02-14
   - "/azure-workload-identity/docs/installation/mutating-admission-webhook.html" # Actually starts with 'https://azure.github.io' but gets treated as internal link, which fails. Checked 2025-02-14
   - "https://slack.k8s.io/" # Causing timeouts as of 2025-02-14
+  - "https://kubernetes.slack.com" # Causing sporadic 403s, Checked 2026-08-17
   - "https://cert-manager.io/" # Causing timeouts as of 2025-04-14
   - "https://book.kubebuilder.io/" # Causing timeouts as of 2025-04-14
   - "https://github.com/" # GitHub is throttling harshly, causing 429 errors as of 2025-05-02

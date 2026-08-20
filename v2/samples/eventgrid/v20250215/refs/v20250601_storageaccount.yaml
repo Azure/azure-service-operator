@@ -1,0 +1,13 @@
+apiVersion: storage.azure.com/v20250601
+kind: StorageAccount
+metadata:
+  name: samplekubestoragebeta
+  namespace: default
+spec:
+  location: westcentralus
+  kind: StorageV2
+  sku:
+    name: Standard_LRS
+  owner:
+    name: aso-sample-rg
+  accessTier: Hot

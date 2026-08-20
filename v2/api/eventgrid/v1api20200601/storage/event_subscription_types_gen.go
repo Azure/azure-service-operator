@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &EventSubscription{}
 
 // ConvertFrom populates our EventSubscription from the provided hub EventSubscription
 func (subscription *EventSubscription) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.EventSubscription)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v20200601/storage/EventSubscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.EventSubscription
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return subscription.AssignProperties_From_EventSubscription(source)
+	err = subscription.AssignProperties_From_EventSubscription(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to subscription")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub EventSubscription from our EventSubscription
 func (subscription *EventSubscription) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.EventSubscription)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v20200601/storage/EventSubscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.EventSubscription
+	err := subscription.AssignProperties_To_EventSubscription(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from subscription")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return subscription.AssignProperties_To_EventSubscription(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &EventSubscription{}
@@ -3690,9 +3703,10 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) AssignProperties_To_
 
 // Storage version of v1api20200601.StorageQueueEventSubscriptionDestination
 type StorageQueueEventSubscriptionDestination struct {
-	EndpointType *string                `json:"endpointType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	QueueName    *string                `json:"queueName,omitempty"`
+	EndpointType        *string                        `json:"endpointType,omitempty"`
+	PropertyBag         genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	QueueName           *string                        `json:"queueName,omitempty" optionalConfigMapPair:"QueueName"`
+	QueueNameFromConfig *genruntime.ConfigMapReference `json:"queueNameFromConfig,omitempty" optionalConfigMapPair:"QueueName"`
 
 	// ResourceReference: The Azure Resource ID of the storage account that contains the queue that is the destination of an
 	// event subscription.
@@ -3709,6 +3723,14 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_Fr
 
 	// QueueName
 	destination.QueueName = genruntime.ClonePointerToString(source.QueueName)
+
+	// QueueNameFromConfig
+	if source.QueueNameFromConfig != nil {
+		queueNameFromConfig := source.QueueNameFromConfig.Copy()
+		destination.QueueNameFromConfig = &queueNameFromConfig
+	} else {
+		destination.QueueNameFromConfig = nil
+	}
 
 	// ResourceReference
 	if source.ResourceReference != nil {
@@ -3748,6 +3770,14 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_To
 
 	// QueueName
 	target.QueueName = genruntime.ClonePointerToString(destination.QueueName)
+
+	// QueueNameFromConfig
+	if destination.QueueNameFromConfig != nil {
+		queueNameFromConfig := destination.QueueNameFromConfig.Copy()
+		target.QueueNameFromConfig = &queueNameFromConfig
+	} else {
+		target.QueueNameFromConfig = nil
+	}
 
 	// ResourceReference
 	if destination.ResourceReference != nil {
@@ -3855,13 +3885,14 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) AssignProper
 
 // Storage version of v1api20200601.WebHookEventSubscriptionDestination
 type WebHookEventSubscriptionDestination struct {
-	AzureActiveDirectoryApplicationIdOrUri *string                     `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
-	AzureActiveDirectoryTenantId           *string                     `json:"azureActiveDirectoryTenantId,omitempty"`
-	EndpointType                           *string                     `json:"endpointType,omitempty"`
-	EndpointUrl                            *genruntime.SecretReference `json:"endpointUrl,omitempty"`
-	MaxEventsPerBatch                      *int                        `json:"maxEventsPerBatch,omitempty"`
-	PreferredBatchSizeInKilobytes          *int                        `json:"preferredBatchSizeInKilobytes,omitempty"`
-	PropertyBag                            genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	AzureActiveDirectoryApplicationIdOrUri           *string                        `json:"azureActiveDirectoryApplicationIdOrUri,omitempty" optionalConfigMapPair:"AzureActiveDirectoryApplicationIdOrUri"`
+	AzureActiveDirectoryApplicationIdOrUriFromConfig *genruntime.ConfigMapReference `json:"azureActiveDirectoryApplicationIdOrUriFromConfig,omitempty" optionalConfigMapPair:"AzureActiveDirectoryApplicationIdOrUri"`
+	AzureActiveDirectoryTenantId                     *string                        `json:"azureActiveDirectoryTenantId,omitempty"`
+	EndpointType                                     *string                        `json:"endpointType,omitempty"`
+	EndpointUrl                                      *genruntime.SecretReference    `json:"endpointUrl,omitempty"`
+	MaxEventsPerBatch                                *int                           `json:"maxEventsPerBatch,omitempty"`
+	PreferredBatchSizeInKilobytes                    *int                           `json:"preferredBatchSizeInKilobytes,omitempty"`
+	PropertyBag                                      genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // AssignProperties_From_WebHookEventSubscriptionDestination populates our WebHookEventSubscriptionDestination from the provided source WebHookEventSubscriptionDestination
@@ -3871,6 +3902,14 @@ func (destination *WebHookEventSubscriptionDestination) AssignProperties_From_We
 
 	// AzureActiveDirectoryApplicationIdOrUri
 	destination.AzureActiveDirectoryApplicationIdOrUri = genruntime.ClonePointerToString(source.AzureActiveDirectoryApplicationIdOrUri)
+
+	// AzureActiveDirectoryApplicationIdOrUriFromConfig
+	if source.AzureActiveDirectoryApplicationIdOrUriFromConfig != nil {
+		azureActiveDirectoryApplicationIdOrUriFromConfig := source.AzureActiveDirectoryApplicationIdOrUriFromConfig.Copy()
+		destination.AzureActiveDirectoryApplicationIdOrUriFromConfig = &azureActiveDirectoryApplicationIdOrUriFromConfig
+	} else {
+		destination.AzureActiveDirectoryApplicationIdOrUriFromConfig = nil
+	}
 
 	// AzureActiveDirectoryTenantId
 	destination.AzureActiveDirectoryTenantId = genruntime.ClonePointerToString(source.AzureActiveDirectoryTenantId)
@@ -3919,6 +3958,14 @@ func (destination *WebHookEventSubscriptionDestination) AssignProperties_To_WebH
 
 	// AzureActiveDirectoryApplicationIdOrUri
 	target.AzureActiveDirectoryApplicationIdOrUri = genruntime.ClonePointerToString(destination.AzureActiveDirectoryApplicationIdOrUri)
+
+	// AzureActiveDirectoryApplicationIdOrUriFromConfig
+	if destination.AzureActiveDirectoryApplicationIdOrUriFromConfig != nil {
+		azureActiveDirectoryApplicationIdOrUriFromConfig := destination.AzureActiveDirectoryApplicationIdOrUriFromConfig.Copy()
+		target.AzureActiveDirectoryApplicationIdOrUriFromConfig = &azureActiveDirectoryApplicationIdOrUriFromConfig
+	} else {
+		target.AzureActiveDirectoryApplicationIdOrUriFromConfig = nil
+	}
 
 	// AzureActiveDirectoryTenantId
 	target.AzureActiveDirectoryTenantId = genruntime.ClonePointerToString(destination.AzureActiveDirectoryTenantId)
