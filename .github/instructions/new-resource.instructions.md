@@ -74,7 +74,7 @@ After editing the file, re-run `task generator:quick-checks`. Repeat this proces
 
 Inspect the newly generated files in `v2/api/<group>/<version>/`. Pay close attention to the `_types_gen.go` file for your resource.
 
-*   **Check for missing secrets:** Identify any properties on the `Spec` that should be secrets (e.g., passwords, keys) but are currently strings. Mark them in `azure-arm.yaml` with `$isSecret: true`.
+*   **Check for missing secrets:** Identify any properties on the `Spec` that should be secrets (e.g., passwords, keys) but are currently strings. Mark them in `azure-arm.yaml` with `$importSecretMode: required`.
 *   **Check for Azure-generated secrets:** Look at the `Status` object. If Azure generates keys, connection strings, or other sensitive data upon creation, configure them to be exported to a Kubernetes secret using `$azureGeneratedSecrets`.
 *   **Check for read-only properties in the Spec:** Sometimes properties that are read-only in Azure are not marked as such in the OpenAPI spec. These must be removed from the `Spec` by adding a `remove: true` directive in `azure-arm.yaml`.
 
@@ -137,4 +137,3 @@ Run local checks to ensure your changes haven't introduced any regressions. The 
 ## Reference Documentation
 
 For more detailed instructions on adding a new resource, refer to the [Adding a new code generated resource to ASO v2 documentation](docs/hugo/content/contributing/add-a-new-code-generated-resource/_index.md). 
-
