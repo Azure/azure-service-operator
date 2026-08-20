@@ -150,6 +150,8 @@ func (spec *SecurityGroupSpec) OriginalVersion() string {
 // they must NOT be included in PATCH requests.
 // The typed setters (SetOwners/SetMembers) serialize as nested objects which Graph rejects on create —
 // the @odata.bind annotation is the only working shape for setting owners/members inline at creation time.
+// Why do we need to do this? Because we can end up orphaned without access to a SecurityGroup we've just created
+// if we don't include the annotations to populate Owners as a part of the create.
 func (spec *SecurityGroupSpec) AssignODataBindOnCreate(
 	model models.Groupable,
 	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
