@@ -42,7 +42,7 @@ func (extension *TargetExtension) PostReconcileCheck(
 	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
-	reconcilePolicies annotations.ReconcilePolicies,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
 	next extensions.PostReconcileCheckFunc,
 ) (extensions.PostReconcileCheckResult, error) {
 	target, ok := obj.(*databasewatcher.Target)
@@ -73,7 +73,12 @@ func (extension *TargetExtension) PostReconcileCheck(
 	}
 
 	// A policy that forbids modifying the watcher forbids starting it
-	if !startAllowed(reconcilePolicies, watcher) {
+	allowed, err := startAllowed(reconcilePolicies, watcher)
+	if err != nil {
+		return extensions.PostReconcileCheckResult{}, err
+	}
+
+	if !allowed {
 		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
 	}
 
@@ -219,12 +224,18 @@ func describeCredential(obj genruntime.MetaObject) string {
 	return fmt.Sprintf("credential %q", credential)
 }
 
-// startAllowed reports whether the watcher's own policy permits modifying it, the policies in hand being
-// the target's.
-func startAllowed(policies annotations.ReconcilePolicies, watcher *databasewatcher.Watcher) bool {
-	return policies.ForAnnotation(
-		watcher.GetAnnotations()[annotations.ReconcilePolicy],
-	).AllowsModify()
+// startAllowed reports whether the watcher's own policy permits modifying it. An owner always shares the
+// target's namespace, so a mismatch here is a resolution the policies can't answer rather than a refusal.
+func startAllowed(
+	policies annotations.ResolvedReconcilePolicies,
+	watcher *databasewatcher.Watcher,
+) (bool, error) {
+	policy, err := policies.ForResource(watcher)
+	if err != nil {
+		return false, eris.Wrapf(err, "resolving the reconcile policy of watcher %q", watcher.Name)
+	}
+
+	return policy.AllowsModify(), nil
 }
 
 // submitStart asks Azure to start the watcher, returning a token for the operation. Nothing waits here.

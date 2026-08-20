@@ -228,10 +228,10 @@ func Test_TargetPostReconcileCheck_givenSkippedTarget_leavesTheWatcherAlone(t *t
 	target, watcher := startableTargetAndWatcher()
 
 	// The watcher may be managed even while the target it belongs to is not
-	check := startCheckWithPolicies(g, server, target, watcher, annotations.ReconcilePolicies{
+	check := startCheckWithPolicies(g, server, target, watcher, annotations.ResolvedReconcilePolicies{
 		Effective: annotations.ReconcilePolicySkip,
-		Inherited: annotations.ReconcilePolicyManage,
-		Default:   annotations.ReconcilePolicyManage,
+		Namespace: annotations.ReconcilePolicyManage,
+		Global:    annotations.ReconcilePolicyManage,
 	})
 
 	result, err := check()
@@ -305,10 +305,10 @@ func Test_TargetPostReconcileCheck_givenForeignWatcher_refusesBeforeResolvingIts
 	})
 
 	// This operator leaves things alone unless told otherwise; the operator that owns the watcher may not
-	check := startCheckWithPolicies(g, server, target, watcher, annotations.ReconcilePolicies{
+	check := startCheckWithPolicies(g, server, target, watcher, annotations.ResolvedReconcilePolicies{
 		Effective: annotations.ReconcilePolicyManage,
-		Inherited: annotations.ReconcilePolicySkip,
-		Default:   annotations.ReconcilePolicySkip,
+		Namespace: annotations.ReconcilePolicySkip,
+		Global:    annotations.ReconcilePolicySkip,
 	})
 
 	result, err := check()
@@ -354,10 +354,10 @@ func startCheck(
 	target *databasewatcher.Target,
 	watcher *databasewatcher.Watcher,
 ) func() (extensions.PostReconcileCheckResult, error) {
-	return startCheckWithPolicies(g, server, target, watcher, annotations.ReconcilePolicies{
+	return startCheckWithPolicies(g, server, target, watcher, annotations.ResolvedReconcilePolicies{
 		Effective: annotations.ReconcilePolicyManage,
-		Inherited: annotations.ReconcilePolicyManage,
-		Default:   annotations.ReconcilePolicyManage,
+		Namespace: annotations.ReconcilePolicyManage,
+		Global:    annotations.ReconcilePolicyManage,
 	})
 }
 
@@ -366,7 +366,7 @@ func startCheckWithPolicies(
 	server *httptest.Server,
 	target *databasewatcher.Target,
 	watcher *databasewatcher.Watcher,
-	policies annotations.ReconcilePolicies,
+	policies annotations.ResolvedReconcilePolicies,
 ) func() (extensions.PostReconcileCheckResult, error) {
 	cfg := cloud.Configuration{
 		Services: map[cloud.ServiceName]cloud.ServiceConfiguration{
@@ -390,7 +390,7 @@ func startCheckWithPolicies(
 		_ *resolver.Resolver,
 		_ *genericarmclient.GenericClient,
 		_ logr.Logger,
-		_ annotations.ReconcilePolicies,
+		_ annotations.ResolvedReconcilePolicies,
 	) (extensions.PostReconcileCheckResult, error) {
 		return extensions.PostReconcileCheckResultSuccess(), nil
 	}
