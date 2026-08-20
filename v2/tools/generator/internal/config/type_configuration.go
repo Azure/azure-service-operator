@@ -51,7 +51,6 @@ const (
 	azureNameFromConfigTag      = "$azureNameFromConfig"      // Boolean indicating if the resource supports setting AzureName from a ConfigMap
 	defaultAzureNameTag         = "$defaultAzureName"         // Boolean indicating if the resource should automatically default AzureName
 	exportAsTag                 = "$exportAs"                 // String specifying the name to use for a type (implies $export: true)
-	exportTag                   = "$export"                   // Boolean specifying whether a resource type is exported
 	generatedConfigsTag         = "$generatedConfigs"         // A map of strings specifying which spec or status properties should be exported to configmap
 	importableTag               = "$importable"               // Boolean specifying whether a resource type is importable via asoctl (defaults to true)
 	isResourceTag               = "$isResource"               // Boolean specifying whether a particular type is a resource or not.
@@ -229,11 +228,6 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		if strings.EqualFold(lastID, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
 			tc.NameInNextVersion.Set(c.Value)
 			continue
-		}
-
-		// $export: <bool> - DEPRECATED
-		if strings.EqualFold(lastID, exportTag) && c.Kind == yaml.ScalarNode {
-			return eris.Errorf("$export is deprecated, use $exportAs instead (line %d, column %d)", c.Line, c.Column)
 		}
 
 		// $exportAs: <string>
