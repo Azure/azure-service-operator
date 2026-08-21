@@ -30,9 +30,9 @@ const ourOperator = "azureserviceoperator-system"
 
 // managed is the usual case: nothing anywhere says to leave these resources alone
 var managed = annotations.ResolvedReconcilePolicies{
-	Effective: annotations.ReconcilePolicyManage,
-	Namespace: annotations.ReconcilePolicyManage,
-	Global:    annotations.ReconcilePolicyManage,
+	Effective:       annotations.ReconcilePolicyManage,
+	NamespacePolicy: annotations.ReconcilePolicyManage,
+	Global:          annotations.ReconcilePolicyManage,
 }
 
 func Test_StartAllowed_givenPolicies_returnsExpectedResult(t *testing.T) {
@@ -59,17 +59,17 @@ func Test_StartAllowed_givenPolicies_returnsExpectedResult(t *testing.T) {
 		},
 		"Skip inherited from the namespace or the operator": {
 			policies: annotations.ResolvedReconcilePolicies{
-				Effective: annotations.ReconcilePolicyManage,
-				Namespace: annotations.ReconcilePolicySkip,
-				Global:    annotations.ReconcilePolicyManage,
+				Effective:       annotations.ReconcilePolicyManage,
+				NamespacePolicy: annotations.ReconcilePolicySkip,
+				Global:          annotations.ReconcilePolicyManage,
 			},
 			expected: false,
 		},
 		"Watcher annotated manage overrides an inherited skip": {
 			policies: annotations.ResolvedReconcilePolicies{
-				Effective: annotations.ReconcilePolicyManage,
-				Namespace: annotations.ReconcilePolicySkip,
-				Global:    annotations.ReconcilePolicyManage,
+				Effective:       annotations.ReconcilePolicyManage,
+				NamespacePolicy: annotations.ReconcilePolicySkip,
+				Global:          annotations.ReconcilePolicyManage,
 			},
 			watcherPolicy: string(annotations.ReconcilePolicyManage),
 			expected:      true,
@@ -84,18 +84,18 @@ func Test_StartAllowed_givenPolicies_returnsExpectedResult(t *testing.T) {
 		// A namespace saying skip does not reach an annotated resource, so it must not decide this either
 		"Unreadable policy is not overridden by a skipping namespace": {
 			policies: annotations.ResolvedReconcilePolicies{
-				Effective: annotations.ReconcilePolicyManage,
-				Namespace: annotations.ReconcilePolicySkip,
-				Global:    annotations.ReconcilePolicyManage,
+				Effective:       annotations.ReconcilePolicyManage,
+				NamespacePolicy: annotations.ReconcilePolicySkip,
+				Global:          annotations.ReconcilePolicyManage,
 			},
 			watcherPolicy: "nonsense",
 			expected:      true,
 		},
 		"Unreadable policy under an operator that skips": {
 			policies: annotations.ResolvedReconcilePolicies{
-				Effective: annotations.ReconcilePolicyManage,
-				Namespace: annotations.ReconcilePolicyManage,
-				Global:    annotations.ReconcilePolicySkip,
+				Effective:       annotations.ReconcilePolicyManage,
+				NamespacePolicy: annotations.ReconcilePolicyManage,
+				Global:          annotations.ReconcilePolicySkip,
 			},
 			watcherPolicy: "nonsense",
 			expected:      false,
