@@ -90,7 +90,7 @@ func (i *calculator) NextInterval(req ctrl.Request, result ctrl.Result, err erro
 	defer i.failuresLock.Unlock()
 
 	if err != nil {
-		return i.failureResult(req, result, err)
+		return i.failureResult(req, err)
 	}
 
 	// Happy path
@@ -106,6 +106,7 @@ func (i *calculator) NextInterval(req ctrl.Request, result ctrl.Result, err erro
 	if hasRequeueDelayOverride && isRequeueing {
 		result.RequeueAfter = i.requeueDelayOverride
 	}
+
 	return result, nil
 }
 
@@ -114,7 +115,7 @@ func (i *calculator) NextInterval(req ctrl.Request, result ctrl.Result, err erro
 // larger of the caller's value and the classification-based exponential backoff — throttling
 // signals from upstream services may slow us down but must never speed us up beyond our own
 // backoff schedule.
-func (i *calculator) failureResult(req ctrl.Request, result ctrl.Result, err error) (ctrl.Result, error) {
+func (i *calculator) failureResult(req ctrl.Request, err error) (ctrl.Result, error) {
 	exp := i.failures[req]
 	i.failures[req] = i.failures[req] + 1
 
@@ -133,6 +134,7 @@ func (i *calculator) failureResult(req ctrl.Request, result ctrl.Result, err err
 			// Since we're ignoring this error and counting it as a success, stop tracking the req
 			delete(i.failures, req)
 		}
+
 		return ctrl.Result{}, err
 	}
 
@@ -148,17 +150,21 @@ func (i *calculator) failureResult(req ctrl.Request, result ctrl.Result, err err
 		case retry.VerySlow:
 			// For VerySlow, we don't start at baseDelay and go up via exponential, instead
 			// we jump straight to the slow delay interval w/ jitter
-			delay := i.delayWithJitter(i.errorVerySlowDelay)
-			return ctrl.Result{RequeueAfter: maxDuration(delay, result.RequeueAfter)}, nil
+			delay := max(i.delayWithJitter(i.errorVerySlowDelay), readyErr.RetryAfter)
+			return ctrl.Result{RequeueAfter: delay}, nil
+
 		case retry.Slow:
-			delay := i.calculateExponentialDelay(i.errorBaseDelay, exp, i.errorMaxSlowDelay)
-			return ctrl.Result{RequeueAfter: maxDuration(delay, result.RequeueAfter)}, nil
+			delay := max(i.calculateExponentialDelay(i.errorBaseDelay, exp, i.errorMaxSlowDelay), readyErr.RetryAfter)
+			return ctrl.Result{RequeueAfter: delay}, nil
+
 		case retry.Fast:
-			delay := i.calculateExponentialDelay(i.errorBaseDelay, exp, i.errorMaxFastDelay)
-			return ctrl.Result{RequeueAfter: maxDuration(delay, result.RequeueAfter)}, nil
+			delay := max(i.calculateExponentialDelay(i.errorBaseDelay, exp, i.errorMaxFastDelay), readyErr.RetryAfter)
+			return ctrl.Result{RequeueAfter: delay}, nil
+
 		case retry.None:
 			// This shouldn't happen, return an error
 			return ctrl.Result{}, eris.New("didn't expect RetryNone classification for error")
+
 		default:
 			// This shouldn't happen, return an error
 			return ctrl.Result{}, eris.Errorf("unknown RetryClassification %q", readyErr.RetryClassification)
@@ -201,12 +207,4 @@ func (i *calculator) calculateExponentialDelay(base time.Duration, exp int, max 
 	}
 
 	return calculated
-}
-
-// maxDuration returns the larger of two durations.
-func maxDuration(a, b time.Duration) time.Duration {
-	if a > b {
-		return a
-	}
-	return b
 }

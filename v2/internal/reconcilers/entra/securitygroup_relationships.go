@@ -13,7 +13,6 @@ import (
 	"github.com/microsoftgraph/msgraph-sdk-go/groups"
 	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
 	"github.com/rotisserie/eris"
-	ctrl "sigs.k8s.io/controller-runtime"
 
 	asoentrav1 "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -107,15 +106,15 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	group *asoentrav1.SecurityGroup,
 	graphClient *msgraphsdkgo.GraphServiceClient,
 	log logr.Logger,
-) (ctrl.Result, error) {
+) error {
 	id, ok := getEntraID(group)
 	if !ok || id == "" {
-		return ctrl.Result{}, eris.Errorf("missing Entra ID annotation for security group %s", group.Name)
+		return eris.Errorf("missing Entra ID annotation for security group %s", group.Name)
 	}
 
 	resolvedConfigMaps, err := r.ResourceResolver.ResolveResourceConfigMapReferences(ctx, group)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
+		return eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
 	}
 
 	groupRequestBuilder := graphClient.Groups().ByGroupId(id)
@@ -125,7 +124,7 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	// Set up for Reconcile Owners
 	desired, err := group.Spec.ResolveOwnerObjectIDs(resolvedConfigMaps)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired owners for group %s", group.Name)
+		return eris.Wrapf(err, "failed resolving desired owners for group %s", group.Name)
 	}
 
 	definitions = append(definitions, ownersRelationshipDefinition(groupRequestBuilder, desired))
@@ -133,7 +132,7 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	// Set up for reconciling Members
 	desired, err = group.Spec.ResolveMemberObjectIDs(resolvedConfigMaps)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired members for group %s", group.Name)
+		return eris.Wrapf(err, "failed resolving desired members for group %s", group.Name)
 	}
 
 	definitions = append(definitions, membersRelationshipDefinition(groupRequestBuilder, desired))
@@ -141,15 +140,15 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	for _, def := range definitions {
 		current, err := def.list(ctx)
 		if err != nil {
-			return ctrl.Result{}, eris.Wrapf(err, "%s list for group %s", def.name, id)
+			return eris.Wrapf(err, "%s list for group %s", def.name, id)
 		}
 
 		if err := r.reconcileRelationship(ctx, def, current, log); err != nil {
-			return ctrl.Result{}, eris.Wrapf(err, "reconciling %s for group %s", def.name, id)
+			return eris.Wrapf(err, "reconciling %s for group %s", def.name, id)
 		}
 	}
 
-	return ctrl.Result{}, nil
+	return nil
 }
 
 // ownersRelationshipDefinition provides a relationshipDefinition for updating SecurityGroup owners.
@@ -175,11 +174,11 @@ func ownersRelationshipDefinition(
 		},
 		add: func(ctx context.Context, objectID string) error {
 			ref := msgraphmodels.NewReferenceCreate()
-			ref.SetOdataId(to.Ptr(asoentra.DirectoryObjectRefURI(objectID)))
+			ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
 			return refBuilder.Post(ctx, ref, nil)
 		},
 		remove: func(ctx context.Context, objectID string) error {
-			deleteID := asoentra.DirectoryObjectRefURI(objectID)
+			deleteID := asoentrav1.DirectoryObjectRefURI(objectID)
 			return refBuilder.Delete(ctx, &groups.ItemOwnersRefRequestBuilderDeleteRequestConfiguration{
 				QueryParameters: &groups.ItemOwnersRefRequestBuilderDeleteQueryParameters{
 					Id: &deleteID,
@@ -212,11 +211,11 @@ func membersRelationshipDefinition(
 		},
 		add: func(ctx context.Context, objectID string) error {
 			ref := msgraphmodels.NewReferenceCreate()
-			ref.SetOdataId(to.Ptr(asoentra.DirectoryObjectRefURI(objectID)))
+			ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
 			return refBuilder.Post(ctx, ref, nil)
 		},
 		remove: func(ctx context.Context, objectID string) error {
-			deleteID := asoentra.DirectoryObjectRefURI(objectID)
+			deleteID := asoentrav1.DirectoryObjectRefURI(objectID)
 			return refBuilder.Delete(ctx, &groups.ItemMembersRefRequestBuilderDeleteRequestConfiguration{
 				QueryParameters: &groups.ItemMembersRefRequestBuilderDeleteQueryParameters{
 					Id: &deleteID,

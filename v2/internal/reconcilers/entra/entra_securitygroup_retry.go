@@ -8,8 +8,6 @@ package entra
 import (
 	"errors"
 	"net/http"
-	"strconv"
-	"time"
 
 	"github.com/microsoftgraph/msgraph-sdk-go/models/odataerrors"
 	"github.com/rotisserie/eris"
@@ -42,44 +40,20 @@ var (
 // reconcileOwnersAndMembers) so this function does not walk the error tree. The
 // interval.Calculator combines these signals: throttling can only slow us down,
 // never speed us up beyond the classification-based exponential backoff.
-func classifyRelationshipError(result ctrl.Result, err error) (ctrl.Result, error) {
+func classifyRelationshipError(err error) error {
 	if isPermissionError(err) {
-		return result, conditions.NewReadyConditionImpactingError(
+		return conditions.NewReadyConditionImpactingError(
 			eris.Wrap(err, "permission denied reconciling SecurityGroup owners/members"),
 			conditions.ConditionSeverityWarning,
 			reasonRelationshipPermissionDenied,
 		)
 	}
 
-	return result, conditions.NewReadyConditionImpactingError(
+	return conditions.NewReadyConditionImpactingError(
 		eris.Wrap(err, "error reconciling SecurityGroup owners/members"),
 		conditions.ConditionSeverityWarning,
 		reasonRelationshipFailed,
 	)
-}
-
-// retryAfterResult extracts an HTTP 429 Retry-After header from an OData error in
-// err (unwrapping through single-error wrappers via errors.AsType) and returns it
-// as a ctrl.Result.RequeueAfter. A zero result is returned when no throttle signal
-// is present. This helper is intended to be called per single-wrapped error at the
-// point the error is produced; call sites that need to combine throttles from
-// multiple independent sources should take the max of the resulting durations.
-func asRetryAfter(err error) (time.Duration, bool) {
-	if err == nil {
-		return 0, false
-	}
-
-	odataError, ok := errors.AsType[*odataerrors.ODataError](err)
-	if !ok {
-		return 0, false
-	}
-
-	retryAfter, ok := retryAfterFromODataError(odataError)
-	if !ok {
-		return 0, false
-	}
-
-	return retryAfter, true
 }
 
 // maxThrottleResult returns whichever of a and b has the larger RequeueAfter. Used
@@ -101,33 +75,4 @@ func isPermissionError(err error) bool {
 	}
 
 	return odataError.ResponseStatusCode == http.StatusForbidden
-}
-
-func retryAfterFromODataError(
-	odataError *odataerrors.ODataError,
-) (time.Duration, bool) {
-	if odataError == nil || odataError.ResponseHeaders == nil {
-		return 0, false
-	}
-
-	values := odataError.ResponseHeaders.Get("Retry-After")
-	if len(values) == 0 {
-		return 0, false
-	}
-
-	retryAfterStr := values[0]
-	if retryAfterVal, parseErr := strconv.ParseInt(retryAfterStr, 10, 64); parseErr == nil {
-		// Clamp to a reasonable range just in case we get a crazy value from the service.
-		retryAfterVal = max(0, min(retryAfterVal, 3600)) // 1 hour
-		return time.Duration(retryAfterVal) * time.Second, true
-	}
-
-	if retryAfterTime, parseErr := http.ParseTime(retryAfterStr); parseErr == nil {
-		result := time.Until(retryAfterTime)
-		if result > 0 {
-			return result, true
-		}
-	}
-
-	return 0, false
 }

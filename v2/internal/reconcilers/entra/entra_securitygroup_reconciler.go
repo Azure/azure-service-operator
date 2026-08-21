@@ -218,8 +218,8 @@ func (r *EntraSecurityGroupReconciler) update(
 		}
 	}
 
-	if result, err := r.reconcileOwnersAndMembers(ctx, group, client.Client(), log); err != nil {
-		return classifyRelationshipError(result, err)
+	if err := r.reconcileOwnersAndMembers(ctx, group, client.Client(), log); err != nil {
+		return ctrl.Result{}, classifyRelationshipError(err)
 	}
 
 	group.Status.AssignFromGroup(result)

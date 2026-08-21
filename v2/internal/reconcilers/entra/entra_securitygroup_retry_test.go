@@ -6,7 +6,6 @@ Licensed under the MIT license.
 package entra
 
 import (
-	"errors"
 	"net/http"
 	"testing"
 	"time"
@@ -27,9 +26,8 @@ func TestClassifyRelationshipError_PermissionDenied_ReturnsSlowReadyConditionErr
 
 	err := makeODataError(http.StatusForbidden, nil)
 
-	result, classifiedErr := classifyRelationshipError(ctrl.Result{}, err)
+	classifiedErr := classifyRelationshipError(err)
 
-	g.Expect(result).To(Equal(ctrl.Result{}))
 	g.Expect(classifiedErr).To(HaveOccurred())
 	g.Expect(classifiedErr.Error()).To(ContainSubstring("permission denied reconciling SecurityGroup owners/members"))
 
@@ -37,92 +35,6 @@ func TestClassifyRelationshipError_PermissionDenied_ReturnsSlowReadyConditionErr
 	g.Expect(ok).To(BeTrue())
 	g.Expect(readyErr.Reason).To(Equal(reasonRelationshipPermissionDenied.Name))
 	g.Expect(readyErr.RetryClassification).To(Equal(reasonRelationshipPermissionDenied.RetryClassification))
-}
-
-func TestClassifyRelationshipError_Throttle_PropagatesCallerSuppliedResult(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	err := makeODataError(http.StatusTooManyRequests, map[string]string{"Retry-After": "42"})
-
-	// Caller (reconcileOwnersAndMembers) is expected to extract the throttle result
-	// per side and pass it in; classifyRelationshipError forwards it unchanged so
-	// the interval.Calculator can take the max of it and the classification-based
-	// backoff.
-	throttle := retryAfterResult(err)
-	result, classifiedErr := classifyRelationshipError(throttle, err)
-
-	g.Expect(result).To(Equal(ctrl.Result{RequeueAfter: 42 * time.Second}))
-	g.Expect(classifiedErr).To(HaveOccurred())
-
-	readyErr, ok := conditions.AsReadyConditionImpactingError(classifiedErr)
-	g.Expect(ok).To(BeTrue())
-	g.Expect(readyErr.Reason).To(Equal(reasonRelationshipFailed.Name))
-	g.Expect(readyErr.RetryClassification).To(Equal(reasonRelationshipFailed.RetryClassification))
-}
-
-func TestClassifyRelationshipError_ThrottleWithoutRetryAfter_ReturnsFastReadyConditionError(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	err := makeODataError(http.StatusTooManyRequests, nil)
-
-	result, classifiedErr := classifyRelationshipError(retryAfterResult(err), err)
-
-	g.Expect(result).To(Equal(ctrl.Result{}))
-	g.Expect(classifiedErr).To(HaveOccurred())
-	g.Expect(classifiedErr.Error()).To(ContainSubstring("error reconciling SecurityGroup owners/members"))
-
-	readyErr, ok := conditions.AsReadyConditionImpactingError(classifiedErr)
-	g.Expect(ok).To(BeTrue())
-	g.Expect(readyErr.Reason).To(Equal(reasonRelationshipFailed.Name))
-	g.Expect(readyErr.RetryClassification).To(Equal(reasonRelationshipFailed.RetryClassification))
-}
-
-func TestClassifyRelationshipError_GenericError_ReturnsFastReadyConditionError(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	err := errors.New("boom")
-	result, classifiedErr := classifyRelationshipError(retryAfterResult(err), err)
-
-	g.Expect(result).To(Equal(ctrl.Result{}))
-	g.Expect(classifiedErr).To(HaveOccurred())
-	g.Expect(classifiedErr.Error()).To(ContainSubstring("error reconciling SecurityGroup owners/members"))
-
-	readyErr, ok := conditions.AsReadyConditionImpactingError(classifiedErr)
-	g.Expect(ok).To(BeTrue())
-	g.Expect(readyErr.Reason).To(Equal(reasonRelationshipFailed.Name))
-	g.Expect(readyErr.RetryClassification).To(Equal(reasonRelationshipFailed.RetryClassification))
-}
-
-func TestRetryAfterResult_UsesRetryAfterHTTPDate(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	retryAt := time.Now().Add(55 * time.Second).UTC().Format(http.TimeFormat)
-	err := makeODataError(http.StatusTooManyRequests, map[string]string{"Retry-After": retryAt})
-
-	result := retryAfterResult(err)
-
-	g.Expect(result.RequeueAfter).To(BeNumerically(">=", 50*time.Second))
-	g.Expect(result.RequeueAfter).To(BeNumerically("<=", 56*time.Second))
-}
-
-func TestRetryAfterResult_NonThrottleReturnsZero(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	result := retryAfterResult(makeODataError(http.StatusForbidden, nil))
-
-	g.Expect(result).To(Equal(ctrl.Result{}))
-}
-
-func TestRetryAfterResult_NilReturnsZero(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	g.Expect(retryAfterResult(nil)).To(Equal(ctrl.Result{}))
 }
 
 func TestMaxThrottleResult_PicksLarger(t *testing.T) {
