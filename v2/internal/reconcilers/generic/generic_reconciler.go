@@ -37,10 +37,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-// NamespaceAnnotation defines the annotation name to use when marking
-// a resource with the namespace of the managing operator.
-const NamespaceAnnotation = "serviceoperator.azure.com/operator-namespace"
-
 type (
 	LoggerFactory func(genruntime.MetaObject) logr.Logger
 )
@@ -237,21 +233,29 @@ func (gr *GenericReconciler) createOrUpdate(ctx context.Context, log logr.Logger
 	}
 
 	genruntime.AddLabel(metaObj, labels.LastReconciledVersionLabel, version.BuildVersion)
-	reconcilePolicy := gr.mergeReconcilePolicy(ctx, log, metaObj)
-	if !reconcilePolicy.AllowsModify() {
-		return ctrl.Result{}, gr.handleSkipReconcile(ctx, log, metaObj)
+	reconcilePolicies, err := gr.mergeReconcilePolicy(ctx, log, metaObj)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrap(err, "failed to merge reconcile policy for resource during createOrUpdate")
+	}
+
+	if !reconcilePolicies.Effective.AllowsModify() {
+		return ctrl.Result{}, gr.handleSkipReconcile(ctx, log, metaObj, reconcilePolicies)
 	}
 
 	conditions.SetCondition(metaObj, gr.PositiveConditions.Ready.Reconciling(metaObj.GetGeneration()))
 
-	return gr.Reconciler.CreateOrUpdate(ctx, log, gr.Recorder, metaObj)
+	return gr.Reconciler.CreateOrUpdate(ctx, log, gr.Recorder, metaObj, reconcilePolicies)
 }
 
 func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaObj genruntime.MetaObject) (ctrl.Result, error) {
 	// Check the reconcile policy to ensure we're allowed to issue a delete
-	reconcilePolicy := gr.mergeReconcilePolicy(ctx, log, metaObj)
-	if !reconcilePolicy.AllowsDelete() {
-		log.V(Info).Info("Bypassing delete of resource due to policy", "policy", reconcilePolicy)
+	reconcilePolicies, err := gr.mergeReconcilePolicy(ctx, log, metaObj)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrap(err, "failed to merge reconcile policy for resource during delete")
+	}
+
+	if !reconcilePolicies.Effective.AllowsDelete() {
+		log.V(Info).Info("Bypassing delete of resource due to policy", "policy", reconcilePolicies.Effective)
 		controllerutil.RemoveFinalizer(metaObj, genruntime.ReconcilerFinalizer)
 		log.V(Status).Info("Deleted resource")
 		return ctrl.Result{}, nil
@@ -311,7 +315,7 @@ func (gr *GenericReconciler) WriteReadyConditionError(ctx context.Context, log l
 func (gr *GenericReconciler) takeOwnership(ctx context.Context, log logr.Logger, metaObj genruntime.MetaObject) (*ctrl.Result, error) {
 	// Ensure the resource is tagged with the operator's namespace.
 	annotations := metaObj.GetAnnotations()
-	reconcilerNamespace := annotations[NamespaceAnnotation]
+	reconcilerNamespace := annotations[reconcilers.OperatorNamespaceAnnotation]
 	if reconcilerNamespace != gr.Config.PodNamespace && reconcilerNamespace != "" {
 		// We don't want to get into a fight with another operator -
 		// so if we see another operator already has this object leave
@@ -327,7 +331,7 @@ func (gr *GenericReconciler) takeOwnership(ctx context.Context, log logr.Logger,
 
 		return &ctrl.Result{}, nil
 	} else if reconcilerNamespace == "" && gr.Config.PodNamespace != "" {
-		genruntime.AddAnnotation(metaObj, NamespaceAnnotation, gr.Config.PodNamespace)
+		genruntime.AddAnnotation(metaObj, reconcilers.OperatorNamespaceAnnotation, gr.Config.PodNamespace)
 		return &ctrl.Result{Requeue: true}, gr.CommitUpdate(ctx, log, nil, metaObj, kubeclient.SpecOnly)
 	}
 
@@ -354,15 +358,19 @@ func (gr *GenericReconciler) CommitUpdate(
 	return nil
 }
 
-func (gr *GenericReconciler) handleSkipReconcile(ctx context.Context, log logr.Logger, obj genruntime.MetaObject) error {
-	reconcilePolicy := gr.mergeReconcilePolicy(ctx, log, obj)
-
+func (gr *GenericReconciler) handleSkipReconcile(
+	ctx context.Context,
+	log logr.Logger,
+	obj genruntime.MetaObject,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
+) error {
 	log.V(Status).Info(
 		"Skipping creation/update of resource due to policy",
-		annotations.ReconcilePolicy, reconcilePolicy,
+		annotations.ReconcilePolicy,
+		reconcilePolicies.Effective,
 	)
 
-	err := gr.Reconciler.UpdateStatus(ctx, log, gr.Recorder, obj)
+	err := gr.Reconciler.UpdateStatus(ctx, log, gr.Recorder, obj, reconcilePolicies)
 	if err != nil {
 		return err
 	}
@@ -389,42 +397,87 @@ func (gr *GenericReconciler) writeReadyConditionErrorOrDefault(ctx context.Conte
 	return err
 }
 
-func (gr *GenericReconciler) mergeReconcilePolicy(ctx context.Context, log logr.Logger, obj genruntime.MetaObject) annotations.ReconcilePolicyValue {
+func (gr *GenericReconciler) mergeReconcilePolicy(
+	ctx context.Context,
+	log logr.Logger,
+	obj genruntime.MetaObject,
+) (annotations.ResolvedReconcilePolicies, error) {
+	// If no global policy is configured, use the built-in default of 'manage'.
+	globalReconcilePolicy := gr.Config.DefaultReconcilePolicy
+	if globalReconcilePolicy == "" {
+		globalReconcilePolicy = annotations.ReconcilePolicyManage
+	}
+
 	// We initially get the reconcile policy from the object itself
-	source := "default" // assume the source is the default policy for now - this source field is used only for logging purposes
-	policyStr := obj.GetAnnotations()[annotations.ReconcilePolicy]
+	source := "object" // this source field is used only for logging purposes
+	policyAnnotation := obj.GetAnnotations()[annotations.ReconcilePolicy]
 
-	// If the policy is not defined at object level, then we check if it's defined at namespace level
-	if policyStr == "" {
-		namespaceObject, err := gr.KubeClient.GetObject(ctx, types.NamespacedName{Namespace: obj.GetNamespace(), Name: obj.GetNamespace()}, schema.GroupVersionKind{Group: "", Version: "v1", Kind: "Namespace"})
-		// if we cannot get the namespace, we return default reconcile policy
-		if err != nil {
-			log.V(Verbose).Info("Error while retrieving namespace object", "error", err)
-			return gr.Config.DefaultReconcilePolicy // return default in case of error
-		}
-		policyStr = namespaceObject.GetAnnotations()[annotations.ReconcilePolicy]
-		if policyStr != "" {
-			source = "namespace"
-		}
-	} else {
-		source = "object" // used to track where the policy was taken from for logging purposes
+	namespacePolicyAnnotation, err := gr.namespaceReconcilePolicy(ctx, obj.GetNamespace())
+	if err != nil {
+		// Failed to read the namespace, cannot proceed
+		// (Returned error already names the namespace, no need to include the name here)
+		return annotations.ResolvedReconcilePolicies{}, eris.Wrap(err, "reading reconcile policy for namespace")
 	}
 
-	// If no configured default policy, we set it to 'manage'
-	defaultReconcilePolicy := gr.Config.DefaultReconcilePolicy
-	if defaultReconcilePolicy == "" {
-		defaultReconcilePolicy = annotations.ReconcilePolicyManage
+	// If the policy is not defined at object level, then we use the one defined at namespace level
+	if policyAnnotation == "" {
+		policyAnnotation = namespacePolicyAnnotation
+		source = "namespace"
+
+		if policyAnnotation == "" {
+			source = "global"
+		}
 	}
 
-	reconcilePolicy, err := reconcilers.ParseReconcilePolicy(policyStr, defaultReconcilePolicy)
+	reconcilePolicy, err := annotations.ParseReconcilePolicy(policyAnnotation, globalReconcilePolicy)
 	if err != nil {
 		log.Error(
 			err,
-			"failed to get reconcile policy. Applying default policy instead",
+			"failed to get reconcile policy. Applying global policy instead",
 			"chosenPolicy", reconcilePolicy,
-			"policyAnnotation", policyStr,
+			"policyAnnotation", policyAnnotation,
 		)
 	}
+
+	// Resolve the namespace policy independently because resources other than the one being reconciled may rely on it.
+	namespacePolicy, err := annotations.ParseReconcilePolicy(namespacePolicyAnnotation, globalReconcilePolicy)
+	if err != nil {
+		log.V(Verbose).Info(
+			"Namespace has an unusable reconcile policy. Applying global policy instead",
+			"policyAnnotation", namespacePolicyAnnotation,
+		)
+	}
+
 	log.V(Verbose).Info("Retrieved reconcile policy", "policy", reconcilePolicy, "source", source)
-	return reconcilePolicy
+
+	return annotations.ResolvedReconcilePolicies{
+		Effective:       reconcilePolicy,
+		NamespacePolicy: namespacePolicy,
+		NamespaceName:   obj.GetNamespace(),
+		Global:          globalReconcilePolicy,
+	}, nil
+}
+
+// namespaceReconcilePolicy returns the reconcile-policy annotation of the given namespace, and whether
+// the namespace could be read at all.
+func (gr *GenericReconciler) namespaceReconcilePolicy(
+	ctx context.Context,
+	namespace string,
+) (string, error) {
+	namespaceObject, err := gr.KubeClient.GetObject(
+		ctx,
+		types.NamespacedName{
+			Name: namespace,
+		},
+		schema.GroupVersionKind{
+			Group:   "",
+			Version: "v1",
+			Kind:    "Namespace",
+		},
+	)
+	if err != nil {
+		return "", eris.Wrapf(err, "failed to retrieve namespace object %q while reading annotations", namespace)
+	}
+
+	return namespaceObject.GetAnnotations()[annotations.ReconcilePolicy], nil
 }
