@@ -1,0 +1,23 @@
+apiVersion: entra.azure.com/v1
+kind: Application
+metadata:
+  name: aso-sample-application
+  namespace: default
+spec:
+  displayName: ASO Sample Application
+  description: Sample application created by Azure Service Operator
+  signInAudience: AzureADMyOrg
+  web:
+    redirectUris:
+      - https://localhost:5001/signin-oidc
+    implicitGrantSettings:
+      enableIdTokenIssuance: true
+      enableAccessTokenIssuance: false
+  operatorSpec:
+    configmaps:
+      appId:
+        key: appId
+        name: application-configmap
+      entraID:
+        key: entraID
+        name: application-configmap

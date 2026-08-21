@@ -110,4 +110,7 @@ const (
 	// EntraAppID is the client ID of the Entra application used to authenticate with Entra.
 	// NOTE: This is required when using Entra authentication, but optional otherwise.
 	EntraAppID = "ENTRA_APP_ID"
+	// TLSMinVersion is the minimum TLS version used by the webhook and metrics servers.
+	// If not specified, the default is "VersionTLS12". Valid values are "VersionTLS12" and "VersionTLS13".
+	TLSMinVersion = "TLS_MIN_VERSION"
 )
