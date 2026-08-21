@@ -232,12 +232,15 @@ func (r *azureDeploymentReconcilerInstance) executeDeletion(
 
 		return ctrl.Result{}, result.CreateConditionError()
 
+	case result.Completed():
+		return ctrl.Result{}, nil
+
 	default:
 		// Fall-through
 	}
 
-	// Deletion completed successfully
-	return ctrl.Result{}, nil
+	// Should never get here, return an error that something went awry
+	return ctrl.Result{}, eris.Errorf("unexpected result for deletion %q", result.String())
 }
 
 // MonitorDelete will call Azure to check if the resource still exists. If so, it will requeue, else,

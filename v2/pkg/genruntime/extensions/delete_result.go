@@ -6,6 +6,7 @@
 package extensions
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/rotisserie/eris"
@@ -22,6 +23,14 @@ type DeleteResult struct {
 	pollerResponse *genericarmclient.PollerResponse[genericarmclient.GenericDeleteResponse]
 }
 
+// DeleteCompleted is returned if deletion of the resource has completed successfully.
+// No further action is needed.
+func DeleteCompleted() DeleteResult {
+	return DeleteResult{
+		action: deleteResultTypeComplete,
+	}
+}
+
 // BlockDelete is returned if deletion of the resource should be blocked for now, but can be retried later
 // The deletion will automatically be retried after a short delay.
 // message is an explanatory reason to show to the user via a warning condition on the resource.
@@ -31,14 +40,6 @@ func BlockDelete(message string) DeleteResult {
 		message:  message,
 		severity: conditions.ConditionSeverityWarning,
 		reason:   conditions.ReasonReconcileBlocked,
-	}
-}
-
-// DeleteCompleted is returned if deletion of the resource in Azure has completed successfully.
-// No further action is needed.
-func DeleteCompleted() DeleteResult {
-	return DeleteResult{
-		action: deleteResultTypeComplete,
 	}
 }
 
@@ -52,6 +53,11 @@ func MonitorDelete(
 		action:         deleteResultTypeMonitor,
 		pollerResponse: pollerResponse,
 	}
+}
+
+// Completed returns true if the deletion of the resource has completed successfully, false otherwise.
+func (r DeleteResult) Completed() bool {
+	return r.action == deleteResultTypeComplete
 }
 
 // BlockDeletion returns true if the deletion of the resource is currently blocked, false otherwise.
@@ -106,6 +112,16 @@ func (r DeleteResult) CreateConditionError() error {
 		eris.New(r.message),
 		r.severity,
 		r.reason,
+	)
+}
+
+func (r DeleteResult) String() string {
+	return fmt.Sprintf(
+		"DeleteResult{action=%s, severity=%s, reason=%s, message=%s}",
+		r.action,
+		r.severity,
+		r.reason,
+		r.message,
 	)
 }
 
