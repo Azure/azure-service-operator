@@ -58,11 +58,11 @@ func orderedUnique(values []string) []string {
 	return result
 }
 
-// relationshipSide bundles everything reconcileRelationshipSide needs to bring one
+// relationshipDefinition bundles everything reconcileRelationshipSide needs to bring one
 // side (owners or members) of a group's directory-object relationships to the
 // desired state. The msgraph SDK generates distinct types per side, so we hide the
 // divergence behind these closures and let the reconciler treat both sides the same.
-type relationshipSide struct {
+type relationshipDefinition struct {
 	name    string
 	desired []string
 	list    func(context.Context) ([]string, error)
@@ -70,33 +70,33 @@ type relationshipSide struct {
 	remove  func(context.Context, string) error
 }
 
-// reconcileRelationshipSide brings a single side (owners or members) to its desired
+// reconcileRelationship brings a single side (owners or members) to its desired
 // state. We bias toward availability: adds run before removes and, if an add fails,
 // we return without touching removes so the group cannot end up transiently empty
 // while we still cannot restore the intended members.
-func (r *EntraSecurityGroupReconciler) reconcileRelationshipSide(
+func (r *EntraSecurityGroupReconciler) reconcileRelationship(
 	ctx context.Context,
-	side relationshipSide,
+	def relationshipDefinition,
 	current []string,
 	log logr.Logger,
 ) error {
-	delta := planRelationshipDelta(current, side.desired)
+	delta := planRelationshipDelta(current, def.desired)
 
 	for _, id := range delta.ToAdd {
-		if err := side.add(ctx, id); err != nil {
-			return eris.Wrapf(err, "%s add %s", side.name, id)
+		if err := def.add(ctx, id); err != nil {
+			return eris.Wrapf(err, "%s add %s", def.name, id)
 		}
 	}
 
 	for _, id := range delta.ToRemove {
-		if err := side.remove(ctx, id); err != nil {
-			return eris.Wrapf(err, "%s remove %s", side.name, id)
+		if err := def.remove(ctx, id); err != nil {
+			return eris.Wrapf(err, "%s remove %s", def.name, id)
 		}
 	}
 
 	log.V(1).Info(
-		"Reconciled relationship side",
-		"side", side.name,
+		"Reconciled relationship definition",
+		"definition", def.name,
 		"added", len(delta.ToAdd),
 		"removed", len(delta.ToRemove),
 	)
@@ -115,7 +115,8 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 		return ctrl.Result{}, eris.Errorf("missing Entra ID annotation for security group %s", group.Name)
 	}
 
-	manageOwners, manageMembers := relationshipSidesToManage(group.Spec)
+	manageOwners := group.Spec.Owners != nil
+	manageMembers := group.Spec.Members != nil
 	if !manageOwners && !manageMembers {
 		return ctrl.Result{}, nil
 	}
@@ -127,20 +128,20 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 
 	groupRequestBuilder := graphClient.Groups().ByGroupId(id)
 
-	var sides []relationshipSide
+	var sides []relationshipDefinition
 	if manageOwners {
 		desired, err := group.Spec.ResolveOwnerObjectIDs(resolvedConfigMaps)
 		if err != nil {
 			return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired owners for group %s", group.Name)
 		}
-		sides = append(sides, ownersSide(groupRequestBuilder, desired))
+		sides = append(sides, ownersRelationshipDefinition(groupRequestBuilder, desired))
 	}
 	if manageMembers {
 		desired, err := group.Spec.ResolveMemberObjectIDs(resolvedConfigMaps)
 		if err != nil {
 			return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired members for group %s", group.Name)
 		}
-		sides = append(sides, membersSide(groupRequestBuilder, desired))
+		sides = append(sides, membersRelationshipDefinition(groupRequestBuilder, desired))
 	}
 
 	// Each side reconciles independently so an outage on one side (typically a
@@ -161,7 +162,7 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 			recordFailure(eris.Wrapf(err, "%s list for group %s", side.name, id))
 			continue
 		}
-		if err := r.reconcileRelationshipSide(ctx, side, current, log); err != nil {
+		if err := r.reconcileRelationship(ctx, side, current, log); err != nil {
 			recordFailure(eris.Wrapf(err, "reconciling %s for group %s", side.name, id))
 		}
 	}
@@ -173,14 +174,14 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	return ctrl.Result{}, nil
 }
 
-// ownersSide adapts the msgraph SDK's owners endpoint into a relationshipSide.
-func ownersSide(
+// ownersRelationshipDefinition provides a relationshipDefinition for updating SecurityGroup owners.
+func ownersRelationshipDefinition(
 	groupBuilder *groups.GroupItemRequestBuilder,
 	desired []string,
-) relationshipSide {
+) relationshipDefinition {
 	ownersBuilder := groupBuilder.Owners()
 	refBuilder := ownersBuilder.Ref()
-	return relationshipSide{
+	return relationshipDefinition{
 		name:    "owners",
 		desired: desired,
 		list: func(ctx context.Context) ([]string, error) {
@@ -210,14 +211,14 @@ func ownersSide(
 	}
 }
 
-// membersSide adapts the msgraph SDK's members endpoint into a relationshipSide.
-func membersSide(
+// membersRelationshipDefinition provides a relationshipDefinition for updating SecurityGroup members.
+func membersRelationshipDefinition(
 	groupBuilder *groups.GroupItemRequestBuilder,
 	desired []string,
-) relationshipSide {
+) relationshipDefinition {
 	membersBuilder := groupBuilder.Members()
 	refBuilder := membersBuilder.Ref()
-	return relationshipSide{
+	return relationshipDefinition{
 		name:    "members",
 		desired: desired,
 		list: func(ctx context.Context) ([]string, error) {
@@ -245,11 +246,6 @@ func membersSide(
 			})
 		},
 	}
-}
-
-func relationshipSidesToManage(spec asoentrav1.SecurityGroupSpec) (bool, bool) {
-	// Nil means omitted (unmanaged); explicit empty means managed-to-empty.
-	return spec.Owners != nil, spec.Members != nil
 }
 
 func collectDirectoryObjectIDs(

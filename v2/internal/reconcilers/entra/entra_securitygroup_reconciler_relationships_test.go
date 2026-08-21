@@ -24,9 +24,9 @@ func TestReconcileRelationshipSide_AddBeforeRemove_AndSkipRemoveWhenAddFails(t *
 
 		var calls []string
 		reconciler := &EntraSecurityGroupReconciler{}
-		err := reconciler.reconcileRelationshipSide(
+		err := reconciler.reconcileRelationship(
 			context.Background(),
-			relationshipSide{
+			relationshipDefinition{
 				name:    "owners",
 				desired: []string{"owner-b", "owner-c", "owner-d"},
 				add: func(_ context.Context, id string) error {
@@ -57,9 +57,9 @@ func TestReconcileRelationshipSide_AddBeforeRemove_AndSkipRemoveWhenAddFails(t *
 
 		var calls []string
 		reconciler := &EntraSecurityGroupReconciler{}
-		err := reconciler.reconcileRelationshipSide(
+		err := reconciler.reconcileRelationship(
 			context.Background(),
-			relationshipSide{
+			relationshipDefinition{
 				name:    "members",
 				desired: []string{"member-b"},
 				add: func(_ context.Context, id string) error {
@@ -97,9 +97,9 @@ func testCrossSideOwnersFailMembersStillRun(t *testing.T) {
 	ctx := context.Background()
 	var membersCalls []string
 
-	ownersErr := reconciler.reconcileRelationshipSide(
+	ownersErr := reconciler.reconcileRelationship(
 		ctx,
-		relationshipSide{
+		relationshipDefinition{
 			name:    "owners",
 			desired: []string{"owner-a"},
 			add:     func(_ context.Context, _ string) error { return errors.New("owners list failed") },
@@ -108,9 +108,9 @@ func testCrossSideOwnersFailMembersStillRun(t *testing.T) {
 		nil,
 		logr.Discard(),
 	)
-	membersErr := reconciler.reconcileRelationshipSide(
+	membersErr := reconciler.reconcileRelationship(
 		ctx,
-		relationshipSide{
+		relationshipDefinition{
 			name:    "members",
 			desired: []string{"member-b"},
 			add: func(_ context.Context, id string) error {
@@ -140,9 +140,9 @@ func testCrossSideMembersFailOwnersStillRun(t *testing.T) {
 	ctx := context.Background()
 	var ownersCalls []string
 
-	ownersErr := reconciler.reconcileRelationshipSide(
+	ownersErr := reconciler.reconcileRelationship(
 		ctx,
-		relationshipSide{
+		relationshipDefinition{
 			name:    "owners",
 			desired: []string{"owner-b"},
 			add: func(_ context.Context, id string) error {
@@ -157,9 +157,9 @@ func testCrossSideMembersFailOwnersStillRun(t *testing.T) {
 		[]string{"owner-a"},
 		logr.Discard(),
 	)
-	membersErr := reconciler.reconcileRelationshipSide(
+	membersErr := reconciler.reconcileRelationship(
 		ctx,
-		relationshipSide{
+		relationshipDefinition{
 			name:    "members",
 			desired: []string{"member-a"},
 			add:     func(_ context.Context, _ string) error { return errors.New("members list failed") },
@@ -182,9 +182,9 @@ func testCrossSideBothSidesFail(t *testing.T) {
 	reconciler := &EntraSecurityGroupReconciler{}
 	ctx := context.Background()
 
-	ownersErr := reconciler.reconcileRelationshipSide(
+	ownersErr := reconciler.reconcileRelationship(
 		ctx,
-		relationshipSide{
+		relationshipDefinition{
 			name:    "owners",
 			desired: []string{"owner-a"},
 			add:     func(_ context.Context, _ string) error { return errors.New("owners side failed") },
@@ -193,9 +193,9 @@ func testCrossSideBothSidesFail(t *testing.T) {
 		nil,
 		logr.Discard(),
 	)
-	membersErr := reconciler.reconcileRelationshipSide(
+	membersErr := reconciler.reconcileRelationship(
 		ctx,
-		relationshipSide{
+		relationshipDefinition{
 			name:    "members",
 			desired: []string{"member-a"},
 			add:     func(_ context.Context, _ string) error { return errors.New("members side failed") },

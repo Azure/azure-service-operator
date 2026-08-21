@@ -13,57 +13,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
-
-	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 )
-
-func TestRelationshipSidesToManage_OmittedVsEmpty(t *testing.T) {
-	t.Parallel()
-
-	ownerRef := asoentra.SecurityGroupMemberReference{ObjectID: stringPtr("11111111-1111-1111-1111-111111111111")}
-	memberRef := asoentra.SecurityGroupMemberReference{ObjectID: stringPtr("22222222-2222-2222-2222-222222222222")}
-
-	cases := map[string]struct {
-		spec        asoentra.SecurityGroupSpec
-		wantOwners  bool
-		wantMembers bool
-	}{
-		"both omitted are unmanaged": {
-			spec:        asoentra.SecurityGroupSpec{},
-			wantOwners:  false,
-			wantMembers: false,
-		},
-		"owners explicit empty is managed": {
-			spec:        asoentra.SecurityGroupSpec{Owners: []asoentra.SecurityGroupMemberReference{}},
-			wantOwners:  true,
-			wantMembers: false,
-		},
-		"members explicit empty is managed": {
-			spec:        asoentra.SecurityGroupSpec{Members: []asoentra.SecurityGroupMemberReference{}},
-			wantOwners:  false,
-			wantMembers: true,
-		},
-		"both present are managed": {
-			spec: asoentra.SecurityGroupSpec{
-				Owners:  []asoentra.SecurityGroupMemberReference{ownerRef},
-				Members: []asoentra.SecurityGroupMemberReference{memberRef},
-			},
-			wantOwners:  true,
-			wantMembers: true,
-		},
-	}
-
-	for name, tc := range cases {
-		t.Run(name, func(t *testing.T) {
-			t.Parallel()
-			g := NewGomegaWithT(t)
-
-			owners, members := relationshipSidesToManage(tc.spec)
-			g.Expect(owners).To(Equal(tc.wantOwners))
-			g.Expect(members).To(Equal(tc.wantMembers))
-		})
-	}
-}
 
 func TestCollectDirectoryObjectIDs_PaginatesAndDedupes(t *testing.T) {
 	t.Parallel()
