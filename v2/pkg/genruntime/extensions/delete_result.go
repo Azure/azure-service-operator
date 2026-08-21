@@ -34,12 +34,12 @@ func DeleteCompleted() DeleteResult {
 // BlockDelete is returned if deletion of the resource should be blocked for now, but can be retried later
 // The deletion will automatically be retried after a short delay.
 // message is an explanatory reason to show to the user via a warning condition on the resource.
-func BlockDelete(message string) DeleteResult {
+func BlockDelete(message string, reason conditions.Reason) DeleteResult {
 	return DeleteResult{
 		action:   deleteResultTypeBlock,
 		message:  message,
 		severity: conditions.ConditionSeverityWarning,
-		reason:   conditions.ReasonReconcileBlocked,
+		reason:   reason,
 	}
 }
 

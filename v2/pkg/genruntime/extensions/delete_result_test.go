@@ -33,7 +33,7 @@ func TestDeleteResultFactories(t *testing.T) {
 		expectedRetryAfter time.Duration
 	}{
 		"block": {
-			result:          BlockDelete("waiting for dependents"),
+			result:          BlockDelete("waiting for dependents", conditions.ReasonReconcileBlocked),
 			expectedAction:  deleteResultTypeBlock,
 			expectedBlock:   true,
 			expectedMessage: "waiting for dependents",

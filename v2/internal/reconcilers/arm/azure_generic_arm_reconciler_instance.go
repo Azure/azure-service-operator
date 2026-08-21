@@ -304,9 +304,14 @@ func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context
 	}
 
 	_, _, err := r.getStatus(ctx, r.Obj, resourceID)
-	if err != nil && genericarmclient.IsNotFoundError(err) {
-		// Resource no longer exists
-		return ctrl.Result{}, nil
+	if err != nil {
+		if genericarmclient.IsNotFoundError(err) {
+			// Resource no longer exists
+			return ctrl.Result{}, nil
+		}
+
+		// something else went wrong
+		return ctrl.Result{}, err
 	}
 
 	// Ensure that we call any user implementation of extensions.Deleter if present;
@@ -330,7 +335,7 @@ func (r *azureDeploymentReconcilerInstance) cannotDeleteResource(
 	log.V(Verbose).Info(msg)
 	r.Recorder.Event(obj, v1.EventTypeNormal, string(DeleteActionNotPossibleInAzure), msg)
 
-	return extensions.BlockDelete(msg), nil
+	return extensions.BlockDelete(msg, conditions.ReasonDeletionNotSupported), nil
 }
 
 func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
