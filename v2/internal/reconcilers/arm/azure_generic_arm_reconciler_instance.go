@@ -224,7 +224,8 @@ func (r *azureDeploymentReconcilerInstance) executeDeletion(
 				"unexpected poller ID for resource %q: %s, expected %s",
 				r.Obj.AzureName(),
 				operationId,
-				genericarmclient.DeletePollerID)
+				genericarmclient.DeletePollerID,
+			)
 		}
 
 		SetPollerResumeToken(r.Obj, operationId, token)
