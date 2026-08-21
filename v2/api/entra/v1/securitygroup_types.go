@@ -9,7 +9,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	asoentra "github.com/Azure/azure-service-operator/v2/api/entra"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -162,21 +161,21 @@ func (spec *SecurityGroupSpec) AssignODataBindOnCreate(
 	}
 
 	if len(spec.Owners) > 0 {
-		owners, err := graphDirectoryURIs(spec.Owners, "owners", resolved)
+		owners, err := spec.ResolveOwnerObjectIDs(resolved)
 		if err != nil {
 			return err
 		}
 
-		additionalData["owners@odata.bind"] = owners
+		additionalData["owners@odata.bind"] = convertIdsToURIs(owners)
 	}
 
 	if len(spec.Members) > 0 {
-		members, err := graphDirectoryURIs(spec.Members, "members", resolved)
+		members, err := spec.ResolveMemberObjectIDs(resolved)
 		if err != nil {
 			return err
 		}
 
-		additionalData["members@odata.bind"] = members
+		additionalData["members@odata.bind"] = convertIdsToURIs(members)
 	}
 
 	model.SetAdditionalData(additionalData)
@@ -356,24 +355,13 @@ type SecurityGroupOperatorConfigMaps struct {
 	EntraID *genruntime.ConfigMapDestination `json:"entraID,omitempty"`
 }
 
-// graphDirectoryURIs resolves a slice of member references to Microsoft Graph directory object URIs.
-// fieldName (e.g. "owners" or "members") is used to provide context in error messages.
-func graphDirectoryURIs(
-	references []SecurityGroupMemberReference,
-	fieldName string,
-	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
-) ([]string, error) {
-	uris := make([]string, 0, len(references))
-	for i, ref := range references {
-		id, err := ref.ResolveObjectID(resolved)
-		if err != nil {
-			return nil, eris.Wrapf(err, "%s[%d]", fieldName, i)
-		}
-
-		uris = append(uris, asoentra.DirectoryObjectRefURI(id))
+func convertIdsToURIs(ids []string) []string {
+	result := make([]string, len(ids))
+	for i, id := range ids {
+		result[i] = DirectoryObjectRefURI(id)
 	}
 
-	return uris, nil
+	return result
 }
 
 func init() {

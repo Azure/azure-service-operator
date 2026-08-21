@@ -64,22 +64,22 @@ func classifyRelationshipError(result ctrl.Result, err error) (ctrl.Result, erro
 // is present. This helper is intended to be called per single-wrapped error at the
 // point the error is produced; call sites that need to combine throttles from
 // multiple independent sources should take the max of the resulting durations.
-func retryAfterResult(err error) ctrl.Result {
+func asRetryAfter(err error) (time.Duration, bool) {
 	if err == nil {
-		return ctrl.Result{}
+		return 0, false
 	}
 
 	odataError, ok := errors.AsType[*odataerrors.ODataError](err)
 	if !ok {
-		return ctrl.Result{}
+		return 0, false
 	}
 
 	retryAfter, ok := retryAfterFromODataError(odataError)
 	if !ok {
-		return ctrl.Result{}
+		return 0, false
 	}
 
-	return ctrl.Result{RequeueAfter: retryAfter}
+	return retryAfter, true
 }
 
 // maxThrottleResult returns whichever of a and b has the larger RequeueAfter. Used
@@ -117,6 +117,8 @@ func retryAfterFromODataError(
 
 	retryAfterStr := values[0]
 	if retryAfterVal, parseErr := strconv.ParseInt(retryAfterStr, 10, 64); parseErr == nil {
+		// Clamp to a reasonable range just in case we get a crazy value from the service.
+		retryAfterVal = max(0, min(retryAfterVal, 3600)) // 1 hour
 		return time.Duration(retryAfterVal) * time.Second, true
 	}
 

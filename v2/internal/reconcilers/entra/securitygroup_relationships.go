@@ -7,7 +7,6 @@ package entra
 
 import (
 	"context"
-	"errors"
 
 	"github.com/go-logr/logr"
 	msgraphsdkgo "github.com/microsoftgraph/msgraph-sdk-go"
@@ -16,7 +15,6 @@ import (
 	"github.com/rotisserie/eris"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	asoentra "github.com/Azure/azure-service-operator/v2/api/entra"
 	asoentrav1 "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -115,12 +113,6 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 		return ctrl.Result{}, eris.Errorf("missing Entra ID annotation for security group %s", group.Name)
 	}
 
-	manageOwners := group.Spec.Owners != nil
-	manageMembers := group.Spec.Members != nil
-	if !manageOwners && !manageMembers {
-		return ctrl.Result{}, nil
-	}
-
 	resolvedConfigMaps, err := r.ResourceResolver.ResolveResourceConfigMapReferences(ctx, group)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
@@ -128,47 +120,33 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 
 	groupRequestBuilder := graphClient.Groups().ByGroupId(id)
 
-	var sides []relationshipDefinition
-	if manageOwners {
-		desired, err := group.Spec.ResolveOwnerObjectIDs(resolvedConfigMaps)
-		if err != nil {
-			return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired owners for group %s", group.Name)
-		}
-		sides = append(sides, ownersRelationshipDefinition(groupRequestBuilder, desired))
-	}
-	if manageMembers {
-		desired, err := group.Spec.ResolveMemberObjectIDs(resolvedConfigMaps)
-		if err != nil {
-			return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired members for group %s", group.Name)
-		}
-		sides = append(sides, membersRelationshipDefinition(groupRequestBuilder, desired))
+	var definitions []relationshipDefinition
+
+	// Set up for Reconcile Owners
+	desired, err := group.Spec.ResolveOwnerObjectIDs(resolvedConfigMaps)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired owners for group %s", group.Name)
 	}
 
-	// Each side reconciles independently so an outage on one side (typically a
-	// permissions issue) does not block the other from converging. We extract any
-	// HTTP 429 Retry-After per side at the point of failure so classifyRelationshipError
-	// does not have to walk the joined-error tree, and take the largest across sides.
-	var (
-		sideErrors []error
-		throttle   ctrl.Result
-	)
-	recordFailure := func(err error) {
-		sideErrors = append(sideErrors, err)
-		throttle = maxThrottleResult(throttle, retryAfterResult(err))
-	}
-	for _, side := range sides {
-		current, err := side.list(ctx)
-		if err != nil {
-			recordFailure(eris.Wrapf(err, "%s list for group %s", side.name, id))
-			continue
-		}
-		if err := r.reconcileRelationship(ctx, side, current, log); err != nil {
-			recordFailure(eris.Wrapf(err, "reconciling %s for group %s", side.name, id))
-		}
+	definitions = append(definitions, ownersRelationshipDefinition(groupRequestBuilder, desired))
+
+	// Set up for reconciling Members
+	desired, err = group.Spec.ResolveMemberObjectIDs(resolvedConfigMaps)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired members for group %s", group.Name)
 	}
 
-	if len(sideErrors) > 0 {
-		return throttle, errors.Join(sideErrors...)
+	definitions = append(definitions, membersRelationshipDefinition(groupRequestBuilder, desired))
+
+	for _, def := range definitions {
+		current, err := def.list(ctx)
+		if err != nil {
+			return ctrl.Result{}, eris.Wrapf(err, "%s list for group %s", def.name, id)
+		}
+
+		if err := r.reconcileRelationship(ctx, def, current, log); err != nil {
+			return ctrl.Result{}, eris.Wrapf(err, "reconciling %s for group %s", def.name, id)
+		}
 	}
 
 	return ctrl.Result{}, nil
