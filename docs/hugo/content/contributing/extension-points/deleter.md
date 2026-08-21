@@ -33,12 +33,13 @@ Return one of the following results to describe the deletion state:
 
 | Result | Meaning |
 | --- | --- |
-| `extensions.ProceedWithDelete()` | Continue a composed deletion flow. Most extensions should call `next()` and return its result instead. |
 | `extensions.BlockDelete(message)` | Keep the finalizer and retry later. ASO exposes `message` in the resource's Ready condition. |
 | `extensions.DeleteCompleted()` | Deletion is complete. ASO can remove the finalizer without issuing another ARM DELETE request. |
 | `extensions.MonitorDelete(pollerResponse)` | A long-running deletion operation has started. ASO stores its resume token and requeues until it completes. |
 
 Return `extensions.DeleteResult{}` with an error. ASO ignores the result when the error is non-nil and retries reconciliation according to the error classification.
+
+If you want the deletion to proceed, call the `next()` function, which invokes the standard ARM DELETE operation. The result from `next()` can be returned directly or modified before returning.
 
 ## Motivation
 
