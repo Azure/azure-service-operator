@@ -214,6 +214,19 @@ func (r *azureDeploymentReconcilerInstance) executeDeletion(
 			return ctrl.Result{}, eris.Errorf("couldn't get operation ID for resource %q", r.Obj.AzureName())
 		}
 
+		// Safety catch - currently DetermineDeleteAction requires a specific pollerID which _should_ be the one
+		// used in almost every case, but _just in case_ it's not, we want to catch it here:
+		//
+		// If you're troubleshooting this as a part of a custom extension, you need to change BOTH the check here
+		// and the resurrection of the poller in DetermineDeleteAction()
+		if operationId != genericarmclient.DeletePollerID {
+			return ctrl.Result{}, eris.Errorf(
+				"unexpected poller ID for resource %q: %s, expected %s",
+				r.Obj.AzureName(),
+				operationId,
+				genericarmclient.DeletePollerID)
+		}
+
 		SetPollerResumeToken(r.Obj, operationId, token)
 
 		// Normally don't need to set both of these fields but because retryAfter can be 0 we do
