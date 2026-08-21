@@ -114,7 +114,7 @@ func Test_MergeReconcilePolicy_GivenAnnotations_ReturnsExpectedPolicies(t *testi
 			} else {
 				g.Expect(err).NotTo(HaveOccurred())
 				g.Expect(policies.Effective).To(Equal(c.expectedEffective))
-				g.Expect(policies.Namespace).To(Equal(c.expectedNamespace))
+				g.Expect(policies.NamespacePolicy).To(Equal(c.expectedNamespace))
 			}
 		})
 	}
@@ -226,10 +226,10 @@ func Test_CreateOrUpdate_PassesResolvedPoliciesToSelectedPath(t *testing.T) {
 			g.Expect(result).To(Equal(ctrl.Result{}))
 
 			expected := annotations.ResolvedReconcilePolicies{
-				Effective:     c.expectedEffective,
-				Namespace:     annotations.ReconcilePolicyManage,
-				NamespaceName: namespace,
-				Global:        annotations.ReconcilePolicyManage,
+				Effective:       c.expectedEffective,
+				NamespacePolicy: annotations.ReconcilePolicyManage,
+				NamespaceName:   namespace,
+				Global:          annotations.ReconcilePolicyManage,
 			}
 			if c.expectCreate {
 				g.Expect(spy.createOrUpdatePolicies).NotTo(BeNil())

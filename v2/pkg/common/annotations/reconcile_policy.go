@@ -38,11 +38,11 @@ type ResolvedReconcilePolicies struct {
 	// and Global.
 	Effective ReconcilePolicyValue
 
-	// Namespace is the policy for resources in this namespace carrying no annotation of their own, resolved
+	// NamespacePolicy is the policy for resources in this namespace carrying no annotation of their own, resolved
 	// from the namespace annotation or Global.
-	Namespace ReconcilePolicyValue
+	NamespacePolicy ReconcilePolicyValue
 
-	// NamespaceName is the namespace from which Namespace was resolved.
+	// NamespaceName is the namespace from which NamespacePolicy was resolved.
 	NamespaceName string
 
 	// Global is the policy resolved from the operator configuration or the built-in default. An unusable
@@ -63,7 +63,7 @@ func (r ResolvedReconcilePolicies) ForResource(resource metav1.Object) (Reconcil
 
 	annotation := resource.GetAnnotations()[ReconcilePolicy]
 	if annotation == "" {
-		return r.Namespace, nil
+		return r.NamespacePolicy, nil
 	}
 
 	policy, _ := ParseReconcilePolicy(annotation, r.Global)

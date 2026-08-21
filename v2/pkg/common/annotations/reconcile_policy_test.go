@@ -68,10 +68,10 @@ func TestResolvedReconcilePoliciesForResource(t *testing.T) {
 	t.Parallel()
 
 	policies := ResolvedReconcilePolicies{
-		Effective:     ReconcilePolicyDetachOnDelete,
-		Namespace:     ReconcilePolicySkip,
-		NamespaceName: "expected-namespace",
-		Global:        ReconcilePolicyManage,
+		Effective:       ReconcilePolicyDetachOnDelete,
+		NamespacePolicy: ReconcilePolicySkip,
+		NamespaceName:   "expected-namespace",
+		Global:          ReconcilePolicyManage,
 	}
 
 	cases := map[string]struct {
@@ -129,8 +129,8 @@ func TestResolvedReconcilePoliciesForResource_AllowsMatchingEmptyNamespace(t *te
 	g := NewGomegaWithT(t)
 
 	policies := ResolvedReconcilePolicies{
-		Namespace: ReconcilePolicySkip,
-		Global:    ReconcilePolicyManage,
+		NamespacePolicy: ReconcilePolicySkip,
+		Global:          ReconcilePolicyManage,
 	}
 	resource := &metav1.PartialObjectMetadata{}
 

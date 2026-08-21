@@ -456,10 +456,10 @@ func (gr *GenericReconciler) mergeReconcilePolicy(
 	log.V(Verbose).Info("Retrieved reconcile policy", "policy", reconcilePolicy, "source", source)
 
 	return annotations.ResolvedReconcilePolicies{
-		Effective:     reconcilePolicy,
-		Namespace:     namespacePolicy,
-		NamespaceName: obj.GetNamespace(),
-		Global:        globalReconcilePolicy,
+		Effective:       reconcilePolicy,
+		NamespacePolicy: namespacePolicy,
+		NamespaceName:   obj.GetNamespace(),
+		Global:          globalReconcilePolicy,
 	}, nil
 }
 

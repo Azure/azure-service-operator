@@ -44,9 +44,9 @@ func TestCreatePostReconciliationChecker_PassesPoliciesToExtension(t *testing.T)
 	g := NewGomegaWithT(t)
 
 	expected := annotations.ResolvedReconcilePolicies{
-		Effective: annotations.ReconcilePolicySkip,
-		Namespace: annotations.ReconcilePolicyManage,
-		Global:    annotations.ReconcilePolicyDetachOnDelete,
+		Effective:       annotations.ReconcilePolicySkip,
+		NamespacePolicy: annotations.ReconcilePolicyManage,
+		Global:          annotations.ReconcilePolicyDetachOnDelete,
 	}
 	extension := &recordingPostReconciliationChecker{}
 
