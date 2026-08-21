@@ -443,8 +443,7 @@ func (gr *GenericReconciler) mergeReconcilePolicy(
 		)
 	}
 
-	// Resolve the namespace policy independently because resources other than the one being reconciled may
-	// rely on it. Unlike the effective policy, this fails closed when the namespace cannot be read.
+	// Resolve the namespace policy independently because resources other than the one being reconciled may rely on it.
 	namespacePolicy, err := annotations.ParseReconcilePolicy(namespacePolicyAnnotation, globalReconcilePolicy)
 	if err != nil {
 		log.V(Verbose).Info(
