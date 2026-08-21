@@ -229,9 +229,9 @@ func Test_TargetPostReconcileCheck_givenSkippedTarget_leavesTheWatcherAlone(t *t
 
 	// The watcher may be managed even while the target it belongs to is not
 	check := startCheckWithPolicies(g, server, target, watcher, annotations.ResolvedReconcilePolicies{
-		Effective: annotations.ReconcilePolicySkip,
-		Namespace: annotations.ReconcilePolicyManage,
-		Global:    annotations.ReconcilePolicyManage,
+		Effective:       annotations.ReconcilePolicySkip,
+		NamespacePolicy: annotations.ReconcilePolicyManage,
+		Global:          annotations.ReconcilePolicyManage,
 	})
 
 	result, err := check()
@@ -306,9 +306,9 @@ func Test_TargetPostReconcileCheck_givenForeignWatcher_refusesBeforeResolvingIts
 
 	// This operator leaves things alone unless told otherwise; the operator that owns the watcher may not
 	check := startCheckWithPolicies(g, server, target, watcher, annotations.ResolvedReconcilePolicies{
-		Effective: annotations.ReconcilePolicyManage,
-		Namespace: annotations.ReconcilePolicySkip,
-		Global:    annotations.ReconcilePolicySkip,
+		Effective:       annotations.ReconcilePolicyManage,
+		NamespacePolicy: annotations.ReconcilePolicySkip,
+		Global:          annotations.ReconcilePolicySkip,
 	})
 
 	result, err := check()
@@ -355,9 +355,9 @@ func startCheck(
 	watcher *databasewatcher.Watcher,
 ) func() (extensions.PostReconcileCheckResult, error) {
 	return startCheckWithPolicies(g, server, target, watcher, annotations.ResolvedReconcilePolicies{
-		Effective: annotations.ReconcilePolicyManage,
-		Namespace: annotations.ReconcilePolicyManage,
-		Global:    annotations.ReconcilePolicyManage,
+		Effective:       annotations.ReconcilePolicyManage,
+		NamespacePolicy: annotations.ReconcilePolicyManage,
+		Global:          annotations.ReconcilePolicyManage,
 	})
 }
 
