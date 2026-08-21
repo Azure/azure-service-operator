@@ -22,6 +22,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
@@ -73,6 +74,7 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 	resolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
 	next extensions.PostReconcileCheckFunc,
 ) (extensions.PostReconcileCheckResult, error) {
 	log.V(Debug).Info("Starting Post-reconcilation for Backup Instance")
@@ -93,7 +95,7 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 		backupInstance.Status.Properties.ProtectionStatus == nil ||
 		backupInstance.Status.Properties.ProtectionStatus.Status == nil {
 		// We'll let the reconciler handle this case.
-		return next(ctx, obj, owner, resolver, armClient, log)
+		return next(ctx, obj, owner, resolver, armClient, log, reconcilePolicies)
 	}
 
 	protectionStatus := *backupInstance.Status.Properties.ProtectionStatus.Status
@@ -103,7 +105,7 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 	// Return success if the status is in a terminal state
 	if terminalStates.Contains(protectionStatus) {
 		log.V(Debug).Info("Returning PostReconcileCheckResultSuccess")
-		return next(ctx, obj, owner, resolver, armClient, log)
+		return next(ctx, obj, owner, resolver, armClient, log, reconcilePolicies)
 	}
 
 	if protectionStatus == protectionError {
