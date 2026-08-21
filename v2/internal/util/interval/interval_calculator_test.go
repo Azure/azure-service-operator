@@ -12,6 +12,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	"github.com/microsoftgraph/msgraph-sdk-go/models/odataerrors"
 	"github.com/rotisserie/eris"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -400,15 +401,18 @@ func Test_ReadyConditionErrorWithCallerSuppliedRequeueAfter_LargerThanBackoff_Us
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
+	throttled := odataerrors.NewODataError()
+	throttled.SetStatusCode(429)
+	throttled.ResponseHeaders.Add("Retry-After", "42")
+
 	inputErr := conditions.NewReadyConditionImpactingError(
-		eris.New("throttled"),
+		throttled,
 		conditions.ConditionSeverityWarning,
 		conditions.Reason{Name: "Throttled", RetryClassification: retry.Fast},
 	)
 
 	// First failure → exponential backoff would be 1s, but caller asked for 42s
-	callerSupplied := ctrl.Result{RequeueAfter: 42 * time.Second}
-	result, err := calc.NextInterval(req, callerSupplied, inputErr)
+	result, err := calc.NextInterval(req, ctrl.Result{}, inputErr)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result).To(Equal(ctrl.Result{RequeueAfter: 42 * time.Second}))
 }
