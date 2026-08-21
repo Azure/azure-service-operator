@@ -8,6 +8,7 @@ package entra
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
@@ -105,11 +106,11 @@ func (r *EntraSecurityGroupReconciler) Delete(
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
 ) (ctrl.Result, error) {
-	log.V(Status).Info("Updating Entra security group")
+	log.V(Status).Info("Deleting Entra security group")
 
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", obj.GetName())
+		return ctrl.Result{}, eris.Wrapf(err, "deleting security group %s", obj.GetName())
 	}
 
 	// If don't know the Entra ID of the group (captured in an annotation), there's nothing to do.
@@ -217,6 +218,10 @@ func (r *EntraSecurityGroupReconciler) update(
 		}
 	}
 
+	if err := r.reconcileOwnersAndMembers(ctx, group, client.Client(), log); err != nil {
+		return ctrl.Result{}, classifyRelationshipError(err)
+	}
+
 	group.Status.AssignFromGroup(result)
 
 	err = r.saveAssociatedKubernetesResources(ctx, group, log)
@@ -310,6 +315,17 @@ func (r *EntraSecurityGroupReconciler) create(
 	g := msgraphmodels.NewGroup()
 	group.Spec.AssignToGroup(g)
 
+	// Resolve config map references for this resource so we can populate any
+	// ObjectIDFromConfig values used in owners/members.
+	resolvedConfigMaps, err := r.ResourceResolver.ResolveResourceConfigMapReferences(ctx, group)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
+	}
+
+	if err := group.Spec.AssignODataBindOnCreate(g, resolvedConfigMaps); err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed preparing create payload for group %s", group.Name)
+	}
+
 	status, err := client.Client().Groups().Post(ctx, g, nil)
 	if err != nil {
 		// Failed to create
@@ -401,8 +417,11 @@ func (r *EntraSecurityGroupReconciler) loadGroupsByDisplayName(
 	displayName string,
 	client *msgraphsdkgo.GraphServiceClient,
 ) ([]msgraphmodels.Groupable, error) {
-	// Try to get the group by display name
-	filterStr := fmt.Sprintf("displayName eq '%s'", escapeODataString(displayName))
+	// Try to get the group by display name.
+	// Escape single quotes in the display name per the OData v4 spec: a single quote
+	// within a string literal is represented as two consecutive single quotes.
+	escapedDisplayName := strings.ReplaceAll(displayName, "'", "''")
+	filterStr := fmt.Sprintf("displayName eq '%s'", escapedDisplayName)
 
 	query := &groups.GroupsRequestBuilderGetQueryParameters{
 		Filter: &filterStr,

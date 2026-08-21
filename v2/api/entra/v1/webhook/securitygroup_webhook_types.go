@@ -11,8 +11,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
 	v1 "github.com/Azure/azure-service-operator/v2/api/entra/v1"
+	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 )
 
 type SecurityGroup_Webhook struct{}
@@ -131,7 +133,9 @@ func (webhook *SecurityGroup_Webhook) ValidateUpdate(
 
 // createValidations validates the creation of the resource
 func (webhook *SecurityGroup_Webhook) createValidations() []func(ctx context.Context, obj *v1.SecurityGroup) (admission.Warnings, error) {
-	return nil
+	return []func(ctx context.Context, obj *v1.SecurityGroup) (admission.Warnings, error){
+		webhook.validateOptionalConfigMapReferences,
+	}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -141,5 +145,19 @@ func (webhook *SecurityGroup_Webhook) deleteValidations() []func(ctx context.Con
 
 // updateValidations validates the update of the resource
 func (webhook *SecurityGroup_Webhook) updateValidations() []func(ctx context.Context, oldObj *v1.SecurityGroup, newObj *v1.SecurityGroup) (admission.Warnings, error) {
-	return nil
+	return []func(ctx context.Context, oldObj *v1.SecurityGroup, newObj *v1.SecurityGroup) (admission.Warnings, error){
+		func(ctx context.Context, oldObj *v1.SecurityGroup, newObj *v1.SecurityGroup) (admission.Warnings, error) {
+			return webhook.validateOptionalConfigMapReferences(ctx, newObj)
+		},
+	}
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set.
+func (webhook *SecurityGroup_Webhook) validateOptionalConfigMapReferences(ctx context.Context, obj *v1.SecurityGroup) (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&obj.Spec)
+	if err != nil {
+		return nil, err
+	}
+
+	return configmaps.ValidateOptionalReferences(refs)
 }

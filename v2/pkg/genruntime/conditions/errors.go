@@ -6,9 +6,14 @@ Licensed under the MIT license.
 package conditions
 
 import (
+	"errors"
 	"fmt"
 	"io"
+	"net/http"
+	"strconv"
+	"time"
 
+	"github.com/microsoftgraph/msgraph-sdk-go/models/odataerrors"
 	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/retry"
@@ -20,16 +25,23 @@ type ReadyConditionImpactingError struct {
 	Reason              string
 	cause               error
 	RetryClassification retry.Classification
+	RetryAfter          time.Duration
 }
 
 // NewReadyConditionImpactingError creates a new ReadyConditionImpactingError
 func NewReadyConditionImpactingError(cause error, severity ConditionSeverity, reason Reason) *ReadyConditionImpactingError {
-	return &ReadyConditionImpactingError{
+	result := &ReadyConditionImpactingError{
 		cause:               cause,
 		Severity:            severity,
 		Reason:              reason.Name,
 		RetryClassification: reason.RetryClassification,
 	}
+
+	if retryAfter, ok := retryAfterFromError(cause); ok {
+		result.RetryAfter = retryAfter
+	}
+
+	return result
 }
 
 var _ error = &ReadyConditionImpactingError{}
@@ -86,4 +98,39 @@ func (e *ReadyConditionImpactingError) Format(s fmt.State, verb rune) {
 	case 'q':
 		_, _ = fmt.Fprintf(s, "%q", e.Error())
 	}
+}
+
+// retryAfterFromError extracts the Retry-After header from an ODataError, if present, and returns it as a time.Duration.
+func retryAfterFromError(
+	err error,
+) (time.Duration, bool) {
+	odataError, ok := errors.AsType[*odataerrors.ODataError](err)
+	if !ok {
+		return 0, false
+	}
+
+	if odataError == nil || odataError.ResponseHeaders == nil {
+		return 0, false
+	}
+
+	values := odataError.ResponseHeaders.Get("Retry-After")
+	if len(values) == 0 {
+		return 0, false
+	}
+
+	retryAfterStr := values[0]
+	if retryAfterVal, parseErr := strconv.ParseInt(retryAfterStr, 10, 64); parseErr == nil {
+		// Clamp to a reasonable range just in case we get a crazy value from the service.
+		retryAfterVal = max(0, min(retryAfterVal, 3600)) // 1 hour
+		return time.Duration(retryAfterVal) * time.Second, true
+	}
+
+	if retryAfterTime, parseErr := http.ParseTime(retryAfterStr); parseErr == nil {
+		result := time.Until(retryAfterTime)
+		if result > 0 {
+			return result, true
+		}
+	}
+
+	return 0, false
 }
