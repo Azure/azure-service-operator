@@ -21,6 +21,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
@@ -35,6 +36,7 @@ func (extension *PrivateEndpointExtension) PostReconcileCheck(
 	_ *resolver.Resolver,
 	_ *genericarmclient.GenericClient,
 	_ logr.Logger,
+	_ annotations.ResolvedReconcilePolicies,
 	_ extensions.PostReconcileCheckFunc,
 ) (extensions.PostReconcileCheckResult, error) {
 	endpoint, ok := obj.(*network.PrivateEndpoint)

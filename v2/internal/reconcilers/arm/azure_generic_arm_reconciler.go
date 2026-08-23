@@ -19,6 +19,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
@@ -44,7 +45,7 @@ const (
 )
 
 type (
-	CreateOrUpdateActionFunc = func(ctx context.Context) (ctrl.Result, error)
+	CreateOrUpdateActionFunc = func(ctx context.Context, reconcilePolicies annotations.ResolvedReconcilePolicies) (ctrl.Result, error)
 	DeleteActionFunc         = func(ctx context.Context) (ctrl.Result, error)
 )
 
@@ -126,12 +127,14 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
 ) (ctrl.Result, error) {
 	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
-	return instance.CreateOrUpdate(ctx)
+
+	return instance.CreateOrUpdate(ctx, reconcilePolicies)
 }
 
 func (r *AzureDeploymentReconciler) Delete(
@@ -182,11 +185,12 @@ func (r *AzureDeploymentReconciler) UpdateStatus(
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
 ) error {
 	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {
 		return err
 	}
 
-	return instance.handleCreateOrUpdateSuccess(ctx, WatchResource)
+	return instance.handleCreateOrUpdateSuccess(ctx, WatchResource, reconcilePolicies)
 }
