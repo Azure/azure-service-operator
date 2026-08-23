@@ -32,7 +32,7 @@ The interface is called at the end of the reconciliation process, after the reso
   <meta itemprop="name" content="PostReconciliationChecker">
   <meta itemprop="description" content="Description PostReconciliationChecker allows resources to perform validation or checks after ARM reconciliation completes successfully. This extension is invoked after Azure operations succeed but before the Ready condition is marked successful, giving resources the ability to defer the Ready status until additional conditions are met.
 The interface is called at the end of the reconciliation process, after the resource has been successfully created or updated in Azure. It provides a final opportunity to verify that the resource is truly ready for use.">
-  <meta itemprop="wordCount" content="1056">
+  <meta itemprop="wordCount" content="1168">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="PostReconciliationChecker">
   <meta name="twitter:description" content="Description PostReconciliationChecker allows resources to perform validation or checks after ARM reconciliation completes successfully. This extension is invoked after Azure operations succeed but before the Ready condition is marked successful, giving resources the ability to defer the Ready status until additional conditions are met.
@@ -1159,6 +1159,7 @@ The interface is called at the end of the reconciliation process, after the reso
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resourceResolver</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">resolver</span>.<span style="color:#a6e22e">Resolver</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">armClient</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">GenericClient</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">reconcilePolicies</span> <span style="color:#a6e22e">annotations</span>.<span style="color:#a6e22e">ResolvedReconcilePolicies</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">next</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PostReconcileCheckFunc</span>,
 </span></span><span style="display:flex;"><span>) (<span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PostReconcileCheckResult</span>, <span style="color:#66d9ef">error</span>) {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resource</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">obj</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">myservice</span>.<span style="color:#a6e22e">MyResource</span>)
@@ -1185,6 +1186,7 @@ The interface is called at the end of the reconciliation process, after the reso
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resourceResolver</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">resolver</span>.<span style="color:#a6e22e">Resolver</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">armClient</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">GenericClient</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">reconcilePolicies</span> <span style="color:#a6e22e">annotations</span>.<span style="color:#a6e22e">ResolvedReconcilePolicies</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">next</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PostReconcileCheckFunc</span>,
 </span></span><span style="display:flex;"><span>) (<span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PostReconcileCheckResult</span>, <span style="color:#66d9ef">error</span>) {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resource</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">obj</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">myservice</span>.<span style="color:#a6e22e">MyResource</span>)
@@ -1218,6 +1220,7 @@ The interface is called at the end of the reconciliation process, after the reso
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resourceResolver</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">resolver</span>.<span style="color:#a6e22e">Resolver</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">armClient</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">GenericClient</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">reconcilePolicies</span> <span style="color:#a6e22e">annotations</span>.<span style="color:#a6e22e">ResolvedReconcilePolicies</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">next</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PostReconcileCheckFunc</span>,
 </span></span><span style="display:flex;"><span>) (<span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">PostReconcileCheckResult</span>, <span style="color:#66d9ef">error</span>) {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">resource</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">obj</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">myservice</span>.<span style="color:#a6e22e">MyResource</span>)
@@ -1299,8 +1302,16 @@ The interface is called at the end of the reconciliation process, after the reso
 </ol>
 <h2 id="important-notes">Important Notes</h2>
 <ul>
-<li><strong>Call <code>next()</code> if appropriate</strong>: Allows for check chaining (rarely needed)</li>
+<li><strong>Call <code>next()</code> if appropriate</strong>: Allows for check chaining (rarely needed). Pass <code>reconcilePolicies</code> through when you do</li>
 <li><strong>Don&rsquo;t modify the resource</strong>: This is for validation only</li>
+<li><strong>Respect the reconcile policy</strong>: This check runs even when the policy forbids modification, since the
+skip path still updates status. Before acting on Azure, inspect the explicit <code>reconcilePolicies</code>
+parameter, which contains policies already resolved by the reconciler. Use
+<code>reconcilePolicies.Effective</code> for the resource being reconciled. To act on another resource in the same
+namespace, use <code>reconcilePolicies.ForResource(resource)</code> and handle the returned error. The method checks
+that the resource belongs to the namespace for which the policies were resolved. <code>reconcilePolicies.Namespace</code>
+is the policy resolved from that namespace&rsquo;s annotation or the global policy, while
+<code>reconcilePolicies.Global</code> is resolved from operator configuration or the built-in default</li>
 <li><strong>Be patient</strong>: Checks may run many times before succeeding</li>
 <li><strong>Use factory methods</strong>: Always uses the factory methods for <code>PostReconcileCheckResult</code> to ensure consistency</li>
 <li><strong>Provide clear reasons</strong>: Failure messages shown to users</li>
