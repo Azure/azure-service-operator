@@ -11,7 +11,6 @@ import (
 
 	"github.com/microsoftgraph/msgraph-sdk-go/models/odataerrors"
 	"github.com/rotisserie/eris"
-	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/retry"
@@ -54,16 +53,6 @@ func classifyRelationshipError(err error) error {
 		conditions.ConditionSeverityWarning,
 		reasonRelationshipFailed,
 	)
-}
-
-// maxThrottleResult returns whichever of a and b has the larger RequeueAfter. Used
-// to collapse per-side throttle signals into a single result while reconciling
-// owners and members in parallel.
-func maxThrottleResult(a, b ctrl.Result) ctrl.Result {
-	if b.RequeueAfter > a.RequeueAfter {
-		return b
-	}
-	return a
 }
 
 func isPermissionError(err error) bool {
