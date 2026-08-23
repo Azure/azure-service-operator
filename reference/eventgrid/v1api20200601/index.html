@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
   <meta itemprop="description" content="APIVersion Value Description “2020-06-01” Domain Generator information: - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/EventGrid/stable/2020-06-01/EventGrid.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventGrid/​domains/​{domainName}
 Used by: DomainList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOptional status Domain_STATUSOptional Domain_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional inboundIpRules This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. InboundIpRule[]Optional inputSchema This determines the format that Event Grid should expect for incoming events published to the domain. DomainProperties_InputSchemaOptional inputSchemaMapping Information about the InputSchemaMapping which specified the info about mapping event payload. InputSchemaMappingOptional location Location of the resource. stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DomainOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring DomainProperties_PublicNetworkAccessOptional tags Tags of the resource. map[string]stringOptional Domain_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional endpoint Endpoint for the domain. stringOptional id Fully qualified identifier of the resource. stringOptional inboundIpRules This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. InboundIpRule_STATUS[]Optional inputSchema This determines the format that Event Grid should expect for incoming events published to the domain. DomainProperties_InputSchema_STATUSOptional inputSchemaMapping Information about the InputSchemaMapping which specified the info about mapping event payload. InputSchemaMapping_STATUSOptional location Location of the resource. stringOptional metricResourceId Metric resource id for the domain. stringOptional name Name of the resource. stringOptional privateEndpointConnections List of private endpoint connections. PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded[]Optional provisioningState Provisioning state of the domain. DomainProperties_ProvisioningState_STATUSOptional publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring DomainProperties_PublicNetworkAccess_STATUSOptional systemData The system metadata relating to Domain resource. SystemData_STATUSOptional tags Tags of the resource. map[string]stringOptional type Type of the resource. stringOptional DomainList Generator information: - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/EventGrid/stable/2020-06-01/EventGrid.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventGrid/​domains/​{domainName}">
-  <meta itemprop="wordCount" content="6765">
+  <meta itemprop="wordCount" content="6811">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="eventgrid.azure.com/v1api20200601">
   <meta name="twitter:description" content="APIVersion Value Description “2020-06-01” Domain Generator information: - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/EventGrid/stable/2020-06-01/EventGrid.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventGrid/​domains/​{domainName}
@@ -480,6 +480,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
   <a href="/azure-service-operator/reference/containerregistry/v1api20210901/" title="containerregistry.azure.com/v1api20210901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20210901"><span class="">v1api20210901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20230701-li">
   <a href="/azure-service-operator/reference/containerregistry/v1api20230701/" title="containerregistry.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20230701"><span class="">v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv20251101-li">
+  <a href="/azure-service-operator/reference/containerregistry/v20251101/" title="containerregistry.azure.com/v20251101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv20251101"><span class="">v20251101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
@@ -4026,6 +4028,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>queueNameFromConfig</td>
+          <td>The name of the Storage queue under a storage account that is the destination of an event subscription.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>resourceReference</td>
           <td>The Azure Resource ID of the storage account that contains the queue that is the destination of an event subscription.</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
@@ -4172,6 +4179,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
           <td>azureActiveDirectoryApplicationIdOrUri</td>
           <td>The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests.</td>
           <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>azureActiveDirectoryApplicationIdOrUriFromConfig</td>
+          <td>The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>azureActiveDirectoryTenantId</td>

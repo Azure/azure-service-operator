@@ -17,30 +17,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>compute.azure.com/v20210701 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2021-07-01” Image Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2021-07-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}
-Used by: ImageList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptional status Image_STATUSOptional Image_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of the Image. ExtendedLocationOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationTypeOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ImageOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sourceVirtualMachine The source virtual machine from which Image is created. SubResourceOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfileOptional tags Resource tags map[string]stringOptional Image_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional extendedLocation The extended location of the Image. ExtendedLocation_STATUSOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationType_STATUSOptional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional provisioningState The provisioning state. stringOptional sourceVirtualMachine The source virtual machine from which Image is created. SubResource_STATUSOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfile_STATUSOptional tags Resource tags map[string]stringOptional type Resource type stringOptional ImageList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2021-07-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/compute/v20210701/">
+<title>containerregistry.azure.com/v20251101 | Azure Service Operator</title>
+<meta name="description" content="APIVersion Value Description “2025-11-01” RegistryCacheRule Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/​registries/​{registryName}/​cacheRules/​{cacheRuleName}
+Used by: RegistryCacheRuleList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec RegistryCacheRule_SpecOptional status RegistryCacheRule_STATUSOptional RegistryCacheRule_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional credentialSetResourceReference The ARM resource ID of the credential store which is associated with the cache rule. genruntime.ResourceReferenceOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RegistryCacheRuleOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerregistry.azure.com/Registry resource genruntime.KnownResourceReferenceRequired sourceRepository Source repository pulled from upstream. stringOptional targetRepository Target repository specified in docker pull command. Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag} stringOptional RegistryCacheRule_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional creationDate The creation date of the cache rule. stringOptional credentialSetResourceId The ARM resource ID of the credential store which is associated with the cache rule. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional provisioningState Provisioning state of the resource. ProvisioningState_STATUSOptional sourceRepository Source repository pulled from upstream. stringOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional targetRepository Target repository specified in docker pull command. Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag} stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional RegistryCacheRuleList Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/​registries/​{registryName}/​cacheRules/​{cacheRuleName}">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/containerregistry/v20251101/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="compute.azure.com/v20210701">
-  <meta property="og:description" content="APIVersion Value Description “2021-07-01” Image Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2021-07-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}
-Used by: ImageList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptional status Image_STATUSOptional Image_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of the Image. ExtendedLocationOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationTypeOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ImageOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sourceVirtualMachine The source virtual machine from which Image is created. SubResourceOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfileOptional tags Resource tags map[string]stringOptional Image_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional extendedLocation The extended location of the Image. ExtendedLocation_STATUSOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationType_STATUSOptional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional provisioningState The provisioning state. stringOptional sourceVirtualMachine The source virtual machine from which Image is created. SubResource_STATUSOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfile_STATUSOptional tags Resource tags map[string]stringOptional type Resource type stringOptional ImageList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2021-07-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}">
+  <meta property="og:title" content="containerregistry.azure.com/v20251101">
+  <meta property="og:description" content="APIVersion Value Description “2025-11-01” RegistryCacheRule Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/​registries/​{registryName}/​cacheRules/​{cacheRuleName}
+Used by: RegistryCacheRuleList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec RegistryCacheRule_SpecOptional status RegistryCacheRule_STATUSOptional RegistryCacheRule_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional credentialSetResourceReference The ARM resource ID of the credential store which is associated with the cache rule. genruntime.ResourceReferenceOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RegistryCacheRuleOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerregistry.azure.com/Registry resource genruntime.KnownResourceReferenceRequired sourceRepository Source repository pulled from upstream. stringOptional targetRepository Target repository specified in docker pull command. Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag} stringOptional RegistryCacheRule_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional creationDate The creation date of the cache rule. stringOptional credentialSetResourceId The ARM resource ID of the credential store which is associated with the cache rule. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional provisioningState Provisioning state of the resource. ProvisioningState_STATUSOptional sourceRepository Source repository pulled from upstream. stringOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional targetRepository Target repository specified in docker pull command. Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag} stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional RegistryCacheRuleList Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/​registries/​{registryName}/​cacheRules/​{cacheRuleName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
-  <meta itemprop="name" content="compute.azure.com/v20210701">
-  <meta itemprop="description" content="APIVersion Value Description “2021-07-01” Image Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2021-07-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}
-Used by: ImageList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptional status Image_STATUSOptional Image_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of the Image. ExtendedLocationOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationTypeOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ImageOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sourceVirtualMachine The source virtual machine from which Image is created. SubResourceOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfileOptional tags Resource tags map[string]stringOptional Image_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional extendedLocation The extended location of the Image. ExtendedLocation_STATUSOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationType_STATUSOptional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional provisioningState The provisioning state. stringOptional sourceVirtualMachine The source virtual machine from which Image is created. SubResource_STATUSOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfile_STATUSOptional tags Resource tags map[string]stringOptional type Resource type stringOptional ImageList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2021-07-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}">
-  <meta itemprop="wordCount" content="2060">
+  <meta itemprop="name" content="containerregistry.azure.com/v20251101">
+  <meta itemprop="description" content="APIVersion Value Description “2025-11-01” RegistryCacheRule Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/​registries/​{registryName}/​cacheRules/​{cacheRuleName}
+Used by: RegistryCacheRuleList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec RegistryCacheRule_SpecOptional status RegistryCacheRule_STATUSOptional RegistryCacheRule_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional credentialSetResourceReference The ARM resource ID of the credential store which is associated with the cache rule. genruntime.ResourceReferenceOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RegistryCacheRuleOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerregistry.azure.com/Registry resource genruntime.KnownResourceReferenceRequired sourceRepository Source repository pulled from upstream. stringOptional targetRepository Target repository specified in docker pull command. Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag} stringOptional RegistryCacheRule_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional creationDate The creation date of the cache rule. stringOptional credentialSetResourceId The ARM resource ID of the credential store which is associated with the cache rule. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional provisioningState Provisioning state of the resource. ProvisioningState_STATUSOptional sourceRepository Source repository pulled from upstream. stringOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional targetRepository Target repository specified in docker pull command. Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag} stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional RegistryCacheRuleList Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/​registries/​{registryName}/​cacheRules/​{cacheRuleName}">
+  <meta itemprop="wordCount" content="708">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="compute.azure.com/v20210701">
-  <meta name="twitter:description" content="APIVersion Value Description “2021-07-01” Image Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2021-07-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}
-Used by: ImageList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptional status Image_STATUSOptional Image_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of the Image. ExtendedLocationOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationTypeOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ImageOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sourceVirtualMachine The source virtual machine from which Image is created. SubResourceOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfileOptional tags Resource tags map[string]stringOptional Image_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional extendedLocation The extended location of the Image. ExtendedLocation_STATUSOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationType_STATUSOptional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional provisioningState The provisioning state. stringOptional sourceVirtualMachine The source virtual machine from which Image is created. SubResource_STATUSOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfile_STATUSOptional tags Resource tags map[string]stringOptional type Resource type stringOptional ImageList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2021-07-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}">
+  <meta name="twitter:title" content="containerregistry.azure.com/v20251101">
+  <meta name="twitter:description" content="APIVersion Value Description “2025-11-01” RegistryCacheRule Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/​registries/​{registryName}/​cacheRules/​{cacheRuleName}
+Used by: RegistryCacheRuleList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec RegistryCacheRule_SpecOptional status RegistryCacheRule_STATUSOptional RegistryCacheRule_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional credentialSetResourceReference The ARM resource ID of the credential store which is associated with the cache rule. genruntime.ResourceReferenceOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RegistryCacheRuleOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerregistry.azure.com/Registry resource genruntime.KnownResourceReferenceRequired sourceRepository Source repository pulled from upstream. stringOptional targetRepository Target repository specified in docker pull command. Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag} stringOptional RegistryCacheRule_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional creationDate The creation date of the cache rule. stringOptional credentialSetResourceId The ARM resource ID of the credential store which is associated with the cache rule. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional provisioningState Provisioning state of the resource. ProvisioningState_STATUSOptional sourceRepository Source repository pulled from upstream. stringOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional targetRepository Target repository specified in docker pull command. Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag} stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional RegistryCacheRuleList Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/​registries/​{registryName}/​cacheRules/​{cacheRuleName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -427,40 +427,40 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   <a href="/azure-service-operator/reference/communication/v20230401/" title="communication.azure.com/v20230401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecommunicationv20230401"><span class="">v20230401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">Compute</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20200930-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
   <a href="/azure-service-operator/reference/compute/v1api20200930/" title="compute.azure.com/v1api20200930" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20200930"><span class="">v1api20200930</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20201201-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20201201-li">
   <a href="/azure-service-operator/reference/compute/v1api20201201/" title="compute.azure.com/v1api20201201" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20201201"><span class="">v1api20201201</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20210701-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20210701-li">
   <a href="/azure-service-operator/reference/compute/v1api20210701/" title="compute.azure.com/v1api20210701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20210701"><span class="">v1api20210701</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20220301-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20220301-li">
   <a href="/azure-service-operator/reference/compute/v1api20220301/" title="compute.azure.com/v1api20220301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220301"><span class="">v1api20220301</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20220702-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20220702-li">
   <a href="/azure-service-operator/reference/compute/v1api20220702/" title="compute.azure.com/v1api20220702" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220702"><span class="">v1api20220702</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20240302-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20240302-li">
   <a href="/azure-service-operator/reference/compute/v1api20240302/" title="compute.azure.com/v1api20240302" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20240302"><span class="">v1api20240302</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20241101-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20241101-li">
   <a href="/azure-service-operator/reference/compute/v1api20241101/" title="compute.azure.com/v1api20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20241101"><span class="">v1api20241101</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20250401-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20250401-li">
   <a href="/azure-service-operator/reference/compute/v1api20250401/" title="compute.azure.com/v1api20250401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20250401"><span class="">v1api20250401</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev20200930-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev20200930-li">
   <a href="/azure-service-operator/reference/compute/v20200930/" title="compute.azure.com/v20200930" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev20200930"><span class="">v20200930</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev20201201-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev20201201-li">
   <a href="/azure-service-operator/reference/compute/v20201201/" title="compute.azure.com/v20201201" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev20201201"><span class="">v20201201</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencecomputev20210701-li">
-  <a href="/azure-service-operator/reference/compute/v20210701/" title="compute.azure.com/v20210701" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev20210701"><span class="td-sidebar-nav-active-item">v20210701</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev20220301-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev20210701-li">
+  <a href="/azure-service-operator/reference/compute/v20210701/" title="compute.azure.com/v20210701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev20210701"><span class="">v20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev20220301-li">
   <a href="/azure-service-operator/reference/compute/v20220301/" title="compute.azure.com/v20220301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev20220301"><span class="">v20220301</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev20220702-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev20220702-li">
   <a href="/azure-service-operator/reference/compute/v20220702/" title="compute.azure.com/v20220702" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev20220702"><span class="">v20220702</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev20240302-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev20240302-li">
   <a href="/azure-service-operator/reference/compute/v20240302/" title="compute.azure.com/v20240302" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev20240302"><span class="">v20240302</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev20241101-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev20241101-li">
   <a href="/azure-service-operator/reference/compute/v20241101/" title="compute.azure.com/v20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev20241101"><span class="">v20241101</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev20250401-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev20250401-li">
   <a href="/azure-service-operator/reference/compute/v20250401/" title="compute.azure.com/v20250401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev20250401"><span class="">v20250401</span></a>
 </li>
   </ul>
@@ -473,15 +473,15 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   <a href="/azure-service-operator/reference/containerinstance/v20211001/" title="containerinstance.azure.com/v20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev20211001"><span class="">v20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" title="ContainerRegistry Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">ContainerRegistry</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
   <a href="/azure-service-operator/reference/containerregistry/v1api20210901/" title="containerregistry.azure.com/v1api20210901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20210901"><span class="">v1api20210901</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20230701-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecontainerregistryv1api20230701-li">
   <a href="/azure-service-operator/reference/containerregistry/v1api20230701/" title="containerregistry.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20230701"><span class="">v1api20230701</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv20251101-li">
-  <a href="/azure-service-operator/reference/containerregistry/v20251101/" title="containerregistry.azure.com/v20251101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv20251101"><span class="">v20251101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencecontainerregistryv20251101-li">
+  <a href="/azure-service-operator/reference/containerregistry/v20251101/" title="containerregistry.azure.com/v20251101" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv20251101"><span class="td-sidebar-nav-active-item">v20251101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
@@ -1059,40 +1059,20 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
         <nav id="TableOfContents">
   <ul>
     <li><a href="#APIVersion">APIVersion</a></li>
-    <li><a href="#Image">Image</a>
+    <li><a href="#RegistryCacheRule">RegistryCacheRule</a>
       <ul>
-        <li><a href="#Image_Spec">Image_Spec</a></li>
-        <li><a href="#Image_STATUS">Image_STATUS</a></li>
+        <li><a href="#RegistryCacheRule_Spec">RegistryCacheRule_Spec</a></li>
+        <li><a href="#RegistryCacheRule_STATUS">RegistryCacheRule_STATUS</a></li>
       </ul>
     </li>
-    <li><a href="#ImageList">ImageList</a></li>
-    <li><a href="#Image_Spec">Image_Spec</a></li>
-    <li><a href="#Image_STATUS">Image_STATUS</a></li>
-    <li><a href="#ExtendedLocation">ExtendedLocation</a></li>
-    <li><a href="#ExtendedLocation_STATUS">ExtendedLocation_STATUS</a></li>
-    <li><a href="#HyperVGenerationType">HyperVGenerationType</a></li>
-    <li><a href="#HyperVGenerationType_STATUS">HyperVGenerationType_STATUS</a></li>
-    <li><a href="#ImageOperatorSpec">ImageOperatorSpec</a></li>
-    <li><a href="#ImageStorageProfile">ImageStorageProfile</a></li>
-    <li><a href="#ImageStorageProfile_STATUS">ImageStorageProfile_STATUS</a></li>
-    <li><a href="#SubResource">SubResource</a></li>
-    <li><a href="#SubResource_STATUS">SubResource_STATUS</a></li>
-    <li><a href="#ExtendedLocationType">ExtendedLocationType</a></li>
-    <li><a href="#ExtendedLocationType_STATUS">ExtendedLocationType_STATUS</a></li>
-    <li><a href="#ImageDataDisk">ImageDataDisk</a></li>
-    <li><a href="#ImageDataDisk_STATUS">ImageDataDisk_STATUS</a></li>
-    <li><a href="#ImageOSDisk">ImageOSDisk</a></li>
-    <li><a href="#ImageOSDisk_STATUS">ImageOSDisk_STATUS</a></li>
-    <li><a href="#ImageDataDisk_Caching">ImageDataDisk_Caching</a></li>
-    <li><a href="#ImageDataDisk_Caching_STATUS">ImageDataDisk_Caching_STATUS</a></li>
-    <li><a href="#ImageOSDisk_Caching">ImageOSDisk_Caching</a></li>
-    <li><a href="#ImageOSDisk_Caching_STATUS">ImageOSDisk_Caching_STATUS</a></li>
-    <li><a href="#ImageOSDisk_OsState">ImageOSDisk_OsState</a></li>
-    <li><a href="#ImageOSDisk_OsState_STATUS">ImageOSDisk_OsState_STATUS</a></li>
-    <li><a href="#ImageOSDisk_OsType">ImageOSDisk_OsType</a></li>
-    <li><a href="#ImageOSDisk_OsType_STATUS">ImageOSDisk_OsType_STATUS</a></li>
-    <li><a href="#StorageAccountType">StorageAccountType</a></li>
-    <li><a href="#StorageAccountType_STATUS">StorageAccountType_STATUS</a></li>
+    <li><a href="#RegistryCacheRuleList">RegistryCacheRuleList</a></li>
+    <li><a href="#RegistryCacheRule_Spec">RegistryCacheRule_Spec</a></li>
+    <li><a href="#RegistryCacheRule_STATUS">RegistryCacheRule_STATUS</a></li>
+    <li><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a></li>
+    <li><a href="#RegistryCacheRuleOperatorSpec">RegistryCacheRuleOperatorSpec</a></li>
+    <li><a href="#SystemData_STATUS">SystemData_STATUS</a></li>
+    <li><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a></li>
+    <li><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a></li>
   </ul>
 </nav>
       </div>
@@ -1109,13 +1089,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/reference/">Supported Resources</a></li>
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/reference/compute/">Compute</a></li>
+    <a href="/azure-service-operator/reference/containerregistry/">ContainerRegistry</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    v20210701</li>
+    v20251101</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>compute.azure.com/v20210701</h1>
+	<h1>containerregistry.azure.com/v20251101</h1>
 	
 	<header class="article-meta">
 		
@@ -1131,14 +1111,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;2021-07-01&rdquo;</td>
+          <td>&ldquo;2025-11-01&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
 </table>
-<h2 id="Image">Image</h2>
-<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2021-07-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}</p>
-<p>Used by: <a href="#ImageList">ImageList</a>.</p>
+<h2 id="RegistryCacheRule">RegistryCacheRule</h2>
+<p>Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/​registries/​{registryName}/​cacheRules/​{cacheRuleName}</p>
+<p>Used by: <a href="#RegistryCacheRuleList">RegistryCacheRuleList</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1161,16 +1141,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
       <tr>
           <td>spec</td>
           <td></td>
-          <td><a href="#Image_Spec">Image_Spec</a><br/><small>Optional</small></td>
+          <td><a href="#RegistryCacheRule_Spec">RegistryCacheRule_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>status</td>
           <td></td>
-          <td><a href="#Image_STATUS">Image_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#RegistryCacheRule_STATUS">RegistryCacheRule_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h3 id="Image_Spec">Image_Spec</h3>
+<h3 id="RegistryCacheRule_Spec">RegistryCacheRule_Spec</h3>
 <table>
   <thead>
       <tr>
@@ -1186,48 +1166,33 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>extendedLocation</td>
-          <td>The extended location of the Image.</td>
-          <td><a href="#ExtendedLocation">ExtendedLocation</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hyperVGeneration</td>
-          <td>Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource.</td>
-          <td><a href="#HyperVGenerationType">HyperVGenerationType</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>Resource location</td>
-          <td>string<br/><small>Required</small></td>
+          <td>credentialSetResourceReference</td>
+          <td>The ARM resource ID of the credential store which is associated with the cache rule.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>operatorSpec</td>
           <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#ImageOperatorSpec">ImageOperatorSpec</a><br/><small>Optional</small></td>
+          <td><a href="#RegistryCacheRuleOperatorSpec">RegistryCacheRuleOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerregistry.azure.com/Registry resource</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td>sourceVirtualMachine</td>
-          <td>The source virtual machine from which Image is created.</td>
-          <td><a href="#SubResource">SubResource</a><br/><small>Optional</small></td>
+          <td>sourceRepository</td>
+          <td>Source repository pulled from upstream.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>storageProfile</td>
-          <td>Specifies the storage settings for the virtual machine disks.</td>
-          <td><a href="#ImageStorageProfile">ImageStorageProfile</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags</td>
-          <td>map[string]string<br/><small>Optional</small></td>
+          <td>targetRepository</td>
+          <td>Target repository specified in docker pull command. Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag}</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h3 id="Image_STATUS">Image_STATUS</h3>
+<h3 id="RegistryCacheRule_STATUS">RegistryCacheRule_STATUS</h3>
 <table>
   <thead>
       <tr>
@@ -1243,59 +1208,54 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>extendedLocation</td>
-          <td>The extended location of the Image.</td>
-          <td><a href="#ExtendedLocation_STATUS">ExtendedLocation_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hyperVGeneration</td>
-          <td>Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource.</td>
-          <td><a href="#HyperVGenerationType_STATUS">HyperVGenerationType_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Resource Id</td>
+          <td>creationDate</td>
+          <td>The creation date of the cache rule.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>location</td>
-          <td>Resource location</td>
+          <td>credentialSetResourceId</td>
+          <td>The ARM resource ID of the credential store which is associated with the cache rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
-          <td>Resource name</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>provisioningState</td>
-          <td>The provisioning state.</td>
+          <td>Provisioning state of the resource.</td>
+          <td><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sourceRepository</td>
+          <td>Source repository pulled from upstream.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>sourceVirtualMachine</td>
-          <td>The source virtual machine from which Image is created.</td>
-          <td><a href="#SubResource_STATUS">SubResource_STATUS</a><br/><small>Optional</small></td>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>storageProfile</td>
-          <td>Specifies the storage settings for the virtual machine disks.</td>
-          <td><a href="#ImageStorageProfile_STATUS">ImageStorageProfile_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags</td>
-          <td>map[string]string<br/><small>Optional</small></td>
+          <td>targetRepository</td>
+          <td>Target repository specified in docker pull command. Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag}</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
-          <td>Resource type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="ImageList">ImageList</h2>
-<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2021-07-01/compute.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}</p>
+<h2 id="RegistryCacheRuleList">RegistryCacheRuleList</h2>
+<p>Generator information: - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/containerregistry.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerRegistry/​registries/​{registryName}/​cacheRules/​{cacheRuleName}</p>
 <table>
   <thead>
       <tr>
@@ -1318,12 +1278,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
       <tr>
           <td>items</td>
           <td></td>
-          <td><a href="#Image">Image[]</a><br/><small>Optional</small></td>
+          <td><a href="#RegistryCacheRule">RegistryCacheRule[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="Image_Spec">Image_Spec</h2>
-<p>Used by: <a href="#Image">Image</a>.</p>
+<h2 id="RegistryCacheRule_Spec">RegistryCacheRule_Spec</h2>
+<p>Used by: <a href="#RegistryCacheRule">RegistryCacheRule</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1339,50 +1299,34 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>extendedLocation</td>
-          <td>The extended location of the Image.</td>
-          <td><a href="#ExtendedLocation">ExtendedLocation</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hyperVGeneration</td>
-          <td>Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource.</td>
-          <td><a href="#HyperVGenerationType">HyperVGenerationType</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>Resource location</td>
-          <td>string<br/><small>Required</small></td>
+          <td>credentialSetResourceReference</td>
+          <td>The ARM resource ID of the credential store which is associated with the cache rule.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>operatorSpec</td>
           <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#ImageOperatorSpec">ImageOperatorSpec</a><br/><small>Optional</small></td>
+          <td><a href="#RegistryCacheRuleOperatorSpec">RegistryCacheRuleOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerregistry.azure.com/Registry resource</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td>sourceVirtualMachine</td>
-          <td>The source virtual machine from which Image is created.</td>
-          <td><a href="#SubResource">SubResource</a><br/><small>Optional</small></td>
+          <td>sourceRepository</td>
+          <td>Source repository pulled from upstream.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>storageProfile</td>
-          <td>Specifies the storage settings for the virtual machine disks.</td>
-          <td><a href="#ImageStorageProfile">ImageStorageProfile</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags</td>
-          <td>map[string]string<br/><small>Optional</small></td>
+          <td>targetRepository</td>
+          <td>Target repository specified in docker pull command. Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag}</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="Image_STATUS">Image_STATUS</h2>
-<p>The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.</p>
-<p>Used by: <a href="#Image">Image</a>.</p>
+<h2 id="RegistryCacheRule_STATUS">RegistryCacheRule_STATUS</h2>
+<p>Used by: <a href="#RegistryCacheRule">RegistryCacheRule</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1398,108 +1342,55 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>extendedLocation</td>
-          <td>The extended location of the Image.</td>
-          <td><a href="#ExtendedLocation_STATUS">ExtendedLocation_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hyperVGeneration</td>
-          <td>Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource.</td>
-          <td><a href="#HyperVGenerationType_STATUS">HyperVGenerationType_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Resource Id</td>
+          <td>creationDate</td>
+          <td>The creation date of the cache rule.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>location</td>
-          <td>Resource location</td>
+          <td>credentialSetResourceId</td>
+          <td>The ARM resource ID of the credential store which is associated with the cache rule.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
-          <td>Resource name</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>provisioningState</td>
-          <td>The provisioning state.</td>
+          <td>Provisioning state of the resource.</td>
+          <td><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sourceRepository</td>
+          <td>Source repository pulled from upstream.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>sourceVirtualMachine</td>
-          <td>The source virtual machine from which Image is created.</td>
-          <td><a href="#SubResource_STATUS">SubResource_STATUS</a><br/><small>Optional</small></td>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>storageProfile</td>
-          <td>Specifies the storage settings for the virtual machine disks.</td>
-          <td><a href="#ImageStorageProfile_STATUS">ImageStorageProfile_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>Resource type</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ExtendedLocation">ExtendedLocation</h2>
-<p>The complex type of the extended location.</p>
-<p>Used by: <a href="#Image_Spec">Image_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>name</td>
-          <td>The name of the extended location.</td>
+          <td>targetRepository</td>
+          <td>Target repository specified in docker pull command. Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the extended location.</td>
-          <td><a href="#ExtendedLocationType">ExtendedLocationType</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ExtendedLocation_STATUS">ExtendedLocation_STATUS</h2>
-<p>The complex type of the extended location.</p>
-<p>Used by: <a href="#Image_STATUS">Image_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>name</td>
-          <td>The name of the extended location.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the extended location.</td>
-          <td><a href="#ExtendedLocationType_STATUS">ExtendedLocationType_STATUS</a><br/><small>Optional</small></td>
-      </tr>
   </tbody>
 </table>
-<h2 id="HyperVGenerationType">HyperVGenerationType</h2>
-<p>Specifies the HyperVGeneration Type</p>
-<p>Used by: <a href="#Image_Spec">Image_Spec</a>.</p>
+<h2 id="ProvisioningState_STATUS">ProvisioningState_STATUS</h2>
+<p>The provisioning state of the archive at the time the operation was called.</p>
+<p>Used by: <a href="#RegistryCacheRule_STATUS">RegistryCacheRule_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1509,39 +1400,34 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;V1&rdquo;</td>
+          <td>&ldquo;Canceled&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;V2&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="HyperVGenerationType_STATUS">HyperVGenerationType_STATUS</h2>
-<p>Specifies the HyperVGeneration Type</p>
-<p>Used by: <a href="#Image_STATUS">Image_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;V1&rdquo;</td>
+          <td>&ldquo;Creating&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;V2&rdquo;</td>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Updating&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
 </table>
-<h2 id="ImageOperatorSpec">ImageOperatorSpec</h2>
+<h2 id="RegistryCacheRuleOperatorSpec">RegistryCacheRuleOperatorSpec</h2>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#Image_Spec">Image_Spec</a>.</p>
+<p>Used by: <a href="#RegistryCacheRule_Spec">RegistryCacheRule_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1563,9 +1449,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
       </tr>
   </tbody>
 </table>
-<h2 id="ImageStorageProfile">ImageStorageProfile</h2>
-<p>Describes a storage profile.</p>
-<p>Used by: <a href="#Image_Spec">Image_Spec</a>.</p>
+<h2 id="SystemData_STATUS">SystemData_STATUS</h2>
+<p>Metadata pertaining to creation and last modification of the resource.</p>
+<p>Used by: <a href="#RegistryCacheRule_STATUS">RegistryCacheRule_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1576,349 +1462,39 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   </thead>
   <tbody>
       <tr>
-          <td>dataDisks</td>
-          <td>Specifies the parameters that are used to add a data disk to a virtual machine. For more information about disks, see <a href="https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview">About disks and VHDs for Azure virtual machines</a>.</td>
-          <td><a href="#ImageDataDisk">ImageDataDisk[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>osDisk</td>
-          <td>Specifies information about the operating system disk used by the virtual machine. For more information about disks, see <a href="https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview">About disks and VHDs for Azure virtual machines</a>.</td>
-          <td><a href="#ImageOSDisk">ImageOSDisk</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>zoneResilient</td>
-          <td>Specifies whether an image is zone resilient or not. Default is false. Zone resilient images can be created only in regions that provide Zone Redundant Storage (ZRS).</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ImageStorageProfile_STATUS">ImageStorageProfile_STATUS</h2>
-<p>Describes a storage profile.</p>
-<p>Used by: <a href="#Image_STATUS">Image_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>dataDisks</td>
-          <td>Specifies the parameters that are used to add a data disk to a virtual machine. For more information about disks, see <a href="https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview">About disks and VHDs for Azure virtual machines</a>.</td>
-          <td><a href="#ImageDataDisk_STATUS">ImageDataDisk_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>osDisk</td>
-          <td>Specifies information about the operating system disk used by the virtual machine. For more information about disks, see <a href="https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview">About disks and VHDs for Azure virtual machines</a>.</td>
-          <td><a href="#ImageOSDisk_STATUS">ImageOSDisk_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>zoneResilient</td>
-          <td>Specifies whether an image is zone resilient or not. Default is false. Zone resilient images can be created only in regions that provide Zone Redundant Storage (ZRS).</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="SubResource">SubResource</h2>
-<p>Used by: <a href="#Image_Spec">Image_Spec</a>, <a href="#ImageDataDisk">ImageDataDisk</a>, <a href="#ImageDataDisk">ImageDataDisk</a>, <a href="#ImageDataDisk">ImageDataDisk</a>, <a href="#ImageOSDisk">ImageOSDisk</a>, <a href="#ImageOSDisk">ImageOSDisk</a>, and <a href="#ImageOSDisk">ImageOSDisk</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>reference</td>
-          <td>Resource Id</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="SubResource_STATUS">SubResource_STATUS</h2>
-<p>Used by: <a href="#Image_STATUS">Image_STATUS</a>, <a href="#ImageDataDisk_STATUS">ImageDataDisk_STATUS</a>, <a href="#ImageDataDisk_STATUS">ImageDataDisk_STATUS</a>, <a href="#ImageDataDisk_STATUS">ImageDataDisk_STATUS</a>, <a href="#ImageOSDisk_STATUS">ImageOSDisk_STATUS</a>, <a href="#ImageOSDisk_STATUS">ImageOSDisk_STATUS</a>, and <a href="#ImageOSDisk_STATUS">ImageOSDisk_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>id</td>
-          <td>Resource Id</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ExtendedLocationType">ExtendedLocationType</h2>
-<p>The type of extendedLocation.</p>
-<p>Used by: <a href="#ExtendedLocation">ExtendedLocation</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;EdgeZone&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ExtendedLocationType_STATUS">ExtendedLocationType_STATUS</h2>
-<p>The type of extendedLocation.</p>
-<p>Used by: <a href="#ExtendedLocation_STATUS">ExtendedLocation_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;EdgeZone&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ImageDataDisk">ImageDataDisk</h2>
-<p>Describes a data disk.</p>
-<p>Used by: <a href="#ImageStorageProfile">ImageStorageProfile</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>blobUri</td>
-          <td>The Virtual Hard Disk.</td>
+          <td>createdAt</td>
+          <td>The timestamp of resource creation (UTC).</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>caching</td>
-          <td>Specifies the caching requirements. Possible values are: None ReadOnly ReadWrite Default: None for Standard storage. ReadOnly for Premium storage</td>
-          <td><a href="#ImageDataDisk_Caching">ImageDataDisk_Caching</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>diskEncryptionSet</td>
-          <td>Specifies the customer managed disk encryption set resource id for the managed image disk.</td>
-          <td><a href="#SubResource">SubResource</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>diskSizeGB</td>
-          <td>Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. This value cannot be larger than 1023 GB</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>lun</td>
-          <td>Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.</td>
-          <td>int<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>managedDisk</td>
-          <td>The managedDisk.</td>
-          <td><a href="#SubResource">SubResource</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>snapshot</td>
-          <td>The snapshot.</td>
-          <td><a href="#SubResource">SubResource</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageAccountType</td>
-          <td>Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.</td>
-          <td><a href="#StorageAccountType">StorageAccountType</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ImageDataDisk_STATUS">ImageDataDisk_STATUS</h2>
-<p>Describes a data disk.</p>
-<p>Used by: <a href="#ImageStorageProfile_STATUS">ImageStorageProfile_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>blobUri</td>
-          <td>The Virtual Hard Disk.</td>
+          <td>createdBy</td>
+          <td>The identity that created the resource.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>caching</td>
-          <td>Specifies the caching requirements. Possible values are: None ReadOnly ReadWrite Default: None for Standard storage. ReadOnly for Premium storage</td>
-          <td><a href="#ImageDataDisk_Caching_STATUS">ImageDataDisk_Caching_STATUS</a><br/><small>Optional</small></td>
+          <td>createdByType</td>
+          <td>The type of identity that created the resource.</td>
+          <td><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>diskEncryptionSet</td>
-          <td>Specifies the customer managed disk encryption set resource id for the managed image disk.</td>
-          <td><a href="#SubResource_STATUS">SubResource_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>diskSizeGB</td>
-          <td>Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. This value cannot be larger than 1023 GB</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>lun</td>
-          <td>Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>managedDisk</td>
-          <td>The managedDisk.</td>
-          <td><a href="#SubResource_STATUS">SubResource_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>snapshot</td>
-          <td>The snapshot.</td>
-          <td><a href="#SubResource_STATUS">SubResource_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageAccountType</td>
-          <td>Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.</td>
-          <td><a href="#StorageAccountType_STATUS">StorageAccountType_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ImageOSDisk">ImageOSDisk</h2>
-<p>Describes an Operating System disk.</p>
-<p>Used by: <a href="#ImageStorageProfile">ImageStorageProfile</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>blobUri</td>
-          <td>The Virtual Hard Disk.</td>
+          <td>lastModifiedAt</td>
+          <td>The timestamp of resource last modification (UTC)</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>caching</td>
-          <td>Specifies the caching requirements. Possible values are: None ReadOnly ReadWrite Default: None for Standard storage. ReadOnly for Premium storage</td>
-          <td><a href="#ImageOSDisk_Caching">ImageOSDisk_Caching</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>diskEncryptionSet</td>
-          <td>Specifies the customer managed disk encryption set resource id for the managed image disk.</td>
-          <td><a href="#SubResource">SubResource</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>diskSizeGB</td>
-          <td>Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. This value cannot be larger than 1023 GB</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>managedDisk</td>
-          <td>The managedDisk.</td>
-          <td><a href="#SubResource">SubResource</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>osState</td>
-          <td>The OS State.</td>
-          <td><a href="#ImageOSDisk_OsState">ImageOSDisk_OsState</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>osType</td>
-          <td>This property allows you to specify the type of the OS that is included in the disk if creating a VM from a custom image. Possible values are: Windows Linux</td>
-          <td><a href="#ImageOSDisk_OsType">ImageOSDisk_OsType</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>snapshot</td>
-          <td>The snapshot.</td>
-          <td><a href="#SubResource">SubResource</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageAccountType</td>
-          <td>Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.</td>
-          <td><a href="#StorageAccountType">StorageAccountType</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ImageOSDisk_STATUS">ImageOSDisk_STATUS</h2>
-<p>Describes an Operating System disk.</p>
-<p>Used by: <a href="#ImageStorageProfile_STATUS">ImageStorageProfile_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>blobUri</td>
-          <td>The Virtual Hard Disk.</td>
+          <td>lastModifiedBy</td>
+          <td>The identity that last modified the resource.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>caching</td>
-          <td>Specifies the caching requirements. Possible values are: None ReadOnly ReadWrite Default: None for Standard storage. ReadOnly for Premium storage</td>
-          <td><a href="#ImageOSDisk_Caching_STATUS">ImageOSDisk_Caching_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>diskEncryptionSet</td>
-          <td>Specifies the customer managed disk encryption set resource id for the managed image disk.</td>
-          <td><a href="#SubResource_STATUS">SubResource_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>diskSizeGB</td>
-          <td>Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. This value cannot be larger than 1023 GB</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>managedDisk</td>
-          <td>The managedDisk.</td>
-          <td><a href="#SubResource_STATUS">SubResource_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>osState</td>
-          <td>The OS State.</td>
-          <td><a href="#ImageOSDisk_OsState_STATUS">ImageOSDisk_OsState_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>osType</td>
-          <td>This property allows you to specify the type of the OS that is included in the disk if creating a VM from a custom image. Possible values are: Windows Linux</td>
-          <td><a href="#ImageOSDisk_OsType_STATUS">ImageOSDisk_OsType_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>snapshot</td>
-          <td>The snapshot.</td>
-          <td><a href="#SubResource_STATUS">SubResource_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageAccountType</td>
-          <td>Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.</td>
-          <td><a href="#StorageAccountType_STATUS">StorageAccountType_STATUS</a><br/><small>Optional</small></td>
+          <td>lastModifiedByType</td>
+          <td>The type of identity that last modified the resource.</td>
+          <td><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="ImageDataDisk_Caching">ImageDataDisk_Caching</h2>
-<p>Used by: <a href="#ImageDataDisk">ImageDataDisk</a>.</p>
+<h2 id="SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</h2>
+<p>Used by: <a href="#SystemData_STATUS">SystemData_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1928,21 +1504,25 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;None&rdquo;</td>
+          <td>&ldquo;Application&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;ReadOnly&rdquo;</td>
+          <td>&ldquo;Key&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;ReadWrite&rdquo;</td>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;User&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
 </table>
-<h2 id="ImageDataDisk_Caching_STATUS">ImageDataDisk_Caching_STATUS</h2>
-<p>Used by: <a href="#ImageDataDisk_STATUS">ImageDataDisk_STATUS</a>.</p>
+<h2 id="SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</h2>
+<p>Used by: <a href="#SystemData_STATUS">SystemData_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1952,217 +1532,19 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;None&rdquo;</td>
+          <td>&ldquo;Application&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;ReadOnly&rdquo;</td>
+          <td>&ldquo;Key&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;ReadWrite&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ImageOSDisk_Caching">ImageOSDisk_Caching</h2>
-<p>Used by: <a href="#ImageOSDisk">ImageOSDisk</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;None&rdquo;</td>
+          <td>&ldquo;ManagedIdentity&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;ReadOnly&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ReadWrite&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ImageOSDisk_Caching_STATUS">ImageOSDisk_Caching_STATUS</h2>
-<p>Used by: <a href="#ImageOSDisk_STATUS">ImageOSDisk_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;None&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ReadOnly&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ReadWrite&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ImageOSDisk_OsState">ImageOSDisk_OsState</h2>
-<p>Used by: <a href="#ImageOSDisk">ImageOSDisk</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Generalized&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Specialized&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ImageOSDisk_OsState_STATUS">ImageOSDisk_OsState_STATUS</h2>
-<p>Used by: <a href="#ImageOSDisk_STATUS">ImageOSDisk_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Generalized&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Specialized&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ImageOSDisk_OsType">ImageOSDisk_OsType</h2>
-<p>Used by: <a href="#ImageOSDisk">ImageOSDisk</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Linux&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Windows&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ImageOSDisk_OsType_STATUS">ImageOSDisk_OsType_STATUS</h2>
-<p>Used by: <a href="#ImageOSDisk_STATUS">ImageOSDisk_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Linux&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Windows&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="StorageAccountType">StorageAccountType</h2>
-<p>Specifies the storage account type for the managed disk. Managed OS disk storage account type can only be set when you create the scale set. NOTE: UltraSSD_LRS can only be used with data disks. It cannot be used with OS Disk. Standard_LRS uses Standard HDD. StandardSSD_LRS uses Standard SSD. Premium_LRS uses Premium SSD. UltraSSD_LRS uses Ultra disk. Premium_ZRS uses Premium SSD zone redundant storage. StandardSSD_ZRS uses Standard SSD zone redundant storage. For more information regarding disks supported for Windows Virtual Machines, refer to <a href="https://docs.microsoft.com/azure/virtual-machines/windows/disks-types">https://docs.microsoft.com/azure/virtual-machines/windows/disks-types</a> and, for Linux Virtual Machines, refer to <a href="https://docs.microsoft.com/azure/virtual-machines/linux/disks-types">https://docs.microsoft.com/azure/virtual-machines/linux/disks-types</a></p>
-<p>Used by: <a href="#ImageDataDisk">ImageDataDisk</a>, and <a href="#ImageOSDisk">ImageOSDisk</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Premium_LRS&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Premium_ZRS&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;StandardSSD_LRS&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;StandardSSD_ZRS&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Standard_LRS&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;UltraSSD_LRS&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="StorageAccountType_STATUS">StorageAccountType_STATUS</h2>
-<p>Specifies the storage account type for the managed disk. Managed OS disk storage account type can only be set when you create the scale set. NOTE: UltraSSD_LRS can only be used with data disks. It cannot be used with OS Disk. Standard_LRS uses Standard HDD. StandardSSD_LRS uses Standard SSD. Premium_LRS uses Premium SSD. UltraSSD_LRS uses Ultra disk. Premium_ZRS uses Premium SSD zone redundant storage. StandardSSD_ZRS uses Standard SSD zone redundant storage. For more information regarding disks supported for Windows Virtual Machines, refer to <a href="https://docs.microsoft.com/azure/virtual-machines/windows/disks-types">https://docs.microsoft.com/azure/virtual-machines/windows/disks-types</a> and, for Linux Virtual Machines, refer to <a href="https://docs.microsoft.com/azure/virtual-machines/linux/disks-types">https://docs.microsoft.com/azure/virtual-machines/linux/disks-types</a></p>
-<p>Used by: <a href="#ImageDataDisk_STATUS">ImageDataDisk_STATUS</a>, and <a href="#ImageOSDisk_STATUS">ImageOSDisk_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Premium_LRS&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Premium_ZRS&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;StandardSSD_LRS&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;StandardSSD_ZRS&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Standard_LRS&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;UltraSSD_LRS&rdquo;</td>
+          <td>&ldquo;User&rdquo;</td>
           <td></td>
       </tr>
   </tbody>

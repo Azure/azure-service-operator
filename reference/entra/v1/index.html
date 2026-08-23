@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>entra.azure.com/ | Azure Service Operator</title>
-<meta name="description" content="SecurityGroup SecurityGroup is an Entra Security Group.
-Used by: SecurityGroupList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SecurityGroupSpecOptional status SecurityGroupStatusOptional SecurityGroupSpec Property Description Type description The description of the group. stringOptional displayName The display name of the group. stringRequired isAssignableToRole Indicates whether the group can be assigned to a role. boolOptional mailNickname The email address of the group, specified either as a mail nickname (mygroup) or as a full email address (mygroup@mydomain.com). stringRequired membershipType The membership type of the group. SecurityGroupMembershipTypeOptional operatorSpec The operator specific configuration for the resource. SecurityGroupOperatorSpecOptional SecurityGroupStatus Property Description Type conditions The observed state of the resource conditions.Condition[]Optional description The description of the group. stringOptional displayName The display name of the group. stringOptional entraID The GUID identifing the resource in Entra stringOptional groupEmailAddress The email address of the group. stringRequired SecurityGroupList Property Description Type metav1.TypeMeta metav1.ListMeta items SecurityGroup[]Optional SecurityGroupSpec Used by: SecurityGroup.">
+<meta name="description" content="Application Application is an Entra Application.
+Used by: ApplicationList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpecOptional status ApplicationStatusOptional ApplicationSpec Property Description Type description The description of the application. stringOptional displayName The display name of the application. stringRequired groupMembershipClaims Configures the groups claim issued in a user or OAuth 2.0 access token. stringOptional identifierUris The URIs that identify the application within its Azure AD tenant, or within a verified custom domain. string[]Optional isFallbackPublicClient Specifies the fallback application type as public client. boolOptional operatorSpec The operator specific configuration for the resource. ApplicationOperatorSpecOptional publicClient Public client (desktop/mobile) platform configuration. PublicClientApplicationOptional signInAudience Specifies the Microsoft accounts that are supported for the application. SignInAudienceOptional spa Single-page application platform configuration. SpaApplicationOptional tags Custom strings for categorizing and identifying the application. string[]Optional web Web platform configuration for the application. WebApplicationOptional ApplicationStatus Property Description Type appId The application ID assigned by Entra. stringOptional conditions The observed state of the resource conditions.Condition[]Optional description The description of the application. stringOptional displayName The display name of the application. stringOptional entraID The GUID identifying the resource in Entra stringOptional groupMembershipClaims Configures the groups claim issued in a user or OAuth 2.0 access token. stringOptional identifierUris The URIs that identify the application within its Azure AD tenant, or within a verified custom domain. string[]Optional isFallbackPublicClient Specifies the fallback application type as public client. boolOptional publicClient Public client (desktop/mobile) platform configuration. PublicClientApplicationOptional signInAudience Specifies the Microsoft accounts that are supported for the application. SignInAudienceOptional spa Single-page application platform configuration. SpaApplicationOptional tags Custom strings for categorizing and identifying the application. string[]Optional web Web platform configuration for the application. WebApplicationOptional ApplicationList Property Description Type metav1.TypeMeta metav1.ListMeta items Application[]Optional SecurityGroup SecurityGroup is an Entra Security Group.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/entra/v1/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="entra.azure.com/">
-  <meta property="og:description" content="SecurityGroup SecurityGroup is an Entra Security Group.
-Used by: SecurityGroupList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SecurityGroupSpecOptional status SecurityGroupStatusOptional SecurityGroupSpec Property Description Type description The description of the group. stringOptional displayName The display name of the group. stringRequired isAssignableToRole Indicates whether the group can be assigned to a role. boolOptional mailNickname The email address of the group, specified either as a mail nickname (mygroup) or as a full email address (mygroup@mydomain.com). stringRequired membershipType The membership type of the group. SecurityGroupMembershipTypeOptional operatorSpec The operator specific configuration for the resource. SecurityGroupOperatorSpecOptional SecurityGroupStatus Property Description Type conditions The observed state of the resource conditions.Condition[]Optional description The description of the group. stringOptional displayName The display name of the group. stringOptional entraID The GUID identifing the resource in Entra stringOptional groupEmailAddress The email address of the group. stringRequired SecurityGroupList Property Description Type metav1.TypeMeta metav1.ListMeta items SecurityGroup[]Optional SecurityGroupSpec Used by: SecurityGroup.">
+  <meta property="og:description" content="Application Application is an Entra Application.
+Used by: ApplicationList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpecOptional status ApplicationStatusOptional ApplicationSpec Property Description Type description The description of the application. stringOptional displayName The display name of the application. stringRequired groupMembershipClaims Configures the groups claim issued in a user or OAuth 2.0 access token. stringOptional identifierUris The URIs that identify the application within its Azure AD tenant, or within a verified custom domain. string[]Optional isFallbackPublicClient Specifies the fallback application type as public client. boolOptional operatorSpec The operator specific configuration for the resource. ApplicationOperatorSpecOptional publicClient Public client (desktop/mobile) platform configuration. PublicClientApplicationOptional signInAudience Specifies the Microsoft accounts that are supported for the application. SignInAudienceOptional spa Single-page application platform configuration. SpaApplicationOptional tags Custom strings for categorizing and identifying the application. string[]Optional web Web platform configuration for the application. WebApplicationOptional ApplicationStatus Property Description Type appId The application ID assigned by Entra. stringOptional conditions The observed state of the resource conditions.Condition[]Optional description The description of the application. stringOptional displayName The display name of the application. stringOptional entraID The GUID identifying the resource in Entra stringOptional groupMembershipClaims Configures the groups claim issued in a user or OAuth 2.0 access token. stringOptional identifierUris The URIs that identify the application within its Azure AD tenant, or within a verified custom domain. string[]Optional isFallbackPublicClient Specifies the fallback application type as public client. boolOptional publicClient Public client (desktop/mobile) platform configuration. PublicClientApplicationOptional signInAudience Specifies the Microsoft accounts that are supported for the application. SignInAudienceOptional spa Single-page application platform configuration. SpaApplicationOptional tags Custom strings for categorizing and identifying the application. string[]Optional web Web platform configuration for the application. WebApplicationOptional ApplicationList Property Description Type metav1.TypeMeta metav1.ListMeta items Application[]Optional SecurityGroup SecurityGroup is an Entra Security Group.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="entra.azure.com/">
-  <meta itemprop="description" content="SecurityGroup SecurityGroup is an Entra Security Group.
-Used by: SecurityGroupList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SecurityGroupSpecOptional status SecurityGroupStatusOptional SecurityGroupSpec Property Description Type description The description of the group. stringOptional displayName The display name of the group. stringRequired isAssignableToRole Indicates whether the group can be assigned to a role. boolOptional mailNickname The email address of the group, specified either as a mail nickname (mygroup) or as a full email address (mygroup@mydomain.com). stringRequired membershipType The membership type of the group. SecurityGroupMembershipTypeOptional operatorSpec The operator specific configuration for the resource. SecurityGroupOperatorSpecOptional SecurityGroupStatus Property Description Type conditions The observed state of the resource conditions.Condition[]Optional description The description of the group. stringOptional displayName The display name of the group. stringOptional entraID The GUID identifing the resource in Entra stringOptional groupEmailAddress The email address of the group. stringRequired SecurityGroupList Property Description Type metav1.TypeMeta metav1.ListMeta items SecurityGroup[]Optional SecurityGroupSpec Used by: SecurityGroup.">
-  <meta itemprop="wordCount" content="380">
+  <meta itemprop="description" content="Application Application is an Entra Application.
+Used by: ApplicationList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpecOptional status ApplicationStatusOptional ApplicationSpec Property Description Type description The description of the application. stringOptional displayName The display name of the application. stringRequired groupMembershipClaims Configures the groups claim issued in a user or OAuth 2.0 access token. stringOptional identifierUris The URIs that identify the application within its Azure AD tenant, or within a verified custom domain. string[]Optional isFallbackPublicClient Specifies the fallback application type as public client. boolOptional operatorSpec The operator specific configuration for the resource. ApplicationOperatorSpecOptional publicClient Public client (desktop/mobile) platform configuration. PublicClientApplicationOptional signInAudience Specifies the Microsoft accounts that are supported for the application. SignInAudienceOptional spa Single-page application platform configuration. SpaApplicationOptional tags Custom strings for categorizing and identifying the application. string[]Optional web Web platform configuration for the application. WebApplicationOptional ApplicationStatus Property Description Type appId The application ID assigned by Entra. stringOptional conditions The observed state of the resource conditions.Condition[]Optional description The description of the application. stringOptional displayName The display name of the application. stringOptional entraID The GUID identifying the resource in Entra stringOptional groupMembershipClaims Configures the groups claim issued in a user or OAuth 2.0 access token. stringOptional identifierUris The URIs that identify the application within its Azure AD tenant, or within a verified custom domain. string[]Optional isFallbackPublicClient Specifies the fallback application type as public client. boolOptional publicClient Public client (desktop/mobile) platform configuration. PublicClientApplicationOptional signInAudience Specifies the Microsoft accounts that are supported for the application. SignInAudienceOptional spa Single-page application platform configuration. SpaApplicationOptional tags Custom strings for categorizing and identifying the application. string[]Optional web Web platform configuration for the application. WebApplicationOptional ApplicationList Property Description Type metav1.TypeMeta metav1.ListMeta items Application[]Optional SecurityGroup SecurityGroup is an Entra Security Group.">
+  <meta itemprop="wordCount" content="1130">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="entra.azure.com/">
-  <meta name="twitter:description" content="SecurityGroup SecurityGroup is an Entra Security Group.
-Used by: SecurityGroupList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SecurityGroupSpecOptional status SecurityGroupStatusOptional SecurityGroupSpec Property Description Type description The description of the group. stringOptional displayName The display name of the group. stringRequired isAssignableToRole Indicates whether the group can be assigned to a role. boolOptional mailNickname The email address of the group, specified either as a mail nickname (mygroup) or as a full email address (mygroup@mydomain.com). stringRequired membershipType The membership type of the group. SecurityGroupMembershipTypeOptional operatorSpec The operator specific configuration for the resource. SecurityGroupOperatorSpecOptional SecurityGroupStatus Property Description Type conditions The observed state of the resource conditions.Condition[]Optional description The description of the group. stringOptional displayName The display name of the group. stringOptional entraID The GUID identifing the resource in Entra stringOptional groupEmailAddress The email address of the group. stringRequired SecurityGroupList Property Description Type metav1.TypeMeta metav1.ListMeta items SecurityGroup[]Optional SecurityGroupSpec Used by: SecurityGroup.">
+  <meta name="twitter:description" content="Application Application is an Entra Application.
+Used by: ApplicationList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpecOptional status ApplicationStatusOptional ApplicationSpec Property Description Type description The description of the application. stringOptional displayName The display name of the application. stringRequired groupMembershipClaims Configures the groups claim issued in a user or OAuth 2.0 access token. stringOptional identifierUris The URIs that identify the application within its Azure AD tenant, or within a verified custom domain. string[]Optional isFallbackPublicClient Specifies the fallback application type as public client. boolOptional operatorSpec The operator specific configuration for the resource. ApplicationOperatorSpecOptional publicClient Public client (desktop/mobile) platform configuration. PublicClientApplicationOptional signInAudience Specifies the Microsoft accounts that are supported for the application. SignInAudienceOptional spa Single-page application platform configuration. SpaApplicationOptional tags Custom strings for categorizing and identifying the application. string[]Optional web Web platform configuration for the application. WebApplicationOptional ApplicationStatus Property Description Type appId The application ID assigned by Entra. stringOptional conditions The observed state of the resource conditions.Condition[]Optional description The description of the application. stringOptional displayName The display name of the application. stringOptional entraID The GUID identifying the resource in Entra stringOptional groupMembershipClaims Configures the groups claim issued in a user or OAuth 2.0 access token. stringOptional identifierUris The URIs that identify the application within its Azure AD tenant, or within a verified custom domain. string[]Optional isFallbackPublicClient Specifies the fallback application type as public client. boolOptional publicClient Public client (desktop/mobile) platform configuration. PublicClientApplicationOptional signInAudience Specifies the Microsoft accounts that are supported for the application. SignInAudienceOptional spa Single-page application platform configuration. SpaApplicationOptional tags Custom strings for categorizing and identifying the application. string[]Optional web Web platform configuration for the application. WebApplicationOptional ApplicationList Property Description Type metav1.TypeMeta metav1.ListMeta items Application[]Optional SecurityGroup SecurityGroup is an Entra Security Group.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -480,6 +480,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SecurityGroupSp
   <a href="/azure-service-operator/reference/containerregistry/v1api20210901/" title="containerregistry.azure.com/v1api20210901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20210901"><span class="">v1api20210901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20230701-li">
   <a href="/azure-service-operator/reference/containerregistry/v1api20230701/" title="containerregistry.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20230701"><span class="">v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv20251101-li">
+  <a href="/azure-service-operator/reference/containerregistry/v20251101/" title="containerregistry.azure.com/v20251101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv20251101"><span class="">v20251101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
@@ -1056,6 +1058,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SecurityGroupSp
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
+    <li><a href="#Application">Application</a>
+      <ul>
+        <li><a href="#ApplicationSpec">ApplicationSpec</a></li>
+        <li><a href="#ApplicationStatus">ApplicationStatus</a></li>
+      </ul>
+    </li>
+    <li><a href="#ApplicationList">ApplicationList</a></li>
     <li><a href="#SecurityGroup">SecurityGroup</a>
       <ul>
         <li><a href="#SecurityGroupSpec">SecurityGroupSpec</a></li>
@@ -1063,11 +1072,20 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SecurityGroupSp
       </ul>
     </li>
     <li><a href="#SecurityGroupList">SecurityGroupList</a></li>
+    <li><a href="#ApplicationSpec">ApplicationSpec</a></li>
+    <li><a href="#ApplicationStatus">ApplicationStatus</a></li>
     <li><a href="#SecurityGroupSpec">SecurityGroupSpec</a></li>
     <li><a href="#SecurityGroupStatus">SecurityGroupStatus</a></li>
+    <li><a href="#ApplicationOperatorSpec">ApplicationOperatorSpec</a></li>
+    <li><a href="#PublicClientApplication">PublicClientApplication</a></li>
     <li><a href="#SecurityGroupMembershipType">SecurityGroupMembershipType</a></li>
     <li><a href="#SecurityGroupOperatorSpec">SecurityGroupOperatorSpec</a></li>
+    <li><a href="#SignInAudience">SignInAudience</a></li>
+    <li><a href="#SpaApplication">SpaApplication</a></li>
+    <li><a href="#WebApplication">WebApplication</a></li>
+    <li><a href="#ApplicationOperatorConfigMaps">ApplicationOperatorConfigMaps</a></li>
     <li><a href="#CreationMode">CreationMode</a></li>
+    <li><a href="#ImplicitGrantSettings">ImplicitGrantSettings</a></li>
     <li><a href="#SecurityGroupOperatorConfigMaps">SecurityGroupOperatorConfigMaps</a></li>
   </ul>
 </nav>
@@ -1097,6 +1115,211 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SecurityGroupSp
 		
 </header>
 	<!-- Documentation generated by crddoc. DO NOT EDIT. -->
+<h2 id="Application">Application</h2>
+<p><br/>Application is an Entra Application.</p>
+<p>Used by: <a href="#ApplicationList">ApplicationList</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#ApplicationSpec">ApplicationSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td></td>
+          <td><a href="#ApplicationStatus">ApplicationStatus</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="ApplicationSpec">ApplicationSpec</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>description</td>
+          <td>The description of the application.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>displayName</td>
+          <td>The display name of the application.</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>groupMembershipClaims</td>
+          <td>Configures the groups claim issued in a user or OAuth 2.0 access token.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identifierUris</td>
+          <td>The URIs that identify the application within its Azure AD tenant, or within a verified custom domain.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>isFallbackPublicClient</td>
+          <td>Specifies the fallback application type as public client.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The operator specific configuration for the resource.</td>
+          <td><a href="#ApplicationOperatorSpec">ApplicationOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>publicClient</td>
+          <td>Public client (desktop/mobile) platform configuration.</td>
+          <td><a href="#PublicClientApplication">PublicClientApplication</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>signInAudience</td>
+          <td>Specifies the Microsoft accounts that are supported for the application.</td>
+          <td><a href="#SignInAudience">SignInAudience</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>spa</td>
+          <td>Single-page application platform configuration.</td>
+          <td><a href="#SpaApplication">SpaApplication</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Custom strings for categorizing and identifying the application.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>web</td>
+          <td>Web platform configuration for the application.</td>
+          <td><a href="#WebApplication">WebApplication</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="ApplicationStatus">ApplicationStatus</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>appId</td>
+          <td>The application ID assigned by Entra.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>description</td>
+          <td>The description of the application.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>displayName</td>
+          <td>The display name of the application.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>entraID</td>
+          <td>The GUID identifying the resource in Entra</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>groupMembershipClaims</td>
+          <td>Configures the groups claim issued in a user or OAuth 2.0 access token.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identifierUris</td>
+          <td>The URIs that identify the application within its Azure AD tenant, or within a verified custom domain.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>isFallbackPublicClient</td>
+          <td>Specifies the fallback application type as public client.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>publicClient</td>
+          <td>Public client (desktop/mobile) platform configuration.</td>
+          <td><a href="#PublicClientApplication">PublicClientApplication</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>signInAudience</td>
+          <td>Specifies the Microsoft accounts that are supported for the application.</td>
+          <td><a href="#SignInAudience">SignInAudience</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>spa</td>
+          <td>Single-page application platform configuration.</td>
+          <td><a href="#SpaApplication">SpaApplication</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Custom strings for categorizing and identifying the application.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>web</td>
+          <td>Web platform configuration for the application.</td>
+          <td><a href="#WebApplication">WebApplication</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ApplicationList">ApplicationList</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>items</td>
+          <td></td>
+          <td><a href="#Application">Application[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="SecurityGroup">SecurityGroup</h2>
 <p><br/>SecurityGroup is an Entra Security Group.</p>
 <p>Used by: <a href="#SecurityGroupList">SecurityGroupList</a>.</p>
@@ -1237,6 +1460,152 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SecurityGroupSp
       </tr>
   </tbody>
 </table>
+<h2 id="ApplicationSpec">ApplicationSpec</h2>
+<p>Used by: <a href="#Application">Application</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>description</td>
+          <td>The description of the application.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>displayName</td>
+          <td>The display name of the application.</td>
+          <td>string<br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>groupMembershipClaims</td>
+          <td>Configures the groups claim issued in a user or OAuth 2.0 access token.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identifierUris</td>
+          <td>The URIs that identify the application within its Azure AD tenant, or within a verified custom domain.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>isFallbackPublicClient</td>
+          <td>Specifies the fallback application type as public client.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The operator specific configuration for the resource.</td>
+          <td><a href="#ApplicationOperatorSpec">ApplicationOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>publicClient</td>
+          <td>Public client (desktop/mobile) platform configuration.</td>
+          <td><a href="#PublicClientApplication">PublicClientApplication</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>signInAudience</td>
+          <td>Specifies the Microsoft accounts that are supported for the application.</td>
+          <td><a href="#SignInAudience">SignInAudience</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>spa</td>
+          <td>Single-page application platform configuration.</td>
+          <td><a href="#SpaApplication">SpaApplication</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Custom strings for categorizing and identifying the application.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>web</td>
+          <td>Web platform configuration for the application.</td>
+          <td><a href="#WebApplication">WebApplication</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ApplicationStatus">ApplicationStatus</h2>
+<p>Used by: <a href="#Application">Application</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>appId</td>
+          <td>The application ID assigned by Entra.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>description</td>
+          <td>The description of the application.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>displayName</td>
+          <td>The display name of the application.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>entraID</td>
+          <td>The GUID identifying the resource in Entra</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>groupMembershipClaims</td>
+          <td>Configures the groups claim issued in a user or OAuth 2.0 access token.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identifierUris</td>
+          <td>The URIs that identify the application within its Azure AD tenant, or within a verified custom domain.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>isFallbackPublicClient</td>
+          <td>Specifies the fallback application type as public client.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>publicClient</td>
+          <td>Public client (desktop/mobile) platform configuration.</td>
+          <td><a href="#PublicClientApplication">PublicClientApplication</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>signInAudience</td>
+          <td>Specifies the Microsoft accounts that are supported for the application.</td>
+          <td><a href="#SignInAudience">SignInAudience</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>spa</td>
+          <td>Single-page application platform configuration.</td>
+          <td><a href="#SpaApplication">SpaApplication</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Custom strings for categorizing and identifying the application.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>web</td>
+          <td>Web platform configuration for the application.</td>
+          <td><a href="#WebApplication">WebApplication</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="SecurityGroupSpec">SecurityGroupSpec</h2>
 <p>Used by: <a href="#SecurityGroup">SecurityGroup</a>.</p>
 <table>
@@ -1318,6 +1687,48 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SecurityGroupSp
       </tr>
   </tbody>
 </table>
+<h2 id="ApplicationOperatorSpec">ApplicationOperatorSpec</h2>
+<p>Used by: <a href="#ApplicationSpec">ApplicationSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>configmaps</td>
+          <td>ConfigMaps specifies any config maps that should be created by the operator.</td>
+          <td><a href="#ApplicationOperatorConfigMaps">ApplicationOperatorConfigMaps</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>creationMode</td>
+          <td>Specifies how ASO will try to create the resource. Specify &ldquo;AlwaysCreate&rdquo; to always create a new application when first reconciled. Or specify &ldquo;AdoptOrCreate&rdquo; to first try to adopt an existing application with the same display name. If multiple applications with the same display name are found, the resource ready condition will show an error. If not specified, defaults to &ldquo;AdoptOrCreate&rdquo;.</td>
+          <td><a href="#CreationMode">CreationMode</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PublicClientApplication">PublicClientApplication</h2>
+<p>PublicClientApplication specifies public client (desktop/mobile) configuration</p>
+<p>Used by: <a href="#ApplicationSpec">ApplicationSpec</a>, and <a href="#ApplicationStatus">ApplicationStatus</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>redirectUris</td>
+          <td>Redirect URIs for public client applications.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="SecurityGroupMembershipType">SecurityGroupMembershipType</h2>
 <p>Used by: <a href="#SecurityGroupSpec">SecurityGroupSpec</a>.</p>
 <h2 id="SecurityGroupOperatorSpec">SecurityGroupOperatorSpec</h2>
@@ -1343,9 +1754,101 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec SecurityGroupSp
       </tr>
   </tbody>
 </table>
+<h2 id="SignInAudience">SignInAudience</h2>
+<p>Used by: <a href="#ApplicationSpec">ApplicationSpec</a>, and <a href="#ApplicationStatus">ApplicationStatus</a>.</p>
+<h2 id="SpaApplication">SpaApplication</h2>
+<p>SpaApplication specifies single-page application configuration</p>
+<p>Used by: <a href="#ApplicationSpec">ApplicationSpec</a>, and <a href="#ApplicationStatus">ApplicationStatus</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>redirectUris</td>
+          <td>Redirect URIs for single-page applications.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="WebApplication">WebApplication</h2>
+<p>WebApplication specifies web application configuration</p>
+<p>Used by: <a href="#ApplicationSpec">ApplicationSpec</a>, and <a href="#ApplicationStatus">ApplicationStatus</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>implicitGrantSettings</td>
+          <td>Settings for implicit grant flow.</td>
+          <td><a href="#ImplicitGrantSettings">ImplicitGrantSettings</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>redirectUris</td>
+          <td>Redirect URIs for web applications.</td>
+          <td>string[]<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ApplicationOperatorConfigMaps">ApplicationOperatorConfigMaps</h2>
+<p>Used by: <a href="#ApplicationOperatorSpec">ApplicationOperatorSpec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>appId</td>
+          <td>The application (client) ID of the application.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">genruntime.ConfigMapDestination</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>entraID</td>
+          <td>The Entra ID (object ID) of the application.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">genruntime.ConfigMapDestination</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="CreationMode">CreationMode</h2>
 <p>CreationMode specifies how ASO will try to create the Entra resource.</p>
-<p>Used by: <a href="#SecurityGroupOperatorSpec">SecurityGroupOperatorSpec</a>.</p>
+<p>Used by: <a href="#ApplicationOperatorSpec">ApplicationOperatorSpec</a>, and <a href="#SecurityGroupOperatorSpec">SecurityGroupOperatorSpec</a>.</p>
+<h2 id="ImplicitGrantSettings">ImplicitGrantSettings</h2>
+<p>ImplicitGrantSettings specifies implicit grant flow settings</p>
+<p>Used by: <a href="#WebApplication">WebApplication</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>enableAccessTokenIssuance</td>
+          <td>Whether to enable access token issuance in the implicit flow.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>enableIdTokenIssuance</td>
+          <td>Whether to enable ID token issuance in the implicit flow.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="SecurityGroupOperatorConfigMaps">SecurityGroupOperatorConfigMaps</h2>
 <p>Used by: <a href="#SecurityGroupOperatorSpec">SecurityGroupOperatorSpec</a>.</p>
 <table>
