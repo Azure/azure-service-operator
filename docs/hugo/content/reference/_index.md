@@ -120,6 +120,7 @@ Development of these new resources is complete and they will be available in the
 | [RoleAssignment]({{< relref "/reference/authorization/v20220401#RoleAssignment" >}})        | 2022-04-01         | v20220401        | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v20220401/v20220401_roleassignment.yaml)               |
 | [RoleAssignment]({{< relref "/reference/authorization/v20200801preview#RoleAssignment" >}}) | 2020-08-01-preview | v20200801preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v20200801preview/v20200801preview_roleassignment.yaml) |
 | [RoleDefinition]({{< relref "/reference/authorization/v20220401#RoleDefinition" >}})        | 2022-04-01         | v20220401        | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v20220401/v20220401_roledefinition.yaml)               |
+| RoleEligibilityScheduleRequest                                                              | 2020-10-01         | v20201001        | v2.22.0        | -                                                                                                                                                |
 
 ### Latest Released Versions
 
