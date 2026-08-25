@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/guide/security/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -20,14 +21,13 @@
 <title>Security Best Practices | Azure Service Operator</title>
 <meta name="description" content="Securing ASO in your cluster ASO has 3 levers that allow you to manage access to your Azure resources:
 Controlling which CRDs are installed. Controlling the Azure identities used by ASO at each scope, including the Azure RBAC permissions assigned to those identities. Controlling the Kubernetes identities that use the cluster and their Kubernetes RBAC permissions. We recommend making use of all 3 of these levers to fully secure a cluster running ASO.">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/best-practices/security/">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/security/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Security Best Practices">
   <meta property="og:description" content="Securing ASO in your cluster ASO has 3 levers that allow you to manage access to your Azure resources:
 Controlling which CRDs are installed. Controlling the Azure identities used by ASO at each scope, including the Azure RBAC permissions assigned to those identities. Controlling the Kubernetes identities that use the cluster and their Kubernetes RBAC permissions. We recommend making use of all 3 of these levers to fully secure a cluster running ASO.">
   <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="guide">
+  <meta property="og:type" content="website">
 
   <meta itemprop="name" content="Security Best Practices">
   <meta itemprop="description" content="Securing ASO in your cluster ASO has 3 levers that allow you to manage access to your Azure resources:
@@ -45,7 +45,7 @@ Controlling which CRDs are installed. Controlling the Azure identities used by A
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-page">
+  <body class="td-section">
     <header>
       <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
 <div class="container-fluid flex-column flex-md-row">
@@ -144,13 +144,8 @@ Controlling which CRDs are installed. Controlling the Azure identities used by A
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidebest-practices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebest-practices-li">
   <a href="/azure-service-operator/guide/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
-  <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidebest-practicessecurity-li">
-  <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="td-sidebar-nav-active-item">Security</span></a>
-</li>
-  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
@@ -229,6 +224,13 @@ Controlling which CRDs are installed. Controlling the Azure identities used by A
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
   <a href="/azure-service-operator/guide/uninstalling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidesecurity-li">
+  <a href="/azure-service-operator/guide/security/" title="Security Best Practices" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidesecurity"><span class="td-sidebar-nav-active-item">Security</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecurityconfused-deputy-li">
+  <a href="/azure-service-operator/guide/security/confused-deputy/" title="Confused Deputy Problem" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidesecurityconfused-deputy"><span class="">Confused Deputy</span></a>
+</li>
+  </ul>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorblogs-li">
@@ -1076,15 +1078,13 @@ Controlling which CRDs are installed. Controlling the Azure identities used by A
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/guide/">Guide</a></li>
-  <li class="breadcrumb-item">
-    <a href="/azure-service-operator/guide/best-practices/">Best Practices</a></li>
   <li class="breadcrumb-item active" aria-current="page">
     Security</li>
   </ol>
 </nav>
 <div class="td-content">
 	<h1>Security Best Practices</h1>
-	
+  
 	<header class="article-meta">
 		
 </header>
@@ -1150,9 +1150,18 @@ within a single sub and also to other more complex topologies. <code>test</code>
 locked down set of rules than dev but less locked down than prod (or maybe <code>test</code> and <code>prod</code> have very similar
 lockdowns to force the same procedures across both).</p>
 
-	
+	<div class="section-index">
+    
+    
+    <hr class="panel-line">
+        <div class="entry">
+                <h5>
+                    <a href="/azure-service-operator/guide/security/confused-deputy/">Confused Deputy Problem</a>
+                </h5>
+                <p></p>
+            </div>
+        </div>
 </div>
-
 
           </main>
         </div>

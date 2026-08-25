@@ -276,6 +276,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/security/confused-deputy/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerinstance/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerregistry/</loc>
@@ -384,7 +386,7 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/search/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/best-practices/security/</loc>
+    <loc>https://azure.github.io/azure-service-operator/guide/security/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/</loc>
   </url><url>
