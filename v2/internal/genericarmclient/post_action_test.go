@@ -26,7 +26,7 @@ const (
 	postActionAPIVersion = "2019-01-01"
 )
 
-func Test_BeginPostActionByID_givenAction_postsToTheActionURL(t *testing.T) {
+func Test_BeginPostActionByID_GivenAction_PostsToTheActionURL(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
@@ -50,7 +50,7 @@ func Test_BeginPostActionByID_givenAction_postsToTheActionURL(t *testing.T) {
 	g.Expect(query).To(Equal("api-version=" + postActionAPIVersion))
 }
 
-func Test_BeginPostActionByID_givenLongRunningAction_returnsWithoutWaiting(t *testing.T) {
+func Test_BeginPostActionByID_GivenLongRunningAction_ReturnsWithoutWaiting(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
@@ -81,7 +81,7 @@ func Test_BeginPostActionByID_givenLongRunningAction_returnsWithoutWaiting(t *te
 }
 
 // An action reports failure through its operation, so only a caller that resumes it ever learns
-func Test_ResumeActionPoller_givenFailedOperation_returnsError(t *testing.T) {
+func Test_ResumeActionPoller_GivenFailedOperation_ReturnsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
@@ -117,7 +117,7 @@ func Test_ResumeActionPoller_givenFailedOperation_returnsError(t *testing.T) {
 	g.Expect(err.Error()).To(ContainSubstring("WatcherStartFailed"))
 }
 
-func Test_BeginPostActionByID_givenRejectedAction_returnsError(t *testing.T) {
+func Test_BeginPostActionByID_GivenRejectedAction_ReturnsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
@@ -135,7 +135,7 @@ func Test_BeginPostActionByID_givenRejectedAction_returnsError(t *testing.T) {
 	g.Expect(err.Error()).To(ContainSubstring("WatcherStartFailedDueToNoTargets"))
 }
 
-func Test_BeginPostActionByID_givenMissingParameter_returnsErrorWithoutCallingAzure(t *testing.T) {
+func Test_BeginPostActionByID_GivenMissingParameter_ReturnsErrorWithoutCallingAzure(t *testing.T) {
 	t.Parallel()
 
 	cases := map[string]struct {
