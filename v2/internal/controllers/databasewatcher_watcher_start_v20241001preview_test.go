@@ -31,6 +31,11 @@ func Test_DatabaseWatcher_WatcherStart_v20241001preview(t *testing.T) {
 
 	const kustoClusterName = "asotest-watcher-datastore"
 
+	// The target names its server by fully qualified domain name, which Azure only assigns once the
+	// server exists, so the server publishes it and the target reads it back
+	const serverConfigMap = "sqlserver-config"
+	const serverConfigMapKey = "fullyQualifiedDomainName"
+
 	adminPasswordSecretRef := createPasswordSecret("sqlsecret", "adminPassword", tc)
 
 	rg := tc.CreateTestResourceGroupAndWait()
@@ -43,6 +48,14 @@ func Test_DatabaseWatcher_WatcherStart_v20241001preview(t *testing.T) {
 			AdministratorLogin:         to.Ptr("myadmin"),
 			AdministratorLoginPassword: &adminPasswordSecretRef,
 			Version:                    to.Ptr("12.0"),
+			OperatorSpec: &sql.ServerOperatorSpec{
+				ConfigMaps: &sql.ServerOperatorConfigMaps{
+					FullyQualifiedDomainName: &genruntime.ConfigMapDestination{
+						Name: serverConfigMap,
+						Key:  serverConfigMapKey,
+					},
+				},
+			},
 		},
 	}
 
@@ -53,8 +66,6 @@ func Test_DatabaseWatcher_WatcherStart_v20241001preview(t *testing.T) {
 			Owner:    testcommon.AsOwner(server),
 		},
 	}
-
-	tc.CreateResourcesAndWait(server, sqlDatabase)
 
 	watcher := &databasewatcher.Watcher{
 		ObjectMeta: tc.MakeObjectMeta("watcher"),
@@ -68,18 +79,16 @@ func Test_DatabaseWatcher_WatcherStart_v20241001preview(t *testing.T) {
 		},
 	}
 
-	// The watcher is ready before it runs: ARM won't start it until it has a target, and a target can't
-	// be created until its owner is ready
-	tc.CreateResourceAndWait(watcher)
-	tc.Expect(watcher.Status.Status).To(Equal(to.Ptr(databasewatcher.WatcherStatus_STATUS_Stopped)))
-
 	target := &databasewatcher.Target{
 		ObjectMeta: tc.MakeObjectMeta("target"),
 		Spec: databasewatcher.Target_Spec{
 			Owner: testcommon.AsOwner(watcher),
 			Properties: &databasewatcher.TargetProperties{
 				SqlDb: &databasewatcher.SqlDbSingleDatabaseTargetProperties{
-					ConnectionServerName:     server.Status.FullyQualifiedDomainName,
+					ConnectionServerNameFromConfig: &genruntime.ConfigMapReference{
+						Name: serverConfigMap,
+						Key:  serverConfigMapKey,
+					},
 					SqlDbResourceReference:   tc.MakeReferenceFromResource(sqlDatabase),
 					TargetAuthenticationType: to.Ptr(databasewatcher.TargetAuthenticationType_Aad),
 					TargetType:               to.Ptr(databasewatcher.SqlDbSingleDatabaseTargetProperties_TargetType_SqlDb),
@@ -88,8 +97,10 @@ func Test_DatabaseWatcher_WatcherStart_v20241001preview(t *testing.T) {
 		},
 	}
 
-	// The target isn't ready until the watcher it belongs to is running, so this waits for the start
-	tc.CreateResourceAndWait(target)
+	// Everything goes in together, as it would from a single kubectl apply, leaving the sequencing to the
+	// operator: the target waits for its server's domain name and for the watcher, and the watcher can't
+	// start until the target exists
+	tc.CreateResourcesAndWait(server, sqlDatabase, watcher, target)
 
 	// The status on the watcher itself is only as fresh as the watcher's last reconcile, so ask Azure
 	tc.Expect(watcherStatusFromAzure(tc, watcher)).To(Equal("Running"))
