@@ -8,7 +8,7 @@ in a way that the requester is not authorized to perform.
 
 Azure Service Operator (ASO) is designed to manage Azure resources on behalf of Kubernetes users. Organizations commonly
 use ASO as a control plane: users who do not have direct Azure access can manage an approved set of Azure resources
-through Kubernetes.
+through Kubernetes, using their Kubernetes cluster permissions.
 
 This delegation is expected behavior. It becomes a security issue if a user can cross an intended authorization
 boundary—for example, by using a credential that should not apply to their resource or by acting through a namespace
