@@ -19,7 +19,7 @@ import (
 
 // An extension's token is logged with the rest of the annotations, so redaction has to hold for one this
 // package never named
-func Test_LogObj_givenResumeTokenAnnotation_doesNotLogIt(t *testing.T) {
+func Test_LogObj_GivenResumeTokenAnnotation_DoesNotLogIt(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -48,7 +48,7 @@ func Test_LogObj_givenResumeTokenAnnotation_doesNotLogIt(t *testing.T) {
 }
 
 // Tokens added later must be redacted too, which naming them one at a time doesn't achieve
-func Test_IsResumeToken_givenAnnotation_returnsExpectedResult(t *testing.T) {
+func Test_IsResumeToken_GivenAnnotation_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 
 	cases := map[string]struct {

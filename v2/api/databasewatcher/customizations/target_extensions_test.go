@@ -35,7 +35,7 @@ var managed = annotations.ResolvedReconcilePolicies{
 	Global:          annotations.ReconcilePolicyManage,
 }
 
-func Test_StartAllowed_givenPolicies_returnsExpectedResult(t *testing.T) {
+func Test_StartAllowed_GivenPolicies_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 
 	cases := map[string]struct {
@@ -119,7 +119,7 @@ func Test_StartAllowed_givenPolicies_returnsExpectedResult(t *testing.T) {
 
 // A watcher always shares its target's namespace, so a mismatch means the policies in hand were resolved
 // somewhere else and can't answer for this watcher
-func Test_StartAllowed_givenWatcherInAnotherNamespace_reportsTheMismatch(t *testing.T) {
+func Test_StartAllowed_GivenWatcherInAnotherNamespace_ReportsTheMismatch(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -136,7 +136,7 @@ func Test_StartAllowed_givenWatcherInAnotherNamespace_reportsTheMismatch(t *test
 	g.Expect(err.Error()).To(ContainSubstring("elsewhere"))
 }
 
-func Test_TargetPostReconcileCheck_givenWatcherThatIsNotOursToStart_succeedsWithoutCallingAzure(t *testing.T) {
+func Test_TargetPostReconcileCheck_GivenWatcherThatIsNotOursToStart_SucceedsWithoutCallingAzure(t *testing.T) {
 	t.Parallel()
 
 	cases := map[string]struct {
@@ -179,7 +179,7 @@ func Test_TargetPostReconcileCheck_givenWatcherThatIsNotOursToStart_succeedsWith
 
 // A watcher this extension cannot start is reported rather than waited on, since nothing it does will
 // change the answer
-func Test_TargetPostReconcileCheck_givenUnstartableWatcher_defersReadiness(t *testing.T) {
+func Test_TargetPostReconcileCheck_GivenUnstartableWatcher_DefersReadiness(t *testing.T) {
 	t.Parallel()
 
 	cases := map[string]struct {
@@ -235,7 +235,7 @@ func Test_TargetPostReconcileCheck_givenUnstartableWatcher_defersReadiness(t *te
 
 // Sharing a credential, whether by naming the same one or by neither naming any, is the ordinary case and
 // must not be mistaken for a mismatch
-func Test_DifferingCredential_givenAnnotations_returnsExpectedResult(t *testing.T) {
+func Test_DifferingCredential_GivenAnnotations_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 
 	cases := map[string]struct {
@@ -302,7 +302,7 @@ func Test_DifferingCredential_givenAnnotations_returnsExpectedResult(t *testing.
 	}
 }
 
-func Test_TargetPostReconcileCheck_givenWrongType_returnsError(t *testing.T) {
+func Test_TargetPostReconcileCheck_GivenWrongType_ReturnsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -313,7 +313,7 @@ func Test_TargetPostReconcileCheck_givenWrongType_returnsError(t *testing.T) {
 
 // A watcher another operator has claimed is managed under a policy and a credential this one cannot see,
 // so it is refused rather than acted on under this operator's configuration
-func Test_ForeignWatcher_givenOperators_returnsExpectedReason(t *testing.T) {
+func Test_ForeignWatcher_GivenOperators_ReturnsExpectedReason(t *testing.T) {
 	t.Parallel()
 
 	cases := map[string]struct {
