@@ -177,7 +177,6 @@ func Test_ForeignWatcher_WhenTargetAndWatcherAreClaimedByDifferentOperators_Retu
 	reason, ok := foreignWatcher(target, watcher)
 	g.Expect(ok).To(BeTrue())
 	g.Expect(reason).To(ContainSubstring("managed by the operator"))
-
 }
 
 // Sharing a credential, whether by naming the same one or by neither naming any, is the ordinary case and

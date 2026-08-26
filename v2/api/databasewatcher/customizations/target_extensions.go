@@ -207,7 +207,8 @@ func watcherConfigured(
 	if watcher.Spec.Datastore == nil {
 		return fmt.Sprintf(
 				"watcher %q has no datastore, so it cannot be started",
-				watcher.Name),
+				watcher.Name,
+			),
 			true
 	}
 
