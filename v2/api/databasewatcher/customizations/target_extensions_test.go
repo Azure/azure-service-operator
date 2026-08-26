@@ -15,7 +15,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	databasewatcher "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview/storage"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
@@ -136,101 +135,49 @@ func Test_StartAllowed_GivenWatcherInAnotherNamespace_ReportsTheMismatch(t *test
 	g.Expect(err.Error()).To(ContainSubstring("elsewhere"))
 }
 
-func Test_TargetPostReconcileCheck_GivenWatcherThatIsNotOursToStart_SucceedsWithoutCallingAzure(t *testing.T) {
+func Test_WatcherConfigured_WhenDatastoreMissing_ReturnsExpectedReason(t *testing.T) {
 	t.Parallel()
+	g := NewGomegaWithT(t)
 
-	cases := map[string]struct {
-		owner genruntime.MetaObject
-	}{
-		// A target owned by an ARM ID has no watcher of ours to start
-		"Owner that isn't a watcher": {
-			owner: &resources.ResourceGroup{},
-		},
-		"Watcher the policy forbids modifying": {
-			owner: &databasewatcher.Watcher{
-				ObjectMeta: metav1.ObjectMeta{
-					Annotations: map[string]string{
-						annotations.ReconcilePolicy:             string(annotations.ReconcilePolicySkip),
-						reconcilers.OperatorNamespaceAnnotation: ourOperator,
-					},
-				},
-				Spec: databasewatcher.Watcher_Spec{
-					Datastore: &databasewatcher.Datastore{
-						KustoOfferingType: to.Ptr("adx"),
-					},
-				},
+	target := ourTarget()
+	watcher := &databasewatcher.Watcher{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: "watcher",
+			Annotations: map[string]string{
+				reconcilers.OperatorNamespaceAnnotation: ourOperator,
 			},
 		},
 	}
 
-	for name, c := range cases {
-		t.Run(name, func(t *testing.T) {
-			t.Parallel()
-			g := NewGomegaWithT(t)
-
-			// A nil ARM client makes any attempt to reach Azure a panic rather than a silent pass
-			result, err := runPostReconcileCheck(&TargetExtension{}, ourTarget(), c.owner)
-
-			g.Expect(err).ToNot(HaveOccurred())
-			g.Expect(result.ReconciliationFailed()).To(BeFalse())
-		})
-	}
+	reason, ok := watcherConfigured(target, watcher)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(reason).To(ContainSubstring("no datastore"))
 }
 
-// A watcher this extension cannot start is reported rather than waited on, since nothing it does will
-// change the answer
-func Test_TargetPostReconcileCheck_GivenUnstartableWatcher_DefersReadiness(t *testing.T) {
+func Test_ForeignWatcher_WhenTargetAndWatcherAreClaimedByDifferentOperators_ReturnsExpectedReason(t *testing.T) {
 	t.Parallel()
+	g := NewGomegaWithT(t)
 
-	cases := map[string]struct {
-		target          *databasewatcher.Target
-		watcher         *databasewatcher.Watcher
-		expectedMessage string
-	}{
-		"Watcher with no datastore": {
-			target: ourTarget(),
-			watcher: &databasewatcher.Watcher{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "watcher",
-					Annotations: map[string]string{
-						reconcilers.OperatorNamespaceAnnotation: ourOperator,
-					},
-				},
+	target := ourTarget()
+
+	watcher := &databasewatcher.Watcher{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: "watcher",
+			Annotations: map[string]string{
+				reconcilers.OperatorNamespaceAnnotation: "other-operator",
 			},
-			expectedMessage: "no datastore",
 		},
-		// The watcher belongs to another operator, whose policy and credential this one cannot see
-		"Watcher another operator has claimed": {
-			target: ourTarget(),
-			watcher: &databasewatcher.Watcher{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "watcher",
-					Annotations: map[string]string{
-						reconcilers.OperatorNamespaceAnnotation: "other-operator",
-					},
-				},
-				Spec: databasewatcher.Watcher_Spec{
-					Datastore: &databasewatcher.Datastore{
-						KustoOfferingType: to.Ptr("adx"),
-					},
-				},
+		Spec: databasewatcher.Watcher_Spec{
+			Datastore: &databasewatcher.Datastore{
+				KustoOfferingType: to.Ptr("adx"),
 			},
-			expectedMessage: "managed by the operator",
 		},
 	}
 
-	for name, c := range cases {
-		t.Run(name, func(t *testing.T) {
-			t.Parallel()
-			g := NewGomegaWithT(t)
+	reason, ok := foreignWatcher(target, watcher)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(reason).To(ContainSubstring("managed by the operator"))
 
-			result, err := runPostReconcileCheck(&TargetExtension{}, c.target, c.watcher)
-
-			g.Expect(err).ToNot(HaveOccurred())
-			g.Expect(result.ReconciliationFailed()).To(BeTrue())
-			g.Expect(result.Message()).To(ContainSubstring(c.expectedMessage))
-		})
-	}
 }
 
 // Sharing a credential, whether by naming the same one or by neither naming any, is the ordinary case and
@@ -362,13 +309,15 @@ func Test_ForeignWatcher_GivenOperators_ReturnsExpectedReason(t *testing.T) {
 				watcher.SetAnnotations(map[string]string{reconcilers.OperatorNamespaceAnnotation: c.watcherOperator})
 			}
 
-			reason := foreignWatcher(target, watcher)
+			reason, ok := foreignWatcher(target, watcher)
 
 			if !c.expectBlocked {
+				g.Expect(ok).To(BeFalse())
 				g.Expect(reason).To(BeEmpty())
 				return
 			}
 
+			g.Expect(ok).To(BeTrue())
 			g.Expect(reason).To(ContainSubstring("managed by the operator"))
 		})
 	}

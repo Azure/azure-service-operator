@@ -76,7 +76,7 @@ func (extension *TargetExtension) PostReconcileCheck(
 			// Return a failure result so that the controller will requeue and check again later,
 			//  allowing us to continue monitoring the operation.
 			return extensions.PostReconcileCheckResultFailure(
-				fmt.Sprintf("waiting for the watcher %s to start", watcher.Name),
+				fmt.Sprintf("waiting for the watcher %q to start", watcher.Name),
 			), nil
 		}
 
@@ -103,7 +103,7 @@ func (extension *TargetExtension) PostReconcileCheck(
 		// Stay short of ready so we're asked again, which is how the start is seen to have worked. Nothing is
 		// owned by a target, so this can't withhold anything the start itself needs.
 		return extensions.PostReconcileCheckResultFailure(
-			fmt.Sprintf("waiting for the watcher %s to run", watcher.Name),
+			fmt.Sprintf("waiting for the watcher %q to run", watcher.Name),
 		), nil
 	}
 
@@ -116,7 +116,7 @@ func (extension *TargetExtension) PostReconcileCheck(
 	}
 
 	// Nothing below holds for a watcher another operator has claimed
-	if reason := foreignWatcher(target, watcher); reason != "" {
+	if reason, ok := foreignWatcher(target, watcher); ok {
 		return extensions.PostReconcileCheckResultFailure(reason), nil
 	}
 
@@ -131,21 +131,9 @@ func (extension *TargetExtension) PostReconcileCheck(
 		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
 	}
 
-	// ARM rejects the start (WatcherStartFailedDueToNoDataStore), so say what's missing
-	// This check is mostly useful to stop us from consuming request quota on an action that can't possibly succeed
-	if watcher.Spec.Datastore == nil {
-		return extensions.PostReconcileCheckResultFailure(
-			fmt.Sprintf("watcher %q has no datastore, so it cannot be started", watcher.Name),
-		), nil
-	}
-
-	if differingCredential(target, watcher) {
-		return extensions.PostReconcileCheckResultFailure(fmt.Sprintf(
-			"cannot start watcher %q, which asks for %s while this target asks for %s",
-			watcher.Name,
-			describeCredential(watcher),
-			describeCredential(target),
-		)), nil
+	// Check the watcher is set up to be started.
+	if reason, ok := watcherConfigured(target, watcher); ok {
+		return extensions.PostReconcileCheckResultFailure(reason), nil
 	}
 
 	// Everything is aligned, let's ask Azure to start the watcher.
@@ -193,7 +181,10 @@ func resumeStart(ctx context.Context, armClient *genericarmclient.GenericClient,
 
 // foreignWatcher reports why this target cannot act on the watcher at all, and is empty when it can. A
 // resource is claimed before any extension runs, so one carrying no operator is unknown, not ours.
-func foreignWatcher(target *databasewatcher.Target, watcher *databasewatcher.Watcher) string {
+func foreignWatcher(
+	target *databasewatcher.Target,
+	watcher *databasewatcher.Watcher,
+) (string, bool) {
 	ours := operatorNamespace(target)
 	if theirs := operatorNamespace(watcher); theirs == "" || theirs != ours || ours == "" {
 		return fmt.Sprintf(
@@ -201,10 +192,35 @@ func foreignWatcher(target *databasewatcher.Target, watcher *databasewatcher.Wat
 			watcher.Name,
 			describeOperator(watcher),
 			describeOperator(target),
-		)
+		), true
 	}
 
-	return ""
+	return "", false
+}
+
+func watcherConfigured(
+	target *databasewatcher.Target,
+	watcher *databasewatcher.Watcher,
+) (string, bool) {
+	// ARM rejects the start (WatcherStartFailedDueToNoDataStore), so say what's missing
+	// This check is mostly useful to stop us from consuming request quota on an action that can't possibly succeed
+	if watcher.Spec.Datastore == nil {
+		return fmt.Sprintf(
+				"watcher %q has no datastore, so it cannot be started",
+				watcher.Name),
+			true
+	}
+
+	if differingCredential(target, watcher) {
+		return fmt.Sprintf(
+			"cannot start watcher %q, which asks for %s while this target asks for %s",
+			watcher.Name,
+			describeCredential(watcher),
+			describeCredential(target),
+		), true
+	}
+
+	return "", false
 }
 
 func operatorNamespace(obj genruntime.MetaObject) string {

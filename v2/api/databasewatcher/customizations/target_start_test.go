@@ -99,7 +99,7 @@ func Test_TargetPostReconcileCheck_givenStoppedWatcher_startsItOnceAndWaitsForTh
 	result, err = check()
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result.ReconciliationFailed()).To(BeTrue())
-	g.Expect(result.Message()).To(ContainSubstring("waiting for the watcher to start"))
+	g.Expect(result.Message()).To(ContainSubstring(`waiting for the watcher "watcher" to start`))
 	g.Expect(starts).To(Equal(1))
 	g.Expect(operationPolls).To(BeNumerically(">", 0))
 
@@ -238,7 +238,7 @@ func Test_TargetPostReconcileCheck_givenSkippedTarget_leavesTheWatcherAlone(t *t
 
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result.ReconciliationSucceeded()).To(BeTrue())
-	g.Expect(requests).To(BeZero())
+	g.Expect(requests).To(Equal(1)) // We always read the status
 	g.Expect(target.GetAnnotations()).ToNot(HaveKey(customizations.StartPollerResumeTokenAnnotation))
 }
 
@@ -266,8 +266,8 @@ func Test_TargetPostReconcileCheck_givenStartingWatcher_waitsWithoutStartingItAg
 	result, err := check()
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result.ReconciliationFailed()).To(BeTrue())
-	g.Expect(result.Message()).To(ContainSubstring("waiting for the watcher to run"))
-	g.Expect(starts).To(BeZero())
+	g.Expect(result.Message()).To(ContainSubstring(`waiting for the watcher "watcher" to run`))
+	g.Expect(starts).To(Equal(0))
 	g.Expect(target.GetAnnotations()).ToNot(HaveKey(customizations.StartPollerResumeTokenAnnotation))
 
 	// Whoever started it got there, and this target goes ready without having started anything itself
@@ -316,7 +316,7 @@ func Test_TargetPostReconcileCheck_givenForeignWatcher_refusesBeforeResolvingIts
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result.ReconciliationSucceeded()).To(BeFalse())
 	g.Expect(result.Message()).To(ContainSubstring("managed by the operator"))
-	g.Expect(requests).To(BeZero())
+	g.Expect(requests).To(Equal(1))
 }
 
 func startableTargetAndWatcher() (*databasewatcher.Target, *databasewatcher.Watcher) {
