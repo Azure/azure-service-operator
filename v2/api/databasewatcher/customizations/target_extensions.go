@@ -55,15 +55,63 @@ func (extension *TargetExtension) PostReconcileCheck(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = target
 
-	// This check still runs when the policy forbids modification, and a target ARM was never given is no
-	// reason to start anything
-	if !reconcilePolicies.Effective.AllowsModify() {
+	// A target owned by an ARM ID has no ASO-managed watcher to start
+	watcher, ok := owner.(*databasewatcher.Watcher)
+	if !ok {
 		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
 	}
 
-	// A target owned by an ARM ID has no watcher of ours to start
-	watcher, ok := owner.(*databasewatcher.Watcher)
-	if !ok {
+	// If we have an existing start operation to monitor, pick it up and see if it's done.
+	// A watcher has no failure state of its own, so a start already submitted is followed to its end
+	if token, submitted := startResumeToken(target); submitted {
+		done, err := resumeStart(ctx, armClient, token)
+		if err != nil {
+			clearStartResumeToken(target)
+
+			return extensions.PostReconcileCheckResult{},
+				eris.Wrapf(err, "cannot start watcher %s, which owns target %s", watcher.Name, target.Name)
+		}
+
+		if !done {
+			// Return a failure result so that the controller will requeue and check again later,
+			//  allowing us to continue monitoring the operation.
+			return extensions.PostReconcileCheckResultFailure(
+				fmt.Sprintf("waiting for the watcher %s to start", watcher.Name),
+			), nil
+		}
+
+		// Successful completion of the start operation
+		clearStartResumeToken(target)
+
+		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
+	}
+
+	// The status on the watcher is only as fresh as its own last reconcile, so ask Azure instead
+	status, err := readWatcherStatus(ctx, armClient, watcher)
+	if err != nil {
+		return extensions.PostReconcileCheckResult{},
+			eris.Wrapf(err, "cannot read watcher %q, which owns target %s", watcher.Name, target.Name)
+	}
+
+	// If the watcher is running we have nothing to do, continue the usual reconciliation flow.
+	if status == watcherStatusRunning {
+		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
+	}
+
+	// Any other status means an action is already under way, and a start now would conflict with it
+	if status != watcherStatusStopped {
+		// Stay short of ready so we're asked again, which is how the start is seen to have worked. Nothing is
+		// owned by a target, so this can't withhold anything the start itself needs.
+		return extensions.PostReconcileCheckResultFailure(
+			fmt.Sprintf("waiting for the watcher %s to run", watcher.Name),
+		), nil
+	}
+
+	// The watcher is at status "Stopped", so we may be able to start it.
+
+	// This check still runs when the policy forbids modification, and a target ARM was never given is no
+	// reason to start anything
+	if !reconcilePolicies.Effective.AllowsModify() {
 		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
 	}
 
@@ -75,69 +123,42 @@ func (extension *TargetExtension) PostReconcileCheck(
 	// A policy that forbids modifying the watcher forbids starting it
 	allowed, err := startAllowed(reconcilePolicies, watcher)
 	if err != nil {
+		// We couldn't work out whether starting the watcher is allowed, returning the error for visibility
 		return extensions.PostReconcileCheckResult{}, err
 	}
-
 	if !allowed {
+		// Not allowed to start the watcher, but we can continue with the rest of the reconciliation flow
 		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
 	}
 
 	// ARM rejects the start (WatcherStartFailedDueToNoDataStore), so say what's missing
+	// This check is mostly useful to stop us from consuming request quota on an action that can't possibly succeed
 	if watcher.Spec.Datastore == nil {
 		return extensions.PostReconcileCheckResultFailure(
 			fmt.Sprintf("watcher %q has no datastore, so it cannot be started", watcher.Name),
 		), nil
 	}
 
-	// The watcher has no failure state of its own, so a start already submitted is followed to its end
-	if token, submitted := startResumeToken(target); submitted {
-		done, err := resumeStart(ctx, armClient, token)
-		if err != nil {
-			clearStartResumeToken(target)
-
-			return extensions.PostReconcileCheckResult{},
-				eris.Wrapf(err, "cannot start watcher %q, which owns this target", watcher.Name)
-		}
-
-		if !done {
-			return extensions.PostReconcileCheckResultFailure("waiting for the watcher to start"), nil
-		}
-
-		clearStartResumeToken(target)
+	if differingCredential(target, watcher) {
+		return extensions.PostReconcileCheckResultFailure(fmt.Sprintf(
+			"cannot start watcher %q, which asks for %s while this target asks for %s",
+			watcher.Name,
+			describeCredential(watcher),
+			describeCredential(target),
+		)), nil
 	}
 
-	// The status on the watcher is only as fresh as its own last reconcile, so ask Azure instead
-	status, err := readWatcherStatus(ctx, armClient, watcher)
+	// Everything is aligned, let's ask Azure to start the watcher.
+	// This is usually a long-running action, so we don't wait for it to finish.
+	token, err := submitStart(ctx, watcher, armClient, log)
 	if err != nil {
 		return extensions.PostReconcileCheckResult{},
-			eris.Wrapf(err, "cannot read watcher %q, which owns this target", watcher.Name)
+			eris.Wrapf(err, "cannot start watcher %q, which owns this target", watcher.Name)
 	}
 
-	if status == watcherStatusRunning {
-		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
-	}
-
-	// Any other status means an action is already under way, and a start now would conflict with it
-	if status == watcherStatusStopped {
-		// A watcher already running needs nothing from us, so only the start is held back
-		if differingCredential(target, watcher) {
-			return extensions.PostReconcileCheckResultFailure(fmt.Sprintf(
-				"cannot start watcher %q, which asks for %s while this target asks for %s",
-				watcher.Name,
-				describeCredential(watcher),
-				describeCredential(target),
-			)), nil
-		}
-
-		token, err := submitStart(ctx, watcher, armClient, log)
-		if err != nil {
-			return extensions.PostReconcileCheckResult{},
-				eris.Wrapf(err, "cannot start watcher %q, which owns this target", watcher.Name)
-		}
-
-		if token != "" {
-			setStartResumeToken(target, token)
-		}
+	if token != "" {
+		// Store the token so we can resume the operation on a later reconcile
+		setStartResumeToken(target, token)
 	}
 
 	// Stay short of ready so we're asked again, which is how the start is seen to have worked. Nothing is
@@ -193,7 +214,7 @@ func operatorNamespace(obj genruntime.MetaObject) string {
 func describeOperator(obj genruntime.MetaObject) string {
 	namespace := operatorNamespace(obj)
 	if namespace == "" {
-		return "no namespace it has recorded"
+		return "an unknown namespace"
 	}
 
 	return fmt.Sprintf("namespace %q", namespace)
