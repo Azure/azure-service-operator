@@ -243,7 +243,7 @@ When testing `PostReconciliationChecker` extensions:
   parameter, which contains policies already resolved by the reconciler. Use
   `reconcilePolicies.Effective` for the resource being reconciled. To act on another resource in the same
   namespace, use `reconcilePolicies.ForResource(resource)` and handle the returned error. The method checks
-  that the resource belongs to the namespace for which the policies were resolved. `reconcilePolicies.Namespace`
+  that the resource belongs to the namespace for which the policies were resolved. `reconcilePolicies.NamespacePolicy`
   is the policy resolved from that namespace's annotation or the global policy, while
   `reconcilePolicies.Global` is resolved from operator configuration or the built-in default
 - **Check it's the same operator**: A matching namespace is not a matching operator. Operators sharing a
