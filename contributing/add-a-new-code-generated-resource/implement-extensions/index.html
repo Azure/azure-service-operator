@@ -35,7 +35,7 @@ In an ideal world, the code generated resource will work out of the box with no 
   <meta itemprop="description" content="Note In most cases, a code generated resource will work out of the box with no changes, and there will be no need to customize its behaviour by implementing an extensions.
 Unless you have a specific need, you can skip this step and move on to writing a test.
 In an ideal world, the code generated resource will work out of the box with no changes. However, in practice, this is not always the case.">
-  <meta itemprop="wordCount" content="432">
+  <meta itemprop="wordCount" content="448">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Customize the behaviour of generated resource">
   <meta name="twitter:description" content="Note In most cases, a code generated resource will work out of the box with no changes, and there will be no need to customize its behaviour by implementing an extensions.
@@ -1150,7 +1150,7 @@ Reach out to us if you want some guidance on which (if any) extension points are
       <tr>
           <td>PostReconciliationChecker</td>
           <td>Implemented when a resource needs to perform additional checks after reconciliation against Azure</td>
-          <td></td>
+          <td>Used by DatabaseWatcher <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/api/databasewatcher/customizations/target_extensions.go">Target</a> to start the watcher that owns a target, which ARM creates stopped.</td>
       </tr>
       <tr>
           <td>PreReconciliationChecker</td>

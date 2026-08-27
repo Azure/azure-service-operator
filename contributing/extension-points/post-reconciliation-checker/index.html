@@ -32,7 +32,7 @@ The interface is called at the end of the reconciliation process, after the reso
   <meta itemprop="name" content="PostReconciliationChecker">
   <meta itemprop="description" content="Description PostReconciliationChecker allows resources to perform validation or checks after ARM reconciliation completes successfully. This extension is invoked after Azure operations succeed but before the Ready condition is marked successful, giving resources the ability to defer the Ready status until additional conditions are met.
 The interface is called at the end of the reconciliation process, after the resource has been successfully created or updated in Azure. It provides a final opportunity to verify that the resource is truly ready for use.">
-  <meta itemprop="wordCount" content="1168">
+  <meta itemprop="wordCount" content="1312">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="PostReconciliationChecker">
   <meta name="twitter:description" content="Description PostReconciliationChecker allows resources to perform validation or checks after ARM reconciliation completes successfully. This extension is invoked after Azure operations succeed but before the Ready condition is marked successful, giving resources the ability to defer the Ready status until additional conditions are met.
@@ -1140,7 +1140,7 @@ The interface is called at the end of the reconciliation process, after the reso
 <li>❌ ARM success means the resource is ready</li>
 <li>❌ The check should happen before reconciliation (use PreReconciliationChecker)</li>
 <li>❌ You&rsquo;re validating the spec (do that in webhooks)</li>
-<li>❌ You&rsquo;re modifying the resource (use other extensions)</li>
+<li>❌ You&rsquo;re changing what gets sent to Azure (use <code>ARMResourceModifier</code>)</li>
 </ul>
 <h2 id="example-private-endpoint-approval-check">Example: Private Endpoint Approval Check</h2>
 <p>See the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/api/network/customizations/private_endpoints_extensions.go">full implementation in private_endpoints_extensions.go</a>.</p>
@@ -1307,18 +1307,27 @@ The interface is called at the end of the reconciliation process, after the reso
 <h2 id="important-notes">Important Notes</h2>
 <ul>
 <li><strong>Call <code>next()</code> if appropriate</strong>: Allows for check chaining (rarely needed). Pass <code>reconcilePolicies</code> through when you do</li>
-<li><strong>Don&rsquo;t modify the resource</strong>: This is for validation only</li>
+<li><strong>Don&rsquo;t change the spec</strong>: The resource has already been sent to Azure, so a spec change won&rsquo;t reach it</li>
+<li><strong>Annotations are the exception</strong>: The resource is written back after the check, so an extension that
+invokes an ARM action can keep the poller resume token in one and pick the operation up on a later
+reconcile. Only the resource being reconciled is written back, never its owner, so an action invoked on
+another resource still keeps its token here</li>
 <li><strong>Respect the reconcile policy</strong>: This check runs even when the policy forbids modification, since the
 skip path still updates status. Before acting on Azure, inspect the explicit <code>reconcilePolicies</code>
 parameter, which contains policies already resolved by the reconciler. Use
 <code>reconcilePolicies.Effective</code> for the resource being reconciled. To act on another resource in the same
 namespace, use <code>reconcilePolicies.ForResource(resource)</code> and handle the returned error. The method checks
-that the resource belongs to the namespace for which the policies were resolved. <code>reconcilePolicies.Namespace</code>
+that the resource belongs to the namespace for which the policies were resolved. <code>reconcilePolicies.NamespacePolicy</code>
 is the policy resolved from that namespace&rsquo;s annotation or the global policy, while
 <code>reconcilePolicies.Global</code> is resolved from operator configuration or the built-in default</li>
+<li><strong>Check it&rsquo;s the same operator</strong>: A matching namespace is not a matching operator. Operators sharing a
+cluster have their own policies and credentials, and none of that is visible from here. Compare
+<code>reconcilers.OperatorNamespaceAnnotation</code> on both resources and refuse when they differ, before resolving
+anything that depends on this operator&rsquo;s configuration</li>
 <li><strong>Be patient</strong>: Checks may run many times before succeeding</li>
 <li><strong>Use factory methods</strong>: Always uses the factory methods for <code>PostReconcileCheckResult</code> to ensure consistency</li>
-<li><strong>Provide clear reasons</strong>: Failure messages shown to users</li>
+<li><strong>Provide clear reasons</strong>: Failure messages shown to users. A message is discarded when returned with a
+non-<code>nil</code> error, which becomes the condition instead, so put the explanation in the error</li>
 <li><strong>Log appropriately</strong>: Help debugging without noise</li>
 <li><strong>Handle nil values</strong>: Status fields may not be populated yet</li>
 <li><strong>Consider performance</strong>: This runs on every reconciliation</li>
