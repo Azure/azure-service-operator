@@ -7,14 +7,6 @@ no_list: true
 
 To install the CRDs for these resources, your ASO configuration must include `network.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                               | ARM Version | CRD Version | Supported From | Sample                                                                                                                           |
-|----------------------------------------------------------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------|
-| [DdosProtectionPlan]({{< relref "/reference/network/v20250301#DdosProtectionPlan" >}}) | 2025-03-01  | v20250301   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_ddosprotectionplan.yaml) |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
@@ -24,6 +16,7 @@ These resource(s) are the latest versions available for use in the current relea
 | [ApplicationSecurityGroup]({{< relref "/reference/network/v1api20240101#ApplicationSecurityGroup" >}})                               | 2024-01-01  | v1api20240101 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240101/v1api20240101_applicationsecuritygroup.yaml)                |
 | [AzureFirewall]({{< relref "/reference/network/v20250301#AzureFirewall" >}})                                                         | 2025-03-01  | v20250301     | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_azurefirewall.yaml)                                   |
 | [BastionHost]({{< relref "/reference/network/v20250301#BastionHost" >}})                                                             | 2025-03-01  | v20250301     | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_bastionhost.yaml)                                     |
+| [DdosProtectionPlan]({{< relref "/reference/network/v20250301#DdosProtectionPlan" >}})                                               | 2025-03-01  | v20250301     | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_ddosprotectionplan.yaml)                              |
 | [DnsForwardingRuleSetsForwardingRule]({{< relref "/reference/network/v1api20220701#DnsForwardingRuleSetsForwardingRule" >}})         | 2022-07-01  | v1api20220701 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingrulesetsforwardingrule.yaml)     |
 | [DnsForwardingRuleSetsVirtualNetworkLink]({{< relref "/reference/network/v1api20220701#DnsForwardingRuleSetsVirtualNetworkLink" >}}) | 2022-07-01  | v1api20220701 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingrulesetsvirtualnetworklink.yaml) |
 | [DnsForwardingRuleset]({{< relref "/reference/network/v1api20220701#DnsForwardingRuleset" >}})                                       | 2022-07-01  | v1api20220701 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingruleset.yaml)                    |

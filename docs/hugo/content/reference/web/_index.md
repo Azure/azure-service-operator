@@ -7,19 +7,18 @@ no_list: true
 
 To install the CRDs for these resources, your ASO configuration must include `web.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
+### Latest Released Versions
 
-Development of these new resources is complete and they will be available in the next release of ASO.
-
+These resource(s) are the latest versions available for use in the current release of ASO.
 | Resource                                                                           | ARM Version | CRD Version | Supported From | Sample                                                                                                                       |
 |------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
 | [ServerFarm]({{< relref "/reference/web/v20250501#ServerFarm" >}})                 | 2025-05-01  | v20250501   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20250501/v20250501_serverfarm.yaml)         |
 | [Site]({{< relref "/reference/web/v20250501#Site" >}})                             | 2025-05-01  | v20250501   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20250501/v20250501_site.yaml)               |
 | [SitesSourcecontrol]({{< relref "/reference/web/v20250501#SitesSourcecontrol" >}}) | 2025-05-01  | v20250501   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20250501/v20250501_sitessourcecontrol.yaml) |
 
-### Released
+### Other Supported Versions
 
-These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                           | ARM Version | CRD Version | Supported From | Sample                                                                                                                       |
 |------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
 | [ServerFarm]({{< relref "/reference/web/v20220301#ServerFarm" >}})                 | 2022-03-01  | v20220301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20220301/v20220301_serverfarm.yaml)         |

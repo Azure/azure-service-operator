@@ -7,23 +7,16 @@ no_list: true
 
 To install the CRDs for these resources, your ASO configuration must include `kusto.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                                             | ARM Version | CRD Version | Supported From | Sample                                                                                                                                 |
-|------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| [ClusterPrincipalAssignment]({{< relref "/reference/kusto/v20240413#ClusterPrincipalAssignment" >}}) | 2024-04-13  | v20240413   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v20240413/v20240413_clusterprincipalassignment.yaml) |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
-| Resource                                                                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                  |
-|--------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| [Cluster]({{< relref "/reference/kusto/v1api20240413#Cluster" >}})                         | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_cluster.yaml)             |
-| [DataConnection]({{< relref "/reference/kusto/v1api20240413#DataConnection" >}})           | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_dataconnection.yaml)      |
-| [Database]({{< relref "/reference/kusto/v1api20240413#Database" >}})                       | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_database.yaml)            |
-| [PrincipalAssignment]({{< relref "/reference/kusto/v1api20240413#PrincipalAssignment" >}}) | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_principalassignment.yaml) |
+| Resource                                                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                  |
+|------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| [Cluster]({{< relref "/reference/kusto/v1api20240413#Cluster" >}})                                   | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_cluster.yaml)             |
+| [ClusterPrincipalAssignment]({{< relref "/reference/kusto/v20240413#ClusterPrincipalAssignment" >}}) | 2024-04-13  | v20240413     | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v20240413/v20240413_clusterprincipalassignment.yaml)  |
+| [DataConnection]({{< relref "/reference/kusto/v1api20240413#DataConnection" >}})                     | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_dataconnection.yaml)      |
+| [Database]({{< relref "/reference/kusto/v1api20240413#Database" >}})                                 | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_database.yaml)            |
+| [PrincipalAssignment]({{< relref "/reference/kusto/v1api20240413#PrincipalAssignment" >}})           | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_principalassignment.yaml) |
 
 ### Other Supported Versions
 

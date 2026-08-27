@@ -34,14 +34,6 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `apimanagement.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                     | ARM Version | CRD Version | Supported From | Sample                                                                                                                         |
-|------------------------------------------------------------------------------|-------------|-------------|----------------|--------------------------------------------------------------------------------------------------------------------------------|
-| [Diagnostic]({{< relref "/reference/apimanagement/v20240501#Diagnostic" >}}) | 2024-05-01  | v20240501   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_diagnostic.yaml) |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
@@ -56,6 +48,7 @@ These resource(s) are the latest versions available for use in the current relea
 | [AuthorizationProvidersAuthorizationsAccessPolicy]({{< relref "/reference/apimanagement/v20240501#AuthorizationProvidersAuthorizationsAccessPolicy" >}}) | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_authorizationprovidersauthorizationsaccesspolicy.yaml) |
 | [Backend]({{< relref "/reference/apimanagement/v20240501#Backend" >}})                                                                                   | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_backend.yaml)                                          |
 | [Certificate]({{< relref "/reference/apimanagement/v20240501#Certificate" >}})                                                                           | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_certificate.yaml)                                      |
+| [Diagnostic]({{< relref "/reference/apimanagement/v20240501#Diagnostic" >}})                                                                             | 2024-05-01  | v20240501   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_diagnostic.yaml)                                       |
 | [Group]({{< relref "/reference/apimanagement/v20240501#Group" >}})                                                                                       | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_group.yaml)                                            |
 | [Logger]({{< relref "/reference/apimanagement/v20240501#Logger" >}})                                                                                     | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_logger.yaml)                                           |
 | [NamedValue]({{< relref "/reference/apimanagement/v20240501#NamedValue" >}})                                                                             | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_namedvalue.yaml)                                       |
@@ -111,23 +104,13 @@ These resource(s) are the latest versions available for use in the current relea
 
 To install the CRDs for these resources, your ASO configuration must include `authorization.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                                    | ARM Version        | CRD Version      | Supported From | Sample                                                                                                                                           |
-|---------------------------------------------------------------------------------------------|--------------------|------------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| [RoleAssignment]({{< relref "/reference/authorization/v20220401#RoleAssignment" >}})        | 2022-04-01         | v20220401        | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v20220401/v20220401_roleassignment.yaml)               |
-| [RoleAssignment]({{< relref "/reference/authorization/v20200801preview#RoleAssignment" >}}) | 2020-08-01-preview | v20200801preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v20200801preview/v20200801preview_roleassignment.yaml) |
-| [RoleDefinition]({{< relref "/reference/authorization/v20220401#RoleDefinition" >}})        | 2022-04-01         | v20220401        | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v20220401/v20220401_roledefinition.yaml)               |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
-| Resource                                                                                 | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                     |
-|------------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| [RoleAssignment]({{< relref "/reference/authorization/v1api20220401#RoleAssignment" >}}) | 2022-04-01  | v1api20220401 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v1api20220401/v1api20220401_roleassignment.yaml) |
-| [RoleDefinition]({{< relref "/reference/authorization/v1api20220401#RoleDefinition" >}}) | 2022-04-01  | v1api20220401 | v2.8.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v1api20220401/v1api20220401_roledefinition.yaml) |
+| Resource                                                                             | ARM Version | CRD Version | Supported From | Sample                                                                                                                             |
+|--------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------|
+| [RoleAssignment]({{< relref "/reference/authorization/v20220401#RoleAssignment" >}}) | 2022-04-01  | v20220401   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v20220401/v20220401_roleassignment.yaml) |
+| [RoleDefinition]({{< relref "/reference/authorization/v20220401#RoleDefinition" >}}) | 2022-04-01  | v20220401   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v20220401/v20220401_roledefinition.yaml) |
 
 ## Batch
 
@@ -150,50 +133,20 @@ To install the CRDs for these resources, your ASO configuration must include `ca
 
 * If you are looking for _Azure Managed Redis_, that resource is also known as _Redis Enterprise_ (Microsoft.Cache/redisEnterprise), which is supported by ASO. Visit [_What is Azure Managed Redis?_](https://learn.microsoft.com/azure/redis/overview) to learn more.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                                                                                   | ARM Version | CRD Version | Supported From | Sample                                                                                                                                                    |
-|--------------------------------------------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Redis]({{< relref "/reference/cache/v20241101#Redis" >}})                                                                                 | 2024-11-01  | v20241101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20241101/v20241101_redis.yaml)                                         |
-| [Redis]({{< relref "/reference/cache/v20230801#Redis" >}})                                                                                 | 2023-08-01  | v20230801   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20230801/v20230801_redis.yaml)                                         |
-| [Redis]({{< relref "/reference/cache/v20230401#Redis" >}})                                                                                 | 2023-04-01  | v20230401   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20230401/v20230401_redis.yaml)                                         |
-| [Redis]({{< relref "/reference/cache/v20201201#Redis" >}})                                                                                 | 2020-12-01  | v20201201   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20201201/v20201201_redis.yaml)                                         |
-| [RedisAccessPolicy]({{< relref "/reference/cache/v20241101#RedisAccessPolicy" >}})                                                         | 2024-11-01  | v20241101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20241101/v20241101_redisaccesspolicy.yaml)                             |
-| [RedisAccessPolicyAssignment]({{< relref "/reference/cache/v20241101#RedisAccessPolicyAssignment" >}})                                     | 2024-11-01  | v20241101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20241101/v20241101_redisaccesspolicyassignment.yaml)                   |
-| [RedisEnterprise]({{< relref "/reference/cache/v20250701#RedisEnterprise" >}})                                                             | 2025-07-01  | v20250701   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20250701/v20250701_redisenterprise.yaml)                               |
-| [RedisEnterprise]({{< relref "/reference/cache/v20250401#RedisEnterprise" >}})                                                             | 2025-04-01  | v20250401   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20250401/v20250401_redisenterprise.yaml)                               |
-| [RedisEnterpriseDatabase]({{< relref "/reference/cache/v20250701#RedisEnterpriseDatabase" >}})                                             | 2025-07-01  | v20250701   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20250701/v20250701_redisenterprisedatabase.yaml)                       |
-| [RedisEnterpriseDatabase]({{< relref "/reference/cache/v20250401#RedisEnterpriseDatabase" >}})                                             | 2025-04-01  | v20250401   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20250401/v20250401_redisenterprisedatabase.yaml)                       |
-| [RedisEnterpriseDatabaseAccessPolicyAssignment]({{< relref "/reference/cache/v20250701#RedisEnterpriseDatabaseAccessPolicyAssignment" >}}) | 2025-07-01  | v20250701   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20250701/v20250701_redisenterprisedatabaseaccesspolicyassignment.yaml) |
-| [RedisFirewallRule]({{< relref "/reference/cache/v20241101#RedisFirewallRule" >}})                                                         | 2024-11-01  | v20241101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20241101/v20241101_redisfirewallrule.yaml)                             |
-| [RedisFirewallRule]({{< relref "/reference/cache/v20230801#RedisFirewallRule" >}})                                                         | 2023-08-01  | v20230801   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20230801/v20230801_redisfirewallrule.yaml)                             |
-| [RedisFirewallRule]({{< relref "/reference/cache/v20230401#RedisFirewallRule" >}})                                                         | 2023-04-01  | v20230401   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20230401/v20230401_redisfirewallrule.yaml)                             |
-| [RedisFirewallRule]({{< relref "/reference/cache/v20201201#RedisFirewallRule" >}})                                                         | 2020-12-01  | v20201201   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20201201/v20201201_redisfirewallrule.yaml)                             |
-| [RedisLinkedServer]({{< relref "/reference/cache/v20241101#RedisLinkedServer" >}})                                                         | 2024-11-01  | v20241101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20241101/v20241101_redislinkedserver.yaml)                             |
-| [RedisLinkedServer]({{< relref "/reference/cache/v20230801#RedisLinkedServer" >}})                                                         | 2023-08-01  | v20230801   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20230801/v20230801_redislinkedserver.yaml)                             |
-| [RedisLinkedServer]({{< relref "/reference/cache/v20230401#RedisLinkedServer" >}})                                                         | 2023-04-01  | v20230401   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20230401/v20230401_redislinkedserver.yaml)                             |
-| [RedisLinkedServer]({{< relref "/reference/cache/v20201201#RedisLinkedServer" >}})                                                         | 2020-12-01  | v20201201   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20201201/v20201201_redislinkedserver.yaml)                             |
-| [RedisPatchSchedule]({{< relref "/reference/cache/v20241101#RedisPatchSchedule" >}})                                                       | 2024-11-01  | v20241101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20241101/v20241101_redispatchschedule.yaml)                            |
-| [RedisPatchSchedule]({{< relref "/reference/cache/v20230801#RedisPatchSchedule" >}})                                                       | 2023-08-01  | v20230801   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20230801/v20230801_redispatchschedule.yaml)                            |
-| [RedisPatchSchedule]({{< relref "/reference/cache/v20230401#RedisPatchSchedule" >}})                                                       | 2023-04-01  | v20230401   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20230401/v20230401_redispatchschedule.yaml)                            |
-| [RedisPatchSchedule]({{< relref "/reference/cache/v20201201#RedisPatchSchedule" >}})                                                       | 2020-12-01  | v20201201   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20201201/v20201201_redispatchschedule.yaml)                            |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
-| Resource                                                                                                                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                    |
-|--------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Redis]({{< relref "/reference/cache/v1api20241101#Redis" >}})                                                                             | 2024-11-01  | v1api20241101 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20241101/v1api20241101_redis.yaml)                                 |
-| [RedisAccessPolicy]({{< relref "/reference/cache/v1api20241101#RedisAccessPolicy" >}})                                                     | 2024-11-01  | v1api20241101 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20241101/v1api20241101_redisaccesspolicy.yaml)                     |
-| [RedisAccessPolicyAssignment]({{< relref "/reference/cache/v1api20241101#RedisAccessPolicyAssignment" >}})                                 | 2024-11-01  | v1api20241101 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20241101/v1api20241101_redisaccesspolicyassignment.yaml)           |
-| [RedisEnterprise]({{< relref "/reference/cache/v1api20250401#RedisEnterprise" >}})                                                         | 2025-04-01  | v1api20250401 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20250401/v1api20250401_redisenterprise.yaml)                       |
-| [RedisEnterpriseDatabase]({{< relref "/reference/cache/v1api20250401#RedisEnterpriseDatabase" >}})                                         | 2025-04-01  | v1api20250401 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20250401/v1api20250401_redisenterprisedatabase.yaml)               |
-| [RedisEnterpriseDatabaseAccessPolicyAssignment]({{< relref "/reference/cache/v20250401#RedisEnterpriseDatabaseAccessPolicyAssignment" >}}) | 2025-04-01  | v20250401     | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20250401/v20250401_redisenterprisedatabaseaccesspolicyassignment.yaml) |
-| [RedisFirewallRule]({{< relref "/reference/cache/v1api20241101#RedisFirewallRule" >}})                                                     | 2024-11-01  | v1api20241101 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20241101/v1api20241101_redisfirewallrule.yaml)                     |
-| [RedisLinkedServer]({{< relref "/reference/cache/v1api20241101#RedisLinkedServer" >}})                                                     | 2024-11-01  | v1api20241101 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20241101/v1api20241101_redislinkedserver.yaml)                     |
-| [RedisPatchSchedule]({{< relref "/reference/cache/v1api20241101#RedisPatchSchedule" >}})                                                   | 2024-11-01  | v1api20241101 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20241101/v1api20241101_redispatchschedule.yaml)                    |
+| Resource                                                                                                                                   | ARM Version | CRD Version | Supported From | Sample                                                                                                                                                    |
+|--------------------------------------------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Redis]({{< relref "/reference/cache/v20241101#Redis" >}})                                                                                 | 2024-11-01  | v20241101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20241101/v20241101_redis.yaml)                                         |
+| [RedisAccessPolicy]({{< relref "/reference/cache/v20241101#RedisAccessPolicy" >}})                                                         | 2024-11-01  | v20241101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20241101/v20241101_redisaccesspolicy.yaml)                             |
+| [RedisAccessPolicyAssignment]({{< relref "/reference/cache/v20241101#RedisAccessPolicyAssignment" >}})                                     | 2024-11-01  | v20241101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20241101/v20241101_redisaccesspolicyassignment.yaml)                   |
+| [RedisEnterprise]({{< relref "/reference/cache/v20250701#RedisEnterprise" >}})                                                             | 2025-07-01  | v20250701   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20250701/v20250701_redisenterprise.yaml)                               |
+| [RedisEnterpriseDatabase]({{< relref "/reference/cache/v20250701#RedisEnterpriseDatabase" >}})                                             | 2025-07-01  | v20250701   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20250701/v20250701_redisenterprisedatabase.yaml)                       |
+| [RedisEnterpriseDatabaseAccessPolicyAssignment]({{< relref "/reference/cache/v20250701#RedisEnterpriseDatabaseAccessPolicyAssignment" >}}) | 2025-07-01  | v20250701   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20250701/v20250701_redisenterprisedatabaseaccesspolicyassignment.yaml) |
+| [RedisFirewallRule]({{< relref "/reference/cache/v20241101#RedisFirewallRule" >}})                                                         | 2024-11-01  | v20241101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20241101/v20241101_redisfirewallrule.yaml)                             |
+| [RedisLinkedServer]({{< relref "/reference/cache/v20241101#RedisLinkedServer" >}})                                                         | 2024-11-01  | v20241101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20241101/v20241101_redislinkedserver.yaml)                             |
+| [RedisPatchSchedule]({{< relref "/reference/cache/v20241101#RedisPatchSchedule" >}})                                                       | 2024-11-01  | v20241101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20241101/v20241101_redispatchschedule.yaml)                            |
 
 ## Cdn
 
@@ -224,23 +177,14 @@ These resource(s) are the latest versions available for use in the current relea
 
 To install the CRDs for these resources, your ASO configuration must include `cognitiveservices.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
+### Released
 
-Development of these new resources is complete and they will be available in the next release of ASO.
-
+These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                         | ARM Version | CRD Version | Supported From | Sample                                                                                                                             |
 |----------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------|
 | [Account]({{< relref "/reference/cognitiveservices/v20250601#Account" >}})       | 2025-06-01  | v20250601   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cognitiveservices/v20250601/v20250601_account.yaml)    |
 | [Deployment]({{< relref "/reference/cognitiveservices/v20250601#Deployment" >}}) | 2025-06-01  | v20250601   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cognitiveservices/v20250601/v20250601_deployment.yaml) |
-
-### Released
-
-These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                     |
-|--------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| [Account]({{< relref "/reference/cognitiveservices/v1api20250601#Account" >}})       | 2025-06-01  | v1api20250601 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cognitiveservices/v1api20250601/v1api20250601_account.yaml)    |
-| [Deployment]({{< relref "/reference/cognitiveservices/v1api20250601#Deployment" >}}) | 2025-06-01  | v1api20250601 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cognitiveservices/v1api20250601/v1api20250601_deployment.yaml) |
-| [Project]({{< relref "/reference/cognitiveservices/v20250601#Project" >}})           | 2025-06-01  | v20250601     | v2.20.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cognitiveservices/v20250601/v20250601_project.yaml)            |
+| [Project]({{< relref "/reference/cognitiveservices/v20250601#Project" >}})       | 2025-06-01  | v20250601   | v2.20.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cognitiveservices/v20250601/v20250601_project.yaml)    |
 
 ## Communication
 
@@ -288,20 +232,12 @@ These resource(s) are the latest versions available for use in the current relea
 
 To install the CRDs for these resources, your ASO configuration must include `containerinstance.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                                 | ARM Version | CRD Version | Supported From | Sample                                                                                                                                 |
-|------------------------------------------------------------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| [ContainerGroup]({{< relref "/reference/containerinstance/v20211001#ContainerGroup" >}}) | 2021-10-01  | v20211001   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerinstance/v20211001/v20211001_containergroup.yaml) |
-
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                 |
-|----------------------------------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| [ContainerGroup]({{< relref "/reference/containerinstance/v1api20211001#ContainerGroup" >}}) | 2021-10-01  | v1api20211001 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerinstance/v1api/v1api20211001_containergroup.yaml) |
+| Resource                                                                                 | ARM Version | CRD Version | Supported From | Sample                                                                                                                                 |
+|------------------------------------------------------------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| [ContainerGroup]({{< relref "/reference/containerinstance/v20211001#ContainerGroup" >}}) | 2021-10-01  | v20211001   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerinstance/v20211001/v20211001_containergroup.yaml) |
 
 ## ContainerRegistry
 
@@ -309,20 +245,13 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `containerregistry.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                                       | ARM Version | CRD Version | Supported From | Sample                                                                                                                                    |
-|------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
-| [RegistryCacheRule]({{< relref "/reference/containerregistry/v20251101#RegistryCacheRule" >}}) | 2025-11-01  | v20251101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v20251101/v20251101_registrycacherule.yaml) |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
 | Resource                                                                                               | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                              |
 |--------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Registry]({{< relref "/reference/containerregistry/v1api20230701#Registry" >}})                       | 2023-07-01  | v1api20230701 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v1api20230701/v1api20230701_registry.yaml)            |
+| [RegistryCacheRule]({{< relref "/reference/containerregistry/v20251101#RegistryCacheRule" >}})         | 2025-11-01  | v20251101     | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v20251101/v20251101_registrycacherule.yaml)           |
 | [RegistryReplication]({{< relref "/reference/containerregistry/v1api20230701#RegistryReplication" >}}) | 2023-07-01  | v1api20230701 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v1api20230701/v1api20230701_registryreplication.yaml) |
 
 ## ContainerService
@@ -352,10 +281,9 @@ These resource(s) are the latest versions available for use in the current relea
 
 To install the CRDs for these resources, your ASO configuration must include `databasewatcher.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
+### Released
 
-Development of these new resources is complete and they will be available in the next release of ASO.
-
+These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                            | ARM Version        | CRD Version      | Supported From | Sample                                                                                                                                                |
 |-----------------------------------------------------------------------------------------------------|--------------------|------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [SharedPrivateLink]({{< relref "/reference/databasewatcher/v20241001preview#SharedPrivateLink" >}}) | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_sharedprivatelink.yaml) |
@@ -467,22 +395,13 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `documentdb.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                                    | ARM Version | CRD Version | Supported From | Sample                                                                                                                                         |
-|---------------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| [CassandraCluster]({{< relref "/reference/documentdb/v20260315#CassandraCluster" >}})       | 2026-03-15  | v20260315   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20260315/v20260315_cassandracluster.yaml)    |
-| [CassandraDataCenter]({{< relref "/reference/documentdb/v20260315#CassandraDataCenter" >}}) | 2026-03-15  | v20260315   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20260315/v20260315_cassandradatacenter.yaml) |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
 | Resource                                                                                                                                      | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                                       |
 |-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [CassandraCluster]({{< relref "/reference/documentdb/v20251015#CassandraCluster" >}})                                                         | 2025-10-15  | v20251015     | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20251015/v20251015_cassandracluster.yaml)                                  |
-| [CassandraDataCenter]({{< relref "/reference/documentdb/v20251015#CassandraDataCenter" >}})                                                   | 2025-10-15  | v20251015     | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20251015/v20251015_cassandradatacenter.yaml)                               |
+| [CassandraCluster]({{< relref "/reference/documentdb/v20260315#CassandraCluster" >}})                                                         | 2026-03-15  | v20260315     | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20260315/v20260315_cassandracluster.yaml)                                  |
+| [CassandraDataCenter]({{< relref "/reference/documentdb/v20260315#CassandraDataCenter" >}})                                                   | 2026-03-15  | v20260315     | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20260315/v20260315_cassandradatacenter.yaml)                               |
 | [DatabaseAccount]({{< relref "/reference/documentdb/v1api20240815#DatabaseAccount" >}})                                                       | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_databaseaccount.yaml)                             |
 | [FirewallRule]({{< relref "/reference/documentdb/v1api20240701#FirewallRule" >}})                                                             | 2024-07-01  | v1api20240701 | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240701/v1api20240701_firewallrule.yaml)                                |
 | [MongoCluster]({{< relref "/reference/documentdb/v1api20240701#MongoCluster" >}})                                                             | 2024-07-01  | v1api20240701 | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240701/v1api20240701_mongocluster.yaml)                                |
@@ -507,19 +426,12 @@ These resource(s) are the latest versions available for use in the current relea
 
 To install the CRDs for these resources, your ASO configuration must include `entra.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                        | ARM Version | CRD Version | Supported From | Sample                                                                                                    |
-|-----------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------|
-| [Application]({{< relref "/reference/entra/v1#Application" >}}) | v1          | v1          | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/entra/v1/v1_application.yaml) |
-
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                            | ARM Version | CRD Version | Supported From | Sample                                                                                                      |
 |---------------------------------------------------------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------|
+| [Application]({{< relref "/reference/entra/v1#Application" >}})     | v1          | v1          | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/entra/v1/v1_application.yaml)   |
 | [SecurityGroup]({{< relref "/reference/entra/v1#SecurityGroup" >}}) | v1          | v1          | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/entra/v1/v1_securitygroup.yaml) |
 
 ## EventGrid
@@ -528,26 +440,15 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `eventgrid.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
+### Latest Released Versions
 
-Development of these new resources is complete and they will be available in the next release of ASO.
-
+These resource(s) are the latest versions available for use in the current release of ASO.
 | Resource                                                                               | ARM Version | CRD Version | Supported From | Sample                                                                                                                            |
 |----------------------------------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------|
 | [Domain]({{< relref "/reference/eventgrid/v20250215#Domain" >}})                       | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_domain.yaml)            |
 | [DomainsTopic]({{< relref "/reference/eventgrid/v20250215#DomainsTopic" >}})           | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_domainstopic.yaml)      |
 | [EventSubscription]({{< relref "/reference/eventgrid/v20250215#EventSubscription" >}}) | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_eventsubscription.yaml) |
 | [Topic]({{< relref "/reference/eventgrid/v20250215#Topic" >}})                         | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_topic.yaml)             |
-
-### Released
-
-These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                                                                               | ARM Version | CRD Version | Supported From | Sample                                                                                                                            |
-|----------------------------------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------|
-| [Domain]({{< relref "/reference/eventgrid/v20200601#Domain" >}})                       | 2020-06-01  | v20200601   | v2.20.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20200601/v20200601_domain.yaml)            |
-| [DomainsTopic]({{< relref "/reference/eventgrid/v20200601#DomainsTopic" >}})           | 2020-06-01  | v20200601   | v2.20.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20200601/v20200601_domainstopic.yaml)      |
-| [EventSubscription]({{< relref "/reference/eventgrid/v20200601#EventSubscription" >}}) | 2020-06-01  | v20200601   | v2.20.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20200601/v20200601_eventsubscription.yaml) |
-| [Topic]({{< relref "/reference/eventgrid/v20200601#Topic" >}})                         | 2020-06-01  | v20200601   | v2.20.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20200601/v20200601_topic.yaml)             |
 
 ## EventHub
 
@@ -624,23 +525,16 @@ These resource(s) are the latest versions available for use in the current relea
 
 To install the CRDs for these resources, your ASO configuration must include `kusto.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                                             | ARM Version | CRD Version | Supported From | Sample                                                                                                                                 |
-|------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| [ClusterPrincipalAssignment]({{< relref "/reference/kusto/v20240413#ClusterPrincipalAssignment" >}}) | 2024-04-13  | v20240413   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v20240413/v20240413_clusterprincipalassignment.yaml) |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
-| Resource                                                                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                  |
-|--------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| [Cluster]({{< relref "/reference/kusto/v1api20240413#Cluster" >}})                         | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_cluster.yaml)             |
-| [DataConnection]({{< relref "/reference/kusto/v1api20240413#DataConnection" >}})           | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_dataconnection.yaml)      |
-| [Database]({{< relref "/reference/kusto/v1api20240413#Database" >}})                       | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_database.yaml)            |
-| [PrincipalAssignment]({{< relref "/reference/kusto/v1api20240413#PrincipalAssignment" >}}) | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_principalassignment.yaml) |
+| Resource                                                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                  |
+|------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| [Cluster]({{< relref "/reference/kusto/v1api20240413#Cluster" >}})                                   | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_cluster.yaml)             |
+| [ClusterPrincipalAssignment]({{< relref "/reference/kusto/v20240413#ClusterPrincipalAssignment" >}}) | 2024-04-13  | v20240413     | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v20240413/v20240413_clusterprincipalassignment.yaml)  |
+| [DataConnection]({{< relref "/reference/kusto/v1api20240413#DataConnection" >}})                     | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_dataconnection.yaml)      |
+| [Database]({{< relref "/reference/kusto/v1api20240413#Database" >}})                                 | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_database.yaml)            |
+| [PrincipalAssignment]({{< relref "/reference/kusto/v1api20240413#PrincipalAssignment" >}})           | 2024-04-13  | v1api20240413 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20240413/v1api20240413_principalassignment.yaml) |
 
 ## MachineLearningServices
 
@@ -691,14 +585,6 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `network.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                               | ARM Version | CRD Version | Supported From | Sample                                                                                                                           |
-|----------------------------------------------------------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------|
-| [DdosProtectionPlan]({{< relref "/reference/network/v20250301#DdosProtectionPlan" >}}) | 2025-03-01  | v20250301   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_ddosprotectionplan.yaml) |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
@@ -708,6 +594,7 @@ These resource(s) are the latest versions available for use in the current relea
 | [ApplicationSecurityGroup]({{< relref "/reference/network/v1api20240101#ApplicationSecurityGroup" >}})                               | 2024-01-01  | v1api20240101 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20240101/v1api20240101_applicationsecuritygroup.yaml)                |
 | [AzureFirewall]({{< relref "/reference/network/v20250301#AzureFirewall" >}})                                                         | 2025-03-01  | v20250301     | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_azurefirewall.yaml)                                   |
 | [BastionHost]({{< relref "/reference/network/v20250301#BastionHost" >}})                                                             | 2025-03-01  | v20250301     | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_bastionhost.yaml)                                     |
+| [DdosProtectionPlan]({{< relref "/reference/network/v20250301#DdosProtectionPlan" >}})                                               | 2025-03-01  | v20250301     | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_ddosprotectionplan.yaml)                              |
 | [DnsForwardingRuleSetsForwardingRule]({{< relref "/reference/network/v1api20220701#DnsForwardingRuleSetsForwardingRule" >}})         | 2022-07-01  | v1api20220701 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingrulesetsforwardingrule.yaml)     |
 | [DnsForwardingRuleSetsVirtualNetworkLink]({{< relref "/reference/network/v1api20220701#DnsForwardingRuleSetsVirtualNetworkLink" >}}) | 2022-07-01  | v1api20220701 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingrulesetsvirtualnetworklink.yaml) |
 | [DnsForwardingRuleset]({{< relref "/reference/network/v1api20220701#DnsForwardingRuleset" >}})                                       | 2022-07-01  | v1api20220701 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingruleset.yaml)                    |
@@ -895,89 +782,36 @@ These resource(s) are the latest versions available for use in the current relea
 
 To install the CRDs for these resources, your ASO configuration must include `sql.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
+### Latest Released Versions
 
-Development of these new resources is complete and they will be available in the next release of ASO.
-
+These resource(s) are the latest versions available for use in the current release of ASO.
 | Resource                                                                                                                                     | ARM Version | CRD Version | Supported From | Sample                                                                                                                                                    |
 |----------------------------------------------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Server]({{< relref "/reference/sql/v20250101#Server" >}})                                                                                   | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_server.yaml)                                          |
-| [Server]({{< relref "/reference/sql/v20211101#Server" >}})                                                                                   | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_server.yaml)                                          |
 | [ServersAdministrator]({{< relref "/reference/sql/v20250101#ServersAdministrator" >}})                                                       | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversadministrator.yaml)                            |
-| [ServersAdministrator]({{< relref "/reference/sql/v20211101#ServersAdministrator" >}})                                                       | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversadministrator.yaml)                            |
 | [ServersAdvancedThreatProtectionSetting]({{< relref "/reference/sql/v20250101#ServersAdvancedThreatProtectionSetting" >}})                   | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversadvancedthreatprotectionsetting.yaml)          |
-| [ServersAdvancedThreatProtectionSetting]({{< relref "/reference/sql/v20211101#ServersAdvancedThreatProtectionSetting" >}})                   | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversadvancedthreatprotectionsetting.yaml)          |
 | [ServersAuditingSetting]({{< relref "/reference/sql/v20250101#ServersAuditingSetting" >}})                                                   | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversauditingsetting.yaml)                          |
-| [ServersAuditingSetting]({{< relref "/reference/sql/v20211101#ServersAuditingSetting" >}})                                                   | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversauditingsetting.yaml)                          |
 | [ServersAzureADOnlyAuthentication]({{< relref "/reference/sql/v20250101#ServersAzureADOnlyAuthentication" >}})                               | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversazureadonlyauthentication.yaml)                |
-| [ServersAzureADOnlyAuthentication]({{< relref "/reference/sql/v20211101#ServersAzureADOnlyAuthentication" >}})                               | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversazureadonlyauthentication.yaml)                |
 | [ServersConnectionPolicy]({{< relref "/reference/sql/v20250101#ServersConnectionPolicy" >}})                                                 | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversconnectionpolicy.yaml)                         |
-| [ServersConnectionPolicy]({{< relref "/reference/sql/v20211101#ServersConnectionPolicy" >}})                                                 | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversconnectionpolicy.yaml)                         |
 | [ServersDatabase]({{< relref "/reference/sql/v20250101#ServersDatabase" >}})                                                                 | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversdatabase.yaml)                                 |
-| [ServersDatabase]({{< relref "/reference/sql/v20211101#ServersDatabase" >}})                                                                 | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabase.yaml)                                 |
 | [ServersDatabasesAdvancedThreatProtectionSetting]({{< relref "/reference/sql/v20250101#ServersDatabasesAdvancedThreatProtectionSetting" >}}) | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversdatabasesadvancedthreatprotectionsetting.yaml) |
-| [ServersDatabasesAdvancedThreatProtectionSetting]({{< relref "/reference/sql/v20211101#ServersDatabasesAdvancedThreatProtectionSetting" >}}) | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabasesadvancedthreatprotectionsetting.yaml) |
 | [ServersDatabasesAuditingSetting]({{< relref "/reference/sql/v20250101#ServersDatabasesAuditingSetting" >}})                                 | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversdatabasesauditingsetting.yaml)                 |
-| [ServersDatabasesAuditingSetting]({{< relref "/reference/sql/v20211101#ServersDatabasesAuditingSetting" >}})                                 | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabasesauditingsetting.yaml)                 |
 | [ServersDatabasesBackupLongTermRetentionPolicy]({{< relref "/reference/sql/v20250101#ServersDatabasesBackupLongTermRetentionPolicy" >}})     | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversdatabasesbackuplongtermretentionpolicy.yaml)   |
-| [ServersDatabasesBackupLongTermRetentionPolicy]({{< relref "/reference/sql/v20211101#ServersDatabasesBackupLongTermRetentionPolicy" >}})     | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabasesbackuplongtermretentionpolicy.yaml)   |
 | [ServersDatabasesBackupShortTermRetentionPolicy]({{< relref "/reference/sql/v20250101#ServersDatabasesBackupShortTermRetentionPolicy" >}})   | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversdatabasesbackupshorttermretentionpolicy.yaml)  |
-| [ServersDatabasesBackupShortTermRetentionPolicy]({{< relref "/reference/sql/v20211101#ServersDatabasesBackupShortTermRetentionPolicy" >}})   | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabasesbackupshorttermretentionpolicy.yaml)  |
 | [ServersDatabasesSecurityAlertPolicy]({{< relref "/reference/sql/v20250101#ServersDatabasesSecurityAlertPolicy" >}})                         | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversdatabasessecurityalertpolicy.yaml)             |
-| [ServersDatabasesSecurityAlertPolicy]({{< relref "/reference/sql/v20211101#ServersDatabasesSecurityAlertPolicy" >}})                         | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabasessecurityalertpolicy.yaml)             |
 | [ServersDatabasesTransparentDataEncryption]({{< relref "/reference/sql/v20250101#ServersDatabasesTransparentDataEncryption" >}})             | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversdatabasestransparentdataencryption.yaml)       |
-| [ServersDatabasesTransparentDataEncryption]({{< relref "/reference/sql/v20211101#ServersDatabasesTransparentDataEncryption" >}})             | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabasestransparentdataencryption.yaml)       |
 | [ServersDatabasesVulnerabilityAssessment]({{< relref "/reference/sql/v20250101#ServersDatabasesVulnerabilityAssessment" >}})                 | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversdatabasesvulnerabilityassessment.yaml)         |
-| [ServersDatabasesVulnerabilityAssessment]({{< relref "/reference/sql/v20211101#ServersDatabasesVulnerabilityAssessment" >}})                 | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabasesvulnerabilityassessment.yaml)         |
 | [ServersElasticPool]({{< relref "/reference/sql/v20250101#ServersElasticPool" >}})                                                           | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serverselasticpool.yaml)                              |
-| [ServersElasticPool]({{< relref "/reference/sql/v20211101#ServersElasticPool" >}})                                                           | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serverselasticpool.yaml)                              |
 | [ServersEncryptionProtector]({{< relref "/reference/sql/v20250101#ServersEncryptionProtector" >}})                                           | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversencryptionprotector.yaml)                      |
-| [ServersEncryptionProtector]({{< relref "/reference/sql/v20211101#ServersEncryptionProtector" >}})                                           | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversencryptionprotector.yaml)                      |
 | [ServersFailoverGroup]({{< relref "/reference/sql/v20250101#ServersFailoverGroup" >}})                                                       | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversfailovergroup.yaml)                            |
-| [ServersFailoverGroup]({{< relref "/reference/sql/v20211101#ServersFailoverGroup" >}})                                                       | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversfailovergroup.yaml)                            |
 | [ServersFirewallRule]({{< relref "/reference/sql/v20250101#ServersFirewallRule" >}})                                                         | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversfirewallrule.yaml)                             |
-| [ServersFirewallRule]({{< relref "/reference/sql/v20211101#ServersFirewallRule" >}})                                                         | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversfirewallrule.yaml)                             |
 | [ServersIPV6FirewallRule]({{< relref "/reference/sql/v20250101#ServersIPV6FirewallRule" >}})                                                 | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversipv6firewallrule.yaml)                         |
-| [ServersIPV6FirewallRule]({{< relref "/reference/sql/v20211101#ServersIPV6FirewallRule" >}})                                                 | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversipv6firewallrule.yaml)                         |
 | [ServersKey]({{< relref "/reference/sql/v20250101#ServersKey" >}})                                                                           | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serverskey.yaml)                                      |
-| [ServersKey]({{< relref "/reference/sql/v20211101#ServersKey" >}})                                                                           | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serverskey.yaml)                                      |
 | [ServersOutboundFirewallRule]({{< relref "/reference/sql/v20250101#ServersOutboundFirewallRule" >}})                                         | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversoutboundfirewallrule.yaml)                     |
-| [ServersOutboundFirewallRule]({{< relref "/reference/sql/v20211101#ServersOutboundFirewallRule" >}})                                         | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversoutboundfirewallrule.yaml)                     |
 | [ServersSecurityAlertPolicy]({{< relref "/reference/sql/v20250101#ServersSecurityAlertPolicy" >}})                                           | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serverssecurityalertpolicy.yaml)                      |
-| [ServersSecurityAlertPolicy]({{< relref "/reference/sql/v20211101#ServersSecurityAlertPolicy" >}})                                           | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serverssecurityalertpolicy.yaml)                      |
 | [ServersVirtualNetworkRule]({{< relref "/reference/sql/v20250101#ServersVirtualNetworkRule" >}})                                             | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversvirtualnetworkrule.yaml)                       |
-| [ServersVirtualNetworkRule]({{< relref "/reference/sql/v20211101#ServersVirtualNetworkRule" >}})                                             | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversvirtualnetworkrule.yaml)                       |
 | [ServersVulnerabilityAssessment]({{< relref "/reference/sql/v20250101#ServersVulnerabilityAssessment" >}})                                   | 2025-01-01  | v20250101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_serversvulnerabilityassessment.yaml)                  |
-| [ServersVulnerabilityAssessment]({{< relref "/reference/sql/v20211101#ServersVulnerabilityAssessment" >}})                                   | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversvulnerabilityassessment.yaml)                  |
-
-### Released
-
-These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                                                                                                                                         | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                            |
-|--------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Server]({{< relref "/reference/sql/v1api20211101#Server" >}})                                                                                   | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_server.yaml)                                          |
-| [ServersAdministrator]({{< relref "/reference/sql/v1api20211101#ServersAdministrator" >}})                                                       | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversadministrator.yaml)                            |
-| [ServersAdvancedThreatProtectionSetting]({{< relref "/reference/sql/v1api20211101#ServersAdvancedThreatProtectionSetting" >}})                   | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversadvancedthreatprotectionsetting.yaml)          |
-| [ServersAuditingSetting]({{< relref "/reference/sql/v1api20211101#ServersAuditingSetting" >}})                                                   | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversauditingsetting.yaml)                          |
-| [ServersAzureADOnlyAuthentication]({{< relref "/reference/sql/v1api20211101#ServersAzureADOnlyAuthentication" >}})                               | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversazureadonlyauthentication.yaml)                |
-| [ServersConnectionPolicy]({{< relref "/reference/sql/v1api20211101#ServersConnectionPolicy" >}})                                                 | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversconnectionpolicy.yaml)                         |
-| [ServersDatabase]({{< relref "/reference/sql/v1api20211101#ServersDatabase" >}})                                                                 | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversdatabase.yaml)                                 |
-| [ServersDatabasesAdvancedThreatProtectionSetting]({{< relref "/reference/sql/v1api20211101#ServersDatabasesAdvancedThreatProtectionSetting" >}}) | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversdatabasesadvancedthreatprotectionsetting.yaml) |
-| [ServersDatabasesAuditingSetting]({{< relref "/reference/sql/v1api20211101#ServersDatabasesAuditingSetting" >}})                                 | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversdatabasesauditingsetting.yaml)                 |
-| [ServersDatabasesBackupLongTermRetentionPolicy]({{< relref "/reference/sql/v1api20211101#ServersDatabasesBackupLongTermRetentionPolicy" >}})     | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversdatabasesbackuplongtermretentionpolicy.yaml)   |
-| [ServersDatabasesBackupShortTermRetentionPolicy]({{< relref "/reference/sql/v1api20211101#ServersDatabasesBackupShortTermRetentionPolicy" >}})   | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversdatabasesbackupshorttermretentionpolicy.yaml)  |
-| [ServersDatabasesSecurityAlertPolicy]({{< relref "/reference/sql/v1api20211101#ServersDatabasesSecurityAlertPolicy" >}})                         | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversdatabasessecurityalertpolicy.yaml)             |
-| [ServersDatabasesTransparentDataEncryption]({{< relref "/reference/sql/v1api20211101#ServersDatabasesTransparentDataEncryption" >}})             | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversdatabasestransparentdataencryption.yaml)       |
-| [ServersDatabasesVulnerabilityAssessment]({{< relref "/reference/sql/v1api20211101#ServersDatabasesVulnerabilityAssessment" >}})                 | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversdatabasesvulnerabilityassessment.yaml)         |
-| [ServersElasticPool]({{< relref "/reference/sql/v1api20211101#ServersElasticPool" >}})                                                           | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serverselasticpool.yaml)                              |
-| [ServersFailoverGroup]({{< relref "/reference/sql/v1api20211101#ServersFailoverGroup" >}})                                                       | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversfailovergroup.yaml)                            |
-| [ServersFirewallRule]({{< relref "/reference/sql/v1api20211101#ServersFirewallRule" >}})                                                         | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversfirewallrule.yaml)                             |
-| [ServersIPV6FirewallRule]({{< relref "/reference/sql/v1api20211101#ServersIPV6FirewallRule" >}})                                                 | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversipv6firewallrule.yaml)                         |
-| [ServersOutboundFirewallRule]({{< relref "/reference/sql/v1api20211101#ServersOutboundFirewallRule" >}})                                         | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversoutboundfirewallrule.yaml)                     |
-| [ServersSecurityAlertPolicy]({{< relref "/reference/sql/v1api20211101#ServersSecurityAlertPolicy" >}})                                           | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serverssecurityalertpolicy.yaml)                      |
-| [ServersVirtualNetworkRule]({{< relref "/reference/sql/v1api20211101#ServersVirtualNetworkRule" >}})                                             | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversvirtualnetworkrule.yaml)                       |
-| [ServersVulnerabilityAssessment]({{< relref "/reference/sql/v1api20211101#ServersVulnerabilityAssessment" >}})                                   | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversvulnerabilityassessment.yaml)                  |
-| [User]({{< relref "/reference/sql/v1#User" >}})                                                                                                  | v1          | v1            | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api/v1_user.yaml)                                                         |
+| [User]({{< relref "/reference/sql/v1#User" >}})                                                                                              | v1          | v1          | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api/v1_user.yaml)                                                 |
 
 ## Storage
 
@@ -1007,20 +841,12 @@ These resource(s) are the latest versions available for use in the current relea
 
 To install the CRDs for these resources, your ASO configuration must include `subscription.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                          | ARM Version | CRD Version | Supported From | Sample                                                                                                                   |
-|-------------------------------------------------------------------|-------------|-------------|----------------|--------------------------------------------------------------------------------------------------------------------------|
-| [Alias]({{< relref "/reference/subscription/v20211001#Alias" >}}) | 2021-10-01  | v20211001   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/subscription/v20211001/v20211001_alias.yaml) |
-
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                                                              | ARM Version | CRD Version   | Supported From | Sample                                                                                                                           |
-|-----------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------|
-| [Alias]({{< relref "/reference/subscription/v1api20211001#Alias" >}}) | 2021-10-01  | v1api20211001 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/subscription/v1api20211001/v1api20211001_alias.yaml) |
+| Resource                                                          | ARM Version | CRD Version | Supported From | Sample                                                                                                                   |
+|-------------------------------------------------------------------|-------------|-------------|----------------|--------------------------------------------------------------------------------------------------------------------------|
+| [Alias]({{< relref "/reference/subscription/v20211001#Alias" >}}) | 2021-10-01  | v20211001   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/subscription/v20211001/v20211001_alias.yaml) |
 
 ## Synapse
 
@@ -1042,22 +868,12 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `web.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
+### Latest Released Versions
 
-Development of these new resources is complete and they will be available in the next release of ASO.
-
+These resource(s) are the latest versions available for use in the current release of ASO.
 | Resource                                                                           | ARM Version | CRD Version | Supported From | Sample                                                                                                                       |
 |------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
 | [ServerFarm]({{< relref "/reference/web/v20250501#ServerFarm" >}})                 | 2025-05-01  | v20250501   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20250501/v20250501_serverfarm.yaml)         |
 | [Site]({{< relref "/reference/web/v20250501#Site" >}})                             | 2025-05-01  | v20250501   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20250501/v20250501_site.yaml)               |
 | [SitesSourcecontrol]({{< relref "/reference/web/v20250501#SitesSourcecontrol" >}}) | 2025-05-01  | v20250501   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20250501/v20250501_sitessourcecontrol.yaml) |
-
-### Released
-
-These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                                                                           | ARM Version | CRD Version | Supported From | Sample                                                                                                                       |
-|------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
-| [ServerFarm]({{< relref "/reference/web/v20220301#ServerFarm" >}})                 | 2022-03-01  | v20220301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20220301/v20220301_serverfarm.yaml)         |
-| [Site]({{< relref "/reference/web/v20220301#Site" >}})                             | 2022-03-01  | v20220301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20220301/v20220301_site.yaml)               |
-| [SitesSourcecontrol]({{< relref "/reference/web/v20220301#SitesSourcecontrol" >}}) | 2022-03-01  | v20220301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20220301/v20220301_sitessourcecontrol.yaml) |
 
