@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_RoleAssignmentProperties_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RoleAssignmentProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleAssignmentProperties, RoleAssignmentPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRoleAssignmentProperties)
 }
 
 // RunJSONSerializationTestForRoleAssignmentProperties runs a test to see if a specific instance of RoleAssignmentProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleAssignmentProperties(subject RoleAssignmentProperties) string {
+func RunJSONSerializationTestForRoleAssignmentProperties(t *rapid.T) {
+	subject := RoleAssignmentPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RoleAssignmentProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,43 +45,36 @@ func RunJSONSerializationTestForRoleAssignmentProperties(subject RoleAssignmentP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RoleAssignmentProperties instances for property testing - lazily instantiated by
 // RoleAssignmentPropertiesGenerator()
-var roleAssignmentPropertiesGenerator gopter.Gen
+var roleAssignmentPropertiesGenerator *rapid.Generator[RoleAssignmentProperties]
 
 // RoleAssignmentPropertiesGenerator returns a generator of RoleAssignmentProperties instances for property testing.
-func RoleAssignmentPropertiesGenerator() gopter.Gen {
+func RoleAssignmentPropertiesGenerator() *rapid.Generator[RoleAssignmentProperties] {
 	if roleAssignmentPropertiesGenerator != nil {
 		return roleAssignmentPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleAssignmentProperties(generators)
-	roleAssignmentPropertiesGenerator = gen.Struct(reflect.TypeOf(RoleAssignmentProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	principalType := rapid.Ptr(rapid.SampledFrom([]RoleAssignmentProperties_PrincipalType{RoleAssignmentProperties_PrincipalType_Device, RoleAssignmentProperties_PrincipalType_ForeignGroup, RoleAssignmentProperties_PrincipalType_Group, RoleAssignmentProperties_PrincipalType_ServicePrincipal, RoleAssignmentProperties_PrincipalType_User}), true)
+
+	roleAssignmentPropertiesGenerator = rapid.Custom(func(t *rapid.T) RoleAssignmentProperties {
+		var result RoleAssignmentProperties
+		result.Condition = ptrString.Draw(t, "Condition")
+		result.ConditionVersion = ptrString.Draw(t, "ConditionVersion")
+		result.DelegatedManagedIdentityResourceId = ptrString.Draw(t, "DelegatedManagedIdentityResourceId")
+		result.Description = ptrString.Draw(t, "Description")
+		result.PrincipalId = ptrString.Draw(t, "PrincipalId")
+		result.PrincipalType = principalType.Draw(t, "PrincipalType")
+		result.RoleDefinitionId = ptrString.Draw(t, "RoleDefinitionId")
+		return result
+	})
 
 	return roleAssignmentPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRoleAssignmentProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleAssignmentProperties(gens map[string]gopter.Gen) {
-	gens["Condition"] = gen.PtrOf(gen.AlphaString())
-	gens["ConditionVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["DelegatedManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
-		RoleAssignmentProperties_PrincipalType_Device,
-		RoleAssignmentProperties_PrincipalType_ForeignGroup,
-		RoleAssignmentProperties_PrincipalType_Group,
-		RoleAssignmentProperties_PrincipalType_ServicePrincipal,
-		RoleAssignmentProperties_PrincipalType_User))
-	gens["RoleDefinitionId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RoleAssignment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -101,29 +84,23 @@ func Test_RoleAssignment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RoleAssignment_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleAssignment_Spec, RoleAssignment_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRoleAssignment_Spec)
 }
 
 // RunJSONSerializationTestForRoleAssignment_Spec runs a test to see if a specific instance of RoleAssignment_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleAssignment_Spec(subject RoleAssignment_Spec) string {
+func RunJSONSerializationTestForRoleAssignment_Spec(t *rapid.T) {
+	subject := RoleAssignment_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RoleAssignment_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -132,44 +109,29 @@ func RunJSONSerializationTestForRoleAssignment_Spec(subject RoleAssignment_Spec)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RoleAssignment_Spec instances for property testing - lazily instantiated by
 // RoleAssignment_SpecGenerator()
-var roleAssignment_SpecGenerator gopter.Gen
+var roleAssignment_SpecGenerator *rapid.Generator[RoleAssignment_Spec]
 
 // RoleAssignment_SpecGenerator returns a generator of RoleAssignment_Spec instances for property testing.
-// We first initialize roleAssignment_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RoleAssignment_SpecGenerator() gopter.Gen {
+func RoleAssignment_SpecGenerator() *rapid.Generator[RoleAssignment_Spec] {
 	if roleAssignment_SpecGenerator != nil {
 		return roleAssignment_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleAssignment_Spec(generators)
-	roleAssignment_SpecGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(RoleAssignmentPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleAssignment_Spec(generators)
-	AddRelatedPropertyGeneratorsForRoleAssignment_Spec(generators)
-	roleAssignment_SpecGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_Spec{}), generators)
+	roleAssignment_SpecGenerator = rapid.Custom(func(t *rapid.T) RoleAssignment_Spec {
+		var result RoleAssignment_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return roleAssignment_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRoleAssignment_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleAssignment_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForRoleAssignment_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRoleAssignment_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(RoleAssignmentPropertiesGenerator())
 }

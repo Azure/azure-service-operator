@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_EmailServiceProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of EmailServiceProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEmailServiceProperties_STATUS, EmailServiceProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForEmailServiceProperties_STATUS)
 }
 
 // RunJSONSerializationTestForEmailServiceProperties_STATUS runs a test to see if a specific instance of EmailServiceProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForEmailServiceProperties_STATUS(subject EmailServiceProperties_STATUS) string {
+func RunJSONSerializationTestForEmailServiceProperties_STATUS(t *rapid.T) {
+	subject := EmailServiceProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual EmailServiceProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,42 +45,31 @@ func RunJSONSerializationTestForEmailServiceProperties_STATUS(subject EmailServi
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of EmailServiceProperties_STATUS instances for property testing - lazily instantiated by
 // EmailServiceProperties_STATUSGenerator()
-var emailServiceProperties_STATUSGenerator gopter.Gen
+var emailServiceProperties_STATUSGenerator *rapid.Generator[EmailServiceProperties_STATUS]
 
 // EmailServiceProperties_STATUSGenerator returns a generator of EmailServiceProperties_STATUS instances for property testing.
-func EmailServiceProperties_STATUSGenerator() gopter.Gen {
+func EmailServiceProperties_STATUSGenerator() *rapid.Generator[EmailServiceProperties_STATUS] {
 	if emailServiceProperties_STATUSGenerator != nil {
 		return emailServiceProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEmailServiceProperties_STATUS(generators)
-	emailServiceProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(EmailServiceProperties_STATUS{}), generators)
+	dataLocation := rapid.Ptr(rapid.String(), true)
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]EmailServiceProperties_ProvisioningState_STATUS{EmailServiceProperties_ProvisioningState_STATUS_Canceled, EmailServiceProperties_ProvisioningState_STATUS_Creating, EmailServiceProperties_ProvisioningState_STATUS_Deleting, EmailServiceProperties_ProvisioningState_STATUS_Failed, EmailServiceProperties_ProvisioningState_STATUS_Moving, EmailServiceProperties_ProvisioningState_STATUS_Running, EmailServiceProperties_ProvisioningState_STATUS_Succeeded, EmailServiceProperties_ProvisioningState_STATUS_Unknown, EmailServiceProperties_ProvisioningState_STATUS_Updating}), true)
+
+	emailServiceProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) EmailServiceProperties_STATUS {
+		var result EmailServiceProperties_STATUS
+		result.DataLocation = dataLocation.Draw(t, "DataLocation")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		return result
+	})
 
 	return emailServiceProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForEmailServiceProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEmailServiceProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["DataLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		EmailServiceProperties_ProvisioningState_STATUS_Canceled,
-		EmailServiceProperties_ProvisioningState_STATUS_Creating,
-		EmailServiceProperties_ProvisioningState_STATUS_Deleting,
-		EmailServiceProperties_ProvisioningState_STATUS_Failed,
-		EmailServiceProperties_ProvisioningState_STATUS_Moving,
-		EmailServiceProperties_ProvisioningState_STATUS_Running,
-		EmailServiceProperties_ProvisioningState_STATUS_Succeeded,
-		EmailServiceProperties_ProvisioningState_STATUS_Unknown,
-		EmailServiceProperties_ProvisioningState_STATUS_Updating))
 }
 
 func Test_EmailService_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -100,29 +79,23 @@ func Test_EmailService_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of EmailService_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEmailService_STATUS, EmailService_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForEmailService_STATUS)
 }
 
 // RunJSONSerializationTestForEmailService_STATUS runs a test to see if a specific instance of EmailService_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForEmailService_STATUS(subject EmailService_STATUS) string {
+func RunJSONSerializationTestForEmailService_STATUS(t *rapid.T) {
+	subject := EmailService_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual EmailService_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -131,51 +104,38 @@ func RunJSONSerializationTestForEmailService_STATUS(subject EmailService_STATUS)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of EmailService_STATUS instances for property testing - lazily instantiated by
 // EmailService_STATUSGenerator()
-var emailService_STATUSGenerator gopter.Gen
+var emailService_STATUSGenerator *rapid.Generator[EmailService_STATUS]
 
 // EmailService_STATUSGenerator returns a generator of EmailService_STATUS instances for property testing.
-// We first initialize emailService_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func EmailService_STATUSGenerator() gopter.Gen {
+func EmailService_STATUSGenerator() *rapid.Generator[EmailService_STATUS] {
 	if emailService_STATUSGenerator != nil {
 		return emailService_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEmailService_STATUS(generators)
-	emailService_STATUSGenerator = gen.Struct(reflect.TypeOf(EmailService_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(EmailServiceProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEmailService_STATUS(generators)
-	AddRelatedPropertyGeneratorsForEmailService_STATUS(generators)
-	emailService_STATUSGenerator = gen.Struct(reflect.TypeOf(EmailService_STATUS{}), generators)
+	emailService_STATUSGenerator = rapid.Custom(func(t *rapid.T) EmailService_STATUS {
+		var result EmailService_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return emailService_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForEmailService_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEmailService_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForEmailService_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForEmailService_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(EmailServiceProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

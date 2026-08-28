@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_Permission_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Permission can be assigned to storage and back losslessly
 func Test_Permission_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,44 +22,34 @@ func Test_Permission_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Permission to Permission via AssignProperties_To_Permission & AssignProperties_From_Permission returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPermission, PermissionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := PermissionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForPermission tests if a specific instance of Permission can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPermission(subject Permission) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Permission
+		err := copied.AssignProperties_To_Permission(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Permission
-	err := copied.AssignProperties_To_Permission(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Permission
+		err = actual.AssignProperties_From_Permission(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Permission
-	err = actual.AssignProperties_From_Permission(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Permission_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -72,29 +59,23 @@ func Test_Permission_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Permission via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPermission, PermissionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPermission)
 }
 
 // RunJSONSerializationTestForPermission runs a test to see if a specific instance of Permission round trips to JSON and back losslessly
-func RunJSONSerializationTestForPermission(subject Permission) string {
+func RunJSONSerializationTestForPermission(t *rapid.T) {
+	subject := PermissionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Permission
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -103,36 +84,34 @@ func RunJSONSerializationTestForPermission(subject Permission) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Permission instances for property testing - lazily instantiated by PermissionGenerator()
-var permissionGenerator gopter.Gen
+var permissionGenerator *rapid.Generator[Permission]
 
 // PermissionGenerator returns a generator of Permission instances for property testing.
-func PermissionGenerator() gopter.Gen {
+func PermissionGenerator() *rapid.Generator[Permission] {
 	if permissionGenerator != nil {
 		return permissionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPermission(generators)
-	permissionGenerator = gen.Struct(reflect.TypeOf(Permission{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+
+	permissionGenerator = rapid.Custom(func(t *rapid.T) Permission {
+		var result Permission
+		result.Actions = sliceOfString.Draw(t, "Actions")
+		result.DataActions = sliceOfString.Draw(t, "DataActions")
+		result.NotActions = sliceOfString.Draw(t, "NotActions")
+		result.NotDataActions = sliceOfString.Draw(t, "NotDataActions")
+		return result
+	})
 
 	return permissionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPermission is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPermission(gens map[string]gopter.Gen) {
-	gens["Actions"] = gen.SliceOf(gen.AlphaString())
-	gens["DataActions"] = gen.SliceOf(gen.AlphaString())
-	gens["NotActions"] = gen.SliceOf(gen.AlphaString())
-	gens["NotDataActions"] = gen.SliceOf(gen.AlphaString())
-}
-
+// Test_Permission_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Permission_STATUS can be assigned to storage and back losslessly
 func Test_Permission_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -140,44 +119,34 @@ func Test_Permission_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Permission_STATUS to Permission_STATUS via AssignProperties_To_Permission_STATUS & AssignProperties_From_Permission_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPermission_STATUS, Permission_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Permission_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForPermission_STATUS tests if a specific instance of Permission_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPermission_STATUS(subject Permission_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Permission_STATUS
+		err := copied.AssignProperties_To_Permission_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Permission_STATUS
-	err := copied.AssignProperties_To_Permission_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Permission_STATUS
+		err = actual.AssignProperties_From_Permission_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Permission_STATUS
-	err = actual.AssignProperties_From_Permission_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Permission_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -187,29 +156,23 @@ func Test_Permission_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Permission_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPermission_STATUS, Permission_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPermission_STATUS)
 }
 
 // RunJSONSerializationTestForPermission_STATUS runs a test to see if a specific instance of Permission_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPermission_STATUS(subject Permission_STATUS) string {
+func RunJSONSerializationTestForPermission_STATUS(t *rapid.T) {
+	subject := Permission_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Permission_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -218,36 +181,34 @@ func RunJSONSerializationTestForPermission_STATUS(subject Permission_STATUS) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Permission_STATUS instances for property testing - lazily instantiated by Permission_STATUSGenerator()
-var permission_STATUSGenerator gopter.Gen
+var permission_STATUSGenerator *rapid.Generator[Permission_STATUS]
 
 // Permission_STATUSGenerator returns a generator of Permission_STATUS instances for property testing.
-func Permission_STATUSGenerator() gopter.Gen {
+func Permission_STATUSGenerator() *rapid.Generator[Permission_STATUS] {
 	if permission_STATUSGenerator != nil {
 		return permission_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPermission_STATUS(generators)
-	permission_STATUSGenerator = gen.Struct(reflect.TypeOf(Permission_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+
+	permission_STATUSGenerator = rapid.Custom(func(t *rapid.T) Permission_STATUS {
+		var result Permission_STATUS
+		result.Actions = sliceOfString.Draw(t, "Actions")
+		result.DataActions = sliceOfString.Draw(t, "DataActions")
+		result.NotActions = sliceOfString.Draw(t, "NotActions")
+		result.NotDataActions = sliceOfString.Draw(t, "NotDataActions")
+		return result
+	})
 
 	return permission_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPermission_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPermission_STATUS(gens map[string]gopter.Gen) {
-	gens["Actions"] = gen.SliceOf(gen.AlphaString())
-	gens["DataActions"] = gen.SliceOf(gen.AlphaString())
-	gens["NotActions"] = gen.SliceOf(gen.AlphaString())
-	gens["NotDataActions"] = gen.SliceOf(gen.AlphaString())
-}
-
+// Test_RoleDefinition_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of RoleDefinition round trips to the hub storage version and back losslessly
 func Test_RoleDefinition_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -255,47 +216,37 @@ func Test_RoleDefinition_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RoleDefinition to hub returns original",
-		prop.ForAll(RunResourceConversionTestForRoleDefinition, RoleDefinitionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RoleDefinitionGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.RoleDefinition
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual RoleDefinition
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForRoleDefinition tests if a specific instance of RoleDefinition round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForRoleDefinition(subject RoleDefinition) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.RoleDefinition
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual RoleDefinition
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_RoleDefinition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RoleDefinition can be assigned to storage and back losslessly
 func Test_RoleDefinition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -303,44 +254,34 @@ func Test_RoleDefinition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RoleDefinition to RoleDefinition via AssignProperties_To_RoleDefinition & AssignProperties_From_RoleDefinition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRoleDefinition, RoleDefinitionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RoleDefinitionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRoleDefinition tests if a specific instance of RoleDefinition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRoleDefinition(subject RoleDefinition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RoleDefinition
+		err := copied.AssignProperties_To_RoleDefinition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleDefinition
-	err := copied.AssignProperties_To_RoleDefinition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RoleDefinition
+		err = actual.AssignProperties_From_RoleDefinition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RoleDefinition
-	err = actual.AssignProperties_From_RoleDefinition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RoleDefinition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -350,29 +291,23 @@ func Test_RoleDefinition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RoleDefinition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleDefinition, RoleDefinitionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRoleDefinition)
 }
 
 // RunJSONSerializationTestForRoleDefinition runs a test to see if a specific instance of RoleDefinition round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleDefinition(subject RoleDefinition) string {
+func RunJSONSerializationTestForRoleDefinition(t *rapid.T) {
+	subject := RoleDefinitionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RoleDefinition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -381,34 +316,33 @@ func RunJSONSerializationTestForRoleDefinition(subject RoleDefinition) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RoleDefinition instances for property testing - lazily instantiated by RoleDefinitionGenerator()
-var roleDefinitionGenerator gopter.Gen
+var roleDefinitionGenerator *rapid.Generator[RoleDefinition]
 
 // RoleDefinitionGenerator returns a generator of RoleDefinition instances for property testing.
-func RoleDefinitionGenerator() gopter.Gen {
+func RoleDefinitionGenerator() *rapid.Generator[RoleDefinition] {
 	if roleDefinitionGenerator != nil {
 		return roleDefinitionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForRoleDefinition(generators)
-	roleDefinitionGenerator = gen.Struct(reflect.TypeOf(RoleDefinition{}), generators)
+	spec := RoleDefinition_SpecGenerator()
+	status := RoleDefinition_STATUSGenerator()
+
+	roleDefinitionGenerator = rapid.Custom(func(t *rapid.T) RoleDefinition {
+		var result RoleDefinition
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return roleDefinitionGenerator
 }
 
-// AddRelatedPropertyGeneratorsForRoleDefinition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRoleDefinition(gens map[string]gopter.Gen) {
-	gens["Spec"] = RoleDefinition_SpecGenerator()
-	gens["Status"] = RoleDefinition_STATUSGenerator()
-}
-
+// Test_RoleDefinitionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RoleDefinitionOperatorSpec can be assigned to storage and back losslessly
 func Test_RoleDefinitionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -416,44 +350,34 @@ func Test_RoleDefinitionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLo
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RoleDefinitionOperatorSpec to RoleDefinitionOperatorSpec via AssignProperties_To_RoleDefinitionOperatorSpec & AssignProperties_From_RoleDefinitionOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRoleDefinitionOperatorSpec, RoleDefinitionOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RoleDefinitionOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRoleDefinitionOperatorSpec tests if a specific instance of RoleDefinitionOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRoleDefinitionOperatorSpec(subject RoleDefinitionOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RoleDefinitionOperatorSpec
+		err := copied.AssignProperties_To_RoleDefinitionOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleDefinitionOperatorSpec
-	err := copied.AssignProperties_To_RoleDefinitionOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RoleDefinitionOperatorSpec
+		err = actual.AssignProperties_From_RoleDefinitionOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RoleDefinitionOperatorSpec
-	err = actual.AssignProperties_From_RoleDefinitionOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RoleDefinitionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -463,29 +387,23 @@ func Test_RoleDefinitionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RoleDefinitionOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleDefinitionOperatorSpec, RoleDefinitionOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRoleDefinitionOperatorSpec)
 }
 
 // RunJSONSerializationTestForRoleDefinitionOperatorSpec runs a test to see if a specific instance of RoleDefinitionOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleDefinitionOperatorSpec(subject RoleDefinitionOperatorSpec) string {
+func RunJSONSerializationTestForRoleDefinitionOperatorSpec(t *rapid.T) {
+	subject := RoleDefinitionOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RoleDefinitionOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -494,34 +412,32 @@ func RunJSONSerializationTestForRoleDefinitionOperatorSpec(subject RoleDefinitio
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RoleDefinitionOperatorSpec instances for property testing - lazily instantiated by
 // RoleDefinitionOperatorSpecGenerator()
-var roleDefinitionOperatorSpecGenerator gopter.Gen
+var roleDefinitionOperatorSpecGenerator *rapid.Generator[RoleDefinitionOperatorSpec]
 
 // RoleDefinitionOperatorSpecGenerator returns a generator of RoleDefinitionOperatorSpec instances for property testing.
-func RoleDefinitionOperatorSpecGenerator() gopter.Gen {
+func RoleDefinitionOperatorSpecGenerator() *rapid.Generator[RoleDefinitionOperatorSpec] {
 	if roleDefinitionOperatorSpecGenerator != nil {
 		return roleDefinitionOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleDefinitionOperatorSpec(generators)
-	roleDefinitionOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RoleDefinitionOperatorSpec{}), generators)
+	namingConvention := rapid.Ptr(rapid.String(), true)
+
+	roleDefinitionOperatorSpecGenerator = rapid.Custom(func(t *rapid.T) RoleDefinitionOperatorSpec {
+		var result RoleDefinitionOperatorSpec
+		result.NamingConvention = namingConvention.Draw(t, "NamingConvention")
+		return result
+	})
 
 	return roleDefinitionOperatorSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRoleDefinitionOperatorSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleDefinitionOperatorSpec(gens map[string]gopter.Gen) {
-	gens["NamingConvention"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_RoleDefinition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RoleDefinition_STATUS can be assigned to storage and back losslessly
 func Test_RoleDefinition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -529,44 +445,34 @@ func Test_RoleDefinition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RoleDefinition_STATUS to RoleDefinition_STATUS via AssignProperties_To_RoleDefinition_STATUS & AssignProperties_From_RoleDefinition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRoleDefinition_STATUS, RoleDefinition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RoleDefinition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRoleDefinition_STATUS tests if a specific instance of RoleDefinition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRoleDefinition_STATUS(subject RoleDefinition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RoleDefinition_STATUS
+		err := copied.AssignProperties_To_RoleDefinition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleDefinition_STATUS
-	err := copied.AssignProperties_To_RoleDefinition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RoleDefinition_STATUS
+		err = actual.AssignProperties_From_RoleDefinition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RoleDefinition_STATUS
-	err = actual.AssignProperties_From_RoleDefinition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RoleDefinition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -576,29 +482,23 @@ func Test_RoleDefinition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RoleDefinition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleDefinition_STATUS, RoleDefinition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRoleDefinition_STATUS)
 }
 
 // RunJSONSerializationTestForRoleDefinition_STATUS runs a test to see if a specific instance of RoleDefinition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleDefinition_STATUS(subject RoleDefinition_STATUS) string {
+func RunJSONSerializationTestForRoleDefinition_STATUS(t *rapid.T) {
+	subject := RoleDefinition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RoleDefinition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -607,58 +507,45 @@ func RunJSONSerializationTestForRoleDefinition_STATUS(subject RoleDefinition_STA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RoleDefinition_STATUS instances for property testing - lazily instantiated by
 // RoleDefinition_STATUSGenerator()
-var roleDefinition_STATUSGenerator gopter.Gen
+var roleDefinition_STATUSGenerator *rapid.Generator[RoleDefinition_STATUS]
 
 // RoleDefinition_STATUSGenerator returns a generator of RoleDefinition_STATUS instances for property testing.
-// We first initialize roleDefinition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RoleDefinition_STATUSGenerator() gopter.Gen {
+func RoleDefinition_STATUSGenerator() *rapid.Generator[RoleDefinition_STATUS] {
 	if roleDefinition_STATUSGenerator != nil {
 		return roleDefinition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleDefinition_STATUS(generators)
-	roleDefinition_STATUSGenerator = gen.Struct(reflect.TypeOf(RoleDefinition_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	assignableScopes := rapid.SliceOf(rapid.String())
+	permissions := rapid.SliceOf(Permission_STATUSGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleDefinition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForRoleDefinition_STATUS(generators)
-	roleDefinition_STATUSGenerator = gen.Struct(reflect.TypeOf(RoleDefinition_STATUS{}), generators)
+	roleDefinition_STATUSGenerator = rapid.Custom(func(t *rapid.T) RoleDefinition_STATUS {
+		var result RoleDefinition_STATUS
+		result.AssignableScopes = assignableScopes.Draw(t, "AssignableScopes")
+		result.CreatedBy = ptrString.Draw(t, "CreatedBy")
+		result.CreatedOn = ptrString.Draw(t, "CreatedOn")
+		result.Description = ptrString.Draw(t, "Description")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Permissions = permissions.Draw(t, "Permissions")
+		result.PropertiesType = ptrString.Draw(t, "PropertiesType")
+		result.RoleName = ptrString.Draw(t, "RoleName")
+		result.Type = ptrString.Draw(t, "Type")
+		result.UpdatedBy = ptrString.Draw(t, "UpdatedBy")
+		result.UpdatedOn = ptrString.Draw(t, "UpdatedOn")
+		return result
+	})
 
 	return roleDefinition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRoleDefinition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleDefinition_STATUS(gens map[string]gopter.Gen) {
-	gens["AssignableScopes"] = gen.SliceOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PropertiesType"] = gen.PtrOf(gen.AlphaString())
-	gens["RoleName"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedOn"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRoleDefinition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRoleDefinition_STATUS(gens map[string]gopter.Gen) {
-	gens["Permissions"] = gen.SliceOf(Permission_STATUSGenerator())
-}
-
+// Test_RoleDefinition_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RoleDefinition_Spec can be assigned to storage and back losslessly
 func Test_RoleDefinition_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -666,44 +553,34 @@ func Test_RoleDefinition_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RoleDefinition_Spec to RoleDefinition_Spec via AssignProperties_To_RoleDefinition_Spec & AssignProperties_From_RoleDefinition_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRoleDefinition_Spec, RoleDefinition_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RoleDefinition_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRoleDefinition_Spec tests if a specific instance of RoleDefinition_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRoleDefinition_Spec(subject RoleDefinition_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RoleDefinition_Spec
+		err := copied.AssignProperties_To_RoleDefinition_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleDefinition_Spec
-	err := copied.AssignProperties_To_RoleDefinition_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RoleDefinition_Spec
+		err = actual.AssignProperties_From_RoleDefinition_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RoleDefinition_Spec
-	err = actual.AssignProperties_From_RoleDefinition_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RoleDefinition_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -713,29 +590,23 @@ func Test_RoleDefinition_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RoleDefinition_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleDefinition_Spec, RoleDefinition_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRoleDefinition_Spec)
 }
 
 // RunJSONSerializationTestForRoleDefinition_Spec runs a test to see if a specific instance of RoleDefinition_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleDefinition_Spec(subject RoleDefinition_Spec) string {
+func RunJSONSerializationTestForRoleDefinition_Spec(t *rapid.T) {
+	subject := RoleDefinition_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RoleDefinition_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -744,49 +615,36 @@ func RunJSONSerializationTestForRoleDefinition_Spec(subject RoleDefinition_Spec)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RoleDefinition_Spec instances for property testing - lazily instantiated by
 // RoleDefinition_SpecGenerator()
-var roleDefinition_SpecGenerator gopter.Gen
+var roleDefinition_SpecGenerator *rapid.Generator[RoleDefinition_Spec]
 
 // RoleDefinition_SpecGenerator returns a generator of RoleDefinition_Spec instances for property testing.
-// We first initialize roleDefinition_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RoleDefinition_SpecGenerator() gopter.Gen {
+func RoleDefinition_SpecGenerator() *rapid.Generator[RoleDefinition_Spec] {
 	if roleDefinition_SpecGenerator != nil {
 		return roleDefinition_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleDefinition_Spec(generators)
-	roleDefinition_SpecGenerator = gen.Struct(reflect.TypeOf(RoleDefinition_Spec{}), generators)
+	genString := rapid.String()
+	ptrString := rapid.Ptr(rapid.String(), true)
+	operatorSpec := rapid.Ptr(RoleDefinitionOperatorSpecGenerator(), true)
+	permissions := rapid.SliceOf(PermissionGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleDefinition_Spec(generators)
-	AddRelatedPropertyGeneratorsForRoleDefinition_Spec(generators)
-	roleDefinition_SpecGenerator = gen.Struct(reflect.TypeOf(RoleDefinition_Spec{}), generators)
+	roleDefinition_SpecGenerator = rapid.Custom(func(t *rapid.T) RoleDefinition_Spec {
+		var result RoleDefinition_Spec
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.Description = ptrString.Draw(t, "Description")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		result.Permissions = permissions.Draw(t, "Permissions")
+		result.RoleName = ptrString.Draw(t, "RoleName")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return roleDefinition_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRoleDefinition_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleDefinition_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["RoleName"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRoleDefinition_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRoleDefinition_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(RoleDefinitionOperatorSpecGenerator())
-	gens["Permissions"] = gen.SliceOf(PermissionGenerator())
 }

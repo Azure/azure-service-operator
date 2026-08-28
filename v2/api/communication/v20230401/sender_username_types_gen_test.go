@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_SenderUsername_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of SenderUsername round trips to the hub storage version and back losslessly
 func Test_SenderUsername_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,47 +22,37 @@ func Test_SenderUsername_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SenderUsername to hub returns original",
-		prop.ForAll(RunResourceConversionTestForSenderUsername, SenderUsernameGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SenderUsernameGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.SenderUsername
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual SenderUsername
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForSenderUsername tests if a specific instance of SenderUsername round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForSenderUsername(subject SenderUsername) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.SenderUsername
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual SenderUsername
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_SenderUsername_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SenderUsername can be assigned to storage and back losslessly
 func Test_SenderUsername_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -73,44 +60,34 @@ func Test_SenderUsername_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SenderUsername to SenderUsername via AssignProperties_To_SenderUsername & AssignProperties_From_SenderUsername returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSenderUsername, SenderUsernameGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SenderUsernameGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSenderUsername tests if a specific instance of SenderUsername can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSenderUsername(subject SenderUsername) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SenderUsername
+		err := copied.AssignProperties_To_SenderUsername(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SenderUsername
-	err := copied.AssignProperties_To_SenderUsername(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SenderUsername
+		err = actual.AssignProperties_From_SenderUsername(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SenderUsername
-	err = actual.AssignProperties_From_SenderUsername(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SenderUsername_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -120,29 +97,23 @@ func Test_SenderUsername_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SenderUsername via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSenderUsername, SenderUsernameGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSenderUsername)
 }
 
 // RunJSONSerializationTestForSenderUsername runs a test to see if a specific instance of SenderUsername round trips to JSON and back losslessly
-func RunJSONSerializationTestForSenderUsername(subject SenderUsername) string {
+func RunJSONSerializationTestForSenderUsername(t *rapid.T) {
+	subject := SenderUsernameGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SenderUsername
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -151,34 +122,33 @@ func RunJSONSerializationTestForSenderUsername(subject SenderUsername) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SenderUsername instances for property testing - lazily instantiated by SenderUsernameGenerator()
-var senderUsernameGenerator gopter.Gen
+var senderUsernameGenerator *rapid.Generator[SenderUsername]
 
 // SenderUsernameGenerator returns a generator of SenderUsername instances for property testing.
-func SenderUsernameGenerator() gopter.Gen {
+func SenderUsernameGenerator() *rapid.Generator[SenderUsername] {
 	if senderUsernameGenerator != nil {
 		return senderUsernameGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSenderUsername(generators)
-	senderUsernameGenerator = gen.Struct(reflect.TypeOf(SenderUsername{}), generators)
+	spec := SenderUsername_SpecGenerator()
+	status := SenderUsername_STATUSGenerator()
+
+	senderUsernameGenerator = rapid.Custom(func(t *rapid.T) SenderUsername {
+		var result SenderUsername
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return senderUsernameGenerator
 }
 
-// AddRelatedPropertyGeneratorsForSenderUsername is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSenderUsername(gens map[string]gopter.Gen) {
-	gens["Spec"] = SenderUsername_SpecGenerator()
-	gens["Status"] = SenderUsername_STATUSGenerator()
-}
-
+// Test_SenderUsernameOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SenderUsernameOperatorSpec can be assigned to storage and back losslessly
 func Test_SenderUsernameOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -186,44 +156,34 @@ func Test_SenderUsernameOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLo
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SenderUsernameOperatorSpec to SenderUsernameOperatorSpec via AssignProperties_To_SenderUsernameOperatorSpec & AssignProperties_From_SenderUsernameOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSenderUsernameOperatorSpec, SenderUsernameOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SenderUsernameOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSenderUsernameOperatorSpec tests if a specific instance of SenderUsernameOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSenderUsernameOperatorSpec(subject SenderUsernameOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SenderUsernameOperatorSpec
+		err := copied.AssignProperties_To_SenderUsernameOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SenderUsernameOperatorSpec
-	err := copied.AssignProperties_To_SenderUsernameOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SenderUsernameOperatorSpec
+		err = actual.AssignProperties_From_SenderUsernameOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SenderUsernameOperatorSpec
-	err = actual.AssignProperties_From_SenderUsernameOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SenderUsernameOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -233,29 +193,23 @@ func Test_SenderUsernameOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SenderUsernameOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSenderUsernameOperatorSpec, SenderUsernameOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSenderUsernameOperatorSpec)
 }
 
 // RunJSONSerializationTestForSenderUsernameOperatorSpec runs a test to see if a specific instance of SenderUsernameOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSenderUsernameOperatorSpec(subject SenderUsernameOperatorSpec) string {
+func RunJSONSerializationTestForSenderUsernameOperatorSpec(t *rapid.T) {
+	subject := SenderUsernameOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SenderUsernameOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -264,28 +218,26 @@ func RunJSONSerializationTestForSenderUsernameOperatorSpec(subject SenderUsernam
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SenderUsernameOperatorSpec instances for property testing - lazily instantiated by
 // SenderUsernameOperatorSpecGenerator()
-var senderUsernameOperatorSpecGenerator gopter.Gen
+var senderUsernameOperatorSpecGenerator *rapid.Generator[SenderUsernameOperatorSpec]
 
 // SenderUsernameOperatorSpecGenerator returns a generator of SenderUsernameOperatorSpec instances for property testing.
-func SenderUsernameOperatorSpecGenerator() gopter.Gen {
+func SenderUsernameOperatorSpecGenerator() *rapid.Generator[SenderUsernameOperatorSpec] {
 	if senderUsernameOperatorSpecGenerator != nil {
 		return senderUsernameOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	senderUsernameOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SenderUsernameOperatorSpec{}), generators)
+	senderUsernameOperatorSpecGenerator = rapid.Just(SenderUsernameOperatorSpec{})
 
 	return senderUsernameOperatorSpecGenerator
 }
 
+// Test_SenderUsername_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SenderUsername_STATUS can be assigned to storage and back losslessly
 func Test_SenderUsername_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -293,44 +245,34 @@ func Test_SenderUsername_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SenderUsername_STATUS to SenderUsername_STATUS via AssignProperties_To_SenderUsername_STATUS & AssignProperties_From_SenderUsername_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSenderUsername_STATUS, SenderUsername_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SenderUsername_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSenderUsername_STATUS tests if a specific instance of SenderUsername_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSenderUsername_STATUS(subject SenderUsername_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SenderUsername_STATUS
+		err := copied.AssignProperties_To_SenderUsername_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SenderUsername_STATUS
-	err := copied.AssignProperties_To_SenderUsername_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SenderUsername_STATUS
+		err = actual.AssignProperties_From_SenderUsername_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SenderUsername_STATUS
-	err = actual.AssignProperties_From_SenderUsername_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SenderUsername_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -340,29 +282,23 @@ func Test_SenderUsername_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SenderUsername_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSenderUsername_STATUS, SenderUsername_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSenderUsername_STATUS)
 }
 
 // RunJSONSerializationTestForSenderUsername_STATUS runs a test to see if a specific instance of SenderUsername_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSenderUsername_STATUS(subject SenderUsername_STATUS) string {
+func RunJSONSerializationTestForSenderUsername_STATUS(t *rapid.T) {
+	subject := SenderUsername_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SenderUsername_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -371,63 +307,41 @@ func RunJSONSerializationTestForSenderUsername_STATUS(subject SenderUsername_STA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SenderUsername_STATUS instances for property testing - lazily instantiated by
 // SenderUsername_STATUSGenerator()
-var senderUsername_STATUSGenerator gopter.Gen
+var senderUsername_STATUSGenerator *rapid.Generator[SenderUsername_STATUS]
 
 // SenderUsername_STATUSGenerator returns a generator of SenderUsername_STATUS instances for property testing.
-// We first initialize senderUsername_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SenderUsername_STATUSGenerator() gopter.Gen {
+func SenderUsername_STATUSGenerator() *rapid.Generator[SenderUsername_STATUS] {
 	if senderUsername_STATUSGenerator != nil {
 		return senderUsername_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSenderUsername_STATUS(generators)
-	senderUsername_STATUSGenerator = gen.Struct(reflect.TypeOf(SenderUsername_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]SenderUsernameProperties_ProvisioningState_STATUS{SenderUsernameProperties_ProvisioningState_STATUS_Canceled, SenderUsernameProperties_ProvisioningState_STATUS_Creating, SenderUsernameProperties_ProvisioningState_STATUS_Deleting, SenderUsernameProperties_ProvisioningState_STATUS_Failed, SenderUsernameProperties_ProvisioningState_STATUS_Moving, SenderUsernameProperties_ProvisioningState_STATUS_Running, SenderUsernameProperties_ProvisioningState_STATUS_Succeeded, SenderUsernameProperties_ProvisioningState_STATUS_Unknown, SenderUsernameProperties_ProvisioningState_STATUS_Updating}), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSenderUsername_STATUS(generators)
-	AddRelatedPropertyGeneratorsForSenderUsername_STATUS(generators)
-	senderUsername_STATUSGenerator = gen.Struct(reflect.TypeOf(SenderUsername_STATUS{}), generators)
+	senderUsername_STATUSGenerator = rapid.Custom(func(t *rapid.T) SenderUsername_STATUS {
+		var result SenderUsername_STATUS
+		result.DataLocation = ptrString.Draw(t, "DataLocation")
+		result.DisplayName = ptrString.Draw(t, "DisplayName")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		result.Username = ptrString.Draw(t, "Username")
+		return result
+	})
 
 	return senderUsername_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSenderUsername_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSenderUsername_STATUS(gens map[string]gopter.Gen) {
-	gens["DataLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		SenderUsernameProperties_ProvisioningState_STATUS_Canceled,
-		SenderUsernameProperties_ProvisioningState_STATUS_Creating,
-		SenderUsernameProperties_ProvisioningState_STATUS_Deleting,
-		SenderUsernameProperties_ProvisioningState_STATUS_Failed,
-		SenderUsernameProperties_ProvisioningState_STATUS_Moving,
-		SenderUsernameProperties_ProvisioningState_STATUS_Running,
-		SenderUsernameProperties_ProvisioningState_STATUS_Succeeded,
-		SenderUsernameProperties_ProvisioningState_STATUS_Unknown,
-		SenderUsernameProperties_ProvisioningState_STATUS_Updating))
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Username"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSenderUsername_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSenderUsername_STATUS(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
+// Test_SenderUsername_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SenderUsername_Spec can be assigned to storage and back losslessly
 func Test_SenderUsername_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -435,44 +349,34 @@ func Test_SenderUsername_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SenderUsername_Spec to SenderUsername_Spec via AssignProperties_To_SenderUsername_Spec & AssignProperties_From_SenderUsername_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSenderUsername_Spec, SenderUsername_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SenderUsername_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSenderUsername_Spec tests if a specific instance of SenderUsername_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSenderUsername_Spec(subject SenderUsername_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SenderUsername_Spec
+		err := copied.AssignProperties_To_SenderUsername_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SenderUsername_Spec
-	err := copied.AssignProperties_To_SenderUsername_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SenderUsername_Spec
+		err = actual.AssignProperties_From_SenderUsername_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SenderUsername_Spec
-	err = actual.AssignProperties_From_SenderUsername_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SenderUsername_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -482,29 +386,23 @@ func Test_SenderUsername_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SenderUsername_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSenderUsername_Spec, SenderUsername_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSenderUsername_Spec)
 }
 
 // RunJSONSerializationTestForSenderUsername_Spec runs a test to see if a specific instance of SenderUsername_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSenderUsername_Spec(subject SenderUsername_Spec) string {
+func RunJSONSerializationTestForSenderUsername_Spec(t *rapid.T) {
+	subject := SenderUsername_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SenderUsername_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -513,46 +411,32 @@ func RunJSONSerializationTestForSenderUsername_Spec(subject SenderUsername_Spec)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SenderUsername_Spec instances for property testing - lazily instantiated by
 // SenderUsername_SpecGenerator()
-var senderUsername_SpecGenerator gopter.Gen
+var senderUsername_SpecGenerator *rapid.Generator[SenderUsername_Spec]
 
 // SenderUsername_SpecGenerator returns a generator of SenderUsername_Spec instances for property testing.
-// We first initialize senderUsername_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SenderUsername_SpecGenerator() gopter.Gen {
+func SenderUsername_SpecGenerator() *rapid.Generator[SenderUsername_Spec] {
 	if senderUsername_SpecGenerator != nil {
 		return senderUsername_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSenderUsername_Spec(generators)
-	senderUsername_SpecGenerator = gen.Struct(reflect.TypeOf(SenderUsername_Spec{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	azureName := rapid.String()
+	operatorSpec := rapid.Ptr(SenderUsernameOperatorSpecGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSenderUsername_Spec(generators)
-	AddRelatedPropertyGeneratorsForSenderUsername_Spec(generators)
-	senderUsername_SpecGenerator = gen.Struct(reflect.TypeOf(SenderUsername_Spec{}), generators)
+	senderUsername_SpecGenerator = rapid.Custom(func(t *rapid.T) SenderUsername_Spec {
+		var result SenderUsername_Spec
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.DisplayName = ptrString.Draw(t, "DisplayName")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.Username = ptrString.Draw(t, "Username")
+		return result
+	})
 
 	return senderUsername_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSenderUsername_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSenderUsername_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["Username"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSenderUsername_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSenderUsername_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(SenderUsernameOperatorSpecGenerator())
 }
