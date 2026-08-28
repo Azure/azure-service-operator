@@ -116,7 +116,8 @@ func Test_GetEnvTestForConfig_CreationFailureReleasesPermit(t *testing.T) {
 	_, err := set.getEnvTestForConfig(
 		t.Context(),
 		testConfig{CountsTowardsLimit: true},
-		logr.Discard())
+		logr.Discard(),
+	)
 
 	g.Expect(err).To(MatchError(ContainSubstring("expected error")))
 	g.Expect(limit.TryAcquire(1)).To(BeTrue())
