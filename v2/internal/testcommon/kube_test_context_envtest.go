@@ -108,6 +108,11 @@ func createSharedEnvTest(
 	log.Println("Starting envtest")
 	kubeConfig, err := environment.Start()
 	if err != nil {
+		stopErr := environment.Stop()
+		if stopErr != nil {
+			return nil, eris.Wrapf(err, "starting envtest environment (also failed stopping envtest: %s)", stopErr)
+		}
+
 		return nil, eris.Wrapf(err, "starting envtest environment")
 	}
 
@@ -117,6 +122,16 @@ func createSharedEnvTest(
 			panic(stopErr)
 		}
 	}
+	created := false
+	var stopManager context.CancelFunc
+	defer func() {
+		if !created {
+			if stopManager != nil {
+				stopManager()
+			}
+			stopEnvironment()
+		}
+	}()
 
 	cacheOpts := cache.Options{
 		// This will make sure that if we try to read an object that is not cached, we will fail rather than start a new informer
@@ -164,7 +179,6 @@ func createSharedEnvTest(
 		}),
 	})
 	if err != nil {
-		stopEnvironment()
 		return nil, eris.Wrapf(err, "creating controller-runtime manager")
 	}
 
@@ -297,7 +311,6 @@ func createSharedEnvTest(
 			options,
 		)
 		if err != nil {
-			stopEnvironment()
 			return nil, eris.Wrapf(err, "registering reconcilers")
 		}
 	}
@@ -305,12 +318,11 @@ func createSharedEnvTest(
 	if cfg.OperatorMode.IncludesWebhooks() {
 		err = generic.RegisterWebhooks(mgr, controllers.GetKnownTypes())
 		if err != nil {
-			stopEnvironment()
 			return nil, eris.Wrapf(err, "registering webhooks")
 		}
 	}
 
-	ctx, stopManager := context.WithCancel(ctx)
+	ctx, stopManager = context.WithCancel(ctx)
 	go func() {
 		// this blocks until the input ctx is cancelled
 		//nolint:shadow // We want shadowing here
@@ -353,6 +365,7 @@ func createSharedEnvTest(
 		stopEnvironment()
 	}
 
+	created = true
 	return &runningEnvTest{
 		KubeConfig: kubeConfig,
 		KubeClient: kubeClient,
@@ -370,6 +383,8 @@ type sharedEnvTests struct {
 	envtests                  map[string]*runningEnvTest
 
 	namespaceResources *namespaceResources
+	createEnvTest      func(context.Context, testConfig, *namespaceResources) (*runningEnvTest, error)
+	afterInitialLookup func()
 }
 
 type testConfig struct {
@@ -443,27 +458,47 @@ func (set *sharedEnvTests) getEnvTestForConfig(
 	if envTest != nil {
 		return envTest, nil
 	}
+	if set.afterInitialLookup != nil {
+		set.afterInitialLookup()
+	}
 
 	// The order of these locks matters: Have to make sure we have spare capacity before take the shared lock
+	acquiredPermit := false
 	if cfg.CountsTowardsLimit {
 		logger.V(2).Info("Acquiring envtest concurrency semaphore")
 		err := set.concurrencyLimitSemaphore.Acquire(ctx, 1)
 		if err != nil {
 			return nil, err
 		}
+		acquiredPermit = true
 	}
+	defer func() {
+		if acquiredPermit {
+			set.concurrencyLimitSemaphore.Release(1)
+		}
+	}()
 
 	set.envtestLock.Lock()
 	defer set.envtestLock.Unlock()
+	if envTest, ok := set.envtests[envTestKey]; ok {
+		envTest.Callers += 1
+		return envTest, nil
+	}
+
 	logger.V(2).Info("Starting envtest")
 	// no envtest exists for this config; make one
 
-	newEnvTest, err := createSharedEnvTest(ctx, cfg, set.namespaceResources)
+	createEnvTest := set.createEnvTest
+	if createEnvTest == nil {
+		createEnvTest = createSharedEnvTest
+	}
+	newEnvTest, err := createEnvTest(ctx, cfg, set.namespaceResources)
 	if err != nil {
 		return nil, eris.Wrap(err, "unable to create shared envtest environment")
 	}
 
 	set.envtests[envTestKey] = newEnvTest
+	acquiredPermit = false
 	return newEnvTest, nil
 }
 
