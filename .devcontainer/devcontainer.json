@@ -6,12 +6,12 @@
 		"dockerfile": "Dockerfile",
 		"context": ".."
 	},
-	"runArgs": [ 
+	"runArgs": [
 		"--cap-add=SYS_PTRACE",
-		"--security-opt", "seccomp=unconfined", 
+		"--security-opt",
+		"seccomp=unconfined",
 		"--init" // runs an init process: https://docs.docker.com/engine/reference/run/#specify-an-init-process
 	],
-
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -43,18 +43,30 @@
 				}
 			}
 		}
-
 	},
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [9000],
-
+	"features": {
+		"ghcr.io/github/copilot-host/copilotd:0.7.3": {}
+	},
+	"remoteEnv": {
+		"COPILOTD_PROJECT": "${containerWorkspaceFolder}",
+		"COPILOTD_WORKTREE_ROOT": "${containerWorkspaceFolder}/.worktrees"
+	},
+	"forwardPorts": [
+		8765
+	],
+	"portsAttributes": {
+		"8765": {
+			"label": "copilotd (AHP)",
+			"onAutoForward": "notify",
+			"visibility": "private"
+		}
+	},
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "go version",
-
 	"remoteUser": "vscode",
-
 	// Use docker-from-docker: mount host docker socket for CI compatibility
-	"mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
+	"mounts": [
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+	],
 	"overrideCommand": false
 }
