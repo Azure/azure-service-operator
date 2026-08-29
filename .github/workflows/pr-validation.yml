@@ -72,7 +72,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned to 7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
@@ -85,7 +85,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # pinned to v4.6.0
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -147,14 +147,14 @@ jobs:
 
       - name: Save JSON logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pinned to v7.0.1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: test-output
           path: reports/*.json
 
       - name: Save memory monitor log
         if: ${{ always() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pinned to v7.0.1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: memory-monitor
           path: reports/memory-monitor.log
@@ -168,7 +168,7 @@ jobs:
         if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Archive outputs
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pinned to v7.0.1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: output
           path: v2/bin/*
@@ -187,7 +187,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned to 7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
@@ -200,7 +200,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # pinned to v4.6.0
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -233,7 +233,7 @@ jobs:
 
       - name: Save JSON logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pinned to v7.0.1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: test-output
           path: reports/*.json
@@ -246,7 +246,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned to 7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
@@ -259,7 +259,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # pinned to v4.6.0
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -292,7 +292,7 @@ jobs:
 
       - name: Save JSON logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pinned to v7.0.1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: test-output
           path: reports/*.json
@@ -314,7 +314,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned to 7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
@@ -327,7 +327,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # pinned to v4.6.0
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -374,7 +374,7 @@ jobs:
     
       # Update check run called "integration-tests-fork"
       - name: update-integration-tests-result
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # pinned to v9.0.0
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         id: update-check-run
         if: ${{ always() }}
         env:

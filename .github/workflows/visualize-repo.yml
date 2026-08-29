@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Create token
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # pinned to v3.2.0
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         id: app-token
         with:
           # required
@@ -31,24 +31,24 @@ jobs:
           private-key: ${{ secrets.AUTOMATION_KEY }}
           
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned to 7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: main
 
       - name: Create Branch
-        uses: peterjgrainger/action-create-branch@4b81ce657e255acd677cc6c55c9c763654be3aef # pinned to v4.0.0
+        uses: peterjgrainger/action-create-branch@4b81ce657e255acd677cc6c55c9c763654be3aef # v4.0.0
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
           branch: "bot/update-diagrams"
 
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned to 7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: bot/update-diagrams
 
       - name: Update ASO v2 diagram
-        uses: githubocto/repo-visualizer@a999615bdab757559bf94bda1fe6eef232765f85
+        uses: githubocto/repo-visualizer@a999615bdab757559bf94bda1fe6eef232765f85 # 0.9.1
         with:
           # Paths are relative to root_path
           excluded_paths: "ignore,.github,tools,cmd"
@@ -58,7 +58,7 @@ jobs:
           should_push: false
 
       - name: Update asoctl diagram
-        uses: githubocto/repo-visualizer@a999615bdab757559bf94bda1fe6eef232765f85
+        uses: githubocto/repo-visualizer@a999615bdab757559bf94bda1fe6eef232765f85 # 0.9.1
         with:
           excluded_paths: "ignore,.github"
           output_file: "docs/hugo/content/contributing/asoctl-structure.svg"
@@ -67,7 +67,7 @@ jobs:
           should_push: false
 
       - name: Update ASO Code Generator diagram
-        uses: githubocto/repo-visualizer@a999615bdab757559bf94bda1fe6eef232765f85
+        uses: githubocto/repo-visualizer@a999615bdab757559bf94bda1fe6eef232765f85 # 0.9.1
         with:
           excluded_paths: "ignore,.github"
           output_file: "docs/hugo/content/contributing/aso-codegen-structure.svg"
@@ -76,7 +76,7 @@ jobs:
           should_push: false
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # pinned to v8.1.1
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ steps.app-token.outputs.token }}
           commit-message: Update Code Structure Diagrams

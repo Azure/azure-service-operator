@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned to 7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0 # required to access tags
           submodules: "true"
@@ -44,7 +44,7 @@ jobs:
           docker exec "$container_id" task make-release-artifacts
 
       - name: Upload release assets
-        uses: svenstaro/upload-release-action@29e53e917877a24fad85510ded594ab3c9ca12de # pinned to 2.11.5
+        uses: svenstaro/upload-release-action@29e53e917877a24fad85510ded594ab3c9ca12de # 2.11.5
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}

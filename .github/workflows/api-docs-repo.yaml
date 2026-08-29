@@ -24,7 +24,7 @@ jobs:
     
     steps:
       - name: Create token
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # pinned to v3.2.0
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         id: app-token
         with:
           # required
@@ -32,26 +32,26 @@ jobs:
           private-key: ${{ secrets.AUTOMATION_KEY }}
           
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned to 7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: main
 
       - name: Create Branch
-        uses: peterjgrainger/action-create-branch@4b81ce657e255acd677cc6c55c9c763654be3aef # pinned to v4.0.0
+        uses: peterjgrainger/action-create-branch@4b81ce657e255acd677cc6c55c9c763654be3aef # v4.0.0
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
           branch: ${{ format('bot/update-api-docs-{0}', github.run_number) }}
 
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned to 7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ format('bot/update-api-docs-{0}', github.run_number) }}
           fetch-depth: 0 # required to access tags
           submodules: "true"
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # pinned to v4.6.0
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -88,7 +88,7 @@ jobs:
 
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # pinned to v8.1.1
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ steps.app-token.outputs.token }}
           commit-message: "Update API Reference Docs"
