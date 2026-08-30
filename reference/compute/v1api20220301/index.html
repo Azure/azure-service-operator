@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>compute.azure.com/v1api20220301 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2022-03-01” Image Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}
-Used by: ImageList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptional status Image_STATUSOptional Image_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of the Image. ExtendedLocationOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationTypeOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ImageOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sourceVirtualMachine The source virtual machine from which Image is created. SubResourceOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfileOptional tags Resource tags map[string]stringOptional Image_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional extendedLocation The extended location of the Image. ExtendedLocation_STATUSOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationType_STATUSOptional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional provisioningState The provisioning state. stringOptional sourceVirtualMachine The source virtual machine from which Image is created. SubResource_STATUSOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfile_STATUSOptional tags Resource tags map[string]stringOptional type Resource type stringOptional ImageList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}">
+<meta name="description" content="APIVersion Value Description “2022-03-01” Image Generator information:
+Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName} Used by: ImageList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptional status Image_STATUSOptional Image_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of the Image. ExtendedLocationOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationTypeOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ImageOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sourceVirtualMachine The source virtual machine from which Image is created. SubResourceOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfileOptional tags Resource tags map[string]stringOptional Image_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional extendedLocation The extended location of the Image. ExtendedLocation_STATUSOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationType_STATUSOptional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional provisioningState The provisioning state. stringOptional sourceVirtualMachine The source virtual machine from which Image is created. SubResource_STATUSOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfile_STATUSOptional tags Resource tags map[string]stringOptional type Resource type stringOptional ImageList Generator information:">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/compute/v1api20220301/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="compute.azure.com/v1api20220301">
-  <meta property="og:description" content="APIVersion Value Description “2022-03-01” Image Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}
-Used by: ImageList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptional status Image_STATUSOptional Image_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of the Image. ExtendedLocationOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationTypeOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ImageOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sourceVirtualMachine The source virtual machine from which Image is created. SubResourceOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfileOptional tags Resource tags map[string]stringOptional Image_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional extendedLocation The extended location of the Image. ExtendedLocation_STATUSOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationType_STATUSOptional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional provisioningState The provisioning state. stringOptional sourceVirtualMachine The source virtual machine from which Image is created. SubResource_STATUSOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfile_STATUSOptional tags Resource tags map[string]stringOptional type Resource type stringOptional ImageList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}">
+  <meta property="og:description" content="APIVersion Value Description “2022-03-01” Image Generator information:
+Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName} Used by: ImageList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptional status Image_STATUSOptional Image_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of the Image. ExtendedLocationOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationTypeOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ImageOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sourceVirtualMachine The source virtual machine from which Image is created. SubResourceOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfileOptional tags Resource tags map[string]stringOptional Image_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional extendedLocation The extended location of the Image. ExtendedLocation_STATUSOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationType_STATUSOptional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional provisioningState The provisioning state. stringOptional sourceVirtualMachine The source virtual machine from which Image is created. SubResource_STATUSOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfile_STATUSOptional tags Resource tags map[string]stringOptional type Resource type stringOptional ImageList Generator information:">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="compute.azure.com/v1api20220301">
-  <meta itemprop="description" content="APIVersion Value Description “2022-03-01” Image Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}
-Used by: ImageList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptional status Image_STATUSOptional Image_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of the Image. ExtendedLocationOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationTypeOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ImageOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sourceVirtualMachine The source virtual machine from which Image is created. SubResourceOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfileOptional tags Resource tags map[string]stringOptional Image_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional extendedLocation The extended location of the Image. ExtendedLocation_STATUSOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationType_STATUSOptional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional provisioningState The provisioning state. stringOptional sourceVirtualMachine The source virtual machine from which Image is created. SubResource_STATUSOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfile_STATUSOptional tags Resource tags map[string]stringOptional type Resource type stringOptional ImageList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}">
-  <meta itemprop="wordCount" content="31704">
+  <meta itemprop="description" content="APIVersion Value Description “2022-03-01” Image Generator information:
+Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName} Used by: ImageList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptional status Image_STATUSOptional Image_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of the Image. ExtendedLocationOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationTypeOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ImageOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sourceVirtualMachine The source virtual machine from which Image is created. SubResourceOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfileOptional tags Resource tags map[string]stringOptional Image_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional extendedLocation The extended location of the Image. ExtendedLocation_STATUSOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationType_STATUSOptional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional provisioningState The provisioning state. stringOptional sourceVirtualMachine The source virtual machine from which Image is created. SubResource_STATUSOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfile_STATUSOptional tags Resource tags map[string]stringOptional type Resource type stringOptional ImageList Generator information:">
+  <meta itemprop="wordCount" content="31682">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="compute.azure.com/v1api20220301">
-  <meta name="twitter:description" content="APIVersion Value Description “2022-03-01” Image Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}
-Used by: ImageList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptional status Image_STATUSOptional Image_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of the Image. ExtendedLocationOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationTypeOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ImageOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sourceVirtualMachine The source virtual machine from which Image is created. SubResourceOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfileOptional tags Resource tags map[string]stringOptional Image_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional extendedLocation The extended location of the Image. ExtendedLocation_STATUSOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationType_STATUSOptional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional provisioningState The provisioning state. stringOptional sourceVirtualMachine The source virtual machine from which Image is created. SubResource_STATUSOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfile_STATUSOptional tags Resource tags map[string]stringOptional type Resource type stringOptional ImageList Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}">
+  <meta name="twitter:description" content="APIVersion Value Description “2022-03-01” Image Generator information:
+Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName} Used by: ImageList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptional status Image_STATUSOptional Image_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of the Image. ExtendedLocationOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationTypeOptional location Resource location stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ImageOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sourceVirtualMachine The source virtual machine from which Image is created. SubResourceOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfileOptional tags Resource tags map[string]stringOptional Image_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional extendedLocation The extended location of the Image. ExtendedLocation_STATUSOptional hyperVGeneration Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. HyperVGenerationType_STATUSOptional id Resource Id stringOptional location Resource location stringOptional name Resource name stringOptional provisioningState The provisioning state. stringOptional sourceVirtualMachine The source virtual machine from which Image is created. SubResource_STATUSOptional storageProfile Specifies the storage settings for the virtual machine disks. ImageStorageProfile_STATUSOptional tags Resource tags map[string]stringOptional type Resource type stringOptional ImageList Generator information:">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -1431,7 +1431,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   </tbody>
 </table>
 <h2 id="Image">Image</h2>
-<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}</li>
+</ul>
 <p>Used by: <a href="#ImageList">ImageList</a>.</p>
 <table>
   <thead>
@@ -1589,7 +1593,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   </tbody>
 </table>
 <h2 id="ImageList">ImageList</h2>
-<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/image.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​images/​{imageName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -1617,7 +1625,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   </tbody>
 </table>
 <h2 id="VirtualMachine">VirtualMachine</h2>
-<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachine.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachines/​{vmName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachine.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachines/​{vmName}</li>
+</ul>
 <p>Used by: <a href="#VirtualMachineList">VirtualMachineList</a>.</p>
 <table>
   <thead>
@@ -2015,7 +2027,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   </tbody>
 </table>
 <h2 id="VirtualMachineList">VirtualMachineList</h2>
-<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachine.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachines/​{vmName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachine.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachines/​{vmName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2043,7 +2059,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   </tbody>
 </table>
 <h2 id="VirtualMachineScaleSet">VirtualMachineScaleSet</h2>
-<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachineScaleSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachineScaleSets/​{vmScaleSetName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachineScaleSet.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachineScaleSets/​{vmScaleSetName}</li>
+</ul>
 <p>Used by: <a href="#VirtualMachineScaleSetList">VirtualMachineScaleSetList</a>.</p>
 <table>
   <thead>
@@ -2361,7 +2381,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   </tbody>
 </table>
 <h2 id="VirtualMachineScaleSetList">VirtualMachineScaleSetList</h2>
-<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachineScaleSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachineScaleSets/​{vmScaleSetName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachineScaleSet.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachineScaleSets/​{vmScaleSetName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2389,7 +2413,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   </tbody>
 </table>
 <h2 id="VirtualMachineScaleSetsExtension">VirtualMachineScaleSetsExtension</h2>
-<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachineScaleSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachineScaleSets/​{vmScaleSetName}/​extensions/​{vmssExtensionName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachineScaleSet.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachineScaleSets/​{vmScaleSetName}/​extensions/​{vmssExtensionName}</li>
+</ul>
 <p>Used by: <a href="#VirtualMachineScaleSetsExtensionList">VirtualMachineScaleSetsExtensionList</a>.</p>
 <table>
   <thead>
@@ -2592,7 +2620,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   </tbody>
 </table>
 <h2 id="VirtualMachineScaleSetsExtensionList">VirtualMachineScaleSetsExtensionList</h2>
-<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachineScaleSet.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachineScaleSets/​{vmScaleSetName}/​extensions/​{vmssExtensionName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachineScaleSet.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachineScaleSets/​{vmScaleSetName}/​extensions/​{vmssExtensionName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2620,7 +2652,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   </tbody>
 </table>
 <h2 id="VirtualMachinesExtension">VirtualMachinesExtension</h2>
-<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachine.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachines/​{vmName}/​extensions/​{vmExtensionName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachine.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachines/​{vmName}/​extensions/​{vmExtensionName}</li>
+</ul>
 <p>Used by: <a href="#VirtualMachinesExtensionList">VirtualMachinesExtensionList</a>.</p>
 <table>
   <thead>
@@ -2843,7 +2879,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   </tbody>
 </table>
 <h2 id="VirtualMachinesExtensionList">VirtualMachinesExtensionList</h2>
-<p>Generator information: - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachine.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachines/​{vmName}/​extensions/​{vmExtensionName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachine.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Compute/​virtualMachines/​{vmName}/​extensions/​{vmExtensionName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -4171,11 +4211,15 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   <tbody>
       <tr>
           <td>maxPrice</td>
-          <td>Specifies the maximum price you are willing to pay for a Azure Spot VM/VMSS. This price is in US Dollars. This price will be compared with the current Azure Spot price for the VM size. Also, the prices are compared at the time of create/update of Azure Spot VM/VMSS and the operation will only succeed if the maxPrice is greater than the current Azure Spot price. The maxPrice will also be used for evicting a Azure Spot VM/VMSS if the current Azure Spot price goes beyond the maxPrice after creation of VM/VMSS. Possible values are: - Any decimal value greater than zero. Example: 0.01538 -1 – indicates default price to be up-to on-demand. You can set the maxPrice to -1 to indicate that the Azure Spot VM/VMSS should not be evicted for price reasons. Also, the default max price is -1 if it is not provided by you. Minimum api-version: 2019-03-01.</td>
-          <td>float64<br/><small>Optional</small></td>
+          <td>Specifies the maximum price you are willing to pay for a Azure Spot VM/VMSS. This price is in US Dollars. This price will be compared with the current Azure Spot price for the VM size. Also, the prices are compared at the time of create/update of Azure Spot VM/VMSS and the operation will only succeed if the maxPrice is greater than the current Azure Spot price. The maxPrice will also be used for evicting a Azure Spot VM/VMSS if the current Azure Spot price goes beyond the maxPrice after creation of VM/VMSS. Possible values are:</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
+<ul>
+<li>Any decimal value greater than zero. Example: 0.01538</li>
+</ul>
+<p>-1 – indicates default price to be up-to on-demand. You can set the maxPrice to -1 to indicate that the Azure Spot VM/VMSS should not be evicted for price reasons. Also, the default max price is -1 if it is not provided by you. Minimum api-version: 2019-03-01.| float64<br/><small>Optional</small>|</p>
 <h2 id="BillingProfile_STATUS">BillingProfile_STATUS</h2>
 <p>Specifies the billing related details of a Azure Spot VM or VMSS. Minimum api-version: 2019-03-01.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>, and <a href="#VirtualMachineScaleSetVMProfile_STATUS">VirtualMachineScaleSetVMProfile_STATUS</a>.</p>
@@ -4190,11 +4234,15 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Image_SpecOptio
   <tbody>
       <tr>
           <td>maxPrice</td>
-          <td>Specifies the maximum price you are willing to pay for a Azure Spot VM/VMSS. This price is in US Dollars. This price will be compared with the current Azure Spot price for the VM size. Also, the prices are compared at the time of create/update of Azure Spot VM/VMSS and the operation will only succeed if the maxPrice is greater than the current Azure Spot price. The maxPrice will also be used for evicting a Azure Spot VM/VMSS if the current Azure Spot price goes beyond the maxPrice after creation of VM/VMSS. Possible values are: - Any decimal value greater than zero. Example: 0.01538 -1 – indicates default price to be up-to on-demand. You can set the maxPrice to -1 to indicate that the Azure Spot VM/VMSS should not be evicted for price reasons. Also, the default max price is -1 if it is not provided by you. Minimum api-version: 2019-03-01.</td>
-          <td>float64<br/><small>Optional</small></td>
+          <td>Specifies the maximum price you are willing to pay for a Azure Spot VM/VMSS. This price is in US Dollars. This price will be compared with the current Azure Spot price for the VM size. Also, the prices are compared at the time of create/update of Azure Spot VM/VMSS and the operation will only succeed if the maxPrice is greater than the current Azure Spot price. The maxPrice will also be used for evicting a Azure Spot VM/VMSS if the current Azure Spot price goes beyond the maxPrice after creation of VM/VMSS. Possible values are:</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
+<ul>
+<li>Any decimal value greater than zero. Example: 0.01538</li>
+</ul>
+<p>-1 – indicates default price to be up-to on-demand. You can set the maxPrice to -1 to indicate that the Azure Spot VM/VMSS should not be evicted for price reasons. Also, the default max price is -1 if it is not provided by you. Minimum api-version: 2019-03-01.| float64<br/><small>Optional</small>|</p>
 <h2 id="CapacityReservationProfile">CapacityReservationProfile</h2>
 <p>The parameters of a capacity reservation Profile.</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>, and <a href="#VirtualMachineScaleSetVMProfile">VirtualMachineScaleSetVMProfile</a>.</p>

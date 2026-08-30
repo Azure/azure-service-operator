@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>network.azure.com/v1api20201101 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2020-11-01” LoadBalancer Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}
-Used by: LoadBalancerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_SpecOptional status LoadBalancer_STATUSOptional LoadBalancer_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_LoadBalancer_SubResourceEmbedded[]Optional extendedLocation The extended location of the load balancer. ExtendedLocationOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded[]Optional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule[]Optional location Resource location. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure LoadBalancerOperatorSpecOptional outboundRules The outbound rules. OutboundRule[]Optional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired probes Collection of probe objects used in the load balancer. Probe[]Optional sku The load balancer SKU. LoadBalancerSkuOptional tags Resource tags. map[string]stringOptional LoadBalancer_STATUS Property Description Type backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded[]Optional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of the load balancer. ExtendedLocation_STATUSOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded[]Optional id Resource ID. stringOptional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool_STATUS[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule_STATUS[]Optional location Resource location. stringOptional name Resource name. stringOptional outboundRules The outbound rules. OutboundRule_STATUS[]Optional probes Collection of probe objects used in the load balancer. Probe_STATUS[]Optional provisioningState The provisioning state of the load balancer resource. ProvisioningState_STATUSOptional resourceGuid The resource GUID property of the load balancer resource. stringOptional sku The load balancer SKU. LoadBalancerSku_STATUSOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional LoadBalancerList Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}">
+<meta name="description" content="APIVersion Value Description “2020-11-01” LoadBalancer Generator information:
+Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName} Used by: LoadBalancerList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_SpecOptional status LoadBalancer_STATUSOptional LoadBalancer_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_LoadBalancer_SubResourceEmbedded[]Optional extendedLocation The extended location of the load balancer. ExtendedLocationOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded[]Optional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule[]Optional location Resource location. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure LoadBalancerOperatorSpecOptional outboundRules The outbound rules. OutboundRule[]Optional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired probes Collection of probe objects used in the load balancer. Probe[]Optional sku The load balancer SKU. LoadBalancerSkuOptional tags Resource tags. map[string]stringOptional LoadBalancer_STATUS Property Description Type backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded[]Optional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of the load balancer. ExtendedLocation_STATUSOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded[]Optional id Resource ID. stringOptional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool_STATUS[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule_STATUS[]Optional location Resource location. stringOptional name Resource name. stringOptional outboundRules The outbound rules. OutboundRule_STATUS[]Optional probes Collection of probe objects used in the load balancer. Probe_STATUS[]Optional provisioningState The provisioning state of the load balancer resource. ProvisioningState_STATUSOptional resourceGuid The resource GUID property of the load balancer resource. stringOptional sku The load balancer SKU. LoadBalancerSku_STATUSOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional LoadBalancerList Generator information:">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/network/v1api20201101/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="network.azure.com/v1api20201101">
-  <meta property="og:description" content="APIVersion Value Description “2020-11-01” LoadBalancer Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}
-Used by: LoadBalancerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_SpecOptional status LoadBalancer_STATUSOptional LoadBalancer_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_LoadBalancer_SubResourceEmbedded[]Optional extendedLocation The extended location of the load balancer. ExtendedLocationOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded[]Optional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule[]Optional location Resource location. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure LoadBalancerOperatorSpecOptional outboundRules The outbound rules. OutboundRule[]Optional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired probes Collection of probe objects used in the load balancer. Probe[]Optional sku The load balancer SKU. LoadBalancerSkuOptional tags Resource tags. map[string]stringOptional LoadBalancer_STATUS Property Description Type backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded[]Optional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of the load balancer. ExtendedLocation_STATUSOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded[]Optional id Resource ID. stringOptional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool_STATUS[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule_STATUS[]Optional location Resource location. stringOptional name Resource name. stringOptional outboundRules The outbound rules. OutboundRule_STATUS[]Optional probes Collection of probe objects used in the load balancer. Probe_STATUS[]Optional provisioningState The provisioning state of the load balancer resource. ProvisioningState_STATUSOptional resourceGuid The resource GUID property of the load balancer resource. stringOptional sku The load balancer SKU. LoadBalancerSku_STATUSOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional LoadBalancerList Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}">
+  <meta property="og:description" content="APIVersion Value Description “2020-11-01” LoadBalancer Generator information:
+Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName} Used by: LoadBalancerList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_SpecOptional status LoadBalancer_STATUSOptional LoadBalancer_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_LoadBalancer_SubResourceEmbedded[]Optional extendedLocation The extended location of the load balancer. ExtendedLocationOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded[]Optional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule[]Optional location Resource location. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure LoadBalancerOperatorSpecOptional outboundRules The outbound rules. OutboundRule[]Optional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired probes Collection of probe objects used in the load balancer. Probe[]Optional sku The load balancer SKU. LoadBalancerSkuOptional tags Resource tags. map[string]stringOptional LoadBalancer_STATUS Property Description Type backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded[]Optional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of the load balancer. ExtendedLocation_STATUSOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded[]Optional id Resource ID. stringOptional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool_STATUS[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule_STATUS[]Optional location Resource location. stringOptional name Resource name. stringOptional outboundRules The outbound rules. OutboundRule_STATUS[]Optional probes Collection of probe objects used in the load balancer. Probe_STATUS[]Optional provisioningState The provisioning state of the load balancer resource. ProvisioningState_STATUSOptional resourceGuid The resource GUID property of the load balancer resource. stringOptional sku The load balancer SKU. LoadBalancerSku_STATUSOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional LoadBalancerList Generator information:">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="network.azure.com/v1api20201101">
-  <meta itemprop="description" content="APIVersion Value Description “2020-11-01” LoadBalancer Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}
-Used by: LoadBalancerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_SpecOptional status LoadBalancer_STATUSOptional LoadBalancer_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_LoadBalancer_SubResourceEmbedded[]Optional extendedLocation The extended location of the load balancer. ExtendedLocationOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded[]Optional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule[]Optional location Resource location. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure LoadBalancerOperatorSpecOptional outboundRules The outbound rules. OutboundRule[]Optional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired probes Collection of probe objects used in the load balancer. Probe[]Optional sku The load balancer SKU. LoadBalancerSkuOptional tags Resource tags. map[string]stringOptional LoadBalancer_STATUS Property Description Type backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded[]Optional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of the load balancer. ExtendedLocation_STATUSOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded[]Optional id Resource ID. stringOptional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool_STATUS[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule_STATUS[]Optional location Resource location. stringOptional name Resource name. stringOptional outboundRules The outbound rules. OutboundRule_STATUS[]Optional probes Collection of probe objects used in the load balancer. Probe_STATUS[]Optional provisioningState The provisioning state of the load balancer resource. ProvisioningState_STATUSOptional resourceGuid The resource GUID property of the load balancer resource. stringOptional sku The load balancer SKU. LoadBalancerSku_STATUSOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional LoadBalancerList Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}">
-  <meta itemprop="wordCount" content="20374">
+  <meta itemprop="description" content="APIVersion Value Description “2020-11-01” LoadBalancer Generator information:
+Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName} Used by: LoadBalancerList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_SpecOptional status LoadBalancer_STATUSOptional LoadBalancer_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_LoadBalancer_SubResourceEmbedded[]Optional extendedLocation The extended location of the load balancer. ExtendedLocationOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded[]Optional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule[]Optional location Resource location. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure LoadBalancerOperatorSpecOptional outboundRules The outbound rules. OutboundRule[]Optional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired probes Collection of probe objects used in the load balancer. Probe[]Optional sku The load balancer SKU. LoadBalancerSkuOptional tags Resource tags. map[string]stringOptional LoadBalancer_STATUS Property Description Type backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded[]Optional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of the load balancer. ExtendedLocation_STATUSOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded[]Optional id Resource ID. stringOptional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool_STATUS[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule_STATUS[]Optional location Resource location. stringOptional name Resource name. stringOptional outboundRules The outbound rules. OutboundRule_STATUS[]Optional probes Collection of probe objects used in the load balancer. Probe_STATUS[]Optional provisioningState The provisioning state of the load balancer resource. ProvisioningState_STATUSOptional resourceGuid The resource GUID property of the load balancer resource. stringOptional sku The load balancer SKU. LoadBalancerSku_STATUSOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional LoadBalancerList Generator information:">
+  <meta itemprop="wordCount" content="20326">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="network.azure.com/v1api20201101">
-  <meta name="twitter:description" content="APIVersion Value Description “2020-11-01” LoadBalancer Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}
-Used by: LoadBalancerList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_SpecOptional status LoadBalancer_STATUSOptional LoadBalancer_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_LoadBalancer_SubResourceEmbedded[]Optional extendedLocation The extended location of the load balancer. ExtendedLocationOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded[]Optional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule[]Optional location Resource location. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure LoadBalancerOperatorSpecOptional outboundRules The outbound rules. OutboundRule[]Optional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired probes Collection of probe objects used in the load balancer. Probe[]Optional sku The load balancer SKU. LoadBalancerSkuOptional tags Resource tags. map[string]stringOptional LoadBalancer_STATUS Property Description Type backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded[]Optional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of the load balancer. ExtendedLocation_STATUSOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded[]Optional id Resource ID. stringOptional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool_STATUS[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule_STATUS[]Optional location Resource location. stringOptional name Resource name. stringOptional outboundRules The outbound rules. OutboundRule_STATUS[]Optional probes Collection of probe objects used in the load balancer. Probe_STATUS[]Optional provisioningState The provisioning state of the load balancer resource. ProvisioningState_STATUSOptional resourceGuid The resource GUID property of the load balancer resource. stringOptional sku The load balancer SKU. LoadBalancerSku_STATUSOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional LoadBalancerList Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}">
+  <meta name="twitter:description" content="APIVersion Value Description “2020-11-01” LoadBalancer Generator information:
+Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName} Used by: LoadBalancerList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_SpecOptional status LoadBalancer_STATUSOptional LoadBalancer_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_LoadBalancer_SubResourceEmbedded[]Optional extendedLocation The extended location of the load balancer. ExtendedLocationOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded[]Optional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule[]Optional location Resource location. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure LoadBalancerOperatorSpecOptional outboundRules The outbound rules. OutboundRule[]Optional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired probes Collection of probe objects used in the load balancer. Probe[]Optional sku The load balancer SKU. LoadBalancerSkuOptional tags Resource tags. map[string]stringOptional LoadBalancer_STATUS Property Description Type backendAddressPools Collection of backend address pools used by a load balancer. BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded[]Optional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of the load balancer. ExtendedLocation_STATUSOptional frontendIPConfigurations Object representing the frontend IPs to be used for the load balancer. FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded[]Optional id Resource ID. stringOptional inboundNatPools Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatPool_STATUS[]Optional inboundNatRules Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded[]Optional loadBalancingRules Object collection representing the load balancing rules Gets the provisioning. LoadBalancingRule_STATUS[]Optional location Resource location. stringOptional name Resource name. stringOptional outboundRules The outbound rules. OutboundRule_STATUS[]Optional probes Collection of probe objects used in the load balancer. Probe_STATUS[]Optional provisioningState The provisioning state of the load balancer resource. ProvisioningState_STATUSOptional resourceGuid The resource GUID property of the load balancer resource. stringOptional sku The load balancer SKU. LoadBalancerSku_STATUSOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional LoadBalancerList Generator information:">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -1398,7 +1398,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="LoadBalancer">LoadBalancer</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}</li>
+</ul>
 <p>Used by: <a href="#LoadBalancerList">LoadBalancerList</a>.</p>
 <table>
   <thead>
@@ -1616,7 +1620,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="LoadBalancerList">LoadBalancerList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -1644,7 +1652,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="LoadBalancersInboundNatRule">LoadBalancersInboundNatRule</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}/​inboundNatRules/​{inboundNatRuleName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}/​inboundNatRules/​{inboundNatRuleName}</li>
+</ul>
 <p>Used by: <a href="#LoadBalancersInboundNatRuleList">LoadBalancersInboundNatRuleList</a>.</p>
 <table>
   <thead>
@@ -1822,7 +1834,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="LoadBalancersInboundNatRuleList">LoadBalancersInboundNatRuleList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}/​inboundNatRules/​{inboundNatRuleName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}/​inboundNatRules/​{inboundNatRuleName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -1850,7 +1866,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="NetworkInterface">NetworkInterface</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkInterface.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkInterfaces/​{networkInterfaceName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkInterface.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkInterfaces/​{networkInterfaceName}</li>
+</ul>
 <p>Used by: <a href="#NetworkInterfaceList">NetworkInterfaceList</a>.</p>
 <table>
   <thead>
@@ -2098,7 +2118,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="NetworkInterfaceList">NetworkInterfaceList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkInterface.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkInterfaces/​{networkInterfaceName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkInterface.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkInterfaces/​{networkInterfaceName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2126,7 +2150,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="NetworkSecurityGroup">NetworkSecurityGroup</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkSecurityGroup.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkSecurityGroup.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}</li>
+</ul>
 <p>Used by: <a href="#NetworkSecurityGroupList">NetworkSecurityGroupList</a>.</p>
 <table>
   <thead>
@@ -2274,7 +2302,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="NetworkSecurityGroupList">NetworkSecurityGroupList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkSecurityGroup.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkSecurityGroup.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2302,7 +2334,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="NetworkSecurityGroupsSecurityRule">NetworkSecurityGroupsSecurityRule</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkSecurityGroup.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}/​securityRules/​{securityRuleName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkSecurityGroup.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}/​securityRules/​{securityRuleName}</li>
+</ul>
 <p>Used by: <a href="#NetworkSecurityGroupsSecurityRuleList">NetworkSecurityGroupsSecurityRuleList</a>.</p>
 <table>
   <thead>
@@ -2555,7 +2591,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="NetworkSecurityGroupsSecurityRuleList">NetworkSecurityGroupsSecurityRuleList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkSecurityGroup.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}/​securityRules/​{securityRuleName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkSecurityGroup.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}/​securityRules/​{securityRuleName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2583,7 +2623,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="PublicIPAddress">PublicIPAddress</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/publicIpAddress.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPAddresses/​{publicIpAddressName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/publicIpAddress.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPAddresses/​{publicIpAddressName}</li>
+</ul>
 <p>Used by: <a href="#PublicIPAddressList">PublicIPAddressList</a>.</p>
 <table>
   <thead>
@@ -2851,7 +2895,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="PublicIPAddressList">PublicIPAddressList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/publicIpAddress.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPAddresses/​{publicIpAddressName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/publicIpAddress.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPAddresses/​{publicIpAddressName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2879,7 +2927,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="RouteTable">RouteTable</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/routeTable.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/routeTable.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}</li>
+</ul>
 <p>Used by: <a href="#RouteTableList">RouteTableList</a>.</p>
 <table>
   <thead>
@@ -3017,7 +3069,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="RouteTableList">RouteTableList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/routeTable.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/routeTable.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -3045,7 +3101,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="RouteTablesRoute">RouteTablesRoute</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/routeTable.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}/​routes/​{routeName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/routeTable.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}/​routes/​{routeName}</li>
+</ul>
 <p>Used by: <a href="#RouteTablesRouteList">RouteTablesRouteList</a>.</p>
 <table>
   <thead>
@@ -3183,7 +3243,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="RouteTablesRouteList">RouteTablesRouteList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/routeTable.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}/​routes/​{routeName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/routeTable.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}/​routes/​{routeName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -3211,7 +3275,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="VirtualNetwork">VirtualNetwork</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetwork.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetwork.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}</li>
+</ul>
 <p>Used by: <a href="#VirtualNetworkList">VirtualNetworkList</a>.</p>
 <table>
   <thead>
@@ -3419,7 +3487,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="VirtualNetworkGateway">VirtualNetworkGateway</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetworkGateway.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworkGateways/​{virtualNetworkGatewayName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetworkGateway.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworkGateways/​{virtualNetworkGatewayName}</li>
+</ul>
 <p>Used by: <a href="#VirtualNetworkGatewayList">VirtualNetworkGatewayList</a>.</p>
 <table>
   <thead>
@@ -3702,7 +3774,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="VirtualNetworkGatewayList">VirtualNetworkGatewayList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetworkGateway.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworkGateways/​{virtualNetworkGatewayName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetworkGateway.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworkGateways/​{virtualNetworkGatewayName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -3730,7 +3806,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="VirtualNetworkList">VirtualNetworkList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetwork.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetwork.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -3758,7 +3838,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="VirtualNetworksSubnet">VirtualNetworksSubnet</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetwork.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetwork.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</li>
+</ul>
 <p>Used by: <a href="#VirtualNetworksSubnetList">VirtualNetworksSubnetList</a>.</p>
 <table>
   <thead>
@@ -4011,7 +4095,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="VirtualNetworksSubnetList">VirtualNetworksSubnetList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetwork.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetwork.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -4039,7 +4127,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="VirtualNetworksVirtualNetworkPeering">VirtualNetworksVirtualNetworkPeering</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetwork.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​virtualNetworkPeerings/​{virtualNetworkPeeringName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetwork.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​virtualNetworkPeerings/​{virtualNetworkPeeringName}</li>
+</ul>
 <p>Used by: <a href="#VirtualNetworksVirtualNetworkPeeringList">VirtualNetworksVirtualNetworkPeeringList</a>.</p>
 <table>
   <thead>
@@ -4237,7 +4329,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec LoadBalancer_Sp
   </tbody>
 </table>
 <h2 id="VirtualNetworksVirtualNetworkPeeringList">VirtualNetworksVirtualNetworkPeeringList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetwork.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​virtualNetworkPeerings/​{virtualNetworkPeeringName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetwork.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​virtualNetworkPeerings/​{virtualNetworkPeeringName}</li>
+</ul>
 <table>
   <thead>
       <tr>

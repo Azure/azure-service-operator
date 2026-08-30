@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>apimanagement.azure.com/v20240501 | Azure Service Operator</title>
-<meta name="description" content="Api Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}
-Used by: ApiList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptional status Api_STATUSOptional Api_Spec Property Description Type apiRevision Describes the revision of the API. If no value is provided, default revision 1 is created stringOptional apiRevisionDescription Description of the API Revision. stringOptional apiType Type of API to create. * http creates a REST API * soap creates a SOAP pass-through API * websocket creates websocket API * graphql creates GraphQL API. New types can be added in the future. ApiCreateOrUpdateProperties_ApiTypeOptional apiVersion Indicates the version identifier of the API if the API is versioned stringOptional apiVersionDescription Description of the API Version. stringOptional apiVersionSet Version set details ApiVersionSetContractDetailsOptional apiVersionSetReference A resource identifier for the related ApiVersionSet. genruntime.ResourceReferenceOptional authenticationSettings Collection of authentication settings included into this API. AuthenticationSettingsContractOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional contact Contact information for the API. ApiContactInformationOptional description Description of the API. May include HTML formatting tags. stringOptional displayName API name. Must be 1 to 300 characters long. stringOptional format Format of the Content in which the API is getting imported. New formats can be added in the future ApiCreateOrUpdateProperties_FormatOptional isCurrent Indicates if API revision is current api revision. boolOptional license License information for the API. ApiLicenseInformationOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ApiOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource genruntime.KnownResourceReferenceRequired path Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. stringRequired protocols Describes on which protocols the operations in this API can be invoked. ApiCreateOrUpdateProperties_Protocols[]Optional serviceUrl Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long. stringOptional sourceApiReference API identifier of the source API. genruntime.ResourceReferenceOptional subscriptionKeyParameterNames Protocols over which API is made available. SubscriptionKeyParameterNamesContractOptional subscriptionRequired Specifies whether an API or Product subscription is required for accessing the API. boolOptional termsOfServiceUrl A URL to the Terms of Service for the API. MUST be in the format of a URL. stringOptional translateRequiredQueryParameters Strategy of translating required query parameters to template ones. By default has value template. Possible values: template, query ApiCreateOrUpdateProperties_TranslateRequiredQueryParametersOptional type Type of API. ApiCreateOrUpdateProperties_TypeOptional value Content value when Importing an API. stringOptional wsdlSelector Criteria to limit import of WSDL to a subset of the document. ApiCreateOrUpdateProperties_WsdlSelectorOptional Api_STATUS Property Description Type apiRevision Describes the revision of the API. If no value is provided, default revision 1 is created stringOptional apiRevisionDescription Description of the API Revision. stringOptional apiVersion Indicates the version identifier of the API if the API is versioned stringOptional apiVersionDescription Description of the API Version. stringOptional apiVersionSet Version set details ApiVersionSetContractDetails_STATUSOptional apiVersionSetId A resource identifier for the related ApiVersionSet. stringOptional authenticationSettings Collection of authentication settings included into this API. AuthenticationSettingsContract_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional contact Contact information for the API. ApiContactInformation_STATUSOptional description Description of the API. May include HTML formatting tags. stringOptional displayName API name. Must be 1 to 300 characters long. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional isCurrent Indicates if API revision is current api revision. boolOptional isOnline Indicates if API revision is accessible via the gateway. boolOptional license License information for the API. ApiLicenseInformation_STATUSOptional name The name of the resource stringOptional path Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. stringOptional properties_type Type of API. ApiContractProperties_Type_STATUSOptional protocols Describes on which protocols the operations in this API can be invoked. ApiContractProperties_Protocols_STATUS[]Optional provisioningState The provisioning state stringOptional serviceUrl Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long. stringOptional sourceApiId API identifier of the source API. stringOptional subscriptionKeyParameterNames Protocols over which API is made available. SubscriptionKeyParameterNamesContract_STATUSOptional subscriptionRequired Specifies whether an API or Product subscription is required for accessing the API. boolOptional termsOfServiceUrl A URL to the Terms of Service for the API. MUST be in the format of a URL. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional ApiDiagnostic Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}/​diagnostics/​{diagnosticId}">
+<meta name="description" content="Api Generator information:
+Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId} Used by: ApiList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptional status Api_STATUSOptional Api_Spec Property Description Type apiRevision Describes the revision of the API. If no value is provided, default revision 1 is created stringOptional apiRevisionDescription Description of the API Revision. stringOptional apiType Type of API to create. http creates a REST API soap creates a SOAP pass-through API websocket creates websocket API graphql creates GraphQL API. New types can be added in the future.| ApiCreateOrUpdateProperties_ApiTypeOptional| | apiVersion| Indicates the version identifier of the API if the API is versioned| stringOptional| | apiVersionDescription| Description of the API Version.| stringOptional| | apiVersionSet| Version set details| ApiVersionSetContractDetailsOptional| | apiVersionSetReference| A resource identifier for the related ApiVersionSet.| genruntime.ResourceReferenceOptional| | authenticationSettings| Collection of authentication settings included into this API.| AuthenticationSettingsContractOptional| | azureName| The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be.| stringOptional| | contact| Contact information for the API.| ApiContactInformationOptional| | description| Description of the API. May include HTML formatting tags.| stringOptional| | displayName| API name. Must be 1 to 300 characters long.| stringOptional| | format| Format of the Content in which the API is getting imported. New formats can be added in the future| ApiCreateOrUpdateProperties_FormatOptional| | isCurrent| Indicates if API revision is current api revision.| boolOptional| | license| License information for the API.| ApiLicenseInformationOptional| | operatorSpec| The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure| ApiOperatorSpecOptional| | owner| The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource| genruntime.KnownResourceReferenceRequired| | path| Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.| stringRequired| | protocols| Describes on which protocols the operations in this API can be invoked.| ApiCreateOrUpdateProperties_Protocols[]Optional| | serviceUrl| Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.| stringOptional| | sourceApiReference| API identifier of the source API.| genruntime.ResourceReferenceOptional| | subscriptionKeyParameterNames| Protocols over which API is made available.| SubscriptionKeyParameterNamesContractOptional| | subscriptionRequired| Specifies whether an API or Product subscription is required for accessing the API.| boolOptional| | termsOfServiceUrl| A URL to the Terms of Service for the API. MUST be in the format of a URL.| stringOptional| | translateRequiredQueryParameters| Strategy of translating required query parameters to template ones. By default has value template. Possible values: template, query| ApiCreateOrUpdateProperties_TranslateRequiredQueryParametersOptional| | type| Type of API.| ApiCreateOrUpdateProperties_TypeOptional| | value| Content value when Importing an API.| stringOptional| | wsdlSelector| Criteria to limit import of WSDL to a subset of the document.| ApiCreateOrUpdateProperties_WsdlSelectorOptional|">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/apimanagement/v20240501/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="apimanagement.azure.com/v20240501">
-  <meta property="og:description" content="Api Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}
-Used by: ApiList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptional status Api_STATUSOptional Api_Spec Property Description Type apiRevision Describes the revision of the API. If no value is provided, default revision 1 is created stringOptional apiRevisionDescription Description of the API Revision. stringOptional apiType Type of API to create. * http creates a REST API * soap creates a SOAP pass-through API * websocket creates websocket API * graphql creates GraphQL API. New types can be added in the future. ApiCreateOrUpdateProperties_ApiTypeOptional apiVersion Indicates the version identifier of the API if the API is versioned stringOptional apiVersionDescription Description of the API Version. stringOptional apiVersionSet Version set details ApiVersionSetContractDetailsOptional apiVersionSetReference A resource identifier for the related ApiVersionSet. genruntime.ResourceReferenceOptional authenticationSettings Collection of authentication settings included into this API. AuthenticationSettingsContractOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional contact Contact information for the API. ApiContactInformationOptional description Description of the API. May include HTML formatting tags. stringOptional displayName API name. Must be 1 to 300 characters long. stringOptional format Format of the Content in which the API is getting imported. New formats can be added in the future ApiCreateOrUpdateProperties_FormatOptional isCurrent Indicates if API revision is current api revision. boolOptional license License information for the API. ApiLicenseInformationOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ApiOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource genruntime.KnownResourceReferenceRequired path Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. stringRequired protocols Describes on which protocols the operations in this API can be invoked. ApiCreateOrUpdateProperties_Protocols[]Optional serviceUrl Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long. stringOptional sourceApiReference API identifier of the source API. genruntime.ResourceReferenceOptional subscriptionKeyParameterNames Protocols over which API is made available. SubscriptionKeyParameterNamesContractOptional subscriptionRequired Specifies whether an API or Product subscription is required for accessing the API. boolOptional termsOfServiceUrl A URL to the Terms of Service for the API. MUST be in the format of a URL. stringOptional translateRequiredQueryParameters Strategy of translating required query parameters to template ones. By default has value template. Possible values: template, query ApiCreateOrUpdateProperties_TranslateRequiredQueryParametersOptional type Type of API. ApiCreateOrUpdateProperties_TypeOptional value Content value when Importing an API. stringOptional wsdlSelector Criteria to limit import of WSDL to a subset of the document. ApiCreateOrUpdateProperties_WsdlSelectorOptional Api_STATUS Property Description Type apiRevision Describes the revision of the API. If no value is provided, default revision 1 is created stringOptional apiRevisionDescription Description of the API Revision. stringOptional apiVersion Indicates the version identifier of the API if the API is versioned stringOptional apiVersionDescription Description of the API Version. stringOptional apiVersionSet Version set details ApiVersionSetContractDetails_STATUSOptional apiVersionSetId A resource identifier for the related ApiVersionSet. stringOptional authenticationSettings Collection of authentication settings included into this API. AuthenticationSettingsContract_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional contact Contact information for the API. ApiContactInformation_STATUSOptional description Description of the API. May include HTML formatting tags. stringOptional displayName API name. Must be 1 to 300 characters long. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional isCurrent Indicates if API revision is current api revision. boolOptional isOnline Indicates if API revision is accessible via the gateway. boolOptional license License information for the API. ApiLicenseInformation_STATUSOptional name The name of the resource stringOptional path Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. stringOptional properties_type Type of API. ApiContractProperties_Type_STATUSOptional protocols Describes on which protocols the operations in this API can be invoked. ApiContractProperties_Protocols_STATUS[]Optional provisioningState The provisioning state stringOptional serviceUrl Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long. stringOptional sourceApiId API identifier of the source API. stringOptional subscriptionKeyParameterNames Protocols over which API is made available. SubscriptionKeyParameterNamesContract_STATUSOptional subscriptionRequired Specifies whether an API or Product subscription is required for accessing the API. boolOptional termsOfServiceUrl A URL to the Terms of Service for the API. MUST be in the format of a URL. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional ApiDiagnostic Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}/​diagnostics/​{diagnosticId}">
+  <meta property="og:description" content="Api Generator information:
+Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId} Used by: ApiList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptional status Api_STATUSOptional Api_Spec Property Description Type apiRevision Describes the revision of the API. If no value is provided, default revision 1 is created stringOptional apiRevisionDescription Description of the API Revision. stringOptional apiType Type of API to create. http creates a REST API soap creates a SOAP pass-through API websocket creates websocket API graphql creates GraphQL API. New types can be added in the future.| ApiCreateOrUpdateProperties_ApiTypeOptional| | apiVersion| Indicates the version identifier of the API if the API is versioned| stringOptional| | apiVersionDescription| Description of the API Version.| stringOptional| | apiVersionSet| Version set details| ApiVersionSetContractDetailsOptional| | apiVersionSetReference| A resource identifier for the related ApiVersionSet.| genruntime.ResourceReferenceOptional| | authenticationSettings| Collection of authentication settings included into this API.| AuthenticationSettingsContractOptional| | azureName| The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be.| stringOptional| | contact| Contact information for the API.| ApiContactInformationOptional| | description| Description of the API. May include HTML formatting tags.| stringOptional| | displayName| API name. Must be 1 to 300 characters long.| stringOptional| | format| Format of the Content in which the API is getting imported. New formats can be added in the future| ApiCreateOrUpdateProperties_FormatOptional| | isCurrent| Indicates if API revision is current api revision.| boolOptional| | license| License information for the API.| ApiLicenseInformationOptional| | operatorSpec| The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure| ApiOperatorSpecOptional| | owner| The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource| genruntime.KnownResourceReferenceRequired| | path| Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.| stringRequired| | protocols| Describes on which protocols the operations in this API can be invoked.| ApiCreateOrUpdateProperties_Protocols[]Optional| | serviceUrl| Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.| stringOptional| | sourceApiReference| API identifier of the source API.| genruntime.ResourceReferenceOptional| | subscriptionKeyParameterNames| Protocols over which API is made available.| SubscriptionKeyParameterNamesContractOptional| | subscriptionRequired| Specifies whether an API or Product subscription is required for accessing the API.| boolOptional| | termsOfServiceUrl| A URL to the Terms of Service for the API. MUST be in the format of a URL.| stringOptional| | translateRequiredQueryParameters| Strategy of translating required query parameters to template ones. By default has value template. Possible values: template, query| ApiCreateOrUpdateProperties_TranslateRequiredQueryParametersOptional| | type| Type of API.| ApiCreateOrUpdateProperties_TypeOptional| | value| Content value when Importing an API.| stringOptional| | wsdlSelector| Criteria to limit import of WSDL to a subset of the document.| ApiCreateOrUpdateProperties_WsdlSelectorOptional|">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="apimanagement.azure.com/v20240501">
-  <meta itemprop="description" content="Api Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}
-Used by: ApiList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptional status Api_STATUSOptional Api_Spec Property Description Type apiRevision Describes the revision of the API. If no value is provided, default revision 1 is created stringOptional apiRevisionDescription Description of the API Revision. stringOptional apiType Type of API to create. * http creates a REST API * soap creates a SOAP pass-through API * websocket creates websocket API * graphql creates GraphQL API. New types can be added in the future. ApiCreateOrUpdateProperties_ApiTypeOptional apiVersion Indicates the version identifier of the API if the API is versioned stringOptional apiVersionDescription Description of the API Version. stringOptional apiVersionSet Version set details ApiVersionSetContractDetailsOptional apiVersionSetReference A resource identifier for the related ApiVersionSet. genruntime.ResourceReferenceOptional authenticationSettings Collection of authentication settings included into this API. AuthenticationSettingsContractOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional contact Contact information for the API. ApiContactInformationOptional description Description of the API. May include HTML formatting tags. stringOptional displayName API name. Must be 1 to 300 characters long. stringOptional format Format of the Content in which the API is getting imported. New formats can be added in the future ApiCreateOrUpdateProperties_FormatOptional isCurrent Indicates if API revision is current api revision. boolOptional license License information for the API. ApiLicenseInformationOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ApiOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource genruntime.KnownResourceReferenceRequired path Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. stringRequired protocols Describes on which protocols the operations in this API can be invoked. ApiCreateOrUpdateProperties_Protocols[]Optional serviceUrl Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long. stringOptional sourceApiReference API identifier of the source API. genruntime.ResourceReferenceOptional subscriptionKeyParameterNames Protocols over which API is made available. SubscriptionKeyParameterNamesContractOptional subscriptionRequired Specifies whether an API or Product subscription is required for accessing the API. boolOptional termsOfServiceUrl A URL to the Terms of Service for the API. MUST be in the format of a URL. stringOptional translateRequiredQueryParameters Strategy of translating required query parameters to template ones. By default has value template. Possible values: template, query ApiCreateOrUpdateProperties_TranslateRequiredQueryParametersOptional type Type of API. ApiCreateOrUpdateProperties_TypeOptional value Content value when Importing an API. stringOptional wsdlSelector Criteria to limit import of WSDL to a subset of the document. ApiCreateOrUpdateProperties_WsdlSelectorOptional Api_STATUS Property Description Type apiRevision Describes the revision of the API. If no value is provided, default revision 1 is created stringOptional apiRevisionDescription Description of the API Revision. stringOptional apiVersion Indicates the version identifier of the API if the API is versioned stringOptional apiVersionDescription Description of the API Version. stringOptional apiVersionSet Version set details ApiVersionSetContractDetails_STATUSOptional apiVersionSetId A resource identifier for the related ApiVersionSet. stringOptional authenticationSettings Collection of authentication settings included into this API. AuthenticationSettingsContract_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional contact Contact information for the API. ApiContactInformation_STATUSOptional description Description of the API. May include HTML formatting tags. stringOptional displayName API name. Must be 1 to 300 characters long. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional isCurrent Indicates if API revision is current api revision. boolOptional isOnline Indicates if API revision is accessible via the gateway. boolOptional license License information for the API. ApiLicenseInformation_STATUSOptional name The name of the resource stringOptional path Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. stringOptional properties_type Type of API. ApiContractProperties_Type_STATUSOptional protocols Describes on which protocols the operations in this API can be invoked. ApiContractProperties_Protocols_STATUS[]Optional provisioningState The provisioning state stringOptional serviceUrl Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long. stringOptional sourceApiId API identifier of the source API. stringOptional subscriptionKeyParameterNames Protocols over which API is made available. SubscriptionKeyParameterNamesContract_STATUSOptional subscriptionRequired Specifies whether an API or Product subscription is required for accessing the API. boolOptional termsOfServiceUrl A URL to the Terms of Service for the API. MUST be in the format of a URL. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional ApiDiagnostic Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}/​diagnostics/​{diagnosticId}">
-  <meta itemprop="wordCount" content="25122">
+  <meta itemprop="description" content="Api Generator information:
+Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId} Used by: ApiList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptional status Api_STATUSOptional Api_Spec Property Description Type apiRevision Describes the revision of the API. If no value is provided, default revision 1 is created stringOptional apiRevisionDescription Description of the API Revision. stringOptional apiType Type of API to create. http creates a REST API soap creates a SOAP pass-through API websocket creates websocket API graphql creates GraphQL API. New types can be added in the future.| ApiCreateOrUpdateProperties_ApiTypeOptional| | apiVersion| Indicates the version identifier of the API if the API is versioned| stringOptional| | apiVersionDescription| Description of the API Version.| stringOptional| | apiVersionSet| Version set details| ApiVersionSetContractDetailsOptional| | apiVersionSetReference| A resource identifier for the related ApiVersionSet.| genruntime.ResourceReferenceOptional| | authenticationSettings| Collection of authentication settings included into this API.| AuthenticationSettingsContractOptional| | azureName| The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be.| stringOptional| | contact| Contact information for the API.| ApiContactInformationOptional| | description| Description of the API. May include HTML formatting tags.| stringOptional| | displayName| API name. Must be 1 to 300 characters long.| stringOptional| | format| Format of the Content in which the API is getting imported. New formats can be added in the future| ApiCreateOrUpdateProperties_FormatOptional| | isCurrent| Indicates if API revision is current api revision.| boolOptional| | license| License information for the API.| ApiLicenseInformationOptional| | operatorSpec| The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure| ApiOperatorSpecOptional| | owner| The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource| genruntime.KnownResourceReferenceRequired| | path| Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.| stringRequired| | protocols| Describes on which protocols the operations in this API can be invoked.| ApiCreateOrUpdateProperties_Protocols[]Optional| | serviceUrl| Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.| stringOptional| | sourceApiReference| API identifier of the source API.| genruntime.ResourceReferenceOptional| | subscriptionKeyParameterNames| Protocols over which API is made available.| SubscriptionKeyParameterNamesContractOptional| | subscriptionRequired| Specifies whether an API or Product subscription is required for accessing the API.| boolOptional| | termsOfServiceUrl| A URL to the Terms of Service for the API. MUST be in the format of a URL.| stringOptional| | translateRequiredQueryParameters| Strategy of translating required query parameters to template ones. By default has value template. Possible values: template, query| ApiCreateOrUpdateProperties_TranslateRequiredQueryParametersOptional| | type| Type of API.| ApiCreateOrUpdateProperties_TypeOptional| | value| Content value when Importing an API.| stringOptional| | wsdlSelector| Criteria to limit import of WSDL to a subset of the document.| ApiCreateOrUpdateProperties_WsdlSelectorOptional|">
+  <meta itemprop="wordCount" content="25060">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="apimanagement.azure.com/v20240501">
-  <meta name="twitter:description" content="Api Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}
-Used by: ApiList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptional status Api_STATUSOptional Api_Spec Property Description Type apiRevision Describes the revision of the API. If no value is provided, default revision 1 is created stringOptional apiRevisionDescription Description of the API Revision. stringOptional apiType Type of API to create. * http creates a REST API * soap creates a SOAP pass-through API * websocket creates websocket API * graphql creates GraphQL API. New types can be added in the future. ApiCreateOrUpdateProperties_ApiTypeOptional apiVersion Indicates the version identifier of the API if the API is versioned stringOptional apiVersionDescription Description of the API Version. stringOptional apiVersionSet Version set details ApiVersionSetContractDetailsOptional apiVersionSetReference A resource identifier for the related ApiVersionSet. genruntime.ResourceReferenceOptional authenticationSettings Collection of authentication settings included into this API. AuthenticationSettingsContractOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional contact Contact information for the API. ApiContactInformationOptional description Description of the API. May include HTML formatting tags. stringOptional displayName API name. Must be 1 to 300 characters long. stringOptional format Format of the Content in which the API is getting imported. New formats can be added in the future ApiCreateOrUpdateProperties_FormatOptional isCurrent Indicates if API revision is current api revision. boolOptional license License information for the API. ApiLicenseInformationOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ApiOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource genruntime.KnownResourceReferenceRequired path Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. stringRequired protocols Describes on which protocols the operations in this API can be invoked. ApiCreateOrUpdateProperties_Protocols[]Optional serviceUrl Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long. stringOptional sourceApiReference API identifier of the source API. genruntime.ResourceReferenceOptional subscriptionKeyParameterNames Protocols over which API is made available. SubscriptionKeyParameterNamesContractOptional subscriptionRequired Specifies whether an API or Product subscription is required for accessing the API. boolOptional termsOfServiceUrl A URL to the Terms of Service for the API. MUST be in the format of a URL. stringOptional translateRequiredQueryParameters Strategy of translating required query parameters to template ones. By default has value template. Possible values: template, query ApiCreateOrUpdateProperties_TranslateRequiredQueryParametersOptional type Type of API. ApiCreateOrUpdateProperties_TypeOptional value Content value when Importing an API. stringOptional wsdlSelector Criteria to limit import of WSDL to a subset of the document. ApiCreateOrUpdateProperties_WsdlSelectorOptional Api_STATUS Property Description Type apiRevision Describes the revision of the API. If no value is provided, default revision 1 is created stringOptional apiRevisionDescription Description of the API Revision. stringOptional apiVersion Indicates the version identifier of the API if the API is versioned stringOptional apiVersionDescription Description of the API Version. stringOptional apiVersionSet Version set details ApiVersionSetContractDetails_STATUSOptional apiVersionSetId A resource identifier for the related ApiVersionSet. stringOptional authenticationSettings Collection of authentication settings included into this API. AuthenticationSettingsContract_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional contact Contact information for the API. ApiContactInformation_STATUSOptional description Description of the API. May include HTML formatting tags. stringOptional displayName API name. Must be 1 to 300 characters long. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional isCurrent Indicates if API revision is current api revision. boolOptional isOnline Indicates if API revision is accessible via the gateway. boolOptional license License information for the API. ApiLicenseInformation_STATUSOptional name The name of the resource stringOptional path Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. stringOptional properties_type Type of API. ApiContractProperties_Type_STATUSOptional protocols Describes on which protocols the operations in this API can be invoked. ApiContractProperties_Protocols_STATUS[]Optional provisioningState The provisioning state stringOptional serviceUrl Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long. stringOptional sourceApiId API identifier of the source API. stringOptional subscriptionKeyParameterNames Protocols over which API is made available. SubscriptionKeyParameterNamesContract_STATUSOptional subscriptionRequired Specifies whether an API or Product subscription is required for accessing the API. boolOptional termsOfServiceUrl A URL to the Terms of Service for the API. MUST be in the format of a URL. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional ApiDiagnostic Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}/​diagnostics/​{diagnosticId}">
+  <meta name="twitter:description" content="Api Generator information:
+Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId} Used by: ApiList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptional status Api_STATUSOptional Api_Spec Property Description Type apiRevision Describes the revision of the API. If no value is provided, default revision 1 is created stringOptional apiRevisionDescription Description of the API Revision. stringOptional apiType Type of API to create. http creates a REST API soap creates a SOAP pass-through API websocket creates websocket API graphql creates GraphQL API. New types can be added in the future.| ApiCreateOrUpdateProperties_ApiTypeOptional| | apiVersion| Indicates the version identifier of the API if the API is versioned| stringOptional| | apiVersionDescription| Description of the API Version.| stringOptional| | apiVersionSet| Version set details| ApiVersionSetContractDetailsOptional| | apiVersionSetReference| A resource identifier for the related ApiVersionSet.| genruntime.ResourceReferenceOptional| | authenticationSettings| Collection of authentication settings included into this API.| AuthenticationSettingsContractOptional| | azureName| The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be.| stringOptional| | contact| Contact information for the API.| ApiContactInformationOptional| | description| Description of the API. May include HTML formatting tags.| stringOptional| | displayName| API name. Must be 1 to 300 characters long.| stringOptional| | format| Format of the Content in which the API is getting imported. New formats can be added in the future| ApiCreateOrUpdateProperties_FormatOptional| | isCurrent| Indicates if API revision is current api revision.| boolOptional| | license| License information for the API.| ApiLicenseInformationOptional| | operatorSpec| The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure| ApiOperatorSpecOptional| | owner| The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource| genruntime.KnownResourceReferenceRequired| | path| Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.| stringRequired| | protocols| Describes on which protocols the operations in this API can be invoked.| ApiCreateOrUpdateProperties_Protocols[]Optional| | serviceUrl| Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.| stringOptional| | sourceApiReference| API identifier of the source API.| genruntime.ResourceReferenceOptional| | subscriptionKeyParameterNames| Protocols over which API is made available.| SubscriptionKeyParameterNamesContractOptional| | subscriptionRequired| Specifies whether an API or Product subscription is required for accessing the API.| boolOptional| | termsOfServiceUrl| A URL to the Terms of Service for the API. MUST be in the format of a URL.| stringOptional| | translateRequiredQueryParameters| Strategy of translating required query parameters to template ones. By default has value template. Possible values: template, query| ApiCreateOrUpdateProperties_TranslateRequiredQueryParametersOptional| | type| Type of API.| ApiCreateOrUpdateProperties_TypeOptional| | value| Content value when Importing an API.| stringOptional| | wsdlSelector| Criteria to limit import of WSDL to a subset of the document.| ApiCreateOrUpdateProperties_WsdlSelectorOptional|">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -1517,7 +1517,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
 </header>
 	<!-- Documentation generated by crddoc. DO NOT EDIT. -->
 <h2 id="Api">Api</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}</li>
+</ul>
 <p>Used by: <a href="#ApiList">ApiList</a>.</p>
 <table>
   <thead>
@@ -1572,136 +1576,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
       </tr>
       <tr>
           <td>apiType</td>
-          <td>Type of API to create. * <code>http</code> creates a REST API * <code>soap</code> creates a SOAP pass-through API * <code>websocket</code> creates websocket API * <code>graphql</code> creates GraphQL API. New types can be added in the future.</td>
-          <td><a href="#ApiCreateOrUpdateProperties_ApiType">ApiCreateOrUpdateProperties_ApiType</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>apiVersion</td>
-          <td>Indicates the version identifier of the API if the API is versioned</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>apiVersionDescription</td>
-          <td>Description of the API Version.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>apiVersionSet</td>
-          <td>Version set details</td>
-          <td><a href="#ApiVersionSetContractDetails">ApiVersionSetContractDetails</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>apiVersionSetReference</td>
-          <td>A resource identifier for the related ApiVersionSet.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>authenticationSettings</td>
-          <td>Collection of authentication settings included into this API.</td>
-          <td><a href="#AuthenticationSettingsContract">AuthenticationSettingsContract</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>contact</td>
-          <td>Contact information for the API.</td>
-          <td><a href="#ApiContactInformation">ApiContactInformation</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>description</td>
-          <td>Description of the API. May include HTML formatting tags.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>displayName</td>
-          <td>API name. Must be 1 to 300 characters long.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>format</td>
-          <td>Format of the Content in which the API is getting imported. New formats can be added in the future</td>
-          <td><a href="#ApiCreateOrUpdateProperties_Format">ApiCreateOrUpdateProperties_Format</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>isCurrent</td>
-          <td>Indicates if API revision is current api revision.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>license</td>
-          <td>License information for the API.</td>
-          <td><a href="#ApiLicenseInformation">ApiLicenseInformation</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#ApiOperatorSpec">ApiOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>path</td>
-          <td>Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>protocols</td>
-          <td>Describes on which protocols the operations in this API can be invoked.</td>
-          <td><a href="#ApiCreateOrUpdateProperties_Protocols">ApiCreateOrUpdateProperties_Protocols[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>serviceUrl</td>
-          <td>Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sourceApiReference</td>
-          <td>API identifier of the source API.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subscriptionKeyParameterNames</td>
-          <td>Protocols over which API is made available.</td>
-          <td><a href="#SubscriptionKeyParameterNamesContract">SubscriptionKeyParameterNamesContract</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subscriptionRequired</td>
-          <td>Specifies whether an API or Product subscription is required for accessing the API.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>termsOfServiceUrl</td>
-          <td>A URL to the Terms of Service for the API. MUST be in the format of a URL.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>translateRequiredQueryParameters</td>
-          <td>Strategy of translating required query parameters to template ones. By default has value <code>template</code>. Possible values: <code>template</code>, <code>query</code></td>
-          <td><a href="#ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters">ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>Type of API.</td>
-          <td><a href="#ApiCreateOrUpdateProperties_Type">ApiCreateOrUpdateProperties_Type</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>value</td>
-          <td>Content value when Importing an API.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>wsdlSelector</td>
-          <td>Criteria to limit import of WSDL to a subset of the document.</td>
-          <td><a href="#ApiCreateOrUpdateProperties_WsdlSelector">ApiCreateOrUpdateProperties_WsdlSelector</a><br/><small>Optional</small></td>
+          <td>Type of API to create.</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
+<ul>
+<li><code>http</code> creates a REST API</li>
+<li><code>soap</code> creates a SOAP pass-through API</li>
+<li><code>websocket</code> creates websocket API</li>
+<li><code>graphql</code> creates GraphQL API.</li>
+</ul>
+<p>New types can be added in the future.| <a href="#ApiCreateOrUpdateProperties_ApiType">ApiCreateOrUpdateProperties_ApiType</a><br/><small>Optional</small>| | apiVersion| Indicates the version identifier of the API if the API is versioned| string<br/><small>Optional</small>| | apiVersionDescription| Description of the API Version.| string<br/><small>Optional</small>| | apiVersionSet| Version set details| <a href="#ApiVersionSetContractDetails">ApiVersionSetContractDetails</a><br/><small>Optional</small>| | apiVersionSetReference| A resource identifier for the related ApiVersionSet.| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small>| | authenticationSettings| Collection of authentication settings included into this API.| <a href="#AuthenticationSettingsContract">AuthenticationSettingsContract</a><br/><small>Optional</small>| | azureName| The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.| string<br/><small>Optional</small>| | contact| Contact information for the API.| <a href="#ApiContactInformation">ApiContactInformation</a><br/><small>Optional</small>| | description| Description of the API. May include HTML formatting tags.| string<br/><small>Optional</small>| | displayName| API name. Must be 1 to 300 characters long.| string<br/><small>Optional</small>| | format| Format of the Content in which the API is getting imported. New formats can be added in the future| <a href="#ApiCreateOrUpdateProperties_Format">ApiCreateOrUpdateProperties_Format</a><br/><small>Optional</small>| | isCurrent| Indicates if API revision is current api revision.| bool<br/><small>Optional</small>| | license| License information for the API.| <a href="#ApiLicenseInformation">ApiLicenseInformation</a><br/><small>Optional</small>| | operatorSpec| The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure| <a href="#ApiOperatorSpec">ApiOperatorSpec</a><br/><small>Optional</small>| | owner| The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small>| | path| Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.| string<br/><small>Required</small>| | protocols| Describes on which protocols the operations in this API can be invoked.| <a href="#ApiCreateOrUpdateProperties_Protocols">ApiCreateOrUpdateProperties_Protocols[]</a><br/><small>Optional</small>| | serviceUrl| Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.| string<br/><small>Optional</small>| | sourceApiReference| API identifier of the source API.| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small>| | subscriptionKeyParameterNames| Protocols over which API is made available.| <a href="#SubscriptionKeyParameterNamesContract">SubscriptionKeyParameterNamesContract</a><br/><small>Optional</small>| | subscriptionRequired| Specifies whether an API or Product subscription is required for accessing the API.| bool<br/><small>Optional</small>| | termsOfServiceUrl| A URL to the Terms of Service for the API. MUST be in the format of a URL.| string<br/><small>Optional</small>| | translateRequiredQueryParameters| Strategy of translating required query parameters to template ones. By default has value <code>template</code>. Possible values: <code>template</code>, <code>query</code>| <a href="#ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters">ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters</a><br/><small>Optional</small>| | type| Type of API.| <a href="#ApiCreateOrUpdateProperties_Type">ApiCreateOrUpdateProperties_Type</a><br/><small>Optional</small>| | value| Content value when Importing an API.| string<br/><small>Optional</small>| | wsdlSelector| Criteria to limit import of WSDL to a subset of the document.| <a href="#ApiCreateOrUpdateProperties_WsdlSelector">ApiCreateOrUpdateProperties_WsdlSelector</a><br/><small>Optional</small>|</p>
 <h3 id="Api_STATUS">Api_STATUS</h3>
 <table>
   <thead>
@@ -1845,7 +1731,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ApiDiagnostic">ApiDiagnostic</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}/​diagnostics/​{diagnosticId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}/​diagnostics/​{diagnosticId}</li>
+</ul>
 <p>Used by: <a href="#ApiDiagnosticList">ApiDiagnosticList</a>.</p>
 <table>
   <thead>
@@ -2038,7 +1928,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ApiDiagnosticList">ApiDiagnosticList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}/​diagnostics/​{diagnosticId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}/​diagnostics/​{diagnosticId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2066,7 +1960,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ApiList">ApiList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2094,7 +1992,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ApiPolicy">ApiPolicy</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}/​policies/​{policyId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}/​policies/​{policyId}</li>
+</ul>
 <p>Used by: <a href="#ApiPolicyList">ApiPolicyList</a>.</p>
 <table>
   <thead>
@@ -2202,7 +2104,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ApiPolicyList">ApiPolicyList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}/​policies/​{policyId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}/​policies/​{policyId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2245,7 +2151,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ApiVersionSet">ApiVersionSet</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapiversionsets.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apiVersionSets/​{versionSetId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapiversionsets.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apiVersionSets/​{versionSetId}</li>
+</ul>
 <p>Used by: <a href="#ApiVersionSetList">ApiVersionSetList</a>.</p>
 <table>
   <thead>
@@ -2388,7 +2298,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ApiVersionSetList">ApiVersionSetList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapiversionsets.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apiVersionSets/​{versionSetId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapiversionsets.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apiVersionSets/​{versionSetId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2416,7 +2330,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="AuthorizationProvider">AuthorizationProvider</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimauthorizationproviders.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​authorizationProviders/​{authorizationProviderId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimauthorizationproviders.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​authorizationProviders/​{authorizationProviderId}</li>
+</ul>
 <p>Used by: <a href="#AuthorizationProviderList">AuthorizationProviderList</a>.</p>
 <table>
   <thead>
@@ -2539,7 +2457,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="AuthorizationProviderList">AuthorizationProviderList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimauthorizationproviders.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​authorizationProviders/​{authorizationProviderId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimauthorizationproviders.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​authorizationProviders/​{authorizationProviderId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2567,7 +2489,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="AuthorizationProvidersAuthorization">AuthorizationProvidersAuthorization</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimauthorizationproviders.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​authorizationProviders/​{authorizationProviderId}/​authorizations/​{authorizationId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimauthorizationproviders.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​authorizationProviders/​{authorizationProviderId}/​authorizations/​{authorizationId}</li>
+</ul>
 <p>Used by: <a href="#AuthorizationProvidersAuthorizationList">AuthorizationProvidersAuthorizationList</a>.</p>
 <table>
   <thead>
@@ -2700,7 +2626,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="AuthorizationProvidersAuthorizationList">AuthorizationProvidersAuthorizationList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimauthorizationproviders.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​authorizationProviders/​{authorizationProviderId}/​authorizations/​{authorizationId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimauthorizationproviders.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​authorizationProviders/​{authorizationProviderId}/​authorizations/​{authorizationId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2728,7 +2658,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="AuthorizationProvidersAuthorizationsAccessPolicy">AuthorizationProvidersAuthorizationsAccessPolicy</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimauthorizationproviders.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​authorizationProviders/​{authorizationProviderId}/​authorizations/​{authorizationId}/​accessPolicies/​{authorizationAccessPolicyId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimauthorizationproviders.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​authorizationProviders/​{authorizationProviderId}/​authorizations/​{authorizationId}/​accessPolicies/​{authorizationAccessPolicyId}</li>
+</ul>
 <p>Used by: <a href="#AuthorizationProvidersAuthorizationsAccessPolicyList">AuthorizationProvidersAuthorizationsAccessPolicyList</a>.</p>
 <table>
   <thead>
@@ -2861,7 +2795,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="AuthorizationProvidersAuthorizationsAccessPolicyList">AuthorizationProvidersAuthorizationsAccessPolicyList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimauthorizationproviders.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​authorizationProviders/​{authorizationProviderId}/​authorizations/​{authorizationId}/​accessPolicies/​{authorizationAccessPolicyId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimauthorizationproviders.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​authorizationProviders/​{authorizationProviderId}/​authorizations/​{authorizationId}/​accessPolicies/​{authorizationAccessPolicyId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2889,7 +2827,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="Backend">Backend</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimbackends.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​backends/​{backendId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimbackends.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​backends/​{backendId}</li>
+</ul>
 <p>Used by: <a href="#BackendList">BackendList</a>.</p>
 <table>
   <thead>
@@ -3102,7 +3044,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="BackendList">BackendList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimbackends.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​backends/​{backendId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimbackends.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​backends/​{backendId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -3130,7 +3076,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="Certificate">Certificate</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimcertificates.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​certificates/​{certificateId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimcertificates.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​certificates/​{certificateId}</li>
+</ul>
 <p>Used by: <a href="#CertificateList">CertificateList</a>.</p>
 <table>
   <thead>
@@ -3258,7 +3208,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="CertificateList">CertificateList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimcertificates.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​certificates/​{certificateId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimcertificates.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​certificates/​{certificateId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -3286,7 +3240,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="Diagnostic">Diagnostic</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimdiagnostics.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​diagnostics/​{diagnosticId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimdiagnostics.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​diagnostics/​{diagnosticId}</li>
+</ul>
 <p>Used by: <a href="#DiagnosticList">DiagnosticList</a>.</p>
 <table>
   <thead>
@@ -3479,7 +3437,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="DiagnosticList">DiagnosticList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimdiagnostics.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​diagnostics/​{diagnosticId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimdiagnostics.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​diagnostics/​{diagnosticId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -3507,7 +3469,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="Group">Group</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgroups.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​groups/​{groupId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgroups.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​groups/​{groupId}</li>
+</ul>
 <p>Used by: <a href="#GroupList">GroupList</a>.</p>
 <table>
   <thead>
@@ -3645,7 +3611,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="GroupList">GroupList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgroups.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​groups/​{groupId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgroups.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​groups/​{groupId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -3673,7 +3643,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="Logger">Logger</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimloggers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​loggers/​{loggerId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimloggers.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​loggers/​{loggerId}</li>
+</ul>
 <p>Used by: <a href="#LoggerList">LoggerList</a>.</p>
 <table>
   <thead>
@@ -3816,7 +3790,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="LoggerList">LoggerList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimloggers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​loggers/​{loggerId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimloggers.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​loggers/​{loggerId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -3844,7 +3822,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="NamedValue">NamedValue</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimnamedvalues.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​namedValues/​{namedValueId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimnamedvalues.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​namedValues/​{namedValueId}</li>
+</ul>
 <p>Used by: <a href="#NamedValueList">NamedValueList</a>.</p>
 <table>
   <thead>
@@ -3992,7 +3974,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="NamedValueList">NamedValueList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimnamedvalues.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​namedValues/​{namedValueId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimnamedvalues.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​namedValues/​{namedValueId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -4020,7 +4006,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="Policy">Policy</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimpolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​policies/​{policyId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimpolicies.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​policies/​{policyId}</li>
+</ul>
 <p>Used by: <a href="#PolicyList">PolicyList</a>.</p>
 <table>
   <thead>
@@ -4128,7 +4118,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="PolicyFragment">PolicyFragment</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimpolicyfragments.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​policyFragments/​{id}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimpolicyfragments.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​policyFragments/​{id}</li>
+</ul>
 <p>Used by: <a href="#PolicyFragmentList">PolicyFragmentList</a>.</p>
 <table>
   <thead>
@@ -4256,7 +4250,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="PolicyFragmentList">PolicyFragmentList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimpolicyfragments.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​policyFragments/​{id}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimpolicyfragments.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​policyFragments/​{id}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -4284,7 +4282,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="PolicyList">PolicyList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimpolicies.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​policies/​{policyId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimpolicies.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​policies/​{policyId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -4312,7 +4314,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="Product">Product</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}</li>
+</ul>
 <p>Used by: <a href="#ProductList">ProductList</a>.</p>
 <table>
   <thead>
@@ -4475,7 +4481,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ProductApi">ProductApi</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}/​apis/​{apiId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}/​apis/​{apiId}</li>
+</ul>
 <p>Used by: <a href="#ProductApiList">ProductApiList</a>.</p>
 <table>
   <thead>
@@ -4553,7 +4563,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ProductApiList">ProductApiList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}/​apis/​{apiId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}/​apis/​{apiId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -4581,7 +4595,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ProductGroup">ProductGroup</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}/​groups/​{groupId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}/​groups/​{groupId}</li>
+</ul>
 <p>Used by: <a href="#ProductGroupList">ProductGroupList</a>.</p>
 <table>
   <thead>
@@ -4659,7 +4677,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ProductGroupList">ProductGroupList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}/​groups/​{groupId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}/​groups/​{groupId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -4687,7 +4709,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ProductList">ProductList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -4715,7 +4741,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ProductPolicy">ProductPolicy</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}/​policies/​{policyId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}/​policies/​{policyId}</li>
+</ul>
 <p>Used by: <a href="#ProductPolicyList">ProductPolicyList</a>.</p>
 <table>
   <thead>
@@ -4823,7 +4853,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ProductPolicyList">ProductPolicyList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}/​policies/​{policyId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimproducts.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​products/​{productId}/​policies/​{policyId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -4851,7 +4885,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="Service">Service</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimdeployment.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimdeployment.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}</li>
+</ul>
 <p>Used by: <a href="#ServiceList">ServiceList</a>.</p>
 <table>
   <thead>
@@ -5264,7 +5302,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ServiceGateway">ServiceGateway</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}</li>
+</ul>
 <p>Used by: <a href="#ServiceGatewayList">ServiceGatewayList</a>.</p>
 <table>
   <thead>
@@ -5377,7 +5419,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ServiceGatewayApi">ServiceGatewayApi</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}/​apis/​{apiId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}/​apis/​{apiId}</li>
+</ul>
 <p>Used by: <a href="#ServiceGatewayApiList">ServiceGatewayApiList</a>.</p>
 <table>
   <thead>
@@ -5460,7 +5506,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ServiceGatewayApiList">ServiceGatewayApiList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}/​apis/​{apiId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}/​apis/​{apiId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -5488,7 +5538,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ServiceGatewayCertificateAuthority">ServiceGatewayCertificateAuthority</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}/​certificateAuthorities/​{certificateId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}/​certificateAuthorities/​{certificateId}</li>
+</ul>
 <p>Used by: <a href="#ServiceGatewayCertificateAuthorityList">ServiceGatewayCertificateAuthorityList</a>.</p>
 <table>
   <thead>
@@ -5591,7 +5645,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ServiceGatewayCertificateAuthorityList">ServiceGatewayCertificateAuthorityList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}/​certificateAuthorities/​{certificateId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}/​certificateAuthorities/​{certificateId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -5619,7 +5677,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ServiceGatewayHostnameConfiguration">ServiceGatewayHostnameConfiguration</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}/​hostnameConfigurations/​{hcId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}/​hostnameConfigurations/​{hcId}</li>
+</ul>
 <p>Used by: <a href="#ServiceGatewayHostnameConfigurationList">ServiceGatewayHostnameConfigurationList</a>.</p>
 <table>
   <thead>
@@ -5772,7 +5834,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ServiceGatewayHostnameConfigurationList">ServiceGatewayHostnameConfigurationList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}/​hostnameConfigurations/​{hcId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}/​hostnameConfigurations/​{hcId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -5800,7 +5866,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ServiceGatewayList">ServiceGatewayList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​gateways/​{gatewayId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -5828,7 +5898,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="ServiceList">ServiceList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimdeployment.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimdeployment.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -5856,7 +5930,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="Subscription">Subscription</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimsubscriptions.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​subscriptions/​{sid}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimsubscriptions.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​subscriptions/​{sid}</li>
+</ul>
 <p>Used by: <a href="#SubscriptionList">SubscriptionList</a>.</p>
 <table>
   <thead>
@@ -6039,7 +6117,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="SubscriptionList">SubscriptionList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimsubscriptions.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​subscriptions/​{sid}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimsubscriptions.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​subscriptions/​{sid}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -6067,7 +6149,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="User">User</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimusers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​users/​{userId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimusers.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​users/​{userId}</li>
+</ul>
 <p>Used by: <a href="#UserList">UserList</a>.</p>
 <table>
   <thead>
@@ -6245,7 +6331,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="UserList">UserList</h2>
-<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimusers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​users/​{userId}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimusers.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​users/​{userId}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -6295,136 +6385,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
       </tr>
       <tr>
           <td>apiType</td>
-          <td>Type of API to create. * <code>http</code> creates a REST API * <code>soap</code> creates a SOAP pass-through API * <code>websocket</code> creates websocket API * <code>graphql</code> creates GraphQL API. New types can be added in the future.</td>
-          <td><a href="#ApiCreateOrUpdateProperties_ApiType">ApiCreateOrUpdateProperties_ApiType</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>apiVersion</td>
-          <td>Indicates the version identifier of the API if the API is versioned</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>apiVersionDescription</td>
-          <td>Description of the API Version.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>apiVersionSet</td>
-          <td>Version set details</td>
-          <td><a href="#ApiVersionSetContractDetails">ApiVersionSetContractDetails</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>apiVersionSetReference</td>
-          <td>A resource identifier for the related ApiVersionSet.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>authenticationSettings</td>
-          <td>Collection of authentication settings included into this API.</td>
-          <td><a href="#AuthenticationSettingsContract">AuthenticationSettingsContract</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>contact</td>
-          <td>Contact information for the API.</td>
-          <td><a href="#ApiContactInformation">ApiContactInformation</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>description</td>
-          <td>Description of the API. May include HTML formatting tags.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>displayName</td>
-          <td>API name. Must be 1 to 300 characters long.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>format</td>
-          <td>Format of the Content in which the API is getting imported. New formats can be added in the future</td>
-          <td><a href="#ApiCreateOrUpdateProperties_Format">ApiCreateOrUpdateProperties_Format</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>isCurrent</td>
-          <td>Indicates if API revision is current api revision.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>license</td>
-          <td>License information for the API.</td>
-          <td><a href="#ApiLicenseInformation">ApiLicenseInformation</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#ApiOperatorSpec">ApiOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>path</td>
-          <td>Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>protocols</td>
-          <td>Describes on which protocols the operations in this API can be invoked.</td>
-          <td><a href="#ApiCreateOrUpdateProperties_Protocols">ApiCreateOrUpdateProperties_Protocols[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>serviceUrl</td>
-          <td>Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sourceApiReference</td>
-          <td>API identifier of the source API.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subscriptionKeyParameterNames</td>
-          <td>Protocols over which API is made available.</td>
-          <td><a href="#SubscriptionKeyParameterNamesContract">SubscriptionKeyParameterNamesContract</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subscriptionRequired</td>
-          <td>Specifies whether an API or Product subscription is required for accessing the API.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>termsOfServiceUrl</td>
-          <td>A URL to the Terms of Service for the API. MUST be in the format of a URL.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>translateRequiredQueryParameters</td>
-          <td>Strategy of translating required query parameters to template ones. By default has value <code>template</code>. Possible values: <code>template</code>, <code>query</code></td>
-          <td><a href="#ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters">ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>Type of API.</td>
-          <td><a href="#ApiCreateOrUpdateProperties_Type">ApiCreateOrUpdateProperties_Type</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>value</td>
-          <td>Content value when Importing an API.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>wsdlSelector</td>
-          <td>Criteria to limit import of WSDL to a subset of the document.</td>
-          <td><a href="#ApiCreateOrUpdateProperties_WsdlSelector">ApiCreateOrUpdateProperties_WsdlSelector</a><br/><small>Optional</small></td>
+          <td>Type of API to create.</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
+<ul>
+<li><code>http</code> creates a REST API</li>
+<li><code>soap</code> creates a SOAP pass-through API</li>
+<li><code>websocket</code> creates websocket API</li>
+<li><code>graphql</code> creates GraphQL API.</li>
+</ul>
+<p>New types can be added in the future.| <a href="#ApiCreateOrUpdateProperties_ApiType">ApiCreateOrUpdateProperties_ApiType</a><br/><small>Optional</small>| | apiVersion| Indicates the version identifier of the API if the API is versioned| string<br/><small>Optional</small>| | apiVersionDescription| Description of the API Version.| string<br/><small>Optional</small>| | apiVersionSet| Version set details| <a href="#ApiVersionSetContractDetails">ApiVersionSetContractDetails</a><br/><small>Optional</small>| | apiVersionSetReference| A resource identifier for the related ApiVersionSet.| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small>| | authenticationSettings| Collection of authentication settings included into this API.| <a href="#AuthenticationSettingsContract">AuthenticationSettingsContract</a><br/><small>Optional</small>| | azureName| The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.| string<br/><small>Optional</small>| | contact| Contact information for the API.| <a href="#ApiContactInformation">ApiContactInformation</a><br/><small>Optional</small>| | description| Description of the API. May include HTML formatting tags.| string<br/><small>Optional</small>| | displayName| API name. Must be 1 to 300 characters long.| string<br/><small>Optional</small>| | format| Format of the Content in which the API is getting imported. New formats can be added in the future| <a href="#ApiCreateOrUpdateProperties_Format">ApiCreateOrUpdateProperties_Format</a><br/><small>Optional</small>| | isCurrent| Indicates if API revision is current api revision.| bool<br/><small>Optional</small>| | license| License information for the API.| <a href="#ApiLicenseInformation">ApiLicenseInformation</a><br/><small>Optional</small>| | operatorSpec| The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure| <a href="#ApiOperatorSpec">ApiOperatorSpec</a><br/><small>Optional</small>| | owner| The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small>| | path| Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.| string<br/><small>Required</small>| | protocols| Describes on which protocols the operations in this API can be invoked.| <a href="#ApiCreateOrUpdateProperties_Protocols">ApiCreateOrUpdateProperties_Protocols[]</a><br/><small>Optional</small>| | serviceUrl| Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.| string<br/><small>Optional</small>| | sourceApiReference| API identifier of the source API.| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small>| | subscriptionKeyParameterNames| Protocols over which API is made available.| <a href="#SubscriptionKeyParameterNamesContract">SubscriptionKeyParameterNamesContract</a><br/><small>Optional</small>| | subscriptionRequired| Specifies whether an API or Product subscription is required for accessing the API.| bool<br/><small>Optional</small>| | termsOfServiceUrl| A URL to the Terms of Service for the API. MUST be in the format of a URL.| string<br/><small>Optional</small>| | translateRequiredQueryParameters| Strategy of translating required query parameters to template ones. By default has value <code>template</code>. Possible values: <code>template</code>, <code>query</code>| <a href="#ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters">ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters</a><br/><small>Optional</small>| | type| Type of API.| <a href="#ApiCreateOrUpdateProperties_Type">ApiCreateOrUpdateProperties_Type</a><br/><small>Optional</small>| | value| Content value when Importing an API.| string<br/><small>Optional</small>| | wsdlSelector| Criteria to limit import of WSDL to a subset of the document.| <a href="#ApiCreateOrUpdateProperties_WsdlSelector">ApiCreateOrUpdateProperties_WsdlSelector</a><br/><small>Optional</small>|</p>
 <h2 id="Api_STATUS">Api_STATUS</h2>
 <p>Used by: <a href="#Api">Api</a>.</p>
 <table>

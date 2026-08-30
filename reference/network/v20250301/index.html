@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>network.azure.com/v20250301 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2025-03-01” AzureFirewall Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName}
-Used by: AzureFirewallList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_SpecOptional status AzureFirewall_STATUSOptional AzureFirewall_Spec Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfigurationOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocationOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResourceOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddressesOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfigurationOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AzureFirewallOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The Azure Firewall Resource SKU. AzureFirewallSkuOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelModeOptional virtualHub The virtualHub to which the firewall belongs. SubResourceOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewall_STATUS Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection_STATUS[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfiguration_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocation_STATUSOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResource_STATUSOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddresses_STATUSOptional id Resource ID. stringOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration_STATUS[]Optional ipGroups IpGroups associated with AzureFirewall. AzureFirewallIpGroups_STATUS[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfiguration_STATUSOptional name Resource name. stringOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection_STATUS[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection_STATUS[]Optional provisioningState The provisioning state of the Azure firewall resource. AzureFirewallProvisioningState_STATUSOptional sku The Azure Firewall Resource SKU. AzureFirewallSku_STATUSOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelMode_STATUSOptional type Resource type. stringOptional virtualHub The virtualHub to which the firewall belongs. SubResource_STATUSOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewallList Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName}">
+<meta name="description" content="APIVersion Value Description “2025-03-01” AzureFirewall Generator information:
+Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName} Used by: AzureFirewallList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_SpecOptional status AzureFirewall_STATUSOptional AzureFirewall_Spec Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfigurationOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocationOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResourceOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddressesOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfigurationOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AzureFirewallOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The Azure Firewall Resource SKU. AzureFirewallSkuOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelModeOptional virtualHub The virtualHub to which the firewall belongs. SubResourceOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewall_STATUS Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection_STATUS[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfiguration_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocation_STATUSOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResource_STATUSOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddresses_STATUSOptional id Resource ID. stringOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration_STATUS[]Optional ipGroups IpGroups associated with AzureFirewall. AzureFirewallIpGroups_STATUS[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfiguration_STATUSOptional name Resource name. stringOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection_STATUS[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection_STATUS[]Optional provisioningState The provisioning state of the Azure firewall resource. AzureFirewallProvisioningState_STATUSOptional sku The Azure Firewall Resource SKU. AzureFirewallSku_STATUSOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelMode_STATUSOptional type Resource type. stringOptional virtualHub The virtualHub to which the firewall belongs. SubResource_STATUSOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewallList Generator information:">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/network/v20250301/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="network.azure.com/v20250301">
-  <meta property="og:description" content="APIVersion Value Description “2025-03-01” AzureFirewall Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName}
-Used by: AzureFirewallList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_SpecOptional status AzureFirewall_STATUSOptional AzureFirewall_Spec Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfigurationOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocationOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResourceOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddressesOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfigurationOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AzureFirewallOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The Azure Firewall Resource SKU. AzureFirewallSkuOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelModeOptional virtualHub The virtualHub to which the firewall belongs. SubResourceOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewall_STATUS Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection_STATUS[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfiguration_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocation_STATUSOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResource_STATUSOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddresses_STATUSOptional id Resource ID. stringOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration_STATUS[]Optional ipGroups IpGroups associated with AzureFirewall. AzureFirewallIpGroups_STATUS[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfiguration_STATUSOptional name Resource name. stringOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection_STATUS[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection_STATUS[]Optional provisioningState The provisioning state of the Azure firewall resource. AzureFirewallProvisioningState_STATUSOptional sku The Azure Firewall Resource SKU. AzureFirewallSku_STATUSOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelMode_STATUSOptional type Resource type. stringOptional virtualHub The virtualHub to which the firewall belongs. SubResource_STATUSOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewallList Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName}">
+  <meta property="og:description" content="APIVersion Value Description “2025-03-01” AzureFirewall Generator information:
+Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName} Used by: AzureFirewallList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_SpecOptional status AzureFirewall_STATUSOptional AzureFirewall_Spec Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfigurationOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocationOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResourceOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddressesOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfigurationOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AzureFirewallOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The Azure Firewall Resource SKU. AzureFirewallSkuOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelModeOptional virtualHub The virtualHub to which the firewall belongs. SubResourceOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewall_STATUS Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection_STATUS[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfiguration_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocation_STATUSOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResource_STATUSOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddresses_STATUSOptional id Resource ID. stringOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration_STATUS[]Optional ipGroups IpGroups associated with AzureFirewall. AzureFirewallIpGroups_STATUS[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfiguration_STATUSOptional name Resource name. stringOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection_STATUS[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection_STATUS[]Optional provisioningState The provisioning state of the Azure firewall resource. AzureFirewallProvisioningState_STATUSOptional sku The Azure Firewall Resource SKU. AzureFirewallSku_STATUSOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelMode_STATUSOptional type Resource type. stringOptional virtualHub The virtualHub to which the firewall belongs. SubResource_STATUSOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewallList Generator information:">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="network.azure.com/v20250301">
-  <meta itemprop="description" content="APIVersion Value Description “2025-03-01” AzureFirewall Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName}
-Used by: AzureFirewallList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_SpecOptional status AzureFirewall_STATUSOptional AzureFirewall_Spec Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfigurationOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocationOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResourceOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddressesOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfigurationOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AzureFirewallOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The Azure Firewall Resource SKU. AzureFirewallSkuOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelModeOptional virtualHub The virtualHub to which the firewall belongs. SubResourceOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewall_STATUS Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection_STATUS[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfiguration_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocation_STATUSOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResource_STATUSOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddresses_STATUSOptional id Resource ID. stringOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration_STATUS[]Optional ipGroups IpGroups associated with AzureFirewall. AzureFirewallIpGroups_STATUS[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfiguration_STATUSOptional name Resource name. stringOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection_STATUS[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection_STATUS[]Optional provisioningState The provisioning state of the Azure firewall resource. AzureFirewallProvisioningState_STATUSOptional sku The Azure Firewall Resource SKU. AzureFirewallSku_STATUSOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelMode_STATUSOptional type Resource type. stringOptional virtualHub The virtualHub to which the firewall belongs. SubResource_STATUSOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewallList Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName}">
-  <meta itemprop="wordCount" content="39251">
+  <meta itemprop="description" content="APIVersion Value Description “2025-03-01” AzureFirewall Generator information:
+Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName} Used by: AzureFirewallList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_SpecOptional status AzureFirewall_STATUSOptional AzureFirewall_Spec Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfigurationOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocationOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResourceOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddressesOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfigurationOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AzureFirewallOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The Azure Firewall Resource SKU. AzureFirewallSkuOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelModeOptional virtualHub The virtualHub to which the firewall belongs. SubResourceOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewall_STATUS Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection_STATUS[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfiguration_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocation_STATUSOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResource_STATUSOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddresses_STATUSOptional id Resource ID. stringOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration_STATUS[]Optional ipGroups IpGroups associated with AzureFirewall. AzureFirewallIpGroups_STATUS[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfiguration_STATUSOptional name Resource name. stringOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection_STATUS[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection_STATUS[]Optional provisioningState The provisioning state of the Azure firewall resource. AzureFirewallProvisioningState_STATUSOptional sku The Azure Firewall Resource SKU. AzureFirewallSku_STATUSOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelMode_STATUSOptional type Resource type. stringOptional virtualHub The virtualHub to which the firewall belongs. SubResource_STATUSOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewallList Generator information:">
+  <meta itemprop="wordCount" content="39163">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="network.azure.com/v20250301">
-  <meta name="twitter:description" content="APIVersion Value Description “2025-03-01” AzureFirewall Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName}
-Used by: AzureFirewallList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_SpecOptional status AzureFirewall_STATUSOptional AzureFirewall_Spec Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfigurationOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocationOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResourceOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddressesOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfigurationOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AzureFirewallOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The Azure Firewall Resource SKU. AzureFirewallSkuOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelModeOptional virtualHub The virtualHub to which the firewall belongs. SubResourceOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewall_STATUS Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection_STATUS[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfiguration_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocation_STATUSOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResource_STATUSOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddresses_STATUSOptional id Resource ID. stringOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration_STATUS[]Optional ipGroups IpGroups associated with AzureFirewall. AzureFirewallIpGroups_STATUS[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfiguration_STATUSOptional name Resource name. stringOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection_STATUS[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection_STATUS[]Optional provisioningState The provisioning state of the Azure firewall resource. AzureFirewallProvisioningState_STATUSOptional sku The Azure Firewall Resource SKU. AzureFirewallSku_STATUSOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelMode_STATUSOptional type Resource type. stringOptional virtualHub The virtualHub to which the firewall belongs. SubResource_STATUSOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewallList Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName}">
+  <meta name="twitter:description" content="APIVersion Value Description “2025-03-01” AzureFirewall Generator information:
+Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName} Used by: AzureFirewallList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_SpecOptional status AzureFirewall_STATUSOptional AzureFirewall_Spec Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfigurationOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocationOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResourceOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddressesOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfigurationOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AzureFirewallOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The Azure Firewall Resource SKU. AzureFirewallSkuOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelModeOptional virtualHub The virtualHub to which the firewall belongs. SubResourceOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewall_STATUS Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection_STATUS[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfiguration_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocation_STATUSOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResource_STATUSOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddresses_STATUSOptional id Resource ID. stringOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration_STATUS[]Optional ipGroups IpGroups associated with AzureFirewall. AzureFirewallIpGroups_STATUS[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfiguration_STATUSOptional name Resource name. stringOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection_STATUS[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection_STATUS[]Optional provisioningState The provisioning state of the Azure firewall resource. AzureFirewallProvisioningState_STATUSOptional sku The Azure Firewall Resource SKU. AzureFirewallSku_STATUSOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelMode_STATUSOptional type Resource type. stringOptional virtualHub The virtualHub to which the firewall belongs. SubResource_STATUSOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewallList Generator information:">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -1747,7 +1747,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="AzureFirewall">AzureFirewall</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName}</li>
+</ul>
 <p>Used by: <a href="#AzureFirewallList">AzureFirewallList</a>.</p>
 <table>
   <thead>
@@ -2015,7 +2019,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="AzureFirewallList">AzureFirewallList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2043,7 +2051,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="BastionHost">BastionHost</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/bastionHost.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​bastionHosts/​{bastionHostName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/bastionHost.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​bastionHosts/​{bastionHostName}</li>
+</ul>
 <p>Used by: <a href="#BastionHostList">BastionHostList</a>.</p>
 <table>
   <thead>
@@ -2316,7 +2328,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="BastionHostList">BastionHostList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/bastionHost.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​bastionHosts/​{bastionHostName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/bastionHost.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​bastionHosts/​{bastionHostName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2344,7 +2360,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="DdosProtectionPlan">DdosProtectionPlan</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/ddosProtectionPlan.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​ddosProtectionPlans/​{ddosProtectionPlanName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/ddosProtectionPlan.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​ddosProtectionPlans/​{ddosProtectionPlanName}</li>
+</ul>
 <p>Used by: <a href="#DdosProtectionPlanList">DdosProtectionPlanList</a>.</p>
 <table>
   <thead>
@@ -2482,7 +2502,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="DdosProtectionPlanList">DdosProtectionPlanList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/ddosProtectionPlan.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​ddosProtectionPlans/​{ddosProtectionPlanName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/ddosProtectionPlan.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​ddosProtectionPlans/​{ddosProtectionPlanName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2510,7 +2534,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="FirewallPoliciesRuleCollectionGroup">FirewallPoliciesRuleCollectionGroup</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/firewallPolicy.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​firewallPolicies/​{firewallPolicyName}/​ruleCollectionGroups/​{ruleCollectionGroupName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/firewallPolicy.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​firewallPolicies/​{firewallPolicyName}/​ruleCollectionGroups/​{ruleCollectionGroupName}</li>
+</ul>
 <p>Used by: <a href="#FirewallPoliciesRuleCollectionGroupList">FirewallPoliciesRuleCollectionGroupList</a>.</p>
 <table>
   <thead>
@@ -2638,7 +2666,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="FirewallPoliciesRuleCollectionGroupList">FirewallPoliciesRuleCollectionGroupList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/firewallPolicy.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​firewallPolicies/​{firewallPolicyName}/​ruleCollectionGroups/​{ruleCollectionGroupName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/firewallPolicy.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​firewallPolicies/​{firewallPolicyName}/​ruleCollectionGroups/​{ruleCollectionGroupName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2666,7 +2698,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="FirewallPolicy">FirewallPolicy</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/firewallPolicy.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​firewallPolicies/​{firewallPolicyName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/firewallPolicy.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​firewallPolicies/​{firewallPolicyName}</li>
+</ul>
 <p>Used by: <a href="#FirewallPolicyList">FirewallPolicyList</a>.</p>
 <table>
   <thead>
@@ -2929,7 +2965,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="FirewallPolicyList">FirewallPolicyList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/firewallPolicy.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​firewallPolicies/​{firewallPolicyName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/firewallPolicy.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​firewallPolicies/​{firewallPolicyName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2957,7 +2997,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="LoadBalancer">LoadBalancer</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/loadBalancer.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}</li>
+</ul>
 <p>Used by: <a href="#LoadBalancerList">LoadBalancerList</a>.</p>
 <table>
   <thead>
@@ -3185,7 +3229,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="LoadBalancerList">LoadBalancerList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/loadBalancer.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -3213,7 +3261,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="LoadBalancersInboundNatRule">LoadBalancersInboundNatRule</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}/​inboundNatRules/​{inboundNatRuleName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/loadBalancer.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}/​inboundNatRules/​{inboundNatRuleName}</li>
+</ul>
 <p>Used by: <a href="#LoadBalancersInboundNatRuleList">LoadBalancersInboundNatRuleList</a>.</p>
 <table>
   <thead>
@@ -3421,7 +3473,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="LoadBalancersInboundNatRuleList">LoadBalancersInboundNatRuleList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/loadBalancer.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}/​inboundNatRules/​{inboundNatRuleName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/loadBalancer.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​loadBalancers/​{loadBalancerName}/​inboundNatRules/​{inboundNatRuleName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -3449,7 +3505,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="NatGateway">NatGateway</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/natGateway.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​natGateways/​{natGatewayName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/natGateway.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​natGateways/​{natGatewayName}</li>
+</ul>
 <p>Used by: <a href="#NatGatewayList">NatGatewayList</a>.</p>
 <table>
   <thead>
@@ -3662,7 +3722,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="NatGatewayList">NatGatewayList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/natGateway.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​natGateways/​{natGatewayName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/natGateway.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​natGateways/​{natGatewayName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -3690,7 +3754,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="NetworkInterface">NetworkInterface</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkInterface.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkInterfaces/​{networkInterfaceName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkInterface.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkInterfaces/​{networkInterfaceName}</li>
+</ul>
 <p>Used by: <a href="#NetworkInterfaceList">NetworkInterfaceList</a>.</p>
 <table>
   <thead>
@@ -3988,7 +4056,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="NetworkInterfaceList">NetworkInterfaceList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkInterface.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkInterfaces/​{networkInterfaceName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkInterface.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkInterfaces/​{networkInterfaceName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -4016,7 +4088,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="NetworkSecurityGroup">NetworkSecurityGroup</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkSecurityGroup.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkSecurityGroup.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}</li>
+</ul>
 <p>Used by: <a href="#NetworkSecurityGroupList">NetworkSecurityGroupList</a>.</p>
 <table>
   <thead>
@@ -4169,7 +4245,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="NetworkSecurityGroupList">NetworkSecurityGroupList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkSecurityGroup.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkSecurityGroup.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -4197,7 +4277,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="NetworkSecurityGroupsSecurityRule">NetworkSecurityGroupsSecurityRule</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkSecurityGroup.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}/​securityRules/​{securityRuleName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkSecurityGroup.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}/​securityRules/​{securityRuleName}</li>
+</ul>
 <p>Used by: <a href="#NetworkSecurityGroupsSecurityRuleList">NetworkSecurityGroupsSecurityRuleList</a>.</p>
 <table>
   <thead>
@@ -4450,7 +4534,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="NetworkSecurityGroupsSecurityRuleList">NetworkSecurityGroupsSecurityRuleList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkSecurityGroup.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}/​securityRules/​{securityRuleName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/networkSecurityGroup.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​networkSecurityGroups/​{networkSecurityGroupName}/​securityRules/​{securityRuleName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -4478,7 +4566,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="PrivateEndpoint">PrivateEndpoint</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateEndpoint.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateEndpoints/​{privateEndpointName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateEndpoint.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateEndpoints/​{privateEndpointName}</li>
+</ul>
 <p>Used by: <a href="#PrivateEndpointList">PrivateEndpointList</a>.</p>
 <table>
   <thead>
@@ -4691,7 +4783,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="PrivateEndpointList">PrivateEndpointList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateEndpoint.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateEndpoints/​{privateEndpointName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateEndpoint.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateEndpoints/​{privateEndpointName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -4719,7 +4815,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="PrivateEndpointsPrivateDnsZoneGroup">PrivateEndpointsPrivateDnsZoneGroup</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateEndpoint.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateEndpoints/​{privateEndpointName}/​privateDnsZoneGroups/​{privateDnsZoneGroupName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateEndpoint.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateEndpoints/​{privateEndpointName}/​privateDnsZoneGroups/​{privateDnsZoneGroupName}</li>
+</ul>
 <p>Used by: <a href="#PrivateEndpointsPrivateDnsZoneGroupList">PrivateEndpointsPrivateDnsZoneGroupList</a>.</p>
 <table>
   <thead>
@@ -4827,7 +4927,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="PrivateEndpointsPrivateDnsZoneGroupList">PrivateEndpointsPrivateDnsZoneGroupList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateEndpoint.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateEndpoints/​{privateEndpointName}/​privateDnsZoneGroups/​{privateDnsZoneGroupName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateEndpoint.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateEndpoints/​{privateEndpointName}/​privateDnsZoneGroups/​{privateDnsZoneGroupName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -4855,7 +4959,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="PrivateLinkService">PrivateLinkService</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateLinkService.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateLinkServices/​{serviceName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateLinkService.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateLinkServices/​{serviceName}</li>
+</ul>
 <p>Used by: <a href="#PrivateLinkServiceList">PrivateLinkServiceList</a>.</p>
 <table>
   <thead>
@@ -5083,7 +5191,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="PrivateLinkServiceList">PrivateLinkServiceList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateLinkService.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateLinkServices/​{serviceName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/privateLinkService.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​privateLinkServices/​{serviceName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -5111,7 +5223,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="PublicIPAddress">PublicIPAddress</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/publicIpAddress.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPAddresses/​{publicIpAddressName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/publicIpAddress.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPAddresses/​{publicIpAddressName}</li>
+</ul>
 <p>Used by: <a href="#PublicIPAddressList">PublicIPAddressList</a>.</p>
 <table>
   <thead>
@@ -5389,7 +5505,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="PublicIPAddressList">PublicIPAddressList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/publicIpAddress.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPAddresses/​{publicIpAddressName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/publicIpAddress.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPAddresses/​{publicIpAddressName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -5417,7 +5537,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="PublicIPPrefix">PublicIPPrefix</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/publicIpPrefix.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPPrefixes/​{publicIpPrefixName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/publicIpPrefix.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPPrefixes/​{publicIpPrefixName}</li>
+</ul>
 <p>Used by: <a href="#PublicIPPrefixList">PublicIPPrefixList</a>.</p>
 <table>
   <thead>
@@ -5640,7 +5764,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="PublicIPPrefixList">PublicIPPrefixList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/publicIpPrefix.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPPrefixes/​{publicIpPrefixName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/publicIpPrefix.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​publicIPPrefixes/​{publicIpPrefixName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -5668,7 +5796,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="RouteTable">RouteTable</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/routeTable.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/routeTable.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}</li>
+</ul>
 <p>Used by: <a href="#RouteTableList">RouteTableList</a>.</p>
 <table>
   <thead>
@@ -5806,7 +5938,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="RouteTableList">RouteTableList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/routeTable.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/routeTable.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -5834,7 +5970,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="RouteTablesRoute">RouteTablesRoute</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/routeTable.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}/​routes/​{routeName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/routeTable.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}/​routes/​{routeName}</li>
+</ul>
 <p>Used by: <a href="#RouteTablesRouteList">RouteTablesRouteList</a>.</p>
 <table>
   <thead>
@@ -5972,7 +6112,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="RouteTablesRouteList">RouteTablesRouteList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/routeTable.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}/​routes/​{routeName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/routeTable.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​routeTables/​{routeTableName}/​routes/​{routeName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -6000,7 +6144,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="VirtualNetwork">VirtualNetwork</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}</li>
+</ul>
 <p>Used by: <a href="#VirtualNetworkList">VirtualNetworkList</a>.</p>
 <table>
   <thead>
@@ -6248,7 +6396,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="VirtualNetworkGateway">VirtualNetworkGateway</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetworkGateway.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworkGateways/​{virtualNetworkGatewayName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetworkGateway.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworkGateways/​{virtualNetworkGatewayName}</li>
+</ul>
 <p>Used by: <a href="#VirtualNetworkGatewayList">VirtualNetworkGatewayList</a>.</p>
 <table>
   <thead>
@@ -6651,7 +6803,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="VirtualNetworkGatewayList">VirtualNetworkGatewayList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetworkGateway.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworkGateways/​{virtualNetworkGatewayName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetworkGateway.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworkGateways/​{virtualNetworkGatewayName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -6679,7 +6835,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="VirtualNetworkList">VirtualNetworkList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -6707,7 +6867,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="VirtualNetworksSubnet">VirtualNetworksSubnet</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</li>
+</ul>
 <p>Used by: <a href="#VirtualNetworksSubnetList">VirtualNetworksSubnetList</a>.</p>
 <table>
   <thead>
@@ -6990,7 +7154,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="VirtualNetworksSubnetList">VirtualNetworksSubnetList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​subnets/​{subnetName}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -7018,7 +7186,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="VirtualNetworksVirtualNetworkPeering">VirtualNetworksVirtualNetworkPeering</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​virtualNetworkPeerings/​{virtualNetworkPeeringName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​virtualNetworkPeerings/​{virtualNetworkPeeringName}</li>
+</ul>
 <p>Used by: <a href="#VirtualNetworksVirtualNetworkPeeringList">VirtualNetworksVirtualNetworkPeeringList</a>.</p>
 <table>
   <thead>
@@ -7301,7 +7473,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   </tbody>
 </table>
 <h2 id="VirtualNetworksVirtualNetworkPeeringList">VirtualNetworksVirtualNetworkPeeringList</h2>
-<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​virtualNetworkPeerings/​{virtualNetworkPeeringName}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/virtualNetwork.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{virtualNetworkName}/​virtualNetworkPeerings/​{virtualNetworkPeeringName}</li>
+</ul>
 <table>
   <thead>
       <tr>

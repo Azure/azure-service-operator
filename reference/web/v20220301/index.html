@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>web.azure.com/v20220301 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2022-03-01” ServerFarm Generator information: - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name}
-Used by: ServerFarmList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_SpecOptional status ServerFarm_STATUSOptional ServerFarm_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocationOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfileOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfileOptional location Resource Location. stringRequired maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerFarmOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional reserved If Linux app service plan true, false otherwise. boolOptional sku Description of a SKU for a scalable resource. SkuDescriptionOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarm_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocation_STATUSOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional geoRegion Geographical location for the App Service plan. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfile_STATUSOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional id Resource Id. stringOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfile_STATUSOptional location Resource Location. stringOptional maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional maximumNumberOfWorkers Maximum number of instances that can be assigned to this App Service plan. intOptional name Resource Name. stringOptional numberOfSites Number of apps assigned to this App Service plan. intOptional numberOfWorkers The number of instances that are assigned to this App Service plan. intOptional perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional provisioningState Provisioning state of the App Service Plan. Serverfarm_Properties_ProvisioningState_STATUSOptional reserved If Linux app service plan true, false otherwise. boolOptional resourceGroup Resource group of the App Service plan. stringOptional sku Description of a SKU for a scalable resource. SkuDescription_STATUSOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional status App Service plan status. Serverfarm_Properties_Status_STATUSOptional subscription App Service plan subscription. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional type Resource type. stringOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarmList Generator information: - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name}">
+<meta name="description" content="APIVersion Value Description “2022-03-01” ServerFarm Generator information:
+Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name} Used by: ServerFarmList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_SpecOptional status ServerFarm_STATUSOptional ServerFarm_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocationOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfileOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfileOptional location Resource Location. stringRequired maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerFarmOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional reserved If Linux app service plan true, false otherwise. boolOptional sku Description of a SKU for a scalable resource. SkuDescriptionOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarm_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocation_STATUSOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional geoRegion Geographical location for the App Service plan. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfile_STATUSOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional id Resource Id. stringOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfile_STATUSOptional location Resource Location. stringOptional maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional maximumNumberOfWorkers Maximum number of instances that can be assigned to this App Service plan. intOptional name Resource Name. stringOptional numberOfSites Number of apps assigned to this App Service plan. intOptional numberOfWorkers The number of instances that are assigned to this App Service plan. intOptional perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional provisioningState Provisioning state of the App Service Plan. Serverfarm_Properties_ProvisioningState_STATUSOptional reserved If Linux app service plan true, false otherwise. boolOptional resourceGroup Resource group of the App Service plan. stringOptional sku Description of a SKU for a scalable resource. SkuDescription_STATUSOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional status App Service plan status. Serverfarm_Properties_Status_STATUSOptional subscription App Service plan subscription. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional type Resource type. stringOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarmList Generator information:">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/web/v20220301/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="web.azure.com/v20220301">
-  <meta property="og:description" content="APIVersion Value Description “2022-03-01” ServerFarm Generator information: - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name}
-Used by: ServerFarmList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_SpecOptional status ServerFarm_STATUSOptional ServerFarm_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocationOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfileOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfileOptional location Resource Location. stringRequired maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerFarmOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional reserved If Linux app service plan true, false otherwise. boolOptional sku Description of a SKU for a scalable resource. SkuDescriptionOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarm_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocation_STATUSOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional geoRegion Geographical location for the App Service plan. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfile_STATUSOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional id Resource Id. stringOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfile_STATUSOptional location Resource Location. stringOptional maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional maximumNumberOfWorkers Maximum number of instances that can be assigned to this App Service plan. intOptional name Resource Name. stringOptional numberOfSites Number of apps assigned to this App Service plan. intOptional numberOfWorkers The number of instances that are assigned to this App Service plan. intOptional perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional provisioningState Provisioning state of the App Service Plan. Serverfarm_Properties_ProvisioningState_STATUSOptional reserved If Linux app service plan true, false otherwise. boolOptional resourceGroup Resource group of the App Service plan. stringOptional sku Description of a SKU for a scalable resource. SkuDescription_STATUSOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional status App Service plan status. Serverfarm_Properties_Status_STATUSOptional subscription App Service plan subscription. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional type Resource type. stringOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarmList Generator information: - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name}">
+  <meta property="og:description" content="APIVersion Value Description “2022-03-01” ServerFarm Generator information:
+Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name} Used by: ServerFarmList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_SpecOptional status ServerFarm_STATUSOptional ServerFarm_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocationOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfileOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfileOptional location Resource Location. stringRequired maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerFarmOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional reserved If Linux app service plan true, false otherwise. boolOptional sku Description of a SKU for a scalable resource. SkuDescriptionOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarm_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocation_STATUSOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional geoRegion Geographical location for the App Service plan. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfile_STATUSOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional id Resource Id. stringOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfile_STATUSOptional location Resource Location. stringOptional maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional maximumNumberOfWorkers Maximum number of instances that can be assigned to this App Service plan. intOptional name Resource Name. stringOptional numberOfSites Number of apps assigned to this App Service plan. intOptional numberOfWorkers The number of instances that are assigned to this App Service plan. intOptional perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional provisioningState Provisioning state of the App Service Plan. Serverfarm_Properties_ProvisioningState_STATUSOptional reserved If Linux app service plan true, false otherwise. boolOptional resourceGroup Resource group of the App Service plan. stringOptional sku Description of a SKU for a scalable resource. SkuDescription_STATUSOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional status App Service plan status. Serverfarm_Properties_Status_STATUSOptional subscription App Service plan subscription. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional type Resource type. stringOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarmList Generator information:">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="web.azure.com/v20220301">
-  <meta itemprop="description" content="APIVersion Value Description “2022-03-01” ServerFarm Generator information: - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name}
-Used by: ServerFarmList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_SpecOptional status ServerFarm_STATUSOptional ServerFarm_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocationOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfileOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfileOptional location Resource Location. stringRequired maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerFarmOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional reserved If Linux app service plan true, false otherwise. boolOptional sku Description of a SKU for a scalable resource. SkuDescriptionOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarm_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocation_STATUSOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional geoRegion Geographical location for the App Service plan. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfile_STATUSOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional id Resource Id. stringOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfile_STATUSOptional location Resource Location. stringOptional maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional maximumNumberOfWorkers Maximum number of instances that can be assigned to this App Service plan. intOptional name Resource Name. stringOptional numberOfSites Number of apps assigned to this App Service plan. intOptional numberOfWorkers The number of instances that are assigned to this App Service plan. intOptional perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional provisioningState Provisioning state of the App Service Plan. Serverfarm_Properties_ProvisioningState_STATUSOptional reserved If Linux app service plan true, false otherwise. boolOptional resourceGroup Resource group of the App Service plan. stringOptional sku Description of a SKU for a scalable resource. SkuDescription_STATUSOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional status App Service plan status. Serverfarm_Properties_Status_STATUSOptional subscription App Service plan subscription. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional type Resource type. stringOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarmList Generator information: - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name}">
-  <meta itemprop="wordCount" content="10359">
+  <meta itemprop="description" content="APIVersion Value Description “2022-03-01” ServerFarm Generator information:
+Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name} Used by: ServerFarmList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_SpecOptional status ServerFarm_STATUSOptional ServerFarm_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocationOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfileOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfileOptional location Resource Location. stringRequired maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerFarmOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional reserved If Linux app service plan true, false otherwise. boolOptional sku Description of a SKU for a scalable resource. SkuDescriptionOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarm_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocation_STATUSOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional geoRegion Geographical location for the App Service plan. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfile_STATUSOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional id Resource Id. stringOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfile_STATUSOptional location Resource Location. stringOptional maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional maximumNumberOfWorkers Maximum number of instances that can be assigned to this App Service plan. intOptional name Resource Name. stringOptional numberOfSites Number of apps assigned to this App Service plan. intOptional numberOfWorkers The number of instances that are assigned to this App Service plan. intOptional perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional provisioningState Provisioning state of the App Service Plan. Serverfarm_Properties_ProvisioningState_STATUSOptional reserved If Linux app service plan true, false otherwise. boolOptional resourceGroup Resource group of the App Service plan. stringOptional sku Description of a SKU for a scalable resource. SkuDescription_STATUSOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional status App Service plan status. Serverfarm_Properties_Status_STATUSOptional subscription App Service plan subscription. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional type Resource type. stringOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarmList Generator information:">
+  <meta itemprop="wordCount" content="10497">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="web.azure.com/v20220301">
-  <meta name="twitter:description" content="APIVersion Value Description “2022-03-01” ServerFarm Generator information: - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name}
-Used by: ServerFarmList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_SpecOptional status ServerFarm_STATUSOptional ServerFarm_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocationOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfileOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfileOptional location Resource Location. stringRequired maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerFarmOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional reserved If Linux app service plan true, false otherwise. boolOptional sku Description of a SKU for a scalable resource. SkuDescriptionOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarm_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocation_STATUSOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional geoRegion Geographical location for the App Service plan. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfile_STATUSOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional id Resource Id. stringOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfile_STATUSOptional location Resource Location. stringOptional maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional maximumNumberOfWorkers Maximum number of instances that can be assigned to this App Service plan. intOptional name Resource Name. stringOptional numberOfSites Number of apps assigned to this App Service plan. intOptional numberOfWorkers The number of instances that are assigned to this App Service plan. intOptional perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional provisioningState Provisioning state of the App Service Plan. Serverfarm_Properties_ProvisioningState_STATUSOptional reserved If Linux app service plan true, false otherwise. boolOptional resourceGroup Resource group of the App Service plan. stringOptional sku Description of a SKU for a scalable resource. SkuDescription_STATUSOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional status App Service plan status. Serverfarm_Properties_Status_STATUSOptional subscription App Service plan subscription. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional type Resource type. stringOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarmList Generator information: - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name}">
+  <meta name="twitter:description" content="APIVersion Value Description “2022-03-01” ServerFarm Generator information:
+Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name} Used by: ServerFarmList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_SpecOptional status ServerFarm_STATUSOptional ServerFarm_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocationOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfileOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfileOptional location Resource Location. stringRequired maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerFarmOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional reserved If Linux app service plan true, false otherwise. boolOptional sku Description of a SKU for a scalable resource. SkuDescriptionOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarm_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional elasticScaleEnabled ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku boolOptional extendedLocation Extended Location. ExtendedLocation_STATUSOptional freeOfferExpirationTime The time when the server farm free offer expires. stringOptional geoRegion Geographical location for the App Service plan. stringOptional hostingEnvironmentProfile Specification for the App Service Environment to use for the App Service plan. HostingEnvironmentProfile_STATUSOptional hyperV If Hyper-V container app service plan true, false otherwise. boolOptional id Resource Id. stringOptional isSpot If true, this App Service Plan owns spot instances. boolOptional isXenon Obsolete: If Hyper-V container app service plan true, false otherwise. boolOptional kind Kind of resource. stringOptional kubeEnvironmentProfile Specification for the Kubernetes Environment to use for the App Service plan. KubeEnvironmentProfile_STATUSOptional location Resource Location. stringOptional maximumElasticWorkerCount Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan intOptional maximumNumberOfWorkers Maximum number of instances that can be assigned to this App Service plan. intOptional name Resource Name. stringOptional numberOfSites Number of apps assigned to this App Service plan. intOptional numberOfWorkers The number of instances that are assigned to this App Service plan. intOptional perSiteScaling If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan. boolOptional provisioningState Provisioning state of the App Service Plan. Serverfarm_Properties_ProvisioningState_STATUSOptional reserved If Linux app service plan true, false otherwise. boolOptional resourceGroup Resource group of the App Service plan. stringOptional sku Description of a SKU for a scalable resource. SkuDescription_STATUSOptional spotExpirationTime The time when the server farm expires. Valid only if it is a spot server farm. stringOptional status App Service plan status. Serverfarm_Properties_Status_STATUSOptional subscription App Service plan subscription. stringOptional tags Resource tags. map[string]stringOptional targetWorkerCount Scaling worker count. intOptional targetWorkerSizeId Scaling worker size ID. intOptional type Resource type. stringOptional workerTierName Target worker tier assigned to the App Service plan. stringOptional zoneRedundant If true, this App Service Plan will perform availability zone balancing. If false, this App Service Plan will not perform availability zone balancing. boolOptional ServerFarmList Generator information:">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -1236,7 +1236,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
   </tbody>
 </table>
 <h2 id="ServerFarm">ServerFarm</h2>
-<p>Generator information: - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name}</li>
+</ul>
 <p>Used by: <a href="#ServerFarmList">ServerFarmList</a>.</p>
 <table>
   <thead>
@@ -1569,7 +1573,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
   </tbody>
 </table>
 <h2 id="ServerFarmList">ServerFarmList</h2>
-<p>Generator information: - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/AppServicePlans.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​serverfarms/​{name}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -1597,7 +1605,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
   </tbody>
 </table>
 <h2 id="Site">Site</h2>
-<p>Generator information: - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/WebApps.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​sites/​{name}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/WebApps.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​sites/​{name}</li>
+</ul>
 <p>Used by: <a href="#SiteList">SiteList</a>.</p>
 <table>
   <thead>
@@ -1662,161 +1674,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
       </tr>
       <tr>
           <td>clientCertMode</td>
-          <td>This composes with ClientCertEnabled setting. - ClientCertEnabled: false means ClientCert is ignored. - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required. - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.</td>
-          <td><a href="#Site_Properties_ClientCertMode_Spec">Site_Properties_ClientCertMode_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>cloningInfo</td>
-          <td>If specified during app creation, the app is cloned from a source app.</td>
-          <td><a href="#CloningInfo">CloningInfo</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>containerSize</td>
-          <td>Size of the function container.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customDomainVerificationId</td>
-          <td>Unique identifier that verifies the custom domains assigned to the app. Customer will add this id to a txt record for verification.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dailyMemoryTimeQuota</td>
-          <td>Maximum allowed daily memory-time quota (applicable on dynamic apps only).</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>enabled</td>
-          <td><code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline).</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>extendedLocation</td>
-          <td>Extended Location.</td>
-          <td><a href="#ExtendedLocation">ExtendedLocation</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hostingEnvironmentProfile</td>
-          <td>App Service Environment to use for the app.</td>
-          <td><a href="#HostingEnvironmentProfile">HostingEnvironmentProfile</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hostNamesDisabled</td>
-          <td><code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>. If <code>true</code>, the app is only accessible via API management process.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hostNameSslStates</td>
-          <td>Hostname SSL states are used to manage the SSL bindings for app&rsquo;s hostnames.</td>
-          <td><a href="#HostNameSslState">HostNameSslState[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>httpsOnly</td>
-          <td>HttpsOnly: configures a web site to accept only https requests. Issues redirect for http requests</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hyperV</td>
-          <td>Hyper-V sandbox.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>identity</td>
-          <td>Managed service identity.</td>
-          <td><a href="#ManagedServiceIdentity">ManagedServiceIdentity</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>isXenon</td>
-          <td>Obsolete: Hyper-V sandbox.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>keyVaultReferenceIdentity</td>
-          <td>Identity to use for Key Vault Reference authentication.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>kind</td>
-          <td>Kind of resource.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>Resource Location.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#SiteOperatorSpec">SiteOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>publicNetworkAccess</td>
-          <td>Property to allow or block all public traffic. Allowed Values: <code>Enabled</code>, <code>Disabled</code> or an empty string.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>redundancyMode</td>
-          <td>Site redundancy mode</td>
-          <td><a href="#Site_Properties_RedundancyMode_Spec">Site_Properties_RedundancyMode_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>reserved</td>
-          <td><code>true</code> if reserved; otherwise, <code>false</code>.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>scmSiteAlsoStopped</td>
-          <td><code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>serverFarmReference</td>
-          <td>Resource ID of the associated App Service plan, formatted as: &ldquo;/​subscriptions/​{subscriptionID}/​resourceGroups/​{groupName}/​providers/​Microsoft.Web/​serverfarms/​{appServicePlanName}&rdquo;.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>siteConfig</td>
-          <td>Configuration of the app.</td>
-          <td><a href="#SiteConfig">SiteConfig</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageAccountRequired</td>
-          <td>Checks if Customer provided storage account is required</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>virtualNetworkSubnetReference</td>
-          <td>Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET Integration. This must be of the form /​subscriptions/​{subscriptionName}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{vnetName}/​subnets/​{subnetName}</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetContentShareEnabled</td>
-          <td>To enable accessing content over virtual network</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetImagePullEnabled</td>
-          <td>To enable pulling image over Virtual Network</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetRouteAllEnabled</td>
-          <td>Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied.</td>
-          <td>bool<br/><small>Optional</small></td>
+          <td>This composes with ClientCertEnabled setting.</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
+<ul>
+<li>ClientCertEnabled: false means ClientCert is ignored.</li>
+<li>ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.</li>
+<li>ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.| <a href="#Site_Properties_ClientCertMode_Spec">Site_Properties_ClientCertMode_Spec</a><br/><small>Optional</small>| | cloningInfo| If specified during app creation, the app is cloned from a source app.| <a href="#CloningInfo">CloningInfo</a><br/><small>Optional</small>| | containerSize| Size of the function container.| int<br/><small>Optional</small>| | customDomainVerificationId| Unique identifier that verifies the custom domains assigned to the app. Customer will add this id to a txt record for verification.| string<br/><small>Optional</small>| | dailyMemoryTimeQuota| Maximum allowed daily memory-time quota (applicable on dynamic apps only).| int<br/><small>Optional</small>| | enabled| <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline).| bool<br/><small>Optional</small>| | extendedLocation| Extended Location.| <a href="#ExtendedLocation">ExtendedLocation</a><br/><small>Optional</small>| | hostingEnvironmentProfile| App Service Environment to use for the app.| <a href="#HostingEnvironmentProfile">HostingEnvironmentProfile</a><br/><small>Optional</small>| | hostNamesDisabled| <code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>. If <code>true</code>, the app is only accessible via API management process.| bool<br/><small>Optional</small>| | hostNameSslStates| Hostname SSL states are used to manage the SSL bindings for app&rsquo;s hostnames.| <a href="#HostNameSslState">HostNameSslState[]</a><br/><small>Optional</small>| | httpsOnly| HttpsOnly: configures a web site to accept only https requests. Issues redirect for http requests| bool<br/><small>Optional</small>| | hyperV| Hyper-V sandbox.| bool<br/><small>Optional</small>| | identity| Managed service identity.| <a href="#ManagedServiceIdentity">ManagedServiceIdentity</a><br/><small>Optional</small>| | isXenon| Obsolete: Hyper-V sandbox.| bool<br/><small>Optional</small>| | keyVaultReferenceIdentity| Identity to use for Key Vault Reference authentication.| string<br/><small>Optional</small>| | kind| Kind of resource.| string<br/><small>Optional</small>| | location| Resource Location.| string<br/><small>Required</small>| | operatorSpec| The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure| <a href="#SiteOperatorSpec">SiteOperatorSpec</a><br/><small>Optional</small>| | owner| The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small>| | publicNetworkAccess| Property to allow or block all public traffic. Allowed Values: <code>Enabled</code>, <code>Disabled</code> or an empty string.| string<br/><small>Optional</small>| | redundancyMode| Site redundancy mode| <a href="#Site_Properties_RedundancyMode_Spec">Site_Properties_RedundancyMode_Spec</a><br/><small>Optional</small>| | reserved| <code>true</code> if reserved; otherwise, <code>false</code>.| bool<br/><small>Optional</small>| | scmSiteAlsoStopped| <code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>.| bool<br/><small>Optional</small>| | serverFarmReference| Resource ID of the associated App Service plan, formatted as: &ldquo;/​subscriptions/​{subscriptionID}/​resourceGroups/​{groupName}/​providers/​Microsoft.Web/​serverfarms/​{appServicePlanName}&rdquo;.| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small>| | siteConfig| Configuration of the app.| <a href="#SiteConfig">SiteConfig</a><br/><small>Optional</small>| | storageAccountRequired| Checks if Customer provided storage account is required| bool<br/><small>Optional</small>| | tags| Resource tags.| map[string]string<br/><small>Optional</small>| | virtualNetworkSubnetReference| Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET Integration. This must be of the form /​subscriptions/​{subscriptionName}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{vnetName}/​subnets/​{subnetName}| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small>| | vnetContentShareEnabled| To enable accessing content over virtual network| bool<br/><small>Optional</small>| | vnetImagePullEnabled| To enable pulling image over Virtual Network| bool<br/><small>Optional</small>| | vnetRouteAllEnabled| Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied.| bool<br/><small>Optional</small>|</li>
+</ul>
 <h3 id="Site_STATUS">Site_STATUS</h3>
 <table>
   <thead>
@@ -1849,258 +1716,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
       </tr>
       <tr>
           <td>clientCertMode</td>
-          <td>This composes with ClientCertEnabled setting. - ClientCertEnabled: false means ClientCert is ignored. - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required. - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.</td>
-          <td><a href="#Site_Properties_ClientCertMode_STATUS">Site_Properties_ClientCertMode_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>cloningInfo</td>
-          <td>If specified during app creation, the app is cloned from a source app.</td>
-          <td><a href="#CloningInfo_STATUS">CloningInfo_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>containerSize</td>
-          <td>Size of the function container.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customDomainVerificationId</td>
-          <td>Unique identifier that verifies the custom domains assigned to the app. Customer will add this id to a txt record for verification.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dailyMemoryTimeQuota</td>
-          <td>Maximum allowed daily memory-time quota (applicable on dynamic apps only).</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>defaultHostName</td>
-          <td>Default hostname of the app. Read-only.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>enabled</td>
-          <td><code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline).</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>enabledHostNames</td>
-          <td>Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise, the app is not served on those hostnames.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>extendedLocation</td>
-          <td>Extended Location.</td>
-          <td><a href="#ExtendedLocation_STATUS">ExtendedLocation_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hostingEnvironmentProfile</td>
-          <td>App Service Environment to use for the app.</td>
-          <td><a href="#HostingEnvironmentProfile_STATUS">HostingEnvironmentProfile_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hostNames</td>
-          <td>Hostnames associated with the app.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hostNamesDisabled</td>
-          <td><code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>. If <code>true</code>, the app is only accessible via API management process.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hostNameSslStates</td>
-          <td>Hostname SSL states are used to manage the SSL bindings for app&rsquo;s hostnames.</td>
-          <td><a href="#HostNameSslState_STATUS">HostNameSslState_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>httpsOnly</td>
-          <td>HttpsOnly: configures a web site to accept only https requests. Issues redirect for http requests</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hyperV</td>
-          <td>Hyper-V sandbox.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Resource Id.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>identity</td>
-          <td>Managed service identity.</td>
-          <td><a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>inProgressOperationId</td>
-          <td>Specifies an operation id if this site has a pending operation.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>isDefaultContainer</td>
-          <td><code>true</code> if the app is a default container; otherwise, <code>false</code>.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>isXenon</td>
-          <td>Obsolete: Hyper-V sandbox.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>keyVaultReferenceIdentity</td>
-          <td>Identity to use for Key Vault Reference authentication.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>kind</td>
-          <td>Kind of resource.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>lastModifiedTimeUtc</td>
-          <td>Last time the app was modified, in UTC. Read-only.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>Resource Location.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maxNumberOfWorkers</td>
-          <td>Maximum number of workers. This only applies to Functions container.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>Resource Name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>outboundIpAddresses</td>
-          <td>List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from tenants that site can be hosted with current settings. Read-only.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>possibleOutboundIpAddresses</td>
-          <td>List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants except dataComponent. Read-only.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>publicNetworkAccess</td>
-          <td>Property to allow or block all public traffic. Allowed Values: <code>Enabled</code>, <code>Disabled</code> or an empty string.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>redundancyMode</td>
-          <td>Site redundancy mode</td>
-          <td><a href="#Site_Properties_RedundancyMode_STATUS">Site_Properties_RedundancyMode_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>repositorySiteName</td>
-          <td>Name of the repository site.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>reserved</td>
-          <td><code>true</code> if reserved; otherwise, <code>false</code>.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>resourceGroup</td>
-          <td>Name of the resource group the app belongs to. Read-only.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>scmSiteAlsoStopped</td>
-          <td><code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>serverFarmId</td>
-          <td>Resource ID of the associated App Service plan, formatted as: &ldquo;/​subscriptions/​{subscriptionID}/​resourceGroups/​{groupName}/​providers/​Microsoft.Web/​serverfarms/​{appServicePlanName}&rdquo;.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>siteConfig</td>
-          <td>Configuration of the app.</td>
-          <td><a href="#SiteConfig_STATUS">SiteConfig_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>slotSwapStatus</td>
-          <td>Status of the last deployment slot swap operation.</td>
-          <td><a href="#SlotSwapStatus_STATUS">SlotSwapStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>state</td>
-          <td>Current state of the app.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageAccountRequired</td>
-          <td>Checks if Customer provided storage account is required</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>suspendedTill</td>
-          <td>App suspended till in case memory-time quota is exceeded.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>targetSwapSlot</td>
-          <td>Specifies which deployment slot this app will swap into. Read-only.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>trafficManagerHostNames</td>
-          <td>Azure Traffic Manager hostnames associated with the app. Read-only.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>Resource type.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>usageState</td>
-          <td>State indicating whether the app has exceeded its quota usage. Read-only.</td>
-          <td><a href="#Site_Properties_UsageState_STATUS">Site_Properties_UsageState_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>virtualNetworkSubnetId</td>
-          <td>Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET Integration. This must be of the form /​subscriptions/​{subscriptionName}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{vnetName}/​subnets/​{subnetName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetContentShareEnabled</td>
-          <td>To enable accessing content over virtual network</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetImagePullEnabled</td>
-          <td>To enable pulling image over Virtual Network</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetRouteAllEnabled</td>
-          <td>Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied.</td>
-          <td>bool<br/><small>Optional</small></td>
+          <td>This composes with ClientCertEnabled setting.</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
+<ul>
+<li>ClientCertEnabled: false means ClientCert is ignored.</li>
+<li>ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.</li>
+<li>ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.| <a href="#Site_Properties_ClientCertMode_STATUS">Site_Properties_ClientCertMode_STATUS</a><br/><small>Optional</small>| | cloningInfo| If specified during app creation, the app is cloned from a source app.| <a href="#CloningInfo_STATUS">CloningInfo_STATUS</a><br/><small>Optional</small>| | conditions| The observed state of the resource| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small>| | containerSize| Size of the function container.| int<br/><small>Optional</small>| | customDomainVerificationId| Unique identifier that verifies the custom domains assigned to the app. Customer will add this id to a txt record for verification.| string<br/><small>Optional</small>| | dailyMemoryTimeQuota| Maximum allowed daily memory-time quota (applicable on dynamic apps only).| int<br/><small>Optional</small>| | defaultHostName| Default hostname of the app. Read-only.| string<br/><small>Optional</small>| | enabled| <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline).| bool<br/><small>Optional</small>| | enabledHostNames| Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise, the app is not served on those hostnames.| string[]<br/><small>Optional</small>| | extendedLocation| Extended Location.| <a href="#ExtendedLocation_STATUS">ExtendedLocation_STATUS</a><br/><small>Optional</small>| | hostingEnvironmentProfile| App Service Environment to use for the app.| <a href="#HostingEnvironmentProfile_STATUS">HostingEnvironmentProfile_STATUS</a><br/><small>Optional</small>| | hostNames| Hostnames associated with the app.| string[]<br/><small>Optional</small>| | hostNamesDisabled| <code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>. If <code>true</code>, the app is only accessible via API management process.| bool<br/><small>Optional</small>| | hostNameSslStates| Hostname SSL states are used to manage the SSL bindings for app&rsquo;s hostnames.| <a href="#HostNameSslState_STATUS">HostNameSslState_STATUS[]</a><br/><small>Optional</small>| | httpsOnly| HttpsOnly: configures a web site to accept only https requests. Issues redirect for http requests| bool<br/><small>Optional</small>| | hyperV| Hyper-V sandbox.| bool<br/><small>Optional</small>| | id| Resource Id.| string<br/><small>Optional</small>| | identity| Managed service identity.| <a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a><br/><small>Optional</small>| | inProgressOperationId| Specifies an operation id if this site has a pending operation.| string<br/><small>Optional</small>| | isDefaultContainer| <code>true</code> if the app is a default container; otherwise, <code>false</code>.| bool<br/><small>Optional</small>| | isXenon| Obsolete: Hyper-V sandbox.| bool<br/><small>Optional</small>| | keyVaultReferenceIdentity| Identity to use for Key Vault Reference authentication.| string<br/><small>Optional</small>| | kind| Kind of resource.| string<br/><small>Optional</small>| | lastModifiedTimeUtc| Last time the app was modified, in UTC. Read-only.| string<br/><small>Optional</small>| | location| Resource Location.| string<br/><small>Optional</small>| | maxNumberOfWorkers| Maximum number of workers. This only applies to Functions container.| int<br/><small>Optional</small>| | name| Resource Name.| string<br/><small>Optional</small>| | outboundIpAddresses| List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from tenants that site can be hosted with current settings. Read-only.| string<br/><small>Optional</small>| | possibleOutboundIpAddresses| List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants except dataComponent. Read-only.| string<br/><small>Optional</small>| | publicNetworkAccess| Property to allow or block all public traffic. Allowed Values: <code>Enabled</code>, <code>Disabled</code> or an empty string.| string<br/><small>Optional</small>| | redundancyMode| Site redundancy mode| <a href="#Site_Properties_RedundancyMode_STATUS">Site_Properties_RedundancyMode_STATUS</a><br/><small>Optional</small>| | repositorySiteName| Name of the repository site.| string<br/><small>Optional</small>| | reserved| <code>true</code> if reserved; otherwise, <code>false</code>.| bool<br/><small>Optional</small>| | resourceGroup| Name of the resource group the app belongs to. Read-only.| string<br/><small>Optional</small>| | scmSiteAlsoStopped| <code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>.| bool<br/><small>Optional</small>| | serverFarmId| Resource ID of the associated App Service plan, formatted as: &ldquo;/​subscriptions/​{subscriptionID}/​resourceGroups/​{groupName}/​providers/​Microsoft.Web/​serverfarms/​{appServicePlanName}&rdquo;.| string<br/><small>Optional</small>| | siteConfig| Configuration of the app.| <a href="#SiteConfig_STATUS">SiteConfig_STATUS</a><br/><small>Optional</small>| | slotSwapStatus| Status of the last deployment slot swap operation.| <a href="#SlotSwapStatus_STATUS">SlotSwapStatus_STATUS</a><br/><small>Optional</small>| | state| Current state of the app.| string<br/><small>Optional</small>| | storageAccountRequired| Checks if Customer provided storage account is required| bool<br/><small>Optional</small>| | suspendedTill| App suspended till in case memory-time quota is exceeded.| string<br/><small>Optional</small>| | tags| Resource tags.| map[string]string<br/><small>Optional</small>| | targetSwapSlot| Specifies which deployment slot this app will swap into. Read-only.| string<br/><small>Optional</small>| | trafficManagerHostNames| Azure Traffic Manager hostnames associated with the app. Read-only.| string[]<br/><small>Optional</small>| | type| Resource type.| string<br/><small>Optional</small>| | usageState| State indicating whether the app has exceeded its quota usage. Read-only.| <a href="#Site_Properties_UsageState_STATUS">Site_Properties_UsageState_STATUS</a><br/><small>Optional</small>| | virtualNetworkSubnetId| Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET Integration. This must be of the form /​subscriptions/​{subscriptionName}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{vnetName}/​subnets/​{subnetName}| string<br/><small>Optional</small>| | vnetContentShareEnabled| To enable accessing content over virtual network| bool<br/><small>Optional</small>| | vnetImagePullEnabled| To enable pulling image over Virtual Network| bool<br/><small>Optional</small>| | vnetRouteAllEnabled| Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied.| bool<br/><small>Optional</small>|</li>
+</ul>
 <h2 id="SiteList">SiteList</h2>
-<p>Generator information: - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/WebApps.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​sites/​{name}</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/WebApps.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​sites/​{name}</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2128,7 +1759,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
   </tbody>
 </table>
 <h2 id="SitesSourcecontrol">SitesSourcecontrol</h2>
-<p>Generator information: - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/WebApps.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​sites/​{name}/​sourcecontrols/​web</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/WebApps.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​sites/​{name}/​sourcecontrols/​web</li>
+</ul>
 <p>Used by: <a href="#SitesSourcecontrolList">SitesSourcecontrolList</a>.</p>
 <table>
   <thead>
@@ -2296,7 +1931,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
   </tbody>
 </table>
 <h2 id="SitesSourcecontrolList">SitesSourcecontrolList</h2>
-<p>Generator information: - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/WebApps.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​sites/​{name}/​sourcecontrols/​web</p>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/WebApps.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Web/​sites/​{name}/​sourcecontrols/​web</li>
+</ul>
 <table>
   <thead>
       <tr>
@@ -2657,161 +2296,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
       </tr>
       <tr>
           <td>clientCertMode</td>
-          <td>This composes with ClientCertEnabled setting. - ClientCertEnabled: false means ClientCert is ignored. - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required. - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.</td>
-          <td><a href="#Site_Properties_ClientCertMode_Spec">Site_Properties_ClientCertMode_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>cloningInfo</td>
-          <td>If specified during app creation, the app is cloned from a source app.</td>
-          <td><a href="#CloningInfo">CloningInfo</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>containerSize</td>
-          <td>Size of the function container.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customDomainVerificationId</td>
-          <td>Unique identifier that verifies the custom domains assigned to the app. Customer will add this id to a txt record for verification.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dailyMemoryTimeQuota</td>
-          <td>Maximum allowed daily memory-time quota (applicable on dynamic apps only).</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>enabled</td>
-          <td><code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline).</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>extendedLocation</td>
-          <td>Extended Location.</td>
-          <td><a href="#ExtendedLocation">ExtendedLocation</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hostingEnvironmentProfile</td>
-          <td>App Service Environment to use for the app.</td>
-          <td><a href="#HostingEnvironmentProfile">HostingEnvironmentProfile</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hostNamesDisabled</td>
-          <td><code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>. If <code>true</code>, the app is only accessible via API management process.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hostNameSslStates</td>
-          <td>Hostname SSL states are used to manage the SSL bindings for app&rsquo;s hostnames.</td>
-          <td><a href="#HostNameSslState">HostNameSslState[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>httpsOnly</td>
-          <td>HttpsOnly: configures a web site to accept only https requests. Issues redirect for http requests</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hyperV</td>
-          <td>Hyper-V sandbox.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>identity</td>
-          <td>Managed service identity.</td>
-          <td><a href="#ManagedServiceIdentity">ManagedServiceIdentity</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>isXenon</td>
-          <td>Obsolete: Hyper-V sandbox.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>keyVaultReferenceIdentity</td>
-          <td>Identity to use for Key Vault Reference authentication.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>kind</td>
-          <td>Kind of resource.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>Resource Location.</td>
-          <td>string<br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#SiteOperatorSpec">SiteOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>publicNetworkAccess</td>
-          <td>Property to allow or block all public traffic. Allowed Values: <code>Enabled</code>, <code>Disabled</code> or an empty string.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>redundancyMode</td>
-          <td>Site redundancy mode</td>
-          <td><a href="#Site_Properties_RedundancyMode_Spec">Site_Properties_RedundancyMode_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>reserved</td>
-          <td><code>true</code> if reserved; otherwise, <code>false</code>.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>scmSiteAlsoStopped</td>
-          <td><code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>serverFarmReference</td>
-          <td>Resource ID of the associated App Service plan, formatted as: &ldquo;/​subscriptions/​{subscriptionID}/​resourceGroups/​{groupName}/​providers/​Microsoft.Web/​serverfarms/​{appServicePlanName}&rdquo;.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>siteConfig</td>
-          <td>Configuration of the app.</td>
-          <td><a href="#SiteConfig">SiteConfig</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageAccountRequired</td>
-          <td>Checks if Customer provided storage account is required</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>virtualNetworkSubnetReference</td>
-          <td>Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET Integration. This must be of the form /​subscriptions/​{subscriptionName}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{vnetName}/​subnets/​{subnetName}</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetContentShareEnabled</td>
-          <td>To enable accessing content over virtual network</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetImagePullEnabled</td>
-          <td>To enable pulling image over Virtual Network</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetRouteAllEnabled</td>
-          <td>Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied.</td>
-          <td>bool<br/><small>Optional</small></td>
+          <td>This composes with ClientCertEnabled setting.</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
+<ul>
+<li>ClientCertEnabled: false means ClientCert is ignored.</li>
+<li>ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.</li>
+<li>ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.| <a href="#Site_Properties_ClientCertMode_Spec">Site_Properties_ClientCertMode_Spec</a><br/><small>Optional</small>| | cloningInfo| If specified during app creation, the app is cloned from a source app.| <a href="#CloningInfo">CloningInfo</a><br/><small>Optional</small>| | containerSize| Size of the function container.| int<br/><small>Optional</small>| | customDomainVerificationId| Unique identifier that verifies the custom domains assigned to the app. Customer will add this id to a txt record for verification.| string<br/><small>Optional</small>| | dailyMemoryTimeQuota| Maximum allowed daily memory-time quota (applicable on dynamic apps only).| int<br/><small>Optional</small>| | enabled| <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline).| bool<br/><small>Optional</small>| | extendedLocation| Extended Location.| <a href="#ExtendedLocation">ExtendedLocation</a><br/><small>Optional</small>| | hostingEnvironmentProfile| App Service Environment to use for the app.| <a href="#HostingEnvironmentProfile">HostingEnvironmentProfile</a><br/><small>Optional</small>| | hostNamesDisabled| <code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>. If <code>true</code>, the app is only accessible via API management process.| bool<br/><small>Optional</small>| | hostNameSslStates| Hostname SSL states are used to manage the SSL bindings for app&rsquo;s hostnames.| <a href="#HostNameSslState">HostNameSslState[]</a><br/><small>Optional</small>| | httpsOnly| HttpsOnly: configures a web site to accept only https requests. Issues redirect for http requests| bool<br/><small>Optional</small>| | hyperV| Hyper-V sandbox.| bool<br/><small>Optional</small>| | identity| Managed service identity.| <a href="#ManagedServiceIdentity">ManagedServiceIdentity</a><br/><small>Optional</small>| | isXenon| Obsolete: Hyper-V sandbox.| bool<br/><small>Optional</small>| | keyVaultReferenceIdentity| Identity to use for Key Vault Reference authentication.| string<br/><small>Optional</small>| | kind| Kind of resource.| string<br/><small>Optional</small>| | location| Resource Location.| string<br/><small>Required</small>| | operatorSpec| The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure| <a href="#SiteOperatorSpec">SiteOperatorSpec</a><br/><small>Optional</small>| | owner| The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small>| | publicNetworkAccess| Property to allow or block all public traffic. Allowed Values: <code>Enabled</code>, <code>Disabled</code> or an empty string.| string<br/><small>Optional</small>| | redundancyMode| Site redundancy mode| <a href="#Site_Properties_RedundancyMode_Spec">Site_Properties_RedundancyMode_Spec</a><br/><small>Optional</small>| | reserved| <code>true</code> if reserved; otherwise, <code>false</code>.| bool<br/><small>Optional</small>| | scmSiteAlsoStopped| <code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>.| bool<br/><small>Optional</small>| | serverFarmReference| Resource ID of the associated App Service plan, formatted as: &ldquo;/​subscriptions/​{subscriptionID}/​resourceGroups/​{groupName}/​providers/​Microsoft.Web/​serverfarms/​{appServicePlanName}&rdquo;.| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small>| | siteConfig| Configuration of the app.| <a href="#SiteConfig">SiteConfig</a><br/><small>Optional</small>| | storageAccountRequired| Checks if Customer provided storage account is required| bool<br/><small>Optional</small>| | tags| Resource tags.| map[string]string<br/><small>Optional</small>| | virtualNetworkSubnetReference| Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET Integration. This must be of the form /​subscriptions/​{subscriptionName}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{vnetName}/​subnets/​{subnetName}| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small>| | vnetContentShareEnabled| To enable accessing content over virtual network| bool<br/><small>Optional</small>| | vnetImagePullEnabled| To enable pulling image over Virtual Network| bool<br/><small>Optional</small>| | vnetRouteAllEnabled| Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied.| bool<br/><small>Optional</small>|</li>
+</ul>
 <h2 id="Site_STATUS">Site_STATUS</h2>
 <p>A web app, a mobile app backend, or an API app.</p>
 <p>Used by: <a href="#Site">Site</a>.</p>
@@ -2846,256 +2340,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
       </tr>
       <tr>
           <td>clientCertMode</td>
-          <td>This composes with ClientCertEnabled setting. - ClientCertEnabled: false means ClientCert is ignored. - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required. - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.</td>
-          <td><a href="#Site_Properties_ClientCertMode_STATUS">Site_Properties_ClientCertMode_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>cloningInfo</td>
-          <td>If specified during app creation, the app is cloned from a source app.</td>
-          <td><a href="#CloningInfo_STATUS">CloningInfo_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>containerSize</td>
-          <td>Size of the function container.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customDomainVerificationId</td>
-          <td>Unique identifier that verifies the custom domains assigned to the app. Customer will add this id to a txt record for verification.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dailyMemoryTimeQuota</td>
-          <td>Maximum allowed daily memory-time quota (applicable on dynamic apps only).</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>defaultHostName</td>
-          <td>Default hostname of the app. Read-only.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>enabled</td>
-          <td><code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline).</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>enabledHostNames</td>
-          <td>Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise, the app is not served on those hostnames.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>extendedLocation</td>
-          <td>Extended Location.</td>
-          <td><a href="#ExtendedLocation_STATUS">ExtendedLocation_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hostingEnvironmentProfile</td>
-          <td>App Service Environment to use for the app.</td>
-          <td><a href="#HostingEnvironmentProfile_STATUS">HostingEnvironmentProfile_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hostNames</td>
-          <td>Hostnames associated with the app.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hostNamesDisabled</td>
-          <td><code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>. If <code>true</code>, the app is only accessible via API management process.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hostNameSslStates</td>
-          <td>Hostname SSL states are used to manage the SSL bindings for app&rsquo;s hostnames.</td>
-          <td><a href="#HostNameSslState_STATUS">HostNameSslState_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>httpsOnly</td>
-          <td>HttpsOnly: configures a web site to accept only https requests. Issues redirect for http requests</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>hyperV</td>
-          <td>Hyper-V sandbox.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Resource Id.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>identity</td>
-          <td>Managed service identity.</td>
-          <td><a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>inProgressOperationId</td>
-          <td>Specifies an operation id if this site has a pending operation.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>isDefaultContainer</td>
-          <td><code>true</code> if the app is a default container; otherwise, <code>false</code>.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>isXenon</td>
-          <td>Obsolete: Hyper-V sandbox.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>keyVaultReferenceIdentity</td>
-          <td>Identity to use for Key Vault Reference authentication.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>kind</td>
-          <td>Kind of resource.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>lastModifiedTimeUtc</td>
-          <td>Last time the app was modified, in UTC. Read-only.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>Resource Location.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maxNumberOfWorkers</td>
-          <td>Maximum number of workers. This only applies to Functions container.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>Resource Name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>outboundIpAddresses</td>
-          <td>List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from tenants that site can be hosted with current settings. Read-only.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>possibleOutboundIpAddresses</td>
-          <td>List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants except dataComponent. Read-only.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>publicNetworkAccess</td>
-          <td>Property to allow or block all public traffic. Allowed Values: <code>Enabled</code>, <code>Disabled</code> or an empty string.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>redundancyMode</td>
-          <td>Site redundancy mode</td>
-          <td><a href="#Site_Properties_RedundancyMode_STATUS">Site_Properties_RedundancyMode_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>repositorySiteName</td>
-          <td>Name of the repository site.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>reserved</td>
-          <td><code>true</code> if reserved; otherwise, <code>false</code>.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>resourceGroup</td>
-          <td>Name of the resource group the app belongs to. Read-only.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>scmSiteAlsoStopped</td>
-          <td><code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>serverFarmId</td>
-          <td>Resource ID of the associated App Service plan, formatted as: &ldquo;/​subscriptions/​{subscriptionID}/​resourceGroups/​{groupName}/​providers/​Microsoft.Web/​serverfarms/​{appServicePlanName}&rdquo;.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>siteConfig</td>
-          <td>Configuration of the app.</td>
-          <td><a href="#SiteConfig_STATUS">SiteConfig_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>slotSwapStatus</td>
-          <td>Status of the last deployment slot swap operation.</td>
-          <td><a href="#SlotSwapStatus_STATUS">SlotSwapStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>state</td>
-          <td>Current state of the app.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageAccountRequired</td>
-          <td>Checks if Customer provided storage account is required</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>suspendedTill</td>
-          <td>App suspended till in case memory-time quota is exceeded.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>targetSwapSlot</td>
-          <td>Specifies which deployment slot this app will swap into. Read-only.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>trafficManagerHostNames</td>
-          <td>Azure Traffic Manager hostnames associated with the app. Read-only.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>Resource type.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>usageState</td>
-          <td>State indicating whether the app has exceeded its quota usage. Read-only.</td>
-          <td><a href="#Site_Properties_UsageState_STATUS">Site_Properties_UsageState_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>virtualNetworkSubnetId</td>
-          <td>Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET Integration. This must be of the form /​subscriptions/​{subscriptionName}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{vnetName}/​subnets/​{subnetName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetContentShareEnabled</td>
-          <td>To enable accessing content over virtual network</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetImagePullEnabled</td>
-          <td>To enable pulling image over Virtual Network</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetRouteAllEnabled</td>
-          <td>Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied.</td>
-          <td>bool<br/><small>Optional</small></td>
+          <td>This composes with ClientCertEnabled setting.</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
+<ul>
+<li>ClientCertEnabled: false means ClientCert is ignored.</li>
+<li>ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.</li>
+<li>ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.| <a href="#Site_Properties_ClientCertMode_STATUS">Site_Properties_ClientCertMode_STATUS</a><br/><small>Optional</small>| | cloningInfo| If specified during app creation, the app is cloned from a source app.| <a href="#CloningInfo_STATUS">CloningInfo_STATUS</a><br/><small>Optional</small>| | conditions| The observed state of the resource| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small>| | containerSize| Size of the function container.| int<br/><small>Optional</small>| | customDomainVerificationId| Unique identifier that verifies the custom domains assigned to the app. Customer will add this id to a txt record for verification.| string<br/><small>Optional</small>| | dailyMemoryTimeQuota| Maximum allowed daily memory-time quota (applicable on dynamic apps only).| int<br/><small>Optional</small>| | defaultHostName| Default hostname of the app. Read-only.| string<br/><small>Optional</small>| | enabled| <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline).| bool<br/><small>Optional</small>| | enabledHostNames| Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise, the app is not served on those hostnames.| string[]<br/><small>Optional</small>| | extendedLocation| Extended Location.| <a href="#ExtendedLocation_STATUS">ExtendedLocation_STATUS</a><br/><small>Optional</small>| | hostingEnvironmentProfile| App Service Environment to use for the app.| <a href="#HostingEnvironmentProfile_STATUS">HostingEnvironmentProfile_STATUS</a><br/><small>Optional</small>| | hostNames| Hostnames associated with the app.| string[]<br/><small>Optional</small>| | hostNamesDisabled| <code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>. If <code>true</code>, the app is only accessible via API management process.| bool<br/><small>Optional</small>| | hostNameSslStates| Hostname SSL states are used to manage the SSL bindings for app&rsquo;s hostnames.| <a href="#HostNameSslState_STATUS">HostNameSslState_STATUS[]</a><br/><small>Optional</small>| | httpsOnly| HttpsOnly: configures a web site to accept only https requests. Issues redirect for http requests| bool<br/><small>Optional</small>| | hyperV| Hyper-V sandbox.| bool<br/><small>Optional</small>| | id| Resource Id.| string<br/><small>Optional</small>| | identity| Managed service identity.| <a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a><br/><small>Optional</small>| | inProgressOperationId| Specifies an operation id if this site has a pending operation.| string<br/><small>Optional</small>| | isDefaultContainer| <code>true</code> if the app is a default container; otherwise, <code>false</code>.| bool<br/><small>Optional</small>| | isXenon| Obsolete: Hyper-V sandbox.| bool<br/><small>Optional</small>| | keyVaultReferenceIdentity| Identity to use for Key Vault Reference authentication.| string<br/><small>Optional</small>| | kind| Kind of resource.| string<br/><small>Optional</small>| | lastModifiedTimeUtc| Last time the app was modified, in UTC. Read-only.| string<br/><small>Optional</small>| | location| Resource Location.| string<br/><small>Optional</small>| | maxNumberOfWorkers| Maximum number of workers. This only applies to Functions container.| int<br/><small>Optional</small>| | name| Resource Name.| string<br/><small>Optional</small>| | outboundIpAddresses| List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from tenants that site can be hosted with current settings. Read-only.| string<br/><small>Optional</small>| | possibleOutboundIpAddresses| List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants except dataComponent. Read-only.| string<br/><small>Optional</small>| | publicNetworkAccess| Property to allow or block all public traffic. Allowed Values: <code>Enabled</code>, <code>Disabled</code> or an empty string.| string<br/><small>Optional</small>| | redundancyMode| Site redundancy mode| <a href="#Site_Properties_RedundancyMode_STATUS">Site_Properties_RedundancyMode_STATUS</a><br/><small>Optional</small>| | repositorySiteName| Name of the repository site.| string<br/><small>Optional</small>| | reserved| <code>true</code> if reserved; otherwise, <code>false</code>.| bool<br/><small>Optional</small>| | resourceGroup| Name of the resource group the app belongs to. Read-only.| string<br/><small>Optional</small>| | scmSiteAlsoStopped| <code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>.| bool<br/><small>Optional</small>| | serverFarmId| Resource ID of the associated App Service plan, formatted as: &ldquo;/​subscriptions/​{subscriptionID}/​resourceGroups/​{groupName}/​providers/​Microsoft.Web/​serverfarms/​{appServicePlanName}&rdquo;.| string<br/><small>Optional</small>| | siteConfig| Configuration of the app.| <a href="#SiteConfig_STATUS">SiteConfig_STATUS</a><br/><small>Optional</small>| | slotSwapStatus| Status of the last deployment slot swap operation.| <a href="#SlotSwapStatus_STATUS">SlotSwapStatus_STATUS</a><br/><small>Optional</small>| | state| Current state of the app.| string<br/><small>Optional</small>| | storageAccountRequired| Checks if Customer provided storage account is required| bool<br/><small>Optional</small>| | suspendedTill| App suspended till in case memory-time quota is exceeded.| string<br/><small>Optional</small>| | tags| Resource tags.| map[string]string<br/><small>Optional</small>| | targetSwapSlot| Specifies which deployment slot this app will swap into. Read-only.| string<br/><small>Optional</small>| | trafficManagerHostNames| Azure Traffic Manager hostnames associated with the app. Read-only.| string[]<br/><small>Optional</small>| | type| Resource type.| string<br/><small>Optional</small>| | usageState| State indicating whether the app has exceeded its quota usage. Read-only.| <a href="#Site_Properties_UsageState_STATUS">Site_Properties_UsageState_STATUS</a><br/><small>Optional</small>| | virtualNetworkSubnetId| Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET Integration. This must be of the form /​subscriptions/​{subscriptionName}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​virtualNetworks/​{vnetName}/​subnets/​{subnetName}| string<br/><small>Optional</small>| | vnetContentShareEnabled| To enable accessing content over virtual network| bool<br/><small>Optional</small>| | vnetImagePullEnabled| To enable pulling image over Virtual Network| bool<br/><small>Optional</small>| | vnetRouteAllEnabled| Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied.| bool<br/><small>Optional</small>|</li>
+</ul>
 <h2 id="SitesSourcecontrol_Spec">SitesSourcecontrol_Spec</h2>
 <p>Used by: <a href="#SitesSourcecontrol">SitesSourcecontrol</a>.</p>
 <table>
@@ -5522,51 +4776,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
       </tr>
       <tr>
           <td>headers</td>
-          <td>IP restriction rule headers. X-Forwarded-Host (<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host#Examples)">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host#Examples)</a>. The matching logic is .. - If the property is null or empty (default), all hosts(or lack of) are allowed. - A value is compared using ordinal-ignore-case (excluding port number). - Subdomain wildcards are permitted but don&rsquo;t match the root domain. For example, *.contoso.com matches the subdomain foo.contoso.com but not the root domain contoso.com or multi-level foo.bar.contoso.com - Unicode host names are allowed but are converted to Punycode for matching. X-Forwarded-For (<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples)">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples)</a>. The matching logic is .. - If the property is null or empty (default), any forwarded-for chains (or lack of) are allowed. - If any address (excluding port number) in the chain (comma separated) matches the CIDR defined by the property. X-Azure-FDID and X-FD-HealthProbe. The matching logic is exact match.</td>
-          <td>map[string]string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>ipAddress</td>
-          <td>IP address the security restriction is valid for. It can be in form of pure ipv4 address (required SubnetMask property) or CIDR notation such as ipv4/mask (leading bit match). For CIDR, SubnetMask property must not be specified.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>IP restriction rule name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>priority</td>
-          <td>Priority of IP restriction rule.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnetMask</td>
-          <td>Subnet mask for the range of IP addresses the restriction is valid for.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnetTrafficTag</td>
-          <td>(internal) Subnet traffic tag</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tag</td>
-          <td>Defines what this IP filter will be used for. This is to support IP filtering on proxies.</td>
-          <td><a href="#IpSecurityRestriction_Tag">IpSecurityRestriction_Tag</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetSubnetResourceReference</td>
-          <td>Virtual network resource id</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetTrafficTag</td>
-          <td>(internal) Vnet traffic tag</td>
-          <td>int<br/><small>Optional</small></td>
+          <td>IP restriction rule headers. X-Forwarded-Host (<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host#Examples)">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host#Examples)</a>. The matching logic is ..</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
+<ul>
+<li>If the property is null or empty (default), all hosts(or lack of) are allowed.</li>
+<li>A value is compared using ordinal-ignore-case (excluding port number).</li>
+<li>Subdomain wildcards are permitted but don&rsquo;t match the root domain. For example, *.contoso.com matches the subdomain</li>
+</ul>
+<p>foo.contoso.com but not the root domain contoso.com or multi-level foo.bar.contoso.com</p>
+<ul>
+<li>Unicode host names are allowed but are converted to Punycode for matching.</li>
+</ul>
+<p>X-Forwarded-For (<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples)">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples)</a>. The matching logic is ..</p>
+<ul>
+<li>If the property is null or empty (default), any forwarded-for chains (or lack of) are allowed.</li>
+<li>If any address (excluding port number) in the chain (comma separated) matches the CIDR defined by the property.</li>
+</ul>
+<p>X-Azure-FDID and X-FD-HealthProbe. The matching logic is exact match.| map[string]string[]<br/><small>Optional</small>| | ipAddress| IP address the security restriction is valid for. It can be in form of pure ipv4 address (required SubnetMask property) or CIDR notation such as ipv4/mask (leading bit match). For CIDR, SubnetMask property must not be specified.| string<br/><small>Optional</small>| | name| IP restriction rule name.| string<br/><small>Optional</small>| | priority| Priority of IP restriction rule.| int<br/><small>Optional</small>| | subnetMask| Subnet mask for the range of IP addresses the restriction is valid for.| string<br/><small>Optional</small>| | subnetTrafficTag| (internal) Subnet traffic tag| int<br/><small>Optional</small>| | tag| Defines what this IP filter will be used for. This is to support IP filtering on proxies.| <a href="#IpSecurityRestriction_Tag">IpSecurityRestriction_Tag</a><br/><small>Optional</small>| | vnetSubnetResourceReference| Virtual network resource id| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small>| | vnetTrafficTag| (internal) Vnet traffic tag| int<br/><small>Optional</small>|</p>
 <h2 id="IpSecurityRestriction_STATUS">IpSecurityRestriction_STATUS</h2>
 <p>IP security restriction on an app.</p>
 <p>Used by: <a href="#SiteConfig_STATUS">SiteConfig_STATUS</a>, and <a href="#SiteConfig_STATUS">SiteConfig_STATUS</a>.</p>
@@ -5591,51 +4820,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
       </tr>
       <tr>
           <td>headers</td>
-          <td>IP restriction rule headers. X-Forwarded-Host (<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host#Examples)">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host#Examples)</a>. The matching logic is .. - If the property is null or empty (default), all hosts(or lack of) are allowed. - A value is compared using ordinal-ignore-case (excluding port number). - Subdomain wildcards are permitted but don&rsquo;t match the root domain. For example, *.contoso.com matches the subdomain foo.contoso.com but not the root domain contoso.com or multi-level foo.bar.contoso.com - Unicode host names are allowed but are converted to Punycode for matching. X-Forwarded-For (<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples)">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples)</a>. The matching logic is .. - If the property is null or empty (default), any forwarded-for chains (or lack of) are allowed. - If any address (excluding port number) in the chain (comma separated) matches the CIDR defined by the property. X-Azure-FDID and X-FD-HealthProbe. The matching logic is exact match.</td>
-          <td>map[string]string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>ipAddress</td>
-          <td>IP address the security restriction is valid for. It can be in form of pure ipv4 address (required SubnetMask property) or CIDR notation such as ipv4/mask (leading bit match). For CIDR, SubnetMask property must not be specified.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>IP restriction rule name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>priority</td>
-          <td>Priority of IP restriction rule.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnetMask</td>
-          <td>Subnet mask for the range of IP addresses the restriction is valid for.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnetTrafficTag</td>
-          <td>(internal) Subnet traffic tag</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tag</td>
-          <td>Defines what this IP filter will be used for. This is to support IP filtering on proxies.</td>
-          <td><a href="#IpSecurityRestriction_Tag_STATUS">IpSecurityRestriction_Tag_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetSubnetResourceId</td>
-          <td>Virtual network resource id</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>vnetTrafficTag</td>
-          <td>(internal) Vnet traffic tag</td>
-          <td>int<br/><small>Optional</small></td>
+          <td>IP restriction rule headers. X-Forwarded-Host (<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host#Examples)">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host#Examples)</a>. The matching logic is ..</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
+<ul>
+<li>If the property is null or empty (default), all hosts(or lack of) are allowed.</li>
+<li>A value is compared using ordinal-ignore-case (excluding port number).</li>
+<li>Subdomain wildcards are permitted but don&rsquo;t match the root domain. For example, *.contoso.com matches the subdomain</li>
+</ul>
+<p>foo.contoso.com but not the root domain contoso.com or multi-level foo.bar.contoso.com</p>
+<ul>
+<li>Unicode host names are allowed but are converted to Punycode for matching.</li>
+</ul>
+<p>X-Forwarded-For (<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples)">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples)</a>. The matching logic is ..</p>
+<ul>
+<li>If the property is null or empty (default), any forwarded-for chains (or lack of) are allowed.</li>
+<li>If any address (excluding port number) in the chain (comma separated) matches the CIDR defined by the property.</li>
+</ul>
+<p>X-Azure-FDID and X-FD-HealthProbe. The matching logic is exact match.| map[string]string[]<br/><small>Optional</small>| | ipAddress| IP address the security restriction is valid for. It can be in form of pure ipv4 address (required SubnetMask property) or CIDR notation such as ipv4/mask (leading bit match). For CIDR, SubnetMask property must not be specified.| string<br/><small>Optional</small>| | name| IP restriction rule name.| string<br/><small>Optional</small>| | priority| Priority of IP restriction rule.| int<br/><small>Optional</small>| | subnetMask| Subnet mask for the range of IP addresses the restriction is valid for.| string<br/><small>Optional</small>| | subnetTrafficTag| (internal) Subnet traffic tag| int<br/><small>Optional</small>| | tag| Defines what this IP filter will be used for. This is to support IP filtering on proxies.| <a href="#IpSecurityRestriction_Tag_STATUS">IpSecurityRestriction_Tag_STATUS</a><br/><small>Optional</small>| | vnetSubnetResourceId| Virtual network resource id| string<br/><small>Optional</small>| | vnetTrafficTag| (internal) Vnet traffic tag| int<br/><small>Optional</small>|</p>
 <h2 id="ManagedServiceIdentity_Type">ManagedServiceIdentity_Type</h2>
 <p>Used by: <a href="#ManagedServiceIdentity">ManagedServiceIdentity</a>.</p>
 <table>
