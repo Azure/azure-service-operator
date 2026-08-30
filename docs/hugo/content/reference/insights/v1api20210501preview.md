@@ -14,7 +14,10 @@ APIVersion{#APIVersion}
 DiagnosticSetting{#DiagnosticSetting}
 -------------------------------------
 
-Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
+Generator information:
+
+-	Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json
+-	ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
 
 Used by: [DiagnosticSettingList](#DiagnosticSettingList).
 
@@ -64,7 +67,10 @@ Used by: [DiagnosticSettingList](#DiagnosticSettingList).
 DiagnosticSettingList{#DiagnosticSettingList}
 ---------------------------------------------
 
-Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
+Generator information:
+
+-	Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json
+-	ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
 
 | Property                                                                            | Description | Type                                                                  |
 |-------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------------------|

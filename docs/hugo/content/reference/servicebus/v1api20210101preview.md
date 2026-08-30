@@ -14,7 +14,10 @@ APIVersion{#APIVersion}
 Namespace{#Namespace}
 ---------------------
 
-Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/namespace-preview.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}
+Generator information:
+
+-	Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/namespace-preview.json
+-	ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}
 
 Used by: [NamespaceList](#NamespaceList).
 
@@ -65,7 +68,10 @@ Used by: [NamespaceList](#NamespaceList).
 NamespaceList{#NamespaceList}
 -----------------------------
 
-Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/namespace-preview.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}
+Generator information:
+
+-	Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/namespace-preview.json
+-	ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}
 
 | Property                                                                            | Description | Type                                                  |
 |-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------|
@@ -76,7 +82,10 @@ Generator information: - Generated from: /servicebus/resource-manager/Microsoft.
 NamespacesAuthorizationRule{#NamespacesAuthorizationRule}
 ---------------------------------------------------------
 
-Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/AuthorizationRules.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;AuthorizationRules/&ZeroWidthSpace;{authorizationRuleName}
+Generator information:
+
+-	Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/AuthorizationRules.json
+-	ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;AuthorizationRules/&ZeroWidthSpace;{authorizationRuleName}
 
 Used by: [NamespacesAuthorizationRuleList](#NamespacesAuthorizationRuleList).
 
@@ -110,7 +119,10 @@ Used by: [NamespacesAuthorizationRuleList](#NamespacesAuthorizationRuleList).
 NamespacesAuthorizationRuleList{#NamespacesAuthorizationRuleList}
 -----------------------------------------------------------------
 
-Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/AuthorizationRules.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;AuthorizationRules/&ZeroWidthSpace;{authorizationRuleName}
+Generator information:
+
+-	Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/AuthorizationRules.json
+-	ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;AuthorizationRules/&ZeroWidthSpace;{authorizationRuleName}
 
 | Property                                                                            | Description | Type                                                                                      |
 |-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------------------|
@@ -121,7 +133,10 @@ Generator information: - Generated from: /servicebus/resource-manager/Microsoft.
 NamespacesQueue{#NamespacesQueue}
 ---------------------------------
 
-Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/Queue.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;queues/&ZeroWidthSpace;{queueName}
+Generator information:
+
+-	Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/Queue.json
+-	ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;queues/&ZeroWidthSpace;{queueName}
 
 Used by: [NamespacesQueueList](#NamespacesQueueList).
 
@@ -188,7 +203,10 @@ Used by: [NamespacesQueueList](#NamespacesQueueList).
 NamespacesQueueList{#NamespacesQueueList}
 -----------------------------------------
 
-Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/Queue.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;queues/&ZeroWidthSpace;{queueName}
+Generator information:
+
+-	Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/Queue.json
+-	ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;queues/&ZeroWidthSpace;{queueName}
 
 | Property                                                                            | Description | Type                                                              |
 |-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------|
@@ -199,7 +217,10 @@ Generator information: - Generated from: /servicebus/resource-manager/Microsoft.
 NamespacesTopic{#NamespacesTopic}
 ---------------------------------
 
-Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/topics.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;topics/&ZeroWidthSpace;{topicName}
+Generator information:
+
+-	Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/topics.json
+-	ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;topics/&ZeroWidthSpace;{topicName}
 
 Used by: [NamespacesTopicList](#NamespacesTopicList).
 
@@ -256,7 +277,10 @@ Used by: [NamespacesTopicList](#NamespacesTopicList).
 NamespacesTopicList{#NamespacesTopicList}
 -----------------------------------------
 
-Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/topics.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;topics/&ZeroWidthSpace;{topicName}
+Generator information:
+
+-	Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/topics.json
+-	ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;topics/&ZeroWidthSpace;{topicName}
 
 | Property                                                                            | Description | Type                                                              |
 |-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------|
@@ -267,7 +291,10 @@ Generator information: - Generated from: /servicebus/resource-manager/Microsoft.
 NamespacesTopicsSubscription{#NamespacesTopicsSubscription}
 -----------------------------------------------------------
 
-Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/subscriptions.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;topics/&ZeroWidthSpace;{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}
+Generator information:
+
+-	Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/subscriptions.json
+-	ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;topics/&ZeroWidthSpace;{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}
 
 Used by: [NamespacesTopicsSubscriptionList](#NamespacesTopicsSubscriptionList).
 
@@ -327,7 +354,10 @@ Used by: [NamespacesTopicsSubscriptionList](#NamespacesTopicsSubscriptionList).
 NamespacesTopicsSubscriptionList{#NamespacesTopicsSubscriptionList}
 -------------------------------------------------------------------
 
-Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/subscriptions.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;topics/&ZeroWidthSpace;{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}
+Generator information:
+
+-	Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/subscriptions.json
+-	ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;topics/&ZeroWidthSpace;{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}
 
 | Property                                                                            | Description | Type                                                                                        |
 |-------------------------------------------------------------------------------------|-------------|---------------------------------------------------------------------------------------------|
@@ -338,7 +368,10 @@ Generator information: - Generated from: /servicebus/resource-manager/Microsoft.
 NamespacesTopicsSubscriptionsRule{#NamespacesTopicsSubscriptionsRule}
 ---------------------------------------------------------------------
 
-Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/Rules.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;topics/&ZeroWidthSpace;{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}/&ZeroWidthSpace;rules/&ZeroWidthSpace;{ruleName}
+Generator information:
+
+-	Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/Rules.json
+-	ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;topics/&ZeroWidthSpace;{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}/&ZeroWidthSpace;rules/&ZeroWidthSpace;{ruleName}
 
 Used by: [NamespacesTopicsSubscriptionsRuleList](#NamespacesTopicsSubscriptionsRuleList).
 
@@ -378,7 +411,10 @@ Used by: [NamespacesTopicsSubscriptionsRuleList](#NamespacesTopicsSubscriptionsR
 NamespacesTopicsSubscriptionsRuleList{#NamespacesTopicsSubscriptionsRuleList}
 -----------------------------------------------------------------------------
 
-Generator information: - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/Rules.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;topics/&ZeroWidthSpace;{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}/&ZeroWidthSpace;rules/&ZeroWidthSpace;{ruleName}
+Generator information:
+
+-	Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/Rules.json
+-	ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.ServiceBus/&ZeroWidthSpace;namespaces/&ZeroWidthSpace;{namespaceName}/&ZeroWidthSpace;topics/&ZeroWidthSpace;{topicName}/&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionName}/&ZeroWidthSpace;rules/&ZeroWidthSpace;{ruleName}
 
 | Property                                                                            | Description | Type                                                                                                  |
 |-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------------------------------------|

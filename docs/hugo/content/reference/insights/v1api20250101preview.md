@@ -14,7 +14,10 @@ APIVersion{#APIVersion}
 ScheduledQueryRule{#ScheduledQueryRule}
 ---------------------------------------
 
-Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Insights/&ZeroWidthSpace;scheduledQueryRules/&ZeroWidthSpace;{ruleName}
+Generator information:
+
+-	Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json
+-	ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Insights/&ZeroWidthSpace;scheduledQueryRules/&ZeroWidthSpace;{ruleName}
 
 Used by: [ScheduledQueryRuleList](#ScheduledQueryRuleList).
 
@@ -90,7 +93,10 @@ Used by: [ScheduledQueryRuleList](#ScheduledQueryRuleList).
 ScheduledQueryRuleList{#ScheduledQueryRuleList}
 -----------------------------------------------
 
-Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Insights/&ZeroWidthSpace;scheduledQueryRules/&ZeroWidthSpace;{ruleName}
+Generator information:
+
+-	Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json
+-	ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.Insights/&ZeroWidthSpace;scheduledQueryRules/&ZeroWidthSpace;{ruleName}
 
 | Property                                                                            | Description | Type                                                                    |
 |-------------------------------------------------------------------------------------|-------------|-------------------------------------------------------------------------|
