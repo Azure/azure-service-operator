@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/guide/diagnosing-problems/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,29 +17,26 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Diagnosing problems | Azure Service Operator</title>
-<meta name="description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
-You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the “Error: secret “aso-controller-settings” not found” event in the describe output:
-Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning Failed 36s (x7 over 99s) kubelet Error: secret &#34;aso-controller-settings&#34; not found ... Helm installation via Argo missing ClusterRole and other resources See reference issue #4184.">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/diagnosing-problems/">
+<title>v2.21.0 Breaking Changes | Azure Service Operator</title>
+<meta name="description" content="Breaking changes containerservice: ManagedCluster.spec.aadProfile.serverAppSecret is now correctly identified as a secret. synapse: Workspace.spec.encryption.kekIdentity.useSystemAssignedIdentity is now correctly typed as a Boolean instead of v1.JSON. Valid configurations are unaffected, but invalid configurations may require correction. cache: Removed RedisEnterprise and RedisEnterpriseDatabase API versions v1api20210301 and v1api20230701. Users should migrate to v20250401 before upgrading. (#5640) Future breaking changes These breaking changes are planned for future releases:
+TLS 1.3 (v2.22) In v2.22 we’ll default to using TLS 1.3, but will provide a command line flag to enable TLS 1.2 if needed.">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.21.0/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="Diagnosing problems">
-  <meta property="og:description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
-You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the “Error: secret “aso-controller-settings” not found” event in the describe output:
-Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning Failed 36s (x7 over 99s) kubelet Error: secret &#34;aso-controller-settings&#34; not found ... Helm installation via Argo missing ClusterRole and other resources See reference issue #4184.">
+  <meta property="og:title" content="v2.21.0 Breaking Changes">
+  <meta property="og:description" content="Breaking changes containerservice: ManagedCluster.spec.aadProfile.serverAppSecret is now correctly identified as a secret. synapse: Workspace.spec.encryption.kekIdentity.useSystemAssignedIdentity is now correctly typed as a Boolean instead of v1.JSON. Valid configurations are unaffected, but invalid configurations may require correction. cache: Removed RedisEnterprise and RedisEnterpriseDatabase API versions v1api20210301 and v1api20230701. Users should migrate to v20250401 before upgrading. (#5640) Future breaking changes These breaking changes are planned for future releases:
+TLS 1.3 (v2.22) In v2.22 we’ll default to using TLS 1.3, but will provide a command line flag to enable TLS 1.2 if needed.">
   <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="guide">
 
-  <meta itemprop="name" content="Diagnosing problems">
-  <meta itemprop="description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
-You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the “Error: secret “aso-controller-settings” not found” event in the describe output:
-Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning Failed 36s (x7 over 99s) kubelet Error: secret &#34;aso-controller-settings&#34; not found ... Helm installation via Argo missing ClusterRole and other resources See reference issue #4184.">
-  <meta itemprop="wordCount" content="780">
+  <meta itemprop="name" content="v2.21.0 Breaking Changes">
+  <meta itemprop="description" content="Breaking changes containerservice: ManagedCluster.spec.aadProfile.serverAppSecret is now correctly identified as a secret. synapse: Workspace.spec.encryption.kekIdentity.useSystemAssignedIdentity is now correctly typed as a Boolean instead of v1.JSON. Valid configurations are unaffected, but invalid configurations may require correction. cache: Removed RedisEnterprise and RedisEnterpriseDatabase API versions v1api20210301 and v1api20230701. Users should migrate to v20250401 before upgrading. (#5640) Future breaking changes These breaking changes are planned for future releases:
+TLS 1.3 (v2.22) In v2.22 we’ll default to using TLS 1.3, but will provide a command line flag to enable TLS 1.2 if needed.">
+  <meta itemprop="wordCount" content="86">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Diagnosing problems">
-  <meta name="twitter:description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
-You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the “Error: secret “aso-controller-settings” not found” event in the describe output:
-Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning Failed 36s (x7 over 99s) kubelet Error: secret &#34;aso-controller-settings&#34; not found ... Helm installation via Argo missing ClusterRole and other resources See reference issue #4184.">
+  <meta name="twitter:title" content="v2.21.0 Breaking Changes">
+  <meta name="twitter:description" content="Breaking changes containerservice: ManagedCluster.spec.aadProfile.serverAppSecret is now correctly identified as a secret. synapse: Workspace.spec.encryption.kekIdentity.useSystemAssignedIdentity is now correctly typed as a Boolean instead of v1.JSON. Valid configurations are unaffected, but invalid configurations may require correction. cache: Removed RedisEnterprise and RedisEnterpriseDatabase API versions v1api20210301 and v1api20230701. Users should migrate to v20250401 before upgrading. (#5640) Future breaking changes These breaking changes are planned for future releases:
+TLS 1.3 (v2.22) In v2.22 we’ll default to using TLS 1.3, but will provide a command line flag to enable TLS 1.2 if needed.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -49,7 +45,7 @@ Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning F
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
 <div class="container-fluid flex-column flex-md-row">
@@ -118,14 +114,14 @@ Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning F
   <a href="/azure-service-operator/guide/upgrading/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" title="Frequently Asked Questions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidediagnosing-problems-li">
-  <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidediagnosing-problems"><span class="td-sidebar-nav-active-item">Diagnosing problems</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidediagnosing-problems-li">
+  <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/azure-throttling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling"><span class="">ARM Throttling</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-failures-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-failures-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-failures/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-failures"><span class="">Reconciliation Failures</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency"><span class="">Reconciliation Frequencey</span></a>
 </li>
   </ul>
@@ -150,42 +146,42 @@ Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning F
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebest-practices-li">
   <a href="/azure-service-operator/guide/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2210-li">
-  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.21.0/" title="v2.21.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2210"><span class="">v2.21.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2200-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2210-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.21.0/" title="v2.21.0 Breaking Changes" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2210"><span class="td-sidebar-nav-active-item">v2.21.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2200-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.20.0/" title="v2.20.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2200"><span class="">v2.20.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2190-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2190-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.19.0/" title="v2.19.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2190"><span class="">v2.19.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2180-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2180-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.18.0/" title="v2.18.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2180"><span class="">v2.18.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2170-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2170-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.17.0/" title="v2.17.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2170"><span class="">v2.17.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.16.0/" title="v2.16.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160"><span class="">v2.16.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/" title="v2.15.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150"><span class="">v2.15.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.11.0/" title="v2.11.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110"><span class="">v2.11.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.10.0/" title="v2.10.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100"><span class="">v2.10.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/" title="v2.9.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290"><span class="">v2.9.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/" title="v2.8.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280"><span class="">v2.8.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/" title="v2.6.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260"><span class="">v2.6.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/" title="v2.4.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240"><span class="">v2.4.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/" title="v2.2.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220"><span class="">v2.2.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/" title="v2.1.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210"><span class="">v2.1.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/" title="v2.0.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200"><span class="">v2.0.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
@@ -1054,26 +1050,12 @@ Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning F
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#common-mistakes">Common mistakes</a>
+    <li><a href="#breaking-changes">Breaking changes</a></li>
+    <li><a href="#future-breaking-changes">Future breaking changes</a>
       <ul>
-        <li><a href="#aso-controller-pod-in-status-createcontainerconfigerror">ASO controller pod in Status CreateContainerConfigError</a></li>
-        <li><a href="#helm-installation-via-argo-missing-clusterrole-and-other-resources">Helm installation via Argo missing ClusterRole and other resources</a></li>
+        <li><a href="#tls-13-v222">TLS 1.3 (v2.22)</a></li>
       </ul>
     </li>
-    <li><a href="#problems-with-resources">Problems with resources</a>
-      <ul>
-        <li><a href="#resource-with-no-ready-condition-set">Resource with no Ready condition set</a></li>
-        <li><a href="#resource-stuck-deleting">Resource stuck deleting</a></li>
-        <li><a href="#resource-reports-webhook-error-when-applied">Resource reports webhook error when applied</a></li>
-      </ul>
-    </li>
-    <li><a href="#getting-aso-controller-pod-logs">Getting ASO controller pod logs</a>
-      <ul>
-        <li><a href="#log-levels">Log levels</a></li>
-        <li><a href="#logging-aggregator">Logging aggregator</a></li>
-      </ul>
-    </li>
-    <li><a href="#fetching-controller-runtime-and-aso-metrics">Fetching controller runtime and ASO metrics</a></li>
   </ul>
 </nav>
       </div>
@@ -1089,142 +1071,32 @@ Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning F
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/guide/">Guide</a></li>
+  <li class="breadcrumb-item">
+    <a href="/azure-service-operator/guide/breaking-changes/">Breaking Changes</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Diagnosing problems</li>
+    v2.21.0</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>Diagnosing problems</h1>
-  
+	<h1>v2.21.0 Breaking Changes</h1>
+	
 	<header class="article-meta">
 		
 </header>
-	<h2 id="common-mistakes">Common mistakes</h2>
-<h3 id="aso-controller-pod-in-status-createcontainerconfigerror">ASO controller pod in Status CreateContainerConfigError</h3>
-<pre tabindex="0"><code>$ kubectl get pods -n azureserviceoperator-system
-NAME                                                       READY   STATUS                       RESTARTS   AGE
-azureserviceoperator-controller-manager-69cbccd645-4s5wz   1/2     CreateContainerConfigError   0          7m49s
-</code></pre><p>Very likely that you forgot to create the <code>aso-controller-settings</code> secret. This secret must be in
-the same namespace as the pod.</p>
-<p>You can confirm this with <code>kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager</code>.
-Look for the &ldquo;Error: secret &ldquo;aso-controller-settings&rdquo; not found&rdquo; event in the <code>describe</code> output:</p>
-<pre tabindex="0"><code>Events:
-  Type     Reason     Age                From               Message
-  ----     ------     ----               ----               -------
-  ...
-  Warning  Failed     36s (x7 over 99s)  kubelet            Error: secret &#34;aso-controller-settings&#34; not found
-  ...
-</code></pre><h3 id="helm-installation-via-argo-missing-clusterrole-and-other-resources">Helm installation via Argo missing ClusterRole and other resources</h3>
-<p>See reference issue <a href="https://github.com/Azure/azure-service-operator/issues/4184">#4184</a>.</p>
-<p>When using Argo to install the ASO Helm chart, make sure to specify the <code>raw</code> GitHub URL to the chart, rather than
-the URL to the ASO git repo. The chart <code>.tgz</code> file contains what you need to install ASO, not everything is in the
-<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/charts/azure-service-operator">v2/charts/azure-service-operator</a>
-folder. In particular, some files are autogenerated as part of the build and aren&rsquo;t checked in, attempting to install
-from the checked in templates will miss these autogenerated files.</p>
-<p>Correct:</p>
-<pre tabindex="0"><code>apiVersion: argoproj.io/v1alpha1
-kind: Application
-spec:
-  source:
-    repoURL: https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
-    targetRevision: v2.8.0
-    chart: azure-service-operator
-</code></pre><p>Incorrect:</p>
-<pre tabindex="0"><code>apiVersion: argoproj.io/v1alpha1
-kind: Application
-spec:
-  source:
-    repoURL: https://github.com/Azure/azure-service-operator.git
-    targetRevision: v2.8.0
-    path: v2/charts/azure-service-operator
-</code></pre><h2 id="problems-with-resources">Problems with resources</h2>
-<h3 id="resource-with-no-ready-condition-set">Resource with no Ready condition set</h3>
-<p>When resources are first created a ready condition should appear quickly, indicating that the resource is being reconciled:</p>
-<pre tabindex="0"><code>$ kubectl get resourcegroups.resources.azure.com 
-NAME            READY     SEVERITY   REASON          MESSAGE
-aso-sample-rg   False     Info       Reconciling     The resource is in the process of being reconciled by the operator   
-</code></pre><p>if this isn&rsquo;t happening then check the <a href="#getting-aso-controller-pod-logs">controller logs</a>.</p>
-<h3 id="resource-stuck-deleting">Resource stuck deleting</h3>
-<p>This presents slightly differently for different resources, some examples are:</p>
+	<h2 id="breaking-changes">Breaking changes</h2>
 <ul>
-<li><a href="https://github.com/Azure/azure-service-operator/issues/2478">#2478</a></li>
-<li><a href="https://github.com/Azure/azure-service-operator/issues/2586">#2586</a></li>
-<li><a href="https://github.com/Azure/azure-service-operator/issues/2607">#2607</a></li>
+<li><code>containerservice</code>: <code>ManagedCluster.spec.aadProfile.serverAppSecret</code> is now correctly identified as a secret.</li>
+<li><code>synapse</code>: <code>Workspace.spec.encryption.kekIdentity.useSystemAssignedIdentity</code> is now correctly typed as a Boolean instead of <code>v1.JSON</code>. Valid configurations are unaffected, but invalid configurations may require correction.</li>
+<li><code>cache</code>: Removed <code>RedisEnterprise</code> and <code>RedisEnterpriseDatabase</code> API versions <code>v1api20210301</code> and <code>v1api20230701</code>. Users should migrate to <code>v20250401</code> before upgrading. (#5640)</li>
 </ul>
-<p>For example, you might see something like this:</p>
-<pre tabindex="0"><code>deleting resource &#34;/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dev-rg/providers/Microsoft.KeyVault/vaults/kvname/providers/Microsoft.Authorization/roleAssignments/kv-role-assignement3&#34;: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dev-rg/providers/Microsoft.KeyVault/vaults/kvname/providers/Microsoft.Authorization/roleAssignments/kv-role-assignement3
---------------------------------------------------------------------------------
-RESPONSE 400: 400 Bad Request
-ERROR CODE: InvalidRoleAssignmentId
---------------------------------------------------------------------------------
-{
-    &#34;error&#34;: {
-        &#34;code&#34;: &#34;InvalidRoleAssignmentId&#34;,
-        message&#34;: &#34;The role assignment ID &#39;kv-role-assignement3&#39; is not valid. The role assignment ID must be a GUID.&#34;
-    }
-}
---------------------------------------------------------------------------------
-</code></pre><p>This can happen because the resource was created with an invalid name, and when ASO is trying to delete it,
-it cannot delete the resource because the name is invalid.</p>
-<p><em>Usually</em>, ASO will prevent this situation from happening by blocking the original apply that attempts to create the resource,
-but from time to time that protection may be imperfect.</p>
-<p>If you see this problem, the resource wasn&rsquo;t ever created successfully in Azure and so it is safe to instruct ASO to
-skip deletion of the Azure resource. This can be done by adding the <code>serviceoperator.azure.com/reconcile-policy: skip</code>
-annotation to the resource in your cluster.</p>
-<h3 id="resource-reports-webhook-error-when-applied">Resource reports webhook error when applied</h3>
-<p>The error may look like this:</p>
-<pre tabindex="0"><code>&#34;Error from server (InternalError): error when creating &#34;/tmp/asd&#34;: Internal error occurred: failed calling webhook&#34;
-</code></pre><p>This may be caused by ASO pod restarts, which you can check via <code>kubectl get pods -n azureserviceoperator-system</code>. If
-you&rsquo;re seeing the ASO pod restart periodically check its logs to see if something is causing it to exit. A common cause
-of this is installing too many CRDs on a free tier AKS cluster overloading the API Server. See
-<a href="../crd-management/">CRD management</a> for more details.</p>
-<h2 id="getting-aso-controller-pod-logs">Getting ASO controller pod logs</h2>
-<p>The last stop when investigating most issues is to look at the ASO pod logs. We expect that
-most resource issues can be resolved using the resources .status.conditions without resorting to
-pod logs. Setup issues on the other hand may requiring digging into the ASO controller pod logs.</p>
-<p>Assuming that ASO is installed into the default namespace, you can look at the logs for the controller
-with the following command:
-<code>kubectl logs -n azureserviceoperator-system --selector control-plane=controller-manager --container manager</code></p>
-<p>For example, here&rsquo;s the log from an ASO controller that was launched with some required CRDs missing:</p>
-<blockquote>
-<p>E0302 21:54:54.260693       1 deleg.go:144] setup &ldquo;msg&rdquo;=&ldquo;problem running manager&rdquo; &ldquo;error&rdquo;=&ldquo;failed to wait for registry caches to sync: no matches for kind &quot;Registry&quot; in version &quot;containerregistry.azure.com/v1alpha1api20210901storage&quot;&rdquo;</p>
-</blockquote>
-<h3 id="log-levels">Log levels</h3>
-<p>To configure the log level for ASO, edit the <code>azureserviceoperator-controller-manager</code> deployment and
-set the <code>--v=2</code> parameter to a different log level.</p>
-<p>See <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/internal/logging/levels.go">levels.go</a> for a list of levels that we log at. Other components used
-by ASO (such as controller-runtime) may log at different levels, so there may be value in raising the log level
-above the highest level we use. Be aware that this might produce a <strong>lot</strong> of logs.</p>
-<h3 id="logging-aggregator">Logging aggregator</h3>
-<p>You may want to consider using a cluster wide logging aggregator such as <a href="https://www.fluentd.org/">fluentd</a> (there are many other options).
-Without one it may be difficult to diagnose past failures.</p>
-<h2 id="fetching-controller-runtime-and-aso-metrics">Fetching controller runtime and ASO metrics</h2>
-<p>Follow the metrics <a href="https://github.com/Azure/azure-service-operator/blob/main/docs/hugo/content/guide/metrics.md">documentation</a> for more information on how to fetch, configure and understand ASO and controller runtime metrics.</p>
+<h2 id="future-breaking-changes">Future breaking changes</h2>
+<p>These breaking changes are planned for future releases:</p>
+<h3 id="tls-13-v222">TLS 1.3 (v2.22)</h3>
+<p>In v2.22 we&rsquo;ll default to using TLS 1.3, but will provide a command line flag to enable TLS 1.2 if needed.</p>
 
-	<div class="section-index">
-    
-    
-    <hr class="panel-line">
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/diagnosing-problems/azure-throttling/">ARM Throttling</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-failures/">Reconciliation Failures</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/">Reconciliation Frequencey</a>
-                </h5>
-                <p></p>
-            </div>
-        </div>
+	
 </div>
+
 
           </main>
         </div>

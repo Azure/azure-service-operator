@@ -20,27 +20,27 @@
 
 <title>Breaking Changes | Azure Service Operator</title>
 <meta name="description" content="We go to great lengths to avoid breaking changes as much as possible, as we’re well aware that they can cause issues for our users. However, they do occasionally occur, so we’ve committed to providing good documentation each time this occurs.
-Upcoming Breaking Changes Azure Cache for Redis Enterprise (v2.21) Azure is retiring Azure Cache for Redis Enterprise in favour of Azure Managed Redis.
-While the difference at the ARM/Bicep level is just another SKU, older resource versions cannot be used to create or manage the newer product, requiring all users to upgrade.">
+Upcoming Breaking Changes TLS 1.3 (v2.22) In v2.22 we’ll default to using TLS 1.3, but will provide a command line flag to enable TLS 1.2 if needed.
+Resource Versioning As first reported in #4147 and explored in the ADR Resources and Version Priority, the way we’re defining our resource versions in ASO is not compliant with Kubernetes rules.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/breaking-changes/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Breaking Changes">
   <meta property="og:description" content="We go to great lengths to avoid breaking changes as much as possible, as we’re well aware that they can cause issues for our users. However, they do occasionally occur, so we’ve committed to providing good documentation each time this occurs.
-Upcoming Breaking Changes Azure Cache for Redis Enterprise (v2.21) Azure is retiring Azure Cache for Redis Enterprise in favour of Azure Managed Redis.
-While the difference at the ARM/Bicep level is just another SKU, older resource versions cannot be used to create or manage the newer product, requiring all users to upgrade.">
+Upcoming Breaking Changes TLS 1.3 (v2.22) In v2.22 we’ll default to using TLS 1.3, but will provide a command line flag to enable TLS 1.2 if needed.
+Resource Versioning As first reported in #4147 and explored in the ADR Resources and Version Priority, the way we’re defining our resource versions in ASO is not compliant with Kubernetes rules.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 
   <meta itemprop="name" content="Breaking Changes">
   <meta itemprop="description" content="We go to great lengths to avoid breaking changes as much as possible, as we’re well aware that they can cause issues for our users. However, they do occasionally occur, so we’ve committed to providing good documentation each time this occurs.
-Upcoming Breaking Changes Azure Cache for Redis Enterprise (v2.21) Azure is retiring Azure Cache for Redis Enterprise in favour of Azure Managed Redis.
-While the difference at the ARM/Bicep level is just another SKU, older resource versions cannot be used to create or manage the newer product, requiring all users to upgrade.">
-  <meta itemprop="wordCount" content="650">
+Upcoming Breaking Changes TLS 1.3 (v2.22) In v2.22 we’ll default to using TLS 1.3, but will provide a command line flag to enable TLS 1.2 if needed.
+Resource Versioning As first reported in #4147 and explored in the ADR Resources and Version Priority, the way we’re defining our resource versions in ASO is not compliant with Kubernetes rules.">
+  <meta itemprop="wordCount" content="606">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Breaking Changes">
   <meta name="twitter:description" content="We go to great lengths to avoid breaking changes as much as possible, as we’re well aware that they can cause issues for our users. However, they do occasionally occur, so we’ve committed to providing good documentation each time this occurs.
-Upcoming Breaking Changes Azure Cache for Redis Enterprise (v2.21) Azure is retiring Azure Cache for Redis Enterprise in favour of Azure Managed Redis.
-While the difference at the ARM/Bicep level is just another SKU, older resource versions cannot be used to create or manage the newer product, requiring all users to upgrade.">
+Upcoming Breaking Changes TLS 1.3 (v2.22) In v2.22 we’ll default to using TLS 1.3, but will provide a command line flag to enable TLS 1.2 if needed.
+Resource Versioning As first reported in #4147 and explored in the ADR Resources and Version Priority, the way we’re defining our resource versions in ASO is not compliant with Kubernetes rules.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -153,7 +153,9 @@ While the difference at the ARM/Bicep level is just another SKU, older resource 
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="td-sidebar-nav-active-item">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2200-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2210-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.21.0/" title="v2.21.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2210"><span class="">v2.21.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2200-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.20.0/" title="v2.20.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2200"><span class="">v2.20.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2190-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.19.0/" title="v2.19.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2190"><span class="">v2.19.0</span></a>
@@ -1054,7 +1056,7 @@ While the difference at the ARM/Bicep level is just another SKU, older resource 
   <ul>
     <li><a href="#upcoming-breaking-changes">Upcoming Breaking Changes</a>
       <ul>
-        <li><a href="#azure-cache-for-redis-enterprise-v221">Azure Cache for Redis Enterprise (v2.21)</a></li>
+        <li><a href="#tls-13-v222">TLS 1.3 (v2.22)</a></li>
         <li><a href="#resource-versioning">Resource Versioning</a></li>
       </ul>
     </li>
@@ -1098,10 +1100,8 @@ While the difference at the ARM/Bicep level is just another SKU, older resource 
 </header>
 	<p>We go to great lengths to avoid breaking changes as much as possible, as we&rsquo;re well aware that they can cause issues for our users. However, they do occasionally occur, so we&rsquo;ve committed to providing good documentation each time this occurs.</p>
 <h2 id="upcoming-breaking-changes">Upcoming Breaking Changes</h2>
-<h3 id="azure-cache-for-redis-enterprise-v221">Azure Cache for Redis Enterprise (v2.21)</h3>
-<p>Azure is retiring <em>Azure Cache for Redis Enterprise</em> in favour of <em>Azure Managed Redis</em>.</p>
-<p>While the difference at the ARM/Bicep level is just another SKU, older resource versions <em>cannot</em> be used to create or manage the newer product, requiring all users to upgrade.</p>
-<p>ASO will be removing versions <code>v1api20210301</code> and <code>v1api20230701</code> of <code>RedisEnterprise</code> and <code>RedisEnterpriseDatabase</code> in version v2.21, scheduled for August 2026.</p>
+<h3 id="tls-13-v222">TLS 1.3 (v2.22)</h3>
+<p>In v2.22 we&rsquo;ll default to using TLS 1.3, but will provide a command line flag to enable TLS 1.2 if needed.</p>
 <h3 id="resource-versioning">Resource Versioning</h3>
 <p>As first reported in <a href="https://github.com/Azure/azure-service-operator/issues/4147">#4147</a> and explored in the ADR <a href="/azure-service-operator/design/adr-2025-05-version-priority/">Resources and Version Priority</a>, the way we&rsquo;re defining our resource versions in ASO is not compliant with Kubernetes rules.</p>
 <p>This failure results in Kubernetes&rsquo; <a href="https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#version-priority">version priority</a> rules consistently selecting the <em>oldest</em> version of any ASO resource.</p>
@@ -1133,6 +1133,12 @@ There&rsquo;s also a possibilty of a change ocurring upstream, but we consider t
     
     
     <hr class="panel-line">
+        <div class="entry">
+                <h5>
+                    <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.21.0/">v2.21.0 Breaking Changes</a>
+                </h5>
+                <p></p>
+            </div>
         <div class="entry">
                 <h5>
                     <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.20.0/">v2.20.0 Breaking Changes</a>
