@@ -1,0 +1,20 @@
+---
+title: "v2.21.0 Breaking Changes"
+linkTitle: "v2.21.0"
+weight: -70  # This should be 5 lower than the previous breaking change document
+---
+
+
+## Breaking changes
+
+* `containerservice`: `ManagedCluster.spec.aadProfile.serverAppSecret` is now correctly identified as a secret.
+* `synapse`: `Workspace.spec.encryption.kekIdentity.useSystemAssignedIdentity` is now correctly typed as a Boolean instead of `v1.JSON`. Valid configurations are unaffected, but invalid configurations may require correction.
+* Remove retired Redis Enterprise resources (#5640)
+
+## Future breaking changes
+
+These breaking changes will be included in future releases
+
+### TLS 1.3 (v2.22)
+
+In v2.22 we'll default to using TLS 1.3, but will provide a command line flag to enable TLS 1.2 if needed.
