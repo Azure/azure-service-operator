@@ -117,7 +117,7 @@ func applyConfigSecretOverrides(
 		)
 	}
 
-	// Verify that all 'isSecret' modifiers are consumed before returning the result
+	// Verify that all secrecy modifiers are consumed before returning the result
 	err := config.ObjectModelConfiguration.Secrecy.VerifyConsumed()
 	if err != nil {
 		return nil, eris.Wrap(
@@ -130,7 +130,7 @@ func applyConfigSecretOverrides(
 }
 
 // mightBeSecret returns true if the given name might represent a secret that shouldn't be present
-// in plain text in the resource. This is a heuristic used to require the presence of $isSecret
+// in plain text in the resource. This is a heuristic used to require an explicit $importSecretMode
 // configuration so that we know for sure.
 // property is the property to check
 // definitions is the set of all definitions so we can look up a typename
