@@ -110,7 +110,7 @@ func createSharedEnvTest(
 	if err != nil {
 		stopErr := environment.Stop()
 		if stopErr != nil {
-			return nil, eris.Wrapf(err, "starting envtest environment (also failed stopping envtest: %s)", stopErr)
+			return nil, eris.Wrapf(err, "starting envtest environment (also failed stopping envtest: %v)", stopErr)
 		}
 
 		return nil, eris.Wrapf(err, "starting envtest environment")
@@ -381,10 +381,18 @@ type sharedEnvTests struct {
 	envtestLock               sync.Mutex
 	concurrencyLimitSemaphore *semaphore.Weighted
 	envtests                  map[string]*runningEnvTest
+	envtestsBeingCreated      map[string]*envTestCreation
 
 	namespaceResources *namespaceResources
 	createEnvTest      func(context.Context, testConfig, *namespaceResources) (*runningEnvTest, error)
 	afterInitialLookup func()
+}
+
+type envTestCreation struct {
+	done    chan struct{}
+	envTest *runningEnvTest
+	err     error
+	callers int
 }
 
 type testConfig struct {
@@ -436,38 +444,66 @@ func (set *sharedEnvTests) garbageCollect(cfg testConfig, logger logr.Logger) {
 	}
 }
 
-func (set *sharedEnvTests) getRunningEnvTest(key string) *runningEnvTest {
-	set.envtestLock.Lock()
-	defer set.envtestLock.Unlock()
-
-	if envTest, ok := set.envtests[key]; ok {
-		envTest.Callers += 1
-		return envTest
-	}
-
-	return nil
-}
-
 func (set *sharedEnvTests) getEnvTestForConfig(
 	ctx context.Context,
 	cfg testConfig,
 	logger logr.Logger,
 ) (*runningEnvTest, error) {
 	envTestKey := cfgToKey(cfg)
-	envTest := set.getRunningEnvTest(envTestKey)
-	if envTest != nil {
+
+	set.envtestLock.Lock()
+	if envTest, ok := set.envtests[envTestKey]; ok {
+		envTest.Callers += 1
+		set.envtestLock.Unlock()
 		return envTest, nil
 	}
+
+	if set.envtestsBeingCreated == nil {
+		set.envtestsBeingCreated = make(map[string]*envTestCreation)
+	}
+	creation, found := set.envtestsBeingCreated[envTestKey]
+	if found {
+		creation.callers += 1
+	} else {
+		creation = &envTestCreation{
+			done:    make(chan struct{}),
+			callers: 1,
+		}
+		set.envtestsBeingCreated[envTestKey] = creation
+	}
+	set.envtestLock.Unlock()
+
 	if set.afterInitialLookup != nil {
 		set.afterInitialLookup()
 	}
 
-	// The order of these locks matters: Have to make sure we have spare capacity before take the shared lock
+	if found {
+		select {
+		case <-creation.done:
+			return creation.envTest, creation.err
+		case <-ctx.Done():
+			set.envtestLock.Lock()
+			current, stillCreating := set.envtestsBeingCreated[envTestKey]
+			if stillCreating && current == creation {
+				creation.callers -= 1
+				set.envtestLock.Unlock()
+				return nil, ctx.Err()
+			}
+			set.envtestLock.Unlock()
+
+			// Creation completed while cancellation was being handled, so retain
+			// the reference reserved for this caller and return its result.
+			<-creation.done
+			return creation.envTest, creation.err
+		}
+	}
+
 	acquiredPermit := false
 	if cfg.CountsTowardsLimit {
 		logger.V(2).Info("Acquiring envtest concurrency semaphore")
 		err := set.concurrencyLimitSemaphore.Acquire(ctx, 1)
 		if err != nil {
+			set.completeEnvTestCreation(envTestKey, creation, nil, err)
 			return nil, err
 		}
 		acquiredPermit = true
@@ -478,15 +514,7 @@ func (set *sharedEnvTests) getEnvTestForConfig(
 		}
 	}()
 
-	set.envtestLock.Lock()
-	defer set.envtestLock.Unlock()
-	if envTest, ok := set.envtests[envTestKey]; ok {
-		envTest.Callers += 1
-		return envTest, nil
-	}
-
 	logger.V(2).Info("Starting envtest")
-	// no envtest exists for this config; make one
 
 	createEnvTest := set.createEnvTest
 	if createEnvTest == nil {
@@ -494,12 +522,33 @@ func (set *sharedEnvTests) getEnvTestForConfig(
 	}
 	newEnvTest, err := createEnvTest(ctx, cfg, set.namespaceResources)
 	if err != nil {
-		return nil, eris.Wrap(err, "unable to create shared envtest environment")
+		err = eris.Wrap(err, "unable to create shared envtest environment")
+		set.completeEnvTestCreation(envTestKey, creation, nil, err)
+		return nil, err
 	}
 
-	set.envtests[envTestKey] = newEnvTest
 	acquiredPermit = false
+	set.completeEnvTestCreation(envTestKey, creation, newEnvTest, nil)
 	return newEnvTest, nil
+}
+
+func (set *sharedEnvTests) completeEnvTestCreation(
+	key string,
+	creation *envTestCreation,
+	envTest *runningEnvTest,
+	err error,
+) {
+	set.envtestLock.Lock()
+	defer set.envtestLock.Unlock()
+
+	delete(set.envtestsBeingCreated, key)
+	if envTest != nil {
+		envTest.Callers = creation.callers
+		set.envtests[key] = envTest
+	}
+	creation.envTest = envTest
+	creation.err = err
+	close(creation.done)
 }
 
 type runningEnvTest struct {
@@ -562,6 +611,7 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 		envtestLock:               sync.Mutex{},
 		concurrencyLimitSemaphore: semaphore.NewWeighted(int64(concurrencyLimit)),
 		envtests:                  make(map[string]*runningEnvTest),
+		envtestsBeingCreated:      make(map[string]*envTestCreation),
 		namespaceResources:        perNamespaceResources,
 	}
 

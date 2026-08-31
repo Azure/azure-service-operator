@@ -13,8 +13,9 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
+
+	"github.com/go-logr/logr"
 	"golang.org/x/sync/semaphore"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
@@ -49,8 +50,9 @@ func Test_GetEnvTestForConfig_ConcurrentCallersShareEnvironment(t *testing.T) {
 	var creations atomic.Int32
 	var stops atomic.Int32
 	set := sharedEnvTests{
-		concurrencyLimitSemaphore: semaphore.NewWeighted(callers),
+		concurrencyLimitSemaphore: semaphore.NewWeighted(1),
 		envtests:                  make(map[string]*runningEnvTest),
+		envtestsBeingCreated:      make(map[string]*envTestCreation),
 		afterInitialLookup: func() {
 			ready <- struct{}{}
 			<-release
@@ -83,7 +85,12 @@ func Test_GetEnvTestForConfig_ConcurrentCallersShareEnvironment(t *testing.T) {
 		<-ready
 	}
 	close(release)
-	wg.Wait()
+	done := make(chan struct{})
+	go func() {
+		wg.Wait()
+		close(done)
+	}()
+	g.Eventually(done).Should(BeClosed())
 
 	g.Expect(errs).To(ConsistOf(make([]error, callers)))
 	g.Expect(creations.Load()).To(Equal(int32(1)))
@@ -91,13 +98,11 @@ func Test_GetEnvTestForConfig_ConcurrentCallersShareEnvironment(t *testing.T) {
 		g.Expect(result).To(BeIdenticalTo(results[0]))
 	}
 	g.Expect(results[0].Callers).To(Equal(callers))
-	g.Expect(set.concurrencyLimitSemaphore.TryAcquire(callers - 1)).To(BeTrue())
 	g.Expect(set.concurrencyLimitSemaphore.TryAcquire(1)).To(BeFalse())
-	set.concurrencyLimitSemaphore.Release(callers - 1)
 
 	set.stopAll()
 	g.Expect(stops.Load()).To(Equal(int32(1)))
-	g.Expect(set.concurrencyLimitSemaphore.TryAcquire(callers)).To(BeTrue())
+	g.Expect(set.concurrencyLimitSemaphore.TryAcquire(1)).To(BeTrue())
 }
 
 func Test_GetEnvTestForConfig_CreationFailureReleasesPermit(t *testing.T) {
@@ -108,6 +113,7 @@ func Test_GetEnvTestForConfig_CreationFailureReleasesPermit(t *testing.T) {
 	set := sharedEnvTests{
 		concurrencyLimitSemaphore: limit,
 		envtests:                  make(map[string]*runningEnvTest),
+		envtestsBeingCreated:      make(map[string]*envTestCreation),
 		createEnvTest: func(_ context.Context, _ testConfig, _ *namespaceResources) (*runningEnvTest, error) {
 			return nil, errors.New("expected error")
 		},
@@ -133,6 +139,7 @@ func Test_GetEnvTestForConfig_LimitsDistinctEnvironments(t *testing.T) {
 	set := sharedEnvTests{
 		concurrencyLimitSemaphore: semaphore.NewWeighted(limit),
 		envtests:                  make(map[string]*runningEnvTest),
+		envtestsBeingCreated:      make(map[string]*envTestCreation),
 		createEnvTest: func(_ context.Context, cfg testConfig, _ *namespaceResources) (*runningEnvTest, error) {
 			current := live.Add(1)
 			for current > maximum.Load() && !maximum.CompareAndSwap(maximum.Load(), current) {
