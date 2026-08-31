@@ -7,13 +7,9 @@ We go to great lengths to avoid breaking changes as much as possible, as we're w
 
 ## Upcoming Breaking Changes
 
-### Azure Cache for Redis Enterprise (v2.21)
+### TLS 1.3 (v2.22)
 
-Azure is retiring _Azure Cache for Redis Enterprise_ in favour of _Azure Managed Redis_.
-
-While the difference at the ARM/Bicep level is just another SKU, older resource versions _cannot_ be used to create or manage the newer product, requiring all users to upgrade.
-
-ASO will be removing versions `v1api20210301` and `v1api20230701` of `RedisEnterprise` and `RedisEnterpriseDatabase` in version v2.21, scheduled for August 2026.
+In v2.22 we'll default to using TLS 1.3, but will provide a command line flag to enable TLS 1.2 if needed.
 
 ### Resource Versioning
 
