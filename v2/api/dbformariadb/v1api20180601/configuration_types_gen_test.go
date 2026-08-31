@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_Configuration_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of Configuration round trips to the hub storage version and back losslessly
 func Test_Configuration_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,47 +22,37 @@ func Test_Configuration_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Configuration to hub returns original",
-		prop.ForAll(RunResourceConversionTestForConfiguration, ConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ConfigurationGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.Configuration
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual Configuration
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForConfiguration tests if a specific instance of Configuration round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForConfiguration(subject Configuration) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.Configuration
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual Configuration
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_Configuration_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Configuration can be assigned to storage and back losslessly
 func Test_Configuration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -73,44 +60,34 @@ func Test_Configuration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Configuration to Configuration via AssignProperties_To_Configuration & AssignProperties_From_Configuration returns original",
-		prop.ForAll(RunPropertyAssignmentTestForConfiguration, ConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ConfigurationGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForConfiguration tests if a specific instance of Configuration can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForConfiguration(subject Configuration) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Configuration
+		err := copied.AssignProperties_To_Configuration(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Configuration
-	err := copied.AssignProperties_To_Configuration(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Configuration
+		err = actual.AssignProperties_From_Configuration(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Configuration
-	err = actual.AssignProperties_From_Configuration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Configuration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -120,29 +97,23 @@ func Test_Configuration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Configuration via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConfiguration, ConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForConfiguration)
 }
 
 // RunJSONSerializationTestForConfiguration runs a test to see if a specific instance of Configuration round trips to JSON and back losslessly
-func RunJSONSerializationTestForConfiguration(subject Configuration) string {
+func RunJSONSerializationTestForConfiguration(t *rapid.T) {
+	subject := ConfigurationGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Configuration
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -151,34 +122,33 @@ func RunJSONSerializationTestForConfiguration(subject Configuration) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Configuration instances for property testing - lazily instantiated by ConfigurationGenerator()
-var configurationGenerator gopter.Gen
+var configurationGenerator *rapid.Generator[Configuration]
 
 // ConfigurationGenerator returns a generator of Configuration instances for property testing.
-func ConfigurationGenerator() gopter.Gen {
+func ConfigurationGenerator() *rapid.Generator[Configuration] {
 	if configurationGenerator != nil {
 		return configurationGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForConfiguration(generators)
-	configurationGenerator = gen.Struct(reflect.TypeOf(Configuration{}), generators)
+	spec := Configuration_SpecGenerator()
+	status := Configuration_STATUSGenerator()
+
+	configurationGenerator = rapid.Custom(func(t *rapid.T) Configuration {
+		var result Configuration
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return configurationGenerator
 }
 
-// AddRelatedPropertyGeneratorsForConfiguration is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForConfiguration(gens map[string]gopter.Gen) {
-	gens["Spec"] = Configuration_SpecGenerator()
-	gens["Status"] = Configuration_STATUSGenerator()
-}
-
+// Test_ConfigurationOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ConfigurationOperatorSpec can be assigned to storage and back losslessly
 func Test_ConfigurationOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -186,44 +156,34 @@ func Test_ConfigurationOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLos
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ConfigurationOperatorSpec to ConfigurationOperatorSpec via AssignProperties_To_ConfigurationOperatorSpec & AssignProperties_From_ConfigurationOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForConfigurationOperatorSpec, ConfigurationOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ConfigurationOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForConfigurationOperatorSpec tests if a specific instance of ConfigurationOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForConfigurationOperatorSpec(subject ConfigurationOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ConfigurationOperatorSpec
+		err := copied.AssignProperties_To_ConfigurationOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ConfigurationOperatorSpec
-	err := copied.AssignProperties_To_ConfigurationOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ConfigurationOperatorSpec
+		err = actual.AssignProperties_From_ConfigurationOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ConfigurationOperatorSpec
-	err = actual.AssignProperties_From_ConfigurationOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ConfigurationOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -233,29 +193,23 @@ func Test_ConfigurationOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ConfigurationOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConfigurationOperatorSpec, ConfigurationOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForConfigurationOperatorSpec)
 }
 
 // RunJSONSerializationTestForConfigurationOperatorSpec runs a test to see if a specific instance of ConfigurationOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForConfigurationOperatorSpec(subject ConfigurationOperatorSpec) string {
+func RunJSONSerializationTestForConfigurationOperatorSpec(t *rapid.T) {
+	subject := ConfigurationOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ConfigurationOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -264,28 +218,26 @@ func RunJSONSerializationTestForConfigurationOperatorSpec(subject ConfigurationO
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ConfigurationOperatorSpec instances for property testing - lazily instantiated by
 // ConfigurationOperatorSpecGenerator()
-var configurationOperatorSpecGenerator gopter.Gen
+var configurationOperatorSpecGenerator *rapid.Generator[ConfigurationOperatorSpec]
 
 // ConfigurationOperatorSpecGenerator returns a generator of ConfigurationOperatorSpec instances for property testing.
-func ConfigurationOperatorSpecGenerator() gopter.Gen {
+func ConfigurationOperatorSpecGenerator() *rapid.Generator[ConfigurationOperatorSpec] {
 	if configurationOperatorSpecGenerator != nil {
 		return configurationOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	configurationOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ConfigurationOperatorSpec{}), generators)
+	configurationOperatorSpecGenerator = rapid.Just(ConfigurationOperatorSpec{})
 
 	return configurationOperatorSpecGenerator
 }
 
+// Test_Configuration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Configuration_STATUS can be assigned to storage and back losslessly
 func Test_Configuration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -293,44 +245,34 @@ func Test_Configuration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Configuration_STATUS to Configuration_STATUS via AssignProperties_To_Configuration_STATUS & AssignProperties_From_Configuration_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForConfiguration_STATUS, Configuration_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Configuration_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForConfiguration_STATUS tests if a specific instance of Configuration_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForConfiguration_STATUS(subject Configuration_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Configuration_STATUS
+		err := copied.AssignProperties_To_Configuration_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Configuration_STATUS
-	err := copied.AssignProperties_To_Configuration_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Configuration_STATUS
+		err = actual.AssignProperties_From_Configuration_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Configuration_STATUS
-	err = actual.AssignProperties_From_Configuration_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Configuration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -340,29 +282,23 @@ func Test_Configuration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Configuration_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConfiguration_STATUS, Configuration_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForConfiguration_STATUS)
 }
 
 // RunJSONSerializationTestForConfiguration_STATUS runs a test to see if a specific instance of Configuration_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForConfiguration_STATUS(subject Configuration_STATUS) string {
+func RunJSONSerializationTestForConfiguration_STATUS(t *rapid.T) {
+	subject := Configuration_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Configuration_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -371,42 +307,40 @@ func RunJSONSerializationTestForConfiguration_STATUS(subject Configuration_STATU
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Configuration_STATUS instances for property testing - lazily instantiated by
 // Configuration_STATUSGenerator()
-var configuration_STATUSGenerator gopter.Gen
+var configuration_STATUSGenerator *rapid.Generator[Configuration_STATUS]
 
 // Configuration_STATUSGenerator returns a generator of Configuration_STATUS instances for property testing.
-func Configuration_STATUSGenerator() gopter.Gen {
+func Configuration_STATUSGenerator() *rapid.Generator[Configuration_STATUS] {
 	if configuration_STATUSGenerator != nil {
 		return configuration_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConfiguration_STATUS(generators)
-	configuration_STATUSGenerator = gen.Struct(reflect.TypeOf(Configuration_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	configuration_STATUSGenerator = rapid.Custom(func(t *rapid.T) Configuration_STATUS {
+		var result Configuration_STATUS
+		result.AllowedValues = ptrString.Draw(t, "AllowedValues")
+		result.DataType = ptrString.Draw(t, "DataType")
+		result.DefaultValue = ptrString.Draw(t, "DefaultValue")
+		result.Description = ptrString.Draw(t, "Description")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Source = ptrString.Draw(t, "Source")
+		result.Type = ptrString.Draw(t, "Type")
+		result.Value = ptrString.Draw(t, "Value")
+		return result
+	})
 
 	return configuration_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForConfiguration_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
-	gens["DataType"] = gen.PtrOf(gen.AlphaString())
-	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Source"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_Configuration_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Configuration_Spec can be assigned to storage and back losslessly
 func Test_Configuration_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -414,44 +348,34 @@ func Test_Configuration_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Configuration_Spec to Configuration_Spec via AssignProperties_To_Configuration_Spec & AssignProperties_From_Configuration_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForConfiguration_Spec, Configuration_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Configuration_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForConfiguration_Spec tests if a specific instance of Configuration_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForConfiguration_Spec(subject Configuration_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Configuration_Spec
+		err := copied.AssignProperties_To_Configuration_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Configuration_Spec
-	err := copied.AssignProperties_To_Configuration_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Configuration_Spec
+		err = actual.AssignProperties_From_Configuration_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Configuration_Spec
-	err = actual.AssignProperties_From_Configuration_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Configuration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -461,29 +385,23 @@ func Test_Configuration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Configuration_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConfiguration_Spec, Configuration_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForConfiguration_Spec)
 }
 
 // RunJSONSerializationTestForConfiguration_Spec runs a test to see if a specific instance of Configuration_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForConfiguration_Spec(subject Configuration_Spec) string {
+func RunJSONSerializationTestForConfiguration_Spec(t *rapid.T) {
+	subject := Configuration_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Configuration_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -492,45 +410,31 @@ func RunJSONSerializationTestForConfiguration_Spec(subject Configuration_Spec) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Configuration_Spec instances for property testing - lazily instantiated by Configuration_SpecGenerator()
-var configuration_SpecGenerator gopter.Gen
+var configuration_SpecGenerator *rapid.Generator[Configuration_Spec]
 
 // Configuration_SpecGenerator returns a generator of Configuration_Spec instances for property testing.
-// We first initialize configuration_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Configuration_SpecGenerator() gopter.Gen {
+func Configuration_SpecGenerator() *rapid.Generator[Configuration_Spec] {
 	if configuration_SpecGenerator != nil {
 		return configuration_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConfiguration_Spec(generators)
-	configuration_SpecGenerator = gen.Struct(reflect.TypeOf(Configuration_Spec{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	azureName := rapid.String()
+	operatorSpec := rapid.Ptr(ConfigurationOperatorSpecGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConfiguration_Spec(generators)
-	AddRelatedPropertyGeneratorsForConfiguration_Spec(generators)
-	configuration_SpecGenerator = gen.Struct(reflect.TypeOf(Configuration_Spec{}), generators)
+	configuration_SpecGenerator = rapid.Custom(func(t *rapid.T) Configuration_Spec {
+		var result Configuration_Spec
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.Source = ptrString.Draw(t, "Source")
+		result.Value = ptrString.Draw(t, "Value")
+		return result
+	})
 
 	return configuration_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForConfiguration_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConfiguration_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Source"] = gen.PtrOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForConfiguration_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForConfiguration_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(ConfigurationOperatorSpecGenerator())
 }

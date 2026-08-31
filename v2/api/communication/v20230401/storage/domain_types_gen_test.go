@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_DnsRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DnsRecord_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsRecord_STATUS, DnsRecord_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDnsRecord_STATUS)
 }
 
 // RunJSONSerializationTestForDnsRecord_STATUS runs a test to see if a specific instance of DnsRecord_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsRecord_STATUS(subject DnsRecord_STATUS) string {
+func RunJSONSerializationTestForDnsRecord_STATUS(t *rapid.T) {
+	subject := DnsRecord_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DnsRecord_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,34 +45,32 @@ func RunJSONSerializationTestForDnsRecord_STATUS(subject DnsRecord_STATUS) strin
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DnsRecord_STATUS instances for property testing - lazily instantiated by DnsRecord_STATUSGenerator()
-var dnsRecord_STATUSGenerator gopter.Gen
+var dnsRecord_STATUSGenerator *rapid.Generator[DnsRecord_STATUS]
 
 // DnsRecord_STATUSGenerator returns a generator of DnsRecord_STATUS instances for property testing.
-func DnsRecord_STATUSGenerator() gopter.Gen {
+func DnsRecord_STATUSGenerator() *rapid.Generator[DnsRecord_STATUS] {
 	if dnsRecord_STATUSGenerator != nil {
 		return dnsRecord_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsRecord_STATUS(generators)
-	dnsRecord_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsRecord_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ttl := rapid.Ptr(rapid.Int(), true)
+
+	dnsRecord_STATUSGenerator = rapid.Custom(func(t *rapid.T) DnsRecord_STATUS {
+		var result DnsRecord_STATUS
+		result.Name = ptrString.Draw(t, "Name")
+		result.Ttl = ttl.Draw(t, "Ttl")
+		result.Type = ptrString.Draw(t, "Type")
+		result.Value = ptrString.Draw(t, "Value")
+		return result
+	})
 
 	return dnsRecord_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDnsRecord_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsRecord_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Ttl"] = gen.PtrOf(gen.Int())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Domain_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -92,29 +80,23 @@ func Test_Domain_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Domain via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomain, DomainGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDomain)
 }
 
 // RunJSONSerializationTestForDomain runs a test to see if a specific instance of Domain round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomain(subject Domain) string {
+func RunJSONSerializationTestForDomain(t *rapid.T) {
+	subject := DomainGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Domain
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -123,32 +105,30 @@ func RunJSONSerializationTestForDomain(subject Domain) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Domain instances for property testing - lazily instantiated by DomainGenerator()
-var domainGenerator gopter.Gen
+var domainGenerator *rapid.Generator[Domain]
 
 // DomainGenerator returns a generator of Domain instances for property testing.
-func DomainGenerator() gopter.Gen {
+func DomainGenerator() *rapid.Generator[Domain] {
 	if domainGenerator != nil {
 		return domainGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDomain(generators)
-	domainGenerator = gen.Struct(reflect.TypeOf(Domain{}), generators)
+	spec := Domain_SpecGenerator()
+	status := Domain_STATUSGenerator()
+
+	domainGenerator = rapid.Custom(func(t *rapid.T) Domain {
+		var result Domain
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return domainGenerator
-}
-
-// AddRelatedPropertyGeneratorsForDomain is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDomain(gens map[string]gopter.Gen) {
-	gens["Spec"] = Domain_SpecGenerator()
-	gens["Status"] = Domain_STATUSGenerator()
 }
 
 func Test_DomainOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -158,29 +138,23 @@ func Test_DomainOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DomainOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomainOperatorSpec, DomainOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDomainOperatorSpec)
 }
 
 // RunJSONSerializationTestForDomainOperatorSpec runs a test to see if a specific instance of DomainOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomainOperatorSpec(subject DomainOperatorSpec) string {
+func RunJSONSerializationTestForDomainOperatorSpec(t *rapid.T) {
+	subject := DomainOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DomainOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -189,23 +163,20 @@ func RunJSONSerializationTestForDomainOperatorSpec(subject DomainOperatorSpec) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DomainOperatorSpec instances for property testing - lazily instantiated by DomainOperatorSpecGenerator()
-var domainOperatorSpecGenerator gopter.Gen
+var domainOperatorSpecGenerator *rapid.Generator[DomainOperatorSpec]
 
 // DomainOperatorSpecGenerator returns a generator of DomainOperatorSpec instances for property testing.
-func DomainOperatorSpecGenerator() gopter.Gen {
+func DomainOperatorSpecGenerator() *rapid.Generator[DomainOperatorSpec] {
 	if domainOperatorSpecGenerator != nil {
 		return domainOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	domainOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DomainOperatorSpec{}), generators)
+	domainOperatorSpecGenerator = rapid.Just(DomainOperatorSpec{})
 
 	return domainOperatorSpecGenerator
 }
@@ -217,29 +188,23 @@ func Test_DomainProperties_VerificationRecords_STATUS_WhenSerializedToJson_Deser
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DomainProperties_VerificationRecords_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomainProperties_VerificationRecords_STATUS, DomainProperties_VerificationRecords_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDomainProperties_VerificationRecords_STATUS)
 }
 
 // RunJSONSerializationTestForDomainProperties_VerificationRecords_STATUS runs a test to see if a specific instance of DomainProperties_VerificationRecords_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomainProperties_VerificationRecords_STATUS(subject DomainProperties_VerificationRecords_STATUS) string {
+func RunJSONSerializationTestForDomainProperties_VerificationRecords_STATUS(t *rapid.T) {
+	subject := DomainProperties_VerificationRecords_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DomainProperties_VerificationRecords_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -248,36 +213,33 @@ func RunJSONSerializationTestForDomainProperties_VerificationRecords_STATUS(subj
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DomainProperties_VerificationRecords_STATUS instances for property testing - lazily instantiated by
 // DomainProperties_VerificationRecords_STATUSGenerator()
-var domainProperties_VerificationRecords_STATUSGenerator gopter.Gen
+var domainProperties_VerificationRecords_STATUSGenerator *rapid.Generator[DomainProperties_VerificationRecords_STATUS]
 
 // DomainProperties_VerificationRecords_STATUSGenerator returns a generator of DomainProperties_VerificationRecords_STATUS instances for property testing.
-func DomainProperties_VerificationRecords_STATUSGenerator() gopter.Gen {
+func DomainProperties_VerificationRecords_STATUSGenerator() *rapid.Generator[DomainProperties_VerificationRecords_STATUS] {
 	if domainProperties_VerificationRecords_STATUSGenerator != nil {
 		return domainProperties_VerificationRecords_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDomainProperties_VerificationRecords_STATUS(generators)
-	domainProperties_VerificationRecords_STATUSGenerator = gen.Struct(reflect.TypeOf(DomainProperties_VerificationRecords_STATUS{}), generators)
+	ptrDnsRecordSTATUS := rapid.Ptr(DnsRecord_STATUSGenerator(), true)
+
+	domainProperties_VerificationRecords_STATUSGenerator = rapid.Custom(func(t *rapid.T) DomainProperties_VerificationRecords_STATUS {
+		var result DomainProperties_VerificationRecords_STATUS
+		result.DKIM = ptrDnsRecordSTATUS.Draw(t, "DKIM")
+		result.DKIM2 = ptrDnsRecordSTATUS.Draw(t, "DKIM2")
+		result.DMARC = ptrDnsRecordSTATUS.Draw(t, "DMARC")
+		result.Domain = ptrDnsRecordSTATUS.Draw(t, "Domain")
+		result.SPF = ptrDnsRecordSTATUS.Draw(t, "SPF")
+		return result
+	})
 
 	return domainProperties_VerificationRecords_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForDomainProperties_VerificationRecords_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDomainProperties_VerificationRecords_STATUS(gens map[string]gopter.Gen) {
-	gens["DKIM"] = gen.PtrOf(DnsRecord_STATUSGenerator())
-	gens["DKIM2"] = gen.PtrOf(DnsRecord_STATUSGenerator())
-	gens["DMARC"] = gen.PtrOf(DnsRecord_STATUSGenerator())
-	gens["Domain"] = gen.PtrOf(DnsRecord_STATUSGenerator())
-	gens["SPF"] = gen.PtrOf(DnsRecord_STATUSGenerator())
 }
 
 func Test_DomainProperties_VerificationStates_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -287,29 +249,23 @@ func Test_DomainProperties_VerificationStates_STATUS_WhenSerializedToJson_Deseri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DomainProperties_VerificationStates_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomainProperties_VerificationStates_STATUS, DomainProperties_VerificationStates_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDomainProperties_VerificationStates_STATUS)
 }
 
 // RunJSONSerializationTestForDomainProperties_VerificationStates_STATUS runs a test to see if a specific instance of DomainProperties_VerificationStates_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomainProperties_VerificationStates_STATUS(subject DomainProperties_VerificationStates_STATUS) string {
+func RunJSONSerializationTestForDomainProperties_VerificationStates_STATUS(t *rapid.T) {
+	subject := DomainProperties_VerificationStates_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DomainProperties_VerificationStates_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -318,36 +274,33 @@ func RunJSONSerializationTestForDomainProperties_VerificationStates_STATUS(subje
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DomainProperties_VerificationStates_STATUS instances for property testing - lazily instantiated by
 // DomainProperties_VerificationStates_STATUSGenerator()
-var domainProperties_VerificationStates_STATUSGenerator gopter.Gen
+var domainProperties_VerificationStates_STATUSGenerator *rapid.Generator[DomainProperties_VerificationStates_STATUS]
 
 // DomainProperties_VerificationStates_STATUSGenerator returns a generator of DomainProperties_VerificationStates_STATUS instances for property testing.
-func DomainProperties_VerificationStates_STATUSGenerator() gopter.Gen {
+func DomainProperties_VerificationStates_STATUSGenerator() *rapid.Generator[DomainProperties_VerificationStates_STATUS] {
 	if domainProperties_VerificationStates_STATUSGenerator != nil {
 		return domainProperties_VerificationStates_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDomainProperties_VerificationStates_STATUS(generators)
-	domainProperties_VerificationStates_STATUSGenerator = gen.Struct(reflect.TypeOf(DomainProperties_VerificationStates_STATUS{}), generators)
+	ptrVerificationStatusRecordSTATUS := rapid.Ptr(VerificationStatusRecord_STATUSGenerator(), true)
+
+	domainProperties_VerificationStates_STATUSGenerator = rapid.Custom(func(t *rapid.T) DomainProperties_VerificationStates_STATUS {
+		var result DomainProperties_VerificationStates_STATUS
+		result.DKIM = ptrVerificationStatusRecordSTATUS.Draw(t, "DKIM")
+		result.DKIM2 = ptrVerificationStatusRecordSTATUS.Draw(t, "DKIM2")
+		result.DMARC = ptrVerificationStatusRecordSTATUS.Draw(t, "DMARC")
+		result.Domain = ptrVerificationStatusRecordSTATUS.Draw(t, "Domain")
+		result.SPF = ptrVerificationStatusRecordSTATUS.Draw(t, "SPF")
+		return result
+	})
 
 	return domainProperties_VerificationStates_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForDomainProperties_VerificationStates_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDomainProperties_VerificationStates_STATUS(gens map[string]gopter.Gen) {
-	gens["DKIM"] = gen.PtrOf(VerificationStatusRecord_STATUSGenerator())
-	gens["DKIM2"] = gen.PtrOf(VerificationStatusRecord_STATUSGenerator())
-	gens["DMARC"] = gen.PtrOf(VerificationStatusRecord_STATUSGenerator())
-	gens["Domain"] = gen.PtrOf(VerificationStatusRecord_STATUSGenerator())
-	gens["SPF"] = gen.PtrOf(VerificationStatusRecord_STATUSGenerator())
 }
 
 func Test_Domain_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -357,29 +310,23 @@ func Test_Domain_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Domain_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomain_STATUS, Domain_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDomain_STATUS)
 }
 
 // RunJSONSerializationTestForDomain_STATUS runs a test to see if a specific instance of Domain_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomain_STATUS(subject Domain_STATUS) string {
+func RunJSONSerializationTestForDomain_STATUS(t *rapid.T) {
+	subject := Domain_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Domain_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -388,59 +335,47 @@ func RunJSONSerializationTestForDomain_STATUS(subject Domain_STATUS) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Domain_STATUS instances for property testing - lazily instantiated by Domain_STATUSGenerator()
-var domain_STATUSGenerator gopter.Gen
+var domain_STATUSGenerator *rapid.Generator[Domain_STATUS]
 
 // Domain_STATUSGenerator returns a generator of Domain_STATUS instances for property testing.
-// We first initialize domain_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Domain_STATUSGenerator() gopter.Gen {
+func Domain_STATUSGenerator() *rapid.Generator[Domain_STATUS] {
 	if domain_STATUSGenerator != nil {
 		return domain_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomain_STATUS(generators)
-	domain_STATUSGenerator = gen.Struct(reflect.TypeOf(Domain_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+	verificationRecords := rapid.Ptr(DomainProperties_VerificationRecords_STATUSGenerator(), true)
+	verificationStates := rapid.Ptr(DomainProperties_VerificationStates_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomain_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDomain_STATUS(generators)
-	domain_STATUSGenerator = gen.Struct(reflect.TypeOf(Domain_STATUS{}), generators)
+	domain_STATUSGenerator = rapid.Custom(func(t *rapid.T) Domain_STATUS {
+		var result Domain_STATUS
+		result.DataLocation = ptrString.Draw(t, "DataLocation")
+		result.DomainManagement = ptrString.Draw(t, "DomainManagement")
+		result.FromSenderDomain = ptrString.Draw(t, "FromSenderDomain")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Location = ptrString.Draw(t, "Location")
+		result.MailFromSenderDomain = ptrString.Draw(t, "MailFromSenderDomain")
+		result.Name = ptrString.Draw(t, "Name")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		result.UserEngagementTracking = ptrString.Draw(t, "UserEngagementTracking")
+		result.VerificationRecords = verificationRecords.Draw(t, "VerificationRecords")
+		result.VerificationStates = verificationStates.Draw(t, "VerificationStates")
+		return result
+	})
 
 	return domain_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDomain_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDomain_STATUS(gens map[string]gopter.Gen) {
-	gens["DataLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["DomainManagement"] = gen.PtrOf(gen.AlphaString())
-	gens["FromSenderDomain"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["MailFromSenderDomain"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["UserEngagementTracking"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDomain_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDomain_STATUS(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-	gens["VerificationRecords"] = gen.PtrOf(DomainProperties_VerificationRecords_STATUSGenerator())
-	gens["VerificationStates"] = gen.PtrOf(DomainProperties_VerificationStates_STATUSGenerator())
 }
 
 func Test_Domain_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -450,29 +385,23 @@ func Test_Domain_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Domain_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomain_Spec, Domain_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDomain_Spec)
 }
 
 // RunJSONSerializationTestForDomain_Spec runs a test to see if a specific instance of Domain_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomain_Spec(subject Domain_Spec) string {
+func RunJSONSerializationTestForDomain_Spec(t *rapid.T) {
+	subject := Domain_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Domain_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -481,52 +410,39 @@ func RunJSONSerializationTestForDomain_Spec(subject Domain_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Domain_Spec instances for property testing - lazily instantiated by Domain_SpecGenerator()
-var domain_SpecGenerator gopter.Gen
+var domain_SpecGenerator *rapid.Generator[Domain_Spec]
 
 // Domain_SpecGenerator returns a generator of Domain_Spec instances for property testing.
-// We first initialize domain_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Domain_SpecGenerator() gopter.Gen {
+func Domain_SpecGenerator() *rapid.Generator[Domain_Spec] {
 	if domain_SpecGenerator != nil {
 		return domain_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomain_Spec(generators)
-	domain_SpecGenerator = gen.Struct(reflect.TypeOf(Domain_Spec{}), generators)
+	genString := rapid.String()
+	ptrString := rapid.Ptr(rapid.String(), true)
+	operatorSpec := rapid.Ptr(DomainOperatorSpecGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomain_Spec(generators)
-	AddRelatedPropertyGeneratorsForDomain_Spec(generators)
-	domain_SpecGenerator = gen.Struct(reflect.TypeOf(Domain_Spec{}), generators)
+	domain_SpecGenerator = rapid.Custom(func(t *rapid.T) Domain_Spec {
+		var result Domain_Spec
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.DomainManagement = ptrString.Draw(t, "DomainManagement")
+		result.Location = ptrString.Draw(t, "Location")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		result.Tags = tags.Draw(t, "Tags")
+		result.UserEngagementTracking = ptrString.Draw(t, "UserEngagementTracking")
+		return result
+	})
 
 	return domain_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDomain_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["DomainManagement"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["UserEngagementTracking"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDomain_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(DomainOperatorSpecGenerator())
 }
 
 func Test_VerificationStatusRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -536,29 +452,23 @@ func Test_VerificationStatusRecord_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VerificationStatusRecord_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVerificationStatusRecord_STATUS, VerificationStatusRecord_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVerificationStatusRecord_STATUS)
 }
 
 // RunJSONSerializationTestForVerificationStatusRecord_STATUS runs a test to see if a specific instance of VerificationStatusRecord_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVerificationStatusRecord_STATUS(subject VerificationStatusRecord_STATUS) string {
+func RunJSONSerializationTestForVerificationStatusRecord_STATUS(t *rapid.T) {
+	subject := VerificationStatusRecord_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual VerificationStatusRecord_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -567,31 +477,28 @@ func RunJSONSerializationTestForVerificationStatusRecord_STATUS(subject Verifica
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of VerificationStatusRecord_STATUS instances for property testing - lazily instantiated by
 // VerificationStatusRecord_STATUSGenerator()
-var verificationStatusRecord_STATUSGenerator gopter.Gen
+var verificationStatusRecord_STATUSGenerator *rapid.Generator[VerificationStatusRecord_STATUS]
 
 // VerificationStatusRecord_STATUSGenerator returns a generator of VerificationStatusRecord_STATUS instances for property testing.
-func VerificationStatusRecord_STATUSGenerator() gopter.Gen {
+func VerificationStatusRecord_STATUSGenerator() *rapid.Generator[VerificationStatusRecord_STATUS] {
 	if verificationStatusRecord_STATUSGenerator != nil {
 		return verificationStatusRecord_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVerificationStatusRecord_STATUS(generators)
-	verificationStatusRecord_STATUSGenerator = gen.Struct(reflect.TypeOf(VerificationStatusRecord_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	verificationStatusRecord_STATUSGenerator = rapid.Custom(func(t *rapid.T) VerificationStatusRecord_STATUS {
+		var result VerificationStatusRecord_STATUS
+		result.ErrorCode = ptrString.Draw(t, "ErrorCode")
+		result.Status = ptrString.Draw(t, "Status")
+		return result
+	})
 
 	return verificationStatusRecord_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVerificationStatusRecord_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVerificationStatusRecord_STATUS(gens map[string]gopter.Gen) {
-	gens["ErrorCode"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.AlphaString())
 }
