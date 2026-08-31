@@ -12,7 +12,7 @@ weight: -80  # This should be 5 lower than the previous breaking change document
 
 ## Future breaking changes
 
-These breaking changes will be included in future releases
+These breaking changes are planned for future releases:
 
 ### TLS 1.3 (v2.22)
 
