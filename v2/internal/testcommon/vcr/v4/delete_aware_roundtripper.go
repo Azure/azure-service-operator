@@ -17,6 +17,7 @@ import (
 type deleteAwareRoundTripper struct {
 	inner        http.RoundTripper
 	deletedPaths map[string]struct{}
+	lroPollURLs  map[string]struct{}
 	log          logr.Logger
 	lock         sync.Mutex
 }
@@ -27,6 +28,7 @@ func newDeleteAwareRoundTripper(inner http.RoundTripper, log logr.Logger) *delet
 	return &deleteAwareRoundTripper{
 		inner:        inner,
 		deletedPaths: make(map[string]struct{}),
+		lroPollURLs:  make(map[string]struct{}),
 		log:          log,
 	}
 }
@@ -46,6 +48,7 @@ func (r *deleteAwareRoundTripper) RoundTrip(request *http.Request) (*http.Respon
 		switch request.Method {
 		case http.MethodDelete:
 			r.recordDeletion(requestPath)
+			r.recordLROPollURLs(request, response)
 		case http.MethodPut, http.MethodPost, http.MethodPatch:
 			r.clearDeletedAncestors(requestPath)
 		}
@@ -55,6 +58,10 @@ func (r *deleteAwareRoundTripper) RoundTrip(request *http.Request) (*http.Respon
 }
 
 func (r *deleteAwareRoundTripper) roundTripGet(request *http.Request) (*http.Response, error) {
+	if r.isLROPollURL(request.URL.String()) {
+		return r.inner.RoundTrip(request)
+	}
+
 	for {
 		response, err := r.inner.RoundTrip(request)
 		if err != nil {
@@ -74,6 +81,32 @@ func (r *deleteAwareRoundTripper) roundTripGet(request *http.Request) (*http.Res
 			}
 		}
 	}
+}
+
+func (r *deleteAwareRoundTripper) recordLROPollURLs(request *http.Request, response *http.Response) {
+	for _, header := range []string{"Operation-Location", "Azure-AsyncOperation", "Location"} {
+		value := response.Header.Get(header)
+		if value == "" {
+			continue
+		}
+
+		pollURL, err := request.URL.Parse(value)
+		if err != nil {
+			continue
+		}
+
+		r.lock.Lock()
+		r.lroPollURLs[pollURL.String()] = struct{}{}
+		r.lock.Unlock()
+		return
+	}
+}
+
+func (r *deleteAwareRoundTripper) isLROPollURL(rawURL string) bool {
+	r.lock.Lock()
+	defer r.lock.Unlock()
+	_, ok := r.lroPollURLs[rawURL]
+	return ok
 }
 
 func (r *deleteAwareRoundTripper) recordDeletion(path string) {

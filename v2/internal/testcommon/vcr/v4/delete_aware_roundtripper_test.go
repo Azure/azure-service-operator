@@ -84,6 +84,88 @@ func TestDeleteAwareRoundTripper_SkipsStaleSuccessfulGetsAfterDelete(t *testing.
 	}
 }
 
+func TestDeleteAwareRoundTripper_ReturnsDeleteLROPollResponses(t *testing.T) {
+	t.Parallel()
+
+	tests := map[string]string{
+		"operation location":    "Operation-Location",
+		"azure async operation": "Azure-AsyncOperation",
+		"location":              "Location",
+	}
+
+	for name, header := range tests {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			fake := NewFakeRoundTripper()
+			deleteRequest := &http.Request{
+				Method: http.MethodDelete,
+				URL: &url.URL{
+					Path:     "/parents/p1",
+					RawQuery: "api-version=2024-05-01",
+				},
+			}
+			pollRequest := &http.Request{
+				Method: http.MethodGet,
+				URL: &url.URL{
+					Path:     "/parents/p1",
+					RawQuery: "api-version=2024-05-01&azure-asyncId=operation1",
+				},
+			}
+			//nolint:bodyclose // The fake transport owns the response body.
+			deleteResponse := testResponse(http.StatusAccepted, http.NoBody)
+			deleteResponse.Header = make(http.Header)
+			deleteResponse.Header.Set(header, pollRequest.URL.String())
+
+			fake.AddResponse(deleteRequest, deleteResponse)
+			//nolint:bodyclose // The fake transport owns the response body.
+			fake.AddResponse(pollRequest, testResponse(http.StatusOK, io.NopCloser(strings.NewReader(`{"status":"Succeeded"}`))))
+
+			transport := newDeleteAwareRoundTripper(fake, logr.Discard())
+			response, err := transport.RoundTrip(deleteRequest)
+			g.Expect(err).NotTo(HaveOccurred())
+			g.Expect(response.Body.Close()).To(Succeed())
+
+			response, err = transport.RoundTrip(pollRequest)
+			g.Expect(err).NotTo(HaveOccurred())
+			g.Expect(response.StatusCode).To(Equal(http.StatusOK))
+			g.Expect(response.Body.Close()).To(Succeed())
+		})
+	}
+}
+
+func TestDeleteAwareRoundTripper_UsesLROHeaderPrecedence(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	fake := NewFakeRoundTripper()
+	deleteRequest := testRequest(http.MethodDelete, "/parents/p1")
+	pollRequest := testRequest(http.MethodGet, "/operations/1")
+	resourceRequest := testRequest(http.MethodGet, "/parents/p1")
+	//nolint:bodyclose // The fake transport owns the response body.
+	deleteResponse := testResponse(http.StatusAccepted, http.NoBody)
+	deleteResponse.Header = make(http.Header)
+	deleteResponse.Header.Set("Azure-AsyncOperation", pollRequest.URL.String())
+	deleteResponse.Header.Set("Location", resourceRequest.URL.String())
+
+	fake.AddResponse(deleteRequest, deleteResponse)
+	//nolint:bodyclose // The fake transport owns the response body.
+	fake.AddResponse(resourceRequest, testResponse(http.StatusOK, http.NoBody))
+	//nolint:bodyclose // The fake transport owns the response body.
+	fake.AddResponse(resourceRequest, testResponse(http.StatusNotFound, http.NoBody))
+
+	transport := newDeleteAwareRoundTripper(fake, logr.Discard())
+	response, err := transport.RoundTrip(deleteRequest)
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(response.Body.Close()).To(Succeed())
+
+	response, err = transport.RoundTrip(resourceRequest)
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(response.StatusCode).To(Equal(http.StatusNotFound))
+	g.Expect(response.Body.Close()).To(Succeed())
+}
+
 func TestDeleteAwareRoundTripper_ReturnsResponsesThatAreNotStale(t *testing.T) {
 	t.Parallel()
 
