@@ -5,15 +5,12 @@ package arm
 
 import (
 	"encoding/json"
-	"testing"
-
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
 	"pgregory.net/rapid"
+	"testing"
 )
 
 func Test_RoleAssignmentProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -63,7 +60,7 @@ func RoleAssignmentProperties_STATUSGenerator() *rapid.Generator[RoleAssignmentP
 	}
 
 	ptrString := rapid.Ptr(rapid.String(), true)
-	principalType := rapid.Ptr(rapid.SampledFrom([]RoleAssignmentProperties_PrincipalType_STATUS{RoleAssignmentProperties_PrincipalType_STATUS_Device, RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup, RoleAssignmentProperties_PrincipalType_STATUS_Group, RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal, RoleAssignmentProperties_PrincipalType_STATUS_User}), true)
+	principalType := rapid.Ptr(rapid.SampledFrom([]RoleAssignmentProperties_PrincipalType_STATUS{RoleAssignmentProperties_PrincipalType_STATUS_AgentServicePrincipal, RoleAssignmentProperties_PrincipalType_STATUS_AgentUser, RoleAssignmentProperties_PrincipalType_STATUS_Device, RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup, RoleAssignmentProperties_PrincipalType_STATUS_Group, RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal, RoleAssignmentProperties_PrincipalType_STATUS_User}), true)
 
 	roleAssignmentProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) RoleAssignmentProperties_STATUS {
 		var result RoleAssignmentProperties_STATUS
@@ -83,29 +80,6 @@ func RoleAssignmentProperties_STATUSGenerator() *rapid.Generator[RoleAssignmentP
 	})
 
 	return roleAssignmentProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRoleAssignmentProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleAssignmentProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["Condition"] = gen.PtrOf(gen.AlphaString())
-	gens["ConditionVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
-	gens["DelegatedManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
-		RoleAssignmentProperties_PrincipalType_STATUS_AgentServicePrincipal,
-		RoleAssignmentProperties_PrincipalType_STATUS_AgentUser,
-		RoleAssignmentProperties_PrincipalType_STATUS_Device,
-		RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup,
-		RoleAssignmentProperties_PrincipalType_STATUS_Group,
-		RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal,
-		RoleAssignmentProperties_PrincipalType_STATUS_User))
-	gens["RoleDefinitionId"] = gen.PtrOf(gen.AlphaString())
-	gens["Scope"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedOn"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RoleAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

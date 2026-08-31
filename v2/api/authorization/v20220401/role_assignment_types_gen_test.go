@@ -5,16 +5,13 @@ package v20220401
 
 import (
 	"encoding/json"
-	"testing"
-
 	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
 	"pgregory.net/rapid"
+	"testing"
 )
 
 // Test_RoleAssignment_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of RoleAssignment round trips to the hub storage version and back losslessly
@@ -331,7 +328,7 @@ func RoleAssignment_STATUSGenerator() *rapid.Generator[RoleAssignment_STATUS] {
 	}
 
 	ptrString := rapid.Ptr(rapid.String(), true)
-	principalType := rapid.Ptr(rapid.SampledFrom([]RoleAssignmentProperties_PrincipalType_STATUS{RoleAssignmentProperties_PrincipalType_STATUS_Device, RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup, RoleAssignmentProperties_PrincipalType_STATUS_Group, RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal, RoleAssignmentProperties_PrincipalType_STATUS_User}), true)
+	principalType := rapid.Ptr(rapid.SampledFrom([]RoleAssignmentProperties_PrincipalType_STATUS{RoleAssignmentProperties_PrincipalType_STATUS_AgentServicePrincipal, RoleAssignmentProperties_PrincipalType_STATUS_AgentUser, RoleAssignmentProperties_PrincipalType_STATUS_Device, RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup, RoleAssignmentProperties_PrincipalType_STATUS_Group, RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal, RoleAssignmentProperties_PrincipalType_STATUS_User}), true)
 	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
 	roleAssignment_STATUSGenerator = rapid.Custom(func(t *rapid.T) RoleAssignment_STATUS {
@@ -358,37 +355,7 @@ func RoleAssignment_STATUSGenerator() *rapid.Generator[RoleAssignment_STATUS] {
 	return roleAssignment_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRoleAssignment_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleAssignment_STATUS(gens map[string]gopter.Gen) {
-	gens["Condition"] = gen.PtrOf(gen.AlphaString())
-	gens["ConditionVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
-	gens["DelegatedManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
-		RoleAssignmentProperties_PrincipalType_STATUS_AgentServicePrincipal,
-		RoleAssignmentProperties_PrincipalType_STATUS_AgentUser,
-		RoleAssignmentProperties_PrincipalType_STATUS_Device,
-		RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup,
-		RoleAssignmentProperties_PrincipalType_STATUS_Group,
-		RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal,
-		RoleAssignmentProperties_PrincipalType_STATUS_User))
-	gens["RoleDefinitionId"] = gen.PtrOf(gen.AlphaString())
-	gens["Scope"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedOn"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRoleAssignment_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRoleAssignment_STATUS(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
+// Test_RoleAssignment_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RoleAssignment_Spec can be assigned to storage and back losslessly
 func Test_RoleAssignment_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -475,7 +442,7 @@ func RoleAssignment_SpecGenerator() *rapid.Generator[RoleAssignment_Spec] {
 	ptrString := rapid.Ptr(rapid.String(), true)
 	azureName := rapid.String()
 	operatorSpec := rapid.Ptr(RoleAssignmentOperatorSpecGenerator(), true)
-	principalType := rapid.Ptr(rapid.SampledFrom([]RoleAssignmentProperties_PrincipalType{RoleAssignmentProperties_PrincipalType_Device, RoleAssignmentProperties_PrincipalType_ForeignGroup, RoleAssignmentProperties_PrincipalType_Group, RoleAssignmentProperties_PrincipalType_ServicePrincipal, RoleAssignmentProperties_PrincipalType_User}), true)
+	principalType := rapid.Ptr(rapid.SampledFrom([]RoleAssignmentProperties_PrincipalType{RoleAssignmentProperties_PrincipalType_AgentServicePrincipal, RoleAssignmentProperties_PrincipalType_AgentUser, RoleAssignmentProperties_PrincipalType_Device, RoleAssignmentProperties_PrincipalType_ForeignGroup, RoleAssignmentProperties_PrincipalType_Group, RoleAssignmentProperties_PrincipalType_ServicePrincipal, RoleAssignmentProperties_PrincipalType_User}), true)
 
 	roleAssignment_SpecGenerator = rapid.Custom(func(t *rapid.T) RoleAssignment_Spec {
 		var result RoleAssignment_Spec
@@ -492,28 +459,7 @@ func RoleAssignment_SpecGenerator() *rapid.Generator[RoleAssignment_Spec] {
 	return roleAssignment_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRoleAssignment_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleAssignment_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Condition"] = gen.PtrOf(gen.AlphaString())
-	gens["ConditionVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
-		RoleAssignmentProperties_PrincipalType_AgentServicePrincipal,
-		RoleAssignmentProperties_PrincipalType_AgentUser,
-		RoleAssignmentProperties_PrincipalType_Device,
-		RoleAssignmentProperties_PrincipalType_ForeignGroup,
-		RoleAssignmentProperties_PrincipalType_Group,
-		RoleAssignmentProperties_PrincipalType_ServicePrincipal,
-		RoleAssignmentProperties_PrincipalType_User))
-}
-
-// AddRelatedPropertyGeneratorsForRoleAssignment_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRoleAssignment_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(RoleAssignmentOperatorSpecGenerator())
-}
-
+// Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 

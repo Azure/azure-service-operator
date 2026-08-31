@@ -5,15 +5,12 @@ package arm
 
 import (
 	"encoding/json"
-	"testing"
-
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
 	"pgregory.net/rapid"
+	"testing"
 )
 
 func Test_RoleAssignmentProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -63,7 +60,7 @@ func RoleAssignmentPropertiesGenerator() *rapid.Generator[RoleAssignmentProperti
 	}
 
 	ptrString := rapid.Ptr(rapid.String(), true)
-	principalType := rapid.Ptr(rapid.SampledFrom([]RoleAssignmentProperties_PrincipalType{RoleAssignmentProperties_PrincipalType_Device, RoleAssignmentProperties_PrincipalType_ForeignGroup, RoleAssignmentProperties_PrincipalType_Group, RoleAssignmentProperties_PrincipalType_ServicePrincipal, RoleAssignmentProperties_PrincipalType_User}), true)
+	principalType := rapid.Ptr(rapid.SampledFrom([]RoleAssignmentProperties_PrincipalType{RoleAssignmentProperties_PrincipalType_AgentServicePrincipal, RoleAssignmentProperties_PrincipalType_AgentUser, RoleAssignmentProperties_PrincipalType_Device, RoleAssignmentProperties_PrincipalType_ForeignGroup, RoleAssignmentProperties_PrincipalType_Group, RoleAssignmentProperties_PrincipalType_ServicePrincipal, RoleAssignmentProperties_PrincipalType_User}), true)
 
 	roleAssignmentPropertiesGenerator = rapid.Custom(func(t *rapid.T) RoleAssignmentProperties {
 		var result RoleAssignmentProperties
@@ -78,24 +75,6 @@ func RoleAssignmentPropertiesGenerator() *rapid.Generator[RoleAssignmentProperti
 	})
 
 	return roleAssignmentPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRoleAssignmentProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleAssignmentProperties(gens map[string]gopter.Gen) {
-	gens["Condition"] = gen.PtrOf(gen.AlphaString())
-	gens["ConditionVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["DelegatedManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
-		RoleAssignmentProperties_PrincipalType_AgentServicePrincipal,
-		RoleAssignmentProperties_PrincipalType_AgentUser,
-		RoleAssignmentProperties_PrincipalType_Device,
-		RoleAssignmentProperties_PrincipalType_ForeignGroup,
-		RoleAssignmentProperties_PrincipalType_Group,
-		RoleAssignmentProperties_PrincipalType_ServicePrincipal,
-		RoleAssignmentProperties_PrincipalType_User))
-	gens["RoleDefinitionId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RoleAssignment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
