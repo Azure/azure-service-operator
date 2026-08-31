@@ -110,7 +110,7 @@ func createSharedEnvTest(
 	if err != nil {
 		stopErr := environment.Stop()
 		if stopErr != nil {
-			return nil, eris.Wrapf(err, "starting envtest environment (also failed stopping envtest: %v)", stopErr)
+			return nil, eris.Wrapf(err, "starting envtest environment (also failed stopping envtest: %s)", stopErr.Error())
 		}
 
 		return nil, eris.Wrapf(err, "starting envtest environment")
