@@ -53,7 +53,8 @@ func (extension *SqlDatabaseExtension) PreReconcileCheck(
 	if !ok {
 		return extensions.PreReconcileCheckResult{}, eris.Errorf(
 			"cannot run on unknown resource type %T, expected *documentdb.SqlDatabase",
-			obj)
+			obj,
+		)
 	}
 
 	var _ conversion.Hub = database
