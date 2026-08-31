@@ -151,8 +151,13 @@ func (r *recorderDetails) IsReplaying() bool {
 // CreateClient creates an HTTP client configured to record or replay HTTP requests.
 // t is a reference to the test currently executing.
 func (r *recorderDetails) CreateClient(t *testing.T) *http.Client {
-	withReplay := NewReplayRoundTripper(r.recorder, r.log, r.redactor)
-	withErrorTranslation := translateErrors(withReplay, r.cassetteName, r.redactor, t)
+	var transport http.RoundTripper = r.recorder
+	if r.IsReplaying() {
+		transport = newDeleteAwareRoundTripper(transport, r.log)
+		transport = NewReplayRoundTripper(transport, r.log, r.redactor)
+	}
+
+	withErrorTranslation := translateErrors(transport, r.cassetteName, r.redactor, t)
 	withTrackingHeaders := AddTrackingHeaders(withErrorTranslation, r.redactor)
 
 	return &http.Client{
