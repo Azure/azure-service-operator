@@ -8,7 +8,7 @@ weight: -80  # This should be 5 lower than the previous breaking change document
 
 * `containerservice`: `ManagedCluster.spec.aadProfile.serverAppSecret` is now correctly identified as a secret.
 * `synapse`: `Workspace.spec.encryption.kekIdentity.useSystemAssignedIdentity` is now correctly typed as a Boolean instead of `v1.JSON`. Valid configurations are unaffected, but invalid configurations may require correction.
-* Remove retired Redis Enterprise resources (#5640)
+* `cache`: Removed `RedisEnterprise` and `RedisEnterpriseDatabase` API versions `v1api20210301` and `v1api20230701`. Users should migrate to `v20250401` before upgrading. (#5640)
 
 ## Future breaking changes
 
