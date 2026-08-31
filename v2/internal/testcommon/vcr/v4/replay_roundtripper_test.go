@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"sync/atomic"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -426,6 +427,149 @@ func TestReplayRoundTripper_GivenDELETEAfterCachedGET_InvalidatesGETCache(t *tes
 	//nolint:bodyclose
 	_, err := replayer.RoundTrip(getReq)
 	g.Expect(err).To(HaveOccurred())
+}
+
+func TestReplayRoundTripper_GivenParentDELETE_InvalidatesChildGETCacheOnly(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	parentPath := "/subscriptions/sub1/resourceGroups/rg1"
+	childReq := &http.Request{
+		URL:    &url.URL{Path: parentPath + "/providers/Microsoft.Service/resources/child"},
+		Method: http.MethodGet,
+	}
+	siblingReq := &http.Request{
+		URL:    &url.URL{Path: "/subscriptions/sub1/resourceGroups/rg2/providers/Microsoft.Service/resources/sibling"},
+		Method: http.MethodGet,
+	}
+	deleteReq := &http.Request{
+		URL:    &url.URL{Path: parentPath},
+		Method: http.MethodDelete,
+	}
+
+	fake := vcr.NewFakeRoundTripper(cassette.ErrInteractionNotFound)
+	fake.AddResponse(childReq, &http.Response{
+		StatusCode: http.StatusOK,
+		Body:       io.NopCloser(strings.NewReader(`{"properties":{"provisioningState":"Succeeded"}}`)),
+	})
+	fake.AddResponse(siblingReq, &http.Response{
+		StatusCode: http.StatusOK,
+		Body:       io.NopCloser(strings.NewReader(`{"properties":{"provisioningState":"Succeeded"}}`)),
+	})
+	fake.AddResponse(deleteReq, &http.Response{
+		StatusCode: http.StatusAccepted,
+		Body:       http.NoBody,
+	})
+
+	replayer := NewReplayRoundTripper(fake, logr.Discard(), vcr.NewRedactor(creds.DummyAzureIDs()))
+	assertExpectedResponse(t, replayer, childReq, http.StatusOK, `"provisioningState":"Succeeded"`)
+	assertExpectedResponse(t, replayer, siblingReq, http.StatusOK, `"provisioningState":"Succeeded"`)
+	assertExpectedResponse(t, replayer, deleteReq, http.StatusAccepted, "")
+
+	//nolint:bodyclose
+	_, err := replayer.RoundTrip(childReq)
+	g.Expect(err).To(MatchError(cassette.ErrInteractionNotFound))
+
+	assertExpectedResponse(t, replayer, siblingReq, http.StatusOK, `"provisioningState":"Succeeded"`)
+}
+
+func TestReplayRoundTripper_GivenParentDELETEWhileChildGETIsInFlight_DoesNotCacheChildGET(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	parentPath := "/subscriptions/sub1/resourceGroups/rg1"
+	childReq := &http.Request{
+		URL:    &url.URL{Path: parentPath + "/providers/Microsoft.Service/resources/child"},
+		Method: http.MethodGet,
+	}
+	deleteReq := &http.Request{
+		URL:    &url.URL{Path: parentPath},
+		Method: http.MethodDelete,
+	}
+	getStarted := make(chan struct{})
+	releaseGet := make(chan struct{})
+	var getCalls atomic.Int32
+	inner := roundTripperFunc(func(request *http.Request) (*http.Response, error) {
+		switch request.Method {
+		case http.MethodGet:
+			if getCalls.Add(1) == 1 {
+				close(getStarted)
+				<-releaseGet
+				return &http.Response{
+					StatusCode: http.StatusOK,
+					Body: io.NopCloser(
+						strings.NewReader(`{"properties":{"provisioningState":"Succeeded"}}`),
+					),
+				}, nil
+			}
+		case http.MethodDelete:
+			return &http.Response{StatusCode: http.StatusAccepted, Body: http.NoBody}, nil
+		}
+
+		return nil, cassette.ErrInteractionNotFound
+	})
+
+	replayer := NewReplayRoundTripper(inner, logr.Discard(), vcr.NewRedactor(creds.DummyAzureIDs()))
+	getResult := make(chan error, 1)
+	go func() {
+		response, err := replayer.RoundTrip(childReq)
+		if err == nil {
+			_ = response.Body.Close()
+		}
+		getResult <- err
+	}()
+
+	<-getStarted
+	assertExpectedResponse(t, replayer, deleteReq, http.StatusAccepted, "")
+	close(releaseGet)
+	g.Expect(<-getResult).NotTo(HaveOccurred())
+
+	//nolint:bodyclose
+	_, err := replayer.RoundTrip(childReq)
+	g.Expect(err).To(MatchError(cassette.ErrInteractionNotFound))
+}
+
+func TestReplayRoundTripper_WithDeleteAwareness_DoesNotCacheStaleGet(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	fake := NewFakeRoundTripper()
+	deleteRequest := testRequest(http.MethodDelete, "/parents/p1")
+	getRequest := testRequest(http.MethodGet, "/parents/p1/children/c1")
+	//nolint:bodyclose // The fake transport owns the response body.
+	fake.AddResponse(deleteRequest, testResponse(http.StatusAccepted, http.NoBody))
+	//nolint:bodyclose // The fake transport owns the response body.
+	fake.AddResponse(getRequest, testResponse(http.StatusOK, http.NoBody))
+	//nolint:bodyclose // The fake transport owns the response body.
+	fake.AddResponse(getRequest, testResponse(http.StatusNotFound, http.NoBody))
+
+	deleteAware := newDeleteAwareRoundTripper(fake, logr.Discard())
+	replayer := NewReplayRoundTripper(
+		deleteAware,
+		logr.Discard(),
+		vcr.NewRedactor(creds.DummyAzureIDs()),
+	)
+
+	response, err := replayer.RoundTrip(deleteRequest)
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(response.StatusCode).To(Equal(http.StatusAccepted))
+	g.Expect(response.Body.Close()).To(Succeed())
+
+	response, err = replayer.RoundTrip(getRequest)
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(response.StatusCode).To(Equal(http.StatusNotFound))
+	g.Expect(response.Body.Close()).To(Succeed())
+
+	response, err = replayer.RoundTrip(getRequest)
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(response.StatusCode).To(Equal(http.StatusNotFound))
+	g.Expect(response.Body.Close()).To(Succeed())
+}
+
+type roundTripperFunc func(*http.Request) (*http.Response, error)
+
+func (f roundTripperFunc) RoundTrip(request *http.Request) (*http.Response, error) {
+	return f(request)
 }
 
 func createPutRequestAndResponse(
