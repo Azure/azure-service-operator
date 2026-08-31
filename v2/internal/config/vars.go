@@ -4,6 +4,7 @@
 package config
 
 import (
+	"crypto/tls"
 	"fmt"
 	"os"
 	"strconv"
@@ -20,7 +21,37 @@ import (
 
 const (
 	DefaultSyncIntervalString = "1h"
+
+	// DefaultTLSMinVersion is the minimum TLS version used when TLS_MIN_VERSION is not set.
+	DefaultTLSMinVersion = "VersionTLS12"
 )
+
+// tlsVersionMap maps the supported TLS_MIN_VERSION string values to their crypto/tls constants.
+var tlsVersionMap = map[string]uint16{
+	"VersionTLS12": tls.VersionTLS12,
+	"VersionTLS13": tls.VersionTLS13,
+}
+
+// ParseTLSMinVersion converts a TLS_MIN_VERSION string value (for example "VersionTLS12")
+// into the corresponding crypto/tls version constant, returning an error for unsupported values.
+func ParseTLSMinVersion(s string) (uint16, error) {
+	v, ok := tlsVersionMap[s]
+	if !ok {
+		return 0, eris.Errorf("invalid TLS version %q, must be one of: VersionTLS12, VersionTLS13", s)
+	}
+	return v, nil
+}
+
+// tlsMinVersionName returns the string name for a TLS version constant, falling back to its
+// numeric value when the constant is not one of the supported values.
+func tlsMinVersionName(v uint16) string {
+	for name, val := range tlsVersionMap {
+		if val == v {
+			return name
+		}
+	}
+	return strconv.FormatUint(uint64(v), 10)
+}
 
 var (
 	DefaultMaxConcurrentReconciles = 4
@@ -119,6 +150,10 @@ type Values struct {
 	// When disabled, any attempt to specify these settings in a credential will cause reconciliation to fail.
 	// This defaults to false for security reasons.
 	AllowMultiEnvManagement bool
+
+	// TLSMinVersion is the minimum TLS version used by the webhook and metrics servers,
+	// stored as a crypto/tls version constant (for example tls.VersionTLS12).
+	TLSMinVersion uint16
 }
 
 type RateLimitMode string
@@ -200,7 +235,8 @@ func (v Values) String() string {
 	builder.WriteString(fmt.Sprintf("MaxConcurrentReconciles:%d/", v.MaxConcurrentReconciles))
 	builder.WriteString(fmt.Sprintf("RateLimit:[%s]/", v.RateLimit.String()))
 	builder.WriteString(fmt.Sprintf("DefaultReconcilePolicy:[%s]/", v.DefaultReconcilePolicy))
-	builder.WriteString(fmt.Sprintf("AllowMultiEnvManagement:%t", v.AllowMultiEnvManagement))
+	builder.WriteString(fmt.Sprintf("AllowMultiEnvManagement:%t/", v.AllowMultiEnvManagement))
+	builder.WriteString(fmt.Sprintf("TLSMinVersion:%s", tlsMinVersionName(v.TLSMinVersion)))
 
 	return builder.String()
 }
@@ -271,6 +307,11 @@ func ReadFromEnvironment() (Values, error) {
 
 	// Ignoring error here, as any other value or empty value means we should default to false
 	result.AllowMultiEnvManagement, _ = strconv.ParseBool(os.Getenv(config.AllowMultiEnvManagement))
+
+	result.TLSMinVersion, err = ParseTLSMinVersion(envOrDefault(config.TLSMinVersion, DefaultTLSMinVersion))
+	if err != nil {
+		return result, err
+	}
 
 	// Not calling validate here to support using from tests where we
 	// don't require consistent settings.

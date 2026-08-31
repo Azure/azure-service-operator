@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_Permission_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Permission via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPermission, PermissionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPermission)
 }
 
 // RunJSONSerializationTestForPermission runs a test to see if a specific instance of Permission round trips to JSON and back losslessly
-func RunJSONSerializationTestForPermission(subject Permission) string {
+func RunJSONSerializationTestForPermission(t *rapid.T) {
+	subject := PermissionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Permission
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,34 +45,31 @@ func RunJSONSerializationTestForPermission(subject Permission) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Permission instances for property testing - lazily instantiated by PermissionGenerator()
-var permissionGenerator gopter.Gen
+var permissionGenerator *rapid.Generator[Permission]
 
 // PermissionGenerator returns a generator of Permission instances for property testing.
-func PermissionGenerator() gopter.Gen {
+func PermissionGenerator() *rapid.Generator[Permission] {
 	if permissionGenerator != nil {
 		return permissionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPermission(generators)
-	permissionGenerator = gen.Struct(reflect.TypeOf(Permission{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+
+	permissionGenerator = rapid.Custom(func(t *rapid.T) Permission {
+		var result Permission
+		result.Actions = sliceOfString.Draw(t, "Actions")
+		result.DataActions = sliceOfString.Draw(t, "DataActions")
+		result.NotActions = sliceOfString.Draw(t, "NotActions")
+		result.NotDataActions = sliceOfString.Draw(t, "NotDataActions")
+		return result
+	})
 
 	return permissionGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPermission is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPermission(gens map[string]gopter.Gen) {
-	gens["Actions"] = gen.SliceOf(gen.AlphaString())
-	gens["DataActions"] = gen.SliceOf(gen.AlphaString())
-	gens["NotActions"] = gen.SliceOf(gen.AlphaString())
-	gens["NotDataActions"] = gen.SliceOf(gen.AlphaString())
 }
 
 func Test_RoleDefinitionProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -92,29 +79,23 @@ func Test_RoleDefinitionProperties_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RoleDefinitionProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleDefinitionProperties, RoleDefinitionPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRoleDefinitionProperties)
 }
 
 // RunJSONSerializationTestForRoleDefinitionProperties runs a test to see if a specific instance of RoleDefinitionProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleDefinitionProperties(subject RoleDefinitionProperties) string {
+func RunJSONSerializationTestForRoleDefinitionProperties(t *rapid.T) {
+	subject := RoleDefinitionPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RoleDefinitionProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -123,49 +104,35 @@ func RunJSONSerializationTestForRoleDefinitionProperties(subject RoleDefinitionP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RoleDefinitionProperties instances for property testing - lazily instantiated by
 // RoleDefinitionPropertiesGenerator()
-var roleDefinitionPropertiesGenerator gopter.Gen
+var roleDefinitionPropertiesGenerator *rapid.Generator[RoleDefinitionProperties]
 
 // RoleDefinitionPropertiesGenerator returns a generator of RoleDefinitionProperties instances for property testing.
-// We first initialize roleDefinitionPropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RoleDefinitionPropertiesGenerator() gopter.Gen {
+func RoleDefinitionPropertiesGenerator() *rapid.Generator[RoleDefinitionProperties] {
 	if roleDefinitionPropertiesGenerator != nil {
 		return roleDefinitionPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleDefinitionProperties(generators)
-	roleDefinitionPropertiesGenerator = gen.Struct(reflect.TypeOf(RoleDefinitionProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	assignableScopes := rapid.SliceOf(rapid.String())
+	permissions := rapid.SliceOf(PermissionGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleDefinitionProperties(generators)
-	AddRelatedPropertyGeneratorsForRoleDefinitionProperties(generators)
-	roleDefinitionPropertiesGenerator = gen.Struct(reflect.TypeOf(RoleDefinitionProperties{}), generators)
+	roleDefinitionPropertiesGenerator = rapid.Custom(func(t *rapid.T) RoleDefinitionProperties {
+		var result RoleDefinitionProperties
+		result.AssignableScopes = assignableScopes.Draw(t, "AssignableScopes")
+		result.Description = ptrString.Draw(t, "Description")
+		result.Permissions = permissions.Draw(t, "Permissions")
+		result.RoleName = ptrString.Draw(t, "RoleName")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return roleDefinitionPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRoleDefinitionProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleDefinitionProperties(gens map[string]gopter.Gen) {
-	gens["AssignableScopes"] = gen.SliceOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["RoleName"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRoleDefinitionProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRoleDefinitionProperties(gens map[string]gopter.Gen) {
-	gens["Permissions"] = gen.SliceOf(PermissionGenerator())
 }
 
 func Test_RoleDefinition_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -175,29 +142,23 @@ func Test_RoleDefinition_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RoleDefinition_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleDefinition_Spec, RoleDefinition_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRoleDefinition_Spec)
 }
 
 // RunJSONSerializationTestForRoleDefinition_Spec runs a test to see if a specific instance of RoleDefinition_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleDefinition_Spec(subject RoleDefinition_Spec) string {
+func RunJSONSerializationTestForRoleDefinition_Spec(t *rapid.T) {
+	subject := RoleDefinition_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RoleDefinition_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -206,44 +167,29 @@ func RunJSONSerializationTestForRoleDefinition_Spec(subject RoleDefinition_Spec)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RoleDefinition_Spec instances for property testing - lazily instantiated by
 // RoleDefinition_SpecGenerator()
-var roleDefinition_SpecGenerator gopter.Gen
+var roleDefinition_SpecGenerator *rapid.Generator[RoleDefinition_Spec]
 
 // RoleDefinition_SpecGenerator returns a generator of RoleDefinition_Spec instances for property testing.
-// We first initialize roleDefinition_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RoleDefinition_SpecGenerator() gopter.Gen {
+func RoleDefinition_SpecGenerator() *rapid.Generator[RoleDefinition_Spec] {
 	if roleDefinition_SpecGenerator != nil {
 		return roleDefinition_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleDefinition_Spec(generators)
-	roleDefinition_SpecGenerator = gen.Struct(reflect.TypeOf(RoleDefinition_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(RoleDefinitionPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleDefinition_Spec(generators)
-	AddRelatedPropertyGeneratorsForRoleDefinition_Spec(generators)
-	roleDefinition_SpecGenerator = gen.Struct(reflect.TypeOf(RoleDefinition_Spec{}), generators)
+	roleDefinition_SpecGenerator = rapid.Custom(func(t *rapid.T) RoleDefinition_Spec {
+		var result RoleDefinition_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return roleDefinition_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRoleDefinition_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleDefinition_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForRoleDefinition_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRoleDefinition_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(RoleDefinitionPropertiesGenerator())
 }

@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_PrometheusRuleGroupAction_STATUS_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrometheusRuleGroupAction_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrometheusRuleGroupAction_STATUS, PrometheusRuleGroupAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrometheusRuleGroupAction_STATUS)
 }
 
 // RunJSONSerializationTestForPrometheusRuleGroupAction_STATUS runs a test to see if a specific instance of PrometheusRuleGroupAction_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrometheusRuleGroupAction_STATUS(subject PrometheusRuleGroupAction_STATUS) string {
+func RunJSONSerializationTestForPrometheusRuleGroupAction_STATUS(t *rapid.T) {
+	subject := PrometheusRuleGroupAction_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrometheusRuleGroupAction_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,35 +45,33 @@ func RunJSONSerializationTestForPrometheusRuleGroupAction_STATUS(subject Prometh
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrometheusRuleGroupAction_STATUS instances for property testing - lazily instantiated by
 // PrometheusRuleGroupAction_STATUSGenerator()
-var prometheusRuleGroupAction_STATUSGenerator gopter.Gen
+var prometheusRuleGroupAction_STATUSGenerator *rapid.Generator[PrometheusRuleGroupAction_STATUS]
 
 // PrometheusRuleGroupAction_STATUSGenerator returns a generator of PrometheusRuleGroupAction_STATUS instances for property testing.
-func PrometheusRuleGroupAction_STATUSGenerator() gopter.Gen {
+func PrometheusRuleGroupAction_STATUSGenerator() *rapid.Generator[PrometheusRuleGroupAction_STATUS] {
 	if prometheusRuleGroupAction_STATUSGenerator != nil {
 		return prometheusRuleGroupAction_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction_STATUS(generators)
-	prometheusRuleGroupAction_STATUSGenerator = gen.Struct(reflect.TypeOf(PrometheusRuleGroupAction_STATUS{}), generators)
+	actionGroupId := rapid.Ptr(rapid.String(), true)
+	actionProperties := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+
+	prometheusRuleGroupAction_STATUSGenerator = rapid.Custom(func(t *rapid.T) PrometheusRuleGroupAction_STATUS {
+		var result PrometheusRuleGroupAction_STATUS
+		result.ActionGroupId = actionGroupId.Draw(t, "ActionGroupId")
+		result.ActionProperties = actionProperties.Draw(t, "ActionProperties")
+		return result
+	})
 
 	return prometheusRuleGroupAction_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction_STATUS(gens map[string]gopter.Gen) {
-	gens["ActionGroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["ActionProperties"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
 }
 
 func Test_PrometheusRuleGroupProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -93,29 +81,23 @@ func Test_PrometheusRuleGroupProperties_STATUS_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrometheusRuleGroupProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrometheusRuleGroupProperties_STATUS, PrometheusRuleGroupProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrometheusRuleGroupProperties_STATUS)
 }
 
 // RunJSONSerializationTestForPrometheusRuleGroupProperties_STATUS runs a test to see if a specific instance of PrometheusRuleGroupProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrometheusRuleGroupProperties_STATUS(subject PrometheusRuleGroupProperties_STATUS) string {
+func RunJSONSerializationTestForPrometheusRuleGroupProperties_STATUS(t *rapid.T) {
+	subject := PrometheusRuleGroupProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrometheusRuleGroupProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -124,50 +106,37 @@ func RunJSONSerializationTestForPrometheusRuleGroupProperties_STATUS(subject Pro
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrometheusRuleGroupProperties_STATUS instances for property testing - lazily instantiated by
 // PrometheusRuleGroupProperties_STATUSGenerator()
-var prometheusRuleGroupProperties_STATUSGenerator gopter.Gen
+var prometheusRuleGroupProperties_STATUSGenerator *rapid.Generator[PrometheusRuleGroupProperties_STATUS]
 
 // PrometheusRuleGroupProperties_STATUSGenerator returns a generator of PrometheusRuleGroupProperties_STATUS instances for property testing.
-// We first initialize prometheusRuleGroupProperties_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrometheusRuleGroupProperties_STATUSGenerator() gopter.Gen {
+func PrometheusRuleGroupProperties_STATUSGenerator() *rapid.Generator[PrometheusRuleGroupProperties_STATUS] {
 	if prometheusRuleGroupProperties_STATUSGenerator != nil {
 		return prometheusRuleGroupProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrometheusRuleGroupProperties_STATUS(generators)
-	prometheusRuleGroupProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(PrometheusRuleGroupProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+	rules := rapid.SliceOf(PrometheusRule_STATUSGenerator())
+	scopes := rapid.SliceOf(rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrometheusRuleGroupProperties_STATUS(generators)
-	AddRelatedPropertyGeneratorsForPrometheusRuleGroupProperties_STATUS(generators)
-	prometheusRuleGroupProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(PrometheusRuleGroupProperties_STATUS{}), generators)
+	prometheusRuleGroupProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) PrometheusRuleGroupProperties_STATUS {
+		var result PrometheusRuleGroupProperties_STATUS
+		result.ClusterName = ptrString.Draw(t, "ClusterName")
+		result.Description = ptrString.Draw(t, "Description")
+		result.Enabled = enabled.Draw(t, "Enabled")
+		result.Interval = ptrString.Draw(t, "Interval")
+		result.Rules = rules.Draw(t, "Rules")
+		result.Scopes = scopes.Draw(t, "Scopes")
+		return result
+	})
 
 	return prometheusRuleGroupProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrometheusRuleGroupProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrometheusRuleGroupProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["ClusterName"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Interval"] = gen.PtrOf(gen.AlphaString())
-	gens["Scopes"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrometheusRuleGroupProperties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrometheusRuleGroupProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["Rules"] = gen.SliceOf(PrometheusRule_STATUSGenerator())
 }
 
 func Test_PrometheusRuleGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -177,29 +146,23 @@ func Test_PrometheusRuleGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrometheusRuleGroup_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrometheusRuleGroup_STATUS, PrometheusRuleGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrometheusRuleGroup_STATUS)
 }
 
 // RunJSONSerializationTestForPrometheusRuleGroup_STATUS runs a test to see if a specific instance of PrometheusRuleGroup_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrometheusRuleGroup_STATUS(subject PrometheusRuleGroup_STATUS) string {
+func RunJSONSerializationTestForPrometheusRuleGroup_STATUS(t *rapid.T) {
+	subject := PrometheusRuleGroup_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrometheusRuleGroup_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -208,53 +171,40 @@ func RunJSONSerializationTestForPrometheusRuleGroup_STATUS(subject PrometheusRul
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrometheusRuleGroup_STATUS instances for property testing - lazily instantiated by
 // PrometheusRuleGroup_STATUSGenerator()
-var prometheusRuleGroup_STATUSGenerator gopter.Gen
+var prometheusRuleGroup_STATUSGenerator *rapid.Generator[PrometheusRuleGroup_STATUS]
 
 // PrometheusRuleGroup_STATUSGenerator returns a generator of PrometheusRuleGroup_STATUS instances for property testing.
-// We first initialize prometheusRuleGroup_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrometheusRuleGroup_STATUSGenerator() gopter.Gen {
+func PrometheusRuleGroup_STATUSGenerator() *rapid.Generator[PrometheusRuleGroup_STATUS] {
 	if prometheusRuleGroup_STATUSGenerator != nil {
 		return prometheusRuleGroup_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrometheusRuleGroup_STATUS(generators)
-	prometheusRuleGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(PrometheusRuleGroup_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(PrometheusRuleGroupProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrometheusRuleGroup_STATUS(generators)
-	AddRelatedPropertyGeneratorsForPrometheusRuleGroup_STATUS(generators)
-	prometheusRuleGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(PrometheusRuleGroup_STATUS{}), generators)
+	prometheusRuleGroup_STATUSGenerator = rapid.Custom(func(t *rapid.T) PrometheusRuleGroup_STATUS {
+		var result PrometheusRuleGroup_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return prometheusRuleGroup_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrometheusRuleGroup_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrometheusRuleGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrometheusRuleGroup_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrometheusRuleGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(PrometheusRuleGroupProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_PrometheusRuleResolveConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -264,29 +214,23 @@ func Test_PrometheusRuleResolveConfiguration_STATUS_WhenSerializedToJson_Deseria
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrometheusRuleResolveConfiguration_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrometheusRuleResolveConfiguration_STATUS, PrometheusRuleResolveConfiguration_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrometheusRuleResolveConfiguration_STATUS)
 }
 
 // RunJSONSerializationTestForPrometheusRuleResolveConfiguration_STATUS runs a test to see if a specific instance of PrometheusRuleResolveConfiguration_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrometheusRuleResolveConfiguration_STATUS(subject PrometheusRuleResolveConfiguration_STATUS) string {
+func RunJSONSerializationTestForPrometheusRuleResolveConfiguration_STATUS(t *rapid.T) {
+	subject := PrometheusRuleResolveConfiguration_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrometheusRuleResolveConfiguration_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -295,33 +239,31 @@ func RunJSONSerializationTestForPrometheusRuleResolveConfiguration_STATUS(subjec
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrometheusRuleResolveConfiguration_STATUS instances for property testing - lazily instantiated by
 // PrometheusRuleResolveConfiguration_STATUSGenerator()
-var prometheusRuleResolveConfiguration_STATUSGenerator gopter.Gen
+var prometheusRuleResolveConfiguration_STATUSGenerator *rapid.Generator[PrometheusRuleResolveConfiguration_STATUS]
 
 // PrometheusRuleResolveConfiguration_STATUSGenerator returns a generator of PrometheusRuleResolveConfiguration_STATUS instances for property testing.
-func PrometheusRuleResolveConfiguration_STATUSGenerator() gopter.Gen {
+func PrometheusRuleResolveConfiguration_STATUSGenerator() *rapid.Generator[PrometheusRuleResolveConfiguration_STATUS] {
 	if prometheusRuleResolveConfiguration_STATUSGenerator != nil {
 		return prometheusRuleResolveConfiguration_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration_STATUS(generators)
-	prometheusRuleResolveConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(PrometheusRuleResolveConfiguration_STATUS{}), generators)
+	autoResolved := rapid.Ptr(rapid.Bool(), true)
+	timeToResolve := rapid.Ptr(rapid.String(), true)
+
+	prometheusRuleResolveConfiguration_STATUSGenerator = rapid.Custom(func(t *rapid.T) PrometheusRuleResolveConfiguration_STATUS {
+		var result PrometheusRuleResolveConfiguration_STATUS
+		result.AutoResolved = autoResolved.Draw(t, "AutoResolved")
+		result.TimeToResolve = timeToResolve.Draw(t, "TimeToResolve")
+		return result
+	})
 
 	return prometheusRuleResolveConfiguration_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["AutoResolved"] = gen.PtrOf(gen.Bool())
-	gens["TimeToResolve"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PrometheusRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -331,29 +273,23 @@ func Test_PrometheusRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrometheusRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrometheusRule_STATUS, PrometheusRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrometheusRule_STATUS)
 }
 
 // RunJSONSerializationTestForPrometheusRule_STATUS runs a test to see if a specific instance of PrometheusRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrometheusRule_STATUS(subject PrometheusRule_STATUS) string {
+func RunJSONSerializationTestForPrometheusRule_STATUS(t *rapid.T) {
+	subject := PrometheusRule_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrometheusRule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -362,58 +298,45 @@ func RunJSONSerializationTestForPrometheusRule_STATUS(subject PrometheusRule_STA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrometheusRule_STATUS instances for property testing - lazily instantiated by
 // PrometheusRule_STATUSGenerator()
-var prometheusRule_STATUSGenerator gopter.Gen
+var prometheusRule_STATUSGenerator *rapid.Generator[PrometheusRule_STATUS]
 
 // PrometheusRule_STATUSGenerator returns a generator of PrometheusRule_STATUS instances for property testing.
-// We first initialize prometheusRule_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrometheusRule_STATUSGenerator() gopter.Gen {
+func PrometheusRule_STATUSGenerator() *rapid.Generator[PrometheusRule_STATUS] {
 	if prometheusRule_STATUSGenerator != nil {
 		return prometheusRule_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrometheusRule_STATUS(generators)
-	prometheusRule_STATUSGenerator = gen.Struct(reflect.TypeOf(PrometheusRule_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	mapOfStringToString := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+	actions := rapid.SliceOf(PrometheusRuleGroupAction_STATUSGenerator())
+	enabled := rapid.Ptr(rapid.Bool(), true)
+	resolveConfiguration := rapid.Ptr(PrometheusRuleResolveConfiguration_STATUSGenerator(), true)
+	severity := rapid.Ptr(rapid.Int(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrometheusRule_STATUS(generators)
-	AddRelatedPropertyGeneratorsForPrometheusRule_STATUS(generators)
-	prometheusRule_STATUSGenerator = gen.Struct(reflect.TypeOf(PrometheusRule_STATUS{}), generators)
+	prometheusRule_STATUSGenerator = rapid.Custom(func(t *rapid.T) PrometheusRule_STATUS {
+		var result PrometheusRule_STATUS
+		result.Actions = actions.Draw(t, "Actions")
+		result.Alert = ptrString.Draw(t, "Alert")
+		result.Annotations = mapOfStringToString.Draw(t, "Annotations")
+		result.Enabled = enabled.Draw(t, "Enabled")
+		result.Expression = ptrString.Draw(t, "Expression")
+		result.For = ptrString.Draw(t, "For")
+		result.Labels = mapOfStringToString.Draw(t, "Labels")
+		result.Record = ptrString.Draw(t, "Record")
+		result.ResolveConfiguration = resolveConfiguration.Draw(t, "ResolveConfiguration")
+		result.Severity = severity.Draw(t, "Severity")
+		return result
+	})
 
 	return prometheusRule_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrometheusRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrometheusRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Alert"] = gen.PtrOf(gen.AlphaString())
-	gens["Annotations"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Expression"] = gen.PtrOf(gen.AlphaString())
-	gens["For"] = gen.PtrOf(gen.AlphaString())
-	gens["Labels"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Record"] = gen.PtrOf(gen.AlphaString())
-	gens["Severity"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForPrometheusRule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrometheusRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Actions"] = gen.SliceOf(PrometheusRuleGroupAction_STATUSGenerator())
-	gens["ResolveConfiguration"] = gen.PtrOf(PrometheusRuleResolveConfiguration_STATUSGenerator())
 }
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -423,29 +346,23 @@ func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemData_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS, SystemData_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSystemData_STATUS)
 }
 
 // RunJSONSerializationTestForSystemData_STATUS runs a test to see if a specific instance of SystemData_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) string {
+func RunJSONSerializationTestForSystemData_STATUS(t *rapid.T) {
+	subject := SystemData_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SystemData_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -454,42 +371,33 @@ func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SystemData_STATUS instances for property testing - lazily instantiated by SystemData_STATUSGenerator()
-var systemData_STATUSGenerator gopter.Gen
+var systemData_STATUSGenerator *rapid.Generator[SystemData_STATUS]
 
 // SystemData_STATUSGenerator returns a generator of SystemData_STATUS instances for property testing.
-func SystemData_STATUSGenerator() gopter.Gen {
+func SystemData_STATUSGenerator() *rapid.Generator[SystemData_STATUS] {
 	if systemData_STATUSGenerator != nil {
 		return systemData_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData_STATUS(generators)
-	systemData_STATUSGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	createdByType := rapid.Ptr(rapid.SampledFrom([]SystemData_CreatedByType_STATUS{SystemData_CreatedByType_STATUS_Application, SystemData_CreatedByType_STATUS_Key, SystemData_CreatedByType_STATUS_ManagedIdentity, SystemData_CreatedByType_STATUS_User}), true)
+	lastModifiedByType := rapid.Ptr(rapid.SampledFrom([]SystemData_LastModifiedByType_STATUS{SystemData_LastModifiedByType_STATUS_Application, SystemData_LastModifiedByType_STATUS_Key, SystemData_LastModifiedByType_STATUS_ManagedIdentity, SystemData_LastModifiedByType_STATUS_User}), true)
+
+	systemData_STATUSGenerator = rapid.Custom(func(t *rapid.T) SystemData_STATUS {
+		var result SystemData_STATUS
+		result.CreatedAt = ptrString.Draw(t, "CreatedAt")
+		result.CreatedBy = ptrString.Draw(t, "CreatedBy")
+		result.CreatedByType = createdByType.Draw(t, "CreatedByType")
+		result.LastModifiedAt = ptrString.Draw(t, "LastModifiedAt")
+		result.LastModifiedBy = ptrString.Draw(t, "LastModifiedBy")
+		result.LastModifiedByType = lastModifiedByType.Draw(t, "LastModifiedByType")
+		return result
+	})
 
 	return systemData_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSystemData_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
 }

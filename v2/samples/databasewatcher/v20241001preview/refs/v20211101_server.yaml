@@ -7,10 +7,19 @@ spec:
   owner:
     name: aso-sample-rg
   location: eastus
-  administratorLogin: myadmin
-  administratorLoginPassword:
-    name: asotestdbwserver-secret
-    key: adminPassword
+  administrators:
+    administratorType: ActiveDirectory
+    azureADOnlyAuthentication: true
+    principalType: Application
+    loginFromConfig:
+      name: sql-admin-mi-config
+      key: name
+    sidFromConfig:
+      name: sql-admin-mi-config
+      key: principalId
+    tenantIdFromConfig:
+      name: sql-admin-mi-config
+      key: tenantId
   version: "12.0"
   operatorSpec:
     configMaps:

@@ -3,8 +3,8 @@ module github.com/Azure/azure-service-operator/hack/crossplane
 go 1.26.0
 
 require (
-	github.com/crossplane/crossplane-runtime v1.20.10
-	k8s.io/apimachinery v0.36.3
+	github.com/crossplane/crossplane-runtime v1.20.11
+	k8s.io/apimachinery v0.36.4
 	sigs.k8s.io/controller-runtime v0.24.1
 )
 
@@ -18,10 +18,10 @@ require (
 	github.com/modern-go/reflect2 v1.0.3-0.20250322232337-35a7c28c31ee // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	go.yaml.in/yaml/v2 v2.4.3 // indirect
-	golang.org/x/net v0.55.0 // indirect
+	golang.org/x/net v0.58.0 // indirect
 	golang.org/x/text v0.41.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
-	k8s.io/api v0.36.3 // indirect
+	k8s.io/api v0.36.4 // indirect
 	k8s.io/klog/v2 v2.140.0 // indirect
 	k8s.io/kube-openapi v0.0.0-20260317180543-43fb72c5454a // indirect
 	k8s.io/utils v0.0.0-20260210185600-b8788abfbbc2 // indirect

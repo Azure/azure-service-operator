@@ -86,15 +86,9 @@ import (
 	cache_v1api20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
 	cache_v1api20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/storage"
 	cache_v1api20201201w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/webhook"
-	cache_v1api20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301"
-	cache_v1api20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301/storage"
-	cache_v1api20210301w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301/webhook"
 	cache_v1api20230401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401"
 	cache_v1api20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
 	cache_v1api20230401w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/webhook"
-	cache_v1api20230701 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701"
-	cache_v1api20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
-	cache_v1api20230701w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/webhook"
 	cache_v1api20230801 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801"
 	cache_v1api20230801s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
 	cache_v1api20230801w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/webhook"
@@ -107,15 +101,9 @@ import (
 	cache_v20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v20201201"
 	cache_v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v20201201/storage"
 	cache_v20201201w "github.com/Azure/azure-service-operator/v2/api/cache/v20201201/webhook"
-	cache_v20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v20210301"
-	cache_v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v20210301/storage"
-	cache_v20210301w "github.com/Azure/azure-service-operator/v2/api/cache/v20210301/webhook"
 	cache_v20230401 "github.com/Azure/azure-service-operator/v2/api/cache/v20230401"
 	cache_v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v20230401/storage"
 	cache_v20230401w "github.com/Azure/azure-service-operator/v2/api/cache/v20230401/webhook"
-	cache_v20230701 "github.com/Azure/azure-service-operator/v2/api/cache/v20230701"
-	cache_v20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v20230701/storage"
-	cache_v20230701w "github.com/Azure/azure-service-operator/v2/api/cache/v20230701/webhook"
 	cache_v20230801 "github.com/Azure/azure-service-operator/v2/api/cache/v20230801"
 	cache_v20230801s "github.com/Azure/azure-service-operator/v2/api/cache/v20230801/storage"
 	cache_v20230801w "github.com/Azure/azure-service-operator/v2/api/cache/v20230801/webhook"
@@ -215,6 +203,9 @@ import (
 	containerregistry_v20230701 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701"
 	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
 	containerregistry_v20230701w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/webhook"
+	containerregistry_v20251101 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101"
+	containerregistry_v20251101s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/storage"
+	containerregistry_v20251101w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/webhook"
 	containerservice_customizations "github.com/Azure/azure-service-operator/v2/api/containerservice/customizations"
 	containerservice_v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
 	containerservice_v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
@@ -1331,6 +1322,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20230701s.RegistryReplication)})
+	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20251101s.RegistryCacheRule)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.Fleet)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsAutoUpgradeProfile)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsMember)})
@@ -4246,16 +4238,6 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(cache_v1api20201201s.RedisFirewallRule)},
 		&registration.KnownType{Obj: new(cache_v1api20201201s.RedisLinkedServer)},
 		&registration.KnownType{Obj: new(cache_v1api20201201s.RedisPatchSchedule)})
-	result = append(result, &registration.KnownType{
-		Obj:       new(cache_v1api20210301.RedisEnterprise),
-		Defaulter: &cache_v1api20210301w.RedisEnterprise{},
-		Validator: &cache_v1api20210301w.RedisEnterprise{},
-	}, &registration.KnownType{
-		Obj:       new(cache_v1api20210301.RedisEnterpriseDatabase),
-		Defaulter: &cache_v1api20210301w.RedisEnterpriseDatabase{},
-		Validator: &cache_v1api20210301w.RedisEnterpriseDatabase{},
-	})
-	result = append(result, &registration.KnownType{Obj: new(cache_v1api20210301s.RedisEnterprise)}, &registration.KnownType{Obj: new(cache_v1api20210301s.RedisEnterpriseDatabase)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -4284,16 +4266,6 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(cache_v1api20230401s.RedisFirewallRule)},
 		&registration.KnownType{Obj: new(cache_v1api20230401s.RedisLinkedServer)},
 		&registration.KnownType{Obj: new(cache_v1api20230401s.RedisPatchSchedule)})
-	result = append(result, &registration.KnownType{
-		Obj:       new(cache_v1api20230701.RedisEnterprise),
-		Defaulter: &cache_v1api20230701w.RedisEnterprise{},
-		Validator: &cache_v1api20230701w.RedisEnterprise{},
-	}, &registration.KnownType{
-		Obj:       new(cache_v1api20230701.RedisEnterpriseDatabase),
-		Defaulter: &cache_v1api20230701w.RedisEnterpriseDatabase{},
-		Validator: &cache_v1api20230701w.RedisEnterpriseDatabase{},
-	})
-	result = append(result, &registration.KnownType{Obj: new(cache_v1api20230701s.RedisEnterprise)}, &registration.KnownType{Obj: new(cache_v1api20230701s.RedisEnterpriseDatabase)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -4400,16 +4372,6 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(cache_v20201201s.RedisFirewallRule)},
 		&registration.KnownType{Obj: new(cache_v20201201s.RedisLinkedServer)},
 		&registration.KnownType{Obj: new(cache_v20201201s.RedisPatchSchedule)})
-	result = append(result, &registration.KnownType{
-		Obj:       new(cache_v20210301.RedisEnterprise),
-		Defaulter: &cache_v20210301w.RedisEnterprise{},
-		Validator: &cache_v20210301w.RedisEnterprise{},
-	}, &registration.KnownType{
-		Obj:       new(cache_v20210301.RedisEnterpriseDatabase),
-		Defaulter: &cache_v20210301w.RedisEnterpriseDatabase{},
-		Validator: &cache_v20210301w.RedisEnterpriseDatabase{},
-	})
-	result = append(result, &registration.KnownType{Obj: new(cache_v20210301s.RedisEnterprise)}, &registration.KnownType{Obj: new(cache_v20210301s.RedisEnterpriseDatabase)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -4438,16 +4400,6 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(cache_v20230401s.RedisFirewallRule)},
 		&registration.KnownType{Obj: new(cache_v20230401s.RedisLinkedServer)},
 		&registration.KnownType{Obj: new(cache_v20230401s.RedisPatchSchedule)})
-	result = append(result, &registration.KnownType{
-		Obj:       new(cache_v20230701.RedisEnterprise),
-		Defaulter: &cache_v20230701w.RedisEnterprise{},
-		Validator: &cache_v20230701w.RedisEnterprise{},
-	}, &registration.KnownType{
-		Obj:       new(cache_v20230701.RedisEnterpriseDatabase),
-		Defaulter: &cache_v20230701w.RedisEnterpriseDatabase{},
-		Validator: &cache_v20230701w.RedisEnterpriseDatabase{},
-	})
-	result = append(result, &registration.KnownType{Obj: new(cache_v20230701s.RedisEnterprise)}, &registration.KnownType{Obj: new(cache_v20230701s.RedisEnterpriseDatabase)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -5052,6 +5004,12 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &containerregistry_v20230701w.RegistryReplication{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(containerregistry_v20230701s.Registry)}, &registration.KnownType{Obj: new(containerregistry_v20230701s.RegistryReplication)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(containerregistry_v20251101.RegistryCacheRule),
+		Defaulter: &containerregistry_v20251101w.RegistryCacheRule{},
+		Validator: &containerregistry_v20251101w.RegistryCacheRule{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(containerregistry_v20251101s.RegistryCacheRule)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -8409,12 +8367,8 @@ func createScheme() *runtime.Scheme {
 	_ = batch_v20240701s.AddToScheme(scheme)
 	_ = cache_v1api20201201.AddToScheme(scheme)
 	_ = cache_v1api20201201s.AddToScheme(scheme)
-	_ = cache_v1api20210301.AddToScheme(scheme)
-	_ = cache_v1api20210301s.AddToScheme(scheme)
 	_ = cache_v1api20230401.AddToScheme(scheme)
 	_ = cache_v1api20230401s.AddToScheme(scheme)
-	_ = cache_v1api20230701.AddToScheme(scheme)
-	_ = cache_v1api20230701s.AddToScheme(scheme)
 	_ = cache_v1api20230801.AddToScheme(scheme)
 	_ = cache_v1api20230801s.AddToScheme(scheme)
 	_ = cache_v1api20241101.AddToScheme(scheme)
@@ -8423,12 +8377,8 @@ func createScheme() *runtime.Scheme {
 	_ = cache_v1api20250401s.AddToScheme(scheme)
 	_ = cache_v20201201.AddToScheme(scheme)
 	_ = cache_v20201201s.AddToScheme(scheme)
-	_ = cache_v20210301.AddToScheme(scheme)
-	_ = cache_v20210301s.AddToScheme(scheme)
 	_ = cache_v20230401.AddToScheme(scheme)
 	_ = cache_v20230401s.AddToScheme(scheme)
-	_ = cache_v20230701.AddToScheme(scheme)
-	_ = cache_v20230701s.AddToScheme(scheme)
 	_ = cache_v20230801.AddToScheme(scheme)
 	_ = cache_v20230801s.AddToScheme(scheme)
 	_ = cache_v20241101.AddToScheme(scheme)
@@ -8491,6 +8441,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerregistry_v20210901s.AddToScheme(scheme)
 	_ = containerregistry_v20230701.AddToScheme(scheme)
 	_ = containerregistry_v20230701s.AddToScheme(scheme)
+	_ = containerregistry_v20251101.AddToScheme(scheme)
+	_ = containerregistry_v20251101s.AddToScheme(scheme)
 	_ = containerservice_v20240901.AddToScheme(scheme)
 	_ = containerservice_v20240901s.AddToScheme(scheme)
 	_ = containerservice_v20250301.AddToScheme(scheme)
@@ -8794,6 +8746,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &compute_customizations.VirtualMachineScaleSetsExtensionExtension{})
 	result = append(result, &compute_customizations.VirtualMachinesExtensionExtension{})
 	result = append(result, &containerinstance_customizations.ContainerGroupExtension{})
+	result = append(result, &containerregistry_customizations.RegistryCacheRuleExtension{})
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
 	result = append(result, &containerregistry_customizations.RegistryReplicationExtension{})
 	result = append(result, &containerservice_customizations.FleetExtension{})

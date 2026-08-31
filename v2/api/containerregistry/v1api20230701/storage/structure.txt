@@ -183,3 +183,5 @@ RegistryReplication: Resource
     ├── Type: *string
     └── ZoneRedundancy: *string
 
+augmentConversionForSystemData_STATUS: Interface
+
