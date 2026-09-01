@@ -12,7 +12,9 @@ RoleAssignment_STATUS: Object (5 properties)
 │   ├── DelegatedManagedIdentityResourceId: *string
 │   ├── Description: *string
 │   ├── PrincipalId: *string
-│   ├── PrincipalType: *Enum (5 values)
+│   ├── PrincipalType: *Enum (7 values)
+│   │   ├── "AgentServicePrincipal"
+│   │   ├── "AgentUser"
 │   │   ├── "Device"
 │   │   ├── "ForeignGroup"
 │   │   ├── "Group"
@@ -47,7 +49,9 @@ RoleAssignment_Spec: Object (2 properties)
     ├── DelegatedManagedIdentityResourceId: *string
     ├── Description: *string
     ├── PrincipalId: *string
-    ├── PrincipalType: *Enum (5 values)
+    ├── PrincipalType: *Enum (7 values)
+    │   ├── "AgentServicePrincipal"
+    │   ├── "AgentUser"
     │   ├── "Device"
     │   ├── "ForeignGroup"
     │   ├── "Group"

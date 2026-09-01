@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/openapi.json
 // - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
 type DiagnosticSetting struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -237,7 +237,7 @@ func (setting *DiagnosticSetting) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/openapi.json
 // - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
 type DiagnosticSettingList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -267,14 +267,14 @@ type DiagnosticSetting_Spec struct {
 	LogAnalyticsDestinationType *string `json:"logAnalyticsDestinationType,omitempty"`
 
 	// Logs: The list of logs settings.
-	Logs []LogSettings `json:"logs,omitempty"`
+	Logs []DiagnosticsLogSettings `json:"logs,omitempty"`
 
 	// MarketplacePartnerReference: The full ARM resource ID of the Marketplace resource to which you would like to send
 	// Diagnostic Logs.
 	MarketplacePartnerReference *genruntime.ResourceReference `armReference:"MarketplacePartnerId" json:"marketplacePartnerReference,omitempty"`
 
 	// Metrics: The list of metric settings.
-	Metrics []MetricSettings `json:"metrics,omitempty"`
+	Metrics []DiagnosticsMetricSettings `json:"metrics,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
@@ -343,7 +343,7 @@ func (setting *DiagnosticSetting_Spec) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Logs = append(result.Properties.Logs, *item_ARM.(*arm.LogSettings))
+		result.Properties.Logs = append(result.Properties.Logs, *item_ARM.(*arm.DiagnosticsLogSettings))
 	}
 	if setting.MarketplacePartnerReference != nil {
 		marketplacePartnerIdARMID, err := resolved.ResolvedReferences.Lookup(*setting.MarketplacePartnerReference)
@@ -358,7 +358,7 @@ func (setting *DiagnosticSetting_Spec) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Metrics = append(result.Properties.Metrics, *item_ARM.(*arm.MetricSettings))
+		result.Properties.Metrics = append(result.Properties.Metrics, *item_ARM.(*arm.DiagnosticsMetricSettings))
 	}
 	if setting.ServiceBusRuleId != nil {
 		serviceBusRuleId := *setting.ServiceBusRuleId
@@ -422,7 +422,7 @@ func (setting *DiagnosticSetting_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Logs {
-			var item1 LogSettings
+			var item1 DiagnosticsLogSettings
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -437,7 +437,7 @@ func (setting *DiagnosticSetting_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Metrics {
-			var item1 MetricSettings
+			var item1 DiagnosticsMetricSettings
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -540,12 +540,12 @@ func (setting *DiagnosticSetting_Spec) AssignProperties_From_DiagnosticSetting_S
 
 	// Logs
 	if source.Logs != nil {
-		logList := make([]LogSettings, len(source.Logs))
+		logList := make([]DiagnosticsLogSettings, len(source.Logs))
 		for logIndex, logItem := range source.Logs {
-			var log LogSettings
-			err := log.AssignProperties_From_LogSettings(&logItem)
+			var log DiagnosticsLogSettings
+			err := log.AssignProperties_From_DiagnosticsLogSettings(&logItem)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_From_LogSettings() to populate field Logs")
+				return eris.Wrap(err, "calling AssignProperties_From_DiagnosticsLogSettings() to populate field Logs")
 			}
 			logList[logIndex] = log
 		}
@@ -564,12 +564,12 @@ func (setting *DiagnosticSetting_Spec) AssignProperties_From_DiagnosticSetting_S
 
 	// Metrics
 	if source.Metrics != nil {
-		metricList := make([]MetricSettings, len(source.Metrics))
+		metricList := make([]DiagnosticsMetricSettings, len(source.Metrics))
 		for metricIndex, metricItem := range source.Metrics {
-			var metric MetricSettings
-			err := metric.AssignProperties_From_MetricSettings(&metricItem)
+			var metric DiagnosticsMetricSettings
+			err := metric.AssignProperties_From_DiagnosticsMetricSettings(&metricItem)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_From_MetricSettings() to populate field Metrics")
+				return eris.Wrap(err, "calling AssignProperties_From_DiagnosticsMetricSettings() to populate field Metrics")
 			}
 			metricList[metricIndex] = metric
 		}
@@ -645,12 +645,12 @@ func (setting *DiagnosticSetting_Spec) AssignProperties_To_DiagnosticSetting_Spe
 
 	// Logs
 	if setting.Logs != nil {
-		logList := make([]storage.LogSettings, len(setting.Logs))
+		logList := make([]storage.DiagnosticsLogSettings, len(setting.Logs))
 		for logIndex, logItem := range setting.Logs {
-			var log storage.LogSettings
-			err := logItem.AssignProperties_To_LogSettings(&log)
+			var log storage.DiagnosticsLogSettings
+			err := logItem.AssignProperties_To_DiagnosticsLogSettings(&log)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_To_LogSettings() to populate field Logs")
+				return eris.Wrap(err, "calling AssignProperties_To_DiagnosticsLogSettings() to populate field Logs")
 			}
 			logList[logIndex] = log
 		}
@@ -669,12 +669,12 @@ func (setting *DiagnosticSetting_Spec) AssignProperties_To_DiagnosticSetting_Spe
 
 	// Metrics
 	if setting.Metrics != nil {
-		metricList := make([]storage.MetricSettings, len(setting.Metrics))
+		metricList := make([]storage.DiagnosticsMetricSettings, len(setting.Metrics))
 		for metricIndex, metricItem := range setting.Metrics {
-			var metric storage.MetricSettings
-			err := metricItem.AssignProperties_To_MetricSettings(&metric)
+			var metric storage.DiagnosticsMetricSettings
+			err := metricItem.AssignProperties_To_DiagnosticsMetricSettings(&metric)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_To_MetricSettings() to populate field Metrics")
+				return eris.Wrap(err, "calling AssignProperties_To_DiagnosticsMetricSettings() to populate field Metrics")
 			}
 			metricList[metricIndex] = metric
 		}
@@ -755,12 +755,12 @@ func (setting *DiagnosticSetting_Spec) Initialize_From_DiagnosticSetting_STATUS(
 
 	// Logs
 	if source.Logs != nil {
-		logList := make([]LogSettings, len(source.Logs))
+		logList := make([]DiagnosticsLogSettings, len(source.Logs))
 		for logIndex, logItem := range source.Logs {
-			var log LogSettings
-			err := log.Initialize_From_LogSettings_STATUS(&logItem)
+			var log DiagnosticsLogSettings
+			err := log.Initialize_From_DiagnosticsLogSettings_STATUS(&logItem)
 			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_LogSettings_STATUS() to populate field Logs")
+				return eris.Wrap(err, "calling Initialize_From_DiagnosticsLogSettings_STATUS() to populate field Logs")
 			}
 			logList[logIndex] = log
 		}
@@ -779,12 +779,12 @@ func (setting *DiagnosticSetting_Spec) Initialize_From_DiagnosticSetting_STATUS(
 
 	// Metrics
 	if source.Metrics != nil {
-		metricList := make([]MetricSettings, len(source.Metrics))
+		metricList := make([]DiagnosticsMetricSettings, len(source.Metrics))
 		for metricIndex, metricItem := range source.Metrics {
-			var metric MetricSettings
-			err := metric.Initialize_From_MetricSettings_STATUS(&metricItem)
+			var metric DiagnosticsMetricSettings
+			err := metric.Initialize_From_DiagnosticsMetricSettings_STATUS(&metricItem)
 			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_MetricSettings_STATUS() to populate field Metrics")
+				return eris.Wrap(err, "calling Initialize_From_DiagnosticsMetricSettings_STATUS() to populate field Metrics")
 			}
 			metricList[metricIndex] = metric
 		}
@@ -834,8 +834,8 @@ type DiagnosticSetting_STATUS struct {
 	// EventHubName: The name of the event hub. If none is specified, the default event hub will be selected.
 	EventHubName *string `json:"eventHubName,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// LogAnalyticsDestinationType: A string indicating whether the export to Log Analytics should use the default destination
@@ -844,14 +844,14 @@ type DiagnosticSetting_STATUS struct {
 	LogAnalyticsDestinationType *string `json:"logAnalyticsDestinationType,omitempty"`
 
 	// Logs: The list of logs settings.
-	Logs []LogSettings_STATUS `json:"logs,omitempty"`
+	Logs []DiagnosticsLogSettings_STATUS `json:"logs,omitempty"`
 
 	// MarketplacePartnerId: The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic
 	// Logs.
 	MarketplacePartnerId *string `json:"marketplacePartnerId,omitempty"`
 
 	// Metrics: The list of metric settings.
-	Metrics []MetricSettings_STATUS `json:"metrics,omitempty"`
+	Metrics []DiagnosticsMetricSettings_STATUS `json:"metrics,omitempty"`
 
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
@@ -862,7 +862,7 @@ type DiagnosticSetting_STATUS struct {
 	// StorageAccountId: The resource ID of the storage account to which you would like to send Diagnostic Logs.
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
 
-	// SystemData: The system metadata related to this resource.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -977,7 +977,7 @@ func (setting *DiagnosticSetting_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Logs {
-			var item1 LogSettings_STATUS
+			var item1 DiagnosticsLogSettings_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -999,7 +999,7 @@ func (setting *DiagnosticSetting_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Metrics {
-			var item1 MetricSettings_STATUS
+			var item1 DiagnosticsMetricSettings_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -1082,12 +1082,12 @@ func (setting *DiagnosticSetting_STATUS) AssignProperties_From_DiagnosticSetting
 
 	// Logs
 	if source.Logs != nil {
-		logList := make([]LogSettings_STATUS, len(source.Logs))
+		logList := make([]DiagnosticsLogSettings_STATUS, len(source.Logs))
 		for logIndex, logItem := range source.Logs {
-			var log LogSettings_STATUS
-			err := log.AssignProperties_From_LogSettings_STATUS(&logItem)
+			var log DiagnosticsLogSettings_STATUS
+			err := log.AssignProperties_From_DiagnosticsLogSettings_STATUS(&logItem)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_From_LogSettings_STATUS() to populate field Logs")
+				return eris.Wrap(err, "calling AssignProperties_From_DiagnosticsLogSettings_STATUS() to populate field Logs")
 			}
 			logList[logIndex] = log
 		}
@@ -1101,12 +1101,12 @@ func (setting *DiagnosticSetting_STATUS) AssignProperties_From_DiagnosticSetting
 
 	// Metrics
 	if source.Metrics != nil {
-		metricList := make([]MetricSettings_STATUS, len(source.Metrics))
+		metricList := make([]DiagnosticsMetricSettings_STATUS, len(source.Metrics))
 		for metricIndex, metricItem := range source.Metrics {
-			var metric MetricSettings_STATUS
-			err := metric.AssignProperties_From_MetricSettings_STATUS(&metricItem)
+			var metric DiagnosticsMetricSettings_STATUS
+			err := metric.AssignProperties_From_DiagnosticsMetricSettings_STATUS(&metricItem)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_From_MetricSettings_STATUS() to populate field Metrics")
+				return eris.Wrap(err, "calling AssignProperties_From_DiagnosticsMetricSettings_STATUS() to populate field Metrics")
 			}
 			metricList[metricIndex] = metric
 		}
@@ -1168,12 +1168,12 @@ func (setting *DiagnosticSetting_STATUS) AssignProperties_To_DiagnosticSetting_S
 
 	// Logs
 	if setting.Logs != nil {
-		logList := make([]storage.LogSettings_STATUS, len(setting.Logs))
+		logList := make([]storage.DiagnosticsLogSettings_STATUS, len(setting.Logs))
 		for logIndex, logItem := range setting.Logs {
-			var log storage.LogSettings_STATUS
-			err := logItem.AssignProperties_To_LogSettings_STATUS(&log)
+			var log storage.DiagnosticsLogSettings_STATUS
+			err := logItem.AssignProperties_To_DiagnosticsLogSettings_STATUS(&log)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_To_LogSettings_STATUS() to populate field Logs")
+				return eris.Wrap(err, "calling AssignProperties_To_DiagnosticsLogSettings_STATUS() to populate field Logs")
 			}
 			logList[logIndex] = log
 		}
@@ -1187,12 +1187,12 @@ func (setting *DiagnosticSetting_STATUS) AssignProperties_To_DiagnosticSetting_S
 
 	// Metrics
 	if setting.Metrics != nil {
-		metricList := make([]storage.MetricSettings_STATUS, len(setting.Metrics))
+		metricList := make([]storage.DiagnosticsMetricSettings_STATUS, len(setting.Metrics))
 		for metricIndex, metricItem := range setting.Metrics {
-			var metric storage.MetricSettings_STATUS
-			err := metricItem.AssignProperties_To_MetricSettings_STATUS(&metric)
+			var metric storage.DiagnosticsMetricSettings_STATUS
+			err := metricItem.AssignProperties_To_DiagnosticsMetricSettings_STATUS(&metric)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_To_MetricSettings_STATUS() to populate field Metrics")
+				return eris.Wrap(err, "calling AssignProperties_To_DiagnosticsMetricSettings_STATUS() to populate field Metrics")
 			}
 			metricList[metricIndex] = metric
 		}
@@ -1336,7 +1336,7 @@ func (operator *DiagnosticSettingOperatorSpec) AssignProperties_To_DiagnosticSet
 }
 
 // Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.
-type LogSettings struct {
+type DiagnosticsLogSettings struct {
 	// Category: Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of
 	// Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.
 	Category *string `json:"category,omitempty"`
@@ -1350,17 +1350,17 @@ type LogSettings struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// RetentionPolicy: the retention policy for this log.
-	RetentionPolicy *RetentionPolicy `json:"retentionPolicy,omitempty"`
+	RetentionPolicy *MicrosoftCommonRetentionPolicy `json:"retentionPolicy,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &LogSettings{}
+var _ genruntime.ARMTransformer = &DiagnosticsLogSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (settings *LogSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (settings *DiagnosticsLogSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if settings == nil {
 		return nil, nil
 	}
-	result := &arm.LogSettings{}
+	result := &arm.DiagnosticsLogSettings{}
 
 	// Set property "Category":
 	if settings.Category != nil {
@@ -1386,22 +1386,22 @@ func (settings *LogSettings) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		retentionPolicy := *retentionPolicy_ARM.(*arm.RetentionPolicy)
+		retentionPolicy := *retentionPolicy_ARM.(*arm.MicrosoftCommonRetentionPolicy)
 		result.RetentionPolicy = &retentionPolicy
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (settings *LogSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.LogSettings{}
+func (settings *DiagnosticsLogSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.DiagnosticsLogSettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (settings *LogSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.LogSettings)
+func (settings *DiagnosticsLogSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.DiagnosticsLogSettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LogSettings, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DiagnosticsLogSettings, got %T", armInput)
 	}
 
 	// Set property "Category":
@@ -1424,7 +1424,7 @@ func (settings *LogSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property "RetentionPolicy":
 	if typedInput.RetentionPolicy != nil {
-		var retentionPolicy1 RetentionPolicy
+		var retentionPolicy1 MicrosoftCommonRetentionPolicy
 		err := retentionPolicy1.PopulateFromARM(owner, *typedInput.RetentionPolicy)
 		if err != nil {
 			return err
@@ -1437,8 +1437,8 @@ func (settings *LogSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignProperties_From_LogSettings populates our LogSettings from the provided source LogSettings
-func (settings *LogSettings) AssignProperties_From_LogSettings(source *storage.LogSettings) error {
+// AssignProperties_From_DiagnosticsLogSettings populates our DiagnosticsLogSettings from the provided source DiagnosticsLogSettings
+func (settings *DiagnosticsLogSettings) AssignProperties_From_DiagnosticsLogSettings(source *storage.DiagnosticsLogSettings) error {
 
 	// Category
 	settings.Category = genruntime.ClonePointerToString(source.Category)
@@ -1456,10 +1456,10 @@ func (settings *LogSettings) AssignProperties_From_LogSettings(source *storage.L
 
 	// RetentionPolicy
 	if source.RetentionPolicy != nil {
-		var retentionPolicy RetentionPolicy
-		err := retentionPolicy.AssignProperties_From_RetentionPolicy(source.RetentionPolicy)
+		var retentionPolicy MicrosoftCommonRetentionPolicy
+		err := retentionPolicy.AssignProperties_From_MicrosoftCommonRetentionPolicy(source.RetentionPolicy)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_RetentionPolicy() to populate field RetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_MicrosoftCommonRetentionPolicy() to populate field RetentionPolicy")
 		}
 		settings.RetentionPolicy = &retentionPolicy
 	} else {
@@ -1470,8 +1470,8 @@ func (settings *LogSettings) AssignProperties_From_LogSettings(source *storage.L
 	return nil
 }
 
-// AssignProperties_To_LogSettings populates the provided destination LogSettings from our LogSettings
-func (settings *LogSettings) AssignProperties_To_LogSettings(destination *storage.LogSettings) error {
+// AssignProperties_To_DiagnosticsLogSettings populates the provided destination DiagnosticsLogSettings from our DiagnosticsLogSettings
+func (settings *DiagnosticsLogSettings) AssignProperties_To_DiagnosticsLogSettings(destination *storage.DiagnosticsLogSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1491,10 +1491,10 @@ func (settings *LogSettings) AssignProperties_To_LogSettings(destination *storag
 
 	// RetentionPolicy
 	if settings.RetentionPolicy != nil {
-		var retentionPolicy storage.RetentionPolicy
-		err := settings.RetentionPolicy.AssignProperties_To_RetentionPolicy(&retentionPolicy)
+		var retentionPolicy storage.MicrosoftCommonRetentionPolicy
+		err := settings.RetentionPolicy.AssignProperties_To_MicrosoftCommonRetentionPolicy(&retentionPolicy)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_RetentionPolicy() to populate field RetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_MicrosoftCommonRetentionPolicy() to populate field RetentionPolicy")
 		}
 		destination.RetentionPolicy = &retentionPolicy
 	} else {
@@ -1512,8 +1512,8 @@ func (settings *LogSettings) AssignProperties_To_LogSettings(destination *storag
 	return nil
 }
 
-// Initialize_From_LogSettings_STATUS populates our LogSettings from the provided source LogSettings_STATUS
-func (settings *LogSettings) Initialize_From_LogSettings_STATUS(source *LogSettings_STATUS) error {
+// Initialize_From_DiagnosticsLogSettings_STATUS populates our DiagnosticsLogSettings from the provided source DiagnosticsLogSettings_STATUS
+func (settings *DiagnosticsLogSettings) Initialize_From_DiagnosticsLogSettings_STATUS(source *DiagnosticsLogSettings_STATUS) error {
 
 	// Category
 	settings.Category = genruntime.ClonePointerToString(source.Category)
@@ -1531,10 +1531,10 @@ func (settings *LogSettings) Initialize_From_LogSettings_STATUS(source *LogSetti
 
 	// RetentionPolicy
 	if source.RetentionPolicy != nil {
-		var retentionPolicy RetentionPolicy
-		err := retentionPolicy.Initialize_From_RetentionPolicy_STATUS(source.RetentionPolicy)
+		var retentionPolicy MicrosoftCommonRetentionPolicy
+		err := retentionPolicy.Initialize_From_MicrosoftCommonRetentionPolicy_STATUS(source.RetentionPolicy)
 		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RetentionPolicy_STATUS() to populate field RetentionPolicy")
+			return eris.Wrap(err, "calling Initialize_From_MicrosoftCommonRetentionPolicy_STATUS() to populate field RetentionPolicy")
 		}
 		settings.RetentionPolicy = &retentionPolicy
 	} else {
@@ -1546,7 +1546,7 @@ func (settings *LogSettings) Initialize_From_LogSettings_STATUS(source *LogSetti
 }
 
 // Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.
-type LogSettings_STATUS struct {
+type DiagnosticsLogSettings_STATUS struct {
 	// Category: Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of
 	// Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.
 	Category *string `json:"category,omitempty"`
@@ -1559,21 +1559,21 @@ type LogSettings_STATUS struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// RetentionPolicy: the retention policy for this log.
-	RetentionPolicy *RetentionPolicy_STATUS `json:"retentionPolicy,omitempty"`
+	RetentionPolicy *MicrosoftCommonRetentionPolicy_STATUS `json:"retentionPolicy,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &LogSettings_STATUS{}
+var _ genruntime.FromARMConverter = &DiagnosticsLogSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (settings *LogSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.LogSettings_STATUS{}
+func (settings *DiagnosticsLogSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.DiagnosticsLogSettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (settings *LogSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.LogSettings_STATUS)
+func (settings *DiagnosticsLogSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.DiagnosticsLogSettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LogSettings_STATUS, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DiagnosticsLogSettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "Category":
@@ -1596,7 +1596,7 @@ func (settings *LogSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "RetentionPolicy":
 	if typedInput.RetentionPolicy != nil {
-		var retentionPolicy1 RetentionPolicy_STATUS
+		var retentionPolicy1 MicrosoftCommonRetentionPolicy_STATUS
 		err := retentionPolicy1.PopulateFromARM(owner, *typedInput.RetentionPolicy)
 		if err != nil {
 			return err
@@ -1609,8 +1609,8 @@ func (settings *LogSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignProperties_From_LogSettings_STATUS populates our LogSettings_STATUS from the provided source LogSettings_STATUS
-func (settings *LogSettings_STATUS) AssignProperties_From_LogSettings_STATUS(source *storage.LogSettings_STATUS) error {
+// AssignProperties_From_DiagnosticsLogSettings_STATUS populates our DiagnosticsLogSettings_STATUS from the provided source DiagnosticsLogSettings_STATUS
+func (settings *DiagnosticsLogSettings_STATUS) AssignProperties_From_DiagnosticsLogSettings_STATUS(source *storage.DiagnosticsLogSettings_STATUS) error {
 
 	// Category
 	settings.Category = genruntime.ClonePointerToString(source.Category)
@@ -1628,10 +1628,10 @@ func (settings *LogSettings_STATUS) AssignProperties_From_LogSettings_STATUS(sou
 
 	// RetentionPolicy
 	if source.RetentionPolicy != nil {
-		var retentionPolicy RetentionPolicy_STATUS
-		err := retentionPolicy.AssignProperties_From_RetentionPolicy_STATUS(source.RetentionPolicy)
+		var retentionPolicy MicrosoftCommonRetentionPolicy_STATUS
+		err := retentionPolicy.AssignProperties_From_MicrosoftCommonRetentionPolicy_STATUS(source.RetentionPolicy)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_RetentionPolicy_STATUS() to populate field RetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_MicrosoftCommonRetentionPolicy_STATUS() to populate field RetentionPolicy")
 		}
 		settings.RetentionPolicy = &retentionPolicy
 	} else {
@@ -1642,8 +1642,8 @@ func (settings *LogSettings_STATUS) AssignProperties_From_LogSettings_STATUS(sou
 	return nil
 }
 
-// AssignProperties_To_LogSettings_STATUS populates the provided destination LogSettings_STATUS from our LogSettings_STATUS
-func (settings *LogSettings_STATUS) AssignProperties_To_LogSettings_STATUS(destination *storage.LogSettings_STATUS) error {
+// AssignProperties_To_DiagnosticsLogSettings_STATUS populates the provided destination DiagnosticsLogSettings_STATUS from our DiagnosticsLogSettings_STATUS
+func (settings *DiagnosticsLogSettings_STATUS) AssignProperties_To_DiagnosticsLogSettings_STATUS(destination *storage.DiagnosticsLogSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1663,10 +1663,10 @@ func (settings *LogSettings_STATUS) AssignProperties_To_LogSettings_STATUS(desti
 
 	// RetentionPolicy
 	if settings.RetentionPolicy != nil {
-		var retentionPolicy storage.RetentionPolicy_STATUS
-		err := settings.RetentionPolicy.AssignProperties_To_RetentionPolicy_STATUS(&retentionPolicy)
+		var retentionPolicy storage.MicrosoftCommonRetentionPolicy_STATUS
+		err := settings.RetentionPolicy.AssignProperties_To_MicrosoftCommonRetentionPolicy_STATUS(&retentionPolicy)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_RetentionPolicy_STATUS() to populate field RetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_MicrosoftCommonRetentionPolicy_STATUS() to populate field RetentionPolicy")
 		}
 		destination.RetentionPolicy = &retentionPolicy
 	} else {
@@ -1685,7 +1685,7 @@ func (settings *LogSettings_STATUS) AssignProperties_To_LogSettings_STATUS(desti
 }
 
 // Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric.
-type MetricSettings struct {
+type DiagnosticsMetricSettings struct {
 	// Category: Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of
 	// Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.
 	Category *string `json:"category,omitempty"`
@@ -1695,20 +1695,20 @@ type MetricSettings struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// RetentionPolicy: the retention policy for this category.
-	RetentionPolicy *RetentionPolicy `json:"retentionPolicy,omitempty"`
+	RetentionPolicy *MicrosoftCommonRetentionPolicy `json:"retentionPolicy,omitempty"`
 
 	// TimeGrain: the timegrain of the metric in ISO8601 format.
 	TimeGrain *string `json:"timeGrain,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &MetricSettings{}
+var _ genruntime.ARMTransformer = &DiagnosticsMetricSettings{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (settings *MetricSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (settings *DiagnosticsMetricSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if settings == nil {
 		return nil, nil
 	}
-	result := &arm.MetricSettings{}
+	result := &arm.DiagnosticsMetricSettings{}
 
 	// Set property "Category":
 	if settings.Category != nil {
@@ -1728,7 +1728,7 @@ func (settings *MetricSettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 		if err != nil {
 			return nil, err
 		}
-		retentionPolicy := *retentionPolicy_ARM.(*arm.RetentionPolicy)
+		retentionPolicy := *retentionPolicy_ARM.(*arm.MicrosoftCommonRetentionPolicy)
 		result.RetentionPolicy = &retentionPolicy
 	}
 
@@ -1741,15 +1741,15 @@ func (settings *MetricSettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (settings *MetricSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.MetricSettings{}
+func (settings *DiagnosticsMetricSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.DiagnosticsMetricSettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (settings *MetricSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.MetricSettings)
+func (settings *DiagnosticsMetricSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.DiagnosticsMetricSettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricSettings, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DiagnosticsMetricSettings, got %T", armInput)
 	}
 
 	// Set property "Category":
@@ -1766,7 +1766,7 @@ func (settings *MetricSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "RetentionPolicy":
 	if typedInput.RetentionPolicy != nil {
-		var retentionPolicy1 RetentionPolicy
+		var retentionPolicy1 MicrosoftCommonRetentionPolicy
 		err := retentionPolicy1.PopulateFromARM(owner, *typedInput.RetentionPolicy)
 		if err != nil {
 			return err
@@ -1785,8 +1785,8 @@ func (settings *MetricSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignProperties_From_MetricSettings populates our MetricSettings from the provided source MetricSettings
-func (settings *MetricSettings) AssignProperties_From_MetricSettings(source *storage.MetricSettings) error {
+// AssignProperties_From_DiagnosticsMetricSettings populates our DiagnosticsMetricSettings from the provided source DiagnosticsMetricSettings
+func (settings *DiagnosticsMetricSettings) AssignProperties_From_DiagnosticsMetricSettings(source *storage.DiagnosticsMetricSettings) error {
 
 	// Category
 	settings.Category = genruntime.ClonePointerToString(source.Category)
@@ -1801,10 +1801,10 @@ func (settings *MetricSettings) AssignProperties_From_MetricSettings(source *sto
 
 	// RetentionPolicy
 	if source.RetentionPolicy != nil {
-		var retentionPolicy RetentionPolicy
-		err := retentionPolicy.AssignProperties_From_RetentionPolicy(source.RetentionPolicy)
+		var retentionPolicy MicrosoftCommonRetentionPolicy
+		err := retentionPolicy.AssignProperties_From_MicrosoftCommonRetentionPolicy(source.RetentionPolicy)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_RetentionPolicy() to populate field RetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_MicrosoftCommonRetentionPolicy() to populate field RetentionPolicy")
 		}
 		settings.RetentionPolicy = &retentionPolicy
 	} else {
@@ -1818,8 +1818,8 @@ func (settings *MetricSettings) AssignProperties_From_MetricSettings(source *sto
 	return nil
 }
 
-// AssignProperties_To_MetricSettings populates the provided destination MetricSettings from our MetricSettings
-func (settings *MetricSettings) AssignProperties_To_MetricSettings(destination *storage.MetricSettings) error {
+// AssignProperties_To_DiagnosticsMetricSettings populates the provided destination DiagnosticsMetricSettings from our DiagnosticsMetricSettings
+func (settings *DiagnosticsMetricSettings) AssignProperties_To_DiagnosticsMetricSettings(destination *storage.DiagnosticsMetricSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1836,10 +1836,10 @@ func (settings *MetricSettings) AssignProperties_To_MetricSettings(destination *
 
 	// RetentionPolicy
 	if settings.RetentionPolicy != nil {
-		var retentionPolicy storage.RetentionPolicy
-		err := settings.RetentionPolicy.AssignProperties_To_RetentionPolicy(&retentionPolicy)
+		var retentionPolicy storage.MicrosoftCommonRetentionPolicy
+		err := settings.RetentionPolicy.AssignProperties_To_MicrosoftCommonRetentionPolicy(&retentionPolicy)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_RetentionPolicy() to populate field RetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_MicrosoftCommonRetentionPolicy() to populate field RetentionPolicy")
 		}
 		destination.RetentionPolicy = &retentionPolicy
 	} else {
@@ -1860,8 +1860,8 @@ func (settings *MetricSettings) AssignProperties_To_MetricSettings(destination *
 	return nil
 }
 
-// Initialize_From_MetricSettings_STATUS populates our MetricSettings from the provided source MetricSettings_STATUS
-func (settings *MetricSettings) Initialize_From_MetricSettings_STATUS(source *MetricSettings_STATUS) error {
+// Initialize_From_DiagnosticsMetricSettings_STATUS populates our DiagnosticsMetricSettings from the provided source DiagnosticsMetricSettings_STATUS
+func (settings *DiagnosticsMetricSettings) Initialize_From_DiagnosticsMetricSettings_STATUS(source *DiagnosticsMetricSettings_STATUS) error {
 
 	// Category
 	settings.Category = genruntime.ClonePointerToString(source.Category)
@@ -1876,10 +1876,10 @@ func (settings *MetricSettings) Initialize_From_MetricSettings_STATUS(source *Me
 
 	// RetentionPolicy
 	if source.RetentionPolicy != nil {
-		var retentionPolicy RetentionPolicy
-		err := retentionPolicy.Initialize_From_RetentionPolicy_STATUS(source.RetentionPolicy)
+		var retentionPolicy MicrosoftCommonRetentionPolicy
+		err := retentionPolicy.Initialize_From_MicrosoftCommonRetentionPolicy_STATUS(source.RetentionPolicy)
 		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RetentionPolicy_STATUS() to populate field RetentionPolicy")
+			return eris.Wrap(err, "calling Initialize_From_MicrosoftCommonRetentionPolicy_STATUS() to populate field RetentionPolicy")
 		}
 		settings.RetentionPolicy = &retentionPolicy
 	} else {
@@ -1894,7 +1894,7 @@ func (settings *MetricSettings) Initialize_From_MetricSettings_STATUS(source *Me
 }
 
 // Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric.
-type MetricSettings_STATUS struct {
+type DiagnosticsMetricSettings_STATUS struct {
 	// Category: Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of
 	// Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.
 	Category *string `json:"category,omitempty"`
@@ -1903,24 +1903,24 @@ type MetricSettings_STATUS struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// RetentionPolicy: the retention policy for this category.
-	RetentionPolicy *RetentionPolicy_STATUS `json:"retentionPolicy,omitempty"`
+	RetentionPolicy *MicrosoftCommonRetentionPolicy_STATUS `json:"retentionPolicy,omitempty"`
 
 	// TimeGrain: the timegrain of the metric in ISO8601 format.
 	TimeGrain *string `json:"timeGrain,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &MetricSettings_STATUS{}
+var _ genruntime.FromARMConverter = &DiagnosticsMetricSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (settings *MetricSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.MetricSettings_STATUS{}
+func (settings *DiagnosticsMetricSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.DiagnosticsMetricSettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (settings *MetricSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.MetricSettings_STATUS)
+func (settings *DiagnosticsMetricSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.DiagnosticsMetricSettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricSettings_STATUS, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DiagnosticsMetricSettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "Category":
@@ -1937,7 +1937,7 @@ func (settings *MetricSettings_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "RetentionPolicy":
 	if typedInput.RetentionPolicy != nil {
-		var retentionPolicy1 RetentionPolicy_STATUS
+		var retentionPolicy1 MicrosoftCommonRetentionPolicy_STATUS
 		err := retentionPolicy1.PopulateFromARM(owner, *typedInput.RetentionPolicy)
 		if err != nil {
 			return err
@@ -1956,8 +1956,8 @@ func (settings *MetricSettings_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignProperties_From_MetricSettings_STATUS populates our MetricSettings_STATUS from the provided source MetricSettings_STATUS
-func (settings *MetricSettings_STATUS) AssignProperties_From_MetricSettings_STATUS(source *storage.MetricSettings_STATUS) error {
+// AssignProperties_From_DiagnosticsMetricSettings_STATUS populates our DiagnosticsMetricSettings_STATUS from the provided source DiagnosticsMetricSettings_STATUS
+func (settings *DiagnosticsMetricSettings_STATUS) AssignProperties_From_DiagnosticsMetricSettings_STATUS(source *storage.DiagnosticsMetricSettings_STATUS) error {
 
 	// Category
 	settings.Category = genruntime.ClonePointerToString(source.Category)
@@ -1972,10 +1972,10 @@ func (settings *MetricSettings_STATUS) AssignProperties_From_MetricSettings_STAT
 
 	// RetentionPolicy
 	if source.RetentionPolicy != nil {
-		var retentionPolicy RetentionPolicy_STATUS
-		err := retentionPolicy.AssignProperties_From_RetentionPolicy_STATUS(source.RetentionPolicy)
+		var retentionPolicy MicrosoftCommonRetentionPolicy_STATUS
+		err := retentionPolicy.AssignProperties_From_MicrosoftCommonRetentionPolicy_STATUS(source.RetentionPolicy)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_RetentionPolicy_STATUS() to populate field RetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_From_MicrosoftCommonRetentionPolicy_STATUS() to populate field RetentionPolicy")
 		}
 		settings.RetentionPolicy = &retentionPolicy
 	} else {
@@ -1989,8 +1989,8 @@ func (settings *MetricSettings_STATUS) AssignProperties_From_MetricSettings_STAT
 	return nil
 }
 
-// AssignProperties_To_MetricSettings_STATUS populates the provided destination MetricSettings_STATUS from our MetricSettings_STATUS
-func (settings *MetricSettings_STATUS) AssignProperties_To_MetricSettings_STATUS(destination *storage.MetricSettings_STATUS) error {
+// AssignProperties_To_DiagnosticsMetricSettings_STATUS populates the provided destination DiagnosticsMetricSettings_STATUS from our DiagnosticsMetricSettings_STATUS
+func (settings *DiagnosticsMetricSettings_STATUS) AssignProperties_To_DiagnosticsMetricSettings_STATUS(destination *storage.DiagnosticsMetricSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2007,10 +2007,10 @@ func (settings *MetricSettings_STATUS) AssignProperties_To_MetricSettings_STATUS
 
 	// RetentionPolicy
 	if settings.RetentionPolicy != nil {
-		var retentionPolicy storage.RetentionPolicy_STATUS
-		err := settings.RetentionPolicy.AssignProperties_To_RetentionPolicy_STATUS(&retentionPolicy)
+		var retentionPolicy storage.MicrosoftCommonRetentionPolicy_STATUS
+		err := settings.RetentionPolicy.AssignProperties_To_MicrosoftCommonRetentionPolicy_STATUS(&retentionPolicy)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_RetentionPolicy_STATUS() to populate field RetentionPolicy")
+			return eris.Wrap(err, "calling AssignProperties_To_MicrosoftCommonRetentionPolicy_STATUS() to populate field RetentionPolicy")
 		}
 		destination.RetentionPolicy = &retentionPolicy
 	} else {
@@ -2192,7 +2192,7 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 }
 
 // Specifies the retention policy for the log.
-type RetentionPolicy struct {
+type MicrosoftCommonRetentionPolicy struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Minimum=0
 	// Days: the number of days for the retention in days. A value of 0 will retain the events indefinitely.
@@ -2203,14 +2203,14 @@ type RetentionPolicy struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &RetentionPolicy{}
+var _ genruntime.ARMTransformer = &MicrosoftCommonRetentionPolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *RetentionPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (policy *MicrosoftCommonRetentionPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if policy == nil {
 		return nil, nil
 	}
-	result := &arm.RetentionPolicy{}
+	result := &arm.MicrosoftCommonRetentionPolicy{}
 
 	// Set property "Days":
 	if policy.Days != nil {
@@ -2227,15 +2227,15 @@ func (policy *RetentionPolicy) ConvertToARM(resolved genruntime.ConvertToARMReso
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *RetentionPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.RetentionPolicy{}
+func (policy *MicrosoftCommonRetentionPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.MicrosoftCommonRetentionPolicy{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *RetentionPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.RetentionPolicy)
+func (policy *MicrosoftCommonRetentionPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.MicrosoftCommonRetentionPolicy)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RetentionPolicy, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MicrosoftCommonRetentionPolicy, got %T", armInput)
 	}
 
 	// Set property "Days":
@@ -2254,8 +2254,8 @@ func (policy *RetentionPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignProperties_From_RetentionPolicy populates our RetentionPolicy from the provided source RetentionPolicy
-func (policy *RetentionPolicy) AssignProperties_From_RetentionPolicy(source *storage.RetentionPolicy) error {
+// AssignProperties_From_MicrosoftCommonRetentionPolicy populates our MicrosoftCommonRetentionPolicy from the provided source MicrosoftCommonRetentionPolicy
+func (policy *MicrosoftCommonRetentionPolicy) AssignProperties_From_MicrosoftCommonRetentionPolicy(source *storage.MicrosoftCommonRetentionPolicy) error {
 
 	// Days
 	policy.Days = genruntime.ClonePointerToInt(source.Days)
@@ -2272,8 +2272,8 @@ func (policy *RetentionPolicy) AssignProperties_From_RetentionPolicy(source *sto
 	return nil
 }
 
-// AssignProperties_To_RetentionPolicy populates the provided destination RetentionPolicy from our RetentionPolicy
-func (policy *RetentionPolicy) AssignProperties_To_RetentionPolicy(destination *storage.RetentionPolicy) error {
+// AssignProperties_To_MicrosoftCommonRetentionPolicy populates the provided destination MicrosoftCommonRetentionPolicy from our MicrosoftCommonRetentionPolicy
+func (policy *MicrosoftCommonRetentionPolicy) AssignProperties_To_MicrosoftCommonRetentionPolicy(destination *storage.MicrosoftCommonRetentionPolicy) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2299,8 +2299,8 @@ func (policy *RetentionPolicy) AssignProperties_To_RetentionPolicy(destination *
 	return nil
 }
 
-// Initialize_From_RetentionPolicy_STATUS populates our RetentionPolicy from the provided source RetentionPolicy_STATUS
-func (policy *RetentionPolicy) Initialize_From_RetentionPolicy_STATUS(source *RetentionPolicy_STATUS) error {
+// Initialize_From_MicrosoftCommonRetentionPolicy_STATUS populates our MicrosoftCommonRetentionPolicy from the provided source MicrosoftCommonRetentionPolicy_STATUS
+func (policy *MicrosoftCommonRetentionPolicy) Initialize_From_MicrosoftCommonRetentionPolicy_STATUS(source *MicrosoftCommonRetentionPolicy_STATUS) error {
 
 	// Days
 	policy.Days = genruntime.ClonePointerToInt(source.Days)
@@ -2318,7 +2318,7 @@ func (policy *RetentionPolicy) Initialize_From_RetentionPolicy_STATUS(source *Re
 }
 
 // Specifies the retention policy for the log.
-type RetentionPolicy_STATUS struct {
+type MicrosoftCommonRetentionPolicy_STATUS struct {
 	// Days: the number of days for the retention in days. A value of 0 will retain the events indefinitely.
 	Days *int `json:"days,omitempty"`
 
@@ -2326,18 +2326,18 @@ type RetentionPolicy_STATUS struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &RetentionPolicy_STATUS{}
+var _ genruntime.FromARMConverter = &MicrosoftCommonRetentionPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *RetentionPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.RetentionPolicy_STATUS{}
+func (policy *MicrosoftCommonRetentionPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.MicrosoftCommonRetentionPolicy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *RetentionPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.RetentionPolicy_STATUS)
+func (policy *MicrosoftCommonRetentionPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.MicrosoftCommonRetentionPolicy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RetentionPolicy_STATUS, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MicrosoftCommonRetentionPolicy_STATUS, got %T", armInput)
 	}
 
 	// Set property "Days":
@@ -2356,8 +2356,8 @@ func (policy *RetentionPolicy_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignProperties_From_RetentionPolicy_STATUS populates our RetentionPolicy_STATUS from the provided source RetentionPolicy_STATUS
-func (policy *RetentionPolicy_STATUS) AssignProperties_From_RetentionPolicy_STATUS(source *storage.RetentionPolicy_STATUS) error {
+// AssignProperties_From_MicrosoftCommonRetentionPolicy_STATUS populates our MicrosoftCommonRetentionPolicy_STATUS from the provided source MicrosoftCommonRetentionPolicy_STATUS
+func (policy *MicrosoftCommonRetentionPolicy_STATUS) AssignProperties_From_MicrosoftCommonRetentionPolicy_STATUS(source *storage.MicrosoftCommonRetentionPolicy_STATUS) error {
 
 	// Days
 	policy.Days = genruntime.ClonePointerToInt(source.Days)
@@ -2374,8 +2374,8 @@ func (policy *RetentionPolicy_STATUS) AssignProperties_From_RetentionPolicy_STAT
 	return nil
 }
 
-// AssignProperties_To_RetentionPolicy_STATUS populates the provided destination RetentionPolicy_STATUS from our RetentionPolicy_STATUS
-func (policy *RetentionPolicy_STATUS) AssignProperties_To_RetentionPolicy_STATUS(destination *storage.RetentionPolicy_STATUS) error {
+// AssignProperties_To_MicrosoftCommonRetentionPolicy_STATUS populates the provided destination MicrosoftCommonRetentionPolicy_STATUS from our MicrosoftCommonRetentionPolicy_STATUS
+func (policy *MicrosoftCommonRetentionPolicy_STATUS) AssignProperties_To_MicrosoftCommonRetentionPolicy_STATUS(destination *storage.MicrosoftCommonRetentionPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
