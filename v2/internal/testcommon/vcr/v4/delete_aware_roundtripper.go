@@ -62,24 +62,36 @@ func (r *deleteAwareRoundTripper) roundTripGet(request *http.Request) (*http.Res
 		return r.inner.RoundTrip(request)
 	}
 
+	var previousResponse *http.Response
 	for {
 		response, err := r.inner.RoundTrip(request)
 		if err != nil {
+			if previousResponse != nil {
+				return previousResponse, nil
+			}
 			return response, err
 		}
 
 		requestPath := urlPath(request.URL.String())
 		if !r.wasDeleted(requestPath) ||
 			(response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated) {
+			if previousResponse != nil && previousResponse.Body != nil {
+				if err := previousResponse.Body.Close(); err != nil {
+					return nil, fmt.Errorf("closing stale GET response body: %w", err)
+				}
+			}
 			return response, nil
 		}
 
-		r.log.V(1).Info("Discarding stale GET response after deletion", "url", request.URL.String())
-		if response.Body != nil {
-			if err := response.Body.Close(); err != nil {
-				return nil, fmt.Errorf("closing stale GET response body: %w", err)
+		if previousResponse != nil {
+			r.log.V(1).Info("Discarding stale GET response after deletion", "url", request.URL.String())
+			if previousResponse.Body != nil {
+				if err := previousResponse.Body.Close(); err != nil {
+					return nil, fmt.Errorf("closing stale GET response body: %w", err)
+				}
 			}
 		}
+		previousResponse = response
 	}
 }
 

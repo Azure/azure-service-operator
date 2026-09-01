@@ -227,7 +227,7 @@ func TestDeleteAwareRoundTripper_ReturnsResponsesThatAreNotStale(t *testing.T) {
 	}
 }
 
-func TestDeleteAwareRoundTripper_ReturnsNestedErrorAfterStaleResponse(t *testing.T) {
+func TestDeleteAwareRoundTripper_ReturnsLastSuccessfulGetWhenLookaheadFails(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -246,11 +246,11 @@ func TestDeleteAwareRoundTripper_ReturnsNestedErrorAfterStaleResponse(t *testing
 	g.Expect(err).NotTo(HaveOccurred())
 	g.Expect(response.Body.Close()).To(Succeed())
 
-	//nolint:bodyclose // The expected error has no response body.
 	response, err = transport.RoundTrip(getRequest)
-	g.Expect(response).To(BeNil())
-	g.Expect(err).To(MatchError(cassette.ErrInteractionNotFound))
-	g.Expect(staleBody.closed).To(BeTrue())
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(response.StatusCode).To(Equal(http.StatusOK))
+	g.Expect(staleBody.closed).To(BeFalse())
+	g.Expect(response.Body.Close()).To(Succeed())
 }
 
 func TestDeleteAwareRoundTripper_UpdatesDeletionStateAfterSuccessfulMutations(t *testing.T) {
@@ -370,6 +370,8 @@ func TestDeleteAwareRoundTripper_ReturnsStaleBodyCloseError(t *testing.T) {
 		Reader:   strings.NewReader("stale"),
 		closeErr: closeErr,
 	}))
+	//nolint:bodyclose // The fake transport owns the response body.
+	fake.AddResponse(getRequest, testResponse(http.StatusOK, http.NoBody))
 
 	transport := newDeleteAwareRoundTripper(fake, logr.Discard())
 	response, err := transport.RoundTrip(deleteRequest)
