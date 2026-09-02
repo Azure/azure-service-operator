@@ -81,16 +81,16 @@ type SecurityGroupSpec struct {
 	IsAssignableToRole *bool `json:"isAssignableToRole,omitempty"`
 
 	// Owners: Directory objects (users, service principals, groups) to assign as owners of the security
-	// group at creation time. Applied during the initial POST to Microsoft Graph via `owners@odata.bind`
-	// and then used as desired owner state for later reconciliation.
+	// group. Applied during the initial POST to Microsoft Graph via `owners@odata.bind` and then used as desired owner
+	// state for later reconciliation.
 	// Required when ASO authenticates with an app-only token and the calling principal lacks Group.ReadWrite.All —
 	// otherwise the created group has no owners and is unmanageable.
 	// +kubebuilder:validation:MaxItems=20
 	Owners []SecurityGroupMemberReference `json:"owners,omitempty"`
 
-	// Members: Directory objects (users, service principals, groups) to assign as members of the security
-	// group at creation time. Applied during the initial POST to Microsoft Graph via `members@odata.bind`
-	// and then used as desired member state for later reconciliation.
+	// Members: Directory objects (users, service principals, groups) to assign as members of the security group.
+	// Applied during the initial POST to Microsoft Graph via `members@odata.bind` and then used as desired member state
+	// for later reconciliation.
 	// +kubebuilder:validation:MaxItems=20
 	Members []SecurityGroupMemberReference `json:"members,omitempty"`
 }
@@ -280,23 +280,53 @@ type SecurityGroupStatus struct {
 
 	// Description: The description of the group.
 	Description *string `json:"description,omitempty"`
+
+	// Owners: Directory objects (users, service principals, groups) assigned as owners of the security group
+	Owners []string `json:"owners,omitempty"`
+
+	// Members: Directory objects (users, service principals, groups) assigned as members of the security group.
+	Members []string `json:"members,omitempty"`
 }
 
 func (status *SecurityGroupStatus) AssignFromGroup(model models.Groupable) {
+	// EntraId
 	if id := model.GetId(); id != nil {
 		status.EntraID = id
 	}
 
+	// DisplayName
 	if name := model.GetDisplayName(); name != nil {
 		status.DisplayName = name
 	}
 
+	// MailNickname
 	if mailNickname := model.GetMailNickname(); mailNickname != nil {
 		status.MailNickname = mailNickname
 	}
 
+	// Description
 	if description := model.GetDescription(); description != nil {
 		status.Description = description
+	}
+
+	// Owners
+	if owners := model.GetOwners(); owners != nil {
+		ownerIDs := make([]string, len(owners))
+		for i, owner := range owners {
+			ownerIDs[i] = *owner.GetId()
+		}
+
+		status.Owners = ownerIDs
+	}
+
+	// Members
+	if members := model.GetMembers(); members != nil {
+		memberIDs := make([]string, len(members))
+		for i, member := range members {
+			memberIDs[i] = *member.GetId()
+		}
+
+		status.Members = memberIDs
 	}
 }
 
