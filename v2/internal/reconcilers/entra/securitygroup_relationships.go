@@ -149,10 +149,8 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 			return ownersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
 		},
 	}
-	currentOwners, err := ownersDef.list(ctx)
-	if err != nil {
-		return eris.Wrapf(err, "%s list for group %s", ownersDef.name, id)
-	}
+
+	currentOwners := group.Status.Owners
 
 	if err := r.reconcileRelationship(ctx, ownersDef, currentOwners, log); err != nil {
 		return eris.Wrapf(err, "reconciling %s for group %s", ownersDef.name, id)
@@ -189,10 +187,7 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 			return membersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
 		},
 	}
-	currentMembers, err := membersDef.list(ctx)
-	if err != nil {
-		return eris.Wrapf(err, "%s list for group %s", membersDef.name, id)
-	}
+	currentMembers := group.Status.Members
 
 	if err := r.reconcileRelationship(ctx, membersDef, currentMembers, log); err != nil {
 		return eris.Wrapf(err, "reconciling %s for group %s", membersDef.name, id)
@@ -200,6 +195,7 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 
 	return nil
 }
+
 func collectDirectoryObjectIDs(
 	ctx context.Context,
 	firstPage func(context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error),
