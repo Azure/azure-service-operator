@@ -26,19 +26,17 @@ func TestReconcileRelationshipSide_AddBeforeRemove_AndSkipRemoveWhenAddFails(t *
 		reconciler := &EntraSecurityGroupReconciler{}
 		err := reconciler.reconcileRelationship(
 			context.Background(),
-			relationshipDefinition{
-				name:    "owners",
-				desired: []string{"owner-b", "owner-c", "owner-d"},
-				add: func(_ context.Context, id string) error {
-					calls = append(calls, "add:"+id)
-					return nil
-				},
-				remove: func(_ context.Context, id string) error {
-					calls = append(calls, "remove:"+id)
-					return nil
-				},
-			},
+			"owners",
 			[]string{"owner-a", "owner-b"},
+			[]string{"owner-b", "owner-c", "owner-d"},
+			func(_ context.Context, id string) error {
+				calls = append(calls, "add:"+id)
+				return nil
+			},
+			func(_ context.Context, id string) error {
+				calls = append(calls, "remove:"+id)
+				return nil
+			},
 			logr.Discard(),
 		)
 
@@ -59,24 +57,22 @@ func TestReconcileRelationshipSide_AddBeforeRemove_AndSkipRemoveWhenAddFails(t *
 		reconciler := &EntraSecurityGroupReconciler{}
 		err := reconciler.reconcileRelationship(
 			context.Background(),
-			relationshipDefinition{
-				name:    "members",
-				desired: []string{"member-b"},
-				add: func(_ context.Context, id string) error {
-					calls = append(calls, "add:"+id)
-					return errors.New("boom")
-				},
-				remove: func(_ context.Context, id string) error {
-					calls = append(calls, "remove:"+id)
-					return nil
-				},
-			},
+			"members",
 			[]string{"member-a"},
+			[]string{"member-b"},
+			func(_ context.Context, id string) error {
+				calls = append(calls, "add:"+id)
+				return errors.New("boom")
+			},
+			func(_ context.Context, id string) error {
+				calls = append(calls, "remove:"+id)
+				return nil
+			},
 			logr.Discard(),
 		)
 
 		g.Expect(err).To(HaveOccurred())
-		g.Expect(err.Error()).To(ContainSubstring("members add member-b"))
+		g.Expect(err).To(MatchError(ContainSubstring("add member-b to members")))
 		g.Expect(calls).To(Equal([]string{"add:member-b"}))
 	})
 }
@@ -99,36 +95,32 @@ func testCrossSideOwnersFailMembersStillRun(t *testing.T) {
 
 	ownersErr := reconciler.reconcileRelationship(
 		ctx,
-		relationshipDefinition{
-			name:    "owners",
-			desired: []string{"owner-a"},
-			add:     func(_ context.Context, _ string) error { return errors.New("owners list failed") },
-			remove:  func(_ context.Context, _ string) error { return nil },
-		},
+		"owners",
 		nil,
+		[]string{"owner-a"},
+		func(_ context.Context, _ string) error { return errors.New("owners list failed") },
+		func(_ context.Context, _ string) error { return nil },
 		logr.Discard(),
 	)
 	membersErr := reconciler.reconcileRelationship(
 		ctx,
-		relationshipDefinition{
-			name:    "members",
-			desired: []string{"member-b"},
-			add: func(_ context.Context, id string) error {
-				membersCalls = append(membersCalls, "add:"+id)
-				return nil
-			},
-			remove: func(_ context.Context, id string) error {
-				membersCalls = append(membersCalls, "remove:"+id)
-				return nil
-			},
-		},
+		"members",
 		[]string{"member-a"},
+		[]string{"member-b"},
+		func(_ context.Context, id string) error {
+			membersCalls = append(membersCalls, "add:"+id)
+			return nil
+		},
+		func(_ context.Context, id string) error {
+			membersCalls = append(membersCalls, "remove:"+id)
+			return nil
+		},
 		logr.Discard(),
 	)
 	err := errors.Join(ownersErr, membersErr)
 
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(ContainSubstring("owners"))
+	g.Expect(err).To(MatchError(ContainSubstring("owners")))
 	g.Expect(membersCalls).To(Equal([]string{"add:member-b", "remove:member-a"}))
 }
 
@@ -142,36 +134,32 @@ func testCrossSideMembersFailOwnersStillRun(t *testing.T) {
 
 	ownersErr := reconciler.reconcileRelationship(
 		ctx,
-		relationshipDefinition{
-			name:    "owners",
-			desired: []string{"owner-b"},
-			add: func(_ context.Context, id string) error {
-				ownersCalls = append(ownersCalls, "add:"+id)
-				return nil
-			},
-			remove: func(_ context.Context, id string) error {
-				ownersCalls = append(ownersCalls, "remove:"+id)
-				return nil
-			},
-		},
+		"owners",
 		[]string{"owner-a"},
+		[]string{"owner-b"},
+		func(_ context.Context, id string) error {
+			ownersCalls = append(ownersCalls, "add:"+id)
+			return nil
+		},
+		func(_ context.Context, id string) error {
+			ownersCalls = append(ownersCalls, "remove:"+id)
+			return nil
+		},
 		logr.Discard(),
 	)
 	membersErr := reconciler.reconcileRelationship(
 		ctx,
-		relationshipDefinition{
-			name:    "members",
-			desired: []string{"member-a"},
-			add:     func(_ context.Context, _ string) error { return errors.New("members list failed") },
-			remove:  func(_ context.Context, _ string) error { return nil },
-		},
+		"members",
 		nil,
+		[]string{"member-a"},
+		func(_ context.Context, _ string) error { return errors.New("members list failed") },
+		func(_ context.Context, _ string) error { return nil },
 		logr.Discard(),
 	)
 	err := errors.Join(ownersErr, membersErr)
 
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(ContainSubstring("members"))
+	g.Expect(err).To(MatchError(ContainSubstring("members")))
 	g.Expect(ownersCalls).To(Equal([]string{"add:owner-b", "remove:owner-a"}))
 }
 
@@ -184,29 +172,25 @@ func testCrossSideBothSidesFail(t *testing.T) {
 
 	ownersErr := reconciler.reconcileRelationship(
 		ctx,
-		relationshipDefinition{
-			name:    "owners",
-			desired: []string{"owner-a"},
-			add:     func(_ context.Context, _ string) error { return errors.New("owners side failed") },
-			remove:  func(_ context.Context, _ string) error { return nil },
-		},
+		"owners",
 		nil,
+		[]string{"owner-a"},
+		func(_ context.Context, _ string) error { return errors.New("owners side failed") },
+		func(_ context.Context, _ string) error { return nil },
 		logr.Discard(),
 	)
 	membersErr := reconciler.reconcileRelationship(
 		ctx,
-		relationshipDefinition{
-			name:    "members",
-			desired: []string{"member-a"},
-			add:     func(_ context.Context, _ string) error { return errors.New("members side failed") },
-			remove:  func(_ context.Context, _ string) error { return nil },
-		},
+		"members",
 		nil,
+		[]string{"member-a"},
+		func(_ context.Context, _ string) error { return errors.New("members side failed") },
+		func(_ context.Context, _ string) error { return nil },
 		logr.Discard(),
 	)
 	err := errors.Join(ownersErr, membersErr)
 
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(ContainSubstring("owners"))
-	g.Expect(err.Error()).To(ContainSubstring("members"))
+	g.Expect(err).To(MatchError(ContainSubstring("owners")))
+	g.Expect(err).To(MatchError(ContainSubstring("members")))
 }

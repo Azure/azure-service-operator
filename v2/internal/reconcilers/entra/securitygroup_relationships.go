@@ -18,11 +18,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-type relationshipDelta struct {
-	ToAdd    []string
-	ToRemove []string
-}
-
 func orderedUnique(values []string) []string {
 	seen := make(map[string]struct{}, len(values))
 	result := make([]string, 0, len(values))
@@ -57,35 +52,36 @@ type relationshipDefinition struct {
 // while we still cannot restore the intended members.
 func (r *EntraSecurityGroupReconciler) reconcileRelationship(
 	ctx context.Context,
-	def relationshipDefinition,
+	relationshipName string,
 	current []string,
+	desired []string,
+	add func(context.Context, string) error,
+	remove func(context.Context, string) error,
 	log logr.Logger,
 ) error {
 	currentSet := set.Make(current...)
-	desiredSet := set.Make(def.desired...)
+	desiredSet := set.Make(desired...)
 
-	delta := relationshipDelta{
-		ToAdd:    desiredSet.Except(currentSet).Values(),
-		ToRemove: currentSet.Except(desiredSet).Values(),
-	}
+	toAdd := desiredSet.Except(currentSet).Values()
+	toRemove := currentSet.Except(desiredSet).Values()
 
-	for _, id := range delta.ToAdd {
-		if err := def.add(ctx, id); err != nil {
-			return eris.Wrapf(err, "%s add %s", def.name, id)
+	for _, id := range toAdd {
+		if err := add(ctx, id); err != nil {
+			return eris.Wrapf(err, "add %s to %s", id, relationshipName)
 		}
 	}
 
-	for _, id := range delta.ToRemove {
-		if err := def.remove(ctx, id); err != nil {
-			return eris.Wrapf(err, "%s remove %s", def.name, id)
+	for _, id := range toRemove {
+		if err := remove(ctx, id); err != nil {
+			return eris.Wrapf(err, "remove %s from %s", id, relationshipName)
 		}
 	}
 
 	log.V(1).Info(
-		"Reconciled relationship definition",
-		"definition", def.name,
-		"added", len(delta.ToAdd),
-		"removed", len(delta.ToRemove),
+		"Reconciled relationship",
+		"relationship", relationshipName,
+		"added", len(toAdd),
+		"removed", len(toRemove),
 	)
 
 	return nil
@@ -143,7 +139,15 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 
 	currentOwners := group.Status.Owners
 
-	if err := r.reconcileRelationship(ctx, ownersDef, currentOwners, log); err != nil {
+	if err := r.reconcileRelationship(
+		ctx,
+		"owners",
+		currentOwners,
+		ownersDef.desired,
+		ownersDef.add,
+		ownersDef.remove,
+		log,
+	); err != nil {
 		return eris.Wrapf(err, "reconciling %s for group %s", ownersDef.name, id)
 	}
 
@@ -180,7 +184,15 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	}
 	currentMembers := group.Status.Members
 
-	if err := r.reconcileRelationship(ctx, membersDef, currentMembers, log); err != nil {
+	if err := r.reconcileRelationship(
+		ctx,
+		"members",
+		currentMembers,
+		membersDef.desired,
+		membersDef.add,
+		membersDef.remove,
+		log,
+	); err != nil {
 		return eris.Wrapf(err, "reconciling %s for group %s", membersDef.name, id)
 	}
 
