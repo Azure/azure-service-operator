@@ -124,6 +124,7 @@ func createSharedEnvTest(
 	}
 	created := false
 	var stopManager context.CancelFunc
+	// If we don't successfully create the environment, make sure we shut it down before returning
 	defer func() {
 		if !created {
 			if stopManager != nil {
@@ -385,6 +386,9 @@ type sharedEnvTests struct {
 
 	namespaceResources *namespaceResources
 	createEnvTest      func(context.Context, testConfig, *namespaceResources) (*runningEnvTest, error)
+
+	// This hook allows callers to perform actions immediately after the initial lookup of an envTest instance.
+	// We use this during tests to ensure environments are correctly shared.
 	afterInitialLookup func()
 }
 
