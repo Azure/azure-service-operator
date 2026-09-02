@@ -448,7 +448,31 @@ func (r *EntraSecurityGroupReconciler) loadGroupByID(
 	}
 	groupable.SetOwners(makeDirectoryObjects(owners))
 
-	members, err := membersRelationshipDefinition(groupBuilder, nil).list(ctx)
+	membersBuilder := groupBuilder.Members()
+	membersRefBuilder := membersBuilder.Ref()
+	membersDefinition := relationshipDefinition{
+		name: "members",
+		list: func(ctx context.Context) ([]string, error) {
+			return collectDirectoryObjectIDs(
+				ctx,
+				func(ctx context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+					return membersBuilder.Get(ctx, nil)
+				},
+				func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+					return membersBuilder.WithUrl(nextLink).Get(ctx, nil)
+				},
+			)
+		},
+		add: func(ctx context.Context, objectID string) error {
+			ref := msgraphmodels.NewReferenceCreate()
+			ref.SetOdataId(to.Ptr(asoentra.DirectoryObjectRefURI(objectID)))
+			return membersRefBuilder.Post(ctx, ref, nil)
+		},
+		remove: func(ctx context.Context, objectID string) error {
+			return membersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
+		},
+	}
+	members, err := membersDefinition.list(ctx)
 	if err != nil {
 		return nil, eris.Wrap(err, "listing group members")
 	}

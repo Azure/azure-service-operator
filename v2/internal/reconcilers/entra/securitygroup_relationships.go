@@ -10,7 +10,6 @@ import (
 
 	"github.com/go-logr/logr"
 	msgraphsdkgo "github.com/microsoftgraph/msgraph-sdk-go"
-	"github.com/microsoftgraph/msgraph-sdk-go/groups"
 	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
 	"github.com/rotisserie/eris"
 
@@ -165,28 +164,11 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 		return eris.Wrapf(err, "failed resolving desired members for group %s", group.Name)
 	}
 
-	membersDef := membersRelationshipDefinition(groupRequestBuilder, desiredMembers)
-	currentMembers, err := membersDef.list(ctx)
-	if err != nil {
-		return eris.Wrapf(err, "%s list for group %s", membersDef.name, id)
-	}
-
-	if err := r.reconcileRelationship(ctx, membersDef, currentMembers, log); err != nil {
-		return eris.Wrapf(err, "reconciling %s for group %s", membersDef.name, id)
-	}
-
-	return nil
-}
-// membersRelationshipDefinition provides a relationshipDefinition for updating SecurityGroup members.
-func membersRelationshipDefinition(
-	groupBuilder *groups.GroupItemRequestBuilder,
-	desired []string,
-) relationshipDefinition {
-	membersBuilder := groupBuilder.Members()
-	refBuilder := membersBuilder.Ref()
-	return relationshipDefinition{
+	membersBuilder := groupRequestBuilder.Members()
+	membersRefBuilder := membersBuilder.Ref()
+	membersDef := relationshipDefinition{
 		name:    "members",
-		desired: desired,
+		desired: desiredMembers,
 		list: func(ctx context.Context) ([]string, error) {
 			return collectDirectoryObjectIDs(
 				ctx,
@@ -201,14 +183,23 @@ func membersRelationshipDefinition(
 		add: func(ctx context.Context, objectID string) error {
 			ref := msgraphmodels.NewReferenceCreate()
 			ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
-			return refBuilder.Post(ctx, ref, nil)
+			return membersRefBuilder.Post(ctx, ref, nil)
 		},
 		remove: func(ctx context.Context, objectID string) error {
 			return membersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
 		},
 	}
-}
+	currentMembers, err := membersDef.list(ctx)
+	if err != nil {
+		return eris.Wrapf(err, "%s list for group %s", membersDef.name, id)
+	}
 
+	if err := r.reconcileRelationship(ctx, membersDef, currentMembers, log); err != nil {
+		return eris.Wrapf(err, "reconciling %s for group %s", membersDef.name, id)
+	}
+
+	return nil
+}
 func collectDirectoryObjectIDs(
 	ctx context.Context,
 	firstPage func(context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error),
