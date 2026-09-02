@@ -23,21 +23,6 @@ type relationshipDelta struct {
 	ToRemove []string
 }
 
-// planRelationshipDelta returns which ids need to be added or removed to move
-// current to desired. Both inputs are expected to be pre-deduplicated by their
-// caller (collectDirectoryObjectIDs for current, ResolveOwnerObjectIDs /
-// ResolveMemberObjectIDs for desired); duplicates in the inputs will appear
-// duplicated in the output.
-func planRelationshipDelta(current []string, desired []string) relationshipDelta {
-	currentSet := set.Make[string](current...)
-	desiredSet := set.Make[string](desired...)
-
-	return relationshipDelta{
-		ToAdd:    desiredSet.Except(currentSet).Values(),
-		ToRemove: currentSet.Except(desiredSet).Values(),
-	}
-}
-
 func orderedUnique(values []string) []string {
 	seen := make(map[string]struct{}, len(values))
 	result := make([]string, 0, len(values))
@@ -76,7 +61,13 @@ func (r *EntraSecurityGroupReconciler) reconcileRelationship(
 	current []string,
 	log logr.Logger,
 ) error {
-	delta := planRelationshipDelta(current, def.desired)
+	currentSet := set.Make(current...)
+	desiredSet := set.Make(def.desired...)
+
+	delta := relationshipDelta{
+		ToAdd:    desiredSet.Except(currentSet).Values(),
+		ToRemove: currentSet.Except(desiredSet).Values(),
+	}
 
 	for _, id := range delta.ToAdd {
 		if err := def.add(ctx, id); err != nil {
