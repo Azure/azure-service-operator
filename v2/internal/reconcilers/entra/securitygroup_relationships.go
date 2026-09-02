@@ -125,7 +125,31 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 		return eris.Wrapf(err, "failed resolving desired owners for group %s", group.Name)
 	}
 
-	ownersDef := ownersRelationshipDefinition(groupRequestBuilder, desiredOwners)
+	ownersBuilder := groupRequestBuilder.Owners()
+	ownersRefBuilder := ownersBuilder.Ref()
+	ownersDef := relationshipDefinition{
+		name:    "owners",
+		desired: desiredOwners,
+		list: func(ctx context.Context) ([]string, error) {
+			return collectDirectoryObjectIDs(
+				ctx,
+				func(ctx context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+					return ownersBuilder.Get(ctx, nil)
+				},
+				func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+					return ownersBuilder.WithUrl(nextLink).Get(ctx, nil)
+				},
+			)
+		},
+		add: func(ctx context.Context, objectID string) error {
+			ref := msgraphmodels.NewReferenceCreate()
+			ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
+			return ownersRefBuilder.Post(ctx, ref, nil)
+		},
+		remove: func(ctx context.Context, objectID string) error {
+			return ownersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
+		},
+	}
 	currentOwners, err := ownersDef.list(ctx)
 	if err != nil {
 		return eris.Wrapf(err, "%s list for group %s", ownersDef.name, id)
@@ -153,39 +177,6 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 
 	return nil
 }
-
-// ownersRelationshipDefinition provides a relationshipDefinition for updating SecurityGroup owners.
-func ownersRelationshipDefinition(
-	groupBuilder *groups.GroupItemRequestBuilder,
-	desired []string,
-) relationshipDefinition {
-	ownersBuilder := groupBuilder.Owners()
-	refBuilder := ownersBuilder.Ref()
-	return relationshipDefinition{
-		name:    "owners",
-		desired: desired,
-		list: func(ctx context.Context) ([]string, error) {
-			return collectDirectoryObjectIDs(
-				ctx,
-				func(ctx context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
-					return ownersBuilder.Get(ctx, nil)
-				},
-				func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
-					return ownersBuilder.WithUrl(nextLink).Get(ctx, nil)
-				},
-			)
-		},
-		add: func(ctx context.Context, objectID string) error {
-			ref := msgraphmodels.NewReferenceCreate()
-			ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
-			return refBuilder.Post(ctx, ref, nil)
-		},
-		remove: func(ctx context.Context, objectID string) error {
-			return ownersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
-		},
-	}
-}
-
 // membersRelationshipDefinition provides a relationshipDefinition for updating SecurityGroup members.
 func membersRelationshipDefinition(
 	groupBuilder *groups.GroupItemRequestBuilder,
