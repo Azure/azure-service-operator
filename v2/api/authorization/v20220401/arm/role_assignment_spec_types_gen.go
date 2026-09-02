@@ -57,22 +57,26 @@ type RoleAssignmentProperties struct {
 	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Device","ForeignGroup","Group","ServicePrincipal","User"}
+// +kubebuilder:validation:Enum={"AgentServicePrincipal","AgentUser","Device","ForeignGroup","Group","ServicePrincipal","User"}
 type RoleAssignmentProperties_PrincipalType string
 
 const (
-	RoleAssignmentProperties_PrincipalType_Device           = RoleAssignmentProperties_PrincipalType("Device")
-	RoleAssignmentProperties_PrincipalType_ForeignGroup     = RoleAssignmentProperties_PrincipalType("ForeignGroup")
-	RoleAssignmentProperties_PrincipalType_Group            = RoleAssignmentProperties_PrincipalType("Group")
-	RoleAssignmentProperties_PrincipalType_ServicePrincipal = RoleAssignmentProperties_PrincipalType("ServicePrincipal")
-	RoleAssignmentProperties_PrincipalType_User             = RoleAssignmentProperties_PrincipalType("User")
+	RoleAssignmentProperties_PrincipalType_AgentServicePrincipal = RoleAssignmentProperties_PrincipalType("AgentServicePrincipal")
+	RoleAssignmentProperties_PrincipalType_AgentUser             = RoleAssignmentProperties_PrincipalType("AgentUser")
+	RoleAssignmentProperties_PrincipalType_Device                = RoleAssignmentProperties_PrincipalType("Device")
+	RoleAssignmentProperties_PrincipalType_ForeignGroup          = RoleAssignmentProperties_PrincipalType("ForeignGroup")
+	RoleAssignmentProperties_PrincipalType_Group                 = RoleAssignmentProperties_PrincipalType("Group")
+	RoleAssignmentProperties_PrincipalType_ServicePrincipal      = RoleAssignmentProperties_PrincipalType("ServicePrincipal")
+	RoleAssignmentProperties_PrincipalType_User                  = RoleAssignmentProperties_PrincipalType("User")
 )
 
 // Mapping from string to RoleAssignmentProperties_PrincipalType
 var roleAssignmentProperties_PrincipalType_Values = map[string]RoleAssignmentProperties_PrincipalType{
-	"device":           RoleAssignmentProperties_PrincipalType_Device,
-	"foreigngroup":     RoleAssignmentProperties_PrincipalType_ForeignGroup,
-	"group":            RoleAssignmentProperties_PrincipalType_Group,
-	"serviceprincipal": RoleAssignmentProperties_PrincipalType_ServicePrincipal,
-	"user":             RoleAssignmentProperties_PrincipalType_User,
+	"agentserviceprincipal": RoleAssignmentProperties_PrincipalType_AgentServicePrincipal,
+	"agentuser":             RoleAssignmentProperties_PrincipalType_AgentUser,
+	"device":                RoleAssignmentProperties_PrincipalType_Device,
+	"foreigngroup":          RoleAssignmentProperties_PrincipalType_ForeignGroup,
+	"group":                 RoleAssignmentProperties_PrincipalType_Group,
+	"serviceprincipal":      RoleAssignmentProperties_PrincipalType_ServicePrincipal,
+	"user":                  RoleAssignmentProperties_PrincipalType_User,
 }

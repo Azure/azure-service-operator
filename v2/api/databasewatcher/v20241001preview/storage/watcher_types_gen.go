@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20241001preview.Watcher
 // Generator information:
-// - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json
+// - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/DatabaseWatcher/preview/2024-10-01-preview/Watcher.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}
 type Watcher struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (watcher *Watcher) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v20241001preview.Watcher
 // Generator information:
-// - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json
+// - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/DatabaseWatcher/preview/2024-10-01-preview/Watcher.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}
 type WatcherList struct {
 	metav1.TypeMeta `json:",inline"`

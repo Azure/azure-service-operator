@@ -1520,7 +1520,7 @@ func AddIndependentPropertyGeneratorsForServer_STATUS(gens map[string]gopter.Gen
 	gens["FederatedClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["FullyQualifiedDomainName"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["IsIPv6Enabled"] = gen.PtrOf(gen.OneConstOf(ServerNetworkAccessFlag_STATUS_Disabled, ServerNetworkAccessFlag_STATUS_Enabled))
+	gens["IsIPv6Enabled"] = gen.PtrOf(gen.OneConstOf(ServerNetworkAccessFlag_STATUS_Disabled, ServerNetworkAccessFlag_STATUS_Enabled, ServerNetworkAccessFlag_STATUS_SecuredByPerimeter))
 	gens["KeyId"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -1533,7 +1533,7 @@ func AddIndependentPropertyGeneratorsForServer_STATUS(gens map[string]gopter.Gen
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerPublicNetworkAccessFlag_STATUS_Disabled, ServerPublicNetworkAccessFlag_STATUS_Enabled, ServerPublicNetworkAccessFlag_STATUS_SecuredByPerimeter))
-	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerNetworkAccessFlag_STATUS_Disabled, ServerNetworkAccessFlag_STATUS_Enabled))
+	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerNetworkAccessFlag_STATUS_Disabled, ServerNetworkAccessFlag_STATUS_Enabled, ServerNetworkAccessFlag_STATUS_SecuredByPerimeter))
 	gens["RetentionDays"] = gen.PtrOf(gen.Int())
 	gens["State"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(
@@ -1676,7 +1676,7 @@ func AddIndependentPropertyGeneratorsForServer_Spec(gens map[string]gopter.Gen) 
 	gens["FederatedClientId"] = gen.PtrOf(gen.AlphaString().Map(func(it string) AzureCoreUuid {
 		return AzureCoreUuid(it)
 	}))
-	gens["IsIPv6Enabled"] = gen.PtrOf(gen.OneConstOf(ServerNetworkAccessFlag_Disabled, ServerNetworkAccessFlag_Enabled))
+	gens["IsIPv6Enabled"] = gen.PtrOf(gen.OneConstOf(ServerNetworkAccessFlag_Disabled, ServerNetworkAccessFlag_Enabled, ServerNetworkAccessFlag_SecuredByPerimeter))
 	gens["KeyId"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
@@ -1686,7 +1686,7 @@ func AddIndependentPropertyGeneratorsForServer_Spec(gens map[string]gopter.Gen) 
 		MinimalTlsVersion_13,
 		MinimalTlsVersion_None))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerPublicNetworkAccessFlag_Disabled, ServerPublicNetworkAccessFlag_Enabled, ServerPublicNetworkAccessFlag_SecuredByPerimeter))
-	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerNetworkAccessFlag_Disabled, ServerNetworkAccessFlag_Enabled))
+	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerNetworkAccessFlag_Disabled, ServerNetworkAccessFlag_Enabled, ServerNetworkAccessFlag_SecuredByPerimeter))
 	gens["RetentionDays"] = gen.PtrOf(gen.Int())
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
