@@ -15,7 +15,7 @@ See [#5660](https://github.com/Azure/azure-service-operator/issues/5660) for mor
 
 ### Standardization of Conditions (v2.23)
 
-In ASO v2.23 we'll be standardizing on metav1.Condition for all resources, instead of using our custom definition. Our condition shape today includes a `Severity` field, but otherwise our custom conditions already match this standard shape.
+In ASO v2.23 we'll be standardizing on Kubernetes `metav1.Condition` entries in `status.conditions` for all resources, instead of using our custom definition. Our condition shape today includes a `Severity` field, but otherwise our custom conditions already match this standard shape.
 
 See [#4917](https://github.com/Azure/azure-service-operator/issues/4917) for more information or if you want to discuss this change.
 
