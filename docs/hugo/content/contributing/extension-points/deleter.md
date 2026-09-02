@@ -6,13 +6,40 @@ weight: 30
 
 ## Description
 
-`Deleter` allows resources to customize how the reconciler deletes them from Azure. This extension is invoked when a resource has a deletion timestamp in Kubernetes (indicating the user wants to delete it) and gives the resource control over the deletion process.
+`Deleter` allows a resource to customize how ASO deletes it from Azure. ASO invokes the extension after Kubernetes sets the resource's deletion timestamp and before issuing the standard ARM DELETE request.
 
-The interface is called after Kubernetes marks the resource for deletion but before the standard ARM DELETE operation. This allows resources to perform cleanup, handle special deletion scenarios, or coordinate multiple deletion operations.
+The extension returns an `extensions.DeleteResult` describing what ASO should do next. This allows the extension to complete or block deletion, delegate to the standard ARM deletion path, or start a long-running operation that ASO monitors.
 
 ## Interface Definition
 
-See the [Deleter interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/deleter.go) in the source code.
+See the [Deleter interface definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/deleter.go) and [DeleteResult definition](https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/delete_result.go) in the source code.
+
+`Delete()` has the following signature:
+
+```go
+Delete(
+    ctx context.Context,
+    log logr.Logger,
+    resolver *resolver.Resolver,
+    armClient *genericarmclient.GenericClient,
+    obj genruntime.ARMMetaObject,
+    next extensions.DeleteFunc,
+) (extensions.DeleteResult, error)
+```
+
+## Deletion Results
+
+Return one of the following results to describe the deletion state:
+
+| Result | Meaning |
+| --- | --- |
+| `extensions.BlockDelete(message)` | Keep the finalizer and retry later. ASO exposes `message` in the resource's Ready condition. |
+| `extensions.DeleteCompleted()` | Deletion is complete. ASO can remove the finalizer without issuing another ARM DELETE request. |
+| `extensions.MonitorDelete(pollerResponse)` | A long-running deletion operation has started. ASO stores its resume token and requeues until it completes. |
+
+Return `extensions.DeleteResult{}` with an error. ASO ignores the result when the error is non-nil and retries reconciliation according to the error classification.
+
+If you want the deletion to proceed, call the `next()` function, which invokes the standard ARM DELETE operation. The result from `next()` can be returned directly or modified before returning.
 
 ## Motivation
 
@@ -29,19 +56,19 @@ The `Deleter` extension exists to handle cases where:
 
 Implement `Deleter` when:
 
-- ✅ Pre-deletion operations must be performed (e.g., canceling, disabling)
-- ✅ Multiple Azure API calls are needed for complete deletion
-- ✅ Deletion order matters across related resources
-- ✅ Custom error handling is needed during deletion
-- ✅ Soft-delete or purge operations require special logic
-- ✅ The resource should be preserved in Azure in some scenarios
+- Pre-deletion operations must be performed, such as canceling or disabling a resource.
+- Multiple Azure API calls are needed for complete deletion.
+- Deletion order matters across related resources.
+- Custom error handling is needed during deletion.
+- Soft-delete or purge operations require special logic.
+- The resource should be preserved in Azure in some scenarios.
 
 Do **not** use `Deleter` when:
 
-- ❌ The standard DELETE operation works correctly
-- ❌ You only need to clean up Kubernetes resources (use finalizers)
-- ❌ The logic should apply to all resources (modify the controller)
-- ❌ You're working around an Azure API bug (fix/report the bug)
+- The standard DELETE operation works correctly.
+- You only need to clean up Kubernetes resources; use finalizers instead.
+- The logic should apply to all resources; modify the controller instead.
+- You're working around an Azure API bug; fix or report the bug instead.
 
 ## Example: Subscription Alias Deletion
 
@@ -68,13 +95,13 @@ func (ex *ResourceExtension) Delete(
     armClient *genericarmclient.GenericClient,
     obj genruntime.ARMMetaObject,
     next extensions.DeleteFunc,
-) (ctrl.Result, error) {
+) (extensions.DeleteResult, error) {
     resource := obj.(*myservice.MyResource)
 
     // Perform cleanup operation
     log.V(Status).Info("Performing pre-deletion cleanup")
     if err := ex.performCleanup(ctx, resource, armClient); err != nil {
-        return ctrl.Result{}, eris.Wrap(err, "cleanup failed")
+        return extensions.DeleteResult{}, eris.Wrap(err, "cleanup failed")
     }
 
     // Proceed with standard deletion
@@ -92,14 +119,14 @@ func (ex *ResourceExtension) Delete(
     armClient *genericarmclient.GenericClient,
     obj genruntime.ARMMetaObject,
     next extensions.DeleteFunc,
-) (ctrl.Result, error) {
+) (extensions.DeleteResult, error) {
     resource := obj.(*myservice.MyResource)
 
     // Check if resource should be preserved in Azure
     if ex.shouldPreserve(resource) {
         log.V(Status).Info("Skipping Azure deletion, resource marked for preservation")
-        // Return success without calling next() - finalizer will be removed
-        return ctrl.Result{}, nil
+        // Report completion without calling next(), allowing ASO to remove the finalizer.
+        return extensions.DeleteCompleted(), nil
     }
 
     // Proceed with normal deletion
@@ -107,7 +134,9 @@ func (ex *ResourceExtension) Delete(
 }
 ```
 
-### Pattern 3: Soft Delete with Purge Option
+### Pattern 3: Temporarily Block Deletion
+
+Use `BlockDelete()` when a prerequisite can become ready later. ASO keeps the finalizer, updates the Ready condition with the supplied message, and retries the deletion.
 
 ```go
 func (ex *ResourceExtension) Delete(
@@ -117,26 +146,59 @@ func (ex *ResourceExtension) Delete(
     armClient *genericarmclient.GenericClient,
     obj genruntime.ARMMetaObject,
     next extensions.DeleteFunc,
-) (ctrl.Result, error) {
+) (extensions.DeleteResult, error) {
     resource := obj.(*myservice.MyResource)
 
-    // Perform standard deletion (moves to soft-deleted state)
+    ready, err := ex.dependentsAreDeleted(ctx, resource, armClient)
+    if err != nil {
+        return extensions.DeleteResult{}, eris.Wrap(err, "checking dependent resources")
+    }
+
+    if !ready {
+        return extensions.BlockDelete("Waiting for dependent resources to be deleted"), nil
+    }
+
+    return next(ctx, log, resolver, armClient, obj)
+}
+```
+
+### Pattern 4: Soft Delete with a Long-running Purge
+
+This pattern applies when the standard soft-delete operation completes synchronously and the subsequent purge returns an ARM long-running operation. Return the purge poller response through `MonitorDelete()` so ASO persists and resumes the operation.
+
+```go
+func (ex *ResourceExtension) Delete(
+    ctx context.Context,
+    log logr.Logger,
+    resolver *resolver.Resolver,
+    armClient *genericarmclient.GenericClient,
+    obj genruntime.ARMMetaObject,
+    next extensions.DeleteFunc,
+) (extensions.DeleteResult, error) {
+    resource := obj.(*myservice.MyResource)
+
+    // For this resource type, standard deletion moves the resource into its
+    // soft-deleted state synchronously.
     result, err := next(ctx, log, resolver, armClient, obj)
     if err != nil {
         return result, err
     }
 
-    // If purge is requested, purge the soft-deleted resource
-    if resource.Spec.DeleteMode != nil && *resource.Spec.DeleteMode == "Purge" {
-        log.V(Status).Info("Purging soft-deleted resource")
-        if err := ex.purgeResource(ctx, resource, armClient); err != nil {
-            return ctrl.Result{}, eris.Wrap(err, "failed to purge resource")
-        }
+    if resource.Spec.DeleteMode == nil || *resource.Spec.DeleteMode != "Purge" {
+        return result, nil
     }
 
-    return ctrl.Result{}, nil
+    log.V(Status).Info("Purging soft-deleted resource")
+    pollerResponse, err := ex.beginPurge(ctx, resource, armClient)
+    if err != nil {
+        return extensions.DeleteResult{}, eris.Wrap(err, "starting purge")
+    }
+
+    return extensions.MonitorDelete(pollerResponse), nil
 }
 ```
+
+Do not start the purge until the soft-delete operation has completed. If the standard DELETE operation for a resource can return a long-running operation, model the soft-delete and purge as separate idempotent stages.
 
 ## Deletion Lifecycle
 
@@ -146,11 +208,12 @@ Understanding the deletion process:
 2. **Finalizer blocks deletion**: ASO finalizer prevents immediate removal from Kubernetes
 3. **Deleter invoked**: Custom `Delete()` method is called
 4. **Pre-deletion logic**: Extension performs custom operations
-5. **Standard deletion**: `next()` sends DELETE to ARM
-6. **ARM deletion completes**: Azure resource is removed
-7. **Finalizer removed**: Kubernetes removes the resource
+5. **Result returned**: The extension returns a `DeleteResult` or delegates to `next()`.
+6. **Deletion handled**: ASO blocks, completes, or monitors deletion based on the result.
+7. **Operation monitored**: For `MonitorDelete()`, ASO stores the resume token and requeues until Azure reports completion.
+8. **Finalizer removed**: ASO removes the finalizer after deletion completes, allowing Kubernetes to remove the resource.
 
-If any step fails, the process pauses and will retry on the next reconciliation.
+If any step returns an error or blocks deletion, ASO keeps the finalizer and retries on a later reconciliation.
 
 ## Error Handling
 
@@ -158,19 +221,25 @@ Proper error handling in deleters is critical:
 
 ```go
 // Transient error - will retry
-return ctrl.Result{}, eris.Wrap(err, "temporary failure")
+return extensions.DeleteResult{}, eris.Wrap(err, "temporary failure")
 
 // Permanent error with condition
-return ctrl.Result{}, conditions.NewReadyConditionImpactingError(
+return extensions.DeleteResult{}, conditions.NewReadyConditionImpactingError(
     err,
     conditions.ConditionSeverityError,
     conditions.ReasonFailed)
 
-// Requeue for later retry
-return ctrl.Result{RequeueAfter: 1 * time.Minute}, nil
+// Prerequisite not ready - Ready condition is updated and deletion retries later
+return extensions.BlockDelete("Waiting for dependent resources to be deleted"), nil
 
-// Success
-return ctrl.Result{}, nil
+// Custom deletion completed - finalizer can be removed
+return extensions.DeleteCompleted(), nil
+
+// Long-running deletion started - ASO stores and resumes the poller
+return extensions.MonitorDelete(pollerResponse), nil
+
+// Run the standard ARM deletion path
+return next(ctx, log, resolver, armClient, obj)
 ```
 
 ## Testing
@@ -182,13 +251,15 @@ When testing `Deleter` extensions:
 3. **Test error scenarios**: Verify error handling prevents finalizer removal
 4. **Test idempotency**: Multiple calls should be safe
 5. **Test conditional paths**: Cover all branching logic
-6. **Test requeue behavior**: Verify multi-step deletions requeue correctly
+6. **Test each result**: Verify completed, blocked, and monitored deletion paths.
+7. **Test poller handling**: Verify long-running operations return the expected poller response.
 
 ## Important Notes
 
 - **Always call `next()` unless**: You have a very specific reason to skip Azure deletion
 - **Handle missing IDs gracefully**: Resource might not have been created in Azure yet
-- **Return appropriate Results**: Use `RequeueAfter` for async operations
+- **Return the correct result**: Use `DeleteCompleted()`, `BlockDelete()`, or `MonitorDelete()` rather than constructing a controller result.
+- **Let ASO monitor operations**: Return the poller response instead of storing resume tokens or scheduling retries in the extension.
 - **Log clearly**: Deletion issues are hard to debug, good logging helps
 - **Be idempotent**: Deletion might be called multiple times
 - **Don't leak resources**: Ensure Azure resources are eventually deleted

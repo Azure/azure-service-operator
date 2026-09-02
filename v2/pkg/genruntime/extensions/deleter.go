@@ -11,7 +11,6 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
 	"github.com/go-logr/logr"
-	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
@@ -33,14 +32,14 @@ type Deleter interface {
 	// armClient allows making ARM API calls.
 	// obj is the Kubernetes resource being deleted.
 	// next is the default deletion implementation - call this to perform standard ARM DELETE.
-	// Returns a reconciliation result (e.g., requeue timing) and an error if deletion fails.
+	// Returns a DeleteResult indicating the status of deletion, or an error if deletion fails.
 	Delete(
 		ctx context.Context,
 		log logr.Logger,
 		resolver *resolver.Resolver,
 		armClient *genericarmclient.GenericClient,
 		obj genruntime.ARMMetaObject,
-		next DeleteFunc) (ctrl.Result, error)
+		next DeleteFunc) (DeleteResult, error)
 }
 
 // DeleteFunc is the signature of a function that can be used to create a default Deleter
@@ -49,7 +48,7 @@ type DeleteFunc = func(
 	log logr.Logger,
 	resolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
-	obj genruntime.ARMMetaObject) (ctrl.Result, error)
+	obj genruntime.ARMMetaObject) (DeleteResult, error)
 
 // CreateDeleter creates a DeleteFunc. If the resource in question has not implemented the Deleter interface
 // the provided default DeleteFunc is run by default.
@@ -62,7 +61,13 @@ func CreateDeleter(
 		return next
 	}
 
-	return func(ctx context.Context, log logr.Logger, resolver *resolver.Resolver, armClient *genericarmclient.GenericClient, obj genruntime.ARMMetaObject) (ctrl.Result, error) {
+	return func(
+		ctx context.Context,
+		log logr.Logger,
+		resolver *resolver.Resolver,
+		armClient *genericarmclient.GenericClient,
+		obj genruntime.ARMMetaObject,
+	) (DeleteResult, error) {
 		log.V(Status).Info("Running customized deletion")
 		return impl.Delete(ctx, log, resolver, armClient, obj, next)
 	}

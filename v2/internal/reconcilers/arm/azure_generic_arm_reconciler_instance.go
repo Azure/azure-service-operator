@@ -185,9 +185,79 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	r.Log.V(Status).Info(msg)
 	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionBeginDelete), msg)
 
+	// Ensure that we call any user implementation of extensions.Deleter if present;
+	// by default we issues a DELETE via ARM
 	deleter := extensions.CreateDeleter(r.Extension, r.deleteResource)
+	return r.executeDeletion(ctx, deleter)
+}
+
+// executeDeletion executes the deletion of a resource using the provided deleter function.
+// It handles the result of the deletion, including monitoring for completion or handling errors.
+func (r *azureDeploymentReconcilerInstance) executeDeletion(
+	ctx context.Context,
+	deleter extensions.DeleteFunc,
+) (ctrl.Result, error) {
 	result, err := deleter(ctx, r.Log, r.ResourceResolver, r.ARMConnection.Client(), r.Obj)
-	return result, err
+	if err != nil {
+		// Something went wrong
+		return ctrl.Result{}, err
+	}
+
+	switch {
+
+	case result.MonitorDeletion():
+		token, err := result.OperationToken()
+		if err != nil {
+			return ctrl.Result{},
+				eris.Wrapf(err, "couldn't create DELETE resume token for resource %q", r.Obj.AzureName())
+		}
+
+		operationId, ok := result.OperationID()
+		if !ok {
+			return ctrl.Result{}, eris.Errorf("couldn't get operation ID for resource %q", r.Obj.AzureName())
+		}
+
+		// Safety catch - currently DetermineDeleteAction requires a specific pollerID which _should_ be the one
+		// used in almost every case, but _just in case_ it's not, we want to catch it here:
+		//
+		// If you're troubleshooting this as a part of a custom extension, you need to change BOTH the check here
+		// and the resurrection of the poller in DetermineDeleteAction()
+		if operationId != genericarmclient.DeletePollerID {
+			return ctrl.Result{}, eris.Errorf(
+				"unexpected poller ID for resource %q: %s, expected %s",
+				r.Obj.AzureName(),
+				operationId,
+				genericarmclient.DeletePollerID,
+			)
+		}
+
+		SetPollerResumeToken(r.Obj, operationId, token)
+
+		// Normally don't need to set both of these fields but because retryAfter can be 0 we do
+		return ctrl.Result{
+			Requeue:      true,
+			RequeueAfter: result.RetryAfter(),
+		}, nil
+
+	case result.BlockDeletion():
+		msg := fmt.Sprintf(
+			"Resource deletion blocked: %s",
+			result.Message(),
+		)
+
+		r.Log.V(Verbose).Info(msg)
+
+		return ctrl.Result{}, result.CreateConditionError()
+
+	case result.Completed():
+		return ctrl.Result{}, nil
+
+	default:
+		// Fall-through
+	}
+
+	// Should never get here, return an error that something went awry
+	return ctrl.Result{}, eris.Errorf("unexpected result for deletion %q", result.String())
 }
 
 // MonitorDelete will call Azure to check if the resource still exists. If so, it will requeue, else,
@@ -238,32 +308,38 @@ func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context
 	}
 
 	_, _, err := r.getStatus(ctx, r.Obj, resourceID)
-	if err != nil && genericarmclient.IsNotFoundError(err) {
-		// Resource no longer exists
-		return ctrl.Result{}, nil
+	if err != nil {
+		if genericarmclient.IsNotFoundError(err) {
+			// Resource no longer exists
+			return ctrl.Result{}, nil
+		}
+
+		// something else went wrong
+		return ctrl.Result{}, err
 	}
 
+	// Ensure that we call any user implementation of extensions.Deleter if present;
+	// by default we return an error saying that deletion is not possible in Azure.
+	deleter := extensions.CreateDeleter(r.Extension, r.cannotDeleteResource)
+	return r.executeDeletion(ctx, deleter)
+}
+
+func (r *azureDeploymentReconcilerInstance) cannotDeleteResource(
+	_ context.Context,
+	log logr.Logger,
+	_ *resolver.Resolver,
+	_ *genericarmclient.GenericClient,
+	obj genruntime.ARMMetaObject,
+) (extensions.DeleteResult, error) {
 	msg := fmt.Sprintf(
 		"Resource does not support deletion in Azure; set annotation '%s: %s' to permit deletion in Kubernetes",
 		annotations.ReconcilePolicy,
 		annotations.ReconcilePolicyDetachOnDelete,
 	)
-	r.Log.V(Verbose).Info(msg)
-	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionNotPossibleInAzure), msg)
+	log.V(Verbose).Info(msg)
+	r.Recorder.Event(obj, v1.EventTypeNormal, string(DeleteActionNotPossibleInAzure), msg)
 
-	// Return a meaningful error so that the Ready condition is updated to show the user why the resource can't yet be deleted.
-	if err == nil {
-		err = eris.New(msg)
-	} else {
-		err = eris.Wrap(err, msg)
-	}
-
-	return ctrl.Result{},
-		conditions.NewReadyConditionImpactingError(
-			err,
-			conditions.ConditionSeverityWarning,
-			conditions.ReasonDeletionNotSupported,
-		)
+	return extensions.BlockDelete(msg, conditions.ReasonDeletionNotSupported), nil
 }
 
 func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
@@ -1060,17 +1136,17 @@ func (r *azureDeploymentReconcilerInstance) deleteResource(
 	resolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	obj genruntime.ARMMetaObject,
-) (ctrl.Result, error) {
+) (extensions.DeleteResult, error) {
 	// If we have no resourceID to begin with, the Azure resource was never created
 	resourceID := genruntime.GetResourceIDOrDefault(obj)
 	if resourceID == "" {
 		log.V(Status).Info("Not issuing ARM delete as resource had no ResourceID annotation")
-		return ctrl.Result{}, nil
+		return extensions.DeleteCompleted(), nil
 	}
 
 	err := r.checkSubscription(resourceID)
 	if err != nil {
-		return ctrl.Result{}, err
+		return extensions.DeleteResult{}, err
 	}
 
 	// Check to see if the resource has already been deleted from Azure - if so, we're done.
@@ -1078,7 +1154,7 @@ func (r *azureDeploymentReconcilerInstance) deleteResource(
 		if genericarmclient.IsNotFoundError(err) {
 			// Resource no longer exists
 			log.V(Info).Info("Resource is already gone, skipping issue of DELETE to Azure")
-			return ctrl.Result{}, nil
+			return extensions.DeleteCompleted(), nil
 		}
 	}
 
@@ -1092,31 +1168,23 @@ func (r *azureDeploymentReconcilerInstance) deleteResource(
 	// retryAfter = ARM can tell us how long to wait for a DELETE
 	originalAPIVersion, err := genruntime.GetAPIVersion(obj, resolver.Scheme())
 	if err != nil {
-		return ctrl.Result{}, err
+		return extensions.DeleteResult{}, err
 	}
 	pollerResp, err := armClient.BeginDeleteByID(ctx, resourceID, originalAPIVersion)
 	if err != nil {
 		if genericarmclient.IsNotFoundError(err) {
 			log.V(Info).Info("Successfully issued DELETE to Azure - resource was already gone")
-			return ctrl.Result{}, nil
+			return extensions.DeleteCompleted(), nil
 		}
-		return ctrl.Result{}, r.handleDeleteFailed(err)
+		return extensions.DeleteResult{}, r.handleDeleteFailed(err)
 	}
 	log.V(Info).Info("Successfully issued DELETE to Azure")
 
 	// If we are done here it means delete succeeded immediately. It can't have failed because if it did
 	// we would have taken the error path, above.
 	if pollerResp.Poller.Done() {
-		return ctrl.Result{}, nil
+		return extensions.DeleteCompleted(), nil
 	}
 
-	retryAfter := genericarmclient.GetRetryAfter(pollerResp.RawResponse)
-	resumeToken, err := pollerResp.Poller.ResumeToken()
-	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "couldn't create DELETE resume token for resource %q", resourceID)
-	}
-	SetPollerResumeToken(obj, pollerResp.ID, resumeToken)
-
-	// Normally don't need to set both of these fields but because retryAfter can be 0 we do
-	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
+	return extensions.MonitorDelete(pollerResp), nil
 }
