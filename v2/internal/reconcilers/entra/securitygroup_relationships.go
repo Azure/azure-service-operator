@@ -119,33 +119,36 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 
 	groupRequestBuilder := graphClient.Groups().ByGroupId(id)
 
-	var definitions []relationshipDefinition
-
 	// Set up for Reconcile Owners
-	desired, err := group.Spec.ResolveOwnerObjectIDs(resolvedConfigMaps)
+	desiredOwners, err := group.Spec.ResolveOwnerObjectIDs(resolvedConfigMaps)
 	if err != nil {
 		return eris.Wrapf(err, "failed resolving desired owners for group %s", group.Name)
 	}
 
-	definitions = append(definitions, ownersRelationshipDefinition(groupRequestBuilder, desired))
+	ownersDef := ownersRelationshipDefinition(groupRequestBuilder, desiredOwners)
+	currentOwners, err := ownersDef.list(ctx)
+	if err != nil {
+		return eris.Wrapf(err, "%s list for group %s", ownersDef.name, id)
+	}
+
+	if err := r.reconcileRelationship(ctx, ownersDef, currentOwners, log); err != nil {
+		return eris.Wrapf(err, "reconciling %s for group %s", ownersDef.name, id)
+	}
 
 	// Set up for reconciling Members
-	desired, err = group.Spec.ResolveMemberObjectIDs(resolvedConfigMaps)
+	desiredMembers, err := group.Spec.ResolveMemberObjectIDs(resolvedConfigMaps)
 	if err != nil {
 		return eris.Wrapf(err, "failed resolving desired members for group %s", group.Name)
 	}
 
-	definitions = append(definitions, membersRelationshipDefinition(groupRequestBuilder, desired))
+	membersDef := membersRelationshipDefinition(groupRequestBuilder, desiredMembers)
+	currentMembers, err := membersDef.list(ctx)
+	if err != nil {
+		return eris.Wrapf(err, "%s list for group %s", membersDef.name, id)
+	}
 
-	for _, def := range definitions {
-		current, err := def.list(ctx)
-		if err != nil {
-			return eris.Wrapf(err, "%s list for group %s", def.name, id)
-		}
-
-		if err := r.reconcileRelationship(ctx, def, current, log); err != nil {
-			return eris.Wrapf(err, "reconciling %s for group %s", def.name, id)
-		}
+	if err := r.reconcileRelationship(ctx, membersDef, currentMembers, log); err != nil {
+		return eris.Wrapf(err, "reconciling %s for group %s", membersDef.name, id)
 	}
 
 	return nil
@@ -178,12 +181,7 @@ func ownersRelationshipDefinition(
 			return refBuilder.Post(ctx, ref, nil)
 		},
 		remove: func(ctx context.Context, objectID string) error {
-			deleteID := asoentrav1.DirectoryObjectRefURI(objectID)
-			return refBuilder.Delete(ctx, &groups.ItemOwnersRefRequestBuilderDeleteRequestConfiguration{
-				QueryParameters: &groups.ItemOwnersRefRequestBuilderDeleteQueryParameters{
-					Id: &deleteID,
-				},
-			})
+			return ownersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
 		},
 	}
 }
@@ -215,12 +213,7 @@ func membersRelationshipDefinition(
 			return refBuilder.Post(ctx, ref, nil)
 		},
 		remove: func(ctx context.Context, objectID string) error {
-			deleteID := asoentrav1.DirectoryObjectRefURI(objectID)
-			return refBuilder.Delete(ctx, &groups.ItemMembersRefRequestBuilderDeleteRequestConfiguration{
-				QueryParameters: &groups.ItemMembersRefRequestBuilderDeleteQueryParameters{
-					Id: &deleteID,
-				},
-			})
+			return membersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
 		},
 	}
 }
