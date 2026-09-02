@@ -212,6 +212,7 @@ func (r *EntraSecurityGroupReconciler) update(
 
 		if result == nil {
 			// Group was deleted between the patch and the reload
+			// Remove the existing annotation and requeue the reconciliation to create a replacement
 			log.V(Status).Info("Group no longer exists after update")
 			setEntraID(group, "")
 			return ctrl.Result{Requeue: true}, nil
@@ -332,11 +333,19 @@ func (r *EntraSecurityGroupReconciler) create(
 		return ctrl.Result{}, eris.Wrapf(err, "failed to create group %s", group.Name)
 	}
 
-	group.Status.AssignFromGroup(status)
-
 	if id := status.GetId(); id != nil {
 		setEntraID(group, *id)
+
+		status, err = r.loadGroupByID(ctx, *id, client.Client())
+		if err != nil {
+			return ctrl.Result{}, eris.Wrapf(err, "getting group by ID %s after create", *id)
+		}
+		if status == nil {
+			return ctrl.Result{}, eris.Errorf("group %s not found after create", *id)
+		}
 	}
+
+	group.Status.AssignFromGroup(status)
 
 	err = r.saveAssociatedKubernetesResources(ctx, group, log)
 	if err != nil {
@@ -398,7 +407,8 @@ func (r *EntraSecurityGroupReconciler) loadGroupByID(
 	client *msgraphsdkgo.GraphServiceClient,
 ) (msgraphmodels.Groupable, error) {
 	// Try to get the group by ID
-	groupable, err := client.Groups().ByGroupId(id).Get(ctx, nil)
+	groupBuilder := client.Groups().ByGroupId(id)
+	groupable, err := groupBuilder.Get(ctx, nil)
 	if err != nil {
 		// If the only problem is that the group doesn't exist, return nil and nil
 		if isNotFound(err) {
@@ -408,7 +418,30 @@ func (r *EntraSecurityGroupReconciler) loadGroupByID(
 		return nil, err
 	}
 
+	owners, err := ownersRelationshipDefinition(groupBuilder, nil).list(ctx)
+	if err != nil {
+		return nil, eris.Wrap(err, "listing group owners")
+	}
+	groupable.SetOwners(makeDirectoryObjects(owners))
+
+	members, err := membersRelationshipDefinition(groupBuilder, nil).list(ctx)
+	if err != nil {
+		return nil, eris.Wrap(err, "listing group members")
+	}
+	groupable.SetMembers(makeDirectoryObjects(members))
+
 	return groupable, nil
+}
+
+func makeDirectoryObjects(ids []string) []msgraphmodels.DirectoryObjectable {
+	result := make([]msgraphmodels.DirectoryObjectable, 0, len(ids))
+	for _, id := range ids {
+		object := msgraphmodels.NewDirectoryObject()
+		object.SetId(to.Ptr(id))
+		result = append(result, object)
+	}
+
+	return result
 }
 
 // loadGroupsByDisplayName loads groups from Entra by display name.
