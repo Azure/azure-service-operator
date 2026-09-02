@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/guide/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,21 +17,26 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>User’s Guide | Azure Service Operator</title>
-<meta name="description" content="How to use Azure Service Operator v2 to manage your Azure resources from within your Kubernetes Cluster">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/">
+<title>ASO v2.21 Release Notes | Azure Service Operator</title>
+<meta name="description" content="Release notes for Azure Service Operator v2.21.0">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/blogs/2026-08-31-release-notes-v2.21.0/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="User’s Guide">
-  <meta property="og:description" content="How to use Azure Service Operator v2 to manage your Azure resources from within your Kubernetes Cluster">
+  <meta property="og:title" content="ASO v2.21 Release Notes">
+  <meta property="og:description" content="Release notes for Azure Service Operator v2.21.0">
   <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blogs">
+    <meta property="article:published_time" content="2026-08-31T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-08-31T00:00:00+00:00">
 
-  <meta itemprop="name" content="User’s Guide">
-  <meta itemprop="description" content="How to use Azure Service Operator v2 to manage your Azure resources from within your Kubernetes Cluster">
-  <meta itemprop="wordCount" content="238">
+  <meta itemprop="name" content="ASO v2.21 Release Notes">
+  <meta itemprop="description" content="Release notes for Azure Service Operator v2.21.0">
+  <meta itemprop="datePublished" content="2026-08-31T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-08-31T00:00:00+00:00">
+  <meta itemprop="wordCount" content="420">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="User’s Guide">
-  <meta name="twitter:description" content="How to use Azure Service Operator v2 to manage your Azure resources from within your Kubernetes Cluster">
+  <meta name="twitter:title" content="ASO v2.21 Release Notes">
+  <meta name="twitter:description" content="Release notes for Azure Service Operator v2.21.0">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -41,7 +45,7 @@
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page td-blog">
     <header>
       <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
 <div class="container-fluid flex-column flex-md-row">
@@ -49,10 +53,10 @@
   <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link active" href="/azure-service-operator/guide/"><span>Guide</span></a>
+        <a class="nav-link" href="/azure-service-operator/guide/"><span>Guide</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/azure-service-operator/blogs/"><span>Blog</span></a>
+        <a class="nav-link active" href="/azure-service-operator/blogs/"><span>Blog</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/tutorials/"><span>Tutorials</span></a>
@@ -97,20 +101,20 @@
   <ul class="ul-1">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorgetting-started-li">
   <a href="/azure-service-operator/getting-started/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorgetting-started"><span class="">Getting Started</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguide-li">
-  <a href="/azure-service-operator/guide/" title="User’s Guide" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguide"><span class="td-sidebar-nav-active-item">Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguide-li">
+  <a href="/azure-service-operator/guide/" title="User’s Guide" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguide"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-helm-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-helm-li">
   <a href="/azure-service-operator/guide/installing-from-helm/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-helm"><span class="">Installation: From Helm</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-yaml-li">
   <a href="/azure-service-operator/guide/installing-from-yaml/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidecrd-management-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidecrd-management-li">
   <a href="/azure-service-operator/guide/crd-management/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="">CRD management in ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideupgrading-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideupgrading-li">
   <a href="/azure-service-operator/guide/upgrading/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" title="Frequently Asked Questions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidediagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidediagnosing-problems-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling-li">
@@ -121,13 +125,13 @@
   <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency"><span class="">Reconciliation Frequencey</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideversioning-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideversioning-li">
   <a href="/azure-service-operator/guide/versioning/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideversioning"><span class="">Resource Versioning</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideadoption-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations and Labels used by the operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations and Labels</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
@@ -140,9 +144,9 @@
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebest-practices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practices-li">
   <a href="/azure-service-operator/guide/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2210-li">
@@ -181,25 +185,25 @@
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideexpressions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideexpressions-li">
   <a href="/azure-service-operator/guide/expressions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">CEL Expressions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconditions-li">
   <a href="/azure-service-operator/guide/conditions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideaso-controller-settings-options-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideaso-controller-settings-options-li">
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideoperatorspec-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideoperatorspec-li">
   <a href="/azure-service-operator/guide/operatorspec/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideoperatorspec"><span class="">Configuring OperatorSpec</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidesecrets-li">
   <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidekeyvaults-li">
   <a href="/azure-service-operator/guide/keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidekeyvaults"><span class="">KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideownership-li">
   <a href="/azure-service-operator/guide/ownership/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideownership"><span class="">Ownership</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideasov1-asov2-migration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideasov1-asov2-migration-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideasov1-asov2-migration"><span class="">ASOv1 to ASOv2 migration guide</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
@@ -220,9 +224,9 @@
   <a href="/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer"><span class="">Storage Container</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideuninstalling-li">
   <a href="/azure-service-operator/guide/uninstalling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidesecurity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidesecurity-li">
   <a href="/azure-service-operator/guide/security/" title="Security Best Practices" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidesecurity"><span class="">Security</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidesecurityconfused-deputy-li">
@@ -231,26 +235,26 @@
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorblogs-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorblogs-li">
   <a href="/azure-service-operator/blogs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorblogs"><span class="">Blog</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-08-31-release-notes-v2210-li">
-  <a href="/azure-service-operator/blogs/2026-08-31-release-notes-v2.21.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-08-31-release-notes-v2210"><span class="">ASO v2.21 Release Notes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-07-01-redis-breaking-changes-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorblogs2026-08-31-release-notes-v2210-li">
+  <a href="/azure-service-operator/blogs/2026-08-31-release-notes-v2.21.0/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-08-31-release-notes-v2210"><span class="td-sidebar-nav-active-item">ASO v2.21 Release Notes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2026-07-01-redis-breaking-changes-li">
   <a href="/azure-service-operator/blogs/2026-07-01-redis-breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-07-01-redis-breaking-changes"><span class="">Breaking Changes for Redis Enterprise</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-06-24-release-notes-v2200-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2026-06-24-release-notes-v2200-li">
   <a href="/azure-service-operator/blogs/2026-06-24-release-notes-v2.20.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-06-24-release-notes-v2200"><span class="">ASO v2.20 Release Notes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-04-24-release-notes-v2190-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2026-04-24-release-notes-v2190-li">
   <a href="/azure-service-operator/blogs/2026-04-24-release-notes-v2.19.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-04-24-release-notes-v2190"><span class="">ASO v2.19 Release Notes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-02-27-release-notes-v2180-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2026-02-27-release-notes-v2180-li">
   <a href="/azure-service-operator/blogs/2026-02-27-release-notes-v2.18.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-02-27-release-notes-v2180"><span class="">ASO v2.18 Release Notes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-02-03-why-test-recordings-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2026-02-03-why-test-recordings-li">
   <a href="/azure-service-operator/blogs/2026-02-03-why-test-recordings/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-02-03-why-test-recordings"><span class="">Why record our tests?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2025-12-19-v217-features-with-bevan-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2025-12-19-v217-features-with-bevan-li">
   <a href="/azure-service-operator/blogs/2025-12-19-v2.17-features-with-bevan/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2025-12-19-v217-features-with-bevan"><span class="">Developer Talks - Quality of Life Features with Bevan</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2025-12-08-release-notes-v2170-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2025-12-08-release-notes-v2170-li">
   <a href="/azure-service-operator/blogs/2025-12-08-release-notes-v2.17.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2025-12-08-release-notes-v2170"><span class="">ASO v2.17 Release Notes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2025-10-29-release-notes-v2160-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorblogs2025-10-29-release-notes-v2160-li">
   <a href="/azure-service-operator/blogs/2025-10-29-release-notes-v2.16.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2025-10-29-release-notes-v2160"><span class="">ASO v2.16 Release Notes</span></a>
 </li>
   </ul>
@@ -1045,277 +1049,91 @@
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#-headline-features">🎇 Headline Features</a></li>
+    <li><a href="#-new-and-improved-resource-support">🎉 New and improved resource support</a></li>
+    <li><a href="#-other-improvements">✨ Other improvements</a></li>
+    <li><a href="#-bug-fixes">🐛 Bug fixes</a></li>
+    <li><a href="#-looking-ahead">🔭 Looking ahead</a></li>
+    <li><a href="#-thank-you">🙏 Thank You</a></li>
+  </ul>
+</nav>
+      </div>
+    
             
 
           </aside>
-          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
-            
-  
-
-            <nav aria-label="breadcrumb" class="td-breadcrumbs td-breadcrumbs__single">
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5 pe-md-4" role="main">
+            <a class="td-rss-button" title="RSS" href="/azure-service-operator/blogs/index.xml" target="_blank" rel="noopener">
+              <i class="fa-solid fa-rss" aria-hidden="true"></i>
+            </a>
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/azure-service-operator/blogs/">Blog</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Guide</li>
+    ASO v2.21 Release Notes</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>User’s Guide</h1>
-  <div class="lead">How to use Azure Service Operator v2 to manage your Azure resources from within your Kubernetes Cluster</div>
+	<h1>ASO v2.21 Release Notes</h1>
+	<div class="lead">Release notes for Azure Service Operator v2.21.0</div>
+	<div class="td-byline mb-4">
+		
+		<time datetime="2026-08-31" class="text-body-secondary">Monday, August 31, 2026</time>
+	</div>
 	<header class="article-meta">
 		
 </header>
-	<div class="td-card-group card-group p-0 mb-4">
-<div class="td-card card border me-4">
-<div class="card-header">
-      <strong>Installation</strong>
-    </div>
-<div class="card-body">
-    <p class="card-text">
-        <h3 id="helm">Helm</h3>
-<p><a href="/azure-service-operator/getting-started/#installation">Helm</a> is the preferred way to install and manage Azure Service Operator.</p>
-<h3 id="yaml">YAML</h3>
-<p>You can install directly <a href="/azure-service-operator/guide/installing-from-yaml/">using YAML</a> if you choose.</p>
-<h3 id="uninstalling">Uninstalling</h3>
-<p><a href="/azure-service-operator/guide/uninstalling/">Uninstalling</a> ASO is easy.</p>
-<h3 id="diagnosing-problems">Diagnosing problems</h3>
-<p><a href="/azure-service-operator/guide/diagnosing-problems/">Common issues</a>.</p>
-</p>
-      </div>
-  </div>
-<div class="td-card card border me-4">
-<div class="card-header">
-      <strong>Configuration</strong>
-    </div>
-<div class="card-body">
-    <p class="card-text">
-        <h3 id="configuring-aso">Configuring ASO</h3>
-<p><a href="/azure-service-operator/guide/aso-controller-settings-options/">Configuration of ASO</a> is primarily via a secret in the <code>azureserviceoperator-system</code>
-namespace.</p>
-<h3 id="annotations-understood-by-the-operator">Annotations understood by the operator</h3>
-<p>A number of <a href="/azure-service-operator/guide/annotations/">annotations</a> can be used to control ASO behavior.</p>
-<h3 id="handling-secrets">Handling secrets</h3>
-<p>Use Kubernetes <a href="/azure-service-operator/guide/secrets/">secrets</a> to manage secrets for Azure resources, and to publish secrets generated by Azure.</p>
-<h3 id="sharing-data-through-configmaps">Sharing data through ConfigMaps</h3>
-<p>Configure your Azure resources using Kubernetes <a href="/azure-service-operator/guide/configmaps/">configmaps</a>, and publish data from Azure as configmaps.</p>
-</p>
-      </div>
-  </div>
-</div>
-<div class="td-card-group card-group p-0 mb-4">
-<div class="td-card card border me-4">
-<div class="card-header">
-      <strong>Resources</strong>
-    </div>
-<div class="card-body">
-    <p class="card-text">
-        <h3 id="keyvaults">KeyVaults</h3>
-<p>For resiliency ASO introduces new options for <a href="/azure-service-operator/guide/keyvaults/">creating KeyVaults</a>.</p>
-</p>
-      </div>
-  </div>
-<div class="td-card card border me-4">
-<div class="card-header">
-      <strong>Upgrading</strong>
-    </div>
-<div class="card-body">
-    <p class="card-text">
-        <h3 id="breaking-changes">Breaking Changes</h3>
-<p>Before upgrading, check for any <a href="/azure-service-operator/guide/breaking-changes/">breaking changes</a> in the release notes.</p>
-<h3 id="upgrading">Upgrading</h3>
-<p><a href="/azure-service-operator/guide/upgrading/">Upgrading</a> to a new release of ASO.</p>
-</p>
-      </div>
-  </div>
-</div>
-<div class="td-card-group card-group p-0 mb-4">
-<div class="td-card card border me-4">
-<div class="card-header">
-      <strong>Reference</strong>
-    </div>
-<div class="card-body">
-    <p class="card-text">
-        <h3 id="frequently-asked-questions">Frequently Asked Questions</h3>
-<p>Read our <a href="/azure-service-operator/guide/frequently-asked-questions/">FAQ</a> for answers to common questions.</p>
-<h3 id="authentication">Authentication</h3>
-<p>ASO supports multiple approaches to <a href="/azure-service-operator/guide/authentication/">authentication</a>.</p>
-<h3 id="crd-management">CRD Management</h3>
-<p>How does ASO manage a <a href="/azure-service-operator/guide/crd-management/">large number of CRDs</a>?</p>
-<h3 id="conditions">Conditions</h3>
-<p><a href="/azure-service-operator/guide/conditions/">Conditions</a> are used to report the status of a resource.</p>
-<h3 id="metrics">Metrics</h3>
-<p>ASO exposes <a href="/azure-service-operator/guide/metrics/">metrics</a> for Prometheus.</p>
-<h3 id="best-practices">Best practices</h3>
-<p>See <a href="/azure-service-operator/guide/best-practices/">best practices</a> for ASO best practices.</p>
-</p>
-      </div>
-  </div>
-<div class="td-card card border me-4">
-<div class="card-header">
-      <strong>Get In Touch</strong>
-    </div>
-<div class="card-body">
-    <p class="card-text">
-        <p>If you&rsquo;ve got a question, a problem, a request, or just want to chat, here are two ways to contact us:</p>
+	<p>We&rsquo;re excited to announce the release of Azure Service Operator v2.21.0! This release completes the rollout of smarter deletion, removes retired Redis Enterprise API versions, expands support for Entra ID and several Azure services, and adds more control over operator security and authentication.</p>
+<h2 id="-headline-features">🎇 Headline Features</h2>
+<p>The migration to <a href="https://github.com/Azure/azure-service-operator/issues/5108">smart deletion prechecks</a> is now complete. ASO checks whether a resource or its parent still exists before issuing a <code>DELETE</code> to Azure, avoiding unnecessary calls and reducing error churn when you remove large resource graphs. This release enables the precheck for the remaining API groups, including <code>compute</code>, <code>containerinstance</code>, <code>datafactory</code>, <code>dbforpostgresql</code>, <code>devices</code>, <code>insights</code>, <code>keyvault</code>, <code>machinelearningservices</code>, <code>network</code>, <code>redhatopenshift</code>, <code>resources</code>, <code>servicebus</code>, and <code>storage</code>.</p>
+<p>This release removes the retired and non-functional Redis Enterprise API versions <code>v1api20210301</code> and <code>v1api20230701</code> (<a href="https://github.com/Azure/azure-service-operator/pull/5640">#5640</a>). Before upgrading, check your manifests and migrate any Redis Enterprise resources using these versions to a supported API version.</p>
+<p>Eight more resource groups now support <a href="https://github.com/Azure/azure-service-operator/issues/4831">simplified API versioning</a>: <code>authorization</code>, <code>cache</code>, <code>cdn</code>, <code>cognitiveservices</code>, <code>containerinstance</code>, <code>dataprotection</code>, <code>sql</code>, and <code>subscription</code>. You can use resources in these groups with the new <code>v</code> prefix while the corresponding <code>v1api</code> versions remain available for backward compatibility.</p>
+<h2 id="-new-and-improved-resource-support">🎉 New and improved resource support</h2>
+<p>ASO now supports Microsoft Entra ID <a href="/azure-service-operator/reference/entra/v1/#Application"><code>Application</code></a> resources, allowing you to manage application registrations alongside your Azure resources.</p>
+<p>This release adds support for:</p>
 <ul>
-<li>Log an issue on our <a href="https://github.com/azure/azure-service-operator">GitHub repository</a>.</li>
-<li>Join us over on the <a href="https://kubernetes.slack.com">Kubernetes Slack</a> in the <a href="https://kubernetes.slack.com/archives/C046DEVLAQM">#azure-service-operator</a> channel. (Don&rsquo;t have an account? <a href="https://slack.k8s.io/">Sign up here</a>.)</li>
+<li>Database Watcher <a href="/azure-service-operator/reference/databasewatcher/v20241001preview/#Watcher"><code>Watcher</code></a>, <a href="/azure-service-operator/reference/databasewatcher/v20241001preview/#Target"><code>Target</code></a>, and <a href="/azure-service-operator/reference/databasewatcher/v20241001preview/#SharedPrivateLink"><code>SharedPrivateLink</code></a> resources.</li>
+<li>Container Registry <a href="/azure-service-operator/reference/containerregistry/v20251101/#RegistryCacheRule"><code>RegistryCacheRule</code></a> resources.</li>
+<li>API Management <a href="/azure-service-operator/reference/apimanagement/v20240501/#Diagnostic"><code>Diagnostic</code></a> resources.</li>
+<li>Kusto <a href="/azure-service-operator/reference/kusto/v20240413/#ClusterPrincipalAssignment"><code>ClusterPrincipalAssignment</code></a> resources.</li>
+<li>SQL <a href="/azure-service-operator/reference/sql/v20250101/#ServersKey"><code>ServersKey</code></a> and <a href="/azure-service-operator/reference/sql/v20250101/#ServersEncryptionProtector"><code>ServersEncryptionProtector</code></a> resources.</li>
+<li>Network <a href="/azure-service-operator/reference/network/v20250301/#DdosProtectionPlan"><code>DdosProtectionPlan</code></a> resources.</li>
 </ul>
-</p>
-      </div>
-  </div>
-</div>
+<p>Also, new API versions add support for Managed Cassandra, Redis Enterprise public network access, Flex Consumption function apps, and the latest Event Grid and SQL capabilities.</p>
+<h2 id="-other-improvements">✨ Other improvements</h2>
+<ul>
+<li>ASO can now <a href="https://github.com/Azure/azure-service-operator/pull/5490">acquire credentials from an ASO-created managed identity</a>.</li>
+<li>A new <a href="https://github.com/Azure/azure-service-operator/pull/5620"><code>--tls-min-version</code> flag</a> configures the minimum TLS version used by the webhook and metrics servers.</li>
+<li>CRD comparison is faster, improving operator start-up when many CRDs are installed.</li>
+<li>ASO-managed CRDs can carry additional labels.</li>
+<li>AKS agent pools are requeued while control-plane upgrades are in progress, and Front Door custom-domain route association errors are retried sooner.</li>
+</ul>
+<h2 id="-bug-fixes">🐛 Bug fixes</h2>
+<ul>
+<li>Fixed escaping of special characters in PostgreSQL and Azure SQL user passwords.</li>
+<li>Added the missing Application Gateway private-link IP configuration model.</li>
+</ul>
+<h2 id="-looking-ahead">🔭 Looking ahead</h2>
+<p>ASO v2.22 will default the webhook and metrics servers to TLS 1.3. You will still be able to enable TLS 1.2 with the <code>--tls-min-version</code> flag when required.</p>
+<h2 id="-thank-you">🙏 Thank You</h2>
+<p>Thank you to all our contributors for making this release possible, including first-time contributors <a href="https://github.com/andreidorin-oprea">andreidorin-oprea</a> and <a href="https://github.com/marek-veber">Marek Veber</a>.</p>
+<p>See the <a href="https://github.com/Azure/azure-service-operator/releases/tag/v2.21.0"><strong>full release notes</strong></a> on GitHub for the complete list of changes.</p>
 
-	<div class="section-index">
-    
-    
-    <hr class="panel-line">
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/installing-from-helm/">Installation: From Helm</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/installing-from-yaml/">Installation: From YAML</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/crd-management/">CRD management in ASO</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/upgrading/">Upgrading</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/frequently-asked-questions/">Frequently Asked Questions</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/diagnosing-problems/">Diagnosing problems</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/versioning/">Resource Versioning</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/adoption/">Adopting existing Azure resources</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/annotations/">Annotations and Labels used by the operator</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/authentication/">Authentication in Azure Service Operator</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/best-practices/">Best Practices</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/breaking-changes/">Breaking Changes</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/expressions/">CEL Expressions</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/conditions/">Conditions</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/aso-controller-settings-options/">Configuring ASO</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/operatorspec/">Configuring OperatorSpec</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/secrets/">Handling secrets</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/keyvaults/">KeyVaults</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/metrics/">Metrics</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/ownership/">Ownership</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/configmaps/">Sharing data through ConfigMaps</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/asov1-asov2-migration/">ASOv1 to ASOv2 migration guide</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/uninstalling/">Uninstalling</a>
-                </h5>
-                <p></p>
-            </div>
-        <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/guide/security/">Security Best Practices</a>
-                </h5>
-                <p></p>
-            </div>
-        </div>
-</div>
+	<ul class="list-unstyled d-flex justify-content-between align-items-center mb-0 pt-5">
+  <li>
+    <a href="/azure-service-operator/blogs/2026-07-01-redis-breaking-changes/" aria-label="Previous - Breaking Changes for Redis Enterprise" class="btn btn-primary"><span class="me-1">←</span>Previous</a>
+  </li>
+  <li>
+    <a class="btn btn-primary disabled">Next<span class="ms-1">→</span></a>
+  </li>
+</ul>
+
+	</div>
+
 
           </main>
         </div>

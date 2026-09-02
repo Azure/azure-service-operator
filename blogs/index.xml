@@ -6,8 +6,15 @@
     <description>Recent content in Blog on Azure Service Operator</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 01 Jul 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 31 Aug 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://azure.github.io/azure-service-operator/blogs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ASO v2.21 Release Notes</title>
+      <link>https://azure.github.io/azure-service-operator/blogs/2026-08-31-release-notes-v2.21.0/</link>
+      <pubDate>Mon, 31 Aug 2026 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/blogs/2026-08-31-release-notes-v2.21.0/</guid>
+      <description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.21.0! This release completes the rollout of smarter deletion, removes retired Redis Enterprise API versions, expands support for Entra ID and several Azure services, and adds more control over operator security and authentication.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;p&gt;The migration to &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/5108&#34;&gt;smart deletion prechecks&lt;/a&gt; is now complete. ASO checks whether a resource or its parent still exists before issuing a &lt;code&gt;DELETE&lt;/code&gt; to Azure, avoiding unnecessary calls and reducing error churn when you remove large resource graphs. This release enables the precheck for the remaining API groups, including &lt;code&gt;compute&lt;/code&gt;, &lt;code&gt;containerinstance&lt;/code&gt;, &lt;code&gt;datafactory&lt;/code&gt;, &lt;code&gt;dbforpostgresql&lt;/code&gt;, &lt;code&gt;devices&lt;/code&gt;, &lt;code&gt;insights&lt;/code&gt;, &lt;code&gt;keyvault&lt;/code&gt;, &lt;code&gt;machinelearningservices&lt;/code&gt;, &lt;code&gt;network&lt;/code&gt;, &lt;code&gt;redhatopenshift&lt;/code&gt;, &lt;code&gt;resources&lt;/code&gt;, &lt;code&gt;servicebus&lt;/code&gt;, and &lt;code&gt;storage&lt;/code&gt;.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Breaking Changes for Redis Enterprise</title>
       <link>https://azure.github.io/azure-service-operator/blogs/2026-07-01-redis-breaking-changes/</link>

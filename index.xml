@@ -6,7 +6,7 @@
     <description>Recent content in Azure Service Operator v2 on Azure Service Operator</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 01 Jul 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 31 Aug 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://azure.github.io/azure-service-operator/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>v2.21.0 Breaking Changes</title>
@@ -328,7 +328,7 @@
       <link>https://azure.github.io/azure-service-operator/contributing/extension-points/deleter/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://azure.github.io/azure-service-operator/contributing/extension-points/deleter/</guid>
-      <description>&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;Deleter&lt;/code&gt; allows resources to customize how the reconciler deletes them from Azure. This extension is invoked when a resource has a deletion timestamp in Kubernetes (indicating the user wants to delete it) and gives the resource control over the deletion process.&lt;/p&gt;&#xA;&lt;p&gt;The interface is called after Kubernetes marks the resource for deletion but before the standard ARM DELETE operation. This allows resources to perform cleanup, handle special deletion scenarios, or coordinate multiple deletion operations.&lt;/p&gt;</description>
+      <description>&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;Deleter&lt;/code&gt; allows a resource to customize how ASO deletes it from Azure. ASO invokes the extension after Kubernetes sets the resource&amp;rsquo;s deletion timestamp and before issuing the standard ARM DELETE request.&lt;/p&gt;&#xA;&lt;p&gt;The extension returns an &lt;code&gt;extensions.DeleteResult&lt;/code&gt; describing what ASO should do next. This allows the extension to complete or block deletion, delegate to the standard ARM deletion path, or start a long-running operation that ASO monitors.&lt;/p&gt;&#xA;&lt;h2 id=&#34;interface-definition&#34;&gt;Interface Definition&lt;/h2&gt;&#xA;&lt;p&gt;See the &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/deleter.go&#34;&gt;Deleter interface definition&lt;/a&gt; and &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/v2/pkg/genruntime/extensions/delete_result.go&#34;&gt;DeleteResult definition&lt;/a&gt; in the source code.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Review the generated resource</title>
@@ -413,6 +413,13 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://azure.github.io/azure-service-operator/contributing/extension-points/successful-creation-handler/</guid>
       <description>&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;SuccessfulCreationHandler&lt;/code&gt; allows resources to perform custom logic immediately after they are successfully created in Azure for the first time. This extension is invoked once after the initial ARM PUT operation succeeds, giving resources the opportunity to capture information, set fields, or perform initialization that depends on the Azure-assigned resource ID.&lt;/p&gt;&#xA;&lt;p&gt;The interface is called after the resource exists in Azure and has been assigned an ID, but before subsequent reconciliations. It runs exactly once per resource, during its initial creation.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>ASO v2.21 Release Notes</title>
+      <link>https://azure.github.io/azure-service-operator/blogs/2026-08-31-release-notes-v2.21.0/</link>
+      <pubDate>Mon, 31 Aug 2026 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/blogs/2026-08-31-release-notes-v2.21.0/</guid>
+      <description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.21.0! This release completes the rollout of smarter deletion, removes retired Redis Enterprise API versions, expands support for Entra ID and several Azure services, and adds more control over operator security and authentication.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;p&gt;The migration to &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/5108&#34;&gt;smart deletion prechecks&lt;/a&gt; is now complete. ASO checks whether a resource or its parent still exists before issuing a &lt;code&gt;DELETE&lt;/code&gt; to Azure, avoiding unnecessary calls and reducing error churn when you remove large resource graphs. This release enables the precheck for the remaining API groups, including &lt;code&gt;compute&lt;/code&gt;, &lt;code&gt;containerinstance&lt;/code&gt;, &lt;code&gt;datafactory&lt;/code&gt;, &lt;code&gt;dbforpostgresql&lt;/code&gt;, &lt;code&gt;devices&lt;/code&gt;, &lt;code&gt;insights&lt;/code&gt;, &lt;code&gt;keyvault&lt;/code&gt;, &lt;code&gt;machinelearningservices&lt;/code&gt;, &lt;code&gt;network&lt;/code&gt;, &lt;code&gt;redhatopenshift&lt;/code&gt;, &lt;code&gt;resources&lt;/code&gt;, &lt;code&gt;servicebus&lt;/code&gt;, and &lt;code&gt;storage&lt;/code&gt;.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Breaking Changes for Redis Enterprise</title>
