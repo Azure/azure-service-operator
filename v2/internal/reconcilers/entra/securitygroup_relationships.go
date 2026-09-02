@@ -34,18 +34,6 @@ func orderedUnique(values []string) []string {
 	return result
 }
 
-// relationshipDefinition bundles everything reconcileRelationshipSide needs to bring one
-// side (owners or members) of a group's directory-object relationships to the
-// desired state. The msgraph SDK generates distinct types per side, so we hide the
-// divergence behind these closures and let the reconciler treat both sides the same.
-type relationshipDefinition struct {
-	name    string
-	desired []string
-	list    func(context.Context) ([]string, error)
-	add     func(context.Context, string) error
-	remove  func(context.Context, string) error
-}
-
 // reconcileRelationship brings a single side (owners or members) to its desired
 // state. We bias toward availability: adds run before removes and, if an add fails,
 // we return without touching removes so the group cannot end up transiently empty
@@ -113,42 +101,25 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 
 	ownersBuilder := groupRequestBuilder.Owners()
 	ownersRefBuilder := ownersBuilder.Ref()
-	ownersDef := relationshipDefinition{
-		name:    "owners",
-		desired: desiredOwners,
-		list: func(ctx context.Context) ([]string, error) {
-			return collectDirectoryObjectIDs(
-				ctx,
-				func(ctx context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
-					return ownersBuilder.Get(ctx, nil)
-				},
-				func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
-					return ownersBuilder.WithUrl(nextLink).Get(ctx, nil)
-				},
-			)
-		},
-		add: func(ctx context.Context, objectID string) error {
-			ref := msgraphmodels.NewReferenceCreate()
-			ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
-			return ownersRefBuilder.Post(ctx, ref, nil)
-		},
-		remove: func(ctx context.Context, objectID string) error {
-			return ownersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
-		},
+	addOwner := func(ctx context.Context, objectID string) error {
+		ref := msgraphmodels.NewReferenceCreate()
+		ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
+		return ownersRefBuilder.Post(ctx, ref, nil)
 	}
-
-	currentOwners := group.Status.Owners
+	removeOwner := func(ctx context.Context, objectID string) error {
+		return ownersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
+	}
 
 	if err := r.reconcileRelationship(
 		ctx,
 		"owners",
-		currentOwners,
-		ownersDef.desired,
-		ownersDef.add,
-		ownersDef.remove,
+		group.Status.Owners,
+		desiredOwners,
+		addOwner,
+		removeOwner,
 		log,
 	); err != nil {
-		return eris.Wrapf(err, "reconciling %s for group %s", ownersDef.name, id)
+		return eris.Wrapf(err, "reconciling owners for group %s", id)
 	}
 
 	// Set up for reconciling Members
@@ -159,41 +130,25 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 
 	membersBuilder := groupRequestBuilder.Members()
 	membersRefBuilder := membersBuilder.Ref()
-	membersDef := relationshipDefinition{
-		name:    "members",
-		desired: desiredMembers,
-		list: func(ctx context.Context) ([]string, error) {
-			return collectDirectoryObjectIDs(
-				ctx,
-				func(ctx context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
-					return membersBuilder.Get(ctx, nil)
-				},
-				func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
-					return membersBuilder.WithUrl(nextLink).Get(ctx, nil)
-				},
-			)
-		},
-		add: func(ctx context.Context, objectID string) error {
-			ref := msgraphmodels.NewReferenceCreate()
-			ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
-			return membersRefBuilder.Post(ctx, ref, nil)
-		},
-		remove: func(ctx context.Context, objectID string) error {
-			return membersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
-		},
+	addMember := func(ctx context.Context, objectID string) error {
+		ref := msgraphmodels.NewReferenceCreate()
+		ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
+		return membersRefBuilder.Post(ctx, ref, nil)
 	}
-	currentMembers := group.Status.Members
+	removeMember := func(ctx context.Context, objectID string) error {
+		return membersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
+	}
 
 	if err := r.reconcileRelationship(
 		ctx,
 		"members",
-		currentMembers,
-		membersDef.desired,
-		membersDef.add,
-		membersDef.remove,
+		group.Status.Members,
+		desiredMembers,
+		addMember,
+		removeMember,
 		log,
 	); err != nil {
-		return eris.Wrapf(err, "reconciling %s for group %s", membersDef.name, id)
+		return eris.Wrapf(err, "reconciling members for group %s", id)
 	}
 
 	return nil
