@@ -18,6 +18,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/retry"
 )
 
+const maxRetryAfter = time.Hour
+
 // Domain-specific Reasons for Entra SecurityGroup owner/member reconciliation.
 // We pick retry classifications so that the standard interval.Calculator gives us the
 // existing semantics: permission errors back off slowly, generic Graph errors back off
@@ -93,17 +95,19 @@ func retryAfterFromError(
 		return 0, false
 	}
 
-	retryAfterStr := values[0]
-	if retryAfterVal, parseErr := strconv.ParseInt(retryAfterStr, 10, 64); parseErr == nil {
-		// Clamp to a reasonable range just in case we get a crazy value from the service.
-		retryAfterVal = max(0, min(retryAfterVal, 3600)) // 1 hour
+	return parseRetryAfter(values[0], time.Now())
+}
+
+func parseRetryAfter(value string, now time.Time) (time.Duration, bool) {
+	if retryAfterVal, err := strconv.ParseInt(value, 10, 64); err == nil {
+		retryAfterVal = max(0, min(retryAfterVal, int64(maxRetryAfter/time.Second)))
 		return time.Duration(retryAfterVal) * time.Second, true
 	}
 
-	if retryAfterTime, parseErr := http.ParseTime(retryAfterStr); parseErr == nil {
-		result := time.Until(retryAfterTime)
+	if retryAfterTime, err := http.ParseTime(value); err == nil {
+		result := retryAfterTime.Sub(now)
 		if result > 0 {
-			return result, true
+			return min(result, maxRetryAfter), true
 		}
 	}
 

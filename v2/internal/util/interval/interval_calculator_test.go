@@ -403,13 +403,12 @@ func Test_ReadyConditionErrorWithCallerSuppliedRequeueAfter_LargerThanBackoff_Us
 
 	throttled := odataerrors.NewODataError()
 	throttled.SetStatusCode(429)
-	throttled.ResponseHeaders.Add("Retry-After", "42")
 
 	inputErr := conditions.NewReadyConditionImpactingError(
 		throttled,
 		conditions.ConditionSeverityWarning,
 		conditions.Reason{Name: "Throttled", RetryClassification: retry.Fast},
-	)
+	).WithRetryAfter(42 * time.Second)
 
 	// First failure → exponential backoff would be 1s, but caller asked for 42s
 	result, err := calc.NextInterval(req, ctrl.Result{}, inputErr)
