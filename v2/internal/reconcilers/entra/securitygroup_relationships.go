@@ -10,6 +10,7 @@ import (
 
 	"github.com/go-logr/logr"
 	msgraphsdkgo "github.com/microsoftgraph/msgraph-sdk-go"
+	"github.com/microsoftgraph/msgraph-sdk-go/groups"
 	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
 	"github.com/rotisserie/eris"
 
@@ -93,65 +94,89 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 
 	groupRequestBuilder := graphClient.Groups().ByGroupId(id)
 
-	// Set up for Reconcile Owners
+	// Work out which owners we want for the group
 	desiredOwners, err := group.Spec.ResolveOwnerObjectIDs(resolvedConfigMaps)
 	if err != nil {
 		return eris.Wrapf(err, "failed resolving desired owners for group %s", group.Name)
 	}
 
-	ownersBuilder := groupRequestBuilder.Owners()
-	ownersRefBuilder := ownersBuilder.Ref()
-	addOwner := func(ctx context.Context, objectID string) error {
-		ref := msgraphmodels.NewReferenceCreate()
-		ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
-		return ownersRefBuilder.Post(ctx, ref, nil)
-	}
-	removeOwner := func(ctx context.Context, objectID string) error {
-		return ownersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
-	}
-
+	// Reconcile the owners relationship for the group
 	if err := r.reconcileRelationship(
 		ctx,
 		"owners",
 		group.Status.Owners,
 		desiredOwners,
-		addOwner,
-		removeOwner,
+		r.addOwner(groupRequestBuilder),
+		r.removeOwner(groupRequestBuilder),
 		log,
 	); err != nil {
 		return eris.Wrapf(err, "reconciling owners for group %s", id)
 	}
 
-	// Set up for reconciling Members
+	// Work out which members we want for the group
 	desiredMembers, err := group.Spec.ResolveMemberObjectIDs(resolvedConfigMaps)
 	if err != nil {
 		return eris.Wrapf(err, "failed resolving desired members for group %s", group.Name)
 	}
 
-	membersBuilder := groupRequestBuilder.Members()
-	membersRefBuilder := membersBuilder.Ref()
-	addMember := func(ctx context.Context, objectID string) error {
-		ref := msgraphmodels.NewReferenceCreate()
-		ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
-		return membersRefBuilder.Post(ctx, ref, nil)
-	}
-	removeMember := func(ctx context.Context, objectID string) error {
-		return membersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
-	}
-
+	// Reconcile the members relationship for the group
 	if err := r.reconcileRelationship(
 		ctx,
 		"members",
 		group.Status.Members,
 		desiredMembers,
-		addMember,
-		removeMember,
+		r.addMember(groupRequestBuilder),
+		r.removeMember(groupRequestBuilder),
 		log,
 	); err != nil {
 		return eris.Wrapf(err, "reconciling members for group %s", id)
 	}
 
 	return nil
+}
+
+// addOwner returns a function that can be used to add an owner to a group using the provided GroupItemRequestBuilder.
+func (r *EntraSecurityGroupReconciler) addOwner(
+	groupRequestBuilder *groups.GroupItemRequestBuilder,
+) func(ctx context.Context, objectID string) error {
+	ownersRefBuilder := groupRequestBuilder.Owners().Ref()
+	return func(ctx context.Context, objectID string) error {
+		ref := msgraphmodels.NewReferenceCreate()
+		ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
+		return ownersRefBuilder.Post(ctx, ref, nil)
+	}
+}
+
+// removeOwner returns a function that can be used to remove an owner from a group using the provided GroupItemRequestBuilder.
+func (r *EntraSecurityGroupReconciler) removeOwner(
+	groupRequestBuilder *groups.GroupItemRequestBuilder,
+) func(ctx context.Context, objectID string) error {
+	ownersBuilder := groupRequestBuilder.Owners()
+	return func(ctx context.Context, objectID string) error {
+		return ownersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
+	}
+}
+
+// addMember returns a function that can be used to add a member to a group using the provided GroupItemRequestBuilder.
+func (r *EntraSecurityGroupReconciler) addMember(
+	groupRequestBuilder *groups.GroupItemRequestBuilder,
+) func(ctx context.Context, objectID string) error {
+	membersRefBuilder := groupRequestBuilder.Members().Ref()
+	return func(ctx context.Context, objectID string) error {
+		ref := msgraphmodels.NewReferenceCreate()
+		ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
+		return membersRefBuilder.Post(ctx, ref, nil)
+	}
+}
+
+// removeMember returns a function that can be used to remove a member from a group using the provided GroupItemRequestBuilder.
+func (r *EntraSecurityGroupReconciler) removeMember(
+	groupRequestBuilder *groups.GroupItemRequestBuilder,
+) func(ctx context.Context, objectID string) error {
+	membersBuilder := groupRequestBuilder.Members()
+	return func(ctx context.Context, objectID string) error {
+		return membersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
+	}
 }
 
 func collectDirectoryObjectIDs(
