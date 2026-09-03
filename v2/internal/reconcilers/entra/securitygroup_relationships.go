@@ -108,7 +108,7 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 		group.Status.Owners,
 		desiredOwners,
 		r.addOwner(groupRequestBuilder),
-		r.removeOwner(groupRequestBuilder),
+		r.removeOwner(groupRequestBuilder, log),
 		log,
 	); err != nil {
 		return eris.Wrapf(err, "reconciling owners for group %s", id)
@@ -146,14 +146,6 @@ func (r *EntraSecurityGroupReconciler) addOwner(
 		ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
 		err := ownersRefBuilder.Post(ctx, ref, nil)
 		if err != nil {
-			// NASTY HACK ALERT!!
-			// If the error is "One or more added object references already exist" then we've tried to add an owner
-			// that's already there. See #5669 for how this happens.
-			if strings.Contains(err.Error(), "One or more added object references already exist") {
-				// Ignore this error as it indicates the owner is already present
-				return nil
-			}
-
 			return eris.Wrapf(err, "failed adding owner %s to group", objectID)
 		}
 
@@ -164,10 +156,25 @@ func (r *EntraSecurityGroupReconciler) addOwner(
 // removeOwner returns a function that can be used to remove an owner from a group using the provided GroupItemRequestBuilder.
 func (r *EntraSecurityGroupReconciler) removeOwner(
 	groupRequestBuilder *groups.GroupItemRequestBuilder,
+	log logr.Logger,
 ) func(ctx context.Context, objectID string) error {
 	ownersBuilder := groupRequestBuilder.Owners()
 	return func(ctx context.Context, objectID string) error {
-		return ownersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
+		err := ownersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
+		// Entra doesn't allow removal of the last user from Owners, even if there are other owners listed.
+		// If we encounter that situation, we just leave the user there as the alternative is to have the ASO resource
+		// in a permanent failed state.
+		if err != nil {
+			if strings.Contains(err.Error(), "this owner cannot be removed") {
+				// Ignore this error as it indicates we are trying to remove the last owner
+				log.V(1).Info("entra does not permit removal of the last owner", "objectID", objectID)
+				return nil
+			}
+
+			return err
+		}
+
+		return nil
 	}
 }
 
