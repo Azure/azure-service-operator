@@ -13,7 +13,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/microsoftgraph/msgraph-sdk-go/models/odataerrors"
+	"github.com/microsoftgraph/msgraph-beta-sdk-go/models/odataerrors"
 	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/retry"
