@@ -453,11 +453,12 @@ func (r *EntraSecurityGroupReconciler) listOwners(
 ) ([]msgraphmodels.DirectoryObjectable, error) {
 	groupBuilder := client.Groups().ByGroupId(id)
 	ownersBuilder := groupBuilder.Owners()
+	configuration := ownerIDRequestConfiguration()
 
 	ids, err := collectDirectoryObjectIDs(
 		ctx,
 		func(ctx context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
-			return ownersBuilder.Get(ctx, nil)
+			return ownersBuilder.Get(ctx, configuration)
 		},
 		func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
 			return ownersBuilder.WithUrl(nextLink).Get(ctx, nil)
@@ -470,6 +471,16 @@ func (r *EntraSecurityGroupReconciler) listOwners(
 	return makeDirectoryObjects(ids), nil
 }
 
+// ownerIDRequestConfiguration limits the fields returned to the id
+// This avoids us pulling back unnecessary fields that may be sensitive.
+func ownerIDRequestConfiguration() *groups.ItemOwnersRequestBuilderGetRequestConfiguration {
+	return &groups.ItemOwnersRequestBuilderGetRequestConfiguration{
+		QueryParameters: &groups.ItemOwnersRequestBuilderGetQueryParameters{
+			Select: []string{"id"},
+		},
+	}
+}
+
 // listMembers retrieves the list of member object IDs for the specified group from Entra.
 func (r *EntraSecurityGroupReconciler) listMembers(
 	ctx context.Context,
@@ -478,11 +489,12 @@ func (r *EntraSecurityGroupReconciler) listMembers(
 ) ([]msgraphmodels.DirectoryObjectable, error) {
 	groupBuilder := client.Groups().ByGroupId(id)
 	membersBuilder := groupBuilder.Members()
+	configuration := memberIDRequestConfiguration()
 
 	ids, err := collectDirectoryObjectIDs(
 		ctx,
 		func(ctx context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
-			return membersBuilder.Get(ctx, nil)
+			return membersBuilder.Get(ctx, configuration)
 		},
 		func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
 			return membersBuilder.WithUrl(nextLink).Get(ctx, nil)
@@ -494,6 +506,17 @@ func (r *EntraSecurityGroupReconciler) listMembers(
 
 	return makeDirectoryObjects(ids), nil
 }
+
+// memberIDRequestConfiguration limits the fields returned to the id
+// This avoids us pulling back unnecessary fields that may be sensitive.
+func memberIDRequestConfiguration() *groups.ItemMembersRequestBuilderGetRequestConfiguration {
+	return &groups.ItemMembersRequestBuilderGetRequestConfiguration{
+		QueryParameters: &groups.ItemMembersRequestBuilderGetQueryParameters{
+			Select: []string{"id"},
+		},
+	}
+}
+
 func makeDirectoryObjects(ids []string) []msgraphmodels.DirectoryObjectable {
 	result := make([]msgraphmodels.DirectoryObjectable, 0, len(ids))
 	for _, id := range ids {
