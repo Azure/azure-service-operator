@@ -44,6 +44,7 @@ type replayRoundTripper struct {
 
 type replayResponse struct {
 	response         *http.Response
+	body             []byte
 	remainingReplays int
 }
 
@@ -216,7 +217,7 @@ func (replayer *replayRoundTripper) replayFromCache(
 		if cachedResponse.remainingReplays > 0 {
 			cachedResponse.remainingReplays--
 			replayer.log.Info("Replaying request", "method", method, "key", key)
-			return cachedResponse.response, nil
+			return cachedResponse.createResponse(), nil
 		}
 
 		// It's expired, remove it from the cache to ensure we don't replay it again
@@ -354,8 +355,36 @@ func (replayer *replayRoundTripper) bodyOfResponse(response *http.Response) stri
 }
 
 func newReplayResponse(resp *http.Response, maxReplays int) *replayResponse {
+	// Cache the body of the response (if any) so we can replay it later
+	var body []byte
+	if resp.Body != nil {
+		var err error
+		body, err = io.ReadAll(resp.Body)
+		if err != nil {
+			panic(fmt.Sprintf("reading response.Body failed: %s", err))
+		}
+
+		resp.Body = io.NopCloser(bytes.NewReader(body))
+	}
+
+	response := new(http.Response)
+	*response = *resp
+	response.Body = nil
+
 	return &replayResponse{
-		response:         resp,
+		response:         response,
+		body:             body,
 		remainingReplays: maxReplays,
 	}
+}
+
+// createResponse creates a new http.Response object from the cached response and body.
+func (r *replayResponse) createResponse() *http.Response {
+	response := new(http.Response)
+	*response = *r.response
+	if r.body != nil {
+		response.Body = io.NopCloser(bytes.NewReader(r.body))
+	}
+
+	return response
 }
