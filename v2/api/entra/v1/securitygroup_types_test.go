@@ -8,7 +8,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
+	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

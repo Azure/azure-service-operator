@@ -7,11 +7,12 @@ package entra
 
 import (
 	"context"
+	"strings"
 
 	"github.com/go-logr/logr"
-	msgraphsdkgo "github.com/microsoftgraph/msgraph-sdk-go"
-	"github.com/microsoftgraph/msgraph-sdk-go/groups"
-	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
+	msgraphsdkgo "github.com/microsoftgraph/msgraph-beta-sdk-go"
+	"github.com/microsoftgraph/msgraph-beta-sdk-go/groups"
+	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 	"github.com/rotisserie/eris"
 
 	asoentrav1 "github.com/Azure/azure-service-operator/v2/api/entra/v1"
@@ -143,7 +144,20 @@ func (r *EntraSecurityGroupReconciler) addOwner(
 	return func(ctx context.Context, objectID string) error {
 		ref := msgraphmodels.NewReferenceCreate()
 		ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
-		return ownersRefBuilder.Post(ctx, ref, nil)
+		err := ownersRefBuilder.Post(ctx, ref, nil)
+		if err != nil {
+			// NASTY HACK ALERT!!
+			// If the error is "One or more added object references already exist" then we've tried to add an owner
+			// that's already there. See #5669 for how this happens.
+			if strings.Contains(err.Error(), "One or more added object references already exist") {
+				// Ignore this error as it indicates the owner is already present
+				return nil
+			}
+
+			return eris.Wrapf(err, "failed adding owner %s to group", objectID)
+		}
+
+		return nil
 	}
 }
 

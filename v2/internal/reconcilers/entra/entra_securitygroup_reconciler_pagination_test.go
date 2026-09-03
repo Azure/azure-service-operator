@@ -12,7 +12,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
+	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 )
 
 func TestCollectDirectoryObjectIDs_PaginatesAndDedupes(t *testing.T) {

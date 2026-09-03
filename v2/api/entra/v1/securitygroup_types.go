@@ -4,7 +4,7 @@ package v1
 
 import (
 	"github.com/google/uuid"
-	"github.com/microsoftgraph/msgraph-sdk-go/models"
+	"github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -80,7 +80,7 @@ type SecurityGroupSpec struct {
 	// IsAssignableToRole: Indicates whether the group can be assigned to a role.
 	IsAssignableToRole *bool `json:"isAssignableToRole,omitempty"`
 
-	// Owners: Directory objects (users, service principals, groups) to assign as owners of the security
+	// Owners: Directory objects (users, service principals) to assign as owners of the security
 	// group. Applied during the initial POST to Microsoft Graph via `owners@odata.bind` and then used as desired owner
 	// state for later reconciliation.
 	// Required when ASO authenticates with an app-only token and the calling principal lacks Group.ReadWrite.All —

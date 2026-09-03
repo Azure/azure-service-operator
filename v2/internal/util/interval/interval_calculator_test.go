@@ -12,7 +12,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/microsoftgraph/msgraph-sdk-go/models/odataerrors"
+	"github.com/microsoftgraph/msgraph-beta-sdk-go/models/odataerrors"
 	"github.com/rotisserie/eris"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

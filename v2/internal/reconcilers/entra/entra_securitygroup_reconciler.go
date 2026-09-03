@@ -13,9 +13,9 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
 	"github.com/go-logr/logr"
-	msgraphsdkgo "github.com/microsoftgraph/msgraph-sdk-go"
-	"github.com/microsoftgraph/msgraph-sdk-go/groups"
-	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
+	msgraphsdkgo "github.com/microsoftgraph/msgraph-beta-sdk-go"
+	"github.com/microsoftgraph/msgraph-beta-sdk-go/groups"
+	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 	"github.com/rotisserie/eris"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -219,12 +219,22 @@ func (r *EntraSecurityGroupReconciler) update(
 		}
 	}
 
+	group.Status.AssignFromGroup(result)
+
 	if err := r.reconcileOwnersAndMembers(ctx, group, client.Client(), log); err != nil {
 		return ctrl.Result{}, classifyRelationshipError(err)
 	}
 
-	group.Status.AssignFromGroup(result)
+	// Refresh status now we've reconciled owners and members
+	result, err = r.loadGroupByID(ctx, id, client.Client())
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "getting group by ID %s after update returned no result", id)
+	}
+	if result != nil {
+		group.Status.AssignFromGroup(result)
+	}
 
+	// Save any associated Kubernetes resources for the group
 	err = r.saveAssociatedKubernetesResources(ctx, group, log)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "failed to save associated Kubernetes resources for group %s", group.Name)
@@ -418,45 +428,72 @@ func (r *EntraSecurityGroupReconciler) loadGroupByID(
 		return nil, err
 	}
 
-	ownersBuilder := groupBuilder.Owners()
-	listOwners := func(ctx context.Context) ([]string, error) {
-		return collectDirectoryObjectIDs(
-			ctx,
-			func(ctx context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
-				return ownersBuilder.Get(ctx, nil)
-			},
-			func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
-				return ownersBuilder.WithUrl(nextLink).Get(ctx, nil)
-			},
-		)
-	}
-	owners, err := listOwners(ctx)
+	// Load the owners of the group from Entra
+	owners, err := r.listOwners(ctx, id, client)
 	if err != nil {
 		return nil, eris.Wrap(err, "listing group owners")
 	}
-	groupable.SetOwners(makeDirectoryObjects(owners))
+	groupable.SetOwners(owners)
 
-	membersBuilder := groupBuilder.Members()
-	listMembers := func(ctx context.Context) ([]string, error) {
-		return collectDirectoryObjectIDs(
-			ctx,
-			func(ctx context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
-				return membersBuilder.Get(ctx, nil)
-			},
-			func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
-				return membersBuilder.WithUrl(nextLink).Get(ctx, nil)
-			},
-		)
-	}
-	members, err := listMembers(ctx)
+	// Load the members of the group from Entra
+	members, err := r.listMembers(ctx, id, client)
 	if err != nil {
 		return nil, eris.Wrap(err, "listing group members")
 	}
-	groupable.SetMembers(makeDirectoryObjects(members))
+	groupable.SetMembers(members)
 
 	return groupable, nil
 }
 
+// listOwners retrieves the list of owner object IDs for the specified group from Entra.
+func (r *EntraSecurityGroupReconciler) listOwners(
+	ctx context.Context,
+	id string,
+	client *msgraphsdkgo.GraphServiceClient,
+) ([]msgraphmodels.DirectoryObjectable, error) {
+	groupBuilder := client.Groups().ByGroupId(id)
+	ownersBuilder := groupBuilder.Owners()
+
+	ids, err := collectDirectoryObjectIDs(
+		ctx,
+		func(ctx context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+			return ownersBuilder.Get(ctx, nil)
+		},
+		func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+			return ownersBuilder.WithUrl(nextLink).Get(ctx, nil)
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return makeDirectoryObjects(ids), nil
+}
+
+// listMembers retrieves the list of member object IDs for the specified group from Entra.
+func (r *EntraSecurityGroupReconciler) listMembers(
+	ctx context.Context,
+	id string,
+	client *msgraphsdkgo.GraphServiceClient,
+) ([]msgraphmodels.DirectoryObjectable, error) {
+	groupBuilder := client.Groups().ByGroupId(id)
+	membersBuilder := groupBuilder.Members()
+
+	ids, err := collectDirectoryObjectIDs(
+		ctx,
+		func(ctx context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+			return membersBuilder.Get(ctx, nil)
+		},
+		func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+			return membersBuilder.WithUrl(nextLink).Get(ctx, nil)
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return makeDirectoryObjects(ids), nil
+}
 func makeDirectoryObjects(ids []string) []msgraphmodels.DirectoryObjectable {
 	result := make([]msgraphmodels.DirectoryObjectable, 0, len(ids))
 	for _, id := range ids {

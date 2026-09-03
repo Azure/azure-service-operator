@@ -3,7 +3,7 @@
 package v1
 
 import (
-	"github.com/microsoftgraph/msgraph-sdk-go/models"
+	"github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
