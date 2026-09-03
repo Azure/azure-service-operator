@@ -8,6 +8,8 @@ package entra
 import (
 	"errors"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/microsoftgraph/msgraph-beta-sdk-go/models/odataerrors"
 	"github.com/rotisserie/eris"
@@ -40,19 +42,26 @@ var (
 // interval.Calculator combines these signals: throttling can only slow us down,
 // never speed us up beyond the classification-based exponential backoff.
 func classifyRelationshipError(err error) error {
+	var result *conditions.ReadyConditionImpactingError
 	if isPermissionError(err) {
-		return conditions.NewReadyConditionImpactingError(
+		result = conditions.NewReadyConditionImpactingError(
 			eris.Wrap(err, "permission denied reconciling SecurityGroup owners/members"),
 			conditions.ConditionSeverityWarning,
 			reasonRelationshipPermissionDenied,
 		)
+	} else {
+		result = conditions.NewReadyConditionImpactingError(
+			eris.Wrap(err, "error reconciling SecurityGroup owners/members"),
+			conditions.ConditionSeverityWarning,
+			reasonRelationshipFailed,
+		)
 	}
 
-	return conditions.NewReadyConditionImpactingError(
-		eris.Wrap(err, "error reconciling SecurityGroup owners/members"),
-		conditions.ConditionSeverityWarning,
-		reasonRelationshipFailed,
-	)
+	if retryAfter, ok := retryAfterFromError(err); ok {
+		result = result.WithRetryAfter(retryAfter)
+	}
+
+	return result
 }
 
 func isPermissionError(err error) bool {
@@ -64,4 +73,39 @@ func isPermissionError(err error) bool {
 	}
 
 	return odataError.ResponseStatusCode == http.StatusForbidden
+}
+
+// retryAfterFromError extracts the Retry-After header from an ODataError, if present, and returns it as a time.Duration.
+func retryAfterFromError(
+	err error,
+) (time.Duration, bool) {
+	odataError, ok := errors.AsType[*odataerrors.ODataError](err)
+	if !ok {
+		return 0, false
+	}
+
+	if odataError == nil || odataError.ResponseHeaders == nil {
+		return 0, false
+	}
+
+	values := odataError.ResponseHeaders.Get("Retry-After")
+	if len(values) == 0 {
+		return 0, false
+	}
+
+	retryAfterStr := values[0]
+	if retryAfterVal, parseErr := strconv.ParseInt(retryAfterStr, 10, 64); parseErr == nil {
+		// Clamp to a reasonable range just in case we get a crazy value from the service.
+		retryAfterVal = max(0, min(retryAfterVal, 3600)) // 1 hour
+		return time.Duration(retryAfterVal) * time.Second, true
+	}
+
+	if retryAfterTime, parseErr := http.ParseTime(retryAfterStr); parseErr == nil {
+		result := time.Until(retryAfterTime)
+		if result > 0 {
+			return result, true
+		}
+	}
+
+	return 0, false
 }
