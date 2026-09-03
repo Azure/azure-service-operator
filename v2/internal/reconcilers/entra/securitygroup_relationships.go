@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/go-logr/logr"
+	"github.com/google/uuid"
 	msgraphsdkgo "github.com/microsoftgraph/msgraph-beta-sdk-go"
 	"github.com/microsoftgraph/msgraph-beta-sdk-go/groups"
 	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
@@ -20,9 +21,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func orderedUnique(values []string) []string {
-	seen := make(map[string]struct{}, len(values))
-	result := make([]string, 0, len(values))
+func orderedUnique(values []uuid.UUID) []uuid.UUID {
+	seen := make(map[uuid.UUID]struct{}, len(values))
+	result := make([]uuid.UUID, 0, len(values))
 
 	for _, value := range values {
 		if _, ok := seen[value]; ok {
@@ -43,10 +44,10 @@ func orderedUnique(values []string) []string {
 func (r *EntraSecurityGroupReconciler) reconcileRelationship(
 	ctx context.Context,
 	relationshipName string,
-	current []string,
-	desired []string,
-	add func(context.Context, string) error,
-	remove func(context.Context, string) error,
+	current []uuid.UUID,
+	desired []uuid.UUID,
+	add func(context.Context, uuid.UUID) error,
+	remove func(context.Context, uuid.UUID) error,
 	log logr.Logger,
 ) error {
 	currentSet := set.Make(current...)
@@ -94,6 +95,14 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	}
 
 	groupRequestBuilder := graphClient.Groups().ByGroupId(id)
+	currentOwners, err := parseObjectIDs(group.Status.Owners)
+	if err != nil {
+		return eris.Wrapf(err, "parsing current owners for group %s", group.Name)
+	}
+	currentMembers, err := parseObjectIDs(group.Status.Members)
+	if err != nil {
+		return eris.Wrapf(err, "parsing current members for group %s", group.Name)
+	}
 
 	// Work out which owners we want for the group
 	desiredOwners, err := group.Spec.ResolveOwnerObjectIDs(resolvedConfigMaps)
@@ -105,7 +114,7 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	if err := r.reconcileRelationship(
 		ctx,
 		"owners",
-		group.Status.Owners,
+		currentOwners,
 		desiredOwners,
 		r.addOwner(groupRequestBuilder),
 		r.removeOwner(groupRequestBuilder, log),
@@ -124,7 +133,7 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	if err := r.reconcileRelationship(
 		ctx,
 		"members",
-		group.Status.Members,
+		currentMembers,
 		desiredMembers,
 		r.addMember(groupRequestBuilder),
 		r.removeMember(groupRequestBuilder),
@@ -139,11 +148,11 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 // addOwner returns a function that can be used to add an owner to a group using the provided GroupItemRequestBuilder.
 func (r *EntraSecurityGroupReconciler) addOwner(
 	groupRequestBuilder *groups.GroupItemRequestBuilder,
-) func(ctx context.Context, objectID string) error {
+) func(ctx context.Context, objectID uuid.UUID) error {
 	ownersRefBuilder := groupRequestBuilder.Owners().Ref()
-	return func(ctx context.Context, objectID string) error {
+	return func(ctx context.Context, objectID uuid.UUID) error {
 		ref := msgraphmodels.NewReferenceCreate()
-		ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
+		ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID.String())))
 		err := ownersRefBuilder.Post(ctx, ref, nil)
 		if err != nil {
 			return eris.Wrapf(err, "failed adding owner %s to group", objectID)
@@ -157,10 +166,10 @@ func (r *EntraSecurityGroupReconciler) addOwner(
 func (r *EntraSecurityGroupReconciler) removeOwner(
 	groupRequestBuilder *groups.GroupItemRequestBuilder,
 	log logr.Logger,
-) func(ctx context.Context, objectID string) error {
+) func(ctx context.Context, objectID uuid.UUID) error {
 	ownersBuilder := groupRequestBuilder.Owners()
-	return func(ctx context.Context, objectID string) error {
-		err := ownersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
+	return func(ctx context.Context, objectID uuid.UUID) error {
+		err := ownersBuilder.ByDirectoryObjectId(objectID.String()).Ref().Delete(ctx, nil)
 		// Entra doesn't allow removal of the last user from Owners, even if there are other owners listed.
 		// If we encounter that situation, we just leave the user there as the alternative is to have the ASO resource
 		// in a permanent failed state.
@@ -181,11 +190,11 @@ func (r *EntraSecurityGroupReconciler) removeOwner(
 // addMember returns a function that can be used to add a member to a group using the provided GroupItemRequestBuilder.
 func (r *EntraSecurityGroupReconciler) addMember(
 	groupRequestBuilder *groups.GroupItemRequestBuilder,
-) func(ctx context.Context, objectID string) error {
+) func(ctx context.Context, objectID uuid.UUID) error {
 	membersRefBuilder := groupRequestBuilder.Members().Ref()
-	return func(ctx context.Context, objectID string) error {
+	return func(ctx context.Context, objectID uuid.UUID) error {
 		ref := msgraphmodels.NewReferenceCreate()
-		ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID)))
+		ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID.String())))
 		return membersRefBuilder.Post(ctx, ref, nil)
 	}
 }
@@ -193,32 +202,49 @@ func (r *EntraSecurityGroupReconciler) addMember(
 // removeMember returns a function that can be used to remove a member from a group using the provided GroupItemRequestBuilder.
 func (r *EntraSecurityGroupReconciler) removeMember(
 	groupRequestBuilder *groups.GroupItemRequestBuilder,
-) func(ctx context.Context, objectID string) error {
+) func(ctx context.Context, objectID uuid.UUID) error {
 	membersBuilder := groupRequestBuilder.Members()
-	return func(ctx context.Context, objectID string) error {
-		return membersBuilder.ByDirectoryObjectId(objectID).Ref().Delete(ctx, nil)
+	return func(ctx context.Context, objectID uuid.UUID) error {
+		return membersBuilder.ByDirectoryObjectId(objectID.String()).Ref().Delete(ctx, nil)
 	}
+}
+
+func parseObjectIDs(values []string) ([]uuid.UUID, error) {
+	result := make([]uuid.UUID, 0, len(values))
+	for _, value := range values {
+		id, err := uuid.Parse(value)
+		if err != nil {
+			return nil, eris.Wrapf(err, "parsing object ID %q", value)
+		}
+		result = append(result, id)
+	}
+
+	return result, nil
 }
 
 func collectDirectoryObjectIDs(
 	ctx context.Context,
 	firstPage func(context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error),
 	nextPage func(string) (msgraphmodels.DirectoryObjectCollectionResponseable, error),
-) ([]string, error) {
+) ([]uuid.UUID, error) {
 	response, err := firstPage(ctx)
 	if err != nil {
 		return nil, err
 	}
 
 	iterations := 0
-	result := make([]string, 0)
+	result := make([]uuid.UUID, 0)
 	for response != nil {
 		for _, entry := range response.GetValue() {
 			id := to.Value(entry.GetId())
 			if id == "" {
 				continue
 			}
-			result = append(result, id)
+			parsed, err := uuid.Parse(id)
+			if err != nil {
+				return nil, eris.Wrapf(err, "parsing directory object ID %q", id)
+			}
+			result = append(result, parsed)
 		}
 
 		nextLink := to.Value(response.GetOdataNextLink())

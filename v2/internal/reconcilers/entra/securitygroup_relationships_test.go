@@ -9,13 +9,19 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
+	"github.com/google/uuid"
 )
 
 func TestOrderedUnique_DeduplicatesAndPreservesFirstSeenOrder(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	actual := orderedUnique([]string{"B", "A", "B", "C", "A", "D", "D"})
+	a := uuid.MustParse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
+	b := uuid.MustParse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
+	c := uuid.MustParse("cccccccc-cccc-cccc-cccc-cccccccccccc")
+	d := uuid.MustParse("dddddddd-dddd-dddd-dddd-dddddddddddd")
+	actual := orderedUnique([]uuid.UUID{b, a, b, c, a, d, d})
 
-	g.Expect(actual).To(Equal([]string{"B", "A", "C", "D"}))
+	g.Expect(actual).To(Equal([]uuid.UUID{b, a, c, d}))
 }

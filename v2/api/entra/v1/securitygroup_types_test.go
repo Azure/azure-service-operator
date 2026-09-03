@@ -8,6 +8,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	"github.com/google/uuid"
 	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -112,18 +113,18 @@ func TestSecurityGroupSpec_ResolveOwnerObjectIDs_ErrorsOnDuplicateResolvedValues
 	g := NewGomegaWithT(t)
 
 	ref := genruntime.ConfigMapReference{Name: "ids", Key: "owner"}
-	resolved := genruntime.MakeResolved(map[genruntime.ConfigMapReference]string{ref: "11111111-1111-1111-1111-111111111111"})
+	resolved := genruntime.MakeResolved(map[genruntime.ConfigMapReference]string{ref: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"})
 
 	spec := &SecurityGroupSpec{
 		Owners: []SecurityGroupMemberReference{
-			{ObjectID: to.Ptr("11111111-1111-1111-1111-111111111111")},
+			{ObjectID: to.Ptr("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA")},
 			{ObjectIDFromConfig: &ref},
 		},
 	}
 
 	_, err := spec.ResolveOwnerObjectIDs(resolved)
 	g.Expect(err).To(MatchError(ContainSubstring("owners[1] resolves to the same object id as owners[0]")))
-	g.Expect(err).To(MatchError(ContainSubstring("11111111-1111-1111-1111-111111111111")))
+	g.Expect(err).To(MatchError(ContainSubstring("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")))
 }
 
 func TestSecurityGroupSpec_ResolveMemberObjectIDs_ErrorsOnDuplicateResolvedValues(t *testing.T) {
@@ -151,15 +152,15 @@ func TestSecurityGroupSpec_ResolveOwnerObjectIDs_PreservesInputOrder(t *testing.
 
 	spec := &SecurityGroupSpec{
 		Owners: []SecurityGroupMemberReference{
-			{ObjectID: to.Ptr("11111111-1111-1111-1111-111111111111")},
+			{ObjectID: to.Ptr("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA")},
 			{ObjectID: to.Ptr("22222222-2222-2222-2222-222222222222")},
 		},
 	}
 
 	ids, err := spec.ResolveOwnerObjectIDs(genruntime.MakeResolved[genruntime.ConfigMapReference, string](nil))
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(ids).To(Equal([]string{
-		"11111111-1111-1111-1111-111111111111",
-		"22222222-2222-2222-2222-222222222222",
+	g.Expect(ids).To(Equal([]uuid.UUID{
+		uuid.MustParse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
+		uuid.MustParse("22222222-2222-2222-2222-222222222222"),
 	}))
 }

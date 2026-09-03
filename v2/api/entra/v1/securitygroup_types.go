@@ -112,27 +112,29 @@ type SecurityGroupMemberReference struct {
 // ObjectIDFromConfig is populated, or if the configmap lookup fails.
 func (ref *SecurityGroupMemberReference) ResolveObjectID(
 	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
-) (string, error) {
+) (uuid.UUID, error) {
+	var value string
 	switch {
 	case ref.ObjectID != nil:
-		return *ref.ObjectID, nil
+		value = *ref.ObjectID
 
 	case ref.ObjectIDFromConfig != nil:
 		val, err := resolved.Lookup(*ref.ObjectIDFromConfig)
 		if err != nil {
-			return "", eris.Wrapf(err, "failed resolving objectIDFromConfig")
+			return uuid.Nil, eris.Wrapf(err, "failed resolving objectIDFromConfig")
 		}
-
-		// Check that the resolved value is a valid GUID by trying to parse it
-		if _, err = uuid.Parse(val); err != nil {
-			return "", eris.Wrapf(err, "invalid GUID resolved from objectIDFromConfig")
-		}
-
-		return val, nil
+		value = val
 
 	default:
-		return "", eris.New("missing objectID or objectIDFromConfig")
+		return uuid.Nil, eris.New("missing objectID or objectIDFromConfig")
 	}
+
+	id, err := uuid.Parse(value)
+	if err != nil {
+		return uuid.Nil, eris.Wrap(err, "invalid GUID")
+	}
+
+	return id, nil
 }
 
 // OriginalVersion returns the original API version used to create the resource.
@@ -180,13 +182,13 @@ func (spec *SecurityGroupSpec) AssignODataBindOnCreate(
 
 // ResolveOwnerObjectIDs resolves owner object IDs, returning an error if two entries
 // resolve to the same identifier.
-func (spec *SecurityGroupSpec) ResolveOwnerObjectIDs(resolved genruntime.Resolved[genruntime.ConfigMapReference, string]) ([]string, error) {
+func (spec *SecurityGroupSpec) ResolveOwnerObjectIDs(resolved genruntime.Resolved[genruntime.ConfigMapReference, string]) ([]uuid.UUID, error) {
 	return resolveMemberObjectIDs(spec.Owners, "owners", resolved)
 }
 
 // ResolveMemberObjectIDs resolves member object IDs, returning an error if two entries
 // resolve to the same identifier.
-func (spec *SecurityGroupSpec) ResolveMemberObjectIDs(resolved genruntime.Resolved[genruntime.ConfigMapReference, string]) ([]string, error) {
+func (spec *SecurityGroupSpec) ResolveMemberObjectIDs(resolved genruntime.Resolved[genruntime.ConfigMapReference, string]) ([]uuid.UUID, error) {
 	return resolveMemberObjectIDs(spec.Members, "members", resolved)
 }
 
@@ -200,9 +202,9 @@ func resolveMemberObjectIDs(
 	references []SecurityGroupMemberReference,
 	field string,
 	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
-) ([]string, error) {
-	firstSeenAt := make(map[string]int, len(references))
-	result := make([]string, 0, len(references))
+) ([]uuid.UUID, error) {
+	firstSeenAt := make(map[uuid.UUID]int, len(references))
+	result := make([]uuid.UUID, 0, len(references))
 	for i, ref := range references {
 		id, err := ref.ResolveObjectID(resolved)
 		if err != nil {
@@ -381,10 +383,10 @@ type SecurityGroupOperatorConfigMaps struct {
 	EntraID *genruntime.ConfigMapDestination `json:"entraID,omitempty"`
 }
 
-func convertIdsToURIs(ids []string) []string {
+func convertIdsToURIs(ids []uuid.UUID) []string {
 	result := make([]string, len(ids))
 	for i, id := range ids {
-		result[i] = DirectoryObjectRefURI(id)
+		result[i] = DirectoryObjectRefURI(id.String())
 	}
 
 	return result

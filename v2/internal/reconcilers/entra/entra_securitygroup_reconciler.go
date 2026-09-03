@@ -13,6 +13,7 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
 	"github.com/go-logr/logr"
+	"github.com/google/uuid"
 	msgraphsdkgo "github.com/microsoftgraph/msgraph-beta-sdk-go"
 	"github.com/microsoftgraph/msgraph-beta-sdk-go/groups"
 	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
@@ -517,11 +518,11 @@ func memberIDRequestConfiguration() *groups.ItemMembersRequestBuilderGetRequestC
 	}
 }
 
-func makeDirectoryObjects(ids []string) []msgraphmodels.DirectoryObjectable {
+func makeDirectoryObjects(ids []uuid.UUID) []msgraphmodels.DirectoryObjectable {
 	result := make([]msgraphmodels.DirectoryObjectable, 0, len(ids))
 	for _, id := range ids {
 		object := msgraphmodels.NewDirectoryObject()
-		object.SetId(to.Ptr(id))
+		object.SetId(to.Ptr(id.String()))
 		result = append(result, object)
 	}
 

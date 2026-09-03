@@ -12,6 +12,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	"github.com/google/uuid"
 	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 )
 
@@ -21,11 +22,11 @@ func TestCollectDirectoryObjectIDs_PaginatesAndDedupes(t *testing.T) {
 
 	pages := map[string]msgraphmodels.DirectoryObjectCollectionResponseable{
 		"first": makeDirectoryObjectPage(
-			[]string{"owner-a", "owner-b"},
+			[]string{"AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA", "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"},
 			stringPtr("second"),
 		),
 		"second": makeDirectoryObjectPage(
-			[]string{"owner-b", "owner-c", ""},
+			[]string{"BBBBBBBB-BBBB-BBBB-BBBB-BBBBBBBBBBBB", "cccccccc-cccc-cccc-cccc-cccccccccccc", ""},
 			nil,
 		),
 	}
@@ -41,7 +42,11 @@ func TestCollectDirectoryObjectIDs_PaginatesAndDedupes(t *testing.T) {
 	)
 
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(ids).To(Equal([]string{"owner-a", "owner-b", "owner-c"}))
+	g.Expect(ids).To(Equal([]uuid.UUID{
+		uuid.MustParse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
+		uuid.MustParse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
+		uuid.MustParse("cccccccc-cccc-cccc-cccc-cccccccccccc"),
+	}))
 }
 
 func TestCollectDirectoryObjectIDs_FirstPageError(t *testing.T) {
@@ -70,7 +75,7 @@ func TestCollectDirectoryObjectIDs_NextPageError(t *testing.T) {
 		context.Background(),
 		func(context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
 			return makeDirectoryObjectPage(
-				[]string{"owner-a"},
+				[]string{"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"},
 				stringPtr("next"),
 			), nil
 		},
