@@ -134,6 +134,12 @@ func (extension *SharedPrivateLinkExtension) PostReconcileCheck(
 		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
 	}
 
+	// Nothing below holds for a resource another operator has claimed, and this has to come before its
+	// policy is resolved: none of that operator's policies or credentials is visible from here
+	if reason, ok := foreignPrivateLinkResource(link, resource); ok {
+		return extensions.PostReconcileCheckResultFailure(reason), nil
+	}
+
 	// Approving writes to the resource the link points at, so its own policy governs it
 	allowed, err := modifyAllowed(reconcilePolicies, resource)
 	if err != nil {
@@ -185,6 +191,34 @@ func resumeApproval(ctx context.Context, armClient *genericarmclient.GenericClie
 	}
 
 	return poller.Poller.Done(), nil
+}
+
+// foreignPrivateLinkResource reports why the link cannot approve a connection on the resource it points at,
+// and is empty when it can. Approving writes to that resource with the link's credential, so the operator
+// and the credential behind both have to be the same.
+func foreignPrivateLinkResource(
+	link *databasewatcher.SharedPrivateLink,
+	resource genruntime.ARMMetaObject,
+) (string, bool) {
+	if differingOperator(link, resource) {
+		return fmt.Sprintf(
+			"cannot approve the private endpoint connection on %s, which is managed by the operator in %s while this link is managed by the operator in %s",
+			resource.GetName(),
+			describeOperator(resource),
+			describeOperator(link),
+		), true
+	}
+
+	if differingCredential(link, resource) {
+		return fmt.Sprintf(
+			"cannot approve the private endpoint connection on %s, which asks for %s while this link asks for %s",
+			resource.GetName(),
+			describeCredential(resource),
+			describeCredential(link),
+		), true
+	}
+
+	return "", false
 }
 
 // privateEndpointConnection is the part of a connection on the linked resource that its state is read from.

@@ -287,8 +287,9 @@ func Test_SharedPrivateLinkPostReconcileCheck_givenSkippedResource_reportsThatAp
 	link := approvableLink()
 	sqlServer := linkedServer()
 	sqlServer.SetAnnotations(map[string]string{
-		genruntime.ResourceIDAnnotation: serverARMID,
-		annotations.ReconcilePolicy:     string(annotations.ReconcilePolicySkip),
+		genruntime.ResourceIDAnnotation:         serverARMID,
+		reconcilers.OperatorNamespaceAnnotation: operatorNamespace,
+		annotations.ReconcilePolicy:             string(annotations.ReconcilePolicySkip),
 	})
 
 	result, err := approvalCheckForResources(g, server, link, sqlServer, managedPolicies())()
@@ -442,4 +443,76 @@ func approvalCheckForResources(
 			next,
 		)
 	}
+}
+
+// The operator check has to come before anything that resolves the resource's policy. A link annotated to
+// be managed, under an operator that skips by default, would otherwise resolve a foreign resource to skip
+// and report that approval is required without ever comparing operators.
+func Test_SharedPrivateLinkPostReconcileCheck_givenForeignResource_refusesBeforeResolvingItsPolicy(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	var approvals int
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPut {
+			approvals++
+		}
+
+		w.WriteHeader(http.StatusOK)
+		g.Expect(w.Write([]byte(connectionsJSON("Pending")))).ToNot(BeZero())
+	}))
+	defer server.Close()
+
+	link := approvableLink()
+	sqlServer := linkedServer()
+	sqlServer.SetAnnotations(map[string]string{
+		genruntime.ResourceIDAnnotation:         serverARMID,
+		reconcilers.OperatorNamespaceAnnotation: "other-operator",
+	})
+
+	// This operator leaves things alone unless told otherwise; the one that owns the resource may not
+	result, err := approvalCheckForResources(g, server, link, sqlServer, annotations.ResolvedReconcilePolicies{
+		Effective:       annotations.ReconcilePolicyManage,
+		NamespacePolicy: annotations.ReconcilePolicySkip,
+		NamespaceName:   linkNamespace,
+		Global:          annotations.ReconcilePolicySkip,
+	})()
+
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.ReconciliationSucceeded()).To(BeFalse())
+	g.Expect(result.Message()).To(ContainSubstring("managed by the operator"))
+	g.Expect(approvals).To(BeZero())
+}
+
+// Approving writes to the resource with the link's credential, so a resource managed with another one is
+// not the link's to complete
+func Test_SharedPrivateLinkPostReconcileCheck_givenResourceWithAnotherCredential_refusesToApprove(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	var approvals int
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPut {
+			approvals++
+		}
+
+		w.WriteHeader(http.StatusOK)
+		g.Expect(w.Write([]byte(connectionsJSON("Pending")))).ToNot(BeZero())
+	}))
+	defer server.Close()
+
+	link := approvableLink()
+	sqlServer := linkedServer()
+	sqlServer.SetAnnotations(map[string]string{
+		genruntime.ResourceIDAnnotation:         serverARMID,
+		reconcilers.OperatorNamespaceAnnotation: operatorNamespace,
+		annotations.PerResourceSecret:           "server-credential",
+	})
+
+	result, err := approvalCheckForResources(g, server, link, sqlServer, managedPolicies())()
+
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.ReconciliationSucceeded()).To(BeFalse())
+	g.Expect(result.Message()).To(ContainSubstring(`credential "server-credential"`))
+	g.Expect(approvals).To(BeZero())
 }

@@ -185,8 +185,7 @@ func foreignWatcher(
 	target *databasewatcher.Target,
 	watcher *databasewatcher.Watcher,
 ) (string, bool) {
-	ours := operatorNamespace(target)
-	if theirs := operatorNamespace(watcher); theirs == "" || theirs != ours || ours == "" {
+	if differingOperator(target, watcher) {
 		return fmt.Sprintf(
 			"cannot start watcher %q, which is managed by the operator in %s while this target is managed by the operator in %s",
 			watcher.Name,
@@ -239,11 +238,21 @@ func describeOperator(obj genruntime.MetaObject) string {
 
 // differingCredential reports whether the watcher is managed with a credential this target cannot prove is
 // its own. Only annotations can be compared, so anything short of equal is refused rather than assumed.
-func differingCredential(target *databasewatcher.Target, watcher *databasewatcher.Watcher) bool {
-	watcherCredential, watcherAsks := credentialAnnotation(watcher)
-	targetCredential, targetAsks := credentialAnnotation(target)
+func differingCredential(ours genruntime.MetaObject, theirs genruntime.MetaObject) bool {
+	theirCredential, theyAsk := credentialAnnotation(theirs)
+	ourCredential, weAsk := credentialAnnotation(ours)
 
-	return watcherAsks != targetAsks || watcherCredential != targetCredential
+	return theyAsk != weAsk || theirCredential != ourCredential
+}
+
+// differingOperator reports whether two resources are managed by different operators. A matching namespace
+// is not a matching operator, and a resource is claimed before any extension runs, so one carrying no
+// operator is unknown rather than ours.
+func differingOperator(ours genruntime.MetaObject, theirs genruntime.MetaObject) bool {
+	our := operatorNamespace(ours)
+	their := operatorNamespace(theirs)
+
+	return our == "" || their == "" || our != their
 }
 
 // credentialAnnotation reports the secret a resource asks for, and whether it asks at all - naming an
