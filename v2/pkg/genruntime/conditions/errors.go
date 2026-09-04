@@ -8,6 +8,7 @@ package conditions
 import (
 	"fmt"
 	"io"
+	"time"
 
 	"github.com/rotisserie/eris"
 
@@ -20,16 +21,19 @@ type ReadyConditionImpactingError struct {
 	Reason              string
 	cause               error
 	RetryClassification retry.Classification
+	RetryAfter          time.Duration
 }
 
 // NewReadyConditionImpactingError creates a new ReadyConditionImpactingError
 func NewReadyConditionImpactingError(cause error, severity ConditionSeverity, reason Reason) *ReadyConditionImpactingError {
-	return &ReadyConditionImpactingError{
+	result := &ReadyConditionImpactingError{
 		cause:               cause,
 		Severity:            severity,
 		Reason:              reason.Name,
 		RetryClassification: reason.RetryClassification,
 	}
+
+	return result
 }
 
 var _ error = &ReadyConditionImpactingError{}
@@ -86,4 +90,9 @@ func (e *ReadyConditionImpactingError) Format(s fmt.State, verb rune) {
 	case 'q':
 		_, _ = fmt.Fprintf(s, "%q", e.Error())
 	}
+}
+
+func (e *ReadyConditionImpactingError) WithRetryAfter(retryAfter time.Duration) *ReadyConditionImpactingError {
+	e.RetryAfter = max(e.RetryAfter, retryAfter)
+	return e
 }
