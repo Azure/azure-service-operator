@@ -7,14 +7,6 @@ no_list: true
 
 To install the CRDs for these resources, your ASO configuration must include `apimanagement.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                     | ARM Version | CRD Version | Supported From | Sample                                                                                                                         |
-|------------------------------------------------------------------------------|-------------|-------------|----------------|--------------------------------------------------------------------------------------------------------------------------------|
-| [Diagnostic]({{< relref "/reference/apimanagement/v20240501#Diagnostic" >}}) | 2024-05-01  | v20240501   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_diagnostic.yaml) |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
@@ -29,6 +21,7 @@ These resource(s) are the latest versions available for use in the current relea
 | [AuthorizationProvidersAuthorizationsAccessPolicy]({{< relref "/reference/apimanagement/v20240501#AuthorizationProvidersAuthorizationsAccessPolicy" >}}) | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_authorizationprovidersauthorizationsaccesspolicy.yaml) |
 | [Backend]({{< relref "/reference/apimanagement/v20240501#Backend" >}})                                                                                   | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_backend.yaml)                                          |
 | [Certificate]({{< relref "/reference/apimanagement/v20240501#Certificate" >}})                                                                           | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_certificate.yaml)                                      |
+| [Diagnostic]({{< relref "/reference/apimanagement/v20240501#Diagnostic" >}})                                                                             | 2024-05-01  | v20240501   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_diagnostic.yaml)                                       |
 | [Group]({{< relref "/reference/apimanagement/v20240501#Group" >}})                                                                                       | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_group.yaml)                                            |
 | [Logger]({{< relref "/reference/apimanagement/v20240501#Logger" >}})                                                                                     | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_logger.yaml)                                           |
 | [NamedValue]({{< relref "/reference/apimanagement/v20240501#NamedValue" >}})                                                                             | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_namedvalue.yaml)                                       |

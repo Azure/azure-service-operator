@@ -7,13 +7,17 @@ We go to great lengths to avoid breaking changes as much as possible, as we're w
 
 ## Upcoming Breaking Changes
 
-### Azure Cache for Redis Enterprise (v2.21)
+### TLS 1.3 (v2.22)
 
-Azure is retiring _Azure Cache for Redis Enterprise_ in favour of _Azure Managed Redis_.
+In ASO v2.22 we'll default to using TLS 1.3, but will provide a command line flag to enable TLS 1.2 if needed.
 
-While the difference at the ARM/Bicep level is just another SKU, older resource versions _cannot_ be used to create or manage the newer product, requiring all users to upgrade.
+See [#5660](https://github.com/Azure/azure-service-operator/issues/5660) for more information or if you want to discuss this change.
 
-ASO will be removing versions `v1api20210301` and `v1api20230701` of `RedisEnterprise` and `RedisEnterpriseDatabase` in version v2.21, scheduled for August 2026.
+### Standardization of Conditions (v2.23)
+
+In ASO v2.23 we'll be standardizing on Kubernetes `metav1.Condition` entries in `status.conditions` for all resources, instead of using our custom definition. Our condition shape today includes a `Severity` field, but otherwise our custom conditions already match this standard shape.
+
+See [#4917](https://github.com/Azure/azure-service-operator/issues/4917) for more information or if you want to discuss this change.
 
 ### Resource Versioning
 

@@ -161,7 +161,7 @@ groupModelConfiguration:
       $supportedFrom: v2.21.0
     SecurityAlertsPolicyProperties:
       StorageAccountAccessKey:
-        $isSecret: true
+        $importSecretMode: required
     Servers_AdvancedThreatProtectionSetting:
       $exportAs: ServersAdvancedThreatProtectionSetting
       $supportedFrom: v2.21.0
@@ -208,9 +208,9 @@ groupModelConfiguration:
       StorageContainerPath:
         $importConfigMapMode: optional
       StorageAccountAccessKey:
-        $isSecret: true
+        $importSecretMode: required
       StorageContainerSasKey:
-        $isSecret: true
+        $importSecretMode: required
     VirtualNetworkRuleProperties:
       VirtualNetworkSubnetId:
         $referenceType: arm
@@ -242,6 +242,6 @@ groupModelConfiguration:
       StorageContainerPath:
         $importConfigMapMode: optional
       StorageAccountAccessKey:
-        $isSecret: true
+        $importSecretMode: required
       StorageContainerSasKey:
-        $isSecret: true
+        $importSecretMode: required

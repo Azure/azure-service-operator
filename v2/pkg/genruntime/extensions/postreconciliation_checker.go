@@ -15,6 +15,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -37,6 +38,7 @@ type PostReconciliationChecker interface {
 	// resourceResolver helps resolve resource references.
 	// armClient allows access to ARM for any required queries.
 	// log is the logger for the current operation.
+	// reconcilePolicies are the reconcile policies in effect during the current reconcile.
 	// next is the default check implementation (usually returns success).
 	PostReconcileCheck(
 		ctx context.Context,
@@ -45,6 +47,7 @@ type PostReconciliationChecker interface {
 		resourceResolver *resolver.Resolver,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger,
+		reconcilePolicies annotations.ResolvedReconcilePolicies,
 		next PostReconcileCheckFunc,
 	) (PostReconcileCheckResult, error)
 }
@@ -56,6 +59,7 @@ type PostReconcileCheckFunc func(
 	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
 ) (PostReconcileCheckResult, error)
 
 type PostReconcileCheckResult struct {
@@ -134,10 +138,20 @@ func CreatePostReconciliationChecker(
 		resourceResolver *resolver.Resolver,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger,
+		reconcilePolicies annotations.ResolvedReconcilePolicies,
 	) (PostReconcileCheckResult, error) {
 		log.V(Status).Info("Extension post-reconcile check running")
 
-		result, err := impl.PostReconcileCheck(ctx, obj, owner, resourceResolver, armClient, log, alwaysSucceed)
+		result, err := impl.PostReconcileCheck(
+			ctx,
+			obj,
+			owner,
+			resourceResolver,
+			armClient,
+			log,
+			reconcilePolicies,
+			alwaysSucceed,
+		)
 		if err != nil {
 			log.V(Status).Info(
 				"Extension post-reconcile check failed",
@@ -164,6 +178,7 @@ func alwaysSucceed(
 	_ *resolver.Resolver,
 	_ *genericarmclient.GenericClient,
 	_ logr.Logger,
+	_ annotations.ResolvedReconcilePolicies,
 ) (PostReconcileCheckResult, error) {
 	return PostReconcileCheckResultSuccess(), nil
 }

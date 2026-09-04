@@ -73,17 +73,6 @@ func TestTypeConfiguration_WhenAzureSecretsBadlyFormed_ReturnsError(t *testing.T
 	g.Expect(err.Error()).To(ContainSubstring(azureGeneratedSecretsTag))
 }
 
-func TestTypeConfiguration_WhenExportDeprecated_ReturnsError(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	yamlBytes := loadTestData(t)
-
-	var typeConfig TypeConfiguration
-	err := yaml.Unmarshal(yamlBytes, &typeConfig)
-	g.Expect(err).To(MatchError(ContainSubstring("$export is deprecated, use $exportAs instead")))
-}
-
 /*
  * Type Rename tests
  */

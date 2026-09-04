@@ -14395,7 +14395,7 @@ type FunctionsScaleAndConcurrency struct {
 	// bandwidth are allocated proportionally.
 	InstanceMemoryMB *int `json:"instanceMemoryMB,omitempty"`
 
-	// MaximumInstanceCount: The maximum number of instances for the function app.
+	// MaximumInstanceCount: The maximum number of on demand instances per function group.
 	MaximumInstanceCount *int `json:"maximumInstanceCount,omitempty"`
 
 	// Triggers: Scale and concurrency settings for the function app triggers.
@@ -14634,7 +14634,7 @@ type FunctionsScaleAndConcurrency_STATUS struct {
 	// bandwidth are allocated proportionally.
 	InstanceMemoryMB *int `json:"instanceMemoryMB,omitempty"`
 
-	// MaximumInstanceCount: The maximum number of instances for the function app.
+	// MaximumInstanceCount: The maximum number of on demand instances per function group.
 	MaximumInstanceCount *int `json:"maximumInstanceCount,omitempty"`
 
 	// Triggers: Scale and concurrency settings for the function app triggers.

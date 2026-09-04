@@ -223,14 +223,16 @@ type ServerExternalAdministrator_STATUS struct {
 type ServerNetworkAccessFlag_STATUS string
 
 const (
-	ServerNetworkAccessFlag_STATUS_Disabled = ServerNetworkAccessFlag_STATUS("Disabled")
-	ServerNetworkAccessFlag_STATUS_Enabled  = ServerNetworkAccessFlag_STATUS("Enabled")
+	ServerNetworkAccessFlag_STATUS_Disabled           = ServerNetworkAccessFlag_STATUS("Disabled")
+	ServerNetworkAccessFlag_STATUS_Enabled            = ServerNetworkAccessFlag_STATUS("Enabled")
+	ServerNetworkAccessFlag_STATUS_SecuredByPerimeter = ServerNetworkAccessFlag_STATUS("SecuredByPerimeter")
 )
 
 // Mapping from string to ServerNetworkAccessFlag_STATUS
 var serverNetworkAccessFlag_STATUS_Values = map[string]ServerNetworkAccessFlag_STATUS{
-	"disabled": ServerNetworkAccessFlag_STATUS_Disabled,
-	"enabled":  ServerNetworkAccessFlag_STATUS_Enabled,
+	"disabled":           ServerNetworkAccessFlag_STATUS_Disabled,
+	"enabled":            ServerNetworkAccessFlag_STATUS_Enabled,
+	"securedbyperimeter": ServerNetworkAccessFlag_STATUS_SecuredByPerimeter,
 }
 
 // A private endpoint connection under a server
