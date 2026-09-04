@@ -121,7 +121,7 @@ func (extension *TargetExtension) PostReconcileCheck(
 	}
 
 	// A policy that forbids modifying the watcher forbids starting it
-	allowed, err := startAllowed(reconcilePolicies, watcher)
+	allowed, err := modifyAllowed(reconcilePolicies, watcher)
 	if err != nil {
 		// We couldn't work out whether starting the watcher is allowed, returning the error for visibility
 		return extensions.PostReconcileCheckResult{}, err
@@ -262,15 +262,16 @@ func describeCredential(obj genruntime.MetaObject) string {
 	return fmt.Sprintf("credential %q", credential)
 }
 
-// startAllowed reports whether the watcher's own policy permits modifying it. An owner always shares the
-// target's namespace, so a mismatch here is a resolution the policies can't answer rather than a refusal.
-func startAllowed(
+// modifyAllowed reports whether a resource's own policy permits modifying it. Everything checked this way
+// shares the namespace of the resource being reconciled, so a mismatch here is a resolution the policies
+// can't answer rather than a refusal.
+func modifyAllowed(
 	policies annotations.ResolvedReconcilePolicies,
-	watcher *databasewatcher.Watcher,
+	resource genruntime.MetaObject,
 ) (bool, error) {
-	policy, err := policies.ForResource(watcher)
+	policy, err := policies.ForResource(resource)
 	if err != nil {
-		return false, eris.Wrapf(err, "resolving the reconcile policy of watcher %q", watcher.Name)
+		return false, eris.Wrapf(err, "resolving the reconcile policy of %s", resource.GetName())
 	}
 
 	return policy.AllowsModify(), nil
