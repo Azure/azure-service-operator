@@ -164,3 +164,28 @@ func TestSecurityGroupSpec_ResolveOwnerObjectIDs_PreservesInputOrder(t *testing.
 		uuid.MustParse("22222222-2222-2222-2222-222222222222"),
 	}))
 }
+
+func TestSecurityGroupSpec_HasDynamicMembership(t *testing.T) {
+	t.Parallel()
+
+	tests := map[string]struct {
+		membershipType *SecurityGroupMembershipType
+		expected       bool
+	}{
+		"default assigned":       {expected: false},
+		"assigned":               {membershipType: to.Ptr(SecurityGroupMembershipTypeAssigned), expected: false},
+		"assigned Microsoft 365": {membershipType: to.Ptr(SecurityGroupMembershipTypeAssignedM365), expected: false},
+		"dynamic":                {membershipType: to.Ptr(SecurityGroupMembershipTypeDynamic), expected: true},
+		"dynamic Microsoft 365":  {membershipType: to.Ptr(SecurityGroupMembershipTypeDynamicM365), expected: true},
+	}
+
+	for name, test := range tests {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			spec := SecurityGroupSpec{MembershipType: test.membershipType}
+
+			g.Expect(spec.HasDynamicMembership()).To(Equal(test.expected))
+		})
+	}
+}

@@ -123,6 +123,10 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 		return eris.Wrapf(err, "reconciling owners for group %s", id)
 	}
 
+	if group.Spec.HasDynamicMembership() {
+		return nil
+	}
+
 	// Work out which members we want for the group
 	desiredMembers, err := group.Spec.ResolveMemberObjectIDs(resolvedConfigMaps)
 	if err != nil {

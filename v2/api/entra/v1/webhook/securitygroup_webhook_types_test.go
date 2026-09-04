@@ -57,3 +57,38 @@ func TestSecurityGroupWebhook_ValidateOptionalConfigMapReferences_OneOrZeroSetPa
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(warnings).To(BeNil())
 }
+
+func TestSecurityGroupWebhook_ValidateMembers_DynamicMembershipFails(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	obj := &v1.SecurityGroup{
+		Spec: v1.SecurityGroupSpec{
+			MembershipType: to.Ptr(v1.SecurityGroupMembershipTypeDynamic),
+			Members: []v1.SecurityGroupMemberReference{
+				{ObjectID: to.Ptr("11111111-1111-1111-1111-111111111111")},
+			},
+		},
+	}
+
+	_, err := (&SecurityGroup_Webhook{}).validateMembers(context.Background(), obj)
+	g.Expect(err).To(MatchError(ContainSubstring("members cannot be specified for a dynamic membership group")))
+}
+
+func TestSecurityGroupWebhook_ValidateMembers_AssignedMembershipPasses(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	obj := &v1.SecurityGroup{
+		Spec: v1.SecurityGroupSpec{
+			MembershipType: to.Ptr(v1.SecurityGroupMembershipTypeAssigned),
+			Members: []v1.SecurityGroupMemberReference{
+				{ObjectID: to.Ptr("11111111-1111-1111-1111-111111111111")},
+			},
+		},
+	}
+
+	warnings, err := (&SecurityGroup_Webhook{}).validateMembers(context.Background(), obj)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(warnings).To(BeNil())
+}

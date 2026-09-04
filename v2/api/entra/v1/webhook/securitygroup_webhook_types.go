@@ -135,6 +135,7 @@ func (webhook *SecurityGroup_Webhook) ValidateUpdate(
 func (webhook *SecurityGroup_Webhook) createValidations() []func(ctx context.Context, obj *v1.SecurityGroup) (admission.Warnings, error) {
 	return []func(ctx context.Context, obj *v1.SecurityGroup) (admission.Warnings, error){
 		webhook.validateOptionalConfigMapReferences,
+		webhook.validateMembers,
 	}
 }
 
@@ -149,6 +150,9 @@ func (webhook *SecurityGroup_Webhook) updateValidations() []func(ctx context.Con
 		func(ctx context.Context, oldObj *v1.SecurityGroup, newObj *v1.SecurityGroup) (admission.Warnings, error) {
 			return webhook.validateOptionalConfigMapReferences(ctx, newObj)
 		},
+		func(ctx context.Context, oldObj *v1.SecurityGroup, newObj *v1.SecurityGroup) (admission.Warnings, error) {
+			return webhook.validateMembers(ctx, newObj)
+		},
 	}
 }
 
@@ -160,4 +164,12 @@ func (webhook *SecurityGroup_Webhook) validateOptionalConfigMapReferences(ctx co
 	}
 
 	return configmaps.ValidateOptionalReferences(refs)
+}
+
+func (webhook *SecurityGroup_Webhook) validateMembers(_ context.Context, obj *v1.SecurityGroup) (admission.Warnings, error) {
+	if obj.Spec.HasDynamicMembership() && len(obj.Spec.Members) > 0 {
+		return nil, eris.New("members cannot be specified for a dynamic membership group")
+	}
+
+	return nil, nil
 }

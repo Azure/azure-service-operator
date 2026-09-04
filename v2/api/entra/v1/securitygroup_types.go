@@ -142,6 +142,16 @@ func (spec *SecurityGroupSpec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
+// HasDynamicMembership returns true when membership is managed by an Entra dynamic membership rule.
+func (spec *SecurityGroupSpec) HasDynamicMembership() bool {
+	if spec.MembershipType == nil {
+		return false
+	}
+
+	return *spec.MembershipType == SecurityGroupMembershipTypeDynamic ||
+		*spec.MembershipType == SecurityGroupMembershipTypeDynamicM365
+}
+
 // AssignODataBindOnCreate sets the `owners@odata.bind` and `members@odata.bind` additional data
 // on the group model. These annotations are only valid during the initial POST to Microsoft Graph;
 // they must NOT be included in PATCH requests.
