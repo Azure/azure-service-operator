@@ -745,16 +745,24 @@ tasks:
     env:
       RECORD_REPLAY: 0
 
+  controller:test-integration:
+    desc: Run live integration tests against the current cluster.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps:
+      - setup
+    cmds:
+      # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
+      # to keep CI fast
+      - go test -timeout 40m -v -run '{{default ".*" .TEST_FILTER}}' ./test | tee '{{.TEST_OUT}}/test-integration.log'
+
   controller:test-integration-kind-ci:
     desc: Run live integration tests in kind and deletes the kind cluster afterwards.
     dir: "{{.CONTROLLER_ROOT}}"
     deps:  
       - controller:kind-create-helm-workload-identity
     cmds:
-      # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
-      # to keep CI fast
       - defer: { task: controller:kind-delete }
-      - go test -timeout 40m -run '{{default ".*" .TEST_FILTER}}' ./test
+      - task: controller:test-integration
 
   # Note that this target isn't used in CI and is intended for use when running locally on a kind cluster
   # that you don't want to delete (in contrast to test-integration-kind-ci which will delete the kind cluster
@@ -765,9 +773,7 @@ tasks:
     deps: 
       - controller:kind-create-helm-workload-identity
     cmds:
-      # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
-      # to keep CI fast
-      - go test -timeout 40m -v -run '{{default ".*" .TEST_FILTER}}' ./test
+      - task: controller:test-integration
 
   # To control as many variables as possible and get repeatable runs, it's recommended to 
   # run this test against a real AKS cluster rather than a local kind cluster
