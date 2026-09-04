@@ -22,7 +22,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/api/databasewatcher/customizations"
 	databasewatcher "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview/storage"
-	sql "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	sql "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
