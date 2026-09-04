@@ -103,3 +103,44 @@ func TestFlatteningWorks(t *testing.T) {
 	g.Expect(yProp.FlattenedFrom()).To(Equal([]astmodel.PropertyName{"inner", "y"}))
 	g.Expect(zProp.FlattenedFrom()).To(Equal([]astmodel.PropertyName{"z"}))
 }
+
+// TestFlattenProperties_FlattensSelectedProperties verifies that properties explicitly marked for flattening
+// are inlined while other properties retain their original shape.
+func TestFlattenProperties_FlattensSelectedProperties(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	inner := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Inner",
+		astmodel.NewPropertyDefinition("Color", "color", astmodel.OptionalStringType),
+		astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType),
+	)
+
+	outerName := astmodel.MakeInternalTypeName(test.Pkg2020, "Test")
+	outer := astmodel.MakeTypeDefinition(
+		outerName,
+		astmodel.NewObjectType().WithProperties(
+			astmodel.NewPropertyDefinition("InnerFlat", "innerFlat", astmodel.NewOptionalType(inner.Name())).
+				SetFlatten(true),
+			astmodel.NewPropertyDefinition("InnerNotFlat", "innerNotFlat", astmodel.NewOptionalType(inner.Name())),
+		),
+	)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(inner, outer)
+
+	state, err := RunTestPipeline(
+		NewState(defs),
+		FlattenProperties(logr.Discard()),
+	)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	result := state.Definitions().MustGetDefinition(outerName)
+	test.AssertPropertyExistsWithType(t, result.Type(), "Color", astmodel.OptionalStringType)
+	test.AssertPropertyExistsWithType(t, result.Type(), "Name", astmodel.OptionalStringType)
+	test.AssertPropertyExistsWithType(t, result.Type(), "InnerNotFlat", astmodel.NewOptionalType(inner.Name()))
+	test.AssertPropertyCount(t, result.Type(), 3)
+
+	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+}
