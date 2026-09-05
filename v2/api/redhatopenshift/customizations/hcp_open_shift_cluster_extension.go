@@ -110,7 +110,8 @@ func (ext *HcpOpenShiftClusterExtension) ExportKubernetesSecrets(
 	var adminCredentials string
 	if requestedSecrets.Contains(adminCredentialsKey) {
 		adminCredentials, err = requestAdminCredential(
-			ctx, armClient, id.SubscriptionID, id.ResourceGroupName, typedObj.AzureName(), log)
+			ctx, armClient, id.SubscriptionID, id.ResourceGroupName, typedObj.AzureName(), log,
+		)
 		if err != nil {
 			return nil, err
 		}
@@ -179,7 +180,8 @@ func requestAdminCredential(
 		armhcp20260901preview.HcpOpenShiftClusterAdminCredentialRequest{
 			CertificateSigningRequest: to.Ptr(string(csrPEM)),
 		},
-		nil)
+		nil,
+	)
 	if err != nil {
 		return "", eris.Wrapf(err, "failed creating admin credentials")
 	}
