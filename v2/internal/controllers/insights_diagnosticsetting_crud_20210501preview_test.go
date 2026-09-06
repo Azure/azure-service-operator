@@ -64,7 +64,7 @@ func Test_Insights_DiagnosticSetting_v20210501preview_CRUD(t *testing.T) {
 				Group: "network.azure.com",
 				Kind:  "VirtualNetwork",
 			},
-			Logs: []insights.DiagnosticsLogSettings{
+			Logs: []insights.LogSettings{
 				{
 					CategoryGroup: to.Ptr("allLogs"),
 					Enabled:       to.Ptr(true),
