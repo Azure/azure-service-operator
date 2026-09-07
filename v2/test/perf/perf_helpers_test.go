@@ -194,7 +194,7 @@ type resourceSet struct {
 // 3. Hold for the configured duration
 // 4. Delete all resource sets
 //
-//nolint:unparam // Keep the error result consistent with the other performance test patterns.
+//nolint:unparam,nolintlint // Keep the error result consistent with the other performance test patterns.
 func runStaticPattern(
 	t *testing.T,
 	tc *testcommon.KubePerTestContext,
