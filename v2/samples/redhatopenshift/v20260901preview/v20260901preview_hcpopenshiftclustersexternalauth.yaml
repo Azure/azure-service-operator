@@ -1,14 +1,14 @@
 apiVersion: redhatopenshift.azure.com/v20260901preview
 kind: HcpOpenShiftClustersExternalAuth
 metadata:
-  name: mveber-int-ea
+  name: aso-sample-hcp-ea
   namespace: default
 spec:
-  azureName: mveber-int-ea
+  azureName: aso-sample-hcp-ea
   owner:
     group: redhatopenshift.azure.com
     kind: HcpOpenShiftCluster
-    name: mveber-int
+    name: aso-sample-hcp
   properties:
     issuer:
       url: "https://login.microsoftonline.com/tenant-id/v2.0"

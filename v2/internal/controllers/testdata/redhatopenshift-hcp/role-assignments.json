@@ -1,0 +1,162 @@
+[
+  {
+    "identity": "cp-cluster-api-azure",
+    "role": "88366f10-ed47-4cc0-9fab-c8a06148393e",
+    "scope": "subnet"
+  },
+  {
+    "identity": "serviceIdentity",
+    "role": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
+    "scope": "cp-cluster-api-azure"
+  },
+  {
+    "identity": "cp-kms",
+    "role": "12338af0-0e69-4776-bea7-57ae8d297424",
+    "scope": "vault"
+  },
+  {
+    "identity": "serviceIdentity",
+    "role": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
+    "scope": "cp-kms"
+  },
+  {
+    "identity": "cp-control-plane",
+    "role": "fc0c873f-45e9-4d0d-a7d1-585aab30c6ed",
+    "scope": "vnet"
+  },
+  {
+    "identity": "cp-control-plane",
+    "role": "fc0c873f-45e9-4d0d-a7d1-585aab30c6ed",
+    "scope": "networkSecurityGroup"
+  },
+  {
+    "identity": "serviceIdentity",
+    "role": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
+    "scope": "cp-control-plane"
+  },
+  {
+    "identity": "cp-cloud-controller-manager",
+    "role": "a1f96423-95ce-4224-ab27-4e3dc72facd4",
+    "scope": "subnet"
+  },
+  {
+    "identity": "cp-cloud-controller-manager",
+    "role": "a1f96423-95ce-4224-ab27-4e3dc72facd4",
+    "scope": "networkSecurityGroup"
+  },
+  {
+    "identity": "serviceIdentity",
+    "role": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
+    "scope": "cp-cloud-controller-manager"
+  },
+  {
+    "identity": "cp-ingress",
+    "role": "0336e1d3-7a87-462b-b6db-342b63f7802c",
+    "scope": "subnet"
+  },
+  {
+    "identity": "serviceIdentity",
+    "role": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
+    "scope": "cp-ingress"
+  },
+  {
+    "identity": "serviceIdentity",
+    "role": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
+    "scope": "cp-disk-csi-driver"
+  },
+  {
+    "identity": "cp-file-csi-driver",
+    "role": "0d7aedc0-15fd-4a67-a412-efad370c947e",
+    "scope": "vnet"
+  },
+  {
+    "identity": "cp-file-csi-driver",
+    "role": "0d7aedc0-15fd-4a67-a412-efad370c947e",
+    "scope": "networkSecurityGroup"
+  },
+  {
+    "identity": "serviceIdentity",
+    "role": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
+    "scope": "cp-file-csi-driver"
+  },
+  {
+    "identity": "serviceIdentity",
+    "role": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
+    "scope": "cp-image-registry"
+  },
+  {
+    "identity": "cp-image-registry",
+    "role": "8b32b316-c2f5-4ddf-b05b-83dacd2d08b5",
+    "scope": "resourceGroup"
+  },
+  {
+    "identity": "cp-image-registry",
+    "role": "8b32b316-c2f5-4ddf-b05b-83dacd2d08b5",
+    "scope": "vnet"
+  },
+  {
+    "identity": "cp-cloud-network-config",
+    "role": "be7a6435-15ae-4171-8f30-4a343eff9e8f",
+    "scope": "subnet"
+  },
+  {
+    "identity": "cp-cloud-network-config",
+    "role": "be7a6435-15ae-4171-8f30-4a343eff9e8f",
+    "scope": "vnet"
+  },
+  {
+    "identity": "serviceIdentity",
+    "role": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
+    "scope": "cp-cloud-network-config"
+  },
+  {
+    "identity": "serviceIdentity",
+    "role": "ef318e2a-8334-4a05-9e4a-295a196c6a6e",
+    "scope": "dp-disk-csi-driver"
+  },
+  {
+    "identity": "serviceIdentity",
+    "role": "ef318e2a-8334-4a05-9e4a-295a196c6a6e",
+    "scope": "dp-file-csi-driver"
+  },
+  {
+    "identity": "dp-file-csi-driver",
+    "role": "0d7aedc0-15fd-4a67-a412-efad370c947e",
+    "scope": "vnet"
+  },
+  {
+    "identity": "dp-file-csi-driver",
+    "role": "0d7aedc0-15fd-4a67-a412-efad370c947e",
+    "scope": "networkSecurityGroup"
+  },
+  {
+    "identity": "serviceIdentity",
+    "role": "ef318e2a-8334-4a05-9e4a-295a196c6a6e",
+    "scope": "dp-image-registry"
+  },
+  {
+    "identity": "dp-image-registry",
+    "role": "8b32b316-c2f5-4ddf-b05b-83dacd2d08b5",
+    "scope": "resourceGroup"
+  },
+  {
+    "identity": "dp-image-registry",
+    "role": "8b32b316-c2f5-4ddf-b05b-83dacd2d08b5",
+    "scope": "vnet"
+  },
+  {
+    "identity": "serviceIdentity",
+    "role": "c0ff367d-66d8-445e-917c-583feb0ef0d4",
+    "scope": "vnet"
+  },
+  {
+    "identity": "serviceIdentity",
+    "role": "c0ff367d-66d8-445e-917c-583feb0ef0d4",
+    "scope": "vnetIntegrationSubnet"
+  },
+  {
+    "identity": "serviceIdentity",
+    "role": "c0ff367d-66d8-445e-917c-583feb0ef0d4",
+    "scope": "networkSecurityGroup"
+  }
+]

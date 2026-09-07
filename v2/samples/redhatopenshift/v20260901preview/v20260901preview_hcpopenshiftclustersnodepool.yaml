@@ -1,15 +1,15 @@
 apiVersion: redhatopenshift.azure.com/v20260901preview
 kind: HcpOpenShiftClustersNodePool
 metadata:
-  name: mveber-int-mp-0
+  name: aso-sample-hcp-mp-0
   namespace: default
 spec:
-  azureName: mveber-int-mp-0
+  azureName: aso-sample-hcp-mp-0
   location: uksouth
   owner:
     group: redhatopenshift.azure.com
     kind: HcpOpenShiftCluster
-    name: mveber-int
+    name: aso-sample-hcp
   properties:
     # replicas: 2
     autoRepair: true
@@ -28,7 +28,7 @@ spec:
         diskStorageAccountType: "Standard_LRS"
         sizeGiB: 128
       subnetReference:
-        armId: "/subscriptions/64f0619f-ebc2-4156-9d91-c4c781de7e54/resourceGroups/mveber-int-resgroup/providers/Microsoft.Network/virtualNetworks/mveber-int-vnet/subnets/mveber-int-subnet"
+        armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/virtualNetworks/aso-sample-vnet/subnets/aso-sample-subnet"
       vmSize: "Standard_D4s_v3"
     version:
       channelGroup: stable
