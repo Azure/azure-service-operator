@@ -133,6 +133,23 @@ func TestProfiler_InvalidOutputPathCleansUpAfterFailedStart(t *testing.T) {
 }
 
 //nolint:paralleltest // Keep profiler lifecycle tests serialized for consistency.
+func TestProfiler_InvalidMemoryPathReportsCreateFailureAndLeavesHandlesNil(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	tempDir := t.TempDir()
+	invalidMemoryPath := filepath.Join(tempDir, "missing", "memory.pprof")
+	profiler := newProfiler()
+	profiler.memoryProfilePath = invalidMemoryPath
+
+	g.Expect(profiler.start()).To(MatchError(ContainSubstring("creating memory profile")))
+	g.Expect(profiler.memoryProfile).To(BeNil())
+	g.Expect(profiler.cpuProfile).To(BeNil())
+	g.Expect(profiler.stop()).To(Succeed())
+	g.Expect(profiler.memoryProfile).To(BeNil())
+	g.Expect(profiler.cpuProfile).To(BeNil())
+}
+
+//nolint:paralleltest // Keep profiler lifecycle tests serialized for consistency.
 func TestProfiler_AllocationsAtEndOfWorkAreRepresented(t *testing.T) {
 	g := NewGomegaWithT(t)
 
