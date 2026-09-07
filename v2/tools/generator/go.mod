@@ -28,7 +28,6 @@ require (
 	github.com/samber/lo v1.53.0
 	github.com/sebdah/goldie/v2 v2.8.0
 	github.com/spf13/cobra v1.10.2
-	github.com/spf13/pflag v1.0.10
 	github.com/xeipuuv/gojsonschema v1.2.0
 	golang.org/x/exp v0.0.0-20260410095643-746e56fc9e2f
 	golang.org/x/mod v0.40.0
@@ -37,6 +36,8 @@ require (
 	gopkg.in/yaml.v3 v3.0.1
 	k8s.io/apimachinery v0.37.0
 )
+
+require github.com/spf13/pflag v1.0.10 // indirect
 
 require (
 	github.com/go-openapi/jsonreference v1.0.1 // indirect
