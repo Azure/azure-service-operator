@@ -516,3 +516,37 @@ func Test_SharedPrivateLinkPostReconcileCheck_givenResourceWithAnotherCredential
 	g.Expect(result.Message()).To(ContainSubstring(`credential "server-credential"`))
 	g.Expect(approvals).To(BeZero())
 }
+
+// Opening the connection needs no rights on the resource it is opened against, so a credential that created
+// the link may still have no say in approving what it opened
+func Test_SharedPrivateLinkPostReconcileCheck_givenUnauthorizedApproval_reportsThatApprovalIsRequired(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	var approvals int
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPut {
+			approvals++
+			w.WriteHeader(http.StatusForbidden)
+			g.Expect(w.Write([]byte(
+				`{"error": {"code": "AuthorizationFailed", "message": "The client does not have authorization to perform action."}}`,
+			))).ToNot(BeZero())
+
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		g.Expect(w.Write([]byte(connectionsJSON("Pending")))).ToNot(BeZero())
+	}))
+	defer server.Close()
+
+	link := approvableLink()
+	result, err := approvalCheck(g, server, link)()
+
+	// The refusal is the resource owner's to answer, not a fault of the operator's to report as an error
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.ReconciliationSucceeded()).To(BeFalse())
+	g.Expect(result.Message()).To(ContainSubstring("not authorized to give"))
+	g.Expect(approvals).To(Equal(1))
+	g.Expect(link.GetAnnotations()).ToNot(HaveKey(customizations.ApprovalPollerResumeTokenAnnotation))
+}

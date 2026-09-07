@@ -23,6 +23,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
+// authorizationFailedErrorCode is what ARM answers a request the credential has no rights to make.
+const authorizationFailedErrorCode = "AuthorizationFailed"
+
 const (
 	connectionStateApproved     = "Approved"
 	connectionStatePending      = "Pending"
@@ -154,6 +157,17 @@ func (extension *SharedPrivateLinkExtension) PostReconcileCheck(
 
 	token, err := submitApproval(ctx, armClient, link, connection, resource, log)
 	if err != nil {
+		// Opening the connection needs no rights on the resource it is opened against, so a credential that
+		// got this far may still have no say in approving it, leaving that to whoever owns the resource
+		if unauthorized(err) {
+			return extensions.PostReconcileCheckResultFailure(
+				fmt.Sprintf(
+					"the private endpoint connection on %s requires approval, which this operator's credential is not authorized to give",
+					resource.GetName(),
+				),
+			), nil
+		}
+
 		return extensions.PostReconcileCheckResult{},
 			eris.Wrapf(err, "cannot approve the connection shared private link %s opened on %s", link.Name, resource.GetName())
 	}
@@ -219,6 +233,16 @@ func foreignPrivateLinkResource(
 	}
 
 	return "", false
+}
+
+// unauthorized reports whether ARM refused the request for want of permission.
+func unauthorized(err error) bool {
+	var cloudError *genericarmclient.CloudError
+	if !eris.As(err, &cloudError) {
+		return false
+	}
+
+	return cloudError.Code() == authorizationFailedErrorCode
 }
 
 // privateEndpointConnection is the part of a connection on the linked resource that its state is read from.
