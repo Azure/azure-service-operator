@@ -28,7 +28,7 @@ func Execute() {
 	}
 
 	ctx := xcontext.MakeInterruptibleContext(context.Background())
-	if err = executeCommand(ctx, cmd, profiler); err != nil {
+	if err = executeRootCommand(ctx, os.Args[1:], cmd, profiler); err != nil {
 		log := CreateLogger()
 		log.Error(err, "failed to execute root command")
 		os.Exit(1)
@@ -99,6 +99,16 @@ func newRootCommand() (*cobra.Command, *profiler, error) {
 
 type profileStopper interface {
 	stop() error
+}
+
+func executeRootCommand(
+	ctx context.Context,
+	args []string,
+	cmd *cobra.Command,
+	profiler profileStopper,
+) error {
+	cmd.SetArgs(args)
+	return executeCommand(ctx, cmd, profiler)
 }
 
 func executeCommand(

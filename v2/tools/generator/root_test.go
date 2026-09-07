@@ -8,6 +8,7 @@ package main
 import (
 	"context"
 	"errors"
+	"os"
 	"path/filepath"
 	"testing"
 
@@ -16,9 +17,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+//nolint:paralleltest // newRootCommand binds package-global logging flags.
 func TestRootCommand_ExposesProfilingFlags(t *testing.T) {
-	t.Parallel()
-
 	g := NewGomegaWithT(t)
 
 	cmd, _, err := newRootCommand()
@@ -27,9 +27,8 @@ func TestRootCommand_ExposesProfilingFlags(t *testing.T) {
 	g.Expect(cmd.PersistentFlags().Lookup("memory-prof")).NotTo(BeNil())
 }
 
+//nolint:paralleltest // newRootCommand binds package-global logging flags.
 func TestRootCommand_FinalizesProfilesAfterCommandFailure(t *testing.T) {
-	t.Parallel()
-
 	g := NewGomegaWithT(t)
 
 	memoryPath := filepath.Join(t.TempDir(), "memory.pprof")
@@ -51,9 +50,8 @@ func TestRootCommand_FinalizesProfilesAfterCommandFailure(t *testing.T) {
 	g.Expect(readProfile(g, memoryPath)).NotTo(BeNil())
 }
 
+//nolint:paralleltest // newRootCommand binds package-global logging flags.
 func TestRootCommand_InvalidProfilePathPreventsExecution(t *testing.T) {
-	t.Parallel()
-
 	g := NewGomegaWithT(t)
 
 	cmd, profiler, err := newRootCommand()
@@ -74,9 +72,56 @@ func TestRootCommand_InvalidProfilePathPreventsExecution(t *testing.T) {
 	g.Expect(executed).To(BeFalse())
 }
 
-func TestExecuteCommand_PreservesCommandAndProfileErrors(t *testing.T) {
-	t.Parallel()
+//nolint:paralleltest // newRootCommand binds package-global logging flags.
+func TestExecuteRootCommand_AcceptsRootProfilingFlagsBeforeSubcommand(t *testing.T) {
+	g := NewGomegaWithT(t)
 
+	memoryPath := filepath.Join(t.TempDir(), "memory.pprof")
+	cmd, profiler, err := newRootCommand()
+	g.Expect(err).NotTo(HaveOccurred())
+
+	executed := false
+	cmd.AddCommand(&cobra.Command{
+		Use: "successful-command",
+		Run: func(*cobra.Command, []string) {
+			executed = true
+			_ = make([]byte, 1024*1024)
+		},
+	})
+
+	err = executeRootCommand(
+		context.Background(),
+		[]string{"--memory-prof", memoryPath, "successful-command"},
+		cmd,
+		profiler,
+	)
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(executed).To(BeTrue())
+	g.Expect(readProfile(g, memoryPath)).NotTo(BeNil())
+}
+
+//nolint:paralleltest // newRootCommand binds package-global logging flags.
+func TestExecuteRootCommand_InvalidArgumentsDoNotCreateProfiles(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	memoryPath := filepath.Join(t.TempDir(), "memory.pprof")
+	cmd, profiler, err := newRootCommand()
+	g.Expect(err).NotTo(HaveOccurred())
+
+	err = executeRootCommand(
+		context.Background(),
+		[]string{"--memory-prof", memoryPath, "gen-types"},
+		cmd,
+		profiler,
+	)
+	g.Expect(err).To(MatchError(ContainSubstring("accepts 1 arg(s), received 0")))
+
+	_, statErr := os.Stat(memoryPath)
+	g.Expect(os.IsNotExist(statErr)).To(BeTrue())
+}
+
+//nolint:paralleltest // newRootCommand binds package-global logging flags.
+func TestExecuteCommand_PreservesCommandAndProfileErrors(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	commandErr := errors.New("command failed")
