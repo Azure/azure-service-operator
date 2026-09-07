@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"runtime"
 	"runtime/pprof"
 )
 
@@ -63,6 +64,7 @@ func (p *profiler) stop() error {
 	}
 
 	if p.memoryProfile != nil {
+		runtime.GC()
 		allocations := pprof.Lookup("allocs")
 		if allocations == nil {
 			result = errors.Join(result, errors.New("finding cumulative allocation profile"))
