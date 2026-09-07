@@ -8,7 +8,7 @@ package entra
 import (
 	"net/http"
 
-	"github.com/microsoftgraph/msgraph-sdk-go/models/odataerrors"
+	"github.com/microsoftgraph/msgraph-beta-sdk-go/models/odataerrors"
 	"github.com/rotisserie/eris"
 )
 

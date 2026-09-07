@@ -3,7 +3,9 @@
 package v1
 
 import (
-	"github.com/microsoftgraph/msgraph-sdk-go/models"
+	"github.com/google/uuid"
+	"github.com/microsoftgraph/msgraph-beta-sdk-go/models"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
@@ -55,6 +57,7 @@ type SecurityGroupList struct {
 	Items           []SecurityGroup `json:"items"`
 }
 
+// +kubebuilder:validation:XValidation:rule="(has(self.owners) ? size(self.owners) : 0) + (has(self.members) ? size(self.members) : 0) <= 20",message="the combined number of owners and members must not exceed 20"
 type SecurityGroupSpec struct {
 	// DisplayName: The display name of the group.
 	// +kubebuilder:validation:Required
@@ -76,11 +79,160 @@ type SecurityGroupSpec struct {
 
 	// IsAssignableToRole: Indicates whether the group can be assigned to a role.
 	IsAssignableToRole *bool `json:"isAssignableToRole,omitempty"`
+
+	// Owners: Directory objects (users, service principals) to assign as owners of the security
+	// group. Applied during the initial POST to Microsoft Graph via `owners@odata.bind` and then used as desired owner
+	// state for later reconciliation.
+	// Required when ASO authenticates with an app-only token and the calling principal lacks Group.ReadWrite.All —
+	// otherwise the created group has no owners and is unmanageable.
+	// +kubebuilder:validation:MaxItems=20
+	Owners []SecurityGroupMemberReference `json:"owners,omitempty"`
+
+	// Members: Directory objects (users, service principals, groups) to assign as members of the security group.
+	// Applied during the initial POST to Microsoft Graph via `members@odata.bind` and then used as desired member state
+	// for later reconciliation.
+	// +kubebuilder:validation:MaxItems=20
+	Members []SecurityGroupMemberReference `json:"members,omitempty"`
+}
+
+// SecurityGroupMemberReference is a reference to a directory object (user, service principal, or group) by its
+// Entra Object ID.
+// +kubebuilder:validation:XValidation:rule="has(self.objectID) != has(self.objectIDFromConfig)",message="exactly one of objectID or objectIDFromConfig must be specified"
+type SecurityGroupMemberReference struct {
+	// ObjectID: The Entra Object ID (GUID) of the directory object.
+	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+	ObjectID *string `json:"objectID,omitempty" optionalConfigMapPair:"ObjectID"`
+
+	// ObjectIDFromConfig: Reference to a configmap value containing the Entra Object ID.
+	ObjectIDFromConfig *genruntime.ConfigMapReference `json:"objectIDFromConfig,omitempty" optionalConfigMapPair:"ObjectID"`
+}
+
+// ResolveObjectID returns the Entra Object ID for this reference, looking it up via the resolved
+// config maps when ObjectIDFromConfig is set. Returns an error if neither ObjectID nor
+// ObjectIDFromConfig is populated, or if the configmap lookup fails.
+func (ref *SecurityGroupMemberReference) ResolveObjectID(
+	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
+) (uuid.UUID, error) {
+	var value string
+	switch {
+	case ref.ObjectID != nil:
+		value = *ref.ObjectID
+
+	case ref.ObjectIDFromConfig != nil:
+		val, err := resolved.Lookup(*ref.ObjectIDFromConfig)
+		if err != nil {
+			return uuid.Nil, eris.Wrapf(err, "failed resolving objectIDFromConfig")
+		}
+		value = val
+
+	default:
+		return uuid.Nil, eris.New("missing objectID or objectIDFromConfig")
+	}
+
+	id, err := uuid.Parse(value)
+	if err != nil {
+		return uuid.Nil, eris.Wrap(err, "invalid GUID")
+	}
+
+	return id, nil
 }
 
 // OriginalVersion returns the original API version used to create the resource.
 func (spec *SecurityGroupSpec) OriginalVersion() string {
 	return GroupVersion.Version
+}
+
+// HasDynamicMembership returns true when membership is managed by an Entra dynamic membership rule.
+func (spec *SecurityGroupSpec) HasDynamicMembership() bool {
+	if spec.MembershipType == nil {
+		return false
+	}
+
+	return *spec.MembershipType == SecurityGroupMembershipTypeDynamic ||
+		*spec.MembershipType == SecurityGroupMembershipTypeDynamicM365
+}
+
+// AssignODataBindOnCreate sets the `owners@odata.bind` and `members@odata.bind` additional data
+// on the group model. These annotations are only valid during the initial POST to Microsoft Graph;
+// they must NOT be included in PATCH requests.
+// The typed setters (SetOwners/SetMembers) serialize as nested objects which Graph rejects on create —
+// the @odata.bind annotation is the only working shape for setting owners/members inline at creation time.
+// Why do we need to do this? Because we can end up orphaned without access to a SecurityGroup we've just created
+// if we don't include the annotations to populate Owners as a part of the create.
+func (spec *SecurityGroupSpec) AssignODataBindOnCreate(
+	model models.Groupable,
+	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
+) error {
+	additionalData := model.GetAdditionalData()
+	if additionalData == nil {
+		additionalData = make(map[string]any)
+	}
+
+	if len(spec.Owners) > 0 {
+		owners, err := spec.ResolveOwnerObjectIDs(resolved)
+		if err != nil {
+			return err
+		}
+
+		additionalData["owners@odata.bind"] = convertIdsToURIs(owners)
+	}
+
+	if len(spec.Members) > 0 {
+		members, err := spec.ResolveMemberObjectIDs(resolved)
+		if err != nil {
+			return err
+		}
+
+		additionalData["members@odata.bind"] = convertIdsToURIs(members)
+	}
+
+	model.SetAdditionalData(additionalData)
+	return nil
+}
+
+// ResolveOwnerObjectIDs resolves owner object IDs, returning an error if two entries
+// resolve to the same identifier.
+func (spec *SecurityGroupSpec) ResolveOwnerObjectIDs(resolved genruntime.Resolved[genruntime.ConfigMapReference, string]) ([]uuid.UUID, error) {
+	return resolveMemberObjectIDs(spec.Owners, "owners", resolved)
+}
+
+// ResolveMemberObjectIDs resolves member object IDs, returning an error if two entries
+// resolve to the same identifier.
+func (spec *SecurityGroupSpec) ResolveMemberObjectIDs(resolved genruntime.Resolved[genruntime.ConfigMapReference, string]) ([]uuid.UUID, error) {
+	return resolveMemberObjectIDs(spec.Members, "members", resolved)
+}
+
+// resolveMemberObjectIDs resolves each entry via ResolveObjectID and returns an error
+// if two entries share the same resolved id. CEL admission rules already catch
+// inline-vs-inline and configmap-vs-configmap collisions, but they cannot detect a
+// mixed case where an inline ObjectID equals a value looked up from a ConfigMap; that
+// case needs to be checked at reconcile time so users see the problem instead of
+// having ASO silently drop one of the entries.
+func resolveMemberObjectIDs(
+	references []SecurityGroupMemberReference,
+	field string,
+	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
+) ([]uuid.UUID, error) {
+	firstSeenAt := make(map[uuid.UUID]int, len(references))
+	result := make([]uuid.UUID, 0, len(references))
+	for i, ref := range references {
+		id, err := ref.ResolveObjectID(resolved)
+		if err != nil {
+			return nil, eris.Wrapf(err, "%s[%d]", field, i)
+		}
+
+		if firstIndex, ok := firstSeenAt[id]; ok {
+			return nil, eris.Errorf(
+				"%s[%d] resolves to the same object id as %s[%d] (%s)",
+				field, i, field, firstIndex, id,
+			)
+		}
+
+		firstSeenAt[id] = i
+		result = append(result, id)
+	}
+
+	return result, nil
 }
 
 // AssignToGroup configures the provided instance with the details of the group
@@ -140,28 +292,57 @@ type SecurityGroupStatus struct {
 
 	// Description: The description of the group.
 	Description *string `json:"description,omitempty"`
+
+	// Owners: Directory objects (users, service principals, groups) assigned as owners of the security group
+	Owners []string `json:"owners,omitempty"`
+
+	// Members: Directory objects (users, service principals, groups) assigned as members of the security group.
+	Members []string `json:"members,omitempty"`
 }
 
 func (status *SecurityGroupStatus) AssignFromGroup(model models.Groupable) {
+	// EntraId
 	if id := model.GetId(); id != nil {
 		status.EntraID = id
 	}
 
+	// DisplayName
 	if name := model.GetDisplayName(); name != nil {
 		status.DisplayName = name
 	}
 
+	// MailNickname
 	if mailNickname := model.GetMailNickname(); mailNickname != nil {
 		status.MailNickname = mailNickname
 	}
 
+	// Description
 	if description := model.GetDescription(); description != nil {
 		status.Description = description
 	}
+
+	// Owners
+	if owners := model.GetOwners(); owners != nil {
+		ownerIDs := make([]string, len(owners))
+		for i, owner := range owners {
+			ownerIDs[i] = *owner.GetId()
+		}
+
+		status.Owners = ownerIDs
+	}
+
+	// Members
+	if members := model.GetMembers(); members != nil {
+		memberIDs := make([]string, len(members))
+		for i, member := range members {
+			memberIDs[i] = *member.GetId()
+		}
+
+		status.Members = memberIDs
+	}
 }
 
-// +kubebuilder:validation:Enum={"assigned","enabled","assignedm365","enabledm365"}
-// +kubebuilder:default=AdoptOrCreate
+// +kubebuilder:validation:Enum={"assigned","dynamic","assignedm365","dynamicm365"}
 type SecurityGroupMembershipType string
 
 const (
@@ -210,6 +391,15 @@ func (spec *SecurityGroupOperatorSpec) AdoptionAllowed() bool {
 type SecurityGroupOperatorConfigMaps struct {
 	// EntraID: The Entra ID of the group.
 	EntraID *genruntime.ConfigMapDestination `json:"entraID,omitempty"`
+}
+
+func convertIdsToURIs(ids []uuid.UUID) []string {
+	result := make([]string, len(ids))
+	for i, id := range ids {
+		result[i] = DirectoryObjectRefURI(id.String())
+	}
+
+	return result
 }
 
 func init() {

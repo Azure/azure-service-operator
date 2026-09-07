@@ -8,13 +8,15 @@ package entra
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
 	"github.com/go-logr/logr"
-	msgraphsdkgo "github.com/microsoftgraph/msgraph-sdk-go"
-	"github.com/microsoftgraph/msgraph-sdk-go/groups"
-	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
+	"github.com/google/uuid"
+	msgraphsdkgo "github.com/microsoftgraph/msgraph-beta-sdk-go"
+	"github.com/microsoftgraph/msgraph-beta-sdk-go/groups"
+	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 	"github.com/rotisserie/eris"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -107,11 +109,11 @@ func (r *EntraSecurityGroupReconciler) Delete(
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
 ) (ctrl.Result, error) {
-	log.V(Status).Info("Updating Entra security group")
+	log.V(Status).Info("Deleting Entra security group")
 
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", obj.GetName())
+		return ctrl.Result{}, eris.Wrapf(err, "deleting security group %s", obj.GetName())
 	}
 
 	// If don't know the Entra ID of the group (captured in an annotation), there's nothing to do.
@@ -213,6 +215,7 @@ func (r *EntraSecurityGroupReconciler) update(
 
 		if result == nil {
 			// Group was deleted between the patch and the reload
+			// Remove the existing annotation and requeue the reconciliation to create a replacement
 			log.V(Status).Info("Group no longer exists after update")
 			setEntraID(group, "")
 			return ctrl.Result{Requeue: true}, nil
@@ -221,6 +224,20 @@ func (r *EntraSecurityGroupReconciler) update(
 
 	group.Status.AssignFromGroup(result)
 
+	if err := r.reconcileOwnersAndMembers(ctx, group, client.Client(), log); err != nil {
+		return ctrl.Result{}, classifyRelationshipError(err)
+	}
+
+	// Refresh status now we've reconciled owners and members
+	result, err = r.loadGroupByID(ctx, id, client.Client())
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "getting group by ID %s after update returned no result", id)
+	}
+	if result != nil {
+		group.Status.AssignFromGroup(result)
+	}
+
+	// Save any associated Kubernetes resources for the group
 	err = r.saveAssociatedKubernetesResources(ctx, group, log)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "failed to save associated Kubernetes resources for group %s", group.Name)
@@ -312,17 +329,36 @@ func (r *EntraSecurityGroupReconciler) create(
 	g := msgraphmodels.NewGroup()
 	group.Spec.AssignToGroup(g)
 
+	// Resolve config map references for this resource so we can populate any
+	// ObjectIDFromConfig values used in owners/members.
+	resolvedConfigMaps, err := r.ResourceResolver.ResolveResourceConfigMapReferences(ctx, group)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
+	}
+
+	if err := group.Spec.AssignODataBindOnCreate(g, resolvedConfigMaps); err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed preparing create payload for group %s", group.Name)
+	}
+
 	status, err := client.Client().Groups().Post(ctx, g, nil)
 	if err != nil {
 		// Failed to create
 		return ctrl.Result{}, eris.Wrapf(err, "failed to create group %s", group.Name)
 	}
 
-	group.Status.AssignFromGroup(status)
-
 	if id := status.GetId(); id != nil {
 		setEntraID(group, *id)
+
+		status, err = r.loadGroupByID(ctx, *id, client.Client())
+		if err != nil {
+			return ctrl.Result{}, eris.Wrapf(err, "getting group by ID %s after create", *id)
+		}
+		if status == nil {
+			return ctrl.Result{}, eris.Errorf("group %s not found after create", *id)
+		}
 	}
+
+	group.Status.AssignFromGroup(status)
 
 	err = r.saveAssociatedKubernetesResources(ctx, group, log)
 	if err != nil {
@@ -385,7 +421,8 @@ func (r *EntraSecurityGroupReconciler) loadGroupByID(
 	client *msgraphsdkgo.GraphServiceClient,
 ) (msgraphmodels.Groupable, error) {
 	// Try to get the group by ID
-	groupable, err := client.Groups().ByGroupId(id).Get(ctx, nil)
+	groupBuilder := client.Groups().ByGroupId(id)
+	groupable, err := groupBuilder.Get(ctx, nil)
 	if err != nil {
 		// If the only problem is that the group doesn't exist, return nil and nil
 		if isNotFound(err) {
@@ -395,7 +432,104 @@ func (r *EntraSecurityGroupReconciler) loadGroupByID(
 		return nil, err
 	}
 
+	// Load the owners of the group from Entra
+	owners, err := r.listOwners(ctx, id, client)
+	if err != nil {
+		return nil, eris.Wrap(err, "listing group owners")
+	}
+	groupable.SetOwners(owners)
+
+	// Load the members of the group from Entra
+	members, err := r.listMembers(ctx, id, client)
+	if err != nil {
+		return nil, eris.Wrap(err, "listing group members")
+	}
+	groupable.SetMembers(members)
+
 	return groupable, nil
+}
+
+// listOwners retrieves the list of owner object IDs for the specified group from Entra.
+func (r *EntraSecurityGroupReconciler) listOwners(
+	ctx context.Context,
+	id string,
+	client *msgraphsdkgo.GraphServiceClient,
+) ([]msgraphmodels.DirectoryObjectable, error) {
+	groupBuilder := client.Groups().ByGroupId(id)
+	ownersBuilder := groupBuilder.Owners()
+	configuration := ownerIDRequestConfiguration()
+
+	ids, err := collectDirectoryObjectIDs(
+		ctx,
+		func(ctx context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+			return ownersBuilder.Get(ctx, configuration)
+		},
+		func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+			return ownersBuilder.WithUrl(nextLink).Get(ctx, nil)
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return makeDirectoryObjects(ids), nil
+}
+
+// ownerIDRequestConfiguration limits the fields returned to the id
+// This avoids us pulling back unnecessary fields that may be sensitive.
+func ownerIDRequestConfiguration() *groups.ItemOwnersRequestBuilderGetRequestConfiguration {
+	return &groups.ItemOwnersRequestBuilderGetRequestConfiguration{
+		QueryParameters: &groups.ItemOwnersRequestBuilderGetQueryParameters{
+			Select: []string{"id"},
+		},
+	}
+}
+
+// listMembers retrieves the list of member object IDs for the specified group from Entra.
+func (r *EntraSecurityGroupReconciler) listMembers(
+	ctx context.Context,
+	id string,
+	client *msgraphsdkgo.GraphServiceClient,
+) ([]msgraphmodels.DirectoryObjectable, error) {
+	groupBuilder := client.Groups().ByGroupId(id)
+	membersBuilder := groupBuilder.Members()
+	configuration := memberIDRequestConfiguration()
+
+	ids, err := collectDirectoryObjectIDs(
+		ctx,
+		func(ctx context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+			return membersBuilder.Get(ctx, configuration)
+		},
+		func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+			return membersBuilder.WithUrl(nextLink).Get(ctx, nil)
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return makeDirectoryObjects(ids), nil
+}
+
+// memberIDRequestConfiguration limits the fields returned to the id
+// This avoids us pulling back unnecessary fields that may be sensitive.
+func memberIDRequestConfiguration() *groups.ItemMembersRequestBuilderGetRequestConfiguration {
+	return &groups.ItemMembersRequestBuilderGetRequestConfiguration{
+		QueryParameters: &groups.ItemMembersRequestBuilderGetQueryParameters{
+			Select: []string{"id"},
+		},
+	}
+}
+
+func makeDirectoryObjects(ids []uuid.UUID) []msgraphmodels.DirectoryObjectable {
+	result := make([]msgraphmodels.DirectoryObjectable, 0, len(ids))
+	for _, id := range ids {
+		object := msgraphmodels.NewDirectoryObject()
+		object.SetId(to.Ptr(id.String()))
+		result = append(result, object)
+	}
+
+	return result
 }
 
 // loadGroupsByDisplayName loads groups from Entra by display name.
@@ -404,8 +538,11 @@ func (r *EntraSecurityGroupReconciler) loadGroupsByDisplayName(
 	displayName string,
 	client *msgraphsdkgo.GraphServiceClient,
 ) ([]msgraphmodels.Groupable, error) {
-	// Try to get the group by display name
-	filterStr := fmt.Sprintf("displayName eq '%s'", escapeODataString(displayName))
+	// Try to get the group by display name.
+	// Escape single quotes in the display name per the OData v4 spec: a single quote
+	// within a string literal is represented as two consecutive single quotes.
+	escapedDisplayName := strings.ReplaceAll(displayName, "'", "''")
+	filterStr := fmt.Sprintf("displayName eq '%s'", escapedDisplayName)
 
 	query := &groups.GroupsRequestBuilderGetQueryParameters{
 		Filter: &filterStr,
