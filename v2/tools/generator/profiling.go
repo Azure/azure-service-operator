@@ -38,12 +38,14 @@ func (p *profiler) start() error {
 		p.cpuProfile, err = os.Create(p.cpuProfilePath)
 		if err != nil {
 			return p.cleanupAfterStartFailure(
-				fmt.Errorf("creating CPU profile %q: %w", p.cpuProfilePath, err))
+				fmt.Errorf("creating CPU profile %q: %w", p.cpuProfilePath, err),
+			)
 		}
 
 		if err = pprof.StartCPUProfile(p.cpuProfile); err != nil {
 			return p.cleanupAfterStartFailure(
-				fmt.Errorf("starting CPU profile %q: %w", p.cpuProfilePath, err))
+				fmt.Errorf("starting CPU profile %q: %w", p.cpuProfilePath, err),
+			)
 		}
 	}
 
