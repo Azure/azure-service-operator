@@ -60,6 +60,7 @@ func TestProfiler_MemoryOnlyLifecycle(t *testing.T) {
 	g.Expect(profiler.stop()).To(Succeed())
 
 	memoryProfile := readProfile(g, memoryPath)
+	g.Expect(memoryProfile.DefaultSampleType).To(Equal("alloc_space"))
 	g.Expect(memoryProfile.SampleType).To(ContainElements(
 		And(HaveField("Type", "alloc_objects"), HaveField("Unit", "count")),
 		And(HaveField("Type", "alloc_space"), HaveField("Unit", "bytes")),
@@ -94,11 +95,41 @@ func TestProfiler_CreatesProfilesConcurrently(t *testing.T) {
 	g.Expect(readProfile(g, cpuPath).Sample).NotTo(BeEmpty())
 
 	memoryProfile := readProfile(g, memoryPath)
+	g.Expect(memoryProfile.DefaultSampleType).To(Equal("alloc_space"))
 	g.Expect(memoryProfile.SampleType).To(ContainElements(
 		And(HaveField("Type", "alloc_objects"), HaveField("Unit", "count")),
 		And(HaveField("Type", "alloc_space"), HaveField("Unit", "bytes")),
 	))
 	g.Expect(memoryProfile.Sample).NotTo(BeEmpty())
+}
+
+//nolint:paralleltest // Keep profiler lifecycle tests serialized for consistency.
+func TestProfiler_NoPathsIsANoOp(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	profiler := newProfiler()
+
+	g.Expect(profiler.start()).To(Succeed())
+	g.Expect(profiler.stop()).To(Succeed())
+}
+
+//nolint:paralleltest // Keep profiler lifecycle tests serialized for consistency.
+func TestProfiler_InvalidOutputPathCleansUpAfterFailedStart(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	tempDir := t.TempDir()
+	validMemoryPath := filepath.Join(tempDir, "memory.pprof")
+	invalidCPUPath := filepath.Join(tempDir, "missing", "cpu.pprof")
+	profiler := newProfiler()
+	profiler.memoryProfilePath = validMemoryPath
+	profiler.cpuProfilePath = invalidCPUPath
+
+	g.Expect(profiler.start()).To(MatchError(ContainSubstring("creating CPU profile")))
+	g.Expect(profiler.memoryProfile).To(BeNil())
+	g.Expect(profiler.cpuProfile).To(BeNil())
+	g.Expect(profiler.stop()).To(Succeed())
+	g.Expect(profiler.memoryProfile).To(BeNil())
+	g.Expect(profiler.cpuProfile).To(BeNil())
 }
 
 //nolint:paralleltest // Keep profiler lifecycle tests serialized for consistency.
