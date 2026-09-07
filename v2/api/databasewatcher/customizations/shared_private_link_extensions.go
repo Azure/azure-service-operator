@@ -6,12 +6,12 @@ package customizations
 import (
 	"context"
 	"fmt"
+	"path"
 	"strings"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
 	"github.com/go-logr/logr"
-	"github.com/google/uuid"
 	"github.com/rotisserie/eris"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
@@ -25,6 +25,9 @@ import (
 
 // authorizationFailedErrorCode is what ARM answers a request the credential has no rights to make.
 const authorizationFailedErrorCode = "AuthorizationFailed"
+
+// connectionNotPendingErrorCode is what ARM answers an approval of a connection that has already left Pending.
+const connectionNotPendingErrorCode = "PrivateEndpointConnectionStatusNotPending"
 
 const (
 	connectionStateApproved     = "Approved"
@@ -74,6 +77,12 @@ func (extension *SharedPrivateLinkExtension) PostReconcileCheck(
 			eris.Wrapf(err, "cannot resolve the resource shared private link %s points at", link.Name)
 	}
 
+	// Nothing below holds for a resource another operator has claimed, and refusing here keeps this
+	// operator's credential away from it: none of that operator's policies or credentials is visible from here
+	if reason, ok := foreignPrivateLinkResource(link, resource); ok {
+		return extensions.PostReconcileCheckResultFailure(reason), nil
+	}
+
 	resourceID, hasID := genruntime.GetResourceID(resource)
 	if !hasID {
 		return extensions.PostReconcileCheckResultFailure(
@@ -85,7 +94,10 @@ func (extension *SharedPrivateLinkExtension) PostReconcileCheck(
 	if token, submitted := approvalResumeToken(link); submitted {
 		done, err := resumeApproval(ctx, armClient, token)
 		if err != nil {
-			clearApprovalResumeToken(link)
+			// An answer from ARM ends this operation, while a request that never reached it may yet succeed
+			if armAnswered(err) {
+				clearApprovalResumeToken(link)
+			}
 
 			return extensions.PostReconcileCheckResult{},
 				eris.Wrapf(err, "cannot approve the connection shared private link %s opened on %s", link.Name, resource.GetName())
@@ -132,15 +144,16 @@ func (extension *SharedPrivateLinkExtension) PostReconcileCheck(
 		), nil
 	}
 
-	// This check still runs when the policy forbids modification, and a connection is not ours to complete then
+	// This check still runs when the policy forbids modification, so the connection is reported as it stands
+	// rather than acted upon. Readiness follows the connection either way, or the link would go ready
+	// claiming a private endpoint that carries no traffic
 	if !reconcilePolicies.Effective.AllowsModify() {
-		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
-	}
-
-	// Nothing below holds for a resource another operator has claimed, and this has to come before its
-	// policy is resolved: none of that operator's policies or credentials is visible from here
-	if reason, ok := foreignPrivateLinkResource(link, resource); ok {
-		return extensions.PostReconcileCheckResultFailure(reason), nil
+		return extensions.PostReconcileCheckResultFailure(
+			fmt.Sprintf(
+				"the private endpoint connection on %s requires approval, which the reconcile policy on this link forbids",
+				resource.GetName(),
+			),
+		), nil
 	}
 
 	// Approving writes to the resource the link points at, so its own policy governs it
@@ -157,6 +170,13 @@ func (extension *SharedPrivateLinkExtension) PostReconcileCheck(
 
 	token, err := submitApproval(ctx, armClient, link, connection, resource, log)
 	if err != nil {
+		// Somebody decided the connection between it being read and being approved, so it is read again
+		if alreadyDecided(err) {
+			return extensions.PostReconcileCheckResultFailure(
+				fmt.Sprintf("waiting to read the private endpoint connection on %s again", resource.GetName()),
+			), nil
+		}
+
 		// Opening the connection needs no rights on the resource it is opened against, so a credential that
 		// got this far may still have no say in approving it, leaving that to whoever owns the resource
 		if unauthorized(err) {
@@ -237,12 +257,28 @@ func foreignPrivateLinkResource(
 
 // unauthorized reports whether ARM refused the request for want of permission.
 func unauthorized(err error) bool {
+	return armErrorCode(err) == authorizationFailedErrorCode
+}
+
+// alreadyDecided reports whether ARM refused the approval because the connection had left Pending.
+func alreadyDecided(err error) bool {
+	return armErrorCode(err) == connectionNotPendingErrorCode
+}
+
+// armAnswered reports whether ARM answered at all, as opposed to never having been reached.
+func armAnswered(err error) bool {
+	var cloudError *genericarmclient.CloudError
+
+	return eris.As(err, &cloudError)
+}
+
+func armErrorCode(err error) string {
 	var cloudError *genericarmclient.CloudError
 	if !eris.As(err, &cloudError) {
-		return false
+		return ""
 	}
 
-	return cloudError.Code() == authorizationFailedErrorCode
+	return cloudError.Code()
 }
 
 // privateEndpointConnection is the part of a connection on the linked resource that its state is read from.
@@ -250,6 +286,9 @@ type privateEndpointConnection struct {
 	ID         string `json:"id"`
 	Name       string `json:"name"`
 	Properties struct {
+		PrivateEndpoint struct {
+			ID string `json:"id"`
+		} `json:"privateEndpoint"`
 		PrivateLinkServiceConnectionState struct {
 			Status      string `json:"status"`
 			Description string `json:"description"`
@@ -289,26 +328,37 @@ func linkConnection(
 		return nil, eris.Wrapf(err, "cannot list the private endpoint connections on %s", resourceID)
 	}
 
+	var opened *privateEndpointConnection
+
 	for i := range connections {
-		if connectionOpenedBy(connections[i].Name, link.AzureName()) {
-			return &connections[i], nil
+		if !connectionOpenedBy(&connections[i], link.AzureName()) {
+			continue
 		}
+
+		// A link name is unique only under its own watcher, so two watchers can open connections that look
+		// alike here. Approving either would be a guess, so an ambiguous resource is left to its owner
+		if opened != nil {
+			return nil, eris.Errorf(
+				"cannot tell which private endpoint connection on %s shared private link %s opened: %s and %s are both named after it",
+				resourceID, link.Name, opened.Name, connections[i].Name,
+			)
+		}
+
+		opened = &connections[i]
 	}
 
-	return nil, nil
+	return opened, nil
 }
 
-// connectionOpenedBy reports whether a connection carries the name Azure gives the named link: the link's own
-// name and a GUID. The GUID is checked so that a link cannot claim the connection of one it merely prefixes.
-func connectionOpenedBy(connectionName string, linkName string) bool {
-	suffix, found := strings.CutPrefix(connectionName, linkName+"-")
-	if !found {
+// connectionOpenedBy reports whether a connection was opened by the named link. Azure names the managed
+// private endpoint behind it after the link exactly, where the connection itself carries a GUID as well.
+func connectionOpenedBy(connection *privateEndpointConnection, linkName string) bool {
+	endpoint := connection.Properties.PrivateEndpoint.ID
+	if endpoint == "" {
 		return false
 	}
 
-	_, err := uuid.Parse(suffix)
-
-	return err == nil
+	return path.Base(endpoint) == linkName
 }
 
 // submitApproval asks Azure to approve the connection, returning a token for the operation. Nothing waits here.

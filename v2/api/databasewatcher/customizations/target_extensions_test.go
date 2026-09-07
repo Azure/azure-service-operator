@@ -118,7 +118,7 @@ func Test_ModifyAllowed_GivenPolicies_ReturnsExpectedResult(t *testing.T) {
 
 // A watcher always shares its target's namespace, so a mismatch means the policies in hand were resolved
 // somewhere else and can't answer for this watcher
-func Test_StartAllowed_GivenWatcherInAnotherNamespace_ReportsTheMismatch(t *testing.T) {
+func Test_ModifyAllowed_GivenWatcherInAnotherNamespace_ReportsTheMismatch(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 

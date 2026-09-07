@@ -45,13 +45,23 @@ const (
 	connectionARMID = serverARMID + "/privateEndpointConnections/" + connectionName
 	connectionsPath = "/privateEndpointConnections"
 	linkNamespace   = "default"
+
+	// The managed private endpoint carries the link's name exactly, in a subscription Microsoft owns
+	endpointARMID = "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/managed" +
+		"/providers/Microsoft.Network/privateEndpoints/spl"
 )
 
 func connectionJSON(status string) string {
+	return namedConnectionJSON(connectionName, endpointARMID, status)
+}
+
+func namedConnectionJSON(name string, endpoint string, status string) string {
 	return fmt.Sprintf(
-		`{"id": %q, "name": %q, "properties": {"privateLinkServiceConnectionState": {"status": %q}}}`,
-		connectionARMID,
-		connectionName,
+		`{"id": %q, "name": %q, "properties": {"privateEndpoint": {"id": %q},`+
+			` "privateLinkServiceConnectionState": {"status": %q}}}`,
+		serverARMID+"/privateEndpointConnections/"+name,
+		name,
+		endpoint,
 		status,
 	)
 }
@@ -236,7 +246,7 @@ func Test_SharedPrivateLinkPostReconcileCheck_givenArmIdReference_leavesReadines
 
 // A post-reconcile check still runs when the policy forbids modification, and a connection is not ours to
 // complete then
-func Test_SharedPrivateLinkPostReconcileCheck_givenSkippedLink_leavesTheConnectionAlone(t *testing.T) {
+func Test_SharedPrivateLinkPostReconcileCheck_givenSkippedLink_reportsTheConnectionWithoutApprovingIt(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -262,7 +272,8 @@ func Test_SharedPrivateLinkPostReconcileCheck_givenSkippedLink_leavesTheConnecti
 	result, err := check()
 
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(result.ReconciliationSucceeded()).To(BeTrue())
+	g.Expect(result.ReconciliationFailed()).To(BeTrue())
+	g.Expect(result.Message()).To(ContainSubstring("the reconcile policy on this link forbids"))
 	g.Expect(approvals).To(BeZero())
 	g.Expect(link.GetAnnotations()).ToNot(HaveKey(customizations.ApprovalPollerResumeTokenAnnotation))
 }
@@ -315,7 +326,7 @@ func Test_SharedPrivateLinkPostReconcileCheck_givenResourceWithoutArmId_waitsFor
 
 	link := approvableLink()
 	sqlServer := linkedServer()
-	sqlServer.SetAnnotations(nil)
+	sqlServer.SetAnnotations(map[string]string{reconcilers.OperatorNamespaceAnnotation: operatorNamespace})
 
 	result, err := approvalCheckForResources(g, server, link, sqlServer, managedPolicies())()
 
@@ -452,11 +463,9 @@ func Test_SharedPrivateLinkPostReconcileCheck_givenForeignResource_refusesBefore
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	var approvals int
+	var requests int
 	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == http.MethodPut {
-			approvals++
-		}
+		requests++
 
 		w.WriteHeader(http.StatusOK)
 		g.Expect(w.Write([]byte(connectionsJSON("Pending")))).ToNot(BeZero())
@@ -481,7 +490,7 @@ func Test_SharedPrivateLinkPostReconcileCheck_givenForeignResource_refusesBefore
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result.ReconciliationSucceeded()).To(BeFalse())
 	g.Expect(result.Message()).To(ContainSubstring("managed by the operator"))
-	g.Expect(approvals).To(BeZero())
+	g.Expect(requests).To(BeZero())
 }
 
 // Approving writes to the resource with the link's credential, so a resource managed with another one is
@@ -548,5 +557,111 @@ func Test_SharedPrivateLinkPostReconcileCheck_givenUnauthorizedApproval_reportsT
 	g.Expect(result.ReconciliationSucceeded()).To(BeFalse())
 	g.Expect(result.Message()).To(ContainSubstring("not authorized to give"))
 	g.Expect(approvals).To(Equal(1))
+	g.Expect(link.GetAnnotations()).ToNot(HaveKey(customizations.ApprovalPollerResumeTokenAnnotation))
+}
+
+// A link name is unique only under its own watcher, so two watchers can open connections that look alike on
+// the same resource. Approving either would be a guess, so the resource is left to its owner.
+func Test_SharedPrivateLinkPostReconcileCheck_givenTwoConnectionsNamedAfterTheLink_refusesToGuess(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	var approvals int
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPut {
+			approvals++
+		}
+
+		w.WriteHeader(http.StatusOK)
+		g.Expect(w.Write([]byte(fmt.Sprintf(
+			`{"value": [%s, %s]}`,
+			namedConnectionJSON("spl-6f8f3c1e-1f3a-4a2b-9c1d-2e5f7a9b0c3d", endpointARMID, "Pending"),
+			namedConnectionJSON("spl-9a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d", endpointARMID, "Pending"),
+		)))).ToNot(BeZero())
+	}))
+	defer server.Close()
+
+	result, err := approvalCheck(g, server, approvableLink())()
+
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring("cannot tell which private endpoint connection"))
+	g.Expect(result).To(Equal(extensions.PostReconcileCheckResult{}))
+	g.Expect(approvals).To(BeZero())
+}
+
+// Reading the connections is the only way to know the state, so a resource that cannot be read is an error
+// rather than a readiness the link has no evidence for
+func Test_SharedPrivateLinkPostReconcileCheck_givenUnreadableConnections_returnsTheError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusInternalServerError)
+		g.Expect(w.Write([]byte(`{"error": {"code": "InternalServerError", "message": "nope"}}`))).ToNot(BeZero())
+	}))
+	defer server.Close()
+
+	result, err := approvalCheck(g, server, approvableLink())()
+
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring("cannot list the private endpoint connections"))
+	g.Expect(result).To(Equal(extensions.PostReconcileCheckResult{}))
+}
+
+// An approval refused for any reason other than permission is an error, so it is not mistaken for a
+// connection somebody still has to approve
+func Test_SharedPrivateLinkPostReconcileCheck_givenRefusedApproval_returnsTheError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPut {
+			w.WriteHeader(http.StatusBadRequest)
+			g.Expect(w.Write([]byte(`{"error": {"code": "InvalidRequest", "message": "nope"}}`))).ToNot(BeZero())
+
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		g.Expect(w.Write([]byte(connectionsJSON("Pending")))).ToNot(BeZero())
+	}))
+	defer server.Close()
+
+	link := approvableLink()
+	result, err := approvalCheck(g, server, link)()
+
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring("cannot approve the connection shared private link"))
+	g.Expect(result).To(Equal(extensions.PostReconcileCheckResult{}))
+	g.Expect(link.GetAnnotations()).ToNot(HaveKey(customizations.ApprovalPollerResumeTokenAnnotation))
+}
+
+// Somebody may approve the connection between it being read and being approved, which SQL refuses. Nothing
+// is wrong then, so the connection is read again rather than reported as an error.
+func Test_SharedPrivateLinkPostReconcileCheck_givenConnectionDecidedWhileApproving_readsItAgain(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPut {
+			w.WriteHeader(http.StatusBadRequest)
+			g.Expect(w.Write([]byte(
+				`{"error": {"code": "PrivateEndpointConnectionStatusNotPending", "message": "already decided"}}`,
+			))).ToNot(BeZero())
+
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		g.Expect(w.Write([]byte(connectionsJSON("Pending")))).ToNot(BeZero())
+	}))
+	defer server.Close()
+
+	link := approvableLink()
+	result, err := approvalCheck(g, server, link)()
+
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.ReconciliationFailed()).To(BeTrue())
+	g.Expect(result.Message()).To(ContainSubstring("waiting to read the private endpoint connection"))
 	g.Expect(link.GetAnnotations()).ToNot(HaveKey(customizations.ApprovalPollerResumeTokenAnnotation))
 }
