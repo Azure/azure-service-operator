@@ -37,18 +37,13 @@ func (p *profiler) start() error {
 	if p.cpuProfilePath != "" {
 		p.cpuProfile, err = os.Create(p.cpuProfilePath)
 		if err != nil {
-			return errors.Join(
-				fmt.Errorf("creating CPU profile %q: %w", p.cpuProfilePath, err),
-				p.closeMemoryProfile(),
-			)
+			return p.cleanupAfterStartFailure(
+				fmt.Errorf("creating CPU profile %q: %w", p.cpuProfilePath, err))
 		}
 
 		if err = pprof.StartCPUProfile(p.cpuProfile); err != nil {
-			return errors.Join(
-				fmt.Errorf("starting CPU profile %q: %w", p.cpuProfilePath, err),
-				p.closeCPUProfile(),
-				p.closeMemoryProfile(),
-			)
+			return p.cleanupAfterStartFailure(
+				fmt.Errorf("starting CPU profile %q: %w", p.cpuProfilePath, err))
 		}
 	}
 
@@ -78,6 +73,14 @@ func (p *profiler) stop() error {
 	return result
 }
 
+func (p *profiler) cleanupAfterStartFailure(startErr error) error {
+	return errors.Join(
+		startErr,
+		p.discardCPUProfile(),
+		p.discardMemoryProfile(),
+	)
+}
+
 func (p *profiler) closeCPUProfile() error {
 	if p.cpuProfile == nil {
 		return nil
@@ -92,6 +95,17 @@ func (p *profiler) closeCPUProfile() error {
 	return nil
 }
 
+func (p *profiler) discardCPUProfile() error {
+	if p.cpuProfile == nil {
+		return nil
+	}
+
+	return errors.Join(
+		p.closeCPUProfile(),
+		p.removeCPUProfile(),
+	)
+}
+
 func (p *profiler) closeMemoryProfile() error {
 	if p.memoryProfile == nil {
 		return nil
@@ -101,6 +115,33 @@ func (p *profiler) closeMemoryProfile() error {
 	p.memoryProfile = nil
 	if err != nil {
 		return fmt.Errorf("closing memory profile %q: %w", p.memoryProfilePath, err)
+	}
+
+	return nil
+}
+
+func (p *profiler) discardMemoryProfile() error {
+	if p.memoryProfile == nil {
+		return nil
+	}
+
+	return errors.Join(
+		p.closeMemoryProfile(),
+		p.removeMemoryProfile(),
+	)
+}
+
+func (p *profiler) removeCPUProfile() error {
+	if err := os.Remove(p.cpuProfilePath); err != nil && !os.IsNotExist(err) {
+		return fmt.Errorf("removing CPU profile %q: %w", p.cpuProfilePath, err)
+	}
+
+	return nil
+}
+
+func (p *profiler) removeMemoryProfile() error {
+	if err := os.Remove(p.memoryProfilePath); err != nil && !os.IsNotExist(err) {
+		return fmt.Errorf("removing memory profile %q: %w", p.memoryProfilePath, err)
 	}
 
 	return nil

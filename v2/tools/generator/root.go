@@ -79,6 +79,10 @@ func newRootCommand() (*cobra.Command, *profiler, error) {
 	}
 
 	rootCmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
+		if err := cmd.ValidateRequiredFlags(); err != nil {
+			return err
+		}
+
 		if err := cmd.ValidateFlagGroups(); err != nil {
 			return err
 		}
@@ -119,10 +123,13 @@ func executeCommand(
 	ctx context.Context,
 	cmd *cobra.Command,
 	profiler profileStopper,
-) error {
-	executeErr := cmd.ExecuteContext(ctx)
-	profileErr := profiler.stop()
-	return errors.Join(executeErr, profileErr)
+) (result error) {
+	defer func() {
+		result = errors.Join(result, profiler.stop())
+	}()
+
+	result = cmd.ExecuteContext(ctx)
+	return result
 }
 
 var (

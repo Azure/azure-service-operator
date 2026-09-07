@@ -150,6 +150,38 @@ func TestExecuteRootCommand_InvalidArgumentsDoNotCreateProfiles(t *testing.T) {
 }
 
 //nolint:paralleltest // newRootCommand binds package-global logging flags.
+func TestExecuteRootCommand_MissingRequiredFlagsDoNotCreateProfiles(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	memoryPath := filepath.Join(t.TempDir(), "memory.pprof")
+	cmd, profiler, err := newRootCommand()
+	g.Expect(err).NotTo(HaveOccurred())
+
+	executed := false
+	requiredCommand := &cobra.Command{
+		Use: "required-command",
+		Run: func(*cobra.Command, []string) {
+			executed = true
+		},
+	}
+	requiredCommand.Flags().String("required", "", "required flag")
+	g.Expect(requiredCommand.MarkFlagRequired("required")).To(Succeed())
+	cmd.AddCommand(requiredCommand)
+
+	err = executeRootCommand(
+		context.Background(),
+		[]string{"--memory-prof", memoryPath, "required-command"},
+		cmd,
+		profiler,
+	)
+	g.Expect(err).To(MatchError(ContainSubstring(`required flag(s) "required" not set`)))
+	g.Expect(executed).To(BeFalse())
+
+	_, statErr := os.Stat(memoryPath)
+	g.Expect(os.IsNotExist(statErr)).To(BeTrue())
+}
+
+//nolint:paralleltest // newRootCommand binds package-global logging flags.
 func TestExecuteCommand_PreservesCommandAndProfileErrors(t *testing.T) {
 	g := NewGomegaWithT(t)
 
@@ -171,10 +203,34 @@ func TestExecuteCommand_PreservesCommandAndProfileErrors(t *testing.T) {
 	g.Expect(errors.Is(err, profileErr)).To(BeTrue())
 }
 
+//nolint:paralleltest // executeCommand panic-finalization test mutates shared profiler state in assertions only.
+func TestExecuteCommand_FinalizesProfilesAfterPanic(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	panicValue := errors.New("boom")
+	stopper := &fakeProfileStopper{}
+	cmd := &cobra.Command{
+		Run: func(*cobra.Command, []string) {
+			panic(panicValue)
+		},
+	}
+
+	defer func() {
+		recovered := recover()
+		g.Expect(recovered).To(Equal(panicValue))
+		g.Expect(stopper.called).To(BeTrue())
+	}()
+
+	_ = executeCommand(context.Background(), cmd, stopper)
+	t.Fatal("expected panic")
+}
+
 type fakeProfileStopper struct {
-	err error
+	called bool
+	err    error
 }
 
 func (f *fakeProfileStopper) stop() error {
+	f.called = true
 	return f.err
 }

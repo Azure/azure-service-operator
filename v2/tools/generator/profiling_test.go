@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"runtime/debug"
+	"runtime/pprof"
 	"strings"
 	"testing"
 	"time"
@@ -130,6 +131,7 @@ func TestProfiler_InvalidOutputPathCleansUpAfterFailedStart(t *testing.T) {
 	g.Expect(profiler.stop()).To(Succeed())
 	g.Expect(profiler.memoryProfile).To(BeNil())
 	g.Expect(profiler.cpuProfile).To(BeNil())
+	expectPathMissing(g, validMemoryPath)
 }
 
 //nolint:paralleltest // Keep profiler lifecycle tests serialized for consistency.
@@ -147,6 +149,34 @@ func TestProfiler_InvalidMemoryPathReportsCreateFailureAndLeavesHandlesNil(t *te
 	g.Expect(profiler.stop()).To(Succeed())
 	g.Expect(profiler.memoryProfile).To(BeNil())
 	g.Expect(profiler.cpuProfile).To(BeNil())
+}
+
+//nolint:paralleltest // Keep profiler lifecycle tests serialized for consistency.
+func TestProfiler_StartCPUProfileFailureCleansUpPartialFiles(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	tempDir := t.TempDir()
+	externalCPUPath := filepath.Join(tempDir, "external.pprof")
+	externalCPUProfile, err := os.Create(externalCPUPath)
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(pprof.StartCPUProfile(externalCPUProfile)).To(Succeed())
+	defer func() {
+		pprof.StopCPUProfile()
+		g.Expect(externalCPUProfile.Close()).To(Succeed())
+	}()
+
+	memoryPath := filepath.Join(tempDir, "memory.pprof")
+	cpuPath := filepath.Join(tempDir, "cpu.pprof")
+	profiler := newProfiler()
+	profiler.memoryProfilePath = memoryPath
+	profiler.cpuProfilePath = cpuPath
+
+	g.Expect(profiler.start()).To(MatchError(ContainSubstring("starting CPU profile")))
+	g.Expect(profiler.memoryProfile).To(BeNil())
+	g.Expect(profiler.cpuProfile).To(BeNil())
+	g.Expect(profiler.stop()).To(Succeed())
+	expectPathMissing(g, memoryPath)
+	expectPathMissing(g, cpuPath)
 }
 
 //nolint:paralleltest // Keep profiler lifecycle tests serialized for consistency.
@@ -187,6 +217,11 @@ func readProfile(g Gomega, path string) *pprofprofile.Profile {
 	result, err := pprofprofile.Parse(bytes.NewReader(data))
 	g.Expect(err).NotTo(HaveOccurred())
 	return result
+}
+
+func expectPathMissing(g Gomega, path string) {
+	_, err := os.Stat(path)
+	g.Expect(os.IsNotExist(err)).To(BeTrue())
 }
 
 func profileContainsNonZeroSample(profile *pprofprofile.Profile, functionName string) bool {
