@@ -73,6 +73,35 @@ func TestRootCommand_InvalidProfilePathPreventsExecution(t *testing.T) {
 }
 
 //nolint:paralleltest // newRootCommand binds package-global logging flags.
+func TestExecuteRootCommand_InvalidFlagGroupsDoNotCreateProfiles(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	memoryPath := filepath.Join(t.TempDir(), "memory.pprof")
+	cmd, profiler, err := newRootCommand()
+	g.Expect(err).NotTo(HaveOccurred())
+
+	executed := false
+	cmd.AddCommand(&cobra.Command{
+		Use: "successful-command",
+		Run: func(*cobra.Command, []string) {
+			executed = true
+		},
+	})
+
+	err = executeRootCommand(
+		context.Background(),
+		[]string{"--verbose", "--quiet", "--memory-prof", memoryPath, "successful-command"},
+		cmd,
+		profiler,
+	)
+	g.Expect(err).To(MatchError(ContainSubstring("none of the others can be")))
+	g.Expect(executed).To(BeFalse())
+
+	_, statErr := os.Stat(memoryPath)
+	g.Expect(os.IsNotExist(statErr)).To(BeTrue())
+}
+
+//nolint:paralleltest // newRootCommand binds package-global logging flags.
 func TestExecuteRootCommand_AcceptsRootProfilingFlagsBeforeSubcommand(t *testing.T) {
 	g := NewGomegaWithT(t)
 

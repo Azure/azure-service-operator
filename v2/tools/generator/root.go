@@ -79,6 +79,10 @@ func newRootCommand() (*cobra.Command, *profiler, error) {
 	}
 
 	rootCmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
+		if err := cmd.ValidateFlagGroups(); err != nil {
+			return err
+		}
+
 		// Configure logging; --trace overrides --verbose overrides --quiet
 		if trace {
 			zerologr.SetMaxV(2)
