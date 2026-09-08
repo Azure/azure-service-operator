@@ -33,10 +33,10 @@ vars:
 
   VERSION:
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
-    sh: "{{.SCRIPTS_ROOT}}/build_version.py v2"
+    sh: 'if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then {{.SCRIPTS_ROOT}}/build_version.py v2; else echo dev; fi'
 
   LATEST_VERSION_TAG:
-    sh: git describe --tags $(git rev-list --tags='v2*' --max-count=1) --match 'v2*'
+    sh: 'if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then git describe --tags $(git rev-list --tags=''v2*'' --max-count=1) --match ''v2*''; else echo dev; fi'
 
   VERSION_FLAGS: '"-X {{.PACKAGE}}/internal/version.BuildVersion={{.VERSION}}"'
   LDFLAGS: -ldflags {{.VERSION_FLAGS}}
