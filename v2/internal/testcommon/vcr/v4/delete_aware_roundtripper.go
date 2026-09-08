@@ -150,6 +150,9 @@ func (r *deleteAwareRoundTripper) wasDeleted(path string) bool {
 }
 
 func (*deleteAwareRoundTripper) isSameOrDescendantPath(path string, ancestor string) bool {
+	if ancestor == "/" {
+		return strings.HasPrefix(path, "/")
+	}
 	path = strings.TrimSuffix(path, "/")
 	ancestor = strings.TrimSuffix(ancestor, "/")
 	if strings.EqualFold(path, ancestor) {
@@ -157,9 +160,6 @@ func (*deleteAwareRoundTripper) isSameOrDescendantPath(path string, ancestor str
 	}
 	if ancestor == "" {
 		return false
-	}
-	if ancestor == "/" {
-		return strings.HasPrefix(path, "/")
 	}
 	if len(path) <= len(ancestor) {
 		return false
