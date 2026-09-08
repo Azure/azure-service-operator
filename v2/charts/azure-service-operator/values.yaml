@@ -206,6 +206,9 @@ podAnnotations: {}
 podDisruptionBudget:
   enabled: true
   minAvailable: 50%
+  # Policy for evicting unhealthy pods, either IfHealthyBudget or AlwaysAllow
+  # Defaults to IfHealthyBudget if unset
+  unhealthyPodEvictionPolicy: ""
 
 # Labels to be added to the pod
 podLabels: {}
