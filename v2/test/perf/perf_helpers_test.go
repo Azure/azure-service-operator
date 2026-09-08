@@ -198,7 +198,7 @@ func runStaticPattern(
 	tc *testcommon.KubePerTestContext,
 	factory ResourceFactory,
 	cfg *StaticConfig,
-) (Result, error) {
+) (Result, error) { //nolint:unparam // Matches runDynamicPattern so callers can handle both patterns uniformly.
 	result := Result{}
 	start := time.Now()
 
