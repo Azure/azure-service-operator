@@ -86,6 +86,7 @@ imports:
   resources: azure-arm/resources.yaml
   search: azure-arm/search.yaml
   servicebus: azure-arm/servicebus.yaml
+  servicelinker: azure-arm/servicelinker.yaml
   signalrservice: azure-arm/signalrservice.yaml
   sql: azure-arm/sql.yaml
   storage: azure-arm/storage.yaml

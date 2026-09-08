@@ -1,0 +1,22 @@
+apiVersion: servicelinker.azure.com/v20240401
+kind: Linker
+metadata:
+  name: aso-sample-linker
+  namespace: default
+spec:
+  azureName: asosamplelinker
+  owner:
+    group: web.azure.com
+    kind: Site
+    name: aso-sample-servicelinker-site
+  authInfo:
+    systemAssignedIdentity:
+      authType: systemAssignedIdentity
+  clientType: dotnet
+  targetService:
+    azureResource:
+      type: AzureResource
+      reference:
+        group: storage.azure.com
+        kind: StorageAccount
+        name: asosampleservicelinker

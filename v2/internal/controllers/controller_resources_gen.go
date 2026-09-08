@@ -503,6 +503,10 @@ import (
 	servicebus_v20240101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101"
 	servicebus_v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
 	servicebus_v20240101w "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/webhook"
+	servicelinker_customizations "github.com/Azure/azure-service-operator/v2/api/servicelinker/customizations"
+	servicelinker_v20240401 "github.com/Azure/azure-service-operator/v2/api/servicelinker/v20240401"
+	servicelinker_v20240401s "github.com/Azure/azure-service-operator/v2/api/servicelinker/v20240401/storage"
+	servicelinker_v20240401w "github.com/Azure/azure-service-operator/v2/api/servicelinker/v20240401/webhook"
 	signalrservice_customizations "github.com/Azure/azure-service-operator/v2/api/signalrservice/customizations"
 	signalrservice_v20211001 "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001"
 	signalrservice_v20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/storage"
@@ -3002,6 +3006,82 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscription)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscriptionsRule)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.TopicAuthorizationRule)})
+	result = append(result, &registration.StorageType{
+		Obj: new(servicelinker_v20240401s.Linker),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.authInfo.servicePrincipalCertificate.certificate",
+				Func: indexServicelinkerLinkerCertificate,
+			},
+			{
+				Key:  ".spec.authInfo.easyAuthMicrosoftEntraID.clientIdFromConfig",
+				Func: indexServicelinkerLinkerEasyAuthMicrosoftEntraIDClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.authInfo.easyAuthMicrosoftEntraID.secret",
+				Func: indexServicelinkerLinkerEasyAuthMicrosoftEntraIDSecret,
+			},
+			{
+				Key:  ".spec.authInfo.servicePrincipalCertificate.clientIdFromConfig",
+				Func: indexServicelinkerLinkerServicePrincipalCertificateClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.authInfo.servicePrincipalCertificate.principalIdFromConfig",
+				Func: indexServicelinkerLinkerServicePrincipalCertificatePrincipalIdFromConfig,
+			},
+			{
+				Key:  ".spec.authInfo.servicePrincipalSecret.clientIdFromConfig",
+				Func: indexServicelinkerLinkerServicePrincipalSecretClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.authInfo.servicePrincipalSecret.principalIdFromConfig",
+				Func: indexServicelinkerLinkerServicePrincipalSecretPrincipalIdFromConfig,
+			},
+			{
+				Key:  ".spec.authInfo.servicePrincipalSecret.secret",
+				Func: indexServicelinkerLinkerServicePrincipalSecretSecret,
+			},
+			{
+				Key:  ".spec.authInfo.userAssignedIdentity.clientIdFromConfig",
+				Func: indexServicelinkerLinkerUserAssignedIdentityClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.authInfo.userAssignedIdentity.subscriptionIdFromConfig",
+				Func: indexServicelinkerLinkerUserAssignedIdentitySubscriptionIdFromConfig,
+			},
+			{
+				Key:  ".spec.authInfo.secret.secretInfo.rawValue.value",
+				Func: indexServicelinkerLinkerValue,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.authInfo.easyAuthMicrosoftEntraID.secret",
+						".spec.authInfo.secret.secretInfo.rawValue.value",
+						".spec.authInfo.servicePrincipalCertificate.certificate",
+						".spec.authInfo.servicePrincipalSecret.secret",
+					},
+					&servicelinker_v20240401s.LinkerList{}),
+			},
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.authInfo.easyAuthMicrosoftEntraID.clientIdFromConfig",
+						".spec.authInfo.servicePrincipalCertificate.clientIdFromConfig",
+						".spec.authInfo.servicePrincipalCertificate.principalIdFromConfig",
+						".spec.authInfo.servicePrincipalSecret.clientIdFromConfig",
+						".spec.authInfo.servicePrincipalSecret.principalIdFromConfig",
+						".spec.authInfo.userAssignedIdentity.clientIdFromConfig",
+						".spec.authInfo.userAssignedIdentity.subscriptionIdFromConfig",
+					},
+					&servicelinker_v20240401s.LinkerList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{
 		Obj: new(signalrservice_v20240301s.CustomCertificate),
 		Indexes: []registration.Index{
@@ -7347,6 +7427,12 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscriptionsRule)},
 		&registration.KnownType{Obj: new(servicebus_v20240101s.TopicAuthorizationRule)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(servicelinker_v20240401.Linker),
+		Defaulter: &servicelinker_v20240401w.Linker{},
+		Validator: &servicelinker_v20240401w.Linker{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(servicelinker_v20240401s.Linker)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(signalrservice_v20211001.SignalR),
 		Defaulter: &signalrservice_v20211001w.SignalR{},
 		Validator: &signalrservice_v20211001w.SignalR{},
@@ -8623,6 +8709,8 @@ func createScheme() *runtime.Scheme {
 	_ = servicebus_v20221001ps.AddToScheme(scheme)
 	_ = servicebus_v20240101.AddToScheme(scheme)
 	_ = servicebus_v20240101s.AddToScheme(scheme)
+	_ = servicelinker_v20240401.AddToScheme(scheme)
+	_ = servicelinker_v20240401s.AddToScheme(scheme)
 	_ = signalrservice_v20211001.AddToScheme(scheme)
 	_ = signalrservice_v20211001s.AddToScheme(scheme)
 	_ = signalrservice_v20240301.AddToScheme(scheme)
@@ -8911,6 +8999,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionsRuleExtension{})
 	result = append(result, &servicebus_customizations.TopicAuthorizationRuleExtension{})
+	result = append(result, &servicelinker_customizations.LinkerExtension{})
 	result = append(result, &signalrservice_customizations.CustomCertificateExtension{})
 	result = append(result, &signalrservice_customizations.CustomDomainExtension{})
 	result = append(result, &signalrservice_customizations.ReplicaExtension{})
@@ -13623,6 +13712,210 @@ func indexRedhatopenshiftOpenShiftClusterPullSecret(rawObj client.Object) []stri
 		return nil
 	}
 	return obj.Spec.ClusterProfile.PullSecret.Index()
+}
+
+// indexServicelinkerLinkerCertificate an index function for servicelinker_v20240401s.Linker .spec.authInfo.servicePrincipalCertificate.certificate
+func indexServicelinkerLinkerCertificate(rawObj client.Object) []string {
+	obj, ok := rawObj.(*servicelinker_v20240401s.Linker)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AuthInfo == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.ServicePrincipalCertificate == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.ServicePrincipalCertificate.Certificate == nil {
+		return nil
+	}
+	return obj.Spec.AuthInfo.ServicePrincipalCertificate.Certificate.Index()
+}
+
+// indexServicelinkerLinkerEasyAuthMicrosoftEntraIDClientIdFromConfig an index function for servicelinker_v20240401s.Linker .spec.authInfo.easyAuthMicrosoftEntraID.clientIdFromConfig
+func indexServicelinkerLinkerEasyAuthMicrosoftEntraIDClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*servicelinker_v20240401s.Linker)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AuthInfo == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.EasyAuthMicrosoftEntraID == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.EasyAuthMicrosoftEntraID.ClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.AuthInfo.EasyAuthMicrosoftEntraID.ClientIdFromConfig.Index()
+}
+
+// indexServicelinkerLinkerEasyAuthMicrosoftEntraIDSecret an index function for servicelinker_v20240401s.Linker .spec.authInfo.easyAuthMicrosoftEntraID.secret
+func indexServicelinkerLinkerEasyAuthMicrosoftEntraIDSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*servicelinker_v20240401s.Linker)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AuthInfo == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.EasyAuthMicrosoftEntraID == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.EasyAuthMicrosoftEntraID.Secret == nil {
+		return nil
+	}
+	return obj.Spec.AuthInfo.EasyAuthMicrosoftEntraID.Secret.Index()
+}
+
+// indexServicelinkerLinkerServicePrincipalCertificateClientIdFromConfig an index function for servicelinker_v20240401s.Linker .spec.authInfo.servicePrincipalCertificate.clientIdFromConfig
+func indexServicelinkerLinkerServicePrincipalCertificateClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*servicelinker_v20240401s.Linker)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AuthInfo == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.ServicePrincipalCertificate == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.ServicePrincipalCertificate.ClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.AuthInfo.ServicePrincipalCertificate.ClientIdFromConfig.Index()
+}
+
+// indexServicelinkerLinkerServicePrincipalCertificatePrincipalIdFromConfig an index function for servicelinker_v20240401s.Linker .spec.authInfo.servicePrincipalCertificate.principalIdFromConfig
+func indexServicelinkerLinkerServicePrincipalCertificatePrincipalIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*servicelinker_v20240401s.Linker)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AuthInfo == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.ServicePrincipalCertificate == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.ServicePrincipalCertificate.PrincipalIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.AuthInfo.ServicePrincipalCertificate.PrincipalIdFromConfig.Index()
+}
+
+// indexServicelinkerLinkerServicePrincipalSecretClientIdFromConfig an index function for servicelinker_v20240401s.Linker .spec.authInfo.servicePrincipalSecret.clientIdFromConfig
+func indexServicelinkerLinkerServicePrincipalSecretClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*servicelinker_v20240401s.Linker)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AuthInfo == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.ServicePrincipalSecret == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.ServicePrincipalSecret.ClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.AuthInfo.ServicePrincipalSecret.ClientIdFromConfig.Index()
+}
+
+// indexServicelinkerLinkerServicePrincipalSecretPrincipalIdFromConfig an index function for servicelinker_v20240401s.Linker .spec.authInfo.servicePrincipalSecret.principalIdFromConfig
+func indexServicelinkerLinkerServicePrincipalSecretPrincipalIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*servicelinker_v20240401s.Linker)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AuthInfo == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.ServicePrincipalSecret == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.ServicePrincipalSecret.PrincipalIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.AuthInfo.ServicePrincipalSecret.PrincipalIdFromConfig.Index()
+}
+
+// indexServicelinkerLinkerServicePrincipalSecretSecret an index function for servicelinker_v20240401s.Linker .spec.authInfo.servicePrincipalSecret.secret
+func indexServicelinkerLinkerServicePrincipalSecretSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*servicelinker_v20240401s.Linker)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AuthInfo == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.ServicePrincipalSecret == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.ServicePrincipalSecret.Secret == nil {
+		return nil
+	}
+	return obj.Spec.AuthInfo.ServicePrincipalSecret.Secret.Index()
+}
+
+// indexServicelinkerLinkerUserAssignedIdentityClientIdFromConfig an index function for servicelinker_v20240401s.Linker .spec.authInfo.userAssignedIdentity.clientIdFromConfig
+func indexServicelinkerLinkerUserAssignedIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*servicelinker_v20240401s.Linker)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AuthInfo == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.UserAssignedIdentity == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.UserAssignedIdentity.ClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.AuthInfo.UserAssignedIdentity.ClientIdFromConfig.Index()
+}
+
+// indexServicelinkerLinkerUserAssignedIdentitySubscriptionIdFromConfig an index function for servicelinker_v20240401s.Linker .spec.authInfo.userAssignedIdentity.subscriptionIdFromConfig
+func indexServicelinkerLinkerUserAssignedIdentitySubscriptionIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*servicelinker_v20240401s.Linker)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AuthInfo == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.UserAssignedIdentity == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.UserAssignedIdentity.SubscriptionIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.AuthInfo.UserAssignedIdentity.SubscriptionIdFromConfig.Index()
+}
+
+// indexServicelinkerLinkerValue an index function for servicelinker_v20240401s.Linker .spec.authInfo.secret.secretInfo.rawValue.value
+func indexServicelinkerLinkerValue(rawObj client.Object) []string {
+	obj, ok := rawObj.(*servicelinker_v20240401s.Linker)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AuthInfo == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.Secret == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.Secret.SecretInfo == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.Secret.SecretInfo.RawValue == nil {
+		return nil
+	}
+	if obj.Spec.AuthInfo.Secret.SecretInfo.RawValue.Value == nil {
+		return nil
+	}
+	return obj.Spec.AuthInfo.Secret.SecretInfo.RawValue.Value.Index()
 }
 
 // indexSignalrserviceCustomCertificateKeyVaultBaseUriFromConfig an index function for signalrservice_v20240301s.CustomCertificate .spec.keyVaultBaseUriFromConfig
