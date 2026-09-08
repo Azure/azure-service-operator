@@ -61,7 +61,9 @@ A link that names its target by `armId` instead keeps the behaviour it has alway
 its connections cannot even be read, so ASO reports nothing about them and the link goes `Ready` on its own
 provisioning alone. Approve those connections yourself, in the portal or with `az`.
 
-ASO also declines to approve, and holds the link `False` with the reason, when:
+These refusals apply only to a connection ASO would have to approve. An `Approved` connection makes the link
+`Ready` whatever they say, because readiness is a fact about the connection rather than a decision. While a
+connection is `Pending`, ASO declines to approve it and holds the link `False` with the reason, when:
 
 - **The target is managed by a different operator.** Operators sharing a cluster have their own credentials
   and policies, and none of that is visible from the link.
@@ -70,14 +72,16 @@ ASO also declines to approve, and holds the link `False` with the reason, when:
 - **Either resource's [reconcile policy]({{< relref "annotations" >}}) forbids modification.** The policy
   suppresses the approval, not the reporting, so the link still tells you the connection is pending.
 - **Two connections on the target are named after the link.** A link name is unique only under its own
-  watcher, so ASO refuses to guess which connection is this link's.
+  watcher, so ASO refuses to guess which of them to approve. Approve the right one on the target yourself.
 
 ## Permissions
 
-Approving a private endpoint connection requires `Owner`, or another role granting
-`Microsoft.Sql/servers/privateEndpointConnections/write` on the target, which the credential that created
-the link does not necessarily hold. When ASO is refused, the link reports that approval is required and that
-its credential cannot give it - approve the connection yourself, or grant the operator the role.
+Approving a private endpoint connection needs a role granting
+`Microsoft.Sql/servers/privateEndpointConnections/write` on the target - `Owner` and `Contributor` both do,
+`Reader` does not - which the credential that created the link does not necessarily hold. When ASO is
+refused, the link reports that approval is required and that its credential cannot give it: approve the
+connection yourself, or grant the operator the role. A credential that cannot even read the target's
+connections leaves the link the readiness it had before, since ASO then has nothing to report.
 
 ## Restarting a watcher after approval
 

@@ -52,16 +52,16 @@ const (
 )
 
 func connectionJSON(status string) string {
-	return namedConnectionJSON(connectionName, endpointARMID, status)
+	return namedConnectionJSON(connectionName, status)
 }
 
-func namedConnectionJSON(name string, endpoint string, status string) string {
+func namedConnectionJSON(name string, status string) string {
 	return fmt.Sprintf(
 		`{"id": %q, "name": %q, "properties": {"privateEndpoint": {"id": %q},`+
 			` "privateLinkServiceConnectionState": {"status": %q}}}`,
 		serverARMID+"/privateEndpointConnections/"+name,
 		name,
-		endpoint,
+		endpointARMID,
 		status,
 	)
 }
@@ -307,7 +307,9 @@ func Test_SharedPrivateLinkPostReconcileCheck_givenSkippedResource_reportsThatAp
 
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result.ReconciliationSucceeded()).To(BeFalse())
-	g.Expect(result.Message()).To(ContainSubstring("requires approval"))
+	g.Expect(result.Message()).To(Equal(
+		"the private endpoint connection on server requires approval",
+	))
 	g.Expect(approvals).To(BeZero())
 }
 
@@ -463,9 +465,11 @@ func Test_SharedPrivateLinkPostReconcileCheck_givenForeignResource_refusesBefore
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	var requests int
+	var approvals int
 	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		requests++
+		if r.Method == http.MethodPut {
+			approvals++
+		}
 
 		w.WriteHeader(http.StatusOK)
 		g.Expect(w.Write([]byte(connectionsJSON("Pending")))).ToNot(BeZero())
@@ -490,7 +494,7 @@ func Test_SharedPrivateLinkPostReconcileCheck_givenForeignResource_refusesBefore
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result.ReconciliationSucceeded()).To(BeFalse())
 	g.Expect(result.Message()).To(ContainSubstring("managed by the operator"))
-	g.Expect(requests).To(BeZero())
+	g.Expect(approvals).To(BeZero())
 }
 
 // Approving writes to the resource with the link's credential, so a resource managed with another one is
@@ -575,18 +579,101 @@ func Test_SharedPrivateLinkPostReconcileCheck_givenTwoConnectionsNamedAfterTheLi
 		w.WriteHeader(http.StatusOK)
 		g.Expect(w.Write([]byte(fmt.Sprintf(
 			`{"value": [%s, %s]}`,
-			namedConnectionJSON("spl-6f8f3c1e-1f3a-4a2b-9c1d-2e5f7a9b0c3d", endpointARMID, "Pending"),
-			namedConnectionJSON("spl-9a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d", endpointARMID, "Pending"),
+			namedConnectionJSON("spl-6f8f3c1e-1f3a-4a2b-9c1d-2e5f7a9b0c3d", "Pending"),
+			namedConnectionJSON("spl-9a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d", "Pending"),
 		)))).ToNot(BeZero())
 	}))
 	defer server.Close()
 
 	result, err := approvalCheck(g, server, approvableLink())()
 
-	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(ContainSubstring("cannot tell which private endpoint connection"))
-	g.Expect(result).To(Equal(extensions.PostReconcileCheckResult{}))
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.ReconciliationFailed()).To(BeTrue())
+	g.Expect(result.Message()).To(ContainSubstring("cannot tell which private endpoint connection"))
 	g.Expect(approvals).To(BeZero())
+}
+
+// Whichever of two look-alike connections is this link's, an approved one carries traffic, so readiness is a
+// fact rather than a decision and the ambiguity never has to be resolved
+func Test_SharedPrivateLinkPostReconcileCheck_givenTwoApprovedConnections_reportsTheLinkReady(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	var approvals int
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPut {
+			approvals++
+		}
+
+		w.WriteHeader(http.StatusOK)
+		g.Expect(w.Write([]byte(fmt.Sprintf(
+			`{"value": [%s, %s]}`,
+			namedConnectionJSON("spl-6f8f3c1e-1f3a-4a2b-9c1d-2e5f7a9b0c3d", "Approved"),
+			namedConnectionJSON("spl-9a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d", "Approved"),
+		)))).ToNot(BeZero())
+	}))
+	defer server.Close()
+
+	result, err := approvalCheck(g, server, approvableLink())()
+
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.ReconciliationSucceeded()).To(BeTrue())
+	g.Expect(approvals).To(BeZero())
+}
+
+// An approved connection needs no approval, so the resource being another operator's is no reason to withhold
+// the readiness that connection is evidence of
+func Test_SharedPrivateLinkPostReconcileCheck_givenApprovedConnectionOnForeignResource_reportsTheLinkReady(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	var approvals int
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPut {
+			approvals++
+		}
+
+		w.WriteHeader(http.StatusOK)
+		g.Expect(w.Write([]byte(connectionsJSON("Approved")))).ToNot(BeZero())
+	}))
+	defer server.Close()
+
+	link := approvableLink()
+	sqlServer := linkedServer()
+	sqlServer.SetAnnotations(map[string]string{
+		genruntime.ResourceIDAnnotation:         serverARMID,
+		reconcilers.OperatorNamespaceAnnotation: "other-operator",
+	})
+
+	result, err := approvalCheckForResources(g, server, link, sqlServer, managedPolicies())()
+
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.ReconciliationSucceeded()).To(BeTrue())
+	g.Expect(approvals).To(BeZero())
+}
+
+// A token Azure cannot resume is dropped, or the link never approves anything again
+func Test_SharedPrivateLinkPostReconcileCheck_givenUnresumableToken_dropsIt(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		g.Expect(w.Write([]byte(connectionsJSON("Pending")))).ToNot(BeZero())
+	}))
+	defer server.Close()
+
+	link := approvableLink()
+	link.SetAnnotations(map[string]string{
+		reconcilers.OperatorNamespaceAnnotation:            operatorNamespace,
+		customizations.ApprovalPollerResumeTokenAnnotation: `{"type":"nonsense","token":{}}`,
+	})
+
+	result, err := approvalCheck(g, server, link)()
+
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(result).To(Equal(extensions.PostReconcileCheckResult{}))
+	g.Expect(link.GetAnnotations()).ToNot(HaveKey(customizations.ApprovalPollerResumeTokenAnnotation))
 }
 
 // Reading the connections is the only way to know the state, so a resource that cannot be read is an error

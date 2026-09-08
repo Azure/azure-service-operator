@@ -77,12 +77,6 @@ func (extension *SharedPrivateLinkExtension) PostReconcileCheck(
 			eris.Wrapf(err, "cannot resolve the resource shared private link %s points at", link.Name)
 	}
 
-	// Nothing below holds for a resource another operator has claimed, and refusing here keeps this
-	// operator's credential away from it: none of that operator's policies or credentials is visible from here
-	if reason, ok := foreignPrivateLinkResource(link, resource); ok {
-		return extensions.PostReconcileCheckResultFailure(reason), nil
-	}
-
 	resourceID, hasID := genruntime.GetResourceID(resource)
 	if !hasID {
 		return extensions.PostReconcileCheckResultFailure(
@@ -94,10 +88,9 @@ func (extension *SharedPrivateLinkExtension) PostReconcileCheck(
 	if token, submitted := approvalResumeToken(link); submitted {
 		done, err := resumeApproval(ctx, armClient, token)
 		if err != nil {
-			// An answer from ARM ends this operation, while a request that never reached it may yet succeed
-			if armAnswered(err) {
-				clearApprovalResumeToken(link)
-			}
+			// A token that cannot be followed is worth less than a second approval, which Azure either
+			// refuses as already decided or applies again harmlessly
+			clearApprovalResumeToken(link)
 
 			return extensions.PostReconcileCheckResult{},
 				eris.Wrapf(err, "cannot approve the connection shared private link %s opened on %s", link.Name, resource.GetName())
@@ -113,22 +106,50 @@ func (extension *SharedPrivateLinkExtension) PostReconcileCheck(
 		clearApprovalResumeToken(link)
 	}
 
-	connection, err := linkConnection(ctx, armClient, link, resourceID, resource.GetAPIVersion())
+	connections, err := linkConnections(ctx, armClient, link, resourceID, resource.GetAPIVersion())
 	if err != nil {
+		// Reading the connections needs rights on the resource, and a credential without them leaves the link
+		// the readiness it had before this extension existed rather than a failure it cannot act on
+		if unauthorized(err) {
+			log.V(Status).Info(
+				"Not authorized to read the private endpoint connections a shared private link opened",
+				"link", link.Name,
+				"resource", resource.GetName(),
+			)
+
+			return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
+		}
+
 		return extensions.PostReconcileCheckResult{}, err
 	}
 
 	// Azure opens the connection after the link itself is created, so it may not be there yet
-	if connection == nil {
+	if len(connections) == 0 {
 		return extensions.PostReconcileCheckResultFailure(
 			fmt.Sprintf("waiting for Azure to open the private endpoint connection on %s", resource.GetName()),
 		), nil
 	}
 
-	switch state := connection.state(); state {
-	case connectionStateApproved:
+	// Readiness is a fact about the connection, so it holds however the resource is managed and whichever of
+	// these is this link's
+	if allApproved(connections) {
 		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
+	}
 
+	// A link name is unique only under its own watcher, so two watchers can open connections that look alike
+	// here. Approving either would be a guess, so an ambiguous resource is left to its owner
+	if len(connections) > 1 {
+		return extensions.PostReconcileCheckResultFailure(
+			fmt.Sprintf(
+				"cannot tell which private endpoint connection on %s this link opened, so it has to be approved there",
+				resource.GetName(),
+			),
+		), nil
+	}
+
+	connection := &connections[0]
+
+	switch state := connection.state(); state {
 	case connectionStateRejected, connectionStateDisconnected:
 		// Someone acted on this connection deliberately, and approving it now would undo that
 		return extensions.PostReconcileCheckResultFailure(
@@ -144,9 +165,10 @@ func (extension *SharedPrivateLinkExtension) PostReconcileCheck(
 		), nil
 	}
 
+	// Everything from here writes to the resource the link points at, so the checks that answer whether this
+	// operator may do that belong to this path alone
+
 	// This check still runs when the policy forbids modification, so the connection is reported as it stands
-	// rather than acted upon. Readiness follows the connection either way, or the link would go ready
-	// claiming a private endpoint that carries no traffic
 	if !reconcilePolicies.Effective.AllowsModify() {
 		return extensions.PostReconcileCheckResultFailure(
 			fmt.Sprintf(
@@ -154,6 +176,12 @@ func (extension *SharedPrivateLinkExtension) PostReconcileCheck(
 				resource.GetName(),
 			),
 		), nil
+	}
+
+	// Nothing below holds for a resource another operator has claimed, and this comes before its policy is
+	// resolved: none of that operator's policies or credentials is visible from here
+	if reason, ok := foreignPrivateLinkResource(link, resource); ok {
+		return extensions.PostReconcileCheckResultFailure(reason), nil
 	}
 
 	// Approving writes to the resource the link points at, so its own policy governs it
@@ -265,13 +293,6 @@ func alreadyDecided(err error) bool {
 	return armErrorCode(err) == connectionNotPendingErrorCode
 }
 
-// armAnswered reports whether ARM answered at all, as opposed to never having been reached.
-func armAnswered(err error) bool {
-	var cloudError *genericarmclient.CloudError
-
-	return eris.As(err, &cloudError)
-}
-
 func armErrorCode(err error) string {
 	var cloudError *genericarmclient.CloudError
 	if !eris.As(err, &cloudError) {
@@ -311,16 +332,16 @@ type privateEndpointConnectionApproval struct {
 	} `json:"properties"`
 }
 
-// linkConnection returns the connection the link opened on the resource it points at, or nil while Azure has
-// yet to open one. The name is all that ties the two together: the link reports no connection of its own, and
-// the private endpoint behind it lives in a subscription Microsoft owns.
-func linkConnection(
+// linkConnections returns the connections on the resource that carry the link's name, of which Azure opens one.
+// The name is all that ties the two together: the link reports no connection of its own, and the private
+// endpoint behind it lives in a subscription Microsoft owns.
+func linkConnections(
 	ctx context.Context,
 	armClient *genericarmclient.GenericClient,
 	link *databasewatcher.SharedPrivateLink,
 	resourceID string,
 	apiVersion string,
-) (*privateEndpointConnection, error) {
+) ([]privateEndpointConnection, error) {
 	container := resourceID + "/privateEndpointConnections"
 
 	connections, err := genericarmclient.ListByContainerID[privateEndpointConnection](ctx, armClient, container, apiVersion)
@@ -328,23 +349,12 @@ func linkConnection(
 		return nil, eris.Wrapf(err, "cannot list the private endpoint connections on %s", resourceID)
 	}
 
-	var opened *privateEndpointConnection
+	opened := make([]privateEndpointConnection, 0, 1)
 
 	for i := range connections {
-		if !connectionOpenedBy(&connections[i], link.AzureName()) {
-			continue
+		if connectionOpenedBy(&connections[i], link.AzureName()) {
+			opened = append(opened, connections[i])
 		}
-
-		// A link name is unique only under its own watcher, so two watchers can open connections that look
-		// alike here. Approving either would be a guess, so an ambiguous resource is left to its owner
-		if opened != nil {
-			return nil, eris.Errorf(
-				"cannot tell which private endpoint connection on %s shared private link %s opened: %s and %s are both named after it",
-				resourceID, link.Name, opened.Name, connections[i].Name,
-			)
-		}
-
-		opened = &connections[i]
 	}
 
 	return opened, nil
@@ -358,7 +368,19 @@ func connectionOpenedBy(connection *privateEndpointConnection, linkName string) 
 		return false
 	}
 
-	return path.Base(endpoint) == linkName
+	// ARM does not promise the casing it returns an ID in
+	return strings.EqualFold(path.Base(endpoint), linkName)
+}
+
+// allApproved reports whether every connection is approved, which makes the link usable whichever is its own.
+func allApproved(connections []privateEndpointConnection) bool {
+	for i := range connections {
+		if connections[i].state() != connectionStateApproved {
+			return false
+		}
+	}
+
+	return true
 }
 
 // submitApproval asks Azure to approve the connection, returning a token for the operation. Nothing waits here.
