@@ -109,8 +109,6 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"datafactory":    VersionMigrationModeHybrid,
 	"dataprotection": VersionMigrationModeHybrid,
 
-	"dbformariadb": VersionMigrationModeLegacy,
-
 	"dbformysql": VersionMigrationModeHybrid,
 
 	"dbforpostgresql": VersionMigrationModeLegacy,
