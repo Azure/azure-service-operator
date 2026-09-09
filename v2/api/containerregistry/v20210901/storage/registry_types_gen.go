@@ -24,9 +24,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20230701.Registry
+// Storage version of v20210901.Registry
 // Generator information:
-// - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2023-07-01/containerregistry.json
+// - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2021-09-01/containerregistry.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -96,9 +96,9 @@ func (registry *Registry) AzureName() string {
 	return registry.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2023-07-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-09-01"
 func (registry Registry) GetAPIVersion() string {
-	return "2023-07-01"
+	return "2021-09-01"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -244,9 +244,9 @@ func (registry *Registry) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20230701.Registry
+// Storage version of v20210901.Registry
 // Generator information:
-// - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2023-07-01/containerregistry.json
+// - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2021-09-01/containerregistry.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}
 type RegistryList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -254,18 +254,18 @@ type RegistryList struct {
 	Items           []Registry `json:"items"`
 }
 
-// Storage version of v1api20230701.APIVersion
-// +kubebuilder:validation:Enum={"2023-07-01"}
+// Storage version of v20210901.APIVersion
+// +kubebuilder:validation:Enum={"2021-09-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("2023-07-01")
+const APIVersion_Value = APIVersion("2021-09-01")
 
 type augmentConversionForRegistry interface {
 	AssignPropertiesFrom(src *storage.Registry) error
 	AssignPropertiesTo(dst *storage.Registry) error
 }
 
-// Storage version of v1api20230701.Registry_Spec
+// Storage version of v20210901.Registry_Spec
 type Registry_Spec struct {
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
@@ -628,7 +628,7 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *st
 	return nil
 }
 
-// Storage version of v1api20230701.Registry_STATUS
+// Storage version of v20210901.Registry_STATUS
 // An object that represents a container registry.
 type Registry_STATUS struct {
 	AdminUserEnabled           *bool                              `json:"adminUserEnabled,omitempty"`
@@ -1077,7 +1077,7 @@ type augmentConversionForRegistry_STATUS interface {
 	AssignPropertiesTo(dst *storage.Registry_STATUS) error
 }
 
-// Storage version of v1api20230701.EncryptionProperty
+// Storage version of v20210901.EncryptionProperty
 type EncryptionProperty struct {
 	KeyVaultProperties *KeyVaultProperties    `json:"keyVaultProperties,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1164,7 +1164,7 @@ func (property *EncryptionProperty) AssignProperties_To_EncryptionProperty(desti
 	return nil
 }
 
-// Storage version of v1api20230701.EncryptionProperty_STATUS
+// Storage version of v20210901.EncryptionProperty_STATUS
 type EncryptionProperty_STATUS struct {
 	KeyVaultProperties *KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
 	PropertyBag        genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
@@ -1251,10 +1251,12 @@ func (property *EncryptionProperty_STATUS) AssignProperties_To_EncryptionPropert
 	return nil
 }
 
-// Storage version of v1api20230701.IdentityProperties
+// Storage version of v20210901.IdentityProperties
 // Managed identity for the resource.
 type IdentityProperties struct {
+	PrincipalId            *string                       `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	TenantId               *string                       `json:"tenantId,omitempty"`
 	Type                   *string                       `json:"type,omitempty"`
 	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
@@ -1263,6 +1265,32 @@ type IdentityProperties struct {
 func (properties *IdentityProperties) AssignProperties_From_IdentityProperties(source *storage.IdentityProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// PrincipalId
+	if propertyBag.Contains("PrincipalId") {
+		var principalId string
+		err := propertyBag.Pull("PrincipalId", &principalId)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'PrincipalId' from propertyBag")
+		}
+
+		properties.PrincipalId = &principalId
+	} else {
+		properties.PrincipalId = nil
+	}
+
+	// TenantId
+	if propertyBag.Contains("TenantId") {
+		var tenantId string
+		err := propertyBag.Pull("TenantId", &tenantId)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'TenantId' from propertyBag")
+		}
+
+		properties.TenantId = &tenantId
+	} else {
+		properties.TenantId = nil
+	}
 
 	// Type
 	properties.Type = genruntime.ClonePointerToString(source.Type)
@@ -1308,6 +1336,20 @@ func (properties *IdentityProperties) AssignProperties_To_IdentityProperties(des
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
+	// PrincipalId
+	if properties.PrincipalId != nil {
+		propertyBag.Add("PrincipalId", *properties.PrincipalId)
+	} else {
+		propertyBag.Remove("PrincipalId")
+	}
+
+	// TenantId
+	if properties.TenantId != nil {
+		propertyBag.Add("TenantId", *properties.TenantId)
+	} else {
+		propertyBag.Remove("TenantId")
+	}
+
 	// Type
 	destination.Type = genruntime.ClonePointerToString(properties.Type)
 
@@ -1347,7 +1389,7 @@ func (properties *IdentityProperties) AssignProperties_To_IdentityProperties(des
 	return nil
 }
 
-// Storage version of v1api20230701.IdentityProperties_STATUS
+// Storage version of v20210901.IdentityProperties_STATUS
 // Managed identity for the resource.
 type IdentityProperties_STATUS struct {
 	PrincipalId            *string                                  `json:"principalId,omitempty"`
@@ -1457,7 +1499,7 @@ func (properties *IdentityProperties_STATUS) AssignProperties_To_IdentityPropert
 	return nil
 }
 
-// Storage version of v1api20230701.NetworkRuleSet
+// Storage version of v20210901.NetworkRuleSet
 // The network rule set for a container registry.
 type NetworkRuleSet struct {
 	DefaultAction *string                `json:"defaultAction,omitempty"`
@@ -1553,7 +1595,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *s
 	return nil
 }
 
-// Storage version of v1api20230701.NetworkRuleSet_STATUS
+// Storage version of v20210901.NetworkRuleSet_STATUS
 // The network rule set for a container registry.
 type NetworkRuleSet_STATUS struct {
 	DefaultAction *string                `json:"defaultAction,omitempty"`
@@ -1649,7 +1691,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 	return nil
 }
 
-// Storage version of v1api20230701.Policies
+// Storage version of v20210901.Policies
 // The policies for a container registry.
 type Policies struct {
 	ExportPolicy     *ExportPolicy          `json:"exportPolicy,omitempty"`
@@ -1805,7 +1847,7 @@ func (policies *Policies) AssignProperties_To_Policies(destination *storage.Poli
 	return nil
 }
 
-// Storage version of v1api20230701.Policies_STATUS
+// Storage version of v20210901.Policies_STATUS
 // The policies for a container registry.
 type Policies_STATUS struct {
 	ExportPolicy     *ExportPolicy_STATUS     `json:"exportPolicy,omitempty"`
@@ -1961,7 +2003,7 @@ func (policies *Policies_STATUS) AssignProperties_To_Policies_STATUS(destination
 	return nil
 }
 
-// Storage version of v1api20230701.PrivateEndpointConnection_STATUS
+// Storage version of v20210901.PrivateEndpointConnection_STATUS
 // An object that represents a private endpoint connection for a container registry.
 type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
@@ -2024,7 +2066,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
-// Storage version of v1api20230701.RegistryOperatorSpec
+// Storage version of v20210901.RegistryOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RegistryOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
@@ -2146,7 +2188,7 @@ func (operator *RegistryOperatorSpec) AssignProperties_To_RegistryOperatorSpec(d
 	return nil
 }
 
-// Storage version of v1api20230701.Sku
+// Storage version of v20210901.Sku
 // The SKU of a container registry.
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
@@ -2209,7 +2251,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	return nil
 }
 
-// Storage version of v1api20230701.Sku_STATUS
+// Storage version of v20210901.Sku_STATUS
 // The SKU of a container registry.
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
@@ -2279,7 +2321,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 	return nil
 }
 
-// Storage version of v1api20230701.Status_STATUS
+// Storage version of v20210901.Status_STATUS
 // The status of an Azure resource at the time the operation was called.
 type Status_STATUS struct {
 	DisplayStatus *string                `json:"displayStatus,omitempty"`
@@ -2356,7 +2398,7 @@ func (status *Status_STATUS) AssignProperties_To_Status_STATUS(destination *stor
 	return nil
 }
 
-// Storage version of v1api20230701.SystemData_STATUS
+// Storage version of v20210901.SystemData_STATUS
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
@@ -2524,7 +2566,7 @@ type augmentConversionForSystemData_STATUS interface {
 	AssignPropertiesTo(dst *storage.SystemData_STATUS) error
 }
 
-// Storage version of v1api20230701.ExportPolicy
+// Storage version of v20210901.ExportPolicy
 // The export policy for a container registry.
 type ExportPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2587,7 +2629,7 @@ func (policy *ExportPolicy) AssignProperties_To_ExportPolicy(destination *storag
 	return nil
 }
 
-// Storage version of v1api20230701.ExportPolicy_STATUS
+// Storage version of v20210901.ExportPolicy_STATUS
 // The export policy for a container registry.
 type ExportPolicy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2650,7 +2692,7 @@ func (policy *ExportPolicy_STATUS) AssignProperties_To_ExportPolicy_STATUS(desti
 	return nil
 }
 
-// Storage version of v1api20230701.IPRule
+// Storage version of v20210901.IPRule
 // IP rule with specific IP or IP range in CIDR format.
 type IPRule struct {
 	Action      *string                `json:"action,omitempty"`
@@ -2720,7 +2762,7 @@ func (rule *IPRule) AssignProperties_To_IPRule(destination *storage.IPRule) erro
 	return nil
 }
 
-// Storage version of v1api20230701.IPRule_STATUS
+// Storage version of v20210901.IPRule_STATUS
 // IP rule with specific IP or IP range in CIDR format.
 type IPRule_STATUS struct {
 	Action      *string                `json:"action,omitempty"`
@@ -2790,12 +2832,11 @@ func (rule *IPRule_STATUS) AssignProperties_To_IPRule_STATUS(destination *storag
 	return nil
 }
 
-// Storage version of v1api20230701.KeyVaultProperties
+// Storage version of v20210901.KeyVaultProperties
 type KeyVaultProperties struct {
-	Identity           *string                        `json:"identity,omitempty" optionalConfigMapPair:"Identity"`
-	IdentityFromConfig *genruntime.ConfigMapReference `json:"identityFromConfig,omitempty" optionalConfigMapPair:"Identity"`
-	KeyIdentifier      *string                        `json:"keyIdentifier,omitempty"`
-	PropertyBag        genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Identity      *string                `json:"identity,omitempty"`
+	KeyIdentifier *string                `json:"keyIdentifier,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignProperties_From_KeyVaultProperties populates our KeyVaultProperties from the provided source KeyVaultProperties
@@ -2808,10 +2849,9 @@ func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(s
 
 	// IdentityFromConfig
 	if source.IdentityFromConfig != nil {
-		identityFromConfig := source.IdentityFromConfig.Copy()
-		properties.IdentityFromConfig = &identityFromConfig
+		propertyBag.Add("IdentityFromConfig", *source.IdentityFromConfig)
 	} else {
-		properties.IdentityFromConfig = nil
+		propertyBag.Remove("IdentityFromConfig")
 	}
 
 	// KeyIdentifier
@@ -2846,8 +2886,13 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	destination.Identity = genruntime.ClonePointerToString(properties.Identity)
 
 	// IdentityFromConfig
-	if properties.IdentityFromConfig != nil {
-		identityFromConfig := properties.IdentityFromConfig.Copy()
+	if propertyBag.Contains("IdentityFromConfig") {
+		var identityFromConfig genruntime.ConfigMapReference
+		err := propertyBag.Pull("IdentityFromConfig", &identityFromConfig)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'IdentityFromConfig' from propertyBag")
+		}
+
 		destination.IdentityFromConfig = &identityFromConfig
 	} else {
 		destination.IdentityFromConfig = nil
@@ -2876,7 +2921,7 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	return nil
 }
 
-// Storage version of v1api20230701.KeyVaultProperties_STATUS
+// Storage version of v20210901.KeyVaultProperties_STATUS
 type KeyVaultProperties_STATUS struct {
 	Identity                 *string                `json:"identity,omitempty"`
 	KeyIdentifier            *string                `json:"keyIdentifier,omitempty"`
@@ -2976,7 +3021,7 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 	return nil
 }
 
-// Storage version of v1api20230701.QuarantinePolicy
+// Storage version of v20210901.QuarantinePolicy
 // The quarantine policy for a container registry.
 type QuarantinePolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -3039,7 +3084,7 @@ func (policy *QuarantinePolicy) AssignProperties_To_QuarantinePolicy(destination
 	return nil
 }
 
-// Storage version of v1api20230701.QuarantinePolicy_STATUS
+// Storage version of v20210901.QuarantinePolicy_STATUS
 // The quarantine policy for a container registry.
 type QuarantinePolicy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -3102,7 +3147,7 @@ func (policy *QuarantinePolicy_STATUS) AssignProperties_To_QuarantinePolicy_STAT
 	return nil
 }
 
-// Storage version of v1api20230701.RetentionPolicy
+// Storage version of v20210901.RetentionPolicy
 // The retention policy for a container registry.
 type RetentionPolicy struct {
 	Days        *int                   `json:"days,omitempty"`
@@ -3172,7 +3217,7 @@ func (policy *RetentionPolicy) AssignProperties_To_RetentionPolicy(destination *
 	return nil
 }
 
-// Storage version of v1api20230701.RetentionPolicy_STATUS
+// Storage version of v20210901.RetentionPolicy_STATUS
 // The retention policy for a container registry.
 type RetentionPolicy_STATUS struct {
 	Days            *int                   `json:"days,omitempty"`
@@ -3249,7 +3294,7 @@ func (policy *RetentionPolicy_STATUS) AssignProperties_To_RetentionPolicy_STATUS
 	return nil
 }
 
-// Storage version of v1api20230701.TrustPolicy
+// Storage version of v20210901.TrustPolicy
 // The content trust policy for a container registry.
 type TrustPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -3319,7 +3364,7 @@ func (policy *TrustPolicy) AssignProperties_To_TrustPolicy(destination *storage.
 	return nil
 }
 
-// Storage version of v1api20230701.TrustPolicy_STATUS
+// Storage version of v20210901.TrustPolicy_STATUS
 // The content trust policy for a container registry.
 type TrustPolicy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -3389,7 +3434,7 @@ func (policy *TrustPolicy_STATUS) AssignProperties_To_TrustPolicy_STATUS(destina
 	return nil
 }
 
-// Storage version of v1api20230701.UserAssignedIdentityDetails
+// Storage version of v20210901.UserAssignedIdentityDetails
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
 	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
@@ -3452,7 +3497,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIden
 	return nil
 }
 
-// Storage version of v1api20230701.UserIdentityProperties_STATUS
+// Storage version of v20210901.UserIdentityProperties_STATUS
 type UserIdentityProperties_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
