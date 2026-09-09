@@ -82,7 +82,7 @@ write-error() {
 # Configure behaviour for devcontainer mode or not
 
 if [ "$DEVCONTAINER" = true ]; then 
-    TOOL_DEST=/usr/local/bin
+    TOOL_DEST=/go/bin
     KUBEBUILDER_DEST=/usr/local/kubebuilder
     BUILDX_DEST=/usr/lib/docker/cli-plugins
 else
