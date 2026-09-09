@@ -114,7 +114,7 @@ func TestEscapeStringLiteral(t *testing.T) {
 	}
 }
 
-func TestEscapeIdentifier(t *testing.T) {
+func TestEscapeBracketIdentifier(t *testing.T) {
 	t.Parallel()
 
 	cases := []struct {
@@ -125,17 +125,27 @@ func TestEscapeIdentifier(t *testing.T) {
 		{
 			name:     "no special chars",
 			input:    "username",
-			expected: "\"username\"",
+			expected: "[username]",
 		},
 		{
-			name:     "double quote is doubled",
-			input:    "user\"name",
-			expected: "\"user\"\"name\"",
+			name:     "closing bracket is doubled",
+			input:    "user]name",
+			expected: "[user]]name]",
+		},
+		{
+			name:     "multiple closing brackets",
+			input:    "user]]name]x",
+			expected: "[user]]]]name]]x]",
+		},
+		{
+			name:     "AAD username with at sign",
+			input:    "bob@contoso.com",
+			expected: "[bob@contoso.com]",
 		},
 		{
 			name:     "other special chars are preserved",
-			input:    "user;name",
-			expected: "\"user;name\"",
+			input:    "user;name--test",
+			expected: "[user;name--test]",
 		},
 	}
 
@@ -145,7 +155,7 @@ func TestEscapeIdentifier(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			result := escapeIdentifier(c.input)
+			result := escapeBracketIdentifier(c.input)
 			g.Expect(result).To(Equal(c.expected))
 		})
 	}
