@@ -16,8 +16,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-type TypeRenameLookup func(astmodel.InternalTypeName) (string, bool)
-type PropertyRenameLookup func(astmodel.InternalTypeName, astmodel.PropertyName) (string, bool)
+type (
+	TypeRenameLookup     func(astmodel.InternalTypeName) (string, bool)
+	PropertyRenameLookup func(astmodel.InternalTypeName, astmodel.PropertyName) (string, bool)
+)
 
 // PropertyChangesReport documents the differences between a resource (along with the recursive
 // closure of types referenced by its spec and status) and the same resource in the "next" version,
@@ -248,7 +250,8 @@ func (r *PropertyChangesReport) buildRows() ([]*typeChangeRow, map[*typeChangeRo
 		}
 	}
 
-	rows := []*typeChangeRow{resourceRow}
+	rows := make([]*typeChangeRow, 0, 1+len(thisClosure)+len(nextClosure))
+	rows = append(rows, resourceRow)
 
 	// Index the remaining next-closure types by name, ready for matching against this-closure types
 	nextByName := make(map[string]astmodel.TypeDefinition, len(nextClosure))
@@ -276,7 +279,7 @@ func (r *PropertyChangesReport) buildRows() ([]*typeChangeRow, map[*typeChangeRo
 		return thisDefs[i].Name().Name() < thisDefs[j].Name().Name()
 	})
 
-	var remaining []*typeChangeRow
+	remaining := make([]*typeChangeRow, 0, len(thisDefs)+len(nextByName))
 	for _, thisDef := range thisDefs {
 		row := &typeChangeRow{thisName: thisDef.Name().Name()}
 
