@@ -40,7 +40,8 @@ func Test_PropertyChangesReporter_SaveReports_GivenTwoVersions_WritesReportsForP
 	state, err := RunTestPipeline(
 		NewState(defs),
 		CreateStorageTypes(),
-		CreateConversionGraph(cfg))
+		CreateConversionGraph(cfg),
+	)
 	g.Expect(err).NotTo(HaveOccurred())
 
 	graph, err := GetStateData[*storage.ConversionGraph](state, ConversionGraphInfo)
@@ -94,7 +95,8 @@ func Test_PropertyChangesReporter_FindResources_ReturnsPublicAndStorageResources
 	state, err := RunTestPipeline(
 		NewState(defs),
 		CreateStorageTypes(),
-		CreateConversionGraph(cfg))
+		CreateConversionGraph(cfg),
+	)
 	g.Expect(err).NotTo(HaveOccurred())
 
 	graph, err := GetStateData[*storage.ConversionGraph](state, ConversionGraphInfo)
