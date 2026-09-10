@@ -327,6 +327,84 @@ func Test_TargetPostReconcileCheck_givenStatusInAnotherCasing_readsItAsTheStatus
 	}
 }
 
+// A watcher somebody stopped deliberately would be started again on the next reconcile of any of its
+// targets, so opting out has to keep the target from reading it at all
+func Test_TargetPostReconcileCheck_givenWatcherOptedOutOfAutoStart_leavesItAlone(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	var requests int
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requests++
+		w.WriteHeader(http.StatusOK)
+		g.Expect(w.Write([]byte(watcherResponse("Stopped")))).ToNot(BeZero())
+	}))
+	defer server.Close()
+
+	target, watcher := startableTargetAndWatcher()
+	watcher.Spec.OperatorSpec = &databasewatcher.WatcherOperatorSpec{
+		AutoStart: to.Ptr(false),
+	}
+
+	result, err := startCheck(g, server, target, watcher)()
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.ReconciliationSucceeded()).To(BeTrue())
+	g.Expect(requests).To(BeZero())
+	g.Expect(target.GetAnnotations()).ToNot(HaveKey(customizations.StartPollerResumeTokenAnnotation))
+}
+
+// Opting out cannot abandon a start Azure is already running, since nothing would then clear the
+// operation from the target
+func Test_TargetPostReconcileCheck_givenOptOutWhileStarting_seesTheStartThrough(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	var starts, operationPolls int
+	operationStatus := "InProgress"
+
+	var server *httptest.Server
+	server = httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		switch {
+		case r.Method == http.MethodPost:
+			starts++
+			w.Header().Set("Azure-AsyncOperation", server.URL+operationPath)
+			w.WriteHeader(http.StatusAccepted)
+			g.Expect(w.Write([]byte(startedWatcherResponse))).ToNot(BeZero())
+
+		case r.URL.Path == operationPath:
+			operationPolls++
+			w.WriteHeader(http.StatusOK)
+			g.Expect(w.Write([]byte(fmt.Sprintf(`{"status": %q}`, operationStatus)))).ToNot(BeZero())
+
+		default:
+			w.WriteHeader(http.StatusOK)
+			g.Expect(w.Write([]byte(watcherResponse("Stopped")))).ToNot(BeZero())
+		}
+	}))
+	defer server.Close()
+
+	target, watcher := startableTargetAndWatcher()
+	check := startCheck(g, server, target, watcher)
+
+	result, err := check()
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.ReconciliationFailed()).To(BeTrue())
+	g.Expect(target.GetAnnotations()).To(HaveKey(customizations.StartPollerResumeTokenAnnotation))
+
+	// The opt-out arrives while Azure is still starting the watcher
+	watcher.Spec.OperatorSpec = &databasewatcher.WatcherOperatorSpec{
+		AutoStart: to.Ptr(false),
+	}
+	operationStatus = "Succeeded"
+
+	result, err = check()
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.ReconciliationSucceeded()).To(BeTrue())
+	g.Expect(starts).To(Equal(1))
+	g.Expect(operationPolls).To(BeNumerically(">", 0))
+	g.Expect(target.GetAnnotations()).ToNot(HaveKey(customizations.StartPollerResumeTokenAnnotation))
+}
+
 // The operator check has to come before anything that resolves the watcher's policy. A target annotated
 // to be managed, under an operator that skips by default, would otherwise resolve a foreign watcher to
 // skip and report itself ready without ever comparing operators.

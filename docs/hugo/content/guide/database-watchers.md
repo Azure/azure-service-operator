@@ -83,6 +83,26 @@ refused, the link reports that approval is required and that its credential cann
 connection yourself, or grant the operator the role. A credential that cannot even read the target's
 connections leaves the link the readiness it had before, since ASO then has nothing to report.
 
+## Starting the watcher
+
+ARM creates every watcher stopped, and refuses to start one that has no target yet, so ASO starts a watcher
+when the first `Target` under it is reconciled. Set `autoStart` to `false` to keep it out of that:
+
+```yaml
+apiVersion: databasewatcher.azure.com/v20241001preview
+kind: Watcher
+metadata:
+  name: aso-sample-watcher
+  namespace: default
+spec:
+  operatorSpec:
+    autoStart: false
+```
+
+ASO then never starts the watcher, so one you stop yourself stays stopped - collection costs while a watcher
+runs, and there are targets you may want provisioned before they are watched. Left unset, the next reconcile
+of any target starts a stopped watcher again. A start already under way is followed to its end either way.
+
 ## Restarting a watcher after approval
 
 A watcher that is already running when a connection is approved

@@ -93,6 +93,12 @@ func (extension *TargetExtension) PostReconcileCheck(
 		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
 	}
 
+	// A watcher somebody stopped deliberately would otherwise be started again on the next reconcile of any
+	// of its targets, so opting out is checked before the watcher is even read
+	if !autoStartEnabled(watcher) {
+		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
+	}
+
 	// The status on the watcher is only as fresh as its own last reconcile, so ask Azure instead
 	status, err := readWatcherStatus(ctx, armClient, watcher)
 	if err != nil {
@@ -159,6 +165,15 @@ func (extension *TargetExtension) PostReconcileCheck(
 	// Stay short of ready so we're asked again, which is how the start is seen to have worked. Nothing is
 	// owned by a target, so this can't withhold anything the start itself needs.
 	return extensions.PostReconcileCheckResultFailure("waiting for the watcher to run"), nil
+}
+
+// autoStartEnabled reports whether the operator may start the watcher, which it does unless told otherwise.
+func autoStartEnabled(watcher *databasewatcher.Watcher) bool {
+	if watcher.Spec.OperatorSpec == nil || watcher.Spec.OperatorSpec.AutoStart == nil {
+		return true
+	}
+
+	return *watcher.Spec.OperatorSpec.AutoStart
 }
 
 func startResumeToken(target *databasewatcher.Target) (string, bool) {
