@@ -243,10 +243,6 @@ import (
 	dataprotection_v20231101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20231101"
 	dataprotection_v20231101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20231101/storage"
 	dataprotection_v20231101w "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20231101/webhook"
-	dbformariadb_customizations "github.com/Azure/azure-service-operator/v2/api/dbformariadb/customizations"
-	dbformariadb_v20180601 "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601"
-	dbformariadb_v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
-	dbformariadb_v20180601w "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/webhook"
 	dbformysql_customizations "github.com/Azure/azure-service-operator/v2/api/dbformysql/customizations"
 	dbformysql_v1api20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
 	dbformysql_v1api20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/storage"
@@ -1455,27 +1451,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVault)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVaultsBackupInstance)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVaultsBackupPolicy)})
-	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v20180601s.Configuration)})
-	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v20180601s.Database)})
-	result = append(result, &registration.StorageType{
-		Obj: new(dbformariadb_v20180601s.Server),
-		Indexes: []registration.Index{
-			{
-				Key:  ".spec.properties.default.administratorLoginPassword",
-				Func: indexDbformariadbServerAdministratorLoginPassword,
-			},
-		},
-		Watches: []registration.Watch{
-			{
-				Type: &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory(
-					[]string{
-						".spec.properties.default.administratorLoginPassword",
-					},
-					&dbformariadb_v20180601s.ServerList{}),
-			},
-		},
-	})
 	result = append(result, &registration.StorageType{
 		Obj: new(dbformysql_v20241230s.FlexibleServer),
 		Indexes: []registration.Index{
@@ -5229,28 +5204,6 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
-			Obj:       new(dbformariadb_v20180601.Configuration),
-			Defaulter: &dbformariadb_v20180601w.Configuration{},
-			Validator: &dbformariadb_v20180601w.Configuration{},
-		},
-		&registration.KnownType{
-			Obj:       new(dbformariadb_v20180601.Database),
-			Defaulter: &dbformariadb_v20180601w.Database{},
-			Validator: &dbformariadb_v20180601w.Database{},
-		},
-		&registration.KnownType{
-			Obj:       new(dbformariadb_v20180601.Server),
-			Defaulter: &dbformariadb_v20180601w.Server{},
-			Validator: &dbformariadb_v20180601w.Server{},
-		})
-	result = append(
-		result,
-		&registration.KnownType{Obj: new(dbformariadb_v20180601s.Configuration)},
-		&registration.KnownType{Obj: new(dbformariadb_v20180601s.Database)},
-		&registration.KnownType{Obj: new(dbformariadb_v20180601s.Server)})
-	result = append(
-		result,
-		&registration.KnownType{
 			Obj:       new(dbformysql_v1api20210501.FlexibleServer),
 			Defaulter: &dbformysql_v1api20210501w.FlexibleServer{},
 			Validator: &dbformysql_v1api20210501w.FlexibleServer{},
@@ -8465,8 +8418,6 @@ func createScheme() *runtime.Scheme {
 	_ = dataprotection_v20230101s.AddToScheme(scheme)
 	_ = dataprotection_v20231101.AddToScheme(scheme)
 	_ = dataprotection_v20231101s.AddToScheme(scheme)
-	_ = dbformariadb_v20180601.AddToScheme(scheme)
-	_ = dbformariadb_v20180601s.AddToScheme(scheme)
 	_ = dbformysql_v1api20210501.AddToScheme(scheme)
 	_ = dbformysql_v1api20210501s.AddToScheme(scheme)
 	_ = dbformysql_v1api20220101.AddToScheme(scheme)
@@ -8765,9 +8716,6 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &dataprotection_customizations.BackupVaultExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultsBackupInstanceExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultsBackupPolicyExtension{})
-	result = append(result, &dbformariadb_customizations.ConfigurationExtension{})
-	result = append(result, &dbformariadb_customizations.DatabaseExtension{})
-	result = append(result, &dbformariadb_customizations.ServerExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServerExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServersAdministratorExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServersConfigurationExtension{})
@@ -10161,24 +10109,6 @@ func indexDatabasewatcherWatcherKustoManagementUrlFromConfig(rawObj client.Objec
 		return nil
 	}
 	return obj.Spec.Datastore.KustoManagementUrlFromConfig.Index()
-}
-
-// indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.default.administratorLoginPassword
-func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformariadb_v20180601s.Server)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.Default == nil {
-		return nil
-	}
-	if obj.Spec.Properties.Default.AdministratorLoginPassword == nil {
-		return nil
-	}
-	return obj.Spec.Properties.Default.AdministratorLoginPassword.Index()
 }
 
 // indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20241230s.FlexibleServer .spec.administratorLoginPassword
