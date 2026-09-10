@@ -14,8 +14,10 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/typo"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
+
+type TypeRenameLookup func(astmodel.InternalTypeName) (string, bool)
+type PropertyRenameLookup func(astmodel.InternalTypeName, astmodel.PropertyName) (string, bool)
 
 // PropertyChangesReport documents the differences between a resource (along with the recursive
 // closure of types referenced by its spec and status) and the same resource in the "next" version,
@@ -23,28 +25,30 @@ import (
 //
 // See docs/hugo/content/design/ADR-2026-09-Property-Changes-Report for the design this implements.
 type PropertyChangesReport struct {
-	thisResource  astmodel.InternalTypeName
-	nextResource  astmodel.InternalTypeName
-	definitions   astmodel.TypeDefinitionSet
-	configuration *config.ObjectModelConfiguration
-	header        []string
+	thisResource         astmodel.InternalTypeName
+	nextResource         astmodel.InternalTypeName
+	definitions          astmodel.TypeDefinitionSet
+	typeRenameLookup     TypeRenameLookup
+	propertyRenameLookup PropertyRenameLookup
+	header               []string
 }
 
 // NewPropertyChangesReport creates a report comparing thisResource with nextResource. defs is used
 // to resolve the types each resource references, both directly and recursively via their spec and
-// status types; configuration is used to respect any type or property renames configured for the
-// generator.
+// status types; the lookup functions are used to respect configured type and property renames.
 func NewPropertyChangesReport(
 	thisResource astmodel.InternalTypeName,
 	nextResource astmodel.InternalTypeName,
 	defs astmodel.TypeDefinitionSet,
-	configuration *config.ObjectModelConfiguration,
+	typeRenameLookup TypeRenameLookup,
+	propertyRenameLookup PropertyRenameLookup,
 ) *PropertyChangesReport {
 	return &PropertyChangesReport{
-		thisResource:  thisResource,
-		nextResource:  nextResource,
-		definitions:   defs,
-		configuration: configuration,
+		thisResource:         thisResource,
+		nextResource:         nextResource,
+		definitions:          defs,
+		typeRenameLookup:     typeRenameLookup,
+		propertyRenameLookup: propertyRenameLookup,
 	}
 }
 
@@ -278,7 +282,7 @@ func (r *PropertyChangesReport) buildRows() ([]*typeChangeRow, map[*typeChangeRo
 
 		expectedNextName := thisDef.Name().Name()
 		renamed := false
-		if configured, ok := r.configuration.TypeNameInNextVersion.Lookup(thisDef.Name()); ok {
+		if configured, ok := r.typeRenameLookup(thisDef.Name()); ok {
 			expectedNextName = configured
 			renamed = true
 		}
@@ -394,7 +398,7 @@ func (r *PropertyChangesReport) compareProperties(
 
 		expectedNext := p.PropertyName()
 		renamed := false
-		if configured, ok := r.configuration.PropertyNameInNextVersion.Lookup(thisTypeName, p.PropertyName()); ok {
+		if configured, ok := r.propertyRenameLookup(thisTypeName, p.PropertyName()); ok {
 			expectedNext = astmodel.PropertyName(configured)
 			renamed = true
 		}
@@ -512,7 +516,7 @@ func (r *PropertyChangesReport) typesEquivalent(thisType astmodel.Type, nextType
 // rename configured in the generator.
 func (r *PropertyChangesReport) typeNamesEquivalent(this astmodel.InternalTypeName, next astmodel.InternalTypeName) bool {
 	expected := this.Name()
-	if renamed, ok := r.configuration.TypeNameInNextVersion.Lookup(this); ok {
+	if renamed, ok := r.typeRenameLookup(this); ok {
 		expected = renamed
 	}
 
