@@ -32,8 +32,21 @@ func Test_PropertyChangesReporter_SaveReports_GivenTwoVersions_WritesReportsForP
 	person2021Status := test.CreateStatus(test.Pkg2021, "Person")
 	person2021 := test.CreateResource(test.Pkg2021, "Person", person2021Spec, person2021Status)
 
+	account2020Spec := test.CreateSpec(test.Pkg2020, "Account", test.FullNameProperty)
+	account2020Status := test.CreateStatus(test.Pkg2020, "Account")
+	account2020 := test.CreateResource(test.Pkg2020, "Account", account2020Spec, account2020Status)
+
+	account2021Spec := test.CreateSpec(test.Pkg2021, "Account", test.FullNameProperty)
+	account2021Status := test.CreateStatus(test.Pkg2021, "Account")
+	account2021 := test.CreateResource(test.Pkg2021, "Account", account2021Spec, account2021Status)
+
 	defs := make(astmodel.TypeDefinitionSet)
-	defs.AddAll(person2020Spec, person2020Status, person2020, person2021Spec, person2021Status, person2021)
+	defs.AddAll(
+		person2020Spec, person2020Status, person2020,
+		person2021Spec, person2021Status, person2021,
+		account2020Spec, account2020Status, account2020,
+		account2021Spec, account2021Status, account2021,
+	)
 
 	cfg := config.NewConfiguration()
 
@@ -54,7 +67,7 @@ func Test_PropertyChangesReporter_SaveReports_GivenTwoVersions_WritesReportsForP
 	g.Expect(err).NotTo(HaveOccurred())
 
 	// Public resources transition to their storage counterpart, so both public versions get reports.
-	public2020Report := filepath.Join(outputFolder, test.Pkg2020.FolderPath(), "person-changes.md")
+	public2020Report := filepath.Join(outputFolder, test.Pkg2020.FolderPath(), "property-changes.md")
 	g.Expect(public2020Report).To(BeAnExistingFile())
 
 	content, err := os.ReadFile(public2020Report)
@@ -63,16 +76,18 @@ func Test_PropertyChangesReporter_SaveReports_GivenTwoVersions_WritesReportsForP
 	g.Expect(string(content)).To(ContainSubstring(test.Pkg2020.PackageName()))
 	g.Expect(string(content)).To(ContainSubstring(test.Pkg2020s.PackageName()))
 	g.Expect(string(content)).To(ContainSubstring("Person"))
+	g.Expect(string(content)).To(ContainSubstring("Account"))
+	g.Expect(filepath.Join(outputFolder, test.Pkg2020.FolderPath(), "person-changes.md")).NotTo(BeAnExistingFile())
 
-	public2021Report := filepath.Join(outputFolder, test.Pkg2021.FolderPath(), "person-changes.md")
+	public2021Report := filepath.Join(outputFolder, test.Pkg2021.FolderPath(), "property-changes.md")
 	g.Expect(public2021Report).To(BeAnExistingFile())
 
 	// The earlier storage resource transitions to the later storage resource.
-	storage2020Report := filepath.Join(outputFolder, test.Pkg2020s.FolderPath(), "person-changes.md")
+	storage2020Report := filepath.Join(outputFolder, test.Pkg2020s.FolderPath(), "property-changes.md")
 	g.Expect(storage2020Report).To(BeAnExistingFile())
 
 	// The final storage resource is the hub, so it has no report.
-	storage2021Report := filepath.Join(outputFolder, test.Pkg2021s.FolderPath(), "person-changes.md")
+	storage2021Report := filepath.Join(outputFolder, test.Pkg2021s.FolderPath(), "property-changes.md")
 	g.Expect(storage2021Report).NotTo(BeAnExistingFile())
 }
 

@@ -21,33 +21,33 @@ type (
 	PropertyRenameLookup func(astmodel.InternalTypeName, astmodel.PropertyName) (string, bool)
 )
 
-// PropertyChangesReport documents the differences between a resource (along with the recursive
-// closure of types referenced by its spec and status) and the same resource in the "next" version,
-// as determined by the code generator's version-conversion graph.
+// ResourceVersionPair identifies a resource and its successor in the conversion graph.
+type ResourceVersionPair struct {
+	This astmodel.InternalTypeName
+	Next astmodel.InternalTypeName
+}
+
+// PropertyChangesReport documents the differences between all resources in a package and their
+// successors, together with the object types referenced by their specs and statuses.
 //
 // See docs/hugo/content/design/ADR-2026-09-Property-Changes-Report for the design this implements.
 type PropertyChangesReport struct {
-	thisResource         astmodel.InternalTypeName
-	nextResource         astmodel.InternalTypeName
+	resources            []ResourceVersionPair
 	definitions          astmodel.TypeDefinitionSet
 	typeRenameLookup     TypeRenameLookup
 	propertyRenameLookup PropertyRenameLookup
 	header               []string
 }
 
-// NewPropertyChangesReport creates a report comparing thisResource with nextResource. defs is used
-// to resolve the types each resource references, both directly and recursively via their spec and
-// status types; the lookup functions are used to respect configured type and property renames.
+// NewPropertyChangesReport creates a package report for the supplied resource pairs.
 func NewPropertyChangesReport(
-	thisResource astmodel.InternalTypeName,
-	nextResource astmodel.InternalTypeName,
+	resources []ResourceVersionPair,
 	defs astmodel.TypeDefinitionSet,
 	typeRenameLookup TypeRenameLookup,
 	propertyRenameLookup PropertyRenameLookup,
 ) *PropertyChangesReport {
 	return &PropertyChangesReport{
-		thisResource:         thisResource,
-		nextResource:         nextResource,
+		resources:            resources,
 		definitions:          defs,
 		typeRenameLookup:     typeRenameLookup,
 		propertyRenameLookup: propertyRenameLookup,
@@ -98,30 +98,43 @@ func (r *PropertyChangesReport) WriteTo(writer io.Writer) error {
 		}
 	}
 
-	thisPkgName := r.thisResource.InternalPackageReference().PackageName()
-	nextPkgName := r.nextResource.InternalPackageReference().PackageName()
-
-	rows, diffs := r.buildRows()
+	resourceRows, objectRows, diffs := r.buildRows()
 
 	if _, err := io.WriteString(writer, "\n"); err != nil {
 		return err
 	}
 
-	summary := NewMarkdownTable(thisPkgName, nextPkgName, "Status")
-	summary.SetAlignment(0, AlignLeft)
-	summary.SetAlignment(1, AlignLeft)
-	summary.SetAlignment(2, AlignCenter)
-	for _, row := range rows {
-		summary.AddRow(row.thisName, row.nextName, formatStatuses(row.statuses))
-	}
-
-	var buf strings.Builder
-	summary.WriteTo(&buf)
-	if _, err := io.WriteString(writer, buf.String()); err != nil {
+	if _, err := io.WriteString(
+		writer,
+		"Statuses:\n\n"+
+			"* **Identical**: No properties changed.\n"+
+			"* **New**: The type or property exists only in the newer version.\n"+
+			"* **Retired**: The type or property exists only in the older version.\n"+
+			"* **Renamed**: A configured rename links the old and new names.\n"+
+			"* **Extended**: The newer type only adds properties.\n"+
+			"* **Modified**: Properties were retired, renamed, or changed type.\n\n",
+	); err != nil {
 		return err
 	}
 
-	// Differential tables are emitted in the same order as the summary table
+	if _, err := io.WriteString(writer, "## Resources\n\n"); err != nil {
+		return err
+	}
+
+	if err := writeSummaryTable(writer, resourceRows); err != nil {
+		return err
+	}
+
+	if _, err := io.WriteString(writer, "\n## Objects\n\n"); err != nil {
+		return err
+	}
+
+	if err := writeSummaryTable(writer, objectRows); err != nil {
+		return err
+	}
+
+	// Differential tables are emitted in the same order as the summaries.
+	rows := append(resourceRows, objectRows...)
 	for _, row := range rows {
 		propRows, ok := diffs[row]
 		if !ok || len(propRows) == 0 {
@@ -133,7 +146,14 @@ func (r *PropertyChangesReport) WriteTo(writer io.Writer) error {
 			return err
 		}
 
-		table := NewMarkdownTable(thisPkgName, "", nextPkgName, "", "Status", "Notes")
+		table := NewMarkdownTable(
+			packageLabel(row.thisPackage),
+			"",
+			packageLabel(row.nextPackage),
+			"",
+			"Status",
+			"Notes",
+		)
 		table.SetAlignment(0, AlignLeft)
 		table.SetAlignment(1, AlignLeft)
 		table.SetAlignment(2, AlignLeft)
@@ -154,6 +174,34 @@ func (r *PropertyChangesReport) WriteTo(writer io.Writer) error {
 	return nil
 }
 
+func writeSummaryTable(writer io.Writer, rows []*typeChangeRow) error {
+	summary := NewMarkdownTable("Current Version", "Current Type", "Next Version", "Next Type", "Status", "Notes")
+	summary.SetAlignment(0, AlignLeft)
+	summary.SetAlignment(1, AlignLeft)
+	summary.SetAlignment(2, AlignLeft)
+	summary.SetAlignment(3, AlignLeft)
+	summary.SetAlignment(4, AlignCenter)
+	summary.SetAlignment(5, AlignLeft)
+	for _, row := range rows {
+		summary.AddRow(
+			packageLabel(row.thisPackage),
+			row.thisName,
+			packageLabel(row.nextPackage),
+			row.nextName,
+			formatStatuses(row.statuses),
+			row.note,
+		)
+	}
+
+	var buf strings.Builder
+	summary.WriteTo(&buf)
+	if _, err := io.WriteString(writer, buf.String()); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // changeStatus is a single classification applied to a type or property when comparing two versions.
 type changeStatus string
 
@@ -161,14 +209,15 @@ const (
 	statusNew      changeStatus = "New"
 	statusRenamed  changeStatus = "Renamed"
 	statusRetired  changeStatus = "Retired"
+	statusExtended changeStatus = "Extended"
 	statusModified changeStatus = "Modified"
 )
 
 // formatStatuses renders a set of statuses for display, comma separating multiple statuses and
-// using "-" when there are none, per the ADR's format.
+// using "Identical" when there are none.
 func formatStatuses(statuses []changeStatus) string {
 	if len(statuses) == 0 {
-		return "-"
+		return "Identical"
 	}
 
 	parts := make([]string, len(statuses))
@@ -182,9 +231,12 @@ func formatStatuses(statuses []changeStatus) string {
 // typeChangeRow is a single row of the summary table, describing the relationship (if any) between
 // a type in this version and its counterpart (if any) in the next version.
 type typeChangeRow struct {
-	thisName string
-	nextName string
-	statuses []changeStatus
+	thisPackage astmodel.InternalPackageReference
+	thisName    string
+	nextPackage astmodel.InternalPackageReference
+	nextName    string
+	statuses    []changeStatus
+	note        string
 }
 
 // sortKey returns the name used both for sorting and for the differential table heading:
@@ -217,71 +269,106 @@ func (row propertyChangeRow) sortKey() string {
 	return row.nextName
 }
 
-// buildRows computes the summary table rows, along with the differential table rows (if any) for
-// each type flagged as Modified. The resource itself is always the first row (matched directly using
-// the resource names supplied to the report), followed by all other referenced types sorted
-// alphabetically.
-func (r *PropertyChangesReport) buildRows() ([]*typeChangeRow, map[*typeChangeRow][]propertyChangeRow) {
-	thisClosure := closureOf(r.thisResource, r.definitions)
-	nextClosure := closureOf(r.nextResource, r.definitions)
+// buildRows computes package-wide resource and object summaries and their differential tables.
+func (r *PropertyChangesReport) buildRows() (
+	[]*typeChangeRow,
+	[]*typeChangeRow,
+	map[*typeChangeRow][]propertyChangeRow,
+) {
+	resourceRows := make([]*typeChangeRow, 0, len(r.resources))
+	var objectRows []*typeChangeRow
+	diffs := make(map[*typeChangeRow][]propertyChangeRow)
+	seenObjects := make(map[string]struct{})
 
+	for _, pair := range r.resources {
+		resourceRow, objects, pairDiffs := r.buildRowsForPair(pair)
+		resourceRows = append(resourceRows, resourceRow)
+
+		for _, row := range objects {
+			key := fmt.Sprintf(
+				"%s/%s:%s/%s",
+				packageLabel(row.thisPackage),
+				row.thisName,
+				packageLabel(row.nextPackage),
+				row.nextName,
+			)
+			if _, ok := seenObjects[key]; ok {
+				continue
+			}
+
+			seenObjects[key] = struct{}{}
+			objectRows = append(objectRows, row)
+			if diff, ok := pairDiffs[row]; ok {
+				diffs[row] = diff
+			}
+		}
+
+		if diff, ok := pairDiffs[resourceRow]; ok {
+			diffs[resourceRow] = diff
+		}
+	}
+
+	sort.Slice(resourceRows, func(i, j int) bool {
+		return resourceRows[i].sortKey() < resourceRows[j].sortKey()
+	})
+	sort.Slice(objectRows, func(i, j int) bool {
+		return objectRows[i].sortKey() < objectRows[j].sortKey()
+	})
+
+	return resourceRows, objectRows, diffs
+}
+
+func (r *PropertyChangesReport) buildRowsForPair(
+	pair ResourceVersionPair,
+) (*typeChangeRow, []*typeChangeRow, map[*typeChangeRow][]propertyChangeRow) {
+	thisClosure := propertyContainerClosureOf(pair.This, r.definitions)
+	nextClosure := propertyContainerClosureOf(pair.Next, r.definitions)
 	diffs := make(map[*typeChangeRow][]propertyChangeRow)
 
-	// The resource itself is always first, matched directly using the pairing supplied to the
-	// report (this correctly connects them even if the closure-name-matching used for other types
-	// wouldn't otherwise apply, e.g. because the resource itself was renamed).
-	resourceRow := &typeChangeRow{}
-
-	thisResourceDef, thisHasResource := thisClosure[r.thisResource]
-	if thisHasResource {
-		resourceRow.thisName = thisResourceDef.Name().Name()
+	resourceRow := &typeChangeRow{
+		thisPackage: pair.This.InternalPackageReference(),
+		thisName:    pair.This.Name(),
+		nextPackage: pair.Next.InternalPackageReference(),
+		nextName:    pair.Next.Name(),
 	}
 
-	nextResourceDef, nextHasResource := nextClosure[r.nextResource]
-	if nextHasResource {
-		resourceRow.nextName = nextResourceDef.Name().Name()
-	}
-
+	thisResourceDef, thisHasResource := r.definitions[pair.This]
+	nextResourceDef, nextHasResource := r.definitions[pair.Next]
 	if thisHasResource && nextHasResource {
-		propRows, modified := r.computeModification(thisResourceDef, nextResourceDef)
-		if modified {
-			resourceRow.statuses = append(resourceRow.statuses, statusModified)
+		propRows, status := r.computeModification(thisResourceDef, nextResourceDef)
+		if status != "" {
+			resourceRow.statuses = append(resourceRow.statuses, status)
 			diffs[resourceRow] = propRows
 		}
 	}
 
-	rows := make([]*typeChangeRow, 0, 1+len(thisClosure)+len(nextClosure))
-	rows = append(rows, resourceRow)
-
-	// Index the remaining next-closure types by name, ready for matching against this-closure types
 	nextByName := make(map[string]astmodel.TypeDefinition, len(nextClosure))
 	for name, def := range nextClosure {
-		if name == r.nextResource {
-			continue
+		if name != pair.Next {
+			nextByName[def.Name().Name()] = def
 		}
-
-		nextByName[def.Name().Name()] = def
 	}
 
 	consumedNext := make(map[string]bool, len(nextByName))
-
-	// Collect and sort the remaining this-closure types for deterministic processing
 	var thisDefs []astmodel.TypeDefinition
 	for name, def := range thisClosure {
-		if name == r.thisResource {
-			continue
+		if name != pair.This {
+			thisDefs = append(thisDefs, def)
 		}
-
-		thisDefs = append(thisDefs, def)
 	}
 
 	sort.Slice(thisDefs, func(i, j int) bool {
 		return thisDefs[i].Name().Name() < thisDefs[j].Name().Name()
 	})
 
-	remaining := make([]*typeChangeRow, 0, len(thisDefs)+len(nextByName))
+	rows := make([]*typeChangeRow, 0, len(thisDefs)+len(nextByName))
+	unmatchedThis := make(map[string]*typeChangeRow)
 	for _, thisDef := range thisDefs {
-		row := &typeChangeRow{thisName: thisDef.Name().Name()}
+		row := &typeChangeRow{
+			thisPackage: thisDef.Name().InternalPackageReference(),
+			thisName:    thisDef.Name().Name(),
+			nextPackage: pair.Next.InternalPackageReference(),
+		}
 
 		expectedNextName := thisDef.Name().Name()
 		renamed := false
@@ -292,33 +379,33 @@ func (r *PropertyChangesReport) buildRows() ([]*typeChangeRow, map[*typeChangeRo
 
 		if nextDef, ok := nextByName[expectedNextName]; ok && !consumedNext[expectedNextName] {
 			consumedNext[expectedNextName] = true
+			row.nextPackage = nextDef.Name().InternalPackageReference()
 			row.nextName = nextDef.Name().Name()
 
 			if renamed {
 				row.statuses = append(row.statuses, statusRenamed)
 			}
 
-			propRows, modified := r.computeModification(thisDef, nextDef)
-			if modified {
-				row.statuses = append(row.statuses, statusModified)
+			propRows, status := r.computeModification(thisDef, nextDef)
+			if status != "" {
+				row.statuses = append(row.statuses, status)
 				diffs[row] = propRows
 			}
 		} else {
 			row.statuses = append(row.statuses, statusRetired)
+			unmatchedThis[row.thisName] = row
+			if renamed {
+				row.note = fmt.Sprintf("Configured rename to %s was not found.", expectedNextName)
+			}
 		}
 
-		remaining = append(remaining, row)
+		rows = append(rows, row)
 	}
 
-	// Anything left over in the next closure (not matched above) is New
 	var newNames []string
-	for name, def := range nextClosure {
-		if name == r.nextResource {
-			continue
-		}
-
+	for _, def := range nextClosure {
 		displayName := def.Name().Name()
-		if consumedNext[displayName] {
+		if def.Name() == pair.Next || consumedNext[displayName] {
 			continue
 		}
 
@@ -327,15 +414,23 @@ func (r *PropertyChangesReport) buildRows() ([]*typeChangeRow, map[*typeChangeRo
 
 	sort.Strings(newNames)
 	for _, name := range newNames {
-		remaining = append(remaining, &typeChangeRow{nextName: name, statuses: []changeStatus{statusNew}})
+		row := &typeChangeRow{
+			nextPackage: pair.Next.InternalPackageReference(),
+			nextName:    name,
+			statuses:    []changeStatus{statusNew},
+		}
+		if unmatched, ok := unmatchedThis[name]; ok && unmatched.note != "" {
+			row.note = unmatched.note
+		}
+
+		rows = append(rows, row)
 	}
 
-	sort.SliceStable(remaining, func(i, j int) bool {
-		return remaining[i].sortKey() < remaining[j].sortKey()
+	sort.SliceStable(rows, func(i, j int) bool {
+		return rows[i].sortKey() < rows[j].sortKey()
 	})
 
-	rows = append(rows, remaining...)
-	return rows, diffs
+	return resourceRow, rows, diffs
 }
 
 // computeModification compares the properties of thisDef and nextDef (if both are property
@@ -345,25 +440,27 @@ func (r *PropertyChangesReport) buildRows() ([]*typeChangeRow, map[*typeChangeRo
 func (r *PropertyChangesReport) computeModification(
 	thisDef astmodel.TypeDefinition,
 	nextDef astmodel.TypeDefinition,
-) ([]propertyChangeRow, bool) {
+) ([]propertyChangeRow, changeStatus) {
 	thisContainer, ok1 := astmodel.AsPropertyContainer(thisDef.Type())
 	nextContainer, ok2 := astmodel.AsPropertyContainer(nextDef.Type())
 	if !ok1 || !ok2 {
-		// Not something we know how to diff at the property level (e.g. an enum)
-		return nil, false
+		return nil, ""
 	}
 
 	rows := r.compareProperties(thisDef.Name(), nextDef.Name(), thisContainer, nextContainer)
 
-	modified := false
+	status := changeStatus("")
 	for _, row := range rows {
-		if len(row.statuses) > 0 {
-			modified = true
-			break
+		for _, rowStatus := range row.statuses {
+			if rowStatus == statusNew && status == "" {
+				status = statusExtended
+			} else if rowStatus != statusNew {
+				return rows, statusModified
+			}
 		}
 	}
 
-	return rows, modified
+	return rows, status
 }
 
 // compareProperties compares the properties of two property containers (a matched pair of
@@ -570,6 +667,38 @@ func closureOf(root astmodel.InternalTypeName, defs astmodel.TypeDefinitionSet) 
 
 	visit(root)
 	return result
+}
+
+func propertyContainerClosureOf(
+	root astmodel.InternalTypeName,
+	defs astmodel.TypeDefinitionSet,
+) astmodel.TypeDefinitionSet {
+	closure := closureOf(root, defs)
+	result := make(astmodel.TypeDefinitionSet)
+	for _, def := range closure {
+		if _, ok := astmodel.AsResourceType(def.Type()); ok {
+			result.Add(def)
+			continue
+		}
+
+		if _, ok := astmodel.AsObjectType(def.Type()); ok {
+			result.Add(def)
+		}
+	}
+
+	return result
+}
+
+func packageLabel(pkg astmodel.InternalPackageReference) string {
+	if pkg == nil {
+		return ""
+	}
+
+	if derived, ok := pkg.(astmodel.DerivedPackageReference); ok {
+		return packageLabel(derived.Base()) + "/" + pkg.PackageName()
+	}
+
+	return pkg.PackageName()
 }
 
 // referencedTypeNames returns the names of all types directly referenced by t via its properties.
