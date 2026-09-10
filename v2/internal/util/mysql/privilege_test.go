@@ -82,3 +82,101 @@ func TestDiffCurrentAndExpectedSQLRoles(t *testing.T) {
 		})
 	}
 }
+
+func TestValidatePrivilegeNames(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name        string
+		privileges  set.Set[string]
+		expectError bool
+	}{
+		{
+			name:        "valid single privilege",
+			privileges:  set.Make[string]("SELECT"),
+			expectError: false,
+		},
+		{
+			name:        "valid multi-word privilege",
+			privileges:  set.Make[string]("CREATE TEMPORARY TABLES"),
+			expectError: false,
+		},
+		{
+			name:        "valid dynamic privilege",
+			privileges:  set.Make[string]("BACKUP_ADMIN"),
+			expectError: false,
+		},
+		{
+			name:        "valid ALL",
+			privileges:  set.Make[string]("ALL"),
+			expectError: false,
+		},
+		{
+			name:        "semicolon rejected",
+			privileges:  set.Make[string]("SELECT; DROP TABLE users"),
+			expectError: true,
+		},
+		{
+			name:        "backtick rejected",
+			privileges:  set.Make[string]("SELECT`"),
+			expectError: true,
+		},
+		{
+			name:        "dash rejected",
+			privileges:  set.Make[string]("SELECT--comment"),
+			expectError: true,
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			err := validatePrivilegeNames(c.privileges)
+			if c.expectError {
+				g.Expect(err).To(HaveOccurred())
+			} else {
+				g.Expect(err).ToNot(HaveOccurred())
+			}
+		})
+	}
+}
+
+func TestEscapeBacktickIdentifier(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{
+			name:     "no special chars",
+			input:    "mydb",
+			expected: "`mydb`",
+		},
+		{
+			name:     "backtick is doubled",
+			input:    "my`db",
+			expected: "`my``db`",
+		},
+		{
+			name:     "multiple backticks",
+			input:    "my`d`b",
+			expected: "`my``d``b`",
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			result := escapeBacktickIdentifier(c.input)
+			g.Expect(result).To(Equal(c.expected))
+		})
+	}
+}

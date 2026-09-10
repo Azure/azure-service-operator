@@ -26,6 +26,7 @@ IgnoreURLs:
   - "https://stackoverflow.com/questions/55503893/helm-patch-default-service-account" # Returns 403, even though valid. Checked 2025-05-06
   - "https://stackoverflow.com/questions/53866196/how-best-to-say-a-value-is-required-in-a-helm-chart" # Returns 403, even though valid. Checked 2025-05-06
   - "https://pkg.go.dev/k8s.io/code-generator/cmd/conversion-gen" # Consistently times out, but works through the browser. Checked 2026-07-28
+  - "https://kubernetes.slack.com/archives/C0NH30761/p1677110151888539" # Returns 403 even though valid. Checked 2026-08-12
   # These suppressions no longer seem to be required, but keeping them here for easy reinstatement if required
   #  - "https://code.visualstudio.com/docs/devcontainers/containers" # Returns 403 even though valid. Checked 2025-02-14
 LogLevel: 3

@@ -60,7 +60,7 @@ func RoleAssignmentPropertiesGenerator() *rapid.Generator[RoleAssignmentProperti
 	}
 
 	ptrString := rapid.Ptr(rapid.String(), true)
-	principalType := rapid.Ptr(rapid.SampledFrom([]RoleAssignmentProperties_PrincipalType{RoleAssignmentProperties_PrincipalType_Device, RoleAssignmentProperties_PrincipalType_ForeignGroup, RoleAssignmentProperties_PrincipalType_Group, RoleAssignmentProperties_PrincipalType_ServicePrincipal, RoleAssignmentProperties_PrincipalType_User}), true)
+	principalType := rapid.Ptr(rapid.SampledFrom([]RoleAssignmentProperties_PrincipalType{RoleAssignmentProperties_PrincipalType_AgentServicePrincipal, RoleAssignmentProperties_PrincipalType_AgentUser, RoleAssignmentProperties_PrincipalType_Device, RoleAssignmentProperties_PrincipalType_ForeignGroup, RoleAssignmentProperties_PrincipalType_Group, RoleAssignmentProperties_PrincipalType_ServicePrincipal, RoleAssignmentProperties_PrincipalType_User}), true)
 
 	roleAssignmentPropertiesGenerator = rapid.Custom(func(t *rapid.T) RoleAssignmentProperties {
 		var result RoleAssignmentProperties

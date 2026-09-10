@@ -329,7 +329,7 @@ func RoleAssignment_STATUSGenerator() *rapid.Generator[RoleAssignment_STATUS] {
 	}
 
 	ptrString := rapid.Ptr(rapid.String(), true)
-	principalType := rapid.Ptr(rapid.SampledFrom([]RoleAssignmentProperties_PrincipalType_STATUS{RoleAssignmentProperties_PrincipalType_STATUS_Device, RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup, RoleAssignmentProperties_PrincipalType_STATUS_Group, RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal, RoleAssignmentProperties_PrincipalType_STATUS_User}), true)
+	principalType := rapid.Ptr(rapid.SampledFrom([]RoleAssignmentProperties_PrincipalType_STATUS{RoleAssignmentProperties_PrincipalType_STATUS_AgentServicePrincipal, RoleAssignmentProperties_PrincipalType_STATUS_AgentUser, RoleAssignmentProperties_PrincipalType_STATUS_Device, RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup, RoleAssignmentProperties_PrincipalType_STATUS_Group, RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal, RoleAssignmentProperties_PrincipalType_STATUS_User}), true)
 	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
 	roleAssignment_STATUSGenerator = rapid.Custom(func(t *rapid.T) RoleAssignment_STATUS {
@@ -443,7 +443,7 @@ func RoleAssignment_SpecGenerator() *rapid.Generator[RoleAssignment_Spec] {
 	ptrString := rapid.Ptr(rapid.String(), true)
 	azureName := rapid.String()
 	operatorSpec := rapid.Ptr(RoleAssignmentOperatorSpecGenerator(), true)
-	principalType := rapid.Ptr(rapid.SampledFrom([]RoleAssignmentProperties_PrincipalType{RoleAssignmentProperties_PrincipalType_Device, RoleAssignmentProperties_PrincipalType_ForeignGroup, RoleAssignmentProperties_PrincipalType_Group, RoleAssignmentProperties_PrincipalType_ServicePrincipal, RoleAssignmentProperties_PrincipalType_User}), true)
+	principalType := rapid.Ptr(rapid.SampledFrom([]RoleAssignmentProperties_PrincipalType{RoleAssignmentProperties_PrincipalType_AgentServicePrincipal, RoleAssignmentProperties_PrincipalType_AgentUser, RoleAssignmentProperties_PrincipalType_Device, RoleAssignmentProperties_PrincipalType_ForeignGroup, RoleAssignmentProperties_PrincipalType_Group, RoleAssignmentProperties_PrincipalType_ServicePrincipal, RoleAssignmentProperties_PrincipalType_User}), true)
 
 	roleAssignment_SpecGenerator = rapid.Custom(func(t *rapid.T) RoleAssignment_Spec {
 		var result RoleAssignment_Spec

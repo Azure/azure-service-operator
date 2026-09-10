@@ -2773,18 +2773,20 @@ func (administrator *ServerExternalAdministrator_STATUS) AssignProperties_To_Ser
 
 // Whether or not to restrict outbound network access for this server.  Value is optional but if passed in, must be
 // 'Enabled' or 'Disabled'
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+// +kubebuilder:validation:Enum={"Disabled","Enabled","SecuredByPerimeter"}
 type ServerNetworkAccessFlag string
 
 const (
-	ServerNetworkAccessFlag_Disabled = ServerNetworkAccessFlag("Disabled")
-	ServerNetworkAccessFlag_Enabled  = ServerNetworkAccessFlag("Enabled")
+	ServerNetworkAccessFlag_Disabled           = ServerNetworkAccessFlag("Disabled")
+	ServerNetworkAccessFlag_Enabled            = ServerNetworkAccessFlag("Enabled")
+	ServerNetworkAccessFlag_SecuredByPerimeter = ServerNetworkAccessFlag("SecuredByPerimeter")
 )
 
 // Mapping from string to ServerNetworkAccessFlag
 var serverNetworkAccessFlag_Values = map[string]ServerNetworkAccessFlag{
-	"disabled": ServerNetworkAccessFlag_Disabled,
-	"enabled":  ServerNetworkAccessFlag_Enabled,
+	"disabled":           ServerNetworkAccessFlag_Disabled,
+	"enabled":            ServerNetworkAccessFlag_Enabled,
+	"securedbyperimeter": ServerNetworkAccessFlag_SecuredByPerimeter,
 }
 
 // Whether or not to restrict outbound network access for this server.  Value is optional but if passed in, must be
@@ -2792,14 +2794,16 @@ var serverNetworkAccessFlag_Values = map[string]ServerNetworkAccessFlag{
 type ServerNetworkAccessFlag_STATUS string
 
 const (
-	ServerNetworkAccessFlag_STATUS_Disabled = ServerNetworkAccessFlag_STATUS("Disabled")
-	ServerNetworkAccessFlag_STATUS_Enabled  = ServerNetworkAccessFlag_STATUS("Enabled")
+	ServerNetworkAccessFlag_STATUS_Disabled           = ServerNetworkAccessFlag_STATUS("Disabled")
+	ServerNetworkAccessFlag_STATUS_Enabled            = ServerNetworkAccessFlag_STATUS("Enabled")
+	ServerNetworkAccessFlag_STATUS_SecuredByPerimeter = ServerNetworkAccessFlag_STATUS("SecuredByPerimeter")
 )
 
 // Mapping from string to ServerNetworkAccessFlag_STATUS
 var serverNetworkAccessFlag_STATUS_Values = map[string]ServerNetworkAccessFlag_STATUS{
-	"disabled": ServerNetworkAccessFlag_STATUS_Disabled,
-	"enabled":  ServerNetworkAccessFlag_STATUS_Enabled,
+	"disabled":           ServerNetworkAccessFlag_STATUS_Disabled,
+	"enabled":            ServerNetworkAccessFlag_STATUS_Enabled,
+	"securedbyperimeter": ServerNetworkAccessFlag_STATUS_SecuredByPerimeter,
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure

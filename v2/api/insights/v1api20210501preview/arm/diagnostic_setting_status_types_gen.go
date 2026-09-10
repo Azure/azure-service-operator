@@ -4,8 +4,8 @@
 package arm
 
 type DiagnosticSetting_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
@@ -14,7 +14,7 @@ type DiagnosticSetting_STATUS struct {
 	// Properties: Properties of a Diagnostic Settings Resource.
 	Properties *DiagnosticSettings_STATUS `json:"properties,omitempty"`
 
-	// SystemData: The system metadata related to this resource.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -35,14 +35,14 @@ type DiagnosticSettings_STATUS struct {
 	LogAnalyticsDestinationType *string `json:"logAnalyticsDestinationType,omitempty"`
 
 	// Logs: The list of logs settings.
-	Logs []LogSettings_STATUS `json:"logs,omitempty"`
+	Logs []DiagnosticsLogSettings_STATUS `json:"logs,omitempty"`
 
 	// MarketplacePartnerId: The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic
 	// Logs.
 	MarketplacePartnerId *string `json:"marketplacePartnerId,omitempty"`
 
 	// Metrics: The list of metric settings.
-	Metrics []MetricSettings_STATUS `json:"metrics,omitempty"`
+	Metrics []DiagnosticsMetricSettings_STATUS `json:"metrics,omitempty"`
 
 	// ServiceBusRuleId: The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.
 	ServiceBusRuleId *string `json:"serviceBusRuleId,omitempty"`
@@ -78,7 +78,7 @@ type SystemData_STATUS struct {
 }
 
 // Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.
-type LogSettings_STATUS struct {
+type DiagnosticsLogSettings_STATUS struct {
 	// Category: Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of
 	// Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.
 	Category *string `json:"category,omitempty"`
@@ -91,11 +91,11 @@ type LogSettings_STATUS struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// RetentionPolicy: the retention policy for this log.
-	RetentionPolicy *RetentionPolicy_STATUS `json:"retentionPolicy,omitempty"`
+	RetentionPolicy *MicrosoftCommonRetentionPolicy_STATUS `json:"retentionPolicy,omitempty"`
 }
 
 // Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric.
-type MetricSettings_STATUS struct {
+type DiagnosticsMetricSettings_STATUS struct {
 	// Category: Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of
 	// Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.
 	Category *string `json:"category,omitempty"`
@@ -104,7 +104,7 @@ type MetricSettings_STATUS struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// RetentionPolicy: the retention policy for this category.
-	RetentionPolicy *RetentionPolicy_STATUS `json:"retentionPolicy,omitempty"`
+	RetentionPolicy *MicrosoftCommonRetentionPolicy_STATUS `json:"retentionPolicy,omitempty"`
 
 	// TimeGrain: the timegrain of the metric in ISO8601 format.
 	TimeGrain *string `json:"timeGrain,omitempty"`
@@ -145,7 +145,7 @@ var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModi
 }
 
 // Specifies the retention policy for the log.
-type RetentionPolicy_STATUS struct {
+type MicrosoftCommonRetentionPolicy_STATUS struct {
 	// Days: the number of days for the retention in days. A value of 0 will retain the events indefinitely.
 	Days *int `json:"days,omitempty"`
 

@@ -179,11 +179,11 @@ func AddIndependentPropertyGeneratorsForDiagnosticSettings(gens map[string]gopte
 
 // AddRelatedPropertyGeneratorsForDiagnosticSettings is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDiagnosticSettings(gens map[string]gopter.Gen) {
-	gens["Logs"] = gen.SliceOf(LogSettingsGenerator())
-	gens["Metrics"] = gen.SliceOf(MetricSettingsGenerator())
+	gens["Logs"] = gen.SliceOf(DiagnosticsLogSettingsGenerator())
+	gens["Metrics"] = gen.SliceOf(DiagnosticsMetricSettingsGenerator())
 }
 
-func Test_LogSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DiagnosticsLogSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -195,13 +195,13 @@ func Test_LogSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of LogSettings via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLogSettings, LogSettingsGenerator()))
+		"Round trip of DiagnosticsLogSettings via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiagnosticsLogSettings, DiagnosticsLogSettingsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLogSettings runs a test to see if a specific instance of LogSettings round trips to JSON and back losslessly
-func RunJSONSerializationTestForLogSettings(subject LogSettings) string {
+// RunJSONSerializationTestForDiagnosticsLogSettings runs a test to see if a specific instance of DiagnosticsLogSettings round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiagnosticsLogSettings(subject DiagnosticsLogSettings) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -209,7 +209,7 @@ func RunJSONSerializationTestForLogSettings(subject LogSettings) string {
 	}
 
 	// Deserialize back into memory
-	var actual LogSettings
+	var actual DiagnosticsLogSettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -227,44 +227,45 @@ func RunJSONSerializationTestForLogSettings(subject LogSettings) string {
 	return ""
 }
 
-// Generator of LogSettings instances for property testing - lazily instantiated by LogSettingsGenerator()
-var logSettingsGenerator gopter.Gen
+// Generator of DiagnosticsLogSettings instances for property testing - lazily instantiated by
+// DiagnosticsLogSettingsGenerator()
+var diagnosticsLogSettingsGenerator gopter.Gen
 
-// LogSettingsGenerator returns a generator of LogSettings instances for property testing.
-// We first initialize logSettingsGenerator with a simplified generator based on the
+// DiagnosticsLogSettingsGenerator returns a generator of DiagnosticsLogSettings instances for property testing.
+// We first initialize diagnosticsLogSettingsGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LogSettingsGenerator() gopter.Gen {
-	if logSettingsGenerator != nil {
-		return logSettingsGenerator
+func DiagnosticsLogSettingsGenerator() gopter.Gen {
+	if diagnosticsLogSettingsGenerator != nil {
+		return diagnosticsLogSettingsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLogSettings(generators)
-	logSettingsGenerator = gen.Struct(reflect.TypeOf(LogSettings{}), generators)
+	AddIndependentPropertyGeneratorsForDiagnosticsLogSettings(generators)
+	diagnosticsLogSettingsGenerator = gen.Struct(reflect.TypeOf(DiagnosticsLogSettings{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLogSettings(generators)
-	AddRelatedPropertyGeneratorsForLogSettings(generators)
-	logSettingsGenerator = gen.Struct(reflect.TypeOf(LogSettings{}), generators)
+	AddIndependentPropertyGeneratorsForDiagnosticsLogSettings(generators)
+	AddRelatedPropertyGeneratorsForDiagnosticsLogSettings(generators)
+	diagnosticsLogSettingsGenerator = gen.Struct(reflect.TypeOf(DiagnosticsLogSettings{}), generators)
 
-	return logSettingsGenerator
+	return diagnosticsLogSettingsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLogSettings is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLogSettings(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDiagnosticsLogSettings is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDiagnosticsLogSettings(gens map[string]gopter.Gen) {
 	gens["Category"] = gen.PtrOf(gen.AlphaString())
 	gens["CategoryGroup"] = gen.PtrOf(gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForLogSettings is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLogSettings(gens map[string]gopter.Gen) {
-	gens["RetentionPolicy"] = gen.PtrOf(RetentionPolicyGenerator())
+// AddRelatedPropertyGeneratorsForDiagnosticsLogSettings is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDiagnosticsLogSettings(gens map[string]gopter.Gen) {
+	gens["RetentionPolicy"] = gen.PtrOf(MicrosoftCommonRetentionPolicyGenerator())
 }
 
-func Test_MetricSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DiagnosticsMetricSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -276,13 +277,13 @@ func Test_MetricSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MetricSettings via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMetricSettings, MetricSettingsGenerator()))
+		"Round trip of DiagnosticsMetricSettings via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiagnosticsMetricSettings, DiagnosticsMetricSettingsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMetricSettings runs a test to see if a specific instance of MetricSettings round trips to JSON and back losslessly
-func RunJSONSerializationTestForMetricSettings(subject MetricSettings) string {
+// RunJSONSerializationTestForDiagnosticsMetricSettings runs a test to see if a specific instance of DiagnosticsMetricSettings round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiagnosticsMetricSettings(subject DiagnosticsMetricSettings) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -290,7 +291,7 @@ func RunJSONSerializationTestForMetricSettings(subject MetricSettings) string {
 	}
 
 	// Deserialize back into memory
-	var actual MetricSettings
+	var actual DiagnosticsMetricSettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -308,44 +309,45 @@ func RunJSONSerializationTestForMetricSettings(subject MetricSettings) string {
 	return ""
 }
 
-// Generator of MetricSettings instances for property testing - lazily instantiated by MetricSettingsGenerator()
-var metricSettingsGenerator gopter.Gen
+// Generator of DiagnosticsMetricSettings instances for property testing - lazily instantiated by
+// DiagnosticsMetricSettingsGenerator()
+var diagnosticsMetricSettingsGenerator gopter.Gen
 
-// MetricSettingsGenerator returns a generator of MetricSettings instances for property testing.
-// We first initialize metricSettingsGenerator with a simplified generator based on the
+// DiagnosticsMetricSettingsGenerator returns a generator of DiagnosticsMetricSettings instances for property testing.
+// We first initialize diagnosticsMetricSettingsGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func MetricSettingsGenerator() gopter.Gen {
-	if metricSettingsGenerator != nil {
-		return metricSettingsGenerator
+func DiagnosticsMetricSettingsGenerator() gopter.Gen {
+	if diagnosticsMetricSettingsGenerator != nil {
+		return diagnosticsMetricSettingsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricSettings(generators)
-	metricSettingsGenerator = gen.Struct(reflect.TypeOf(MetricSettings{}), generators)
+	AddIndependentPropertyGeneratorsForDiagnosticsMetricSettings(generators)
+	diagnosticsMetricSettingsGenerator = gen.Struct(reflect.TypeOf(DiagnosticsMetricSettings{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMetricSettings(generators)
-	AddRelatedPropertyGeneratorsForMetricSettings(generators)
-	metricSettingsGenerator = gen.Struct(reflect.TypeOf(MetricSettings{}), generators)
+	AddIndependentPropertyGeneratorsForDiagnosticsMetricSettings(generators)
+	AddRelatedPropertyGeneratorsForDiagnosticsMetricSettings(generators)
+	diagnosticsMetricSettingsGenerator = gen.Struct(reflect.TypeOf(DiagnosticsMetricSettings{}), generators)
 
-	return metricSettingsGenerator
+	return diagnosticsMetricSettingsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMetricSettings is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMetricSettings(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDiagnosticsMetricSettings is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDiagnosticsMetricSettings(gens map[string]gopter.Gen) {
 	gens["Category"] = gen.PtrOf(gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["TimeGrain"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForMetricSettings is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMetricSettings(gens map[string]gopter.Gen) {
-	gens["RetentionPolicy"] = gen.PtrOf(RetentionPolicyGenerator())
+// AddRelatedPropertyGeneratorsForDiagnosticsMetricSettings is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDiagnosticsMetricSettings(gens map[string]gopter.Gen) {
+	gens["RetentionPolicy"] = gen.PtrOf(MicrosoftCommonRetentionPolicyGenerator())
 }
 
-func Test_RetentionPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MicrosoftCommonRetentionPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -357,13 +359,13 @@ func Test_RetentionPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RetentionPolicy via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRetentionPolicy, RetentionPolicyGenerator()))
+		"Round trip of MicrosoftCommonRetentionPolicy via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMicrosoftCommonRetentionPolicy, MicrosoftCommonRetentionPolicyGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRetentionPolicy runs a test to see if a specific instance of RetentionPolicy round trips to JSON and back losslessly
-func RunJSONSerializationTestForRetentionPolicy(subject RetentionPolicy) string {
+// RunJSONSerializationTestForMicrosoftCommonRetentionPolicy runs a test to see if a specific instance of MicrosoftCommonRetentionPolicy round trips to JSON and back losslessly
+func RunJSONSerializationTestForMicrosoftCommonRetentionPolicy(subject MicrosoftCommonRetentionPolicy) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -371,7 +373,7 @@ func RunJSONSerializationTestForRetentionPolicy(subject RetentionPolicy) string 
 	}
 
 	// Deserialize back into memory
-	var actual RetentionPolicy
+	var actual MicrosoftCommonRetentionPolicy
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -389,24 +391,25 @@ func RunJSONSerializationTestForRetentionPolicy(subject RetentionPolicy) string 
 	return ""
 }
 
-// Generator of RetentionPolicy instances for property testing - lazily instantiated by RetentionPolicyGenerator()
-var retentionPolicyGenerator gopter.Gen
+// Generator of MicrosoftCommonRetentionPolicy instances for property testing - lazily instantiated by
+// MicrosoftCommonRetentionPolicyGenerator()
+var microsoftCommonRetentionPolicyGenerator gopter.Gen
 
-// RetentionPolicyGenerator returns a generator of RetentionPolicy instances for property testing.
-func RetentionPolicyGenerator() gopter.Gen {
-	if retentionPolicyGenerator != nil {
-		return retentionPolicyGenerator
+// MicrosoftCommonRetentionPolicyGenerator returns a generator of MicrosoftCommonRetentionPolicy instances for property testing.
+func MicrosoftCommonRetentionPolicyGenerator() gopter.Gen {
+	if microsoftCommonRetentionPolicyGenerator != nil {
+		return microsoftCommonRetentionPolicyGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRetentionPolicy(generators)
-	retentionPolicyGenerator = gen.Struct(reflect.TypeOf(RetentionPolicy{}), generators)
+	AddIndependentPropertyGeneratorsForMicrosoftCommonRetentionPolicy(generators)
+	microsoftCommonRetentionPolicyGenerator = gen.Struct(reflect.TypeOf(MicrosoftCommonRetentionPolicy{}), generators)
 
-	return retentionPolicyGenerator
+	return microsoftCommonRetentionPolicyGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRetentionPolicy is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRetentionPolicy(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMicrosoftCommonRetentionPolicy is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMicrosoftCommonRetentionPolicy(gens map[string]gopter.Gen) {
 	gens["Days"] = gen.PtrOf(gen.Int())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }

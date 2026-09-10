@@ -171,18 +171,20 @@ type ServerExternalAdministrator struct {
 
 // Whether or not to restrict outbound network access for this server.  Value is optional but if passed in, must be
 // 'Enabled' or 'Disabled'
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+// +kubebuilder:validation:Enum={"Disabled","Enabled","SecuredByPerimeter"}
 type ServerNetworkAccessFlag string
 
 const (
-	ServerNetworkAccessFlag_Disabled = ServerNetworkAccessFlag("Disabled")
-	ServerNetworkAccessFlag_Enabled  = ServerNetworkAccessFlag("Enabled")
+	ServerNetworkAccessFlag_Disabled           = ServerNetworkAccessFlag("Disabled")
+	ServerNetworkAccessFlag_Enabled            = ServerNetworkAccessFlag("Enabled")
+	ServerNetworkAccessFlag_SecuredByPerimeter = ServerNetworkAccessFlag("SecuredByPerimeter")
 )
 
 // Mapping from string to ServerNetworkAccessFlag
 var serverNetworkAccessFlag_Values = map[string]ServerNetworkAccessFlag{
-	"disabled": ServerNetworkAccessFlag_Disabled,
-	"enabled":  ServerNetworkAccessFlag_Enabled,
+	"disabled":           ServerNetworkAccessFlag_Disabled,
+	"enabled":            ServerNetworkAccessFlag_Enabled,
+	"securedbyperimeter": ServerNetworkAccessFlag_SecuredByPerimeter,
 }
 
 // Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled'

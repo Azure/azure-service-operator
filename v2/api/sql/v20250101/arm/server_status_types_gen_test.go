@@ -558,7 +558,7 @@ func AddIndependentPropertyGeneratorsForServerProperties_STATUS(gens map[string]
 	gens["ExternalGovernanceStatus"] = gen.PtrOf(gen.OneConstOf(ExternalGovernanceStatus_STATUS_Disabled, ExternalGovernanceStatus_STATUS_Enabled))
 	gens["FederatedClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["FullyQualifiedDomainName"] = gen.PtrOf(gen.AlphaString())
-	gens["IsIPv6Enabled"] = gen.PtrOf(gen.OneConstOf(ServerNetworkAccessFlag_STATUS_Disabled, ServerNetworkAccessFlag_STATUS_Enabled))
+	gens["IsIPv6Enabled"] = gen.PtrOf(gen.OneConstOf(ServerNetworkAccessFlag_STATUS_Disabled, ServerNetworkAccessFlag_STATUS_Enabled, ServerNetworkAccessFlag_STATUS_SecuredByPerimeter))
 	gens["KeyId"] = gen.PtrOf(gen.AlphaString())
 	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
 		MinimalTlsVersion_STATUS_10,
@@ -568,7 +568,7 @@ func AddIndependentPropertyGeneratorsForServerProperties_STATUS(gens map[string]
 		MinimalTlsVersion_STATUS_None))
 	gens["PrimaryUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerPublicNetworkAccessFlag_STATUS_Disabled, ServerPublicNetworkAccessFlag_STATUS_Enabled, ServerPublicNetworkAccessFlag_STATUS_SecuredByPerimeter))
-	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerNetworkAccessFlag_STATUS_Disabled, ServerNetworkAccessFlag_STATUS_Enabled))
+	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerNetworkAccessFlag_STATUS_Disabled, ServerNetworkAccessFlag_STATUS_Enabled, ServerNetworkAccessFlag_STATUS_SecuredByPerimeter))
 	gens["RetentionDays"] = gen.PtrOf(gen.Int())
 	gens["State"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())

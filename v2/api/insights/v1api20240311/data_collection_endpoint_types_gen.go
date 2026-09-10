@@ -773,8 +773,8 @@ type DataCollectionEndpointResource_STATUS struct {
 	// Data Collection Endpoint with Log Analytics Destination.
 	FailoverConfiguration *FailoverConfigurationSpec_STATUS `json:"failoverConfiguration,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Identity: Managed service identity of the resource.
@@ -2548,7 +2548,7 @@ type Sku struct {
 	Family *string `json:"family,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The name of the SKU. Ex - P3. It is typically a letter+number code
+	// Name: The name of the SKU. E.g. P3. It is typically a letter+number code
 	Name *string `json:"name,omitempty"`
 
 	// Size: The SKU size. When the name field is the combination of tier and some other value, this would be the standalone
@@ -2751,7 +2751,7 @@ type Sku_STATUS struct {
 	// Family: If the service has different generations of hardware, for the same SKU, then that can be captured here.
 	Family *string `json:"family,omitempty"`
 
-	// Name: The name of the SKU. Ex - P3. It is typically a letter+number code
+	// Name: The name of the SKU. E.g. P3. It is typically a letter+number code
 	Name *string `json:"name,omitempty"`
 
 	// Size: The SKU size. When the name field is the combination of tier and some other value, this would be the standalone

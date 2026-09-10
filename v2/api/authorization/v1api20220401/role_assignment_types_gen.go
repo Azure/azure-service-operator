@@ -699,8 +699,8 @@ type RoleAssignment_STATUS struct {
 	// Description: Description of role assignment
 	Description *string `json:"description,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
@@ -1201,43 +1201,51 @@ func (operator *RoleAssignmentOperatorSpec) AssignProperties_To_RoleAssignmentOp
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Device","ForeignGroup","Group","ServicePrincipal","User"}
+// +kubebuilder:validation:Enum={"AgentServicePrincipal","AgentUser","Device","ForeignGroup","Group","ServicePrincipal","User"}
 type RoleAssignmentProperties_PrincipalType string
 
 const (
-	RoleAssignmentProperties_PrincipalType_Device           = RoleAssignmentProperties_PrincipalType("Device")
-	RoleAssignmentProperties_PrincipalType_ForeignGroup     = RoleAssignmentProperties_PrincipalType("ForeignGroup")
-	RoleAssignmentProperties_PrincipalType_Group            = RoleAssignmentProperties_PrincipalType("Group")
-	RoleAssignmentProperties_PrincipalType_ServicePrincipal = RoleAssignmentProperties_PrincipalType("ServicePrincipal")
-	RoleAssignmentProperties_PrincipalType_User             = RoleAssignmentProperties_PrincipalType("User")
+	RoleAssignmentProperties_PrincipalType_AgentServicePrincipal = RoleAssignmentProperties_PrincipalType("AgentServicePrincipal")
+	RoleAssignmentProperties_PrincipalType_AgentUser             = RoleAssignmentProperties_PrincipalType("AgentUser")
+	RoleAssignmentProperties_PrincipalType_Device                = RoleAssignmentProperties_PrincipalType("Device")
+	RoleAssignmentProperties_PrincipalType_ForeignGroup          = RoleAssignmentProperties_PrincipalType("ForeignGroup")
+	RoleAssignmentProperties_PrincipalType_Group                 = RoleAssignmentProperties_PrincipalType("Group")
+	RoleAssignmentProperties_PrincipalType_ServicePrincipal      = RoleAssignmentProperties_PrincipalType("ServicePrincipal")
+	RoleAssignmentProperties_PrincipalType_User                  = RoleAssignmentProperties_PrincipalType("User")
 )
 
 // Mapping from string to RoleAssignmentProperties_PrincipalType
 var roleAssignmentProperties_PrincipalType_Values = map[string]RoleAssignmentProperties_PrincipalType{
-	"device":           RoleAssignmentProperties_PrincipalType_Device,
-	"foreigngroup":     RoleAssignmentProperties_PrincipalType_ForeignGroup,
-	"group":            RoleAssignmentProperties_PrincipalType_Group,
-	"serviceprincipal": RoleAssignmentProperties_PrincipalType_ServicePrincipal,
-	"user":             RoleAssignmentProperties_PrincipalType_User,
+	"agentserviceprincipal": RoleAssignmentProperties_PrincipalType_AgentServicePrincipal,
+	"agentuser":             RoleAssignmentProperties_PrincipalType_AgentUser,
+	"device":                RoleAssignmentProperties_PrincipalType_Device,
+	"foreigngroup":          RoleAssignmentProperties_PrincipalType_ForeignGroup,
+	"group":                 RoleAssignmentProperties_PrincipalType_Group,
+	"serviceprincipal":      RoleAssignmentProperties_PrincipalType_ServicePrincipal,
+	"user":                  RoleAssignmentProperties_PrincipalType_User,
 }
 
 type RoleAssignmentProperties_PrincipalType_STATUS string
 
 const (
-	RoleAssignmentProperties_PrincipalType_STATUS_Device           = RoleAssignmentProperties_PrincipalType_STATUS("Device")
-	RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup     = RoleAssignmentProperties_PrincipalType_STATUS("ForeignGroup")
-	RoleAssignmentProperties_PrincipalType_STATUS_Group            = RoleAssignmentProperties_PrincipalType_STATUS("Group")
-	RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal = RoleAssignmentProperties_PrincipalType_STATUS("ServicePrincipal")
-	RoleAssignmentProperties_PrincipalType_STATUS_User             = RoleAssignmentProperties_PrincipalType_STATUS("User")
+	RoleAssignmentProperties_PrincipalType_STATUS_AgentServicePrincipal = RoleAssignmentProperties_PrincipalType_STATUS("AgentServicePrincipal")
+	RoleAssignmentProperties_PrincipalType_STATUS_AgentUser             = RoleAssignmentProperties_PrincipalType_STATUS("AgentUser")
+	RoleAssignmentProperties_PrincipalType_STATUS_Device                = RoleAssignmentProperties_PrincipalType_STATUS("Device")
+	RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup          = RoleAssignmentProperties_PrincipalType_STATUS("ForeignGroup")
+	RoleAssignmentProperties_PrincipalType_STATUS_Group                 = RoleAssignmentProperties_PrincipalType_STATUS("Group")
+	RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal      = RoleAssignmentProperties_PrincipalType_STATUS("ServicePrincipal")
+	RoleAssignmentProperties_PrincipalType_STATUS_User                  = RoleAssignmentProperties_PrincipalType_STATUS("User")
 )
 
 // Mapping from string to RoleAssignmentProperties_PrincipalType_STATUS
 var roleAssignmentProperties_PrincipalType_STATUS_Values = map[string]RoleAssignmentProperties_PrincipalType_STATUS{
-	"device":           RoleAssignmentProperties_PrincipalType_STATUS_Device,
-	"foreigngroup":     RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup,
-	"group":            RoleAssignmentProperties_PrincipalType_STATUS_Group,
-	"serviceprincipal": RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal,
-	"user":             RoleAssignmentProperties_PrincipalType_STATUS_User,
+	"agentserviceprincipal": RoleAssignmentProperties_PrincipalType_STATUS_AgentServicePrincipal,
+	"agentuser":             RoleAssignmentProperties_PrincipalType_STATUS_AgentUser,
+	"device":                RoleAssignmentProperties_PrincipalType_STATUS_Device,
+	"foreigngroup":          RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup,
+	"group":                 RoleAssignmentProperties_PrincipalType_STATUS_Group,
+	"serviceprincipal":      RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal,
+	"user":                  RoleAssignmentProperties_PrincipalType_STATUS_User,
 }
 
 // Metadata pertaining to creation and last modification of the resource.

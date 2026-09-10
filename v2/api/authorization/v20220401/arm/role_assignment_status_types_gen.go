@@ -5,8 +5,8 @@ package arm
 
 // Role Assignments
 type RoleAssignment_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
@@ -87,20 +87,24 @@ type SystemData_STATUS struct {
 type RoleAssignmentProperties_PrincipalType_STATUS string
 
 const (
-	RoleAssignmentProperties_PrincipalType_STATUS_Device           = RoleAssignmentProperties_PrincipalType_STATUS("Device")
-	RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup     = RoleAssignmentProperties_PrincipalType_STATUS("ForeignGroup")
-	RoleAssignmentProperties_PrincipalType_STATUS_Group            = RoleAssignmentProperties_PrincipalType_STATUS("Group")
-	RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal = RoleAssignmentProperties_PrincipalType_STATUS("ServicePrincipal")
-	RoleAssignmentProperties_PrincipalType_STATUS_User             = RoleAssignmentProperties_PrincipalType_STATUS("User")
+	RoleAssignmentProperties_PrincipalType_STATUS_AgentServicePrincipal = RoleAssignmentProperties_PrincipalType_STATUS("AgentServicePrincipal")
+	RoleAssignmentProperties_PrincipalType_STATUS_AgentUser             = RoleAssignmentProperties_PrincipalType_STATUS("AgentUser")
+	RoleAssignmentProperties_PrincipalType_STATUS_Device                = RoleAssignmentProperties_PrincipalType_STATUS("Device")
+	RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup          = RoleAssignmentProperties_PrincipalType_STATUS("ForeignGroup")
+	RoleAssignmentProperties_PrincipalType_STATUS_Group                 = RoleAssignmentProperties_PrincipalType_STATUS("Group")
+	RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal      = RoleAssignmentProperties_PrincipalType_STATUS("ServicePrincipal")
+	RoleAssignmentProperties_PrincipalType_STATUS_User                  = RoleAssignmentProperties_PrincipalType_STATUS("User")
 )
 
 // Mapping from string to RoleAssignmentProperties_PrincipalType_STATUS
 var roleAssignmentProperties_PrincipalType_STATUS_Values = map[string]RoleAssignmentProperties_PrincipalType_STATUS{
-	"device":           RoleAssignmentProperties_PrincipalType_STATUS_Device,
-	"foreigngroup":     RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup,
-	"group":            RoleAssignmentProperties_PrincipalType_STATUS_Group,
-	"serviceprincipal": RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal,
-	"user":             RoleAssignmentProperties_PrincipalType_STATUS_User,
+	"agentserviceprincipal": RoleAssignmentProperties_PrincipalType_STATUS_AgentServicePrincipal,
+	"agentuser":             RoleAssignmentProperties_PrincipalType_STATUS_AgentUser,
+	"device":                RoleAssignmentProperties_PrincipalType_STATUS_Device,
+	"foreigngroup":          RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup,
+	"group":                 RoleAssignmentProperties_PrincipalType_STATUS_Group,
+	"serviceprincipal":      RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal,
+	"user":                  RoleAssignmentProperties_PrincipalType_STATUS_User,
 }
 
 type SystemData_CreatedByType_STATUS string

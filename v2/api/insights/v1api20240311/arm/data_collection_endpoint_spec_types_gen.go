@@ -83,7 +83,7 @@ type Sku struct {
 	// Family: If the service has different generations of hardware, for the same SKU, then that can be captured here.
 	Family *string `json:"family,omitempty"`
 
-	// Name: The name of the SKU. Ex - P3. It is typically a letter+number code
+	// Name: The name of the SKU. E.g. P3. It is typically a letter+number code
 	Name *string `json:"name,omitempty"`
 
 	// Size: The SKU size. When the name field is the combination of tier and some other value, this would be the standalone

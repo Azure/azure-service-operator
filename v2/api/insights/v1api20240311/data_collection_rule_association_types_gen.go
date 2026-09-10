@@ -561,8 +561,8 @@ type DataCollectionRuleAssociationProxyOnlyResource_STATUS struct {
 	// Etag: Resource entity tag (ETag).
 	Etag *string `json:"etag,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Metadata: Metadata about the resource
