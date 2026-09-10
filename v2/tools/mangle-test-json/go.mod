@@ -1,6 +1,6 @@
 module github.com/Azure/azure-service-operator/v2/tools/mangle-test-json
 
-go 1.26
+go 1.27.0
 
 require (
 	github.com/go-logr/logr v1.4.4
