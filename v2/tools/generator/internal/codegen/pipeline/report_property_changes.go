@@ -137,7 +137,8 @@ func (r *PropertyChangesReporter) saveReport(
 		nextResource,
 		r.definitions,
 		r.configuration.TypeNameInNextVersion.Lookup,
-		r.configuration.PropertyNameInNextVersion.Lookup)
+		r.configuration.PropertyNameInNextVersion.Lookup,
+	)
 
 	for _, line := range astmodel.CodeGenerationComments {
 		// Wrapped as an HTML comment so it's invisible when the Markdown is rendered, while still
