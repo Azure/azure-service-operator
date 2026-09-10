@@ -5,7 +5,8 @@ package v1api20250301
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
+	containerservice_v1api20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
+	containerservice_v20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -40,7 +41,7 @@ func RunPropertyAssignmentTestForAPIServerAccessProfile(subject APIServerAccessP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.APIServerAccessProfile
+	var other containerservice_v1api20250301s.APIServerAccessProfile
 	err := copied.AssignProperties_To_APIServerAccessProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -154,7 +155,7 @@ func RunPropertyAssignmentTestForAPIServerAccessProfile_STATUS(subject APIServer
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.APIServerAccessProfile_STATUS
+	var other containerservice_v1api20250301s.APIServerAccessProfile_STATUS
 	err := copied.AssignProperties_To_APIServerAccessProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -269,7 +270,7 @@ func RunPropertyAssignmentTestForAgentProfile(subject AgentProfile) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AgentProfile
+	var other containerservice_v1api20250301s.AgentProfile
 	err := copied.AssignProperties_To_AgentProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -381,7 +382,7 @@ func RunPropertyAssignmentTestForAgentProfile_STATUS(subject AgentProfile_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AgentProfile_STATUS
+	var other containerservice_v1api20250301s.AgentProfile_STATUS
 	err := copied.AssignProperties_To_AgentProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -495,7 +496,7 @@ func RunPropertyAssignmentTestForCommonUserAssignedIdentity_STATUS(subject Commo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CommonUserAssignedIdentity_STATUS
+	var other containerservice_v1api20250301s.CommonUserAssignedIdentity_STATUS
 	err := copied.AssignProperties_To_CommonUserAssignedIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -609,7 +610,7 @@ func RunPropertyAssignmentTestForErrorAdditionalInfo_STATUS(subject ErrorAdditio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ErrorAdditionalInfo_STATUS
+	var other containerservice_v1api20250301s.ErrorAdditionalInfo_STATUS
 	err := copied.AssignProperties_To_ErrorAdditionalInfo_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -722,7 +723,7 @@ func RunPropertyAssignmentTestForErrorDetail_STATUS(subject ErrorDetail_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ErrorDetail_STATUS
+	var other containerservice_v1api20250301s.ErrorDetail_STATUS
 	err := copied.AssignProperties_To_ErrorDetail_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -851,7 +852,7 @@ func RunPropertyAssignmentTestForErrorDetail_STATUS_Unrolled(subject ErrorDetail
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ErrorDetail_STATUS_Unrolled
+	var other containerservice_v1api20250301s.ErrorDetail_STATUS_Unrolled
 	err := copied.AssignProperties_To_ErrorDetail_STATUS_Unrolled(&other)
 	if err != nil {
 		return err.Error()
@@ -981,7 +982,7 @@ func RunResourceConversionTestForFleet(subject Fleet) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.Fleet
+	var hub containerservice_v20250301s.Fleet
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -1028,7 +1029,7 @@ func RunPropertyAssignmentTestForFleet(subject Fleet) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Fleet
+	var other containerservice_v1api20250301s.Fleet
 	err := copied.AssignProperties_To_Fleet(&other)
 	if err != nil {
 		return err.Error()
@@ -1141,7 +1142,7 @@ func RunPropertyAssignmentTestForFleetHubProfile(subject FleetHubProfile) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetHubProfile
+	var other containerservice_v1api20250301s.FleetHubProfile
 	err := copied.AssignProperties_To_FleetHubProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -1268,7 +1269,7 @@ func RunPropertyAssignmentTestForFleetHubProfile_STATUS(subject FleetHubProfile_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetHubProfile_STATUS
+	var other containerservice_v1api20250301s.FleetHubProfile_STATUS
 	err := copied.AssignProperties_To_FleetHubProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1399,7 +1400,7 @@ func RunPropertyAssignmentTestForFleetOperatorSecrets(subject FleetOperatorSecre
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetOperatorSecrets
+	var other containerservice_v1api20250301s.FleetOperatorSecrets
 	err := copied.AssignProperties_To_FleetOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()
@@ -1506,7 +1507,7 @@ func RunPropertyAssignmentTestForFleetOperatorSpec(subject FleetOperatorSpec) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetOperatorSpec
+	var other containerservice_v1api20250301s.FleetOperatorSpec
 	err := copied.AssignProperties_To_FleetOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -1618,7 +1619,7 @@ func RunPropertyAssignmentTestForFleetStatus_STATUS(subject FleetStatus_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetStatus_STATUS
+	var other containerservice_v1api20250301s.FleetStatus_STATUS
 	err := copied.AssignProperties_To_FleetStatus_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1744,7 +1745,7 @@ func RunPropertyAssignmentTestForFleet_STATUS(subject Fleet_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Fleet_STATUS
+	var other containerservice_v1api20250301s.Fleet_STATUS
 	err := copied.AssignProperties_To_Fleet_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1887,7 +1888,7 @@ func RunPropertyAssignmentTestForFleet_Spec(subject Fleet_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Fleet_Spec
+	var other containerservice_v1api20250301s.Fleet_Spec
 	err := copied.AssignProperties_To_Fleet_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -2019,7 +2020,7 @@ func RunPropertyAssignmentTestForManagedServiceIdentity(subject ManagedServiceId
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedServiceIdentity
+	var other containerservice_v1api20250301s.ManagedServiceIdentity
 	err := copied.AssignProperties_To_ManagedServiceIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -2150,7 +2151,7 @@ func RunPropertyAssignmentTestForManagedServiceIdentity_STATUS(subject ManagedSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedServiceIdentity_STATUS
+	var other containerservice_v1api20250301s.ManagedServiceIdentity_STATUS
 	err := copied.AssignProperties_To_ManagedServiceIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2285,7 +2286,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
+	var other containerservice_v1api20250301s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2410,7 +2411,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UserAssignedIdentityDetails
+	var other containerservice_v1api20250301s.UserAssignedIdentityDetails
 	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()

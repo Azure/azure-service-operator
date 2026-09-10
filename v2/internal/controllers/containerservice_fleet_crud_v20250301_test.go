@@ -10,8 +10,8 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	fleet "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301"
-	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
+	fleet "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250301"
+	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

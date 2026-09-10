@@ -5,7 +5,8 @@ package v1api20250801
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
+	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
+	v20260301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForTrustedAccessRoleBinding(subject TrustedAccessR
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.TrustedAccessRoleBinding
+	var hub v20260301s.TrustedAccessRoleBinding
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForTrustedAccessRoleBinding(subject TrustedAccessR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TrustedAccessRoleBinding
+	var other v20250801s.TrustedAccessRoleBinding
 	err := copied.AssignProperties_To_TrustedAccessRoleBinding(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +203,7 @@ func RunPropertyAssignmentTestForTrustedAccessRoleBindingOperatorSpec(subject Tr
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TrustedAccessRoleBindingOperatorSpec
+	var other v20250801s.TrustedAccessRoleBindingOperatorSpec
 	err := copied.AssignProperties_To_TrustedAccessRoleBindingOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForTrustedAccessRoleBinding_STATUS(subject Trusted
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TrustedAccessRoleBinding_STATUS
+	var other v20250801s.TrustedAccessRoleBinding_STATUS
 	err := copied.AssignProperties_To_TrustedAccessRoleBinding_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -446,7 +447,7 @@ func RunPropertyAssignmentTestForTrustedAccessRoleBinding_Spec(subject TrustedAc
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TrustedAccessRoleBinding_Spec
+	var other v20250801s.TrustedAccessRoleBinding_Spec
 	err := copied.AssignProperties_To_TrustedAccessRoleBinding_Spec(&other)
 	if err != nil {
 		return err.Error()

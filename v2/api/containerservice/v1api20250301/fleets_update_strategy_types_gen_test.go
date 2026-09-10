@@ -5,7 +5,8 @@ package v1api20250301
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
+	containerservice_v1api20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
+	containerservice_v20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForFleetsUpdateStrategy(subject FleetsUpdateStrate
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.FleetsUpdateStrategy
+	var hub containerservice_v20250301s.FleetsUpdateStrategy
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForFleetsUpdateStrategy(subject FleetsUpdateStrate
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsUpdateStrategy
+	var other containerservice_v1api20250301s.FleetsUpdateStrategy
 	err := copied.AssignProperties_To_FleetsUpdateStrategy(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +203,7 @@ func RunPropertyAssignmentTestForFleetsUpdateStrategyOperatorSpec(subject Fleets
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsUpdateStrategyOperatorSpec
+	var other containerservice_v1api20250301s.FleetsUpdateStrategyOperatorSpec
 	err := copied.AssignProperties_To_FleetsUpdateStrategyOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForFleetsUpdateStrategy_STATUS(subject FleetsUpdat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsUpdateStrategy_STATUS
+	var other containerservice_v1api20250301s.FleetsUpdateStrategy_STATUS
 	err := copied.AssignProperties_To_FleetsUpdateStrategy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -441,7 +442,7 @@ func RunPropertyAssignmentTestForFleetsUpdateStrategy_Spec(subject FleetsUpdateS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsUpdateStrategy_Spec
+	var other containerservice_v1api20250301s.FleetsUpdateStrategy_Spec
 	err := copied.AssignProperties_To_FleetsUpdateStrategy_Spec(&other)
 	if err != nil {
 		return err.Error()

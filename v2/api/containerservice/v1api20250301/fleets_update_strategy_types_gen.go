@@ -51,22 +51,36 @@ var _ conversion.Convertible = &FleetsUpdateStrategy{}
 
 // ConvertFrom populates our FleetsUpdateStrategy from the provided hub FleetsUpdateStrategy
 func (strategy *FleetsUpdateStrategy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FleetsUpdateStrategy)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20250301/storage/FleetsUpdateStrategy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FleetsUpdateStrategy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return strategy.AssignProperties_From_FleetsUpdateStrategy(source)
+	err = strategy.AssignProperties_From_FleetsUpdateStrategy(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to strategy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FleetsUpdateStrategy from our FleetsUpdateStrategy
 func (strategy *FleetsUpdateStrategy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FleetsUpdateStrategy)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20250301/storage/FleetsUpdateStrategy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FleetsUpdateStrategy
+	err := strategy.AssignProperties_To_FleetsUpdateStrategy(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from strategy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return strategy.AssignProperties_To_FleetsUpdateStrategy(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FleetsUpdateStrategy{}
@@ -87,17 +101,6 @@ func (strategy *FleetsUpdateStrategy) SecretDestinationExpressions() []*core.Des
 		return nil
 	}
 	return strategy.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &FleetsUpdateStrategy{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (strategy *FleetsUpdateStrategy) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FleetsUpdateStrategy_STATUS); ok {
-		return strategy.Spec.Initialize_From_FleetsUpdateStrategy_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FleetsUpdateStrategy_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &FleetsUpdateStrategy{}
@@ -477,25 +480,6 @@ func (strategy *FleetsUpdateStrategy_Spec) AssignProperties_To_FleetsUpdateStrat
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FleetsUpdateStrategy_STATUS populates our FleetsUpdateStrategy_Spec from the provided source FleetsUpdateStrategy_STATUS
-func (strategy *FleetsUpdateStrategy_Spec) Initialize_From_FleetsUpdateStrategy_STATUS(source *FleetsUpdateStrategy_STATUS) error {
-
-	// Strategy
-	if source.Strategy != nil {
-		var strategyLocal UpdateRunStrategy
-		err := strategyLocal.Initialize_From_UpdateRunStrategy_STATUS(source.Strategy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UpdateRunStrategy_STATUS() to populate field Strategy")
-		}
-		strategy.Strategy = &strategyLocal
-	} else {
-		strategy.Strategy = nil
 	}
 
 	// No error

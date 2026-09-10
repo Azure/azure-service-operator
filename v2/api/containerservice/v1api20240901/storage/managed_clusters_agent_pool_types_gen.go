@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20240901/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ManagedClustersAgentPool{}
 
 // ConvertFrom populates our ManagedClustersAgentPool from the provided hub ManagedClustersAgentPool
 func (pool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ManagedClustersAgentPool)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20250801/storage/ManagedClustersAgentPool but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ManagedClustersAgentPool
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return pool.AssignProperties_From_ManagedClustersAgentPool(source)
+	err = pool.AssignProperties_From_ManagedClustersAgentPool(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to pool")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ManagedClustersAgentPool from our ManagedClustersAgentPool
 func (pool *ManagedClustersAgentPool) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ManagedClustersAgentPool)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20250801/storage/ManagedClustersAgentPool but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ManagedClustersAgentPool
+	err := pool.AssignProperties_To_ManagedClustersAgentPool(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from pool")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return pool.AssignProperties_To_ManagedClustersAgentPool(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ManagedClustersAgentPool{}
@@ -461,22 +474,8 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClusters
 		pool.EnableUltraSSD = nil
 	}
 
-	// GatewayProfile
-	if source.GatewayProfile != nil {
-		propertyBag.Add("GatewayProfile", *source.GatewayProfile)
-	} else {
-		propertyBag.Remove("GatewayProfile")
-	}
-
 	// GpuInstanceProfile
 	pool.GpuInstanceProfile = genruntime.ClonePointerToString(source.GpuInstanceProfile)
-
-	// GpuProfile
-	if source.GpuProfile != nil {
-		propertyBag.Add("GpuProfile", *source.GpuProfile)
-	} else {
-		propertyBag.Remove("GpuProfile")
-	}
 
 	// HostGroupReference
 	if source.HostGroupReference != nil {
@@ -518,13 +517,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClusters
 
 	// MaxPods
 	pool.MaxPods = genruntime.ClonePointerToInt(source.MaxPods)
-
-	// MessageOfTheDay
-	if source.MessageOfTheDay != nil {
-		propertyBag.Add("MessageOfTheDay", *source.MessageOfTheDay)
-	} else {
-		propertyBag.Remove("MessageOfTheDay")
-	}
 
 	// MinCount
 	pool.MinCount = genruntime.ClonePointerToInt(source.MinCount)
@@ -594,13 +586,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClusters
 		pool.Owner = &owner
 	} else {
 		pool.Owner = nil
-	}
-
-	// PodIPAllocationMode
-	if source.PodIPAllocationMode != nil {
-		propertyBag.Add("PodIPAllocationMode", *source.PodIPAllocationMode)
-	} else {
-		propertyBag.Remove("PodIPAllocationMode")
 	}
 
 	// PodSubnetReference
@@ -676,20 +661,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClusters
 		pool.UpgradeSettings = &upgradeSetting
 	} else {
 		pool.UpgradeSettings = nil
-	}
-
-	// VirtualMachineNodesStatus
-	if len(source.VirtualMachineNodesStatus) > 0 {
-		propertyBag.Add("VirtualMachineNodesStatus", source.VirtualMachineNodesStatus)
-	} else {
-		propertyBag.Remove("VirtualMachineNodesStatus")
-	}
-
-	// VirtualMachinesProfile
-	if source.VirtualMachinesProfile != nil {
-		propertyBag.Add("VirtualMachinesProfile", *source.VirtualMachinesProfile)
-	} else {
-		propertyBag.Remove("VirtualMachinesProfile")
 	}
 
 	// VmSize
@@ -812,34 +783,8 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 		destination.EnableUltraSSD = nil
 	}
 
-	// GatewayProfile
-	if propertyBag.Contains("GatewayProfile") {
-		var gatewayProfile storage.AgentPoolGatewayProfile
-		err := propertyBag.Pull("GatewayProfile", &gatewayProfile)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'GatewayProfile' from propertyBag")
-		}
-
-		destination.GatewayProfile = &gatewayProfile
-	} else {
-		destination.GatewayProfile = nil
-	}
-
 	// GpuInstanceProfile
 	destination.GpuInstanceProfile = genruntime.ClonePointerToString(pool.GpuInstanceProfile)
-
-	// GpuProfile
-	if propertyBag.Contains("GpuProfile") {
-		var gpuProfile storage.GPUProfile
-		err := propertyBag.Pull("GpuProfile", &gpuProfile)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'GpuProfile' from propertyBag")
-		}
-
-		destination.GpuProfile = &gpuProfile
-	} else {
-		destination.GpuProfile = nil
-	}
 
 	// HostGroupReference
 	if pool.HostGroupReference != nil {
@@ -881,19 +826,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 
 	// MaxPods
 	destination.MaxPods = genruntime.ClonePointerToInt(pool.MaxPods)
-
-	// MessageOfTheDay
-	if propertyBag.Contains("MessageOfTheDay") {
-		var messageOfTheDay string
-		err := propertyBag.Pull("MessageOfTheDay", &messageOfTheDay)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'MessageOfTheDay' from propertyBag")
-		}
-
-		destination.MessageOfTheDay = &messageOfTheDay
-	} else {
-		destination.MessageOfTheDay = nil
-	}
 
 	// MinCount
 	destination.MinCount = genruntime.ClonePointerToInt(pool.MinCount)
@@ -963,19 +895,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// PodIPAllocationMode
-	if propertyBag.Contains("PodIPAllocationMode") {
-		var podIPAllocationMode string
-		err := propertyBag.Pull("PodIPAllocationMode", &podIPAllocationMode)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PodIPAllocationMode' from propertyBag")
-		}
-
-		destination.PodIPAllocationMode = &podIPAllocationMode
-	} else {
-		destination.PodIPAllocationMode = nil
 	}
 
 	// PodSubnetReference
@@ -1051,32 +970,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 		destination.UpgradeSettings = &upgradeSetting
 	} else {
 		destination.UpgradeSettings = nil
-	}
-
-	// VirtualMachineNodesStatus
-	if propertyBag.Contains("VirtualMachineNodesStatus") {
-		var virtualMachineNodesStatus []storage.VirtualMachineNodes
-		err := propertyBag.Pull("VirtualMachineNodesStatus", &virtualMachineNodesStatus)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'VirtualMachineNodesStatus' from propertyBag")
-		}
-
-		destination.VirtualMachineNodesStatus = virtualMachineNodesStatus
-	} else {
-		destination.VirtualMachineNodesStatus = nil
-	}
-
-	// VirtualMachinesProfile
-	if propertyBag.Contains("VirtualMachinesProfile") {
-		var virtualMachinesProfile storage.VirtualMachinesProfile
-		err := propertyBag.Pull("VirtualMachinesProfile", &virtualMachinesProfile)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'VirtualMachinesProfile' from propertyBag")
-		}
-
-		destination.VirtualMachinesProfile = &virtualMachinesProfile
-	} else {
-		destination.VirtualMachinesProfile = nil
 	}
 
 	// VmSize
@@ -1305,22 +1198,8 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedCluste
 		pool.EnableUltraSSD = nil
 	}
 
-	// GatewayProfile
-	if source.GatewayProfile != nil {
-		propertyBag.Add("GatewayProfile", *source.GatewayProfile)
-	} else {
-		propertyBag.Remove("GatewayProfile")
-	}
-
 	// GpuInstanceProfile
 	pool.GpuInstanceProfile = genruntime.ClonePointerToString(source.GpuInstanceProfile)
-
-	// GpuProfile
-	if source.GpuProfile != nil {
-		propertyBag.Add("GpuProfile", *source.GpuProfile)
-	} else {
-		propertyBag.Remove("GpuProfile")
-	}
 
 	// HostGroupID
 	pool.HostGroupID = genruntime.ClonePointerToString(source.HostGroupID)
@@ -1360,13 +1239,6 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedCluste
 
 	// MaxPods
 	pool.MaxPods = genruntime.ClonePointerToInt(source.MaxPods)
-
-	// MessageOfTheDay
-	if source.MessageOfTheDay != nil {
-		propertyBag.Add("MessageOfTheDay", *source.MessageOfTheDay)
-	} else {
-		propertyBag.Remove("MessageOfTheDay")
-	}
 
 	// MinCount
 	pool.MinCount = genruntime.ClonePointerToInt(source.MinCount)
@@ -1415,13 +1287,6 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedCluste
 
 	// OsType
 	pool.OsType = genruntime.ClonePointerToString(source.OsType)
-
-	// PodIPAllocationMode
-	if source.PodIPAllocationMode != nil {
-		propertyBag.Add("PodIPAllocationMode", *source.PodIPAllocationMode)
-	} else {
-		propertyBag.Remove("PodIPAllocationMode")
-	}
 
 	// PodSubnetID
 	pool.PodSubnetID = genruntime.ClonePointerToString(source.PodSubnetID)
@@ -1476,13 +1341,6 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedCluste
 		pool.SpotMaxPrice = nil
 	}
 
-	// Status
-	if source.Status != nil {
-		propertyBag.Add("Status", *source.Status)
-	} else {
-		propertyBag.Remove("Status")
-	}
-
 	// Tags
 	pool.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -1499,20 +1357,6 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedCluste
 		pool.UpgradeSettings = &upgradeSetting
 	} else {
 		pool.UpgradeSettings = nil
-	}
-
-	// VirtualMachineNodesStatus
-	if len(source.VirtualMachineNodesStatus) > 0 {
-		propertyBag.Add("VirtualMachineNodesStatus", source.VirtualMachineNodesStatus)
-	} else {
-		propertyBag.Remove("VirtualMachineNodesStatus")
-	}
-
-	// VirtualMachinesProfile
-	if source.VirtualMachinesProfile != nil {
-		propertyBag.Add("VirtualMachinesProfile", *source.VirtualMachinesProfile)
-	} else {
-		propertyBag.Remove("VirtualMachinesProfile")
 	}
 
 	// VmSize
@@ -1631,34 +1475,8 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 		destination.EnableUltraSSD = nil
 	}
 
-	// GatewayProfile
-	if propertyBag.Contains("GatewayProfile") {
-		var gatewayProfile storage.AgentPoolGatewayProfile_STATUS
-		err := propertyBag.Pull("GatewayProfile", &gatewayProfile)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'GatewayProfile' from propertyBag")
-		}
-
-		destination.GatewayProfile = &gatewayProfile
-	} else {
-		destination.GatewayProfile = nil
-	}
-
 	// GpuInstanceProfile
 	destination.GpuInstanceProfile = genruntime.ClonePointerToString(pool.GpuInstanceProfile)
-
-	// GpuProfile
-	if propertyBag.Contains("GpuProfile") {
-		var gpuProfile storage.GPUProfile_STATUS
-		err := propertyBag.Pull("GpuProfile", &gpuProfile)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'GpuProfile' from propertyBag")
-		}
-
-		destination.GpuProfile = &gpuProfile
-	} else {
-		destination.GpuProfile = nil
-	}
 
 	// HostGroupID
 	destination.HostGroupID = genruntime.ClonePointerToString(pool.HostGroupID)
@@ -1698,19 +1516,6 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 
 	// MaxPods
 	destination.MaxPods = genruntime.ClonePointerToInt(pool.MaxPods)
-
-	// MessageOfTheDay
-	if propertyBag.Contains("MessageOfTheDay") {
-		var messageOfTheDay string
-		err := propertyBag.Pull("MessageOfTheDay", &messageOfTheDay)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'MessageOfTheDay' from propertyBag")
-		}
-
-		destination.MessageOfTheDay = &messageOfTheDay
-	} else {
-		destination.MessageOfTheDay = nil
-	}
 
 	// MinCount
 	destination.MinCount = genruntime.ClonePointerToInt(pool.MinCount)
@@ -1759,19 +1564,6 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 
 	// OsType
 	destination.OsType = genruntime.ClonePointerToString(pool.OsType)
-
-	// PodIPAllocationMode
-	if propertyBag.Contains("PodIPAllocationMode") {
-		var podIPAllocationMode string
-		err := propertyBag.Pull("PodIPAllocationMode", &podIPAllocationMode)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PodIPAllocationMode' from propertyBag")
-		}
-
-		destination.PodIPAllocationMode = &podIPAllocationMode
-	} else {
-		destination.PodIPAllocationMode = nil
-	}
 
 	// PodSubnetID
 	destination.PodSubnetID = genruntime.ClonePointerToString(pool.PodSubnetID)
@@ -1826,19 +1618,6 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 		destination.SpotMaxPrice = nil
 	}
 
-	// Status
-	if propertyBag.Contains("Status") {
-		var status storage.AgentPoolStatus_STATUS
-		err := propertyBag.Pull("Status", &status)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Status' from propertyBag")
-		}
-
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(pool.Tags)
 
@@ -1855,32 +1634,6 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 		destination.UpgradeSettings = &upgradeSetting
 	} else {
 		destination.UpgradeSettings = nil
-	}
-
-	// VirtualMachineNodesStatus
-	if propertyBag.Contains("VirtualMachineNodesStatus") {
-		var virtualMachineNodesStatus []storage.VirtualMachineNodes_STATUS
-		err := propertyBag.Pull("VirtualMachineNodesStatus", &virtualMachineNodesStatus)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'VirtualMachineNodesStatus' from propertyBag")
-		}
-
-		destination.VirtualMachineNodesStatus = virtualMachineNodesStatus
-	} else {
-		destination.VirtualMachineNodesStatus = nil
-	}
-
-	// VirtualMachinesProfile
-	if propertyBag.Contains("VirtualMachinesProfile") {
-		var virtualMachinesProfile storage.VirtualMachinesProfile_STATUS
-		err := propertyBag.Pull("VirtualMachinesProfile", &virtualMachinesProfile)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'VirtualMachinesProfile' from propertyBag")
-		}
-
-		destination.VirtualMachinesProfile = &virtualMachinesProfile
-	} else {
-		destination.VirtualMachinesProfile = nil
 	}
 
 	// VmSize
@@ -2227,13 +1980,6 @@ func (profile *AgentPoolSecurityProfile) AssignProperties_From_AgentPoolSecurity
 		profile.EnableVTPM = nil
 	}
 
-	// SshAccess
-	if source.SshAccess != nil {
-		propertyBag.Add("SshAccess", *source.SshAccess)
-	} else {
-		propertyBag.Remove("SshAccess")
-	}
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		profile.PropertyBag = propertyBag
@@ -2273,19 +2019,6 @@ func (profile *AgentPoolSecurityProfile) AssignProperties_To_AgentPoolSecurityPr
 		destination.EnableVTPM = &enableVTPM
 	} else {
 		destination.EnableVTPM = nil
-	}
-
-	// SshAccess
-	if propertyBag.Contains("SshAccess") {
-		var sshAccess string
-		err := propertyBag.Pull("SshAccess", &sshAccess)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'SshAccess' from propertyBag")
-		}
-
-		destination.SshAccess = &sshAccess
-	} else {
-		destination.SshAccess = nil
 	}
 
 	// Update the property bag
@@ -2337,13 +2070,6 @@ func (profile *AgentPoolSecurityProfile_STATUS) AssignProperties_From_AgentPoolS
 		profile.EnableVTPM = nil
 	}
 
-	// SshAccess
-	if source.SshAccess != nil {
-		propertyBag.Add("SshAccess", *source.SshAccess)
-	} else {
-		propertyBag.Remove("SshAccess")
-	}
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		profile.PropertyBag = propertyBag
@@ -2383,19 +2109,6 @@ func (profile *AgentPoolSecurityProfile_STATUS) AssignProperties_To_AgentPoolSec
 		destination.EnableVTPM = &enableVTPM
 	} else {
 		destination.EnableVTPM = nil
-	}
-
-	// SshAccess
-	if propertyBag.Contains("SshAccess") {
-		var sshAccess string
-		err := propertyBag.Pull("SshAccess", &sshAccess)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'SshAccess' from propertyBag")
-		}
-
-		destination.SshAccess = &sshAccess
-	} else {
-		destination.SshAccess = nil
 	}
 
 	// Update the property bag
@@ -2438,22 +2151,8 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgrade
 	// MaxSurge
 	settings.MaxSurge = genruntime.ClonePointerToString(source.MaxSurge)
 
-	// MaxUnavailable
-	if source.MaxUnavailable != nil {
-		propertyBag.Add("MaxUnavailable", *source.MaxUnavailable)
-	} else {
-		propertyBag.Remove("MaxUnavailable")
-	}
-
 	// NodeSoakDurationInMinutes
 	settings.NodeSoakDurationInMinutes = genruntime.ClonePointerToInt(source.NodeSoakDurationInMinutes)
-
-	// UndrainableNodeBehavior
-	if source.UndrainableNodeBehavior != nil {
-		propertyBag.Add("UndrainableNodeBehavior", *source.UndrainableNodeBehavior)
-	} else {
-		propertyBag.Remove("UndrainableNodeBehavior")
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2486,34 +2185,8 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_To_AgentPoolUpgradeSe
 	// MaxSurge
 	destination.MaxSurge = genruntime.ClonePointerToString(settings.MaxSurge)
 
-	// MaxUnavailable
-	if propertyBag.Contains("MaxUnavailable") {
-		var maxUnavailable string
-		err := propertyBag.Pull("MaxUnavailable", &maxUnavailable)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'MaxUnavailable' from propertyBag")
-		}
-
-		destination.MaxUnavailable = &maxUnavailable
-	} else {
-		destination.MaxUnavailable = nil
-	}
-
 	// NodeSoakDurationInMinutes
 	destination.NodeSoakDurationInMinutes = genruntime.ClonePointerToInt(settings.NodeSoakDurationInMinutes)
-
-	// UndrainableNodeBehavior
-	if propertyBag.Contains("UndrainableNodeBehavior") {
-		var undrainableNodeBehavior string
-		err := propertyBag.Pull("UndrainableNodeBehavior", &undrainableNodeBehavior)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'UndrainableNodeBehavior' from propertyBag")
-		}
-
-		destination.UndrainableNodeBehavior = &undrainableNodeBehavior
-	} else {
-		destination.UndrainableNodeBehavior = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2555,22 +2228,8 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_From_AgentPool
 	// MaxSurge
 	settings.MaxSurge = genruntime.ClonePointerToString(source.MaxSurge)
 
-	// MaxUnavailable
-	if source.MaxUnavailable != nil {
-		propertyBag.Add("MaxUnavailable", *source.MaxUnavailable)
-	} else {
-		propertyBag.Remove("MaxUnavailable")
-	}
-
 	// NodeSoakDurationInMinutes
 	settings.NodeSoakDurationInMinutes = genruntime.ClonePointerToInt(source.NodeSoakDurationInMinutes)
-
-	// UndrainableNodeBehavior
-	if source.UndrainableNodeBehavior != nil {
-		propertyBag.Add("UndrainableNodeBehavior", *source.UndrainableNodeBehavior)
-	} else {
-		propertyBag.Remove("UndrainableNodeBehavior")
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2603,34 +2262,8 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_To_AgentPoolUp
 	// MaxSurge
 	destination.MaxSurge = genruntime.ClonePointerToString(settings.MaxSurge)
 
-	// MaxUnavailable
-	if propertyBag.Contains("MaxUnavailable") {
-		var maxUnavailable string
-		err := propertyBag.Pull("MaxUnavailable", &maxUnavailable)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'MaxUnavailable' from propertyBag")
-		}
-
-		destination.MaxUnavailable = &maxUnavailable
-	} else {
-		destination.MaxUnavailable = nil
-	}
-
 	// NodeSoakDurationInMinutes
 	destination.NodeSoakDurationInMinutes = genruntime.ClonePointerToInt(settings.NodeSoakDurationInMinutes)
-
-	// UndrainableNodeBehavior
-	if propertyBag.Contains("UndrainableNodeBehavior") {
-		var undrainableNodeBehavior string
-		err := propertyBag.Pull("UndrainableNodeBehavior", &undrainableNodeBehavior)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'UndrainableNodeBehavior' from propertyBag")
-		}
-
-		destination.UndrainableNodeBehavior = &undrainableNodeBehavior
-	} else {
-		destination.UndrainableNodeBehavior = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

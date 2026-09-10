@@ -44,7 +44,7 @@ func TestReconcileCRDs(t *testing.T) {
 			instances: []*unstructured.Unstructured{
 				{
 					Object: map[string]interface{}{
-						"apiVersion": "containerservice.azure.com/v1api20250801storage", // This must be the storage version of the CRD
+						"apiVersion": "containerservice.azure.com/v20260301storage", // This must be the storage version of the CRD
 						"kind":       "ManagedCluster",
 						"metadata": map[string]interface{}{
 							"name":      "test-cluster",
@@ -59,7 +59,7 @@ func TestReconcileCRDs(t *testing.T) {
 			instances: []*unstructured.Unstructured{
 				{
 					Object: map[string]interface{}{
-						"apiVersion": "containerservice.azure.com/v1api20250801storage", // This must be the storage version of the CRD
+						"apiVersion": "containerservice.azure.com/v20260301storage", // This must be the storage version of the CRD
 						"kind":       "ManagedCluster",
 						"metadata": map[string]interface{}{
 							"name":      "test-cluster",
@@ -77,7 +77,7 @@ func TestReconcileCRDs(t *testing.T) {
 			instances: []*unstructured.Unstructured{
 				{
 					Object: map[string]interface{}{
-						"apiVersion": "containerservice.azure.com/v1api20250801storage", // This must be the storage version of the CRD
+						"apiVersion": "containerservice.azure.com/v20260301storage", // This must be the storage version of the CRD
 						"kind":       "ManagedCluster",
 						"metadata": map[string]interface{}{
 							"name":      "test-cluster",
@@ -99,6 +99,7 @@ func TestReconcileCRDs(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			testData := testSetup(t)
+			deprecatedStorageVersion := "v1api20240901storage"
 
 			// Add instances if provided
 			for _, instance := range tt.instances {
@@ -106,7 +107,7 @@ func TestReconcileCRDs(t *testing.T) {
 			}
 
 			deprecatedCRDVersions := map[string][]string{
-				"managedclusters.containerservice.azure.com": {"v1api20240901storage"},
+				"managedclusters.containerservice.azure.com": {deprecatedStorageVersion},
 			}
 
 			options := crd.Options{
@@ -131,9 +132,9 @@ func TestReconcileCRDs(t *testing.T) {
 			)).To(Succeed())
 
 			if tt.expectDeprecated {
-				g.Expect(crd.Status.StoredVersions).ToNot(ContainElement("v1api20240901storage"))
+				g.Expect(crd.Status.StoredVersions).ToNot(ContainElement(deprecatedStorageVersion))
 			} else {
-				g.Expect(crd.Status.StoredVersions).To(ContainElement("v1api20240901storage"))
+				g.Expect(crd.Status.StoredVersions).To(ContainElement(deprecatedStorageVersion))
 			}
 		})
 	}

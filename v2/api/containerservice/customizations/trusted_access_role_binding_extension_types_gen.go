@@ -4,12 +4,18 @@
 package customizations
 
 import (
-	v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
-	v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
-	v20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
-	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
-	v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
-	v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
+	containerservice_v1api20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
+	containerservice_v1api20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
+	containerservice_v1api20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
+	containerservice_v1api20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
+	containerservice_v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20240901"
+	containerservice_v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20240901/storage"
+	containerservice_v20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801"
+	containerservice_v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801/storage"
+	containerservice_v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
+	containerservice_v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
+	containerservice_v20260301 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301"
+	containerservice_v20260301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -19,10 +25,16 @@ type TrustedAccessRoleBindingExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *TrustedAccessRoleBindingExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20240901.TrustedAccessRoleBinding{},
-		&v20240901s.TrustedAccessRoleBinding{},
-		&v20250801.TrustedAccessRoleBinding{},
-		&v20250801s.TrustedAccessRoleBinding{},
-		&v20251002p.TrustedAccessRoleBinding{},
-		&v20251002ps.TrustedAccessRoleBinding{}}
+		&containerservice_v1api20240901.TrustedAccessRoleBinding{},
+		&containerservice_v1api20240901s.TrustedAccessRoleBinding{},
+		&containerservice_v1api20250801.TrustedAccessRoleBinding{},
+		&containerservice_v1api20250801s.TrustedAccessRoleBinding{},
+		&containerservice_v20240901.TrustedAccessRoleBinding{},
+		&containerservice_v20240901s.TrustedAccessRoleBinding{},
+		&containerservice_v20250801.TrustedAccessRoleBinding{},
+		&containerservice_v20250801s.TrustedAccessRoleBinding{},
+		&containerservice_v20251002p.TrustedAccessRoleBinding{},
+		&containerservice_v20251002ps.TrustedAccessRoleBinding{},
+		&containerservice_v20260301.TrustedAccessRoleBinding{},
+		&containerservice_v20260301s.TrustedAccessRoleBinding{}}
 }

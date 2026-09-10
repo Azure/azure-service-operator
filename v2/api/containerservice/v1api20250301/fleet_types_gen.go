@@ -52,22 +52,36 @@ var _ conversion.Convertible = &Fleet{}
 
 // ConvertFrom populates our Fleet from the provided hub Fleet
 func (fleet *Fleet) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Fleet)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20250301/storage/Fleet but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Fleet
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return fleet.AssignProperties_From_Fleet(source)
+	err = fleet.AssignProperties_From_Fleet(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to fleet")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Fleet from our Fleet
 func (fleet *Fleet) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Fleet)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20250301/storage/Fleet but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Fleet
+	err := fleet.AssignProperties_To_Fleet(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from fleet")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return fleet.AssignProperties_To_Fleet(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Fleet{}
@@ -88,17 +102,6 @@ func (fleet *Fleet) SecretDestinationExpressions() []*core.DestinationExpression
 		return nil
 	}
 	return fleet.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Fleet{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (fleet *Fleet) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Fleet_STATUS); ok {
-		return fleet.Spec.Initialize_From_Fleet_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Fleet_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Fleet{}
@@ -578,43 +581,6 @@ func (fleet *Fleet_Spec) AssignProperties_To_Fleet_Spec(destination *storage.Fle
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Fleet_STATUS populates our Fleet_Spec from the provided source Fleet_STATUS
-func (fleet *Fleet_Spec) Initialize_From_Fleet_STATUS(source *Fleet_STATUS) error {
-
-	// HubProfile
-	if source.HubProfile != nil {
-		var hubProfile FleetHubProfile
-		err := hubProfile.Initialize_From_FleetHubProfile_STATUS(source.HubProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FleetHubProfile_STATUS() to populate field HubProfile")
-		}
-		fleet.HubProfile = &hubProfile
-	} else {
-		fleet.HubProfile = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
-		}
-		fleet.Identity = &identity
-	} else {
-		fleet.Identity = nil
-	}
-
-	// Location
-	fleet.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Tags
-	fleet.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1191,40 +1157,6 @@ func (profile *FleetHubProfile) AssignProperties_To_FleetHubProfile(destination 
 	return nil
 }
 
-// Initialize_From_FleetHubProfile_STATUS populates our FleetHubProfile from the provided source FleetHubProfile_STATUS
-func (profile *FleetHubProfile) Initialize_From_FleetHubProfile_STATUS(source *FleetHubProfile_STATUS) error {
-
-	// AgentProfile
-	if source.AgentProfile != nil {
-		var agentProfile AgentProfile
-		err := agentProfile.Initialize_From_AgentProfile_STATUS(source.AgentProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AgentProfile_STATUS() to populate field AgentProfile")
-		}
-		profile.AgentProfile = &agentProfile
-	} else {
-		profile.AgentProfile = nil
-	}
-
-	// ApiServerAccessProfile
-	if source.ApiServerAccessProfile != nil {
-		var apiServerAccessProfile APIServerAccessProfile
-		err := apiServerAccessProfile.Initialize_From_APIServerAccessProfile_STATUS(source.ApiServerAccessProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_APIServerAccessProfile_STATUS() to populate field ApiServerAccessProfile")
-		}
-		profile.ApiServerAccessProfile = &apiServerAccessProfile
-	} else {
-		profile.ApiServerAccessProfile = nil
-	}
-
-	// DnsPrefix
-	profile.DnsPrefix = genruntime.ClonePointerToString(source.DnsPrefix)
-
-	// No error
-	return nil
-}
-
 // The FleetHubProfile configures the fleet hub.
 type FleetHubProfile_STATUS struct {
 	// AgentProfile: The agent profile for the Fleet hub.
@@ -1783,33 +1715,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 	return nil
 }
 
-// Initialize_From_ManagedServiceIdentity_STATUS populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity_STATUS
-func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_STATUS(source *ManagedServiceIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), managedServiceIdentityType_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Managed service identity (system assigned and/or user assigned identities)
 type ManagedServiceIdentity_STATUS struct {
 	// PrincipalId: The service principal ID of the system assigned identity. This property will only be provided for a system
@@ -2226,24 +2131,6 @@ func (profile *AgentProfile) AssignProperties_To_AgentProfile(destination *stora
 	return nil
 }
 
-// Initialize_From_AgentProfile_STATUS populates our AgentProfile from the provided source AgentProfile_STATUS
-func (profile *AgentProfile) Initialize_From_AgentProfile_STATUS(source *AgentProfile_STATUS) error {
-
-	// SubnetReference
-	if source.SubnetId != nil {
-		subnetReference := genruntime.CreateResourceReferenceFromARMID(*source.SubnetId)
-		profile.SubnetReference = &subnetReference
-	} else {
-		profile.SubnetReference = nil
-	}
-
-	// VmSize
-	profile.VmSize = genruntime.ClonePointerToString(source.VmSize)
-
-	// No error
-	return nil
-}
-
 // Agent profile for the Fleet hub.
 type AgentProfile_STATUS struct {
 	// SubnetId: The ID of the subnet which the Fleet hub node will join on startup. If this is not specified, a vnet and
@@ -2460,37 +2347,6 @@ func (profile *APIServerAccessProfile) AssignProperties_To_APIServerAccessProfil
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_APIServerAccessProfile_STATUS populates our APIServerAccessProfile from the provided source APIServerAccessProfile_STATUS
-func (profile *APIServerAccessProfile) Initialize_From_APIServerAccessProfile_STATUS(source *APIServerAccessProfile_STATUS) error {
-
-	// EnablePrivateCluster
-	if source.EnablePrivateCluster != nil {
-		enablePrivateCluster := *source.EnablePrivateCluster
-		profile.EnablePrivateCluster = &enablePrivateCluster
-	} else {
-		profile.EnablePrivateCluster = nil
-	}
-
-	// EnableVnetIntegration
-	if source.EnableVnetIntegration != nil {
-		enableVnetIntegration := *source.EnableVnetIntegration
-		profile.EnableVnetIntegration = &enableVnetIntegration
-	} else {
-		profile.EnableVnetIntegration = nil
-	}
-
-	// SubnetReference
-	if source.SubnetId != nil {
-		subnetReference := genruntime.CreateResourceReferenceFromARMID(*source.SubnetId)
-		profile.SubnetReference = &subnetReference
-	} else {
-		profile.SubnetReference = nil
 	}
 
 	// No error

@@ -471,13 +471,123 @@ FleetsUpdateStrategy: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
+augmentConversionForAPIServerAccessProfile: Interface
+
+augmentConversionForAPIServerAccessProfile_STATUS: Interface
+
+augmentConversionForAgentProfile: Interface
+
+augmentConversionForAgentProfile_STATUS: Interface
+
+augmentConversionForAutoUpgradeNodeImageSelection: Interface
+
+augmentConversionForAutoUpgradeNodeImageSelection_STATUS: Interface
+
+augmentConversionForAutoUpgradeProfileStatus_STATUS: Interface
+
+augmentConversionForCommonUserAssignedIdentity_STATUS: Interface
+
 augmentConversionForErrorAdditionalInfo_STATUS: Interface
 
 augmentConversionForErrorDetail_STATUS: Interface
 
 augmentConversionForErrorDetail_STATUS_Unrolled: Interface
 
+augmentConversionForFleet: Interface
+
+augmentConversionForFleetHubProfile: Interface
+
+augmentConversionForFleetHubProfile_STATUS: Interface
+
+augmentConversionForFleetMemberStatus_STATUS: Interface
+
+augmentConversionForFleetOperatorSecrets: Interface
+
+augmentConversionForFleetOperatorSpec: Interface
+
+augmentConversionForFleetStatus_STATUS: Interface
+
+augmentConversionForFleet_STATUS: Interface
+
+augmentConversionForFleet_Spec: Interface
+
+augmentConversionForFleetsAutoUpgradeProfile: Interface
+
+augmentConversionForFleetsAutoUpgradeProfileOperatorSpec: Interface
+
+augmentConversionForFleetsAutoUpgradeProfile_STATUS: Interface
+
+augmentConversionForFleetsAutoUpgradeProfile_Spec: Interface
+
+augmentConversionForFleetsMember: Interface
+
+augmentConversionForFleetsMemberOperatorSpec: Interface
+
+augmentConversionForFleetsMember_STATUS: Interface
+
+augmentConversionForFleetsMember_Spec: Interface
+
+augmentConversionForFleetsUpdateRun: Interface
+
+augmentConversionForFleetsUpdateRunOperatorSpec: Interface
+
+augmentConversionForFleetsUpdateRun_STATUS: Interface
+
+augmentConversionForFleetsUpdateRun_Spec: Interface
+
+augmentConversionForFleetsUpdateStrategy: Interface
+
+augmentConversionForFleetsUpdateStrategyOperatorSpec: Interface
+
+augmentConversionForFleetsUpdateStrategy_STATUS: Interface
+
+augmentConversionForFleetsUpdateStrategy_Spec: Interface
+
+augmentConversionForManagedClusterUpdate: Interface
+
+augmentConversionForManagedClusterUpdate_STATUS: Interface
+
+augmentConversionForManagedClusterUpgradeSpec: Interface
+
+augmentConversionForManagedClusterUpgradeSpec_STATUS: Interface
+
+augmentConversionForManagedServiceIdentity: Interface
+
+augmentConversionForManagedServiceIdentity_STATUS: Interface
+
+augmentConversionForMemberUpdateStatus_STATUS: Interface
+
+augmentConversionForNodeImageSelection: Interface
+
+augmentConversionForNodeImageSelectionStatus_STATUS: Interface
+
+augmentConversionForNodeImageSelection_STATUS: Interface
+
+augmentConversionForNodeImageVersion_STATUS: Interface
+
 augmentConversionForSystemData_STATUS: Interface
 
+augmentConversionForUpdateGroup: Interface
+
+augmentConversionForUpdateGroupStatus_STATUS: Interface
+
+augmentConversionForUpdateGroup_STATUS: Interface
+
+augmentConversionForUpdateRunStatus_STATUS: Interface
+
+augmentConversionForUpdateRunStrategy: Interface
+
+augmentConversionForUpdateRunStrategy_STATUS: Interface
+
+augmentConversionForUpdateStage: Interface
+
+augmentConversionForUpdateStageStatus_STATUS: Interface
+
+augmentConversionForUpdateStage_STATUS: Interface
+
+augmentConversionForUpdateStatus_STATUS: Interface
+
 augmentConversionForUserAssignedIdentityDetails: Interface
+
+augmentConversionForWaitStatus_STATUS: Interface
 

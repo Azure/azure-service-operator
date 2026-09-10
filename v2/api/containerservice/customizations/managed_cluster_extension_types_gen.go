@@ -4,12 +4,18 @@
 package customizations
 
 import (
-	v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
-	v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
-	v20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
-	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
-	v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
-	v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
+	containerservice_v1api20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
+	containerservice_v1api20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
+	containerservice_v1api20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
+	containerservice_v1api20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
+	containerservice_v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20240901"
+	containerservice_v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20240901/storage"
+	containerservice_v20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801"
+	containerservice_v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801/storage"
+	containerservice_v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
+	containerservice_v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
+	containerservice_v20260301 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301"
+	containerservice_v20260301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -19,10 +25,16 @@ type ManagedClusterExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *ManagedClusterExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20240901.ManagedCluster{},
-		&v20240901s.ManagedCluster{},
-		&v20250801.ManagedCluster{},
-		&v20250801s.ManagedCluster{},
-		&v20251002p.ManagedCluster{},
-		&v20251002ps.ManagedCluster{}}
+		&containerservice_v1api20240901.ManagedCluster{},
+		&containerservice_v1api20240901s.ManagedCluster{},
+		&containerservice_v1api20250801.ManagedCluster{},
+		&containerservice_v1api20250801s.ManagedCluster{},
+		&containerservice_v20240901.ManagedCluster{},
+		&containerservice_v20240901s.ManagedCluster{},
+		&containerservice_v20250801.ManagedCluster{},
+		&containerservice_v20250801s.ManagedCluster{},
+		&containerservice_v20251002p.ManagedCluster{},
+		&containerservice_v20251002ps.ManagedCluster{},
+		&containerservice_v20260301.ManagedCluster{},
+		&containerservice_v20260301s.ManagedCluster{}}
 }

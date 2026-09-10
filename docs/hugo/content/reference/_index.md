@@ -260,6 +260,30 @@ These resource(s) are the latest versions available for use in the current relea
 
 To install the CRDs for these resources, your ASO configuration must include `containerservice.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                 | ARM Version | CRD Version | Supported From | Sample |
+|--------------------------|-------------|-------------|----------------|--------|
+| Fleet                    | 2025-03-01  | v20250301   | v2.22.0        | -      |
+| FleetsAutoUpgradeProfile | 2025-03-01  | v20250301   | v2.22.0        | -      |
+| FleetsMember             | 2025-03-01  | v20250301   | v2.22.0        | -      |
+| FleetsUpdateRun          | 2025-03-01  | v20250301   | v2.22.0        | -      |
+| FleetsUpdateStrategy     | 2025-03-01  | v20250301   | v2.22.0        | -      |
+| MaintenanceConfiguration | 2026-03-01  | v20260301   | v2.22.0        | -      |
+| MaintenanceConfiguration | 2025-08-01  | v20250801   | v2.22.0        | -      |
+| MaintenanceConfiguration | 2024-09-01  | v20240901   | v2.22.0        | -      |
+| ManagedCluster           | 2026-03-01  | v20260301   | v2.22.0        | -      |
+| ManagedCluster           | 2025-08-01  | v20250801   | v2.22.0        | -      |
+| ManagedCluster           | 2024-09-01  | v20240901   | v2.22.0        | -      |
+| ManagedClustersAgentPool | 2026-03-01  | v20260301   | v2.22.0        | -      |
+| ManagedClustersAgentPool | 2025-08-01  | v20250801   | v2.22.0        | -      |
+| ManagedClustersAgentPool | 2024-09-01  | v20240901   | v2.22.0        | -      |
+| TrustedAccessRoleBinding | 2026-03-01  | v20260301   | v2.22.0        | -      |
+| TrustedAccessRoleBinding | 2025-08-01  | v20250801   | v2.22.0        | -      |
+| TrustedAccessRoleBinding | 2024-09-01  | v20240901   | v2.22.0        | -      |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.

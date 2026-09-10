@@ -207,18 +207,30 @@ import (
 	containerregistry_v20251101s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/storage"
 	containerregistry_v20251101w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/webhook"
 	containerservice_customizations "github.com/Azure/azure-service-operator/v2/api/containerservice/customizations"
-	containerservice_v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
-	containerservice_v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
-	containerservice_v20240901w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/webhook"
-	containerservice_v20250301 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301"
-	containerservice_v20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
-	containerservice_v20250301w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/webhook"
-	containerservice_v20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
-	containerservice_v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
-	containerservice_v20250801w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/webhook"
+	containerservice_v1api20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
+	containerservice_v1api20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
+	containerservice_v1api20240901w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/webhook"
+	containerservice_v1api20250301 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301"
+	containerservice_v1api20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
+	containerservice_v1api20250301w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/webhook"
+	containerservice_v1api20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
+	containerservice_v1api20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
+	containerservice_v1api20250801w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/webhook"
+	containerservice_v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20240901"
+	containerservice_v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20240901/storage"
+	containerservice_v20240901w "github.com/Azure/azure-service-operator/v2/api/containerservice/v20240901/webhook"
+	containerservice_v20250301 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250301"
+	containerservice_v20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250301/storage"
+	containerservice_v20250301w "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250301/webhook"
+	containerservice_v20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801"
+	containerservice_v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801/storage"
+	containerservice_v20250801w "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801/webhook"
 	containerservice_v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
 	containerservice_v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
 	containerservice_v20251002pw "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/webhook"
+	containerservice_v20260301 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301"
+	containerservice_v20260301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
+	containerservice_v20260301w "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/webhook"
 	databasewatcher_customizations "github.com/Azure/azure-service-operator/v2/api/databasewatcher/customizations"
 	databasewatcher_v20241001p "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview"
 	databasewatcher_v20241001ps "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview/storage"
@@ -1324,9 +1336,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsMember)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsUpdateRun)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsUpdateStrategy)})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.MaintenanceConfiguration)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20260301s.MaintenanceConfiguration)})
 	result = append(result, &registration.StorageType{
-		Obj: new(containerservice_v20250801s.ManagedCluster),
+		Obj: new(containerservice_v20260301s.ManagedCluster),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.windowsProfile.adminPassword",
@@ -1366,7 +1378,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.servicePrincipalProfile.secret",
 						".spec.windowsProfile.adminPassword",
 					},
-					&containerservice_v20250801s.ManagedClusterList{}),
+					&containerservice_v20260301s.ManagedClusterList{}),
 			},
 			{
 				Type: &v1.ConfigMap{},
@@ -1377,12 +1389,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig",
 						".spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig",
 					},
-					&containerservice_v20250801s.ManagedClusterList{}),
+					&containerservice_v20260301s.ManagedClusterList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.ManagedClustersAgentPool)})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.TrustedAccessRoleBinding)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20260301s.ManagedClustersAgentPool)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20260301s.TrustedAccessRoleBinding)})
 	result = append(result, &registration.StorageType{Obj: new(databasewatcher_v20241001ps.SharedPrivateLink)})
 	result = append(result, &registration.StorageType{
 		Obj: new(databasewatcher_v20241001ps.Target),
@@ -4988,6 +5000,96 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(containerservice_v1api20240901.MaintenanceConfiguration),
+			Defaulter: &containerservice_v1api20240901w.MaintenanceConfiguration{},
+			Validator: &containerservice_v1api20240901w.MaintenanceConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v1api20240901.ManagedCluster),
+			Defaulter: &containerservice_v1api20240901w.ManagedCluster{},
+			Validator: &containerservice_v1api20240901w.ManagedCluster{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v1api20240901.ManagedClustersAgentPool),
+			Defaulter: &containerservice_v1api20240901w.ManagedClustersAgentPool{},
+			Validator: &containerservice_v1api20240901w.ManagedClustersAgentPool{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v1api20240901.TrustedAccessRoleBinding),
+			Defaulter: &containerservice_v1api20240901w.TrustedAccessRoleBinding{},
+			Validator: &containerservice_v1api20240901w.TrustedAccessRoleBinding{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(containerservice_v1api20240901s.MaintenanceConfiguration)},
+		&registration.KnownType{Obj: new(containerservice_v1api20240901s.ManagedCluster)},
+		&registration.KnownType{Obj: new(containerservice_v1api20240901s.ManagedClustersAgentPool)},
+		&registration.KnownType{Obj: new(containerservice_v1api20240901s.TrustedAccessRoleBinding)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(containerservice_v1api20250301.Fleet),
+			Defaulter: &containerservice_v1api20250301w.Fleet{},
+			Validator: &containerservice_v1api20250301w.Fleet{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v1api20250301.FleetsAutoUpgradeProfile),
+			Defaulter: &containerservice_v1api20250301w.FleetsAutoUpgradeProfile{},
+			Validator: &containerservice_v1api20250301w.FleetsAutoUpgradeProfile{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v1api20250301.FleetsMember),
+			Defaulter: &containerservice_v1api20250301w.FleetsMember{},
+			Validator: &containerservice_v1api20250301w.FleetsMember{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v1api20250301.FleetsUpdateRun),
+			Defaulter: &containerservice_v1api20250301w.FleetsUpdateRun{},
+			Validator: &containerservice_v1api20250301w.FleetsUpdateRun{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v1api20250301.FleetsUpdateStrategy),
+			Defaulter: &containerservice_v1api20250301w.FleetsUpdateStrategy{},
+			Validator: &containerservice_v1api20250301w.FleetsUpdateStrategy{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(containerservice_v1api20250301s.Fleet)},
+		&registration.KnownType{Obj: new(containerservice_v1api20250301s.FleetsAutoUpgradeProfile)},
+		&registration.KnownType{Obj: new(containerservice_v1api20250301s.FleetsMember)},
+		&registration.KnownType{Obj: new(containerservice_v1api20250301s.FleetsUpdateRun)},
+		&registration.KnownType{Obj: new(containerservice_v1api20250301s.FleetsUpdateStrategy)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(containerservice_v1api20250801.MaintenanceConfiguration),
+			Defaulter: &containerservice_v1api20250801w.MaintenanceConfiguration{},
+			Validator: &containerservice_v1api20250801w.MaintenanceConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v1api20250801.ManagedCluster),
+			Defaulter: &containerservice_v1api20250801w.ManagedCluster{},
+			Validator: &containerservice_v1api20250801w.ManagedCluster{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v1api20250801.ManagedClustersAgentPool),
+			Defaulter: &containerservice_v1api20250801w.ManagedClustersAgentPool{},
+			Validator: &containerservice_v1api20250801w.ManagedClustersAgentPool{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v1api20250801.TrustedAccessRoleBinding),
+			Defaulter: &containerservice_v1api20250801w.TrustedAccessRoleBinding{},
+			Validator: &containerservice_v1api20250801w.TrustedAccessRoleBinding{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(containerservice_v1api20250801s.MaintenanceConfiguration)},
+		&registration.KnownType{Obj: new(containerservice_v1api20250801s.ManagedCluster)},
+		&registration.KnownType{Obj: new(containerservice_v1api20250801s.ManagedClustersAgentPool)},
+		&registration.KnownType{Obj: new(containerservice_v1api20250801s.TrustedAccessRoleBinding)})
+	result = append(
+		result,
+		&registration.KnownType{
 			Obj:       new(containerservice_v20240901.MaintenanceConfiguration),
 			Defaulter: &containerservice_v20240901w.MaintenanceConfiguration{},
 			Validator: &containerservice_v20240901w.MaintenanceConfiguration{},
@@ -5103,6 +5205,34 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedCluster)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedClustersAgentPool)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.TrustedAccessRoleBinding)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(containerservice_v20260301.MaintenanceConfiguration),
+			Defaulter: &containerservice_v20260301w.MaintenanceConfiguration{},
+			Validator: &containerservice_v20260301w.MaintenanceConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v20260301.ManagedCluster),
+			Defaulter: &containerservice_v20260301w.ManagedCluster{},
+			Validator: &containerservice_v20260301w.ManagedCluster{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v20260301.ManagedClustersAgentPool),
+			Defaulter: &containerservice_v20260301w.ManagedClustersAgentPool{},
+			Validator: &containerservice_v20260301w.ManagedClustersAgentPool{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v20260301.TrustedAccessRoleBinding),
+			Defaulter: &containerservice_v20260301w.TrustedAccessRoleBinding{},
+			Validator: &containerservice_v20260301w.TrustedAccessRoleBinding{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(containerservice_v20260301s.MaintenanceConfiguration)},
+		&registration.KnownType{Obj: new(containerservice_v20260301s.ManagedCluster)},
+		&registration.KnownType{Obj: new(containerservice_v20260301s.ManagedClustersAgentPool)},
+		&registration.KnownType{Obj: new(containerservice_v20260301s.TrustedAccessRoleBinding)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -8396,6 +8526,12 @@ func createScheme() *runtime.Scheme {
 	_ = containerregistry_v20230701s.AddToScheme(scheme)
 	_ = containerregistry_v20251101.AddToScheme(scheme)
 	_ = containerregistry_v20251101s.AddToScheme(scheme)
+	_ = containerservice_v1api20240901.AddToScheme(scheme)
+	_ = containerservice_v1api20240901s.AddToScheme(scheme)
+	_ = containerservice_v1api20250301.AddToScheme(scheme)
+	_ = containerservice_v1api20250301s.AddToScheme(scheme)
+	_ = containerservice_v1api20250801.AddToScheme(scheme)
+	_ = containerservice_v1api20250801s.AddToScheme(scheme)
 	_ = containerservice_v20240901.AddToScheme(scheme)
 	_ = containerservice_v20240901s.AddToScheme(scheme)
 	_ = containerservice_v20250301.AddToScheme(scheme)
@@ -8404,6 +8540,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20250801s.AddToScheme(scheme)
 	_ = containerservice_v20251002p.AddToScheme(scheme)
 	_ = containerservice_v20251002ps.AddToScheme(scheme)
+	_ = containerservice_v20260301.AddToScheme(scheme)
+	_ = containerservice_v20260301s.AddToScheme(scheme)
 	_ = databasewatcher_v20241001p.AddToScheme(scheme)
 	_ = databasewatcher_v20241001ps.AddToScheme(scheme)
 	_ = datafactory_v1api20180601.AddToScheme(scheme)
@@ -9873,9 +10011,9 @@ func indexContainerregistryRegistryIdentityFromConfig(rawObj client.Object) []st
 	return obj.Spec.Encryption.KeyVaultProperties.IdentityFromConfig.Index()
 }
 
-// indexContainerserviceManagedClusterAdminPassword an index function for containerservice_v20250801s.ManagedCluster .spec.windowsProfile.adminPassword
+// indexContainerserviceManagedClusterAdminPassword an index function for containerservice_v20260301s.ManagedCluster .spec.windowsProfile.adminPassword
 func indexContainerserviceManagedClusterAdminPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
+	obj, ok := rawObj.(*containerservice_v20260301s.ManagedCluster)
 	if !ok {
 		return nil
 	}
@@ -9888,9 +10026,9 @@ func indexContainerserviceManagedClusterAdminPassword(rawObj client.Object) []st
 	return obj.Spec.WindowsProfile.AdminPassword.Index()
 }
 
-// indexContainerserviceManagedClusterIdentityClientIdFromConfig an index function for containerservice_v20250801s.ManagedCluster .spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig
+// indexContainerserviceManagedClusterIdentityClientIdFromConfig an index function for containerservice_v20260301s.ManagedCluster .spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig
 func indexContainerserviceManagedClusterIdentityClientIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
+	obj, ok := rawObj.(*containerservice_v20260301s.ManagedCluster)
 	if !ok {
 		return nil
 	}
@@ -9910,9 +10048,9 @@ func indexContainerserviceManagedClusterIdentityClientIdFromConfig(rawObj client
 	return result
 }
 
-// indexContainerserviceManagedClusterIdentityObjectIdFromConfig an index function for containerservice_v20250801s.ManagedCluster .spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig
+// indexContainerserviceManagedClusterIdentityObjectIdFromConfig an index function for containerservice_v20260301s.ManagedCluster .spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig
 func indexContainerserviceManagedClusterIdentityObjectIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
+	obj, ok := rawObj.(*containerservice_v20260301s.ManagedCluster)
 	if !ok {
 		return nil
 	}
@@ -9932,9 +10070,9 @@ func indexContainerserviceManagedClusterIdentityObjectIdFromConfig(rawObj client
 	return result
 }
 
-// indexContainerserviceManagedClusterIdentityProfileClientIdFromConfig an index function for containerservice_v20250801s.ManagedCluster .spec.identityProfile.clientIdFromConfig
+// indexContainerserviceManagedClusterIdentityProfileClientIdFromConfig an index function for containerservice_v20260301s.ManagedCluster .spec.identityProfile.clientIdFromConfig
 func indexContainerserviceManagedClusterIdentityProfileClientIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
+	obj, ok := rawObj.(*containerservice_v20260301s.ManagedCluster)
 	if !ok {
 		return nil
 	}
@@ -9948,9 +10086,9 @@ func indexContainerserviceManagedClusterIdentityProfileClientIdFromConfig(rawObj
 	return result
 }
 
-// indexContainerserviceManagedClusterIdentityProfileObjectIdFromConfig an index function for containerservice_v20250801s.ManagedCluster .spec.identityProfile.objectIdFromConfig
+// indexContainerserviceManagedClusterIdentityProfileObjectIdFromConfig an index function for containerservice_v20260301s.ManagedCluster .spec.identityProfile.objectIdFromConfig
 func indexContainerserviceManagedClusterIdentityProfileObjectIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
+	obj, ok := rawObj.(*containerservice_v20260301s.ManagedCluster)
 	if !ok {
 		return nil
 	}
@@ -9964,9 +10102,9 @@ func indexContainerserviceManagedClusterIdentityProfileObjectIdFromConfig(rawObj
 	return result
 }
 
-// indexContainerserviceManagedClusterSecret an index function for containerservice_v20250801s.ManagedCluster .spec.servicePrincipalProfile.secret
+// indexContainerserviceManagedClusterSecret an index function for containerservice_v20260301s.ManagedCluster .spec.servicePrincipalProfile.secret
 func indexContainerserviceManagedClusterSecret(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
+	obj, ok := rawObj.(*containerservice_v20260301s.ManagedCluster)
 	if !ok {
 		return nil
 	}
@@ -9979,9 +10117,9 @@ func indexContainerserviceManagedClusterSecret(rawObj client.Object) []string {
 	return obj.Spec.ServicePrincipalProfile.Secret.Index()
 }
 
-// indexContainerserviceManagedClusterServerAppSecret an index function for containerservice_v20250801s.ManagedCluster .spec.aadProfile.serverAppSecret
+// indexContainerserviceManagedClusterServerAppSecret an index function for containerservice_v20260301s.ManagedCluster .spec.aadProfile.serverAppSecret
 func indexContainerserviceManagedClusterServerAppSecret(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
+	obj, ok := rawObj.(*containerservice_v20260301s.ManagedCluster)
 	if !ok {
 		return nil
 	}
