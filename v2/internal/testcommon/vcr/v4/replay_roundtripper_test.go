@@ -428,6 +428,43 @@ func TestReplayRoundTripper_GivenDELETEAfterCachedGET_InvalidatesGETCache(t *tes
 	g.Expect(err).To(HaveOccurred())
 }
 
+func TestReplayRoundTripper_WithDeleteAwareness_DoesNotCacheStaleGet(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	fake := NewFakeRoundTripper()
+	deleteRequest := testRequest(http.MethodDelete, "/parents/p1")
+	getRequest := testRequest(http.MethodGet, "/parents/p1/children/c1")
+	//nolint:bodyclose // The fake transport owns the response body.
+	fake.AddResponse(deleteRequest, testResponse(http.StatusAccepted, http.NoBody))
+	//nolint:bodyclose // The fake transport owns the response body.
+	fake.AddResponse(getRequest, testResponse(http.StatusOK, http.NoBody))
+	//nolint:bodyclose // The fake transport owns the response body.
+	fake.AddResponse(getRequest, testResponse(http.StatusNotFound, http.NoBody))
+
+	deleteAware := newDeleteAwareRoundTripper(fake, logr.Discard())
+	replayer := NewReplayRoundTripper(
+		deleteAware,
+		logr.Discard(),
+		vcr.NewRedactor(creds.DummyAzureIDs()),
+	)
+
+	response, err := replayer.RoundTrip(deleteRequest)
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(response.StatusCode).To(Equal(http.StatusAccepted))
+	g.Expect(response.Body.Close()).To(Succeed())
+
+	response, err = replayer.RoundTrip(getRequest)
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(response.StatusCode).To(Equal(http.StatusNotFound))
+	g.Expect(response.Body.Close()).To(Succeed())
+
+	response, err = replayer.RoundTrip(getRequest)
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(response.StatusCode).To(Equal(http.StatusNotFound))
+	g.Expect(response.Body.Close()).To(Succeed())
+}
+
 func createPutRequestAndResponse(
 	urlpath string,
 	body string,
