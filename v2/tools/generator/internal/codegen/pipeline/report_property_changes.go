@@ -11,7 +11,6 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
-	"strings"
 
 	"github.com/rotisserie/eris"
 
@@ -26,7 +25,7 @@ const ReportPropertyChangesStageID = "reportPropertyChanges"
 
 // ReportPropertyChanges creates a pipeline stage that reports, for each generated resource, the
 // property-level changes between it and its "next" version, as determined by the version-conversion
-// graph. One <resource>-changes.md file is generated per non-hub resource alongside structure.txt.
+// graph. One property-changes.md file is generated per package alongside structure.txt.
 // ARM, webhook, and compatibility packages are excluded.
 func ReportPropertyChanges(configuration *config.Configuration) *Stage {
 	stage := NewStage(
@@ -69,8 +68,9 @@ func NewPropertyChangesReporter(
 	}
 }
 
-// SaveReports writes one <resource>-changes.md file per non-hub resource.
+// SaveReports writes one property-changes.md file per package containing non-hub resources.
 func (r *PropertyChangesReporter) SaveReports(baseFolder string) error {
+	pairsByPackage := make(map[astmodel.InternalPackageReference][]reporting.ResourceVersionPair)
 	for _, resource := range r.findResources() {
 		nextResource, err := r.graph.FindNextType(resource, r.definitions)
 		if err != nil {
@@ -83,10 +83,24 @@ func (r *PropertyChangesReporter) SaveReports(baseFolder string) error {
 		}
 
 		pkg := resource.InternalPackageReference()
-		fileName := fmt.Sprintf("%s-changes.md", strings.ToLower(resource.Name()))
-		filePath := filepath.Join(baseFolder, pkg.FolderPath(), fileName)
+		pairsByPackage[pkg] = append(
+			pairsByPackage[pkg],
+			reporting.ResourceVersionPair{This: resource, Next: nextResource},
+		)
+	}
 
-		err = r.saveReport(filePath, resource, nextResource)
+	packages := make([]astmodel.InternalPackageReference, 0, len(pairsByPackage))
+	for pkg := range pairsByPackage {
+		packages = append(packages, pkg)
+	}
+
+	sort.Slice(packages, func(i, j int) bool {
+		return packages[i].PackagePath() < packages[j].PackagePath()
+	})
+
+	for _, pkg := range packages {
+		filePath := filepath.Join(baseFolder, pkg.FolderPath(), "property-changes.md")
+		err := r.saveReport(filePath, pairsByPackage[pkg])
 		if err != nil {
 			return err
 		}
@@ -129,12 +143,10 @@ func (r *PropertyChangesReporter) findResources() []astmodel.InternalTypeName {
 
 func (r *PropertyChangesReporter) saveReport(
 	filePath string,
-	resource astmodel.InternalTypeName,
-	nextResource astmodel.InternalTypeName,
+	resources []reporting.ResourceVersionPair,
 ) error {
 	rpt := reporting.NewPropertyChangesReport(
-		resource,
-		nextResource,
+		resources,
 		r.definitions,
 		r.configuration.TypeNameInNextVersion.Lookup,
 		r.configuration.PropertyNameInNextVersion.Lookup,

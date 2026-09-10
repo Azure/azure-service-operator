@@ -35,8 +35,7 @@ func Test_PropertyChangesReport_GivenTypicalChanges_ShowsExpectedDetails(t *test
 
 	var content bytes.Buffer
 	rpt := reporting.NewPropertyChangesReport(
-		thisPerson,
-		nextPerson,
+		[]reporting.ResourceVersionPair{{This: thisPerson, Next: nextPerson}},
 		defs,
 		cfg.TypeNameInNextVersion.Lookup,
 		cfg.PropertyNameInNextVersion.Lookup,
@@ -70,8 +69,7 @@ func Test_PropertyChangesReport_GivenNoChanges_ShowsNoModifications(t *testing.T
 
 	var content bytes.Buffer
 	rpt := reporting.NewPropertyChangesReport(
-		thisPerson.Name(),
-		nextPerson.Name(),
+		[]reporting.ResourceVersionPair{{This: thisPerson.Name(), Next: nextPerson.Name()}},
 		defs,
 		cfg.TypeNameInNextVersion.Lookup,
 		cfg.PropertyNameInNextVersion.Lookup,
@@ -79,6 +77,78 @@ func Test_PropertyChangesReport_GivenNoChanges_ShowsNoModifications(t *testing.T
 	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
 
 	golden.Assert(t, t.Name(), content.Bytes())
+}
+
+func Test_PropertyChangesReport_GivenStoragePackagesAndAddedProperties_ShowsLabelsAndExtended(t *testing.T) {
+	t.Parallel()
+
+	g := gomega.NewWithT(t)
+	thisSpec := test.CreateSpec(test.Pkg2020s, "Person", test.FullNameProperty)
+	thisStatus := test.CreateStatus(test.Pkg2020s, "Person")
+	thisPerson := test.CreateResource(test.Pkg2020s, "Person", thisSpec, thisStatus)
+	nextSpec := test.CreateSpec(test.Pkg2021s, "Person", test.FullNameProperty, test.KnownAsProperty)
+	nextStatus := test.CreateStatus(test.Pkg2021s, "Person")
+	nextPerson := test.CreateResource(test.Pkg2021s, "Person", nextSpec, nextStatus)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(thisSpec, thisStatus, thisPerson, nextSpec, nextStatus, nextPerson)
+
+	var content bytes.Buffer
+	rpt := reporting.NewPropertyChangesReport(
+		[]reporting.ResourceVersionPair{{This: thisPerson.Name(), Next: nextPerson.Name()}},
+		defs,
+		func(astmodel.InternalTypeName) (string, bool) { return "", false },
+		func(astmodel.InternalTypeName, astmodel.PropertyName) (string, bool) { return "", false },
+	)
+	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
+	g.Expect(content.String()).To(gomega.ContainSubstring("v20200101/storage"))
+	g.Expect(content.String()).To(gomega.ContainSubstring("v20211231/storage"))
+	g.Expect(content.String()).To(gomega.ContainSubstring("Extended"))
+}
+
+func Test_PropertyChangesReport_GivenConfiguredRenameWithSameNamedSuccessor_ExplainsUnmatchedRows(t *testing.T) {
+	t.Parallel()
+
+	g := gomega.NewWithT(t)
+	thisDetail := test.CreateObjectDefinition(test.Pkg2020, "Detail", test.FullNameProperty)
+	thisSpec := test.CreateSpec(
+		test.Pkg2020,
+		"Person",
+		astmodel.NewPropertyDefinition("Detail", "detail", thisDetail.Name()),
+	)
+	thisStatus := test.CreateStatus(test.Pkg2020, "Person")
+	thisPerson := test.CreateResource(test.Pkg2020, "Person", thisSpec, thisStatus)
+
+	nextDetail := test.CreateObjectDefinition(test.Pkg2021, "Detail", test.FullNameProperty)
+	nextSpec := test.CreateSpec(
+		test.Pkg2021,
+		"Person",
+		astmodel.NewPropertyDefinition("Detail", "detail", nextDetail.Name()),
+	)
+	nextStatus := test.CreateStatus(test.Pkg2021, "Person")
+	nextPerson := test.CreateResource(test.Pkg2021, "Person", nextSpec, nextStatus)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(
+		thisDetail, thisSpec, thisStatus, thisPerson,
+		nextDetail, nextSpec, nextStatus, nextPerson,
+	)
+
+	var content bytes.Buffer
+	rpt := reporting.NewPropertyChangesReport(
+		[]reporting.ResourceVersionPair{{This: thisPerson.Name(), Next: nextPerson.Name()}},
+		defs,
+		func(name astmodel.InternalTypeName) (string, bool) {
+			if name == thisDetail.Name() {
+				return "RenamedDetail", true
+			}
+
+			return "", false
+		},
+		func(astmodel.InternalTypeName, astmodel.PropertyName) (string, bool) { return "", false },
+	)
+	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
+	g.Expect(content.String()).To(gomega.ContainSubstring("Configured rename to RenamedDetail was not found."))
 }
 
 func createPropertyChangesFixture() (
@@ -89,6 +159,15 @@ func createPropertyChangesFixture() (
 ) {
 	thisPkg := test.Pkg2020
 	nextPkg := test.Pkg2021
+
+	thisCategory := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(thisPkg, "Category"),
+		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("Alpha", `"alpha"`)),
+	)
+	nextCategory := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(nextPkg, "Category"),
+		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("Alpha", `"alpha"`)),
+	)
 
 	// v1 (this) referenced types
 	thisAddress := test.CreateObjectDefinition(
@@ -105,6 +184,7 @@ func createPropertyChangesFixture() (
 	thisSpec := test.CreateSpec(
 		thisPkg, "Person",
 		astmodel.NewPropertyDefinition("BirthDate", "birthDate", astmodel.StringType),
+		astmodel.NewPropertyDefinition("Category", "category", thisCategory.Name()),
 		astmodel.NewPropertyDefinition("FirstName", "firstName", astmodel.StringType),
 		astmodel.NewPropertyDefinition("LastName", "lastName", astmodel.StringType),
 		astmodel.NewPropertyDefinition("Nickname", "nickname", astmodel.StringType),
@@ -131,6 +211,7 @@ func createPropertyChangesFixture() (
 	nextSpec := test.CreateSpec(
 		nextPkg, "Person",
 		astmodel.NewPropertyDefinition("BirthDate", "birthDate", astmodel.StringType),
+		astmodel.NewPropertyDefinition("Category", "category", nextCategory.Name()),
 		astmodel.NewPropertyDefinition("FamilyName", "familyName", astmodel.StringType),
 		astmodel.NewPropertyDefinition("LegalName", "legalName", astmodel.StringType),
 		astmodel.NewPropertyDefinition("KnownAs", "knownAs", astmodel.StringType),
@@ -144,8 +225,8 @@ func createPropertyChangesFixture() (
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(
-		thisAddress, thisDemographics, thisSpec, thisStatus, thisPersonDef,
-		nextPostalAddress, nextCensusData, nextSpec, nextStatus, nextPersonDef,
+		thisAddress, thisCategory, thisDemographics, thisSpec, thisStatus, thisPersonDef,
+		nextPostalAddress, nextCategory, nextCensusData, nextSpec, nextStatus, nextPersonDef,
 	)
 
 	cfg := config.NewObjectModelConfiguration()
