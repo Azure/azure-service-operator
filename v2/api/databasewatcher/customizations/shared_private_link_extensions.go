@@ -272,7 +272,7 @@ func foreignPrivateLinkResource(
 ) (string, bool) {
 	if differingOperator(link, resource) {
 		return fmt.Sprintf(
-			"cannot approve the private endpoint connection on %s, which is managed by the operator in %s while this link is managed by the operator in %s",
+			"cannot approve the private endpoint connection on %s; it is managed by the operator in %s while this link is managed by the operator in %s",
 			resource.GetName(),
 			describeOperator(resource),
 			describeOperator(link),
@@ -281,7 +281,7 @@ func foreignPrivateLinkResource(
 
 	if differingCredential(link, resource) {
 		return fmt.Sprintf(
-			"cannot approve the private endpoint connection on %s, which asks for %s while this link asks for %s",
+			"cannot approve the private endpoint connection on %s; it asks for %s while this link asks for %s",
 			resource.GetName(),
 			describeCredential(resource),
 			describeCredential(link),
