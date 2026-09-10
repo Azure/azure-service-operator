@@ -51,22 +51,36 @@ var _ conversion.Convertible = &RegistryReplication{}
 
 // ConvertFrom populates our RegistryReplication from the provided hub RegistryReplication
 func (replication *RegistryReplication) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RegistryReplication)
-	if !ok {
-		return fmt.Errorf("expected containerregistry/v1api20230701/storage/RegistryReplication but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RegistryReplication
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return replication.AssignProperties_From_RegistryReplication(source)
+	err = replication.AssignProperties_From_RegistryReplication(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to replication")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RegistryReplication from our RegistryReplication
 func (replication *RegistryReplication) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RegistryReplication)
-	if !ok {
-		return fmt.Errorf("expected containerregistry/v1api20230701/storage/RegistryReplication but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RegistryReplication
+	err := replication.AssignProperties_To_RegistryReplication(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from replication")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return replication.AssignProperties_To_RegistryReplication(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RegistryReplication{}
@@ -87,17 +101,6 @@ func (replication *RegistryReplication) SecretDestinationExpressions() []*core.D
 		return nil
 	}
 	return replication.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &RegistryReplication{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (replication *RegistryReplication) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RegistryReplication_STATUS); ok {
-		return replication.Spec.Initialize_From_RegistryReplication_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RegistryReplication_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &RegistryReplication{}
@@ -544,35 +547,6 @@ func (replication *RegistryReplication_Spec) AssignProperties_To_RegistryReplica
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RegistryReplication_STATUS populates our RegistryReplication_Spec from the provided source RegistryReplication_STATUS
-func (replication *RegistryReplication_Spec) Initialize_From_RegistryReplication_STATUS(source *RegistryReplication_STATUS) error {
-
-	// Location
-	replication.Location = genruntime.ClonePointerToString(source.Location)
-
-	// RegionEndpointEnabled
-	if source.RegionEndpointEnabled != nil {
-		regionEndpointEnabled := *source.RegionEndpointEnabled
-		replication.RegionEndpointEnabled = &regionEndpointEnabled
-	} else {
-		replication.RegionEndpointEnabled = nil
-	}
-
-	// Tags
-	replication.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// ZoneRedundancy
-	if source.ZoneRedundancy != nil {
-		zoneRedundancy := genruntime.ToEnum(string(*source.ZoneRedundancy), replicationProperties_ZoneRedundancy_Values)
-		replication.ZoneRedundancy = &zoneRedundancy
-	} else {
-		replication.ZoneRedundancy = nil
 	}
 
 	// No error

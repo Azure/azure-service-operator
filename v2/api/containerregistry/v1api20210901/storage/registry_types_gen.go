@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20210901/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &Registry{}
 
 // ConvertFrom populates our Registry from the provided hub Registry
 func (registry *Registry) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Registry)
-	if !ok {
-		return fmt.Errorf("expected containerregistry/v1api20230701/storage/Registry but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Registry
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return registry.AssignProperties_From_Registry(source)
+	err = registry.AssignProperties_From_Registry(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to registry")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Registry from our Registry
 func (registry *Registry) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Registry)
-	if !ok {
-		return fmt.Errorf("expected containerregistry/v1api20230701/storage/Registry but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Registry
+	err := registry.AssignProperties_To_Registry(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from registry")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return registry.AssignProperties_To_Registry(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Registry{}
@@ -1267,30 +1280,10 @@ func (properties *IdentityProperties) AssignProperties_From_IdentityProperties(s
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// PrincipalId
-	if propertyBag.Contains("PrincipalId") {
-		var principalId string
-		err := propertyBag.Pull("PrincipalId", &principalId)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PrincipalId' from propertyBag")
-		}
-
-		properties.PrincipalId = &principalId
-	} else {
-		properties.PrincipalId = nil
-	}
+	properties.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// TenantId
-	if propertyBag.Contains("TenantId") {
-		var tenantId string
-		err := propertyBag.Pull("TenantId", &tenantId)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'TenantId' from propertyBag")
-		}
-
-		properties.TenantId = &tenantId
-	} else {
-		properties.TenantId = nil
-	}
+	properties.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	properties.Type = genruntime.ClonePointerToString(source.Type)
@@ -1337,18 +1330,10 @@ func (properties *IdentityProperties) AssignProperties_To_IdentityProperties(des
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
 	// PrincipalId
-	if properties.PrincipalId != nil {
-		propertyBag.Add("PrincipalId", *properties.PrincipalId)
-	} else {
-		propertyBag.Remove("PrincipalId")
-	}
+	destination.PrincipalId = genruntime.ClonePointerToString(properties.PrincipalId)
 
 	// TenantId
-	if properties.TenantId != nil {
-		propertyBag.Add("TenantId", *properties.TenantId)
-	} else {
-		propertyBag.Remove("TenantId")
-	}
+	destination.TenantId = genruntime.ClonePointerToString(properties.TenantId)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(properties.Type)
@@ -2847,13 +2832,6 @@ func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(s
 	// Identity
 	properties.Identity = genruntime.ClonePointerToString(source.Identity)
 
-	// IdentityFromConfig
-	if source.IdentityFromConfig != nil {
-		propertyBag.Add("IdentityFromConfig", *source.IdentityFromConfig)
-	} else {
-		propertyBag.Remove("IdentityFromConfig")
-	}
-
 	// KeyIdentifier
 	properties.KeyIdentifier = genruntime.ClonePointerToString(source.KeyIdentifier)
 
@@ -2884,19 +2862,6 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 
 	// Identity
 	destination.Identity = genruntime.ClonePointerToString(properties.Identity)
-
-	// IdentityFromConfig
-	if propertyBag.Contains("IdentityFromConfig") {
-		var identityFromConfig genruntime.ConfigMapReference
-		err := propertyBag.Pull("IdentityFromConfig", &identityFromConfig)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IdentityFromConfig' from propertyBag")
-		}
-
-		destination.IdentityFromConfig = &identityFromConfig
-	} else {
-		destination.IdentityFromConfig = nil
-	}
 
 	// KeyIdentifier
 	destination.KeyIdentifier = genruntime.ClonePointerToString(properties.KeyIdentifier)
