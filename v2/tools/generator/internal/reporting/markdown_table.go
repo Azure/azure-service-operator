@@ -11,15 +11,39 @@ import (
 )
 
 type MarkdownTable struct {
-	content [][]string
-	widths  []int
+	content    [][]string
+	widths     []int
+	alignments []ColumnAlignment
 }
+
+// ColumnAlignment specifies how a column of a MarkdownTable should be aligned
+type ColumnAlignment int
+
+const (
+	// AlignDefault leaves alignment unspecified, allowing the renderer to choose
+	AlignDefault ColumnAlignment = iota
+	// AlignLeft explicitly left-aligns the column
+	AlignLeft
+	// AlignCenter centers the column
+	AlignCenter
+	// AlignRight right-aligns the column
+	AlignRight
+)
 
 // NewMarkdownTable returns a new Markdown table with the specified columns
 func NewMarkdownTable(columns ...string) *MarkdownTable {
 	result := &MarkdownTable{}
 	result.AddRow(columns...)
 	return result
+}
+
+// SetAlignment specifies how the given (0-based) column should be aligned when rendered.
+func (t *MarkdownTable) SetAlignment(column int, alignment ColumnAlignment) {
+	for column >= len(t.alignments) {
+		t.alignments = append(t.alignments, AlignDefault)
+	}
+
+	t.alignments[column] = alignment
 }
 
 // AddRow adds an entire row to the table, tracking widths for final formatting
@@ -58,9 +82,41 @@ func (t *MarkdownTable) renderRow(row []string, buffer *strings.Builder) {
 // renderRowDivider writes a dividing line into the buffer
 func (t *MarkdownTable) renderRowDivider(buffer *strings.Builder) {
 	buffer.WriteString("|")
-	for _, w := range t.widths {
-		for i := -2; i < w; i++ {
+	for i, w := range t.widths {
+		left, right := false, false
+		if i < len(t.alignments) {
+			switch t.alignments[i] {
+			case AlignLeft:
+				left = true
+			case AlignCenter:
+				left, right = true, true
+			case AlignRight:
+				right = true
+			case AlignDefault:
+				// no colons
+			}
+		}
+
+		// Total length matches the unaligned case (width+2); colons replace dashes as needed.
+		dashes := w + 2
+		if left {
+			dashes--
+		}
+
+		if right {
+			dashes--
+		}
+
+		if left {
+			buffer.WriteRune(':')
+		}
+
+		for d := 0; d < dashes; d++ {
 			buffer.WriteRune('-')
+		}
+
+		if right {
+			buffer.WriteRune(':')
 		}
 
 		buffer.WriteRune('|')

@@ -63,6 +63,43 @@ func (advisor *Advisor) ClearTerms() {
 	advisor.terms.Clear()
 }
 
+// Suggest returns the closest known term to the specified one, along with true, if any terms are
+// known. If no terms have been recorded, returns "", false. Unlike Errorf/Wrapf (which lowercase
+// only the query term, a good fit for the typically-lowercase group names they're used with),
+// comparison here is case-insensitive on both sides, making this suitable for suggesting renames
+// of PascalCase identifiers such as property names.
+func (advisor *Advisor) Suggest(term string) (string, bool) {
+	advisor.lock.RLock()
+	defer advisor.lock.RUnlock()
+
+	if !advisor.HasTerms() {
+		return "", false
+	}
+
+	sorted := set.AsSortedSlice(advisor.terms)
+	lowerToOriginal := make(map[string]string, len(sorted))
+	candidates := make([]string, 0, len(sorted))
+	for _, t := range sorted {
+		lower := strings.ToLower(t)
+		if _, ok := lowerToOriginal[lower]; !ok {
+			lowerToOriginal[lower] = t
+			candidates = append(candidates, lower)
+		}
+	}
+
+	suggestion, err := edlib.FuzzySearch(
+		strings.ToLower(term),
+		candidates,
+		edlib.Levenshtein,
+	)
+	if err != nil {
+		// Can't offer a suggestion
+		return "", false
+	}
+
+	return lowerToOriginal[suggestion], true
+}
+
 // Errorf creates a new error with advice, or a simple error if no advice possible
 func (advisor *Advisor) Errorf(typo string, format string, args ...interface{}) error {
 	advisor.lock.RLock()
