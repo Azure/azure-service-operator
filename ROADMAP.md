@@ -30,6 +30,7 @@ Official releases of ASO v2:
 
 | Version                                                                        |     Release Date |                                                                                        |
 | ------------------------------------------------------------------------------ | ---------------: | -------------------------------------------------------------------------------------- |
+| [2.21.1](https://github.com/Azure/azure-service-operator/releases/tag/v2.21.1) | 9 September 2026 |                                                                                        |
 | [2.21.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.21.0) | 28 August 2026   |                                                                                        |
 | [2.20.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.20.0) | 24 June 2026     |                                                                                        |
 | [2.19.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.19.0) | 24 April 2026    |                                                                                        |
