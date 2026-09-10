@@ -168,6 +168,23 @@ func Test_SharedPrivateLinkPostReconcileCheck_givenConnectionState_approvesOnlyA
 			expectedReady:     false,
 			expectedMessage:   `to leave state "Approving"`,
 		},
+		"An approved connection is read as approved whatever casing ARM answers in": {
+			connectionStatus:  "approved",
+			expectedApprovals: 0,
+			expectedReady:     true,
+		},
+		"A pending connection is approved whatever casing ARM answers in": {
+			connectionStatus:  "pending",
+			expectedApprovals: 1,
+			expectedReady:     false,
+			expectedMessage:   "approving the private endpoint connection",
+		},
+		"A rejected connection is left alone whatever casing ARM answers in": {
+			connectionStatus:  "REJECTED",
+			expectedApprovals: 0,
+			expectedReady:     false,
+			expectedMessage:   "was rejected",
+		},
 	}
 
 	for name, c := range cases {

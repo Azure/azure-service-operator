@@ -36,6 +36,14 @@ const (
 	connectionStateDisconnected = "Disconnected"
 )
 
+// connectionStates are the states ARM documents, under the casing it documents them in.
+var connectionStates = []string{
+	connectionStateApproved,
+	connectionStatePending,
+	connectionStateRejected,
+	connectionStateDisconnected,
+}
+
 // ApprovalPollerResumeTokenAnnotation holds an approval in flight on the resource a link points at.
 const ApprovalPollerResumeTokenAnnotation = "serviceoperator.azure.com/shared-private-link-approval-resume-token"
 
@@ -318,7 +326,7 @@ type privateEndpointConnection struct {
 }
 
 func (connection *privateEndpointConnection) state() string {
-	return connection.Properties.PrivateLinkServiceConnectionState.Status
+	return canonicalState(connection.Properties.PrivateLinkServiceConnectionState.Status, connectionStates)
 }
 
 // privateEndpointConnectionApproval is the approval written back to a connection. Only the state is sent, so

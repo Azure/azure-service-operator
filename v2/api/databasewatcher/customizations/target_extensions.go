@@ -6,6 +6,7 @@ package customizations
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
@@ -26,6 +27,12 @@ const (
 	watcherStatusRunning = "Running"
 	watcherStatusStopped = "Stopped"
 )
+
+// watcherStatuses are the statuses ARM documents, under the casing it documents them in.
+var watcherStatuses = []string{
+	watcherStatusRunning,
+	watcherStatusStopped,
+}
 
 // StartPollerResumeTokenAnnotation holds a watcher's start on the target, the resource written back.
 const StartPollerResumeTokenAnnotation = "serviceoperator.azure.com/watcher-start-resume-token"
@@ -336,5 +343,17 @@ func readWatcherStatus(
 		return "", eris.Wrap(err, "reading watcher")
 	}
 
-	return state.Properties.Status, nil
+	return canonicalState(state.Properties.Status, watcherStatuses), nil
+}
+
+// canonicalState returns an ARM state under the casing ARM documents it in, which is not always the casing
+// ARM answers with. One ARM does not document is returned as it came, having nothing to be matched against.
+func canonicalState(state string, documented []string) string {
+	for _, known := range documented {
+		if strings.EqualFold(state, known) {
+			return known
+		}
+	}
+
+	return state
 }

@@ -279,6 +279,54 @@ func Test_TargetPostReconcileCheck_givenStartingWatcher_waitsWithoutStartingItAg
 	g.Expect(starts).To(BeZero())
 }
 
+// ARM does not promise the casing it answers a status in, and one read as undocumented would leave the
+// target waiting on a start it never submits
+func Test_TargetPostReconcileCheck_givenStatusInAnotherCasing_readsItAsTheStatusItIs(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		watcherStatus  string
+		expectedStarts int
+		expectedReady  bool
+	}{
+		"Running": {
+			watcherStatus:  "running",
+			expectedStarts: 0,
+			expectedReady:  true,
+		},
+		"Stopped": {
+			watcherStatus:  "stopped",
+			expectedStarts: 1,
+			expectedReady:  false,
+		},
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			var starts int
+			server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.Method == http.MethodPost {
+					starts++
+				}
+
+				w.WriteHeader(http.StatusOK)
+				g.Expect(w.Write([]byte(watcherResponse(c.watcherStatus)))).ToNot(BeZero())
+			}))
+			defer server.Close()
+
+			target, watcher := startableTargetAndWatcher()
+
+			result, err := startCheck(g, server, target, watcher)()
+			g.Expect(err).ToNot(HaveOccurred())
+			g.Expect(starts).To(Equal(c.expectedStarts))
+			g.Expect(result.ReconciliationSucceeded()).To(Equal(c.expectedReady))
+		})
+	}
+}
+
 // The operator check has to come before anything that resolves the watcher's policy. A target annotated
 // to be managed, under an operator that skips by default, would otherwise resolve a foreign watcher to
 // skip and report itself ready without ever comparing operators.
