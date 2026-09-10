@@ -132,7 +132,12 @@ func (r *PropertyChangesReporter) saveReport(
 	resource astmodel.InternalTypeName,
 	nextResource astmodel.InternalTypeName,
 ) error {
-	rpt := reporting.NewPropertyChangesReport(resource, nextResource, r.definitions, r.configuration)
+	rpt := reporting.NewPropertyChangesReport(
+		resource,
+		nextResource,
+		r.definitions,
+		r.configuration.TypeNameInNextVersion.Lookup,
+		r.configuration.PropertyNameInNextVersion.Lookup)
 
 	for _, line := range astmodel.CodeGenerationComments {
 		// Wrapped as an HTML comment so it's invisible when the Markdown is rendered, while still
