@@ -82,11 +82,13 @@ func createPropertyChangesFixture() (
 	thisAddress := test.CreateObjectDefinition(
 		thisPkg, "Address",
 		astmodel.NewPropertyDefinition("FullAddress", "fullAddress", astmodel.StringType),
-		astmodel.NewPropertyDefinition("City", "city", astmodel.StringType))
+		astmodel.NewPropertyDefinition("City", "city", astmodel.StringType),
+	)
 
 	thisDemographics := test.CreateObjectDefinition(
 		thisPkg, "Demographics",
-		astmodel.NewPropertyDefinition("Population", "population", astmodel.IntType))
+		astmodel.NewPropertyDefinition("Population", "population", astmodel.IntType),
+	)
 
 	thisSpec := test.CreateSpec(
 		thisPkg, "Person",
@@ -95,7 +97,8 @@ func createPropertyChangesFixture() (
 		astmodel.NewPropertyDefinition("LastName", "lastName", astmodel.StringType),
 		astmodel.NewPropertyDefinition("Nickname", "nickname", astmodel.StringType),
 		astmodel.NewPropertyDefinition("Residence", "residence", thisAddress.Name()),
-		astmodel.NewPropertyDefinition("Stats", "stats", thisDemographics.Name()))
+		astmodel.NewPropertyDefinition("Stats", "stats", thisDemographics.Name()),
+	)
 
 	thisStatus := test.CreateStatus(thisPkg, "Person")
 
@@ -105,11 +108,13 @@ func createPropertyChangesFixture() (
 	nextPostalAddress := test.CreateObjectDefinition(
 		nextPkg, "PostalAddress",
 		astmodel.NewPropertyDefinition("FullAddress", "fullAddress", astmodel.StringType),
-		astmodel.NewPropertyDefinition("City", "city", astmodel.StringType))
+		astmodel.NewPropertyDefinition("City", "city", astmodel.StringType),
+	)
 
 	nextCensusData := test.CreateObjectDefinition(
 		nextPkg, "CensusData",
-		astmodel.NewPropertyDefinition("Population", "population", astmodel.IntType))
+		astmodel.NewPropertyDefinition("Population", "population", astmodel.IntType),
+	)
 
 	nextSpec := test.CreateSpec(
 		nextPkg, "Person",
@@ -118,7 +123,8 @@ func createPropertyChangesFixture() (
 		astmodel.NewPropertyDefinition("LegalName", "legalName", astmodel.StringType),
 		astmodel.NewPropertyDefinition("KnownAs", "knownAs", astmodel.StringType),
 		astmodel.NewPropertyDefinition("Residence", "residence", nextPostalAddress.Name()),
-		astmodel.NewPropertyDefinition("Census", "census", nextCensusData.Name()))
+		astmodel.NewPropertyDefinition("Census", "census", nextCensusData.Name()),
+	)
 
 	nextStatus := test.CreateStatus(nextPkg, "Person")
 
@@ -127,7 +133,8 @@ func createPropertyChangesFixture() (
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(
 		thisAddress, thisDemographics, thisSpec, thisStatus, thisPersonDef,
-		nextPostalAddress, nextCensusData, nextSpec, nextStatus, nextPersonDef)
+		nextPostalAddress, nextCensusData, nextSpec, nextStatus, nextPersonDef,
+	)
 
 	cfg := config.NewObjectModelConfiguration()
 

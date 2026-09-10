@@ -636,7 +636,8 @@ func describeType(t astmodel.Type, currentPackage astmodel.InternalPackageRefere
 		return fmt.Sprintf(
 			"map[%s]%s",
 			describeType(t.KeyType(), currentPackage),
-			describeType(t.ValueType(), currentPackage))
+			describeType(t.ValueType(), currentPackage),
+		)
 	case *astmodel.ResourceType:
 		return "Resource"
 	case *astmodel.EnumType:
@@ -647,14 +648,16 @@ func describeType(t astmodel.Type, currentPackage astmodel.InternalPackageRefere
 		return fmt.Sprintf(
 			"OneOf (%s, %s)",
 			formatCount(len(t.PropertyObjects()), "object", "objects"),
-			formatCount(t.Types().Len(), "option", "options"))
+			formatCount(t.Types().Len(), "option", "options"),
+		)
 	case *astmodel.AllOfType:
 		return fmt.Sprintf("AllOf (%s)", formatCount(t.Types().Len(), "choice", "choices"))
 	case *astmodel.ValidatedType:
 		return fmt.Sprintf(
 			"Validated<%s> (%s)",
 			describeType(t.Unwrap(), currentPackage),
-			formatCount(len(t.Validations().ToKubeBuilderValidations()), "rule", "rules"))
+			formatCount(len(t.Validations().ToKubeBuilderValidations()), "rule", "rules"),
+		)
 	case *astmodel.FlaggedType:
 		var flags strings.Builder
 		for i, f := range t.Flags() {
