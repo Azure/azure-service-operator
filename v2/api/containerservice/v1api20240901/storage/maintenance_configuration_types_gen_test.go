@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20240901/storage"
+	v20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
+	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	v20260301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -41,7 +42,7 @@ func RunPropertyAssignmentTestForAbsoluteMonthlySchedule(subject AbsoluteMonthly
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.AbsoluteMonthlySchedule
+	var other v20250801s.AbsoluteMonthlySchedule
 	err := copied.AssignProperties_To_AbsoluteMonthlySchedule(&other)
 	if err != nil {
 		return err.Error()
@@ -155,7 +156,7 @@ func RunPropertyAssignmentTestForAbsoluteMonthlySchedule_STATUS(subject Absolute
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.AbsoluteMonthlySchedule_STATUS
+	var other v20250801s.AbsoluteMonthlySchedule_STATUS
 	err := copied.AssignProperties_To_AbsoluteMonthlySchedule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -269,7 +270,7 @@ func RunPropertyAssignmentTestForDailySchedule(subject DailySchedule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.DailySchedule
+	var other v20250801s.DailySchedule
 	err := copied.AssignProperties_To_DailySchedule(&other)
 	if err != nil {
 		return err.Error()
@@ -381,7 +382,7 @@ func RunPropertyAssignmentTestForDailySchedule_STATUS(subject DailySchedule_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.DailySchedule_STATUS
+	var other v20250801s.DailySchedule_STATUS
 	err := copied.AssignProperties_To_DailySchedule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -494,7 +495,7 @@ func RunPropertyAssignmentTestForDateSpan(subject DateSpan) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.DateSpan
+	var other v20250801s.DateSpan
 	err := copied.AssignProperties_To_DateSpan(&other)
 	if err != nil {
 		return err.Error()
@@ -607,7 +608,7 @@ func RunPropertyAssignmentTestForDateSpan_STATUS(subject DateSpan_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.DateSpan_STATUS
+	var other v20250801s.DateSpan_STATUS
 	err := copied.AssignProperties_To_DateSpan_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -768,7 +769,7 @@ func RunPropertyAssignmentTestForMaintenanceConfiguration(subject MaintenanceCon
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.MaintenanceConfiguration
+	var other v20250801s.MaintenanceConfiguration
 	err := copied.AssignProperties_To_MaintenanceConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -882,7 +883,7 @@ func RunPropertyAssignmentTestForMaintenanceConfigurationOperatorSpec(subject Ma
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.MaintenanceConfigurationOperatorSpec
+	var other v20250801s.MaintenanceConfigurationOperatorSpec
 	err := copied.AssignProperties_To_MaintenanceConfigurationOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -989,7 +990,7 @@ func RunPropertyAssignmentTestForMaintenanceConfiguration_STATUS(subject Mainten
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.MaintenanceConfiguration_STATUS
+	var other v20250801s.MaintenanceConfiguration_STATUS
 	err := copied.AssignProperties_To_MaintenanceConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1121,7 +1122,7 @@ func RunPropertyAssignmentTestForMaintenanceConfiguration_Spec(subject Maintenan
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.MaintenanceConfiguration_Spec
+	var other v20250801s.MaintenanceConfiguration_Spec
 	err := copied.AssignProperties_To_MaintenanceConfiguration_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1252,7 +1253,7 @@ func RunPropertyAssignmentTestForMaintenanceWindow(subject MaintenanceWindow) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.MaintenanceWindow
+	var other v20250801s.MaintenanceWindow
 	err := copied.AssignProperties_To_MaintenanceWindow(&other)
 	if err != nil {
 		return err.Error()
@@ -1382,7 +1383,7 @@ func RunPropertyAssignmentTestForMaintenanceWindow_STATUS(subject MaintenanceWin
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.MaintenanceWindow_STATUS
+	var other v20250801s.MaintenanceWindow_STATUS
 	err := copied.AssignProperties_To_MaintenanceWindow_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1513,7 +1514,7 @@ func RunPropertyAssignmentTestForRelativeMonthlySchedule(subject RelativeMonthly
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.RelativeMonthlySchedule
+	var other v20250801s.RelativeMonthlySchedule
 	err := copied.AssignProperties_To_RelativeMonthlySchedule(&other)
 	if err != nil {
 		return err.Error()
@@ -1628,7 +1629,7 @@ func RunPropertyAssignmentTestForRelativeMonthlySchedule_STATUS(subject Relative
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.RelativeMonthlySchedule_STATUS
+	var other v20250801s.RelativeMonthlySchedule_STATUS
 	err := copied.AssignProperties_To_RelativeMonthlySchedule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1743,7 +1744,7 @@ func RunPropertyAssignmentTestForSchedule(subject Schedule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.Schedule
+	var other v20250801s.Schedule
 	err := copied.AssignProperties_To_Schedule(&other)
 	if err != nil {
 		return err.Error()
@@ -1858,7 +1859,7 @@ func RunPropertyAssignmentTestForSchedule_STATUS(subject Schedule_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.Schedule_STATUS
+	var other v20250801s.Schedule_STATUS
 	err := copied.AssignProperties_To_Schedule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1973,7 +1974,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.SystemData_STATUS
+	var other v20250301s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2090,7 +2091,7 @@ func RunPropertyAssignmentTestForTimeInWeek(subject TimeInWeek) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.TimeInWeek
+	var other v20250801s.TimeInWeek
 	err := copied.AssignProperties_To_TimeInWeek(&other)
 	if err != nil {
 		return err.Error()
@@ -2203,7 +2204,7 @@ func RunPropertyAssignmentTestForTimeInWeek_STATUS(subject TimeInWeek_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.TimeInWeek_STATUS
+	var other v20250801s.TimeInWeek_STATUS
 	err := copied.AssignProperties_To_TimeInWeek_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2316,7 +2317,7 @@ func RunPropertyAssignmentTestForTimeSpan(subject TimeSpan) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.TimeSpan
+	var other v20250801s.TimeSpan
 	err := copied.AssignProperties_To_TimeSpan(&other)
 	if err != nil {
 		return err.Error()
@@ -2429,7 +2430,7 @@ func RunPropertyAssignmentTestForTimeSpan_STATUS(subject TimeSpan_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.TimeSpan_STATUS
+	var other v20250801s.TimeSpan_STATUS
 	err := copied.AssignProperties_To_TimeSpan_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2542,7 +2543,7 @@ func RunPropertyAssignmentTestForWeeklySchedule(subject WeeklySchedule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.WeeklySchedule
+	var other v20250801s.WeeklySchedule
 	err := copied.AssignProperties_To_WeeklySchedule(&other)
 	if err != nil {
 		return err.Error()
@@ -2655,7 +2656,7 @@ func RunPropertyAssignmentTestForWeeklySchedule_STATUS(subject WeeklySchedule_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240901s.WeeklySchedule_STATUS
+	var other v20250801s.WeeklySchedule_STATUS
 	err := copied.AssignProperties_To_WeeklySchedule_STATUS(&other)
 	if err != nil {
 		return err.Error()

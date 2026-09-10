@@ -4,7 +4,8 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801/storage"
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -50,36 +51,22 @@ var _ conversion.Convertible = &ManagedClustersAgentPool{}
 
 // ConvertFrom populates our ManagedClustersAgentPool from the provided hub ManagedClustersAgentPool
 func (pool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
-	// intermediate variable for conversion
-	var source storage.ManagedClustersAgentPool
-
-	err := source.ConvertFrom(hub)
-	if err != nil {
-		return eris.Wrap(err, "converting from hub to source")
+	source, ok := hub.(*storage.ManagedClustersAgentPool)
+	if !ok {
+		return fmt.Errorf("expected containerservice/v20260301/storage/ManagedClustersAgentPool but received %T instead", hub)
 	}
 
-	err = pool.AssignProperties_From_ManagedClustersAgentPool(&source)
-	if err != nil {
-		return eris.Wrap(err, "converting from source to pool")
-	}
-
-	return nil
+	return pool.AssignProperties_From_ManagedClustersAgentPool(source)
 }
 
 // ConvertTo populates the provided hub ManagedClustersAgentPool from our ManagedClustersAgentPool
 func (pool *ManagedClustersAgentPool) ConvertTo(hub conversion.Hub) error {
-	// intermediate variable for conversion
-	var destination storage.ManagedClustersAgentPool
-	err := pool.AssignProperties_To_ManagedClustersAgentPool(&destination)
-	if err != nil {
-		return eris.Wrap(err, "converting to destination from pool")
-	}
-	err = destination.ConvertTo(hub)
-	if err != nil {
-		return eris.Wrap(err, "converting from destination to hub")
+	destination, ok := hub.(*storage.ManagedClustersAgentPool)
+	if !ok {
+		return fmt.Errorf("expected containerservice/v20260301/storage/ManagedClustersAgentPool but received %T instead", hub)
 	}
 
-	return nil
+	return pool.AssignProperties_To_ManagedClustersAgentPool(destination)
 }
 
 var _ configmaps.Exporter = &ManagedClustersAgentPool{}
@@ -413,6 +400,13 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClusters
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
+	// ArtifactStreamingProfile
+	if source.ArtifactStreamingProfile != nil {
+		propertyBag.Add("ArtifactStreamingProfile", *source.ArtifactStreamingProfile)
+	} else {
+		propertyBag.Remove("ArtifactStreamingProfile")
+	}
+
 	// AvailabilityZones
 	pool.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
 
@@ -542,6 +536,13 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClusters
 		pool.LinuxOSConfig = &linuxOSConfig
 	} else {
 		pool.LinuxOSConfig = nil
+	}
+
+	// LocalDNSProfile
+	if source.LocalDNSProfile != nil {
+		propertyBag.Add("LocalDNSProfile", *source.LocalDNSProfile)
+	} else {
+		propertyBag.Remove("LocalDNSProfile")
 	}
 
 	// MaxCount
@@ -780,6 +781,19 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
 
+	// ArtifactStreamingProfile
+	if propertyBag.Contains("ArtifactStreamingProfile") {
+		var artifactStreamingProfile storage.AgentPoolArtifactStreamingProfile
+		err := propertyBag.Pull("ArtifactStreamingProfile", &artifactStreamingProfile)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ArtifactStreamingProfile' from propertyBag")
+		}
+
+		destination.ArtifactStreamingProfile = &artifactStreamingProfile
+	} else {
+		destination.ArtifactStreamingProfile = nil
+	}
+
 	// AvailabilityZones
 	destination.AvailabilityZones = genruntime.CloneSliceOfString(pool.AvailabilityZones)
 
@@ -909,6 +923,19 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 		destination.LinuxOSConfig = &linuxOSConfig
 	} else {
 		destination.LinuxOSConfig = nil
+	}
+
+	// LocalDNSProfile
+	if propertyBag.Contains("LocalDNSProfile") {
+		var localDNSProfile storage.LocalDNSProfile
+		err := propertyBag.Pull("LocalDNSProfile", &localDNSProfile)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'LocalDNSProfile' from propertyBag")
+		}
+
+		destination.LocalDNSProfile = &localDNSProfile
+	} else {
+		destination.LocalDNSProfile = nil
 	}
 
 	// MaxCount
@@ -1259,6 +1286,13 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedCluste
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
+	// ArtifactStreamingProfile
+	if source.ArtifactStreamingProfile != nil {
+		propertyBag.Add("ArtifactStreamingProfile", *source.ArtifactStreamingProfile)
+	} else {
+		propertyBag.Remove("ArtifactStreamingProfile")
+	}
+
 	// AvailabilityZones
 	pool.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
 
@@ -1389,6 +1423,13 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedCluste
 		pool.LinuxOSConfig = nil
 	}
 
+	// LocalDNSProfile
+	if source.LocalDNSProfile != nil {
+		propertyBag.Add("LocalDNSProfile", *source.LocalDNSProfile)
+	} else {
+		propertyBag.Remove("LocalDNSProfile")
+	}
+
 	// MaxCount
 	pool.MaxCount = genruntime.ClonePointerToInt(source.MaxCount)
 
@@ -1514,6 +1555,13 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedCluste
 		pool.Status = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
 	// Tags
 	pool.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -1605,6 +1653,19 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_From_ManagedCluste
 func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClustersAgentPool_STATUS(destination *storage.ManagedClustersAgentPool_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
+
+	// ArtifactStreamingProfile
+	if propertyBag.Contains("ArtifactStreamingProfile") {
+		var artifactStreamingProfile storage.AgentPoolArtifactStreamingProfile_STATUS
+		err := propertyBag.Pull("ArtifactStreamingProfile", &artifactStreamingProfile)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ArtifactStreamingProfile' from propertyBag")
+		}
+
+		destination.ArtifactStreamingProfile = &artifactStreamingProfile
+	} else {
+		destination.ArtifactStreamingProfile = nil
+	}
 
 	// AvailabilityZones
 	destination.AvailabilityZones = genruntime.CloneSliceOfString(pool.AvailabilityZones)
@@ -1736,6 +1797,19 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 		destination.LinuxOSConfig = nil
 	}
 
+	// LocalDNSProfile
+	if propertyBag.Contains("LocalDNSProfile") {
+		var localDNSProfile storage.LocalDNSProfile_STATUS
+		err := propertyBag.Pull("LocalDNSProfile", &localDNSProfile)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'LocalDNSProfile' from propertyBag")
+		}
+
+		destination.LocalDNSProfile = &localDNSProfile
+	} else {
+		destination.LocalDNSProfile = nil
+	}
+
 	// MaxCount
 	destination.MaxCount = genruntime.ClonePointerToInt(pool.MaxCount)
 
@@ -1859,6 +1933,19 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 		destination.Status = &status
 	} else {
 		destination.Status = nil
+	}
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Tags

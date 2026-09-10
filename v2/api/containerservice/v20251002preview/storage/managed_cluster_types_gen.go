@@ -5,8 +5,8 @@ package storage
 
 import (
 	"context"
-	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801/storage"
-	v20250801sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801/storage/compat"
+	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
+	v20250801sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage/compat"
 	v20260301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

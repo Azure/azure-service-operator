@@ -11,25 +11,12 @@ To install the CRDs for these resources, your ASO configuration must include `co
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                 | ARM Version | CRD Version | Supported From | Sample |
-|--------------------------|-------------|-------------|----------------|--------|
-| Fleet                    | 2025-03-01  | v20250301   | v2.22.0        | -      |
-| FleetsAutoUpgradeProfile | 2025-03-01  | v20250301   | v2.22.0        | -      |
-| FleetsMember             | 2025-03-01  | v20250301   | v2.22.0        | -      |
-| FleetsUpdateRun          | 2025-03-01  | v20250301   | v2.22.0        | -      |
-| FleetsUpdateStrategy     | 2025-03-01  | v20250301   | v2.22.0        | -      |
-| MaintenanceConfiguration | 2026-03-01  | v20260301   | v2.22.0        | -      |
-| MaintenanceConfiguration | 2025-08-01  | v20250801   | v2.22.0        | -      |
-| MaintenanceConfiguration | 2024-09-01  | v20240901   | v2.22.0        | -      |
-| ManagedCluster           | 2026-03-01  | v20260301   | v2.22.0        | -      |
-| ManagedCluster           | 2025-08-01  | v20250801   | v2.22.0        | -      |
-| ManagedCluster           | 2024-09-01  | v20240901   | v2.22.0        | -      |
-| ManagedClustersAgentPool | 2026-03-01  | v20260301   | v2.22.0        | -      |
-| ManagedClustersAgentPool | 2025-08-01  | v20250801   | v2.22.0        | -      |
-| ManagedClustersAgentPool | 2024-09-01  | v20240901   | v2.22.0        | -      |
-| TrustedAccessRoleBinding | 2026-03-01  | v20260301   | v2.22.0        | -      |
-| TrustedAccessRoleBinding | 2025-08-01  | v20250801   | v2.22.0        | -      |
-| TrustedAccessRoleBinding | 2024-09-01  | v20240901   | v2.22.0        | -      |
+| Resource                                                                                                    | ARM Version | CRD Version | Supported From | Sample                                                                                                                                          |
+|-------------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| [MaintenanceConfiguration]({{< relref "/reference/containerservice/v20260301#MaintenanceConfiguration" >}}) | 2026-03-01  | v20260301   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20260301/v20260301_maintenanceconfiguration.yaml) |
+| [ManagedCluster]({{< relref "/reference/containerservice/v20260301#ManagedCluster" >}})                     | 2026-03-01  | v20260301   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20260301/v20260301_managedcluster.yaml)           |
+| [ManagedClustersAgentPool]({{< relref "/reference/containerservice/v20260301#ManagedClustersAgentPool" >}}) | 2026-03-01  | v20260301   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20260301/v20260301_managedclustersagentpool.yaml) |
+| [TrustedAccessRoleBinding]({{< relref "/reference/containerservice/v20260301#TrustedAccessRoleBinding" >}}) | 2026-03-01  | v20260301   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20260301/v20260301_trustedaccessrolebinding.yaml) |
 
 ### Latest Released Versions
 

@@ -4,18 +4,14 @@
 package customizations
 
 import (
-	containerservice_v1api20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
-	containerservice_v1api20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
-	containerservice_v1api20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
-	containerservice_v1api20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
-	containerservice_v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20240901"
-	containerservice_v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20240901/storage"
-	containerservice_v20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801"
-	containerservice_v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801/storage"
-	containerservice_v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
-	containerservice_v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
-	containerservice_v20260301 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301"
-	containerservice_v20260301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
+	v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
+	v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
+	v20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
+	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
+	v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
+	v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
+	v20260301 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301"
+	v20260301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -25,16 +21,12 @@ type MaintenanceConfigurationExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *MaintenanceConfigurationExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&containerservice_v1api20240901.MaintenanceConfiguration{},
-		&containerservice_v1api20240901s.MaintenanceConfiguration{},
-		&containerservice_v1api20250801.MaintenanceConfiguration{},
-		&containerservice_v1api20250801s.MaintenanceConfiguration{},
-		&containerservice_v20240901.MaintenanceConfiguration{},
-		&containerservice_v20240901s.MaintenanceConfiguration{},
-		&containerservice_v20250801.MaintenanceConfiguration{},
-		&containerservice_v20250801s.MaintenanceConfiguration{},
-		&containerservice_v20251002p.MaintenanceConfiguration{},
-		&containerservice_v20251002ps.MaintenanceConfiguration{},
-		&containerservice_v20260301.MaintenanceConfiguration{},
-		&containerservice_v20260301s.MaintenanceConfiguration{}}
+		&v20240901.MaintenanceConfiguration{},
+		&v20240901s.MaintenanceConfiguration{},
+		&v20250801.MaintenanceConfiguration{},
+		&v20250801s.MaintenanceConfiguration{},
+		&v20251002p.MaintenanceConfiguration{},
+		&v20251002ps.MaintenanceConfiguration{},
+		&v20260301.MaintenanceConfiguration{},
+		&v20260301s.MaintenanceConfiguration{}}
 }

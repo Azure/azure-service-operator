@@ -207,24 +207,15 @@ import (
 	containerregistry_v20251101s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/storage"
 	containerregistry_v20251101w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/webhook"
 	containerservice_customizations "github.com/Azure/azure-service-operator/v2/api/containerservice/customizations"
-	containerservice_v1api20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
-	containerservice_v1api20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
-	containerservice_v1api20240901w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/webhook"
-	containerservice_v1api20250301 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301"
-	containerservice_v1api20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
-	containerservice_v1api20250301w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/webhook"
-	containerservice_v1api20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
-	containerservice_v1api20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
-	containerservice_v1api20250801w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/webhook"
-	containerservice_v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20240901"
-	containerservice_v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20240901/storage"
-	containerservice_v20240901w "github.com/Azure/azure-service-operator/v2/api/containerservice/v20240901/webhook"
-	containerservice_v20250301 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250301"
-	containerservice_v20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250301/storage"
-	containerservice_v20250301w "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250301/webhook"
-	containerservice_v20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801"
-	containerservice_v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801/storage"
-	containerservice_v20250801w "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801/webhook"
+	containerservice_v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
+	containerservice_v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
+	containerservice_v20240901w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/webhook"
+	containerservice_v20250301 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301"
+	containerservice_v20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
+	containerservice_v20250301w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/webhook"
+	containerservice_v20250801 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
+	containerservice_v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
+	containerservice_v20250801w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/webhook"
 	containerservice_v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
 	containerservice_v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
 	containerservice_v20251002pw "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/webhook"
@@ -5000,96 +4991,6 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
-			Obj:       new(containerservice_v1api20240901.MaintenanceConfiguration),
-			Defaulter: &containerservice_v1api20240901w.MaintenanceConfiguration{},
-			Validator: &containerservice_v1api20240901w.MaintenanceConfiguration{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v1api20240901.ManagedCluster),
-			Defaulter: &containerservice_v1api20240901w.ManagedCluster{},
-			Validator: &containerservice_v1api20240901w.ManagedCluster{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v1api20240901.ManagedClustersAgentPool),
-			Defaulter: &containerservice_v1api20240901w.ManagedClustersAgentPool{},
-			Validator: &containerservice_v1api20240901w.ManagedClustersAgentPool{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v1api20240901.TrustedAccessRoleBinding),
-			Defaulter: &containerservice_v1api20240901w.TrustedAccessRoleBinding{},
-			Validator: &containerservice_v1api20240901w.TrustedAccessRoleBinding{},
-		})
-	result = append(
-		result,
-		&registration.KnownType{Obj: new(containerservice_v1api20240901s.MaintenanceConfiguration)},
-		&registration.KnownType{Obj: new(containerservice_v1api20240901s.ManagedCluster)},
-		&registration.KnownType{Obj: new(containerservice_v1api20240901s.ManagedClustersAgentPool)},
-		&registration.KnownType{Obj: new(containerservice_v1api20240901s.TrustedAccessRoleBinding)})
-	result = append(
-		result,
-		&registration.KnownType{
-			Obj:       new(containerservice_v1api20250301.Fleet),
-			Defaulter: &containerservice_v1api20250301w.Fleet{},
-			Validator: &containerservice_v1api20250301w.Fleet{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v1api20250301.FleetsAutoUpgradeProfile),
-			Defaulter: &containerservice_v1api20250301w.FleetsAutoUpgradeProfile{},
-			Validator: &containerservice_v1api20250301w.FleetsAutoUpgradeProfile{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v1api20250301.FleetsMember),
-			Defaulter: &containerservice_v1api20250301w.FleetsMember{},
-			Validator: &containerservice_v1api20250301w.FleetsMember{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v1api20250301.FleetsUpdateRun),
-			Defaulter: &containerservice_v1api20250301w.FleetsUpdateRun{},
-			Validator: &containerservice_v1api20250301w.FleetsUpdateRun{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v1api20250301.FleetsUpdateStrategy),
-			Defaulter: &containerservice_v1api20250301w.FleetsUpdateStrategy{},
-			Validator: &containerservice_v1api20250301w.FleetsUpdateStrategy{},
-		})
-	result = append(
-		result,
-		&registration.KnownType{Obj: new(containerservice_v1api20250301s.Fleet)},
-		&registration.KnownType{Obj: new(containerservice_v1api20250301s.FleetsAutoUpgradeProfile)},
-		&registration.KnownType{Obj: new(containerservice_v1api20250301s.FleetsMember)},
-		&registration.KnownType{Obj: new(containerservice_v1api20250301s.FleetsUpdateRun)},
-		&registration.KnownType{Obj: new(containerservice_v1api20250301s.FleetsUpdateStrategy)})
-	result = append(
-		result,
-		&registration.KnownType{
-			Obj:       new(containerservice_v1api20250801.MaintenanceConfiguration),
-			Defaulter: &containerservice_v1api20250801w.MaintenanceConfiguration{},
-			Validator: &containerservice_v1api20250801w.MaintenanceConfiguration{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v1api20250801.ManagedCluster),
-			Defaulter: &containerservice_v1api20250801w.ManagedCluster{},
-			Validator: &containerservice_v1api20250801w.ManagedCluster{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v1api20250801.ManagedClustersAgentPool),
-			Defaulter: &containerservice_v1api20250801w.ManagedClustersAgentPool{},
-			Validator: &containerservice_v1api20250801w.ManagedClustersAgentPool{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v1api20250801.TrustedAccessRoleBinding),
-			Defaulter: &containerservice_v1api20250801w.TrustedAccessRoleBinding{},
-			Validator: &containerservice_v1api20250801w.TrustedAccessRoleBinding{},
-		})
-	result = append(
-		result,
-		&registration.KnownType{Obj: new(containerservice_v1api20250801s.MaintenanceConfiguration)},
-		&registration.KnownType{Obj: new(containerservice_v1api20250801s.ManagedCluster)},
-		&registration.KnownType{Obj: new(containerservice_v1api20250801s.ManagedClustersAgentPool)},
-		&registration.KnownType{Obj: new(containerservice_v1api20250801s.TrustedAccessRoleBinding)})
-	result = append(
-		result,
-		&registration.KnownType{
 			Obj:       new(containerservice_v20240901.MaintenanceConfiguration),
 			Defaulter: &containerservice_v20240901w.MaintenanceConfiguration{},
 			Validator: &containerservice_v20240901w.MaintenanceConfiguration{},
@@ -8526,12 +8427,6 @@ func createScheme() *runtime.Scheme {
 	_ = containerregistry_v20230701s.AddToScheme(scheme)
 	_ = containerregistry_v20251101.AddToScheme(scheme)
 	_ = containerregistry_v20251101s.AddToScheme(scheme)
-	_ = containerservice_v1api20240901.AddToScheme(scheme)
-	_ = containerservice_v1api20240901s.AddToScheme(scheme)
-	_ = containerservice_v1api20250301.AddToScheme(scheme)
-	_ = containerservice_v1api20250301s.AddToScheme(scheme)
-	_ = containerservice_v1api20250801.AddToScheme(scheme)
-	_ = containerservice_v1api20250801s.AddToScheme(scheme)
 	_ = containerservice_v20240901.AddToScheme(scheme)
 	_ = containerservice_v20240901s.AddToScheme(scheme)
 	_ = containerservice_v20250301.AddToScheme(scheme)

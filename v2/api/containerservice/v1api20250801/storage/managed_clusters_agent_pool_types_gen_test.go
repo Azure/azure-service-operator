@@ -5,8 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801/storage"
-	v20260301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +40,7 @@ func RunPropertyAssignmentTestForAgentPoolGatewayProfile(subject AgentPoolGatewa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.AgentPoolGatewayProfile
+	var other storage.AgentPoolGatewayProfile
 	err := copied.AssignProperties_To_AgentPoolGatewayProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -154,7 +153,7 @@ func RunPropertyAssignmentTestForAgentPoolGatewayProfile_STATUS(subject AgentPoo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.AgentPoolGatewayProfile_STATUS
+	var other storage.AgentPoolGatewayProfile_STATUS
 	err := copied.AssignProperties_To_AgentPoolGatewayProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -267,7 +266,7 @@ func RunPropertyAssignmentTestForAgentPoolNetworkProfile(subject AgentPoolNetwor
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.AgentPoolNetworkProfile
+	var other storage.AgentPoolNetworkProfile
 	err := copied.AssignProperties_To_AgentPoolNetworkProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -381,7 +380,7 @@ func RunPropertyAssignmentTestForAgentPoolNetworkProfile_STATUS(subject AgentPoo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.AgentPoolNetworkProfile_STATUS
+	var other storage.AgentPoolNetworkProfile_STATUS
 	err := copied.AssignProperties_To_AgentPoolNetworkProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -509,7 +508,7 @@ func RunPropertyAssignmentTestForAgentPoolSecurityProfile(subject AgentPoolSecur
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.AgentPoolSecurityProfile
+	var other storage.AgentPoolSecurityProfile
 	err := copied.AssignProperties_To_AgentPoolSecurityProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -624,7 +623,7 @@ func RunPropertyAssignmentTestForAgentPoolSecurityProfile_STATUS(subject AgentPo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.AgentPoolSecurityProfile_STATUS
+	var other storage.AgentPoolSecurityProfile_STATUS
 	err := copied.AssignProperties_To_AgentPoolSecurityProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -739,7 +738,7 @@ func RunPropertyAssignmentTestForAgentPoolStatus_STATUS(subject AgentPoolStatus_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.AgentPoolStatus_STATUS
+	var other storage.AgentPoolStatus_STATUS
 	err := copied.AssignProperties_To_AgentPoolStatus_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -852,7 +851,7 @@ func RunPropertyAssignmentTestForAgentPoolUpgradeSettings(subject AgentPoolUpgra
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.AgentPoolUpgradeSettings
+	var other storage.AgentPoolUpgradeSettings
 	err := copied.AssignProperties_To_AgentPoolUpgradeSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -969,7 +968,7 @@ func RunPropertyAssignmentTestForAgentPoolUpgradeSettings_STATUS(subject AgentPo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.AgentPoolUpgradeSettings_STATUS
+	var other storage.AgentPoolUpgradeSettings_STATUS
 	err := copied.AssignProperties_To_AgentPoolUpgradeSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1086,7 +1085,7 @@ func RunPropertyAssignmentTestForAgentPoolWindowsProfile(subject AgentPoolWindow
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.AgentPoolWindowsProfile
+	var other storage.AgentPoolWindowsProfile
 	err := copied.AssignProperties_To_AgentPoolWindowsProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -1199,7 +1198,7 @@ func RunPropertyAssignmentTestForAgentPoolWindowsProfile_STATUS(subject AgentPoo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.AgentPoolWindowsProfile_STATUS
+	var other storage.AgentPoolWindowsProfile_STATUS
 	err := copied.AssignProperties_To_AgentPoolWindowsProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1312,7 +1311,7 @@ func RunPropertyAssignmentTestForCreationData(subject CreationData) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.CreationData
+	var other storage.CreationData
 	err := copied.AssignProperties_To_CreationData(&other)
 	if err != nil {
 		return err.Error()
@@ -1418,7 +1417,7 @@ func RunPropertyAssignmentTestForCreationData_STATUS(subject CreationData_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.CreationData_STATUS
+	var other storage.CreationData_STATUS
 	err := copied.AssignProperties_To_CreationData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1531,7 +1530,7 @@ func RunPropertyAssignmentTestForGPUProfile(subject GPUProfile) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.GPUProfile
+	var other storage.GPUProfile
 	err := copied.AssignProperties_To_GPUProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -1643,7 +1642,7 @@ func RunPropertyAssignmentTestForGPUProfile_STATUS(subject GPUProfile_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.GPUProfile_STATUS
+	var other storage.GPUProfile_STATUS
 	err := copied.AssignProperties_To_GPUProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1755,7 +1754,7 @@ func RunPropertyAssignmentTestForIPTag(subject IPTag) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.IPTag
+	var other storage.IPTag
 	err := copied.AssignProperties_To_IPTag(&other)
 	if err != nil {
 		return err.Error()
@@ -1868,7 +1867,7 @@ func RunPropertyAssignmentTestForIPTag_STATUS(subject IPTag_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.IPTag_STATUS
+	var other storage.IPTag_STATUS
 	err := copied.AssignProperties_To_IPTag_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1981,7 +1980,7 @@ func RunPropertyAssignmentTestForKubeletConfig(subject KubeletConfig) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.KubeletConfig
+	var other storage.KubeletConfig
 	err := copied.AssignProperties_To_KubeletConfig(&other)
 	if err != nil {
 		return err.Error()
@@ -2103,7 +2102,7 @@ func RunPropertyAssignmentTestForKubeletConfig_STATUS(subject KubeletConfig_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.KubeletConfig_STATUS
+	var other storage.KubeletConfig_STATUS
 	err := copied.AssignProperties_To_KubeletConfig_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2226,7 +2225,7 @@ func RunPropertyAssignmentTestForLinuxOSConfig(subject LinuxOSConfig) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.LinuxOSConfig
+	var other storage.LinuxOSConfig
 	err := copied.AssignProperties_To_LinuxOSConfig(&other)
 	if err != nil {
 		return err.Error()
@@ -2354,7 +2353,7 @@ func RunPropertyAssignmentTestForLinuxOSConfig_STATUS(subject LinuxOSConfig_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.LinuxOSConfig_STATUS
+	var other storage.LinuxOSConfig_STATUS
 	err := copied.AssignProperties_To_LinuxOSConfig_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2484,7 +2483,7 @@ func RunResourceConversionTestForManagedClustersAgentPool(subject ManagedCluster
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20260301s.ManagedClustersAgentPool
+	var hub storage.ManagedClustersAgentPool
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -2531,7 +2530,7 @@ func RunPropertyAssignmentTestForManagedClustersAgentPool(subject ManagedCluster
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.ManagedClustersAgentPool
+	var other storage.ManagedClustersAgentPool
 	err := copied.AssignProperties_To_ManagedClustersAgentPool(&other)
 	if err != nil {
 		return err.Error()
@@ -2645,7 +2644,7 @@ func RunPropertyAssignmentTestForManagedClustersAgentPoolOperatorSpec(subject Ma
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.ManagedClustersAgentPoolOperatorSpec
+	var other storage.ManagedClustersAgentPoolOperatorSpec
 	err := copied.AssignProperties_To_ManagedClustersAgentPoolOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -2752,7 +2751,7 @@ func RunPropertyAssignmentTestForManagedClustersAgentPool_STATUS(subject Managed
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.ManagedClustersAgentPool_STATUS
+	var other storage.ManagedClustersAgentPool_STATUS
 	err := copied.AssignProperties_To_ManagedClustersAgentPool_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2877,7 +2876,7 @@ func RunPropertyAssignmentTestForManagedClustersAgentPool_Spec(subject ManagedCl
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.ManagedClustersAgentPool_Spec
+	var other storage.ManagedClustersAgentPool_Spec
 	err := copied.AssignProperties_To_ManagedClustersAgentPool_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -3002,7 +3001,7 @@ func RunPropertyAssignmentTestForManualScaleProfile(subject ManualScaleProfile) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.ManualScaleProfile
+	var other storage.ManualScaleProfile
 	err := copied.AssignProperties_To_ManualScaleProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -3115,7 +3114,7 @@ func RunPropertyAssignmentTestForManualScaleProfile_STATUS(subject ManualScalePr
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.ManualScaleProfile_STATUS
+	var other storage.ManualScaleProfile_STATUS
 	err := copied.AssignProperties_To_ManualScaleProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3229,7 +3228,7 @@ func RunPropertyAssignmentTestForPortRange(subject PortRange) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.PortRange
+	var other storage.PortRange
 	err := copied.AssignProperties_To_PortRange(&other)
 	if err != nil {
 		return err.Error()
@@ -3343,7 +3342,7 @@ func RunPropertyAssignmentTestForPortRange_STATUS(subject PortRange_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.PortRange_STATUS
+	var other storage.PortRange_STATUS
 	err := copied.AssignProperties_To_PortRange_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3457,7 +3456,7 @@ func RunPropertyAssignmentTestForPowerState(subject PowerState) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.PowerState
+	var other storage.PowerState
 	err := copied.AssignProperties_To_PowerState(&other)
 	if err != nil {
 		return err.Error()
@@ -3569,7 +3568,7 @@ func RunPropertyAssignmentTestForScaleProfile(subject ScaleProfile) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.ScaleProfile
+	var other storage.ScaleProfile
 	err := copied.AssignProperties_To_ScaleProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -3681,7 +3680,7 @@ func RunPropertyAssignmentTestForScaleProfile_STATUS(subject ScaleProfile_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.ScaleProfile_STATUS
+	var other storage.ScaleProfile_STATUS
 	err := copied.AssignProperties_To_ScaleProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3794,7 +3793,7 @@ func RunPropertyAssignmentTestForSysctlConfig(subject SysctlConfig) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.SysctlConfig
+	var other storage.SysctlConfig
 	err := copied.AssignProperties_To_SysctlConfig(&other)
 	if err != nil {
 		return err.Error()
@@ -3933,7 +3932,7 @@ func RunPropertyAssignmentTestForSysctlConfig_STATUS(subject SysctlConfig_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.SysctlConfig_STATUS
+	var other storage.SysctlConfig_STATUS
 	err := copied.AssignProperties_To_SysctlConfig_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4073,7 +4072,7 @@ func RunPropertyAssignmentTestForVirtualMachineNodes(subject VirtualMachineNodes
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.VirtualMachineNodes
+	var other storage.VirtualMachineNodes
 	err := copied.AssignProperties_To_VirtualMachineNodes(&other)
 	if err != nil {
 		return err.Error()
@@ -4187,7 +4186,7 @@ func RunPropertyAssignmentTestForVirtualMachineNodes_STATUS(subject VirtualMachi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.VirtualMachineNodes_STATUS
+	var other storage.VirtualMachineNodes_STATUS
 	err := copied.AssignProperties_To_VirtualMachineNodes_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4301,7 +4300,7 @@ func RunPropertyAssignmentTestForVirtualMachinesProfile(subject VirtualMachinesP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.VirtualMachinesProfile
+	var other storage.VirtualMachinesProfile
 	err := copied.AssignProperties_To_VirtualMachinesProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -4414,7 +4413,7 @@ func RunPropertyAssignmentTestForVirtualMachinesProfile_STATUS(subject VirtualMa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250801s.VirtualMachinesProfile_STATUS
+	var other storage.VirtualMachinesProfile_STATUS
 	err := copied.AssignProperties_To_VirtualMachinesProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()

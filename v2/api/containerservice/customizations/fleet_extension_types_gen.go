@@ -4,10 +4,8 @@
 package customizations
 
 import (
-	containerservice_v1api20250301 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301"
-	containerservice_v1api20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
-	containerservice_v20250301 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250301"
-	containerservice_v20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250301/storage"
+	v20250301 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +15,6 @@ type FleetExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *FleetExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&containerservice_v1api20250301.Fleet{},
-		&containerservice_v1api20250301s.Fleet{},
-		&containerservice_v20250301.Fleet{},
-		&containerservice_v20250301s.Fleet{}}
+		&v20250301.Fleet{},
+		&storage.Fleet{}}
 }

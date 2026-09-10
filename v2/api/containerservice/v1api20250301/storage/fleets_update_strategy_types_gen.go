@@ -4,8 +4,6 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -14,12 +12,15 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
+
+// +kubebuilder:rbac:groups=containerservice.azure.com,resources=fleetsupdatestrategies,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=containerservice.azure.com,resources={fleetsupdatestrategies/status,fleetsupdatestrategies/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,containerservice}
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -45,28 +46,6 @@ func (strategy *FleetsUpdateStrategy) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (strategy *FleetsUpdateStrategy) SetConditions(conditions conditions.Conditions) {
 	strategy.Status.Conditions = conditions
-}
-
-var _ conversion.Convertible = &FleetsUpdateStrategy{}
-
-// ConvertFrom populates our FleetsUpdateStrategy from the provided hub FleetsUpdateStrategy
-func (strategy *FleetsUpdateStrategy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FleetsUpdateStrategy)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v20250301/storage/FleetsUpdateStrategy but received %T instead", hub)
-	}
-
-	return strategy.AssignProperties_From_FleetsUpdateStrategy(source)
-}
-
-// ConvertTo populates the provided hub FleetsUpdateStrategy from our FleetsUpdateStrategy
-func (strategy *FleetsUpdateStrategy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FleetsUpdateStrategy)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v20250301/storage/FleetsUpdateStrategy but received %T instead", hub)
-	}
-
-	return strategy.AssignProperties_To_FleetsUpdateStrategy(destination)
 }
 
 var _ configmaps.Exporter = &FleetsUpdateStrategy{}
@@ -164,75 +143,8 @@ func (strategy *FleetsUpdateStrategy) SetStatus(status genruntime.ConvertibleSta
 	return nil
 }
 
-// AssignProperties_From_FleetsUpdateStrategy populates our FleetsUpdateStrategy from the provided source FleetsUpdateStrategy
-func (strategy *FleetsUpdateStrategy) AssignProperties_From_FleetsUpdateStrategy(source *storage.FleetsUpdateStrategy) error {
-
-	// ObjectMeta
-	strategy.ObjectMeta = *source.ObjectMeta.DeepCopy()
-
-	// Spec
-	var spec FleetsUpdateStrategy_Spec
-	err := spec.AssignProperties_From_FleetsUpdateStrategy_Spec(&source.Spec)
-	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_FleetsUpdateStrategy_Spec() to populate field Spec")
-	}
-	strategy.Spec = spec
-
-	// Status
-	var status FleetsUpdateStrategy_STATUS
-	err = status.AssignProperties_From_FleetsUpdateStrategy_STATUS(&source.Status)
-	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_FleetsUpdateStrategy_STATUS() to populate field Status")
-	}
-	strategy.Status = status
-
-	// Invoke the augmentConversionForFleetsUpdateStrategy interface (if implemented) to customize the conversion
-	var strategyAsAny any = strategy
-	if augmentedStrategy, ok := strategyAsAny.(augmentConversionForFleetsUpdateStrategy); ok {
-		err := augmentedStrategy.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_FleetsUpdateStrategy populates the provided destination FleetsUpdateStrategy from our FleetsUpdateStrategy
-func (strategy *FleetsUpdateStrategy) AssignProperties_To_FleetsUpdateStrategy(destination *storage.FleetsUpdateStrategy) error {
-
-	// ObjectMeta
-	destination.ObjectMeta = *strategy.ObjectMeta.DeepCopy()
-
-	// Spec
-	var spec storage.FleetsUpdateStrategy_Spec
-	err := strategy.Spec.AssignProperties_To_FleetsUpdateStrategy_Spec(&spec)
-	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_FleetsUpdateStrategy_Spec() to populate field Spec")
-	}
-	destination.Spec = spec
-
-	// Status
-	var status storage.FleetsUpdateStrategy_STATUS
-	err = strategy.Status.AssignProperties_To_FleetsUpdateStrategy_STATUS(&status)
-	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_FleetsUpdateStrategy_STATUS() to populate field Status")
-	}
-	destination.Status = status
-
-	// Invoke the augmentConversionForFleetsUpdateStrategy interface (if implemented) to customize the conversion
-	var strategyAsAny any = strategy
-	if augmentedStrategy, ok := strategyAsAny.(augmentConversionForFleetsUpdateStrategy); ok {
-		err := augmentedStrategy.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
+// Hub marks that this FleetsUpdateStrategy is the hub type for conversion
+func (strategy *FleetsUpdateStrategy) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (strategy *FleetsUpdateStrategy) OriginalGVK() *schema.GroupVersionKind {
@@ -252,11 +164,6 @@ type FleetsUpdateStrategyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FleetsUpdateStrategy `json:"items"`
-}
-
-type augmentConversionForFleetsUpdateStrategy interface {
-	AssignPropertiesFrom(src *storage.FleetsUpdateStrategy) error
-	AssignPropertiesTo(dst *storage.FleetsUpdateStrategy) error
 }
 
 // Storage version of v1api20250301.FleetsUpdateStrategy_Spec
@@ -280,176 +187,20 @@ var _ genruntime.ConvertibleSpec = &FleetsUpdateStrategy_Spec{}
 
 // ConvertSpecFrom populates our FleetsUpdateStrategy_Spec from the provided source
 func (strategy *FleetsUpdateStrategy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.FleetsUpdateStrategy_Spec)
-	if ok {
-		// Populate our instance from source
-		return strategy.AssignProperties_From_FleetsUpdateStrategy_Spec(src)
+	if source == strategy {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	// Convert to an intermediate form
-	src = &storage.FleetsUpdateStrategy_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = strategy.AssignProperties_From_FleetsUpdateStrategy_Spec(src)
-	if err != nil {
-		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
+	return source.ConvertSpecTo(strategy)
 }
 
 // ConvertSpecTo populates the provided destination from our FleetsUpdateStrategy_Spec
 func (strategy *FleetsUpdateStrategy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.FleetsUpdateStrategy_Spec)
-	if ok {
-		// Populate destination from our instance
-		return strategy.AssignProperties_To_FleetsUpdateStrategy_Spec(dst)
+	if destination == strategy {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	// Convert to an intermediate form
-	dst = &storage.FleetsUpdateStrategy_Spec{}
-	err := strategy.AssignProperties_To_FleetsUpdateStrategy_Spec(dst)
-	if err != nil {
-		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_FleetsUpdateStrategy_Spec populates our FleetsUpdateStrategy_Spec from the provided source FleetsUpdateStrategy_Spec
-func (strategy *FleetsUpdateStrategy_Spec) AssignProperties_From_FleetsUpdateStrategy_Spec(source *storage.FleetsUpdateStrategy_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AzureName
-	strategy.AzureName = source.AzureName
-
-	// OperatorSpec
-	if source.OperatorSpec != nil {
-		var operatorSpec FleetsUpdateStrategyOperatorSpec
-		err := operatorSpec.AssignProperties_From_FleetsUpdateStrategyOperatorSpec(source.OperatorSpec)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_FleetsUpdateStrategyOperatorSpec() to populate field OperatorSpec")
-		}
-		strategy.OperatorSpec = &operatorSpec
-	} else {
-		strategy.OperatorSpec = nil
-	}
-
-	// OriginalVersion
-	strategy.OriginalVersion = source.OriginalVersion
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		strategy.Owner = &owner
-	} else {
-		strategy.Owner = nil
-	}
-
-	// Strategy
-	if source.Strategy != nil {
-		var strategyLocal UpdateRunStrategy
-		err := strategyLocal.AssignProperties_From_UpdateRunStrategy(source.Strategy)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_UpdateRunStrategy() to populate field Strategy")
-		}
-		strategy.Strategy = &strategyLocal
-	} else {
-		strategy.Strategy = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		strategy.PropertyBag = propertyBag
-	} else {
-		strategy.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForFleetsUpdateStrategy_Spec interface (if implemented) to customize the conversion
-	var strategyAsAny any = strategy
-	if augmentedStrategy, ok := strategyAsAny.(augmentConversionForFleetsUpdateStrategy_Spec); ok {
-		err := augmentedStrategy.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_FleetsUpdateStrategy_Spec populates the provided destination FleetsUpdateStrategy_Spec from our FleetsUpdateStrategy_Spec
-func (strategy *FleetsUpdateStrategy_Spec) AssignProperties_To_FleetsUpdateStrategy_Spec(destination *storage.FleetsUpdateStrategy_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(strategy.PropertyBag)
-
-	// AzureName
-	destination.AzureName = strategy.AzureName
-
-	// OperatorSpec
-	if strategy.OperatorSpec != nil {
-		var operatorSpec storage.FleetsUpdateStrategyOperatorSpec
-		err := strategy.OperatorSpec.AssignProperties_To_FleetsUpdateStrategyOperatorSpec(&operatorSpec)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_FleetsUpdateStrategyOperatorSpec() to populate field OperatorSpec")
-		}
-		destination.OperatorSpec = &operatorSpec
-	} else {
-		destination.OperatorSpec = nil
-	}
-
-	// OriginalVersion
-	destination.OriginalVersion = strategy.OriginalVersion
-
-	// Owner
-	if strategy.Owner != nil {
-		owner := strategy.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Strategy
-	if strategy.Strategy != nil {
-		var strategyLocal storage.UpdateRunStrategy
-		err := strategy.Strategy.AssignProperties_To_UpdateRunStrategy(&strategyLocal)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_UpdateRunStrategy() to populate field Strategy")
-		}
-		destination.Strategy = &strategyLocal
-	} else {
-		destination.Strategy = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForFleetsUpdateStrategy_Spec interface (if implemented) to customize the conversion
-	var strategyAsAny any = strategy
-	if augmentedStrategy, ok := strategyAsAny.(augmentConversionForFleetsUpdateStrategy_Spec); ok {
-		err := augmentedStrategy.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
+	return destination.ConvertSpecFrom(strategy)
 }
 
 // Storage version of v1api20250301.FleetsUpdateStrategy_STATUS
@@ -469,194 +220,20 @@ var _ genruntime.ConvertibleStatus = &FleetsUpdateStrategy_STATUS{}
 
 // ConvertStatusFrom populates our FleetsUpdateStrategy_STATUS from the provided source
 func (strategy *FleetsUpdateStrategy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.FleetsUpdateStrategy_STATUS)
-	if ok {
-		// Populate our instance from source
-		return strategy.AssignProperties_From_FleetsUpdateStrategy_STATUS(src)
+	if source == strategy {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	// Convert to an intermediate form
-	src = &storage.FleetsUpdateStrategy_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-	err = strategy.AssignProperties_From_FleetsUpdateStrategy_STATUS(src)
-	if err != nil {
-		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
+	return source.ConvertStatusTo(strategy)
 }
 
 // ConvertStatusTo populates the provided destination from our FleetsUpdateStrategy_STATUS
 func (strategy *FleetsUpdateStrategy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.FleetsUpdateStrategy_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return strategy.AssignProperties_To_FleetsUpdateStrategy_STATUS(dst)
+	if destination == strategy {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	// Convert to an intermediate form
-	dst = &storage.FleetsUpdateStrategy_STATUS{}
-	err := strategy.AssignProperties_To_FleetsUpdateStrategy_STATUS(dst)
-	if err != nil {
-		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_FleetsUpdateStrategy_STATUS populates our FleetsUpdateStrategy_STATUS from the provided source FleetsUpdateStrategy_STATUS
-func (strategy *FleetsUpdateStrategy_STATUS) AssignProperties_From_FleetsUpdateStrategy_STATUS(source *storage.FleetsUpdateStrategy_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Conditions
-	strategy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// ETag
-	strategy.ETag = genruntime.ClonePointerToString(source.ETag)
-
-	// Id
-	strategy.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Name
-	strategy.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ProvisioningState
-	strategy.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// Strategy
-	if source.Strategy != nil {
-		var strategyLocal UpdateRunStrategy_STATUS
-		err := strategyLocal.AssignProperties_From_UpdateRunStrategy_STATUS(source.Strategy)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_UpdateRunStrategy_STATUS() to populate field Strategy")
-		}
-		strategy.Strategy = &strategyLocal
-	} else {
-		strategy.Strategy = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
-		}
-		strategy.SystemData = &systemDatum
-	} else {
-		strategy.SystemData = nil
-	}
-
-	// Type
-	strategy.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		strategy.PropertyBag = propertyBag
-	} else {
-		strategy.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForFleetsUpdateStrategy_STATUS interface (if implemented) to customize the conversion
-	var strategyAsAny any = strategy
-	if augmentedStrategy, ok := strategyAsAny.(augmentConversionForFleetsUpdateStrategy_STATUS); ok {
-		err := augmentedStrategy.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_FleetsUpdateStrategy_STATUS populates the provided destination FleetsUpdateStrategy_STATUS from our FleetsUpdateStrategy_STATUS
-func (strategy *FleetsUpdateStrategy_STATUS) AssignProperties_To_FleetsUpdateStrategy_STATUS(destination *storage.FleetsUpdateStrategy_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(strategy.PropertyBag)
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(strategy.Conditions)
-
-	// ETag
-	destination.ETag = genruntime.ClonePointerToString(strategy.ETag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(strategy.Id)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(strategy.Name)
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(strategy.ProvisioningState)
-
-	// Strategy
-	if strategy.Strategy != nil {
-		var strategyLocal storage.UpdateRunStrategy_STATUS
-		err := strategy.Strategy.AssignProperties_To_UpdateRunStrategy_STATUS(&strategyLocal)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_UpdateRunStrategy_STATUS() to populate field Strategy")
-		}
-		destination.Strategy = &strategyLocal
-	} else {
-		destination.Strategy = nil
-	}
-
-	// SystemData
-	if strategy.SystemData != nil {
-		var systemDatum storage.SystemData_STATUS
-		err := strategy.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(strategy.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForFleetsUpdateStrategy_STATUS interface (if implemented) to customize the conversion
-	var strategyAsAny any = strategy
-	if augmentedStrategy, ok := strategyAsAny.(augmentConversionForFleetsUpdateStrategy_STATUS); ok {
-		err := augmentedStrategy.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-type augmentConversionForFleetsUpdateStrategy_Spec interface {
-	AssignPropertiesFrom(src *storage.FleetsUpdateStrategy_Spec) error
-	AssignPropertiesTo(dst *storage.FleetsUpdateStrategy_Spec) error
-}
-
-type augmentConversionForFleetsUpdateStrategy_STATUS interface {
-	AssignPropertiesFrom(src *storage.FleetsUpdateStrategy_STATUS) error
-	AssignPropertiesTo(dst *storage.FleetsUpdateStrategy_STATUS) error
+	return destination.ConvertStatusFrom(strategy)
 }
 
 // Storage version of v1api20250301.FleetsUpdateStrategyOperatorSpec
@@ -665,125 +242,6 @@ type FleetsUpdateStrategyOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
-}
-
-// AssignProperties_From_FleetsUpdateStrategyOperatorSpec populates our FleetsUpdateStrategyOperatorSpec from the provided source FleetsUpdateStrategyOperatorSpec
-func (operator *FleetsUpdateStrategyOperatorSpec) AssignProperties_From_FleetsUpdateStrategyOperatorSpec(source *storage.FleetsUpdateStrategyOperatorSpec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ConfigMapExpressions
-	if source.ConfigMapExpressions != nil {
-		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
-		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			if configMapExpressionItem != nil {
-				configMapExpression := *configMapExpressionItem.DeepCopy()
-				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
-			} else {
-				configMapExpressionList[configMapExpressionIndex] = nil
-			}
-		}
-		operator.ConfigMapExpressions = configMapExpressionList
-	} else {
-		operator.ConfigMapExpressions = nil
-	}
-
-	// SecretExpressions
-	if source.SecretExpressions != nil {
-		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
-		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			if secretExpressionItem != nil {
-				secretExpression := *secretExpressionItem.DeepCopy()
-				secretExpressionList[secretExpressionIndex] = &secretExpression
-			} else {
-				secretExpressionList[secretExpressionIndex] = nil
-			}
-		}
-		operator.SecretExpressions = secretExpressionList
-	} else {
-		operator.SecretExpressions = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		operator.PropertyBag = propertyBag
-	} else {
-		operator.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForFleetsUpdateStrategyOperatorSpec interface (if implemented) to customize the conversion
-	var operatorAsAny any = operator
-	if augmentedOperator, ok := operatorAsAny.(augmentConversionForFleetsUpdateStrategyOperatorSpec); ok {
-		err := augmentedOperator.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_FleetsUpdateStrategyOperatorSpec populates the provided destination FleetsUpdateStrategyOperatorSpec from our FleetsUpdateStrategyOperatorSpec
-func (operator *FleetsUpdateStrategyOperatorSpec) AssignProperties_To_FleetsUpdateStrategyOperatorSpec(destination *storage.FleetsUpdateStrategyOperatorSpec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
-
-	// ConfigMapExpressions
-	if operator.ConfigMapExpressions != nil {
-		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
-		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			if configMapExpressionItem != nil {
-				configMapExpression := *configMapExpressionItem.DeepCopy()
-				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
-			} else {
-				configMapExpressionList[configMapExpressionIndex] = nil
-			}
-		}
-		destination.ConfigMapExpressions = configMapExpressionList
-	} else {
-		destination.ConfigMapExpressions = nil
-	}
-
-	// SecretExpressions
-	if operator.SecretExpressions != nil {
-		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
-		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			if secretExpressionItem != nil {
-				secretExpression := *secretExpressionItem.DeepCopy()
-				secretExpressionList[secretExpressionIndex] = &secretExpression
-			} else {
-				secretExpressionList[secretExpressionIndex] = nil
-			}
-		}
-		destination.SecretExpressions = secretExpressionList
-	} else {
-		destination.SecretExpressions = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForFleetsUpdateStrategyOperatorSpec interface (if implemented) to customize the conversion
-	var operatorAsAny any = operator
-	if augmentedOperator, ok := operatorAsAny.(augmentConversionForFleetsUpdateStrategyOperatorSpec); ok {
-		err := augmentedOperator.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-type augmentConversionForFleetsUpdateStrategyOperatorSpec interface {
-	AssignPropertiesFrom(src *storage.FleetsUpdateStrategyOperatorSpec) error
-	AssignPropertiesTo(dst *storage.FleetsUpdateStrategyOperatorSpec) error
 }
 
 func init() {

@@ -8,7 +8,7 @@ package storage
 import (
 	"github.com/rotisserie/eris"
 
-	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801/storage"
+	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	v20260301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
 )
 

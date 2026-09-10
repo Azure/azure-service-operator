@@ -51,36 +51,22 @@ var _ conversion.Convertible = &FleetsAutoUpgradeProfile{}
 
 // ConvertFrom populates our FleetsAutoUpgradeProfile from the provided hub FleetsAutoUpgradeProfile
 func (profile *FleetsAutoUpgradeProfile) ConvertFrom(hub conversion.Hub) error {
-	// intermediate variable for conversion
-	var source storage.FleetsAutoUpgradeProfile
-
-	err := source.ConvertFrom(hub)
-	if err != nil {
-		return eris.Wrap(err, "converting from hub to source")
+	source, ok := hub.(*storage.FleetsAutoUpgradeProfile)
+	if !ok {
+		return fmt.Errorf("expected containerservice/v1api20250301/storage/FleetsAutoUpgradeProfile but received %T instead", hub)
 	}
 
-	err = profile.AssignProperties_From_FleetsAutoUpgradeProfile(&source)
-	if err != nil {
-		return eris.Wrap(err, "converting from source to profile")
-	}
-
-	return nil
+	return profile.AssignProperties_From_FleetsAutoUpgradeProfile(source)
 }
 
 // ConvertTo populates the provided hub FleetsAutoUpgradeProfile from our FleetsAutoUpgradeProfile
 func (profile *FleetsAutoUpgradeProfile) ConvertTo(hub conversion.Hub) error {
-	// intermediate variable for conversion
-	var destination storage.FleetsAutoUpgradeProfile
-	err := profile.AssignProperties_To_FleetsAutoUpgradeProfile(&destination)
-	if err != nil {
-		return eris.Wrap(err, "converting to destination from profile")
-	}
-	err = destination.ConvertTo(hub)
-	if err != nil {
-		return eris.Wrap(err, "converting from destination to hub")
+	destination, ok := hub.(*storage.FleetsAutoUpgradeProfile)
+	if !ok {
+		return fmt.Errorf("expected containerservice/v1api20250301/storage/FleetsAutoUpgradeProfile but received %T instead", hub)
 	}
 
-	return nil
+	return profile.AssignProperties_To_FleetsAutoUpgradeProfile(destination)
 }
 
 var _ configmaps.Exporter = &FleetsAutoUpgradeProfile{}
@@ -101,6 +87,17 @@ func (profile *FleetsAutoUpgradeProfile) SecretDestinationExpressions() []*core.
 		return nil
 	}
 	return profile.Spec.OperatorSpec.SecretExpressions
+}
+
+var _ genruntime.ImportableResource = &FleetsAutoUpgradeProfile{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (profile *FleetsAutoUpgradeProfile) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*FleetsAutoUpgradeProfile_STATUS); ok {
+		return profile.Spec.Initialize_From_FleetsAutoUpgradeProfile_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type FleetsAutoUpgradeProfile_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &FleetsAutoUpgradeProfile{}
@@ -585,6 +582,49 @@ func (profile *FleetsAutoUpgradeProfile_Spec) AssignProperties_To_FleetsAutoUpgr
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_FleetsAutoUpgradeProfile_STATUS populates our FleetsAutoUpgradeProfile_Spec from the provided source FleetsAutoUpgradeProfile_STATUS
+func (profile *FleetsAutoUpgradeProfile_Spec) Initialize_From_FleetsAutoUpgradeProfile_STATUS(source *FleetsAutoUpgradeProfile_STATUS) error {
+
+	// Channel
+	if source.Channel != nil {
+		channel := genruntime.ToEnum(string(*source.Channel), upgradeChannel_Values)
+		profile.Channel = &channel
+	} else {
+		profile.Channel = nil
+	}
+
+	// Disabled
+	if source.Disabled != nil {
+		disabled := *source.Disabled
+		profile.Disabled = &disabled
+	} else {
+		profile.Disabled = nil
+	}
+
+	// NodeImageSelection
+	if source.NodeImageSelection != nil {
+		var nodeImageSelection AutoUpgradeNodeImageSelection
+		err := nodeImageSelection.Initialize_From_AutoUpgradeNodeImageSelection_STATUS(source.NodeImageSelection)
+		if err != nil {
+			return eris.Wrap(err, "calling Initialize_From_AutoUpgradeNodeImageSelection_STATUS() to populate field NodeImageSelection")
+		}
+		profile.NodeImageSelection = &nodeImageSelection
+	} else {
+		profile.NodeImageSelection = nil
+	}
+
+	// UpdateStrategyReference
+	if source.UpdateStrategyId != nil {
+		updateStrategyReference := genruntime.CreateResourceReferenceFromARMID(*source.UpdateStrategyId)
+		profile.UpdateStrategyReference = &updateStrategyReference
+	} else {
+		profile.UpdateStrategyReference = nil
 	}
 
 	// No error
@@ -1085,6 +1125,21 @@ func (selection *AutoUpgradeNodeImageSelection) AssignProperties_To_AutoUpgradeN
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_AutoUpgradeNodeImageSelection_STATUS populates our AutoUpgradeNodeImageSelection from the provided source AutoUpgradeNodeImageSelection_STATUS
+func (selection *AutoUpgradeNodeImageSelection) Initialize_From_AutoUpgradeNodeImageSelection_STATUS(source *AutoUpgradeNodeImageSelection_STATUS) error {
+
+	// Type
+	if source.Type != nil {
+		typeVar := genruntime.ToEnum(string(*source.Type), autoUpgradeNodeImageSelectionType_Values)
+		selection.Type = &typeVar
+	} else {
+		selection.Type = nil
 	}
 
 	// No error

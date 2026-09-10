@@ -5,7 +5,6 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,101 +16,6 @@ import (
 	"reflect"
 	"testing"
 )
-
-func Test_FleetsUpdateStrategy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetsUpdateStrategy to hub returns original",
-		prop.ForAll(RunResourceConversionTestForFleetsUpdateStrategy, FleetsUpdateStrategyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunResourceConversionTestForFleetsUpdateStrategy tests if a specific instance of FleetsUpdateStrategy round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForFleetsUpdateStrategy(subject FleetsUpdateStrategy) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.FleetsUpdateStrategy
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual FleetsUpdateStrategy
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_FleetsUpdateStrategy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetsUpdateStrategy to FleetsUpdateStrategy via AssignProperties_To_FleetsUpdateStrategy & AssignProperties_From_FleetsUpdateStrategy returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFleetsUpdateStrategy, FleetsUpdateStrategyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForFleetsUpdateStrategy tests if a specific instance of FleetsUpdateStrategy can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFleetsUpdateStrategy(subject FleetsUpdateStrategy) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsUpdateStrategy
-	err := copied.AssignProperties_To_FleetsUpdateStrategy(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FleetsUpdateStrategy
-	err = actual.AssignProperties_From_FleetsUpdateStrategy(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
 
 func Test_FleetsUpdateStrategy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -180,53 +84,6 @@ func AddRelatedPropertyGeneratorsForFleetsUpdateStrategy(gens map[string]gopter.
 	gens["Status"] = FleetsUpdateStrategy_STATUSGenerator()
 }
 
-func Test_FleetsUpdateStrategyOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetsUpdateStrategyOperatorSpec to FleetsUpdateStrategyOperatorSpec via AssignProperties_To_FleetsUpdateStrategyOperatorSpec & AssignProperties_From_FleetsUpdateStrategyOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFleetsUpdateStrategyOperatorSpec, FleetsUpdateStrategyOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForFleetsUpdateStrategyOperatorSpec tests if a specific instance of FleetsUpdateStrategyOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFleetsUpdateStrategyOperatorSpec(subject FleetsUpdateStrategyOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsUpdateStrategyOperatorSpec
-	err := copied.AssignProperties_To_FleetsUpdateStrategyOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FleetsUpdateStrategyOperatorSpec
-	err = actual.AssignProperties_From_FleetsUpdateStrategyOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_FleetsUpdateStrategyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -285,53 +142,6 @@ func FleetsUpdateStrategyOperatorSpecGenerator() gopter.Gen {
 	fleetsUpdateStrategyOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FleetsUpdateStrategyOperatorSpec{}), generators)
 
 	return fleetsUpdateStrategyOperatorSpecGenerator
-}
-
-func Test_FleetsUpdateStrategy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetsUpdateStrategy_STATUS to FleetsUpdateStrategy_STATUS via AssignProperties_To_FleetsUpdateStrategy_STATUS & AssignProperties_From_FleetsUpdateStrategy_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFleetsUpdateStrategy_STATUS, FleetsUpdateStrategy_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForFleetsUpdateStrategy_STATUS tests if a specific instance of FleetsUpdateStrategy_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFleetsUpdateStrategy_STATUS(subject FleetsUpdateStrategy_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsUpdateStrategy_STATUS
-	err := copied.AssignProperties_To_FleetsUpdateStrategy_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FleetsUpdateStrategy_STATUS
-	err = actual.AssignProperties_From_FleetsUpdateStrategy_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_FleetsUpdateStrategy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -417,53 +227,6 @@ func AddIndependentPropertyGeneratorsForFleetsUpdateStrategy_STATUS(gens map[str
 func AddRelatedPropertyGeneratorsForFleetsUpdateStrategy_STATUS(gens map[string]gopter.Gen) {
 	gens["Strategy"] = gen.PtrOf(UpdateRunStrategy_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
-func Test_FleetsUpdateStrategy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetsUpdateStrategy_Spec to FleetsUpdateStrategy_Spec via AssignProperties_To_FleetsUpdateStrategy_Spec & AssignProperties_From_FleetsUpdateStrategy_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFleetsUpdateStrategy_Spec, FleetsUpdateStrategy_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForFleetsUpdateStrategy_Spec tests if a specific instance of FleetsUpdateStrategy_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFleetsUpdateStrategy_Spec(subject FleetsUpdateStrategy_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsUpdateStrategy_Spec
-	err := copied.AssignProperties_To_FleetsUpdateStrategy_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FleetsUpdateStrategy_Spec
-	err = actual.AssignProperties_From_FleetsUpdateStrategy_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_FleetsUpdateStrategy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

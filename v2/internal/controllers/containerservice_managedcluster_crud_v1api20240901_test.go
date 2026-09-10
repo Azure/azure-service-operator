@@ -10,15 +10,13 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"sigs.k8s.io/controller-runtime/pkg/client"
-
-	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250801"
+	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_AKS_ManagedCluster_20250801_CRUD(t *testing.T) {
+func Test_AKS_ManagedCluster_20240901_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -72,7 +70,7 @@ func Test_AKS_ManagedCluster_20250801_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "AKS KubeConfig secret CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				AKS_ManagedCluster_Kubeconfig_20250801_Secrets(tc, cluster)
+				AKS_ManagedCluster_Kubeconfig_20240901_Secrets(tc, cluster)
 			},
 		},
 	)
@@ -80,13 +78,13 @@ func Test_AKS_ManagedCluster_20250801_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "AKS AgentPool CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				AKS_ManagedCluster_AgentPool_20250801_CRUD(tc, cluster)
+				AKS_ManagedCluster_AgentPool_20240901_CRUD(tc, cluster)
 			},
 		},
 		testcommon.Subtest{
 			Name: "AKS MaintenanceWindow CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				AKS_ManagedCluster_MaintenanceConfiguration_20250801_CRUD(tc, cluster)
+				AKS_ManagedCluster_MaintenanceConfiguration_20240901_CRUD(tc, cluster)
 			},
 		},
 	)
@@ -100,7 +98,7 @@ func Test_AKS_ManagedCluster_20250801_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func AKS_ManagedCluster_AgentPool_20250801_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
+func AKS_ManagedCluster_AgentPool_20240901_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
 	osType := aks.OSType_Linux
 
 	agentPool := &aks.ManagedClustersAgentPool{
@@ -137,7 +135,7 @@ func AKS_ManagedCluster_AgentPool_20250801_CRUD(tc *testcommon.KubePerTestContex
 	tc.Expect(agentPool.Status.NodeLabels).To(HaveKey("mylabel"))
 }
 
-func AKS_ManagedCluster_Kubeconfig_20250801_Secrets(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
+func AKS_ManagedCluster_Kubeconfig_20240901_Secrets(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
 	old := cluster.DeepCopy()
 	secret := "kubeconfig"
 	cluster.Spec.OperatorSpec = &aks.ManagedClusterOperatorSpec{
@@ -151,7 +149,7 @@ func AKS_ManagedCluster_Kubeconfig_20250801_Secrets(tc *testcommon.KubePerTestCo
 	tc.ExpectSecretHasKeys(secret, "admin", "user")
 }
 
-func AKS_ManagedCluster_MaintenanceConfiguration_20250801_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
+func AKS_ManagedCluster_MaintenanceConfiguration_20240901_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
 	mtcConfiguration := &aks.MaintenanceConfiguration{
 		ObjectMeta: tc.MakeObjectMetaWithName("aksmanagedautoupgradeschedule"), // MaintenanceWindows only support a few fixed names
 		Spec: aks.MaintenanceConfiguration_Spec{
@@ -185,47 +183,4 @@ func AKS_ManagedCluster_MaintenanceConfiguration_20250801_CRUD(tc *testcommon.Ku
 	tc.PatchResourceAndWait(old, mtcConfiguration)
 	tc.Expect(mtcConfiguration.Status.MaintenanceWindow.DurationHours).ToNot(BeNil())
 	tc.Expect(*mtcConfiguration.Status.MaintenanceWindow.DurationHours).To(Equal(8))
-}
-
-// NewManagedCluster20250801 is a helper function to create a basic ManagedCluster for testing
-// It's used by other tests that need a cluster as a dependency (e.g., kubernetesconfiguration tests)
-func NewManagedCluster20250801(tc *testcommon.KubePerTestContext, rg client.Object, adminUsername string, sshPublicKey *string) *aks.ManagedCluster {
-	cluster := &aks.ManagedCluster{
-		ObjectMeta: tc.MakeObjectMeta("mc"),
-		Spec: aks.ManagedCluster_Spec{
-			Location:  tc.AzureRegion,
-			Owner:     testcommon.AsOwner(rg),
-			DnsPrefix: to.Ptr("aso"),
-			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
-				{
-					Name:   to.Ptr("ap1"),
-					Count:  to.Ptr(1),
-					VmSize: to.Ptr("Standard_DS2_v2"),
-					OsType: to.Ptr(aks.OSType_Linux),
-					Mode:   to.Ptr(aks.AgentPoolMode_System),
-				},
-			},
-			LinuxProfile: &aks.ContainerServiceLinuxProfile{
-				AdminUsername: &adminUsername,
-				Ssh: &aks.ContainerServiceSshConfiguration{
-					PublicKeys: []aks.ContainerServiceSshPublicKey{
-						{
-							KeyData: sshPublicKey,
-						},
-					},
-				},
-			},
-			Identity: &aks.ManagedClusterIdentity{
-				Type: to.Ptr(aks.ManagedClusterIdentity_Type_SystemAssigned),
-			},
-			NetworkProfile: &aks.ContainerServiceNetworkProfile{
-				NetworkPlugin: to.Ptr(aks.ContainerServiceNetworkProfile_NetworkPlugin_Azure),
-			},
-			OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
-				Enabled: to.Ptr(true),
-			},
-		},
-	}
-
-	return cluster
 }

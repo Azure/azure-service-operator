@@ -4,7 +4,8 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20240901/storage"
+	v20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
+	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,7 +52,7 @@ var _ conversion.Convertible = &MaintenanceConfiguration{}
 // ConvertFrom populates our MaintenanceConfiguration from the provided hub MaintenanceConfiguration
 func (configuration *MaintenanceConfiguration) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source storage.MaintenanceConfiguration
+	var source v20250801s.MaintenanceConfiguration
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -69,7 +70,7 @@ func (configuration *MaintenanceConfiguration) ConvertFrom(hub conversion.Hub) e
 // ConvertTo populates the provided hub MaintenanceConfiguration from our MaintenanceConfiguration
 func (configuration *MaintenanceConfiguration) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination storage.MaintenanceConfiguration
+	var destination v20250801s.MaintenanceConfiguration
 	err := configuration.AssignProperties_To_MaintenanceConfiguration(&destination)
 	if err != nil {
 		return eris.Wrap(err, "converting to destination from configuration")
@@ -178,7 +179,7 @@ func (configuration *MaintenanceConfiguration) SetStatus(status genruntime.Conve
 }
 
 // AssignProperties_From_MaintenanceConfiguration populates our MaintenanceConfiguration from the provided source MaintenanceConfiguration
-func (configuration *MaintenanceConfiguration) AssignProperties_From_MaintenanceConfiguration(source *storage.MaintenanceConfiguration) error {
+func (configuration *MaintenanceConfiguration) AssignProperties_From_MaintenanceConfiguration(source *v20250801s.MaintenanceConfiguration) error {
 
 	// ObjectMeta
 	configuration.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -213,13 +214,13 @@ func (configuration *MaintenanceConfiguration) AssignProperties_From_Maintenance
 }
 
 // AssignProperties_To_MaintenanceConfiguration populates the provided destination MaintenanceConfiguration from our MaintenanceConfiguration
-func (configuration *MaintenanceConfiguration) AssignProperties_To_MaintenanceConfiguration(destination *storage.MaintenanceConfiguration) error {
+func (configuration *MaintenanceConfiguration) AssignProperties_To_MaintenanceConfiguration(destination *v20250801s.MaintenanceConfiguration) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *configuration.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.MaintenanceConfiguration_Spec
+	var spec v20250801s.MaintenanceConfiguration_Spec
 	err := configuration.Spec.AssignProperties_To_MaintenanceConfiguration_Spec(&spec)
 	if err != nil {
 		return eris.Wrap(err, "calling AssignProperties_To_MaintenanceConfiguration_Spec() to populate field Spec")
@@ -227,7 +228,7 @@ func (configuration *MaintenanceConfiguration) AssignProperties_To_MaintenanceCo
 	destination.Spec = spec
 
 	// Status
-	var status storage.MaintenanceConfiguration_STATUS
+	var status v20250801s.MaintenanceConfiguration_STATUS
 	err = configuration.Status.AssignProperties_To_MaintenanceConfiguration_STATUS(&status)
 	if err != nil {
 		return eris.Wrap(err, "calling AssignProperties_To_MaintenanceConfiguration_STATUS() to populate field Status")
@@ -274,8 +275,8 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2024-09-01")
 
 type augmentConversionForMaintenanceConfiguration interface {
-	AssignPropertiesFrom(src *storage.MaintenanceConfiguration) error
-	AssignPropertiesTo(dst *storage.MaintenanceConfiguration) error
+	AssignPropertiesFrom(src *v20250801s.MaintenanceConfiguration) error
+	AssignPropertiesTo(dst *v20250801s.MaintenanceConfiguration) error
 }
 
 // Storage version of v1api20240901.MaintenanceConfiguration_Spec
@@ -301,14 +302,14 @@ var _ genruntime.ConvertibleSpec = &MaintenanceConfiguration_Spec{}
 
 // ConvertSpecFrom populates our MaintenanceConfiguration_Spec from the provided source
 func (configuration *MaintenanceConfiguration_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.MaintenanceConfiguration_Spec)
+	src, ok := source.(*v20250801s.MaintenanceConfiguration_Spec)
 	if ok {
 		// Populate our instance from source
 		return configuration.AssignProperties_From_MaintenanceConfiguration_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.MaintenanceConfiguration_Spec{}
+	src = &v20250801s.MaintenanceConfiguration_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -325,14 +326,14 @@ func (configuration *MaintenanceConfiguration_Spec) ConvertSpecFrom(source genru
 
 // ConvertSpecTo populates the provided destination from our MaintenanceConfiguration_Spec
 func (configuration *MaintenanceConfiguration_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.MaintenanceConfiguration_Spec)
+	dst, ok := destination.(*v20250801s.MaintenanceConfiguration_Spec)
 	if ok {
 		// Populate destination from our instance
 		return configuration.AssignProperties_To_MaintenanceConfiguration_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.MaintenanceConfiguration_Spec{}
+	dst = &v20250801s.MaintenanceConfiguration_Spec{}
 	err := configuration.AssignProperties_To_MaintenanceConfiguration_Spec(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -348,7 +349,7 @@ func (configuration *MaintenanceConfiguration_Spec) ConvertSpecTo(destination ge
 }
 
 // AssignProperties_From_MaintenanceConfiguration_Spec populates our MaintenanceConfiguration_Spec from the provided source MaintenanceConfiguration_Spec
-func (configuration *MaintenanceConfiguration_Spec) AssignProperties_From_MaintenanceConfiguration_Spec(source *storage.MaintenanceConfiguration_Spec) error {
+func (configuration *MaintenanceConfiguration_Spec) AssignProperties_From_MaintenanceConfiguration_Spec(source *v20250801s.MaintenanceConfiguration_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -443,7 +444,7 @@ func (configuration *MaintenanceConfiguration_Spec) AssignProperties_From_Mainte
 }
 
 // AssignProperties_To_MaintenanceConfiguration_Spec populates the provided destination MaintenanceConfiguration_Spec from our MaintenanceConfiguration_Spec
-func (configuration *MaintenanceConfiguration_Spec) AssignProperties_To_MaintenanceConfiguration_Spec(destination *storage.MaintenanceConfiguration_Spec) error {
+func (configuration *MaintenanceConfiguration_Spec) AssignProperties_To_MaintenanceConfiguration_Spec(destination *v20250801s.MaintenanceConfiguration_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -452,7 +453,7 @@ func (configuration *MaintenanceConfiguration_Spec) AssignProperties_To_Maintena
 
 	// MaintenanceWindow
 	if configuration.MaintenanceWindow != nil {
-		var maintenanceWindow storage.MaintenanceWindow
+		var maintenanceWindow v20250801s.MaintenanceWindow
 		err := configuration.MaintenanceWindow.AssignProperties_To_MaintenanceWindow(&maintenanceWindow)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_MaintenanceWindow() to populate field MaintenanceWindow")
@@ -464,9 +465,9 @@ func (configuration *MaintenanceConfiguration_Spec) AssignProperties_To_Maintena
 
 	// NotAllowedTime
 	if configuration.NotAllowedTime != nil {
-		notAllowedTimeList := make([]storage.TimeSpan, len(configuration.NotAllowedTime))
+		notAllowedTimeList := make([]v20250801s.TimeSpan, len(configuration.NotAllowedTime))
 		for notAllowedTimeIndex, notAllowedTimeItem := range configuration.NotAllowedTime {
-			var notAllowedTime storage.TimeSpan
+			var notAllowedTime v20250801s.TimeSpan
 			err := notAllowedTimeItem.AssignProperties_To_TimeSpan(&notAllowedTime)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_TimeSpan() to populate field NotAllowedTime")
@@ -480,7 +481,7 @@ func (configuration *MaintenanceConfiguration_Spec) AssignProperties_To_Maintena
 
 	// OperatorSpec
 	if configuration.OperatorSpec != nil {
-		var operatorSpec storage.MaintenanceConfigurationOperatorSpec
+		var operatorSpec v20250801s.MaintenanceConfigurationOperatorSpec
 		err := configuration.OperatorSpec.AssignProperties_To_MaintenanceConfigurationOperatorSpec(&operatorSpec)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_MaintenanceConfigurationOperatorSpec() to populate field OperatorSpec")
@@ -503,9 +504,9 @@ func (configuration *MaintenanceConfiguration_Spec) AssignProperties_To_Maintena
 
 	// TimeInWeek
 	if configuration.TimeInWeek != nil {
-		timeInWeekList := make([]storage.TimeInWeek, len(configuration.TimeInWeek))
+		timeInWeekList := make([]v20250801s.TimeInWeek, len(configuration.TimeInWeek))
 		for timeInWeekIndex, timeInWeekItem := range configuration.TimeInWeek {
-			var timeInWeek storage.TimeInWeek
+			var timeInWeek v20250801s.TimeInWeek
 			err := timeInWeekItem.AssignProperties_To_TimeInWeek(&timeInWeek)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_TimeInWeek() to populate field TimeInWeek")
@@ -554,14 +555,14 @@ var _ genruntime.ConvertibleStatus = &MaintenanceConfiguration_STATUS{}
 
 // ConvertStatusFrom populates our MaintenanceConfiguration_STATUS from the provided source
 func (configuration *MaintenanceConfiguration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.MaintenanceConfiguration_STATUS)
+	src, ok := source.(*v20250801s.MaintenanceConfiguration_STATUS)
 	if ok {
 		// Populate our instance from source
 		return configuration.AssignProperties_From_MaintenanceConfiguration_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.MaintenanceConfiguration_STATUS{}
+	src = &v20250801s.MaintenanceConfiguration_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -578,14 +579,14 @@ func (configuration *MaintenanceConfiguration_STATUS) ConvertStatusFrom(source g
 
 // ConvertStatusTo populates the provided destination from our MaintenanceConfiguration_STATUS
 func (configuration *MaintenanceConfiguration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.MaintenanceConfiguration_STATUS)
+	dst, ok := destination.(*v20250801s.MaintenanceConfiguration_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return configuration.AssignProperties_To_MaintenanceConfiguration_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.MaintenanceConfiguration_STATUS{}
+	dst = &v20250801s.MaintenanceConfiguration_STATUS{}
 	err := configuration.AssignProperties_To_MaintenanceConfiguration_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -601,7 +602,7 @@ func (configuration *MaintenanceConfiguration_STATUS) ConvertStatusTo(destinatio
 }
 
 // AssignProperties_From_MaintenanceConfiguration_STATUS populates our MaintenanceConfiguration_STATUS from the provided source MaintenanceConfiguration_STATUS
-func (configuration *MaintenanceConfiguration_STATUS) AssignProperties_From_MaintenanceConfiguration_STATUS(source *storage.MaintenanceConfiguration_STATUS) error {
+func (configuration *MaintenanceConfiguration_STATUS) AssignProperties_From_MaintenanceConfiguration_STATUS(source *v20250801s.MaintenanceConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -644,10 +645,15 @@ func (configuration *MaintenanceConfiguration_STATUS) AssignProperties_From_Main
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		var systemDataSTATUSStash v20250301s.SystemData_STATUS
+		err := systemDataSTATUSStash.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData_STATUSStash from SystemData")
+		}
+		var systemDatum SystemData_STATUS
+		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData from SystemData_STATUSStash")
 		}
 		configuration.SystemData = &systemDatum
 	} else {
@@ -694,7 +700,7 @@ func (configuration *MaintenanceConfiguration_STATUS) AssignProperties_From_Main
 }
 
 // AssignProperties_To_MaintenanceConfiguration_STATUS populates the provided destination MaintenanceConfiguration_STATUS from our MaintenanceConfiguration_STATUS
-func (configuration *MaintenanceConfiguration_STATUS) AssignProperties_To_MaintenanceConfiguration_STATUS(destination *storage.MaintenanceConfiguration_STATUS) error {
+func (configuration *MaintenanceConfiguration_STATUS) AssignProperties_To_MaintenanceConfiguration_STATUS(destination *v20250801s.MaintenanceConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -706,7 +712,7 @@ func (configuration *MaintenanceConfiguration_STATUS) AssignProperties_To_Mainte
 
 	// MaintenanceWindow
 	if configuration.MaintenanceWindow != nil {
-		var maintenanceWindow storage.MaintenanceWindow_STATUS
+		var maintenanceWindow v20250801s.MaintenanceWindow_STATUS
 		err := configuration.MaintenanceWindow.AssignProperties_To_MaintenanceWindow_STATUS(&maintenanceWindow)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_MaintenanceWindow_STATUS() to populate field MaintenanceWindow")
@@ -721,9 +727,9 @@ func (configuration *MaintenanceConfiguration_STATUS) AssignProperties_To_Mainte
 
 	// NotAllowedTime
 	if configuration.NotAllowedTime != nil {
-		notAllowedTimeList := make([]storage.TimeSpan_STATUS, len(configuration.NotAllowedTime))
+		notAllowedTimeList := make([]v20250801s.TimeSpan_STATUS, len(configuration.NotAllowedTime))
 		for notAllowedTimeIndex, notAllowedTimeItem := range configuration.NotAllowedTime {
-			var notAllowedTime storage.TimeSpan_STATUS
+			var notAllowedTime v20250801s.TimeSpan_STATUS
 			err := notAllowedTimeItem.AssignProperties_To_TimeSpan_STATUS(&notAllowedTime)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_TimeSpan_STATUS() to populate field NotAllowedTime")
@@ -737,10 +743,15 @@ func (configuration *MaintenanceConfiguration_STATUS) AssignProperties_To_Mainte
 
 	// SystemData
 	if configuration.SystemData != nil {
-		var systemDatum storage.SystemData_STATUS
-		err := configuration.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		var systemDataSTATUSStash v20250301s.SystemData_STATUS
+		err := configuration.SystemData.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSStash)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSStash from SystemData")
+		}
+		var systemDatum v20250801s.SystemData_STATUS
+		err = systemDataSTATUSStash.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData from SystemData_STATUSStash")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -749,9 +760,9 @@ func (configuration *MaintenanceConfiguration_STATUS) AssignProperties_To_Mainte
 
 	// TimeInWeek
 	if configuration.TimeInWeek != nil {
-		timeInWeekList := make([]storage.TimeInWeek_STATUS, len(configuration.TimeInWeek))
+		timeInWeekList := make([]v20250801s.TimeInWeek_STATUS, len(configuration.TimeInWeek))
 		for timeInWeekIndex, timeInWeekItem := range configuration.TimeInWeek {
-			var timeInWeek storage.TimeInWeek_STATUS
+			var timeInWeek v20250801s.TimeInWeek_STATUS
 			err := timeInWeekItem.AssignProperties_To_TimeInWeek_STATUS(&timeInWeek)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_TimeInWeek_STATUS() to populate field TimeInWeek")
@@ -787,13 +798,13 @@ func (configuration *MaintenanceConfiguration_STATUS) AssignProperties_To_Mainte
 }
 
 type augmentConversionForMaintenanceConfiguration_Spec interface {
-	AssignPropertiesFrom(src *storage.MaintenanceConfiguration_Spec) error
-	AssignPropertiesTo(dst *storage.MaintenanceConfiguration_Spec) error
+	AssignPropertiesFrom(src *v20250801s.MaintenanceConfiguration_Spec) error
+	AssignPropertiesTo(dst *v20250801s.MaintenanceConfiguration_Spec) error
 }
 
 type augmentConversionForMaintenanceConfiguration_STATUS interface {
-	AssignPropertiesFrom(src *storage.MaintenanceConfiguration_STATUS) error
-	AssignPropertiesTo(dst *storage.MaintenanceConfiguration_STATUS) error
+	AssignPropertiesFrom(src *v20250801s.MaintenanceConfiguration_STATUS) error
+	AssignPropertiesTo(dst *v20250801s.MaintenanceConfiguration_STATUS) error
 }
 
 // Storage version of v1api20240901.MaintenanceConfigurationOperatorSpec
@@ -805,7 +816,7 @@ type MaintenanceConfigurationOperatorSpec struct {
 }
 
 // AssignProperties_From_MaintenanceConfigurationOperatorSpec populates our MaintenanceConfigurationOperatorSpec from the provided source MaintenanceConfigurationOperatorSpec
-func (operator *MaintenanceConfigurationOperatorSpec) AssignProperties_From_MaintenanceConfigurationOperatorSpec(source *storage.MaintenanceConfigurationOperatorSpec) error {
+func (operator *MaintenanceConfigurationOperatorSpec) AssignProperties_From_MaintenanceConfigurationOperatorSpec(source *v20250801s.MaintenanceConfigurationOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -862,7 +873,7 @@ func (operator *MaintenanceConfigurationOperatorSpec) AssignProperties_From_Main
 }
 
 // AssignProperties_To_MaintenanceConfigurationOperatorSpec populates the provided destination MaintenanceConfigurationOperatorSpec from our MaintenanceConfigurationOperatorSpec
-func (operator *MaintenanceConfigurationOperatorSpec) AssignProperties_To_MaintenanceConfigurationOperatorSpec(destination *storage.MaintenanceConfigurationOperatorSpec) error {
+func (operator *MaintenanceConfigurationOperatorSpec) AssignProperties_To_MaintenanceConfigurationOperatorSpec(destination *v20250801s.MaintenanceConfigurationOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
 
@@ -931,7 +942,7 @@ type MaintenanceWindow struct {
 }
 
 // AssignProperties_From_MaintenanceWindow populates our MaintenanceWindow from the provided source MaintenanceWindow
-func (window *MaintenanceWindow) AssignProperties_From_MaintenanceWindow(source *storage.MaintenanceWindow) error {
+func (window *MaintenanceWindow) AssignProperties_From_MaintenanceWindow(source *v20250801s.MaintenanceWindow) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -996,7 +1007,7 @@ func (window *MaintenanceWindow) AssignProperties_From_MaintenanceWindow(source 
 }
 
 // AssignProperties_To_MaintenanceWindow populates the provided destination MaintenanceWindow from our MaintenanceWindow
-func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destination *storage.MaintenanceWindow) error {
+func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destination *v20250801s.MaintenanceWindow) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(window.PropertyBag)
 
@@ -1005,9 +1016,9 @@ func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destinati
 
 	// NotAllowedDates
 	if window.NotAllowedDates != nil {
-		notAllowedDateList := make([]storage.DateSpan, len(window.NotAllowedDates))
+		notAllowedDateList := make([]v20250801s.DateSpan, len(window.NotAllowedDates))
 		for notAllowedDateIndex, notAllowedDateItem := range window.NotAllowedDates {
-			var notAllowedDate storage.DateSpan
+			var notAllowedDate v20250801s.DateSpan
 			err := notAllowedDateItem.AssignProperties_To_DateSpan(&notAllowedDate)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_DateSpan() to populate field NotAllowedDates")
@@ -1021,7 +1032,7 @@ func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destinati
 
 	// Schedule
 	if window.Schedule != nil {
-		var schedule storage.Schedule
+		var schedule v20250801s.Schedule
 		err := window.Schedule.AssignProperties_To_Schedule(&schedule)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_Schedule() to populate field Schedule")
@@ -1073,7 +1084,7 @@ type MaintenanceWindow_STATUS struct {
 }
 
 // AssignProperties_From_MaintenanceWindow_STATUS populates our MaintenanceWindow_STATUS from the provided source MaintenanceWindow_STATUS
-func (window *MaintenanceWindow_STATUS) AssignProperties_From_MaintenanceWindow_STATUS(source *storage.MaintenanceWindow_STATUS) error {
+func (window *MaintenanceWindow_STATUS) AssignProperties_From_MaintenanceWindow_STATUS(source *v20250801s.MaintenanceWindow_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1138,7 +1149,7 @@ func (window *MaintenanceWindow_STATUS) AssignProperties_From_MaintenanceWindow_
 }
 
 // AssignProperties_To_MaintenanceWindow_STATUS populates the provided destination MaintenanceWindow_STATUS from our MaintenanceWindow_STATUS
-func (window *MaintenanceWindow_STATUS) AssignProperties_To_MaintenanceWindow_STATUS(destination *storage.MaintenanceWindow_STATUS) error {
+func (window *MaintenanceWindow_STATUS) AssignProperties_To_MaintenanceWindow_STATUS(destination *v20250801s.MaintenanceWindow_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(window.PropertyBag)
 
@@ -1147,9 +1158,9 @@ func (window *MaintenanceWindow_STATUS) AssignProperties_To_MaintenanceWindow_ST
 
 	// NotAllowedDates
 	if window.NotAllowedDates != nil {
-		notAllowedDateList := make([]storage.DateSpan_STATUS, len(window.NotAllowedDates))
+		notAllowedDateList := make([]v20250801s.DateSpan_STATUS, len(window.NotAllowedDates))
 		for notAllowedDateIndex, notAllowedDateItem := range window.NotAllowedDates {
-			var notAllowedDate storage.DateSpan_STATUS
+			var notAllowedDate v20250801s.DateSpan_STATUS
 			err := notAllowedDateItem.AssignProperties_To_DateSpan_STATUS(&notAllowedDate)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_DateSpan_STATUS() to populate field NotAllowedDates")
@@ -1163,7 +1174,7 @@ func (window *MaintenanceWindow_STATUS) AssignProperties_To_MaintenanceWindow_ST
 
 	// Schedule
 	if window.Schedule != nil {
-		var schedule storage.Schedule_STATUS
+		var schedule v20250801s.Schedule_STATUS
 		err := window.Schedule.AssignProperties_To_Schedule_STATUS(&schedule)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_Schedule_STATUS() to populate field Schedule")
@@ -1215,7 +1226,7 @@ type SystemData_STATUS struct {
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20250301s.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1258,7 +1269,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *s
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20250301s.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
 
@@ -1309,7 +1320,7 @@ type TimeInWeek struct {
 }
 
 // AssignProperties_From_TimeInWeek populates our TimeInWeek from the provided source TimeInWeek
-func (week *TimeInWeek) AssignProperties_From_TimeInWeek(source *storage.TimeInWeek) error {
+func (week *TimeInWeek) AssignProperties_From_TimeInWeek(source *v20250801s.TimeInWeek) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1348,7 +1359,7 @@ func (week *TimeInWeek) AssignProperties_From_TimeInWeek(source *storage.TimeInW
 }
 
 // AssignProperties_To_TimeInWeek populates the provided destination TimeInWeek from our TimeInWeek
-func (week *TimeInWeek) AssignProperties_To_TimeInWeek(destination *storage.TimeInWeek) error {
+func (week *TimeInWeek) AssignProperties_To_TimeInWeek(destination *v20250801s.TimeInWeek) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(week.PropertyBag)
 
@@ -1395,7 +1406,7 @@ type TimeInWeek_STATUS struct {
 }
 
 // AssignProperties_From_TimeInWeek_STATUS populates our TimeInWeek_STATUS from the provided source TimeInWeek_STATUS
-func (week *TimeInWeek_STATUS) AssignProperties_From_TimeInWeek_STATUS(source *storage.TimeInWeek_STATUS) error {
+func (week *TimeInWeek_STATUS) AssignProperties_From_TimeInWeek_STATUS(source *v20250801s.TimeInWeek_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1434,7 +1445,7 @@ func (week *TimeInWeek_STATUS) AssignProperties_From_TimeInWeek_STATUS(source *s
 }
 
 // AssignProperties_To_TimeInWeek_STATUS populates the provided destination TimeInWeek_STATUS from our TimeInWeek_STATUS
-func (week *TimeInWeek_STATUS) AssignProperties_To_TimeInWeek_STATUS(destination *storage.TimeInWeek_STATUS) error {
+func (week *TimeInWeek_STATUS) AssignProperties_To_TimeInWeek_STATUS(destination *v20250801s.TimeInWeek_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(week.PropertyBag)
 
@@ -1481,7 +1492,7 @@ type TimeSpan struct {
 }
 
 // AssignProperties_From_TimeSpan populates our TimeSpan from the provided source TimeSpan
-func (span *TimeSpan) AssignProperties_From_TimeSpan(source *storage.TimeSpan) error {
+func (span *TimeSpan) AssignProperties_From_TimeSpan(source *v20250801s.TimeSpan) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1512,7 +1523,7 @@ func (span *TimeSpan) AssignProperties_From_TimeSpan(source *storage.TimeSpan) e
 }
 
 // AssignProperties_To_TimeSpan populates the provided destination TimeSpan from our TimeSpan
-func (span *TimeSpan) AssignProperties_To_TimeSpan(destination *storage.TimeSpan) error {
+func (span *TimeSpan) AssignProperties_To_TimeSpan(destination *v20250801s.TimeSpan) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(span.PropertyBag)
 
@@ -1551,7 +1562,7 @@ type TimeSpan_STATUS struct {
 }
 
 // AssignProperties_From_TimeSpan_STATUS populates our TimeSpan_STATUS from the provided source TimeSpan_STATUS
-func (span *TimeSpan_STATUS) AssignProperties_From_TimeSpan_STATUS(source *storage.TimeSpan_STATUS) error {
+func (span *TimeSpan_STATUS) AssignProperties_From_TimeSpan_STATUS(source *v20250801s.TimeSpan_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1582,7 +1593,7 @@ func (span *TimeSpan_STATUS) AssignProperties_From_TimeSpan_STATUS(source *stora
 }
 
 // AssignProperties_To_TimeSpan_STATUS populates the provided destination TimeSpan_STATUS from our TimeSpan_STATUS
-func (span *TimeSpan_STATUS) AssignProperties_To_TimeSpan_STATUS(destination *storage.TimeSpan_STATUS) error {
+func (span *TimeSpan_STATUS) AssignProperties_To_TimeSpan_STATUS(destination *v20250801s.TimeSpan_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(span.PropertyBag)
 
@@ -1613,43 +1624,43 @@ func (span *TimeSpan_STATUS) AssignProperties_To_TimeSpan_STATUS(destination *st
 }
 
 type augmentConversionForMaintenanceConfigurationOperatorSpec interface {
-	AssignPropertiesFrom(src *storage.MaintenanceConfigurationOperatorSpec) error
-	AssignPropertiesTo(dst *storage.MaintenanceConfigurationOperatorSpec) error
+	AssignPropertiesFrom(src *v20250801s.MaintenanceConfigurationOperatorSpec) error
+	AssignPropertiesTo(dst *v20250801s.MaintenanceConfigurationOperatorSpec) error
 }
 
 type augmentConversionForMaintenanceWindow interface {
-	AssignPropertiesFrom(src *storage.MaintenanceWindow) error
-	AssignPropertiesTo(dst *storage.MaintenanceWindow) error
+	AssignPropertiesFrom(src *v20250801s.MaintenanceWindow) error
+	AssignPropertiesTo(dst *v20250801s.MaintenanceWindow) error
 }
 
 type augmentConversionForMaintenanceWindow_STATUS interface {
-	AssignPropertiesFrom(src *storage.MaintenanceWindow_STATUS) error
-	AssignPropertiesTo(dst *storage.MaintenanceWindow_STATUS) error
+	AssignPropertiesFrom(src *v20250801s.MaintenanceWindow_STATUS) error
+	AssignPropertiesTo(dst *v20250801s.MaintenanceWindow_STATUS) error
 }
 
 type augmentConversionForSystemData_STATUS interface {
-	AssignPropertiesFrom(src *storage.SystemData_STATUS) error
-	AssignPropertiesTo(dst *storage.SystemData_STATUS) error
+	AssignPropertiesFrom(src *v20250301s.SystemData_STATUS) error
+	AssignPropertiesTo(dst *v20250301s.SystemData_STATUS) error
 }
 
 type augmentConversionForTimeInWeek interface {
-	AssignPropertiesFrom(src *storage.TimeInWeek) error
-	AssignPropertiesTo(dst *storage.TimeInWeek) error
+	AssignPropertiesFrom(src *v20250801s.TimeInWeek) error
+	AssignPropertiesTo(dst *v20250801s.TimeInWeek) error
 }
 
 type augmentConversionForTimeInWeek_STATUS interface {
-	AssignPropertiesFrom(src *storage.TimeInWeek_STATUS) error
-	AssignPropertiesTo(dst *storage.TimeInWeek_STATUS) error
+	AssignPropertiesFrom(src *v20250801s.TimeInWeek_STATUS) error
+	AssignPropertiesTo(dst *v20250801s.TimeInWeek_STATUS) error
 }
 
 type augmentConversionForTimeSpan interface {
-	AssignPropertiesFrom(src *storage.TimeSpan) error
-	AssignPropertiesTo(dst *storage.TimeSpan) error
+	AssignPropertiesFrom(src *v20250801s.TimeSpan) error
+	AssignPropertiesTo(dst *v20250801s.TimeSpan) error
 }
 
 type augmentConversionForTimeSpan_STATUS interface {
-	AssignPropertiesFrom(src *storage.TimeSpan_STATUS) error
-	AssignPropertiesTo(dst *storage.TimeSpan_STATUS) error
+	AssignPropertiesFrom(src *v20250801s.TimeSpan_STATUS) error
+	AssignPropertiesTo(dst *v20250801s.TimeSpan_STATUS) error
 }
 
 // Storage version of v1api20240901.DateSpan
@@ -1661,7 +1672,7 @@ type DateSpan struct {
 }
 
 // AssignProperties_From_DateSpan populates our DateSpan from the provided source DateSpan
-func (span *DateSpan) AssignProperties_From_DateSpan(source *storage.DateSpan) error {
+func (span *DateSpan) AssignProperties_From_DateSpan(source *v20250801s.DateSpan) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1692,7 +1703,7 @@ func (span *DateSpan) AssignProperties_From_DateSpan(source *storage.DateSpan) e
 }
 
 // AssignProperties_To_DateSpan populates the provided destination DateSpan from our DateSpan
-func (span *DateSpan) AssignProperties_To_DateSpan(destination *storage.DateSpan) error {
+func (span *DateSpan) AssignProperties_To_DateSpan(destination *v20250801s.DateSpan) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(span.PropertyBag)
 
@@ -1731,7 +1742,7 @@ type DateSpan_STATUS struct {
 }
 
 // AssignProperties_From_DateSpan_STATUS populates our DateSpan_STATUS from the provided source DateSpan_STATUS
-func (span *DateSpan_STATUS) AssignProperties_From_DateSpan_STATUS(source *storage.DateSpan_STATUS) error {
+func (span *DateSpan_STATUS) AssignProperties_From_DateSpan_STATUS(source *v20250801s.DateSpan_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1762,7 +1773,7 @@ func (span *DateSpan_STATUS) AssignProperties_From_DateSpan_STATUS(source *stora
 }
 
 // AssignProperties_To_DateSpan_STATUS populates the provided destination DateSpan_STATUS from our DateSpan_STATUS
-func (span *DateSpan_STATUS) AssignProperties_To_DateSpan_STATUS(destination *storage.DateSpan_STATUS) error {
+func (span *DateSpan_STATUS) AssignProperties_To_DateSpan_STATUS(destination *v20250801s.DateSpan_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(span.PropertyBag)
 
@@ -1804,7 +1815,7 @@ type Schedule struct {
 }
 
 // AssignProperties_From_Schedule populates our Schedule from the provided source Schedule
-func (schedule *Schedule) AssignProperties_From_Schedule(source *storage.Schedule) error {
+func (schedule *Schedule) AssignProperties_From_Schedule(source *v20250801s.Schedule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1877,13 +1888,13 @@ func (schedule *Schedule) AssignProperties_From_Schedule(source *storage.Schedul
 }
 
 // AssignProperties_To_Schedule populates the provided destination Schedule from our Schedule
-func (schedule *Schedule) AssignProperties_To_Schedule(destination *storage.Schedule) error {
+func (schedule *Schedule) AssignProperties_To_Schedule(destination *v20250801s.Schedule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schedule.PropertyBag)
 
 	// AbsoluteMonthly
 	if schedule.AbsoluteMonthly != nil {
-		var absoluteMonthly storage.AbsoluteMonthlySchedule
+		var absoluteMonthly v20250801s.AbsoluteMonthlySchedule
 		err := schedule.AbsoluteMonthly.AssignProperties_To_AbsoluteMonthlySchedule(&absoluteMonthly)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_AbsoluteMonthlySchedule() to populate field AbsoluteMonthly")
@@ -1895,7 +1906,7 @@ func (schedule *Schedule) AssignProperties_To_Schedule(destination *storage.Sche
 
 	// Daily
 	if schedule.Daily != nil {
-		var daily storage.DailySchedule
+		var daily v20250801s.DailySchedule
 		err := schedule.Daily.AssignProperties_To_DailySchedule(&daily)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_DailySchedule() to populate field Daily")
@@ -1907,7 +1918,7 @@ func (schedule *Schedule) AssignProperties_To_Schedule(destination *storage.Sche
 
 	// RelativeMonthly
 	if schedule.RelativeMonthly != nil {
-		var relativeMonthly storage.RelativeMonthlySchedule
+		var relativeMonthly v20250801s.RelativeMonthlySchedule
 		err := schedule.RelativeMonthly.AssignProperties_To_RelativeMonthlySchedule(&relativeMonthly)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_RelativeMonthlySchedule() to populate field RelativeMonthly")
@@ -1919,7 +1930,7 @@ func (schedule *Schedule) AssignProperties_To_Schedule(destination *storage.Sche
 
 	// Weekly
 	if schedule.Weekly != nil {
-		var weekly storage.WeeklySchedule
+		var weekly v20250801s.WeeklySchedule
 		err := schedule.Weekly.AssignProperties_To_WeeklySchedule(&weekly)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_WeeklySchedule() to populate field Weekly")
@@ -1961,7 +1972,7 @@ type Schedule_STATUS struct {
 }
 
 // AssignProperties_From_Schedule_STATUS populates our Schedule_STATUS from the provided source Schedule_STATUS
-func (schedule *Schedule_STATUS) AssignProperties_From_Schedule_STATUS(source *storage.Schedule_STATUS) error {
+func (schedule *Schedule_STATUS) AssignProperties_From_Schedule_STATUS(source *v20250801s.Schedule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2034,13 +2045,13 @@ func (schedule *Schedule_STATUS) AssignProperties_From_Schedule_STATUS(source *s
 }
 
 // AssignProperties_To_Schedule_STATUS populates the provided destination Schedule_STATUS from our Schedule_STATUS
-func (schedule *Schedule_STATUS) AssignProperties_To_Schedule_STATUS(destination *storage.Schedule_STATUS) error {
+func (schedule *Schedule_STATUS) AssignProperties_To_Schedule_STATUS(destination *v20250801s.Schedule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schedule.PropertyBag)
 
 	// AbsoluteMonthly
 	if schedule.AbsoluteMonthly != nil {
-		var absoluteMonthly storage.AbsoluteMonthlySchedule_STATUS
+		var absoluteMonthly v20250801s.AbsoluteMonthlySchedule_STATUS
 		err := schedule.AbsoluteMonthly.AssignProperties_To_AbsoluteMonthlySchedule_STATUS(&absoluteMonthly)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_AbsoluteMonthlySchedule_STATUS() to populate field AbsoluteMonthly")
@@ -2052,7 +2063,7 @@ func (schedule *Schedule_STATUS) AssignProperties_To_Schedule_STATUS(destination
 
 	// Daily
 	if schedule.Daily != nil {
-		var daily storage.DailySchedule_STATUS
+		var daily v20250801s.DailySchedule_STATUS
 		err := schedule.Daily.AssignProperties_To_DailySchedule_STATUS(&daily)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_DailySchedule_STATUS() to populate field Daily")
@@ -2064,7 +2075,7 @@ func (schedule *Schedule_STATUS) AssignProperties_To_Schedule_STATUS(destination
 
 	// RelativeMonthly
 	if schedule.RelativeMonthly != nil {
-		var relativeMonthly storage.RelativeMonthlySchedule_STATUS
+		var relativeMonthly v20250801s.RelativeMonthlySchedule_STATUS
 		err := schedule.RelativeMonthly.AssignProperties_To_RelativeMonthlySchedule_STATUS(&relativeMonthly)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_RelativeMonthlySchedule_STATUS() to populate field RelativeMonthly")
@@ -2076,7 +2087,7 @@ func (schedule *Schedule_STATUS) AssignProperties_To_Schedule_STATUS(destination
 
 	// Weekly
 	if schedule.Weekly != nil {
-		var weekly storage.WeeklySchedule_STATUS
+		var weekly v20250801s.WeeklySchedule_STATUS
 		err := schedule.Weekly.AssignProperties_To_WeeklySchedule_STATUS(&weekly)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_WeeklySchedule_STATUS() to populate field Weekly")
@@ -2115,7 +2126,7 @@ type AbsoluteMonthlySchedule struct {
 }
 
 // AssignProperties_From_AbsoluteMonthlySchedule populates our AbsoluteMonthlySchedule from the provided source AbsoluteMonthlySchedule
-func (schedule *AbsoluteMonthlySchedule) AssignProperties_From_AbsoluteMonthlySchedule(source *storage.AbsoluteMonthlySchedule) error {
+func (schedule *AbsoluteMonthlySchedule) AssignProperties_From_AbsoluteMonthlySchedule(source *v20250801s.AbsoluteMonthlySchedule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2146,7 +2157,7 @@ func (schedule *AbsoluteMonthlySchedule) AssignProperties_From_AbsoluteMonthlySc
 }
 
 // AssignProperties_To_AbsoluteMonthlySchedule populates the provided destination AbsoluteMonthlySchedule from our AbsoluteMonthlySchedule
-func (schedule *AbsoluteMonthlySchedule) AssignProperties_To_AbsoluteMonthlySchedule(destination *storage.AbsoluteMonthlySchedule) error {
+func (schedule *AbsoluteMonthlySchedule) AssignProperties_To_AbsoluteMonthlySchedule(destination *v20250801s.AbsoluteMonthlySchedule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schedule.PropertyBag)
 
@@ -2185,7 +2196,7 @@ type AbsoluteMonthlySchedule_STATUS struct {
 }
 
 // AssignProperties_From_AbsoluteMonthlySchedule_STATUS populates our AbsoluteMonthlySchedule_STATUS from the provided source AbsoluteMonthlySchedule_STATUS
-func (schedule *AbsoluteMonthlySchedule_STATUS) AssignProperties_From_AbsoluteMonthlySchedule_STATUS(source *storage.AbsoluteMonthlySchedule_STATUS) error {
+func (schedule *AbsoluteMonthlySchedule_STATUS) AssignProperties_From_AbsoluteMonthlySchedule_STATUS(source *v20250801s.AbsoluteMonthlySchedule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2216,7 +2227,7 @@ func (schedule *AbsoluteMonthlySchedule_STATUS) AssignProperties_From_AbsoluteMo
 }
 
 // AssignProperties_To_AbsoluteMonthlySchedule_STATUS populates the provided destination AbsoluteMonthlySchedule_STATUS from our AbsoluteMonthlySchedule_STATUS
-func (schedule *AbsoluteMonthlySchedule_STATUS) AssignProperties_To_AbsoluteMonthlySchedule_STATUS(destination *storage.AbsoluteMonthlySchedule_STATUS) error {
+func (schedule *AbsoluteMonthlySchedule_STATUS) AssignProperties_To_AbsoluteMonthlySchedule_STATUS(destination *v20250801s.AbsoluteMonthlySchedule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schedule.PropertyBag)
 
@@ -2247,23 +2258,23 @@ func (schedule *AbsoluteMonthlySchedule_STATUS) AssignProperties_To_AbsoluteMont
 }
 
 type augmentConversionForDateSpan interface {
-	AssignPropertiesFrom(src *storage.DateSpan) error
-	AssignPropertiesTo(dst *storage.DateSpan) error
+	AssignPropertiesFrom(src *v20250801s.DateSpan) error
+	AssignPropertiesTo(dst *v20250801s.DateSpan) error
 }
 
 type augmentConversionForDateSpan_STATUS interface {
-	AssignPropertiesFrom(src *storage.DateSpan_STATUS) error
-	AssignPropertiesTo(dst *storage.DateSpan_STATUS) error
+	AssignPropertiesFrom(src *v20250801s.DateSpan_STATUS) error
+	AssignPropertiesTo(dst *v20250801s.DateSpan_STATUS) error
 }
 
 type augmentConversionForSchedule interface {
-	AssignPropertiesFrom(src *storage.Schedule) error
-	AssignPropertiesTo(dst *storage.Schedule) error
+	AssignPropertiesFrom(src *v20250801s.Schedule) error
+	AssignPropertiesTo(dst *v20250801s.Schedule) error
 }
 
 type augmentConversionForSchedule_STATUS interface {
-	AssignPropertiesFrom(src *storage.Schedule_STATUS) error
-	AssignPropertiesTo(dst *storage.Schedule_STATUS) error
+	AssignPropertiesFrom(src *v20250801s.Schedule_STATUS) error
+	AssignPropertiesTo(dst *v20250801s.Schedule_STATUS) error
 }
 
 // Storage version of v1api20240901.DailySchedule
@@ -2274,7 +2285,7 @@ type DailySchedule struct {
 }
 
 // AssignProperties_From_DailySchedule populates our DailySchedule from the provided source DailySchedule
-func (schedule *DailySchedule) AssignProperties_From_DailySchedule(source *storage.DailySchedule) error {
+func (schedule *DailySchedule) AssignProperties_From_DailySchedule(source *v20250801s.DailySchedule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2302,7 +2313,7 @@ func (schedule *DailySchedule) AssignProperties_From_DailySchedule(source *stora
 }
 
 // AssignProperties_To_DailySchedule populates the provided destination DailySchedule from our DailySchedule
-func (schedule *DailySchedule) AssignProperties_To_DailySchedule(destination *storage.DailySchedule) error {
+func (schedule *DailySchedule) AssignProperties_To_DailySchedule(destination *v20250801s.DailySchedule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schedule.PropertyBag)
 
@@ -2337,7 +2348,7 @@ type DailySchedule_STATUS struct {
 }
 
 // AssignProperties_From_DailySchedule_STATUS populates our DailySchedule_STATUS from the provided source DailySchedule_STATUS
-func (schedule *DailySchedule_STATUS) AssignProperties_From_DailySchedule_STATUS(source *storage.DailySchedule_STATUS) error {
+func (schedule *DailySchedule_STATUS) AssignProperties_From_DailySchedule_STATUS(source *v20250801s.DailySchedule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2365,7 +2376,7 @@ func (schedule *DailySchedule_STATUS) AssignProperties_From_DailySchedule_STATUS
 }
 
 // AssignProperties_To_DailySchedule_STATUS populates the provided destination DailySchedule_STATUS from our DailySchedule_STATUS
-func (schedule *DailySchedule_STATUS) AssignProperties_To_DailySchedule_STATUS(destination *storage.DailySchedule_STATUS) error {
+func (schedule *DailySchedule_STATUS) AssignProperties_To_DailySchedule_STATUS(destination *v20250801s.DailySchedule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schedule.PropertyBag)
 
@@ -2402,7 +2413,7 @@ type RelativeMonthlySchedule struct {
 }
 
 // AssignProperties_From_RelativeMonthlySchedule populates our RelativeMonthlySchedule from the provided source RelativeMonthlySchedule
-func (schedule *RelativeMonthlySchedule) AssignProperties_From_RelativeMonthlySchedule(source *storage.RelativeMonthlySchedule) error {
+func (schedule *RelativeMonthlySchedule) AssignProperties_From_RelativeMonthlySchedule(source *v20250801s.RelativeMonthlySchedule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2436,7 +2447,7 @@ func (schedule *RelativeMonthlySchedule) AssignProperties_From_RelativeMonthlySc
 }
 
 // AssignProperties_To_RelativeMonthlySchedule populates the provided destination RelativeMonthlySchedule from our RelativeMonthlySchedule
-func (schedule *RelativeMonthlySchedule) AssignProperties_To_RelativeMonthlySchedule(destination *storage.RelativeMonthlySchedule) error {
+func (schedule *RelativeMonthlySchedule) AssignProperties_To_RelativeMonthlySchedule(destination *v20250801s.RelativeMonthlySchedule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schedule.PropertyBag)
 
@@ -2479,7 +2490,7 @@ type RelativeMonthlySchedule_STATUS struct {
 }
 
 // AssignProperties_From_RelativeMonthlySchedule_STATUS populates our RelativeMonthlySchedule_STATUS from the provided source RelativeMonthlySchedule_STATUS
-func (schedule *RelativeMonthlySchedule_STATUS) AssignProperties_From_RelativeMonthlySchedule_STATUS(source *storage.RelativeMonthlySchedule_STATUS) error {
+func (schedule *RelativeMonthlySchedule_STATUS) AssignProperties_From_RelativeMonthlySchedule_STATUS(source *v20250801s.RelativeMonthlySchedule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2513,7 +2524,7 @@ func (schedule *RelativeMonthlySchedule_STATUS) AssignProperties_From_RelativeMo
 }
 
 // AssignProperties_To_RelativeMonthlySchedule_STATUS populates the provided destination RelativeMonthlySchedule_STATUS from our RelativeMonthlySchedule_STATUS
-func (schedule *RelativeMonthlySchedule_STATUS) AssignProperties_To_RelativeMonthlySchedule_STATUS(destination *storage.RelativeMonthlySchedule_STATUS) error {
+func (schedule *RelativeMonthlySchedule_STATUS) AssignProperties_To_RelativeMonthlySchedule_STATUS(destination *v20250801s.RelativeMonthlySchedule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schedule.PropertyBag)
 
@@ -2555,7 +2566,7 @@ type WeeklySchedule struct {
 }
 
 // AssignProperties_From_WeeklySchedule populates our WeeklySchedule from the provided source WeeklySchedule
-func (schedule *WeeklySchedule) AssignProperties_From_WeeklySchedule(source *storage.WeeklySchedule) error {
+func (schedule *WeeklySchedule) AssignProperties_From_WeeklySchedule(source *v20250801s.WeeklySchedule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2586,7 +2597,7 @@ func (schedule *WeeklySchedule) AssignProperties_From_WeeklySchedule(source *sto
 }
 
 // AssignProperties_To_WeeklySchedule populates the provided destination WeeklySchedule from our WeeklySchedule
-func (schedule *WeeklySchedule) AssignProperties_To_WeeklySchedule(destination *storage.WeeklySchedule) error {
+func (schedule *WeeklySchedule) AssignProperties_To_WeeklySchedule(destination *v20250801s.WeeklySchedule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schedule.PropertyBag)
 
@@ -2625,7 +2636,7 @@ type WeeklySchedule_STATUS struct {
 }
 
 // AssignProperties_From_WeeklySchedule_STATUS populates our WeeklySchedule_STATUS from the provided source WeeklySchedule_STATUS
-func (schedule *WeeklySchedule_STATUS) AssignProperties_From_WeeklySchedule_STATUS(source *storage.WeeklySchedule_STATUS) error {
+func (schedule *WeeklySchedule_STATUS) AssignProperties_From_WeeklySchedule_STATUS(source *v20250801s.WeeklySchedule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2656,7 +2667,7 @@ func (schedule *WeeklySchedule_STATUS) AssignProperties_From_WeeklySchedule_STAT
 }
 
 // AssignProperties_To_WeeklySchedule_STATUS populates the provided destination WeeklySchedule_STATUS from our WeeklySchedule_STATUS
-func (schedule *WeeklySchedule_STATUS) AssignProperties_To_WeeklySchedule_STATUS(destination *storage.WeeklySchedule_STATUS) error {
+func (schedule *WeeklySchedule_STATUS) AssignProperties_To_WeeklySchedule_STATUS(destination *v20250801s.WeeklySchedule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schedule.PropertyBag)
 
@@ -2687,43 +2698,43 @@ func (schedule *WeeklySchedule_STATUS) AssignProperties_To_WeeklySchedule_STATUS
 }
 
 type augmentConversionForAbsoluteMonthlySchedule interface {
-	AssignPropertiesFrom(src *storage.AbsoluteMonthlySchedule) error
-	AssignPropertiesTo(dst *storage.AbsoluteMonthlySchedule) error
+	AssignPropertiesFrom(src *v20250801s.AbsoluteMonthlySchedule) error
+	AssignPropertiesTo(dst *v20250801s.AbsoluteMonthlySchedule) error
 }
 
 type augmentConversionForAbsoluteMonthlySchedule_STATUS interface {
-	AssignPropertiesFrom(src *storage.AbsoluteMonthlySchedule_STATUS) error
-	AssignPropertiesTo(dst *storage.AbsoluteMonthlySchedule_STATUS) error
+	AssignPropertiesFrom(src *v20250801s.AbsoluteMonthlySchedule_STATUS) error
+	AssignPropertiesTo(dst *v20250801s.AbsoluteMonthlySchedule_STATUS) error
 }
 
 type augmentConversionForDailySchedule interface {
-	AssignPropertiesFrom(src *storage.DailySchedule) error
-	AssignPropertiesTo(dst *storage.DailySchedule) error
+	AssignPropertiesFrom(src *v20250801s.DailySchedule) error
+	AssignPropertiesTo(dst *v20250801s.DailySchedule) error
 }
 
 type augmentConversionForDailySchedule_STATUS interface {
-	AssignPropertiesFrom(src *storage.DailySchedule_STATUS) error
-	AssignPropertiesTo(dst *storage.DailySchedule_STATUS) error
+	AssignPropertiesFrom(src *v20250801s.DailySchedule_STATUS) error
+	AssignPropertiesTo(dst *v20250801s.DailySchedule_STATUS) error
 }
 
 type augmentConversionForRelativeMonthlySchedule interface {
-	AssignPropertiesFrom(src *storage.RelativeMonthlySchedule) error
-	AssignPropertiesTo(dst *storage.RelativeMonthlySchedule) error
+	AssignPropertiesFrom(src *v20250801s.RelativeMonthlySchedule) error
+	AssignPropertiesTo(dst *v20250801s.RelativeMonthlySchedule) error
 }
 
 type augmentConversionForRelativeMonthlySchedule_STATUS interface {
-	AssignPropertiesFrom(src *storage.RelativeMonthlySchedule_STATUS) error
-	AssignPropertiesTo(dst *storage.RelativeMonthlySchedule_STATUS) error
+	AssignPropertiesFrom(src *v20250801s.RelativeMonthlySchedule_STATUS) error
+	AssignPropertiesTo(dst *v20250801s.RelativeMonthlySchedule_STATUS) error
 }
 
 type augmentConversionForWeeklySchedule interface {
-	AssignPropertiesFrom(src *storage.WeeklySchedule) error
-	AssignPropertiesTo(dst *storage.WeeklySchedule) error
+	AssignPropertiesFrom(src *v20250801s.WeeklySchedule) error
+	AssignPropertiesTo(dst *v20250801s.WeeklySchedule) error
 }
 
 type augmentConversionForWeeklySchedule_STATUS interface {
-	AssignPropertiesFrom(src *storage.WeeklySchedule_STATUS) error
-	AssignPropertiesTo(dst *storage.WeeklySchedule_STATUS) error
+	AssignPropertiesFrom(src *v20250801s.WeeklySchedule_STATUS) error
+	AssignPropertiesTo(dst *v20250801s.WeeklySchedule_STATUS) error
 }
 
 func init() {

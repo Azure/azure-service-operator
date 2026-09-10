@@ -99,7 +99,6 @@ func TestReconcileCRDs(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			testData := testSetup(t)
-			deprecatedStorageVersion := "v1api20240901storage"
 
 			// Add instances if provided
 			for _, instance := range tt.instances {
@@ -107,7 +106,7 @@ func TestReconcileCRDs(t *testing.T) {
 			}
 
 			deprecatedCRDVersions := map[string][]string{
-				"managedclusters.containerservice.azure.com": {deprecatedStorageVersion},
+				"managedclusters.containerservice.azure.com": {"v1api20240901storage"},
 			}
 
 			options := crd.Options{
@@ -132,9 +131,9 @@ func TestReconcileCRDs(t *testing.T) {
 			)).To(Succeed())
 
 			if tt.expectDeprecated {
-				g.Expect(crd.Status.StoredVersions).ToNot(ContainElement(deprecatedStorageVersion))
+				g.Expect(crd.Status.StoredVersions).ToNot(ContainElement("v1api20240901storage"))
 			} else {
-				g.Expect(crd.Status.StoredVersions).To(ContainElement(deprecatedStorageVersion))
+				g.Expect(crd.Status.StoredVersions).To(ContainElement("v1api20240901storage"))
 			}
 		})
 	}

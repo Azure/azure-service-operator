@@ -4,8 +4,6 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -14,12 +12,15 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
+
+// +kubebuilder:rbac:groups=containerservice.azure.com,resources=fleetsautoupgradeprofiles,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=containerservice.azure.com,resources={fleetsautoupgradeprofiles/status,fleetsautoupgradeprofiles/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,containerservice}
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -45,28 +46,6 @@ func (profile *FleetsAutoUpgradeProfile) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (profile *FleetsAutoUpgradeProfile) SetConditions(conditions conditions.Conditions) {
 	profile.Status.Conditions = conditions
-}
-
-var _ conversion.Convertible = &FleetsAutoUpgradeProfile{}
-
-// ConvertFrom populates our FleetsAutoUpgradeProfile from the provided hub FleetsAutoUpgradeProfile
-func (profile *FleetsAutoUpgradeProfile) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FleetsAutoUpgradeProfile)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v20250301/storage/FleetsAutoUpgradeProfile but received %T instead", hub)
-	}
-
-	return profile.AssignProperties_From_FleetsAutoUpgradeProfile(source)
-}
-
-// ConvertTo populates the provided hub FleetsAutoUpgradeProfile from our FleetsAutoUpgradeProfile
-func (profile *FleetsAutoUpgradeProfile) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FleetsAutoUpgradeProfile)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v20250301/storage/FleetsAutoUpgradeProfile but received %T instead", hub)
-	}
-
-	return profile.AssignProperties_To_FleetsAutoUpgradeProfile(destination)
 }
 
 var _ configmaps.Exporter = &FleetsAutoUpgradeProfile{}
@@ -164,75 +143,8 @@ func (profile *FleetsAutoUpgradeProfile) SetStatus(status genruntime.Convertible
 	return nil
 }
 
-// AssignProperties_From_FleetsAutoUpgradeProfile populates our FleetsAutoUpgradeProfile from the provided source FleetsAutoUpgradeProfile
-func (profile *FleetsAutoUpgradeProfile) AssignProperties_From_FleetsAutoUpgradeProfile(source *storage.FleetsAutoUpgradeProfile) error {
-
-	// ObjectMeta
-	profile.ObjectMeta = *source.ObjectMeta.DeepCopy()
-
-	// Spec
-	var spec FleetsAutoUpgradeProfile_Spec
-	err := spec.AssignProperties_From_FleetsAutoUpgradeProfile_Spec(&source.Spec)
-	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_FleetsAutoUpgradeProfile_Spec() to populate field Spec")
-	}
-	profile.Spec = spec
-
-	// Status
-	var status FleetsAutoUpgradeProfile_STATUS
-	err = status.AssignProperties_From_FleetsAutoUpgradeProfile_STATUS(&source.Status)
-	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_FleetsAutoUpgradeProfile_STATUS() to populate field Status")
-	}
-	profile.Status = status
-
-	// Invoke the augmentConversionForFleetsAutoUpgradeProfile interface (if implemented) to customize the conversion
-	var profileAsAny any = profile
-	if augmentedProfile, ok := profileAsAny.(augmentConversionForFleetsAutoUpgradeProfile); ok {
-		err := augmentedProfile.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_FleetsAutoUpgradeProfile populates the provided destination FleetsAutoUpgradeProfile from our FleetsAutoUpgradeProfile
-func (profile *FleetsAutoUpgradeProfile) AssignProperties_To_FleetsAutoUpgradeProfile(destination *storage.FleetsAutoUpgradeProfile) error {
-
-	// ObjectMeta
-	destination.ObjectMeta = *profile.ObjectMeta.DeepCopy()
-
-	// Spec
-	var spec storage.FleetsAutoUpgradeProfile_Spec
-	err := profile.Spec.AssignProperties_To_FleetsAutoUpgradeProfile_Spec(&spec)
-	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_FleetsAutoUpgradeProfile_Spec() to populate field Spec")
-	}
-	destination.Spec = spec
-
-	// Status
-	var status storage.FleetsAutoUpgradeProfile_STATUS
-	err = profile.Status.AssignProperties_To_FleetsAutoUpgradeProfile_STATUS(&status)
-	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_FleetsAutoUpgradeProfile_STATUS() to populate field Status")
-	}
-	destination.Status = status
-
-	// Invoke the augmentConversionForFleetsAutoUpgradeProfile interface (if implemented) to customize the conversion
-	var profileAsAny any = profile
-	if augmentedProfile, ok := profileAsAny.(augmentConversionForFleetsAutoUpgradeProfile); ok {
-		err := augmentedProfile.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
+// Hub marks that this FleetsAutoUpgradeProfile is the hub type for conversion
+func (profile *FleetsAutoUpgradeProfile) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (profile *FleetsAutoUpgradeProfile) OriginalGVK() *schema.GroupVersionKind {
@@ -252,11 +164,6 @@ type FleetsAutoUpgradeProfileList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FleetsAutoUpgradeProfile `json:"items"`
-}
-
-type augmentConversionForFleetsAutoUpgradeProfile interface {
-	AssignPropertiesFrom(src *storage.FleetsAutoUpgradeProfile) error
-	AssignPropertiesTo(dst *storage.FleetsAutoUpgradeProfile) error
 }
 
 // Storage version of v1api20250301.FleetsAutoUpgradeProfile_Spec
@@ -286,214 +193,20 @@ var _ genruntime.ConvertibleSpec = &FleetsAutoUpgradeProfile_Spec{}
 
 // ConvertSpecFrom populates our FleetsAutoUpgradeProfile_Spec from the provided source
 func (profile *FleetsAutoUpgradeProfile_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.FleetsAutoUpgradeProfile_Spec)
-	if ok {
-		// Populate our instance from source
-		return profile.AssignProperties_From_FleetsAutoUpgradeProfile_Spec(src)
+	if source == profile {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	// Convert to an intermediate form
-	src = &storage.FleetsAutoUpgradeProfile_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = profile.AssignProperties_From_FleetsAutoUpgradeProfile_Spec(src)
-	if err != nil {
-		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
+	return source.ConvertSpecTo(profile)
 }
 
 // ConvertSpecTo populates the provided destination from our FleetsAutoUpgradeProfile_Spec
 func (profile *FleetsAutoUpgradeProfile_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.FleetsAutoUpgradeProfile_Spec)
-	if ok {
-		// Populate destination from our instance
-		return profile.AssignProperties_To_FleetsAutoUpgradeProfile_Spec(dst)
+	if destination == profile {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	// Convert to an intermediate form
-	dst = &storage.FleetsAutoUpgradeProfile_Spec{}
-	err := profile.AssignProperties_To_FleetsAutoUpgradeProfile_Spec(dst)
-	if err != nil {
-		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_FleetsAutoUpgradeProfile_Spec populates our FleetsAutoUpgradeProfile_Spec from the provided source FleetsAutoUpgradeProfile_Spec
-func (profile *FleetsAutoUpgradeProfile_Spec) AssignProperties_From_FleetsAutoUpgradeProfile_Spec(source *storage.FleetsAutoUpgradeProfile_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AzureName
-	profile.AzureName = source.AzureName
-
-	// Channel
-	profile.Channel = genruntime.ClonePointerToString(source.Channel)
-
-	// Disabled
-	if source.Disabled != nil {
-		disabled := *source.Disabled
-		profile.Disabled = &disabled
-	} else {
-		profile.Disabled = nil
-	}
-
-	// NodeImageSelection
-	if source.NodeImageSelection != nil {
-		var nodeImageSelection AutoUpgradeNodeImageSelection
-		err := nodeImageSelection.AssignProperties_From_AutoUpgradeNodeImageSelection(source.NodeImageSelection)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_AutoUpgradeNodeImageSelection() to populate field NodeImageSelection")
-		}
-		profile.NodeImageSelection = &nodeImageSelection
-	} else {
-		profile.NodeImageSelection = nil
-	}
-
-	// OperatorSpec
-	if source.OperatorSpec != nil {
-		var operatorSpec FleetsAutoUpgradeProfileOperatorSpec
-		err := operatorSpec.AssignProperties_From_FleetsAutoUpgradeProfileOperatorSpec(source.OperatorSpec)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_FleetsAutoUpgradeProfileOperatorSpec() to populate field OperatorSpec")
-		}
-		profile.OperatorSpec = &operatorSpec
-	} else {
-		profile.OperatorSpec = nil
-	}
-
-	// OriginalVersion
-	profile.OriginalVersion = source.OriginalVersion
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		profile.Owner = &owner
-	} else {
-		profile.Owner = nil
-	}
-
-	// UpdateStrategyReference
-	if source.UpdateStrategyReference != nil {
-		updateStrategyReference := source.UpdateStrategyReference.Copy()
-		profile.UpdateStrategyReference = &updateStrategyReference
-	} else {
-		profile.UpdateStrategyReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		profile.PropertyBag = propertyBag
-	} else {
-		profile.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForFleetsAutoUpgradeProfile_Spec interface (if implemented) to customize the conversion
-	var profileAsAny any = profile
-	if augmentedProfile, ok := profileAsAny.(augmentConversionForFleetsAutoUpgradeProfile_Spec); ok {
-		err := augmentedProfile.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_FleetsAutoUpgradeProfile_Spec populates the provided destination FleetsAutoUpgradeProfile_Spec from our FleetsAutoUpgradeProfile_Spec
-func (profile *FleetsAutoUpgradeProfile_Spec) AssignProperties_To_FleetsAutoUpgradeProfile_Spec(destination *storage.FleetsAutoUpgradeProfile_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
-
-	// AzureName
-	destination.AzureName = profile.AzureName
-
-	// Channel
-	destination.Channel = genruntime.ClonePointerToString(profile.Channel)
-
-	// Disabled
-	if profile.Disabled != nil {
-		disabled := *profile.Disabled
-		destination.Disabled = &disabled
-	} else {
-		destination.Disabled = nil
-	}
-
-	// NodeImageSelection
-	if profile.NodeImageSelection != nil {
-		var nodeImageSelection storage.AutoUpgradeNodeImageSelection
-		err := profile.NodeImageSelection.AssignProperties_To_AutoUpgradeNodeImageSelection(&nodeImageSelection)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_AutoUpgradeNodeImageSelection() to populate field NodeImageSelection")
-		}
-		destination.NodeImageSelection = &nodeImageSelection
-	} else {
-		destination.NodeImageSelection = nil
-	}
-
-	// OperatorSpec
-	if profile.OperatorSpec != nil {
-		var operatorSpec storage.FleetsAutoUpgradeProfileOperatorSpec
-		err := profile.OperatorSpec.AssignProperties_To_FleetsAutoUpgradeProfileOperatorSpec(&operatorSpec)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_FleetsAutoUpgradeProfileOperatorSpec() to populate field OperatorSpec")
-		}
-		destination.OperatorSpec = &operatorSpec
-	} else {
-		destination.OperatorSpec = nil
-	}
-
-	// OriginalVersion
-	destination.OriginalVersion = profile.OriginalVersion
-
-	// Owner
-	if profile.Owner != nil {
-		owner := profile.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// UpdateStrategyReference
-	if profile.UpdateStrategyReference != nil {
-		updateStrategyReference := profile.UpdateStrategyReference.Copy()
-		destination.UpdateStrategyReference = &updateStrategyReference
-	} else {
-		destination.UpdateStrategyReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForFleetsAutoUpgradeProfile_Spec interface (if implemented) to customize the conversion
-	var profileAsAny any = profile
-	if augmentedProfile, ok := profileAsAny.(augmentConversionForFleetsAutoUpgradeProfile_Spec); ok {
-		err := augmentedProfile.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
+	return destination.ConvertSpecFrom(profile)
 }
 
 // Storage version of v1api20250301.FleetsAutoUpgradeProfile_STATUS
@@ -517,246 +230,20 @@ var _ genruntime.ConvertibleStatus = &FleetsAutoUpgradeProfile_STATUS{}
 
 // ConvertStatusFrom populates our FleetsAutoUpgradeProfile_STATUS from the provided source
 func (profile *FleetsAutoUpgradeProfile_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.FleetsAutoUpgradeProfile_STATUS)
-	if ok {
-		// Populate our instance from source
-		return profile.AssignProperties_From_FleetsAutoUpgradeProfile_STATUS(src)
+	if source == profile {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	// Convert to an intermediate form
-	src = &storage.FleetsAutoUpgradeProfile_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-	err = profile.AssignProperties_From_FleetsAutoUpgradeProfile_STATUS(src)
-	if err != nil {
-		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
+	return source.ConvertStatusTo(profile)
 }
 
 // ConvertStatusTo populates the provided destination from our FleetsAutoUpgradeProfile_STATUS
 func (profile *FleetsAutoUpgradeProfile_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.FleetsAutoUpgradeProfile_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return profile.AssignProperties_To_FleetsAutoUpgradeProfile_STATUS(dst)
+	if destination == profile {
+		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	// Convert to an intermediate form
-	dst = &storage.FleetsAutoUpgradeProfile_STATUS{}
-	err := profile.AssignProperties_To_FleetsAutoUpgradeProfile_STATUS(dst)
-	if err != nil {
-		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_FleetsAutoUpgradeProfile_STATUS populates our FleetsAutoUpgradeProfile_STATUS from the provided source FleetsAutoUpgradeProfile_STATUS
-func (profile *FleetsAutoUpgradeProfile_STATUS) AssignProperties_From_FleetsAutoUpgradeProfile_STATUS(source *storage.FleetsAutoUpgradeProfile_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AutoUpgradeProfileStatus
-	if source.AutoUpgradeProfileStatus != nil {
-		var autoUpgradeProfileStatus AutoUpgradeProfileStatus_STATUS
-		err := autoUpgradeProfileStatus.AssignProperties_From_AutoUpgradeProfileStatus_STATUS(source.AutoUpgradeProfileStatus)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_AutoUpgradeProfileStatus_STATUS() to populate field AutoUpgradeProfileStatus")
-		}
-		profile.AutoUpgradeProfileStatus = &autoUpgradeProfileStatus
-	} else {
-		profile.AutoUpgradeProfileStatus = nil
-	}
-
-	// Channel
-	profile.Channel = genruntime.ClonePointerToString(source.Channel)
-
-	// Conditions
-	profile.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// Disabled
-	if source.Disabled != nil {
-		disabled := *source.Disabled
-		profile.Disabled = &disabled
-	} else {
-		profile.Disabled = nil
-	}
-
-	// ETag
-	profile.ETag = genruntime.ClonePointerToString(source.ETag)
-
-	// Id
-	profile.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Name
-	profile.Name = genruntime.ClonePointerToString(source.Name)
-
-	// NodeImageSelection
-	if source.NodeImageSelection != nil {
-		var nodeImageSelection AutoUpgradeNodeImageSelection_STATUS
-		err := nodeImageSelection.AssignProperties_From_AutoUpgradeNodeImageSelection_STATUS(source.NodeImageSelection)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_AutoUpgradeNodeImageSelection_STATUS() to populate field NodeImageSelection")
-		}
-		profile.NodeImageSelection = &nodeImageSelection
-	} else {
-		profile.NodeImageSelection = nil
-	}
-
-	// ProvisioningState
-	profile.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
-		}
-		profile.SystemData = &systemDatum
-	} else {
-		profile.SystemData = nil
-	}
-
-	// Type
-	profile.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UpdateStrategyId
-	profile.UpdateStrategyId = genruntime.ClonePointerToString(source.UpdateStrategyId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		profile.PropertyBag = propertyBag
-	} else {
-		profile.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForFleetsAutoUpgradeProfile_STATUS interface (if implemented) to customize the conversion
-	var profileAsAny any = profile
-	if augmentedProfile, ok := profileAsAny.(augmentConversionForFleetsAutoUpgradeProfile_STATUS); ok {
-		err := augmentedProfile.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_FleetsAutoUpgradeProfile_STATUS populates the provided destination FleetsAutoUpgradeProfile_STATUS from our FleetsAutoUpgradeProfile_STATUS
-func (profile *FleetsAutoUpgradeProfile_STATUS) AssignProperties_To_FleetsAutoUpgradeProfile_STATUS(destination *storage.FleetsAutoUpgradeProfile_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
-
-	// AutoUpgradeProfileStatus
-	if profile.AutoUpgradeProfileStatus != nil {
-		var autoUpgradeProfileStatus storage.AutoUpgradeProfileStatus_STATUS
-		err := profile.AutoUpgradeProfileStatus.AssignProperties_To_AutoUpgradeProfileStatus_STATUS(&autoUpgradeProfileStatus)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_AutoUpgradeProfileStatus_STATUS() to populate field AutoUpgradeProfileStatus")
-		}
-		destination.AutoUpgradeProfileStatus = &autoUpgradeProfileStatus
-	} else {
-		destination.AutoUpgradeProfileStatus = nil
-	}
-
-	// Channel
-	destination.Channel = genruntime.ClonePointerToString(profile.Channel)
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(profile.Conditions)
-
-	// Disabled
-	if profile.Disabled != nil {
-		disabled := *profile.Disabled
-		destination.Disabled = &disabled
-	} else {
-		destination.Disabled = nil
-	}
-
-	// ETag
-	destination.ETag = genruntime.ClonePointerToString(profile.ETag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(profile.Id)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(profile.Name)
-
-	// NodeImageSelection
-	if profile.NodeImageSelection != nil {
-		var nodeImageSelection storage.AutoUpgradeNodeImageSelection_STATUS
-		err := profile.NodeImageSelection.AssignProperties_To_AutoUpgradeNodeImageSelection_STATUS(&nodeImageSelection)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_AutoUpgradeNodeImageSelection_STATUS() to populate field NodeImageSelection")
-		}
-		destination.NodeImageSelection = &nodeImageSelection
-	} else {
-		destination.NodeImageSelection = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(profile.ProvisioningState)
-
-	// SystemData
-	if profile.SystemData != nil {
-		var systemDatum storage.SystemData_STATUS
-		err := profile.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(profile.Type)
-
-	// UpdateStrategyId
-	destination.UpdateStrategyId = genruntime.ClonePointerToString(profile.UpdateStrategyId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForFleetsAutoUpgradeProfile_STATUS interface (if implemented) to customize the conversion
-	var profileAsAny any = profile
-	if augmentedProfile, ok := profileAsAny.(augmentConversionForFleetsAutoUpgradeProfile_STATUS); ok {
-		err := augmentedProfile.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-type augmentConversionForFleetsAutoUpgradeProfile_Spec interface {
-	AssignPropertiesFrom(src *storage.FleetsAutoUpgradeProfile_Spec) error
-	AssignPropertiesTo(dst *storage.FleetsAutoUpgradeProfile_Spec) error
-}
-
-type augmentConversionForFleetsAutoUpgradeProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.FleetsAutoUpgradeProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.FleetsAutoUpgradeProfile_STATUS) error
+	return destination.ConvertStatusFrom(profile)
 }
 
 // Storage version of v1api20250301.AutoUpgradeNodeImageSelection
@@ -766,123 +253,11 @@ type AutoUpgradeNodeImageSelection struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-// AssignProperties_From_AutoUpgradeNodeImageSelection populates our AutoUpgradeNodeImageSelection from the provided source AutoUpgradeNodeImageSelection
-func (selection *AutoUpgradeNodeImageSelection) AssignProperties_From_AutoUpgradeNodeImageSelection(source *storage.AutoUpgradeNodeImageSelection) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Type
-	selection.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		selection.PropertyBag = propertyBag
-	} else {
-		selection.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForAutoUpgradeNodeImageSelection interface (if implemented) to customize the conversion
-	var selectionAsAny any = selection
-	if augmentedSelection, ok := selectionAsAny.(augmentConversionForAutoUpgradeNodeImageSelection); ok {
-		err := augmentedSelection.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_AutoUpgradeNodeImageSelection populates the provided destination AutoUpgradeNodeImageSelection from our AutoUpgradeNodeImageSelection
-func (selection *AutoUpgradeNodeImageSelection) AssignProperties_To_AutoUpgradeNodeImageSelection(destination *storage.AutoUpgradeNodeImageSelection) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(selection.PropertyBag)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(selection.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForAutoUpgradeNodeImageSelection interface (if implemented) to customize the conversion
-	var selectionAsAny any = selection
-	if augmentedSelection, ok := selectionAsAny.(augmentConversionForAutoUpgradeNodeImageSelection); ok {
-		err := augmentedSelection.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1api20250301.AutoUpgradeNodeImageSelection_STATUS
 // The node image upgrade to be applied to the target clusters in auto upgrade.
 type AutoUpgradeNodeImageSelection_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
-}
-
-// AssignProperties_From_AutoUpgradeNodeImageSelection_STATUS populates our AutoUpgradeNodeImageSelection_STATUS from the provided source AutoUpgradeNodeImageSelection_STATUS
-func (selection *AutoUpgradeNodeImageSelection_STATUS) AssignProperties_From_AutoUpgradeNodeImageSelection_STATUS(source *storage.AutoUpgradeNodeImageSelection_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Type
-	selection.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		selection.PropertyBag = propertyBag
-	} else {
-		selection.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForAutoUpgradeNodeImageSelection_STATUS interface (if implemented) to customize the conversion
-	var selectionAsAny any = selection
-	if augmentedSelection, ok := selectionAsAny.(augmentConversionForAutoUpgradeNodeImageSelection_STATUS); ok {
-		err := augmentedSelection.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_AutoUpgradeNodeImageSelection_STATUS populates the provided destination AutoUpgradeNodeImageSelection_STATUS from our AutoUpgradeNodeImageSelection_STATUS
-func (selection *AutoUpgradeNodeImageSelection_STATUS) AssignProperties_To_AutoUpgradeNodeImageSelection_STATUS(destination *storage.AutoUpgradeNodeImageSelection_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(selection.PropertyBag)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(selection.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForAutoUpgradeNodeImageSelection_STATUS interface (if implemented) to customize the conversion
-	var selectionAsAny any = selection
-	if augmentedSelection, ok := selectionAsAny.(augmentConversionForAutoUpgradeNodeImageSelection_STATUS); ok {
-		err := augmentedSelection.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
 }
 
 // Storage version of v1api20250301.AutoUpgradeProfileStatus_STATUS
@@ -895,238 +270,12 @@ type AutoUpgradeProfileStatus_STATUS struct {
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_AutoUpgradeProfileStatus_STATUS populates our AutoUpgradeProfileStatus_STATUS from the provided source AutoUpgradeProfileStatus_STATUS
-func (status *AutoUpgradeProfileStatus_STATUS) AssignProperties_From_AutoUpgradeProfileStatus_STATUS(source *storage.AutoUpgradeProfileStatus_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// LastTriggerError
-	if source.LastTriggerError != nil {
-		var lastTriggerError ErrorDetail_STATUS
-		err := lastTriggerError.AssignProperties_From_ErrorDetail_STATUS(source.LastTriggerError)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_ErrorDetail_STATUS() to populate field LastTriggerError")
-		}
-		status.LastTriggerError = &lastTriggerError
-	} else {
-		status.LastTriggerError = nil
-	}
-
-	// LastTriggerStatus
-	status.LastTriggerStatus = genruntime.ClonePointerToString(source.LastTriggerStatus)
-
-	// LastTriggerUpgradeVersions
-	status.LastTriggerUpgradeVersions = genruntime.CloneSliceOfString(source.LastTriggerUpgradeVersions)
-
-	// LastTriggeredAt
-	status.LastTriggeredAt = genruntime.ClonePointerToString(source.LastTriggeredAt)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		status.PropertyBag = propertyBag
-	} else {
-		status.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForAutoUpgradeProfileStatus_STATUS interface (if implemented) to customize the conversion
-	var statusAsAny any = status
-	if augmentedStatus, ok := statusAsAny.(augmentConversionForAutoUpgradeProfileStatus_STATUS); ok {
-		err := augmentedStatus.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_AutoUpgradeProfileStatus_STATUS populates the provided destination AutoUpgradeProfileStatus_STATUS from our AutoUpgradeProfileStatus_STATUS
-func (status *AutoUpgradeProfileStatus_STATUS) AssignProperties_To_AutoUpgradeProfileStatus_STATUS(destination *storage.AutoUpgradeProfileStatus_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
-
-	// LastTriggerError
-	if status.LastTriggerError != nil {
-		var lastTriggerError storage.ErrorDetail_STATUS
-		err := status.LastTriggerError.AssignProperties_To_ErrorDetail_STATUS(&lastTriggerError)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_ErrorDetail_STATUS() to populate field LastTriggerError")
-		}
-		destination.LastTriggerError = &lastTriggerError
-	} else {
-		destination.LastTriggerError = nil
-	}
-
-	// LastTriggerStatus
-	destination.LastTriggerStatus = genruntime.ClonePointerToString(status.LastTriggerStatus)
-
-	// LastTriggerUpgradeVersions
-	destination.LastTriggerUpgradeVersions = genruntime.CloneSliceOfString(status.LastTriggerUpgradeVersions)
-
-	// LastTriggeredAt
-	destination.LastTriggeredAt = genruntime.ClonePointerToString(status.LastTriggeredAt)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForAutoUpgradeProfileStatus_STATUS interface (if implemented) to customize the conversion
-	var statusAsAny any = status
-	if augmentedStatus, ok := statusAsAny.(augmentConversionForAutoUpgradeProfileStatus_STATUS); ok {
-		err := augmentedStatus.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1api20250301.FleetsAutoUpgradeProfileOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type FleetsAutoUpgradeProfileOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
-}
-
-// AssignProperties_From_FleetsAutoUpgradeProfileOperatorSpec populates our FleetsAutoUpgradeProfileOperatorSpec from the provided source FleetsAutoUpgradeProfileOperatorSpec
-func (operator *FleetsAutoUpgradeProfileOperatorSpec) AssignProperties_From_FleetsAutoUpgradeProfileOperatorSpec(source *storage.FleetsAutoUpgradeProfileOperatorSpec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ConfigMapExpressions
-	if source.ConfigMapExpressions != nil {
-		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
-		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
-			if configMapExpressionItem != nil {
-				configMapExpression := *configMapExpressionItem.DeepCopy()
-				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
-			} else {
-				configMapExpressionList[configMapExpressionIndex] = nil
-			}
-		}
-		operator.ConfigMapExpressions = configMapExpressionList
-	} else {
-		operator.ConfigMapExpressions = nil
-	}
-
-	// SecretExpressions
-	if source.SecretExpressions != nil {
-		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
-		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
-			if secretExpressionItem != nil {
-				secretExpression := *secretExpressionItem.DeepCopy()
-				secretExpressionList[secretExpressionIndex] = &secretExpression
-			} else {
-				secretExpressionList[secretExpressionIndex] = nil
-			}
-		}
-		operator.SecretExpressions = secretExpressionList
-	} else {
-		operator.SecretExpressions = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		operator.PropertyBag = propertyBag
-	} else {
-		operator.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForFleetsAutoUpgradeProfileOperatorSpec interface (if implemented) to customize the conversion
-	var operatorAsAny any = operator
-	if augmentedOperator, ok := operatorAsAny.(augmentConversionForFleetsAutoUpgradeProfileOperatorSpec); ok {
-		err := augmentedOperator.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_FleetsAutoUpgradeProfileOperatorSpec populates the provided destination FleetsAutoUpgradeProfileOperatorSpec from our FleetsAutoUpgradeProfileOperatorSpec
-func (operator *FleetsAutoUpgradeProfileOperatorSpec) AssignProperties_To_FleetsAutoUpgradeProfileOperatorSpec(destination *storage.FleetsAutoUpgradeProfileOperatorSpec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
-
-	// ConfigMapExpressions
-	if operator.ConfigMapExpressions != nil {
-		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
-		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
-			if configMapExpressionItem != nil {
-				configMapExpression := *configMapExpressionItem.DeepCopy()
-				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
-			} else {
-				configMapExpressionList[configMapExpressionIndex] = nil
-			}
-		}
-		destination.ConfigMapExpressions = configMapExpressionList
-	} else {
-		destination.ConfigMapExpressions = nil
-	}
-
-	// SecretExpressions
-	if operator.SecretExpressions != nil {
-		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
-		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
-			if secretExpressionItem != nil {
-				secretExpression := *secretExpressionItem.DeepCopy()
-				secretExpressionList[secretExpressionIndex] = &secretExpression
-			} else {
-				secretExpressionList[secretExpressionIndex] = nil
-			}
-		}
-		destination.SecretExpressions = secretExpressionList
-	} else {
-		destination.SecretExpressions = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForFleetsAutoUpgradeProfileOperatorSpec interface (if implemented) to customize the conversion
-	var operatorAsAny any = operator
-	if augmentedOperator, ok := operatorAsAny.(augmentConversionForFleetsAutoUpgradeProfileOperatorSpec); ok {
-		err := augmentedOperator.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-type augmentConversionForAutoUpgradeNodeImageSelection interface {
-	AssignPropertiesFrom(src *storage.AutoUpgradeNodeImageSelection) error
-	AssignPropertiesTo(dst *storage.AutoUpgradeNodeImageSelection) error
-}
-
-type augmentConversionForAutoUpgradeNodeImageSelection_STATUS interface {
-	AssignPropertiesFrom(src *storage.AutoUpgradeNodeImageSelection_STATUS) error
-	AssignPropertiesTo(dst *storage.AutoUpgradeNodeImageSelection_STATUS) error
-}
-
-type augmentConversionForAutoUpgradeProfileStatus_STATUS interface {
-	AssignPropertiesFrom(src *storage.AutoUpgradeProfileStatus_STATUS) error
-	AssignPropertiesTo(dst *storage.AutoUpgradeProfileStatus_STATUS) error
-}
-
-type augmentConversionForFleetsAutoUpgradeProfileOperatorSpec interface {
-	AssignPropertiesFrom(src *storage.FleetsAutoUpgradeProfileOperatorSpec) error
-	AssignPropertiesTo(dst *storage.FleetsAutoUpgradeProfileOperatorSpec) error
 }
 
 func init() {

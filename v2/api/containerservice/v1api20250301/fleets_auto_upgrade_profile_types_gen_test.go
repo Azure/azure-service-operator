@@ -5,8 +5,7 @@ package v1api20250301
 
 import (
 	"encoding/json"
-	containerservice_v1api20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
-	containerservice_v20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20250301/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +40,7 @@ func RunPropertyAssignmentTestForAutoUpgradeNodeImageSelection(subject AutoUpgra
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other containerservice_v1api20250301s.AutoUpgradeNodeImageSelection
+	var other storage.AutoUpgradeNodeImageSelection
 	err := copied.AssignProperties_To_AutoUpgradeNodeImageSelection(&other)
 	if err != nil {
 		return err.Error()
@@ -154,7 +153,7 @@ func RunPropertyAssignmentTestForAutoUpgradeNodeImageSelection_STATUS(subject Au
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other containerservice_v1api20250301s.AutoUpgradeNodeImageSelection_STATUS
+	var other storage.AutoUpgradeNodeImageSelection_STATUS
 	err := copied.AssignProperties_To_AutoUpgradeNodeImageSelection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -267,7 +266,7 @@ func RunPropertyAssignmentTestForAutoUpgradeProfileStatus_STATUS(subject AutoUpg
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other containerservice_v1api20250301s.AutoUpgradeProfileStatus_STATUS
+	var other storage.AutoUpgradeProfileStatus_STATUS
 	err := copied.AssignProperties_To_AutoUpgradeProfileStatus_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -397,7 +396,7 @@ func RunResourceConversionTestForFleetsAutoUpgradeProfile(subject FleetsAutoUpgr
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub containerservice_v20250301s.FleetsAutoUpgradeProfile
+	var hub storage.FleetsAutoUpgradeProfile
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -444,7 +443,7 @@ func RunPropertyAssignmentTestForFleetsAutoUpgradeProfile(subject FleetsAutoUpgr
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other containerservice_v1api20250301s.FleetsAutoUpgradeProfile
+	var other storage.FleetsAutoUpgradeProfile
 	err := copied.AssignProperties_To_FleetsAutoUpgradeProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -558,7 +557,7 @@ func RunPropertyAssignmentTestForFleetsAutoUpgradeProfileOperatorSpec(subject Fl
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other containerservice_v1api20250301s.FleetsAutoUpgradeProfileOperatorSpec
+	var other storage.FleetsAutoUpgradeProfileOperatorSpec
 	err := copied.AssignProperties_To_FleetsAutoUpgradeProfileOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -665,7 +664,7 @@ func RunPropertyAssignmentTestForFleetsAutoUpgradeProfile_STATUS(subject FleetsA
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other containerservice_v1api20250301s.FleetsAutoUpgradeProfile_STATUS
+	var other storage.FleetsAutoUpgradeProfile_STATUS
 	err := copied.AssignProperties_To_FleetsAutoUpgradeProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -801,7 +800,7 @@ func RunPropertyAssignmentTestForFleetsAutoUpgradeProfile_Spec(subject FleetsAut
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other containerservice_v1api20250301s.FleetsAutoUpgradeProfile_Spec
+	var other storage.FleetsAutoUpgradeProfile_Spec
 	err := copied.AssignProperties_To_FleetsAutoUpgradeProfile_Spec(&other)
 	if err != nil {
 		return err.Error()
