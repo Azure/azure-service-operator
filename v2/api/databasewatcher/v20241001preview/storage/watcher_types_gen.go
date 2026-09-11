@@ -299,6 +299,7 @@ type ManagedServiceIdentity_STATUS struct {
 // Storage version of v20241001preview.WatcherOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type WatcherOperatorSpec struct {
+	AutoStart            *bool                         `json:"autoStart,omitempty"`
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`

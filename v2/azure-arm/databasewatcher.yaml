@@ -7,6 +7,10 @@ groupModelConfiguration:
     Watcher:
       $exportAs: Watcher
       $supportedFrom: v2.21.0
+      $operatorSpecProperties:
+        - name: AutoStart
+          type: bool
+          description: Whether the operator starts this watcher once it has a target. ARM creates every watcher stopped and the operator starts it by default; set this to false to leave starting and stopping it to you, so that a watcher stopped deliberately is not started again.
     Watchers_Target:
       $exportAs: Target
       $supportedFrom: v2.21.0

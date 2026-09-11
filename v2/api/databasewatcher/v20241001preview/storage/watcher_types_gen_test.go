@@ -471,7 +471,13 @@ func WatcherOperatorSpecGenerator() *rapid.Generator[WatcherOperatorSpec] {
 		return watcherOperatorSpecGenerator
 	}
 
-	watcherOperatorSpecGenerator = rapid.Just(WatcherOperatorSpec{})
+	autoStart := rapid.Ptr(rapid.Bool(), true)
+
+	watcherOperatorSpecGenerator = rapid.Custom(func(t *rapid.T) WatcherOperatorSpec {
+		var result WatcherOperatorSpec
+		result.AutoStart = autoStart.Draw(t, "AutoStart")
+		return result
+	})
 
 	return watcherOperatorSpecGenerator
 }
