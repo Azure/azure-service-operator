@@ -175,22 +175,35 @@ func (r *PropertyChangesReport) WriteTo(writer io.Writer) error {
 }
 
 func writeSummaryTable(writer io.Writer, rows []*typeChangeRow) error {
-	summary := NewMarkdownTable("Current Version", "Current Type", "Next Version", "Next Type", "Status", "Notes")
-	summary.SetAlignment(0, AlignLeft)
-	summary.SetAlignment(1, AlignLeft)
-	summary.SetAlignment(2, AlignLeft)
-	summary.SetAlignment(3, AlignLeft)
-	summary.SetAlignment(4, AlignCenter)
-	summary.SetAlignment(5, AlignLeft)
+	packages := summaryPackages(rows)
+	columns := make([]string, 0, len(packages)+2)
+	packageColumns := make(map[astmodel.InternalPackageReference]int, len(packages))
+	for i, pkg := range packages {
+		columns = append(columns, packageLabel(pkg))
+		packageColumns[pkg] = i
+	}
+
+	columns = append(columns, "Status", "Notes")
+	summary := NewMarkdownTable(columns...)
+	for i := range packages {
+		summary.SetAlignment(i, AlignLeft)
+	}
+
+	summary.SetAlignment(len(packages), AlignCenter)
+	summary.SetAlignment(len(packages)+1, AlignLeft)
 	for _, row := range rows {
-		summary.AddRow(
-			packageLabel(row.thisPackage),
-			row.thisName,
-			packageLabel(row.nextPackage),
-			row.nextName,
-			formatStatuses(row.statuses),
-			row.note,
-		)
+		cells := make([]string, len(packages)+2)
+		if row.thisPackage != nil {
+			cells[packageColumns[row.thisPackage]] = row.thisName
+		}
+
+		if row.nextPackage != nil {
+			cells[packageColumns[row.nextPackage]] = row.nextName
+		}
+
+		cells[len(packages)] = formatStatuses(row.statuses)
+		cells[len(packages)+1] = row.note
+		summary.AddRow(cells...)
 	}
 
 	var buf strings.Builder
@@ -200,6 +213,36 @@ func writeSummaryTable(writer io.Writer, rows []*typeChangeRow) error {
 	}
 
 	return nil
+}
+
+func summaryPackages(rows []*typeChangeRow) []astmodel.InternalPackageReference {
+	var current astmodel.InternalPackageReference
+	next := make(map[astmodel.InternalPackageReference]struct{})
+	for _, row := range rows {
+		if current == nil && row.thisPackage != nil {
+			current = row.thisPackage
+		}
+
+		if row.nextPackage != nil && (current == nil || !row.nextPackage.Equals(current)) {
+			next[row.nextPackage] = struct{}{}
+		}
+	}
+
+	result := make([]astmodel.InternalPackageReference, 0, 1+len(next))
+	if current != nil {
+		result = append(result, current)
+	}
+
+	remaining := make([]astmodel.InternalPackageReference, 0, len(next))
+	for pkg := range next {
+		remaining = append(remaining, pkg)
+	}
+
+	sort.Slice(remaining, func(i, j int) bool {
+		return remaining[i].PackagePath() < remaining[j].PackagePath()
+	})
+
+	return append(result, remaining...)
 }
 
 // changeStatus is a single classification applied to a type or property when comparing two versions.
@@ -362,7 +405,6 @@ func (r *PropertyChangesReport) buildRowsForPair(
 	})
 
 	rows := make([]*typeChangeRow, 0, len(thisDefs)+len(nextByName))
-	unmatchedThis := make(map[string]*typeChangeRow)
 	for _, thisDef := range thisDefs {
 		row := &typeChangeRow{
 			thisPackage: thisDef.Name().InternalPackageReference(),
@@ -372,9 +414,12 @@ func (r *PropertyChangesReport) buildRowsForPair(
 
 		expectedNextName := thisDef.Name().Name()
 		renamed := false
-		if configured, ok := r.typeRenameLookup(thisDef.Name()); ok {
-			expectedNextName = configured
-			renamed = true
+		_, hasExactMatch := nextByName[expectedNextName]
+		if !hasExactMatch {
+			if configured, ok := r.typeRenameLookup(thisDef.Name()); ok {
+				expectedNextName = configured
+				renamed = true
+			}
 		}
 
 		if nextDef, ok := nextByName[expectedNextName]; ok && !consumedNext[expectedNextName] {
@@ -393,10 +438,6 @@ func (r *PropertyChangesReport) buildRowsForPair(
 			}
 		} else {
 			row.statuses = append(row.statuses, statusRetired)
-			unmatchedThis[row.thisName] = row
-			if renamed {
-				row.note = fmt.Sprintf("Configured rename to %s was not found.", expectedNextName)
-			}
 		}
 
 		rows = append(rows, row)
@@ -419,10 +460,6 @@ func (r *PropertyChangesReport) buildRowsForPair(
 			nextName:    name,
 			statuses:    []changeStatus{statusNew},
 		}
-		if unmatched, ok := unmatchedThis[name]; ok && unmatched.note != "" {
-			row.note = unmatched.note
-		}
-
 		rows = append(rows, row)
 	}
 

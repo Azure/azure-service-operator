@@ -91,6 +91,14 @@ func TestTypoAdvisor_Suggest_IsCaseInsensitive(t *testing.T) {
 	g.Expect(suggestion).To(Equal("KNOWNAS"))
 }
 
+func TestTypoAdvisor_Suggest_WhenClosestTermIsDissimilar_ReturnsFalse(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	advisor := createTestTypoAdvisor("Identity", "SystemData")
+	_, ok := advisor.Suggest("ProvisioningState")
+	g.Expect(ok).To(BeFalse())
+}
+
 func createTestTypoAdvisor(terms ...string) *Advisor {
 	result := NewAdvisor()
 	for _, term := range terms {
