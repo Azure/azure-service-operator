@@ -44,7 +44,7 @@ func TestReconcileCRDs(t *testing.T) {
 			instances: []*unstructured.Unstructured{
 				{
 					Object: map[string]interface{}{
-						"apiVersion": "containerservice.azure.com/v1api20250801storage", // This must be the storage version of the CRD
+						"apiVersion": "containerservice.azure.com/v20260301storage", // This must be the storage version of the CRD
 						"kind":       "ManagedCluster",
 						"metadata": map[string]interface{}{
 							"name":      "test-cluster",
@@ -59,7 +59,7 @@ func TestReconcileCRDs(t *testing.T) {
 			instances: []*unstructured.Unstructured{
 				{
 					Object: map[string]interface{}{
-						"apiVersion": "containerservice.azure.com/v1api20250801storage", // This must be the storage version of the CRD
+						"apiVersion": "containerservice.azure.com/v20260301storage", // This must be the storage version of the CRD
 						"kind":       "ManagedCluster",
 						"metadata": map[string]interface{}{
 							"name":      "test-cluster",
@@ -77,7 +77,7 @@ func TestReconcileCRDs(t *testing.T) {
 			instances: []*unstructured.Unstructured{
 				{
 					Object: map[string]interface{}{
-						"apiVersion": "containerservice.azure.com/v1api20250801storage", // This must be the storage version of the CRD
+						"apiVersion": "containerservice.azure.com/v20260301storage", // This must be the storage version of the CRD
 						"kind":       "ManagedCluster",
 						"metadata": map[string]interface{}{
 							"name":      "test-cluster",

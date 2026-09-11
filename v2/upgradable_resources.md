@@ -66,7 +66,7 @@ The following resources have newer versions available in the Azure REST API spec
 |      | Resource       | Available Stable | Supported Stable | Available Preview      | Supported Preview  |
 |------|----------------|------------------|------------------|------------------------|--------------------|
 | 💡    | Fleet          | **2026-06-01**   | 2025-03-01       | 2026-03-02-preview     | -                  |
-| 💡    | ManagedCluster | 2026-05-01       | 2025-08-01       | **2026-05-02-preview** | 2025-10-02-preview |
+| 💡    | ManagedCluster | 2026-05-01       | 2026-03-01       | **2026-05-02-preview** | 2025-10-02-preview |
 
 ## dataprotection
 
