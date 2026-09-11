@@ -11,93 +11,93 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type             | Next Version      | Next Type                | Status    | Notes |
-|:----------------------|:-------------------------|:------------------|:-------------------------|:---------:|:------|
-| v1api20230101/storage | BackupVault              | v20230101/storage | BackupVault              | Identical |       |
-| v1api20230101/storage | BackupVaultsBackupPolicy | v20230101/storage | BackupVaultsBackupPolicy | Identical |       |
+| v1api20230101/storage    | v20230101/storage        | Status    | Notes |
+|:-------------------------|:-------------------------|:---------:|:------|
+| BackupVault              | BackupVault              | Identical |       |
+| BackupVaultsBackupPolicy | BackupVaultsBackupPolicy | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                            | Next Version      | Next Type                               | Status    | Notes |
-|:----------------------|:----------------------------------------|:------------------|:----------------------------------------|:---------:|:------|
-| v1api20230101/storage | AbsoluteDeleteOption                    | v20230101/storage | AbsoluteDeleteOption                    | Identical |       |
-| v1api20230101/storage | AbsoluteDeleteOption_STATUS             | v20230101/storage | AbsoluteDeleteOption_STATUS             | Identical |       |
-| v1api20230101/storage | AdhocBasedTaggingCriteria               | v20230101/storage | AdhocBasedTaggingCriteria               | Identical |       |
-| v1api20230101/storage | AdhocBasedTaggingCriteria_STATUS        | v20230101/storage | AdhocBasedTaggingCriteria_STATUS        | Identical |       |
-| v1api20230101/storage | AdhocBasedTriggerContext                | v20230101/storage | AdhocBasedTriggerContext                | Identical |       |
-| v1api20230101/storage | AdhocBasedTriggerContext_STATUS         | v20230101/storage | AdhocBasedTriggerContext_STATUS         | Identical |       |
-| v1api20230101/storage | AzureBackupParams                       | v20230101/storage | AzureBackupParams                       | Identical |       |
-| v1api20230101/storage | AzureBackupParams_STATUS                | v20230101/storage | AzureBackupParams_STATUS                | Identical |       |
-| v1api20230101/storage | AzureBackupRule                         | v20230101/storage | AzureBackupRule                         | Identical |       |
-| v1api20230101/storage | AzureBackupRule_STATUS                  | v20230101/storage | AzureBackupRule_STATUS                  | Identical |       |
-| v1api20230101/storage | AzureMonitorAlertSettings               | v20230101/storage | AzureMonitorAlertSettings               | Identical |       |
-| v1api20230101/storage | AzureMonitorAlertSettings_STATUS        | v20230101/storage | AzureMonitorAlertSettings_STATUS        | Identical |       |
-| v1api20230101/storage | AzureRetentionRule                      | v20230101/storage | AzureRetentionRule                      | Identical |       |
-| v1api20230101/storage | AzureRetentionRule_STATUS               | v20230101/storage | AzureRetentionRule_STATUS               | Identical |       |
-| v1api20230101/storage | BackupCriteria                          | v20230101/storage | BackupCriteria                          | Identical |       |
-| v1api20230101/storage | BackupCriteria_STATUS                   | v20230101/storage | BackupCriteria_STATUS                   | Identical |       |
-| v1api20230101/storage | BackupParameters                        | v20230101/storage | BackupParameters                        | Identical |       |
-| v1api20230101/storage | BackupParameters_STATUS                 | v20230101/storage | BackupParameters_STATUS                 | Identical |       |
-| v1api20230101/storage | BackupPolicy                            | v20230101/storage | BackupPolicy                            | Identical |       |
-| v1api20230101/storage | BackupPolicy_STATUS                     | v20230101/storage | BackupPolicy_STATUS                     | Identical |       |
-| v1api20230101/storage | BackupSchedule                          | v20230101/storage | BackupSchedule                          | Identical |       |
-| v1api20230101/storage | BackupSchedule_STATUS                   | v20230101/storage | BackupSchedule_STATUS                   | Identical |       |
-| v1api20230101/storage | BackupVaultOperatorConfigMaps           | v20230101/storage | BackupVaultOperatorConfigMaps           | Identical |       |
-| v1api20230101/storage | BackupVaultOperatorSpec                 | v20230101/storage | BackupVaultOperatorSpec                 | Identical |       |
-| v1api20230101/storage | BackupVaultResource_STATUS              | v20230101/storage | BackupVaultResource_STATUS              | Identical |       |
-| v1api20230101/storage | BackupVaultSpec                         | v20230101/storage | BackupVaultSpec                         | Identical |       |
-| v1api20230101/storage | BackupVault_STATUS                      | v20230101/storage | BackupVault_STATUS                      | Identical |       |
-| v1api20230101/storage | BackupVault_Spec                        | v20230101/storage | BackupVault_Spec                        | Identical |       |
-| v1api20230101/storage | BackupVaultsBackupPolicyOperatorSpec    | v20230101/storage | BackupVaultsBackupPolicyOperatorSpec    | Identical |       |
-| v1api20230101/storage | BackupVaultsBackupPolicy_STATUS         | v20230101/storage | BackupVaultsBackupPolicy_STATUS         | Identical |       |
-| v1api20230101/storage | BackupVaultsBackupPolicy_Spec           | v20230101/storage | BackupVaultsBackupPolicy_Spec           | Identical |       |
-| v1api20230101/storage | BaseBackupPolicy                        | v20230101/storage | BaseBackupPolicy                        | Identical |       |
-| v1api20230101/storage | BaseBackupPolicy_STATUS                 | v20230101/storage | BaseBackupPolicy_STATUS                 | Identical |       |
-| v1api20230101/storage | BasePolicyRule                          | v20230101/storage | BasePolicyRule                          | Identical |       |
-| v1api20230101/storage | BasePolicyRule_STATUS                   | v20230101/storage | BasePolicyRule_STATUS                   | Identical |       |
-| v1api20230101/storage | CopyOnExpiryOption                      | v20230101/storage | CopyOnExpiryOption                      | Identical |       |
-| v1api20230101/storage | CopyOnExpiryOption_STATUS               | v20230101/storage | CopyOnExpiryOption_STATUS               | Identical |       |
-| v1api20230101/storage | CopyOption                              | v20230101/storage | CopyOption                              | Identical |       |
-| v1api20230101/storage | CopyOption_STATUS                       | v20230101/storage | CopyOption_STATUS                       | Identical |       |
-| v1api20230101/storage | CrossSubscriptionRestoreSettings        | v20230101/storage | CrossSubscriptionRestoreSettings        | Identical |       |
-| v1api20230101/storage | CrossSubscriptionRestoreSettings_STATUS | v20230101/storage | CrossSubscriptionRestoreSettings_STATUS | Identical |       |
-| v1api20230101/storage | CustomCopyOption                        | v20230101/storage | CustomCopyOption                        | Identical |       |
-| v1api20230101/storage | CustomCopyOption_STATUS                 | v20230101/storage | CustomCopyOption_STATUS                 | Identical |       |
-| v1api20230101/storage | DataStoreInfoBase                       | v20230101/storage | DataStoreInfoBase                       | Identical |       |
-| v1api20230101/storage | DataStoreInfoBase_STATUS                | v20230101/storage | DataStoreInfoBase_STATUS                | Identical |       |
-| v1api20230101/storage | Day                                     | v20230101/storage | Day                                     | Identical |       |
-| v1api20230101/storage | Day_STATUS                              | v20230101/storage | Day_STATUS                              | Identical |       |
-| v1api20230101/storage | DeleteOption                            | v20230101/storage | DeleteOption                            | Identical |       |
-| v1api20230101/storage | DeleteOption_STATUS                     | v20230101/storage | DeleteOption_STATUS                     | Identical |       |
-| v1api20230101/storage | DppIdentityDetails                      | v20230101/storage | DppIdentityDetails                      | Identical |       |
-| v1api20230101/storage | DppIdentityDetails_STATUS               | v20230101/storage | DppIdentityDetails_STATUS               | Identical |       |
-| v1api20230101/storage | FeatureSettings                         | v20230101/storage | FeatureSettings                         | Identical |       |
-| v1api20230101/storage | FeatureSettings_STATUS                  | v20230101/storage | FeatureSettings_STATUS                  | Identical |       |
-| v1api20230101/storage | ImmediateCopyOption                     | v20230101/storage | ImmediateCopyOption                     | Identical |       |
-| v1api20230101/storage | ImmediateCopyOption_STATUS              | v20230101/storage | ImmediateCopyOption_STATUS              | Identical |       |
-| v1api20230101/storage | ImmutabilitySettings                    | v20230101/storage | ImmutabilitySettings                    | Identical |       |
-| v1api20230101/storage | ImmutabilitySettings_STATUS             | v20230101/storage | ImmutabilitySettings_STATUS             | Identical |       |
-| v1api20230101/storage | MonitoringSettings                      | v20230101/storage | MonitoringSettings                      | Identical |       |
-| v1api20230101/storage | MonitoringSettings_STATUS               | v20230101/storage | MonitoringSettings_STATUS               | Identical |       |
-| v1api20230101/storage | ResourceMoveDetails_STATUS              | v20230101/storage | ResourceMoveDetails_STATUS              | Identical |       |
-| v1api20230101/storage | RetentionTag                            | v20230101/storage | RetentionTag                            | Identical |       |
-| v1api20230101/storage | RetentionTag_STATUS                     | v20230101/storage | RetentionTag_STATUS                     | Identical |       |
-| v1api20230101/storage | ScheduleBasedBackupCriteria             | v20230101/storage | ScheduleBasedBackupCriteria             | Identical |       |
-| v1api20230101/storage | ScheduleBasedBackupCriteria_STATUS      | v20230101/storage | ScheduleBasedBackupCriteria_STATUS      | Identical |       |
-| v1api20230101/storage | ScheduleBasedTriggerContext             | v20230101/storage | ScheduleBasedTriggerContext             | Identical |       |
-| v1api20230101/storage | ScheduleBasedTriggerContext_STATUS      | v20230101/storage | ScheduleBasedTriggerContext_STATUS      | Identical |       |
-| v1api20230101/storage | SecuritySettings                        | v20230101/storage | SecuritySettings                        | Identical |       |
-| v1api20230101/storage | SecuritySettings_STATUS                 | v20230101/storage | SecuritySettings_STATUS                 | Identical |       |
-| v1api20230101/storage | SoftDeleteSettings                      | v20230101/storage | SoftDeleteSettings                      | Identical |       |
-| v1api20230101/storage | SoftDeleteSettings_STATUS               | v20230101/storage | SoftDeleteSettings_STATUS               | Identical |       |
-| v1api20230101/storage | SourceLifeCycle                         | v20230101/storage | SourceLifeCycle                         | Identical |       |
-| v1api20230101/storage | SourceLifeCycle_STATUS                  | v20230101/storage | SourceLifeCycle_STATUS                  | Identical |       |
-| v1api20230101/storage | StorageSetting                          | v20230101/storage | StorageSetting                          | Identical |       |
-| v1api20230101/storage | StorageSetting_STATUS                   | v20230101/storage | StorageSetting_STATUS                   | Identical |       |
-| v1api20230101/storage | SystemData_STATUS                       | v20230101/storage | SystemData_STATUS                       | Identical |       |
-| v1api20230101/storage | TaggingCriteria                         | v20230101/storage | TaggingCriteria                         | Identical |       |
-| v1api20230101/storage | TaggingCriteria_STATUS                  | v20230101/storage | TaggingCriteria_STATUS                  | Identical |       |
-| v1api20230101/storage | TargetCopySetting                       | v20230101/storage | TargetCopySetting                       | Identical |       |
-| v1api20230101/storage | TargetCopySetting_STATUS                | v20230101/storage | TargetCopySetting_STATUS                | Identical |       |
-| v1api20230101/storage | TriggerContext                          | v20230101/storage | TriggerContext                          | Identical |       |
-| v1api20230101/storage | TriggerContext_STATUS                   | v20230101/storage | TriggerContext_STATUS                   | Identical |       |
+| v1api20230101/storage                   | v20230101/storage                       | Status    | Notes |
+|:----------------------------------------|:----------------------------------------|:---------:|:------|
+| AbsoluteDeleteOption                    | AbsoluteDeleteOption                    | Identical |       |
+| AbsoluteDeleteOption_STATUS             | AbsoluteDeleteOption_STATUS             | Identical |       |
+| AdhocBasedTaggingCriteria               | AdhocBasedTaggingCriteria               | Identical |       |
+| AdhocBasedTaggingCriteria_STATUS        | AdhocBasedTaggingCriteria_STATUS        | Identical |       |
+| AdhocBasedTriggerContext                | AdhocBasedTriggerContext                | Identical |       |
+| AdhocBasedTriggerContext_STATUS         | AdhocBasedTriggerContext_STATUS         | Identical |       |
+| AzureBackupParams                       | AzureBackupParams                       | Identical |       |
+| AzureBackupParams_STATUS                | AzureBackupParams_STATUS                | Identical |       |
+| AzureBackupRule                         | AzureBackupRule                         | Identical |       |
+| AzureBackupRule_STATUS                  | AzureBackupRule_STATUS                  | Identical |       |
+| AzureMonitorAlertSettings               | AzureMonitorAlertSettings               | Identical |       |
+| AzureMonitorAlertSettings_STATUS        | AzureMonitorAlertSettings_STATUS        | Identical |       |
+| AzureRetentionRule                      | AzureRetentionRule                      | Identical |       |
+| AzureRetentionRule_STATUS               | AzureRetentionRule_STATUS               | Identical |       |
+| BackupCriteria                          | BackupCriteria                          | Identical |       |
+| BackupCriteria_STATUS                   | BackupCriteria_STATUS                   | Identical |       |
+| BackupParameters                        | BackupParameters                        | Identical |       |
+| BackupParameters_STATUS                 | BackupParameters_STATUS                 | Identical |       |
+| BackupPolicy                            | BackupPolicy                            | Identical |       |
+| BackupPolicy_STATUS                     | BackupPolicy_STATUS                     | Identical |       |
+| BackupSchedule                          | BackupSchedule                          | Identical |       |
+| BackupSchedule_STATUS                   | BackupSchedule_STATUS                   | Identical |       |
+| BackupVaultOperatorConfigMaps           | BackupVaultOperatorConfigMaps           | Identical |       |
+| BackupVaultOperatorSpec                 | BackupVaultOperatorSpec                 | Identical |       |
+| BackupVaultResource_STATUS              | BackupVaultResource_STATUS              | Identical |       |
+| BackupVaultSpec                         | BackupVaultSpec                         | Identical |       |
+| BackupVault_STATUS                      | BackupVault_STATUS                      | Identical |       |
+| BackupVault_Spec                        | BackupVault_Spec                        | Identical |       |
+| BackupVaultsBackupPolicyOperatorSpec    | BackupVaultsBackupPolicyOperatorSpec    | Identical |       |
+| BackupVaultsBackupPolicy_STATUS         | BackupVaultsBackupPolicy_STATUS         | Identical |       |
+| BackupVaultsBackupPolicy_Spec           | BackupVaultsBackupPolicy_Spec           | Identical |       |
+| BaseBackupPolicy                        | BaseBackupPolicy                        | Identical |       |
+| BaseBackupPolicy_STATUS                 | BaseBackupPolicy_STATUS                 | Identical |       |
+| BasePolicyRule                          | BasePolicyRule                          | Identical |       |
+| BasePolicyRule_STATUS                   | BasePolicyRule_STATUS                   | Identical |       |
+| CopyOnExpiryOption                      | CopyOnExpiryOption                      | Identical |       |
+| CopyOnExpiryOption_STATUS               | CopyOnExpiryOption_STATUS               | Identical |       |
+| CopyOption                              | CopyOption                              | Identical |       |
+| CopyOption_STATUS                       | CopyOption_STATUS                       | Identical |       |
+| CrossSubscriptionRestoreSettings        | CrossSubscriptionRestoreSettings        | Identical |       |
+| CrossSubscriptionRestoreSettings_STATUS | CrossSubscriptionRestoreSettings_STATUS | Identical |       |
+| CustomCopyOption                        | CustomCopyOption                        | Identical |       |
+| CustomCopyOption_STATUS                 | CustomCopyOption_STATUS                 | Identical |       |
+| DataStoreInfoBase                       | DataStoreInfoBase                       | Identical |       |
+| DataStoreInfoBase_STATUS                | DataStoreInfoBase_STATUS                | Identical |       |
+| Day                                     | Day                                     | Identical |       |
+| Day_STATUS                              | Day_STATUS                              | Identical |       |
+| DeleteOption                            | DeleteOption                            | Identical |       |
+| DeleteOption_STATUS                     | DeleteOption_STATUS                     | Identical |       |
+| DppIdentityDetails                      | DppIdentityDetails                      | Identical |       |
+| DppIdentityDetails_STATUS               | DppIdentityDetails_STATUS               | Identical |       |
+| FeatureSettings                         | FeatureSettings                         | Identical |       |
+| FeatureSettings_STATUS                  | FeatureSettings_STATUS                  | Identical |       |
+| ImmediateCopyOption                     | ImmediateCopyOption                     | Identical |       |
+| ImmediateCopyOption_STATUS              | ImmediateCopyOption_STATUS              | Identical |       |
+| ImmutabilitySettings                    | ImmutabilitySettings                    | Identical |       |
+| ImmutabilitySettings_STATUS             | ImmutabilitySettings_STATUS             | Identical |       |
+| MonitoringSettings                      | MonitoringSettings                      | Identical |       |
+| MonitoringSettings_STATUS               | MonitoringSettings_STATUS               | Identical |       |
+| ResourceMoveDetails_STATUS              | ResourceMoveDetails_STATUS              | Identical |       |
+| RetentionTag                            | RetentionTag                            | Identical |       |
+| RetentionTag_STATUS                     | RetentionTag_STATUS                     | Identical |       |
+| ScheduleBasedBackupCriteria             | ScheduleBasedBackupCriteria             | Identical |       |
+| ScheduleBasedBackupCriteria_STATUS      | ScheduleBasedBackupCriteria_STATUS      | Identical |       |
+| ScheduleBasedTriggerContext             | ScheduleBasedTriggerContext             | Identical |       |
+| ScheduleBasedTriggerContext_STATUS      | ScheduleBasedTriggerContext_STATUS      | Identical |       |
+| SecuritySettings                        | SecuritySettings                        | Identical |       |
+| SecuritySettings_STATUS                 | SecuritySettings_STATUS                 | Identical |       |
+| SoftDeleteSettings                      | SoftDeleteSettings                      | Identical |       |
+| SoftDeleteSettings_STATUS               | SoftDeleteSettings_STATUS               | Identical |       |
+| SourceLifeCycle                         | SourceLifeCycle                         | Identical |       |
+| SourceLifeCycle_STATUS                  | SourceLifeCycle_STATUS                  | Identical |       |
+| StorageSetting                          | StorageSetting                          | Identical |       |
+| StorageSetting_STATUS                   | StorageSetting_STATUS                   | Identical |       |
+| SystemData_STATUS                       | SystemData_STATUS                       | Identical |       |
+| TaggingCriteria                         | TaggingCriteria                         | Identical |       |
+| TaggingCriteria_STATUS                  | TaggingCriteria_STATUS                  | Identical |       |
+| TargetCopySetting                       | TargetCopySetting                       | Identical |       |
+| TargetCopySetting_STATUS                | TargetCopySetting_STATUS                | Identical |       |
+| TriggerContext                          | TriggerContext                          | Identical |       |
+| TriggerContext_STATUS                   | TriggerContext_STATUS                   | Identical |       |

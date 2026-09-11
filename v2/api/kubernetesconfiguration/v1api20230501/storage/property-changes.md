@@ -11,75 +11,75 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type      | Next Version          | Next Type         | Status    | Notes |
-|:----------------------|:------------------|:----------------------|:------------------|:---------:|:------|
-| v1api20230501/storage | Extension         | v1api20241101/storage | Extension         | Identical |       |
-| v1api20230501/storage | FluxConfiguration | v1api20241101/storage | FluxConfiguration | Identical |       |
+| v1api20230501/storage | v1api20241101/storage | Status    | Notes |
+|:----------------------|:----------------------|:---------:|:------|
+| Extension             | Extension             | Identical |       |
+| FluxConfiguration     | FluxConfiguration     | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                                    | Next Version          | Next Type                                     | Status    | Notes |
-|:----------------------|:------------------------------------------------|:----------------------|:----------------------------------------------|:---------:|:------|
-| v1api20230501/storage | AzureBlobDefinition                             | v1api20241101/storage | AzureBlobDefinition                           | Identical |       |
-| v1api20230501/storage | AzureBlobDefinition_STATUS                      | v1api20241101/storage | AzureBlobDefinition_STATUS                    | Identical |       |
-| v1api20230501/storage | BucketDefinition                                | v1api20241101/storage | BucketDefinition                              | Identical |       |
-| v1api20230501/storage | BucketDefinition_STATUS                         | v1api20241101/storage | BucketDefinition_STATUS                       | Identical |       |
-| v1api20230501/storage | ErrorAdditionalInfo_STATUS                      | v1api20241101/storage | ErrorAdditionalInfo_STATUS                    | Identical |       |
-| v1api20230501/storage | ErrorDetail_STATUS                              | v1api20241101/storage | ErrorDetail_STATUS                            | Identical |       |
-| v1api20230501/storage | ErrorDetail_STATUS_Unrolled                     | v1api20241101/storage | ErrorDetail_STATUS_Unrolled                   | Identical |       |
-| v1api20230501/storage | ExtensionOperatorConfigMaps                     | v1api20241101/storage | ExtensionOperatorConfigMaps                   | Identical |       |
-| v1api20230501/storage | ExtensionOperatorSpec                           | v1api20241101/storage | ExtensionOperatorSpec                         | Identical |       |
-|                       |                                                 | v1api20241101/storage | ExtensionStatus                               | New       |       |
-| v1api20230501/storage | ExtensionStatus_STATUS                          | v1api20241101/storage | ExtensionStatus_STATUS                        | Identical |       |
-| v1api20230501/storage | Extension_Properties_AksAssignedIdentity_STATUS | v1api20241101/storage | ExtensionPropertiesAksAssignedIdentity_STATUS | Renamed   |       |
-| v1api20230501/storage | Extension_Properties_AksAssignedIdentity_Spec   | v1api20241101/storage | ExtensionPropertiesAksAssignedIdentity        | Renamed   |       |
-| v1api20230501/storage | Extension_STATUS                                | v1api20241101/storage | Extension_STATUS                              | Identical |       |
-| v1api20230501/storage | Extension_Spec                                  | v1api20241101/storage | Extension_Spec                                | Modified  |       |
-| v1api20230501/storage | FluxConfigurationOperatorSpec                   | v1api20241101/storage | FluxConfigurationOperatorSpec                 | Identical |       |
-| v1api20230501/storage | FluxConfiguration_STATUS                        | v1api20241101/storage | FluxConfiguration_STATUS                      | Modified  |       |
-| v1api20230501/storage | FluxConfiguration_Spec                          | v1api20241101/storage | FluxConfiguration_Spec                        | Extended  |       |
-| v1api20230501/storage | GitRepositoryDefinition                         | v1api20241101/storage | GitRepositoryDefinition                       | Extended  |       |
-| v1api20230501/storage | GitRepositoryDefinition_STATUS                  | v1api20241101/storage | GitRepositoryDefinition_STATUS                | Extended  |       |
-| v1api20230501/storage | HelmReleasePropertiesDefinition_STATUS          | v1api20241101/storage | HelmReleasePropertiesDefinition_STATUS        | Identical |       |
-| v1api20230501/storage | Identity                                        | v1api20241101/storage | Identity                                      | Identical |       |
-| v1api20230501/storage | Identity_STATUS                                 | v1api20241101/storage | Identity_STATUS                               | Identical |       |
-| v1api20230501/storage | KustomizationDefinition                         | v1api20241101/storage | KustomizationDefinition                       | Identical |       |
-| v1api20230501/storage | KustomizationDefinition_STATUS                  | v1api20241101/storage | KustomizationDefinition_STATUS                | Identical |       |
-|                       |                                                 | v1api20241101/storage | LayerSelectorDefinition                       | New       |       |
-|                       |                                                 | v1api20241101/storage | LayerSelectorDefinition_STATUS                | New       |       |
-| v1api20230501/storage | ManagedIdentityDefinition                       | v1api20241101/storage | ManagedIdentityDefinition                     | Identical |       |
-| v1api20230501/storage | ManagedIdentityDefinition_STATUS                | v1api20241101/storage | ManagedIdentityDefinition_STATUS              | Identical |       |
-|                       |                                                 | v1api20241101/storage | MatchOidcIdentityDefinition                   | New       |       |
-|                       |                                                 | v1api20241101/storage | MatchOidcIdentityDefinition_STATUS            | New       |       |
-|                       |                                                 | v1api20241101/storage | OCIRepositoryDefinition                       | New       |       |
-|                       |                                                 | v1api20241101/storage | OCIRepositoryDefinition_STATUS                | New       |       |
-|                       |                                                 | v1api20241101/storage | OCIRepositoryRefDefinition                    | New       |       |
-|                       |                                                 | v1api20241101/storage | OCIRepositoryRefDefinition_STATUS             | New       |       |
-| v1api20230501/storage | ObjectReferenceDefinition_STATUS                | v1api20241101/storage | ObjectReferenceDefinition_STATUS              | Identical |       |
-| v1api20230501/storage | ObjectStatusConditionDefinition_STATUS          | v1api20241101/storage | ObjectStatusConditionDefinition_STATUS        | Identical |       |
-| v1api20230501/storage | ObjectStatusDefinition_STATUS                   | v1api20241101/storage | ObjectStatusDefinition_STATUS                 | Identical |       |
-| v1api20230501/storage | Plan                                            | v1api20241101/storage | Plan                                          | Identical |       |
-| v1api20230501/storage | Plan_STATUS                                     | v1api20241101/storage | Plan_STATUS                                   | Identical |       |
-| v1api20230501/storage | PostBuildDefinition                             | v1api20241101/storage | PostBuildDefinition                           | Identical |       |
-| v1api20230501/storage | PostBuildDefinition_STATUS                      | v1api20241101/storage | PostBuildDefinition_STATUS                    | Identical |       |
-| v1api20230501/storage | RepositoryRefDefinition                         | v1api20241101/storage | RepositoryRefDefinition                       | Identical |       |
-| v1api20230501/storage | RepositoryRefDefinition_STATUS                  | v1api20241101/storage | RepositoryRefDefinition_STATUS                | Identical |       |
-| v1api20230501/storage | Scope                                           | v1api20241101/storage | Scope                                         | Identical |       |
-| v1api20230501/storage | ScopeCluster                                    | v1api20241101/storage | ScopeCluster                                  | Identical |       |
-| v1api20230501/storage | ScopeCluster_STATUS                             | v1api20241101/storage | ScopeCluster_STATUS                           | Identical |       |
-| v1api20230501/storage | ScopeNamespace                                  | v1api20241101/storage | ScopeNamespace                                | Identical |       |
-| v1api20230501/storage | ScopeNamespace_STATUS                           | v1api20241101/storage | ScopeNamespace_STATUS                         | Identical |       |
-| v1api20230501/storage | Scope_STATUS                                    | v1api20241101/storage | Scope_STATUS                                  | Identical |       |
-| v1api20230501/storage | ServicePrincipalDefinition                      | v1api20241101/storage | ServicePrincipalDefinition                    | Identical |       |
-| v1api20230501/storage | ServicePrincipalDefinition_STATUS               | v1api20241101/storage | ServicePrincipalDefinition_STATUS             | Identical |       |
-| v1api20230501/storage | SubstituteFromDefinition                        | v1api20241101/storage | SubstituteFromDefinition                      | Identical |       |
-| v1api20230501/storage | SubstituteFromDefinition_STATUS                 | v1api20241101/storage | SubstituteFromDefinition_STATUS               | Identical |       |
-| v1api20230501/storage | SystemData                                      | v1api20241101/storage |                                               | Retired   |       |
-| v1api20230501/storage | SystemData_STATUS                               | v1api20241101/storage | SystemData_STATUS                             | Identical |       |
-|                       |                                                 | v1api20241101/storage | TlsConfigDefinition                           | New       |       |
-|                       |                                                 | v1api20241101/storage | TlsConfigDefinition_STATUS                    | New       |       |
-|                       |                                                 | v1api20241101/storage | VerifyDefinition                              | New       |       |
-|                       |                                                 | v1api20241101/storage | VerifyDefinition_STATUS                       | New       |       |
+| v1api20230501/storage                           | v1api20241101/storage                         | Status    | Notes |
+|:------------------------------------------------|:----------------------------------------------|:---------:|:------|
+| AzureBlobDefinition                             | AzureBlobDefinition                           | Identical |       |
+| AzureBlobDefinition_STATUS                      | AzureBlobDefinition_STATUS                    | Identical |       |
+| BucketDefinition                                | BucketDefinition                              | Identical |       |
+| BucketDefinition_STATUS                         | BucketDefinition_STATUS                       | Identical |       |
+| ErrorAdditionalInfo_STATUS                      | ErrorAdditionalInfo_STATUS                    | Identical |       |
+| ErrorDetail_STATUS                              | ErrorDetail_STATUS                            | Identical |       |
+| ErrorDetail_STATUS_Unrolled                     | ErrorDetail_STATUS_Unrolled                   | Identical |       |
+| ExtensionOperatorConfigMaps                     | ExtensionOperatorConfigMaps                   | Identical |       |
+| ExtensionOperatorSpec                           | ExtensionOperatorSpec                         | Identical |       |
+|                                                 | ExtensionStatus                               | New       |       |
+| ExtensionStatus_STATUS                          | ExtensionStatus_STATUS                        | Identical |       |
+| Extension_Properties_AksAssignedIdentity_STATUS | ExtensionPropertiesAksAssignedIdentity_STATUS | Renamed   |       |
+| Extension_Properties_AksAssignedIdentity_Spec   | ExtensionPropertiesAksAssignedIdentity        | Renamed   |       |
+| Extension_STATUS                                | Extension_STATUS                              | Identical |       |
+| Extension_Spec                                  | Extension_Spec                                | Modified  |       |
+| FluxConfigurationOperatorSpec                   | FluxConfigurationOperatorSpec                 | Identical |       |
+| FluxConfiguration_STATUS                        | FluxConfiguration_STATUS                      | Modified  |       |
+| FluxConfiguration_Spec                          | FluxConfiguration_Spec                        | Extended  |       |
+| GitRepositoryDefinition                         | GitRepositoryDefinition                       | Extended  |       |
+| GitRepositoryDefinition_STATUS                  | GitRepositoryDefinition_STATUS                | Extended  |       |
+| HelmReleasePropertiesDefinition_STATUS          | HelmReleasePropertiesDefinition_STATUS        | Identical |       |
+| Identity                                        | Identity                                      | Identical |       |
+| Identity_STATUS                                 | Identity_STATUS                               | Identical |       |
+| KustomizationDefinition                         | KustomizationDefinition                       | Identical |       |
+| KustomizationDefinition_STATUS                  | KustomizationDefinition_STATUS                | Identical |       |
+|                                                 | LayerSelectorDefinition                       | New       |       |
+|                                                 | LayerSelectorDefinition_STATUS                | New       |       |
+| ManagedIdentityDefinition                       | ManagedIdentityDefinition                     | Identical |       |
+| ManagedIdentityDefinition_STATUS                | ManagedIdentityDefinition_STATUS              | Identical |       |
+|                                                 | MatchOidcIdentityDefinition                   | New       |       |
+|                                                 | MatchOidcIdentityDefinition_STATUS            | New       |       |
+|                                                 | OCIRepositoryDefinition                       | New       |       |
+|                                                 | OCIRepositoryDefinition_STATUS                | New       |       |
+|                                                 | OCIRepositoryRefDefinition                    | New       |       |
+|                                                 | OCIRepositoryRefDefinition_STATUS             | New       |       |
+| ObjectReferenceDefinition_STATUS                | ObjectReferenceDefinition_STATUS              | Identical |       |
+| ObjectStatusConditionDefinition_STATUS          | ObjectStatusConditionDefinition_STATUS        | Identical |       |
+| ObjectStatusDefinition_STATUS                   | ObjectStatusDefinition_STATUS                 | Identical |       |
+| Plan                                            | Plan                                          | Identical |       |
+| Plan_STATUS                                     | Plan_STATUS                                   | Identical |       |
+| PostBuildDefinition                             | PostBuildDefinition                           | Identical |       |
+| PostBuildDefinition_STATUS                      | PostBuildDefinition_STATUS                    | Identical |       |
+| RepositoryRefDefinition                         | RepositoryRefDefinition                       | Identical |       |
+| RepositoryRefDefinition_STATUS                  | RepositoryRefDefinition_STATUS                | Identical |       |
+| Scope                                           | Scope                                         | Identical |       |
+| ScopeCluster                                    | ScopeCluster                                  | Identical |       |
+| ScopeCluster_STATUS                             | ScopeCluster_STATUS                           | Identical |       |
+| ScopeNamespace                                  | ScopeNamespace                                | Identical |       |
+| ScopeNamespace_STATUS                           | ScopeNamespace_STATUS                         | Identical |       |
+| Scope_STATUS                                    | Scope_STATUS                                  | Identical |       |
+| ServicePrincipalDefinition                      | ServicePrincipalDefinition                    | Identical |       |
+| ServicePrincipalDefinition_STATUS               | ServicePrincipalDefinition_STATUS             | Identical |       |
+| SubstituteFromDefinition                        | SubstituteFromDefinition                      | Identical |       |
+| SubstituteFromDefinition_STATUS                 | SubstituteFromDefinition_STATUS               | Identical |       |
+| SystemData                                      |                                               | Retired   |       |
+| SystemData_STATUS                               | SystemData_STATUS                             | Identical |       |
+|                                                 | TlsConfigDefinition                           | New       |       |
+|                                                 | TlsConfigDefinition_STATUS                    | New       |       |
+|                                                 | VerifyDefinition                              | New       |       |
+|                                                 | VerifyDefinition_STATUS                       | New       |       |
 
 ### Extension_Spec
 
@@ -100,39 +100,39 @@ Statuses:
 | ReleaseTrain                   | *string                                        | ReleaseTrain                   | *string                                 | Identical |                                                                                                  |
 | Scope                          | *Scope                                         | Scope                          | *Scope                                  | Identical |                                                                                                  |
 |                                |                                                | Statuses                       | ExtensionStatus[]                       | New       |                                                                                                  |
-| SystemData                     | *SystemData                                    |                                |                                         | Retired   | Possibly renamed to Statuses?                                                                    |
+| SystemData                     | *SystemData                                    |                                |                                         | Retired   |                                                                                                  |
 | Version                        | *string                                        | Version                        | *string                                 | Identical |                                                                                                  |
 
 ### FluxConfiguration_STATUS
 
-| v1api20230501/storage          |                                           | v1api20241101/storage          |                                           | Status    | Notes                              |
-|:-------------------------------|:------------------------------------------|:-------------------------------|:------------------------------------------|:---------:|:-----------------------------------|
-| AzureBlob                      | *AzureBlobDefinition_STATUS               | AzureBlob                      | *AzureBlobDefinition_STATUS               | Identical |                                    |
-| Bucket                         | *BucketDefinition_STATUS                  | Bucket                         | *BucketDefinition_STATUS                  | Identical |                                    |
-| ComplianceState                | *string                                   | ComplianceState                | *string                                   | Identical |                                    |
-| Conditions                     | conditions.Condition[]                    | Conditions                     | conditions.Condition[]                    | Identical |                                    |
-| ConfigurationProtectedSettings | map[string]string                         | ConfigurationProtectedSettings | map[string]string                         | Identical |                                    |
-| ErrorMessage                   | *string                                   | ErrorMessage                   | *string                                   | Identical |                                    |
-| GitRepository                  | *GitRepositoryDefinition_STATUS           | GitRepository                  | *GitRepositoryDefinition_STATUS           | Identical |                                    |
-| Id                             | *string                                   | Id                             | *string                                   | Identical |                                    |
-| Kustomizations                 | map[string]KustomizationDefinition_STATUS | Kustomizations                 | map[string]KustomizationDefinition_STATUS | Identical |                                    |
-| Name                           | *string                                   | Name                           | *string                                   | Identical |                                    |
-| Namespace                      | *string                                   | Namespace                      | *string                                   | Identical |                                    |
-|                                |                                           | OciRepository                  | *OCIRepositoryDefinition_STATUS           | New       |                                    |
-| PropertyBag                    | genruntime.PropertyBag                    | PropertyBag                    | genruntime.PropertyBag                    | Identical |                                    |
-| ProvisioningState              | *string                                   |                                |                                           | Retired   | Possibly renamed to OciRepository? |
-| ReconciliationWaitDuration     | *string                                   | ReconciliationWaitDuration     | *string                                   | Identical |                                    |
-| RepositoryPublicKey            | *string                                   | RepositoryPublicKey            | *string                                   | Identical |                                    |
-| Scope                          | *string                                   | Scope                          | *string                                   | Identical |                                    |
-| SourceKind                     | *string                                   | SourceKind                     | *string                                   | Identical |                                    |
-| SourceSyncedCommitId           | *string                                   | SourceSyncedCommitId           | *string                                   | Identical |                                    |
-| SourceUpdatedAt                | *string                                   | SourceUpdatedAt                | *string                                   | Identical |                                    |
-| StatusUpdatedAt                | *string                                   | StatusUpdatedAt                | *string                                   | Identical |                                    |
-| Statuses                       | ObjectStatusDefinition_STATUS[]           | Statuses                       | ObjectStatusDefinition_STATUS[]           | Identical |                                    |
-| Suspend                        | *bool                                     | Suspend                        | *bool                                     | Identical |                                    |
-| SystemData                     | *SystemData_STATUS                        | SystemData                     | *SystemData_STATUS                        | Identical |                                    |
-| Type                           | *string                                   | Type                           | *string                                   | Identical |                                    |
-| WaitForReconciliation          | *bool                                     | WaitForReconciliation          | *bool                                     | Identical |                                    |
+| v1api20230501/storage          |                                           | v1api20241101/storage          |                                           | Status    | Notes |
+|:-------------------------------|:------------------------------------------|:-------------------------------|:------------------------------------------|:---------:|:------|
+| AzureBlob                      | *AzureBlobDefinition_STATUS               | AzureBlob                      | *AzureBlobDefinition_STATUS               | Identical |       |
+| Bucket                         | *BucketDefinition_STATUS                  | Bucket                         | *BucketDefinition_STATUS                  | Identical |       |
+| ComplianceState                | *string                                   | ComplianceState                | *string                                   | Identical |       |
+| Conditions                     | conditions.Condition[]                    | Conditions                     | conditions.Condition[]                    | Identical |       |
+| ConfigurationProtectedSettings | map[string]string                         | ConfigurationProtectedSettings | map[string]string                         | Identical |       |
+| ErrorMessage                   | *string                                   | ErrorMessage                   | *string                                   | Identical |       |
+| GitRepository                  | *GitRepositoryDefinition_STATUS           | GitRepository                  | *GitRepositoryDefinition_STATUS           | Identical |       |
+| Id                             | *string                                   | Id                             | *string                                   | Identical |       |
+| Kustomizations                 | map[string]KustomizationDefinition_STATUS | Kustomizations                 | map[string]KustomizationDefinition_STATUS | Identical |       |
+| Name                           | *string                                   | Name                           | *string                                   | Identical |       |
+| Namespace                      | *string                                   | Namespace                      | *string                                   | Identical |       |
+|                                |                                           | OciRepository                  | *OCIRepositoryDefinition_STATUS           | New       |       |
+| PropertyBag                    | genruntime.PropertyBag                    | PropertyBag                    | genruntime.PropertyBag                    | Identical |       |
+| ProvisioningState              | *string                                   |                                |                                           | Retired   |       |
+| ReconciliationWaitDuration     | *string                                   | ReconciliationWaitDuration     | *string                                   | Identical |       |
+| RepositoryPublicKey            | *string                                   | RepositoryPublicKey            | *string                                   | Identical |       |
+| Scope                          | *string                                   | Scope                          | *string                                   | Identical |       |
+| SourceKind                     | *string                                   | SourceKind                     | *string                                   | Identical |       |
+| SourceSyncedCommitId           | *string                                   | SourceSyncedCommitId           | *string                                   | Identical |       |
+| SourceUpdatedAt                | *string                                   | SourceUpdatedAt                | *string                                   | Identical |       |
+| StatusUpdatedAt                | *string                                   | StatusUpdatedAt                | *string                                   | Identical |       |
+| Statuses                       | ObjectStatusDefinition_STATUS[]           | Statuses                       | ObjectStatusDefinition_STATUS[]           | Identical |       |
+| Suspend                        | *bool                                     | Suspend                        | *bool                                     | Identical |       |
+| SystemData                     | *SystemData_STATUS                        | SystemData                     | *SystemData_STATUS                        | Identical |       |
+| Type                           | *string                                   | Type                           | *string                                   | Identical |       |
+| WaitForReconciliation          | *bool                                     | WaitForReconciliation          | *bool                                     | Identical |       |
 
 ### FluxConfiguration_Spec
 

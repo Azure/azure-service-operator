@@ -11,43 +11,43 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type    | Status    | Notes |
-|:----------------|:-------------|:----------------------|:-------------|:---------:|:------|
-| v1api20240701   | FirewallRule | v1api20240701/storage | FirewallRule | Identical |       |
-| v1api20240701   | MongoCluster | v1api20240701/storage | MongoCluster | Identical |       |
+| v1api20240701 | v1api20240701/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| FirewallRule  | FirewallRule          | Identical |       |
+| MongoCluster  | MongoCluster          | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                         | Next Version          | Next Type                            | Status   | Notes |
-|:----------------|:-------------------------------------|:----------------------|:-------------------------------------|:--------:|:------|
-| v1api20240701   | AdministratorProperties              | v1api20240701/storage | AdministratorProperties              | Extended |       |
-| v1api20240701   | AdministratorProperties_STATUS       | v1api20240701/storage | AdministratorProperties_STATUS       | Extended |       |
-| v1api20240701   | BackupProperties_STATUS              | v1api20240701/storage | BackupProperties_STATUS              | Extended |       |
-| v1api20240701   | ComputeProperties                    | v1api20240701/storage | ComputeProperties                    | Extended |       |
-| v1api20240701   | ComputeProperties_STATUS             | v1api20240701/storage | ComputeProperties_STATUS             | Extended |       |
-| v1api20240701   | FirewallRuleOperatorSpec             | v1api20240701/storage | FirewallRuleOperatorSpec             | Extended |       |
-| v1api20240701   | FirewallRuleProperties               | v1api20240701/storage | FirewallRuleProperties               | Modified |       |
-| v1api20240701   | FirewallRuleProperties_STATUS        | v1api20240701/storage | FirewallRuleProperties_STATUS        | Modified |       |
-| v1api20240701   | FirewallRule_STATUS                  | v1api20240701/storage | FirewallRule_STATUS                  | Extended |       |
-| v1api20240701   | FirewallRule_Spec                    | v1api20240701/storage | FirewallRule_Spec                    | Modified |       |
-| v1api20240701   | HighAvailabilityProperties           | v1api20240701/storage | HighAvailabilityProperties           | Modified |       |
-| v1api20240701   | HighAvailabilityProperties_STATUS    | v1api20240701/storage | HighAvailabilityProperties_STATUS    | Modified |       |
-| v1api20240701   | MongoClusterOperatorSpec             | v1api20240701/storage | MongoClusterOperatorSpec             | Extended |       |
-| v1api20240701   | MongoClusterProperties               | v1api20240701/storage | MongoClusterProperties               | Modified |       |
-| v1api20240701   | MongoClusterProperties_STATUS        | v1api20240701/storage | MongoClusterProperties_STATUS        | Modified |       |
-| v1api20240701   | MongoClusterReplicaParameters        | v1api20240701/storage | MongoClusterReplicaParameters        | Extended |       |
-| v1api20240701   | MongoClusterReplicaParameters_STATUS | v1api20240701/storage | MongoClusterReplicaParameters_STATUS | Extended |       |
-| v1api20240701   | MongoClusterRestoreParameters        | v1api20240701/storage | MongoClusterRestoreParameters        | Extended |       |
-| v1api20240701   | MongoClusterRestoreParameters_STATUS | v1api20240701/storage | MongoClusterRestoreParameters_STATUS | Extended |       |
-| v1api20240701   | MongoCluster_STATUS                  | v1api20240701/storage | MongoCluster_STATUS                  | Extended |       |
-| v1api20240701   | MongoCluster_Spec                    | v1api20240701/storage | MongoCluster_Spec                    | Modified |       |
-| v1api20240701   | PrivateEndpointConnection_STATUS     | v1api20240701/storage | PrivateEndpointConnection_STATUS     | Extended |       |
-| v1api20240701   | ReplicationProperties_STATUS         | v1api20240701/storage | ReplicationProperties_STATUS         | Modified |       |
-| v1api20240701   | ShardingProperties                   | v1api20240701/storage | ShardingProperties                   | Extended |       |
-| v1api20240701   | ShardingProperties_STATUS            | v1api20240701/storage | ShardingProperties_STATUS            | Extended |       |
-| v1api20240701   | StorageProperties                    | v1api20240701/storage | StorageProperties                    | Extended |       |
-| v1api20240701   | StorageProperties_STATUS             | v1api20240701/storage | StorageProperties_STATUS             | Extended |       |
-| v1api20240701   | SystemData_STATUS                    | v1api20240701/storage | SystemData_STATUS                    | Modified |       |
+| v1api20240701                        | v1api20240701/storage                | Status   | Notes |
+|:-------------------------------------|:-------------------------------------|:--------:|:------|
+| AdministratorProperties              | AdministratorProperties              | Extended |       |
+| AdministratorProperties_STATUS       | AdministratorProperties_STATUS       | Extended |       |
+| BackupProperties_STATUS              | BackupProperties_STATUS              | Extended |       |
+| ComputeProperties                    | ComputeProperties                    | Extended |       |
+| ComputeProperties_STATUS             | ComputeProperties_STATUS             | Extended |       |
+| FirewallRuleOperatorSpec             | FirewallRuleOperatorSpec             | Extended |       |
+| FirewallRuleProperties               | FirewallRuleProperties               | Modified |       |
+| FirewallRuleProperties_STATUS        | FirewallRuleProperties_STATUS        | Modified |       |
+| FirewallRule_STATUS                  | FirewallRule_STATUS                  | Extended |       |
+| FirewallRule_Spec                    | FirewallRule_Spec                    | Modified |       |
+| HighAvailabilityProperties           | HighAvailabilityProperties           | Modified |       |
+| HighAvailabilityProperties_STATUS    | HighAvailabilityProperties_STATUS    | Modified |       |
+| MongoClusterOperatorSpec             | MongoClusterOperatorSpec             | Extended |       |
+| MongoClusterProperties               | MongoClusterProperties               | Modified |       |
+| MongoClusterProperties_STATUS        | MongoClusterProperties_STATUS        | Modified |       |
+| MongoClusterReplicaParameters        | MongoClusterReplicaParameters        | Extended |       |
+| MongoClusterReplicaParameters_STATUS | MongoClusterReplicaParameters_STATUS | Extended |       |
+| MongoClusterRestoreParameters        | MongoClusterRestoreParameters        | Extended |       |
+| MongoClusterRestoreParameters_STATUS | MongoClusterRestoreParameters_STATUS | Extended |       |
+| MongoCluster_STATUS                  | MongoCluster_STATUS                  | Extended |       |
+| MongoCluster_Spec                    | MongoCluster_Spec                    | Modified |       |
+| PrivateEndpointConnection_STATUS     | PrivateEndpointConnection_STATUS     | Extended |       |
+| ReplicationProperties_STATUS         | ReplicationProperties_STATUS         | Modified |       |
+| ShardingProperties                   | ShardingProperties                   | Extended |       |
+| ShardingProperties_STATUS            | ShardingProperties_STATUS            | Extended |       |
+| StorageProperties                    | StorageProperties                    | Extended |       |
+| StorageProperties_STATUS             | StorageProperties_STATUS             | Extended |       |
+| SystemData_STATUS                    | SystemData_STATUS                    | Modified |       |
 
 ### AdministratorProperties
 

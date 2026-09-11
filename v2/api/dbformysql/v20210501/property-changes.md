@@ -11,49 +11,45 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                | Next Version      | Next Type                   | Status    | Notes |
-|:----------------|:----------------------------|:------------------|:----------------------------|:---------:|:------|
-| v20210501       | FlexibleServer              | v20210501/storage | FlexibleServer              | Identical |       |
-| v20210501       | FlexibleServersDatabase     | v20210501/storage | FlexibleServersDatabase     | Identical |       |
-| v20210501       | FlexibleServersFirewallRule | v20210501/storage | FlexibleServersFirewallRule | Identical |       |
+| v20210501                   | v20210501/storage           | Status    | Notes |
+|:----------------------------|:----------------------------|:---------:|:------|
+| FlexibleServer              | FlexibleServer              | Identical |       |
+| FlexibleServersDatabase     | FlexibleServersDatabase     | Identical |       |
+| FlexibleServersFirewallRule | FlexibleServersFirewallRule | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                            | Next Version      | Next Type                               | Status   | Notes                                                          |
-|:----------------|:----------------------------------------|:------------------|:----------------------------------------|:--------:|:---------------------------------------------------------------|
-| v20210501       | Backup                                  | v20210501/storage | Backup                                  | Modified |                                                                |
-| v20210501       | Backup_STATUS                           | v20210501/storage | Backup_STATUS                           | Modified |                                                                |
-| v20210501       | DataEncryption                          | v20210501/storage | DataEncryption                          | Modified |                                                                |
-| v20210501       | DataEncryption_STATUS                   | v20210501/storage | DataEncryption_STATUS                   | Modified |                                                                |
-| v20210501       | FlexibleServerOperatorConfigMaps        | v20210501/storage | FlexibleServerOperatorConfigMaps        | Extended |                                                                |
-| v20210501       | FlexibleServerOperatorSecrets           | v20210501/storage | FlexibleServerOperatorSecrets           | Extended |                                                                |
-| v20210501       | FlexibleServerOperatorSpec              | v20210501/storage | FlexibleServerOperatorSpec              | Extended |                                                                |
-| v20210501       | FlexibleServer_STATUS                   | v20210501/storage | FlexibleServer_STATUS                   | Modified |                                                                |
-| v20210501       | FlexibleServer_Spec                     | v20210501/storage | FlexibleServer_Spec                     | Modified |                                                                |
-| v20210501       | FlexibleServersDatabaseOperatorSpec     | v20210501/storage | FlexibleServersDatabaseOperatorSpec     | Extended |                                                                |
-| v20210501       | FlexibleServersDatabase_STATUS          | v20210501/storage | FlexibleServersDatabase_STATUS          | Extended |                                                                |
-| v20210501       | FlexibleServersDatabase_Spec            | v20210501/storage | FlexibleServersDatabase_Spec            | Extended |                                                                |
-| v20210501       | FlexibleServersFirewallRuleOperatorSpec | v20210501/storage | FlexibleServersFirewallRuleOperatorSpec | Extended |                                                                |
-| v20210501       | FlexibleServersFirewallRule_STATUS      | v20210501/storage | FlexibleServersFirewallRule_STATUS      | Extended |                                                                |
-| v20210501       | FlexibleServersFirewallRule_Spec        | v20210501/storage | FlexibleServersFirewallRule_Spec        | Modified |                                                                |
-| v20210501       | HighAvailability                        | v20210501/storage | HighAvailability                        | Modified |                                                                |
-| v20210501       | HighAvailability_STATUS                 | v20210501/storage | HighAvailability_STATUS                 | Modified |                                                                |
-|                 |                                         | v20210501/storage | Identity                                | New      | Configured rename to MySQLServerIdentity was not found.        |
-| v20210501       | Identity                                | v20210501/storage |                                         | Retired  | Configured rename to MySQLServerIdentity was not found.        |
-|                 |                                         | v20210501/storage | Identity_STATUS                         | New      | Configured rename to MySQLServerIdentity_STATUS was not found. |
-| v20210501       | Identity_STATUS                         | v20210501/storage |                                         | Retired  | Configured rename to MySQLServerIdentity_STATUS was not found. |
-| v20210501       | MaintenanceWindow                       | v20210501/storage | MaintenanceWindow                       | Extended |                                                                |
-| v20210501       | MaintenanceWindow_STATUS                | v20210501/storage | MaintenanceWindow_STATUS                | Extended |                                                                |
-| v20210501       | Network                                 | v20210501/storage | Network                                 | Extended |                                                                |
-| v20210501       | Network_STATUS                          | v20210501/storage | Network_STATUS                          | Modified |                                                                |
-|                 |                                         | v20210501/storage | Sku                                     | New      | Configured rename to MySQLServerSku was not found.             |
-| v20210501       | Sku                                     | v20210501/storage |                                         | Retired  | Configured rename to MySQLServerSku was not found.             |
-|                 |                                         | v20210501/storage | Sku_STATUS                              | New      | Configured rename to MySQLServerSku_STATUS was not found.      |
-| v20210501       | Sku_STATUS                              | v20210501/storage |                                         | Retired  | Configured rename to MySQLServerSku_STATUS was not found.      |
-| v20210501       | Storage                                 | v20210501/storage | Storage                                 | Modified |                                                                |
-| v20210501       | Storage_STATUS                          | v20210501/storage | Storage_STATUS                          | Modified |                                                                |
-| v20210501       | SystemData_STATUS                       | v20210501/storage | SystemData_STATUS                       | Modified |                                                                |
-| v20210501       | UserAssignedIdentityDetails             | v20210501/storage | UserAssignedIdentityDetails             | Extended |                                                                |
+| v20210501                               | v20210501/storage                       | Status   | Notes |
+|:----------------------------------------|:----------------------------------------|:--------:|:------|
+| Backup                                  | Backup                                  | Modified |       |
+| Backup_STATUS                           | Backup_STATUS                           | Modified |       |
+| DataEncryption                          | DataEncryption                          | Modified |       |
+| DataEncryption_STATUS                   | DataEncryption_STATUS                   | Modified |       |
+| FlexibleServerOperatorConfigMaps        | FlexibleServerOperatorConfigMaps        | Extended |       |
+| FlexibleServerOperatorSecrets           | FlexibleServerOperatorSecrets           | Extended |       |
+| FlexibleServerOperatorSpec              | FlexibleServerOperatorSpec              | Extended |       |
+| FlexibleServer_STATUS                   | FlexibleServer_STATUS                   | Modified |       |
+| FlexibleServer_Spec                     | FlexibleServer_Spec                     | Modified |       |
+| FlexibleServersDatabaseOperatorSpec     | FlexibleServersDatabaseOperatorSpec     | Extended |       |
+| FlexibleServersDatabase_STATUS          | FlexibleServersDatabase_STATUS          | Extended |       |
+| FlexibleServersDatabase_Spec            | FlexibleServersDatabase_Spec            | Extended |       |
+| FlexibleServersFirewallRuleOperatorSpec | FlexibleServersFirewallRuleOperatorSpec | Extended |       |
+| FlexibleServersFirewallRule_STATUS      | FlexibleServersFirewallRule_STATUS      | Extended |       |
+| FlexibleServersFirewallRule_Spec        | FlexibleServersFirewallRule_Spec        | Modified |       |
+| HighAvailability                        | HighAvailability                        | Modified |       |
+| HighAvailability_STATUS                 | HighAvailability_STATUS                 | Modified |       |
+| Identity                                | Identity                                | Modified |       |
+| Identity_STATUS                         | Identity_STATUS                         | Modified |       |
+| MaintenanceWindow                       | MaintenanceWindow                       | Extended |       |
+| MaintenanceWindow_STATUS                | MaintenanceWindow_STATUS                | Extended |       |
+| Network                                 | Network                                 | Extended |       |
+| Network_STATUS                          | Network_STATUS                          | Modified |       |
+| Sku                                     | Sku                                     | Modified |       |
+| Sku_STATUS                              | Sku_STATUS                              | Modified |       |
+| Storage                                 | Storage                                 | Modified |       |
+| Storage_STATUS                          | Storage_STATUS                          | Modified |       |
+| SystemData_STATUS                       | SystemData_STATUS                       | Modified |       |
+| UserAssignedIdentityDetails             | UserAssignedIdentityDetails             | Extended |       |
 
 ### Backup
 
@@ -261,6 +257,24 @@ Statuses:
 | StandbyAvailabilityZone | *string                        | StandbyAvailabilityZone | *string                | Identical |       |
 | State                   | *HighAvailability_State_STATUS | State                   | *string                | Modified  |       |
 
+### Identity
+
+| v20210501              |                               | v20210501/storage      |                               | Status    | Notes |
+|:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
+|                        |                               | PropertyBag            | genruntime.PropertyBag        | New       |       |
+| Type                   | *Identity_Type                | Type                   | *string                       | Modified  |       |
+| UserAssignedIdentities | UserAssignedIdentityDetails[] | UserAssignedIdentities | UserAssignedIdentityDetails[] | Identical |       |
+
+### Identity_STATUS
+
+| v20210501              |                       | v20210501/storage      |                        | Status    | Notes |
+|:-----------------------|:----------------------|:-----------------------|:-----------------------|:---------:|:------|
+| PrincipalId            | *string               | PrincipalId            | *string                | Identical |       |
+|                        |                       | PropertyBag            | genruntime.PropertyBag | New       |       |
+| TenantId               | *string               | TenantId               | *string                | Identical |       |
+| Type                   | *Identity_Type_STATUS | Type                   | *string                | Modified  |       |
+| UserAssignedIdentities | map[string]v1.JSON    | UserAssignedIdentities | map[string]v1.JSON     | Identical |       |
+
 ### MaintenanceWindow
 
 | v20210501    |         | v20210501/storage |                        | Status    | Notes |
@@ -297,6 +311,22 @@ Statuses:
 | PrivateDnsZoneResourceId  | *string                  | PrivateDnsZoneResourceId  | *string                | Identical |       |
 |                           |                          | PropertyBag               | genruntime.PropertyBag | New       |       |
 | PublicNetworkAccess       | *EnableStatusEnum_STATUS | PublicNetworkAccess       | *string                | Modified  |       |
+
+### Sku
+
+| v20210501 |           | v20210501/storage |                        | Status    | Notes |
+|:----------|:----------|:------------------|:-----------------------|:---------:|:------|
+| Name      | *string   | Name              | *string                | Identical |       |
+|           |           | PropertyBag       | genruntime.PropertyBag | New       |       |
+| Tier      | *Sku_Tier | Tier              | *string                | Modified  |       |
+
+### Sku_STATUS
+
+| v20210501 |                  | v20210501/storage |                        | Status    | Notes |
+|:----------|:-----------------|:------------------|:-----------------------|:---------:|:------|
+| Name      | *string          | Name              | *string                | Identical |       |
+|           |                  | PropertyBag       | genruntime.PropertyBag | New       |       |
+| Tier      | *Sku_Tier_STATUS | Tier              | *string                | Modified  |       |
 
 ### Storage
 

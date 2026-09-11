@@ -11,39 +11,39 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type  | Next Version          | Next Type     | Status    | Notes |
-|:----------------|:--------------|:----------------------|:--------------|:---------:|:------|
-| v1api20180601   | Configuration | v1api20180601/storage | Configuration | Identical |       |
-| v1api20180601   | Database      | v1api20180601/storage | Database      | Identical |       |
-| v1api20180601   | Server        | v1api20180601/storage | Server        | Identical |       |
+| v1api20180601 | v1api20180601/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| Configuration | Configuration         | Identical |       |
+| Database      | Database              | Identical |       |
+| Server        | Server                | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                           | Next Version          | Next Type                                              | Status   | Notes |
-|:----------------|:-------------------------------------------------------|:----------------------|:-------------------------------------------------------|:--------:|:------|
-| v1api20180601   | ConfigurationOperatorSpec                              | v1api20180601/storage | ConfigurationOperatorSpec                              | Extended |       |
-| v1api20180601   | Configuration_STATUS                                   | v1api20180601/storage | Configuration_STATUS                                   | Extended |       |
-| v1api20180601   | Configuration_Spec                                     | v1api20180601/storage | Configuration_Spec                                     | Extended |       |
-| v1api20180601   | DatabaseOperatorSpec                                   | v1api20180601/storage | DatabaseOperatorSpec                                   | Extended |       |
-| v1api20180601   | Database_STATUS                                        | v1api20180601/storage | Database_STATUS                                        | Extended |       |
-| v1api20180601   | Database_Spec                                          | v1api20180601/storage | Database_Spec                                          | Extended |       |
-| v1api20180601   | PrivateEndpointProperty_STATUS                         | v1api20180601/storage | PrivateEndpointProperty_STATUS                         | Extended |       |
-| v1api20180601   | ServerOperatorSecrets                                  | v1api20180601/storage | ServerOperatorSecrets                                  | Extended |       |
-| v1api20180601   | ServerOperatorSpec                                     | v1api20180601/storage | ServerOperatorSpec                                     | Extended |       |
-| v1api20180601   | ServerPrivateEndpointConnectionProperties_STATUS       | v1api20180601/storage | ServerPrivateEndpointConnectionProperties_STATUS       | Modified |       |
-| v1api20180601   | ServerPrivateEndpointConnection_STATUS                 | v1api20180601/storage | ServerPrivateEndpointConnection_STATUS                 | Extended |       |
-| v1api20180601   | ServerPrivateLinkServiceConnectionStateProperty_STATUS | v1api20180601/storage | ServerPrivateLinkServiceConnectionStateProperty_STATUS | Modified |       |
-| v1api20180601   | ServerPropertiesForCreate                              | v1api20180601/storage | ServerPropertiesForCreate                              | Extended |       |
-| v1api20180601   | ServerPropertiesForDefaultCreate                       | v1api20180601/storage | ServerPropertiesForDefaultCreate                       | Modified |       |
-| v1api20180601   | ServerPropertiesForGeoRestore                          | v1api20180601/storage | ServerPropertiesForGeoRestore                          | Modified |       |
-| v1api20180601   | ServerPropertiesForReplica                             | v1api20180601/storage | ServerPropertiesForReplica                             | Modified |       |
-| v1api20180601   | ServerPropertiesForRestore                             | v1api20180601/storage | ServerPropertiesForRestore                             | Modified |       |
-| v1api20180601   | Server_STATUS                                          | v1api20180601/storage | Server_STATUS                                          | Modified |       |
-| v1api20180601   | Server_Spec                                            | v1api20180601/storage | Server_Spec                                            | Extended |       |
-| v1api20180601   | Sku                                                    | v1api20180601/storage | Sku                                                    | Modified |       |
-| v1api20180601   | Sku_STATUS                                             | v1api20180601/storage | Sku_STATUS                                             | Modified |       |
-| v1api20180601   | StorageProfile                                         | v1api20180601/storage | StorageProfile                                         | Modified |       |
-| v1api20180601   | StorageProfile_STATUS                                  | v1api20180601/storage | StorageProfile_STATUS                                  | Modified |       |
+| v1api20180601                                          | v1api20180601/storage                                  | Status   | Notes |
+|:-------------------------------------------------------|:-------------------------------------------------------|:--------:|:------|
+| ConfigurationOperatorSpec                              | ConfigurationOperatorSpec                              | Extended |       |
+| Configuration_STATUS                                   | Configuration_STATUS                                   | Extended |       |
+| Configuration_Spec                                     | Configuration_Spec                                     | Extended |       |
+| DatabaseOperatorSpec                                   | DatabaseOperatorSpec                                   | Extended |       |
+| Database_STATUS                                        | Database_STATUS                                        | Extended |       |
+| Database_Spec                                          | Database_Spec                                          | Extended |       |
+| PrivateEndpointProperty_STATUS                         | PrivateEndpointProperty_STATUS                         | Extended |       |
+| ServerOperatorSecrets                                  | ServerOperatorSecrets                                  | Extended |       |
+| ServerOperatorSpec                                     | ServerOperatorSpec                                     | Extended |       |
+| ServerPrivateEndpointConnectionProperties_STATUS       | ServerPrivateEndpointConnectionProperties_STATUS       | Modified |       |
+| ServerPrivateEndpointConnection_STATUS                 | ServerPrivateEndpointConnection_STATUS                 | Extended |       |
+| ServerPrivateLinkServiceConnectionStateProperty_STATUS | ServerPrivateLinkServiceConnectionStateProperty_STATUS | Modified |       |
+| ServerPropertiesForCreate                              | ServerPropertiesForCreate                              | Extended |       |
+| ServerPropertiesForDefaultCreate                       | ServerPropertiesForDefaultCreate                       | Modified |       |
+| ServerPropertiesForGeoRestore                          | ServerPropertiesForGeoRestore                          | Modified |       |
+| ServerPropertiesForReplica                             | ServerPropertiesForReplica                             | Modified |       |
+| ServerPropertiesForRestore                             | ServerPropertiesForRestore                             | Modified |       |
+| Server_STATUS                                          | Server_STATUS                                          | Modified |       |
+| Server_Spec                                            | Server_Spec                                            | Extended |       |
+| Sku                                                    | Sku                                                    | Modified |       |
+| Sku_STATUS                                             | Sku_STATUS                                             | Modified |       |
+| StorageProfile                                         | StorageProfile                                         | Modified |       |
+| StorageProfile_STATUS                                  | StorageProfile_STATUS                                  | Modified |       |
 
 ### ConfigurationOperatorSpec
 

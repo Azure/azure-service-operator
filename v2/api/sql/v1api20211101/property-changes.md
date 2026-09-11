@@ -11,128 +11,128 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                                    | Next Version          | Next Type                                       | Status    | Notes |
-|:----------------|:------------------------------------------------|:----------------------|:------------------------------------------------|:---------:|:------|
-| v1api20211101   | Server                                          | v1api20211101/storage | Server                                          | Identical |       |
-| v1api20211101   | ServersAdministrator                            | v1api20211101/storage | ServersAdministrator                            | Identical |       |
-| v1api20211101   | ServersAdvancedThreatProtectionSetting          | v1api20211101/storage | ServersAdvancedThreatProtectionSetting          | Identical |       |
-| v1api20211101   | ServersAuditingSetting                          | v1api20211101/storage | ServersAuditingSetting                          | Identical |       |
-| v1api20211101   | ServersAzureADOnlyAuthentication                | v1api20211101/storage | ServersAzureADOnlyAuthentication                | Identical |       |
-| v1api20211101   | ServersConnectionPolicy                         | v1api20211101/storage | ServersConnectionPolicy                         | Identical |       |
-| v1api20211101   | ServersDatabase                                 | v1api20211101/storage | ServersDatabase                                 | Identical |       |
-| v1api20211101   | ServersDatabasesAdvancedThreatProtectionSetting | v1api20211101/storage | ServersDatabasesAdvancedThreatProtectionSetting | Identical |       |
-| v1api20211101   | ServersDatabasesAuditingSetting                 | v1api20211101/storage | ServersDatabasesAuditingSetting                 | Identical |       |
-| v1api20211101   | ServersDatabasesBackupLongTermRetentionPolicy   | v1api20211101/storage | ServersDatabasesBackupLongTermRetentionPolicy   | Identical |       |
-| v1api20211101   | ServersDatabasesBackupShortTermRetentionPolicy  | v1api20211101/storage | ServersDatabasesBackupShortTermRetentionPolicy  | Identical |       |
-| v1api20211101   | ServersDatabasesSecurityAlertPolicy             | v1api20211101/storage | ServersDatabasesSecurityAlertPolicy             | Identical |       |
-| v1api20211101   | ServersDatabasesTransparentDataEncryption       | v1api20211101/storage | ServersDatabasesTransparentDataEncryption       | Identical |       |
-| v1api20211101   | ServersDatabasesVulnerabilityAssessment         | v1api20211101/storage | ServersDatabasesVulnerabilityAssessment         | Identical |       |
-| v1api20211101   | ServersElasticPool                              | v1api20211101/storage | ServersElasticPool                              | Identical |       |
-| v1api20211101   | ServersFailoverGroup                            | v1api20211101/storage | ServersFailoverGroup                            | Identical |       |
-| v1api20211101   | ServersFirewallRule                             | v1api20211101/storage | ServersFirewallRule                             | Identical |       |
-| v1api20211101   | ServersIPV6FirewallRule                         | v1api20211101/storage | ServersIPV6FirewallRule                         | Identical |       |
-| v1api20211101   | ServersOutboundFirewallRule                     | v1api20211101/storage | ServersOutboundFirewallRule                     | Identical |       |
-| v1api20211101   | ServersSecurityAlertPolicy                      | v1api20211101/storage | ServersSecurityAlertPolicy                      | Identical |       |
-| v1api20211101   | ServersVirtualNetworkRule                       | v1api20211101/storage | ServersVirtualNetworkRule                       | Identical |       |
-| v1api20211101   | ServersVulnerabilityAssessment                  | v1api20211101/storage | ServersVulnerabilityAssessment                  | Identical |       |
+| v1api20211101                                   | v1api20211101/storage                           | Status    | Notes |
+|:------------------------------------------------|:------------------------------------------------|:---------:|:------|
+| Server                                          | Server                                          | Identical |       |
+| ServersAdministrator                            | ServersAdministrator                            | Identical |       |
+| ServersAdvancedThreatProtectionSetting          | ServersAdvancedThreatProtectionSetting          | Identical |       |
+| ServersAuditingSetting                          | ServersAuditingSetting                          | Identical |       |
+| ServersAzureADOnlyAuthentication                | ServersAzureADOnlyAuthentication                | Identical |       |
+| ServersConnectionPolicy                         | ServersConnectionPolicy                         | Identical |       |
+| ServersDatabase                                 | ServersDatabase                                 | Identical |       |
+| ServersDatabasesAdvancedThreatProtectionSetting | ServersDatabasesAdvancedThreatProtectionSetting | Identical |       |
+| ServersDatabasesAuditingSetting                 | ServersDatabasesAuditingSetting                 | Identical |       |
+| ServersDatabasesBackupLongTermRetentionPolicy   | ServersDatabasesBackupLongTermRetentionPolicy   | Identical |       |
+| ServersDatabasesBackupShortTermRetentionPolicy  | ServersDatabasesBackupShortTermRetentionPolicy  | Identical |       |
+| ServersDatabasesSecurityAlertPolicy             | ServersDatabasesSecurityAlertPolicy             | Identical |       |
+| ServersDatabasesTransparentDataEncryption       | ServersDatabasesTransparentDataEncryption       | Identical |       |
+| ServersDatabasesVulnerabilityAssessment         | ServersDatabasesVulnerabilityAssessment         | Identical |       |
+| ServersElasticPool                              | ServersElasticPool                              | Identical |       |
+| ServersFailoverGroup                            | ServersFailoverGroup                            | Identical |       |
+| ServersFirewallRule                             | ServersFirewallRule                             | Identical |       |
+| ServersIPV6FirewallRule                         | ServersIPV6FirewallRule                         | Identical |       |
+| ServersOutboundFirewallRule                     | ServersOutboundFirewallRule                     | Identical |       |
+| ServersSecurityAlertPolicy                      | ServersSecurityAlertPolicy                      | Identical |       |
+| ServersVirtualNetworkRule                       | ServersVirtualNetworkRule                       | Identical |       |
+| ServersVulnerabilityAssessment                  | ServersVulnerabilityAssessment                  | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                                | Next Version          | Next Type                                                   | Status   | Notes |
-|:----------------|:------------------------------------------------------------|:----------------------|:------------------------------------------------------------|:--------:|:------|
-| v1api20211101   | DatabaseIdentity                                            | v1api20211101/storage | DatabaseIdentity                                            | Modified |       |
-| v1api20211101   | DatabaseIdentity_STATUS                                     | v1api20211101/storage | DatabaseIdentity_STATUS                                     | Modified |       |
-| v1api20211101   | DatabaseUserIdentity_STATUS                                 | v1api20211101/storage | DatabaseUserIdentity_STATUS                                 | Extended |       |
-| v1api20211101   | ElasticPoolPerDatabaseSettings                              | v1api20211101/storage | ElasticPoolPerDatabaseSettings                              | Extended |       |
-| v1api20211101   | ElasticPoolPerDatabaseSettings_STATUS                       | v1api20211101/storage | ElasticPoolPerDatabaseSettings_STATUS                       | Extended |       |
-| v1api20211101   | FailoverGroupReadOnlyEndpoint                               | v1api20211101/storage | FailoverGroupReadOnlyEndpoint                               | Modified |       |
-| v1api20211101   | FailoverGroupReadOnlyEndpoint_STATUS                        | v1api20211101/storage | FailoverGroupReadOnlyEndpoint_STATUS                        | Modified |       |
-| v1api20211101   | FailoverGroupReadWriteEndpoint                              | v1api20211101/storage | FailoverGroupReadWriteEndpoint                              | Modified |       |
-| v1api20211101   | FailoverGroupReadWriteEndpoint_STATUS                       | v1api20211101/storage | FailoverGroupReadWriteEndpoint_STATUS                       | Modified |       |
-| v1api20211101   | PartnerInfo                                                 | v1api20211101/storage | PartnerInfo                                                 | Extended |       |
-| v1api20211101   | PartnerInfo_STATUS                                          | v1api20211101/storage | PartnerInfo_STATUS                                          | Modified |       |
-| v1api20211101   | PrivateEndpointConnectionProperties_STATUS                  | v1api20211101/storage | PrivateEndpointConnectionProperties_STATUS                  | Modified |       |
-| v1api20211101   | PrivateEndpointProperty_STATUS                              | v1api20211101/storage | PrivateEndpointProperty_STATUS                              | Extended |       |
-| v1api20211101   | PrivateLinkServiceConnectionStateProperty_STATUS            | v1api20211101/storage | PrivateLinkServiceConnectionStateProperty_STATUS            | Modified |       |
-| v1api20211101   | ResourceIdentity                                            | v1api20211101/storage | ResourceIdentity                                            | Modified |       |
-| v1api20211101   | ResourceIdentity_STATUS                                     | v1api20211101/storage | ResourceIdentity_STATUS                                     | Modified |       |
-| v1api20211101   | ServerExternalAdministrator                                 | v1api20211101/storage | ServerExternalAdministrator                                 | Modified |       |
-| v1api20211101   | ServerExternalAdministrator_STATUS                          | v1api20211101/storage | ServerExternalAdministrator_STATUS                          | Modified |       |
-| v1api20211101   | ServerOperatorConfigMaps                                    | v1api20211101/storage | ServerOperatorConfigMaps                                    | Extended |       |
-| v1api20211101   | ServerOperatorSpec                                          | v1api20211101/storage | ServerOperatorSpec                                          | Extended |       |
-| v1api20211101   | ServerPrivateEndpointConnection_STATUS                      | v1api20211101/storage | ServerPrivateEndpointConnection_STATUS                      | Extended |       |
-| v1api20211101   | Server_STATUS                                               | v1api20211101/storage | Server_STATUS                                               | Modified |       |
-| v1api20211101   | Server_Spec                                                 | v1api20211101/storage | Server_Spec                                                 | Modified |       |
-| v1api20211101   | ServersAdministratorOperatorSpec                            | v1api20211101/storage | ServersAdministratorOperatorSpec                            | Extended |       |
-| v1api20211101   | ServersAdministrator_STATUS                                 | v1api20211101/storage | ServersAdministrator_STATUS                                 | Modified |       |
-| v1api20211101   | ServersAdministrator_Spec                                   | v1api20211101/storage | ServersAdministrator_Spec                                   | Modified |       |
-| v1api20211101   | ServersAdvancedThreatProtectionSettingOperatorSpec          | v1api20211101/storage | ServersAdvancedThreatProtectionSettingOperatorSpec          | Extended |       |
-| v1api20211101   | ServersAdvancedThreatProtectionSetting_STATUS               | v1api20211101/storage | ServersAdvancedThreatProtectionSetting_STATUS               | Modified |       |
-| v1api20211101   | ServersAdvancedThreatProtectionSetting_Spec                 | v1api20211101/storage | ServersAdvancedThreatProtectionSetting_Spec                 | Modified |       |
-| v1api20211101   | ServersAuditingSettingOperatorSpec                          | v1api20211101/storage | ServersAuditingSettingOperatorSpec                          | Extended |       |
-| v1api20211101   | ServersAuditingSetting_STATUS                               | v1api20211101/storage | ServersAuditingSetting_STATUS                               | Modified |       |
-| v1api20211101   | ServersAuditingSetting_Spec                                 | v1api20211101/storage | ServersAuditingSetting_Spec                                 | Modified |       |
-| v1api20211101   | ServersAzureADOnlyAuthenticationOperatorSpec                | v1api20211101/storage | ServersAzureADOnlyAuthenticationOperatorSpec                | Extended |       |
-| v1api20211101   | ServersAzureADOnlyAuthentication_STATUS                     | v1api20211101/storage | ServersAzureADOnlyAuthentication_STATUS                     | Extended |       |
-| v1api20211101   | ServersAzureADOnlyAuthentication_Spec                       | v1api20211101/storage | ServersAzureADOnlyAuthentication_Spec                       | Extended |       |
-| v1api20211101   | ServersConnectionPolicyOperatorSpec                         | v1api20211101/storage | ServersConnectionPolicyOperatorSpec                         | Extended |       |
-| v1api20211101   | ServersConnectionPolicy_STATUS                              | v1api20211101/storage | ServersConnectionPolicy_STATUS                              | Modified |       |
-| v1api20211101   | ServersConnectionPolicy_Spec                                | v1api20211101/storage | ServersConnectionPolicy_Spec                                | Modified |       |
-| v1api20211101   | ServersDatabaseOperatorSpec                                 | v1api20211101/storage | ServersDatabaseOperatorSpec                                 | Extended |       |
-| v1api20211101   | ServersDatabase_STATUS                                      | v1api20211101/storage | ServersDatabase_STATUS                                      | Modified |       |
-| v1api20211101   | ServersDatabase_Spec                                        | v1api20211101/storage | ServersDatabase_Spec                                        | Modified |       |
-| v1api20211101   | ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec | v1api20211101/storage | ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec | Extended |       |
-| v1api20211101   | ServersDatabasesAdvancedThreatProtectionSetting_STATUS      | v1api20211101/storage | ServersDatabasesAdvancedThreatProtectionSetting_STATUS      | Modified |       |
-| v1api20211101   | ServersDatabasesAdvancedThreatProtectionSetting_Spec        | v1api20211101/storage | ServersDatabasesAdvancedThreatProtectionSetting_Spec        | Modified |       |
-| v1api20211101   | ServersDatabasesAuditingSettingOperatorSpec                 | v1api20211101/storage | ServersDatabasesAuditingSettingOperatorSpec                 | Extended |       |
-| v1api20211101   | ServersDatabasesAuditingSetting_STATUS                      | v1api20211101/storage | ServersDatabasesAuditingSetting_STATUS                      | Modified |       |
-| v1api20211101   | ServersDatabasesAuditingSetting_Spec                        | v1api20211101/storage | ServersDatabasesAuditingSetting_Spec                        | Modified |       |
-| v1api20211101   | ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec   | v1api20211101/storage | ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec   | Extended |       |
-| v1api20211101   | ServersDatabasesBackupLongTermRetentionPolicy_STATUS        | v1api20211101/storage | ServersDatabasesBackupLongTermRetentionPolicy_STATUS        | Extended |       |
-| v1api20211101   | ServersDatabasesBackupLongTermRetentionPolicy_Spec          | v1api20211101/storage | ServersDatabasesBackupLongTermRetentionPolicy_Spec          | Extended |       |
-| v1api20211101   | ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec  | v1api20211101/storage | ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec  | Extended |       |
-| v1api20211101   | ServersDatabasesBackupShortTermRetentionPolicy_STATUS       | v1api20211101/storage | ServersDatabasesBackupShortTermRetentionPolicy_STATUS       | Modified |       |
-| v1api20211101   | ServersDatabasesBackupShortTermRetentionPolicy_Spec         | v1api20211101/storage | ServersDatabasesBackupShortTermRetentionPolicy_Spec         | Modified |       |
-| v1api20211101   | ServersDatabasesSecurityAlertPolicyOperatorSpec             | v1api20211101/storage | ServersDatabasesSecurityAlertPolicyOperatorSpec             | Extended |       |
-| v1api20211101   | ServersDatabasesSecurityAlertPolicy_STATUS                  | v1api20211101/storage | ServersDatabasesSecurityAlertPolicy_STATUS                  | Modified |       |
-| v1api20211101   | ServersDatabasesSecurityAlertPolicy_Spec                    | v1api20211101/storage | ServersDatabasesSecurityAlertPolicy_Spec                    | Modified |       |
-| v1api20211101   | ServersDatabasesTransparentDataEncryptionOperatorSpec       | v1api20211101/storage | ServersDatabasesTransparentDataEncryptionOperatorSpec       | Extended |       |
-| v1api20211101   | ServersDatabasesTransparentDataEncryption_STATUS            | v1api20211101/storage | ServersDatabasesTransparentDataEncryption_STATUS            | Modified |       |
-| v1api20211101   | ServersDatabasesTransparentDataEncryption_Spec              | v1api20211101/storage | ServersDatabasesTransparentDataEncryption_Spec              | Modified |       |
-| v1api20211101   | ServersDatabasesVulnerabilityAssessmentOperatorSpec         | v1api20211101/storage | ServersDatabasesVulnerabilityAssessmentOperatorSpec         | Extended |       |
-| v1api20211101   | ServersDatabasesVulnerabilityAssessment_STATUS              | v1api20211101/storage | ServersDatabasesVulnerabilityAssessment_STATUS              | Extended |       |
-| v1api20211101   | ServersDatabasesVulnerabilityAssessment_Spec                | v1api20211101/storage | ServersDatabasesVulnerabilityAssessment_Spec                | Extended |       |
-| v1api20211101   | ServersElasticPoolOperatorSpec                              | v1api20211101/storage | ServersElasticPoolOperatorSpec                              | Extended |       |
-| v1api20211101   | ServersElasticPool_STATUS                                   | v1api20211101/storage | ServersElasticPool_STATUS                                   | Modified |       |
-| v1api20211101   | ServersElasticPool_Spec                                     | v1api20211101/storage | ServersElasticPool_Spec                                     | Modified |       |
-| v1api20211101   | ServersFailoverGroupOperatorSpec                            | v1api20211101/storage | ServersFailoverGroupOperatorSpec                            | Extended |       |
-| v1api20211101   | ServersFailoverGroup_STATUS                                 | v1api20211101/storage | ServersFailoverGroup_STATUS                                 | Modified |       |
-| v1api20211101   | ServersFailoverGroup_Spec                                   | v1api20211101/storage | ServersFailoverGroup_Spec                                   | Extended |       |
-| v1api20211101   | ServersFirewallRuleOperatorSpec                             | v1api20211101/storage | ServersFirewallRuleOperatorSpec                             | Extended |       |
-| v1api20211101   | ServersFirewallRule_STATUS                                  | v1api20211101/storage | ServersFirewallRule_STATUS                                  | Extended |       |
-| v1api20211101   | ServersFirewallRule_Spec                                    | v1api20211101/storage | ServersFirewallRule_Spec                                    | Extended |       |
-| v1api20211101   | ServersIPV6FirewallRuleOperatorSpec                         | v1api20211101/storage | ServersIPV6FirewallRuleOperatorSpec                         | Extended |       |
-| v1api20211101   | ServersIPV6FirewallRule_STATUS                              | v1api20211101/storage | ServersIPV6FirewallRule_STATUS                              | Extended |       |
-| v1api20211101   | ServersIPV6FirewallRule_Spec                                | v1api20211101/storage | ServersIPV6FirewallRule_Spec                                | Extended |       |
-| v1api20211101   | ServersOutboundFirewallRuleOperatorSpec                     | v1api20211101/storage | ServersOutboundFirewallRuleOperatorSpec                     | Extended |       |
-| v1api20211101   | ServersOutboundFirewallRule_STATUS                          | v1api20211101/storage | ServersOutboundFirewallRule_STATUS                          | Extended |       |
-| v1api20211101   | ServersOutboundFirewallRule_Spec                            | v1api20211101/storage | ServersOutboundFirewallRule_Spec                            | Extended |       |
-| v1api20211101   | ServersSecurityAlertPolicyOperatorSpec                      | v1api20211101/storage | ServersSecurityAlertPolicyOperatorSpec                      | Extended |       |
-| v1api20211101   | ServersSecurityAlertPolicy_STATUS                           | v1api20211101/storage | ServersSecurityAlertPolicy_STATUS                           | Modified |       |
-| v1api20211101   | ServersSecurityAlertPolicy_Spec                             | v1api20211101/storage | ServersSecurityAlertPolicy_Spec                             | Modified |       |
-| v1api20211101   | ServersVirtualNetworkRuleOperatorSpec                       | v1api20211101/storage | ServersVirtualNetworkRuleOperatorSpec                       | Extended |       |
-| v1api20211101   | ServersVirtualNetworkRule_STATUS                            | v1api20211101/storage | ServersVirtualNetworkRule_STATUS                            | Modified |       |
-| v1api20211101   | ServersVirtualNetworkRule_Spec                              | v1api20211101/storage | ServersVirtualNetworkRule_Spec                              | Extended |       |
-| v1api20211101   | ServersVulnerabilityAssessmentOperatorSpec                  | v1api20211101/storage | ServersVulnerabilityAssessmentOperatorSpec                  | Extended |       |
-| v1api20211101   | ServersVulnerabilityAssessment_STATUS                       | v1api20211101/storage | ServersVulnerabilityAssessment_STATUS                       | Extended |       |
-| v1api20211101   | ServersVulnerabilityAssessment_Spec                         | v1api20211101/storage | ServersVulnerabilityAssessment_Spec                         | Extended |       |
-| v1api20211101   | Sku                                                         | v1api20211101/storage | Sku                                                         | Extended |       |
-| v1api20211101   | Sku_STATUS                                                  | v1api20211101/storage | Sku_STATUS                                                  | Extended |       |
-| v1api20211101   | SystemData_STATUS                                           | v1api20211101/storage | SystemData_STATUS                                           | Modified |       |
-| v1api20211101   | UserAssignedIdentityDetails                                 | v1api20211101/storage | UserAssignedIdentityDetails                                 | Extended |       |
-| v1api20211101   | UserIdentity_STATUS                                         | v1api20211101/storage | UserIdentity_STATUS                                         | Extended |       |
-| v1api20211101   | VulnerabilityAssessmentRecurringScansProperties             | v1api20211101/storage | VulnerabilityAssessmentRecurringScansProperties             | Extended |       |
-| v1api20211101   | VulnerabilityAssessmentRecurringScansProperties_STATUS      | v1api20211101/storage | VulnerabilityAssessmentRecurringScansProperties_STATUS      | Extended |       |
+| v1api20211101                                               | v1api20211101/storage                                       | Status   | Notes |
+|:------------------------------------------------------------|:------------------------------------------------------------|:--------:|:------|
+| DatabaseIdentity                                            | DatabaseIdentity                                            | Modified |       |
+| DatabaseIdentity_STATUS                                     | DatabaseIdentity_STATUS                                     | Modified |       |
+| DatabaseUserIdentity_STATUS                                 | DatabaseUserIdentity_STATUS                                 | Extended |       |
+| ElasticPoolPerDatabaseSettings                              | ElasticPoolPerDatabaseSettings                              | Extended |       |
+| ElasticPoolPerDatabaseSettings_STATUS                       | ElasticPoolPerDatabaseSettings_STATUS                       | Extended |       |
+| FailoverGroupReadOnlyEndpoint                               | FailoverGroupReadOnlyEndpoint                               | Modified |       |
+| FailoverGroupReadOnlyEndpoint_STATUS                        | FailoverGroupReadOnlyEndpoint_STATUS                        | Modified |       |
+| FailoverGroupReadWriteEndpoint                              | FailoverGroupReadWriteEndpoint                              | Modified |       |
+| FailoverGroupReadWriteEndpoint_STATUS                       | FailoverGroupReadWriteEndpoint_STATUS                       | Modified |       |
+| PartnerInfo                                                 | PartnerInfo                                                 | Extended |       |
+| PartnerInfo_STATUS                                          | PartnerInfo_STATUS                                          | Modified |       |
+| PrivateEndpointConnectionProperties_STATUS                  | PrivateEndpointConnectionProperties_STATUS                  | Modified |       |
+| PrivateEndpointProperty_STATUS                              | PrivateEndpointProperty_STATUS                              | Extended |       |
+| PrivateLinkServiceConnectionStateProperty_STATUS            | PrivateLinkServiceConnectionStateProperty_STATUS            | Modified |       |
+| ResourceIdentity                                            | ResourceIdentity                                            | Modified |       |
+| ResourceIdentity_STATUS                                     | ResourceIdentity_STATUS                                     | Modified |       |
+| ServerExternalAdministrator                                 | ServerExternalAdministrator                                 | Modified |       |
+| ServerExternalAdministrator_STATUS                          | ServerExternalAdministrator_STATUS                          | Modified |       |
+| ServerOperatorConfigMaps                                    | ServerOperatorConfigMaps                                    | Extended |       |
+| ServerOperatorSpec                                          | ServerOperatorSpec                                          | Extended |       |
+| ServerPrivateEndpointConnection_STATUS                      | ServerPrivateEndpointConnection_STATUS                      | Extended |       |
+| Server_STATUS                                               | Server_STATUS                                               | Modified |       |
+| Server_Spec                                                 | Server_Spec                                                 | Modified |       |
+| ServersAdministratorOperatorSpec                            | ServersAdministratorOperatorSpec                            | Extended |       |
+| ServersAdministrator_STATUS                                 | ServersAdministrator_STATUS                                 | Modified |       |
+| ServersAdministrator_Spec                                   | ServersAdministrator_Spec                                   | Modified |       |
+| ServersAdvancedThreatProtectionSettingOperatorSpec          | ServersAdvancedThreatProtectionSettingOperatorSpec          | Extended |       |
+| ServersAdvancedThreatProtectionSetting_STATUS               | ServersAdvancedThreatProtectionSetting_STATUS               | Modified |       |
+| ServersAdvancedThreatProtectionSetting_Spec                 | ServersAdvancedThreatProtectionSetting_Spec                 | Modified |       |
+| ServersAuditingSettingOperatorSpec                          | ServersAuditingSettingOperatorSpec                          | Extended |       |
+| ServersAuditingSetting_STATUS                               | ServersAuditingSetting_STATUS                               | Modified |       |
+| ServersAuditingSetting_Spec                                 | ServersAuditingSetting_Spec                                 | Modified |       |
+| ServersAzureADOnlyAuthenticationOperatorSpec                | ServersAzureADOnlyAuthenticationOperatorSpec                | Extended |       |
+| ServersAzureADOnlyAuthentication_STATUS                     | ServersAzureADOnlyAuthentication_STATUS                     | Extended |       |
+| ServersAzureADOnlyAuthentication_Spec                       | ServersAzureADOnlyAuthentication_Spec                       | Extended |       |
+| ServersConnectionPolicyOperatorSpec                         | ServersConnectionPolicyOperatorSpec                         | Extended |       |
+| ServersConnectionPolicy_STATUS                              | ServersConnectionPolicy_STATUS                              | Modified |       |
+| ServersConnectionPolicy_Spec                                | ServersConnectionPolicy_Spec                                | Modified |       |
+| ServersDatabaseOperatorSpec                                 | ServersDatabaseOperatorSpec                                 | Extended |       |
+| ServersDatabase_STATUS                                      | ServersDatabase_STATUS                                      | Modified |       |
+| ServersDatabase_Spec                                        | ServersDatabase_Spec                                        | Modified |       |
+| ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec | ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec | Extended |       |
+| ServersDatabasesAdvancedThreatProtectionSetting_STATUS      | ServersDatabasesAdvancedThreatProtectionSetting_STATUS      | Modified |       |
+| ServersDatabasesAdvancedThreatProtectionSetting_Spec        | ServersDatabasesAdvancedThreatProtectionSetting_Spec        | Modified |       |
+| ServersDatabasesAuditingSettingOperatorSpec                 | ServersDatabasesAuditingSettingOperatorSpec                 | Extended |       |
+| ServersDatabasesAuditingSetting_STATUS                      | ServersDatabasesAuditingSetting_STATUS                      | Modified |       |
+| ServersDatabasesAuditingSetting_Spec                        | ServersDatabasesAuditingSetting_Spec                        | Modified |       |
+| ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec   | ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec   | Extended |       |
+| ServersDatabasesBackupLongTermRetentionPolicy_STATUS        | ServersDatabasesBackupLongTermRetentionPolicy_STATUS        | Extended |       |
+| ServersDatabasesBackupLongTermRetentionPolicy_Spec          | ServersDatabasesBackupLongTermRetentionPolicy_Spec          | Extended |       |
+| ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec  | ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec  | Extended |       |
+| ServersDatabasesBackupShortTermRetentionPolicy_STATUS       | ServersDatabasesBackupShortTermRetentionPolicy_STATUS       | Modified |       |
+| ServersDatabasesBackupShortTermRetentionPolicy_Spec         | ServersDatabasesBackupShortTermRetentionPolicy_Spec         | Modified |       |
+| ServersDatabasesSecurityAlertPolicyOperatorSpec             | ServersDatabasesSecurityAlertPolicyOperatorSpec             | Extended |       |
+| ServersDatabasesSecurityAlertPolicy_STATUS                  | ServersDatabasesSecurityAlertPolicy_STATUS                  | Modified |       |
+| ServersDatabasesSecurityAlertPolicy_Spec                    | ServersDatabasesSecurityAlertPolicy_Spec                    | Modified |       |
+| ServersDatabasesTransparentDataEncryptionOperatorSpec       | ServersDatabasesTransparentDataEncryptionOperatorSpec       | Extended |       |
+| ServersDatabasesTransparentDataEncryption_STATUS            | ServersDatabasesTransparentDataEncryption_STATUS            | Modified |       |
+| ServersDatabasesTransparentDataEncryption_Spec              | ServersDatabasesTransparentDataEncryption_Spec              | Modified |       |
+| ServersDatabasesVulnerabilityAssessmentOperatorSpec         | ServersDatabasesVulnerabilityAssessmentOperatorSpec         | Extended |       |
+| ServersDatabasesVulnerabilityAssessment_STATUS              | ServersDatabasesVulnerabilityAssessment_STATUS              | Extended |       |
+| ServersDatabasesVulnerabilityAssessment_Spec                | ServersDatabasesVulnerabilityAssessment_Spec                | Extended |       |
+| ServersElasticPoolOperatorSpec                              | ServersElasticPoolOperatorSpec                              | Extended |       |
+| ServersElasticPool_STATUS                                   | ServersElasticPool_STATUS                                   | Modified |       |
+| ServersElasticPool_Spec                                     | ServersElasticPool_Spec                                     | Modified |       |
+| ServersFailoverGroupOperatorSpec                            | ServersFailoverGroupOperatorSpec                            | Extended |       |
+| ServersFailoverGroup_STATUS                                 | ServersFailoverGroup_STATUS                                 | Modified |       |
+| ServersFailoverGroup_Spec                                   | ServersFailoverGroup_Spec                                   | Extended |       |
+| ServersFirewallRuleOperatorSpec                             | ServersFirewallRuleOperatorSpec                             | Extended |       |
+| ServersFirewallRule_STATUS                                  | ServersFirewallRule_STATUS                                  | Extended |       |
+| ServersFirewallRule_Spec                                    | ServersFirewallRule_Spec                                    | Extended |       |
+| ServersIPV6FirewallRuleOperatorSpec                         | ServersIPV6FirewallRuleOperatorSpec                         | Extended |       |
+| ServersIPV6FirewallRule_STATUS                              | ServersIPV6FirewallRule_STATUS                              | Extended |       |
+| ServersIPV6FirewallRule_Spec                                | ServersIPV6FirewallRule_Spec                                | Extended |       |
+| ServersOutboundFirewallRuleOperatorSpec                     | ServersOutboundFirewallRuleOperatorSpec                     | Extended |       |
+| ServersOutboundFirewallRule_STATUS                          | ServersOutboundFirewallRule_STATUS                          | Extended |       |
+| ServersOutboundFirewallRule_Spec                            | ServersOutboundFirewallRule_Spec                            | Extended |       |
+| ServersSecurityAlertPolicyOperatorSpec                      | ServersSecurityAlertPolicyOperatorSpec                      | Extended |       |
+| ServersSecurityAlertPolicy_STATUS                           | ServersSecurityAlertPolicy_STATUS                           | Modified |       |
+| ServersSecurityAlertPolicy_Spec                             | ServersSecurityAlertPolicy_Spec                             | Modified |       |
+| ServersVirtualNetworkRuleOperatorSpec                       | ServersVirtualNetworkRuleOperatorSpec                       | Extended |       |
+| ServersVirtualNetworkRule_STATUS                            | ServersVirtualNetworkRule_STATUS                            | Modified |       |
+| ServersVirtualNetworkRule_Spec                              | ServersVirtualNetworkRule_Spec                              | Extended |       |
+| ServersVulnerabilityAssessmentOperatorSpec                  | ServersVulnerabilityAssessmentOperatorSpec                  | Extended |       |
+| ServersVulnerabilityAssessment_STATUS                       | ServersVulnerabilityAssessment_STATUS                       | Extended |       |
+| ServersVulnerabilityAssessment_Spec                         | ServersVulnerabilityAssessment_Spec                         | Extended |       |
+| Sku                                                         | Sku                                                         | Extended |       |
+| Sku_STATUS                                                  | Sku_STATUS                                                  | Extended |       |
+| SystemData_STATUS                                           | SystemData_STATUS                                           | Modified |       |
+| UserAssignedIdentityDetails                                 | UserAssignedIdentityDetails                                 | Extended |       |
+| UserIdentity_STATUS                                         | UserIdentity_STATUS                                         | Extended |       |
+| VulnerabilityAssessmentRecurringScansProperties             | VulnerabilityAssessmentRecurringScansProperties             | Extended |       |
+| VulnerabilityAssessmentRecurringScansProperties_STATUS      | VulnerabilityAssessmentRecurringScansProperties_STATUS      | Extended |       |
 
 ### DatabaseIdentity
 

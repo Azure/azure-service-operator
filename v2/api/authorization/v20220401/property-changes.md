@@ -11,24 +11,24 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type   | Next Version      | Next Type      | Status    | Notes |
-|:----------------|:---------------|:------------------|:---------------|:---------:|:------|
-| v20220401       | RoleAssignment | v20220401/storage | RoleAssignment | Identical |       |
-| v20220401       | RoleDefinition | v20220401/storage | RoleDefinition | Identical |       |
+| v20220401      | v20220401/storage | Status    | Notes |
+|:---------------|:------------------|:---------:|:------|
+| RoleAssignment | RoleAssignment    | Identical |       |
+| RoleDefinition | RoleDefinition    | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type               | Next Version      | Next Type                  | Status   | Notes |
-|:----------------|:---------------------------|:------------------|:---------------------------|:--------:|:------|
-| v20220401       | Permission                 | v20220401/storage | Permission                 | Extended |       |
-| v20220401       | Permission_STATUS          | v20220401/storage | Permission_STATUS          | Extended |       |
-| v20220401       | RoleAssignmentOperatorSpec | v20220401/storage | RoleAssignmentOperatorSpec | Extended |       |
-| v20220401       | RoleAssignment_STATUS      | v20220401/storage | RoleAssignment_STATUS      | Modified |       |
-| v20220401       | RoleAssignment_Spec        | v20220401/storage | RoleAssignment_Spec        | Modified |       |
-| v20220401       | RoleDefinitionOperatorSpec | v20220401/storage | RoleDefinitionOperatorSpec | Extended |       |
-| v20220401       | RoleDefinition_STATUS      | v20220401/storage | RoleDefinition_STATUS      | Extended |       |
-| v20220401       | RoleDefinition_Spec        | v20220401/storage | RoleDefinition_Spec        | Extended |       |
-| v20220401       | SystemData_STATUS          | v20220401/storage | SystemData_STATUS          | Modified |       |
+| v20220401                  | v20220401/storage          | Status   | Notes |
+|:---------------------------|:---------------------------|:--------:|:------|
+| Permission                 | Permission                 | Extended |       |
+| Permission_STATUS          | Permission_STATUS          | Extended |       |
+| RoleAssignmentOperatorSpec | RoleAssignmentOperatorSpec | Extended |       |
+| RoleAssignment_STATUS      | RoleAssignment_STATUS      | Modified |       |
+| RoleAssignment_Spec        | RoleAssignment_Spec        | Modified |       |
+| RoleDefinitionOperatorSpec | RoleDefinitionOperatorSpec | Extended |       |
+| RoleDefinition_STATUS      | RoleDefinition_STATUS      | Extended |       |
+| RoleDefinition_Spec        | RoleDefinition_Spec        | Extended |       |
+| SystemData_STATUS          | SystemData_STATUS          | Modified |       |
 
 ### Permission
 

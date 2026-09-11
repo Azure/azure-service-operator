@@ -11,63 +11,63 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                      | Next Version          | Next Type                         | Status    | Notes |
-|:----------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
-| v1api20200601   | PrivateDnsZonesAAAARecord         | v1api20200601/storage | PrivateDnsZonesAAAARecord         | Identical |       |
-| v1api20200601   | PrivateDnsZonesARecord            | v1api20200601/storage | PrivateDnsZonesARecord            | Identical |       |
-| v1api20200601   | PrivateDnsZonesCNAMERecord        | v1api20200601/storage | PrivateDnsZonesCNAMERecord        | Identical |       |
-| v1api20200601   | PrivateDnsZonesMXRecord           | v1api20200601/storage | PrivateDnsZonesMXRecord           | Identical |       |
-| v1api20200601   | PrivateDnsZonesPTRRecord          | v1api20200601/storage | PrivateDnsZonesPTRRecord          | Identical |       |
-| v1api20200601   | PrivateDnsZonesSRVRecord          | v1api20200601/storage | PrivateDnsZonesSRVRecord          | Identical |       |
-| v1api20200601   | PrivateDnsZonesTXTRecord          | v1api20200601/storage | PrivateDnsZonesTXTRecord          | Identical |       |
-| v1api20200601   | PrivateDnsZonesVirtualNetworkLink | v1api20200601/storage | PrivateDnsZonesVirtualNetworkLink | Identical |       |
+| v1api20200601                     | v1api20200601/storage             | Status    | Notes |
+|:----------------------------------|:----------------------------------|:---------:|:------|
+| PrivateDnsZonesAAAARecord         | PrivateDnsZonesAAAARecord         | Identical |       |
+| PrivateDnsZonesARecord            | PrivateDnsZonesARecord            | Identical |       |
+| PrivateDnsZonesCNAMERecord        | PrivateDnsZonesCNAMERecord        | Identical |       |
+| PrivateDnsZonesMXRecord           | PrivateDnsZonesMXRecord           | Identical |       |
+| PrivateDnsZonesPTRRecord          | PrivateDnsZonesPTRRecord          | Identical |       |
+| PrivateDnsZonesSRVRecord          | PrivateDnsZonesSRVRecord          | Identical |       |
+| PrivateDnsZonesTXTRecord          | PrivateDnsZonesTXTRecord          | Identical |       |
+| PrivateDnsZonesVirtualNetworkLink | PrivateDnsZonesVirtualNetworkLink | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                  | Next Version          | Next Type                                     | Status   | Notes |
-|:----------------|:----------------------------------------------|:----------------------|:----------------------------------------------|:--------:|:------|
-| v1api20200601   | ARecord                                       | v1api20200601/storage | ARecord                                       | Extended |       |
-| v1api20200601   | ARecord_STATUS                                | v1api20200601/storage | ARecord_STATUS                                | Extended |       |
-| v1api20200601   | AaaaRecord                                    | v1api20200601/storage | AaaaRecord                                    | Extended |       |
-| v1api20200601   | AaaaRecord_STATUS                             | v1api20200601/storage | AaaaRecord_STATUS                             | Extended |       |
-| v1api20200601   | CnameRecord                                   | v1api20200601/storage | CnameRecord                                   | Extended |       |
-| v1api20200601   | CnameRecord_STATUS                            | v1api20200601/storage | CnameRecord_STATUS                            | Extended |       |
-| v1api20200601   | MxRecord                                      | v1api20200601/storage | MxRecord                                      | Extended |       |
-| v1api20200601   | MxRecord_STATUS                               | v1api20200601/storage | MxRecord_STATUS                               | Extended |       |
-| v1api20200601   | PrivateDnsZonesAAAARecordOperatorSpec         | v1api20200601/storage | PrivateDnsZonesAAAARecordOperatorSpec         | Extended |       |
-| v1api20200601   | PrivateDnsZonesAAAARecord_STATUS              | v1api20200601/storage | PrivateDnsZonesAAAARecord_STATUS              | Extended |       |
-| v1api20200601   | PrivateDnsZonesAAAARecord_Spec                | v1api20200601/storage | PrivateDnsZonesAAAARecord_Spec                | Extended |       |
-| v1api20200601   | PrivateDnsZonesARecordOperatorSpec            | v1api20200601/storage | PrivateDnsZonesARecordOperatorSpec            | Extended |       |
-| v1api20200601   | PrivateDnsZonesARecord_STATUS                 | v1api20200601/storage | PrivateDnsZonesARecord_STATUS                 | Extended |       |
-| v1api20200601   | PrivateDnsZonesARecord_Spec                   | v1api20200601/storage | PrivateDnsZonesARecord_Spec                   | Extended |       |
-| v1api20200601   | PrivateDnsZonesCNAMERecordOperatorSpec        | v1api20200601/storage | PrivateDnsZonesCNAMERecordOperatorSpec        | Extended |       |
-| v1api20200601   | PrivateDnsZonesCNAMERecord_STATUS             | v1api20200601/storage | PrivateDnsZonesCNAMERecord_STATUS             | Extended |       |
-| v1api20200601   | PrivateDnsZonesCNAMERecord_Spec               | v1api20200601/storage | PrivateDnsZonesCNAMERecord_Spec               | Extended |       |
-| v1api20200601   | PrivateDnsZonesMXRecordOperatorSpec           | v1api20200601/storage | PrivateDnsZonesMXRecordOperatorSpec           | Extended |       |
-| v1api20200601   | PrivateDnsZonesMXRecord_STATUS                | v1api20200601/storage | PrivateDnsZonesMXRecord_STATUS                | Extended |       |
-| v1api20200601   | PrivateDnsZonesMXRecord_Spec                  | v1api20200601/storage | PrivateDnsZonesMXRecord_Spec                  | Extended |       |
-| v1api20200601   | PrivateDnsZonesPTRRecordOperatorSpec          | v1api20200601/storage | PrivateDnsZonesPTRRecordOperatorSpec          | Extended |       |
-| v1api20200601   | PrivateDnsZonesPTRRecord_STATUS               | v1api20200601/storage | PrivateDnsZonesPTRRecord_STATUS               | Extended |       |
-| v1api20200601   | PrivateDnsZonesPTRRecord_Spec                 | v1api20200601/storage | PrivateDnsZonesPTRRecord_Spec                 | Extended |       |
-| v1api20200601   | PrivateDnsZonesSRVRecordOperatorSpec          | v1api20200601/storage | PrivateDnsZonesSRVRecordOperatorSpec          | Extended |       |
-| v1api20200601   | PrivateDnsZonesSRVRecord_STATUS               | v1api20200601/storage | PrivateDnsZonesSRVRecord_STATUS               | Extended |       |
-| v1api20200601   | PrivateDnsZonesSRVRecord_Spec                 | v1api20200601/storage | PrivateDnsZonesSRVRecord_Spec                 | Extended |       |
-| v1api20200601   | PrivateDnsZonesTXTRecordOperatorSpec          | v1api20200601/storage | PrivateDnsZonesTXTRecordOperatorSpec          | Extended |       |
-| v1api20200601   | PrivateDnsZonesTXTRecord_STATUS               | v1api20200601/storage | PrivateDnsZonesTXTRecord_STATUS               | Extended |       |
-| v1api20200601   | PrivateDnsZonesTXTRecord_Spec                 | v1api20200601/storage | PrivateDnsZonesTXTRecord_Spec                 | Extended |       |
-| v1api20200601   | PrivateDnsZonesVirtualNetworkLinkOperatorSpec | v1api20200601/storage | PrivateDnsZonesVirtualNetworkLinkOperatorSpec | Extended |       |
-| v1api20200601   | PrivateDnsZonesVirtualNetworkLink_STATUS      | v1api20200601/storage | PrivateDnsZonesVirtualNetworkLink_STATUS      | Modified |       |
-| v1api20200601   | PrivateDnsZonesVirtualNetworkLink_Spec        | v1api20200601/storage | PrivateDnsZonesVirtualNetworkLink_Spec        | Extended |       |
-| v1api20200601   | PtrRecord                                     | v1api20200601/storage | PtrRecord                                     | Extended |       |
-| v1api20200601   | PtrRecord_STATUS                              | v1api20200601/storage | PtrRecord_STATUS                              | Extended |       |
-| v1api20200601   | SoaRecord                                     | v1api20200601/storage | SoaRecord                                     | Extended |       |
-| v1api20200601   | SoaRecord_STATUS                              | v1api20200601/storage | SoaRecord_STATUS                              | Extended |       |
-| v1api20200601   | SrvRecord                                     | v1api20200601/storage | SrvRecord                                     | Extended |       |
-| v1api20200601   | SrvRecord_STATUS                              | v1api20200601/storage | SrvRecord_STATUS                              | Extended |       |
-| v1api20200601   | SubResource                                   | v1api20200601/storage | SubResource                                   | Extended |       |
-| v1api20200601   | SubResource_STATUS                            | v1api20200601/storage | SubResource_STATUS                            | Extended |       |
-| v1api20200601   | TxtRecord                                     | v1api20200601/storage | TxtRecord                                     | Extended |       |
-| v1api20200601   | TxtRecord_STATUS                              | v1api20200601/storage | TxtRecord_STATUS                              | Extended |       |
+| v1api20200601                                 | v1api20200601/storage                         | Status   | Notes |
+|:----------------------------------------------|:----------------------------------------------|:--------:|:------|
+| ARecord                                       | ARecord                                       | Extended |       |
+| ARecord_STATUS                                | ARecord_STATUS                                | Extended |       |
+| AaaaRecord                                    | AaaaRecord                                    | Extended |       |
+| AaaaRecord_STATUS                             | AaaaRecord_STATUS                             | Extended |       |
+| CnameRecord                                   | CnameRecord                                   | Extended |       |
+| CnameRecord_STATUS                            | CnameRecord_STATUS                            | Extended |       |
+| MxRecord                                      | MxRecord                                      | Extended |       |
+| MxRecord_STATUS                               | MxRecord_STATUS                               | Extended |       |
+| PrivateDnsZonesAAAARecordOperatorSpec         | PrivateDnsZonesAAAARecordOperatorSpec         | Extended |       |
+| PrivateDnsZonesAAAARecord_STATUS              | PrivateDnsZonesAAAARecord_STATUS              | Extended |       |
+| PrivateDnsZonesAAAARecord_Spec                | PrivateDnsZonesAAAARecord_Spec                | Extended |       |
+| PrivateDnsZonesARecordOperatorSpec            | PrivateDnsZonesARecordOperatorSpec            | Extended |       |
+| PrivateDnsZonesARecord_STATUS                 | PrivateDnsZonesARecord_STATUS                 | Extended |       |
+| PrivateDnsZonesARecord_Spec                   | PrivateDnsZonesARecord_Spec                   | Extended |       |
+| PrivateDnsZonesCNAMERecordOperatorSpec        | PrivateDnsZonesCNAMERecordOperatorSpec        | Extended |       |
+| PrivateDnsZonesCNAMERecord_STATUS             | PrivateDnsZonesCNAMERecord_STATUS             | Extended |       |
+| PrivateDnsZonesCNAMERecord_Spec               | PrivateDnsZonesCNAMERecord_Spec               | Extended |       |
+| PrivateDnsZonesMXRecordOperatorSpec           | PrivateDnsZonesMXRecordOperatorSpec           | Extended |       |
+| PrivateDnsZonesMXRecord_STATUS                | PrivateDnsZonesMXRecord_STATUS                | Extended |       |
+| PrivateDnsZonesMXRecord_Spec                  | PrivateDnsZonesMXRecord_Spec                  | Extended |       |
+| PrivateDnsZonesPTRRecordOperatorSpec          | PrivateDnsZonesPTRRecordOperatorSpec          | Extended |       |
+| PrivateDnsZonesPTRRecord_STATUS               | PrivateDnsZonesPTRRecord_STATUS               | Extended |       |
+| PrivateDnsZonesPTRRecord_Spec                 | PrivateDnsZonesPTRRecord_Spec                 | Extended |       |
+| PrivateDnsZonesSRVRecordOperatorSpec          | PrivateDnsZonesSRVRecordOperatorSpec          | Extended |       |
+| PrivateDnsZonesSRVRecord_STATUS               | PrivateDnsZonesSRVRecord_STATUS               | Extended |       |
+| PrivateDnsZonesSRVRecord_Spec                 | PrivateDnsZonesSRVRecord_Spec                 | Extended |       |
+| PrivateDnsZonesTXTRecordOperatorSpec          | PrivateDnsZonesTXTRecordOperatorSpec          | Extended |       |
+| PrivateDnsZonesTXTRecord_STATUS               | PrivateDnsZonesTXTRecord_STATUS               | Extended |       |
+| PrivateDnsZonesTXTRecord_Spec                 | PrivateDnsZonesTXTRecord_Spec                 | Extended |       |
+| PrivateDnsZonesVirtualNetworkLinkOperatorSpec | PrivateDnsZonesVirtualNetworkLinkOperatorSpec | Extended |       |
+| PrivateDnsZonesVirtualNetworkLink_STATUS      | PrivateDnsZonesVirtualNetworkLink_STATUS      | Modified |       |
+| PrivateDnsZonesVirtualNetworkLink_Spec        | PrivateDnsZonesVirtualNetworkLink_Spec        | Extended |       |
+| PtrRecord                                     | PtrRecord                                     | Extended |       |
+| PtrRecord_STATUS                              | PtrRecord_STATUS                              | Extended |       |
+| SoaRecord                                     | SoaRecord                                     | Extended |       |
+| SoaRecord_STATUS                              | SoaRecord_STATUS                              | Extended |       |
+| SrvRecord                                     | SrvRecord                                     | Extended |       |
+| SrvRecord_STATUS                              | SrvRecord_STATUS                              | Extended |       |
+| SubResource                                   | SubResource                                   | Extended |       |
+| SubResource_STATUS                            | SubResource_STATUS                            | Extended |       |
+| TxtRecord                                     | TxtRecord                                     | Extended |       |
+| TxtRecord_STATUS                              | TxtRecord_STATUS                              | Extended |       |
 
 ### ARecord
 

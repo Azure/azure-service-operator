@@ -11,64 +11,64 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type                      | Next Version          | Next Type                         | Status    | Notes |
-|:----------------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
-| v1api20200601/storage | PrivateDnsZonesAAAARecord         | v1api20240601/storage | PrivateDnsZonesAAAARecord         | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesARecord            | v1api20240601/storage | PrivateDnsZonesARecord            | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesCNAMERecord        | v1api20240601/storage | PrivateDnsZonesCNAMERecord        | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesMXRecord           | v1api20240601/storage | PrivateDnsZonesMXRecord           | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesPTRRecord          | v1api20240601/storage | PrivateDnsZonesPTRRecord          | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesSRVRecord          | v1api20240601/storage | PrivateDnsZonesSRVRecord          | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesTXTRecord          | v1api20240601/storage | PrivateDnsZonesTXTRecord          | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesVirtualNetworkLink | v1api20240601/storage | PrivateDnsZonesVirtualNetworkLink | Identical |       |
+| v1api20200601/storage             | v1api20240601/storage             | Status    | Notes |
+|:----------------------------------|:----------------------------------|:---------:|:------|
+| PrivateDnsZonesAAAARecord         | PrivateDnsZonesAAAARecord         | Identical |       |
+| PrivateDnsZonesARecord            | PrivateDnsZonesARecord            | Identical |       |
+| PrivateDnsZonesCNAMERecord        | PrivateDnsZonesCNAMERecord        | Identical |       |
+| PrivateDnsZonesMXRecord           | PrivateDnsZonesMXRecord           | Identical |       |
+| PrivateDnsZonesPTRRecord          | PrivateDnsZonesPTRRecord          | Identical |       |
+| PrivateDnsZonesSRVRecord          | PrivateDnsZonesSRVRecord          | Identical |       |
+| PrivateDnsZonesTXTRecord          | PrivateDnsZonesTXTRecord          | Identical |       |
+| PrivateDnsZonesVirtualNetworkLink | PrivateDnsZonesVirtualNetworkLink | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                                  | Next Version          | Next Type                                     | Status    | Notes |
-|:----------------------|:----------------------------------------------|:----------------------|:----------------------------------------------|:---------:|:------|
-| v1api20200601/storage | ARecord                                       | v1api20240601/storage | ARecord                                       | Identical |       |
-| v1api20200601/storage | ARecord_STATUS                                | v1api20240601/storage | ARecord_STATUS                                | Identical |       |
-| v1api20200601/storage | AaaaRecord                                    | v1api20240601/storage | AaaaRecord                                    | Identical |       |
-| v1api20200601/storage | AaaaRecord_STATUS                             | v1api20240601/storage | AaaaRecord_STATUS                             | Identical |       |
-| v1api20200601/storage | CnameRecord                                   | v1api20240601/storage | CnameRecord                                   | Identical |       |
-| v1api20200601/storage | CnameRecord_STATUS                            | v1api20240601/storage | CnameRecord_STATUS                            | Identical |       |
-| v1api20200601/storage | MxRecord                                      | v1api20240601/storage | MxRecord                                      | Identical |       |
-| v1api20200601/storage | MxRecord_STATUS                               | v1api20240601/storage | MxRecord_STATUS                               | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesAAAARecordOperatorSpec         | v1api20240601/storage | PrivateDnsZonesAAAARecordOperatorSpec         | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesAAAARecord_STATUS              | v1api20240601/storage | PrivateDnsZonesAAAARecord_STATUS              | Extended  |       |
-| v1api20200601/storage | PrivateDnsZonesAAAARecord_Spec                | v1api20240601/storage | PrivateDnsZonesAAAARecord_Spec                | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesARecordOperatorSpec            | v1api20240601/storage | PrivateDnsZonesARecordOperatorSpec            | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesARecord_STATUS                 | v1api20240601/storage | PrivateDnsZonesARecord_STATUS                 | Extended  |       |
-| v1api20200601/storage | PrivateDnsZonesARecord_Spec                   | v1api20240601/storage | PrivateDnsZonesARecord_Spec                   | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesCNAMERecordOperatorSpec        | v1api20240601/storage | PrivateDnsZonesCNAMERecordOperatorSpec        | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesCNAMERecord_STATUS             | v1api20240601/storage | PrivateDnsZonesCNAMERecord_STATUS             | Extended  |       |
-| v1api20200601/storage | PrivateDnsZonesCNAMERecord_Spec               | v1api20240601/storage | PrivateDnsZonesCNAMERecord_Spec               | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesMXRecordOperatorSpec           | v1api20240601/storage | PrivateDnsZonesMXRecordOperatorSpec           | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesMXRecord_STATUS                | v1api20240601/storage | PrivateDnsZonesMXRecord_STATUS                | Extended  |       |
-| v1api20200601/storage | PrivateDnsZonesMXRecord_Spec                  | v1api20240601/storage | PrivateDnsZonesMXRecord_Spec                  | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesPTRRecordOperatorSpec          | v1api20240601/storage | PrivateDnsZonesPTRRecordOperatorSpec          | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesPTRRecord_STATUS               | v1api20240601/storage | PrivateDnsZonesPTRRecord_STATUS               | Extended  |       |
-| v1api20200601/storage | PrivateDnsZonesPTRRecord_Spec                 | v1api20240601/storage | PrivateDnsZonesPTRRecord_Spec                 | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesSRVRecordOperatorSpec          | v1api20240601/storage | PrivateDnsZonesSRVRecordOperatorSpec          | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesSRVRecord_STATUS               | v1api20240601/storage | PrivateDnsZonesSRVRecord_STATUS               | Extended  |       |
-| v1api20200601/storage | PrivateDnsZonesSRVRecord_Spec                 | v1api20240601/storage | PrivateDnsZonesSRVRecord_Spec                 | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesTXTRecordOperatorSpec          | v1api20240601/storage | PrivateDnsZonesTXTRecordOperatorSpec          | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesTXTRecord_STATUS               | v1api20240601/storage | PrivateDnsZonesTXTRecord_STATUS               | Extended  |       |
-| v1api20200601/storage | PrivateDnsZonesTXTRecord_Spec                 | v1api20240601/storage | PrivateDnsZonesTXTRecord_Spec                 | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesVirtualNetworkLinkOperatorSpec | v1api20240601/storage | PrivateDnsZonesVirtualNetworkLinkOperatorSpec | Identical |       |
-| v1api20200601/storage | PrivateDnsZonesVirtualNetworkLink_STATUS      | v1api20240601/storage | PrivateDnsZonesVirtualNetworkLink_STATUS      | Extended  |       |
-| v1api20200601/storage | PrivateDnsZonesVirtualNetworkLink_Spec        | v1api20240601/storage | PrivateDnsZonesVirtualNetworkLink_Spec        | Extended  |       |
-| v1api20200601/storage | PtrRecord                                     | v1api20240601/storage | PtrRecord                                     | Identical |       |
-| v1api20200601/storage | PtrRecord_STATUS                              | v1api20240601/storage | PtrRecord_STATUS                              | Identical |       |
-| v1api20200601/storage | SoaRecord                                     | v1api20240601/storage | SoaRecord                                     | Identical |       |
-| v1api20200601/storage | SoaRecord_STATUS                              | v1api20240601/storage | SoaRecord_STATUS                              | Identical |       |
-| v1api20200601/storage | SrvRecord                                     | v1api20240601/storage | SrvRecord                                     | Identical |       |
-| v1api20200601/storage | SrvRecord_STATUS                              | v1api20240601/storage | SrvRecord_STATUS                              | Identical |       |
-| v1api20200601/storage | SubResource                                   | v1api20240601/storage | SubResource                                   | Identical |       |
-| v1api20200601/storage | SubResource_STATUS                            | v1api20240601/storage | SubResource_STATUS                            | Identical |       |
-|                       |                                               | v1api20240601/storage | SystemData_STATUS                             | New       |       |
-| v1api20200601/storage | TxtRecord                                     | v1api20240601/storage | TxtRecord                                     | Identical |       |
-| v1api20200601/storage | TxtRecord_STATUS                              | v1api20240601/storage | TxtRecord_STATUS                              | Identical |       |
+| v1api20200601/storage                         | v1api20240601/storage                         | Status    | Notes |
+|:----------------------------------------------|:----------------------------------------------|:---------:|:------|
+| ARecord                                       | ARecord                                       | Identical |       |
+| ARecord_STATUS                                | ARecord_STATUS                                | Identical |       |
+| AaaaRecord                                    | AaaaRecord                                    | Identical |       |
+| AaaaRecord_STATUS                             | AaaaRecord_STATUS                             | Identical |       |
+| CnameRecord                                   | CnameRecord                                   | Identical |       |
+| CnameRecord_STATUS                            | CnameRecord_STATUS                            | Identical |       |
+| MxRecord                                      | MxRecord                                      | Identical |       |
+| MxRecord_STATUS                               | MxRecord_STATUS                               | Identical |       |
+| PrivateDnsZonesAAAARecordOperatorSpec         | PrivateDnsZonesAAAARecordOperatorSpec         | Identical |       |
+| PrivateDnsZonesAAAARecord_STATUS              | PrivateDnsZonesAAAARecord_STATUS              | Extended  |       |
+| PrivateDnsZonesAAAARecord_Spec                | PrivateDnsZonesAAAARecord_Spec                | Identical |       |
+| PrivateDnsZonesARecordOperatorSpec            | PrivateDnsZonesARecordOperatorSpec            | Identical |       |
+| PrivateDnsZonesARecord_STATUS                 | PrivateDnsZonesARecord_STATUS                 | Extended  |       |
+| PrivateDnsZonesARecord_Spec                   | PrivateDnsZonesARecord_Spec                   | Identical |       |
+| PrivateDnsZonesCNAMERecordOperatorSpec        | PrivateDnsZonesCNAMERecordOperatorSpec        | Identical |       |
+| PrivateDnsZonesCNAMERecord_STATUS             | PrivateDnsZonesCNAMERecord_STATUS             | Extended  |       |
+| PrivateDnsZonesCNAMERecord_Spec               | PrivateDnsZonesCNAMERecord_Spec               | Identical |       |
+| PrivateDnsZonesMXRecordOperatorSpec           | PrivateDnsZonesMXRecordOperatorSpec           | Identical |       |
+| PrivateDnsZonesMXRecord_STATUS                | PrivateDnsZonesMXRecord_STATUS                | Extended  |       |
+| PrivateDnsZonesMXRecord_Spec                  | PrivateDnsZonesMXRecord_Spec                  | Identical |       |
+| PrivateDnsZonesPTRRecordOperatorSpec          | PrivateDnsZonesPTRRecordOperatorSpec          | Identical |       |
+| PrivateDnsZonesPTRRecord_STATUS               | PrivateDnsZonesPTRRecord_STATUS               | Extended  |       |
+| PrivateDnsZonesPTRRecord_Spec                 | PrivateDnsZonesPTRRecord_Spec                 | Identical |       |
+| PrivateDnsZonesSRVRecordOperatorSpec          | PrivateDnsZonesSRVRecordOperatorSpec          | Identical |       |
+| PrivateDnsZonesSRVRecord_STATUS               | PrivateDnsZonesSRVRecord_STATUS               | Extended  |       |
+| PrivateDnsZonesSRVRecord_Spec                 | PrivateDnsZonesSRVRecord_Spec                 | Identical |       |
+| PrivateDnsZonesTXTRecordOperatorSpec          | PrivateDnsZonesTXTRecordOperatorSpec          | Identical |       |
+| PrivateDnsZonesTXTRecord_STATUS               | PrivateDnsZonesTXTRecord_STATUS               | Extended  |       |
+| PrivateDnsZonesTXTRecord_Spec                 | PrivateDnsZonesTXTRecord_Spec                 | Identical |       |
+| PrivateDnsZonesVirtualNetworkLinkOperatorSpec | PrivateDnsZonesVirtualNetworkLinkOperatorSpec | Identical |       |
+| PrivateDnsZonesVirtualNetworkLink_STATUS      | PrivateDnsZonesVirtualNetworkLink_STATUS      | Extended  |       |
+| PrivateDnsZonesVirtualNetworkLink_Spec        | PrivateDnsZonesVirtualNetworkLink_Spec        | Extended  |       |
+| PtrRecord                                     | PtrRecord                                     | Identical |       |
+| PtrRecord_STATUS                              | PtrRecord_STATUS                              | Identical |       |
+| SoaRecord                                     | SoaRecord                                     | Identical |       |
+| SoaRecord_STATUS                              | SoaRecord_STATUS                              | Identical |       |
+| SrvRecord                                     | SrvRecord                                     | Identical |       |
+| SrvRecord_STATUS                              | SrvRecord_STATUS                              | Identical |       |
+| SubResource                                   | SubResource                                   | Identical |       |
+| SubResource_STATUS                            | SubResource_STATUS                            | Identical |       |
+|                                               | SystemData_STATUS                             | New       |       |
+| TxtRecord                                     | TxtRecord                                     | Identical |       |
+| TxtRecord_STATUS                              | TxtRecord_STATUS                              | Identical |       |
 
 ### PrivateDnsZonesAAAARecord_STATUS
 

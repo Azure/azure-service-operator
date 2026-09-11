@@ -11,51 +11,51 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type | Status    | Notes |
-|:----------------|:-------------|:----------------------|:----------|:---------:|:------|
-| v1api20211001   | SignalR      | v1api20211001/storage | SignalR   | Identical |       |
+| v1api20211001 | v1api20211001/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| SignalR       | SignalR               | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                                 | Next Version          | Next Type                                                    | Status   | Notes |
-|:----------------|:-------------------------------------------------------------|:----------------------|:-------------------------------------------------------------|:--------:|:------|
-| v1api20211001   | ManagedIdentity                                              | v1api20211001/storage | ManagedIdentity                                              | Modified |       |
-| v1api20211001   | ManagedIdentitySettings                                      | v1api20211001/storage | ManagedIdentitySettings                                      | Extended |       |
-| v1api20211001   | ManagedIdentitySettings_STATUS                               | v1api20211001/storage | ManagedIdentitySettings_STATUS                               | Extended |       |
-| v1api20211001   | ManagedIdentity_STATUS                                       | v1api20211001/storage | ManagedIdentity_STATUS                                       | Modified |       |
-| v1api20211001   | NetworkACL                                                   | v1api20211001/storage | NetworkACL                                                   | Modified |       |
-| v1api20211001   | NetworkACL_STATUS                                            | v1api20211001/storage | NetworkACL_STATUS                                            | Modified |       |
-| v1api20211001   | PrivateEndpointACL                                           | v1api20211001/storage | PrivateEndpointACL                                           | Modified |       |
-| v1api20211001   | PrivateEndpointACL_STATUS                                    | v1api20211001/storage | PrivateEndpointACL_STATUS                                    | Modified |       |
-| v1api20211001   | PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | v1api20211001/storage | PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | Extended |       |
-| v1api20211001   | ResourceLogCategory                                          | v1api20211001/storage | ResourceLogCategory                                          | Extended |       |
-| v1api20211001   | ResourceLogCategory_STATUS                                   | v1api20211001/storage | ResourceLogCategory_STATUS                                   | Extended |       |
-| v1api20211001   | ResourceLogConfiguration                                     | v1api20211001/storage | ResourceLogConfiguration                                     | Extended |       |
-| v1api20211001   | ResourceLogConfiguration_STATUS                              | v1api20211001/storage | ResourceLogConfiguration_STATUS                              | Extended |       |
-| v1api20211001   | ResourceSku                                                  | v1api20211001/storage | ResourceSku                                                  | Modified |       |
-| v1api20211001   | ResourceSku_STATUS                                           | v1api20211001/storage | ResourceSku_STATUS                                           | Modified |       |
-| v1api20211001   | ServerlessUpstreamSettings                                   | v1api20211001/storage | ServerlessUpstreamSettings                                   | Extended |       |
-| v1api20211001   | ServerlessUpstreamSettings_STATUS                            | v1api20211001/storage | ServerlessUpstreamSettings_STATUS                            | Extended |       |
-| v1api20211001   | SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | v1api20211001/storage | SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | Extended |       |
-| v1api20211001   | SignalRCorsSettings                                          | v1api20211001/storage | SignalRCorsSettings                                          | Extended |       |
-| v1api20211001   | SignalRCorsSettings_STATUS                                   | v1api20211001/storage | SignalRCorsSettings_STATUS                                   | Extended |       |
-| v1api20211001   | SignalRFeature                                               | v1api20211001/storage | SignalRFeature                                               | Modified |       |
-| v1api20211001   | SignalRFeature_STATUS                                        | v1api20211001/storage | SignalRFeature_STATUS                                        | Modified |       |
-| v1api20211001   | SignalRNetworkACLs                                           | v1api20211001/storage | SignalRNetworkACLs                                           | Modified |       |
-| v1api20211001   | SignalRNetworkACLs_STATUS                                    | v1api20211001/storage | SignalRNetworkACLs_STATUS                                    | Modified |       |
-| v1api20211001   | SignalROperatorSecrets                                       | v1api20211001/storage | SignalROperatorSecrets                                       | Extended |       |
-| v1api20211001   | SignalROperatorSpec                                          | v1api20211001/storage | SignalROperatorSpec                                          | Extended |       |
-| v1api20211001   | SignalRTlsSettings                                           | v1api20211001/storage | SignalRTlsSettings                                           | Extended |       |
-| v1api20211001   | SignalRTlsSettings_STATUS                                    | v1api20211001/storage | SignalRTlsSettings_STATUS                                    | Extended |       |
-| v1api20211001   | SignalR_STATUS                                               | v1api20211001/storage | SignalR_STATUS                                               | Modified |       |
-| v1api20211001   | SignalR_Spec                                                 | v1api20211001/storage | SignalR_Spec                                                 | Modified |       |
-| v1api20211001   | SystemData_STATUS                                            | v1api20211001/storage | SystemData_STATUS                                            | Modified |       |
-| v1api20211001   | UpstreamAuthSettings                                         | v1api20211001/storage | UpstreamAuthSettings                                         | Modified |       |
-| v1api20211001   | UpstreamAuthSettings_STATUS                                  | v1api20211001/storage | UpstreamAuthSettings_STATUS                                  | Modified |       |
-| v1api20211001   | UpstreamTemplate                                             | v1api20211001/storage | UpstreamTemplate                                             | Extended |       |
-| v1api20211001   | UpstreamTemplate_STATUS                                      | v1api20211001/storage | UpstreamTemplate_STATUS                                      | Extended |       |
-| v1api20211001   | UserAssignedIdentityDetails                                  | v1api20211001/storage | UserAssignedIdentityDetails                                  | Extended |       |
-| v1api20211001   | UserAssignedIdentityProperty_STATUS                          | v1api20211001/storage | UserAssignedIdentityProperty_STATUS                          | Extended |       |
+| v1api20211001                                                | v1api20211001/storage                                        | Status   | Notes |
+|:-------------------------------------------------------------|:-------------------------------------------------------------|:--------:|:------|
+| ManagedIdentity                                              | ManagedIdentity                                              | Modified |       |
+| ManagedIdentitySettings                                      | ManagedIdentitySettings                                      | Extended |       |
+| ManagedIdentitySettings_STATUS                               | ManagedIdentitySettings_STATUS                               | Extended |       |
+| ManagedIdentity_STATUS                                       | ManagedIdentity_STATUS                                       | Modified |       |
+| NetworkACL                                                   | NetworkACL                                                   | Modified |       |
+| NetworkACL_STATUS                                            | NetworkACL_STATUS                                            | Modified |       |
+| PrivateEndpointACL                                           | PrivateEndpointACL                                           | Modified |       |
+| PrivateEndpointACL_STATUS                                    | PrivateEndpointACL_STATUS                                    | Modified |       |
+| PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | Extended |       |
+| ResourceLogCategory                                          | ResourceLogCategory                                          | Extended |       |
+| ResourceLogCategory_STATUS                                   | ResourceLogCategory_STATUS                                   | Extended |       |
+| ResourceLogConfiguration                                     | ResourceLogConfiguration                                     | Extended |       |
+| ResourceLogConfiguration_STATUS                              | ResourceLogConfiguration_STATUS                              | Extended |       |
+| ResourceSku                                                  | ResourceSku                                                  | Modified |       |
+| ResourceSku_STATUS                                           | ResourceSku_STATUS                                           | Modified |       |
+| ServerlessUpstreamSettings                                   | ServerlessUpstreamSettings                                   | Extended |       |
+| ServerlessUpstreamSettings_STATUS                            | ServerlessUpstreamSettings_STATUS                            | Extended |       |
+| SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | Extended |       |
+| SignalRCorsSettings                                          | SignalRCorsSettings                                          | Extended |       |
+| SignalRCorsSettings_STATUS                                   | SignalRCorsSettings_STATUS                                   | Extended |       |
+| SignalRFeature                                               | SignalRFeature                                               | Modified |       |
+| SignalRFeature_STATUS                                        | SignalRFeature_STATUS                                        | Modified |       |
+| SignalRNetworkACLs                                           | SignalRNetworkACLs                                           | Modified |       |
+| SignalRNetworkACLs_STATUS                                    | SignalRNetworkACLs_STATUS                                    | Modified |       |
+| SignalROperatorSecrets                                       | SignalROperatorSecrets                                       | Extended |       |
+| SignalROperatorSpec                                          | SignalROperatorSpec                                          | Extended |       |
+| SignalRTlsSettings                                           | SignalRTlsSettings                                           | Extended |       |
+| SignalRTlsSettings_STATUS                                    | SignalRTlsSettings_STATUS                                    | Extended |       |
+| SignalR_STATUS                                               | SignalR_STATUS                                               | Modified |       |
+| SignalR_Spec                                                 | SignalR_Spec                                                 | Modified |       |
+| SystemData_STATUS                                            | SystemData_STATUS                                            | Modified |       |
+| UpstreamAuthSettings                                         | UpstreamAuthSettings                                         | Modified |       |
+| UpstreamAuthSettings_STATUS                                  | UpstreamAuthSettings_STATUS                                  | Modified |       |
+| UpstreamTemplate                                             | UpstreamTemplate                                             | Extended |       |
+| UpstreamTemplate_STATUS                                      | UpstreamTemplate_STATUS                                      | Extended |       |
+| UserAssignedIdentityDetails                                  | UserAssignedIdentityDetails                                  | Extended |       |
+| UserAssignedIdentityProperty_STATUS                          | UserAssignedIdentityProperty_STATUS                          | Extended |       |
 
 ### ManagedIdentity
 

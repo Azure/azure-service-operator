@@ -11,96 +11,96 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type             | Next Version          | Next Type                | Status    | Notes |
-|:----------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
-| v1api20230101   | BackupVault              | v1api20230101/storage | BackupVault              | Identical |       |
-| v1api20230101   | BackupVaultsBackupPolicy | v1api20230101/storage | BackupVaultsBackupPolicy | Identical |       |
+| v1api20230101            | v1api20230101/storage    | Status    | Notes |
+|:-------------------------|:-------------------------|:---------:|:------|
+| BackupVault              | BackupVault              | Identical |       |
+| BackupVaultsBackupPolicy | BackupVaultsBackupPolicy | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                            | Next Version          | Next Type                               | Status   | Notes |
-|:----------------|:----------------------------------------|:----------------------|:----------------------------------------|:--------:|:------|
-| v1api20230101   | AbsoluteDeleteOption                    | v1api20230101/storage | AbsoluteDeleteOption                    | Modified |       |
-| v1api20230101   | AbsoluteDeleteOption_STATUS             | v1api20230101/storage | AbsoluteDeleteOption_STATUS             | Modified |       |
-| v1api20230101   | AdhocBasedTaggingCriteria               | v1api20230101/storage | AdhocBasedTaggingCriteria               | Extended |       |
-| v1api20230101   | AdhocBasedTaggingCriteria_STATUS        | v1api20230101/storage | AdhocBasedTaggingCriteria_STATUS        | Extended |       |
-| v1api20230101   | AdhocBasedTriggerContext                | v1api20230101/storage | AdhocBasedTriggerContext                | Modified |       |
-| v1api20230101   | AdhocBasedTriggerContext_STATUS         | v1api20230101/storage | AdhocBasedTriggerContext_STATUS         | Modified |       |
-| v1api20230101   | AzureBackupParams                       | v1api20230101/storage | AzureBackupParams                       | Modified |       |
-| v1api20230101   | AzureBackupParams_STATUS                | v1api20230101/storage | AzureBackupParams_STATUS                | Modified |       |
-| v1api20230101   | AzureBackupRule                         | v1api20230101/storage | AzureBackupRule                         | Modified |       |
-| v1api20230101   | AzureBackupRule_STATUS                  | v1api20230101/storage | AzureBackupRule_STATUS                  | Modified |       |
-| v1api20230101   | AzureMonitorAlertSettings               | v1api20230101/storage | AzureMonitorAlertSettings               | Modified |       |
-| v1api20230101   | AzureMonitorAlertSettings_STATUS        | v1api20230101/storage | AzureMonitorAlertSettings_STATUS        | Modified |       |
-| v1api20230101   | AzureRetentionRule                      | v1api20230101/storage | AzureRetentionRule                      | Modified |       |
-| v1api20230101   | AzureRetentionRule_STATUS               | v1api20230101/storage | AzureRetentionRule_STATUS               | Modified |       |
-| v1api20230101   | BackupCriteria                          | v1api20230101/storage | BackupCriteria                          | Extended |       |
-| v1api20230101   | BackupCriteria_STATUS                   | v1api20230101/storage | BackupCriteria_STATUS                   | Extended |       |
-| v1api20230101   | BackupParameters                        | v1api20230101/storage | BackupParameters                        | Extended |       |
-| v1api20230101   | BackupParameters_STATUS                 | v1api20230101/storage | BackupParameters_STATUS                 | Extended |       |
-| v1api20230101   | BackupPolicy                            | v1api20230101/storage | BackupPolicy                            | Modified |       |
-| v1api20230101   | BackupPolicy_STATUS                     | v1api20230101/storage | BackupPolicy_STATUS                     | Modified |       |
-| v1api20230101   | BackupSchedule                          | v1api20230101/storage | BackupSchedule                          | Extended |       |
-| v1api20230101   | BackupSchedule_STATUS                   | v1api20230101/storage | BackupSchedule_STATUS                   | Extended |       |
-| v1api20230101   | BackupVaultOperatorConfigMaps           | v1api20230101/storage | BackupVaultOperatorConfigMaps           | Extended |       |
-| v1api20230101   | BackupVaultOperatorSpec                 | v1api20230101/storage | BackupVaultOperatorSpec                 | Extended |       |
-| v1api20230101   | BackupVaultResource_STATUS              | v1api20230101/storage | BackupVaultResource_STATUS              | Extended |       |
-| v1api20230101   | BackupVaultSpec                         | v1api20230101/storage | BackupVaultSpec                         | Extended |       |
-| v1api20230101   | BackupVault_STATUS                      | v1api20230101/storage | BackupVault_STATUS                      | Modified |       |
-| v1api20230101   | BackupVault_Spec                        | v1api20230101/storage | BackupVault_Spec                        | Extended |       |
-| v1api20230101   | BackupVaultsBackupPolicyOperatorSpec    | v1api20230101/storage | BackupVaultsBackupPolicyOperatorSpec    | Extended |       |
-| v1api20230101   | BackupVaultsBackupPolicy_STATUS         | v1api20230101/storage | BackupVaultsBackupPolicy_STATUS         | Extended |       |
-| v1api20230101   | BackupVaultsBackupPolicy_Spec           | v1api20230101/storage | BackupVaultsBackupPolicy_Spec           | Extended |       |
-| v1api20230101   | BaseBackupPolicy                        | v1api20230101/storage | BaseBackupPolicy                        | Extended |       |
-| v1api20230101   | BaseBackupPolicy_STATUS                 | v1api20230101/storage | BaseBackupPolicy_STATUS                 | Extended |       |
-| v1api20230101   | BasePolicyRule                          | v1api20230101/storage | BasePolicyRule                          | Extended |       |
-| v1api20230101   | BasePolicyRule_STATUS                   | v1api20230101/storage | BasePolicyRule_STATUS                   | Extended |       |
-| v1api20230101   | CopyOnExpiryOption                      | v1api20230101/storage | CopyOnExpiryOption                      | Modified |       |
-| v1api20230101   | CopyOnExpiryOption_STATUS               | v1api20230101/storage | CopyOnExpiryOption_STATUS               | Modified |       |
-| v1api20230101   | CopyOption                              | v1api20230101/storage | CopyOption                              | Extended |       |
-| v1api20230101   | CopyOption_STATUS                       | v1api20230101/storage | CopyOption_STATUS                       | Extended |       |
-| v1api20230101   | CrossSubscriptionRestoreSettings        | v1api20230101/storage | CrossSubscriptionRestoreSettings        | Modified |       |
-| v1api20230101   | CrossSubscriptionRestoreSettings_STATUS | v1api20230101/storage | CrossSubscriptionRestoreSettings_STATUS | Modified |       |
-| v1api20230101   | CustomCopyOption                        | v1api20230101/storage | CustomCopyOption                        | Modified |       |
-| v1api20230101   | CustomCopyOption_STATUS                 | v1api20230101/storage | CustomCopyOption_STATUS                 | Modified |       |
-| v1api20230101   | DataStoreInfoBase                       | v1api20230101/storage | DataStoreInfoBase                       | Modified |       |
-| v1api20230101   | DataStoreInfoBase_STATUS                | v1api20230101/storage | DataStoreInfoBase_STATUS                | Modified |       |
-| v1api20230101   | Day                                     | v1api20230101/storage | Day                                     | Extended |       |
-| v1api20230101   | Day_STATUS                              | v1api20230101/storage | Day_STATUS                              | Extended |       |
-| v1api20230101   | DeleteOption                            | v1api20230101/storage | DeleteOption                            | Extended |       |
-| v1api20230101   | DeleteOption_STATUS                     | v1api20230101/storage | DeleteOption_STATUS                     | Extended |       |
-| v1api20230101   | DppIdentityDetails                      | v1api20230101/storage | DppIdentityDetails                      | Extended |       |
-| v1api20230101   | DppIdentityDetails_STATUS               | v1api20230101/storage | DppIdentityDetails_STATUS               | Extended |       |
-| v1api20230101   | FeatureSettings                         | v1api20230101/storage | FeatureSettings                         | Extended |       |
-| v1api20230101   | FeatureSettings_STATUS                  | v1api20230101/storage | FeatureSettings_STATUS                  | Extended |       |
-| v1api20230101   | ImmediateCopyOption                     | v1api20230101/storage | ImmediateCopyOption                     | Modified |       |
-| v1api20230101   | ImmediateCopyOption_STATUS              | v1api20230101/storage | ImmediateCopyOption_STATUS              | Modified |       |
-| v1api20230101   | ImmutabilitySettings                    | v1api20230101/storage | ImmutabilitySettings                    | Modified |       |
-| v1api20230101   | ImmutabilitySettings_STATUS             | v1api20230101/storage | ImmutabilitySettings_STATUS             | Modified |       |
-| v1api20230101   | MonitoringSettings                      | v1api20230101/storage | MonitoringSettings                      | Extended |       |
-| v1api20230101   | MonitoringSettings_STATUS               | v1api20230101/storage | MonitoringSettings_STATUS               | Extended |       |
-| v1api20230101   | ResourceMoveDetails_STATUS              | v1api20230101/storage | ResourceMoveDetails_STATUS              | Extended |       |
-| v1api20230101   | RetentionTag                            | v1api20230101/storage | RetentionTag                            | Extended |       |
-| v1api20230101   | RetentionTag_STATUS                     | v1api20230101/storage | RetentionTag_STATUS                     | Extended |       |
-| v1api20230101   | ScheduleBasedBackupCriteria             | v1api20230101/storage | ScheduleBasedBackupCriteria             | Modified |       |
-| v1api20230101   | ScheduleBasedBackupCriteria_STATUS      | v1api20230101/storage | ScheduleBasedBackupCriteria_STATUS      | Modified |       |
-| v1api20230101   | ScheduleBasedTriggerContext             | v1api20230101/storage | ScheduleBasedTriggerContext             | Modified |       |
-| v1api20230101   | ScheduleBasedTriggerContext_STATUS      | v1api20230101/storage | ScheduleBasedTriggerContext_STATUS      | Modified |       |
-| v1api20230101   | SecuritySettings                        | v1api20230101/storage | SecuritySettings                        | Extended |       |
-| v1api20230101   | SecuritySettings_STATUS                 | v1api20230101/storage | SecuritySettings_STATUS                 | Extended |       |
-| v1api20230101   | SoftDeleteSettings                      | v1api20230101/storage | SoftDeleteSettings                      | Modified |       |
-| v1api20230101   | SoftDeleteSettings_STATUS               | v1api20230101/storage | SoftDeleteSettings_STATUS               | Modified |       |
-| v1api20230101   | SourceLifeCycle                         | v1api20230101/storage | SourceLifeCycle                         | Extended |       |
-| v1api20230101   | SourceLifeCycle_STATUS                  | v1api20230101/storage | SourceLifeCycle_STATUS                  | Extended |       |
-| v1api20230101   | StorageSetting                          | v1api20230101/storage | StorageSetting                          | Modified |       |
-| v1api20230101   | StorageSetting_STATUS                   | v1api20230101/storage | StorageSetting_STATUS                   | Modified |       |
-| v1api20230101   | SystemData_STATUS                       | v1api20230101/storage | SystemData_STATUS                       | Modified |       |
-| v1api20230101   | TaggingCriteria                         | v1api20230101/storage | TaggingCriteria                         | Extended |       |
-| v1api20230101   | TaggingCriteria_STATUS                  | v1api20230101/storage | TaggingCriteria_STATUS                  | Extended |       |
-| v1api20230101   | TargetCopySetting                       | v1api20230101/storage | TargetCopySetting                       | Extended |       |
-| v1api20230101   | TargetCopySetting_STATUS                | v1api20230101/storage | TargetCopySetting_STATUS                | Extended |       |
-| v1api20230101   | TriggerContext                          | v1api20230101/storage | TriggerContext                          | Extended |       |
-| v1api20230101   | TriggerContext_STATUS                   | v1api20230101/storage | TriggerContext_STATUS                   | Extended |       |
+| v1api20230101                           | v1api20230101/storage                   | Status   | Notes |
+|:----------------------------------------|:----------------------------------------|:--------:|:------|
+| AbsoluteDeleteOption                    | AbsoluteDeleteOption                    | Modified |       |
+| AbsoluteDeleteOption_STATUS             | AbsoluteDeleteOption_STATUS             | Modified |       |
+| AdhocBasedTaggingCriteria               | AdhocBasedTaggingCriteria               | Extended |       |
+| AdhocBasedTaggingCriteria_STATUS        | AdhocBasedTaggingCriteria_STATUS        | Extended |       |
+| AdhocBasedTriggerContext                | AdhocBasedTriggerContext                | Modified |       |
+| AdhocBasedTriggerContext_STATUS         | AdhocBasedTriggerContext_STATUS         | Modified |       |
+| AzureBackupParams                       | AzureBackupParams                       | Modified |       |
+| AzureBackupParams_STATUS                | AzureBackupParams_STATUS                | Modified |       |
+| AzureBackupRule                         | AzureBackupRule                         | Modified |       |
+| AzureBackupRule_STATUS                  | AzureBackupRule_STATUS                  | Modified |       |
+| AzureMonitorAlertSettings               | AzureMonitorAlertSettings               | Modified |       |
+| AzureMonitorAlertSettings_STATUS        | AzureMonitorAlertSettings_STATUS        | Modified |       |
+| AzureRetentionRule                      | AzureRetentionRule                      | Modified |       |
+| AzureRetentionRule_STATUS               | AzureRetentionRule_STATUS               | Modified |       |
+| BackupCriteria                          | BackupCriteria                          | Extended |       |
+| BackupCriteria_STATUS                   | BackupCriteria_STATUS                   | Extended |       |
+| BackupParameters                        | BackupParameters                        | Extended |       |
+| BackupParameters_STATUS                 | BackupParameters_STATUS                 | Extended |       |
+| BackupPolicy                            | BackupPolicy                            | Modified |       |
+| BackupPolicy_STATUS                     | BackupPolicy_STATUS                     | Modified |       |
+| BackupSchedule                          | BackupSchedule                          | Extended |       |
+| BackupSchedule_STATUS                   | BackupSchedule_STATUS                   | Extended |       |
+| BackupVaultOperatorConfigMaps           | BackupVaultOperatorConfigMaps           | Extended |       |
+| BackupVaultOperatorSpec                 | BackupVaultOperatorSpec                 | Extended |       |
+| BackupVaultResource_STATUS              | BackupVaultResource_STATUS              | Extended |       |
+| BackupVaultSpec                         | BackupVaultSpec                         | Extended |       |
+| BackupVault_STATUS                      | BackupVault_STATUS                      | Modified |       |
+| BackupVault_Spec                        | BackupVault_Spec                        | Extended |       |
+| BackupVaultsBackupPolicyOperatorSpec    | BackupVaultsBackupPolicyOperatorSpec    | Extended |       |
+| BackupVaultsBackupPolicy_STATUS         | BackupVaultsBackupPolicy_STATUS         | Extended |       |
+| BackupVaultsBackupPolicy_Spec           | BackupVaultsBackupPolicy_Spec           | Extended |       |
+| BaseBackupPolicy                        | BaseBackupPolicy                        | Extended |       |
+| BaseBackupPolicy_STATUS                 | BaseBackupPolicy_STATUS                 | Extended |       |
+| BasePolicyRule                          | BasePolicyRule                          | Extended |       |
+| BasePolicyRule_STATUS                   | BasePolicyRule_STATUS                   | Extended |       |
+| CopyOnExpiryOption                      | CopyOnExpiryOption                      | Modified |       |
+| CopyOnExpiryOption_STATUS               | CopyOnExpiryOption_STATUS               | Modified |       |
+| CopyOption                              | CopyOption                              | Extended |       |
+| CopyOption_STATUS                       | CopyOption_STATUS                       | Extended |       |
+| CrossSubscriptionRestoreSettings        | CrossSubscriptionRestoreSettings        | Modified |       |
+| CrossSubscriptionRestoreSettings_STATUS | CrossSubscriptionRestoreSettings_STATUS | Modified |       |
+| CustomCopyOption                        | CustomCopyOption                        | Modified |       |
+| CustomCopyOption_STATUS                 | CustomCopyOption_STATUS                 | Modified |       |
+| DataStoreInfoBase                       | DataStoreInfoBase                       | Modified |       |
+| DataStoreInfoBase_STATUS                | DataStoreInfoBase_STATUS                | Modified |       |
+| Day                                     | Day                                     | Extended |       |
+| Day_STATUS                              | Day_STATUS                              | Extended |       |
+| DeleteOption                            | DeleteOption                            | Extended |       |
+| DeleteOption_STATUS                     | DeleteOption_STATUS                     | Extended |       |
+| DppIdentityDetails                      | DppIdentityDetails                      | Extended |       |
+| DppIdentityDetails_STATUS               | DppIdentityDetails_STATUS               | Extended |       |
+| FeatureSettings                         | FeatureSettings                         | Extended |       |
+| FeatureSettings_STATUS                  | FeatureSettings_STATUS                  | Extended |       |
+| ImmediateCopyOption                     | ImmediateCopyOption                     | Modified |       |
+| ImmediateCopyOption_STATUS              | ImmediateCopyOption_STATUS              | Modified |       |
+| ImmutabilitySettings                    | ImmutabilitySettings                    | Modified |       |
+| ImmutabilitySettings_STATUS             | ImmutabilitySettings_STATUS             | Modified |       |
+| MonitoringSettings                      | MonitoringSettings                      | Extended |       |
+| MonitoringSettings_STATUS               | MonitoringSettings_STATUS               | Extended |       |
+| ResourceMoveDetails_STATUS              | ResourceMoveDetails_STATUS              | Extended |       |
+| RetentionTag                            | RetentionTag                            | Extended |       |
+| RetentionTag_STATUS                     | RetentionTag_STATUS                     | Extended |       |
+| ScheduleBasedBackupCriteria             | ScheduleBasedBackupCriteria             | Modified |       |
+| ScheduleBasedBackupCriteria_STATUS      | ScheduleBasedBackupCriteria_STATUS      | Modified |       |
+| ScheduleBasedTriggerContext             | ScheduleBasedTriggerContext             | Modified |       |
+| ScheduleBasedTriggerContext_STATUS      | ScheduleBasedTriggerContext_STATUS      | Modified |       |
+| SecuritySettings                        | SecuritySettings                        | Extended |       |
+| SecuritySettings_STATUS                 | SecuritySettings_STATUS                 | Extended |       |
+| SoftDeleteSettings                      | SoftDeleteSettings                      | Modified |       |
+| SoftDeleteSettings_STATUS               | SoftDeleteSettings_STATUS               | Modified |       |
+| SourceLifeCycle                         | SourceLifeCycle                         | Extended |       |
+| SourceLifeCycle_STATUS                  | SourceLifeCycle_STATUS                  | Extended |       |
+| StorageSetting                          | StorageSetting                          | Modified |       |
+| StorageSetting_STATUS                   | StorageSetting_STATUS                   | Modified |       |
+| SystemData_STATUS                       | SystemData_STATUS                       | Modified |       |
+| TaggingCriteria                         | TaggingCriteria                         | Extended |       |
+| TaggingCriteria_STATUS                  | TaggingCriteria_STATUS                  | Extended |       |
+| TargetCopySetting                       | TargetCopySetting                       | Extended |       |
+| TargetCopySetting_STATUS                | TargetCopySetting_STATUS                | Extended |       |
+| TriggerContext                          | TriggerContext                          | Extended |       |
+| TriggerContext_STATUS                   | TriggerContext_STATUS                   | Extended |       |
 
 ### AbsoluteDeleteOption
 

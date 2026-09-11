@@ -11,261 +11,261 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type         | Next Version          | Next Type            | Status    | Notes |
-|:----------------|:---------------------|:----------------------|:---------------------|:---------:|:------|
-| v1api20240401   | Registry             | v1api20240401/storage | Registry             | Identical |       |
-| v1api20240401   | Workspace            | v1api20240401/storage | Workspace            | Identical |       |
-| v1api20240401   | WorkspacesCompute    | v1api20240401/storage | WorkspacesCompute    | Identical |       |
-| v1api20240401   | WorkspacesConnection | v1api20240401/storage | WorkspacesConnection | Identical |       |
+| v1api20240401        | v1api20240401/storage | Status    | Notes |
+|:---------------------|:----------------------|:---------:|:------|
+| Registry             | Registry              | Identical |       |
+| Workspace            | Workspace             | Identical |       |
+| WorkspacesCompute    | WorkspacesCompute     | Identical |       |
+| WorkspacesConnection | WorkspacesConnection  | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                                 | Next Version          | Next Type                                                    | Status   | Notes |
-|:----------------|:-------------------------------------------------------------|:----------------------|:-------------------------------------------------------------|:--------:|:------|
-| v1api20240401   | AADAuthTypeWorkspaceConnectionProperties                     | v1api20240401/storage | AADAuthTypeWorkspaceConnectionProperties                     | Modified |       |
-| v1api20240401   | AADAuthTypeWorkspaceConnectionProperties_STATUS              | v1api20240401/storage | AADAuthTypeWorkspaceConnectionProperties_STATUS              | Modified |       |
-| v1api20240401   | AKS                                                          | v1api20240401/storage | AKS                                                          | Modified |       |
-| v1api20240401   | AKS_Properties                                               | v1api20240401/storage | AKS_Properties                                               | Modified |       |
-| v1api20240401   | AKS_Properties_STATUS                                        | v1api20240401/storage | AKS_Properties_STATUS                                        | Modified |       |
-| v1api20240401   | AKS_STATUS                                                   | v1api20240401/storage | AKS_STATUS                                                   | Modified |       |
-| v1api20240401   | AccessKeyAuthTypeWorkspaceConnectionProperties               | v1api20240401/storage | AccessKeyAuthTypeWorkspaceConnectionProperties               | Modified |       |
-| v1api20240401   | AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS        | v1api20240401/storage | AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS        | Modified |       |
-| v1api20240401   | AccountKeyAuthTypeWorkspaceConnectionProperties              | v1api20240401/storage | AccountKeyAuthTypeWorkspaceConnectionProperties              | Modified |       |
-| v1api20240401   | AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS       | v1api20240401/storage | AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS       | Modified |       |
-| v1api20240401   | AcrDetails                                                   | v1api20240401/storage | AcrDetails                                                   | Extended |       |
-| v1api20240401   | AcrDetails_STATUS                                            | v1api20240401/storage | AcrDetails_STATUS                                            | Extended |       |
-| v1api20240401   | AksNetworkingConfiguration                                   | v1api20240401/storage | AksNetworkingConfiguration                                   | Modified |       |
-| v1api20240401   | AksNetworkingConfiguration_STATUS                            | v1api20240401/storage | AksNetworkingConfiguration_STATUS                            | Extended |       |
-| v1api20240401   | AmlCompute                                                   | v1api20240401/storage | AmlCompute                                                   | Modified |       |
-| v1api20240401   | AmlComputeProperties                                         | v1api20240401/storage | AmlComputeProperties                                         | Modified |       |
-| v1api20240401   | AmlComputeProperties_STATUS                                  | v1api20240401/storage | AmlComputeProperties_STATUS                                  | Modified |       |
-| v1api20240401   | AmlCompute_STATUS                                            | v1api20240401/storage | AmlCompute_STATUS                                            | Modified |       |
-| v1api20240401   | ApiKeyAuthWorkspaceConnectionProperties                      | v1api20240401/storage | ApiKeyAuthWorkspaceConnectionProperties                      | Modified |       |
-| v1api20240401   | ApiKeyAuthWorkspaceConnectionProperties_STATUS               | v1api20240401/storage | ApiKeyAuthWorkspaceConnectionProperties_STATUS               | Modified |       |
-| v1api20240401   | ArmResourceId                                                | v1api20240401/storage | ArmResourceId                                                | Extended |       |
-| v1api20240401   | ArmResourceId_STATUS                                         | v1api20240401/storage | ArmResourceId_STATUS                                         | Extended |       |
-| v1api20240401   | AssignedUser                                                 | v1api20240401/storage | AssignedUser                                                 | Extended |       |
-| v1api20240401   | AssignedUser_STATUS                                          | v1api20240401/storage | AssignedUser_STATUS                                          | Extended |       |
-| v1api20240401   | AutoPauseProperties                                          | v1api20240401/storage | AutoPauseProperties                                          | Extended |       |
-| v1api20240401   | AutoPauseProperties_STATUS                                   | v1api20240401/storage | AutoPauseProperties_STATUS                                   | Extended |       |
-| v1api20240401   | AutoScaleProperties                                          | v1api20240401/storage | AutoScaleProperties                                          | Extended |       |
-| v1api20240401   | AutoScaleProperties_STATUS                                   | v1api20240401/storage | AutoScaleProperties_STATUS                                   | Extended |       |
-| v1api20240401   | BindOptions                                                  | v1api20240401/storage | BindOptions                                                  | Extended |       |
-| v1api20240401   | BindOptions_STATUS                                           | v1api20240401/storage | BindOptions_STATUS                                           | Extended |       |
-| v1api20240401   | Compute                                                      | v1api20240401/storage | Compute                                                      | Extended |       |
-| v1api20240401   | ComputeInstance                                              | v1api20240401/storage | ComputeInstance                                              | Modified |       |
-| v1api20240401   | ComputeInstanceApplication_STATUS                            | v1api20240401/storage | ComputeInstanceApplication_STATUS                            | Extended |       |
-| v1api20240401   | ComputeInstanceConnectivityEndpoints_STATUS                  | v1api20240401/storage | ComputeInstanceConnectivityEndpoints_STATUS                  | Extended |       |
-| v1api20240401   | ComputeInstanceContainer_STATUS                              | v1api20240401/storage | ComputeInstanceContainer_STATUS                              | Modified |       |
-| v1api20240401   | ComputeInstanceCreatedBy_STATUS                              | v1api20240401/storage | ComputeInstanceCreatedBy_STATUS                              | Extended |       |
-| v1api20240401   | ComputeInstanceDataDisk_STATUS                               | v1api20240401/storage | ComputeInstanceDataDisk_STATUS                               | Modified |       |
-| v1api20240401   | ComputeInstanceDataMount_STATUS                              | v1api20240401/storage | ComputeInstanceDataMount_STATUS                              | Modified |       |
-| v1api20240401   | ComputeInstanceEnvironmentInfo_STATUS                        | v1api20240401/storage | ComputeInstanceEnvironmentInfo_STATUS                        | Extended |       |
-| v1api20240401   | ComputeInstanceLastOperation_STATUS                          | v1api20240401/storage | ComputeInstanceLastOperation_STATUS                          | Modified |       |
-| v1api20240401   | ComputeInstanceProperties                                    | v1api20240401/storage | ComputeInstanceProperties                                    | Modified |       |
-| v1api20240401   | ComputeInstanceProperties_STATUS                             | v1api20240401/storage | ComputeInstanceProperties_STATUS                             | Modified |       |
-| v1api20240401   | ComputeInstanceSshSettings                                   | v1api20240401/storage | ComputeInstanceSshSettings                                   | Modified |       |
-| v1api20240401   | ComputeInstanceSshSettings_STATUS                            | v1api20240401/storage | ComputeInstanceSshSettings_STATUS                            | Modified |       |
-| v1api20240401   | ComputeInstanceVersion_STATUS                                | v1api20240401/storage | ComputeInstanceVersion_STATUS                                | Extended |       |
-| v1api20240401   | ComputeInstance_STATUS                                       | v1api20240401/storage | ComputeInstance_STATUS                                       | Modified |       |
-| v1api20240401   | ComputeRecurrenceSchedule                                    | v1api20240401/storage | ComputeRecurrenceSchedule                                    | Modified |       |
-| v1api20240401   | ComputeRecurrenceSchedule_STATUS                             | v1api20240401/storage | ComputeRecurrenceSchedule_STATUS                             | Modified |       |
-| v1api20240401   | ComputeRuntimeDto                                            | v1api20240401/storage | ComputeRuntimeDto                                            | Extended |       |
-| v1api20240401   | ComputeRuntimeDto_STATUS                                     | v1api20240401/storage | ComputeRuntimeDto_STATUS                                     | Extended |       |
-| v1api20240401   | ComputeSchedules                                             | v1api20240401/storage | ComputeSchedules                                             | Extended |       |
-| v1api20240401   | ComputeSchedules_STATUS                                      | v1api20240401/storage | ComputeSchedules_STATUS                                      | Extended |       |
-| v1api20240401   | ComputeStartStopSchedule                                     | v1api20240401/storage | ComputeStartStopSchedule                                     | Modified |       |
-| v1api20240401   | ComputeStartStopSchedule_STATUS                              | v1api20240401/storage | ComputeStartStopSchedule_STATUS                              | Modified |       |
-| v1api20240401   | Compute_STATUS                                               | v1api20240401/storage | Compute_STATUS                                               | Extended |       |
-| v1api20240401   | CosmosDbSettings                                             | v1api20240401/storage | CosmosDbSettings                                             | Extended |       |
-| v1api20240401   | CosmosDbSettings_STATUS                                      | v1api20240401/storage | CosmosDbSettings_STATUS                                      | Extended |       |
-| v1api20240401   | Cron                                                         | v1api20240401/storage | Cron                                                         | Extended |       |
-| v1api20240401   | Cron_STATUS                                                  | v1api20240401/storage | Cron_STATUS                                                  | Extended |       |
-| v1api20240401   | CustomKeys                                                   | v1api20240401/storage | CustomKeys                                                   | Extended |       |
-| v1api20240401   | CustomKeysWorkspaceConnectionProperties                      | v1api20240401/storage | CustomKeysWorkspaceConnectionProperties                      | Modified |       |
-| v1api20240401   | CustomKeysWorkspaceConnectionProperties_STATUS               | v1api20240401/storage | CustomKeysWorkspaceConnectionProperties_STATUS               | Modified |       |
-| v1api20240401   | CustomKeys_STATUS                                            | v1api20240401/storage | CustomKeys_STATUS                                            | Extended |       |
-| v1api20240401   | CustomService                                                | v1api20240401/storage | CustomService                                                | Extended |       |
-| v1api20240401   | CustomService_STATUS                                         | v1api20240401/storage | CustomService_STATUS                                         | Extended |       |
-| v1api20240401   | DataFactory                                                  | v1api20240401/storage | DataFactory                                                  | Modified |       |
-| v1api20240401   | DataFactory_STATUS                                           | v1api20240401/storage | DataFactory_STATUS                                           | Modified |       |
-| v1api20240401   | DataLakeAnalytics                                            | v1api20240401/storage | DataLakeAnalytics                                            | Modified |       |
-| v1api20240401   | DataLakeAnalytics_Properties                                 | v1api20240401/storage | DataLakeAnalytics_Properties                                 | Extended |       |
-| v1api20240401   | DataLakeAnalytics_Properties_STATUS                          | v1api20240401/storage | DataLakeAnalytics_Properties_STATUS                          | Extended |       |
-| v1api20240401   | DataLakeAnalytics_STATUS                                     | v1api20240401/storage | DataLakeAnalytics_STATUS                                     | Modified |       |
-| v1api20240401   | Databricks                                                   | v1api20240401/storage | Databricks                                                   | Modified |       |
-| v1api20240401   | DatabricksProperties                                         | v1api20240401/storage | DatabricksProperties                                         | Extended |       |
-| v1api20240401   | DatabricksProperties_STATUS                                  | v1api20240401/storage | DatabricksProperties_STATUS                                  | Extended |       |
-| v1api20240401   | Databricks_STATUS                                            | v1api20240401/storage | Databricks_STATUS                                            | Modified |       |
-| v1api20240401   | Docker                                                       | v1api20240401/storage | Docker                                                       | Extended |       |
-| v1api20240401   | Docker_STATUS                                                | v1api20240401/storage | Docker_STATUS                                                | Extended |       |
-| v1api20240401   | EncryptionKeyVaultProperties                                 | v1api20240401/storage | EncryptionKeyVaultProperties                                 | Extended |       |
-| v1api20240401   | EncryptionKeyVaultProperties_STATUS                          | v1api20240401/storage | EncryptionKeyVaultProperties_STATUS                          | Extended |       |
-| v1api20240401   | EncryptionProperty                                           | v1api20240401/storage | EncryptionProperty                                           | Extended |       |
-| v1api20240401   | EncryptionProperty_STATUS                                    | v1api20240401/storage | EncryptionProperty_STATUS                                    | Modified |       |
-| v1api20240401   | Endpoint                                                     | v1api20240401/storage | Endpoint                                                     | Modified |       |
-| v1api20240401   | Endpoint_STATUS                                              | v1api20240401/storage | Endpoint_STATUS                                              | Modified |       |
-| v1api20240401   | EnvironmentVariable                                          | v1api20240401/storage | EnvironmentVariable                                          | Modified |       |
-| v1api20240401   | EnvironmentVariable_STATUS                                   | v1api20240401/storage | EnvironmentVariable_STATUS                                   | Modified |       |
-| v1api20240401   | ErrorAdditionalInfo_STATUS                                   | v1api20240401/storage | ErrorAdditionalInfo_STATUS                                   | Extended |       |
-| v1api20240401   | ErrorDetail_STATUS                                           | v1api20240401/storage | ErrorDetail_STATUS                                           | Extended |       |
-| v1api20240401   | ErrorDetail_STATUS_Unrolled                                  | v1api20240401/storage | ErrorDetail_STATUS_Unrolled                                  | Extended |       |
-| v1api20240401   | ErrorResponse_STATUS                                         | v1api20240401/storage | ErrorResponse_STATUS                                         | Extended |       |
-| v1api20240401   | FeatureStoreSettings                                         | v1api20240401/storage | FeatureStoreSettings                                         | Extended |       |
-| v1api20240401   | FeatureStoreSettings_STATUS                                  | v1api20240401/storage | FeatureStoreSettings_STATUS                                  | Extended |       |
-| v1api20240401   | FqdnOutboundRule                                             | v1api20240401/storage | FqdnOutboundRule                                             | Modified |       |
-| v1api20240401   | FqdnOutboundRule_STATUS                                      | v1api20240401/storage | FqdnOutboundRule_STATUS                                      | Modified |       |
-| v1api20240401   | HDInsight                                                    | v1api20240401/storage | HDInsight                                                    | Modified |       |
-| v1api20240401   | HDInsightProperties                                          | v1api20240401/storage | HDInsightProperties                                          | Extended |       |
-| v1api20240401   | HDInsightProperties_STATUS                                   | v1api20240401/storage | HDInsightProperties_STATUS                                   | Extended |       |
-| v1api20240401   | HDInsight_STATUS                                             | v1api20240401/storage | HDInsight_STATUS                                             | Modified |       |
-| v1api20240401   | IdentityForCmk                                               | v1api20240401/storage | IdentityForCmk                                               | Extended |       |
-| v1api20240401   | IdentityForCmk_STATUS                                        | v1api20240401/storage | IdentityForCmk_STATUS                                        | Extended |       |
-| v1api20240401   | Image                                                        | v1api20240401/storage | Image                                                        | Modified |       |
-| v1api20240401   | ImageMetadata_STATUS                                         | v1api20240401/storage | ImageMetadata_STATUS                                         | Extended |       |
-| v1api20240401   | Image_STATUS                                                 | v1api20240401/storage | Image_STATUS                                                 | Modified |       |
-| v1api20240401   | InstanceTypeSchema                                           | v1api20240401/storage | InstanceTypeSchema                                           | Extended |       |
-| v1api20240401   | InstanceTypeSchema_Resources                                 | v1api20240401/storage | InstanceTypeSchema_Resources                                 | Extended |       |
-| v1api20240401   | InstanceTypeSchema_Resources_STATUS                          | v1api20240401/storage | InstanceTypeSchema_Resources_STATUS                          | Extended |       |
-| v1api20240401   | InstanceTypeSchema_STATUS                                    | v1api20240401/storage | InstanceTypeSchema_STATUS                                    | Extended |       |
-| v1api20240401   | Kubernetes                                                   | v1api20240401/storage | Kubernetes                                                   | Modified |       |
-| v1api20240401   | KubernetesProperties                                         | v1api20240401/storage | KubernetesProperties                                         | Extended |       |
-| v1api20240401   | KubernetesProperties_STATUS                                  | v1api20240401/storage | KubernetesProperties_STATUS                                  | Extended |       |
-| v1api20240401   | Kubernetes_STATUS                                            | v1api20240401/storage | Kubernetes_STATUS                                            | Modified |       |
-| v1api20240401   | ManagedIdentityAuthTypeWorkspaceConnectionProperties         | v1api20240401/storage | ManagedIdentityAuthTypeWorkspaceConnectionProperties         | Modified |       |
-| v1api20240401   | ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS  | v1api20240401/storage | ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS  | Modified |       |
-| v1api20240401   | ManagedNetworkProvisionStatus                                | v1api20240401/storage | ManagedNetworkProvisionStatus                                | Modified |       |
-| v1api20240401   | ManagedNetworkProvisionStatus_STATUS                         | v1api20240401/storage | ManagedNetworkProvisionStatus_STATUS                         | Modified |       |
-| v1api20240401   | ManagedNetworkSettings                                       | v1api20240401/storage | ManagedNetworkSettings                                       | Modified |       |
-| v1api20240401   | ManagedNetworkSettings_STATUS                                | v1api20240401/storage | ManagedNetworkSettings_STATUS                                | Modified |       |
-| v1api20240401   | ManagedServiceIdentity                                       | v1api20240401/storage | ManagedServiceIdentity                                       | Modified |       |
-| v1api20240401   | ManagedServiceIdentity_STATUS                                | v1api20240401/storage | ManagedServiceIdentity_STATUS                                | Modified |       |
-| v1api20240401   | NodeStateCounts_STATUS                                       | v1api20240401/storage | NodeStateCounts_STATUS                                       | Extended |       |
-| v1api20240401   | NoneAuthTypeWorkspaceConnectionProperties                    | v1api20240401/storage | NoneAuthTypeWorkspaceConnectionProperties                    | Modified |       |
-| v1api20240401   | NoneAuthTypeWorkspaceConnectionProperties_STATUS             | v1api20240401/storage | NoneAuthTypeWorkspaceConnectionProperties_STATUS             | Modified |       |
-| v1api20240401   | NotebookPreparationError_STATUS                              | v1api20240401/storage | NotebookPreparationError_STATUS                              | Extended |       |
-| v1api20240401   | NotebookResourceInfo_STATUS                                  | v1api20240401/storage | NotebookResourceInfo_STATUS                                  | Extended |       |
-| v1api20240401   | OAuth2AuthTypeWorkspaceConnectionProperties                  | v1api20240401/storage | OAuth2AuthTypeWorkspaceConnectionProperties                  | Modified |       |
-| v1api20240401   | OAuth2AuthTypeWorkspaceConnectionProperties_STATUS           | v1api20240401/storage | OAuth2AuthTypeWorkspaceConnectionProperties_STATUS           | Modified |       |
-| v1api20240401   | OutboundRule                                                 | v1api20240401/storage | OutboundRule                                                 | Extended |       |
-| v1api20240401   | OutboundRule_STATUS                                          | v1api20240401/storage | OutboundRule_STATUS                                          | Extended |       |
-| v1api20240401   | PATAuthTypeWorkspaceConnectionProperties                     | v1api20240401/storage | PATAuthTypeWorkspaceConnectionProperties                     | Modified |       |
-| v1api20240401   | PATAuthTypeWorkspaceConnectionProperties_STATUS              | v1api20240401/storage | PATAuthTypeWorkspaceConnectionProperties_STATUS              | Modified |       |
-| v1api20240401   | PersonalComputeInstanceSettings                              | v1api20240401/storage | PersonalComputeInstanceSettings                              | Extended |       |
-| v1api20240401   | PersonalComputeInstanceSettings_STATUS                       | v1api20240401/storage | PersonalComputeInstanceSettings_STATUS                       | Extended |       |
-| v1api20240401   | PrivateEndpointConnection_STATUS                             | v1api20240401/storage | PrivateEndpointConnection_STATUS                             | Extended |       |
-| v1api20240401   | PrivateEndpointDestination                                   | v1api20240401/storage | PrivateEndpointDestination                                   | Modified |       |
-| v1api20240401   | PrivateEndpointDestination_STATUS                            | v1api20240401/storage | PrivateEndpointDestination_STATUS                            | Modified |       |
-| v1api20240401   | PrivateEndpointOutboundRule                                  | v1api20240401/storage | PrivateEndpointOutboundRule                                  | Modified |       |
-| v1api20240401   | PrivateEndpointOutboundRule_STATUS                           | v1api20240401/storage | PrivateEndpointOutboundRule_STATUS                           | Modified |       |
-| v1api20240401   | PrivateEndpointResource                                      | v1api20240401/storage | PrivateEndpointResource                                      | Extended |       |
-| v1api20240401   | PrivateEndpointResource_STATUS                               | v1api20240401/storage | PrivateEndpointResource_STATUS                               | Extended |       |
-| v1api20240401   | Recurrence                                                   | v1api20240401/storage | Recurrence                                                   | Modified |       |
-| v1api20240401   | Recurrence_STATUS                                            | v1api20240401/storage | Recurrence_STATUS                                            | Modified |       |
-| v1api20240401   | RegistryOperatorConfigMaps                                   | v1api20240401/storage | RegistryOperatorConfigMaps                                   | Extended |       |
-| v1api20240401   | RegistryOperatorSpec                                         | v1api20240401/storage | RegistryOperatorSpec                                         | Extended |       |
-| v1api20240401   | RegistryPrivateEndpointConnection                            | v1api20240401/storage | RegistryPrivateEndpointConnection                            | Extended |       |
-| v1api20240401   | RegistryPrivateEndpointConnection_STATUS                     | v1api20240401/storage | RegistryPrivateEndpointConnection_STATUS                     | Extended |       |
-| v1api20240401   | RegistryPrivateLinkServiceConnectionState                    | v1api20240401/storage | RegistryPrivateLinkServiceConnectionState                    | Modified |       |
-| v1api20240401   | RegistryPrivateLinkServiceConnectionState_STATUS             | v1api20240401/storage | RegistryPrivateLinkServiceConnectionState_STATUS             | Modified |       |
-| v1api20240401   | RegistryRegionArmDetails                                     | v1api20240401/storage | RegistryRegionArmDetails                                     | Extended |       |
-| v1api20240401   | RegistryRegionArmDetails_STATUS                              | v1api20240401/storage | RegistryRegionArmDetails_STATUS                              | Extended |       |
-| v1api20240401   | RegistryTrackedResource_STATUS                               | v1api20240401/storage | RegistryTrackedResource_STATUS                               | Extended |       |
-| v1api20240401   | Registry_Spec                                                | v1api20240401/storage | Registry_Spec                                                | Modified |       |
-| v1api20240401   | ResourceId                                                   | v1api20240401/storage | ResourceId                                                   | Extended |       |
-| v1api20240401   | ResourceId_STATUS                                            | v1api20240401/storage | ResourceId_STATUS                                            | Extended |       |
-| v1api20240401   | SASAuthTypeWorkspaceConnectionProperties                     | v1api20240401/storage | SASAuthTypeWorkspaceConnectionProperties                     | Modified |       |
-| v1api20240401   | SASAuthTypeWorkspaceConnectionProperties_STATUS              | v1api20240401/storage | SASAuthTypeWorkspaceConnectionProperties_STATUS              | Modified |       |
-| v1api20240401   | ScaleSettings                                                | v1api20240401/storage | ScaleSettings                                                | Extended |       |
-| v1api20240401   | ScaleSettings_STATUS                                         | v1api20240401/storage | ScaleSettings_STATUS                                         | Extended |       |
-| v1api20240401   | ScheduleBase                                                 | v1api20240401/storage | ScheduleBase                                                 | Modified |       |
-| v1api20240401   | ScheduleBase_STATUS                                          | v1api20240401/storage | ScheduleBase_STATUS                                          | Modified |       |
-| v1api20240401   | ScriptReference                                              | v1api20240401/storage | ScriptReference                                              | Extended |       |
-| v1api20240401   | ScriptReference_STATUS                                       | v1api20240401/storage | ScriptReference_STATUS                                       | Extended |       |
-| v1api20240401   | ScriptsToExecute                                             | v1api20240401/storage | ScriptsToExecute                                             | Extended |       |
-| v1api20240401   | ScriptsToExecute_STATUS                                      | v1api20240401/storage | ScriptsToExecute_STATUS                                      | Extended |       |
-| v1api20240401   | ServerlessComputeSettings                                    | v1api20240401/storage | ServerlessComputeSettings                                    | Extended |       |
-| v1api20240401   | ServerlessComputeSettings_STATUS                             | v1api20240401/storage | ServerlessComputeSettings_STATUS                             | Extended |       |
-| v1api20240401   | ServiceManagedResourcesSettings                              | v1api20240401/storage | ServiceManagedResourcesSettings                              | Extended |       |
-| v1api20240401   | ServiceManagedResourcesSettings_STATUS                       | v1api20240401/storage | ServiceManagedResourcesSettings_STATUS                       | Extended |       |
-| v1api20240401   | ServicePrincipalAuthTypeWorkspaceConnectionProperties        | v1api20240401/storage | ServicePrincipalAuthTypeWorkspaceConnectionProperties        | Modified |       |
-| v1api20240401   | ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS | v1api20240401/storage | ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS | Modified |       |
-| v1api20240401   | ServiceTagDestination                                        | v1api20240401/storage | ServiceTagDestination                                        | Modified |       |
-| v1api20240401   | ServiceTagDestination_STATUS                                 | v1api20240401/storage | ServiceTagDestination_STATUS                                 | Modified |       |
-| v1api20240401   | ServiceTagOutboundRule                                       | v1api20240401/storage | ServiceTagOutboundRule                                       | Modified |       |
-| v1api20240401   | ServiceTagOutboundRule_STATUS                                | v1api20240401/storage | ServiceTagOutboundRule_STATUS                                | Modified |       |
-| v1api20240401   | SetupScripts                                                 | v1api20240401/storage | SetupScripts                                                 | Extended |       |
-| v1api20240401   | SetupScripts_STATUS                                          | v1api20240401/storage | SetupScripts_STATUS                                          | Extended |       |
-| v1api20240401   | SharedPrivateLinkResource                                    | v1api20240401/storage | SharedPrivateLinkResource                                    | Modified |       |
-| v1api20240401   | SharedPrivateLinkResource_STATUS                             | v1api20240401/storage | SharedPrivateLinkResource_STATUS                             | Modified |       |
-| v1api20240401   | Sku                                                          | v1api20240401/storage | Sku                                                          | Modified |       |
-| v1api20240401   | Sku_STATUS                                                   | v1api20240401/storage | Sku_STATUS                                                   | Modified |       |
-| v1api20240401   | SslConfiguration                                             | v1api20240401/storage | SslConfiguration                                             | Modified |       |
-| v1api20240401   | SslConfiguration_STATUS                                      | v1api20240401/storage | SslConfiguration_STATUS                                      | Modified |       |
-| v1api20240401   | StorageAccountDetails                                        | v1api20240401/storage | StorageAccountDetails                                        | Extended |       |
-| v1api20240401   | StorageAccountDetails_STATUS                                 | v1api20240401/storage | StorageAccountDetails_STATUS                                 | Extended |       |
-| v1api20240401   | SynapseSpark                                                 | v1api20240401/storage | SynapseSpark                                                 | Modified |       |
-| v1api20240401   | SynapseSpark_Properties                                      | v1api20240401/storage | SynapseSpark_Properties                                      | Extended |       |
-| v1api20240401   | SynapseSpark_Properties_STATUS                               | v1api20240401/storage | SynapseSpark_Properties_STATUS                               | Extended |       |
-| v1api20240401   | SynapseSpark_STATUS                                          | v1api20240401/storage | SynapseSpark_STATUS                                          | Modified |       |
-| v1api20240401   | SystemCreatedAcrAccount                                      | v1api20240401/storage | SystemCreatedAcrAccount                                      | Extended |       |
-| v1api20240401   | SystemCreatedAcrAccount_STATUS                               | v1api20240401/storage | SystemCreatedAcrAccount_STATUS                               | Extended |       |
-| v1api20240401   | SystemCreatedStorageAccount                                  | v1api20240401/storage | SystemCreatedStorageAccount                                  | Extended |       |
-| v1api20240401   | SystemCreatedStorageAccount_STATUS                           | v1api20240401/storage | SystemCreatedStorageAccount_STATUS                           | Extended |       |
-| v1api20240401   | SystemData_STATUS                                            | v1api20240401/storage | SystemData_STATUS                                            | Modified |       |
-| v1api20240401   | SystemService_STATUS                                         | v1api20240401/storage | SystemService_STATUS                                         | Extended |       |
-| v1api20240401   | TmpfsOptions                                                 | v1api20240401/storage | TmpfsOptions                                                 | Extended |       |
-| v1api20240401   | TmpfsOptions_STATUS                                          | v1api20240401/storage | TmpfsOptions_STATUS                                          | Extended |       |
-| v1api20240401   | UserAccountCredentials                                       | v1api20240401/storage | UserAccountCredentials                                       | Extended |       |
-| v1api20240401   | UserAccountCredentials_STATUS                                | v1api20240401/storage | UserAccountCredentials_STATUS                                | Extended |       |
-| v1api20240401   | UserAssignedIdentityDetails                                  | v1api20240401/storage | UserAssignedIdentityDetails                                  | Extended |       |
-| v1api20240401   | UserAssignedIdentity_STATUS                                  | v1api20240401/storage | UserAssignedIdentity_STATUS                                  | Extended |       |
-| v1api20240401   | UsernamePasswordAuthTypeWorkspaceConnectionProperties        | v1api20240401/storage | UsernamePasswordAuthTypeWorkspaceConnectionProperties        | Modified |       |
-| v1api20240401   | UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS | v1api20240401/storage | UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS | Modified |       |
-| v1api20240401   | VirtualMachine                                               | v1api20240401/storage | VirtualMachine                                               | Modified |       |
-| v1api20240401   | VirtualMachineImage                                          | v1api20240401/storage | VirtualMachineImage                                          | Extended |       |
-| v1api20240401   | VirtualMachineImage_STATUS                                   | v1api20240401/storage | VirtualMachineImage_STATUS                                   | Extended |       |
-| v1api20240401   | VirtualMachineSshCredentials                                 | v1api20240401/storage | VirtualMachineSshCredentials                                 | Extended |       |
-| v1api20240401   | VirtualMachineSshCredentials_STATUS                          | v1api20240401/storage | VirtualMachineSshCredentials_STATUS                          | Extended |       |
-| v1api20240401   | VirtualMachine_Properties                                    | v1api20240401/storage | VirtualMachine_Properties                                    | Extended |       |
-| v1api20240401   | VirtualMachine_Properties_STATUS                             | v1api20240401/storage | VirtualMachine_Properties_STATUS                             | Extended |       |
-| v1api20240401   | VirtualMachine_STATUS                                        | v1api20240401/storage | VirtualMachine_STATUS                                        | Modified |       |
-| v1api20240401   | VolumeDefinition                                             | v1api20240401/storage | VolumeDefinition                                             | Modified |       |
-| v1api20240401   | VolumeDefinition_STATUS                                      | v1api20240401/storage | VolumeDefinition_STATUS                                      | Modified |       |
-| v1api20240401   | VolumeOptions                                                | v1api20240401/storage | VolumeOptions                                                | Extended |       |
-| v1api20240401   | VolumeOptions_STATUS                                         | v1api20240401/storage | VolumeOptions_STATUS                                         | Extended |       |
-| v1api20240401   | WorkspaceConnectionAccessKey                                 | v1api20240401/storage | WorkspaceConnectionAccessKey                                 | Extended |       |
-| v1api20240401   | WorkspaceConnectionAccessKey_STATUS                          | v1api20240401/storage | WorkspaceConnectionAccessKey_STATUS                          | Extended |       |
-| v1api20240401   | WorkspaceConnectionAccountKey                                | v1api20240401/storage | WorkspaceConnectionAccountKey                                | Extended |       |
-| v1api20240401   | WorkspaceConnectionAccountKey_STATUS                         | v1api20240401/storage | WorkspaceConnectionAccountKey_STATUS                         | Extended |       |
-| v1api20240401   | WorkspaceConnectionApiKey                                    | v1api20240401/storage | WorkspaceConnectionApiKey                                    | Extended |       |
-| v1api20240401   | WorkspaceConnectionApiKey_STATUS                             | v1api20240401/storage | WorkspaceConnectionApiKey_STATUS                             | Extended |       |
-| v1api20240401   | WorkspaceConnectionManagedIdentity                           | v1api20240401/storage | WorkspaceConnectionManagedIdentity                           | Extended |       |
-| v1api20240401   | WorkspaceConnectionManagedIdentity_STATUS                    | v1api20240401/storage | WorkspaceConnectionManagedIdentity_STATUS                    | Extended |       |
-| v1api20240401   | WorkspaceConnectionOAuth2                                    | v1api20240401/storage | WorkspaceConnectionOAuth2                                    | Modified |       |
-| v1api20240401   | WorkspaceConnectionOAuth2_STATUS                             | v1api20240401/storage | WorkspaceConnectionOAuth2_STATUS                             | Extended |       |
-| v1api20240401   | WorkspaceConnectionPersonalAccessToken                       | v1api20240401/storage | WorkspaceConnectionPersonalAccessToken                       | Extended |       |
-| v1api20240401   | WorkspaceConnectionPersonalAccessToken_STATUS                | v1api20240401/storage | WorkspaceConnectionPersonalAccessToken_STATUS                | Extended |       |
-| v1api20240401   | WorkspaceConnectionPropertiesV2                              | v1api20240401/storage | WorkspaceConnectionPropertiesV2                              | Extended |       |
-| v1api20240401   | WorkspaceConnectionPropertiesV2_STATUS                       | v1api20240401/storage | WorkspaceConnectionPropertiesV2_STATUS                       | Extended |       |
-| v1api20240401   | WorkspaceConnectionServicePrincipal                          | v1api20240401/storage | WorkspaceConnectionServicePrincipal                          | Extended |       |
-| v1api20240401   | WorkspaceConnectionServicePrincipal_STATUS                   | v1api20240401/storage | WorkspaceConnectionServicePrincipal_STATUS                   | Extended |       |
-| v1api20240401   | WorkspaceConnectionSharedAccessSignature                     | v1api20240401/storage | WorkspaceConnectionSharedAccessSignature                     | Extended |       |
-| v1api20240401   | WorkspaceConnectionSharedAccessSignature_STATUS              | v1api20240401/storage | WorkspaceConnectionSharedAccessSignature_STATUS              | Extended |       |
-| v1api20240401   | WorkspaceConnectionUsernamePassword                          | v1api20240401/storage | WorkspaceConnectionUsernamePassword                          | Extended |       |
-| v1api20240401   | WorkspaceConnectionUsernamePassword_STATUS                   | v1api20240401/storage | WorkspaceConnectionUsernamePassword_STATUS                   | Extended |       |
-| v1api20240401   | WorkspaceHubConfig                                           | v1api20240401/storage | WorkspaceHubConfig                                           | Extended |       |
-| v1api20240401   | WorkspaceHubConfig_STATUS                                    | v1api20240401/storage | WorkspaceHubConfig_STATUS                                    | Extended |       |
-| v1api20240401   | WorkspaceOperatorSecrets                                     | v1api20240401/storage | WorkspaceOperatorSecrets                                     | Extended |       |
-| v1api20240401   | WorkspaceOperatorSpec                                        | v1api20240401/storage | WorkspaceOperatorSpec                                        | Extended |       |
-| v1api20240401   | Workspace_STATUS                                             | v1api20240401/storage | Workspace_STATUS                                             | Modified |       |
-| v1api20240401   | Workspace_Spec                                               | v1api20240401/storage | Workspace_Spec                                               | Modified |       |
-| v1api20240401   | WorkspacesComputeOperatorSpec                                | v1api20240401/storage | WorkspacesComputeOperatorSpec                                | Extended |       |
-| v1api20240401   | WorkspacesCompute_STATUS                                     | v1api20240401/storage | WorkspacesCompute_STATUS                                     | Extended |       |
-| v1api20240401   | WorkspacesCompute_Spec                                       | v1api20240401/storage | WorkspacesCompute_Spec                                       | Extended |       |
-| v1api20240401   | WorkspacesConnectionOperatorSpec                             | v1api20240401/storage | WorkspacesConnectionOperatorSpec                             | Extended |       |
-| v1api20240401   | WorkspacesConnection_STATUS                                  | v1api20240401/storage | WorkspacesConnection_STATUS                                  | Extended |       |
-| v1api20240401   | WorkspacesConnection_Spec                                    | v1api20240401/storage | WorkspacesConnection_Spec                                    | Modified |       |
+| v1api20240401                                                | v1api20240401/storage                                        | Status   | Notes |
+|:-------------------------------------------------------------|:-------------------------------------------------------------|:--------:|:------|
+| AADAuthTypeWorkspaceConnectionProperties                     | AADAuthTypeWorkspaceConnectionProperties                     | Modified |       |
+| AADAuthTypeWorkspaceConnectionProperties_STATUS              | AADAuthTypeWorkspaceConnectionProperties_STATUS              | Modified |       |
+| AKS                                                          | AKS                                                          | Modified |       |
+| AKS_Properties                                               | AKS_Properties                                               | Modified |       |
+| AKS_Properties_STATUS                                        | AKS_Properties_STATUS                                        | Modified |       |
+| AKS_STATUS                                                   | AKS_STATUS                                                   | Modified |       |
+| AccessKeyAuthTypeWorkspaceConnectionProperties               | AccessKeyAuthTypeWorkspaceConnectionProperties               | Modified |       |
+| AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS        | AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS        | Modified |       |
+| AccountKeyAuthTypeWorkspaceConnectionProperties              | AccountKeyAuthTypeWorkspaceConnectionProperties              | Modified |       |
+| AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS       | AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS       | Modified |       |
+| AcrDetails                                                   | AcrDetails                                                   | Extended |       |
+| AcrDetails_STATUS                                            | AcrDetails_STATUS                                            | Extended |       |
+| AksNetworkingConfiguration                                   | AksNetworkingConfiguration                                   | Modified |       |
+| AksNetworkingConfiguration_STATUS                            | AksNetworkingConfiguration_STATUS                            | Extended |       |
+| AmlCompute                                                   | AmlCompute                                                   | Modified |       |
+| AmlComputeProperties                                         | AmlComputeProperties                                         | Modified |       |
+| AmlComputeProperties_STATUS                                  | AmlComputeProperties_STATUS                                  | Modified |       |
+| AmlCompute_STATUS                                            | AmlCompute_STATUS                                            | Modified |       |
+| ApiKeyAuthWorkspaceConnectionProperties                      | ApiKeyAuthWorkspaceConnectionProperties                      | Modified |       |
+| ApiKeyAuthWorkspaceConnectionProperties_STATUS               | ApiKeyAuthWorkspaceConnectionProperties_STATUS               | Modified |       |
+| ArmResourceId                                                | ArmResourceId                                                | Extended |       |
+| ArmResourceId_STATUS                                         | ArmResourceId_STATUS                                         | Extended |       |
+| AssignedUser                                                 | AssignedUser                                                 | Extended |       |
+| AssignedUser_STATUS                                          | AssignedUser_STATUS                                          | Extended |       |
+| AutoPauseProperties                                          | AutoPauseProperties                                          | Extended |       |
+| AutoPauseProperties_STATUS                                   | AutoPauseProperties_STATUS                                   | Extended |       |
+| AutoScaleProperties                                          | AutoScaleProperties                                          | Extended |       |
+| AutoScaleProperties_STATUS                                   | AutoScaleProperties_STATUS                                   | Extended |       |
+| BindOptions                                                  | BindOptions                                                  | Extended |       |
+| BindOptions_STATUS                                           | BindOptions_STATUS                                           | Extended |       |
+| Compute                                                      | Compute                                                      | Extended |       |
+| ComputeInstance                                              | ComputeInstance                                              | Modified |       |
+| ComputeInstanceApplication_STATUS                            | ComputeInstanceApplication_STATUS                            | Extended |       |
+| ComputeInstanceConnectivityEndpoints_STATUS                  | ComputeInstanceConnectivityEndpoints_STATUS                  | Extended |       |
+| ComputeInstanceContainer_STATUS                              | ComputeInstanceContainer_STATUS                              | Modified |       |
+| ComputeInstanceCreatedBy_STATUS                              | ComputeInstanceCreatedBy_STATUS                              | Extended |       |
+| ComputeInstanceDataDisk_STATUS                               | ComputeInstanceDataDisk_STATUS                               | Modified |       |
+| ComputeInstanceDataMount_STATUS                              | ComputeInstanceDataMount_STATUS                              | Modified |       |
+| ComputeInstanceEnvironmentInfo_STATUS                        | ComputeInstanceEnvironmentInfo_STATUS                        | Extended |       |
+| ComputeInstanceLastOperation_STATUS                          | ComputeInstanceLastOperation_STATUS                          | Modified |       |
+| ComputeInstanceProperties                                    | ComputeInstanceProperties                                    | Modified |       |
+| ComputeInstanceProperties_STATUS                             | ComputeInstanceProperties_STATUS                             | Modified |       |
+| ComputeInstanceSshSettings                                   | ComputeInstanceSshSettings                                   | Modified |       |
+| ComputeInstanceSshSettings_STATUS                            | ComputeInstanceSshSettings_STATUS                            | Modified |       |
+| ComputeInstanceVersion_STATUS                                | ComputeInstanceVersion_STATUS                                | Extended |       |
+| ComputeInstance_STATUS                                       | ComputeInstance_STATUS                                       | Modified |       |
+| ComputeRecurrenceSchedule                                    | ComputeRecurrenceSchedule                                    | Modified |       |
+| ComputeRecurrenceSchedule_STATUS                             | ComputeRecurrenceSchedule_STATUS                             | Modified |       |
+| ComputeRuntimeDto                                            | ComputeRuntimeDto                                            | Extended |       |
+| ComputeRuntimeDto_STATUS                                     | ComputeRuntimeDto_STATUS                                     | Extended |       |
+| ComputeSchedules                                             | ComputeSchedules                                             | Extended |       |
+| ComputeSchedules_STATUS                                      | ComputeSchedules_STATUS                                      | Extended |       |
+| ComputeStartStopSchedule                                     | ComputeStartStopSchedule                                     | Modified |       |
+| ComputeStartStopSchedule_STATUS                              | ComputeStartStopSchedule_STATUS                              | Modified |       |
+| Compute_STATUS                                               | Compute_STATUS                                               | Extended |       |
+| CosmosDbSettings                                             | CosmosDbSettings                                             | Extended |       |
+| CosmosDbSettings_STATUS                                      | CosmosDbSettings_STATUS                                      | Extended |       |
+| Cron                                                         | Cron                                                         | Extended |       |
+| Cron_STATUS                                                  | Cron_STATUS                                                  | Extended |       |
+| CustomKeys                                                   | CustomKeys                                                   | Extended |       |
+| CustomKeysWorkspaceConnectionProperties                      | CustomKeysWorkspaceConnectionProperties                      | Modified |       |
+| CustomKeysWorkspaceConnectionProperties_STATUS               | CustomKeysWorkspaceConnectionProperties_STATUS               | Modified |       |
+| CustomKeys_STATUS                                            | CustomKeys_STATUS                                            | Extended |       |
+| CustomService                                                | CustomService                                                | Extended |       |
+| CustomService_STATUS                                         | CustomService_STATUS                                         | Extended |       |
+| DataFactory                                                  | DataFactory                                                  | Modified |       |
+| DataFactory_STATUS                                           | DataFactory_STATUS                                           | Modified |       |
+| DataLakeAnalytics                                            | DataLakeAnalytics                                            | Modified |       |
+| DataLakeAnalytics_Properties                                 | DataLakeAnalytics_Properties                                 | Extended |       |
+| DataLakeAnalytics_Properties_STATUS                          | DataLakeAnalytics_Properties_STATUS                          | Extended |       |
+| DataLakeAnalytics_STATUS                                     | DataLakeAnalytics_STATUS                                     | Modified |       |
+| Databricks                                                   | Databricks                                                   | Modified |       |
+| DatabricksProperties                                         | DatabricksProperties                                         | Extended |       |
+| DatabricksProperties_STATUS                                  | DatabricksProperties_STATUS                                  | Extended |       |
+| Databricks_STATUS                                            | Databricks_STATUS                                            | Modified |       |
+| Docker                                                       | Docker                                                       | Extended |       |
+| Docker_STATUS                                                | Docker_STATUS                                                | Extended |       |
+| EncryptionKeyVaultProperties                                 | EncryptionKeyVaultProperties                                 | Extended |       |
+| EncryptionKeyVaultProperties_STATUS                          | EncryptionKeyVaultProperties_STATUS                          | Extended |       |
+| EncryptionProperty                                           | EncryptionProperty                                           | Extended |       |
+| EncryptionProperty_STATUS                                    | EncryptionProperty_STATUS                                    | Modified |       |
+| Endpoint                                                     | Endpoint                                                     | Modified |       |
+| Endpoint_STATUS                                              | Endpoint_STATUS                                              | Modified |       |
+| EnvironmentVariable                                          | EnvironmentVariable                                          | Modified |       |
+| EnvironmentVariable_STATUS                                   | EnvironmentVariable_STATUS                                   | Modified |       |
+| ErrorAdditionalInfo_STATUS                                   | ErrorAdditionalInfo_STATUS                                   | Extended |       |
+| ErrorDetail_STATUS                                           | ErrorDetail_STATUS                                           | Extended |       |
+| ErrorDetail_STATUS_Unrolled                                  | ErrorDetail_STATUS_Unrolled                                  | Extended |       |
+| ErrorResponse_STATUS                                         | ErrorResponse_STATUS                                         | Extended |       |
+| FeatureStoreSettings                                         | FeatureStoreSettings                                         | Extended |       |
+| FeatureStoreSettings_STATUS                                  | FeatureStoreSettings_STATUS                                  | Extended |       |
+| FqdnOutboundRule                                             | FqdnOutboundRule                                             | Modified |       |
+| FqdnOutboundRule_STATUS                                      | FqdnOutboundRule_STATUS                                      | Modified |       |
+| HDInsight                                                    | HDInsight                                                    | Modified |       |
+| HDInsightProperties                                          | HDInsightProperties                                          | Extended |       |
+| HDInsightProperties_STATUS                                   | HDInsightProperties_STATUS                                   | Extended |       |
+| HDInsight_STATUS                                             | HDInsight_STATUS                                             | Modified |       |
+| IdentityForCmk                                               | IdentityForCmk                                               | Extended |       |
+| IdentityForCmk_STATUS                                        | IdentityForCmk_STATUS                                        | Extended |       |
+| Image                                                        | Image                                                        | Modified |       |
+| ImageMetadata_STATUS                                         | ImageMetadata_STATUS                                         | Extended |       |
+| Image_STATUS                                                 | Image_STATUS                                                 | Modified |       |
+| InstanceTypeSchema                                           | InstanceTypeSchema                                           | Extended |       |
+| InstanceTypeSchema_Resources                                 | InstanceTypeSchema_Resources                                 | Extended |       |
+| InstanceTypeSchema_Resources_STATUS                          | InstanceTypeSchema_Resources_STATUS                          | Extended |       |
+| InstanceTypeSchema_STATUS                                    | InstanceTypeSchema_STATUS                                    | Extended |       |
+| Kubernetes                                                   | Kubernetes                                                   | Modified |       |
+| KubernetesProperties                                         | KubernetesProperties                                         | Extended |       |
+| KubernetesProperties_STATUS                                  | KubernetesProperties_STATUS                                  | Extended |       |
+| Kubernetes_STATUS                                            | Kubernetes_STATUS                                            | Modified |       |
+| ManagedIdentityAuthTypeWorkspaceConnectionProperties         | ManagedIdentityAuthTypeWorkspaceConnectionProperties         | Modified |       |
+| ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS  | ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS  | Modified |       |
+| ManagedNetworkProvisionStatus                                | ManagedNetworkProvisionStatus                                | Modified |       |
+| ManagedNetworkProvisionStatus_STATUS                         | ManagedNetworkProvisionStatus_STATUS                         | Modified |       |
+| ManagedNetworkSettings                                       | ManagedNetworkSettings                                       | Modified |       |
+| ManagedNetworkSettings_STATUS                                | ManagedNetworkSettings_STATUS                                | Modified |       |
+| ManagedServiceIdentity                                       | ManagedServiceIdentity                                       | Modified |       |
+| ManagedServiceIdentity_STATUS                                | ManagedServiceIdentity_STATUS                                | Modified |       |
+| NodeStateCounts_STATUS                                       | NodeStateCounts_STATUS                                       | Extended |       |
+| NoneAuthTypeWorkspaceConnectionProperties                    | NoneAuthTypeWorkspaceConnectionProperties                    | Modified |       |
+| NoneAuthTypeWorkspaceConnectionProperties_STATUS             | NoneAuthTypeWorkspaceConnectionProperties_STATUS             | Modified |       |
+| NotebookPreparationError_STATUS                              | NotebookPreparationError_STATUS                              | Extended |       |
+| NotebookResourceInfo_STATUS                                  | NotebookResourceInfo_STATUS                                  | Extended |       |
+| OAuth2AuthTypeWorkspaceConnectionProperties                  | OAuth2AuthTypeWorkspaceConnectionProperties                  | Modified |       |
+| OAuth2AuthTypeWorkspaceConnectionProperties_STATUS           | OAuth2AuthTypeWorkspaceConnectionProperties_STATUS           | Modified |       |
+| OutboundRule                                                 | OutboundRule                                                 | Extended |       |
+| OutboundRule_STATUS                                          | OutboundRule_STATUS                                          | Extended |       |
+| PATAuthTypeWorkspaceConnectionProperties                     | PATAuthTypeWorkspaceConnectionProperties                     | Modified |       |
+| PATAuthTypeWorkspaceConnectionProperties_STATUS              | PATAuthTypeWorkspaceConnectionProperties_STATUS              | Modified |       |
+| PersonalComputeInstanceSettings                              | PersonalComputeInstanceSettings                              | Extended |       |
+| PersonalComputeInstanceSettings_STATUS                       | PersonalComputeInstanceSettings_STATUS                       | Extended |       |
+| PrivateEndpointConnection_STATUS                             | PrivateEndpointConnection_STATUS                             | Extended |       |
+| PrivateEndpointDestination                                   | PrivateEndpointDestination                                   | Modified |       |
+| PrivateEndpointDestination_STATUS                            | PrivateEndpointDestination_STATUS                            | Modified |       |
+| PrivateEndpointOutboundRule                                  | PrivateEndpointOutboundRule                                  | Modified |       |
+| PrivateEndpointOutboundRule_STATUS                           | PrivateEndpointOutboundRule_STATUS                           | Modified |       |
+| PrivateEndpointResource                                      | PrivateEndpointResource                                      | Extended |       |
+| PrivateEndpointResource_STATUS                               | PrivateEndpointResource_STATUS                               | Extended |       |
+| Recurrence                                                   | Recurrence                                                   | Modified |       |
+| Recurrence_STATUS                                            | Recurrence_STATUS                                            | Modified |       |
+| RegistryOperatorConfigMaps                                   | RegistryOperatorConfigMaps                                   | Extended |       |
+| RegistryOperatorSpec                                         | RegistryOperatorSpec                                         | Extended |       |
+| RegistryPrivateEndpointConnection                            | RegistryPrivateEndpointConnection                            | Extended |       |
+| RegistryPrivateEndpointConnection_STATUS                     | RegistryPrivateEndpointConnection_STATUS                     | Extended |       |
+| RegistryPrivateLinkServiceConnectionState                    | RegistryPrivateLinkServiceConnectionState                    | Modified |       |
+| RegistryPrivateLinkServiceConnectionState_STATUS             | RegistryPrivateLinkServiceConnectionState_STATUS             | Modified |       |
+| RegistryRegionArmDetails                                     | RegistryRegionArmDetails                                     | Extended |       |
+| RegistryRegionArmDetails_STATUS                              | RegistryRegionArmDetails_STATUS                              | Extended |       |
+| RegistryTrackedResource_STATUS                               | RegistryTrackedResource_STATUS                               | Extended |       |
+| Registry_Spec                                                | Registry_Spec                                                | Modified |       |
+| ResourceId                                                   | ResourceId                                                   | Extended |       |
+| ResourceId_STATUS                                            | ResourceId_STATUS                                            | Extended |       |
+| SASAuthTypeWorkspaceConnectionProperties                     | SASAuthTypeWorkspaceConnectionProperties                     | Modified |       |
+| SASAuthTypeWorkspaceConnectionProperties_STATUS              | SASAuthTypeWorkspaceConnectionProperties_STATUS              | Modified |       |
+| ScaleSettings                                                | ScaleSettings                                                | Extended |       |
+| ScaleSettings_STATUS                                         | ScaleSettings_STATUS                                         | Extended |       |
+| ScheduleBase                                                 | ScheduleBase                                                 | Modified |       |
+| ScheduleBase_STATUS                                          | ScheduleBase_STATUS                                          | Modified |       |
+| ScriptReference                                              | ScriptReference                                              | Extended |       |
+| ScriptReference_STATUS                                       | ScriptReference_STATUS                                       | Extended |       |
+| ScriptsToExecute                                             | ScriptsToExecute                                             | Extended |       |
+| ScriptsToExecute_STATUS                                      | ScriptsToExecute_STATUS                                      | Extended |       |
+| ServerlessComputeSettings                                    | ServerlessComputeSettings                                    | Extended |       |
+| ServerlessComputeSettings_STATUS                             | ServerlessComputeSettings_STATUS                             | Extended |       |
+| ServiceManagedResourcesSettings                              | ServiceManagedResourcesSettings                              | Extended |       |
+| ServiceManagedResourcesSettings_STATUS                       | ServiceManagedResourcesSettings_STATUS                       | Extended |       |
+| ServicePrincipalAuthTypeWorkspaceConnectionProperties        | ServicePrincipalAuthTypeWorkspaceConnectionProperties        | Modified |       |
+| ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS | ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS | Modified |       |
+| ServiceTagDestination                                        | ServiceTagDestination                                        | Modified |       |
+| ServiceTagDestination_STATUS                                 | ServiceTagDestination_STATUS                                 | Modified |       |
+| ServiceTagOutboundRule                                       | ServiceTagOutboundRule                                       | Modified |       |
+| ServiceTagOutboundRule_STATUS                                | ServiceTagOutboundRule_STATUS                                | Modified |       |
+| SetupScripts                                                 | SetupScripts                                                 | Extended |       |
+| SetupScripts_STATUS                                          | SetupScripts_STATUS                                          | Extended |       |
+| SharedPrivateLinkResource                                    | SharedPrivateLinkResource                                    | Modified |       |
+| SharedPrivateLinkResource_STATUS                             | SharedPrivateLinkResource_STATUS                             | Modified |       |
+| Sku                                                          | Sku                                                          | Modified |       |
+| Sku_STATUS                                                   | Sku_STATUS                                                   | Modified |       |
+| SslConfiguration                                             | SslConfiguration                                             | Modified |       |
+| SslConfiguration_STATUS                                      | SslConfiguration_STATUS                                      | Modified |       |
+| StorageAccountDetails                                        | StorageAccountDetails                                        | Extended |       |
+| StorageAccountDetails_STATUS                                 | StorageAccountDetails_STATUS                                 | Extended |       |
+| SynapseSpark                                                 | SynapseSpark                                                 | Modified |       |
+| SynapseSpark_Properties                                      | SynapseSpark_Properties                                      | Extended |       |
+| SynapseSpark_Properties_STATUS                               | SynapseSpark_Properties_STATUS                               | Extended |       |
+| SynapseSpark_STATUS                                          | SynapseSpark_STATUS                                          | Modified |       |
+| SystemCreatedAcrAccount                                      | SystemCreatedAcrAccount                                      | Extended |       |
+| SystemCreatedAcrAccount_STATUS                               | SystemCreatedAcrAccount_STATUS                               | Extended |       |
+| SystemCreatedStorageAccount                                  | SystemCreatedStorageAccount                                  | Extended |       |
+| SystemCreatedStorageAccount_STATUS                           | SystemCreatedStorageAccount_STATUS                           | Extended |       |
+| SystemData_STATUS                                            | SystemData_STATUS                                            | Modified |       |
+| SystemService_STATUS                                         | SystemService_STATUS                                         | Extended |       |
+| TmpfsOptions                                                 | TmpfsOptions                                                 | Extended |       |
+| TmpfsOptions_STATUS                                          | TmpfsOptions_STATUS                                          | Extended |       |
+| UserAccountCredentials                                       | UserAccountCredentials                                       | Extended |       |
+| UserAccountCredentials_STATUS                                | UserAccountCredentials_STATUS                                | Extended |       |
+| UserAssignedIdentityDetails                                  | UserAssignedIdentityDetails                                  | Extended |       |
+| UserAssignedIdentity_STATUS                                  | UserAssignedIdentity_STATUS                                  | Extended |       |
+| UsernamePasswordAuthTypeWorkspaceConnectionProperties        | UsernamePasswordAuthTypeWorkspaceConnectionProperties        | Modified |       |
+| UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS | UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS | Modified |       |
+| VirtualMachine                                               | VirtualMachine                                               | Modified |       |
+| VirtualMachineImage                                          | VirtualMachineImage                                          | Extended |       |
+| VirtualMachineImage_STATUS                                   | VirtualMachineImage_STATUS                                   | Extended |       |
+| VirtualMachineSshCredentials                                 | VirtualMachineSshCredentials                                 | Extended |       |
+| VirtualMachineSshCredentials_STATUS                          | VirtualMachineSshCredentials_STATUS                          | Extended |       |
+| VirtualMachine_Properties                                    | VirtualMachine_Properties                                    | Extended |       |
+| VirtualMachine_Properties_STATUS                             | VirtualMachine_Properties_STATUS                             | Extended |       |
+| VirtualMachine_STATUS                                        | VirtualMachine_STATUS                                        | Modified |       |
+| VolumeDefinition                                             | VolumeDefinition                                             | Modified |       |
+| VolumeDefinition_STATUS                                      | VolumeDefinition_STATUS                                      | Modified |       |
+| VolumeOptions                                                | VolumeOptions                                                | Extended |       |
+| VolumeOptions_STATUS                                         | VolumeOptions_STATUS                                         | Extended |       |
+| WorkspaceConnectionAccessKey                                 | WorkspaceConnectionAccessKey                                 | Extended |       |
+| WorkspaceConnectionAccessKey_STATUS                          | WorkspaceConnectionAccessKey_STATUS                          | Extended |       |
+| WorkspaceConnectionAccountKey                                | WorkspaceConnectionAccountKey                                | Extended |       |
+| WorkspaceConnectionAccountKey_STATUS                         | WorkspaceConnectionAccountKey_STATUS                         | Extended |       |
+| WorkspaceConnectionApiKey                                    | WorkspaceConnectionApiKey                                    | Extended |       |
+| WorkspaceConnectionApiKey_STATUS                             | WorkspaceConnectionApiKey_STATUS                             | Extended |       |
+| WorkspaceConnectionManagedIdentity                           | WorkspaceConnectionManagedIdentity                           | Extended |       |
+| WorkspaceConnectionManagedIdentity_STATUS                    | WorkspaceConnectionManagedIdentity_STATUS                    | Extended |       |
+| WorkspaceConnectionOAuth2                                    | WorkspaceConnectionOAuth2                                    | Modified |       |
+| WorkspaceConnectionOAuth2_STATUS                             | WorkspaceConnectionOAuth2_STATUS                             | Extended |       |
+| WorkspaceConnectionPersonalAccessToken                       | WorkspaceConnectionPersonalAccessToken                       | Extended |       |
+| WorkspaceConnectionPersonalAccessToken_STATUS                | WorkspaceConnectionPersonalAccessToken_STATUS                | Extended |       |
+| WorkspaceConnectionPropertiesV2                              | WorkspaceConnectionPropertiesV2                              | Extended |       |
+| WorkspaceConnectionPropertiesV2_STATUS                       | WorkspaceConnectionPropertiesV2_STATUS                       | Extended |       |
+| WorkspaceConnectionServicePrincipal                          | WorkspaceConnectionServicePrincipal                          | Extended |       |
+| WorkspaceConnectionServicePrincipal_STATUS                   | WorkspaceConnectionServicePrincipal_STATUS                   | Extended |       |
+| WorkspaceConnectionSharedAccessSignature                     | WorkspaceConnectionSharedAccessSignature                     | Extended |       |
+| WorkspaceConnectionSharedAccessSignature_STATUS              | WorkspaceConnectionSharedAccessSignature_STATUS              | Extended |       |
+| WorkspaceConnectionUsernamePassword                          | WorkspaceConnectionUsernamePassword                          | Extended |       |
+| WorkspaceConnectionUsernamePassword_STATUS                   | WorkspaceConnectionUsernamePassword_STATUS                   | Extended |       |
+| WorkspaceHubConfig                                           | WorkspaceHubConfig                                           | Extended |       |
+| WorkspaceHubConfig_STATUS                                    | WorkspaceHubConfig_STATUS                                    | Extended |       |
+| WorkspaceOperatorSecrets                                     | WorkspaceOperatorSecrets                                     | Extended |       |
+| WorkspaceOperatorSpec                                        | WorkspaceOperatorSpec                                        | Extended |       |
+| Workspace_STATUS                                             | Workspace_STATUS                                             | Modified |       |
+| Workspace_Spec                                               | Workspace_Spec                                               | Modified |       |
+| WorkspacesComputeOperatorSpec                                | WorkspacesComputeOperatorSpec                                | Extended |       |
+| WorkspacesCompute_STATUS                                     | WorkspacesCompute_STATUS                                     | Extended |       |
+| WorkspacesCompute_Spec                                       | WorkspacesCompute_Spec                                       | Extended |       |
+| WorkspacesConnectionOperatorSpec                             | WorkspacesConnectionOperatorSpec                             | Extended |       |
+| WorkspacesConnection_STATUS                                  | WorkspacesConnection_STATUS                                  | Extended |       |
+| WorkspacesConnection_Spec                                    | WorkspacesConnection_Spec                                    | Modified |       |
 
 ### AADAuthTypeWorkspaceConnectionProperties
 

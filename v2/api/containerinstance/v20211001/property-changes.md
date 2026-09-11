@@ -11,74 +11,74 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type   | Next Version      | Next Type      | Status    | Notes |
-|:----------------|:---------------|:------------------|:---------------|:---------:|:------|
-| v20211001       | ContainerGroup | v20211001/storage | ContainerGroup | Identical |       |
+| v20211001      | v20211001/storage | Status    | Notes |
+|:---------------|:------------------|:---------:|:------|
+| ContainerGroup | ContainerGroup    | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                          | Next Version      | Next Type                                             | Status   | Notes |
-|:----------------|:------------------------------------------------------|:------------------|:------------------------------------------------------|:--------:|:------|
-| v20211001       | AzureFileVolume                                       | v20211001/storage | AzureFileVolume                                       | Extended |       |
-| v20211001       | AzureFileVolume_STATUS                                | v20211001/storage | AzureFileVolume_STATUS                                | Extended |       |
-| v20211001       | Container                                             | v20211001/storage | Container                                             | Extended |       |
-| v20211001       | ContainerExec                                         | v20211001/storage | ContainerExec                                         | Extended |       |
-| v20211001       | ContainerExec_STATUS                                  | v20211001/storage | ContainerExec_STATUS                                  | Extended |       |
-| v20211001       | ContainerGroupDiagnostics                             | v20211001/storage | ContainerGroupDiagnostics                             | Extended |       |
-| v20211001       | ContainerGroupDiagnostics_STATUS                      | v20211001/storage | ContainerGroupDiagnostics_STATUS                      | Extended |       |
-| v20211001       | ContainerGroupIdentity                                | v20211001/storage | ContainerGroupIdentity                                | Modified |       |
-| v20211001       | ContainerGroupIdentity_STATUS                         | v20211001/storage | ContainerGroupIdentity_STATUS                         | Modified |       |
-| v20211001       | ContainerGroupOperatorSpec                            | v20211001/storage | ContainerGroupOperatorSpec                            | Extended |       |
-| v20211001       | ContainerGroupSubnetId                                | v20211001/storage | ContainerGroupSubnetId                                | Extended |       |
-| v20211001       | ContainerGroupSubnetId_STATUS                         | v20211001/storage | ContainerGroupSubnetId_STATUS                         | Extended |       |
-| v20211001       | ContainerGroup_Properties_InstanceView_STATUS         | v20211001/storage | ContainerGroup_Properties_InstanceView_STATUS         | Extended |       |
-| v20211001       | ContainerGroup_STATUS                                 | v20211001/storage | ContainerGroup_STATUS                                 | Modified |       |
-| v20211001       | ContainerGroup_Spec                                   | v20211001/storage | ContainerGroup_Spec                                   | Modified |       |
-| v20211001       | ContainerHttpGet                                      | v20211001/storage | ContainerHttpGet                                      | Modified |       |
-| v20211001       | ContainerHttpGet_STATUS                               | v20211001/storage | ContainerHttpGet_STATUS                               | Modified |       |
-| v20211001       | ContainerPort                                         | v20211001/storage | ContainerPort                                         | Modified |       |
-| v20211001       | ContainerPort_STATUS                                  | v20211001/storage | ContainerPort_STATUS                                  | Modified |       |
-| v20211001       | ContainerProbe                                        | v20211001/storage | ContainerProbe                                        | Extended |       |
-| v20211001       | ContainerProbe_STATUS                                 | v20211001/storage | ContainerProbe_STATUS                                 | Extended |       |
-| v20211001       | ContainerProperties_InstanceView_STATUS               | v20211001/storage | ContainerProperties_InstanceView_STATUS               | Extended |       |
-| v20211001       | ContainerState_STATUS                                 | v20211001/storage | ContainerState_STATUS                                 | Extended |       |
-| v20211001       | Container_STATUS                                      | v20211001/storage | Container_STATUS                                      | Extended |       |
-| v20211001       | DnsConfiguration                                      | v20211001/storage | DnsConfiguration                                      | Extended |       |
-| v20211001       | DnsConfiguration_STATUS                               | v20211001/storage | DnsConfiguration_STATUS                               | Extended |       |
-| v20211001       | EncryptionProperties                                  | v20211001/storage | EncryptionProperties                                  | Extended |       |
-| v20211001       | EncryptionProperties_STATUS                           | v20211001/storage | EncryptionProperties_STATUS                           | Extended |       |
-| v20211001       | EnvironmentVariable                                   | v20211001/storage | EnvironmentVariable                                   | Extended |       |
-| v20211001       | EnvironmentVariable_STATUS                            | v20211001/storage | EnvironmentVariable_STATUS                            | Extended |       |
-| v20211001       | Event_STATUS                                          | v20211001/storage | Event_STATUS                                          | Extended |       |
-| v20211001       | GitRepoVolume                                         | v20211001/storage | GitRepoVolume                                         | Extended |       |
-| v20211001       | GitRepoVolume_STATUS                                  | v20211001/storage | GitRepoVolume_STATUS                                  | Extended |       |
-| v20211001       | GpuResource                                           | v20211001/storage | GpuResource                                           | Modified |       |
-| v20211001       | GpuResource_STATUS                                    | v20211001/storage | GpuResource_STATUS                                    | Modified |       |
-| v20211001       | HttpHeader                                            | v20211001/storage | HttpHeader                                            | Extended |       |
-| v20211001       | HttpHeader_STATUS                                     | v20211001/storage | HttpHeader_STATUS                                     | Extended |       |
-| v20211001       | ImageRegistryCredential                               | v20211001/storage | ImageRegistryCredential                               | Extended |       |
-| v20211001       | ImageRegistryCredential_STATUS                        | v20211001/storage | ImageRegistryCredential_STATUS                        | Extended |       |
-| v20211001       | InitContainerDefinition                               | v20211001/storage | InitContainerDefinition                               | Extended |       |
-| v20211001       | InitContainerDefinition_STATUS                        | v20211001/storage | InitContainerDefinition_STATUS                        | Extended |       |
-| v20211001       | InitContainerPropertiesDefinition_InstanceView_STATUS | v20211001/storage | InitContainerPropertiesDefinition_InstanceView_STATUS | Extended |       |
-| v20211001       | IpAddress                                             | v20211001/storage | IpAddress                                             | Modified |       |
-| v20211001       | IpAddress_STATUS                                      | v20211001/storage | IpAddress_STATUS                                      | Modified |       |
-| v20211001       | LogAnalytics                                          | v20211001/storage | LogAnalytics                                          | Modified |       |
-| v20211001       | LogAnalytics_STATUS                                   | v20211001/storage | LogAnalytics_STATUS                                   | Modified |       |
-| v20211001       | Port                                                  | v20211001/storage | Port                                                  | Modified |       |
-| v20211001       | Port_STATUS                                           | v20211001/storage | Port_STATUS                                           | Modified |       |
-| v20211001       | ResourceLimits                                        | v20211001/storage | ResourceLimits                                        | Extended |       |
-| v20211001       | ResourceLimits_STATUS                                 | v20211001/storage | ResourceLimits_STATUS                                 | Extended |       |
-| v20211001       | ResourceRequests                                      | v20211001/storage | ResourceRequests                                      | Extended |       |
-| v20211001       | ResourceRequests_STATUS                               | v20211001/storage | ResourceRequests_STATUS                               | Extended |       |
-| v20211001       | ResourceRequirements                                  | v20211001/storage | ResourceRequirements                                  | Extended |       |
-| v20211001       | ResourceRequirements_STATUS                           | v20211001/storage | ResourceRequirements_STATUS                           | Extended |       |
-| v20211001       | UserAssignedIdentities_STATUS                         | v20211001/storage | UserAssignedIdentities_STATUS                         | Extended |       |
-| v20211001       | UserAssignedIdentityDetails                           | v20211001/storage | UserAssignedIdentityDetails                           | Extended |       |
-| v20211001       | Volume                                                | v20211001/storage | Volume                                                | Extended |       |
-| v20211001       | VolumeMount                                           | v20211001/storage | VolumeMount                                           | Extended |       |
-| v20211001       | VolumeMount_STATUS                                    | v20211001/storage | VolumeMount_STATUS                                    | Extended |       |
-| v20211001       | Volume_STATUS                                         | v20211001/storage | Volume_STATUS                                         | Extended |       |
+| v20211001                                             | v20211001/storage                                     | Status   | Notes |
+|:------------------------------------------------------|:------------------------------------------------------|:--------:|:------|
+| AzureFileVolume                                       | AzureFileVolume                                       | Extended |       |
+| AzureFileVolume_STATUS                                | AzureFileVolume_STATUS                                | Extended |       |
+| Container                                             | Container                                             | Extended |       |
+| ContainerExec                                         | ContainerExec                                         | Extended |       |
+| ContainerExec_STATUS                                  | ContainerExec_STATUS                                  | Extended |       |
+| ContainerGroupDiagnostics                             | ContainerGroupDiagnostics                             | Extended |       |
+| ContainerGroupDiagnostics_STATUS                      | ContainerGroupDiagnostics_STATUS                      | Extended |       |
+| ContainerGroupIdentity                                | ContainerGroupIdentity                                | Modified |       |
+| ContainerGroupIdentity_STATUS                         | ContainerGroupIdentity_STATUS                         | Modified |       |
+| ContainerGroupOperatorSpec                            | ContainerGroupOperatorSpec                            | Extended |       |
+| ContainerGroupSubnetId                                | ContainerGroupSubnetId                                | Extended |       |
+| ContainerGroupSubnetId_STATUS                         | ContainerGroupSubnetId_STATUS                         | Extended |       |
+| ContainerGroup_Properties_InstanceView_STATUS         | ContainerGroup_Properties_InstanceView_STATUS         | Extended |       |
+| ContainerGroup_STATUS                                 | ContainerGroup_STATUS                                 | Modified |       |
+| ContainerGroup_Spec                                   | ContainerGroup_Spec                                   | Modified |       |
+| ContainerHttpGet                                      | ContainerHttpGet                                      | Modified |       |
+| ContainerHttpGet_STATUS                               | ContainerHttpGet_STATUS                               | Modified |       |
+| ContainerPort                                         | ContainerPort                                         | Modified |       |
+| ContainerPort_STATUS                                  | ContainerPort_STATUS                                  | Modified |       |
+| ContainerProbe                                        | ContainerProbe                                        | Extended |       |
+| ContainerProbe_STATUS                                 | ContainerProbe_STATUS                                 | Extended |       |
+| ContainerProperties_InstanceView_STATUS               | ContainerProperties_InstanceView_STATUS               | Extended |       |
+| ContainerState_STATUS                                 | ContainerState_STATUS                                 | Extended |       |
+| Container_STATUS                                      | Container_STATUS                                      | Extended |       |
+| DnsConfiguration                                      | DnsConfiguration                                      | Extended |       |
+| DnsConfiguration_STATUS                               | DnsConfiguration_STATUS                               | Extended |       |
+| EncryptionProperties                                  | EncryptionProperties                                  | Extended |       |
+| EncryptionProperties_STATUS                           | EncryptionProperties_STATUS                           | Extended |       |
+| EnvironmentVariable                                   | EnvironmentVariable                                   | Extended |       |
+| EnvironmentVariable_STATUS                            | EnvironmentVariable_STATUS                            | Extended |       |
+| Event_STATUS                                          | Event_STATUS                                          | Extended |       |
+| GitRepoVolume                                         | GitRepoVolume                                         | Extended |       |
+| GitRepoVolume_STATUS                                  | GitRepoVolume_STATUS                                  | Extended |       |
+| GpuResource                                           | GpuResource                                           | Modified |       |
+| GpuResource_STATUS                                    | GpuResource_STATUS                                    | Modified |       |
+| HttpHeader                                            | HttpHeader                                            | Extended |       |
+| HttpHeader_STATUS                                     | HttpHeader_STATUS                                     | Extended |       |
+| ImageRegistryCredential                               | ImageRegistryCredential                               | Extended |       |
+| ImageRegistryCredential_STATUS                        | ImageRegistryCredential_STATUS                        | Extended |       |
+| InitContainerDefinition                               | InitContainerDefinition                               | Extended |       |
+| InitContainerDefinition_STATUS                        | InitContainerDefinition_STATUS                        | Extended |       |
+| InitContainerPropertiesDefinition_InstanceView_STATUS | InitContainerPropertiesDefinition_InstanceView_STATUS | Extended |       |
+| IpAddress                                             | IpAddress                                             | Modified |       |
+| IpAddress_STATUS                                      | IpAddress_STATUS                                      | Modified |       |
+| LogAnalytics                                          | LogAnalytics                                          | Modified |       |
+| LogAnalytics_STATUS                                   | LogAnalytics_STATUS                                   | Modified |       |
+| Port                                                  | Port                                                  | Modified |       |
+| Port_STATUS                                           | Port_STATUS                                           | Modified |       |
+| ResourceLimits                                        | ResourceLimits                                        | Extended |       |
+| ResourceLimits_STATUS                                 | ResourceLimits_STATUS                                 | Extended |       |
+| ResourceRequests                                      | ResourceRequests                                      | Extended |       |
+| ResourceRequests_STATUS                               | ResourceRequests_STATUS                               | Extended |       |
+| ResourceRequirements                                  | ResourceRequirements                                  | Extended |       |
+| ResourceRequirements_STATUS                           | ResourceRequirements_STATUS                           | Extended |       |
+| UserAssignedIdentities_STATUS                         | UserAssignedIdentities_STATUS                         | Extended |       |
+| UserAssignedIdentityDetails                           | UserAssignedIdentityDetails                           | Extended |       |
+| Volume                                                | Volume                                                | Extended |       |
+| VolumeMount                                           | VolumeMount                                           | Extended |       |
+| VolumeMount_STATUS                                    | VolumeMount_STATUS                                    | Extended |       |
+| Volume_STATUS                                         | Volume_STATUS                                         | Extended |       |
 
 ### AzureFileVolume
 

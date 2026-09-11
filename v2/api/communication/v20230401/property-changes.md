@@ -11,40 +11,40 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type         | Next Version      | Next Type            | Status    | Notes |
-|:----------------|:---------------------|:------------------|:---------------------|:---------:|:------|
-| v20230401       | CommunicationService | v20230401/storage | CommunicationService | Identical |       |
-| v20230401       | Domain               | v20230401/storage | Domain               | Identical |       |
-| v20230401       | EmailService         | v20230401/storage | EmailService         | Identical |       |
-| v20230401       | SenderUsername       | v20230401/storage | SenderUsername       | Identical |       |
+| v20230401            | v20230401/storage    | Status    | Notes |
+|:---------------------|:---------------------|:---------:|:------|
+| CommunicationService | CommunicationService | Identical |       |
+| Domain               | Domain               | Identical |       |
+| EmailService         | EmailService         | Identical |       |
+| SenderUsername       | SenderUsername       | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                | Next Version      | Next Type                                   | Status   | Notes |
-|:----------------|:--------------------------------------------|:------------------|:--------------------------------------------|:--------:|:------|
-| v20230401       | CommunicationServiceOperatorConfigMaps      | v20230401/storage | CommunicationServiceOperatorConfigMaps      | Extended |       |
-| v20230401       | CommunicationServiceOperatorSecrets         | v20230401/storage | CommunicationServiceOperatorSecrets         | Extended |       |
-| v20230401       | CommunicationServiceOperatorSpec            | v20230401/storage | CommunicationServiceOperatorSpec            | Extended |       |
-| v20230401       | CommunicationService_STATUS                 | v20230401/storage | CommunicationService_STATUS                 | Modified |       |
-| v20230401       | CommunicationService_Spec                   | v20230401/storage | CommunicationService_Spec                   | Modified |       |
-| v20230401       | DnsRecord_STATUS                            | v20230401/storage | DnsRecord_STATUS                            | Extended |       |
-| v20230401       | DomainOperatorSpec                          | v20230401/storage | DomainOperatorSpec                          | Extended |       |
-| v20230401       | DomainProperties_VerificationRecords_STATUS | v20230401/storage | DomainProperties_VerificationRecords_STATUS | Extended |       |
-| v20230401       | DomainProperties_VerificationStates_STATUS  | v20230401/storage | DomainProperties_VerificationStates_STATUS  | Extended |       |
-| v20230401       | Domain_STATUS                               | v20230401/storage | Domain_STATUS                               | Modified |       |
-| v20230401       | Domain_Spec                                 | v20230401/storage | Domain_Spec                                 | Modified |       |
-| v20230401       | EmailServiceOperatorSpec                    | v20230401/storage | EmailServiceOperatorSpec                    | Extended |       |
-| v20230401       | EmailService_STATUS                         | v20230401/storage | EmailService_STATUS                         | Modified |       |
-| v20230401       | EmailService_Spec                           | v20230401/storage | EmailService_Spec                           | Modified |       |
-| v20230401       | ManagedServiceIdentity                      | v20230401/storage | ManagedServiceIdentity                      | Modified |       |
-| v20230401       | ManagedServiceIdentity_STATUS               | v20230401/storage | ManagedServiceIdentity_STATUS               | Modified |       |
-| v20230401       | SenderUsernameOperatorSpec                  | v20230401/storage | SenderUsernameOperatorSpec                  | Extended |       |
-| v20230401       | SenderUsername_STATUS                       | v20230401/storage | SenderUsername_STATUS                       | Modified |       |
-| v20230401       | SenderUsername_Spec                         | v20230401/storage | SenderUsername_Spec                         | Modified |       |
-| v20230401       | SystemData_STATUS                           | v20230401/storage | SystemData_STATUS                           | Modified |       |
-| v20230401       | UserAssignedIdentityDetails                 | v20230401/storage | UserAssignedIdentityDetails                 | Extended |       |
-| v20230401       | UserAssignedIdentity_STATUS                 | v20230401/storage | UserAssignedIdentity_STATUS                 | Extended |       |
-| v20230401       | VerificationStatusRecord_STATUS             | v20230401/storage | VerificationStatusRecord_STATUS             | Modified |       |
+| v20230401                                   | v20230401/storage                           | Status   | Notes |
+|:--------------------------------------------|:--------------------------------------------|:--------:|:------|
+| CommunicationServiceOperatorConfigMaps      | CommunicationServiceOperatorConfigMaps      | Extended |       |
+| CommunicationServiceOperatorSecrets         | CommunicationServiceOperatorSecrets         | Extended |       |
+| CommunicationServiceOperatorSpec            | CommunicationServiceOperatorSpec            | Extended |       |
+| CommunicationService_STATUS                 | CommunicationService_STATUS                 | Modified |       |
+| CommunicationService_Spec                   | CommunicationService_Spec                   | Modified |       |
+| DnsRecord_STATUS                            | DnsRecord_STATUS                            | Extended |       |
+| DomainOperatorSpec                          | DomainOperatorSpec                          | Extended |       |
+| DomainProperties_VerificationRecords_STATUS | DomainProperties_VerificationRecords_STATUS | Extended |       |
+| DomainProperties_VerificationStates_STATUS  | DomainProperties_VerificationStates_STATUS  | Extended |       |
+| Domain_STATUS                               | Domain_STATUS                               | Modified |       |
+| Domain_Spec                                 | Domain_Spec                                 | Modified |       |
+| EmailServiceOperatorSpec                    | EmailServiceOperatorSpec                    | Extended |       |
+| EmailService_STATUS                         | EmailService_STATUS                         | Modified |       |
+| EmailService_Spec                           | EmailService_Spec                           | Modified |       |
+| ManagedServiceIdentity                      | ManagedServiceIdentity                      | Modified |       |
+| ManagedServiceIdentity_STATUS               | ManagedServiceIdentity_STATUS               | Modified |       |
+| SenderUsernameOperatorSpec                  | SenderUsernameOperatorSpec                  | Extended |       |
+| SenderUsername_STATUS                       | SenderUsername_STATUS                       | Modified |       |
+| SenderUsername_Spec                         | SenderUsername_Spec                         | Modified |       |
+| SystemData_STATUS                           | SystemData_STATUS                           | Modified |       |
+| UserAssignedIdentityDetails                 | UserAssignedIdentityDetails                 | Extended |       |
+| UserAssignedIdentity_STATUS                 | UserAssignedIdentity_STATUS                 | Extended |       |
+| VerificationStatusRecord_STATUS             | VerificationStatusRecord_STATUS             | Modified |       |
 
 ### CommunicationServiceOperatorConfigMaps
 

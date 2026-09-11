@@ -11,33 +11,33 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type             | Next Version      | Next Type                | Status    | Notes |
-|:----------------------|:-------------------------|:------------------|:-------------------------|:---------:|:------|
-| v1api20250401/storage | CapacityReservation      | v20250401/storage | CapacityReservation      | Identical |       |
-| v1api20250401/storage | CapacityReservationGroup | v20250401/storage | CapacityReservationGroup | Identical |       |
+| v1api20250401/storage    | v20250401/storage        | Status    | Notes |
+|:-------------------------|:-------------------------|:---------:|:------|
+| CapacityReservation      | CapacityReservation      | Identical |       |
+| CapacityReservationGroup | CapacityReservationGroup | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                                   | Next Version      | Next Type                                      | Status    | Notes |
-|:----------------------|:-----------------------------------------------|:------------------|:-----------------------------------------------|:---------:|:------|
-| v1api20250401/storage | CapacityReservationGroupInstanceView_STATUS    | v20250401/storage | CapacityReservationGroupInstanceView_STATUS    | Identical |       |
-| v1api20250401/storage | CapacityReservationGroupOperatorSpec           | v20250401/storage | CapacityReservationGroupOperatorSpec           | Identical |       |
-| v1api20250401/storage | CapacityReservationGroup_STATUS                | v20250401/storage | CapacityReservationGroup_STATUS                | Identical |       |
-| v1api20250401/storage | CapacityReservationGroup_Spec                  | v20250401/storage | CapacityReservationGroup_Spec                  | Identical |       |
-| v1api20250401/storage | CapacityReservationInstanceViewWithName_STATUS | v20250401/storage | CapacityReservationInstanceViewWithName_STATUS | Identical |       |
-| v1api20250401/storage | CapacityReservationInstanceView_STATUS         | v20250401/storage | CapacityReservationInstanceView_STATUS         | Identical |       |
-| v1api20250401/storage | CapacityReservationOperatorSpec                | v20250401/storage | CapacityReservationOperatorSpec                | Identical |       |
-| v1api20250401/storage | CapacityReservationUtilization_STATUS          | v20250401/storage | CapacityReservationUtilization_STATUS          | Identical |       |
-| v1api20250401/storage | CapacityReservation_STATUS                     | v20250401/storage | CapacityReservation_STATUS                     | Identical |       |
-| v1api20250401/storage | CapacityReservation_Spec                       | v20250401/storage | CapacityReservation_Spec                       | Identical |       |
-| v1api20250401/storage | InstanceViewStatus_STATUS                      | v20250401/storage | InstanceViewStatus_STATUS                      | Identical |       |
-| v1api20250401/storage | ResourceSharingProfile                         | v20250401/storage | ResourceSharingProfile                         | Identical |       |
-| v1api20250401/storage | ResourceSharingProfile_STATUS                  | v20250401/storage | ResourceSharingProfile_STATUS                  | Identical |       |
-| v1api20250401/storage | ScheduleProfile                                | v20250401/storage | ScheduleProfile                                | Identical |       |
-| v1api20250401/storage | ScheduleProfile_STATUS                         | v20250401/storage | ScheduleProfile_STATUS                         | Identical |       |
-| v1api20250401/storage | Sku                                            | v20250401/storage | Sku                                            | Identical |       |
-| v1api20250401/storage | Sku_STATUS                                     | v20250401/storage | Sku_STATUS                                     | Identical |       |
-| v1api20250401/storage | SubResource                                    | v20250401/storage | SubResource                                    | Identical |       |
-| v1api20250401/storage | SubResourceReadOnly_STATUS                     | v20250401/storage | SubResourceReadOnly_STATUS                     | Identical |       |
-| v1api20250401/storage | SubResource_STATUS                             | v20250401/storage | SubResource_STATUS                             | Identical |       |
-| v1api20250401/storage | SystemData_STATUS                              | v20250401/storage | SystemData_STATUS                              | Identical |       |
+| v1api20250401/storage                          | v20250401/storage                              | Status    | Notes |
+|:-----------------------------------------------|:-----------------------------------------------|:---------:|:------|
+| CapacityReservationGroupInstanceView_STATUS    | CapacityReservationGroupInstanceView_STATUS    | Identical |       |
+| CapacityReservationGroupOperatorSpec           | CapacityReservationGroupOperatorSpec           | Identical |       |
+| CapacityReservationGroup_STATUS                | CapacityReservationGroup_STATUS                | Identical |       |
+| CapacityReservationGroup_Spec                  | CapacityReservationGroup_Spec                  | Identical |       |
+| CapacityReservationInstanceViewWithName_STATUS | CapacityReservationInstanceViewWithName_STATUS | Identical |       |
+| CapacityReservationInstanceView_STATUS         | CapacityReservationInstanceView_STATUS         | Identical |       |
+| CapacityReservationOperatorSpec                | CapacityReservationOperatorSpec                | Identical |       |
+| CapacityReservationUtilization_STATUS          | CapacityReservationUtilization_STATUS          | Identical |       |
+| CapacityReservation_STATUS                     | CapacityReservation_STATUS                     | Identical |       |
+| CapacityReservation_Spec                       | CapacityReservation_Spec                       | Identical |       |
+| InstanceViewStatus_STATUS                      | InstanceViewStatus_STATUS                      | Identical |       |
+| ResourceSharingProfile                         | ResourceSharingProfile                         | Identical |       |
+| ResourceSharingProfile_STATUS                  | ResourceSharingProfile_STATUS                  | Identical |       |
+| ScheduleProfile                                | ScheduleProfile                                | Identical |       |
+| ScheduleProfile_STATUS                         | ScheduleProfile_STATUS                         | Identical |       |
+| Sku                                            | Sku                                            | Identical |       |
+| Sku_STATUS                                     | Sku_STATUS                                     | Identical |       |
+| SubResource                                    | SubResource                                    | Identical |       |
+| SubResourceReadOnly_STATUS                     | SubResourceReadOnly_STATUS                     | Identical |       |
+| SubResource_STATUS                             | SubResource_STATUS                             | Identical |       |
+| SystemData_STATUS                              | SystemData_STATUS                              | Identical |       |

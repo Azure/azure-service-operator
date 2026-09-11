@@ -11,74 +11,74 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type      | Next Version          | Next Type         | Status    | Notes |
-|:----------------|:------------------|:----------------------|:------------------|:---------:|:------|
-| v1api20241101   | Extension         | v1api20241101/storage | Extension         | Identical |       |
-| v1api20241101   | FluxConfiguration | v1api20241101/storage | FluxConfiguration | Identical |       |
+| v1api20241101     | v1api20241101/storage | Status    | Notes |
+|:------------------|:----------------------|:---------:|:------|
+| Extension         | Extension             | Identical |       |
+| FluxConfiguration | FluxConfiguration     | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                  | Next Version          | Next Type                                     | Status   | Notes |
-|:----------------|:----------------------------------------------|:----------------------|:----------------------------------------------|:--------:|:------|
-| v1api20241101   | AzureBlobDefinition                           | v1api20241101/storage | AzureBlobDefinition                           | Extended |       |
-| v1api20241101   | AzureBlobDefinition_STATUS                    | v1api20241101/storage | AzureBlobDefinition_STATUS                    | Extended |       |
-| v1api20241101   | BucketDefinition                              | v1api20241101/storage | BucketDefinition                              | Extended |       |
-| v1api20241101   | BucketDefinition_STATUS                       | v1api20241101/storage | BucketDefinition_STATUS                       | Extended |       |
-| v1api20241101   | ErrorAdditionalInfo_STATUS                    | v1api20241101/storage | ErrorAdditionalInfo_STATUS                    | Extended |       |
-| v1api20241101   | ErrorDetail_STATUS                            | v1api20241101/storage | ErrorDetail_STATUS                            | Extended |       |
-| v1api20241101   | ErrorDetail_STATUS_Unrolled                   | v1api20241101/storage | ErrorDetail_STATUS_Unrolled                   | Extended |       |
-| v1api20241101   | ExtensionOperatorConfigMaps                   | v1api20241101/storage | ExtensionOperatorConfigMaps                   | Extended |       |
-| v1api20241101   | ExtensionOperatorSpec                         | v1api20241101/storage | ExtensionOperatorSpec                         | Extended |       |
-| v1api20241101   | ExtensionPropertiesAksAssignedIdentity        | v1api20241101/storage | ExtensionPropertiesAksAssignedIdentity        | Modified |       |
-| v1api20241101   | ExtensionPropertiesAksAssignedIdentity_STATUS | v1api20241101/storage | ExtensionPropertiesAksAssignedIdentity_STATUS | Modified |       |
-| v1api20241101   | ExtensionStatus                               | v1api20241101/storage | ExtensionStatus                               | Modified |       |
-| v1api20241101   | ExtensionStatus_STATUS                        | v1api20241101/storage | ExtensionStatus_STATUS                        | Modified |       |
-| v1api20241101   | Extension_STATUS                              | v1api20241101/storage | Extension_STATUS                              | Modified |       |
-| v1api20241101   | Extension_Spec                                | v1api20241101/storage | Extension_Spec                                | Extended |       |
-| v1api20241101   | FluxConfigurationOperatorSpec                 | v1api20241101/storage | FluxConfigurationOperatorSpec                 | Extended |       |
-| v1api20241101   | FluxConfiguration_STATUS                      | v1api20241101/storage | FluxConfiguration_STATUS                      | Modified |       |
-| v1api20241101   | FluxConfiguration_Spec                        | v1api20241101/storage | FluxConfiguration_Spec                        | Modified |       |
-| v1api20241101   | GitRepositoryDefinition                       | v1api20241101/storage | GitRepositoryDefinition                       | Modified |       |
-| v1api20241101   | GitRepositoryDefinition_STATUS                | v1api20241101/storage | GitRepositoryDefinition_STATUS                | Modified |       |
-| v1api20241101   | HelmReleasePropertiesDefinition_STATUS        | v1api20241101/storage | HelmReleasePropertiesDefinition_STATUS        | Extended |       |
-| v1api20241101   | Identity                                      | v1api20241101/storage | Identity                                      | Modified |       |
-| v1api20241101   | Identity_STATUS                               | v1api20241101/storage | Identity_STATUS                               | Modified |       |
-| v1api20241101   | KustomizationDefinition                       | v1api20241101/storage | KustomizationDefinition                       | Extended |       |
-| v1api20241101   | KustomizationDefinition_STATUS                | v1api20241101/storage | KustomizationDefinition_STATUS                | Extended |       |
-| v1api20241101   | LayerSelectorDefinition                       | v1api20241101/storage | LayerSelectorDefinition                       | Modified |       |
-| v1api20241101   | LayerSelectorDefinition_STATUS                | v1api20241101/storage | LayerSelectorDefinition_STATUS                | Modified |       |
-| v1api20241101   | ManagedIdentityDefinition                     | v1api20241101/storage | ManagedIdentityDefinition                     | Extended |       |
-| v1api20241101   | ManagedIdentityDefinition_STATUS              | v1api20241101/storage | ManagedIdentityDefinition_STATUS              | Extended |       |
-| v1api20241101   | MatchOidcIdentityDefinition                   | v1api20241101/storage | MatchOidcIdentityDefinition                   | Extended |       |
-| v1api20241101   | MatchOidcIdentityDefinition_STATUS            | v1api20241101/storage | MatchOidcIdentityDefinition_STATUS            | Extended |       |
-| v1api20241101   | OCIRepositoryDefinition                       | v1api20241101/storage | OCIRepositoryDefinition                       | Modified |       |
-| v1api20241101   | OCIRepositoryDefinition_STATUS                | v1api20241101/storage | OCIRepositoryDefinition_STATUS                | Extended |       |
-| v1api20241101   | OCIRepositoryRefDefinition                    | v1api20241101/storage | OCIRepositoryRefDefinition                    | Extended |       |
-| v1api20241101   | OCIRepositoryRefDefinition_STATUS             | v1api20241101/storage | OCIRepositoryRefDefinition_STATUS             | Extended |       |
-| v1api20241101   | ObjectReferenceDefinition_STATUS              | v1api20241101/storage | ObjectReferenceDefinition_STATUS              | Extended |       |
-| v1api20241101   | ObjectStatusConditionDefinition_STATUS        | v1api20241101/storage | ObjectStatusConditionDefinition_STATUS        | Extended |       |
-| v1api20241101   | ObjectStatusDefinition_STATUS                 | v1api20241101/storage | ObjectStatusDefinition_STATUS                 | Modified |       |
-| v1api20241101   | Plan                                          | v1api20241101/storage | Plan                                          | Extended |       |
-| v1api20241101   | Plan_STATUS                                   | v1api20241101/storage | Plan_STATUS                                   | Extended |       |
-| v1api20241101   | PostBuildDefinition                           | v1api20241101/storage | PostBuildDefinition                           | Extended |       |
-| v1api20241101   | PostBuildDefinition_STATUS                    | v1api20241101/storage | PostBuildDefinition_STATUS                    | Extended |       |
-| v1api20241101   | RepositoryRefDefinition                       | v1api20241101/storage | RepositoryRefDefinition                       | Extended |       |
-| v1api20241101   | RepositoryRefDefinition_STATUS                | v1api20241101/storage | RepositoryRefDefinition_STATUS                | Extended |       |
-| v1api20241101   | Scope                                         | v1api20241101/storage | Scope                                         | Extended |       |
-| v1api20241101   | ScopeCluster                                  | v1api20241101/storage | ScopeCluster                                  | Extended |       |
-| v1api20241101   | ScopeCluster_STATUS                           | v1api20241101/storage | ScopeCluster_STATUS                           | Extended |       |
-| v1api20241101   | ScopeNamespace                                | v1api20241101/storage | ScopeNamespace                                | Extended |       |
-| v1api20241101   | ScopeNamespace_STATUS                         | v1api20241101/storage | ScopeNamespace_STATUS                         | Extended |       |
-| v1api20241101   | Scope_STATUS                                  | v1api20241101/storage | Scope_STATUS                                  | Extended |       |
-| v1api20241101   | ServicePrincipalDefinition                    | v1api20241101/storage | ServicePrincipalDefinition                    | Extended |       |
-| v1api20241101   | ServicePrincipalDefinition_STATUS             | v1api20241101/storage | ServicePrincipalDefinition_STATUS             | Extended |       |
-| v1api20241101   | SubstituteFromDefinition                      | v1api20241101/storage | SubstituteFromDefinition                      | Extended |       |
-| v1api20241101   | SubstituteFromDefinition_STATUS               | v1api20241101/storage | SubstituteFromDefinition_STATUS               | Extended |       |
-| v1api20241101   | SystemData_STATUS                             | v1api20241101/storage | SystemData_STATUS                             | Modified |       |
-| v1api20241101   | TlsConfigDefinition                           | v1api20241101/storage | TlsConfigDefinition                           | Extended |       |
-| v1api20241101   | TlsConfigDefinition_STATUS                    | v1api20241101/storage | TlsConfigDefinition_STATUS                    | Extended |       |
-| v1api20241101   | VerifyDefinition                              | v1api20241101/storage | VerifyDefinition                              | Extended |       |
-| v1api20241101   | VerifyDefinition_STATUS                       | v1api20241101/storage | VerifyDefinition_STATUS                       | Extended |       |
+| v1api20241101                                 | v1api20241101/storage                         | Status   | Notes |
+|:----------------------------------------------|:----------------------------------------------|:--------:|:------|
+| AzureBlobDefinition                           | AzureBlobDefinition                           | Extended |       |
+| AzureBlobDefinition_STATUS                    | AzureBlobDefinition_STATUS                    | Extended |       |
+| BucketDefinition                              | BucketDefinition                              | Extended |       |
+| BucketDefinition_STATUS                       | BucketDefinition_STATUS                       | Extended |       |
+| ErrorAdditionalInfo_STATUS                    | ErrorAdditionalInfo_STATUS                    | Extended |       |
+| ErrorDetail_STATUS                            | ErrorDetail_STATUS                            | Extended |       |
+| ErrorDetail_STATUS_Unrolled                   | ErrorDetail_STATUS_Unrolled                   | Extended |       |
+| ExtensionOperatorConfigMaps                   | ExtensionOperatorConfigMaps                   | Extended |       |
+| ExtensionOperatorSpec                         | ExtensionOperatorSpec                         | Extended |       |
+| ExtensionPropertiesAksAssignedIdentity        | ExtensionPropertiesAksAssignedIdentity        | Modified |       |
+| ExtensionPropertiesAksAssignedIdentity_STATUS | ExtensionPropertiesAksAssignedIdentity_STATUS | Modified |       |
+| ExtensionStatus                               | ExtensionStatus                               | Modified |       |
+| ExtensionStatus_STATUS                        | ExtensionStatus_STATUS                        | Modified |       |
+| Extension_STATUS                              | Extension_STATUS                              | Modified |       |
+| Extension_Spec                                | Extension_Spec                                | Extended |       |
+| FluxConfigurationOperatorSpec                 | FluxConfigurationOperatorSpec                 | Extended |       |
+| FluxConfiguration_STATUS                      | FluxConfiguration_STATUS                      | Modified |       |
+| FluxConfiguration_Spec                        | FluxConfiguration_Spec                        | Modified |       |
+| GitRepositoryDefinition                       | GitRepositoryDefinition                       | Modified |       |
+| GitRepositoryDefinition_STATUS                | GitRepositoryDefinition_STATUS                | Modified |       |
+| HelmReleasePropertiesDefinition_STATUS        | HelmReleasePropertiesDefinition_STATUS        | Extended |       |
+| Identity                                      | Identity                                      | Modified |       |
+| Identity_STATUS                               | Identity_STATUS                               | Modified |       |
+| KustomizationDefinition                       | KustomizationDefinition                       | Extended |       |
+| KustomizationDefinition_STATUS                | KustomizationDefinition_STATUS                | Extended |       |
+| LayerSelectorDefinition                       | LayerSelectorDefinition                       | Modified |       |
+| LayerSelectorDefinition_STATUS                | LayerSelectorDefinition_STATUS                | Modified |       |
+| ManagedIdentityDefinition                     | ManagedIdentityDefinition                     | Extended |       |
+| ManagedIdentityDefinition_STATUS              | ManagedIdentityDefinition_STATUS              | Extended |       |
+| MatchOidcIdentityDefinition                   | MatchOidcIdentityDefinition                   | Extended |       |
+| MatchOidcIdentityDefinition_STATUS            | MatchOidcIdentityDefinition_STATUS            | Extended |       |
+| OCIRepositoryDefinition                       | OCIRepositoryDefinition                       | Modified |       |
+| OCIRepositoryDefinition_STATUS                | OCIRepositoryDefinition_STATUS                | Extended |       |
+| OCIRepositoryRefDefinition                    | OCIRepositoryRefDefinition                    | Extended |       |
+| OCIRepositoryRefDefinition_STATUS             | OCIRepositoryRefDefinition_STATUS             | Extended |       |
+| ObjectReferenceDefinition_STATUS              | ObjectReferenceDefinition_STATUS              | Extended |       |
+| ObjectStatusConditionDefinition_STATUS        | ObjectStatusConditionDefinition_STATUS        | Extended |       |
+| ObjectStatusDefinition_STATUS                 | ObjectStatusDefinition_STATUS                 | Modified |       |
+| Plan                                          | Plan                                          | Extended |       |
+| Plan_STATUS                                   | Plan_STATUS                                   | Extended |       |
+| PostBuildDefinition                           | PostBuildDefinition                           | Extended |       |
+| PostBuildDefinition_STATUS                    | PostBuildDefinition_STATUS                    | Extended |       |
+| RepositoryRefDefinition                       | RepositoryRefDefinition                       | Extended |       |
+| RepositoryRefDefinition_STATUS                | RepositoryRefDefinition_STATUS                | Extended |       |
+| Scope                                         | Scope                                         | Extended |       |
+| ScopeCluster                                  | ScopeCluster                                  | Extended |       |
+| ScopeCluster_STATUS                           | ScopeCluster_STATUS                           | Extended |       |
+| ScopeNamespace                                | ScopeNamespace                                | Extended |       |
+| ScopeNamespace_STATUS                         | ScopeNamespace_STATUS                         | Extended |       |
+| Scope_STATUS                                  | Scope_STATUS                                  | Extended |       |
+| ServicePrincipalDefinition                    | ServicePrincipalDefinition                    | Extended |       |
+| ServicePrincipalDefinition_STATUS             | ServicePrincipalDefinition_STATUS             | Extended |       |
+| SubstituteFromDefinition                      | SubstituteFromDefinition                      | Extended |       |
+| SubstituteFromDefinition_STATUS               | SubstituteFromDefinition_STATUS               | Extended |       |
+| SystemData_STATUS                             | SystemData_STATUS                             | Modified |       |
+| TlsConfigDefinition                           | TlsConfigDefinition                           | Extended |       |
+| TlsConfigDefinition_STATUS                    | TlsConfigDefinition_STATUS                    | Extended |       |
+| VerifyDefinition                              | VerifyDefinition                              | Extended |       |
+| VerifyDefinition_STATUS                       | VerifyDefinition_STATUS                       | Extended |       |
 
 ### AzureBlobDefinition
 

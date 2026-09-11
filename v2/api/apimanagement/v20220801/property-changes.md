@@ -11,129 +11,129 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                                     | Next Version      | Next Type                                        | Status    | Notes |
-|:----------------|:-------------------------------------------------|:------------------|:-------------------------------------------------|:---------:|:------|
-| v20220801       | Api                                              | v20220801/storage | Api                                              | Identical |       |
-| v20220801       | ApiVersionSet                                    | v20220801/storage | ApiVersionSet                                    | Identical |       |
-| v20220801       | AuthorizationProvider                            | v20220801/storage | AuthorizationProvider                            | Identical |       |
-| v20220801       | AuthorizationProvidersAuthorization              | v20220801/storage | AuthorizationProvidersAuthorization              | Identical |       |
-| v20220801       | AuthorizationProvidersAuthorizationsAccessPolicy | v20220801/storage | AuthorizationProvidersAuthorizationsAccessPolicy | Identical |       |
-| v20220801       | Backend                                          | v20220801/storage | Backend                                          | Identical |       |
-| v20220801       | NamedValue                                       | v20220801/storage | NamedValue                                       | Identical |       |
-| v20220801       | Policy                                           | v20220801/storage | Policy                                           | Identical |       |
-| v20220801       | PolicyFragment                                   | v20220801/storage | PolicyFragment                                   | Identical |       |
-| v20220801       | Product                                          | v20220801/storage | Product                                          | Identical |       |
-| v20220801       | ProductApi                                       | v20220801/storage | ProductApi                                       | Identical |       |
-| v20220801       | ProductPolicy                                    | v20220801/storage | ProductPolicy                                    | Identical |       |
-| v20220801       | Service                                          | v20220801/storage | Service                                          | Identical |       |
-| v20220801       | Subscription                                     | v20220801/storage | Subscription                                     | Identical |       |
+| v20220801                                        | v20220801/storage                                | Status    | Notes |
+|:-------------------------------------------------|:-------------------------------------------------|:---------:|:------|
+| Api                                              | Api                                              | Identical |       |
+| ApiVersionSet                                    | ApiVersionSet                                    | Identical |       |
+| AuthorizationProvider                            | AuthorizationProvider                            | Identical |       |
+| AuthorizationProvidersAuthorization              | AuthorizationProvidersAuthorization              | Identical |       |
+| AuthorizationProvidersAuthorizationsAccessPolicy | AuthorizationProvidersAuthorizationsAccessPolicy | Identical |       |
+| Backend                                          | Backend                                          | Identical |       |
+| NamedValue                                       | NamedValue                                       | Identical |       |
+| Policy                                           | Policy                                           | Identical |       |
+| PolicyFragment                                   | PolicyFragment                                   | Identical |       |
+| Product                                          | Product                                          | Identical |       |
+| ProductApi                                       | ProductApi                                       | Identical |       |
+| ProductPolicy                                    | ProductPolicy                                    | Identical |       |
+| Service                                          | Service                                          | Identical |       |
+| Subscription                                     | Subscription                                     | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                                 | Next Version      | Next Type                                                    | Status   | Notes |
-|:----------------|:-------------------------------------------------------------|:------------------|:-------------------------------------------------------------|:--------:|:------|
-| v20220801       | AdditionalLocation                                           | v20220801/storage | AdditionalLocation                                           | Modified |       |
-| v20220801       | AdditionalLocation_STATUS                                    | v20220801/storage | AdditionalLocation_STATUS                                    | Modified |       |
-| v20220801       | ApiContactInformation                                        | v20220801/storage | ApiContactInformation                                        | Extended |       |
-| v20220801       | ApiContactInformation_STATUS                                 | v20220801/storage | ApiContactInformation_STATUS                                 | Extended |       |
-| v20220801       | ApiCreateOrUpdateProperties_WsdlSelector                     | v20220801/storage | ApiCreateOrUpdateProperties_WsdlSelector                     | Extended |       |
-| v20220801       | ApiLicenseInformation                                        | v20220801/storage | ApiLicenseInformation                                        | Extended |       |
-| v20220801       | ApiLicenseInformation_STATUS                                 | v20220801/storage | ApiLicenseInformation_STATUS                                 | Extended |       |
-| v20220801       | ApiManagementServiceIdentity                                 | v20220801/storage | ApiManagementServiceIdentity                                 | Modified |       |
-| v20220801       | ApiManagementServiceIdentity_STATUS                          | v20220801/storage | ApiManagementServiceIdentity_STATUS                          | Modified |       |
-| v20220801       | ApiManagementServiceSkuProperties                            | v20220801/storage | ApiManagementServiceSkuProperties                            | Modified |       |
-| v20220801       | ApiManagementServiceSkuProperties_STATUS                     | v20220801/storage | ApiManagementServiceSkuProperties_STATUS                     | Modified |       |
-| v20220801       | ApiOperatorSpec                                              | v20220801/storage | ApiOperatorSpec                                              | Extended |       |
-| v20220801       | ApiVersionConstraint                                         | v20220801/storage | ApiVersionConstraint                                         | Extended |       |
-| v20220801       | ApiVersionConstraint_STATUS                                  | v20220801/storage | ApiVersionConstraint_STATUS                                  | Extended |       |
-| v20220801       | ApiVersionSetContractDetails                                 | v20220801/storage | ApiVersionSetContractDetails                                 | Modified |       |
-| v20220801       | ApiVersionSetContractDetails_STATUS                          | v20220801/storage | ApiVersionSetContractDetails_STATUS                          | Modified |       |
-| v20220801       | ApiVersionSetOperatorSpec                                    | v20220801/storage | ApiVersionSetOperatorSpec                                    | Extended |       |
-| v20220801       | ApiVersionSet_STATUS                                         | v20220801/storage | ApiVersionSet_STATUS                                         | Modified |       |
-| v20220801       | ApiVersionSet_Spec                                           | v20220801/storage | ApiVersionSet_Spec                                           | Modified |       |
-| v20220801       | Api_STATUS                                                   | v20220801/storage | Api_STATUS                                                   | Modified |       |
-| v20220801       | Api_Spec                                                     | v20220801/storage | Api_Spec                                                     | Modified |       |
-| v20220801       | ArmIdWrapper_STATUS                                          | v20220801/storage | ArmIdWrapper_STATUS                                          | Extended |       |
-| v20220801       | AuthenticationSettingsContract                               | v20220801/storage | AuthenticationSettingsContract                               | Extended |       |
-| v20220801       | AuthenticationSettingsContract_STATUS                        | v20220801/storage | AuthenticationSettingsContract_STATUS                        | Extended |       |
-| v20220801       | AuthorizationError_STATUS                                    | v20220801/storage | AuthorizationError_STATUS                                    | Extended |       |
-| v20220801       | AuthorizationProviderOAuth2GrantTypes                        | v20220801/storage | AuthorizationProviderOAuth2GrantTypes                        | Extended |       |
-| v20220801       | AuthorizationProviderOAuth2GrantTypes_STATUS                 | v20220801/storage | AuthorizationProviderOAuth2GrantTypes_STATUS                 | Extended |       |
-| v20220801       | AuthorizationProviderOAuth2Settings                          | v20220801/storage | AuthorizationProviderOAuth2Settings                          | Extended |       |
-| v20220801       | AuthorizationProviderOAuth2Settings_STATUS                   | v20220801/storage | AuthorizationProviderOAuth2Settings_STATUS                   | Extended |       |
-| v20220801       | AuthorizationProviderOperatorSpec                            | v20220801/storage | AuthorizationProviderOperatorSpec                            | Extended |       |
-| v20220801       | AuthorizationProvider_STATUS                                 | v20220801/storage | AuthorizationProvider_STATUS                                 | Extended |       |
-| v20220801       | AuthorizationProvider_Spec                                   | v20220801/storage | AuthorizationProvider_Spec                                   | Modified |       |
-| v20220801       | AuthorizationProvidersAuthorizationOperatorSpec              | v20220801/storage | AuthorizationProvidersAuthorizationOperatorSpec              | Extended |       |
-| v20220801       | AuthorizationProvidersAuthorization_STATUS                   | v20220801/storage | AuthorizationProvidersAuthorization_STATUS                   | Modified |       |
-| v20220801       | AuthorizationProvidersAuthorization_Spec                     | v20220801/storage | AuthorizationProvidersAuthorization_Spec                     | Modified |       |
-| v20220801       | AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec | v20220801/storage | AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec | Extended |       |
-| v20220801       | AuthorizationProvidersAuthorizationsAccessPolicy_STATUS      | v20220801/storage | AuthorizationProvidersAuthorizationsAccessPolicy_STATUS      | Extended |       |
-| v20220801       | AuthorizationProvidersAuthorizationsAccessPolicy_Spec        | v20220801/storage | AuthorizationProvidersAuthorizationsAccessPolicy_Spec        | Modified |       |
-| v20220801       | BackendAuthorizationHeaderCredentials                        | v20220801/storage | BackendAuthorizationHeaderCredentials                        | Modified |       |
-| v20220801       | BackendAuthorizationHeaderCredentials_STATUS                 | v20220801/storage | BackendAuthorizationHeaderCredentials_STATUS                 | Extended |       |
-| v20220801       | BackendCredentialsContract                                   | v20220801/storage | BackendCredentialsContract                                   | Modified |       |
-| v20220801       | BackendCredentialsContract_STATUS                            | v20220801/storage | BackendCredentialsContract_STATUS                            | Extended |       |
-| v20220801       | BackendOperatorSpec                                          | v20220801/storage | BackendOperatorSpec                                          | Extended |       |
-| v20220801       | BackendProperties                                            | v20220801/storage | BackendProperties                                            | Extended |       |
-| v20220801       | BackendProperties_STATUS                                     | v20220801/storage | BackendProperties_STATUS                                     | Extended |       |
-| v20220801       | BackendProxyContract                                         | v20220801/storage | BackendProxyContract                                         | Modified |       |
-| v20220801       | BackendProxyContract_STATUS                                  | v20220801/storage | BackendProxyContract_STATUS                                  | Extended |       |
-| v20220801       | BackendServiceFabricClusterProperties                        | v20220801/storage | BackendServiceFabricClusterProperties                        | Extended |       |
-| v20220801       | BackendServiceFabricClusterProperties_STATUS                 | v20220801/storage | BackendServiceFabricClusterProperties_STATUS                 | Extended |       |
-| v20220801       | BackendTlsProperties                                         | v20220801/storage | BackendTlsProperties                                         | Extended |       |
-| v20220801       | BackendTlsProperties_STATUS                                  | v20220801/storage | BackendTlsProperties_STATUS                                  | Extended |       |
-| v20220801       | Backend_STATUS                                               | v20220801/storage | Backend_STATUS                                               | Modified |       |
-| v20220801       | Backend_Spec                                                 | v20220801/storage | Backend_Spec                                                 | Modified |       |
-| v20220801       | CertificateConfiguration                                     | v20220801/storage | CertificateConfiguration                                     | Modified |       |
-| v20220801       | CertificateConfiguration_STATUS                              | v20220801/storage | CertificateConfiguration_STATUS                              | Modified |       |
-| v20220801       | CertificateInformation                                       | v20220801/storage | CertificateInformation                                       | Extended |       |
-| v20220801       | CertificateInformation_STATUS                                | v20220801/storage | CertificateInformation_STATUS                                | Extended |       |
-| v20220801       | HostnameConfiguration                                        | v20220801/storage | HostnameConfiguration                                        | Modified |       |
-| v20220801       | HostnameConfiguration_STATUS                                 | v20220801/storage | HostnameConfiguration_STATUS                                 | Modified |       |
-| v20220801       | KeyVaultContractCreateProperties                             | v20220801/storage | KeyVaultContractCreateProperties                             | Extended |       |
-| v20220801       | KeyVaultContractProperties_STATUS                            | v20220801/storage | KeyVaultContractProperties_STATUS                            | Extended |       |
-| v20220801       | KeyVaultLastAccessStatusContractProperties_STATUS            | v20220801/storage | KeyVaultLastAccessStatusContractProperties_STATUS            | Extended |       |
-| v20220801       | NamedValueOperatorSpec                                       | v20220801/storage | NamedValueOperatorSpec                                       | Extended |       |
-| v20220801       | NamedValue_STATUS                                            | v20220801/storage | NamedValue_STATUS                                            | Extended |       |
-| v20220801       | NamedValue_Spec                                              | v20220801/storage | NamedValue_Spec                                              | Modified |       |
-| v20220801       | OAuth2AuthenticationSettingsContract                         | v20220801/storage | OAuth2AuthenticationSettingsContract                         | Extended |       |
-| v20220801       | OAuth2AuthenticationSettingsContract_STATUS                  | v20220801/storage | OAuth2AuthenticationSettingsContract_STATUS                  | Extended |       |
-| v20220801       | OpenIdAuthenticationSettingsContract                         | v20220801/storage | OpenIdAuthenticationSettingsContract                         | Modified |       |
-| v20220801       | OpenIdAuthenticationSettingsContract_STATUS                  | v20220801/storage | OpenIdAuthenticationSettingsContract_STATUS                  | Modified |       |
-| v20220801       | PolicyFragmentOperatorSpec                                   | v20220801/storage | PolicyFragmentOperatorSpec                                   | Extended |       |
-| v20220801       | PolicyFragment_STATUS                                        | v20220801/storage | PolicyFragment_STATUS                                        | Modified |       |
-| v20220801       | PolicyFragment_Spec                                          | v20220801/storage | PolicyFragment_Spec                                          | Modified |       |
-| v20220801       | PolicyOperatorSpec                                           | v20220801/storage | PolicyOperatorSpec                                           | Extended |       |
-| v20220801       | Policy_STATUS                                                | v20220801/storage | Policy_STATUS                                                | Modified |       |
-| v20220801       | Policy_Spec                                                  | v20220801/storage | Policy_Spec                                                  | Modified |       |
-| v20220801       | PrivateLinkServiceConnectionState_STATUS                     | v20220801/storage | PrivateLinkServiceConnectionState_STATUS                     | Modified |       |
-| v20220801       | ProductApiOperatorSpec                                       | v20220801/storage | ProductApiOperatorSpec                                       | Extended |       |
-| v20220801       | ProductApi_STATUS                                            | v20220801/storage | ProductApi_STATUS                                            | Extended |       |
-| v20220801       | ProductApi_Spec                                              | v20220801/storage | ProductApi_Spec                                              | Modified |       |
-| v20220801       | ProductOperatorSpec                                          | v20220801/storage | ProductOperatorSpec                                          | Extended |       |
-| v20220801       | ProductPolicyOperatorSpec                                    | v20220801/storage | ProductPolicyOperatorSpec                                    | Extended |       |
-| v20220801       | ProductPolicy_STATUS                                         | v20220801/storage | ProductPolicy_STATUS                                         | Modified |       |
-| v20220801       | ProductPolicy_Spec                                           | v20220801/storage | ProductPolicy_Spec                                           | Modified |       |
-| v20220801       | Product_STATUS                                               | v20220801/storage | Product_STATUS                                               | Modified |       |
-| v20220801       | Product_Spec                                                 | v20220801/storage | Product_Spec                                                 | Modified |       |
-| v20220801       | RemotePrivateEndpointConnectionWrapper_STATUS                | v20220801/storage | RemotePrivateEndpointConnectionWrapper_STATUS                | Extended |       |
-| v20220801       | ServiceOperatorSpec                                          | v20220801/storage | ServiceOperatorSpec                                          | Extended |       |
-| v20220801       | Service_STATUS                                               | v20220801/storage | Service_STATUS                                               | Modified |       |
-| v20220801       | Service_Spec                                                 | v20220801/storage | Service_Spec                                                 | Modified |       |
-| v20220801       | SubscriptionKeyParameterNamesContract                        | v20220801/storage | SubscriptionKeyParameterNamesContract                        | Extended |       |
-| v20220801       | SubscriptionKeyParameterNamesContract_STATUS                 | v20220801/storage | SubscriptionKeyParameterNamesContract_STATUS                 | Extended |       |
-| v20220801       | SubscriptionOperatorSecrets                                  | v20220801/storage | SubscriptionOperatorSecrets                                  | Extended |       |
-| v20220801       | SubscriptionOperatorSpec                                     | v20220801/storage | SubscriptionOperatorSpec                                     | Extended |       |
-| v20220801       | Subscription_STATUS                                          | v20220801/storage | Subscription_STATUS                                          | Modified |       |
-| v20220801       | Subscription_Spec                                            | v20220801/storage | Subscription_Spec                                            | Modified |       |
-| v20220801       | SystemData_STATUS                                            | v20220801/storage | SystemData_STATUS                                            | Modified |       |
-| v20220801       | UserAssignedIdentityDetails                                  | v20220801/storage | UserAssignedIdentityDetails                                  | Extended |       |
-| v20220801       | UserIdentityProperties_STATUS                                | v20220801/storage | UserIdentityProperties_STATUS                                | Extended |       |
-| v20220801       | VirtualNetworkConfiguration                                  | v20220801/storage | VirtualNetworkConfiguration                                  | Extended |       |
-| v20220801       | VirtualNetworkConfiguration_STATUS                           | v20220801/storage | VirtualNetworkConfiguration_STATUS                           | Extended |       |
-| v20220801       | X509CertificateName                                          | v20220801/storage | X509CertificateName                                          | Extended |       |
-| v20220801       | X509CertificateName_STATUS                                   | v20220801/storage | X509CertificateName_STATUS                                   | Extended |       |
+| v20220801                                                    | v20220801/storage                                            | Status   | Notes |
+|:-------------------------------------------------------------|:-------------------------------------------------------------|:--------:|:------|
+| AdditionalLocation                                           | AdditionalLocation                                           | Modified |       |
+| AdditionalLocation_STATUS                                    | AdditionalLocation_STATUS                                    | Modified |       |
+| ApiContactInformation                                        | ApiContactInformation                                        | Extended |       |
+| ApiContactInformation_STATUS                                 | ApiContactInformation_STATUS                                 | Extended |       |
+| ApiCreateOrUpdateProperties_WsdlSelector                     | ApiCreateOrUpdateProperties_WsdlSelector                     | Extended |       |
+| ApiLicenseInformation                                        | ApiLicenseInformation                                        | Extended |       |
+| ApiLicenseInformation_STATUS                                 | ApiLicenseInformation_STATUS                                 | Extended |       |
+| ApiManagementServiceIdentity                                 | ApiManagementServiceIdentity                                 | Modified |       |
+| ApiManagementServiceIdentity_STATUS                          | ApiManagementServiceIdentity_STATUS                          | Modified |       |
+| ApiManagementServiceSkuProperties                            | ApiManagementServiceSkuProperties                            | Modified |       |
+| ApiManagementServiceSkuProperties_STATUS                     | ApiManagementServiceSkuProperties_STATUS                     | Modified |       |
+| ApiOperatorSpec                                              | ApiOperatorSpec                                              | Extended |       |
+| ApiVersionConstraint                                         | ApiVersionConstraint                                         | Extended |       |
+| ApiVersionConstraint_STATUS                                  | ApiVersionConstraint_STATUS                                  | Extended |       |
+| ApiVersionSetContractDetails                                 | ApiVersionSetContractDetails                                 | Modified |       |
+| ApiVersionSetContractDetails_STATUS                          | ApiVersionSetContractDetails_STATUS                          | Modified |       |
+| ApiVersionSetOperatorSpec                                    | ApiVersionSetOperatorSpec                                    | Extended |       |
+| ApiVersionSet_STATUS                                         | ApiVersionSet_STATUS                                         | Modified |       |
+| ApiVersionSet_Spec                                           | ApiVersionSet_Spec                                           | Modified |       |
+| Api_STATUS                                                   | Api_STATUS                                                   | Modified |       |
+| Api_Spec                                                     | Api_Spec                                                     | Modified |       |
+| ArmIdWrapper_STATUS                                          | ArmIdWrapper_STATUS                                          | Extended |       |
+| AuthenticationSettingsContract                               | AuthenticationSettingsContract                               | Extended |       |
+| AuthenticationSettingsContract_STATUS                        | AuthenticationSettingsContract_STATUS                        | Extended |       |
+| AuthorizationError_STATUS                                    | AuthorizationError_STATUS                                    | Extended |       |
+| AuthorizationProviderOAuth2GrantTypes                        | AuthorizationProviderOAuth2GrantTypes                        | Extended |       |
+| AuthorizationProviderOAuth2GrantTypes_STATUS                 | AuthorizationProviderOAuth2GrantTypes_STATUS                 | Extended |       |
+| AuthorizationProviderOAuth2Settings                          | AuthorizationProviderOAuth2Settings                          | Extended |       |
+| AuthorizationProviderOAuth2Settings_STATUS                   | AuthorizationProviderOAuth2Settings_STATUS                   | Extended |       |
+| AuthorizationProviderOperatorSpec                            | AuthorizationProviderOperatorSpec                            | Extended |       |
+| AuthorizationProvider_STATUS                                 | AuthorizationProvider_STATUS                                 | Extended |       |
+| AuthorizationProvider_Spec                                   | AuthorizationProvider_Spec                                   | Modified |       |
+| AuthorizationProvidersAuthorizationOperatorSpec              | AuthorizationProvidersAuthorizationOperatorSpec              | Extended |       |
+| AuthorizationProvidersAuthorization_STATUS                   | AuthorizationProvidersAuthorization_STATUS                   | Modified |       |
+| AuthorizationProvidersAuthorization_Spec                     | AuthorizationProvidersAuthorization_Spec                     | Modified |       |
+| AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec | AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec | Extended |       |
+| AuthorizationProvidersAuthorizationsAccessPolicy_STATUS      | AuthorizationProvidersAuthorizationsAccessPolicy_STATUS      | Extended |       |
+| AuthorizationProvidersAuthorizationsAccessPolicy_Spec        | AuthorizationProvidersAuthorizationsAccessPolicy_Spec        | Modified |       |
+| BackendAuthorizationHeaderCredentials                        | BackendAuthorizationHeaderCredentials                        | Modified |       |
+| BackendAuthorizationHeaderCredentials_STATUS                 | BackendAuthorizationHeaderCredentials_STATUS                 | Extended |       |
+| BackendCredentialsContract                                   | BackendCredentialsContract                                   | Modified |       |
+| BackendCredentialsContract_STATUS                            | BackendCredentialsContract_STATUS                            | Extended |       |
+| BackendOperatorSpec                                          | BackendOperatorSpec                                          | Extended |       |
+| BackendProperties                                            | BackendProperties                                            | Extended |       |
+| BackendProperties_STATUS                                     | BackendProperties_STATUS                                     | Extended |       |
+| BackendProxyContract                                         | BackendProxyContract                                         | Modified |       |
+| BackendProxyContract_STATUS                                  | BackendProxyContract_STATUS                                  | Extended |       |
+| BackendServiceFabricClusterProperties                        | BackendServiceFabricClusterProperties                        | Extended |       |
+| BackendServiceFabricClusterProperties_STATUS                 | BackendServiceFabricClusterProperties_STATUS                 | Extended |       |
+| BackendTlsProperties                                         | BackendTlsProperties                                         | Extended |       |
+| BackendTlsProperties_STATUS                                  | BackendTlsProperties_STATUS                                  | Extended |       |
+| Backend_STATUS                                               | Backend_STATUS                                               | Modified |       |
+| Backend_Spec                                                 | Backend_Spec                                                 | Modified |       |
+| CertificateConfiguration                                     | CertificateConfiguration                                     | Modified |       |
+| CertificateConfiguration_STATUS                              | CertificateConfiguration_STATUS                              | Modified |       |
+| CertificateInformation                                       | CertificateInformation                                       | Extended |       |
+| CertificateInformation_STATUS                                | CertificateInformation_STATUS                                | Extended |       |
+| HostnameConfiguration                                        | HostnameConfiguration                                        | Modified |       |
+| HostnameConfiguration_STATUS                                 | HostnameConfiguration_STATUS                                 | Modified |       |
+| KeyVaultContractCreateProperties                             | KeyVaultContractCreateProperties                             | Extended |       |
+| KeyVaultContractProperties_STATUS                            | KeyVaultContractProperties_STATUS                            | Extended |       |
+| KeyVaultLastAccessStatusContractProperties_STATUS            | KeyVaultLastAccessStatusContractProperties_STATUS            | Extended |       |
+| NamedValueOperatorSpec                                       | NamedValueOperatorSpec                                       | Extended |       |
+| NamedValue_STATUS                                            | NamedValue_STATUS                                            | Extended |       |
+| NamedValue_Spec                                              | NamedValue_Spec                                              | Modified |       |
+| OAuth2AuthenticationSettingsContract                         | OAuth2AuthenticationSettingsContract                         | Extended |       |
+| OAuth2AuthenticationSettingsContract_STATUS                  | OAuth2AuthenticationSettingsContract_STATUS                  | Extended |       |
+| OpenIdAuthenticationSettingsContract                         | OpenIdAuthenticationSettingsContract                         | Modified |       |
+| OpenIdAuthenticationSettingsContract_STATUS                  | OpenIdAuthenticationSettingsContract_STATUS                  | Modified |       |
+| PolicyFragmentOperatorSpec                                   | PolicyFragmentOperatorSpec                                   | Extended |       |
+| PolicyFragment_STATUS                                        | PolicyFragment_STATUS                                        | Modified |       |
+| PolicyFragment_Spec                                          | PolicyFragment_Spec                                          | Modified |       |
+| PolicyOperatorSpec                                           | PolicyOperatorSpec                                           | Extended |       |
+| Policy_STATUS                                                | Policy_STATUS                                                | Modified |       |
+| Policy_Spec                                                  | Policy_Spec                                                  | Modified |       |
+| PrivateLinkServiceConnectionState_STATUS                     | PrivateLinkServiceConnectionState_STATUS                     | Modified |       |
+| ProductApiOperatorSpec                                       | ProductApiOperatorSpec                                       | Extended |       |
+| ProductApi_STATUS                                            | ProductApi_STATUS                                            | Extended |       |
+| ProductApi_Spec                                              | ProductApi_Spec                                              | Modified |       |
+| ProductOperatorSpec                                          | ProductOperatorSpec                                          | Extended |       |
+| ProductPolicyOperatorSpec                                    | ProductPolicyOperatorSpec                                    | Extended |       |
+| ProductPolicy_STATUS                                         | ProductPolicy_STATUS                                         | Modified |       |
+| ProductPolicy_Spec                                           | ProductPolicy_Spec                                           | Modified |       |
+| Product_STATUS                                               | Product_STATUS                                               | Modified |       |
+| Product_Spec                                                 | Product_Spec                                                 | Modified |       |
+| RemotePrivateEndpointConnectionWrapper_STATUS                | RemotePrivateEndpointConnectionWrapper_STATUS                | Extended |       |
+| ServiceOperatorSpec                                          | ServiceOperatorSpec                                          | Extended |       |
+| Service_STATUS                                               | Service_STATUS                                               | Modified |       |
+| Service_Spec                                                 | Service_Spec                                                 | Modified |       |
+| SubscriptionKeyParameterNamesContract                        | SubscriptionKeyParameterNamesContract                        | Extended |       |
+| SubscriptionKeyParameterNamesContract_STATUS                 | SubscriptionKeyParameterNamesContract_STATUS                 | Extended |       |
+| SubscriptionOperatorSecrets                                  | SubscriptionOperatorSecrets                                  | Extended |       |
+| SubscriptionOperatorSpec                                     | SubscriptionOperatorSpec                                     | Extended |       |
+| Subscription_STATUS                                          | Subscription_STATUS                                          | Modified |       |
+| Subscription_Spec                                            | Subscription_Spec                                            | Modified |       |
+| SystemData_STATUS                                            | SystemData_STATUS                                            | Modified |       |
+| UserAssignedIdentityDetails                                  | UserAssignedIdentityDetails                                  | Extended |       |
+| UserIdentityProperties_STATUS                                | UserIdentityProperties_STATUS                                | Extended |       |
+| VirtualNetworkConfiguration                                  | VirtualNetworkConfiguration                                  | Extended |       |
+| VirtualNetworkConfiguration_STATUS                           | VirtualNetworkConfiguration_STATUS                           | Extended |       |
+| X509CertificateName                                          | X509CertificateName                                          | Extended |       |
+| X509CertificateName_STATUS                                   | X509CertificateName_STATUS                                   | Extended |       |
 
 ### AdditionalLocation
 

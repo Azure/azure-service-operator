@@ -11,35 +11,35 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type  | Next Version          | Next Type     | Status    | Notes |
-|:----------------|:--------------|:----------------------|:--------------|:---------:|:------|
-| v1api20220901   | SearchService | v1api20220901/storage | SearchService | Identical |       |
+| v1api20220901 | v1api20220901/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| SearchService | SearchService         | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                          | Next Version          | Next Type                             | Status   | Notes |
-|:----------------|:--------------------------------------|:----------------------|:--------------------------------------|:--------:|:------|
-| v1api20220901   | DataPlaneAadOrApiKeyAuthOption        | v1api20220901/storage | DataPlaneAadOrApiKeyAuthOption        | Modified |       |
-| v1api20220901   | DataPlaneAadOrApiKeyAuthOption_STATUS | v1api20220901/storage | DataPlaneAadOrApiKeyAuthOption_STATUS | Modified |       |
-| v1api20220901   | DataPlaneAuthOptions                  | v1api20220901/storage | DataPlaneAuthOptions                  | Extended |       |
-| v1api20220901   | DataPlaneAuthOptions_STATUS           | v1api20220901/storage | DataPlaneAuthOptions_STATUS           | Extended |       |
-| v1api20220901   | EncryptionWithCmk                     | v1api20220901/storage | EncryptionWithCmk                     | Modified |       |
-| v1api20220901   | EncryptionWithCmk_STATUS              | v1api20220901/storage | EncryptionWithCmk_STATUS              | Modified |       |
-| v1api20220901   | Identity                              | v1api20220901/storage | Identity                              | Modified |       |
-| v1api20220901   | Identity_STATUS                       | v1api20220901/storage | Identity_STATUS                       | Modified |       |
-| v1api20220901   | IpRule                                | v1api20220901/storage | IpRule                                | Extended |       |
-| v1api20220901   | IpRule_STATUS                         | v1api20220901/storage | IpRule_STATUS                         | Extended |       |
-| v1api20220901   | NetworkRuleSet                        | v1api20220901/storage | NetworkRuleSet                        | Extended |       |
-| v1api20220901   | NetworkRuleSet_STATUS                 | v1api20220901/storage | NetworkRuleSet_STATUS                 | Extended |       |
-| v1api20220901   | PrivateEndpointConnection_STATUS      | v1api20220901/storage | PrivateEndpointConnection_STATUS      | Extended |       |
-| v1api20220901   | SearchServiceOperatorConfigMaps       | v1api20220901/storage | SearchServiceOperatorConfigMaps       | Extended |       |
-| v1api20220901   | SearchServiceOperatorSecrets          | v1api20220901/storage | SearchServiceOperatorSecrets          | Extended |       |
-| v1api20220901   | SearchServiceOperatorSpec             | v1api20220901/storage | SearchServiceOperatorSpec             | Extended |       |
-| v1api20220901   | SearchService_STATUS                  | v1api20220901/storage | SearchService_STATUS                  | Modified |       |
-| v1api20220901   | SearchService_Spec                    | v1api20220901/storage | SearchService_Spec                    | Modified |       |
-| v1api20220901   | SharedPrivateLinkResource_STATUS      | v1api20220901/storage | SharedPrivateLinkResource_STATUS      | Extended |       |
-| v1api20220901   | Sku                                   | v1api20220901/storage | Sku                                   | Modified |       |
-| v1api20220901   | Sku_STATUS                            | v1api20220901/storage | Sku_STATUS                            | Modified |       |
+| v1api20220901                         | v1api20220901/storage                 | Status   | Notes |
+|:--------------------------------------|:--------------------------------------|:--------:|:------|
+| DataPlaneAadOrApiKeyAuthOption        | DataPlaneAadOrApiKeyAuthOption        | Modified |       |
+| DataPlaneAadOrApiKeyAuthOption_STATUS | DataPlaneAadOrApiKeyAuthOption_STATUS | Modified |       |
+| DataPlaneAuthOptions                  | DataPlaneAuthOptions                  | Extended |       |
+| DataPlaneAuthOptions_STATUS           | DataPlaneAuthOptions_STATUS           | Extended |       |
+| EncryptionWithCmk                     | EncryptionWithCmk                     | Modified |       |
+| EncryptionWithCmk_STATUS              | EncryptionWithCmk_STATUS              | Modified |       |
+| Identity                              | Identity                              | Modified |       |
+| Identity_STATUS                       | Identity_STATUS                       | Modified |       |
+| IpRule                                | IpRule                                | Extended |       |
+| IpRule_STATUS                         | IpRule_STATUS                         | Extended |       |
+| NetworkRuleSet                        | NetworkRuleSet                        | Extended |       |
+| NetworkRuleSet_STATUS                 | NetworkRuleSet_STATUS                 | Extended |       |
+| PrivateEndpointConnection_STATUS      | PrivateEndpointConnection_STATUS      | Extended |       |
+| SearchServiceOperatorConfigMaps       | SearchServiceOperatorConfigMaps       | Extended |       |
+| SearchServiceOperatorSecrets          | SearchServiceOperatorSecrets          | Extended |       |
+| SearchServiceOperatorSpec             | SearchServiceOperatorSpec             | Extended |       |
+| SearchService_STATUS                  | SearchService_STATUS                  | Modified |       |
+| SearchService_Spec                    | SearchService_Spec                    | Modified |       |
+| SharedPrivateLinkResource_STATUS      | SharedPrivateLinkResource_STATUS      | Extended |       |
+| Sku                                   | Sku                                   | Modified |       |
+| Sku_STATUS                            | Sku_STATUS                            | Modified |       |
 
 ### DataPlaneAadOrApiKeyAuthOption
 

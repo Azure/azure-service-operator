@@ -11,17 +11,17 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type   | Next Version          | Next Type      | Status    | Notes |
-|:----------------|:---------------|:----------------------|:---------------|:---------:|:------|
-| v1api20180901   | PrivateDnsZone | v1api20180901/storage | PrivateDnsZone | Identical |       |
+| v1api20180901  | v1api20180901/storage | Status    | Notes |
+|:---------------|:----------------------|:---------:|:------|
+| PrivateDnsZone | PrivateDnsZone        | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type               | Next Version          | Next Type                  | Status   | Notes |
-|:----------------|:---------------------------|:----------------------|:---------------------------|:--------:|:------|
-| v1api20180901   | PrivateDnsZoneOperatorSpec | v1api20180901/storage | PrivateDnsZoneOperatorSpec | Extended |       |
-| v1api20180901   | PrivateDnsZone_STATUS      | v1api20180901/storage | PrivateDnsZone_STATUS      | Modified |       |
-| v1api20180901   | PrivateDnsZone_Spec        | v1api20180901/storage | PrivateDnsZone_Spec        | Extended |       |
+| v1api20180901              | v1api20180901/storage      | Status   | Notes |
+|:---------------------------|:---------------------------|:--------:|:------|
+| PrivateDnsZoneOperatorSpec | PrivateDnsZoneOperatorSpec | Extended |       |
+| PrivateDnsZone_STATUS      | PrivateDnsZone_STATUS      | Modified |       |
+| PrivateDnsZone_Spec        | PrivateDnsZone_Spec        | Extended |       |
 
 ### PrivateDnsZoneOperatorSpec
 

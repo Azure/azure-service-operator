@@ -11,43 +11,43 @@ Statuses:
 
 ## Resources
 
-| Current Version   | Current Type       | Next Version      | Next Type          | Status    | Notes |
-|:------------------|:-------------------|:------------------|:-------------------|:---------:|:------|
-| v20201201/storage | Redis              | v20230401/storage | Redis              | Identical |       |
-| v20201201/storage | RedisFirewallRule  | v20230401/storage | RedisFirewallRule  | Identical |       |
-| v20201201/storage | RedisLinkedServer  | v20230401/storage | RedisLinkedServer  | Identical |       |
-| v20201201/storage | RedisPatchSchedule | v20230401/storage | RedisPatchSchedule | Identical |       |
+| v20201201/storage  | v20230401/storage  | Status    | Notes |
+|:-------------------|:-------------------|:---------:|:------|
+| Redis              | Redis              | Identical |       |
+| RedisFirewallRule  | RedisFirewallRule  | Identical |       |
+| RedisLinkedServer  | RedisLinkedServer  | Identical |       |
+| RedisPatchSchedule | RedisPatchSchedule | Identical |       |
 
 ## Objects
 
-| Current Version   | Current Type                              | Next Version      | Next Type                                 | Status    | Notes |
-|:------------------|:------------------------------------------|:------------------|:------------------------------------------|:---------:|:------|
-|                   |                                           | v20230401/storage | ManagedServiceIdentity                    | New       |       |
-|                   |                                           | v20230401/storage | ManagedServiceIdentity_STATUS             | New       |       |
-| v20201201/storage | PrivateEndpointConnection_STATUS          | v20230401/storage | PrivateEndpointConnection_STATUS          | Identical |       |
-| v20201201/storage | RedisCreateProperties_RedisConfiguration  | v20230401/storage | RedisCreateProperties_RedisConfiguration  | Modified  |       |
-| v20201201/storage | RedisFirewallRuleOperatorSpec             | v20230401/storage | RedisFirewallRuleOperatorSpec             | Identical |       |
-| v20201201/storage | RedisFirewallRule_STATUS                  | v20230401/storage | RedisFirewallRule_STATUS                  | Identical |       |
-| v20201201/storage | RedisFirewallRule_Spec                    | v20230401/storage | RedisFirewallRule_Spec                    | Identical |       |
-| v20201201/storage | RedisInstanceDetails_STATUS               | v20230401/storage | RedisInstanceDetails_STATUS               | Identical |       |
-| v20201201/storage | RedisLinkedServerOperatorSpec             | v20230401/storage | RedisLinkedServerOperatorSpec             | Identical |       |
-| v20201201/storage | RedisLinkedServer_STATUS                  | v20230401/storage | RedisLinkedServer_STATUS                  | Identical |       |
-| v20201201/storage | RedisLinkedServer_Spec                    | v20230401/storage | RedisLinkedServer_Spec                    | Identical |       |
-| v20201201/storage | RedisOperatorSecrets                      | v20230401/storage | RedisOperatorSecrets                      | Identical |       |
-| v20201201/storage | RedisOperatorSpec                         | v20230401/storage | RedisOperatorSpec                         | Identical |       |
-| v20201201/storage | RedisPatchScheduleOperatorSpec            | v20230401/storage | RedisPatchScheduleOperatorSpec            | Identical |       |
-| v20201201/storage | RedisPatchSchedule_STATUS                 | v20230401/storage | RedisPatchSchedule_STATUS                 | Identical |       |
-| v20201201/storage | RedisPatchSchedule_Spec                   | v20230401/storage | RedisPatchSchedule_Spec                   | Identical |       |
-| v20201201/storage | RedisProperties_RedisConfiguration_STATUS | v20230401/storage | RedisProperties_RedisConfiguration_STATUS | Modified  |       |
-| v20201201/storage | Redis_LinkedServer_STATUS                 | v20230401/storage | Redis_LinkedServer_STATUS                 | Extended  |       |
-| v20201201/storage | Redis_STATUS                              | v20230401/storage | Redis_STATUS                              | Extended  |       |
-| v20201201/storage | Redis_Spec                                | v20230401/storage | Redis_Spec                                | Extended  |       |
-| v20201201/storage | ScheduleEntry                             | v20230401/storage | ScheduleEntry                             | Identical |       |
-| v20201201/storage | ScheduleEntry_STATUS                      | v20230401/storage | ScheduleEntry_STATUS                      | Identical |       |
-| v20201201/storage | Sku                                       | v20230401/storage | Sku                                       | Identical |       |
-| v20201201/storage | Sku_STATUS                                | v20230401/storage | Sku_STATUS                                | Identical |       |
-|                   |                                           | v20230401/storage | UserAssignedIdentityDetails               | New       |       |
-|                   |                                           | v20230401/storage | UserAssignedIdentity_STATUS               | New       |       |
+| v20201201/storage                         | v20230401/storage                         | Status    | Notes |
+|:------------------------------------------|:------------------------------------------|:---------:|:------|
+|                                           | ManagedServiceIdentity                    | New       |       |
+|                                           | ManagedServiceIdentity_STATUS             | New       |       |
+| PrivateEndpointConnection_STATUS          | PrivateEndpointConnection_STATUS          | Identical |       |
+| RedisCreateProperties_RedisConfiguration  | RedisCreateProperties_RedisConfiguration  | Modified  |       |
+| RedisFirewallRuleOperatorSpec             | RedisFirewallRuleOperatorSpec             | Identical |       |
+| RedisFirewallRule_STATUS                  | RedisFirewallRule_STATUS                  | Identical |       |
+| RedisFirewallRule_Spec                    | RedisFirewallRule_Spec                    | Identical |       |
+| RedisInstanceDetails_STATUS               | RedisInstanceDetails_STATUS               | Identical |       |
+| RedisLinkedServerOperatorSpec             | RedisLinkedServerOperatorSpec             | Identical |       |
+| RedisLinkedServer_STATUS                  | RedisLinkedServer_STATUS                  | Identical |       |
+| RedisLinkedServer_Spec                    | RedisLinkedServer_Spec                    | Identical |       |
+| RedisOperatorSecrets                      | RedisOperatorSecrets                      | Identical |       |
+| RedisOperatorSpec                         | RedisOperatorSpec                         | Identical |       |
+| RedisPatchScheduleOperatorSpec            | RedisPatchScheduleOperatorSpec            | Identical |       |
+| RedisPatchSchedule_STATUS                 | RedisPatchSchedule_STATUS                 | Identical |       |
+| RedisPatchSchedule_Spec                   | RedisPatchSchedule_Spec                   | Identical |       |
+| RedisProperties_RedisConfiguration_STATUS | RedisProperties_RedisConfiguration_STATUS | Modified  |       |
+| Redis_LinkedServer_STATUS                 | Redis_LinkedServer_STATUS                 | Extended  |       |
+| Redis_STATUS                              | Redis_STATUS                              | Extended  |       |
+| Redis_Spec                                | Redis_Spec                                | Extended  |       |
+| ScheduleEntry                             | ScheduleEntry                             | Identical |       |
+| ScheduleEntry_STATUS                      | ScheduleEntry_STATUS                      | Identical |       |
+| Sku                                       | Sku                                       | Identical |       |
+| Sku_STATUS                                | Sku_STATUS                                | Identical |       |
+|                                           | UserAssignedIdentityDetails               | New       |       |
+|                                           | UserAssignedIdentity_STATUS               | New       |       |
 
 ### RedisCreateProperties_RedisConfiguration
 

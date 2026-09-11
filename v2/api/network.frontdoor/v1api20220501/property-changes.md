@@ -11,40 +11,40 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                 | Next Version          | Next Type                    | Status    | Notes |
-|:----------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
-| v1api20220501   | WebApplicationFirewallPolicy | v1api20220501/storage | WebApplicationFirewallPolicy | Identical |       |
+| v1api20220501                | v1api20220501/storage        | Status    | Notes |
+|:-----------------------------|:-----------------------------|:---------:|:------|
+| WebApplicationFirewallPolicy | WebApplicationFirewallPolicy | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                             | Next Version          | Next Type                                | Status   | Notes |
-|:----------------|:-----------------------------------------|:----------------------|:-----------------------------------------|:--------:|:------|
-| v1api20220501   | CustomRule                               | v1api20220501/storage | CustomRule                               | Modified |       |
-| v1api20220501   | CustomRuleList                           | v1api20220501/storage | CustomRuleList                           | Extended |       |
-| v1api20220501   | CustomRuleList_STATUS                    | v1api20220501/storage | CustomRuleList_STATUS                    | Extended |       |
-| v1api20220501   | CustomRule_STATUS                        | v1api20220501/storage | CustomRule_STATUS                        | Modified |       |
-| v1api20220501   | FrontendEndpointLink_STATUS              | v1api20220501/storage | FrontendEndpointLink_STATUS              | Extended |       |
-| v1api20220501   | ManagedRuleExclusion                     | v1api20220501/storage | ManagedRuleExclusion                     | Modified |       |
-| v1api20220501   | ManagedRuleExclusion_STATUS              | v1api20220501/storage | ManagedRuleExclusion_STATUS              | Modified |       |
-| v1api20220501   | ManagedRuleGroupOverride                 | v1api20220501/storage | ManagedRuleGroupOverride                 | Extended |       |
-| v1api20220501   | ManagedRuleGroupOverride_STATUS          | v1api20220501/storage | ManagedRuleGroupOverride_STATUS          | Extended |       |
-| v1api20220501   | ManagedRuleOverride                      | v1api20220501/storage | ManagedRuleOverride                      | Modified |       |
-| v1api20220501   | ManagedRuleOverride_STATUS               | v1api20220501/storage | ManagedRuleOverride_STATUS               | Modified |       |
-| v1api20220501   | ManagedRuleSet                           | v1api20220501/storage | ManagedRuleSet                           | Modified |       |
-| v1api20220501   | ManagedRuleSetList                       | v1api20220501/storage | ManagedRuleSetList                       | Extended |       |
-| v1api20220501   | ManagedRuleSetList_STATUS                | v1api20220501/storage | ManagedRuleSetList_STATUS                | Extended |       |
-| v1api20220501   | ManagedRuleSet_STATUS                    | v1api20220501/storage | ManagedRuleSet_STATUS                    | Modified |       |
-| v1api20220501   | MatchCondition                           | v1api20220501/storage | MatchCondition                           | Modified |       |
-| v1api20220501   | MatchCondition_STATUS                    | v1api20220501/storage | MatchCondition_STATUS                    | Modified |       |
-| v1api20220501   | PolicySettings                           | v1api20220501/storage | PolicySettings                           | Modified |       |
-| v1api20220501   | PolicySettings_STATUS                    | v1api20220501/storage | PolicySettings_STATUS                    | Modified |       |
-| v1api20220501   | RoutingRuleLink_STATUS                   | v1api20220501/storage | RoutingRuleLink_STATUS                   | Extended |       |
-| v1api20220501   | SecurityPolicyLink_STATUS                | v1api20220501/storage | SecurityPolicyLink_STATUS                | Extended |       |
-| v1api20220501   | Sku                                      | v1api20220501/storage | Sku                                      | Modified |       |
-| v1api20220501   | Sku_STATUS                               | v1api20220501/storage | Sku_STATUS                               | Modified |       |
-| v1api20220501   | WebApplicationFirewallPolicyOperatorSpec | v1api20220501/storage | WebApplicationFirewallPolicyOperatorSpec | Extended |       |
-| v1api20220501   | WebApplicationFirewallPolicy_STATUS      | v1api20220501/storage | WebApplicationFirewallPolicy_STATUS      | Modified |       |
-| v1api20220501   | WebApplicationFirewallPolicy_Spec        | v1api20220501/storage | WebApplicationFirewallPolicy_Spec        | Modified |       |
+| v1api20220501                            | v1api20220501/storage                    | Status   | Notes |
+|:-----------------------------------------|:-----------------------------------------|:--------:|:------|
+| CustomRule                               | CustomRule                               | Modified |       |
+| CustomRuleList                           | CustomRuleList                           | Extended |       |
+| CustomRuleList_STATUS                    | CustomRuleList_STATUS                    | Extended |       |
+| CustomRule_STATUS                        | CustomRule_STATUS                        | Modified |       |
+| FrontendEndpointLink_STATUS              | FrontendEndpointLink_STATUS              | Extended |       |
+| ManagedRuleExclusion                     | ManagedRuleExclusion                     | Modified |       |
+| ManagedRuleExclusion_STATUS              | ManagedRuleExclusion_STATUS              | Modified |       |
+| ManagedRuleGroupOverride                 | ManagedRuleGroupOverride                 | Extended |       |
+| ManagedRuleGroupOverride_STATUS          | ManagedRuleGroupOverride_STATUS          | Extended |       |
+| ManagedRuleOverride                      | ManagedRuleOverride                      | Modified |       |
+| ManagedRuleOverride_STATUS               | ManagedRuleOverride_STATUS               | Modified |       |
+| ManagedRuleSet                           | ManagedRuleSet                           | Modified |       |
+| ManagedRuleSetList                       | ManagedRuleSetList                       | Extended |       |
+| ManagedRuleSetList_STATUS                | ManagedRuleSetList_STATUS                | Extended |       |
+| ManagedRuleSet_STATUS                    | ManagedRuleSet_STATUS                    | Modified |       |
+| MatchCondition                           | MatchCondition                           | Modified |       |
+| MatchCondition_STATUS                    | MatchCondition_STATUS                    | Modified |       |
+| PolicySettings                           | PolicySettings                           | Modified |       |
+| PolicySettings_STATUS                    | PolicySettings_STATUS                    | Modified |       |
+| RoutingRuleLink_STATUS                   | RoutingRuleLink_STATUS                   | Extended |       |
+| SecurityPolicyLink_STATUS                | SecurityPolicyLink_STATUS                | Extended |       |
+| Sku                                      | Sku                                      | Modified |       |
+| Sku_STATUS                               | Sku_STATUS                               | Modified |       |
+| WebApplicationFirewallPolicyOperatorSpec | WebApplicationFirewallPolicyOperatorSpec | Extended |       |
+| WebApplicationFirewallPolicy_STATUS      | WebApplicationFirewallPolicy_STATUS      | Modified |       |
+| WebApplicationFirewallPolicy_Spec        | WebApplicationFirewallPolicy_Spec        | Modified |       |
 
 ### CustomRule
 

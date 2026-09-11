@@ -11,214 +11,214 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type    | Next Version          | Next Type       | Status    | Notes |
-|:----------------|:----------------|:----------------------|:----------------|:---------:|:------|
-| v1api20230501   | AfdCustomDomain | v1api20230501/storage | AfdCustomDomain | Identical |       |
-| v1api20230501   | AfdEndpoint     | v1api20230501/storage | AfdEndpoint     | Identical |       |
-| v1api20230501   | AfdOrigin       | v1api20230501/storage | AfdOrigin       | Identical |       |
-| v1api20230501   | AfdOriginGroup  | v1api20230501/storage | AfdOriginGroup  | Identical |       |
-| v1api20230501   | Profile         | v1api20230501/storage | Profile         | Identical |       |
-| v1api20230501   | Route           | v1api20230501/storage | Route           | Identical |       |
-| v1api20230501   | Rule            | v1api20230501/storage | Rule            | Identical |       |
-| v1api20230501   | RuleSet         | v1api20230501/storage | RuleSet         | Identical |       |
-| v1api20230501   | Secret          | v1api20230501/storage | Secret          | Identical |       |
-| v1api20230501   | SecurityPolicy  | v1api20230501/storage | SecurityPolicy  | Identical |       |
+| v1api20230501   | v1api20230501/storage | Status    | Notes |
+|:----------------|:----------------------|:---------:|:------|
+| AfdCustomDomain | AfdCustomDomain       | Identical |       |
+| AfdEndpoint     | AfdEndpoint           | Identical |       |
+| AfdOrigin       | AfdOrigin             | Identical |       |
+| AfdOriginGroup  | AfdOriginGroup        | Identical |       |
+| Profile         | Profile               | Identical |       |
+| Route           | Route                 | Identical |       |
+| Rule            | Rule                  | Identical |       |
+| RuleSet         | RuleSet               | Identical |       |
+| Secret          | Secret                | Identical |       |
+| SecurityPolicy  | SecurityPolicy        | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                                                      | Next Version          | Next Type                                                                         | Status   | Notes |
-|:----------------|:----------------------------------------------------------------------------------|:----------------------|:----------------------------------------------------------------------------------|:--------:|:------|
-| v1api20230501   | AFDDomainHttpsParameters                                                          | v1api20230501/storage | AFDDomainHttpsParameters                                                          | Modified |       |
-| v1api20230501   | AFDDomainHttpsParameters_STATUS                                                   | v1api20230501/storage | AFDDomainHttpsParameters_STATUS                                                   | Modified |       |
-| v1api20230501   | ActivatedResourceReference                                                        | v1api20230501/storage | ActivatedResourceReference                                                        | Extended |       |
-| v1api20230501   | ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded | v1api20230501/storage | ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded | Extended |       |
-| v1api20230501   | ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded     | v1api20230501/storage | ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded     | Extended |       |
-| v1api20230501   | AfdCustomDomainOperatorSpec                                                       | v1api20230501/storage | AfdCustomDomainOperatorSpec                                                       | Extended |       |
-| v1api20230501   | AfdCustomDomain_STATUS                                                            | v1api20230501/storage | AfdCustomDomain_STATUS                                                            | Modified |       |
-| v1api20230501   | AfdCustomDomain_Spec                                                              | v1api20230501/storage | AfdCustomDomain_Spec                                                              | Extended |       |
-| v1api20230501   | AfdEndpointOperatorSpec                                                           | v1api20230501/storage | AfdEndpointOperatorSpec                                                           | Extended |       |
-| v1api20230501   | AfdEndpoint_STATUS                                                                | v1api20230501/storage | AfdEndpoint_STATUS                                                                | Modified |       |
-| v1api20230501   | AfdEndpoint_Spec                                                                  | v1api20230501/storage | AfdEndpoint_Spec                                                                  | Modified |       |
-| v1api20230501   | AfdOriginGroupOperatorSpec                                                        | v1api20230501/storage | AfdOriginGroupOperatorSpec                                                        | Extended |       |
-| v1api20230501   | AfdOriginGroup_STATUS                                                             | v1api20230501/storage | AfdOriginGroup_STATUS                                                             | Modified |       |
-| v1api20230501   | AfdOriginGroup_Spec                                                               | v1api20230501/storage | AfdOriginGroup_Spec                                                               | Modified |       |
-| v1api20230501   | AfdOriginOperatorSpec                                                             | v1api20230501/storage | AfdOriginOperatorSpec                                                             | Extended |       |
-| v1api20230501   | AfdOrigin_STATUS                                                                  | v1api20230501/storage | AfdOrigin_STATUS                                                                  | Modified |       |
-| v1api20230501   | AfdOrigin_Spec                                                                    | v1api20230501/storage | AfdOrigin_Spec                                                                    | Modified |       |
-| v1api20230501   | AfdRouteCacheConfiguration                                                        | v1api20230501/storage | AfdRouteCacheConfiguration                                                        | Modified |       |
-| v1api20230501   | AfdRouteCacheConfiguration_STATUS                                                 | v1api20230501/storage | AfdRouteCacheConfiguration_STATUS                                                 | Modified |       |
-| v1api20230501   | AzureFirstPartyManagedCertificateParameters                                       | v1api20230501/storage | AzureFirstPartyManagedCertificateParameters                                       | Modified |       |
-| v1api20230501   | AzureFirstPartyManagedCertificateParameters_STATUS                                | v1api20230501/storage | AzureFirstPartyManagedCertificateParameters_STATUS                                | Modified |       |
-| v1api20230501   | CacheConfiguration                                                                | v1api20230501/storage | CacheConfiguration                                                                | Modified |       |
-| v1api20230501   | CacheConfiguration_STATUS                                                         | v1api20230501/storage | CacheConfiguration_STATUS                                                         | Modified |       |
-| v1api20230501   | CacheExpirationActionParameters                                                   | v1api20230501/storage | CacheExpirationActionParameters                                                   | Modified |       |
-| v1api20230501   | CacheExpirationActionParameters_STATUS                                            | v1api20230501/storage | CacheExpirationActionParameters_STATUS                                            | Modified |       |
-| v1api20230501   | CacheKeyQueryStringActionParameters                                               | v1api20230501/storage | CacheKeyQueryStringActionParameters                                               | Modified |       |
-| v1api20230501   | CacheKeyQueryStringActionParameters_STATUS                                        | v1api20230501/storage | CacheKeyQueryStringActionParameters_STATUS                                        | Modified |       |
-| v1api20230501   | ClientPortMatchConditionParameters                                                | v1api20230501/storage | ClientPortMatchConditionParameters                                                | Modified |       |
-| v1api20230501   | ClientPortMatchConditionParameters_STATUS                                         | v1api20230501/storage | ClientPortMatchConditionParameters_STATUS                                         | Modified |       |
-| v1api20230501   | CompressionSettings                                                               | v1api20230501/storage | CompressionSettings                                                               | Extended |       |
-| v1api20230501   | CompressionSettings_STATUS                                                        | v1api20230501/storage | CompressionSettings_STATUS                                                        | Extended |       |
-| v1api20230501   | CookiesMatchConditionParameters                                                   | v1api20230501/storage | CookiesMatchConditionParameters                                                   | Modified |       |
-| v1api20230501   | CookiesMatchConditionParameters_STATUS                                            | v1api20230501/storage | CookiesMatchConditionParameters_STATUS                                            | Modified |       |
-| v1api20230501   | CustomerCertificateParameters                                                     | v1api20230501/storage | CustomerCertificateParameters                                                     | Modified |       |
-| v1api20230501   | CustomerCertificateParameters_STATUS                                              | v1api20230501/storage | CustomerCertificateParameters_STATUS                                              | Modified |       |
-| v1api20230501   | DeliveryRuleAction                                                                | v1api20230501/storage | DeliveryRuleAction                                                                | Extended |       |
-| v1api20230501   | DeliveryRuleAction_STATUS                                                         | v1api20230501/storage | DeliveryRuleAction_STATUS                                                         | Extended |       |
-| v1api20230501   | DeliveryRuleCacheExpirationAction                                                 | v1api20230501/storage | DeliveryRuleCacheExpirationAction                                                 | Modified |       |
-| v1api20230501   | DeliveryRuleCacheExpirationAction_STATUS                                          | v1api20230501/storage | DeliveryRuleCacheExpirationAction_STATUS                                          | Modified |       |
-| v1api20230501   | DeliveryRuleCacheKeyQueryStringAction                                             | v1api20230501/storage | DeliveryRuleCacheKeyQueryStringAction                                             | Modified |       |
-| v1api20230501   | DeliveryRuleCacheKeyQueryStringAction_STATUS                                      | v1api20230501/storage | DeliveryRuleCacheKeyQueryStringAction_STATUS                                      | Modified |       |
-| v1api20230501   | DeliveryRuleClientPortCondition                                                   | v1api20230501/storage | DeliveryRuleClientPortCondition                                                   | Modified |       |
-| v1api20230501   | DeliveryRuleClientPortCondition_STATUS                                            | v1api20230501/storage | DeliveryRuleClientPortCondition_STATUS                                            | Modified |       |
-| v1api20230501   | DeliveryRuleCondition                                                             | v1api20230501/storage | DeliveryRuleCondition                                                             | Extended |       |
-| v1api20230501   | DeliveryRuleCondition_STATUS                                                      | v1api20230501/storage | DeliveryRuleCondition_STATUS                                                      | Extended |       |
-| v1api20230501   | DeliveryRuleCookiesCondition                                                      | v1api20230501/storage | DeliveryRuleCookiesCondition                                                      | Modified |       |
-| v1api20230501   | DeliveryRuleCookiesCondition_STATUS                                               | v1api20230501/storage | DeliveryRuleCookiesCondition_STATUS                                               | Modified |       |
-| v1api20230501   | DeliveryRuleHostNameCondition                                                     | v1api20230501/storage | DeliveryRuleHostNameCondition                                                     | Modified |       |
-| v1api20230501   | DeliveryRuleHostNameCondition_STATUS                                              | v1api20230501/storage | DeliveryRuleHostNameCondition_STATUS                                              | Modified |       |
-| v1api20230501   | DeliveryRuleHttpVersionCondition                                                  | v1api20230501/storage | DeliveryRuleHttpVersionCondition                                                  | Modified |       |
-| v1api20230501   | DeliveryRuleHttpVersionCondition_STATUS                                           | v1api20230501/storage | DeliveryRuleHttpVersionCondition_STATUS                                           | Modified |       |
-| v1api20230501   | DeliveryRuleIsDeviceCondition                                                     | v1api20230501/storage | DeliveryRuleIsDeviceCondition                                                     | Modified |       |
-| v1api20230501   | DeliveryRuleIsDeviceCondition_STATUS                                              | v1api20230501/storage | DeliveryRuleIsDeviceCondition_STATUS                                              | Modified |       |
-| v1api20230501   | DeliveryRulePostArgsCondition                                                     | v1api20230501/storage | DeliveryRulePostArgsCondition                                                     | Modified |       |
-| v1api20230501   | DeliveryRulePostArgsCondition_STATUS                                              | v1api20230501/storage | DeliveryRulePostArgsCondition_STATUS                                              | Modified |       |
-| v1api20230501   | DeliveryRuleQueryStringCondition                                                  | v1api20230501/storage | DeliveryRuleQueryStringCondition                                                  | Modified |       |
-| v1api20230501   | DeliveryRuleQueryStringCondition_STATUS                                           | v1api20230501/storage | DeliveryRuleQueryStringCondition_STATUS                                           | Modified |       |
-| v1api20230501   | DeliveryRuleRemoteAddressCondition                                                | v1api20230501/storage | DeliveryRuleRemoteAddressCondition                                                | Modified |       |
-| v1api20230501   | DeliveryRuleRemoteAddressCondition_STATUS                                         | v1api20230501/storage | DeliveryRuleRemoteAddressCondition_STATUS                                         | Modified |       |
-| v1api20230501   | DeliveryRuleRequestBodyCondition                                                  | v1api20230501/storage | DeliveryRuleRequestBodyCondition                                                  | Modified |       |
-| v1api20230501   | DeliveryRuleRequestBodyCondition_STATUS                                           | v1api20230501/storage | DeliveryRuleRequestBodyCondition_STATUS                                           | Modified |       |
-| v1api20230501   | DeliveryRuleRequestHeaderAction                                                   | v1api20230501/storage | DeliveryRuleRequestHeaderAction                                                   | Modified |       |
-| v1api20230501   | DeliveryRuleRequestHeaderAction_STATUS                                            | v1api20230501/storage | DeliveryRuleRequestHeaderAction_STATUS                                            | Modified |       |
-| v1api20230501   | DeliveryRuleRequestHeaderCondition                                                | v1api20230501/storage | DeliveryRuleRequestHeaderCondition                                                | Modified |       |
-| v1api20230501   | DeliveryRuleRequestHeaderCondition_STATUS                                         | v1api20230501/storage | DeliveryRuleRequestHeaderCondition_STATUS                                         | Modified |       |
-| v1api20230501   | DeliveryRuleRequestMethodCondition                                                | v1api20230501/storage | DeliveryRuleRequestMethodCondition                                                | Modified |       |
-| v1api20230501   | DeliveryRuleRequestMethodCondition_STATUS                                         | v1api20230501/storage | DeliveryRuleRequestMethodCondition_STATUS                                         | Modified |       |
-| v1api20230501   | DeliveryRuleRequestSchemeCondition                                                | v1api20230501/storage | DeliveryRuleRequestSchemeCondition                                                | Modified |       |
-| v1api20230501   | DeliveryRuleRequestSchemeCondition_STATUS                                         | v1api20230501/storage | DeliveryRuleRequestSchemeCondition_STATUS                                         | Modified |       |
-| v1api20230501   | DeliveryRuleRequestUriCondition                                                   | v1api20230501/storage | DeliveryRuleRequestUriCondition                                                   | Modified |       |
-| v1api20230501   | DeliveryRuleRequestUriCondition_STATUS                                            | v1api20230501/storage | DeliveryRuleRequestUriCondition_STATUS                                            | Modified |       |
-| v1api20230501   | DeliveryRuleResponseHeaderAction                                                  | v1api20230501/storage | DeliveryRuleResponseHeaderAction                                                  | Modified |       |
-| v1api20230501   | DeliveryRuleResponseHeaderAction_STATUS                                           | v1api20230501/storage | DeliveryRuleResponseHeaderAction_STATUS                                           | Modified |       |
-| v1api20230501   | DeliveryRuleRouteConfigurationOverrideAction                                      | v1api20230501/storage | DeliveryRuleRouteConfigurationOverrideAction                                      | Modified |       |
-| v1api20230501   | DeliveryRuleRouteConfigurationOverrideAction_STATUS                               | v1api20230501/storage | DeliveryRuleRouteConfigurationOverrideAction_STATUS                               | Modified |       |
-| v1api20230501   | DeliveryRuleServerPortCondition                                                   | v1api20230501/storage | DeliveryRuleServerPortCondition                                                   | Modified |       |
-| v1api20230501   | DeliveryRuleServerPortCondition_STATUS                                            | v1api20230501/storage | DeliveryRuleServerPortCondition_STATUS                                            | Modified |       |
-| v1api20230501   | DeliveryRuleSocketAddrCondition                                                   | v1api20230501/storage | DeliveryRuleSocketAddrCondition                                                   | Modified |       |
-| v1api20230501   | DeliveryRuleSocketAddrCondition_STATUS                                            | v1api20230501/storage | DeliveryRuleSocketAddrCondition_STATUS                                            | Modified |       |
-| v1api20230501   | DeliveryRuleSslProtocolCondition                                                  | v1api20230501/storage | DeliveryRuleSslProtocolCondition                                                  | Modified |       |
-| v1api20230501   | DeliveryRuleSslProtocolCondition_STATUS                                           | v1api20230501/storage | DeliveryRuleSslProtocolCondition_STATUS                                           | Modified |       |
-| v1api20230501   | DeliveryRuleUrlFileExtensionCondition                                             | v1api20230501/storage | DeliveryRuleUrlFileExtensionCondition                                             | Modified |       |
-| v1api20230501   | DeliveryRuleUrlFileExtensionCondition_STATUS                                      | v1api20230501/storage | DeliveryRuleUrlFileExtensionCondition_STATUS                                      | Modified |       |
-| v1api20230501   | DeliveryRuleUrlFileNameCondition                                                  | v1api20230501/storage | DeliveryRuleUrlFileNameCondition                                                  | Modified |       |
-| v1api20230501   | DeliveryRuleUrlFileNameCondition_STATUS                                           | v1api20230501/storage | DeliveryRuleUrlFileNameCondition_STATUS                                           | Modified |       |
-| v1api20230501   | DeliveryRuleUrlPathCondition                                                      | v1api20230501/storage | DeliveryRuleUrlPathCondition                                                      | Modified |       |
-| v1api20230501   | DeliveryRuleUrlPathCondition_STATUS                                               | v1api20230501/storage | DeliveryRuleUrlPathCondition_STATUS                                               | Modified |       |
-| v1api20230501   | DomainValidationProperties_STATUS                                                 | v1api20230501/storage | DomainValidationProperties_STATUS                                                 | Extended |       |
-| v1api20230501   | HeaderActionParameters                                                            | v1api20230501/storage | HeaderActionParameters                                                            | Modified |       |
-| v1api20230501   | HeaderActionParameters_STATUS                                                     | v1api20230501/storage | HeaderActionParameters_STATUS                                                     | Modified |       |
-| v1api20230501   | HealthProbeParameters                                                             | v1api20230501/storage | HealthProbeParameters                                                             | Modified |       |
-| v1api20230501   | HealthProbeParameters_STATUS                                                      | v1api20230501/storage | HealthProbeParameters_STATUS                                                      | Modified |       |
-| v1api20230501   | HostNameMatchConditionParameters                                                  | v1api20230501/storage | HostNameMatchConditionParameters                                                  | Modified |       |
-| v1api20230501   | HostNameMatchConditionParameters_STATUS                                           | v1api20230501/storage | HostNameMatchConditionParameters_STATUS                                           | Modified |       |
-| v1api20230501   | HttpVersionMatchConditionParameters                                               | v1api20230501/storage | HttpVersionMatchConditionParameters                                               | Modified |       |
-| v1api20230501   | HttpVersionMatchConditionParameters_STATUS                                        | v1api20230501/storage | HttpVersionMatchConditionParameters_STATUS                                        | Modified |       |
-| v1api20230501   | IsDeviceMatchConditionParameters                                                  | v1api20230501/storage | IsDeviceMatchConditionParameters                                                  | Modified |       |
-| v1api20230501   | IsDeviceMatchConditionParameters_STATUS                                           | v1api20230501/storage | IsDeviceMatchConditionParameters_STATUS                                           | Modified |       |
-| v1api20230501   | LoadBalancingSettingsParameters                                                   | v1api20230501/storage | LoadBalancingSettingsParameters                                                   | Extended |       |
-| v1api20230501   | LoadBalancingSettingsParameters_STATUS                                            | v1api20230501/storage | LoadBalancingSettingsParameters_STATUS                                            | Extended |       |
-| v1api20230501   | ManagedCertificateParameters                                                      | v1api20230501/storage | ManagedCertificateParameters                                                      | Modified |       |
-| v1api20230501   | ManagedCertificateParameters_STATUS                                               | v1api20230501/storage | ManagedCertificateParameters_STATUS                                               | Modified |       |
-| v1api20230501   | ManagedServiceIdentity                                                            | v1api20230501/storage | ManagedServiceIdentity                                                            | Modified |       |
-| v1api20230501   | ManagedServiceIdentity_STATUS                                                     | v1api20230501/storage | ManagedServiceIdentity_STATUS                                                     | Modified |       |
-| v1api20230501   | OriginGroupOverride                                                               | v1api20230501/storage | OriginGroupOverride                                                               | Modified |       |
-| v1api20230501   | OriginGroupOverrideAction                                                         | v1api20230501/storage | OriginGroupOverrideAction                                                         | Modified |       |
-| v1api20230501   | OriginGroupOverrideActionParameters                                               | v1api20230501/storage | OriginGroupOverrideActionParameters                                               | Modified |       |
-| v1api20230501   | OriginGroupOverrideActionParameters_STATUS                                        | v1api20230501/storage | OriginGroupOverrideActionParameters_STATUS                                        | Modified |       |
-| v1api20230501   | OriginGroupOverrideAction_STATUS                                                  | v1api20230501/storage | OriginGroupOverrideAction_STATUS                                                  | Modified |       |
-| v1api20230501   | OriginGroupOverride_STATUS                                                        | v1api20230501/storage | OriginGroupOverride_STATUS                                                        | Modified |       |
-| v1api20230501   | PostArgsMatchConditionParameters                                                  | v1api20230501/storage | PostArgsMatchConditionParameters                                                  | Modified |       |
-| v1api20230501   | PostArgsMatchConditionParameters_STATUS                                           | v1api20230501/storage | PostArgsMatchConditionParameters_STATUS                                           | Modified |       |
-| v1api20230501   | ProfileOperatorSpec                                                               | v1api20230501/storage | ProfileOperatorSpec                                                               | Extended |       |
-| v1api20230501   | Profile_STATUS                                                                    | v1api20230501/storage | Profile_STATUS                                                                    | Modified |       |
-| v1api20230501   | Profile_Spec                                                                      | v1api20230501/storage | Profile_Spec                                                                      | Modified |       |
-| v1api20230501   | QueryStringMatchConditionParameters                                               | v1api20230501/storage | QueryStringMatchConditionParameters                                               | Modified |       |
-| v1api20230501   | QueryStringMatchConditionParameters_STATUS                                        | v1api20230501/storage | QueryStringMatchConditionParameters_STATUS                                        | Modified |       |
-| v1api20230501   | RemoteAddressMatchConditionParameters                                             | v1api20230501/storage | RemoteAddressMatchConditionParameters                                             | Modified |       |
-| v1api20230501   | RemoteAddressMatchConditionParameters_STATUS                                      | v1api20230501/storage | RemoteAddressMatchConditionParameters_STATUS                                      | Modified |       |
-| v1api20230501   | RequestBodyMatchConditionParameters                                               | v1api20230501/storage | RequestBodyMatchConditionParameters                                               | Modified |       |
-| v1api20230501   | RequestBodyMatchConditionParameters_STATUS                                        | v1api20230501/storage | RequestBodyMatchConditionParameters_STATUS                                        | Modified |       |
-| v1api20230501   | RequestHeaderMatchConditionParameters                                             | v1api20230501/storage | RequestHeaderMatchConditionParameters                                             | Modified |       |
-| v1api20230501   | RequestHeaderMatchConditionParameters_STATUS                                      | v1api20230501/storage | RequestHeaderMatchConditionParameters_STATUS                                      | Modified |       |
-| v1api20230501   | RequestMethodMatchConditionParameters                                             | v1api20230501/storage | RequestMethodMatchConditionParameters                                             | Modified |       |
-| v1api20230501   | RequestMethodMatchConditionParameters_STATUS                                      | v1api20230501/storage | RequestMethodMatchConditionParameters_STATUS                                      | Modified |       |
-| v1api20230501   | RequestSchemeMatchConditionParameters                                             | v1api20230501/storage | RequestSchemeMatchConditionParameters                                             | Modified |       |
-| v1api20230501   | RequestSchemeMatchConditionParameters_STATUS                                      | v1api20230501/storage | RequestSchemeMatchConditionParameters_STATUS                                      | Modified |       |
-| v1api20230501   | RequestUriMatchConditionParameters                                                | v1api20230501/storage | RequestUriMatchConditionParameters                                                | Modified |       |
-| v1api20230501   | RequestUriMatchConditionParameters_STATUS                                         | v1api20230501/storage | RequestUriMatchConditionParameters_STATUS                                         | Modified |       |
-| v1api20230501   | ResourceReference                                                                 | v1api20230501/storage | ResourceReference                                                                 | Extended |       |
-| v1api20230501   | ResourceReference_STATUS                                                          | v1api20230501/storage | ResourceReference_STATUS                                                          | Extended |       |
-| v1api20230501   | RouteConfigurationOverrideActionParameters                                        | v1api20230501/storage | RouteConfigurationOverrideActionParameters                                        | Modified |       |
-| v1api20230501   | RouteConfigurationOverrideActionParameters_STATUS                                 | v1api20230501/storage | RouteConfigurationOverrideActionParameters_STATUS                                 | Modified |       |
-| v1api20230501   | RouteOperatorSpec                                                                 | v1api20230501/storage | RouteOperatorSpec                                                                 | Extended |       |
-| v1api20230501   | Route_STATUS                                                                      | v1api20230501/storage | Route_STATUS                                                                      | Modified |       |
-| v1api20230501   | Route_Spec                                                                        | v1api20230501/storage | Route_Spec                                                                        | Modified |       |
-| v1api20230501   | RuleOperatorSpec                                                                  | v1api20230501/storage | RuleOperatorSpec                                                                  | Extended |       |
-| v1api20230501   | RuleSetOperatorSpec                                                               | v1api20230501/storage | RuleSetOperatorSpec                                                               | Extended |       |
-| v1api20230501   | RuleSet_STATUS                                                                    | v1api20230501/storage | RuleSet_STATUS                                                                    | Modified |       |
-| v1api20230501   | RuleSet_Spec                                                                      | v1api20230501/storage | RuleSet_Spec                                                                      | Extended |       |
-| v1api20230501   | Rule_STATUS                                                                       | v1api20230501/storage | Rule_STATUS                                                                       | Modified |       |
-| v1api20230501   | Rule_Spec                                                                         | v1api20230501/storage | Rule_Spec                                                                         | Modified |       |
-| v1api20230501   | SecretOperatorSpec                                                                | v1api20230501/storage | SecretOperatorSpec                                                                | Extended |       |
-| v1api20230501   | SecretParameters                                                                  | v1api20230501/storage | SecretParameters                                                                  | Extended |       |
-| v1api20230501   | SecretParameters_STATUS                                                           | v1api20230501/storage | SecretParameters_STATUS                                                           | Extended |       |
-| v1api20230501   | Secret_STATUS                                                                     | v1api20230501/storage | Secret_STATUS                                                                     | Modified |       |
-| v1api20230501   | Secret_Spec                                                                       | v1api20230501/storage | Secret_Spec                                                                       | Extended |       |
-| v1api20230501   | SecurityPolicyOperatorSpec                                                        | v1api20230501/storage | SecurityPolicyOperatorSpec                                                        | Extended |       |
-| v1api20230501   | SecurityPolicyPropertiesParameters                                                | v1api20230501/storage | SecurityPolicyPropertiesParameters                                                | Extended |       |
-| v1api20230501   | SecurityPolicyPropertiesParameters_STATUS                                         | v1api20230501/storage | SecurityPolicyPropertiesParameters_STATUS                                         | Extended |       |
-| v1api20230501   | SecurityPolicyWebApplicationFirewallAssociation                                   | v1api20230501/storage | SecurityPolicyWebApplicationFirewallAssociation                                   | Extended |       |
-| v1api20230501   | SecurityPolicyWebApplicationFirewallAssociation_STATUS                            | v1api20230501/storage | SecurityPolicyWebApplicationFirewallAssociation_STATUS                            | Extended |       |
-| v1api20230501   | SecurityPolicyWebApplicationFirewallParameters                                    | v1api20230501/storage | SecurityPolicyWebApplicationFirewallParameters                                    | Modified |       |
-| v1api20230501   | SecurityPolicyWebApplicationFirewallParameters_STATUS                             | v1api20230501/storage | SecurityPolicyWebApplicationFirewallParameters_STATUS                             | Modified |       |
-| v1api20230501   | SecurityPolicy_STATUS                                                             | v1api20230501/storage | SecurityPolicy_STATUS                                                             | Modified |       |
-| v1api20230501   | SecurityPolicy_Spec                                                               | v1api20230501/storage | SecurityPolicy_Spec                                                               | Extended |       |
-| v1api20230501   | ServerPortMatchConditionParameters                                                | v1api20230501/storage | ServerPortMatchConditionParameters                                                | Modified |       |
-| v1api20230501   | ServerPortMatchConditionParameters_STATUS                                         | v1api20230501/storage | ServerPortMatchConditionParameters_STATUS                                         | Modified |       |
-| v1api20230501   | SharedPrivateLinkResourceProperties                                               | v1api20230501/storage | SharedPrivateLinkResourceProperties                                               | Modified |       |
-| v1api20230501   | SharedPrivateLinkResourceProperties_STATUS                                        | v1api20230501/storage | SharedPrivateLinkResourceProperties_STATUS                                        | Modified |       |
-| v1api20230501   | Sku                                                                               | v1api20230501/storage | Sku                                                                               | Modified |       |
-| v1api20230501   | Sku_STATUS                                                                        | v1api20230501/storage | Sku_STATUS                                                                        | Modified |       |
-| v1api20230501   | SocketAddrMatchConditionParameters                                                | v1api20230501/storage | SocketAddrMatchConditionParameters                                                | Modified |       |
-| v1api20230501   | SocketAddrMatchConditionParameters_STATUS                                         | v1api20230501/storage | SocketAddrMatchConditionParameters_STATUS                                         | Modified |       |
-| v1api20230501   | SslProtocolMatchConditionParameters                                               | v1api20230501/storage | SslProtocolMatchConditionParameters                                               | Modified |       |
-| v1api20230501   | SslProtocolMatchConditionParameters_STATUS                                        | v1api20230501/storage | SslProtocolMatchConditionParameters_STATUS                                        | Modified |       |
-| v1api20230501   | SystemData_STATUS                                                                 | v1api20230501/storage | SystemData_STATUS                                                                 | Modified |       |
-| v1api20230501   | UrlFileExtensionMatchConditionParameters                                          | v1api20230501/storage | UrlFileExtensionMatchConditionParameters                                          | Modified |       |
-| v1api20230501   | UrlFileExtensionMatchConditionParameters_STATUS                                   | v1api20230501/storage | UrlFileExtensionMatchConditionParameters_STATUS                                   | Modified |       |
-| v1api20230501   | UrlFileNameMatchConditionParameters                                               | v1api20230501/storage | UrlFileNameMatchConditionParameters                                               | Modified |       |
-| v1api20230501   | UrlFileNameMatchConditionParameters_STATUS                                        | v1api20230501/storage | UrlFileNameMatchConditionParameters_STATUS                                        | Modified |       |
-| v1api20230501   | UrlPathMatchConditionParameters                                                   | v1api20230501/storage | UrlPathMatchConditionParameters                                                   | Modified |       |
-| v1api20230501   | UrlPathMatchConditionParameters_STATUS                                            | v1api20230501/storage | UrlPathMatchConditionParameters_STATUS                                            | Modified |       |
-| v1api20230501   | UrlRedirectAction                                                                 | v1api20230501/storage | UrlRedirectAction                                                                 | Modified |       |
-| v1api20230501   | UrlRedirectActionParameters                                                       | v1api20230501/storage | UrlRedirectActionParameters                                                       | Modified |       |
-| v1api20230501   | UrlRedirectActionParameters_STATUS                                                | v1api20230501/storage | UrlRedirectActionParameters_STATUS                                                | Modified |       |
-| v1api20230501   | UrlRedirectAction_STATUS                                                          | v1api20230501/storage | UrlRedirectAction_STATUS                                                          | Modified |       |
-| v1api20230501   | UrlRewriteAction                                                                  | v1api20230501/storage | UrlRewriteAction                                                                  | Modified |       |
-| v1api20230501   | UrlRewriteActionParameters                                                        | v1api20230501/storage | UrlRewriteActionParameters                                                        | Modified |       |
-| v1api20230501   | UrlRewriteActionParameters_STATUS                                                 | v1api20230501/storage | UrlRewriteActionParameters_STATUS                                                 | Modified |       |
-| v1api20230501   | UrlRewriteAction_STATUS                                                           | v1api20230501/storage | UrlRewriteAction_STATUS                                                           | Modified |       |
-| v1api20230501   | UrlSigningAction                                                                  | v1api20230501/storage | UrlSigningAction                                                                  | Modified |       |
-| v1api20230501   | UrlSigningActionParameters                                                        | v1api20230501/storage | UrlSigningActionParameters                                                        | Modified |       |
-| v1api20230501   | UrlSigningActionParameters_STATUS                                                 | v1api20230501/storage | UrlSigningActionParameters_STATUS                                                 | Modified |       |
-| v1api20230501   | UrlSigningAction_STATUS                                                           | v1api20230501/storage | UrlSigningAction_STATUS                                                           | Modified |       |
-| v1api20230501   | UrlSigningKeyParameters                                                           | v1api20230501/storage | UrlSigningKeyParameters                                                           | Modified |       |
-| v1api20230501   | UrlSigningKeyParameters_STATUS                                                    | v1api20230501/storage | UrlSigningKeyParameters_STATUS                                                    | Modified |       |
-| v1api20230501   | UrlSigningParamIdentifier                                                         | v1api20230501/storage | UrlSigningParamIdentifier                                                         | Modified |       |
-| v1api20230501   | UrlSigningParamIdentifier_STATUS                                                  | v1api20230501/storage | UrlSigningParamIdentifier_STATUS                                                  | Modified |       |
-| v1api20230501   | UserAssignedIdentityDetails                                                       | v1api20230501/storage | UserAssignedIdentityDetails                                                       | Extended |       |
-| v1api20230501   | UserAssignedIdentity_STATUS                                                       | v1api20230501/storage | UserAssignedIdentity_STATUS                                                       | Extended |       |
+| v1api20230501                                                                     | v1api20230501/storage                                                             | Status   | Notes |
+|:----------------------------------------------------------------------------------|:----------------------------------------------------------------------------------|:--------:|:------|
+| AFDDomainHttpsParameters                                                          | AFDDomainHttpsParameters                                                          | Modified |       |
+| AFDDomainHttpsParameters_STATUS                                                   | AFDDomainHttpsParameters_STATUS                                                   | Modified |       |
+| ActivatedResourceReference                                                        | ActivatedResourceReference                                                        | Extended |       |
+| ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded | ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded | Extended |       |
+| ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded     | ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded     | Extended |       |
+| AfdCustomDomainOperatorSpec                                                       | AfdCustomDomainOperatorSpec                                                       | Extended |       |
+| AfdCustomDomain_STATUS                                                            | AfdCustomDomain_STATUS                                                            | Modified |       |
+| AfdCustomDomain_Spec                                                              | AfdCustomDomain_Spec                                                              | Extended |       |
+| AfdEndpointOperatorSpec                                                           | AfdEndpointOperatorSpec                                                           | Extended |       |
+| AfdEndpoint_STATUS                                                                | AfdEndpoint_STATUS                                                                | Modified |       |
+| AfdEndpoint_Spec                                                                  | AfdEndpoint_Spec                                                                  | Modified |       |
+| AfdOriginGroupOperatorSpec                                                        | AfdOriginGroupOperatorSpec                                                        | Extended |       |
+| AfdOriginGroup_STATUS                                                             | AfdOriginGroup_STATUS                                                             | Modified |       |
+| AfdOriginGroup_Spec                                                               | AfdOriginGroup_Spec                                                               | Modified |       |
+| AfdOriginOperatorSpec                                                             | AfdOriginOperatorSpec                                                             | Extended |       |
+| AfdOrigin_STATUS                                                                  | AfdOrigin_STATUS                                                                  | Modified |       |
+| AfdOrigin_Spec                                                                    | AfdOrigin_Spec                                                                    | Modified |       |
+| AfdRouteCacheConfiguration                                                        | AfdRouteCacheConfiguration                                                        | Modified |       |
+| AfdRouteCacheConfiguration_STATUS                                                 | AfdRouteCacheConfiguration_STATUS                                                 | Modified |       |
+| AzureFirstPartyManagedCertificateParameters                                       | AzureFirstPartyManagedCertificateParameters                                       | Modified |       |
+| AzureFirstPartyManagedCertificateParameters_STATUS                                | AzureFirstPartyManagedCertificateParameters_STATUS                                | Modified |       |
+| CacheConfiguration                                                                | CacheConfiguration                                                                | Modified |       |
+| CacheConfiguration_STATUS                                                         | CacheConfiguration_STATUS                                                         | Modified |       |
+| CacheExpirationActionParameters                                                   | CacheExpirationActionParameters                                                   | Modified |       |
+| CacheExpirationActionParameters_STATUS                                            | CacheExpirationActionParameters_STATUS                                            | Modified |       |
+| CacheKeyQueryStringActionParameters                                               | CacheKeyQueryStringActionParameters                                               | Modified |       |
+| CacheKeyQueryStringActionParameters_STATUS                                        | CacheKeyQueryStringActionParameters_STATUS                                        | Modified |       |
+| ClientPortMatchConditionParameters                                                | ClientPortMatchConditionParameters                                                | Modified |       |
+| ClientPortMatchConditionParameters_STATUS                                         | ClientPortMatchConditionParameters_STATUS                                         | Modified |       |
+| CompressionSettings                                                               | CompressionSettings                                                               | Extended |       |
+| CompressionSettings_STATUS                                                        | CompressionSettings_STATUS                                                        | Extended |       |
+| CookiesMatchConditionParameters                                                   | CookiesMatchConditionParameters                                                   | Modified |       |
+| CookiesMatchConditionParameters_STATUS                                            | CookiesMatchConditionParameters_STATUS                                            | Modified |       |
+| CustomerCertificateParameters                                                     | CustomerCertificateParameters                                                     | Modified |       |
+| CustomerCertificateParameters_STATUS                                              | CustomerCertificateParameters_STATUS                                              | Modified |       |
+| DeliveryRuleAction                                                                | DeliveryRuleAction                                                                | Extended |       |
+| DeliveryRuleAction_STATUS                                                         | DeliveryRuleAction_STATUS                                                         | Extended |       |
+| DeliveryRuleCacheExpirationAction                                                 | DeliveryRuleCacheExpirationAction                                                 | Modified |       |
+| DeliveryRuleCacheExpirationAction_STATUS                                          | DeliveryRuleCacheExpirationAction_STATUS                                          | Modified |       |
+| DeliveryRuleCacheKeyQueryStringAction                                             | DeliveryRuleCacheKeyQueryStringAction                                             | Modified |       |
+| DeliveryRuleCacheKeyQueryStringAction_STATUS                                      | DeliveryRuleCacheKeyQueryStringAction_STATUS                                      | Modified |       |
+| DeliveryRuleClientPortCondition                                                   | DeliveryRuleClientPortCondition                                                   | Modified |       |
+| DeliveryRuleClientPortCondition_STATUS                                            | DeliveryRuleClientPortCondition_STATUS                                            | Modified |       |
+| DeliveryRuleCondition                                                             | DeliveryRuleCondition                                                             | Extended |       |
+| DeliveryRuleCondition_STATUS                                                      | DeliveryRuleCondition_STATUS                                                      | Extended |       |
+| DeliveryRuleCookiesCondition                                                      | DeliveryRuleCookiesCondition                                                      | Modified |       |
+| DeliveryRuleCookiesCondition_STATUS                                               | DeliveryRuleCookiesCondition_STATUS                                               | Modified |       |
+| DeliveryRuleHostNameCondition                                                     | DeliveryRuleHostNameCondition                                                     | Modified |       |
+| DeliveryRuleHostNameCondition_STATUS                                              | DeliveryRuleHostNameCondition_STATUS                                              | Modified |       |
+| DeliveryRuleHttpVersionCondition                                                  | DeliveryRuleHttpVersionCondition                                                  | Modified |       |
+| DeliveryRuleHttpVersionCondition_STATUS                                           | DeliveryRuleHttpVersionCondition_STATUS                                           | Modified |       |
+| DeliveryRuleIsDeviceCondition                                                     | DeliveryRuleIsDeviceCondition                                                     | Modified |       |
+| DeliveryRuleIsDeviceCondition_STATUS                                              | DeliveryRuleIsDeviceCondition_STATUS                                              | Modified |       |
+| DeliveryRulePostArgsCondition                                                     | DeliveryRulePostArgsCondition                                                     | Modified |       |
+| DeliveryRulePostArgsCondition_STATUS                                              | DeliveryRulePostArgsCondition_STATUS                                              | Modified |       |
+| DeliveryRuleQueryStringCondition                                                  | DeliveryRuleQueryStringCondition                                                  | Modified |       |
+| DeliveryRuleQueryStringCondition_STATUS                                           | DeliveryRuleQueryStringCondition_STATUS                                           | Modified |       |
+| DeliveryRuleRemoteAddressCondition                                                | DeliveryRuleRemoteAddressCondition                                                | Modified |       |
+| DeliveryRuleRemoteAddressCondition_STATUS                                         | DeliveryRuleRemoteAddressCondition_STATUS                                         | Modified |       |
+| DeliveryRuleRequestBodyCondition                                                  | DeliveryRuleRequestBodyCondition                                                  | Modified |       |
+| DeliveryRuleRequestBodyCondition_STATUS                                           | DeliveryRuleRequestBodyCondition_STATUS                                           | Modified |       |
+| DeliveryRuleRequestHeaderAction                                                   | DeliveryRuleRequestHeaderAction                                                   | Modified |       |
+| DeliveryRuleRequestHeaderAction_STATUS                                            | DeliveryRuleRequestHeaderAction_STATUS                                            | Modified |       |
+| DeliveryRuleRequestHeaderCondition                                                | DeliveryRuleRequestHeaderCondition                                                | Modified |       |
+| DeliveryRuleRequestHeaderCondition_STATUS                                         | DeliveryRuleRequestHeaderCondition_STATUS                                         | Modified |       |
+| DeliveryRuleRequestMethodCondition                                                | DeliveryRuleRequestMethodCondition                                                | Modified |       |
+| DeliveryRuleRequestMethodCondition_STATUS                                         | DeliveryRuleRequestMethodCondition_STATUS                                         | Modified |       |
+| DeliveryRuleRequestSchemeCondition                                                | DeliveryRuleRequestSchemeCondition                                                | Modified |       |
+| DeliveryRuleRequestSchemeCondition_STATUS                                         | DeliveryRuleRequestSchemeCondition_STATUS                                         | Modified |       |
+| DeliveryRuleRequestUriCondition                                                   | DeliveryRuleRequestUriCondition                                                   | Modified |       |
+| DeliveryRuleRequestUriCondition_STATUS                                            | DeliveryRuleRequestUriCondition_STATUS                                            | Modified |       |
+| DeliveryRuleResponseHeaderAction                                                  | DeliveryRuleResponseHeaderAction                                                  | Modified |       |
+| DeliveryRuleResponseHeaderAction_STATUS                                           | DeliveryRuleResponseHeaderAction_STATUS                                           | Modified |       |
+| DeliveryRuleRouteConfigurationOverrideAction                                      | DeliveryRuleRouteConfigurationOverrideAction                                      | Modified |       |
+| DeliveryRuleRouteConfigurationOverrideAction_STATUS                               | DeliveryRuleRouteConfigurationOverrideAction_STATUS                               | Modified |       |
+| DeliveryRuleServerPortCondition                                                   | DeliveryRuleServerPortCondition                                                   | Modified |       |
+| DeliveryRuleServerPortCondition_STATUS                                            | DeliveryRuleServerPortCondition_STATUS                                            | Modified |       |
+| DeliveryRuleSocketAddrCondition                                                   | DeliveryRuleSocketAddrCondition                                                   | Modified |       |
+| DeliveryRuleSocketAddrCondition_STATUS                                            | DeliveryRuleSocketAddrCondition_STATUS                                            | Modified |       |
+| DeliveryRuleSslProtocolCondition                                                  | DeliveryRuleSslProtocolCondition                                                  | Modified |       |
+| DeliveryRuleSslProtocolCondition_STATUS                                           | DeliveryRuleSslProtocolCondition_STATUS                                           | Modified |       |
+| DeliveryRuleUrlFileExtensionCondition                                             | DeliveryRuleUrlFileExtensionCondition                                             | Modified |       |
+| DeliveryRuleUrlFileExtensionCondition_STATUS                                      | DeliveryRuleUrlFileExtensionCondition_STATUS                                      | Modified |       |
+| DeliveryRuleUrlFileNameCondition                                                  | DeliveryRuleUrlFileNameCondition                                                  | Modified |       |
+| DeliveryRuleUrlFileNameCondition_STATUS                                           | DeliveryRuleUrlFileNameCondition_STATUS                                           | Modified |       |
+| DeliveryRuleUrlPathCondition                                                      | DeliveryRuleUrlPathCondition                                                      | Modified |       |
+| DeliveryRuleUrlPathCondition_STATUS                                               | DeliveryRuleUrlPathCondition_STATUS                                               | Modified |       |
+| DomainValidationProperties_STATUS                                                 | DomainValidationProperties_STATUS                                                 | Extended |       |
+| HeaderActionParameters                                                            | HeaderActionParameters                                                            | Modified |       |
+| HeaderActionParameters_STATUS                                                     | HeaderActionParameters_STATUS                                                     | Modified |       |
+| HealthProbeParameters                                                             | HealthProbeParameters                                                             | Modified |       |
+| HealthProbeParameters_STATUS                                                      | HealthProbeParameters_STATUS                                                      | Modified |       |
+| HostNameMatchConditionParameters                                                  | HostNameMatchConditionParameters                                                  | Modified |       |
+| HostNameMatchConditionParameters_STATUS                                           | HostNameMatchConditionParameters_STATUS                                           | Modified |       |
+| HttpVersionMatchConditionParameters                                               | HttpVersionMatchConditionParameters                                               | Modified |       |
+| HttpVersionMatchConditionParameters_STATUS                                        | HttpVersionMatchConditionParameters_STATUS                                        | Modified |       |
+| IsDeviceMatchConditionParameters                                                  | IsDeviceMatchConditionParameters                                                  | Modified |       |
+| IsDeviceMatchConditionParameters_STATUS                                           | IsDeviceMatchConditionParameters_STATUS                                           | Modified |       |
+| LoadBalancingSettingsParameters                                                   | LoadBalancingSettingsParameters                                                   | Extended |       |
+| LoadBalancingSettingsParameters_STATUS                                            | LoadBalancingSettingsParameters_STATUS                                            | Extended |       |
+| ManagedCertificateParameters                                                      | ManagedCertificateParameters                                                      | Modified |       |
+| ManagedCertificateParameters_STATUS                                               | ManagedCertificateParameters_STATUS                                               | Modified |       |
+| ManagedServiceIdentity                                                            | ManagedServiceIdentity                                                            | Modified |       |
+| ManagedServiceIdentity_STATUS                                                     | ManagedServiceIdentity_STATUS                                                     | Modified |       |
+| OriginGroupOverride                                                               | OriginGroupOverride                                                               | Modified |       |
+| OriginGroupOverrideAction                                                         | OriginGroupOverrideAction                                                         | Modified |       |
+| OriginGroupOverrideActionParameters                                               | OriginGroupOverrideActionParameters                                               | Modified |       |
+| OriginGroupOverrideActionParameters_STATUS                                        | OriginGroupOverrideActionParameters_STATUS                                        | Modified |       |
+| OriginGroupOverrideAction_STATUS                                                  | OriginGroupOverrideAction_STATUS                                                  | Modified |       |
+| OriginGroupOverride_STATUS                                                        | OriginGroupOverride_STATUS                                                        | Modified |       |
+| PostArgsMatchConditionParameters                                                  | PostArgsMatchConditionParameters                                                  | Modified |       |
+| PostArgsMatchConditionParameters_STATUS                                           | PostArgsMatchConditionParameters_STATUS                                           | Modified |       |
+| ProfileOperatorSpec                                                               | ProfileOperatorSpec                                                               | Extended |       |
+| Profile_STATUS                                                                    | Profile_STATUS                                                                    | Modified |       |
+| Profile_Spec                                                                      | Profile_Spec                                                                      | Modified |       |
+| QueryStringMatchConditionParameters                                               | QueryStringMatchConditionParameters                                               | Modified |       |
+| QueryStringMatchConditionParameters_STATUS                                        | QueryStringMatchConditionParameters_STATUS                                        | Modified |       |
+| RemoteAddressMatchConditionParameters                                             | RemoteAddressMatchConditionParameters                                             | Modified |       |
+| RemoteAddressMatchConditionParameters_STATUS                                      | RemoteAddressMatchConditionParameters_STATUS                                      | Modified |       |
+| RequestBodyMatchConditionParameters                                               | RequestBodyMatchConditionParameters                                               | Modified |       |
+| RequestBodyMatchConditionParameters_STATUS                                        | RequestBodyMatchConditionParameters_STATUS                                        | Modified |       |
+| RequestHeaderMatchConditionParameters                                             | RequestHeaderMatchConditionParameters                                             | Modified |       |
+| RequestHeaderMatchConditionParameters_STATUS                                      | RequestHeaderMatchConditionParameters_STATUS                                      | Modified |       |
+| RequestMethodMatchConditionParameters                                             | RequestMethodMatchConditionParameters                                             | Modified |       |
+| RequestMethodMatchConditionParameters_STATUS                                      | RequestMethodMatchConditionParameters_STATUS                                      | Modified |       |
+| RequestSchemeMatchConditionParameters                                             | RequestSchemeMatchConditionParameters                                             | Modified |       |
+| RequestSchemeMatchConditionParameters_STATUS                                      | RequestSchemeMatchConditionParameters_STATUS                                      | Modified |       |
+| RequestUriMatchConditionParameters                                                | RequestUriMatchConditionParameters                                                | Modified |       |
+| RequestUriMatchConditionParameters_STATUS                                         | RequestUriMatchConditionParameters_STATUS                                         | Modified |       |
+| ResourceReference                                                                 | ResourceReference                                                                 | Extended |       |
+| ResourceReference_STATUS                                                          | ResourceReference_STATUS                                                          | Extended |       |
+| RouteConfigurationOverrideActionParameters                                        | RouteConfigurationOverrideActionParameters                                        | Modified |       |
+| RouteConfigurationOverrideActionParameters_STATUS                                 | RouteConfigurationOverrideActionParameters_STATUS                                 | Modified |       |
+| RouteOperatorSpec                                                                 | RouteOperatorSpec                                                                 | Extended |       |
+| Route_STATUS                                                                      | Route_STATUS                                                                      | Modified |       |
+| Route_Spec                                                                        | Route_Spec                                                                        | Modified |       |
+| RuleOperatorSpec                                                                  | RuleOperatorSpec                                                                  | Extended |       |
+| RuleSetOperatorSpec                                                               | RuleSetOperatorSpec                                                               | Extended |       |
+| RuleSet_STATUS                                                                    | RuleSet_STATUS                                                                    | Modified |       |
+| RuleSet_Spec                                                                      | RuleSet_Spec                                                                      | Extended |       |
+| Rule_STATUS                                                                       | Rule_STATUS                                                                       | Modified |       |
+| Rule_Spec                                                                         | Rule_Spec                                                                         | Modified |       |
+| SecretOperatorSpec                                                                | SecretOperatorSpec                                                                | Extended |       |
+| SecretParameters                                                                  | SecretParameters                                                                  | Extended |       |
+| SecretParameters_STATUS                                                           | SecretParameters_STATUS                                                           | Extended |       |
+| Secret_STATUS                                                                     | Secret_STATUS                                                                     | Modified |       |
+| Secret_Spec                                                                       | Secret_Spec                                                                       | Extended |       |
+| SecurityPolicyOperatorSpec                                                        | SecurityPolicyOperatorSpec                                                        | Extended |       |
+| SecurityPolicyPropertiesParameters                                                | SecurityPolicyPropertiesParameters                                                | Extended |       |
+| SecurityPolicyPropertiesParameters_STATUS                                         | SecurityPolicyPropertiesParameters_STATUS                                         | Extended |       |
+| SecurityPolicyWebApplicationFirewallAssociation                                   | SecurityPolicyWebApplicationFirewallAssociation                                   | Extended |       |
+| SecurityPolicyWebApplicationFirewallAssociation_STATUS                            | SecurityPolicyWebApplicationFirewallAssociation_STATUS                            | Extended |       |
+| SecurityPolicyWebApplicationFirewallParameters                                    | SecurityPolicyWebApplicationFirewallParameters                                    | Modified |       |
+| SecurityPolicyWebApplicationFirewallParameters_STATUS                             | SecurityPolicyWebApplicationFirewallParameters_STATUS                             | Modified |       |
+| SecurityPolicy_STATUS                                                             | SecurityPolicy_STATUS                                                             | Modified |       |
+| SecurityPolicy_Spec                                                               | SecurityPolicy_Spec                                                               | Extended |       |
+| ServerPortMatchConditionParameters                                                | ServerPortMatchConditionParameters                                                | Modified |       |
+| ServerPortMatchConditionParameters_STATUS                                         | ServerPortMatchConditionParameters_STATUS                                         | Modified |       |
+| SharedPrivateLinkResourceProperties                                               | SharedPrivateLinkResourceProperties                                               | Modified |       |
+| SharedPrivateLinkResourceProperties_STATUS                                        | SharedPrivateLinkResourceProperties_STATUS                                        | Modified |       |
+| Sku                                                                               | Sku                                                                               | Modified |       |
+| Sku_STATUS                                                                        | Sku_STATUS                                                                        | Modified |       |
+| SocketAddrMatchConditionParameters                                                | SocketAddrMatchConditionParameters                                                | Modified |       |
+| SocketAddrMatchConditionParameters_STATUS                                         | SocketAddrMatchConditionParameters_STATUS                                         | Modified |       |
+| SslProtocolMatchConditionParameters                                               | SslProtocolMatchConditionParameters                                               | Modified |       |
+| SslProtocolMatchConditionParameters_STATUS                                        | SslProtocolMatchConditionParameters_STATUS                                        | Modified |       |
+| SystemData_STATUS                                                                 | SystemData_STATUS                                                                 | Modified |       |
+| UrlFileExtensionMatchConditionParameters                                          | UrlFileExtensionMatchConditionParameters                                          | Modified |       |
+| UrlFileExtensionMatchConditionParameters_STATUS                                   | UrlFileExtensionMatchConditionParameters_STATUS                                   | Modified |       |
+| UrlFileNameMatchConditionParameters                                               | UrlFileNameMatchConditionParameters                                               | Modified |       |
+| UrlFileNameMatchConditionParameters_STATUS                                        | UrlFileNameMatchConditionParameters_STATUS                                        | Modified |       |
+| UrlPathMatchConditionParameters                                                   | UrlPathMatchConditionParameters                                                   | Modified |       |
+| UrlPathMatchConditionParameters_STATUS                                            | UrlPathMatchConditionParameters_STATUS                                            | Modified |       |
+| UrlRedirectAction                                                                 | UrlRedirectAction                                                                 | Modified |       |
+| UrlRedirectActionParameters                                                       | UrlRedirectActionParameters                                                       | Modified |       |
+| UrlRedirectActionParameters_STATUS                                                | UrlRedirectActionParameters_STATUS                                                | Modified |       |
+| UrlRedirectAction_STATUS                                                          | UrlRedirectAction_STATUS                                                          | Modified |       |
+| UrlRewriteAction                                                                  | UrlRewriteAction                                                                  | Modified |       |
+| UrlRewriteActionParameters                                                        | UrlRewriteActionParameters                                                        | Modified |       |
+| UrlRewriteActionParameters_STATUS                                                 | UrlRewriteActionParameters_STATUS                                                 | Modified |       |
+| UrlRewriteAction_STATUS                                                           | UrlRewriteAction_STATUS                                                           | Modified |       |
+| UrlSigningAction                                                                  | UrlSigningAction                                                                  | Modified |       |
+| UrlSigningActionParameters                                                        | UrlSigningActionParameters                                                        | Modified |       |
+| UrlSigningActionParameters_STATUS                                                 | UrlSigningActionParameters_STATUS                                                 | Modified |       |
+| UrlSigningAction_STATUS                                                           | UrlSigningAction_STATUS                                                           | Modified |       |
+| UrlSigningKeyParameters                                                           | UrlSigningKeyParameters                                                           | Modified |       |
+| UrlSigningKeyParameters_STATUS                                                    | UrlSigningKeyParameters_STATUS                                                    | Modified |       |
+| UrlSigningParamIdentifier                                                         | UrlSigningParamIdentifier                                                         | Modified |       |
+| UrlSigningParamIdentifier_STATUS                                                  | UrlSigningParamIdentifier_STATUS                                                  | Modified |       |
+| UserAssignedIdentityDetails                                                       | UserAssignedIdentityDetails                                                       | Extended |       |
+| UserAssignedIdentity_STATUS                                                       | UserAssignedIdentity_STATUS                                                       | Extended |       |
 
 ### AFDDomainHttpsParameters
 

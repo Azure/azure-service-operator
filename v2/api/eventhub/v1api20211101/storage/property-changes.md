@@ -11,58 +11,58 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type                         | Next Version          | Next Type                            | Status    | Notes |
-|:----------------------|:-------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
-| v1api20211101/storage | Namespace                            | v1api20240101/storage | Namespace                            | Identical |       |
-| v1api20211101/storage | NamespacesAuthorizationRule          | v1api20240101/storage | NamespacesAuthorizationRule          | Identical |       |
-| v1api20211101/storage | NamespacesEventhub                   | v1api20240101/storage | NamespacesEventhub                   | Identical |       |
-| v1api20211101/storage | NamespacesEventhubsAuthorizationRule | v1api20240101/storage | NamespacesEventhubsAuthorizationRule | Identical |       |
-| v1api20211101/storage | NamespacesEventhubsConsumerGroup     | v1api20240101/storage | NamespacesEventhubsConsumerGroup     | Identical |       |
+| v1api20211101/storage                | v1api20240101/storage                | Status    | Notes |
+|:-------------------------------------|:-------------------------------------|:---------:|:------|
+| Namespace                            | Namespace                            | Identical |       |
+| NamespacesAuthorizationRule          | NamespacesAuthorizationRule          | Identical |       |
+| NamespacesEventhub                   | NamespacesEventhub                   | Identical |       |
+| NamespacesEventhubsAuthorizationRule | NamespacesEventhubsAuthorizationRule | Identical |       |
+| NamespacesEventhubsConsumerGroup     | NamespacesEventhubsConsumerGroup     | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                                        | Next Version          | Next Type                                           | Status    | Notes |
-|:----------------------|:----------------------------------------------------|:----------------------|:----------------------------------------------------|:---------:|:------|
-| v1api20211101/storage | CaptureDescription                                  | v1api20240101/storage | CaptureDescription                                  | Identical |       |
-| v1api20211101/storage | CaptureDescription_STATUS                           | v1api20240101/storage | CaptureDescription_STATUS                           | Identical |       |
-|                       |                                                     | v1api20240101/storage | CaptureIdentity                                     | New       |       |
-|                       |                                                     | v1api20240101/storage | CaptureIdentity_STATUS                              | New       |       |
-| v1api20211101/storage | Destination                                         | v1api20240101/storage | Destination                                         | Extended  |       |
-| v1api20211101/storage | Destination_STATUS                                  | v1api20240101/storage | Destination_STATUS                                  | Extended  |       |
-| v1api20211101/storage | Encryption                                          | v1api20240101/storage | Encryption                                          | Identical |       |
-| v1api20211101/storage | Encryption_STATUS                                   | v1api20240101/storage | Encryption_STATUS                                   | Identical |       |
-| v1api20211101/storage | Identity                                            | v1api20240101/storage | Identity                                            | Identical |       |
-| v1api20211101/storage | Identity_STATUS                                     | v1api20240101/storage | Identity_STATUS                                     | Identical |       |
-| v1api20211101/storage | KeyVaultProperties                                  | v1api20240101/storage | KeyVaultProperties                                  | Identical |       |
-| v1api20211101/storage | KeyVaultProperties_STATUS                           | v1api20240101/storage | KeyVaultProperties_STATUS                           | Identical |       |
-| v1api20211101/storage | NamespaceOperatorSecrets                            | v1api20240101/storage | NamespaceOperatorSecrets                            | Identical |       |
-| v1api20211101/storage | NamespaceOperatorSpec                               | v1api20240101/storage | NamespaceOperatorSpec                               | Identical |       |
-| v1api20211101/storage | Namespace_STATUS                                    | v1api20240101/storage | Namespace_STATUS                                    | Extended  |       |
-| v1api20211101/storage | Namespace_Spec                                      | v1api20240101/storage | Namespace_Spec                                      | Extended  |       |
-| v1api20211101/storage | NamespacesAuthorizationRuleOperatorSecrets          | v1api20240101/storage | NamespacesAuthorizationRuleOperatorSecrets          | Identical |       |
-| v1api20211101/storage | NamespacesAuthorizationRuleOperatorSpec             | v1api20240101/storage | NamespacesAuthorizationRuleOperatorSpec             | Identical |       |
-| v1api20211101/storage | NamespacesAuthorizationRule_STATUS                  | v1api20240101/storage | NamespacesAuthorizationRule_STATUS                  | Identical |       |
-| v1api20211101/storage | NamespacesAuthorizationRule_Spec                    | v1api20240101/storage | NamespacesAuthorizationRule_Spec                    | Identical |       |
-| v1api20211101/storage | NamespacesEventhubOperatorSpec                      | v1api20240101/storage | NamespacesEventhubOperatorSpec                      | Identical |       |
-| v1api20211101/storage | NamespacesEventhub_STATUS                           | v1api20240101/storage | NamespacesEventhub_STATUS                           | Extended  |       |
-| v1api20211101/storage | NamespacesEventhub_Spec                             | v1api20240101/storage | NamespacesEventhub_Spec                             | Extended  |       |
-| v1api20211101/storage | NamespacesEventhubsAuthorizationRuleOperatorSecrets | v1api20240101/storage | NamespacesEventhubsAuthorizationRuleOperatorSecrets | Identical |       |
-| v1api20211101/storage | NamespacesEventhubsAuthorizationRuleOperatorSpec    | v1api20240101/storage | NamespacesEventhubsAuthorizationRuleOperatorSpec    | Identical |       |
-| v1api20211101/storage | NamespacesEventhubsAuthorizationRule_STATUS         | v1api20240101/storage | NamespacesEventhubsAuthorizationRule_STATUS         | Identical |       |
-| v1api20211101/storage | NamespacesEventhubsAuthorizationRule_Spec           | v1api20240101/storage | NamespacesEventhubsAuthorizationRule_Spec           | Identical |       |
-| v1api20211101/storage | NamespacesEventhubsConsumerGroupOperatorSpec        | v1api20240101/storage | NamespacesEventhubsConsumerGroupOperatorSpec        | Identical |       |
-| v1api20211101/storage | NamespacesEventhubsConsumerGroup_STATUS             | v1api20240101/storage | NamespacesEventhubsConsumerGroup_STATUS             | Identical |       |
-| v1api20211101/storage | NamespacesEventhubsConsumerGroup_Spec               | v1api20240101/storage | NamespacesEventhubsConsumerGroup_Spec               | Identical |       |
-| v1api20211101/storage | PrivateEndpointConnection_STATUS                    | v1api20240101/storage | PrivateEndpointConnection_STATUS                    | Identical |       |
-|                       |                                                     | v1api20240101/storage | RetentionDescription                                | New       |       |
-|                       |                                                     | v1api20240101/storage | RetentionDescription_STATUS                         | New       |       |
-| v1api20211101/storage | Sku                                                 | v1api20240101/storage | Sku                                                 | Identical |       |
-| v1api20211101/storage | Sku_STATUS                                          | v1api20240101/storage | Sku_STATUS                                          | Identical |       |
-| v1api20211101/storage | SystemData_STATUS                                   | v1api20240101/storage | SystemData_STATUS                                   | Identical |       |
-| v1api20211101/storage | UserAssignedIdentityDetails                         | v1api20240101/storage | UserAssignedIdentityDetails                         | Identical |       |
-| v1api20211101/storage | UserAssignedIdentityProperties                      | v1api20240101/storage | UserAssignedIdentityProperties                      | Identical |       |
-| v1api20211101/storage | UserAssignedIdentityProperties_STATUS               | v1api20240101/storage | UserAssignedIdentityProperties_STATUS               | Identical |       |
-| v1api20211101/storage | UserAssignedIdentity_STATUS                         | v1api20240101/storage | UserAssignedIdentity_STATUS                         | Identical |       |
+| v1api20211101/storage                               | v1api20240101/storage                               | Status    | Notes |
+|:----------------------------------------------------|:----------------------------------------------------|:---------:|:------|
+| CaptureDescription                                  | CaptureDescription                                  | Identical |       |
+| CaptureDescription_STATUS                           | CaptureDescription_STATUS                           | Identical |       |
+|                                                     | CaptureIdentity                                     | New       |       |
+|                                                     | CaptureIdentity_STATUS                              | New       |       |
+| Destination                                         | Destination                                         | Extended  |       |
+| Destination_STATUS                                  | Destination_STATUS                                  | Extended  |       |
+| Encryption                                          | Encryption                                          | Identical |       |
+| Encryption_STATUS                                   | Encryption_STATUS                                   | Identical |       |
+| Identity                                            | Identity                                            | Identical |       |
+| Identity_STATUS                                     | Identity_STATUS                                     | Identical |       |
+| KeyVaultProperties                                  | KeyVaultProperties                                  | Identical |       |
+| KeyVaultProperties_STATUS                           | KeyVaultProperties_STATUS                           | Identical |       |
+| NamespaceOperatorSecrets                            | NamespaceOperatorSecrets                            | Identical |       |
+| NamespaceOperatorSpec                               | NamespaceOperatorSpec                               | Identical |       |
+| Namespace_STATUS                                    | Namespace_STATUS                                    | Extended  |       |
+| Namespace_Spec                                      | Namespace_Spec                                      | Extended  |       |
+| NamespacesAuthorizationRuleOperatorSecrets          | NamespacesAuthorizationRuleOperatorSecrets          | Identical |       |
+| NamespacesAuthorizationRuleOperatorSpec             | NamespacesAuthorizationRuleOperatorSpec             | Identical |       |
+| NamespacesAuthorizationRule_STATUS                  | NamespacesAuthorizationRule_STATUS                  | Identical |       |
+| NamespacesAuthorizationRule_Spec                    | NamespacesAuthorizationRule_Spec                    | Identical |       |
+| NamespacesEventhubOperatorSpec                      | NamespacesEventhubOperatorSpec                      | Identical |       |
+| NamespacesEventhub_STATUS                           | NamespacesEventhub_STATUS                           | Extended  |       |
+| NamespacesEventhub_Spec                             | NamespacesEventhub_Spec                             | Extended  |       |
+| NamespacesEventhubsAuthorizationRuleOperatorSecrets | NamespacesEventhubsAuthorizationRuleOperatorSecrets | Identical |       |
+| NamespacesEventhubsAuthorizationRuleOperatorSpec    | NamespacesEventhubsAuthorizationRuleOperatorSpec    | Identical |       |
+| NamespacesEventhubsAuthorizationRule_STATUS         | NamespacesEventhubsAuthorizationRule_STATUS         | Identical |       |
+| NamespacesEventhubsAuthorizationRule_Spec           | NamespacesEventhubsAuthorizationRule_Spec           | Identical |       |
+| NamespacesEventhubsConsumerGroupOperatorSpec        | NamespacesEventhubsConsumerGroupOperatorSpec        | Identical |       |
+| NamespacesEventhubsConsumerGroup_STATUS             | NamespacesEventhubsConsumerGroup_STATUS             | Identical |       |
+| NamespacesEventhubsConsumerGroup_Spec               | NamespacesEventhubsConsumerGroup_Spec               | Identical |       |
+| PrivateEndpointConnection_STATUS                    | PrivateEndpointConnection_STATUS                    | Identical |       |
+|                                                     | RetentionDescription                                | New       |       |
+|                                                     | RetentionDescription_STATUS                         | New       |       |
+| Sku                                                 | Sku                                                 | Identical |       |
+| Sku_STATUS                                          | Sku_STATUS                                          | Identical |       |
+| SystemData_STATUS                                   | SystemData_STATUS                                   | Identical |       |
+| UserAssignedIdentityDetails                         | UserAssignedIdentityDetails                         | Identical |       |
+| UserAssignedIdentityProperties                      | UserAssignedIdentityProperties                      | Identical |       |
+| UserAssignedIdentityProperties_STATUS               | UserAssignedIdentityProperties_STATUS               | Identical |       |
+| UserAssignedIdentity_STATUS                         | UserAssignedIdentity_STATUS                         | Identical |       |
 
 ### Destination
 

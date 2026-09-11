@@ -11,26 +11,26 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type | Status    | Notes |
-|:----------------|:-------------|:----------------------|:----------|:---------:|:------|
-| v1api20250901   | Quota        | v1api20250901/storage | Quota     | Identical |       |
+| v1api20250901 | v1api20250901/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| Quota         | Quota                 | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type           | Next Version          | Next Type              | Status   | Notes |
-|:----------------|:-----------------------|:----------------------|:-----------------------|:--------:|:------|
-| v1api20250901   | LimitJsonObject        | v1api20250901/storage | LimitJsonObject        | Extended |       |
-| v1api20250901   | LimitJsonObject_STATUS | v1api20250901/storage | LimitJsonObject_STATUS | Extended |       |
-| v1api20250901   | LimitObject            | v1api20250901/storage | LimitObject            | Modified |       |
-| v1api20250901   | LimitObject_STATUS     | v1api20250901/storage | LimitObject_STATUS     | Modified |       |
-| v1api20250901   | QuotaOperatorSpec      | v1api20250901/storage | QuotaOperatorSpec      | Extended |       |
-| v1api20250901   | QuotaProperties        | v1api20250901/storage | QuotaProperties        | Extended |       |
-| v1api20250901   | QuotaProperties_STATUS | v1api20250901/storage | QuotaProperties_STATUS | Extended |       |
-| v1api20250901   | Quota_STATUS           | v1api20250901/storage | Quota_STATUS           | Extended |       |
-| v1api20250901   | Quota_Spec             | v1api20250901/storage | Quota_Spec             | Extended |       |
-| v1api20250901   | ResourceName           | v1api20250901/storage | ResourceName           | Extended |       |
-| v1api20250901   | ResourceName_STATUS    | v1api20250901/storage | ResourceName_STATUS    | Extended |       |
-| v1api20250901   | SystemData_STATUS      | v1api20250901/storage | SystemData_STATUS      | Modified |       |
+| v1api20250901          | v1api20250901/storage  | Status   | Notes |
+|:-----------------------|:-----------------------|:--------:|:------|
+| LimitJsonObject        | LimitJsonObject        | Extended |       |
+| LimitJsonObject_STATUS | LimitJsonObject_STATUS | Extended |       |
+| LimitObject            | LimitObject            | Modified |       |
+| LimitObject_STATUS     | LimitObject_STATUS     | Modified |       |
+| QuotaOperatorSpec      | QuotaOperatorSpec      | Extended |       |
+| QuotaProperties        | QuotaProperties        | Extended |       |
+| QuotaProperties_STATUS | QuotaProperties_STATUS | Extended |       |
+| Quota_STATUS           | Quota_STATUS           | Extended |       |
+| Quota_Spec             | Quota_Spec             | Extended |       |
+| ResourceName           | ResourceName           | Extended |       |
+| ResourceName_STATUS    | ResourceName_STATUS    | Extended |       |
+| SystemData_STATUS      | SystemData_STATUS      | Modified |       |
 
 ### LimitJsonObject
 

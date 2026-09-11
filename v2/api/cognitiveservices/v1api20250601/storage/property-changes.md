@@ -11,69 +11,69 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type | Next Version      | Next Type  | Status    | Notes |
-|:----------------------|:-------------|:------------------|:-----------|:---------:|:------|
-| v1api20250601/storage | Account      | v20250601/storage | Account    | Identical |       |
-| v1api20250601/storage | Deployment   | v20250601/storage | Deployment | Identical |       |
+| v1api20250601/storage | v20250601/storage | Status    | Notes |
+|:----------------------|:------------------|:---------:|:------|
+| Account               | Account           | Identical |       |
+| Deployment            | Deployment        | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                      | Next Version      | Next Type                         | Status    | Notes |
-|:----------------------|:----------------------------------|:------------------|:----------------------------------|:---------:|:------|
-| v1api20250601/storage | AbusePenalty_STATUS               | v20250601/storage | AbusePenalty_STATUS               | Identical |       |
-| v1api20250601/storage | AccountOperatorSecrets            | v20250601/storage | AccountOperatorSecrets            | Identical |       |
-| v1api20250601/storage | AccountOperatorSpec               | v20250601/storage | AccountOperatorSpec               | Identical |       |
-| v1api20250601/storage | AccountProperties                 | v20250601/storage | AccountProperties                 | Identical |       |
-| v1api20250601/storage | AccountProperties_STATUS          | v20250601/storage | AccountProperties_STATUS          | Identical |       |
-| v1api20250601/storage | Account_STATUS                    | v20250601/storage | Account_STATUS                    | Identical |       |
-| v1api20250601/storage | Account_Spec                      | v20250601/storage | Account_Spec                      | Identical |       |
-| v1api20250601/storage | ApiProperties                     | v20250601/storage | ApiProperties                     | Identical |       |
-| v1api20250601/storage | ApiProperties_STATUS              | v20250601/storage | ApiProperties_STATUS              | Identical |       |
-| v1api20250601/storage | CallRateLimit_STATUS              | v20250601/storage | CallRateLimit_STATUS              | Identical |       |
-| v1api20250601/storage | CommitmentPlanAssociation_STATUS  | v20250601/storage | CommitmentPlanAssociation_STATUS  | Identical |       |
-| v1api20250601/storage | DeploymentCapacitySettings        | v20250601/storage | DeploymentCapacitySettings        | Identical |       |
-| v1api20250601/storage | DeploymentCapacitySettings_STATUS | v20250601/storage | DeploymentCapacitySettings_STATUS | Identical |       |
-| v1api20250601/storage | DeploymentModel                   | v20250601/storage | DeploymentModel                   | Identical |       |
-| v1api20250601/storage | DeploymentModel_STATUS            | v20250601/storage | DeploymentModel_STATUS            | Identical |       |
-| v1api20250601/storage | DeploymentOperatorSpec            | v20250601/storage | DeploymentOperatorSpec            | Identical |       |
-| v1api20250601/storage | DeploymentProperties              | v20250601/storage | DeploymentProperties              | Identical |       |
-| v1api20250601/storage | DeploymentProperties_STATUS       | v20250601/storage | DeploymentProperties_STATUS       | Identical |       |
-| v1api20250601/storage | DeploymentScaleSettings           | v20250601/storage | DeploymentScaleSettings           | Identical |       |
-| v1api20250601/storage | DeploymentScaleSettings_STATUS    | v20250601/storage | DeploymentScaleSettings_STATUS    | Identical |       |
-| v1api20250601/storage | Deployment_STATUS                 | v20250601/storage | Deployment_STATUS                 | Identical |       |
-| v1api20250601/storage | Deployment_Spec                   | v20250601/storage | Deployment_Spec                   | Identical |       |
-| v1api20250601/storage | Encryption                        | v20250601/storage | Encryption                        | Identical |       |
-| v1api20250601/storage | Encryption_STATUS                 | v20250601/storage | Encryption_STATUS                 | Identical |       |
-| v1api20250601/storage | Identity                          | v20250601/storage | Identity                          | Identical |       |
-| v1api20250601/storage | Identity_STATUS                   | v20250601/storage | Identity_STATUS                   | Identical |       |
-| v1api20250601/storage | IpRule                            | v20250601/storage | IpRule                            | Identical |       |
-| v1api20250601/storage | IpRule_STATUS                     | v20250601/storage | IpRule_STATUS                     | Identical |       |
-| v1api20250601/storage | KeyVaultProperties                | v20250601/storage | KeyVaultProperties                | Identical |       |
-| v1api20250601/storage | KeyVaultProperties_STATUS         | v20250601/storage | KeyVaultProperties_STATUS         | Identical |       |
-| v1api20250601/storage | MultiRegionSettings               | v20250601/storage | MultiRegionSettings               | Identical |       |
-| v1api20250601/storage | MultiRegionSettings_STATUS        | v20250601/storage | MultiRegionSettings_STATUS        | Identical |       |
-| v1api20250601/storage | NetworkInjection                  | v20250601/storage | NetworkInjection                  | Identical |       |
-| v1api20250601/storage | NetworkInjection_STATUS           | v20250601/storage | NetworkInjection_STATUS           | Identical |       |
-| v1api20250601/storage | NetworkRuleSet                    | v20250601/storage | NetworkRuleSet                    | Identical |       |
-| v1api20250601/storage | NetworkRuleSet_STATUS             | v20250601/storage | NetworkRuleSet_STATUS             | Identical |       |
-| v1api20250601/storage | PrivateEndpointConnection_STATUS  | v20250601/storage | PrivateEndpointConnection_STATUS  | Identical |       |
-| v1api20250601/storage | QuotaLimit_STATUS                 | v20250601/storage | QuotaLimit_STATUS                 | Identical |       |
-| v1api20250601/storage | RaiMonitorConfig                  | v20250601/storage | RaiMonitorConfig                  | Identical |       |
-| v1api20250601/storage | RaiMonitorConfig_STATUS           | v20250601/storage | RaiMonitorConfig_STATUS           | Identical |       |
-| v1api20250601/storage | RegionSetting                     | v20250601/storage | RegionSetting                     | Identical |       |
-| v1api20250601/storage | RegionSetting_STATUS              | v20250601/storage | RegionSetting_STATUS              | Identical |       |
-| v1api20250601/storage | RequestMatchPattern_STATUS        | v20250601/storage | RequestMatchPattern_STATUS        | Identical |       |
-| v1api20250601/storage | Sku                               | v20250601/storage | Sku                               | Identical |       |
-| v1api20250601/storage | SkuCapability_STATUS              | v20250601/storage | SkuCapability_STATUS              | Identical |       |
-| v1api20250601/storage | SkuChangeInfo_STATUS              | v20250601/storage | SkuChangeInfo_STATUS              | Identical |       |
-| v1api20250601/storage | Sku_STATUS                        | v20250601/storage | Sku_STATUS                        | Identical |       |
-| v1api20250601/storage | SystemData_STATUS                 | v20250601/storage | SystemData_STATUS                 | Identical |       |
-| v1api20250601/storage | ThrottlingRule_STATUS             | v20250601/storage | ThrottlingRule_STATUS             | Identical |       |
-| v1api20250601/storage | UserAssignedIdentityDetails       | v20250601/storage | UserAssignedIdentityDetails       | Identical |       |
-| v1api20250601/storage | UserAssignedIdentity_STATUS       | v20250601/storage | UserAssignedIdentity_STATUS       | Identical |       |
-| v1api20250601/storage | UserOwnedAmlWorkspace             | v20250601/storage | UserOwnedAmlWorkspace             | Identical |       |
-| v1api20250601/storage | UserOwnedAmlWorkspace_STATUS      | v20250601/storage | UserOwnedAmlWorkspace_STATUS      | Identical |       |
-| v1api20250601/storage | UserOwnedStorage                  | v20250601/storage | UserOwnedStorage                  | Identical |       |
-| v1api20250601/storage | UserOwnedStorage_STATUS           | v20250601/storage | UserOwnedStorage_STATUS           | Identical |       |
-| v1api20250601/storage | VirtualNetworkRule                | v20250601/storage | VirtualNetworkRule                | Identical |       |
-| v1api20250601/storage | VirtualNetworkRule_STATUS         | v20250601/storage | VirtualNetworkRule_STATUS         | Identical |       |
+| v1api20250601/storage             | v20250601/storage                 | Status    | Notes |
+|:----------------------------------|:----------------------------------|:---------:|:------|
+| AbusePenalty_STATUS               | AbusePenalty_STATUS               | Identical |       |
+| AccountOperatorSecrets            | AccountOperatorSecrets            | Identical |       |
+| AccountOperatorSpec               | AccountOperatorSpec               | Identical |       |
+| AccountProperties                 | AccountProperties                 | Identical |       |
+| AccountProperties_STATUS          | AccountProperties_STATUS          | Identical |       |
+| Account_STATUS                    | Account_STATUS                    | Identical |       |
+| Account_Spec                      | Account_Spec                      | Identical |       |
+| ApiProperties                     | ApiProperties                     | Identical |       |
+| ApiProperties_STATUS              | ApiProperties_STATUS              | Identical |       |
+| CallRateLimit_STATUS              | CallRateLimit_STATUS              | Identical |       |
+| CommitmentPlanAssociation_STATUS  | CommitmentPlanAssociation_STATUS  | Identical |       |
+| DeploymentCapacitySettings        | DeploymentCapacitySettings        | Identical |       |
+| DeploymentCapacitySettings_STATUS | DeploymentCapacitySettings_STATUS | Identical |       |
+| DeploymentModel                   | DeploymentModel                   | Identical |       |
+| DeploymentModel_STATUS            | DeploymentModel_STATUS            | Identical |       |
+| DeploymentOperatorSpec            | DeploymentOperatorSpec            | Identical |       |
+| DeploymentProperties              | DeploymentProperties              | Identical |       |
+| DeploymentProperties_STATUS       | DeploymentProperties_STATUS       | Identical |       |
+| DeploymentScaleSettings           | DeploymentScaleSettings           | Identical |       |
+| DeploymentScaleSettings_STATUS    | DeploymentScaleSettings_STATUS    | Identical |       |
+| Deployment_STATUS                 | Deployment_STATUS                 | Identical |       |
+| Deployment_Spec                   | Deployment_Spec                   | Identical |       |
+| Encryption                        | Encryption                        | Identical |       |
+| Encryption_STATUS                 | Encryption_STATUS                 | Identical |       |
+| Identity                          | Identity                          | Identical |       |
+| Identity_STATUS                   | Identity_STATUS                   | Identical |       |
+| IpRule                            | IpRule                            | Identical |       |
+| IpRule_STATUS                     | IpRule_STATUS                     | Identical |       |
+| KeyVaultProperties                | KeyVaultProperties                | Identical |       |
+| KeyVaultProperties_STATUS         | KeyVaultProperties_STATUS         | Identical |       |
+| MultiRegionSettings               | MultiRegionSettings               | Identical |       |
+| MultiRegionSettings_STATUS        | MultiRegionSettings_STATUS        | Identical |       |
+| NetworkInjection                  | NetworkInjection                  | Identical |       |
+| NetworkInjection_STATUS           | NetworkInjection_STATUS           | Identical |       |
+| NetworkRuleSet                    | NetworkRuleSet                    | Identical |       |
+| NetworkRuleSet_STATUS             | NetworkRuleSet_STATUS             | Identical |       |
+| PrivateEndpointConnection_STATUS  | PrivateEndpointConnection_STATUS  | Identical |       |
+| QuotaLimit_STATUS                 | QuotaLimit_STATUS                 | Identical |       |
+| RaiMonitorConfig                  | RaiMonitorConfig                  | Identical |       |
+| RaiMonitorConfig_STATUS           | RaiMonitorConfig_STATUS           | Identical |       |
+| RegionSetting                     | RegionSetting                     | Identical |       |
+| RegionSetting_STATUS              | RegionSetting_STATUS              | Identical |       |
+| RequestMatchPattern_STATUS        | RequestMatchPattern_STATUS        | Identical |       |
+| Sku                               | Sku                               | Identical |       |
+| SkuCapability_STATUS              | SkuCapability_STATUS              | Identical |       |
+| SkuChangeInfo_STATUS              | SkuChangeInfo_STATUS              | Identical |       |
+| Sku_STATUS                        | Sku_STATUS                        | Identical |       |
+| SystemData_STATUS                 | SystemData_STATUS                 | Identical |       |
+| ThrottlingRule_STATUS             | ThrottlingRule_STATUS             | Identical |       |
+| UserAssignedIdentityDetails       | UserAssignedIdentityDetails       | Identical |       |
+| UserAssignedIdentity_STATUS       | UserAssignedIdentity_STATUS       | Identical |       |
+| UserOwnedAmlWorkspace             | UserOwnedAmlWorkspace             | Identical |       |
+| UserOwnedAmlWorkspace_STATUS      | UserOwnedAmlWorkspace_STATUS      | Identical |       |
+| UserOwnedStorage                  | UserOwnedStorage                  | Identical |       |
+| UserOwnedStorage_STATUS           | UserOwnedStorage_STATUS           | Identical |       |
+| VirtualNetworkRule                | VirtualNetworkRule                | Identical |       |
+| VirtualNetworkRule_STATUS         | VirtualNetworkRule_STATUS         | Identical |       |

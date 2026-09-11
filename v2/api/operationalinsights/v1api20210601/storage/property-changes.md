@@ -11,33 +11,33 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type | Next Version      | Next Type | Status    | Notes |
-|:----------------------|:-------------|:------------------|:----------|:---------:|:------|
-| v1api20210601/storage | Workspace    | v20250701/storage | Workspace | Identical |       |
+| v1api20210601/storage | v20250701/storage | Status    | Notes |
+|:----------------------|:------------------|:---------:|:------|
+| Workspace             | Workspace         | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                     | Next Version      | Next Type                             | Status    | Notes |
-|:----------------------|:---------------------------------|:------------------|:--------------------------------------|:---------:|:------|
-|                       |                                  | v20250701/storage | Identity                              | New       |       |
-|                       |                                  | v20250701/storage | Identity_STATUS                       | New       |       |
-| v1api20210601/storage | PrivateLinkScopedResource_STATUS | v20250701/storage | PrivateLinkScopedResource_STATUS      | Identical |       |
-|                       |                                  | v20250701/storage | SystemData_STATUS                     | New       |       |
-|                       |                                  | v20250701/storage | UserAssignedIdentityDetails           | New       |       |
-|                       |                                  | v20250701/storage | UserIdentityProperties_STATUS         | New       |       |
-| v1api20210601/storage | WorkspaceCapping                 | v20250701/storage | WorkspaceCapping                      | Identical |       |
-| v1api20210601/storage | WorkspaceCapping_STATUS          | v20250701/storage | WorkspaceCapping_STATUS               | Identical |       |
-|                       |                                  | v20250701/storage | WorkspaceFailoverProperties_STATUS    | New       |       |
-| v1api20210601/storage | WorkspaceFeatures                | v20250701/storage | WorkspaceFeatures                     | Extended  |       |
-| v1api20210601/storage | WorkspaceFeatures_STATUS         | v20250701/storage | WorkspaceFeatures_STATUS              | Extended  |       |
-| v1api20210601/storage | WorkspaceOperatorSecrets         | v20250701/storage | WorkspaceOperatorSecrets              | Identical |       |
-| v1api20210601/storage | WorkspaceOperatorSpec            | v20250701/storage | WorkspaceOperatorSpec                 | Identical |       |
-|                       |                                  | v20250701/storage | WorkspaceReplicationProperties        | New       |       |
-|                       |                                  | v20250701/storage | WorkspaceReplicationProperties_STATUS | New       |       |
-| v1api20210601/storage | WorkspaceSku                     | v20250701/storage | WorkspaceSku                          | Identical |       |
-| v1api20210601/storage | WorkspaceSku_STATUS              | v20250701/storage | WorkspaceSku_STATUS                   | Identical |       |
-| v1api20210601/storage | Workspace_STATUS                 | v20250701/storage | Workspace_STATUS                      | Extended  |       |
-| v1api20210601/storage | Workspace_Spec                   | v20250701/storage | Workspace_Spec                        | Modified  |       |
+| v1api20210601/storage            | v20250701/storage                     | Status    | Notes |
+|:---------------------------------|:--------------------------------------|:---------:|:------|
+|                                  | Identity                              | New       |       |
+|                                  | Identity_STATUS                       | New       |       |
+| PrivateLinkScopedResource_STATUS | PrivateLinkScopedResource_STATUS      | Identical |       |
+|                                  | SystemData_STATUS                     | New       |       |
+|                                  | UserAssignedIdentityDetails           | New       |       |
+|                                  | UserIdentityProperties_STATUS         | New       |       |
+| WorkspaceCapping                 | WorkspaceCapping                      | Identical |       |
+| WorkspaceCapping_STATUS          | WorkspaceCapping_STATUS               | Identical |       |
+|                                  | WorkspaceFailoverProperties_STATUS    | New       |       |
+| WorkspaceFeatures                | WorkspaceFeatures                     | Extended  |       |
+| WorkspaceFeatures_STATUS         | WorkspaceFeatures_STATUS              | Extended  |       |
+| WorkspaceOperatorSecrets         | WorkspaceOperatorSecrets              | Identical |       |
+| WorkspaceOperatorSpec            | WorkspaceOperatorSpec                 | Identical |       |
+|                                  | WorkspaceReplicationProperties        | New       |       |
+|                                  | WorkspaceReplicationProperties_STATUS | New       |       |
+| WorkspaceSku                     | WorkspaceSku                          | Identical |       |
+| WorkspaceSku_STATUS              | WorkspaceSku_STATUS                   | Identical |       |
+| Workspace_STATUS                 | Workspace_STATUS                      | Extended  |       |
+| Workspace_Spec                   | Workspace_Spec                        | Modified  |       |
 
 ### WorkspaceFeatures
 
@@ -97,24 +97,24 @@ Statuses:
 
 ### Workspace_Spec
 
-| v1api20210601/storage           |                                    | v20250701/storage                          |                                    | Status    | Notes                         |
-|:--------------------------------|:-----------------------------------|:-------------------------------------------|:-----------------------------------|:---------:|:------------------------------|
-| AzureName                       | string                             | AzureName                                  | string                             | Identical |                               |
-|                                 |                                    | DefaultDataCollectionRuleResourceReference | *genruntime.ResourceReference      | New       |                               |
-| Etag                            | *string                            | Etag                                       | *string                            | Identical |                               |
-| Features                        | *WorkspaceFeatures                 | Features                                   | *WorkspaceFeatures                 | Identical |                               |
-| ForceCmkForQuery                | *bool                              | ForceCmkForQuery                           | *bool                              | Identical |                               |
-|                                 |                                    | Identity                                   | *Identity                          | New       |                               |
-| Location                        | *string                            | Location                                   | *string                            | Identical |                               |
-| OperatorSpec                    | *WorkspaceOperatorSpec             | OperatorSpec                               | *WorkspaceOperatorSpec             | Identical |                               |
-| OriginalVersion                 | string                             | OriginalVersion                            | string                             | Identical |                               |
-| Owner                           | *genruntime.KnownResourceReference | Owner                                      | *genruntime.KnownResourceReference | Identical |                               |
-| PropertyBag                     | genruntime.PropertyBag             | PropertyBag                                | genruntime.PropertyBag             | Identical |                               |
-| ProvisioningState               | *string                            |                                            |                                    | Retired   | Possibly renamed to Identity? |
-| PublicNetworkAccessForIngestion | *string                            | PublicNetworkAccessForIngestion            | *string                            | Identical |                               |
-| PublicNetworkAccessForQuery     | *string                            | PublicNetworkAccessForQuery                | *string                            | Identical |                               |
-|                                 |                                    | Replication                                | *WorkspaceReplicationProperties    | New       |                               |
-| RetentionInDays                 | *int                               | RetentionInDays                            | *int                               | Identical |                               |
-| Sku                             | *WorkspaceSku                      | Sku                                        | *WorkspaceSku                      | Identical |                               |
-| Tags                            | map[string]string                  | Tags                                       | map[string]string                  | Identical |                               |
-| WorkspaceCapping                | *WorkspaceCapping                  | WorkspaceCapping                           | *WorkspaceCapping                  | Identical |                               |
+| v1api20210601/storage           |                                    | v20250701/storage                          |                                    | Status    | Notes |
+|:--------------------------------|:-----------------------------------|:-------------------------------------------|:-----------------------------------|:---------:|:------|
+| AzureName                       | string                             | AzureName                                  | string                             | Identical |       |
+|                                 |                                    | DefaultDataCollectionRuleResourceReference | *genruntime.ResourceReference      | New       |       |
+| Etag                            | *string                            | Etag                                       | *string                            | Identical |       |
+| Features                        | *WorkspaceFeatures                 | Features                                   | *WorkspaceFeatures                 | Identical |       |
+| ForceCmkForQuery                | *bool                              | ForceCmkForQuery                           | *bool                              | Identical |       |
+|                                 |                                    | Identity                                   | *Identity                          | New       |       |
+| Location                        | *string                            | Location                                   | *string                            | Identical |       |
+| OperatorSpec                    | *WorkspaceOperatorSpec             | OperatorSpec                               | *WorkspaceOperatorSpec             | Identical |       |
+| OriginalVersion                 | string                             | OriginalVersion                            | string                             | Identical |       |
+| Owner                           | *genruntime.KnownResourceReference | Owner                                      | *genruntime.KnownResourceReference | Identical |       |
+| PropertyBag                     | genruntime.PropertyBag             | PropertyBag                                | genruntime.PropertyBag             | Identical |       |
+| ProvisioningState               | *string                            |                                            |                                    | Retired   |       |
+| PublicNetworkAccessForIngestion | *string                            | PublicNetworkAccessForIngestion            | *string                            | Identical |       |
+| PublicNetworkAccessForQuery     | *string                            | PublicNetworkAccessForQuery                | *string                            | Identical |       |
+|                                 |                                    | Replication                                | *WorkspaceReplicationProperties    | New       |       |
+| RetentionInDays                 | *int                               | RetentionInDays                            | *int                               | Identical |       |
+| Sku                             | *WorkspaceSku                      | Sku                                        | *WorkspaceSku                      | Identical |       |
+| Tags                            | map[string]string                  | Tags                                       | map[string]string                  | Identical |       |
+| WorkspaceCapping                | *WorkspaceCapping                  | WorkspaceCapping                           | *WorkspaceCapping                  | Identical |       |

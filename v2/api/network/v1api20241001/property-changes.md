@@ -11,33 +11,33 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type           | Next Version          | Next Type              | Status    | Notes |
-|:----------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
-| v1api20241001   | NetworkWatcher         | v1api20241001/storage | NetworkWatcher         | Identical |       |
-| v1api20241001   | NetworkWatchersFlowLog | v1api20241001/storage | NetworkWatchersFlowLog | Identical |       |
+| v1api20241001          | v1api20241001/storage  | Status    | Notes |
+|:-----------------------|:-----------------------|:---------:|:------|
+| NetworkWatcher         | NetworkWatcher         | Identical |       |
+| NetworkWatchersFlowLog | NetworkWatchersFlowLog | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                         | Next Version          | Next Type                                            | Status   | Notes |
-|:----------------|:-----------------------------------------------------|:----------------------|:-----------------------------------------------------|:--------:|:------|
-| v1api20241001   | FlowLogFormatParameters                              | v1api20241001/storage | FlowLogFormatParameters                              | Modified |       |
-| v1api20241001   | FlowLogFormatParameters_STATUS                       | v1api20241001/storage | FlowLogFormatParameters_STATUS                       | Modified |       |
-| v1api20241001   | ManagedServiceIdentity                               | v1api20241001/storage | ManagedServiceIdentity                               | Modified |       |
-| v1api20241001   | ManagedServiceIdentity_STATUS                        | v1api20241001/storage | ManagedServiceIdentity_STATUS                        | Modified |       |
-| v1api20241001   | ManagedServiceIdentity_UserAssignedIdentities_STATUS | v1api20241001/storage | ManagedServiceIdentity_UserAssignedIdentities_STATUS | Extended |       |
-| v1api20241001   | NetworkWatcherOperatorSpec                           | v1api20241001/storage | NetworkWatcherOperatorSpec                           | Extended |       |
-| v1api20241001   | NetworkWatcher_STATUS                                | v1api20241001/storage | NetworkWatcher_STATUS                                | Modified |       |
-| v1api20241001   | NetworkWatcher_Spec                                  | v1api20241001/storage | NetworkWatcher_Spec                                  | Extended |       |
-| v1api20241001   | NetworkWatchersFlowLogOperatorSpec                   | v1api20241001/storage | NetworkWatchersFlowLogOperatorSpec                   | Extended |       |
-| v1api20241001   | NetworkWatchersFlowLog_STATUS                        | v1api20241001/storage | NetworkWatchersFlowLog_STATUS                        | Modified |       |
-| v1api20241001   | NetworkWatchersFlowLog_Spec                          | v1api20241001/storage | NetworkWatchersFlowLog_Spec                          | Extended |       |
-| v1api20241001   | RetentionPolicyParameters                            | v1api20241001/storage | RetentionPolicyParameters                            | Extended |       |
-| v1api20241001   | RetentionPolicyParameters_STATUS                     | v1api20241001/storage | RetentionPolicyParameters_STATUS                     | Extended |       |
-| v1api20241001   | TrafficAnalyticsConfigurationProperties              | v1api20241001/storage | TrafficAnalyticsConfigurationProperties              | Extended |       |
-| v1api20241001   | TrafficAnalyticsConfigurationProperties_STATUS       | v1api20241001/storage | TrafficAnalyticsConfigurationProperties_STATUS       | Extended |       |
-| v1api20241001   | TrafficAnalyticsProperties                           | v1api20241001/storage | TrafficAnalyticsProperties                           | Extended |       |
-| v1api20241001   | TrafficAnalyticsProperties_STATUS                    | v1api20241001/storage | TrafficAnalyticsProperties_STATUS                    | Extended |       |
-| v1api20241001   | UserAssignedIdentityDetails                          | v1api20241001/storage | UserAssignedIdentityDetails                          | Extended |       |
+| v1api20241001                                        | v1api20241001/storage                                | Status   | Notes |
+|:-----------------------------------------------------|:-----------------------------------------------------|:--------:|:------|
+| FlowLogFormatParameters                              | FlowLogFormatParameters                              | Modified |       |
+| FlowLogFormatParameters_STATUS                       | FlowLogFormatParameters_STATUS                       | Modified |       |
+| ManagedServiceIdentity                               | ManagedServiceIdentity                               | Modified |       |
+| ManagedServiceIdentity_STATUS                        | ManagedServiceIdentity_STATUS                        | Modified |       |
+| ManagedServiceIdentity_UserAssignedIdentities_STATUS | ManagedServiceIdentity_UserAssignedIdentities_STATUS | Extended |       |
+| NetworkWatcherOperatorSpec                           | NetworkWatcherOperatorSpec                           | Extended |       |
+| NetworkWatcher_STATUS                                | NetworkWatcher_STATUS                                | Modified |       |
+| NetworkWatcher_Spec                                  | NetworkWatcher_Spec                                  | Extended |       |
+| NetworkWatchersFlowLogOperatorSpec                   | NetworkWatchersFlowLogOperatorSpec                   | Extended |       |
+| NetworkWatchersFlowLog_STATUS                        | NetworkWatchersFlowLog_STATUS                        | Modified |       |
+| NetworkWatchersFlowLog_Spec                          | NetworkWatchersFlowLog_Spec                          | Extended |       |
+| RetentionPolicyParameters                            | RetentionPolicyParameters                            | Extended |       |
+| RetentionPolicyParameters_STATUS                     | RetentionPolicyParameters_STATUS                     | Extended |       |
+| TrafficAnalyticsConfigurationProperties              | TrafficAnalyticsConfigurationProperties              | Extended |       |
+| TrafficAnalyticsConfigurationProperties_STATUS       | TrafficAnalyticsConfigurationProperties_STATUS       | Extended |       |
+| TrafficAnalyticsProperties                           | TrafficAnalyticsProperties                           | Extended |       |
+| TrafficAnalyticsProperties_STATUS                    | TrafficAnalyticsProperties_STATUS                    | Extended |       |
+| UserAssignedIdentityDetails                          | UserAssignedIdentityDetails                          | Extended |       |
 
 ### FlowLogFormatParameters
 

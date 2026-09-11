@@ -11,20 +11,20 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type         | Next Version          | Next Type            | Status    | Notes |
-|:----------------------|:---------------------|:----------------------|:---------------------|:---------:|:------|
-| v1api20181130/storage | UserAssignedIdentity | v1api20230131/storage | UserAssignedIdentity | Identical |       |
+| v1api20181130/storage | v1api20230131/storage | Status    | Notes |
+|:----------------------|:----------------------|:---------:|:------|
+| UserAssignedIdentity  | UserAssignedIdentity  | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                           | Next Version          | Next Type                              | Status    | Notes |
-|:----------------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
-|                       |                                        | v1api20230131/storage | SystemData_STATUS                      | New       |       |
-| v1api20181130/storage | UserAssignedIdentityOperatorConfigMaps | v1api20230131/storage | UserAssignedIdentityOperatorConfigMaps | Identical |       |
-|                       |                                        | v1api20230131/storage | UserAssignedIdentityOperatorSecrets    | New       |       |
-| v1api20181130/storage | UserAssignedIdentityOperatorSpec       | v1api20230131/storage | UserAssignedIdentityOperatorSpec       | Extended  |       |
-| v1api20181130/storage | UserAssignedIdentity_STATUS            | v1api20230131/storage | UserAssignedIdentity_STATUS            | Extended  |       |
-| v1api20181130/storage | UserAssignedIdentity_Spec              | v1api20230131/storage | UserAssignedIdentity_Spec              | Identical |       |
+| v1api20181130/storage                  | v1api20230131/storage                  | Status    | Notes |
+|:---------------------------------------|:---------------------------------------|:---------:|:------|
+|                                        | SystemData_STATUS                      | New       |       |
+| UserAssignedIdentityOperatorConfigMaps | UserAssignedIdentityOperatorConfigMaps | Identical |       |
+|                                        | UserAssignedIdentityOperatorSecrets    | New       |       |
+| UserAssignedIdentityOperatorSpec       | UserAssignedIdentityOperatorSpec       | Extended  |       |
+| UserAssignedIdentity_STATUS            | UserAssignedIdentity_STATUS            | Extended  |       |
+| UserAssignedIdentity_Spec              | UserAssignedIdentity_Spec              | Identical |       |
 
 ### UserAssignedIdentityOperatorSpec
 

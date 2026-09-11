@@ -11,27 +11,27 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type | Status    | Notes |
-|:----------------|:-------------|:----------------------|:----------|:---------:|:------|
-| v1api20210701   | Image        | v1api20210701/storage | Image     | Identical |       |
+| v1api20210701 | v1api20210701/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| Image         | Image                 | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type               | Next Version          | Next Type                  | Status   | Notes |
-|:----------------|:---------------------------|:----------------------|:---------------------------|:--------:|:------|
-| v1api20210701   | ExtendedLocation           | v1api20210701/storage | ExtendedLocation           | Modified |       |
-| v1api20210701   | ExtendedLocation_STATUS    | v1api20210701/storage | ExtendedLocation_STATUS    | Modified |       |
-| v1api20210701   | ImageDataDisk              | v1api20210701/storage | ImageDataDisk              | Modified |       |
-| v1api20210701   | ImageDataDisk_STATUS       | v1api20210701/storage | ImageDataDisk_STATUS       | Modified |       |
-| v1api20210701   | ImageOSDisk                | v1api20210701/storage | ImageOSDisk                | Modified |       |
-| v1api20210701   | ImageOSDisk_STATUS         | v1api20210701/storage | ImageOSDisk_STATUS         | Modified |       |
-| v1api20210701   | ImageOperatorSpec          | v1api20210701/storage | ImageOperatorSpec          | Extended |       |
-| v1api20210701   | ImageStorageProfile        | v1api20210701/storage | ImageStorageProfile        | Extended |       |
-| v1api20210701   | ImageStorageProfile_STATUS | v1api20210701/storage | ImageStorageProfile_STATUS | Extended |       |
-| v1api20210701   | Image_STATUS               | v1api20210701/storage | Image_STATUS               | Modified |       |
-| v1api20210701   | Image_Spec                 | v1api20210701/storage | Image_Spec                 | Modified |       |
-| v1api20210701   | SubResource                | v1api20210701/storage | SubResource                | Extended |       |
-| v1api20210701   | SubResource_STATUS         | v1api20210701/storage | SubResource_STATUS         | Extended |       |
+| v1api20210701              | v1api20210701/storage      | Status   | Notes |
+|:---------------------------|:---------------------------|:--------:|:------|
+| ExtendedLocation           | ExtendedLocation           | Modified |       |
+| ExtendedLocation_STATUS    | ExtendedLocation_STATUS    | Modified |       |
+| ImageDataDisk              | ImageDataDisk              | Modified |       |
+| ImageDataDisk_STATUS       | ImageDataDisk_STATUS       | Modified |       |
+| ImageOSDisk                | ImageOSDisk                | Modified |       |
+| ImageOSDisk_STATUS         | ImageOSDisk_STATUS         | Modified |       |
+| ImageOperatorSpec          | ImageOperatorSpec          | Extended |       |
+| ImageStorageProfile        | ImageStorageProfile        | Extended |       |
+| ImageStorageProfile_STATUS | ImageStorageProfile_STATUS | Extended |       |
+| Image_STATUS               | Image_STATUS               | Modified |       |
+| Image_Spec                 | Image_Spec                 | Modified |       |
+| SubResource                | SubResource                | Extended |       |
+| SubResource_STATUS         | SubResource_STATUS         | Extended |       |
 
 ### ExtendedLocation
 

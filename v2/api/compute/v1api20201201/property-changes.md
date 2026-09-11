@@ -11,170 +11,170 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                     | Next Version          | Next Type                        | Status    | Notes |
-|:----------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
-| v1api20201201   | VirtualMachine                   | v1api20201201/storage | VirtualMachine                   | Identical |       |
-| v1api20201201   | VirtualMachineScaleSet           | v1api20201201/storage | VirtualMachineScaleSet           | Identical |       |
-| v1api20201201   | VirtualMachineScaleSetsExtension | v1api20201201/storage | VirtualMachineScaleSetsExtension | Identical |       |
-| v1api20201201   | VirtualMachinesExtension         | v1api20201201/storage | VirtualMachinesExtension         | Identical |       |
+| v1api20201201                    | v1api20201201/storage            | Status    | Notes |
+|:---------------------------------|:---------------------------------|:---------:|:------|
+| VirtualMachine                   | VirtualMachine                   | Identical |       |
+| VirtualMachineScaleSet           | VirtualMachineScaleSet           | Identical |       |
+| VirtualMachineScaleSetsExtension | VirtualMachineScaleSetsExtension | Identical |       |
+| VirtualMachinesExtension         | VirtualMachinesExtension         | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                                         | Next Version          | Next Type                                                            | Status   | Notes |
-|:----------------|:---------------------------------------------------------------------|:----------------------|:---------------------------------------------------------------------|:--------:|:------|
-| v1api20201201   | AdditionalCapabilities                                               | v1api20201201/storage | AdditionalCapabilities                                               | Extended |       |
-| v1api20201201   | AdditionalCapabilities_STATUS                                        | v1api20201201/storage | AdditionalCapabilities_STATUS                                        | Extended |       |
-| v1api20201201   | AdditionalUnattendContent                                            | v1api20201201/storage | AdditionalUnattendContent                                            | Modified |       |
-| v1api20201201   | AdditionalUnattendContent_STATUS                                     | v1api20201201/storage | AdditionalUnattendContent_STATUS                                     | Modified |       |
-| v1api20201201   | ApiEntityReference                                                   | v1api20201201/storage | ApiEntityReference                                                   | Extended |       |
-| v1api20201201   | ApiEntityReference_STATUS                                            | v1api20201201/storage | ApiEntityReference_STATUS                                            | Extended |       |
-| v1api20201201   | ApiErrorBase_STATUS                                                  | v1api20201201/storage | ApiErrorBase_STATUS                                                  | Extended |       |
-| v1api20201201   | ApiError_STATUS                                                      | v1api20201201/storage | ApiError_STATUS                                                      | Extended |       |
-| v1api20201201   | AutomaticOSUpgradePolicy                                             | v1api20201201/storage | AutomaticOSUpgradePolicy                                             | Extended |       |
-| v1api20201201   | AutomaticOSUpgradePolicy_STATUS                                      | v1api20201201/storage | AutomaticOSUpgradePolicy_STATUS                                      | Extended |       |
-| v1api20201201   | AutomaticRepairsPolicy                                               | v1api20201201/storage | AutomaticRepairsPolicy                                               | Extended |       |
-| v1api20201201   | AutomaticRepairsPolicy_STATUS                                        | v1api20201201/storage | AutomaticRepairsPolicy_STATUS                                        | Extended |       |
-| v1api20201201   | AvailablePatchSummary_STATUS                                         | v1api20201201/storage | AvailablePatchSummary_STATUS                                         | Modified |       |
-| v1api20201201   | BillingProfile                                                       | v1api20201201/storage | BillingProfile                                                       | Extended |       |
-| v1api20201201   | BillingProfile_STATUS                                                | v1api20201201/storage | BillingProfile_STATUS                                                | Extended |       |
-| v1api20201201   | BootDiagnostics                                                      | v1api20201201/storage | BootDiagnostics                                                      | Extended |       |
-| v1api20201201   | BootDiagnosticsInstanceView_STATUS                                   | v1api20201201/storage | BootDiagnosticsInstanceView_STATUS                                   | Extended |       |
-| v1api20201201   | BootDiagnostics_STATUS                                               | v1api20201201/storage | BootDiagnostics_STATUS                                               | Extended |       |
-| v1api20201201   | DataDisk                                                             | v1api20201201/storage | DataDisk                                                             | Modified |       |
-| v1api20201201   | DataDisk_STATUS                                                      | v1api20201201/storage | DataDisk_STATUS                                                      | Modified |       |
-| v1api20201201   | DiagnosticsProfile                                                   | v1api20201201/storage | DiagnosticsProfile                                                   | Extended |       |
-| v1api20201201   | DiagnosticsProfile_STATUS                                            | v1api20201201/storage | DiagnosticsProfile_STATUS                                            | Extended |       |
-| v1api20201201   | DiffDiskSettings                                                     | v1api20201201/storage | DiffDiskSettings                                                     | Modified |       |
-| v1api20201201   | DiffDiskSettings_STATUS                                              | v1api20201201/storage | DiffDiskSettings_STATUS                                              | Modified |       |
-| v1api20201201   | DiskEncryptionSettings                                               | v1api20201201/storage | DiskEncryptionSettings                                               | Extended |       |
-| v1api20201201   | DiskEncryptionSettings_STATUS                                        | v1api20201201/storage | DiskEncryptionSettings_STATUS                                        | Extended |       |
-| v1api20201201   | DiskInstanceView_STATUS                                              | v1api20201201/storage | DiskInstanceView_STATUS                                              | Extended |       |
-| v1api20201201   | ExtendedLocation                                                     | v1api20201201/storage | ExtendedLocation                                                     | Modified |       |
-| v1api20201201   | ExtendedLocation_STATUS                                              | v1api20201201/storage | ExtendedLocation_STATUS                                              | Modified |       |
-| v1api20201201   | HardwareProfile                                                      | v1api20201201/storage | HardwareProfile                                                      | Extended |       |
-| v1api20201201   | HardwareProfile_STATUS                                               | v1api20201201/storage | HardwareProfile_STATUS                                               | Modified |       |
-| v1api20201201   | ImageReference                                                       | v1api20201201/storage | ImageReference                                                       | Extended |       |
-| v1api20201201   | ImageReference_STATUS                                                | v1api20201201/storage | ImageReference_STATUS                                                | Extended |       |
-| v1api20201201   | InnerError_STATUS                                                    | v1api20201201/storage | InnerError_STATUS                                                    | Extended |       |
-| v1api20201201   | InstanceViewStatus                                                   | v1api20201201/storage | InstanceViewStatus                                                   | Modified |       |
-| v1api20201201   | InstanceViewStatus_STATUS                                            | v1api20201201/storage | InstanceViewStatus_STATUS                                            | Modified |       |
-| v1api20201201   | KeyVaultKeyReference                                                 | v1api20201201/storage | KeyVaultKeyReference                                                 | Extended |       |
-| v1api20201201   | KeyVaultKeyReference_STATUS                                          | v1api20201201/storage | KeyVaultKeyReference_STATUS                                          | Extended |       |
-| v1api20201201   | KeyVaultSecretReference                                              | v1api20201201/storage | KeyVaultSecretReference                                              | Extended |       |
-| v1api20201201   | KeyVaultSecretReference_STATUS                                       | v1api20201201/storage | KeyVaultSecretReference_STATUS                                       | Extended |       |
-| v1api20201201   | LastPatchInstallationSummary_STATUS                                  | v1api20201201/storage | LastPatchInstallationSummary_STATUS                                  | Modified |       |
-| v1api20201201   | LinuxConfiguration                                                   | v1api20201201/storage | LinuxConfiguration                                                   | Extended |       |
-| v1api20201201   | LinuxConfiguration_STATUS                                            | v1api20201201/storage | LinuxConfiguration_STATUS                                            | Extended |       |
-| v1api20201201   | LinuxPatchSettings                                                   | v1api20201201/storage | LinuxPatchSettings                                                   | Modified |       |
-| v1api20201201   | LinuxPatchSettings_STATUS                                            | v1api20201201/storage | LinuxPatchSettings_STATUS                                            | Modified |       |
-| v1api20201201   | MaintenanceRedeployStatus_STATUS                                     | v1api20201201/storage | MaintenanceRedeployStatus_STATUS                                     | Modified |       |
-| v1api20201201   | ManagedDiskParameters                                                | v1api20201201/storage | ManagedDiskParameters                                                | Modified |       |
-| v1api20201201   | ManagedDiskParameters_STATUS                                         | v1api20201201/storage | ManagedDiskParameters_STATUS                                         | Modified |       |
-| v1api20201201   | NetworkInterfaceReference                                            | v1api20201201/storage | NetworkInterfaceReference                                            | Extended |       |
-| v1api20201201   | NetworkInterfaceReference_STATUS                                     | v1api20201201/storage | NetworkInterfaceReference_STATUS                                     | Extended |       |
-| v1api20201201   | NetworkProfile                                                       | v1api20201201/storage | NetworkProfile                                                       | Extended |       |
-| v1api20201201   | NetworkProfile_STATUS                                                | v1api20201201/storage | NetworkProfile_STATUS                                                | Extended |       |
-| v1api20201201   | OSDisk                                                               | v1api20201201/storage | OSDisk                                                               | Modified |       |
-| v1api20201201   | OSDisk_STATUS                                                        | v1api20201201/storage | OSDisk_STATUS                                                        | Modified |       |
-| v1api20201201   | OSProfile                                                            | v1api20201201/storage | OSProfile                                                            | Extended |       |
-| v1api20201201   | OSProfile_STATUS                                                     | v1api20201201/storage | OSProfile_STATUS                                                     | Extended |       |
-| v1api20201201   | PatchSettings                                                        | v1api20201201/storage | PatchSettings                                                        | Modified |       |
-| v1api20201201   | PatchSettings_STATUS                                                 | v1api20201201/storage | PatchSettings_STATUS                                                 | Modified |       |
-| v1api20201201   | Plan                                                                 | v1api20201201/storage | Plan                                                                 | Extended |       |
-| v1api20201201   | Plan_STATUS                                                          | v1api20201201/storage | Plan_STATUS                                                          | Extended |       |
-| v1api20201201   | RollingUpgradePolicy                                                 | v1api20201201/storage | RollingUpgradePolicy                                                 | Modified |       |
-| v1api20201201   | RollingUpgradePolicy_STATUS                                          | v1api20201201/storage | RollingUpgradePolicy_STATUS                                          | Extended |       |
-| v1api20201201   | ScaleInPolicy                                                        | v1api20201201/storage | ScaleInPolicy                                                        | Modified |       |
-| v1api20201201   | ScaleInPolicy_STATUS                                                 | v1api20201201/storage | ScaleInPolicy_STATUS                                                 | Modified |       |
-| v1api20201201   | ScheduledEventsProfile                                               | v1api20201201/storage | ScheduledEventsProfile                                               | Extended |       |
-| v1api20201201   | ScheduledEventsProfile_STATUS                                        | v1api20201201/storage | ScheduledEventsProfile_STATUS                                        | Extended |       |
-| v1api20201201   | SecurityProfile                                                      | v1api20201201/storage | SecurityProfile                                                      | Modified |       |
-| v1api20201201   | SecurityProfile_STATUS                                               | v1api20201201/storage | SecurityProfile_STATUS                                               | Modified |       |
-| v1api20201201   | Sku                                                                  | v1api20201201/storage | Sku                                                                  | Extended |       |
-| v1api20201201   | Sku_STATUS                                                           | v1api20201201/storage | Sku_STATUS                                                           | Extended |       |
-| v1api20201201   | SshConfiguration                                                     | v1api20201201/storage | SshConfiguration                                                     | Extended |       |
-| v1api20201201   | SshConfiguration_STATUS                                              | v1api20201201/storage | SshConfiguration_STATUS                                              | Extended |       |
-| v1api20201201   | SshPublicKeySpec                                                     | v1api20201201/storage | SshPublicKeySpec                                                     | Extended |       |
-| v1api20201201   | SshPublicKey_STATUS                                                  | v1api20201201/storage | SshPublicKey_STATUS                                                  | Extended |       |
-| v1api20201201   | StorageProfile                                                       | v1api20201201/storage | StorageProfile                                                       | Extended |       |
-| v1api20201201   | StorageProfile_STATUS                                                | v1api20201201/storage | StorageProfile_STATUS                                                | Extended |       |
-| v1api20201201   | SubResource                                                          | v1api20201201/storage | SubResource                                                          | Extended |       |
-| v1api20201201   | SubResource_STATUS                                                   | v1api20201201/storage | SubResource_STATUS                                                   | Extended |       |
-| v1api20201201   | TerminateNotificationProfile                                         | v1api20201201/storage | TerminateNotificationProfile                                         | Extended |       |
-| v1api20201201   | TerminateNotificationProfile_STATUS                                  | v1api20201201/storage | TerminateNotificationProfile_STATUS                                  | Extended |       |
-| v1api20201201   | UefiSettings                                                         | v1api20201201/storage | UefiSettings                                                         | Extended |       |
-| v1api20201201   | UefiSettings_STATUS                                                  | v1api20201201/storage | UefiSettings_STATUS                                                  | Extended |       |
-| v1api20201201   | UpgradePolicy                                                        | v1api20201201/storage | UpgradePolicy                                                        | Modified |       |
-| v1api20201201   | UpgradePolicy_STATUS                                                 | v1api20201201/storage | UpgradePolicy_STATUS                                                 | Modified |       |
-| v1api20201201   | UserAssignedIdentityDetails                                          | v1api20201201/storage | UserAssignedIdentityDetails                                          | Extended |       |
-| v1api20201201   | VaultCertificate                                                     | v1api20201201/storage | VaultCertificate                                                     | Extended |       |
-| v1api20201201   | VaultCertificate_STATUS                                              | v1api20201201/storage | VaultCertificate_STATUS                                              | Extended |       |
-| v1api20201201   | VaultSecretGroup                                                     | v1api20201201/storage | VaultSecretGroup                                                     | Extended |       |
-| v1api20201201   | VaultSecretGroup_STATUS                                              | v1api20201201/storage | VaultSecretGroup_STATUS                                              | Extended |       |
-| v1api20201201   | VirtualHardDisk                                                      | v1api20201201/storage | VirtualHardDisk                                                      | Extended |       |
-| v1api20201201   | VirtualHardDisk_STATUS                                               | v1api20201201/storage | VirtualHardDisk_STATUS                                               | Extended |       |
-| v1api20201201   | VirtualMachineAgentInstanceView_STATUS                               | v1api20201201/storage | VirtualMachineAgentInstanceView_STATUS                               | Extended |       |
-| v1api20201201   | VirtualMachineExtensionHandlerInstanceView_STATUS                    | v1api20201201/storage | VirtualMachineExtensionHandlerInstanceView_STATUS                    | Extended |       |
-| v1api20201201   | VirtualMachineExtensionInstanceView                                  | v1api20201201/storage | VirtualMachineExtensionInstanceView                                  | Extended |       |
-| v1api20201201   | VirtualMachineExtensionInstanceView_STATUS                           | v1api20201201/storage | VirtualMachineExtensionInstanceView_STATUS                           | Extended |       |
-| v1api20201201   | VirtualMachineExtension_STATUS                                       | v1api20201201/storage | VirtualMachineExtension_STATUS                                       | Extended |       |
-| v1api20201201   | VirtualMachineHealthStatus_STATUS                                    | v1api20201201/storage | VirtualMachineHealthStatus_STATUS                                    | Extended |       |
-| v1api20201201   | VirtualMachineIdentity                                               | v1api20201201/storage | VirtualMachineIdentity                                               | Modified |       |
-| v1api20201201   | VirtualMachineIdentity_STATUS                                        | v1api20201201/storage | VirtualMachineIdentity_STATUS                                        | Modified |       |
-| v1api20201201   | VirtualMachineIdentity_UserAssignedIdentities_STATUS                 | v1api20201201/storage | VirtualMachineIdentity_UserAssignedIdentities_STATUS                 | Extended |       |
-| v1api20201201   | VirtualMachineInstanceView_STATUS                                    | v1api20201201/storage | VirtualMachineInstanceView_STATUS                                    | Modified |       |
-| v1api20201201   | VirtualMachineOperatorSpec                                           | v1api20201201/storage | VirtualMachineOperatorSpec                                           | Extended |       |
-| v1api20201201   | VirtualMachinePatchStatus_STATUS                                     | v1api20201201/storage | VirtualMachinePatchStatus_STATUS                                     | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetDataDisk                                       | v1api20201201/storage | VirtualMachineScaleSetDataDisk                                       | Modified |       |
-| v1api20201201   | VirtualMachineScaleSetDataDisk_STATUS                                | v1api20201201/storage | VirtualMachineScaleSetDataDisk_STATUS                                | Modified |       |
-| v1api20201201   | VirtualMachineScaleSetExtension                                      | v1api20201201/storage | VirtualMachineScaleSetExtension                                      | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetExtensionProfile                               | v1api20201201/storage | VirtualMachineScaleSetExtensionProfile                               | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetExtensionProfile_STATUS                        | v1api20201201/storage | VirtualMachineScaleSetExtensionProfile_STATUS                        | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetExtension_STATUS                               | v1api20201201/storage | VirtualMachineScaleSetExtension_STATUS                               | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetIPConfiguration                                | v1api20201201/storage | VirtualMachineScaleSetIPConfiguration                                | Modified |       |
-| v1api20201201   | VirtualMachineScaleSetIPConfiguration_STATUS                         | v1api20201201/storage | VirtualMachineScaleSetIPConfiguration_STATUS                         | Modified |       |
-| v1api20201201   | VirtualMachineScaleSetIdentity                                       | v1api20201201/storage | VirtualMachineScaleSetIdentity                                       | Modified |       |
-| v1api20201201   | VirtualMachineScaleSetIdentity_STATUS                                | v1api20201201/storage | VirtualMachineScaleSetIdentity_STATUS                                | Modified |       |
-| v1api20201201   | VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS         | v1api20201201/storage | VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS         | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetIpTag                                          | v1api20201201/storage | VirtualMachineScaleSetIpTag                                          | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetIpTag_STATUS                                   | v1api20201201/storage | VirtualMachineScaleSetIpTag_STATUS                                   | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetManagedDiskParameters                          | v1api20201201/storage | VirtualMachineScaleSetManagedDiskParameters                          | Modified |       |
-| v1api20201201   | VirtualMachineScaleSetManagedDiskParameters_STATUS                   | v1api20201201/storage | VirtualMachineScaleSetManagedDiskParameters_STATUS                   | Modified |       |
-| v1api20201201   | VirtualMachineScaleSetNetworkConfiguration                           | v1api20201201/storage | VirtualMachineScaleSetNetworkConfiguration                           | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetNetworkConfigurationDnsSettings                | v1api20201201/storage | VirtualMachineScaleSetNetworkConfigurationDnsSettings                | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS         | v1api20201201/storage | VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS         | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetNetworkConfiguration_STATUS                    | v1api20201201/storage | VirtualMachineScaleSetNetworkConfiguration_STATUS                    | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetNetworkProfile                                 | v1api20201201/storage | VirtualMachineScaleSetNetworkProfile                                 | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetNetworkProfile_STATUS                          | v1api20201201/storage | VirtualMachineScaleSetNetworkProfile_STATUS                          | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetOSDisk                                         | v1api20201201/storage | VirtualMachineScaleSetOSDisk                                         | Modified |       |
-| v1api20201201   | VirtualMachineScaleSetOSDisk_STATUS                                  | v1api20201201/storage | VirtualMachineScaleSetOSDisk_STATUS                                  | Modified |       |
-| v1api20201201   | VirtualMachineScaleSetOSProfile                                      | v1api20201201/storage | VirtualMachineScaleSetOSProfile                                      | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetOSProfile_STATUS                               | v1api20201201/storage | VirtualMachineScaleSetOSProfile_STATUS                               | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetOperatorSpec                                   | v1api20201201/storage | VirtualMachineScaleSetOperatorSpec                                   | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetPublicIPAddressConfiguration                   | v1api20201201/storage | VirtualMachineScaleSetPublicIPAddressConfiguration                   | Modified |       |
-| v1api20201201   | VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings        | v1api20201201/storage | VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings        | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS | v1api20201201/storage | VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS            | v1api20201201/storage | VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS            | Modified |       |
-| v1api20201201   | VirtualMachineScaleSetStorageProfile                                 | v1api20201201/storage | VirtualMachineScaleSetStorageProfile                                 | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetStorageProfile_STATUS                          | v1api20201201/storage | VirtualMachineScaleSetStorageProfile_STATUS                          | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetVMProfile                                      | v1api20201201/storage | VirtualMachineScaleSetVMProfile                                      | Modified |       |
-| v1api20201201   | VirtualMachineScaleSetVMProfile_STATUS                               | v1api20201201/storage | VirtualMachineScaleSetVMProfile_STATUS                               | Modified |       |
-| v1api20201201   | VirtualMachineScaleSet_STATUS                                        | v1api20201201/storage | VirtualMachineScaleSet_STATUS                                        | Modified |       |
-| v1api20201201   | VirtualMachineScaleSet_Spec                                          | v1api20201201/storage | VirtualMachineScaleSet_Spec                                          | Modified |       |
-| v1api20201201   | VirtualMachineScaleSetsExtensionOperatorSpec                         | v1api20201201/storage | VirtualMachineScaleSetsExtensionOperatorSpec                         | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetsExtension_STATUS                              | v1api20201201/storage | VirtualMachineScaleSetsExtension_STATUS                              | Extended |       |
-| v1api20201201   | VirtualMachineScaleSetsExtension_Spec                                | v1api20201201/storage | VirtualMachineScaleSetsExtension_Spec                                | Extended |       |
-| v1api20201201   | VirtualMachine_STATUS                                                | v1api20201201/storage | VirtualMachine_STATUS                                                | Modified |       |
-| v1api20201201   | VirtualMachine_Spec                                                  | v1api20201201/storage | VirtualMachine_Spec                                                  | Modified |       |
-| v1api20201201   | VirtualMachinesExtensionOperatorSpec                                 | v1api20201201/storage | VirtualMachinesExtensionOperatorSpec                                 | Extended |       |
-| v1api20201201   | VirtualMachinesExtension_STATUS                                      | v1api20201201/storage | VirtualMachinesExtension_STATUS                                      | Extended |       |
-| v1api20201201   | VirtualMachinesExtension_Spec                                        | v1api20201201/storage | VirtualMachinesExtension_Spec                                        | Extended |       |
-| v1api20201201   | WinRMConfiguration                                                   | v1api20201201/storage | WinRMConfiguration                                                   | Extended |       |
-| v1api20201201   | WinRMConfiguration_STATUS                                            | v1api20201201/storage | WinRMConfiguration_STATUS                                            | Extended |       |
-| v1api20201201   | WinRMListener                                                        | v1api20201201/storage | WinRMListener                                                        | Modified |       |
-| v1api20201201   | WinRMListener_STATUS                                                 | v1api20201201/storage | WinRMListener_STATUS                                                 | Modified |       |
-| v1api20201201   | WindowsConfiguration                                                 | v1api20201201/storage | WindowsConfiguration                                                 | Extended |       |
-| v1api20201201   | WindowsConfiguration_STATUS                                          | v1api20201201/storage | WindowsConfiguration_STATUS                                          | Extended |       |
+| v1api20201201                                                        | v1api20201201/storage                                                | Status   | Notes |
+|:---------------------------------------------------------------------|:---------------------------------------------------------------------|:--------:|:------|
+| AdditionalCapabilities                                               | AdditionalCapabilities                                               | Extended |       |
+| AdditionalCapabilities_STATUS                                        | AdditionalCapabilities_STATUS                                        | Extended |       |
+| AdditionalUnattendContent                                            | AdditionalUnattendContent                                            | Modified |       |
+| AdditionalUnattendContent_STATUS                                     | AdditionalUnattendContent_STATUS                                     | Modified |       |
+| ApiEntityReference                                                   | ApiEntityReference                                                   | Extended |       |
+| ApiEntityReference_STATUS                                            | ApiEntityReference_STATUS                                            | Extended |       |
+| ApiErrorBase_STATUS                                                  | ApiErrorBase_STATUS                                                  | Extended |       |
+| ApiError_STATUS                                                      | ApiError_STATUS                                                      | Extended |       |
+| AutomaticOSUpgradePolicy                                             | AutomaticOSUpgradePolicy                                             | Extended |       |
+| AutomaticOSUpgradePolicy_STATUS                                      | AutomaticOSUpgradePolicy_STATUS                                      | Extended |       |
+| AutomaticRepairsPolicy                                               | AutomaticRepairsPolicy                                               | Extended |       |
+| AutomaticRepairsPolicy_STATUS                                        | AutomaticRepairsPolicy_STATUS                                        | Extended |       |
+| AvailablePatchSummary_STATUS                                         | AvailablePatchSummary_STATUS                                         | Modified |       |
+| BillingProfile                                                       | BillingProfile                                                       | Extended |       |
+| BillingProfile_STATUS                                                | BillingProfile_STATUS                                                | Extended |       |
+| BootDiagnostics                                                      | BootDiagnostics                                                      | Extended |       |
+| BootDiagnosticsInstanceView_STATUS                                   | BootDiagnosticsInstanceView_STATUS                                   | Extended |       |
+| BootDiagnostics_STATUS                                               | BootDiagnostics_STATUS                                               | Extended |       |
+| DataDisk                                                             | DataDisk                                                             | Modified |       |
+| DataDisk_STATUS                                                      | DataDisk_STATUS                                                      | Modified |       |
+| DiagnosticsProfile                                                   | DiagnosticsProfile                                                   | Extended |       |
+| DiagnosticsProfile_STATUS                                            | DiagnosticsProfile_STATUS                                            | Extended |       |
+| DiffDiskSettings                                                     | DiffDiskSettings                                                     | Modified |       |
+| DiffDiskSettings_STATUS                                              | DiffDiskSettings_STATUS                                              | Modified |       |
+| DiskEncryptionSettings                                               | DiskEncryptionSettings                                               | Extended |       |
+| DiskEncryptionSettings_STATUS                                        | DiskEncryptionSettings_STATUS                                        | Extended |       |
+| DiskInstanceView_STATUS                                              | DiskInstanceView_STATUS                                              | Extended |       |
+| ExtendedLocation                                                     | ExtendedLocation                                                     | Modified |       |
+| ExtendedLocation_STATUS                                              | ExtendedLocation_STATUS                                              | Modified |       |
+| HardwareProfile                                                      | HardwareProfile                                                      | Extended |       |
+| HardwareProfile_STATUS                                               | HardwareProfile_STATUS                                               | Modified |       |
+| ImageReference                                                       | ImageReference                                                       | Extended |       |
+| ImageReference_STATUS                                                | ImageReference_STATUS                                                | Extended |       |
+| InnerError_STATUS                                                    | InnerError_STATUS                                                    | Extended |       |
+| InstanceViewStatus                                                   | InstanceViewStatus                                                   | Modified |       |
+| InstanceViewStatus_STATUS                                            | InstanceViewStatus_STATUS                                            | Modified |       |
+| KeyVaultKeyReference                                                 | KeyVaultKeyReference                                                 | Extended |       |
+| KeyVaultKeyReference_STATUS                                          | KeyVaultKeyReference_STATUS                                          | Extended |       |
+| KeyVaultSecretReference                                              | KeyVaultSecretReference                                              | Extended |       |
+| KeyVaultSecretReference_STATUS                                       | KeyVaultSecretReference_STATUS                                       | Extended |       |
+| LastPatchInstallationSummary_STATUS                                  | LastPatchInstallationSummary_STATUS                                  | Modified |       |
+| LinuxConfiguration                                                   | LinuxConfiguration                                                   | Extended |       |
+| LinuxConfiguration_STATUS                                            | LinuxConfiguration_STATUS                                            | Extended |       |
+| LinuxPatchSettings                                                   | LinuxPatchSettings                                                   | Modified |       |
+| LinuxPatchSettings_STATUS                                            | LinuxPatchSettings_STATUS                                            | Modified |       |
+| MaintenanceRedeployStatus_STATUS                                     | MaintenanceRedeployStatus_STATUS                                     | Modified |       |
+| ManagedDiskParameters                                                | ManagedDiskParameters                                                | Modified |       |
+| ManagedDiskParameters_STATUS                                         | ManagedDiskParameters_STATUS                                         | Modified |       |
+| NetworkInterfaceReference                                            | NetworkInterfaceReference                                            | Extended |       |
+| NetworkInterfaceReference_STATUS                                     | NetworkInterfaceReference_STATUS                                     | Extended |       |
+| NetworkProfile                                                       | NetworkProfile                                                       | Extended |       |
+| NetworkProfile_STATUS                                                | NetworkProfile_STATUS                                                | Extended |       |
+| OSDisk                                                               | OSDisk                                                               | Modified |       |
+| OSDisk_STATUS                                                        | OSDisk_STATUS                                                        | Modified |       |
+| OSProfile                                                            | OSProfile                                                            | Extended |       |
+| OSProfile_STATUS                                                     | OSProfile_STATUS                                                     | Extended |       |
+| PatchSettings                                                        | PatchSettings                                                        | Modified |       |
+| PatchSettings_STATUS                                                 | PatchSettings_STATUS                                                 | Modified |       |
+| Plan                                                                 | Plan                                                                 | Extended |       |
+| Plan_STATUS                                                          | Plan_STATUS                                                          | Extended |       |
+| RollingUpgradePolicy                                                 | RollingUpgradePolicy                                                 | Modified |       |
+| RollingUpgradePolicy_STATUS                                          | RollingUpgradePolicy_STATUS                                          | Extended |       |
+| ScaleInPolicy                                                        | ScaleInPolicy                                                        | Modified |       |
+| ScaleInPolicy_STATUS                                                 | ScaleInPolicy_STATUS                                                 | Modified |       |
+| ScheduledEventsProfile                                               | ScheduledEventsProfile                                               | Extended |       |
+| ScheduledEventsProfile_STATUS                                        | ScheduledEventsProfile_STATUS                                        | Extended |       |
+| SecurityProfile                                                      | SecurityProfile                                                      | Modified |       |
+| SecurityProfile_STATUS                                               | SecurityProfile_STATUS                                               | Modified |       |
+| Sku                                                                  | Sku                                                                  | Extended |       |
+| Sku_STATUS                                                           | Sku_STATUS                                                           | Extended |       |
+| SshConfiguration                                                     | SshConfiguration                                                     | Extended |       |
+| SshConfiguration_STATUS                                              | SshConfiguration_STATUS                                              | Extended |       |
+| SshPublicKeySpec                                                     | SshPublicKeySpec                                                     | Extended |       |
+| SshPublicKey_STATUS                                                  | SshPublicKey_STATUS                                                  | Extended |       |
+| StorageProfile                                                       | StorageProfile                                                       | Extended |       |
+| StorageProfile_STATUS                                                | StorageProfile_STATUS                                                | Extended |       |
+| SubResource                                                          | SubResource                                                          | Extended |       |
+| SubResource_STATUS                                                   | SubResource_STATUS                                                   | Extended |       |
+| TerminateNotificationProfile                                         | TerminateNotificationProfile                                         | Extended |       |
+| TerminateNotificationProfile_STATUS                                  | TerminateNotificationProfile_STATUS                                  | Extended |       |
+| UefiSettings                                                         | UefiSettings                                                         | Extended |       |
+| UefiSettings_STATUS                                                  | UefiSettings_STATUS                                                  | Extended |       |
+| UpgradePolicy                                                        | UpgradePolicy                                                        | Modified |       |
+| UpgradePolicy_STATUS                                                 | UpgradePolicy_STATUS                                                 | Modified |       |
+| UserAssignedIdentityDetails                                          | UserAssignedIdentityDetails                                          | Extended |       |
+| VaultCertificate                                                     | VaultCertificate                                                     | Extended |       |
+| VaultCertificate_STATUS                                              | VaultCertificate_STATUS                                              | Extended |       |
+| VaultSecretGroup                                                     | VaultSecretGroup                                                     | Extended |       |
+| VaultSecretGroup_STATUS                                              | VaultSecretGroup_STATUS                                              | Extended |       |
+| VirtualHardDisk                                                      | VirtualHardDisk                                                      | Extended |       |
+| VirtualHardDisk_STATUS                                               | VirtualHardDisk_STATUS                                               | Extended |       |
+| VirtualMachineAgentInstanceView_STATUS                               | VirtualMachineAgentInstanceView_STATUS                               | Extended |       |
+| VirtualMachineExtensionHandlerInstanceView_STATUS                    | VirtualMachineExtensionHandlerInstanceView_STATUS                    | Extended |       |
+| VirtualMachineExtensionInstanceView                                  | VirtualMachineExtensionInstanceView                                  | Extended |       |
+| VirtualMachineExtensionInstanceView_STATUS                           | VirtualMachineExtensionInstanceView_STATUS                           | Extended |       |
+| VirtualMachineExtension_STATUS                                       | VirtualMachineExtension_STATUS                                       | Extended |       |
+| VirtualMachineHealthStatus_STATUS                                    | VirtualMachineHealthStatus_STATUS                                    | Extended |       |
+| VirtualMachineIdentity                                               | VirtualMachineIdentity                                               | Modified |       |
+| VirtualMachineIdentity_STATUS                                        | VirtualMachineIdentity_STATUS                                        | Modified |       |
+| VirtualMachineIdentity_UserAssignedIdentities_STATUS                 | VirtualMachineIdentity_UserAssignedIdentities_STATUS                 | Extended |       |
+| VirtualMachineInstanceView_STATUS                                    | VirtualMachineInstanceView_STATUS                                    | Modified |       |
+| VirtualMachineOperatorSpec                                           | VirtualMachineOperatorSpec                                           | Extended |       |
+| VirtualMachinePatchStatus_STATUS                                     | VirtualMachinePatchStatus_STATUS                                     | Extended |       |
+| VirtualMachineScaleSetDataDisk                                       | VirtualMachineScaleSetDataDisk                                       | Modified |       |
+| VirtualMachineScaleSetDataDisk_STATUS                                | VirtualMachineScaleSetDataDisk_STATUS                                | Modified |       |
+| VirtualMachineScaleSetExtension                                      | VirtualMachineScaleSetExtension                                      | Extended |       |
+| VirtualMachineScaleSetExtensionProfile                               | VirtualMachineScaleSetExtensionProfile                               | Extended |       |
+| VirtualMachineScaleSetExtensionProfile_STATUS                        | VirtualMachineScaleSetExtensionProfile_STATUS                        | Extended |       |
+| VirtualMachineScaleSetExtension_STATUS                               | VirtualMachineScaleSetExtension_STATUS                               | Extended |       |
+| VirtualMachineScaleSetIPConfiguration                                | VirtualMachineScaleSetIPConfiguration                                | Modified |       |
+| VirtualMachineScaleSetIPConfiguration_STATUS                         | VirtualMachineScaleSetIPConfiguration_STATUS                         | Modified |       |
+| VirtualMachineScaleSetIdentity                                       | VirtualMachineScaleSetIdentity                                       | Modified |       |
+| VirtualMachineScaleSetIdentity_STATUS                                | VirtualMachineScaleSetIdentity_STATUS                                | Modified |       |
+| VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS         | VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS         | Extended |       |
+| VirtualMachineScaleSetIpTag                                          | VirtualMachineScaleSetIpTag                                          | Extended |       |
+| VirtualMachineScaleSetIpTag_STATUS                                   | VirtualMachineScaleSetIpTag_STATUS                                   | Extended |       |
+| VirtualMachineScaleSetManagedDiskParameters                          | VirtualMachineScaleSetManagedDiskParameters                          | Modified |       |
+| VirtualMachineScaleSetManagedDiskParameters_STATUS                   | VirtualMachineScaleSetManagedDiskParameters_STATUS                   | Modified |       |
+| VirtualMachineScaleSetNetworkConfiguration                           | VirtualMachineScaleSetNetworkConfiguration                           | Extended |       |
+| VirtualMachineScaleSetNetworkConfigurationDnsSettings                | VirtualMachineScaleSetNetworkConfigurationDnsSettings                | Extended |       |
+| VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS         | VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS         | Extended |       |
+| VirtualMachineScaleSetNetworkConfiguration_STATUS                    | VirtualMachineScaleSetNetworkConfiguration_STATUS                    | Extended |       |
+| VirtualMachineScaleSetNetworkProfile                                 | VirtualMachineScaleSetNetworkProfile                                 | Extended |       |
+| VirtualMachineScaleSetNetworkProfile_STATUS                          | VirtualMachineScaleSetNetworkProfile_STATUS                          | Extended |       |
+| VirtualMachineScaleSetOSDisk                                         | VirtualMachineScaleSetOSDisk                                         | Modified |       |
+| VirtualMachineScaleSetOSDisk_STATUS                                  | VirtualMachineScaleSetOSDisk_STATUS                                  | Modified |       |
+| VirtualMachineScaleSetOSProfile                                      | VirtualMachineScaleSetOSProfile                                      | Extended |       |
+| VirtualMachineScaleSetOSProfile_STATUS                               | VirtualMachineScaleSetOSProfile_STATUS                               | Extended |       |
+| VirtualMachineScaleSetOperatorSpec                                   | VirtualMachineScaleSetOperatorSpec                                   | Extended |       |
+| VirtualMachineScaleSetPublicIPAddressConfiguration                   | VirtualMachineScaleSetPublicIPAddressConfiguration                   | Modified |       |
+| VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings        | VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings        | Extended |       |
+| VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS | VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS | Extended |       |
+| VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS            | VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS            | Modified |       |
+| VirtualMachineScaleSetStorageProfile                                 | VirtualMachineScaleSetStorageProfile                                 | Extended |       |
+| VirtualMachineScaleSetStorageProfile_STATUS                          | VirtualMachineScaleSetStorageProfile_STATUS                          | Extended |       |
+| VirtualMachineScaleSetVMProfile                                      | VirtualMachineScaleSetVMProfile                                      | Modified |       |
+| VirtualMachineScaleSetVMProfile_STATUS                               | VirtualMachineScaleSetVMProfile_STATUS                               | Modified |       |
+| VirtualMachineScaleSet_STATUS                                        | VirtualMachineScaleSet_STATUS                                        | Modified |       |
+| VirtualMachineScaleSet_Spec                                          | VirtualMachineScaleSet_Spec                                          | Modified |       |
+| VirtualMachineScaleSetsExtensionOperatorSpec                         | VirtualMachineScaleSetsExtensionOperatorSpec                         | Extended |       |
+| VirtualMachineScaleSetsExtension_STATUS                              | VirtualMachineScaleSetsExtension_STATUS                              | Extended |       |
+| VirtualMachineScaleSetsExtension_Spec                                | VirtualMachineScaleSetsExtension_Spec                                | Extended |       |
+| VirtualMachine_STATUS                                                | VirtualMachine_STATUS                                                | Modified |       |
+| VirtualMachine_Spec                                                  | VirtualMachine_Spec                                                  | Modified |       |
+| VirtualMachinesExtensionOperatorSpec                                 | VirtualMachinesExtensionOperatorSpec                                 | Extended |       |
+| VirtualMachinesExtension_STATUS                                      | VirtualMachinesExtension_STATUS                                      | Extended |       |
+| VirtualMachinesExtension_Spec                                        | VirtualMachinesExtension_Spec                                        | Extended |       |
+| WinRMConfiguration                                                   | WinRMConfiguration                                                   | Extended |       |
+| WinRMConfiguration_STATUS                                            | WinRMConfiguration_STATUS                                            | Extended |       |
+| WinRMListener                                                        | WinRMListener                                                        | Modified |       |
+| WinRMListener_STATUS                                                 | WinRMListener_STATUS                                                 | Modified |       |
+| WindowsConfiguration                                                 | WindowsConfiguration                                                 | Extended |       |
+| WindowsConfiguration_STATUS                                          | WindowsConfiguration_STATUS                                          | Extended |       |
 
 ### AdditionalCapabilities
 

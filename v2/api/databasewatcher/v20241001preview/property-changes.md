@@ -11,44 +11,44 @@ Statuses:
 
 ## Resources
 
-| Current Version  | Current Type      | Next Version             | Next Type         | Status    | Notes |
-|:-----------------|:------------------|:-------------------------|:------------------|:---------:|:------|
-| v20241001preview | SharedPrivateLink | v20241001preview/storage | SharedPrivateLink | Identical |       |
-| v20241001preview | Target            | v20241001preview/storage | Target            | Identical |       |
-| v20241001preview | Watcher           | v20241001preview/storage | Watcher           | Identical |       |
+| v20241001preview  | v20241001preview/storage | Status    | Notes |
+|:------------------|:-------------------------|:---------:|:------|
+| SharedPrivateLink | SharedPrivateLink        | Identical |       |
+| Target            | Target                   | Identical |       |
+| Watcher           | Watcher                  | Identical |       |
 
 ## Objects
 
-| Current Version  | Current Type                               | Next Version             | Next Type                                  | Status   | Notes |
-|:-----------------|:-------------------------------------------|:-------------------------|:-------------------------------------------|:--------:|:------|
-| v20241001preview | Datastore                                  | v20241001preview/storage | Datastore                                  | Modified |       |
-| v20241001preview | Datastore_STATUS                           | v20241001preview/storage | Datastore_STATUS                           | Modified |       |
-| v20241001preview | ManagedServiceIdentity                     | v20241001preview/storage | ManagedServiceIdentity                     | Modified |       |
-| v20241001preview | ManagedServiceIdentity_STATUS              | v20241001preview/storage | ManagedServiceIdentity_STATUS              | Modified |       |
-| v20241001preview | SharedPrivateLinkOperatorSpec              | v20241001preview/storage | SharedPrivateLinkOperatorSpec              | Extended |       |
-| v20241001preview | SharedPrivateLink_STATUS                   | v20241001preview/storage | SharedPrivateLink_STATUS                   | Modified |       |
-| v20241001preview | SharedPrivateLink_Spec                     | v20241001preview/storage | SharedPrivateLink_Spec                     | Modified |       |
-| v20241001preview | SqlDbElasticPoolTargetProperties           | v20241001preview/storage | SqlDbElasticPoolTargetProperties           | Modified |       |
-| v20241001preview | SqlDbElasticPoolTargetProperties_STATUS    | v20241001preview/storage | SqlDbElasticPoolTargetProperties_STATUS    | Modified |       |
-| v20241001preview | SqlDbSingleDatabaseTargetProperties        | v20241001preview/storage | SqlDbSingleDatabaseTargetProperties        | Modified |       |
-| v20241001preview | SqlDbSingleDatabaseTargetProperties_STATUS | v20241001preview/storage | SqlDbSingleDatabaseTargetProperties_STATUS | Modified |       |
-| v20241001preview | SqlMiTargetProperties                      | v20241001preview/storage | SqlMiTargetProperties                      | Modified |       |
-| v20241001preview | SqlMiTargetProperties_STATUS               | v20241001preview/storage | SqlMiTargetProperties_STATUS               | Modified |       |
-| v20241001preview | SqlVmTargetProperties                      | v20241001preview/storage | SqlVmTargetProperties                      | Modified |       |
-| v20241001preview | SqlVmTargetProperties_STATUS               | v20241001preview/storage | SqlVmTargetProperties_STATUS               | Modified |       |
-| v20241001preview | SystemData_STATUS                          | v20241001preview/storage | SystemData_STATUS                          | Modified |       |
-| v20241001preview | TargetOperatorSpec                         | v20241001preview/storage | TargetOperatorSpec                         | Extended |       |
-| v20241001preview | TargetProperties                           | v20241001preview/storage | TargetProperties                           | Extended |       |
-| v20241001preview | TargetProperties_STATUS                    | v20241001preview/storage | TargetProperties_STATUS                    | Extended |       |
-| v20241001preview | Target_STATUS                              | v20241001preview/storage | Target_STATUS                              | Extended |       |
-| v20241001preview | Target_Spec                                | v20241001preview/storage | Target_Spec                                | Modified |       |
-| v20241001preview | UserAssignedIdentityDetails                | v20241001preview/storage | UserAssignedIdentityDetails                | Extended |       |
-| v20241001preview | UserAssignedIdentity_STATUS                | v20241001preview/storage | UserAssignedIdentity_STATUS                | Extended |       |
-| v20241001preview | VaultSecret                                | v20241001preview/storage | VaultSecret                                | Modified |       |
-| v20241001preview | VaultSecret_STATUS                         | v20241001preview/storage | VaultSecret_STATUS                         | Extended |       |
-| v20241001preview | WatcherOperatorSpec                        | v20241001preview/storage | WatcherOperatorSpec                        | Extended |       |
-| v20241001preview | Watcher_STATUS                             | v20241001preview/storage | Watcher_STATUS                             | Modified |       |
-| v20241001preview | Watcher_Spec                               | v20241001preview/storage | Watcher_Spec                               | Modified |       |
+| v20241001preview                           | v20241001preview/storage                   | Status   | Notes |
+|:-------------------------------------------|:-------------------------------------------|:--------:|:------|
+| Datastore                                  | Datastore                                  | Modified |       |
+| Datastore_STATUS                           | Datastore_STATUS                           | Modified |       |
+| ManagedServiceIdentity                     | ManagedServiceIdentity                     | Modified |       |
+| ManagedServiceIdentity_STATUS              | ManagedServiceIdentity_STATUS              | Modified |       |
+| SharedPrivateLinkOperatorSpec              | SharedPrivateLinkOperatorSpec              | Extended |       |
+| SharedPrivateLink_STATUS                   | SharedPrivateLink_STATUS                   | Modified |       |
+| SharedPrivateLink_Spec                     | SharedPrivateLink_Spec                     | Modified |       |
+| SqlDbElasticPoolTargetProperties           | SqlDbElasticPoolTargetProperties           | Modified |       |
+| SqlDbElasticPoolTargetProperties_STATUS    | SqlDbElasticPoolTargetProperties_STATUS    | Modified |       |
+| SqlDbSingleDatabaseTargetProperties        | SqlDbSingleDatabaseTargetProperties        | Modified |       |
+| SqlDbSingleDatabaseTargetProperties_STATUS | SqlDbSingleDatabaseTargetProperties_STATUS | Modified |       |
+| SqlMiTargetProperties                      | SqlMiTargetProperties                      | Modified |       |
+| SqlMiTargetProperties_STATUS               | SqlMiTargetProperties_STATUS               | Modified |       |
+| SqlVmTargetProperties                      | SqlVmTargetProperties                      | Modified |       |
+| SqlVmTargetProperties_STATUS               | SqlVmTargetProperties_STATUS               | Modified |       |
+| SystemData_STATUS                          | SystemData_STATUS                          | Modified |       |
+| TargetOperatorSpec                         | TargetOperatorSpec                         | Extended |       |
+| TargetProperties                           | TargetProperties                           | Extended |       |
+| TargetProperties_STATUS                    | TargetProperties_STATUS                    | Extended |       |
+| Target_STATUS                              | Target_STATUS                              | Extended |       |
+| Target_Spec                                | Target_Spec                                | Modified |       |
+| UserAssignedIdentityDetails                | UserAssignedIdentityDetails                | Extended |       |
+| UserAssignedIdentity_STATUS                | UserAssignedIdentity_STATUS                | Extended |       |
+| VaultSecret                                | VaultSecret                                | Modified |       |
+| VaultSecret_STATUS                         | VaultSecret_STATUS                         | Extended |       |
+| WatcherOperatorSpec                        | WatcherOperatorSpec                        | Extended |       |
+| Watcher_STATUS                             | Watcher_STATUS                             | Modified |       |
+| Watcher_Spec                               | Watcher_Spec                               | Modified |       |
 
 ### Datastore
 

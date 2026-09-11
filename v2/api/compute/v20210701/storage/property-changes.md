@@ -11,24 +11,24 @@ Statuses:
 
 ## Resources
 
-| Current Version   | Current Type | Next Version      | Next Type | Status    | Notes |
-|:------------------|:-------------|:------------------|:----------|:---------:|:------|
-| v20210701/storage | Image        | v20220301/storage | Image     | Identical |       |
+| v20210701/storage | v20220301/storage | Status    | Notes |
+|:------------------|:------------------|:---------:|:------|
+| Image             | Image             | Identical |       |
 
 ## Objects
 
-| Current Version   | Current Type               | Next Version      | Next Type                  | Status    | Notes |
-|:------------------|:---------------------------|:------------------|:---------------------------|:---------:|:------|
-| v20210701/storage | ExtendedLocation           | v20220301/storage | ExtendedLocation           | Identical |       |
-| v20210701/storage | ExtendedLocation_STATUS    | v20220301/storage | ExtendedLocation_STATUS    | Identical |       |
-| v20210701/storage | ImageDataDisk              | v20220301/storage | ImageDataDisk              | Identical |       |
-| v20210701/storage | ImageDataDisk_STATUS       | v20220301/storage | ImageDataDisk_STATUS       | Identical |       |
-| v20210701/storage | ImageOSDisk                | v20220301/storage | ImageOSDisk                | Identical |       |
-| v20210701/storage | ImageOSDisk_STATUS         | v20220301/storage | ImageOSDisk_STATUS         | Identical |       |
-| v20210701/storage | ImageOperatorSpec          | v20220301/storage | ImageOperatorSpec          | Identical |       |
-| v20210701/storage | ImageStorageProfile        | v20220301/storage | ImageStorageProfile        | Identical |       |
-| v20210701/storage | ImageStorageProfile_STATUS | v20220301/storage | ImageStorageProfile_STATUS | Identical |       |
-| v20210701/storage | Image_STATUS               | v20220301/storage | Image_STATUS               | Identical |       |
-| v20210701/storage | Image_Spec                 | v20220301/storage | Image_Spec                 | Identical |       |
-| v20210701/storage | SubResource                | v20220301/storage | SubResource                | Identical |       |
-| v20210701/storage | SubResource_STATUS         | v20220301/storage | SubResource_STATUS         | Identical |       |
+| v20210701/storage          | v20220301/storage          | Status    | Notes |
+|:---------------------------|:---------------------------|:---------:|:------|
+| ExtendedLocation           | ExtendedLocation           | Identical |       |
+| ExtendedLocation_STATUS    | ExtendedLocation_STATUS    | Identical |       |
+| ImageDataDisk              | ImageDataDisk              | Identical |       |
+| ImageDataDisk_STATUS       | ImageDataDisk_STATUS       | Identical |       |
+| ImageOSDisk                | ImageOSDisk                | Identical |       |
+| ImageOSDisk_STATUS         | ImageOSDisk_STATUS         | Identical |       |
+| ImageOperatorSpec          | ImageOperatorSpec          | Identical |       |
+| ImageStorageProfile        | ImageStorageProfile        | Identical |       |
+| ImageStorageProfile_STATUS | ImageStorageProfile_STATUS | Identical |       |
+| Image_STATUS               | Image_STATUS               | Identical |       |
+| Image_Spec                 | Image_Spec                 | Identical |       |
+| SubResource                | SubResource                | Identical |       |
+| SubResource_STATUS         | SubResource_STATUS         | Identical |       |

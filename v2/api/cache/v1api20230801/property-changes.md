@@ -11,45 +11,43 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type       | Next Version          | Next Type          | Status    | Notes |
-|:----------------|:-------------------|:----------------------|:-------------------|:---------:|:------|
-| v1api20230801   | Redis              | v1api20230801/storage | Redis              | Identical |       |
-| v1api20230801   | RedisFirewallRule  | v1api20230801/storage | RedisFirewallRule  | Identical |       |
-| v1api20230801   | RedisLinkedServer  | v1api20230801/storage | RedisLinkedServer  | Identical |       |
-| v1api20230801   | RedisPatchSchedule | v1api20230801/storage | RedisPatchSchedule | Identical |       |
+| v1api20230801      | v1api20230801/storage | Status    | Notes |
+|:-------------------|:----------------------|:---------:|:------|
+| Redis              | Redis                 | Identical |       |
+| RedisFirewallRule  | RedisFirewallRule     | Identical |       |
+| RedisLinkedServer  | RedisLinkedServer     | Identical |       |
+| RedisPatchSchedule | RedisPatchSchedule    | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                              | Next Version          | Next Type                                 | Status   | Notes                                                                              |
-|:----------------|:------------------------------------------|:----------------------|:------------------------------------------|:--------:|:-----------------------------------------------------------------------------------|
-| v1api20230801   | ManagedServiceIdentity                    | v1api20230801/storage | ManagedServiceIdentity                    | Modified |                                                                                    |
-| v1api20230801   | ManagedServiceIdentity_STATUS             | v1api20230801/storage | ManagedServiceIdentity_STATUS             | Modified |                                                                                    |
-| v1api20230801   | PrivateEndpointConnection_STATUS          | v1api20230801/storage | PrivateEndpointConnection_STATUS          | Extended |                                                                                    |
-| v1api20230801   | RedisCreateProperties_RedisConfiguration  | v1api20230801/storage |                                           | Retired  | Configured rename to RedisCommonPropertiesRedisConfiguration was not found.        |
-|                 |                                           | v1api20230801/storage | RedisCreateProperties_RedisConfiguration  | New      | Configured rename to RedisCommonPropertiesRedisConfiguration was not found.        |
-| v1api20230801   | RedisFirewallRuleOperatorSpec             | v1api20230801/storage | RedisFirewallRuleOperatorSpec             | Extended |                                                                                    |
-| v1api20230801   | RedisFirewallRule_STATUS                  | v1api20230801/storage | RedisFirewallRule_STATUS                  | Extended |                                                                                    |
-| v1api20230801   | RedisFirewallRule_Spec                    | v1api20230801/storage | RedisFirewallRule_Spec                    | Extended |                                                                                    |
-| v1api20230801   | RedisInstanceDetails_STATUS               | v1api20230801/storage | RedisInstanceDetails_STATUS               | Extended |                                                                                    |
-| v1api20230801   | RedisLinkedServerOperatorSpec             | v1api20230801/storage | RedisLinkedServerOperatorSpec             | Extended |                                                                                    |
-| v1api20230801   | RedisLinkedServer_STATUS                  | v1api20230801/storage | RedisLinkedServer_STATUS                  | Extended |                                                                                    |
-| v1api20230801   | RedisLinkedServer_Spec                    | v1api20230801/storage | RedisLinkedServer_Spec                    | Modified |                                                                                    |
-| v1api20230801   | RedisOperatorSecrets                      | v1api20230801/storage | RedisOperatorSecrets                      | Extended |                                                                                    |
-| v1api20230801   | RedisOperatorSpec                         | v1api20230801/storage | RedisOperatorSpec                         | Extended |                                                                                    |
-| v1api20230801   | RedisPatchScheduleOperatorSpec            | v1api20230801/storage | RedisPatchScheduleOperatorSpec            | Extended |                                                                                    |
-| v1api20230801   | RedisPatchSchedule_STATUS                 | v1api20230801/storage | RedisPatchSchedule_STATUS                 | Extended |                                                                                    |
-| v1api20230801   | RedisPatchSchedule_Spec                   | v1api20230801/storage | RedisPatchSchedule_Spec                   | Extended |                                                                                    |
-|                 |                                           | v1api20230801/storage | RedisProperties_RedisConfiguration_STATUS | New      | Configured rename to RedisCommonPropertiesRedisConfiguration_STATUS was not found. |
-| v1api20230801   | RedisProperties_RedisConfiguration_STATUS | v1api20230801/storage |                                           | Retired  | Configured rename to RedisCommonPropertiesRedisConfiguration_STATUS was not found. |
-| v1api20230801   | Redis_LinkedServer_STATUS                 | v1api20230801/storage | Redis_LinkedServer_STATUS                 | Modified |                                                                                    |
-| v1api20230801   | Redis_STATUS                              | v1api20230801/storage | Redis_STATUS                              | Modified |                                                                                    |
-| v1api20230801   | Redis_Spec                                | v1api20230801/storage | Redis_Spec                                | Modified |                                                                                    |
-| v1api20230801   | ScheduleEntry                             | v1api20230801/storage | ScheduleEntry                             | Modified |                                                                                    |
-| v1api20230801   | ScheduleEntry_STATUS                      | v1api20230801/storage | ScheduleEntry_STATUS                      | Modified |                                                                                    |
-| v1api20230801   | Sku                                       | v1api20230801/storage | Sku                                       | Modified |                                                                                    |
-| v1api20230801   | Sku_STATUS                                | v1api20230801/storage | Sku_STATUS                                | Modified |                                                                                    |
-| v1api20230801   | UserAssignedIdentityDetails               | v1api20230801/storage | UserAssignedIdentityDetails               | Extended |                                                                                    |
-| v1api20230801   | UserAssignedIdentity_STATUS               | v1api20230801/storage | UserAssignedIdentity_STATUS               | Extended |                                                                                    |
+| v1api20230801                             | v1api20230801/storage                     | Status   | Notes |
+|:------------------------------------------|:------------------------------------------|:--------:|:------|
+| ManagedServiceIdentity                    | ManagedServiceIdentity                    | Modified |       |
+| ManagedServiceIdentity_STATUS             | ManagedServiceIdentity_STATUS             | Modified |       |
+| PrivateEndpointConnection_STATUS          | PrivateEndpointConnection_STATUS          | Extended |       |
+| RedisCreateProperties_RedisConfiguration  | RedisCreateProperties_RedisConfiguration  | Extended |       |
+| RedisFirewallRuleOperatorSpec             | RedisFirewallRuleOperatorSpec             | Extended |       |
+| RedisFirewallRule_STATUS                  | RedisFirewallRule_STATUS                  | Extended |       |
+| RedisFirewallRule_Spec                    | RedisFirewallRule_Spec                    | Extended |       |
+| RedisInstanceDetails_STATUS               | RedisInstanceDetails_STATUS               | Extended |       |
+| RedisLinkedServerOperatorSpec             | RedisLinkedServerOperatorSpec             | Extended |       |
+| RedisLinkedServer_STATUS                  | RedisLinkedServer_STATUS                  | Extended |       |
+| RedisLinkedServer_Spec                    | RedisLinkedServer_Spec                    | Modified |       |
+| RedisOperatorSecrets                      | RedisOperatorSecrets                      | Extended |       |
+| RedisOperatorSpec                         | RedisOperatorSpec                         | Extended |       |
+| RedisPatchScheduleOperatorSpec            | RedisPatchScheduleOperatorSpec            | Extended |       |
+| RedisPatchSchedule_STATUS                 | RedisPatchSchedule_STATUS                 | Extended |       |
+| RedisPatchSchedule_Spec                   | RedisPatchSchedule_Spec                   | Extended |       |
+| RedisProperties_RedisConfiguration_STATUS | RedisProperties_RedisConfiguration_STATUS | Extended |       |
+| Redis_LinkedServer_STATUS                 | Redis_LinkedServer_STATUS                 | Modified |       |
+| Redis_STATUS                              | Redis_STATUS                              | Modified |       |
+| Redis_Spec                                | Redis_Spec                                | Modified |       |
+| ScheduleEntry                             | ScheduleEntry                             | Modified |       |
+| ScheduleEntry_STATUS                      | ScheduleEntry_STATUS                      | Modified |       |
+| Sku                                       | Sku                                       | Modified |       |
+| Sku_STATUS                                | Sku_STATUS                                | Modified |       |
+| UserAssignedIdentityDetails               | UserAssignedIdentityDetails               | Extended |       |
+| UserAssignedIdentity_STATUS               | UserAssignedIdentity_STATUS               | Extended |       |
 
 ### ManagedServiceIdentity
 
@@ -75,6 +73,29 @@ Statuses:
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
 | Id            | *string | Id                    | *string                | Identical |       |
 |               |         | PropertyBag           | genruntime.PropertyBag | New       |       |
+
+### RedisCreateProperties_RedisConfiguration
+
+| v1api20230801                      |                    | v1api20230801/storage              |                        | Status    | Notes |
+|:-----------------------------------|:-------------------|:-----------------------------------|:-----------------------|:---------:|:------|
+| AadEnabled                         | *string            | AadEnabled                         | *string                | Identical |       |
+| AdditionalProperties               | map[string]v1.JSON | AdditionalProperties               | map[string]v1.JSON     | Identical |       |
+| AofBackupEnabled                   | *string            | AofBackupEnabled                   | *string                | Identical |       |
+| AofStorageConnectionString0        | *string            | AofStorageConnectionString0        | *string                | Identical |       |
+| AofStorageConnectionString1        | *string            | AofStorageConnectionString1        | *string                | Identical |       |
+| Authnotrequired                    | *string            | Authnotrequired                    | *string                | Identical |       |
+| MaxfragmentationmemoryReserved     | *string            | MaxfragmentationmemoryReserved     | *string                | Identical |       |
+| MaxmemoryDelta                     | *string            | MaxmemoryDelta                     | *string                | Identical |       |
+| MaxmemoryPolicy                    | *string            | MaxmemoryPolicy                    | *string                | Identical |       |
+| MaxmemoryReserved                  | *string            | MaxmemoryReserved                  | *string                | Identical |       |
+| NotifyKeyspaceEvents               | *string            | NotifyKeyspaceEvents               | *string                | Identical |       |
+| PreferredDataPersistenceAuthMethod | *string            | PreferredDataPersistenceAuthMethod | *string                | Identical |       |
+|                                    |                    | PropertyBag                        | genruntime.PropertyBag | New       |       |
+| RdbBackupEnabled                   | *string            | RdbBackupEnabled                   | *string                | Identical |       |
+| RdbBackupFrequency                 | *string            | RdbBackupFrequency                 | *string                | Identical |       |
+| RdbBackupMaxSnapshotCount          | *string            | RdbBackupMaxSnapshotCount          | *string                | Identical |       |
+| RdbStorageConnectionString         | *string            | RdbStorageConnectionString         | *string                | Identical |       |
+| StorageSubscriptionId              | *string            | StorageSubscriptionId              | *string                | Identical |       |
 
 ### RedisFirewallRuleOperatorSpec
 
@@ -197,6 +218,32 @@ Statuses:
 | Owner           | *genruntime.KnownResourceReference | Owner                 | *genruntime.KnownResourceReference | Identical |       |
 |                 |                                    | PropertyBag           | genruntime.PropertyBag             | New       |       |
 | ScheduleEntries | ScheduleEntry[]                    | ScheduleEntries       | ScheduleEntry[]                    | Identical |       |
+
+### RedisProperties_RedisConfiguration_STATUS
+
+| v1api20230801                      |                    | v1api20230801/storage              |                        | Status    | Notes |
+|:-----------------------------------|:-------------------|:-----------------------------------|:-----------------------|:---------:|:------|
+| AadEnabled                         | *string            | AadEnabled                         | *string                | Identical |       |
+| AdditionalProperties               | map[string]v1.JSON | AdditionalProperties               | map[string]v1.JSON     | Identical |       |
+| AofBackupEnabled                   | *string            | AofBackupEnabled                   | *string                | Identical |       |
+| AofStorageConnectionString0        | *string            | AofStorageConnectionString0        | *string                | Identical |       |
+| AofStorageConnectionString1        | *string            | AofStorageConnectionString1        | *string                | Identical |       |
+| Authnotrequired                    | *string            | Authnotrequired                    | *string                | Identical |       |
+| Maxclients                         | *string            | Maxclients                         | *string                | Identical |       |
+| MaxfragmentationmemoryReserved     | *string            | MaxfragmentationmemoryReserved     | *string                | Identical |       |
+| MaxmemoryDelta                     | *string            | MaxmemoryDelta                     | *string                | Identical |       |
+| MaxmemoryPolicy                    | *string            | MaxmemoryPolicy                    | *string                | Identical |       |
+| MaxmemoryReserved                  | *string            | MaxmemoryReserved                  | *string                | Identical |       |
+| NotifyKeyspaceEvents               | *string            | NotifyKeyspaceEvents               | *string                | Identical |       |
+| PreferredDataArchiveAuthMethod     | *string            | PreferredDataArchiveAuthMethod     | *string                | Identical |       |
+| PreferredDataPersistenceAuthMethod | *string            | PreferredDataPersistenceAuthMethod | *string                | Identical |       |
+|                                    |                    | PropertyBag                        | genruntime.PropertyBag | New       |       |
+| RdbBackupEnabled                   | *string            | RdbBackupEnabled                   | *string                | Identical |       |
+| RdbBackupFrequency                 | *string            | RdbBackupFrequency                 | *string                | Identical |       |
+| RdbBackupMaxSnapshotCount          | *string            | RdbBackupMaxSnapshotCount          | *string                | Identical |       |
+| RdbStorageConnectionString         | *string            | RdbStorageConnectionString         | *string                | Identical |       |
+| StorageSubscriptionId              | *string            | StorageSubscriptionId              | *string                | Identical |       |
+| ZonalConfiguration                 | *string            | ZonalConfiguration                 | *string                | Identical |       |
 
 ### Redis_LinkedServer_STATUS
 

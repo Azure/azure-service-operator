@@ -11,54 +11,54 @@ Statuses:
 
 ## Resources
 
-| Current Version   | Current Type | Next Version      | Next Type | Status    | Notes |
-|:------------------|:-------------|:------------------|:----------|:---------:|:------|
-| v20200930/storage | Disk         | v20240302/storage | Disk      | Identical |       |
-| v20200930/storage | Snapshot     | v20240302/storage | Snapshot  | Identical |       |
+| v20200930/storage | v20240302/storage | Status    | Notes |
+|:------------------|:------------------|:---------:|:------|
+| Disk              | Disk              | Identical |       |
+| Snapshot          | Snapshot          | Identical |       |
 
 ## Objects
 
-| Current Version   | Current Type                        | Next Version      | Next Type                           | Status    | Notes |
-|:------------------|:------------------------------------|:------------------|:------------------------------------|:---------:|:------|
-|                   |                                     | v20240302/storage | CopyCompletionError                 | New       |       |
-|                   |                                     | v20240302/storage | CopyCompletionError_STATUS          | New       |       |
-| v20200930/storage | CreationData                        | v20240302/storage | CreationData                        | Extended  |       |
-| v20200930/storage | CreationData_STATUS                 | v20240302/storage | CreationData_STATUS                 | Extended  |       |
-| v20200930/storage | DiskOperatorSpec                    | v20240302/storage | DiskOperatorSpec                    | Identical |       |
-|                   |                                     | v20240302/storage | DiskSecurityProfile                 | New       |       |
-|                   |                                     | v20240302/storage | DiskSecurityProfile_STATUS          | New       |       |
-| v20200930/storage | DiskSku                             | v20240302/storage | DiskSku                             | Identical |       |
-| v20200930/storage | DiskSku_STATUS                      | v20240302/storage | DiskSku_STATUS                      | Identical |       |
-| v20200930/storage | Disk_STATUS                         | v20240302/storage | Disk_STATUS                         | Extended  |       |
-| v20200930/storage | Disk_Spec                           | v20240302/storage | Disk_Spec                           | Extended  |       |
-| v20200930/storage | Encryption                          | v20240302/storage | Encryption                          | Identical |       |
-| v20200930/storage | EncryptionSettingsCollection        | v20240302/storage | EncryptionSettingsCollection        | Identical |       |
-| v20200930/storage | EncryptionSettingsCollection_STATUS | v20240302/storage | EncryptionSettingsCollection_STATUS | Identical |       |
-| v20200930/storage | EncryptionSettingsElement           | v20240302/storage | EncryptionSettingsElement           | Identical |       |
-| v20200930/storage | EncryptionSettingsElement_STATUS    | v20240302/storage | EncryptionSettingsElement_STATUS    | Identical |       |
-| v20200930/storage | Encryption_STATUS                   | v20240302/storage | Encryption_STATUS                   | Identical |       |
-| v20200930/storage | ExtendedLocation                    | v20240302/storage | ExtendedLocation                    | Identical |       |
-| v20200930/storage | ExtendedLocation_STATUS             | v20240302/storage | ExtendedLocation_STATUS             | Identical |       |
-| v20200930/storage | ImageDiskReference                  | v20240302/storage | ImageDiskReference                  | Extended  |       |
-| v20200930/storage | ImageDiskReference_STATUS           | v20240302/storage | ImageDiskReference_STATUS           | Extended  |       |
-| v20200930/storage | KeyVaultAndKeyReference             | v20240302/storage | KeyVaultAndKeyReference             | Identical |       |
-| v20200930/storage | KeyVaultAndKeyReference_STATUS      | v20240302/storage | KeyVaultAndKeyReference_STATUS      | Identical |       |
-| v20200930/storage | KeyVaultAndSecretReference          | v20240302/storage | KeyVaultAndSecretReference          | Identical |       |
-| v20200930/storage | KeyVaultAndSecretReference_STATUS   | v20240302/storage | KeyVaultAndSecretReference_STATUS   | Identical |       |
-|                   |                                     | v20240302/storage | PropertyUpdatesInProgress_STATUS    | New       |       |
-| v20200930/storage | PurchasePlan                        | v20240302/storage | DiskPurchasePlan                    | Renamed   |       |
-| v20200930/storage | PurchasePlan_STATUS                 | v20240302/storage | DiskPurchasePlan_STATUS             | Renamed   |       |
-| v20200930/storage | ShareInfoElement_STATUS             | v20240302/storage | ShareInfoElement_STATUS             | Identical |       |
-| v20200930/storage | SnapshotOperatorSpec                | v20240302/storage | SnapshotOperatorSpec                | Identical |       |
-| v20200930/storage | SnapshotSku                         | v20240302/storage | SnapshotSku                         | Identical |       |
-| v20200930/storage | SnapshotSku_STATUS                  | v20240302/storage | SnapshotSku_STATUS                  | Identical |       |
-| v20200930/storage | Snapshot_STATUS                     | v20240302/storage | Snapshot_STATUS                     | Extended  |       |
-| v20200930/storage | Snapshot_Spec                       | v20240302/storage | Snapshot_Spec                       | Extended  |       |
-| v20200930/storage | SourceVault                         | v20240302/storage | SourceVault                         | Identical |       |
-| v20200930/storage | SourceVault_STATUS                  | v20240302/storage | SourceVault_STATUS                  | Identical |       |
-|                   |                                     | v20240302/storage | SupportedCapabilities               | New       |       |
-|                   |                                     | v20240302/storage | SupportedCapabilities_STATUS        | New       |       |
-|                   |                                     | v20240302/storage | SystemData_STATUS                   | New       |       |
+| v20200930/storage                   | v20240302/storage                   | Status    | Notes |
+|:------------------------------------|:------------------------------------|:---------:|:------|
+|                                     | CopyCompletionError                 | New       |       |
+|                                     | CopyCompletionError_STATUS          | New       |       |
+| CreationData                        | CreationData                        | Extended  |       |
+| CreationData_STATUS                 | CreationData_STATUS                 | Extended  |       |
+| DiskOperatorSpec                    | DiskOperatorSpec                    | Identical |       |
+|                                     | DiskSecurityProfile                 | New       |       |
+|                                     | DiskSecurityProfile_STATUS          | New       |       |
+| DiskSku                             | DiskSku                             | Identical |       |
+| DiskSku_STATUS                      | DiskSku_STATUS                      | Identical |       |
+| Disk_STATUS                         | Disk_STATUS                         | Extended  |       |
+| Disk_Spec                           | Disk_Spec                           | Extended  |       |
+| Encryption                          | Encryption                          | Identical |       |
+| EncryptionSettingsCollection        | EncryptionSettingsCollection        | Identical |       |
+| EncryptionSettingsCollection_STATUS | EncryptionSettingsCollection_STATUS | Identical |       |
+| EncryptionSettingsElement           | EncryptionSettingsElement           | Identical |       |
+| EncryptionSettingsElement_STATUS    | EncryptionSettingsElement_STATUS    | Identical |       |
+| Encryption_STATUS                   | Encryption_STATUS                   | Identical |       |
+| ExtendedLocation                    | ExtendedLocation                    | Identical |       |
+| ExtendedLocation_STATUS             | ExtendedLocation_STATUS             | Identical |       |
+| ImageDiskReference                  | ImageDiskReference                  | Extended  |       |
+| ImageDiskReference_STATUS           | ImageDiskReference_STATUS           | Extended  |       |
+| KeyVaultAndKeyReference             | KeyVaultAndKeyReference             | Identical |       |
+| KeyVaultAndKeyReference_STATUS      | KeyVaultAndKeyReference_STATUS      | Identical |       |
+| KeyVaultAndSecretReference          | KeyVaultAndSecretReference          | Identical |       |
+| KeyVaultAndSecretReference_STATUS   | KeyVaultAndSecretReference_STATUS   | Identical |       |
+|                                     | PropertyUpdatesInProgress_STATUS    | New       |       |
+| PurchasePlan                        | DiskPurchasePlan                    | Renamed   |       |
+| PurchasePlan_STATUS                 | DiskPurchasePlan_STATUS             | Renamed   |       |
+| ShareInfoElement_STATUS             | ShareInfoElement_STATUS             | Identical |       |
+| SnapshotOperatorSpec                | SnapshotOperatorSpec                | Identical |       |
+| SnapshotSku                         | SnapshotSku                         | Identical |       |
+| SnapshotSku_STATUS                  | SnapshotSku_STATUS                  | Identical |       |
+| Snapshot_STATUS                     | Snapshot_STATUS                     | Extended  |       |
+| Snapshot_Spec                       | Snapshot_Spec                       | Extended  |       |
+| SourceVault                         | SourceVault                         | Identical |       |
+| SourceVault_STATUS                  | SourceVault_STATUS                  | Identical |       |
+|                                     | SupportedCapabilities               | New       |       |
+|                                     | SupportedCapabilities_STATUS        | New       |       |
+|                                     | SystemData_STATUS                   | New       |       |
 
 ### CreationData
 

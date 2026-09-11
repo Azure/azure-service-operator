@@ -11,21 +11,21 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type | Status    | Notes |
-|:----------------|:-------------|:----------------------|:----------|:---------:|:------|
-| v1api20211001   | Alias        | v1api20211001/storage | Alias     | Identical |       |
+| v1api20211001 | v1api20211001/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| Alias         | Alias                 | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                               | Next Version          | Next Type                                  | Status   | Notes |
-|:----------------|:-------------------------------------------|:----------------------|:-------------------------------------------|:--------:|:------|
-| v1api20211001   | AliasOperatorSpec                          | v1api20211001/storage | AliasOperatorSpec                          | Extended |       |
-| v1api20211001   | Alias_STATUS                               | v1api20211001/storage | Alias_STATUS                               | Extended |       |
-| v1api20211001   | Alias_Spec                                 | v1api20211001/storage | Alias_Spec                                 | Extended |       |
-| v1api20211001   | PutAliasRequestAdditionalProperties        | v1api20211001/storage | PutAliasRequestAdditionalProperties        | Extended |       |
-| v1api20211001   | PutAliasRequestProperties                  | v1api20211001/storage | PutAliasRequestProperties                  | Modified |       |
-| v1api20211001   | SubscriptionAliasResponseProperties_STATUS | v1api20211001/storage | SubscriptionAliasResponseProperties_STATUS | Modified |       |
-| v1api20211001   | SystemData_STATUS                          | v1api20211001/storage | SystemData_STATUS                          | Modified |       |
+| v1api20211001                              | v1api20211001/storage                      | Status   | Notes |
+|:-------------------------------------------|:-------------------------------------------|:--------:|:------|
+| AliasOperatorSpec                          | AliasOperatorSpec                          | Extended |       |
+| Alias_STATUS                               | Alias_STATUS                               | Extended |       |
+| Alias_Spec                                 | Alias_Spec                                 | Extended |       |
+| PutAliasRequestAdditionalProperties        | PutAliasRequestAdditionalProperties        | Extended |       |
+| PutAliasRequestProperties                  | PutAliasRequestProperties                  | Modified |       |
+| SubscriptionAliasResponseProperties_STATUS | SubscriptionAliasResponseProperties_STATUS | Modified |       |
+| SystemData_STATUS                          | SystemData_STATUS                          | Modified |       |
 
 ### AliasOperatorSpec
 

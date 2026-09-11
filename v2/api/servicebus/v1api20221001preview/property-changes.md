@@ -11,62 +11,62 @@ Statuses:
 
 ## Resources
 
-| Current Version      | Current Type                      | Next Version                 | Next Type                         | Status    | Notes |
-|:---------------------|:----------------------------------|:-----------------------------|:----------------------------------|:---------:|:------|
-| v1api20221001preview | Namespace                         | v1api20221001preview/storage | Namespace                         | Identical |       |
-| v1api20221001preview | NamespacesAuthorizationRule       | v1api20221001preview/storage | NamespacesAuthorizationRule       | Identical |       |
-| v1api20221001preview | NamespacesQueue                   | v1api20221001preview/storage | NamespacesQueue                   | Identical |       |
-| v1api20221001preview | NamespacesTopic                   | v1api20221001preview/storage | NamespacesTopic                   | Identical |       |
-| v1api20221001preview | NamespacesTopicsSubscription      | v1api20221001preview/storage | NamespacesTopicsSubscription      | Identical |       |
-| v1api20221001preview | NamespacesTopicsSubscriptionsRule | v1api20221001preview/storage | NamespacesTopicsSubscriptionsRule | Identical |       |
+| v1api20221001preview              | v1api20221001preview/storage      | Status    | Notes |
+|:----------------------------------|:----------------------------------|:---------:|:------|
+| Namespace                         | Namespace                         | Identical |       |
+| NamespacesAuthorizationRule       | NamespacesAuthorizationRule       | Identical |       |
+| NamespacesQueue                   | NamespacesQueue                   | Identical |       |
+| NamespacesTopic                   | NamespacesTopic                   | Identical |       |
+| NamespacesTopicsSubscription      | NamespacesTopicsSubscription      | Identical |       |
+| NamespacesTopicsSubscriptionsRule | NamespacesTopicsSubscriptionsRule | Identical |       |
 
 ## Objects
 
-| Current Version      | Current Type                                  | Next Version                 | Next Type                                     | Status   | Notes |
-|:---------------------|:----------------------------------------------|:-----------------------------|:----------------------------------------------|:--------:|:------|
-| v1api20221001preview | Action                                        | v1api20221001preview/storage | Action                                        | Extended |       |
-| v1api20221001preview | Action_STATUS                                 | v1api20221001preview/storage | Action_STATUS                                 | Extended |       |
-| v1api20221001preview | CorrelationFilter                             | v1api20221001preview/storage | CorrelationFilter                             | Extended |       |
-| v1api20221001preview | CorrelationFilter_STATUS                      | v1api20221001preview/storage | CorrelationFilter_STATUS                      | Extended |       |
-| v1api20221001preview | Encryption                                    | v1api20221001preview/storage | Encryption                                    | Modified |       |
-| v1api20221001preview | Encryption_STATUS                             | v1api20221001preview/storage | Encryption_STATUS                             | Modified |       |
-| v1api20221001preview | Identity                                      | v1api20221001preview/storage | Identity                                      | Modified |       |
-| v1api20221001preview | Identity_STATUS                               | v1api20221001preview/storage | Identity_STATUS                               | Modified |       |
-| v1api20221001preview | KeyVaultProperties                            | v1api20221001preview/storage | KeyVaultProperties                            | Extended |       |
-| v1api20221001preview | KeyVaultProperties_STATUS                     | v1api20221001preview/storage | KeyVaultProperties_STATUS                     | Extended |       |
-| v1api20221001preview | MessageCountDetails_STATUS                    | v1api20221001preview/storage | MessageCountDetails_STATUS                    | Extended |       |
-| v1api20221001preview | NamespaceOperatorSecrets                      | v1api20221001preview/storage | NamespaceOperatorSecrets                      | Extended |       |
-| v1api20221001preview | NamespaceOperatorSpec                         | v1api20221001preview/storage | NamespaceOperatorSpec                         | Extended |       |
-| v1api20221001preview | Namespace_STATUS                              | v1api20221001preview/storage | Namespace_STATUS                              | Modified |       |
-| v1api20221001preview | Namespace_Spec                                | v1api20221001preview/storage | Namespace_Spec                                | Modified |       |
-| v1api20221001preview | NamespacesAuthorizationRuleOperatorSecrets    | v1api20221001preview/storage | NamespacesAuthorizationRuleOperatorSecrets    | Extended |       |
-| v1api20221001preview | NamespacesAuthorizationRuleOperatorSpec       | v1api20221001preview/storage | NamespacesAuthorizationRuleOperatorSpec       | Extended |       |
-| v1api20221001preview | NamespacesAuthorizationRule_STATUS            | v1api20221001preview/storage | NamespacesAuthorizationRule_STATUS            | Modified |       |
-| v1api20221001preview | NamespacesAuthorizationRule_Spec              | v1api20221001preview/storage | NamespacesAuthorizationRule_Spec              | Modified |       |
-| v1api20221001preview | NamespacesQueueOperatorSpec                   | v1api20221001preview/storage | NamespacesQueueOperatorSpec                   | Extended |       |
-| v1api20221001preview | NamespacesQueue_STATUS                        | v1api20221001preview/storage | NamespacesQueue_STATUS                        | Modified |       |
-| v1api20221001preview | NamespacesQueue_Spec                          | v1api20221001preview/storage | NamespacesQueue_Spec                          | Modified |       |
-| v1api20221001preview | NamespacesTopicOperatorSpec                   | v1api20221001preview/storage | NamespacesTopicOperatorSpec                   | Extended |       |
-| v1api20221001preview | NamespacesTopic_STATUS                        | v1api20221001preview/storage | NamespacesTopic_STATUS                        | Modified |       |
-| v1api20221001preview | NamespacesTopic_Spec                          | v1api20221001preview/storage | NamespacesTopic_Spec                          | Modified |       |
-| v1api20221001preview | NamespacesTopicsSubscriptionOperatorSpec      | v1api20221001preview/storage | NamespacesTopicsSubscriptionOperatorSpec      | Extended |       |
-| v1api20221001preview | NamespacesTopicsSubscription_STATUS           | v1api20221001preview/storage | NamespacesTopicsSubscription_STATUS           | Modified |       |
-| v1api20221001preview | NamespacesTopicsSubscription_Spec             | v1api20221001preview/storage | NamespacesTopicsSubscription_Spec             | Modified |       |
-| v1api20221001preview | NamespacesTopicsSubscriptionsRuleOperatorSpec | v1api20221001preview/storage | NamespacesTopicsSubscriptionsRuleOperatorSpec | Extended |       |
-| v1api20221001preview | NamespacesTopicsSubscriptionsRule_STATUS      | v1api20221001preview/storage | NamespacesTopicsSubscriptionsRule_STATUS      | Modified |       |
-| v1api20221001preview | NamespacesTopicsSubscriptionsRule_Spec        | v1api20221001preview/storage | NamespacesTopicsSubscriptionsRule_Spec        | Modified |       |
-| v1api20221001preview | PrivateEndpointConnection_STATUS              | v1api20221001preview/storage | PrivateEndpointConnection_STATUS              | Extended |       |
-| v1api20221001preview | SBClientAffineProperties                      | v1api20221001preview/storage | SBClientAffineProperties                      | Extended |       |
-| v1api20221001preview | SBClientAffineProperties_STATUS               | v1api20221001preview/storage | SBClientAffineProperties_STATUS               | Extended |       |
-| v1api20221001preview | SBSku                                         | v1api20221001preview/storage | SBSku                                         | Modified |       |
-| v1api20221001preview | SBSku_STATUS                                  | v1api20221001preview/storage | SBSku_STATUS                                  | Modified |       |
-| v1api20221001preview | SqlFilter                                     | v1api20221001preview/storage | SqlFilter                                     | Extended |       |
-| v1api20221001preview | SqlFilter_STATUS                              | v1api20221001preview/storage | SqlFilter_STATUS                              | Extended |       |
-| v1api20221001preview | SystemData_STATUS                             | v1api20221001preview/storage | SystemData_STATUS                             | Modified |       |
-| v1api20221001preview | UserAssignedIdentityDetails                   | v1api20221001preview/storage | UserAssignedIdentityDetails                   | Extended |       |
-| v1api20221001preview | UserAssignedIdentityProperties                | v1api20221001preview/storage | UserAssignedIdentityProperties                | Extended |       |
-| v1api20221001preview | UserAssignedIdentityProperties_STATUS         | v1api20221001preview/storage | UserAssignedIdentityProperties_STATUS         | Extended |       |
-| v1api20221001preview | UserAssignedIdentity_STATUS                   | v1api20221001preview/storage | UserAssignedIdentity_STATUS                   | Extended |       |
+| v1api20221001preview                          | v1api20221001preview/storage                  | Status   | Notes |
+|:----------------------------------------------|:----------------------------------------------|:--------:|:------|
+| Action                                        | Action                                        | Extended |       |
+| Action_STATUS                                 | Action_STATUS                                 | Extended |       |
+| CorrelationFilter                             | CorrelationFilter                             | Extended |       |
+| CorrelationFilter_STATUS                      | CorrelationFilter_STATUS                      | Extended |       |
+| Encryption                                    | Encryption                                    | Modified |       |
+| Encryption_STATUS                             | Encryption_STATUS                             | Modified |       |
+| Identity                                      | Identity                                      | Modified |       |
+| Identity_STATUS                               | Identity_STATUS                               | Modified |       |
+| KeyVaultProperties                            | KeyVaultProperties                            | Extended |       |
+| KeyVaultProperties_STATUS                     | KeyVaultProperties_STATUS                     | Extended |       |
+| MessageCountDetails_STATUS                    | MessageCountDetails_STATUS                    | Extended |       |
+| NamespaceOperatorSecrets                      | NamespaceOperatorSecrets                      | Extended |       |
+| NamespaceOperatorSpec                         | NamespaceOperatorSpec                         | Extended |       |
+| Namespace_STATUS                              | Namespace_STATUS                              | Modified |       |
+| Namespace_Spec                                | Namespace_Spec                                | Modified |       |
+| NamespacesAuthorizationRuleOperatorSecrets    | NamespacesAuthorizationRuleOperatorSecrets    | Extended |       |
+| NamespacesAuthorizationRuleOperatorSpec       | NamespacesAuthorizationRuleOperatorSpec       | Extended |       |
+| NamespacesAuthorizationRule_STATUS            | NamespacesAuthorizationRule_STATUS            | Modified |       |
+| NamespacesAuthorizationRule_Spec              | NamespacesAuthorizationRule_Spec              | Modified |       |
+| NamespacesQueueOperatorSpec                   | NamespacesQueueOperatorSpec                   | Extended |       |
+| NamespacesQueue_STATUS                        | NamespacesQueue_STATUS                        | Modified |       |
+| NamespacesQueue_Spec                          | NamespacesQueue_Spec                          | Modified |       |
+| NamespacesTopicOperatorSpec                   | NamespacesTopicOperatorSpec                   | Extended |       |
+| NamespacesTopic_STATUS                        | NamespacesTopic_STATUS                        | Modified |       |
+| NamespacesTopic_Spec                          | NamespacesTopic_Spec                          | Modified |       |
+| NamespacesTopicsSubscriptionOperatorSpec      | NamespacesTopicsSubscriptionOperatorSpec      | Extended |       |
+| NamespacesTopicsSubscription_STATUS           | NamespacesTopicsSubscription_STATUS           | Modified |       |
+| NamespacesTopicsSubscription_Spec             | NamespacesTopicsSubscription_Spec             | Modified |       |
+| NamespacesTopicsSubscriptionsRuleOperatorSpec | NamespacesTopicsSubscriptionsRuleOperatorSpec | Extended |       |
+| NamespacesTopicsSubscriptionsRule_STATUS      | NamespacesTopicsSubscriptionsRule_STATUS      | Modified |       |
+| NamespacesTopicsSubscriptionsRule_Spec        | NamespacesTopicsSubscriptionsRule_Spec        | Modified |       |
+| PrivateEndpointConnection_STATUS              | PrivateEndpointConnection_STATUS              | Extended |       |
+| SBClientAffineProperties                      | SBClientAffineProperties                      | Extended |       |
+| SBClientAffineProperties_STATUS               | SBClientAffineProperties_STATUS               | Extended |       |
+| SBSku                                         | SBSku                                         | Modified |       |
+| SBSku_STATUS                                  | SBSku_STATUS                                  | Modified |       |
+| SqlFilter                                     | SqlFilter                                     | Extended |       |
+| SqlFilter_STATUS                              | SqlFilter_STATUS                              | Extended |       |
+| SystemData_STATUS                             | SystemData_STATUS                             | Modified |       |
+| UserAssignedIdentityDetails                   | UserAssignedIdentityDetails                   | Extended |       |
+| UserAssignedIdentityProperties                | UserAssignedIdentityProperties                | Extended |       |
+| UserAssignedIdentityProperties_STATUS         | UserAssignedIdentityProperties_STATUS         | Extended |       |
+| UserAssignedIdentity_STATUS                   | UserAssignedIdentity_STATUS                   | Extended |       |
 
 ### Action
 

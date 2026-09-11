@@ -11,126 +11,126 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                         | Next Version          | Next Type                            | Status    | Notes |
-|:----------------|:-------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
-| v1api20210401   | StorageAccount                       | v1api20210401/storage | StorageAccount                       | Identical |       |
-| v1api20210401   | StorageAccountsBlobService           | v1api20210401/storage | StorageAccountsBlobService           | Identical |       |
-| v1api20210401   | StorageAccountsBlobServicesContainer | v1api20210401/storage | StorageAccountsBlobServicesContainer | Identical |       |
-| v1api20210401   | StorageAccountsManagementPolicy      | v1api20210401/storage | StorageAccountsManagementPolicy      | Identical |       |
-| v1api20210401   | StorageAccountsQueueService          | v1api20210401/storage | StorageAccountsQueueService          | Identical |       |
-| v1api20210401   | StorageAccountsQueueServicesQueue    | v1api20210401/storage | StorageAccountsQueueServicesQueue    | Identical |       |
+| v1api20210401                        | v1api20210401/storage                | Status    | Notes |
+|:-------------------------------------|:-------------------------------------|:---------:|:------|
+| StorageAccount                       | StorageAccount                       | Identical |       |
+| StorageAccountsBlobService           | StorageAccountsBlobService           | Identical |       |
+| StorageAccountsBlobServicesContainer | StorageAccountsBlobServicesContainer | Identical |       |
+| StorageAccountsManagementPolicy      | StorageAccountsManagementPolicy      | Identical |       |
+| StorageAccountsQueueService          | StorageAccountsQueueService          | Identical |       |
+| StorageAccountsQueueServicesQueue    | StorageAccountsQueueServicesQueue    | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                     | Next Version          | Next Type                                        | Status   | Notes |
-|:----------------|:-------------------------------------------------|:----------------------|:-------------------------------------------------|:--------:|:------|
-| v1api20210401   | ActiveDirectoryProperties                        | v1api20210401/storage | ActiveDirectoryProperties                        | Extended |       |
-| v1api20210401   | ActiveDirectoryProperties_STATUS                 | v1api20210401/storage | ActiveDirectoryProperties_STATUS                 | Extended |       |
-| v1api20210401   | AzureFilesIdentityBasedAuthentication            | v1api20210401/storage | AzureFilesIdentityBasedAuthentication            | Modified |       |
-| v1api20210401   | AzureFilesIdentityBasedAuthentication_STATUS     | v1api20210401/storage | AzureFilesIdentityBasedAuthentication_STATUS     | Modified |       |
-| v1api20210401   | BlobRestoreParameters_STATUS                     | v1api20210401/storage | BlobRestoreParameters_STATUS                     | Extended |       |
-| v1api20210401   | BlobRestoreRange_STATUS                          | v1api20210401/storage | BlobRestoreRange_STATUS                          | Extended |       |
-| v1api20210401   | BlobRestoreStatus_STATUS                         | v1api20210401/storage | BlobRestoreStatus_STATUS                         | Modified |       |
-| v1api20210401   | ChangeFeed                                       | v1api20210401/storage | ChangeFeed                                       | Modified |       |
-| v1api20210401   | ChangeFeed_STATUS                                | v1api20210401/storage | ChangeFeed_STATUS                                | Extended |       |
-| v1api20210401   | CorsRule                                         | v1api20210401/storage | CorsRule                                         | Modified |       |
-| v1api20210401   | CorsRule_STATUS                                  | v1api20210401/storage | CorsRule_STATUS                                  | Modified |       |
-| v1api20210401   | CorsRules                                        | v1api20210401/storage | CorsRules                                        | Extended |       |
-| v1api20210401   | CorsRules_STATUS                                 | v1api20210401/storage | CorsRules_STATUS                                 | Extended |       |
-| v1api20210401   | CustomDomain                                     | v1api20210401/storage | CustomDomain                                     | Extended |       |
-| v1api20210401   | CustomDomain_STATUS                              | v1api20210401/storage | CustomDomain_STATUS                              | Extended |       |
-| v1api20210401   | DateAfterCreation                                | v1api20210401/storage | DateAfterCreation                                | Modified |       |
-| v1api20210401   | DateAfterCreation_STATUS                         | v1api20210401/storage | DateAfterCreation_STATUS                         | Extended |       |
-| v1api20210401   | DateAfterModification                            | v1api20210401/storage | DateAfterModification                            | Modified |       |
-| v1api20210401   | DateAfterModification_STATUS                     | v1api20210401/storage | DateAfterModification_STATUS                     | Extended |       |
-| v1api20210401   | DeleteRetentionPolicy                            | v1api20210401/storage | DeleteRetentionPolicy                            | Modified |       |
-| v1api20210401   | DeleteRetentionPolicy_STATUS                     | v1api20210401/storage | DeleteRetentionPolicy_STATUS                     | Extended |       |
-| v1api20210401   | Encryption                                       | v1api20210401/storage | Encryption                                       | Modified |       |
-| v1api20210401   | EncryptionIdentity                               | v1api20210401/storage | EncryptionIdentity                               | Extended |       |
-| v1api20210401   | EncryptionIdentity_STATUS                        | v1api20210401/storage | EncryptionIdentity_STATUS                        | Extended |       |
-| v1api20210401   | EncryptionService                                | v1api20210401/storage | EncryptionService                                | Modified |       |
-| v1api20210401   | EncryptionService_STATUS                         | v1api20210401/storage | EncryptionService_STATUS                         | Modified |       |
-| v1api20210401   | EncryptionServices                               | v1api20210401/storage | EncryptionServices                               | Extended |       |
-| v1api20210401   | EncryptionServices_STATUS                        | v1api20210401/storage | EncryptionServices_STATUS                        | Extended |       |
-| v1api20210401   | Encryption_STATUS                                | v1api20210401/storage | Encryption_STATUS                                | Modified |       |
-| v1api20210401   | Endpoints_STATUS                                 | v1api20210401/storage | Endpoints_STATUS                                 | Extended |       |
-| v1api20210401   | ExtendedLocation                                 | v1api20210401/storage | ExtendedLocation                                 | Modified |       |
-| v1api20210401   | ExtendedLocation_STATUS                          | v1api20210401/storage | ExtendedLocation_STATUS                          | Modified |       |
-| v1api20210401   | GeoReplicationStats_STATUS                       | v1api20210401/storage | GeoReplicationStats_STATUS                       | Modified |       |
-| v1api20210401   | IPRule                                           | v1api20210401/storage | IPRule                                           | Modified |       |
-| v1api20210401   | IPRule_STATUS                                    | v1api20210401/storage | IPRule_STATUS                                    | Modified |       |
-| v1api20210401   | Identity                                         | v1api20210401/storage | Identity                                         | Modified |       |
-| v1api20210401   | Identity_STATUS                                  | v1api20210401/storage | Identity_STATUS                                  | Modified |       |
-| v1api20210401   | ImmutabilityPolicyProperties_STATUS              | v1api20210401/storage | ImmutabilityPolicyProperties_STATUS              | Modified |       |
-| v1api20210401   | ImmutableStorageWithVersioning                   | v1api20210401/storage | ImmutableStorageWithVersioning                   | Extended |       |
-| v1api20210401   | ImmutableStorageWithVersioning_STATUS            | v1api20210401/storage | ImmutableStorageWithVersioning_STATUS            | Modified |       |
-| v1api20210401   | KeyCreationTime_STATUS                           | v1api20210401/storage | KeyCreationTime_STATUS                           | Extended |       |
-| v1api20210401   | KeyPolicy                                        | v1api20210401/storage | KeyPolicy                                        | Extended |       |
-| v1api20210401   | KeyPolicy_STATUS                                 | v1api20210401/storage | KeyPolicy_STATUS                                 | Extended |       |
-| v1api20210401   | KeyVaultProperties                               | v1api20210401/storage | KeyVaultProperties                               | Extended |       |
-| v1api20210401   | KeyVaultProperties_STATUS                        | v1api20210401/storage | KeyVaultProperties_STATUS                        | Extended |       |
-| v1api20210401   | LastAccessTimeTrackingPolicy                     | v1api20210401/storage | LastAccessTimeTrackingPolicy                     | Modified |       |
-| v1api20210401   | LastAccessTimeTrackingPolicy_STATUS              | v1api20210401/storage | LastAccessTimeTrackingPolicy_STATUS              | Modified |       |
-| v1api20210401   | LegalHoldProperties_STATUS                       | v1api20210401/storage | LegalHoldProperties_STATUS                       | Extended |       |
-| v1api20210401   | ManagementPolicyAction                           | v1api20210401/storage | ManagementPolicyAction                           | Extended |       |
-| v1api20210401   | ManagementPolicyAction_STATUS                    | v1api20210401/storage | ManagementPolicyAction_STATUS                    | Extended |       |
-| v1api20210401   | ManagementPolicyBaseBlob                         | v1api20210401/storage | ManagementPolicyBaseBlob                         | Extended |       |
-| v1api20210401   | ManagementPolicyBaseBlob_STATUS                  | v1api20210401/storage | ManagementPolicyBaseBlob_STATUS                  | Extended |       |
-| v1api20210401   | ManagementPolicyDefinition                       | v1api20210401/storage | ManagementPolicyDefinition                       | Extended |       |
-| v1api20210401   | ManagementPolicyDefinition_STATUS                | v1api20210401/storage | ManagementPolicyDefinition_STATUS                | Extended |       |
-| v1api20210401   | ManagementPolicyFilter                           | v1api20210401/storage | ManagementPolicyFilter                           | Extended |       |
-| v1api20210401   | ManagementPolicyFilter_STATUS                    | v1api20210401/storage | ManagementPolicyFilter_STATUS                    | Extended |       |
-| v1api20210401   | ManagementPolicyRule                             | v1api20210401/storage | ManagementPolicyRule                             | Modified |       |
-| v1api20210401   | ManagementPolicyRule_STATUS                      | v1api20210401/storage | ManagementPolicyRule_STATUS                      | Modified |       |
-| v1api20210401   | ManagementPolicySchema                           | v1api20210401/storage | ManagementPolicySchema                           | Extended |       |
-| v1api20210401   | ManagementPolicySchema_STATUS                    | v1api20210401/storage | ManagementPolicySchema_STATUS                    | Extended |       |
-| v1api20210401   | ManagementPolicySnapShot                         | v1api20210401/storage | ManagementPolicySnapShot                         | Extended |       |
-| v1api20210401   | ManagementPolicySnapShot_STATUS                  | v1api20210401/storage | ManagementPolicySnapShot_STATUS                  | Extended |       |
-| v1api20210401   | ManagementPolicyVersion                          | v1api20210401/storage | ManagementPolicyVersion                          | Extended |       |
-| v1api20210401   | ManagementPolicyVersion_STATUS                   | v1api20210401/storage | ManagementPolicyVersion_STATUS                   | Extended |       |
-| v1api20210401   | NetworkRuleSet                                   | v1api20210401/storage | NetworkRuleSet                                   | Modified |       |
-| v1api20210401   | NetworkRuleSet_STATUS                            | v1api20210401/storage | NetworkRuleSet_STATUS                            | Modified |       |
-| v1api20210401   | PrivateEndpointConnection_STATUS                 | v1api20210401/storage | PrivateEndpointConnection_STATUS                 | Extended |       |
-| v1api20210401   | ResourceAccessRule                               | v1api20210401/storage | ResourceAccessRule                               | Extended |       |
-| v1api20210401   | ResourceAccessRule_STATUS                        | v1api20210401/storage | ResourceAccessRule_STATUS                        | Extended |       |
-| v1api20210401   | RestorePolicyProperties                          | v1api20210401/storage | RestorePolicyProperties                          | Modified |       |
-| v1api20210401   | RestorePolicyProperties_STATUS                   | v1api20210401/storage | RestorePolicyProperties_STATUS                   | Extended |       |
-| v1api20210401   | RoutingPreference                                | v1api20210401/storage | RoutingPreference                                | Modified |       |
-| v1api20210401   | RoutingPreference_STATUS                         | v1api20210401/storage | RoutingPreference_STATUS                         | Modified |       |
-| v1api20210401   | SasPolicy                                        | v1api20210401/storage | SasPolicy                                        | Modified |       |
-| v1api20210401   | SasPolicy_STATUS                                 | v1api20210401/storage | SasPolicy_STATUS                                 | Modified |       |
-| v1api20210401   | Sku                                              | v1api20210401/storage | Sku                                              | Modified |       |
-| v1api20210401   | Sku_STATUS                                       | v1api20210401/storage | Sku_STATUS                                       | Modified |       |
-| v1api20210401   | StorageAccountInternetEndpoints_STATUS           | v1api20210401/storage | StorageAccountInternetEndpoints_STATUS           | Extended |       |
-| v1api20210401   | StorageAccountMicrosoftEndpoints_STATUS          | v1api20210401/storage | StorageAccountMicrosoftEndpoints_STATUS          | Extended |       |
-| v1api20210401   | StorageAccountOperatorConfigMaps                 | v1api20210401/storage | StorageAccountOperatorConfigMaps                 | Extended |       |
-| v1api20210401   | StorageAccountOperatorSecrets                    | v1api20210401/storage | StorageAccountOperatorSecrets                    | Extended |       |
-| v1api20210401   | StorageAccountOperatorSpec                       | v1api20210401/storage | StorageAccountOperatorSpec                       | Extended |       |
-| v1api20210401   | StorageAccount_STATUS                            | v1api20210401/storage | StorageAccount_STATUS                            | Modified |       |
-| v1api20210401   | StorageAccount_Spec                              | v1api20210401/storage | StorageAccount_Spec                              | Modified |       |
-| v1api20210401   | StorageAccountsBlobServiceOperatorSpec           | v1api20210401/storage | StorageAccountsBlobServiceOperatorSpec           | Extended |       |
-| v1api20210401   | StorageAccountsBlobService_STATUS                | v1api20210401/storage | StorageAccountsBlobService_STATUS                | Extended |       |
-| v1api20210401   | StorageAccountsBlobService_Spec                  | v1api20210401/storage | StorageAccountsBlobService_Spec                  | Extended |       |
-| v1api20210401   | StorageAccountsBlobServicesContainerOperatorSpec | v1api20210401/storage | StorageAccountsBlobServicesContainerOperatorSpec | Extended |       |
-| v1api20210401   | StorageAccountsBlobServicesContainer_STATUS      | v1api20210401/storage | StorageAccountsBlobServicesContainer_STATUS      | Modified |       |
-| v1api20210401   | StorageAccountsBlobServicesContainer_Spec        | v1api20210401/storage | StorageAccountsBlobServicesContainer_Spec        | Modified |       |
-| v1api20210401   | StorageAccountsManagementPolicyOperatorSpec      | v1api20210401/storage | StorageAccountsManagementPolicyOperatorSpec      | Extended |       |
-| v1api20210401   | StorageAccountsManagementPolicy_STATUS           | v1api20210401/storage | StorageAccountsManagementPolicy_STATUS           | Extended |       |
-| v1api20210401   | StorageAccountsManagementPolicy_Spec             | v1api20210401/storage | StorageAccountsManagementPolicy_Spec             | Extended |       |
-| v1api20210401   | StorageAccountsQueueServiceOperatorSpec          | v1api20210401/storage | StorageAccountsQueueServiceOperatorSpec          | Extended |       |
-| v1api20210401   | StorageAccountsQueueService_STATUS               | v1api20210401/storage | StorageAccountsQueueService_STATUS               | Extended |       |
-| v1api20210401   | StorageAccountsQueueService_Spec                 | v1api20210401/storage | StorageAccountsQueueService_Spec                 | Extended |       |
-| v1api20210401   | StorageAccountsQueueServicesQueueOperatorSpec    | v1api20210401/storage | StorageAccountsQueueServicesQueueOperatorSpec    | Extended |       |
-| v1api20210401   | StorageAccountsQueueServicesQueue_STATUS         | v1api20210401/storage | StorageAccountsQueueServicesQueue_STATUS         | Extended |       |
-| v1api20210401   | StorageAccountsQueueServicesQueue_Spec           | v1api20210401/storage | StorageAccountsQueueServicesQueue_Spec           | Modified |       |
-| v1api20210401   | TagFilter                                        | v1api20210401/storage | TagFilter                                        | Modified |       |
-| v1api20210401   | TagFilter_STATUS                                 | v1api20210401/storage | TagFilter_STATUS                                 | Extended |       |
-| v1api20210401   | TagProperty_STATUS                               | v1api20210401/storage | TagProperty_STATUS                               | Extended |       |
-| v1api20210401   | UpdateHistoryProperty_STATUS                     | v1api20210401/storage | UpdateHistoryProperty_STATUS                     | Modified |       |
-| v1api20210401   | UserAssignedIdentityDetails                      | v1api20210401/storage | UserAssignedIdentityDetails                      | Extended |       |
-| v1api20210401   | UserAssignedIdentity_STATUS                      | v1api20210401/storage | UserAssignedIdentity_STATUS                      | Extended |       |
-| v1api20210401   | VirtualNetworkRule                               | v1api20210401/storage | VirtualNetworkRule                               | Modified |       |
-| v1api20210401   | VirtualNetworkRule_STATUS                        | v1api20210401/storage | VirtualNetworkRule_STATUS                        | Modified |       |
+| v1api20210401                                    | v1api20210401/storage                            | Status   | Notes |
+|:-------------------------------------------------|:-------------------------------------------------|:--------:|:------|
+| ActiveDirectoryProperties                        | ActiveDirectoryProperties                        | Extended |       |
+| ActiveDirectoryProperties_STATUS                 | ActiveDirectoryProperties_STATUS                 | Extended |       |
+| AzureFilesIdentityBasedAuthentication            | AzureFilesIdentityBasedAuthentication            | Modified |       |
+| AzureFilesIdentityBasedAuthentication_STATUS     | AzureFilesIdentityBasedAuthentication_STATUS     | Modified |       |
+| BlobRestoreParameters_STATUS                     | BlobRestoreParameters_STATUS                     | Extended |       |
+| BlobRestoreRange_STATUS                          | BlobRestoreRange_STATUS                          | Extended |       |
+| BlobRestoreStatus_STATUS                         | BlobRestoreStatus_STATUS                         | Modified |       |
+| ChangeFeed                                       | ChangeFeed                                       | Modified |       |
+| ChangeFeed_STATUS                                | ChangeFeed_STATUS                                | Extended |       |
+| CorsRule                                         | CorsRule                                         | Modified |       |
+| CorsRule_STATUS                                  | CorsRule_STATUS                                  | Modified |       |
+| CorsRules                                        | CorsRules                                        | Extended |       |
+| CorsRules_STATUS                                 | CorsRules_STATUS                                 | Extended |       |
+| CustomDomain                                     | CustomDomain                                     | Extended |       |
+| CustomDomain_STATUS                              | CustomDomain_STATUS                              | Extended |       |
+| DateAfterCreation                                | DateAfterCreation                                | Modified |       |
+| DateAfterCreation_STATUS                         | DateAfterCreation_STATUS                         | Extended |       |
+| DateAfterModification                            | DateAfterModification                            | Modified |       |
+| DateAfterModification_STATUS                     | DateAfterModification_STATUS                     | Extended |       |
+| DeleteRetentionPolicy                            | DeleteRetentionPolicy                            | Modified |       |
+| DeleteRetentionPolicy_STATUS                     | DeleteRetentionPolicy_STATUS                     | Extended |       |
+| Encryption                                       | Encryption                                       | Modified |       |
+| EncryptionIdentity                               | EncryptionIdentity                               | Extended |       |
+| EncryptionIdentity_STATUS                        | EncryptionIdentity_STATUS                        | Extended |       |
+| EncryptionService                                | EncryptionService                                | Modified |       |
+| EncryptionService_STATUS                         | EncryptionService_STATUS                         | Modified |       |
+| EncryptionServices                               | EncryptionServices                               | Extended |       |
+| EncryptionServices_STATUS                        | EncryptionServices_STATUS                        | Extended |       |
+| Encryption_STATUS                                | Encryption_STATUS                                | Modified |       |
+| Endpoints_STATUS                                 | Endpoints_STATUS                                 | Extended |       |
+| ExtendedLocation                                 | ExtendedLocation                                 | Modified |       |
+| ExtendedLocation_STATUS                          | ExtendedLocation_STATUS                          | Modified |       |
+| GeoReplicationStats_STATUS                       | GeoReplicationStats_STATUS                       | Modified |       |
+| IPRule                                           | IPRule                                           | Modified |       |
+| IPRule_STATUS                                    | IPRule_STATUS                                    | Modified |       |
+| Identity                                         | Identity                                         | Modified |       |
+| Identity_STATUS                                  | Identity_STATUS                                  | Modified |       |
+| ImmutabilityPolicyProperties_STATUS              | ImmutabilityPolicyProperties_STATUS              | Modified |       |
+| ImmutableStorageWithVersioning                   | ImmutableStorageWithVersioning                   | Extended |       |
+| ImmutableStorageWithVersioning_STATUS            | ImmutableStorageWithVersioning_STATUS            | Modified |       |
+| KeyCreationTime_STATUS                           | KeyCreationTime_STATUS                           | Extended |       |
+| KeyPolicy                                        | KeyPolicy                                        | Extended |       |
+| KeyPolicy_STATUS                                 | KeyPolicy_STATUS                                 | Extended |       |
+| KeyVaultProperties                               | KeyVaultProperties                               | Extended |       |
+| KeyVaultProperties_STATUS                        | KeyVaultProperties_STATUS                        | Extended |       |
+| LastAccessTimeTrackingPolicy                     | LastAccessTimeTrackingPolicy                     | Modified |       |
+| LastAccessTimeTrackingPolicy_STATUS              | LastAccessTimeTrackingPolicy_STATUS              | Modified |       |
+| LegalHoldProperties_STATUS                       | LegalHoldProperties_STATUS                       | Extended |       |
+| ManagementPolicyAction                           | ManagementPolicyAction                           | Extended |       |
+| ManagementPolicyAction_STATUS                    | ManagementPolicyAction_STATUS                    | Extended |       |
+| ManagementPolicyBaseBlob                         | ManagementPolicyBaseBlob                         | Extended |       |
+| ManagementPolicyBaseBlob_STATUS                  | ManagementPolicyBaseBlob_STATUS                  | Extended |       |
+| ManagementPolicyDefinition                       | ManagementPolicyDefinition                       | Extended |       |
+| ManagementPolicyDefinition_STATUS                | ManagementPolicyDefinition_STATUS                | Extended |       |
+| ManagementPolicyFilter                           | ManagementPolicyFilter                           | Extended |       |
+| ManagementPolicyFilter_STATUS                    | ManagementPolicyFilter_STATUS                    | Extended |       |
+| ManagementPolicyRule                             | ManagementPolicyRule                             | Modified |       |
+| ManagementPolicyRule_STATUS                      | ManagementPolicyRule_STATUS                      | Modified |       |
+| ManagementPolicySchema                           | ManagementPolicySchema                           | Extended |       |
+| ManagementPolicySchema_STATUS                    | ManagementPolicySchema_STATUS                    | Extended |       |
+| ManagementPolicySnapShot                         | ManagementPolicySnapShot                         | Extended |       |
+| ManagementPolicySnapShot_STATUS                  | ManagementPolicySnapShot_STATUS                  | Extended |       |
+| ManagementPolicyVersion                          | ManagementPolicyVersion                          | Extended |       |
+| ManagementPolicyVersion_STATUS                   | ManagementPolicyVersion_STATUS                   | Extended |       |
+| NetworkRuleSet                                   | NetworkRuleSet                                   | Modified |       |
+| NetworkRuleSet_STATUS                            | NetworkRuleSet_STATUS                            | Modified |       |
+| PrivateEndpointConnection_STATUS                 | PrivateEndpointConnection_STATUS                 | Extended |       |
+| ResourceAccessRule                               | ResourceAccessRule                               | Extended |       |
+| ResourceAccessRule_STATUS                        | ResourceAccessRule_STATUS                        | Extended |       |
+| RestorePolicyProperties                          | RestorePolicyProperties                          | Modified |       |
+| RestorePolicyProperties_STATUS                   | RestorePolicyProperties_STATUS                   | Extended |       |
+| RoutingPreference                                | RoutingPreference                                | Modified |       |
+| RoutingPreference_STATUS                         | RoutingPreference_STATUS                         | Modified |       |
+| SasPolicy                                        | SasPolicy                                        | Modified |       |
+| SasPolicy_STATUS                                 | SasPolicy_STATUS                                 | Modified |       |
+| Sku                                              | Sku                                              | Modified |       |
+| Sku_STATUS                                       | Sku_STATUS                                       | Modified |       |
+| StorageAccountInternetEndpoints_STATUS           | StorageAccountInternetEndpoints_STATUS           | Extended |       |
+| StorageAccountMicrosoftEndpoints_STATUS          | StorageAccountMicrosoftEndpoints_STATUS          | Extended |       |
+| StorageAccountOperatorConfigMaps                 | StorageAccountOperatorConfigMaps                 | Extended |       |
+| StorageAccountOperatorSecrets                    | StorageAccountOperatorSecrets                    | Extended |       |
+| StorageAccountOperatorSpec                       | StorageAccountOperatorSpec                       | Extended |       |
+| StorageAccount_STATUS                            | StorageAccount_STATUS                            | Modified |       |
+| StorageAccount_Spec                              | StorageAccount_Spec                              | Modified |       |
+| StorageAccountsBlobServiceOperatorSpec           | StorageAccountsBlobServiceOperatorSpec           | Extended |       |
+| StorageAccountsBlobService_STATUS                | StorageAccountsBlobService_STATUS                | Extended |       |
+| StorageAccountsBlobService_Spec                  | StorageAccountsBlobService_Spec                  | Extended |       |
+| StorageAccountsBlobServicesContainerOperatorSpec | StorageAccountsBlobServicesContainerOperatorSpec | Extended |       |
+| StorageAccountsBlobServicesContainer_STATUS      | StorageAccountsBlobServicesContainer_STATUS      | Modified |       |
+| StorageAccountsBlobServicesContainer_Spec        | StorageAccountsBlobServicesContainer_Spec        | Modified |       |
+| StorageAccountsManagementPolicyOperatorSpec      | StorageAccountsManagementPolicyOperatorSpec      | Extended |       |
+| StorageAccountsManagementPolicy_STATUS           | StorageAccountsManagementPolicy_STATUS           | Extended |       |
+| StorageAccountsManagementPolicy_Spec             | StorageAccountsManagementPolicy_Spec             | Extended |       |
+| StorageAccountsQueueServiceOperatorSpec          | StorageAccountsQueueServiceOperatorSpec          | Extended |       |
+| StorageAccountsQueueService_STATUS               | StorageAccountsQueueService_STATUS               | Extended |       |
+| StorageAccountsQueueService_Spec                 | StorageAccountsQueueService_Spec                 | Extended |       |
+| StorageAccountsQueueServicesQueueOperatorSpec    | StorageAccountsQueueServicesQueueOperatorSpec    | Extended |       |
+| StorageAccountsQueueServicesQueue_STATUS         | StorageAccountsQueueServicesQueue_STATUS         | Extended |       |
+| StorageAccountsQueueServicesQueue_Spec           | StorageAccountsQueueServicesQueue_Spec           | Modified |       |
+| TagFilter                                        | TagFilter                                        | Modified |       |
+| TagFilter_STATUS                                 | TagFilter_STATUS                                 | Extended |       |
+| TagProperty_STATUS                               | TagProperty_STATUS                               | Extended |       |
+| UpdateHistoryProperty_STATUS                     | UpdateHistoryProperty_STATUS                     | Modified |       |
+| UserAssignedIdentityDetails                      | UserAssignedIdentityDetails                      | Extended |       |
+| UserAssignedIdentity_STATUS                      | UserAssignedIdentity_STATUS                      | Extended |       |
+| VirtualNetworkRule                               | VirtualNetworkRule                               | Modified |       |
+| VirtualNetworkRule_STATUS                        | VirtualNetworkRule_STATUS                        | Modified |       |
 
 ### ActiveDirectoryProperties
 

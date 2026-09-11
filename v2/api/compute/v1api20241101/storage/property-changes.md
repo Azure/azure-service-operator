@@ -11,32 +11,32 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type    | Next Version      | Next Type       | Status    | Notes |
-|:----------------------|:----------------|:------------------|:----------------|:---------:|:------|
-| v1api20241101/storage | AvailabilitySet | v20241101/storage | AvailabilitySet | Identical |       |
+| v1api20241101/storage | v20241101/storage | Status    | Notes |
+|:----------------------|:------------------|:---------:|:------|
+| AvailabilitySet       | AvailabilitySet   | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                                      | Next Version      | Next Type                                         | Status    | Notes |
-|:----------------------|:--------------------------------------------------|:------------------|:--------------------------------------------------|:---------:|:------|
-| v1api20241101/storage | AvailabilitySetOperatorSpec                       | v20241101/storage | AvailabilitySetOperatorSpec                       | Identical |       |
-| v1api20241101/storage | AvailabilitySet_STATUS                            | v20241101/storage | AvailabilitySet_STATUS                            | Identical |       |
-| v1api20241101/storage | AvailabilitySet_Spec                              | v20241101/storage | AvailabilitySet_Spec                              | Identical |       |
-| v1api20241101/storage | DefaultVirtualMachineScaleSetInfo_STATUS          | v20241101/storage | DefaultVirtualMachineScaleSetInfo_STATUS          | Identical |       |
-| v1api20241101/storage | EventGridAndResourceGraph                         | v20241101/storage | EventGridAndResourceGraph                         | Identical |       |
-| v1api20241101/storage | EventGridAndResourceGraph_STATUS                  | v20241101/storage | EventGridAndResourceGraph_STATUS                  | Identical |       |
-| v1api20241101/storage | InstanceViewStatus_STATUS                         | v20241101/storage | InstanceViewStatus_STATUS                         | Identical |       |
-| v1api20241101/storage | ScheduledEventsAdditionalPublishingTargets        | v20241101/storage | ScheduledEventsAdditionalPublishingTargets        | Identical |       |
-| v1api20241101/storage | ScheduledEventsAdditionalPublishingTargets_STATUS | v20241101/storage | ScheduledEventsAdditionalPublishingTargets_STATUS | Identical |       |
-| v1api20241101/storage | ScheduledEventsPolicy                             | v20241101/storage | ScheduledEventsPolicy                             | Identical |       |
-| v1api20241101/storage | ScheduledEventsPolicy_STATUS                      | v20241101/storage | ScheduledEventsPolicy_STATUS                      | Identical |       |
-| v1api20241101/storage | Sku                                               | v20241101/storage | Sku                                               | Identical |       |
-| v1api20241101/storage | Sku_STATUS                                        | v20241101/storage | Sku_STATUS                                        | Identical |       |
-| v1api20241101/storage | SubResource                                       | v20241101/storage | SubResource                                       | Identical |       |
-| v1api20241101/storage | SubResource_STATUS                                | v20241101/storage | SubResource_STATUS                                | Identical |       |
-| v1api20241101/storage | SystemData_STATUS                                 | v20241101/storage | SystemData_STATUS                                 | Identical |       |
-| v1api20241101/storage | UserInitiatedReboot                               | v20241101/storage | UserInitiatedReboot                               | Identical |       |
-| v1api20241101/storage | UserInitiatedReboot_STATUS                        | v20241101/storage | UserInitiatedReboot_STATUS                        | Identical |       |
-| v1api20241101/storage | UserInitiatedRedeploy                             | v20241101/storage | UserInitiatedRedeploy                             | Identical |       |
-| v1api20241101/storage | UserInitiatedRedeploy_STATUS                      | v20241101/storage | UserInitiatedRedeploy_STATUS                      | Identical |       |
-| v1api20241101/storage | VirtualMachineScaleSetMigrationInfo_STATUS        | v20241101/storage | VirtualMachineScaleSetMigrationInfo_STATUS        | Identical |       |
+| v1api20241101/storage                             | v20241101/storage                                 | Status    | Notes |
+|:--------------------------------------------------|:--------------------------------------------------|:---------:|:------|
+| AvailabilitySetOperatorSpec                       | AvailabilitySetOperatorSpec                       | Identical |       |
+| AvailabilitySet_STATUS                            | AvailabilitySet_STATUS                            | Identical |       |
+| AvailabilitySet_Spec                              | AvailabilitySet_Spec                              | Identical |       |
+| DefaultVirtualMachineScaleSetInfo_STATUS          | DefaultVirtualMachineScaleSetInfo_STATUS          | Identical |       |
+| EventGridAndResourceGraph                         | EventGridAndResourceGraph                         | Identical |       |
+| EventGridAndResourceGraph_STATUS                  | EventGridAndResourceGraph_STATUS                  | Identical |       |
+| InstanceViewStatus_STATUS                         | InstanceViewStatus_STATUS                         | Identical |       |
+| ScheduledEventsAdditionalPublishingTargets        | ScheduledEventsAdditionalPublishingTargets        | Identical |       |
+| ScheduledEventsAdditionalPublishingTargets_STATUS | ScheduledEventsAdditionalPublishingTargets_STATUS | Identical |       |
+| ScheduledEventsPolicy                             | ScheduledEventsPolicy                             | Identical |       |
+| ScheduledEventsPolicy_STATUS                      | ScheduledEventsPolicy_STATUS                      | Identical |       |
+| Sku                                               | Sku                                               | Identical |       |
+| Sku_STATUS                                        | Sku_STATUS                                        | Identical |       |
+| SubResource                                       | SubResource                                       | Identical |       |
+| SubResource_STATUS                                | SubResource_STATUS                                | Identical |       |
+| SystemData_STATUS                                 | SystemData_STATUS                                 | Identical |       |
+| UserInitiatedReboot                               | UserInitiatedReboot                               | Identical |       |
+| UserInitiatedReboot_STATUS                        | UserInitiatedReboot_STATUS                        | Identical |       |
+| UserInitiatedRedeploy                             | UserInitiatedRedeploy                             | Identical |       |
+| UserInitiatedRedeploy_STATUS                      | UserInitiatedRedeploy_STATUS                      | Identical |       |
+| VirtualMachineScaleSetMigrationInfo_STATUS        | VirtualMachineScaleSetMigrationInfo_STATUS        | Identical |       |

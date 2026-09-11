@@ -11,34 +11,34 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type | Next Version      | Next Type | Status    | Notes |
-|:----------------------|:-------------|:------------------|:----------|:---------:|:------|
-| v1api20180601/storage | Factory      | v20180601/storage | Factory   | Identical |       |
+| v1api20180601/storage | v20180601/storage | Status    | Notes |
+|:----------------------|:------------------|:---------:|:------|
+| Factory               | Factory           | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                        | Next Version      | Next Type                           | Status    | Notes |
-|:----------------------|:------------------------------------|:------------------|:------------------------------------|:---------:|:------|
-| v1api20180601/storage | CMKIdentityDefinition               | v20180601/storage | CMKIdentityDefinition               | Identical |       |
-| v1api20180601/storage | CMKIdentityDefinition_STATUS        | v20180601/storage | CMKIdentityDefinition_STATUS        | Identical |       |
-| v1api20180601/storage | EncryptionConfiguration             | v20180601/storage | EncryptionConfiguration             | Identical |       |
-| v1api20180601/storage | EncryptionConfiguration_STATUS      | v20180601/storage | EncryptionConfiguration_STATUS      | Identical |       |
-| v1api20180601/storage | FactoryGitHubConfiguration          | v20180601/storage | FactoryGitHubConfiguration          | Identical |       |
-| v1api20180601/storage | FactoryGitHubConfiguration_STATUS   | v20180601/storage | FactoryGitHubConfiguration_STATUS   | Identical |       |
-| v1api20180601/storage | FactoryIdentity                     | v20180601/storage | FactoryIdentity                     | Identical |       |
-| v1api20180601/storage | FactoryIdentity_STATUS              | v20180601/storage | FactoryIdentity_STATUS              | Identical |       |
-| v1api20180601/storage | FactoryOperatorSpec                 | v20180601/storage | FactoryOperatorSpec                 | Identical |       |
-| v1api20180601/storage | FactoryRepoConfiguration            | v20180601/storage | FactoryRepoConfiguration            | Identical |       |
-| v1api20180601/storage | FactoryRepoConfiguration_STATUS     | v20180601/storage | FactoryRepoConfiguration_STATUS     | Identical |       |
-| v1api20180601/storage | FactoryVSTSConfiguration            | v20180601/storage | FactoryVSTSConfiguration            | Identical |       |
-| v1api20180601/storage | FactoryVSTSConfiguration_STATUS     | v20180601/storage | FactoryVSTSConfiguration_STATUS     | Identical |       |
-| v1api20180601/storage | Factory_STATUS                      | v20180601/storage | Factory_STATUS                      | Identical |       |
-| v1api20180601/storage | Factory_Spec                        | v20180601/storage | Factory_Spec                        | Identical |       |
-| v1api20180601/storage | GitHubClientSecret                  | v20180601/storage | GitHubClientSecret                  | Identical |       |
-| v1api20180601/storage | GitHubClientSecret_STATUS           | v20180601/storage | GitHubClientSecret_STATUS           | Identical |       |
-| v1api20180601/storage | GlobalParameterSpecification        | v20180601/storage | GlobalParameterSpecification        | Identical |       |
-| v1api20180601/storage | GlobalParameterSpecification_STATUS | v20180601/storage | GlobalParameterSpecification_STATUS | Identical |       |
-| v1api20180601/storage | PurviewConfiguration                | v20180601/storage | PurviewConfiguration                | Identical |       |
-| v1api20180601/storage | PurviewConfiguration_STATUS         | v20180601/storage | PurviewConfiguration_STATUS         | Identical |       |
-| v1api20180601/storage | SystemData_STATUS                   | v20180601/storage | SystemData_STATUS                   | Identical |       |
-| v1api20180601/storage | UserAssignedIdentityDetails         | v20180601/storage | UserAssignedIdentityDetails         | Identical |       |
+| v1api20180601/storage               | v20180601/storage                   | Status    | Notes |
+|:------------------------------------|:------------------------------------|:---------:|:------|
+| CMKIdentityDefinition               | CMKIdentityDefinition               | Identical |       |
+| CMKIdentityDefinition_STATUS        | CMKIdentityDefinition_STATUS        | Identical |       |
+| EncryptionConfiguration             | EncryptionConfiguration             | Identical |       |
+| EncryptionConfiguration_STATUS      | EncryptionConfiguration_STATUS      | Identical |       |
+| FactoryGitHubConfiguration          | FactoryGitHubConfiguration          | Identical |       |
+| FactoryGitHubConfiguration_STATUS   | FactoryGitHubConfiguration_STATUS   | Identical |       |
+| FactoryIdentity                     | FactoryIdentity                     | Identical |       |
+| FactoryIdentity_STATUS              | FactoryIdentity_STATUS              | Identical |       |
+| FactoryOperatorSpec                 | FactoryOperatorSpec                 | Identical |       |
+| FactoryRepoConfiguration            | FactoryRepoConfiguration            | Identical |       |
+| FactoryRepoConfiguration_STATUS     | FactoryRepoConfiguration_STATUS     | Identical |       |
+| FactoryVSTSConfiguration            | FactoryVSTSConfiguration            | Identical |       |
+| FactoryVSTSConfiguration_STATUS     | FactoryVSTSConfiguration_STATUS     | Identical |       |
+| Factory_STATUS                      | Factory_STATUS                      | Identical |       |
+| Factory_Spec                        | Factory_Spec                        | Identical |       |
+| GitHubClientSecret                  | GitHubClientSecret                  | Identical |       |
+| GitHubClientSecret_STATUS           | GitHubClientSecret_STATUS           | Identical |       |
+| GlobalParameterSpecification        | GlobalParameterSpecification        | Identical |       |
+| GlobalParameterSpecification_STATUS | GlobalParameterSpecification_STATUS | Identical |       |
+| PurviewConfiguration                | PurviewConfiguration                | Identical |       |
+| PurviewConfiguration_STATUS         | PurviewConfiguration_STATUS         | Identical |       |
+| SystemData_STATUS                   | SystemData_STATUS                   | Identical |       |
+| UserAssignedIdentityDetails         | UserAssignedIdentityDetails         | Identical |       |

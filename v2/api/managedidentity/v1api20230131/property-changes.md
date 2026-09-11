@@ -11,24 +11,24 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                | Next Version          | Next Type                   | Status    | Notes |
-|:----------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
-| v1api20230131   | FederatedIdentityCredential | v1api20230131/storage | FederatedIdentityCredential | Identical |       |
-| v1api20230131   | UserAssignedIdentity        | v1api20230131/storage | UserAssignedIdentity        | Identical |       |
+| v1api20230131               | v1api20230131/storage       | Status    | Notes |
+|:----------------------------|:----------------------------|:---------:|:------|
+| FederatedIdentityCredential | FederatedIdentityCredential | Identical |       |
+| UserAssignedIdentity        | UserAssignedIdentity        | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                            | Next Version          | Next Type                               | Status   | Notes |
-|:----------------|:----------------------------------------|:----------------------|:----------------------------------------|:--------:|:------|
-| v1api20230131   | FederatedIdentityCredentialOperatorSpec | v1api20230131/storage | FederatedIdentityCredentialOperatorSpec | Extended |       |
-| v1api20230131   | FederatedIdentityCredential_STATUS      | v1api20230131/storage | FederatedIdentityCredential_STATUS      | Extended |       |
-| v1api20230131   | FederatedIdentityCredential_Spec        | v1api20230131/storage | FederatedIdentityCredential_Spec        | Modified |       |
-| v1api20230131   | SystemData_STATUS                       | v1api20230131/storage | SystemData_STATUS                       | Modified |       |
-| v1api20230131   | UserAssignedIdentityOperatorConfigMaps  | v1api20230131/storage | UserAssignedIdentityOperatorConfigMaps  | Extended |       |
-| v1api20230131   | UserAssignedIdentityOperatorSecrets     | v1api20230131/storage | UserAssignedIdentityOperatorSecrets     | Extended |       |
-| v1api20230131   | UserAssignedIdentityOperatorSpec        | v1api20230131/storage | UserAssignedIdentityOperatorSpec        | Extended |       |
-| v1api20230131   | UserAssignedIdentity_STATUS             | v1api20230131/storage | UserAssignedIdentity_STATUS             | Extended |       |
-| v1api20230131   | UserAssignedIdentity_Spec               | v1api20230131/storage | UserAssignedIdentity_Spec               | Extended |       |
+| v1api20230131                           | v1api20230131/storage                   | Status   | Notes |
+|:----------------------------------------|:----------------------------------------|:--------:|:------|
+| FederatedIdentityCredentialOperatorSpec | FederatedIdentityCredentialOperatorSpec | Extended |       |
+| FederatedIdentityCredential_STATUS      | FederatedIdentityCredential_STATUS      | Extended |       |
+| FederatedIdentityCredential_Spec        | FederatedIdentityCredential_Spec        | Modified |       |
+| SystemData_STATUS                       | SystemData_STATUS                       | Modified |       |
+| UserAssignedIdentityOperatorConfigMaps  | UserAssignedIdentityOperatorConfigMaps  | Extended |       |
+| UserAssignedIdentityOperatorSecrets     | UserAssignedIdentityOperatorSecrets     | Extended |       |
+| UserAssignedIdentityOperatorSpec        | UserAssignedIdentityOperatorSpec        | Extended |       |
+| UserAssignedIdentity_STATUS             | UserAssignedIdentity_STATUS             | Extended |       |
+| UserAssignedIdentity_Spec               | UserAssignedIdentity_Spec               | Extended |       |
 
 ### FederatedIdentityCredentialOperatorSpec
 

@@ -11,137 +11,133 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type         | Next Version          | Next Type            | Status    | Notes |
-|:----------------|:---------------------|:----------------------|:---------------------|:---------:|:------|
-| v1api20210701   | Workspace            | v1api20210701/storage | Workspace            | Identical |       |
-| v1api20210701   | WorkspacesCompute    | v1api20210701/storage | WorkspacesCompute    | Identical |       |
-| v1api20210701   | WorkspacesConnection | v1api20210701/storage | WorkspacesConnection | Identical |       |
+| v1api20210701        | v1api20210701/storage | Status    | Notes |
+|:---------------------|:----------------------|:---------:|:------|
+| Workspace            | Workspace             | Identical |       |
+| WorkspacesCompute    | WorkspacesCompute     | Identical |       |
+| WorkspacesConnection | WorkspacesConnection  | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                | Next Version          | Next Type                                   | Status   | Notes                                                                   |
-|:----------------|:--------------------------------------------|:----------------------|:--------------------------------------------|:--------:|:------------------------------------------------------------------------|
-| v1api20210701   | AKS                                         | v1api20210701/storage | AKS                                         | Modified |                                                                         |
-| v1api20210701   | AKS_Properties                              | v1api20210701/storage | AKS_Properties                              | Modified |                                                                         |
-| v1api20210701   | AKS_Properties_STATUS                       | v1api20210701/storage | AKS_Properties_STATUS                       | Modified |                                                                         |
-| v1api20210701   | AKS_STATUS                                  | v1api20210701/storage | AKS_STATUS                                  | Modified |                                                                         |
-| v1api20210701   | AksNetworkingConfiguration                  | v1api20210701/storage | AksNetworkingConfiguration                  | Modified |                                                                         |
-| v1api20210701   | AksNetworkingConfiguration_STATUS           | v1api20210701/storage | AksNetworkingConfiguration_STATUS           | Extended |                                                                         |
-| v1api20210701   | AmlCompute                                  | v1api20210701/storage | AmlCompute                                  | Modified |                                                                         |
-| v1api20210701   | AmlComputeProperties                        | v1api20210701/storage | AmlComputeProperties                        | Modified |                                                                         |
-| v1api20210701   | AmlComputeProperties_STATUS                 | v1api20210701/storage | AmlComputeProperties_STATUS                 | Modified |                                                                         |
-| v1api20210701   | AmlCompute_STATUS                           | v1api20210701/storage | AmlCompute_STATUS                           | Modified |                                                                         |
-| v1api20210701   | AssignedUser                                | v1api20210701/storage | AssignedUser                                | Extended |                                                                         |
-| v1api20210701   | AssignedUser_STATUS                         | v1api20210701/storage | AssignedUser_STATUS                         | Extended |                                                                         |
-| v1api20210701   | AutoPauseProperties                         | v1api20210701/storage | AutoPauseProperties                         | Extended |                                                                         |
-| v1api20210701   | AutoPauseProperties_STATUS                  | v1api20210701/storage | AutoPauseProperties_STATUS                  | Extended |                                                                         |
-| v1api20210701   | AutoScaleProperties                         | v1api20210701/storage | AutoScaleProperties                         | Extended |                                                                         |
-| v1api20210701   | AutoScaleProperties_STATUS                  | v1api20210701/storage | AutoScaleProperties_STATUS                  | Extended |                                                                         |
-| v1api20210701   | Compute                                     | v1api20210701/storage | Compute                                     | Extended |                                                                         |
-| v1api20210701   | ComputeInstance                             | v1api20210701/storage | ComputeInstance                             | Modified |                                                                         |
-| v1api20210701   | ComputeInstanceApplication_STATUS           | v1api20210701/storage | ComputeInstanceApplication_STATUS           | Extended |                                                                         |
-| v1api20210701   | ComputeInstanceConnectivityEndpoints_STATUS | v1api20210701/storage | ComputeInstanceConnectivityEndpoints_STATUS | Extended |                                                                         |
-| v1api20210701   | ComputeInstanceCreatedBy_STATUS             | v1api20210701/storage | ComputeInstanceCreatedBy_STATUS             | Extended |                                                                         |
-| v1api20210701   | ComputeInstanceLastOperation_STATUS         | v1api20210701/storage | ComputeInstanceLastOperation_STATUS         | Modified |                                                                         |
-| v1api20210701   | ComputeInstanceProperties                   | v1api20210701/storage | ComputeInstanceProperties                   | Modified |                                                                         |
-| v1api20210701   | ComputeInstanceProperties_STATUS            | v1api20210701/storage | ComputeInstanceProperties_STATUS            | Modified |                                                                         |
-| v1api20210701   | ComputeInstanceSshSettings                  | v1api20210701/storage | ComputeInstanceSshSettings                  | Modified |                                                                         |
-| v1api20210701   | ComputeInstanceSshSettings_STATUS           | v1api20210701/storage | ComputeInstanceSshSettings_STATUS           | Modified |                                                                         |
-| v1api20210701   | ComputeInstance_STATUS                      | v1api20210701/storage | ComputeInstance_STATUS                      | Modified |                                                                         |
-| v1api20210701   | Compute_STATUS                              | v1api20210701/storage | Compute_STATUS                              | Extended |                                                                         |
-| v1api20210701   | CosmosDbSettings                            | v1api20210701/storage | CosmosDbSettings                            | Extended |                                                                         |
-| v1api20210701   | CosmosDbSettings_STATUS                     | v1api20210701/storage | CosmosDbSettings_STATUS                     | Extended |                                                                         |
-| v1api20210701   | DataFactory                                 | v1api20210701/storage | DataFactory                                 | Modified |                                                                         |
-| v1api20210701   | DataFactory_STATUS                          | v1api20210701/storage | DataFactory_STATUS                          | Modified |                                                                         |
-| v1api20210701   | DataLakeAnalytics                           | v1api20210701/storage | DataLakeAnalytics                           | Modified |                                                                         |
-| v1api20210701   | DataLakeAnalytics_Properties                | v1api20210701/storage | DataLakeAnalytics_Properties                | Extended |                                                                         |
-| v1api20210701   | DataLakeAnalytics_Properties_STATUS         | v1api20210701/storage | DataLakeAnalytics_Properties_STATUS         | Extended |                                                                         |
-| v1api20210701   | DataLakeAnalytics_STATUS                    | v1api20210701/storage | DataLakeAnalytics_STATUS                    | Modified |                                                                         |
-| v1api20210701   | Databricks                                  | v1api20210701/storage | Databricks                                  | Modified |                                                                         |
-| v1api20210701   | DatabricksProperties                        | v1api20210701/storage | DatabricksProperties                        | Extended |                                                                         |
-| v1api20210701   | DatabricksProperties_STATUS                 | v1api20210701/storage | DatabricksProperties_STATUS                 | Extended |                                                                         |
-| v1api20210701   | Databricks_STATUS                           | v1api20210701/storage | Databricks_STATUS                           | Modified |                                                                         |
-| v1api20210701   | EncryptionProperty                          | v1api20210701/storage | EncryptionProperty                          | Modified |                                                                         |
-| v1api20210701   | EncryptionProperty_STATUS                   | v1api20210701/storage | EncryptionProperty_STATUS                   | Modified |                                                                         |
-| v1api20210701   | ErrorAdditionalInfo_STATUS                  | v1api20210701/storage | ErrorAdditionalInfo_STATUS                  | Extended |                                                                         |
-| v1api20210701   | ErrorDetail_STATUS                          | v1api20210701/storage | ErrorDetail_STATUS                          | Extended |                                                                         |
-| v1api20210701   | ErrorDetail_STATUS_Unrolled                 | v1api20210701/storage | ErrorDetail_STATUS_Unrolled                 | Extended |                                                                         |
-| v1api20210701   | ErrorResponse_STATUS                        | v1api20210701/storage | ErrorResponse_STATUS                        | Extended |                                                                         |
-| v1api20210701   | HDInsight                                   | v1api20210701/storage | HDInsight                                   | Modified |                                                                         |
-| v1api20210701   | HDInsightProperties                         | v1api20210701/storage | HDInsightProperties                         | Extended |                                                                         |
-| v1api20210701   | HDInsightProperties_STATUS                  | v1api20210701/storage | HDInsightProperties_STATUS                  | Extended |                                                                         |
-| v1api20210701   | HDInsight_STATUS                            | v1api20210701/storage | HDInsight_STATUS                            | Modified |                                                                         |
-|                 |                                             | v1api20210701/storage | Identity                                    | New      | Configured rename to ManagedServiceIdentity was not found.              |
-| v1api20210701   | Identity                                    | v1api20210701/storage |                                             | Retired  | Configured rename to ManagedServiceIdentity was not found.              |
-| v1api20210701   | IdentityForCmk                              | v1api20210701/storage | IdentityForCmk                              | Extended |                                                                         |
-| v1api20210701   | IdentityForCmk_STATUS                       | v1api20210701/storage | IdentityForCmk_STATUS                       | Extended |                                                                         |
-| v1api20210701   | Identity_STATUS                             | v1api20210701/storage |                                             | Retired  | Configured rename to ManagedServiceIdentity_STATUS was not found.       |
-|                 |                                             | v1api20210701/storage | Identity_STATUS                             | New      | Configured rename to ManagedServiceIdentity_STATUS was not found.       |
-| v1api20210701   | InstanceTypeSchema                          | v1api20210701/storage | InstanceTypeSchema                          | Extended |                                                                         |
-| v1api20210701   | InstanceTypeSchema_Resources                | v1api20210701/storage | InstanceTypeSchema_Resources                | Extended |                                                                         |
-| v1api20210701   | InstanceTypeSchema_Resources_STATUS         | v1api20210701/storage | InstanceTypeSchema_Resources_STATUS         | Extended |                                                                         |
-| v1api20210701   | InstanceTypeSchema_STATUS                   | v1api20210701/storage | InstanceTypeSchema_STATUS                   | Extended |                                                                         |
-|                 |                                             | v1api20210701/storage | KeyVaultProperties                          | New      | Configured rename to EncryptionKeyVaultProperties was not found.        |
-| v1api20210701   | KeyVaultProperties                          | v1api20210701/storage |                                             | Retired  | Configured rename to EncryptionKeyVaultProperties was not found.        |
-| v1api20210701   | KeyVaultProperties_STATUS                   | v1api20210701/storage |                                             | Retired  | Configured rename to EncryptionKeyVaultProperties_STATUS was not found. |
-|                 |                                             | v1api20210701/storage | KeyVaultProperties_STATUS                   | New      | Configured rename to EncryptionKeyVaultProperties_STATUS was not found. |
-| v1api20210701   | Kubernetes                                  | v1api20210701/storage | Kubernetes                                  | Modified |                                                                         |
-| v1api20210701   | KubernetesProperties                        | v1api20210701/storage | KubernetesProperties                        | Extended |                                                                         |
-| v1api20210701   | KubernetesProperties_STATUS                 | v1api20210701/storage | KubernetesProperties_STATUS                 | Extended |                                                                         |
-| v1api20210701   | Kubernetes_STATUS                           | v1api20210701/storage | Kubernetes_STATUS                           | Modified |                                                                         |
-| v1api20210701   | NodeStateCounts_STATUS                      | v1api20210701/storage | NodeStateCounts_STATUS                      | Extended |                                                                         |
-| v1api20210701   | NotebookPreparationError_STATUS             | v1api20210701/storage | NotebookPreparationError_STATUS             | Extended |                                                                         |
-| v1api20210701   | NotebookResourceInfo_STATUS                 | v1api20210701/storage | NotebookResourceInfo_STATUS                 | Extended |                                                                         |
-| v1api20210701   | PersonalComputeInstanceSettings             | v1api20210701/storage | PersonalComputeInstanceSettings             | Extended |                                                                         |
-| v1api20210701   | PersonalComputeInstanceSettings_STATUS      | v1api20210701/storage | PersonalComputeInstanceSettings_STATUS      | Extended |                                                                         |
-| v1api20210701   | PrivateEndpointConnection_STATUS            | v1api20210701/storage | PrivateEndpointConnection_STATUS            | Extended |                                                                         |
-| v1api20210701   | ResourceId                                  | v1api20210701/storage | ResourceId                                  | Extended |                                                                         |
-| v1api20210701   | ResourceId_STATUS                           | v1api20210701/storage | ResourceId_STATUS                           | Extended |                                                                         |
-| v1api20210701   | ScaleSettings                               | v1api20210701/storage | ScaleSettings                               | Extended |                                                                         |
-| v1api20210701   | ScaleSettings_STATUS                        | v1api20210701/storage | ScaleSettings_STATUS                        | Extended |                                                                         |
-| v1api20210701   | ScriptReference                             | v1api20210701/storage | ScriptReference                             | Extended |                                                                         |
-| v1api20210701   | ScriptReference_STATUS                      | v1api20210701/storage | ScriptReference_STATUS                      | Extended |                                                                         |
-| v1api20210701   | ScriptsToExecute                            | v1api20210701/storage | ScriptsToExecute                            | Extended |                                                                         |
-| v1api20210701   | ScriptsToExecute_STATUS                     | v1api20210701/storage | ScriptsToExecute_STATUS                     | Extended |                                                                         |
-| v1api20210701   | ServiceManagedResourcesSettings             | v1api20210701/storage | ServiceManagedResourcesSettings             | Extended |                                                                         |
-| v1api20210701   | ServiceManagedResourcesSettings_STATUS      | v1api20210701/storage | ServiceManagedResourcesSettings_STATUS      | Extended |                                                                         |
-| v1api20210701   | SetupScripts                                | v1api20210701/storage | SetupScripts                                | Extended |                                                                         |
-| v1api20210701   | SetupScripts_STATUS                         | v1api20210701/storage | SetupScripts_STATUS                         | Extended |                                                                         |
-| v1api20210701   | SharedPrivateLinkResource                   | v1api20210701/storage | SharedPrivateLinkResource                   | Modified |                                                                         |
-| v1api20210701   | SharedPrivateLinkResource_STATUS            | v1api20210701/storage | SharedPrivateLinkResource_STATUS            | Modified |                                                                         |
-| v1api20210701   | Sku                                         | v1api20210701/storage | Sku                                         | Extended |                                                                         |
-| v1api20210701   | Sku_STATUS                                  | v1api20210701/storage | Sku_STATUS                                  | Extended |                                                                         |
-| v1api20210701   | SslConfiguration                            | v1api20210701/storage | SslConfiguration                            | Modified |                                                                         |
-| v1api20210701   | SslConfiguration_STATUS                     | v1api20210701/storage | SslConfiguration_STATUS                     | Modified |                                                                         |
-| v1api20210701   | SynapseSpark                                | v1api20210701/storage | SynapseSpark                                | Modified |                                                                         |
-| v1api20210701   | SynapseSpark_Properties                     | v1api20210701/storage | SynapseSpark_Properties                     | Extended |                                                                         |
-| v1api20210701   | SynapseSpark_Properties_STATUS              | v1api20210701/storage | SynapseSpark_Properties_STATUS              | Extended |                                                                         |
-| v1api20210701   | SynapseSpark_STATUS                         | v1api20210701/storage | SynapseSpark_STATUS                         | Modified |                                                                         |
-| v1api20210701   | SystemData                                  | v1api20210701/storage | SystemData                                  | Modified |                                                                         |
-| v1api20210701   | SystemData_STATUS                           | v1api20210701/storage | SystemData_STATUS                           | Modified |                                                                         |
-| v1api20210701   | SystemService_STATUS                        | v1api20210701/storage | SystemService_STATUS                        | Extended |                                                                         |
-| v1api20210701   | UserAccountCredentials                      | v1api20210701/storage | UserAccountCredentials                      | Extended |                                                                         |
-| v1api20210701   | UserAccountCredentials_STATUS               | v1api20210701/storage | UserAccountCredentials_STATUS               | Extended |                                                                         |
-| v1api20210701   | UserAssignedIdentityDetails                 | v1api20210701/storage | UserAssignedIdentityDetails                 | Extended |                                                                         |
-| v1api20210701   | UserAssignedIdentity_STATUS                 | v1api20210701/storage | UserAssignedIdentity_STATUS                 | Extended |                                                                         |
-| v1api20210701   | VirtualMachine                              | v1api20210701/storage | VirtualMachine                              | Modified |                                                                         |
-| v1api20210701   | VirtualMachineImage                         | v1api20210701/storage | VirtualMachineImage                         | Extended |                                                                         |
-| v1api20210701   | VirtualMachineImage_STATUS                  | v1api20210701/storage | VirtualMachineImage_STATUS                  | Extended |                                                                         |
-| v1api20210701   | VirtualMachineSshCredentials                | v1api20210701/storage | VirtualMachineSshCredentials                | Extended |                                                                         |
-| v1api20210701   | VirtualMachineSshCredentials_STATUS         | v1api20210701/storage | VirtualMachineSshCredentials_STATUS         | Extended |                                                                         |
-| v1api20210701   | VirtualMachine_Properties                   | v1api20210701/storage | VirtualMachine_Properties                   | Extended |                                                                         |
-| v1api20210701   | VirtualMachine_Properties_STATUS            | v1api20210701/storage | VirtualMachine_Properties_STATUS            | Extended |                                                                         |
-| v1api20210701   | VirtualMachine_STATUS                       | v1api20210701/storage | VirtualMachine_STATUS                       | Modified |                                                                         |
-| v1api20210701   | WorkspaceOperatorSecrets                    | v1api20210701/storage | WorkspaceOperatorSecrets                    | Extended |                                                                         |
-| v1api20210701   | WorkspaceOperatorSpec                       | v1api20210701/storage | WorkspaceOperatorSpec                       | Extended |                                                                         |
-| v1api20210701   | Workspace_STATUS                            | v1api20210701/storage | Workspace_STATUS                            | Modified |                                                                         |
-| v1api20210701   | Workspace_Spec                              | v1api20210701/storage | Workspace_Spec                              | Modified |                                                                         |
-| v1api20210701   | WorkspacesComputeOperatorSpec               | v1api20210701/storage | WorkspacesComputeOperatorSpec               | Extended |                                                                         |
-| v1api20210701   | WorkspacesCompute_STATUS                    | v1api20210701/storage | WorkspacesCompute_STATUS                    | Modified |                                                                         |
-| v1api20210701   | WorkspacesCompute_Spec                      | v1api20210701/storage | WorkspacesCompute_Spec                      | Modified |                                                                         |
-| v1api20210701   | WorkspacesConnectionOperatorSpec            | v1api20210701/storage | WorkspacesConnectionOperatorSpec            | Extended |                                                                         |
-| v1api20210701   | WorkspacesConnection_STATUS                 | v1api20210701/storage | WorkspacesConnection_STATUS                 | Modified |                                                                         |
-| v1api20210701   | WorkspacesConnection_Spec                   | v1api20210701/storage | WorkspacesConnection_Spec                   | Modified |                                                                         |
+| v1api20210701                               | v1api20210701/storage                       | Status   | Notes |
+|:--------------------------------------------|:--------------------------------------------|:--------:|:------|
+| AKS                                         | AKS                                         | Modified |       |
+| AKS_Properties                              | AKS_Properties                              | Modified |       |
+| AKS_Properties_STATUS                       | AKS_Properties_STATUS                       | Modified |       |
+| AKS_STATUS                                  | AKS_STATUS                                  | Modified |       |
+| AksNetworkingConfiguration                  | AksNetworkingConfiguration                  | Modified |       |
+| AksNetworkingConfiguration_STATUS           | AksNetworkingConfiguration_STATUS           | Extended |       |
+| AmlCompute                                  | AmlCompute                                  | Modified |       |
+| AmlComputeProperties                        | AmlComputeProperties                        | Modified |       |
+| AmlComputeProperties_STATUS                 | AmlComputeProperties_STATUS                 | Modified |       |
+| AmlCompute_STATUS                           | AmlCompute_STATUS                           | Modified |       |
+| AssignedUser                                | AssignedUser                                | Extended |       |
+| AssignedUser_STATUS                         | AssignedUser_STATUS                         | Extended |       |
+| AutoPauseProperties                         | AutoPauseProperties                         | Extended |       |
+| AutoPauseProperties_STATUS                  | AutoPauseProperties_STATUS                  | Extended |       |
+| AutoScaleProperties                         | AutoScaleProperties                         | Extended |       |
+| AutoScaleProperties_STATUS                  | AutoScaleProperties_STATUS                  | Extended |       |
+| Compute                                     | Compute                                     | Extended |       |
+| ComputeInstance                             | ComputeInstance                             | Modified |       |
+| ComputeInstanceApplication_STATUS           | ComputeInstanceApplication_STATUS           | Extended |       |
+| ComputeInstanceConnectivityEndpoints_STATUS | ComputeInstanceConnectivityEndpoints_STATUS | Extended |       |
+| ComputeInstanceCreatedBy_STATUS             | ComputeInstanceCreatedBy_STATUS             | Extended |       |
+| ComputeInstanceLastOperation_STATUS         | ComputeInstanceLastOperation_STATUS         | Modified |       |
+| ComputeInstanceProperties                   | ComputeInstanceProperties                   | Modified |       |
+| ComputeInstanceProperties_STATUS            | ComputeInstanceProperties_STATUS            | Modified |       |
+| ComputeInstanceSshSettings                  | ComputeInstanceSshSettings                  | Modified |       |
+| ComputeInstanceSshSettings_STATUS           | ComputeInstanceSshSettings_STATUS           | Modified |       |
+| ComputeInstance_STATUS                      | ComputeInstance_STATUS                      | Modified |       |
+| Compute_STATUS                              | Compute_STATUS                              | Extended |       |
+| CosmosDbSettings                            | CosmosDbSettings                            | Extended |       |
+| CosmosDbSettings_STATUS                     | CosmosDbSettings_STATUS                     | Extended |       |
+| DataFactory                                 | DataFactory                                 | Modified |       |
+| DataFactory_STATUS                          | DataFactory_STATUS                          | Modified |       |
+| DataLakeAnalytics                           | DataLakeAnalytics                           | Modified |       |
+| DataLakeAnalytics_Properties                | DataLakeAnalytics_Properties                | Extended |       |
+| DataLakeAnalytics_Properties_STATUS         | DataLakeAnalytics_Properties_STATUS         | Extended |       |
+| DataLakeAnalytics_STATUS                    | DataLakeAnalytics_STATUS                    | Modified |       |
+| Databricks                                  | Databricks                                  | Modified |       |
+| DatabricksProperties                        | DatabricksProperties                        | Extended |       |
+| DatabricksProperties_STATUS                 | DatabricksProperties_STATUS                 | Extended |       |
+| Databricks_STATUS                           | Databricks_STATUS                           | Modified |       |
+| EncryptionProperty                          | EncryptionProperty                          | Modified |       |
+| EncryptionProperty_STATUS                   | EncryptionProperty_STATUS                   | Modified |       |
+| ErrorAdditionalInfo_STATUS                  | ErrorAdditionalInfo_STATUS                  | Extended |       |
+| ErrorDetail_STATUS                          | ErrorDetail_STATUS                          | Extended |       |
+| ErrorDetail_STATUS_Unrolled                 | ErrorDetail_STATUS_Unrolled                 | Extended |       |
+| ErrorResponse_STATUS                        | ErrorResponse_STATUS                        | Extended |       |
+| HDInsight                                   | HDInsight                                   | Modified |       |
+| HDInsightProperties                         | HDInsightProperties                         | Extended |       |
+| HDInsightProperties_STATUS                  | HDInsightProperties_STATUS                  | Extended |       |
+| HDInsight_STATUS                            | HDInsight_STATUS                            | Modified |       |
+| Identity                                    | Identity                                    | Modified |       |
+| IdentityForCmk                              | IdentityForCmk                              | Extended |       |
+| IdentityForCmk_STATUS                       | IdentityForCmk_STATUS                       | Extended |       |
+| Identity_STATUS                             | Identity_STATUS                             | Modified |       |
+| InstanceTypeSchema                          | InstanceTypeSchema                          | Extended |       |
+| InstanceTypeSchema_Resources                | InstanceTypeSchema_Resources                | Extended |       |
+| InstanceTypeSchema_Resources_STATUS         | InstanceTypeSchema_Resources_STATUS         | Extended |       |
+| InstanceTypeSchema_STATUS                   | InstanceTypeSchema_STATUS                   | Extended |       |
+| KeyVaultProperties                          | KeyVaultProperties                          | Extended |       |
+| KeyVaultProperties_STATUS                   | KeyVaultProperties_STATUS                   | Extended |       |
+| Kubernetes                                  | Kubernetes                                  | Modified |       |
+| KubernetesProperties                        | KubernetesProperties                        | Extended |       |
+| KubernetesProperties_STATUS                 | KubernetesProperties_STATUS                 | Extended |       |
+| Kubernetes_STATUS                           | Kubernetes_STATUS                           | Modified |       |
+| NodeStateCounts_STATUS                      | NodeStateCounts_STATUS                      | Extended |       |
+| NotebookPreparationError_STATUS             | NotebookPreparationError_STATUS             | Extended |       |
+| NotebookResourceInfo_STATUS                 | NotebookResourceInfo_STATUS                 | Extended |       |
+| PersonalComputeInstanceSettings             | PersonalComputeInstanceSettings             | Extended |       |
+| PersonalComputeInstanceSettings_STATUS      | PersonalComputeInstanceSettings_STATUS      | Extended |       |
+| PrivateEndpointConnection_STATUS            | PrivateEndpointConnection_STATUS            | Extended |       |
+| ResourceId                                  | ResourceId                                  | Extended |       |
+| ResourceId_STATUS                           | ResourceId_STATUS                           | Extended |       |
+| ScaleSettings                               | ScaleSettings                               | Extended |       |
+| ScaleSettings_STATUS                        | ScaleSettings_STATUS                        | Extended |       |
+| ScriptReference                             | ScriptReference                             | Extended |       |
+| ScriptReference_STATUS                      | ScriptReference_STATUS                      | Extended |       |
+| ScriptsToExecute                            | ScriptsToExecute                            | Extended |       |
+| ScriptsToExecute_STATUS                     | ScriptsToExecute_STATUS                     | Extended |       |
+| ServiceManagedResourcesSettings             | ServiceManagedResourcesSettings             | Extended |       |
+| ServiceManagedResourcesSettings_STATUS      | ServiceManagedResourcesSettings_STATUS      | Extended |       |
+| SetupScripts                                | SetupScripts                                | Extended |       |
+| SetupScripts_STATUS                         | SetupScripts_STATUS                         | Extended |       |
+| SharedPrivateLinkResource                   | SharedPrivateLinkResource                   | Modified |       |
+| SharedPrivateLinkResource_STATUS            | SharedPrivateLinkResource_STATUS            | Modified |       |
+| Sku                                         | Sku                                         | Extended |       |
+| Sku_STATUS                                  | Sku_STATUS                                  | Extended |       |
+| SslConfiguration                            | SslConfiguration                            | Modified |       |
+| SslConfiguration_STATUS                     | SslConfiguration_STATUS                     | Modified |       |
+| SynapseSpark                                | SynapseSpark                                | Modified |       |
+| SynapseSpark_Properties                     | SynapseSpark_Properties                     | Extended |       |
+| SynapseSpark_Properties_STATUS              | SynapseSpark_Properties_STATUS              | Extended |       |
+| SynapseSpark_STATUS                         | SynapseSpark_STATUS                         | Modified |       |
+| SystemData                                  | SystemData                                  | Modified |       |
+| SystemData_STATUS                           | SystemData_STATUS                           | Modified |       |
+| SystemService_STATUS                        | SystemService_STATUS                        | Extended |       |
+| UserAccountCredentials                      | UserAccountCredentials                      | Extended |       |
+| UserAccountCredentials_STATUS               | UserAccountCredentials_STATUS               | Extended |       |
+| UserAssignedIdentityDetails                 | UserAssignedIdentityDetails                 | Extended |       |
+| UserAssignedIdentity_STATUS                 | UserAssignedIdentity_STATUS                 | Extended |       |
+| VirtualMachine                              | VirtualMachine                              | Modified |       |
+| VirtualMachineImage                         | VirtualMachineImage                         | Extended |       |
+| VirtualMachineImage_STATUS                  | VirtualMachineImage_STATUS                  | Extended |       |
+| VirtualMachineSshCredentials                | VirtualMachineSshCredentials                | Extended |       |
+| VirtualMachineSshCredentials_STATUS         | VirtualMachineSshCredentials_STATUS         | Extended |       |
+| VirtualMachine_Properties                   | VirtualMachine_Properties                   | Extended |       |
+| VirtualMachine_Properties_STATUS            | VirtualMachine_Properties_STATUS            | Extended |       |
+| VirtualMachine_STATUS                       | VirtualMachine_STATUS                       | Modified |       |
+| WorkspaceOperatorSecrets                    | WorkspaceOperatorSecrets                    | Extended |       |
+| WorkspaceOperatorSpec                       | WorkspaceOperatorSpec                       | Extended |       |
+| Workspace_STATUS                            | Workspace_STATUS                            | Modified |       |
+| Workspace_Spec                              | Workspace_Spec                              | Modified |       |
+| WorkspacesComputeOperatorSpec               | WorkspacesComputeOperatorSpec               | Extended |       |
+| WorkspacesCompute_STATUS                    | WorkspacesCompute_STATUS                    | Modified |       |
+| WorkspacesCompute_Spec                      | WorkspacesCompute_Spec                      | Modified |       |
+| WorkspacesConnectionOperatorSpec            | WorkspacesConnectionOperatorSpec            | Extended |       |
+| WorkspacesConnection_STATUS                 | WorkspacesConnection_STATUS                 | Modified |       |
+| WorkspacesConnection_Spec                   | WorkspacesConnection_Spec                   | Modified |       |
 
 ### AKS
 
@@ -711,6 +707,14 @@ Statuses:
 | ProvisioningState  | *HDInsight_ProvisioningState_STATUS | ProvisioningState     | *string                     | Modified  |       |
 | ResourceId         | *string                             | ResourceId            | *string                     | Identical |       |
 
+### Identity
+
+| v1api20210701          |                               | v1api20210701/storage  |                               | Status    | Notes |
+|:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
+|                        |                               | PropertyBag            | genruntime.PropertyBag        | New       |       |
+| Type                   | *Identity_Type                | Type                   | *string                       | Modified  |       |
+| UserAssignedIdentities | UserAssignedIdentityDetails[] | UserAssignedIdentities | UserAssignedIdentityDetails[] | Identical |       |
+
 ### IdentityForCmk
 
 | v1api20210701                 |                               | v1api20210701/storage         |                               | Status    | Notes |
@@ -725,6 +729,16 @@ Statuses:
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
 |                      |         | PropertyBag           | genruntime.PropertyBag | New       |       |
 | UserAssignedIdentity | *string | UserAssignedIdentity  | *string                | Identical |       |
+
+### Identity_STATUS
+
+| v1api20210701          |                                        | v1api20210701/storage  |                                        | Status    | Notes |
+|:-----------------------|:---------------------------------------|:-----------------------|:---------------------------------------|:---------:|:------|
+| PrincipalId            | *string                                | PrincipalId            | *string                                | Identical |       |
+|                        |                                        | PropertyBag            | genruntime.PropertyBag                 | New       |       |
+| TenantId               | *string                                | TenantId               | *string                                | Identical |       |
+| Type                   | *Identity_Type_STATUS                  | Type                   | *string                                | Modified  |       |
+| UserAssignedIdentities | map[string]UserAssignedIdentity_STATUS | UserAssignedIdentities | map[string]UserAssignedIdentity_STATUS | Identical |       |
 
 ### InstanceTypeSchema
 
@@ -757,6 +771,25 @@ Statuses:
 | NodeSelector  | map[string]string                    | NodeSelector          | map[string]string                    | Identical |       |
 |               |                                      | PropertyBag           | genruntime.PropertyBag               | New       |       |
 | Resources     | *InstanceTypeSchema_Resources_STATUS | Resources             | *InstanceTypeSchema_Resources_STATUS | Identical |       |
+
+### KeyVaultProperties
+
+| v1api20210701        |                               | v1api20210701/storage |                               | Status    | Notes |
+|:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
+| IdentityClientId     | *string                       | IdentityClientId      | *string                       | Identical |       |
+| KeyIdentifier        | *string                       | KeyIdentifier         | *string                       | Identical |       |
+| KeyVaultArmId        | *string                       | KeyVaultArmId         | *string                       | Identical |       |
+| KeyVaultArmReference | *genruntime.ResourceReference | KeyVaultArmReference  | *genruntime.ResourceReference | Identical |       |
+|                      |                               | PropertyBag           | genruntime.PropertyBag        | New       |       |
+
+### KeyVaultProperties_STATUS
+
+| v1api20210701    |         | v1api20210701/storage |                        | Status    | Notes |
+|:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
+| IdentityClientId | *string | IdentityClientId      | *string                | Identical |       |
+| KeyIdentifier    | *string | KeyIdentifier         | *string                | Identical |       |
+| KeyVaultArmId    | *string | KeyVaultArmId         | *string                | Identical |       |
+|                  |         | PropertyBag           | genruntime.PropertyBag | New       |       |
 
 ### Kubernetes
 

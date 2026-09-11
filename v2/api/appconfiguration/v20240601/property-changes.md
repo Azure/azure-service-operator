@@ -11,48 +11,48 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type       | Next Version      | Next Type          | Status    | Notes |
-|:----------------|:-------------------|:------------------|:-------------------|:---------:|:------|
-| v20240601       | ConfigurationStore | v20240601/storage | ConfigurationStore | Identical |       |
-| v20240601       | KeyValue           | v20240601/storage | KeyValue           | Identical |       |
-| v20240601       | Replica            | v20240601/storage | Replica            | Identical |       |
-| v20240601       | Snapshot           | v20240601/storage | Snapshot           | Identical |       |
+| v20240601          | v20240601/storage  | Status    | Notes |
+|:-------------------|:-------------------|:---------:|:------|
+| ConfigurationStore | ConfigurationStore | Identical |       |
+| KeyValue           | KeyValue           | Identical |       |
+| Replica            | Replica            | Identical |       |
+| Snapshot           | Snapshot           | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                              | Next Version      | Next Type                                 | Status   | Notes |
-|:----------------|:------------------------------------------|:------------------|:------------------------------------------|:--------:|:------|
-| v20240601       | ConfigurationStoreOperatorSecrets         | v20240601/storage | ConfigurationStoreOperatorSecrets         | Extended |       |
-| v20240601       | ConfigurationStoreOperatorSpec            | v20240601/storage | ConfigurationStoreOperatorSpec            | Extended |       |
-| v20240601       | ConfigurationStore_STATUS                 | v20240601/storage | ConfigurationStore_STATUS                 | Modified |       |
-| v20240601       | ConfigurationStore_Spec                   | v20240601/storage | ConfigurationStore_Spec                   | Modified |       |
-| v20240601       | DataPlaneProxyProperties                  | v20240601/storage | DataPlaneProxyProperties                  | Modified |       |
-| v20240601       | DataPlaneProxyProperties_STATUS           | v20240601/storage | DataPlaneProxyProperties_STATUS           | Modified |       |
-| v20240601       | EncryptionProperties                      | v20240601/storage | EncryptionProperties                      | Extended |       |
-| v20240601       | EncryptionProperties_STATUS               | v20240601/storage | EncryptionProperties_STATUS               | Extended |       |
-| v20240601       | KeyValueFilter                            | v20240601/storage | KeyValueFilter                            | Extended |       |
-| v20240601       | KeyValueFilter_STATUS                     | v20240601/storage | KeyValueFilter_STATUS                     | Extended |       |
-| v20240601       | KeyValueOperatorSpec                      | v20240601/storage | KeyValueOperatorSpec                      | Extended |       |
-| v20240601       | KeyValue_STATUS                           | v20240601/storage | KeyValue_STATUS                           | Extended |       |
-| v20240601       | KeyValue_Spec                             | v20240601/storage | KeyValue_Spec                             | Extended |       |
-| v20240601       | KeyVaultProperties                        | v20240601/storage | KeyVaultProperties                        | Extended |       |
-| v20240601       | KeyVaultProperties_STATUS                 | v20240601/storage | KeyVaultProperties_STATUS                 | Extended |       |
-| v20240601       | PrivateEndpointConnectionReference_STATUS | v20240601/storage | PrivateEndpointConnectionReference_STATUS | Modified |       |
-| v20240601       | PrivateEndpoint_STATUS                    | v20240601/storage | PrivateEndpoint_STATUS                    | Extended |       |
-| v20240601       | PrivateLinkServiceConnectionState_STATUS  | v20240601/storage | PrivateLinkServiceConnectionState_STATUS  | Modified |       |
-| v20240601       | ReplicaOperatorSpec                       | v20240601/storage | ReplicaOperatorSpec                       | Extended |       |
-| v20240601       | Replica_STATUS                            | v20240601/storage | Replica_STATUS                            | Modified |       |
-| v20240601       | Replica_Spec                              | v20240601/storage | Replica_Spec                              | Extended |       |
-| v20240601       | ResourceIdentity                          | v20240601/storage | ResourceIdentity                          | Modified |       |
-| v20240601       | ResourceIdentity_STATUS                   | v20240601/storage | ResourceIdentity_STATUS                   | Modified |       |
-| v20240601       | Sku                                       | v20240601/storage | Sku                                       | Extended |       |
-| v20240601       | Sku_STATUS                                | v20240601/storage | Sku_STATUS                                | Extended |       |
-| v20240601       | SnapshotOperatorSpec                      | v20240601/storage | SnapshotOperatorSpec                      | Extended |       |
-| v20240601       | Snapshot_STATUS                           | v20240601/storage | Snapshot_STATUS                           | Modified |       |
-| v20240601       | Snapshot_Spec                             | v20240601/storage | Snapshot_Spec                             | Modified |       |
-| v20240601       | SystemData_STATUS                         | v20240601/storage | SystemData_STATUS                         | Modified |       |
-| v20240601       | UserAssignedIdentityDetails               | v20240601/storage | UserAssignedIdentityDetails               | Extended |       |
-| v20240601       | UserIdentity_STATUS                       | v20240601/storage | UserIdentity_STATUS                       | Extended |       |
+| v20240601                                 | v20240601/storage                         | Status   | Notes |
+|:------------------------------------------|:------------------------------------------|:--------:|:------|
+| ConfigurationStoreOperatorSecrets         | ConfigurationStoreOperatorSecrets         | Extended |       |
+| ConfigurationStoreOperatorSpec            | ConfigurationStoreOperatorSpec            | Extended |       |
+| ConfigurationStore_STATUS                 | ConfigurationStore_STATUS                 | Modified |       |
+| ConfigurationStore_Spec                   | ConfigurationStore_Spec                   | Modified |       |
+| DataPlaneProxyProperties                  | DataPlaneProxyProperties                  | Modified |       |
+| DataPlaneProxyProperties_STATUS           | DataPlaneProxyProperties_STATUS           | Modified |       |
+| EncryptionProperties                      | EncryptionProperties                      | Extended |       |
+| EncryptionProperties_STATUS               | EncryptionProperties_STATUS               | Extended |       |
+| KeyValueFilter                            | KeyValueFilter                            | Extended |       |
+| KeyValueFilter_STATUS                     | KeyValueFilter_STATUS                     | Extended |       |
+| KeyValueOperatorSpec                      | KeyValueOperatorSpec                      | Extended |       |
+| KeyValue_STATUS                           | KeyValue_STATUS                           | Extended |       |
+| KeyValue_Spec                             | KeyValue_Spec                             | Extended |       |
+| KeyVaultProperties                        | KeyVaultProperties                        | Extended |       |
+| KeyVaultProperties_STATUS                 | KeyVaultProperties_STATUS                 | Extended |       |
+| PrivateEndpointConnectionReference_STATUS | PrivateEndpointConnectionReference_STATUS | Modified |       |
+| PrivateEndpoint_STATUS                    | PrivateEndpoint_STATUS                    | Extended |       |
+| PrivateLinkServiceConnectionState_STATUS  | PrivateLinkServiceConnectionState_STATUS  | Modified |       |
+| ReplicaOperatorSpec                       | ReplicaOperatorSpec                       | Extended |       |
+| Replica_STATUS                            | Replica_STATUS                            | Modified |       |
+| Replica_Spec                              | Replica_Spec                              | Extended |       |
+| ResourceIdentity                          | ResourceIdentity                          | Modified |       |
+| ResourceIdentity_STATUS                   | ResourceIdentity_STATUS                   | Modified |       |
+| Sku                                       | Sku                                       | Extended |       |
+| Sku_STATUS                                | Sku_STATUS                                | Extended |       |
+| SnapshotOperatorSpec                      | SnapshotOperatorSpec                      | Extended |       |
+| Snapshot_STATUS                           | Snapshot_STATUS                           | Modified |       |
+| Snapshot_Spec                             | Snapshot_Spec                             | Modified |       |
+| SystemData_STATUS                         | SystemData_STATUS                         | Modified |       |
+| UserAssignedIdentityDetails               | UserAssignedIdentityDetails               | Extended |       |
+| UserIdentity_STATUS                       | UserIdentity_STATUS                       | Extended |       |
 
 ### ConfigurationStoreOperatorSecrets
 

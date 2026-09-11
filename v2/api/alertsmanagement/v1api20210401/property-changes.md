@@ -11,24 +11,24 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type           | Next Version          | Next Type              | Status    | Notes |
-|:----------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
-| v1api20210401   | SmartDetectorAlertRule | v1api20210401/storage | SmartDetectorAlertRule | Identical |       |
+| v1api20210401          | v1api20210401/storage  | Status    | Notes |
+|:-----------------------|:-----------------------|:---------:|:------|
+| SmartDetectorAlertRule | SmartDetectorAlertRule | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                       | Next Version          | Next Type                          | Status   | Notes |
-|:----------------|:-----------------------------------|:----------------------|:-----------------------------------|:--------:|:------|
-| v1api20210401   | ActionGroupsInformation            | v1api20210401/storage | ActionGroupsInformation            | Extended |       |
-| v1api20210401   | ActionGroupsInformation_STATUS     | v1api20210401/storage | ActionGroupsInformation_STATUS     | Extended |       |
-| v1api20210401   | Detector                           | v1api20210401/storage | Detector                           | Extended |       |
-| v1api20210401   | DetectorParameterDefinition_STATUS | v1api20210401/storage | DetectorParameterDefinition_STATUS | Modified |       |
-| v1api20210401   | Detector_STATUS                    | v1api20210401/storage | Detector_STATUS                    | Extended |       |
-| v1api20210401   | SmartDetectorAlertRuleOperatorSpec | v1api20210401/storage | SmartDetectorAlertRuleOperatorSpec | Extended |       |
-| v1api20210401   | SmartDetectorAlertRule_STATUS      | v1api20210401/storage | SmartDetectorAlertRule_STATUS      | Modified |       |
-| v1api20210401   | SmartDetectorAlertRule_Spec        | v1api20210401/storage | SmartDetectorAlertRule_Spec        | Modified |       |
-| v1api20210401   | ThrottlingInformation              | v1api20210401/storage | ThrottlingInformation              | Extended |       |
-| v1api20210401   | ThrottlingInformation_STATUS       | v1api20210401/storage | ThrottlingInformation_STATUS       | Extended |       |
+| v1api20210401                      | v1api20210401/storage              | Status   | Notes |
+|:-----------------------------------|:-----------------------------------|:--------:|:------|
+| ActionGroupsInformation            | ActionGroupsInformation            | Extended |       |
+| ActionGroupsInformation_STATUS     | ActionGroupsInformation_STATUS     | Extended |       |
+| Detector                           | Detector                           | Extended |       |
+| DetectorParameterDefinition_STATUS | DetectorParameterDefinition_STATUS | Modified |       |
+| Detector_STATUS                    | Detector_STATUS                    | Extended |       |
+| SmartDetectorAlertRuleOperatorSpec | SmartDetectorAlertRuleOperatorSpec | Extended |       |
+| SmartDetectorAlertRule_STATUS      | SmartDetectorAlertRule_STATUS      | Modified |       |
+| SmartDetectorAlertRule_Spec        | SmartDetectorAlertRule_Spec        | Modified |       |
+| ThrottlingInformation              | ThrottlingInformation              | Extended |       |
+| ThrottlingInformation_STATUS       | ThrottlingInformation_STATUS       | Extended |       |
 
 ### ActionGroupsInformation
 

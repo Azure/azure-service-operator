@@ -11,18 +11,18 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type  | Next Version          | Next Type     | Status    | Notes |
-|:----------------|:--------------|:----------------------|:--------------|:---------:|:------|
-| v1api20200601   | ResourceGroup | v1api20200601/storage | ResourceGroup | Identical |       |
+| v1api20200601 | v1api20200601/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| ResourceGroup | ResourceGroup         | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                   | Next Version          | Next Type                      | Status   | Notes |
-|:----------------|:-------------------------------|:----------------------|:-------------------------------|:--------:|:------|
-| v1api20200601   | ResourceGroupOperatorSpec      | v1api20200601/storage | ResourceGroupOperatorSpec      | Extended |       |
-| v1api20200601   | ResourceGroupProperties_STATUS | v1api20200601/storage | ResourceGroupProperties_STATUS | Extended |       |
-| v1api20200601   | ResourceGroup_STATUS           | v1api20200601/storage | ResourceGroup_STATUS           | Extended |       |
-| v1api20200601   | ResourceGroup_Spec             | v1api20200601/storage | ResourceGroup_Spec             | Modified |       |
+| v1api20200601                  | v1api20200601/storage          | Status   | Notes |
+|:-------------------------------|:-------------------------------|:--------:|:------|
+| ResourceGroupOperatorSpec      | ResourceGroupOperatorSpec      | Extended |       |
+| ResourceGroupProperties_STATUS | ResourceGroupProperties_STATUS | Extended |       |
+| ResourceGroup_STATUS           | ResourceGroup_STATUS           | Extended |       |
+| ResourceGroup_Spec             | ResourceGroup_Spec             | Modified |       |
 
 ### ResourceGroupOperatorSpec
 

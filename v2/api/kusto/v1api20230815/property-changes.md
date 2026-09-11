@@ -11,60 +11,60 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type   | Next Version          | Next Type      | Status    | Notes |
-|:----------------|:---------------|:----------------------|:---------------|:---------:|:------|
-| v1api20230815   | Cluster        | v1api20230815/storage | Cluster        | Identical |       |
-| v1api20230815   | DataConnection | v1api20230815/storage | DataConnection | Identical |       |
-| v1api20230815   | Database       | v1api20230815/storage | Database       | Identical |       |
+| v1api20230815  | v1api20230815/storage | Status    | Notes |
+|:---------------|:----------------------|:---------:|:------|
+| Cluster        | Cluster               | Identical |       |
+| DataConnection | DataConnection        | Identical |       |
+| Database       | Database              | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                           | Next Version          | Next Type                              | Status   | Notes |
-|:----------------|:---------------------------------------|:----------------------|:---------------------------------------|:--------:|:------|
-| v1api20230815   | AcceptedAudiences                      | v1api20230815/storage | AcceptedAudiences                      | Extended |       |
-| v1api20230815   | AcceptedAudiences_STATUS               | v1api20230815/storage | AcceptedAudiences_STATUS               | Extended |       |
-| v1api20230815   | AzureSku                               | v1api20230815/storage | AzureSku                               | Modified |       |
-| v1api20230815   | AzureSku_STATUS                        | v1api20230815/storage | AzureSku_STATUS                        | Modified |       |
-| v1api20230815   | ClusterOperatorSpec                    | v1api20230815/storage | ClusterOperatorSpec                    | Extended |       |
-| v1api20230815   | Cluster_STATUS                         | v1api20230815/storage | Cluster_STATUS                         | Modified |       |
-| v1api20230815   | Cluster_Spec                           | v1api20230815/storage | Cluster_Spec                           | Modified |       |
-| v1api20230815   | CosmosDbDataConnection                 | v1api20230815/storage | CosmosDbDataConnection                 | Modified |       |
-| v1api20230815   | CosmosDbDataConnection_STATUS          | v1api20230815/storage | CosmosDbDataConnection_STATUS          | Modified |       |
-| v1api20230815   | DataConnectionOperatorSpec             | v1api20230815/storage | DataConnectionOperatorSpec             | Extended |       |
-| v1api20230815   | DataConnection_STATUS                  | v1api20230815/storage | DataConnection_STATUS                  | Extended |       |
-| v1api20230815   | DataConnection_Spec                    | v1api20230815/storage | DataConnection_Spec                    | Modified |       |
-| v1api20230815   | DatabaseOperatorSpec                   | v1api20230815/storage | DatabaseOperatorSpec                   | Extended |       |
-| v1api20230815   | DatabaseStatistics_STATUS              | v1api20230815/storage | DatabaseStatistics_STATUS              | Extended |       |
-| v1api20230815   | Database_STATUS                        | v1api20230815/storage | Database_STATUS                        | Extended |       |
-| v1api20230815   | Database_Spec                          | v1api20230815/storage | Database_Spec                          | Modified |       |
-| v1api20230815   | EventGridDataConnection                | v1api20230815/storage | EventGridDataConnection                | Modified |       |
-| v1api20230815   | EventGridDataConnection_STATUS         | v1api20230815/storage | EventGridDataConnection_STATUS         | Modified |       |
-| v1api20230815   | EventHubDataConnection                 | v1api20230815/storage | EventHubDataConnection                 | Modified |       |
-| v1api20230815   | EventHubDataConnection_STATUS          | v1api20230815/storage | EventHubDataConnection_STATUS          | Modified |       |
-| v1api20230815   | Identity                               | v1api20230815/storage | Identity                               | Modified |       |
-| v1api20230815   | Identity_STATUS                        | v1api20230815/storage | Identity_STATUS                        | Modified |       |
-| v1api20230815   | Identity_UserAssignedIdentities_STATUS | v1api20230815/storage | Identity_UserAssignedIdentities_STATUS | Extended |       |
-| v1api20230815   | IotHubDataConnection                   | v1api20230815/storage | IotHubDataConnection                   | Modified |       |
-| v1api20230815   | IotHubDataConnection_STATUS            | v1api20230815/storage | IotHubDataConnection_STATUS            | Modified |       |
-| v1api20230815   | KeyVaultProperties                     | v1api20230815/storage | KeyVaultProperties                     | Extended |       |
-| v1api20230815   | KeyVaultProperties_STATUS              | v1api20230815/storage | KeyVaultProperties_STATUS              | Extended |       |
-| v1api20230815   | LanguageExtension                      | v1api20230815/storage | LanguageExtension                      | Modified |       |
-| v1api20230815   | LanguageExtension_STATUS               | v1api20230815/storage | LanguageExtension_STATUS               | Modified |       |
-| v1api20230815   | LanguageExtensionsList                 | v1api20230815/storage | LanguageExtensionsList                 | Extended |       |
-| v1api20230815   | LanguageExtensionsList_STATUS          | v1api20230815/storage | LanguageExtensionsList_STATUS          | Extended |       |
-| v1api20230815   | MigrationClusterProperties_STATUS      | v1api20230815/storage | MigrationClusterProperties_STATUS      | Modified |       |
-| v1api20230815   | OptimizedAutoscale                     | v1api20230815/storage | OptimizedAutoscale                     | Extended |       |
-| v1api20230815   | OptimizedAutoscale_STATUS              | v1api20230815/storage | OptimizedAutoscale_STATUS              | Extended |       |
-| v1api20230815   | PrivateEndpointConnection_STATUS       | v1api20230815/storage | PrivateEndpointConnection_STATUS       | Extended |       |
-| v1api20230815   | ReadWriteDatabase                      | v1api20230815/storage | ReadWriteDatabase                      | Modified |       |
-| v1api20230815   | ReadWriteDatabase_STATUS               | v1api20230815/storage | ReadWriteDatabase_STATUS               | Modified |       |
-| v1api20230815   | SuspensionDetails_STATUS               | v1api20230815/storage | SuspensionDetails_STATUS               | Extended |       |
-| v1api20230815   | SystemData_STATUS                      | v1api20230815/storage | SystemData_STATUS                      | Modified |       |
-| v1api20230815   | TrustedExternalTenant                  | v1api20230815/storage | TrustedExternalTenant                  | Extended |       |
-| v1api20230815   | TrustedExternalTenant_STATUS           | v1api20230815/storage | TrustedExternalTenant_STATUS           | Extended |       |
-| v1api20230815   | UserAssignedIdentityDetails            | v1api20230815/storage | UserAssignedIdentityDetails            | Extended |       |
-| v1api20230815   | VirtualNetworkConfiguration            | v1api20230815/storage | VirtualNetworkConfiguration            | Modified |       |
-| v1api20230815   | VirtualNetworkConfiguration_STATUS     | v1api20230815/storage | VirtualNetworkConfiguration_STATUS     | Modified |       |
+| v1api20230815                          | v1api20230815/storage                  | Status   | Notes |
+|:---------------------------------------|:---------------------------------------|:--------:|:------|
+| AcceptedAudiences                      | AcceptedAudiences                      | Extended |       |
+| AcceptedAudiences_STATUS               | AcceptedAudiences_STATUS               | Extended |       |
+| AzureSku                               | AzureSku                               | Modified |       |
+| AzureSku_STATUS                        | AzureSku_STATUS                        | Modified |       |
+| ClusterOperatorSpec                    | ClusterOperatorSpec                    | Extended |       |
+| Cluster_STATUS                         | Cluster_STATUS                         | Modified |       |
+| Cluster_Spec                           | Cluster_Spec                           | Modified |       |
+| CosmosDbDataConnection                 | CosmosDbDataConnection                 | Modified |       |
+| CosmosDbDataConnection_STATUS          | CosmosDbDataConnection_STATUS          | Modified |       |
+| DataConnectionOperatorSpec             | DataConnectionOperatorSpec             | Extended |       |
+| DataConnection_STATUS                  | DataConnection_STATUS                  | Extended |       |
+| DataConnection_Spec                    | DataConnection_Spec                    | Modified |       |
+| DatabaseOperatorSpec                   | DatabaseOperatorSpec                   | Extended |       |
+| DatabaseStatistics_STATUS              | DatabaseStatistics_STATUS              | Extended |       |
+| Database_STATUS                        | Database_STATUS                        | Extended |       |
+| Database_Spec                          | Database_Spec                          | Modified |       |
+| EventGridDataConnection                | EventGridDataConnection                | Modified |       |
+| EventGridDataConnection_STATUS         | EventGridDataConnection_STATUS         | Modified |       |
+| EventHubDataConnection                 | EventHubDataConnection                 | Modified |       |
+| EventHubDataConnection_STATUS          | EventHubDataConnection_STATUS          | Modified |       |
+| Identity                               | Identity                               | Modified |       |
+| Identity_STATUS                        | Identity_STATUS                        | Modified |       |
+| Identity_UserAssignedIdentities_STATUS | Identity_UserAssignedIdentities_STATUS | Extended |       |
+| IotHubDataConnection                   | IotHubDataConnection                   | Modified |       |
+| IotHubDataConnection_STATUS            | IotHubDataConnection_STATUS            | Modified |       |
+| KeyVaultProperties                     | KeyVaultProperties                     | Extended |       |
+| KeyVaultProperties_STATUS              | KeyVaultProperties_STATUS              | Extended |       |
+| LanguageExtension                      | LanguageExtension                      | Modified |       |
+| LanguageExtension_STATUS               | LanguageExtension_STATUS               | Modified |       |
+| LanguageExtensionsList                 | LanguageExtensionsList                 | Extended |       |
+| LanguageExtensionsList_STATUS          | LanguageExtensionsList_STATUS          | Extended |       |
+| MigrationClusterProperties_STATUS      | MigrationClusterProperties_STATUS      | Modified |       |
+| OptimizedAutoscale                     | OptimizedAutoscale                     | Extended |       |
+| OptimizedAutoscale_STATUS              | OptimizedAutoscale_STATUS              | Extended |       |
+| PrivateEndpointConnection_STATUS       | PrivateEndpointConnection_STATUS       | Extended |       |
+| ReadWriteDatabase                      | ReadWriteDatabase                      | Modified |       |
+| ReadWriteDatabase_STATUS               | ReadWriteDatabase_STATUS               | Modified |       |
+| SuspensionDetails_STATUS               | SuspensionDetails_STATUS               | Extended |       |
+| SystemData_STATUS                      | SystemData_STATUS                      | Modified |       |
+| TrustedExternalTenant                  | TrustedExternalTenant                  | Extended |       |
+| TrustedExternalTenant_STATUS           | TrustedExternalTenant_STATUS           | Extended |       |
+| UserAssignedIdentityDetails            | UserAssignedIdentityDetails            | Extended |       |
+| VirtualNetworkConfiguration            | VirtualNetworkConfiguration            | Modified |       |
+| VirtualNetworkConfiguration_STATUS     | VirtualNetworkConfiguration_STATUS     | Modified |       |
 
 ### AcceptedAudiences
 

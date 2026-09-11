@@ -11,37 +11,37 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version      | Next Type | Status    | Notes |
-|:----------------|:-------------|:------------------|:----------|:---------:|:------|
-| v20180601       | Factory      | v20180601/storage | Factory   | Identical |       |
+| v20180601 | v20180601/storage | Status    | Notes |
+|:----------|:------------------|:---------:|:------|
+| Factory   | Factory           | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                        | Next Version      | Next Type                           | Status   | Notes |
-|:----------------|:------------------------------------|:------------------|:------------------------------------|:--------:|:------|
-| v20180601       | CMKIdentityDefinition               | v20180601/storage | CMKIdentityDefinition               | Extended |       |
-| v20180601       | CMKIdentityDefinition_STATUS        | v20180601/storage | CMKIdentityDefinition_STATUS        | Extended |       |
-| v20180601       | EncryptionConfiguration             | v20180601/storage | EncryptionConfiguration             | Extended |       |
-| v20180601       | EncryptionConfiguration_STATUS      | v20180601/storage | EncryptionConfiguration_STATUS      | Extended |       |
-| v20180601       | FactoryGitHubConfiguration          | v20180601/storage | FactoryGitHubConfiguration          | Modified |       |
-| v20180601       | FactoryGitHubConfiguration_STATUS   | v20180601/storage | FactoryGitHubConfiguration_STATUS   | Modified |       |
-| v20180601       | FactoryIdentity                     | v20180601/storage | FactoryIdentity                     | Modified |       |
-| v20180601       | FactoryIdentity_STATUS              | v20180601/storage | FactoryIdentity_STATUS              | Modified |       |
-| v20180601       | FactoryOperatorSpec                 | v20180601/storage | FactoryOperatorSpec                 | Extended |       |
-| v20180601       | FactoryRepoConfiguration            | v20180601/storage | FactoryRepoConfiguration            | Extended |       |
-| v20180601       | FactoryRepoConfiguration_STATUS     | v20180601/storage | FactoryRepoConfiguration_STATUS     | Extended |       |
-| v20180601       | FactoryVSTSConfiguration            | v20180601/storage | FactoryVSTSConfiguration            | Modified |       |
-| v20180601       | FactoryVSTSConfiguration_STATUS     | v20180601/storage | FactoryVSTSConfiguration_STATUS     | Modified |       |
-| v20180601       | Factory_STATUS                      | v20180601/storage | Factory_STATUS                      | Modified |       |
-| v20180601       | Factory_Spec                        | v20180601/storage | Factory_Spec                        | Modified |       |
-| v20180601       | GitHubClientSecret                  | v20180601/storage | GitHubClientSecret                  | Extended |       |
-| v20180601       | GitHubClientSecret_STATUS           | v20180601/storage | GitHubClientSecret_STATUS           | Extended |       |
-| v20180601       | GlobalParameterSpecification        | v20180601/storage | GlobalParameterSpecification        | Modified |       |
-| v20180601       | GlobalParameterSpecification_STATUS | v20180601/storage | GlobalParameterSpecification_STATUS | Modified |       |
-| v20180601       | PurviewConfiguration                | v20180601/storage | PurviewConfiguration                | Extended |       |
-| v20180601       | PurviewConfiguration_STATUS         | v20180601/storage | PurviewConfiguration_STATUS         | Extended |       |
-| v20180601       | SystemData_STATUS                   | v20180601/storage | SystemData_STATUS                   | Modified |       |
-| v20180601       | UserAssignedIdentityDetails         | v20180601/storage | UserAssignedIdentityDetails         | Extended |       |
+| v20180601                           | v20180601/storage                   | Status   | Notes |
+|:------------------------------------|:------------------------------------|:--------:|:------|
+| CMKIdentityDefinition               | CMKIdentityDefinition               | Extended |       |
+| CMKIdentityDefinition_STATUS        | CMKIdentityDefinition_STATUS        | Extended |       |
+| EncryptionConfiguration             | EncryptionConfiguration             | Extended |       |
+| EncryptionConfiguration_STATUS      | EncryptionConfiguration_STATUS      | Extended |       |
+| FactoryGitHubConfiguration          | FactoryGitHubConfiguration          | Modified |       |
+| FactoryGitHubConfiguration_STATUS   | FactoryGitHubConfiguration_STATUS   | Modified |       |
+| FactoryIdentity                     | FactoryIdentity                     | Modified |       |
+| FactoryIdentity_STATUS              | FactoryIdentity_STATUS              | Modified |       |
+| FactoryOperatorSpec                 | FactoryOperatorSpec                 | Extended |       |
+| FactoryRepoConfiguration            | FactoryRepoConfiguration            | Extended |       |
+| FactoryRepoConfiguration_STATUS     | FactoryRepoConfiguration_STATUS     | Extended |       |
+| FactoryVSTSConfiguration            | FactoryVSTSConfiguration            | Modified |       |
+| FactoryVSTSConfiguration_STATUS     | FactoryVSTSConfiguration_STATUS     | Modified |       |
+| Factory_STATUS                      | Factory_STATUS                      | Modified |       |
+| Factory_Spec                        | Factory_Spec                        | Modified |       |
+| GitHubClientSecret                  | GitHubClientSecret                  | Extended |       |
+| GitHubClientSecret_STATUS           | GitHubClientSecret_STATUS           | Extended |       |
+| GlobalParameterSpecification        | GlobalParameterSpecification        | Modified |       |
+| GlobalParameterSpecification_STATUS | GlobalParameterSpecification_STATUS | Modified |       |
+| PurviewConfiguration                | PurviewConfiguration                | Extended |       |
+| PurviewConfiguration_STATUS         | PurviewConfiguration_STATUS         | Extended |       |
+| SystemData_STATUS                   | SystemData_STATUS                   | Modified |       |
+| UserAssignedIdentityDetails         | UserAssignedIdentityDetails         | Extended |       |
 
 ### CMKIdentityDefinition
 

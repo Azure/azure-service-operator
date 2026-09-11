@@ -11,178 +11,178 @@ Statuses:
 
 ## Resources
 
-| Current Version   | Current Type                         | Next Version      | Next Type                            | Status    | Notes |
-|:------------------|:-------------------------------------|:------------------|:-------------------------------------|:---------:|:------|
-| v20230101/storage | StorageAccount                       | v20250601/storage | StorageAccount                       | Identical |       |
-| v20230101/storage | StorageAccountsBlobService           | v20250601/storage | StorageAccountsBlobService           | Identical |       |
-| v20230101/storage | StorageAccountsBlobServicesContainer | v20250601/storage | StorageAccountsBlobServicesContainer | Identical |       |
-| v20230101/storage | StorageAccountsFileService           | v20250601/storage | StorageAccountsFileService           | Identical |       |
-| v20230101/storage | StorageAccountsFileServicesShare     | v20250601/storage | StorageAccountsFileServicesShare     | Identical |       |
-| v20230101/storage | StorageAccountsManagementPolicy      | v20250601/storage | StorageAccountsManagementPolicy      | Identical |       |
-| v20230101/storage | StorageAccountsQueueService          | v20250601/storage | StorageAccountsQueueService          | Identical |       |
-| v20230101/storage | StorageAccountsQueueServicesQueue    | v20250601/storage | StorageAccountsQueueServicesQueue    | Identical |       |
-| v20230101/storage | StorageAccountsTableService          | v20250601/storage | StorageAccountsTableService          | Identical |       |
-| v20230101/storage | StorageAccountsTableServicesTable    | v20250601/storage | StorageAccountsTableServicesTable    | Identical |       |
+| v20230101/storage                    | v20250601/storage                    | Status    | Notes |
+|:-------------------------------------|:-------------------------------------|:---------:|:------|
+| StorageAccount                       | StorageAccount                       | Identical |       |
+| StorageAccountsBlobService           | StorageAccountsBlobService           | Identical |       |
+| StorageAccountsBlobServicesContainer | StorageAccountsBlobServicesContainer | Identical |       |
+| StorageAccountsFileService           | StorageAccountsFileService           | Identical |       |
+| StorageAccountsFileServicesShare     | StorageAccountsFileServicesShare     | Identical |       |
+| StorageAccountsManagementPolicy      | StorageAccountsManagementPolicy      | Identical |       |
+| StorageAccountsQueueService          | StorageAccountsQueueService          | Identical |       |
+| StorageAccountsQueueServicesQueue    | StorageAccountsQueueServicesQueue    | Identical |       |
+| StorageAccountsTableService          | StorageAccountsTableService          | Identical |       |
+| StorageAccountsTableServicesTable    | StorageAccountsTableServicesTable    | Identical |       |
 
 ## Objects
 
-| Current Version   | Current Type                                     | Next Version      | Next Type                                        | Status    | Notes |
-|:------------------|:-------------------------------------------------|:------------------|:-------------------------------------------------|:---------:|:------|
-| v20230101/storage | AccessPolicy                                     | v20250601/storage | AccessPolicy                                     | Identical |       |
-| v20230101/storage | AccessPolicy_STATUS                              | v20250601/storage | AccessPolicy_STATUS                              | Identical |       |
-| v20230101/storage | AccountImmutabilityPolicyProperties              | v20250601/storage | AccountImmutabilityPolicyProperties              | Identical |       |
-| v20230101/storage | AccountImmutabilityPolicyProperties_STATUS       | v20250601/storage | AccountImmutabilityPolicyProperties_STATUS       | Identical |       |
-| v20230101/storage | ActiveDirectoryProperties                        | v20250601/storage | ActiveDirectoryProperties                        | Identical |       |
-| v20230101/storage | ActiveDirectoryProperties_STATUS                 | v20250601/storage | ActiveDirectoryProperties_STATUS                 | Identical |       |
-| v20230101/storage | AzureFilesIdentityBasedAuthentication            | v20250601/storage | AzureFilesIdentityBasedAuthentication            | Extended  |       |
-| v20230101/storage | AzureFilesIdentityBasedAuthentication_STATUS     | v20250601/storage | AzureFilesIdentityBasedAuthentication_STATUS     | Extended  |       |
-| v20230101/storage | BlobRestoreParameters_STATUS                     | v20250601/storage | BlobRestoreParameters_STATUS                     | Identical |       |
-| v20230101/storage | BlobRestoreRange_STATUS                          | v20250601/storage | BlobRestoreRange_STATUS                          | Identical |       |
-| v20230101/storage | BlobRestoreStatus_STATUS                         | v20250601/storage | BlobRestoreStatus_STATUS                         | Identical |       |
-| v20230101/storage | ChangeFeed                                       | v20250601/storage | ChangeFeed                                       | Identical |       |
-| v20230101/storage | ChangeFeed_STATUS                                | v20250601/storage | ChangeFeed_STATUS                                | Identical |       |
-| v20230101/storage | CorsRule                                         | v20250601/storage | CorsRule                                         | Identical |       |
-| v20230101/storage | CorsRule_STATUS                                  | v20250601/storage | CorsRule_STATUS                                  | Identical |       |
-| v20230101/storage | CorsRules                                        | v20250601/storage | CorsRules                                        | Identical |       |
-| v20230101/storage | CorsRules_STATUS                                 | v20250601/storage | CorsRules_STATUS                                 | Identical |       |
-| v20230101/storage | CustomDomain                                     | v20250601/storage | CustomDomain                                     | Identical |       |
-| v20230101/storage | CustomDomain_STATUS                              | v20250601/storage | CustomDomain_STATUS                              | Identical |       |
-| v20230101/storage | DateAfterCreation                                | v20250601/storage | DateAfterCreation                                | Identical |       |
-| v20230101/storage | DateAfterCreation_STATUS                         | v20250601/storage | DateAfterCreation_STATUS                         | Identical |       |
-| v20230101/storage | DateAfterModification                            | v20250601/storage | DateAfterModification                            | Identical |       |
-| v20230101/storage | DateAfterModification_STATUS                     | v20250601/storage | DateAfterModification_STATUS                     | Identical |       |
-| v20230101/storage | DeleteRetentionPolicy                            | v20250601/storage | DeleteRetentionPolicy                            | Identical |       |
-| v20230101/storage | DeleteRetentionPolicy_STATUS                     | v20250601/storage | DeleteRetentionPolicy_STATUS                     | Identical |       |
-|                   |                                                  | v20250601/storage | DualStackEndpointPreference                      | New       |       |
-|                   |                                                  | v20250601/storage | DualStackEndpointPreference_STATUS               | New       |       |
-| v20230101/storage | Encryption                                       | v20250601/storage | Encryption                                       | Identical |       |
-| v20230101/storage | EncryptionIdentity                               | v20250601/storage | EncryptionIdentity                               | Extended  |       |
-| v20230101/storage | EncryptionIdentity_STATUS                        | v20250601/storage | EncryptionIdentity_STATUS                        | Identical |       |
-|                   |                                                  | v20250601/storage | EncryptionInTransit                              | New       |       |
-|                   |                                                  | v20250601/storage | EncryptionInTransit_STATUS                       | New       |       |
-| v20230101/storage | EncryptionService                                | v20250601/storage | EncryptionService                                | Identical |       |
-| v20230101/storage | EncryptionService_STATUS                         | v20250601/storage | EncryptionService_STATUS                         | Identical |       |
-| v20230101/storage | EncryptionServices                               | v20250601/storage | EncryptionServices                               | Identical |       |
-| v20230101/storage | EncryptionServices_STATUS                        | v20250601/storage | EncryptionServices_STATUS                        | Identical |       |
-| v20230101/storage | Encryption_STATUS                                | v20250601/storage | Encryption_STATUS                                | Identical |       |
-| v20230101/storage | Endpoints_STATUS                                 | v20250601/storage | Endpoints_STATUS                                 | Extended  |       |
-| v20230101/storage | ExtendedLocation                                 | v20250601/storage | ExtendedLocation                                 | Identical |       |
-| v20230101/storage | ExtendedLocation_STATUS                          | v20250601/storage | ExtendedLocation_STATUS                          | Identical |       |
-|                   |                                                  | v20250601/storage | FileSharePropertiesFileSharePaidBursting         | New       |       |
-|                   |                                                  | v20250601/storage | FileSharePropertiesFileSharePaidBursting_STATUS  | New       |       |
-|                   |                                                  | v20250601/storage | GeoPriorityReplicationStatus                     | New       |       |
-|                   |                                                  | v20250601/storage | GeoPriorityReplicationStatus_STATUS              | New       |       |
-| v20230101/storage | GeoReplicationStats_STATUS                       | v20250601/storage | GeoReplicationStats_STATUS                       | Identical |       |
-| v20230101/storage | IPRule                                           | v20250601/storage | IPRule                                           | Identical |       |
-| v20230101/storage | IPRule_STATUS                                    | v20250601/storage | IPRule_STATUS                                    | Identical |       |
-| v20230101/storage | Identity                                         | v20250601/storage | Identity                                         | Identical |       |
-| v20230101/storage | Identity_STATUS                                  | v20250601/storage | Identity_STATUS                                  | Identical |       |
-| v20230101/storage | ImmutabilityPolicyProperties_STATUS              | v20250601/storage | ImmutabilityPolicyProperties_STATUS              | Identical |       |
-| v20230101/storage | ImmutableStorageAccount                          | v20250601/storage | ImmutableStorageAccount                          | Identical |       |
-| v20230101/storage | ImmutableStorageAccount_STATUS                   | v20250601/storage | ImmutableStorageAccount_STATUS                   | Identical |       |
-| v20230101/storage | ImmutableStorageWithVersioning                   | v20250601/storage | ImmutableStorageWithVersioning                   | Identical |       |
-| v20230101/storage | ImmutableStorageWithVersioning_STATUS            | v20250601/storage | ImmutableStorageWithVersioning_STATUS            | Identical |       |
-| v20230101/storage | KeyCreationTime_STATUS                           | v20250601/storage | KeyCreationTime_STATUS                           | Identical |       |
-| v20230101/storage | KeyPolicy                                        | v20250601/storage | KeyPolicy                                        | Identical |       |
-| v20230101/storage | KeyPolicy_STATUS                                 | v20250601/storage | KeyPolicy_STATUS                                 | Identical |       |
-| v20230101/storage | KeyVaultProperties                               | v20250601/storage | KeyVaultProperties                               | Extended  |       |
-| v20230101/storage | KeyVaultProperties_STATUS                        | v20250601/storage | KeyVaultProperties_STATUS                        | Identical |       |
-| v20230101/storage | LastAccessTimeTrackingPolicy                     | v20250601/storage | LastAccessTimeTrackingPolicy                     | Identical |       |
-| v20230101/storage | LastAccessTimeTrackingPolicy_STATUS              | v20250601/storage | LastAccessTimeTrackingPolicy_STATUS              | Identical |       |
-| v20230101/storage | LegalHoldProperties_STATUS                       | v20250601/storage | LegalHoldProperties_STATUS                       | Identical |       |
-| v20230101/storage | ManagementPolicyAction                           | v20250601/storage | ManagementPolicyAction                           | Identical |       |
-| v20230101/storage | ManagementPolicyAction_STATUS                    | v20250601/storage | ManagementPolicyAction_STATUS                    | Identical |       |
-| v20230101/storage | ManagementPolicyBaseBlob                         | v20250601/storage | ManagementPolicyBaseBlob                         | Identical |       |
-| v20230101/storage | ManagementPolicyBaseBlob_STATUS                  | v20250601/storage | ManagementPolicyBaseBlob_STATUS                  | Identical |       |
-| v20230101/storage | ManagementPolicyDefinition                       | v20250601/storage | ManagementPolicyDefinition                       | Identical |       |
-| v20230101/storage | ManagementPolicyDefinition_STATUS                | v20250601/storage | ManagementPolicyDefinition_STATUS                | Identical |       |
-| v20230101/storage | ManagementPolicyFilter                           | v20250601/storage | ManagementPolicyFilter                           | Identical |       |
-| v20230101/storage | ManagementPolicyFilter_STATUS                    | v20250601/storage | ManagementPolicyFilter_STATUS                    | Identical |       |
-| v20230101/storage | ManagementPolicyRule                             | v20250601/storage | ManagementPolicyRule                             | Identical |       |
-| v20230101/storage | ManagementPolicyRule_STATUS                      | v20250601/storage | ManagementPolicyRule_STATUS                      | Identical |       |
-| v20230101/storage | ManagementPolicySchema                           | v20250601/storage | ManagementPolicySchema                           | Identical |       |
-| v20230101/storage | ManagementPolicySchema_STATUS                    | v20250601/storage | ManagementPolicySchema_STATUS                    | Identical |       |
-| v20230101/storage | ManagementPolicySnapShot                         | v20250601/storage | ManagementPolicySnapShot                         | Identical |       |
-| v20230101/storage | ManagementPolicySnapShot_STATUS                  | v20250601/storage | ManagementPolicySnapShot_STATUS                  | Identical |       |
-| v20230101/storage | ManagementPolicyVersion                          | v20250601/storage | ManagementPolicyVersion                          | Identical |       |
-| v20230101/storage | ManagementPolicyVersion_STATUS                   | v20250601/storage | ManagementPolicyVersion_STATUS                   | Identical |       |
-| v20230101/storage | Multichannel                                     | v20250601/storage | Multichannel                                     | Identical |       |
-| v20230101/storage | Multichannel_STATUS                              | v20250601/storage | Multichannel_STATUS                              | Identical |       |
-| v20230101/storage | NetworkRuleSet                                   | v20250601/storage | NetworkRuleSet                                   | Extended  |       |
-| v20230101/storage | NetworkRuleSet_STATUS                            | v20250601/storage | NetworkRuleSet_STATUS                            | Extended  |       |
-|                   |                                                  | v20250601/storage | NfsSetting                                       | New       |       |
-|                   |                                                  | v20250601/storage | NfsSetting_STATUS                                | New       |       |
-|                   |                                                  | v20250601/storage | Placement                                        | New       |       |
-|                   |                                                  | v20250601/storage | Placement_STATUS                                 | New       |       |
-| v20230101/storage | PrivateEndpointConnection_STATUS                 | v20250601/storage | PrivateEndpointConnection_STATUS                 | Identical |       |
-| v20230101/storage | ProtectedAppendWritesHistory_STATUS              | v20250601/storage | ProtectedAppendWritesHistory_STATUS              | Identical |       |
-| v20230101/storage | ProtocolSettings                                 | v20250601/storage | ProtocolSettings                                 | Extended  |       |
-| v20230101/storage | ProtocolSettings_STATUS                          | v20250601/storage | ProtocolSettings_STATUS                          | Extended  |       |
-| v20230101/storage | ResourceAccessRule                               | v20250601/storage | ResourceAccessRule                               | Identical |       |
-| v20230101/storage | ResourceAccessRule_STATUS                        | v20250601/storage | ResourceAccessRule_STATUS                        | Identical |       |
-| v20230101/storage | RestorePolicyProperties                          | v20250601/storage | RestorePolicyProperties                          | Identical |       |
-| v20230101/storage | RestorePolicyProperties_STATUS                   | v20250601/storage | RestorePolicyProperties_STATUS                   | Identical |       |
-| v20230101/storage | RoutingPreference                                | v20250601/storage | RoutingPreference                                | Identical |       |
-| v20230101/storage | RoutingPreference_STATUS                         | v20250601/storage | RoutingPreference_STATUS                         | Identical |       |
-| v20230101/storage | SasPolicy                                        | v20250601/storage | SasPolicy                                        | Identical |       |
-| v20230101/storage | SasPolicy_STATUS                                 | v20250601/storage | SasPolicy_STATUS                                 | Identical |       |
-| v20230101/storage | SignedIdentifier                                 | v20250601/storage | SignedIdentifier                                 | Identical |       |
-| v20230101/storage | SignedIdentifier_STATUS                          | v20250601/storage | SignedIdentifier_STATUS                          | Identical |       |
-| v20230101/storage | Sku                                              | v20250601/storage | Sku                                              | Modified  |       |
-| v20230101/storage | Sku_STATUS                                       | v20250601/storage | Sku_STATUS                                       | Identical |       |
-|                   |                                                  | v20250601/storage | SmbOAuthSettings                                 | New       |       |
-|                   |                                                  | v20250601/storage | SmbOAuthSettings_STATUS                          | New       |       |
-| v20230101/storage | SmbSetting                                       | v20250601/storage | SmbSetting                                       | Extended  |       |
-| v20230101/storage | SmbSetting_STATUS                                | v20250601/storage | SmbSetting_STATUS                                | Extended  |       |
-| v20230101/storage | StorageAccountInternetEndpoints_STATUS           | v20250601/storage | StorageAccountInternetEndpoints_STATUS           | Identical |       |
-|                   |                                                  | v20250601/storage | StorageAccountIpv6Endpoints_STATUS               | New       |       |
-| v20230101/storage | StorageAccountMicrosoftEndpoints_STATUS          | v20250601/storage | StorageAccountMicrosoftEndpoints_STATUS          | Identical |       |
-| v20230101/storage | StorageAccountOperatorConfigMaps                 | v20250601/storage | StorageAccountOperatorConfigMaps                 | Identical |       |
-| v20230101/storage | StorageAccountOperatorSecrets                    | v20250601/storage | StorageAccountOperatorSecrets                    | Identical |       |
-| v20230101/storage | StorageAccountOperatorSpec                       | v20250601/storage | StorageAccountOperatorSpec                       | Identical |       |
-| v20230101/storage | StorageAccountSkuConversionStatus_STATUS         | v20250601/storage | StorageAccountSkuConversionStatus_STATUS         | Identical |       |
-| v20230101/storage | StorageAccount_STATUS                            | v20250601/storage | StorageAccount_STATUS                            | Extended  |       |
-| v20230101/storage | StorageAccount_Spec                              | v20250601/storage | StorageAccount_Spec                              | Extended  |       |
-| v20230101/storage | StorageAccountsBlobServiceOperatorSpec           | v20250601/storage | StorageAccountsBlobServiceOperatorSpec           | Identical |       |
-| v20230101/storage | StorageAccountsBlobService_STATUS                | v20250601/storage | StorageAccountsBlobService_STATUS                | Extended  |       |
-| v20230101/storage | StorageAccountsBlobService_Spec                  | v20250601/storage | StorageAccountsBlobService_Spec                  | Identical |       |
-| v20230101/storage | StorageAccountsBlobServicesContainerOperatorSpec | v20250601/storage | StorageAccountsBlobServicesContainerOperatorSpec | Identical |       |
-| v20230101/storage | StorageAccountsBlobServicesContainer_STATUS      | v20250601/storage | StorageAccountsBlobServicesContainer_STATUS      | Extended  |       |
-| v20230101/storage | StorageAccountsBlobServicesContainer_Spec        | v20250601/storage | StorageAccountsBlobServicesContainer_Spec        | Identical |       |
-| v20230101/storage | StorageAccountsFileServiceOperatorSpec           | v20250601/storage | StorageAccountsFileServiceOperatorSpec           | Identical |       |
-| v20230101/storage | StorageAccountsFileService_STATUS                | v20250601/storage | StorageAccountsFileService_STATUS                | Extended  |       |
-| v20230101/storage | StorageAccountsFileService_Spec                  | v20250601/storage | StorageAccountsFileService_Spec                  | Identical |       |
-| v20230101/storage | StorageAccountsFileServicesShareOperatorSpec     | v20250601/storage | StorageAccountsFileServicesShareOperatorSpec     | Identical |       |
-| v20230101/storage | StorageAccountsFileServicesShare_STATUS          | v20250601/storage | StorageAccountsFileServicesShare_STATUS          | Extended  |       |
-| v20230101/storage | StorageAccountsFileServicesShare_Spec            | v20250601/storage | StorageAccountsFileServicesShare_Spec            | Extended  |       |
-| v20230101/storage | StorageAccountsManagementPolicyOperatorSpec      | v20250601/storage | StorageAccountsManagementPolicyOperatorSpec      | Identical |       |
-| v20230101/storage | StorageAccountsManagementPolicy_STATUS           | v20250601/storage | StorageAccountsManagementPolicy_STATUS           | Extended  |       |
-| v20230101/storage | StorageAccountsManagementPolicy_Spec             | v20250601/storage | StorageAccountsManagementPolicy_Spec             | Identical |       |
-| v20230101/storage | StorageAccountsQueueServiceOperatorSpec          | v20250601/storage | StorageAccountsQueueServiceOperatorSpec          | Identical |       |
-| v20230101/storage | StorageAccountsQueueService_STATUS               | v20250601/storage | StorageAccountsQueueService_STATUS               | Extended  |       |
-| v20230101/storage | StorageAccountsQueueService_Spec                 | v20250601/storage | StorageAccountsQueueService_Spec                 | Identical |       |
-| v20230101/storage | StorageAccountsQueueServicesQueueOperatorSpec    | v20250601/storage | StorageAccountsQueueServicesQueueOperatorSpec    | Identical |       |
-| v20230101/storage | StorageAccountsQueueServicesQueue_STATUS         | v20250601/storage | StorageAccountsQueueServicesQueue_STATUS         | Extended  |       |
-| v20230101/storage | StorageAccountsQueueServicesQueue_Spec           | v20250601/storage | StorageAccountsQueueServicesQueue_Spec           | Identical |       |
-| v20230101/storage | StorageAccountsTableServiceOperatorSpec          | v20250601/storage | StorageAccountsTableServiceOperatorSpec          | Identical |       |
-| v20230101/storage | StorageAccountsTableService_STATUS               | v20250601/storage | StorageAccountsTableService_STATUS               | Extended  |       |
-| v20230101/storage | StorageAccountsTableService_Spec                 | v20250601/storage | StorageAccountsTableService_Spec                 | Identical |       |
-| v20230101/storage | StorageAccountsTableServicesTableOperatorSpec    | v20250601/storage | StorageAccountsTableServicesTableOperatorSpec    | Identical |       |
-| v20230101/storage | StorageAccountsTableServicesTable_STATUS         | v20250601/storage | StorageAccountsTableServicesTable_STATUS         | Extended  |       |
-| v20230101/storage | StorageAccountsTableServicesTable_Spec           | v20250601/storage | StorageAccountsTableServicesTable_Spec           | Identical |       |
-|                   |                                                  | v20250601/storage | SystemData_STATUS                                | New       |       |
-| v20230101/storage | TableAccessPolicy                                | v20250601/storage | TableAccessPolicy                                | Identical |       |
-| v20230101/storage | TableAccessPolicy_STATUS                         | v20250601/storage | TableAccessPolicy_STATUS                         | Identical |       |
-| v20230101/storage | TableSignedIdentifier                            | v20250601/storage | TableSignedIdentifier                            | Identical |       |
-| v20230101/storage | TableSignedIdentifier_STATUS                     | v20250601/storage | TableSignedIdentifier_STATUS                     | Identical |       |
-| v20230101/storage | TagFilter                                        | v20250601/storage | TagFilter                                        | Identical |       |
-| v20230101/storage | TagFilter_STATUS                                 | v20250601/storage | TagFilter_STATUS                                 | Identical |       |
-| v20230101/storage | TagProperty_STATUS                               | v20250601/storage | TagProperty_STATUS                               | Identical |       |
-| v20230101/storage | UpdateHistoryProperty_STATUS                     | v20250601/storage | UpdateHistoryProperty_STATUS                     | Identical |       |
-| v20230101/storage | UserAssignedIdentityDetails                      | v20250601/storage | UserAssignedIdentityDetails                      | Identical |       |
-| v20230101/storage | UserAssignedIdentity_STATUS                      | v20250601/storage | UserAssignedIdentity_STATUS                      | Identical |       |
-| v20230101/storage | VirtualNetworkRule                               | v20250601/storage | VirtualNetworkRule                               | Identical |       |
-| v20230101/storage | VirtualNetworkRule_STATUS                        | v20250601/storage | VirtualNetworkRule_STATUS                        | Identical |       |
+| v20230101/storage                                | v20250601/storage                                | Status    | Notes |
+|:-------------------------------------------------|:-------------------------------------------------|:---------:|:------|
+| AccessPolicy                                     | AccessPolicy                                     | Identical |       |
+| AccessPolicy_STATUS                              | AccessPolicy_STATUS                              | Identical |       |
+| AccountImmutabilityPolicyProperties              | AccountImmutabilityPolicyProperties              | Identical |       |
+| AccountImmutabilityPolicyProperties_STATUS       | AccountImmutabilityPolicyProperties_STATUS       | Identical |       |
+| ActiveDirectoryProperties                        | ActiveDirectoryProperties                        | Identical |       |
+| ActiveDirectoryProperties_STATUS                 | ActiveDirectoryProperties_STATUS                 | Identical |       |
+| AzureFilesIdentityBasedAuthentication            | AzureFilesIdentityBasedAuthentication            | Extended  |       |
+| AzureFilesIdentityBasedAuthentication_STATUS     | AzureFilesIdentityBasedAuthentication_STATUS     | Extended  |       |
+| BlobRestoreParameters_STATUS                     | BlobRestoreParameters_STATUS                     | Identical |       |
+| BlobRestoreRange_STATUS                          | BlobRestoreRange_STATUS                          | Identical |       |
+| BlobRestoreStatus_STATUS                         | BlobRestoreStatus_STATUS                         | Identical |       |
+| ChangeFeed                                       | ChangeFeed                                       | Identical |       |
+| ChangeFeed_STATUS                                | ChangeFeed_STATUS                                | Identical |       |
+| CorsRule                                         | CorsRule                                         | Identical |       |
+| CorsRule_STATUS                                  | CorsRule_STATUS                                  | Identical |       |
+| CorsRules                                        | CorsRules                                        | Identical |       |
+| CorsRules_STATUS                                 | CorsRules_STATUS                                 | Identical |       |
+| CustomDomain                                     | CustomDomain                                     | Identical |       |
+| CustomDomain_STATUS                              | CustomDomain_STATUS                              | Identical |       |
+| DateAfterCreation                                | DateAfterCreation                                | Identical |       |
+| DateAfterCreation_STATUS                         | DateAfterCreation_STATUS                         | Identical |       |
+| DateAfterModification                            | DateAfterModification                            | Identical |       |
+| DateAfterModification_STATUS                     | DateAfterModification_STATUS                     | Identical |       |
+| DeleteRetentionPolicy                            | DeleteRetentionPolicy                            | Identical |       |
+| DeleteRetentionPolicy_STATUS                     | DeleteRetentionPolicy_STATUS                     | Identical |       |
+|                                                  | DualStackEndpointPreference                      | New       |       |
+|                                                  | DualStackEndpointPreference_STATUS               | New       |       |
+| Encryption                                       | Encryption                                       | Identical |       |
+| EncryptionIdentity                               | EncryptionIdentity                               | Extended  |       |
+| EncryptionIdentity_STATUS                        | EncryptionIdentity_STATUS                        | Identical |       |
+|                                                  | EncryptionInTransit                              | New       |       |
+|                                                  | EncryptionInTransit_STATUS                       | New       |       |
+| EncryptionService                                | EncryptionService                                | Identical |       |
+| EncryptionService_STATUS                         | EncryptionService_STATUS                         | Identical |       |
+| EncryptionServices                               | EncryptionServices                               | Identical |       |
+| EncryptionServices_STATUS                        | EncryptionServices_STATUS                        | Identical |       |
+| Encryption_STATUS                                | Encryption_STATUS                                | Identical |       |
+| Endpoints_STATUS                                 | Endpoints_STATUS                                 | Extended  |       |
+| ExtendedLocation                                 | ExtendedLocation                                 | Identical |       |
+| ExtendedLocation_STATUS                          | ExtendedLocation_STATUS                          | Identical |       |
+|                                                  | FileSharePropertiesFileSharePaidBursting         | New       |       |
+|                                                  | FileSharePropertiesFileSharePaidBursting_STATUS  | New       |       |
+|                                                  | GeoPriorityReplicationStatus                     | New       |       |
+|                                                  | GeoPriorityReplicationStatus_STATUS              | New       |       |
+| GeoReplicationStats_STATUS                       | GeoReplicationStats_STATUS                       | Identical |       |
+| IPRule                                           | IPRule                                           | Identical |       |
+| IPRule_STATUS                                    | IPRule_STATUS                                    | Identical |       |
+| Identity                                         | Identity                                         | Identical |       |
+| Identity_STATUS                                  | Identity_STATUS                                  | Identical |       |
+| ImmutabilityPolicyProperties_STATUS              | ImmutabilityPolicyProperties_STATUS              | Identical |       |
+| ImmutableStorageAccount                          | ImmutableStorageAccount                          | Identical |       |
+| ImmutableStorageAccount_STATUS                   | ImmutableStorageAccount_STATUS                   | Identical |       |
+| ImmutableStorageWithVersioning                   | ImmutableStorageWithVersioning                   | Identical |       |
+| ImmutableStorageWithVersioning_STATUS            | ImmutableStorageWithVersioning_STATUS            | Identical |       |
+| KeyCreationTime_STATUS                           | KeyCreationTime_STATUS                           | Identical |       |
+| KeyPolicy                                        | KeyPolicy                                        | Identical |       |
+| KeyPolicy_STATUS                                 | KeyPolicy_STATUS                                 | Identical |       |
+| KeyVaultProperties                               | KeyVaultProperties                               | Extended  |       |
+| KeyVaultProperties_STATUS                        | KeyVaultProperties_STATUS                        | Identical |       |
+| LastAccessTimeTrackingPolicy                     | LastAccessTimeTrackingPolicy                     | Identical |       |
+| LastAccessTimeTrackingPolicy_STATUS              | LastAccessTimeTrackingPolicy_STATUS              | Identical |       |
+| LegalHoldProperties_STATUS                       | LegalHoldProperties_STATUS                       | Identical |       |
+| ManagementPolicyAction                           | ManagementPolicyAction                           | Identical |       |
+| ManagementPolicyAction_STATUS                    | ManagementPolicyAction_STATUS                    | Identical |       |
+| ManagementPolicyBaseBlob                         | ManagementPolicyBaseBlob                         | Identical |       |
+| ManagementPolicyBaseBlob_STATUS                  | ManagementPolicyBaseBlob_STATUS                  | Identical |       |
+| ManagementPolicyDefinition                       | ManagementPolicyDefinition                       | Identical |       |
+| ManagementPolicyDefinition_STATUS                | ManagementPolicyDefinition_STATUS                | Identical |       |
+| ManagementPolicyFilter                           | ManagementPolicyFilter                           | Identical |       |
+| ManagementPolicyFilter_STATUS                    | ManagementPolicyFilter_STATUS                    | Identical |       |
+| ManagementPolicyRule                             | ManagementPolicyRule                             | Identical |       |
+| ManagementPolicyRule_STATUS                      | ManagementPolicyRule_STATUS                      | Identical |       |
+| ManagementPolicySchema                           | ManagementPolicySchema                           | Identical |       |
+| ManagementPolicySchema_STATUS                    | ManagementPolicySchema_STATUS                    | Identical |       |
+| ManagementPolicySnapShot                         | ManagementPolicySnapShot                         | Identical |       |
+| ManagementPolicySnapShot_STATUS                  | ManagementPolicySnapShot_STATUS                  | Identical |       |
+| ManagementPolicyVersion                          | ManagementPolicyVersion                          | Identical |       |
+| ManagementPolicyVersion_STATUS                   | ManagementPolicyVersion_STATUS                   | Identical |       |
+| Multichannel                                     | Multichannel                                     | Identical |       |
+| Multichannel_STATUS                              | Multichannel_STATUS                              | Identical |       |
+| NetworkRuleSet                                   | NetworkRuleSet                                   | Extended  |       |
+| NetworkRuleSet_STATUS                            | NetworkRuleSet_STATUS                            | Extended  |       |
+|                                                  | NfsSetting                                       | New       |       |
+|                                                  | NfsSetting_STATUS                                | New       |       |
+|                                                  | Placement                                        | New       |       |
+|                                                  | Placement_STATUS                                 | New       |       |
+| PrivateEndpointConnection_STATUS                 | PrivateEndpointConnection_STATUS                 | Identical |       |
+| ProtectedAppendWritesHistory_STATUS              | ProtectedAppendWritesHistory_STATUS              | Identical |       |
+| ProtocolSettings                                 | ProtocolSettings                                 | Extended  |       |
+| ProtocolSettings_STATUS                          | ProtocolSettings_STATUS                          | Extended  |       |
+| ResourceAccessRule                               | ResourceAccessRule                               | Identical |       |
+| ResourceAccessRule_STATUS                        | ResourceAccessRule_STATUS                        | Identical |       |
+| RestorePolicyProperties                          | RestorePolicyProperties                          | Identical |       |
+| RestorePolicyProperties_STATUS                   | RestorePolicyProperties_STATUS                   | Identical |       |
+| RoutingPreference                                | RoutingPreference                                | Identical |       |
+| RoutingPreference_STATUS                         | RoutingPreference_STATUS                         | Identical |       |
+| SasPolicy                                        | SasPolicy                                        | Identical |       |
+| SasPolicy_STATUS                                 | SasPolicy_STATUS                                 | Identical |       |
+| SignedIdentifier                                 | SignedIdentifier                                 | Identical |       |
+| SignedIdentifier_STATUS                          | SignedIdentifier_STATUS                          | Identical |       |
+| Sku                                              | Sku                                              | Modified  |       |
+| Sku_STATUS                                       | Sku_STATUS                                       | Identical |       |
+|                                                  | SmbOAuthSettings                                 | New       |       |
+|                                                  | SmbOAuthSettings_STATUS                          | New       |       |
+| SmbSetting                                       | SmbSetting                                       | Extended  |       |
+| SmbSetting_STATUS                                | SmbSetting_STATUS                                | Extended  |       |
+| StorageAccountInternetEndpoints_STATUS           | StorageAccountInternetEndpoints_STATUS           | Identical |       |
+|                                                  | StorageAccountIpv6Endpoints_STATUS               | New       |       |
+| StorageAccountMicrosoftEndpoints_STATUS          | StorageAccountMicrosoftEndpoints_STATUS          | Identical |       |
+| StorageAccountOperatorConfigMaps                 | StorageAccountOperatorConfigMaps                 | Identical |       |
+| StorageAccountOperatorSecrets                    | StorageAccountOperatorSecrets                    | Identical |       |
+| StorageAccountOperatorSpec                       | StorageAccountOperatorSpec                       | Identical |       |
+| StorageAccountSkuConversionStatus_STATUS         | StorageAccountSkuConversionStatus_STATUS         | Identical |       |
+| StorageAccount_STATUS                            | StorageAccount_STATUS                            | Extended  |       |
+| StorageAccount_Spec                              | StorageAccount_Spec                              | Extended  |       |
+| StorageAccountsBlobServiceOperatorSpec           | StorageAccountsBlobServiceOperatorSpec           | Identical |       |
+| StorageAccountsBlobService_STATUS                | StorageAccountsBlobService_STATUS                | Extended  |       |
+| StorageAccountsBlobService_Spec                  | StorageAccountsBlobService_Spec                  | Identical |       |
+| StorageAccountsBlobServicesContainerOperatorSpec | StorageAccountsBlobServicesContainerOperatorSpec | Identical |       |
+| StorageAccountsBlobServicesContainer_STATUS      | StorageAccountsBlobServicesContainer_STATUS      | Extended  |       |
+| StorageAccountsBlobServicesContainer_Spec        | StorageAccountsBlobServicesContainer_Spec        | Identical |       |
+| StorageAccountsFileServiceOperatorSpec           | StorageAccountsFileServiceOperatorSpec           | Identical |       |
+| StorageAccountsFileService_STATUS                | StorageAccountsFileService_STATUS                | Extended  |       |
+| StorageAccountsFileService_Spec                  | StorageAccountsFileService_Spec                  | Identical |       |
+| StorageAccountsFileServicesShareOperatorSpec     | StorageAccountsFileServicesShareOperatorSpec     | Identical |       |
+| StorageAccountsFileServicesShare_STATUS          | StorageAccountsFileServicesShare_STATUS          | Extended  |       |
+| StorageAccountsFileServicesShare_Spec            | StorageAccountsFileServicesShare_Spec            | Extended  |       |
+| StorageAccountsManagementPolicyOperatorSpec      | StorageAccountsManagementPolicyOperatorSpec      | Identical |       |
+| StorageAccountsManagementPolicy_STATUS           | StorageAccountsManagementPolicy_STATUS           | Extended  |       |
+| StorageAccountsManagementPolicy_Spec             | StorageAccountsManagementPolicy_Spec             | Identical |       |
+| StorageAccountsQueueServiceOperatorSpec          | StorageAccountsQueueServiceOperatorSpec          | Identical |       |
+| StorageAccountsQueueService_STATUS               | StorageAccountsQueueService_STATUS               | Extended  |       |
+| StorageAccountsQueueService_Spec                 | StorageAccountsQueueService_Spec                 | Identical |       |
+| StorageAccountsQueueServicesQueueOperatorSpec    | StorageAccountsQueueServicesQueueOperatorSpec    | Identical |       |
+| StorageAccountsQueueServicesQueue_STATUS         | StorageAccountsQueueServicesQueue_STATUS         | Extended  |       |
+| StorageAccountsQueueServicesQueue_Spec           | StorageAccountsQueueServicesQueue_Spec           | Identical |       |
+| StorageAccountsTableServiceOperatorSpec          | StorageAccountsTableServiceOperatorSpec          | Identical |       |
+| StorageAccountsTableService_STATUS               | StorageAccountsTableService_STATUS               | Extended  |       |
+| StorageAccountsTableService_Spec                 | StorageAccountsTableService_Spec                 | Identical |       |
+| StorageAccountsTableServicesTableOperatorSpec    | StorageAccountsTableServicesTableOperatorSpec    | Identical |       |
+| StorageAccountsTableServicesTable_STATUS         | StorageAccountsTableServicesTable_STATUS         | Extended  |       |
+| StorageAccountsTableServicesTable_Spec           | StorageAccountsTableServicesTable_Spec           | Identical |       |
+|                                                  | SystemData_STATUS                                | New       |       |
+| TableAccessPolicy                                | TableAccessPolicy                                | Identical |       |
+| TableAccessPolicy_STATUS                         | TableAccessPolicy_STATUS                         | Identical |       |
+| TableSignedIdentifier                            | TableSignedIdentifier                            | Identical |       |
+| TableSignedIdentifier_STATUS                     | TableSignedIdentifier_STATUS                     | Identical |       |
+| TagFilter                                        | TagFilter                                        | Identical |       |
+| TagFilter_STATUS                                 | TagFilter_STATUS                                 | Identical |       |
+| TagProperty_STATUS                               | TagProperty_STATUS                               | Identical |       |
+| UpdateHistoryProperty_STATUS                     | UpdateHistoryProperty_STATUS                     | Identical |       |
+| UserAssignedIdentityDetails                      | UserAssignedIdentityDetails                      | Identical |       |
+| UserAssignedIdentity_STATUS                      | UserAssignedIdentity_STATUS                      | Identical |       |
+| VirtualNetworkRule                               | VirtualNetworkRule                               | Identical |       |
+| VirtualNetworkRule_STATUS                        | VirtualNetworkRule_STATUS                        | Identical |       |
 
 ### AzureFilesIdentityBasedAuthentication
 

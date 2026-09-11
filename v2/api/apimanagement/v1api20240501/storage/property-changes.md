@@ -11,140 +11,140 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type                                     | Next Version      | Next Type                                        | Status    | Notes |
-|:----------------------|:-------------------------------------------------|:------------------|:-------------------------------------------------|:---------:|:------|
-| v1api20240501/storage | Api                                              | v20240501/storage | Api                                              | Identical |       |
-| v1api20240501/storage | ApiVersionSet                                    | v20240501/storage | ApiVersionSet                                    | Identical |       |
-| v1api20240501/storage | AuthorizationProvider                            | v20240501/storage | AuthorizationProvider                            | Identical |       |
-| v1api20240501/storage | AuthorizationProvidersAuthorization              | v20240501/storage | AuthorizationProvidersAuthorization              | Identical |       |
-| v1api20240501/storage | AuthorizationProvidersAuthorizationsAccessPolicy | v20240501/storage | AuthorizationProvidersAuthorizationsAccessPolicy | Identical |       |
-| v1api20240501/storage | Backend                                          | v20240501/storage | Backend                                          | Identical |       |
-| v1api20240501/storage | NamedValue                                       | v20240501/storage | NamedValue                                       | Identical |       |
-| v1api20240501/storage | Policy                                           | v20240501/storage | Policy                                           | Identical |       |
-| v1api20240501/storage | PolicyFragment                                   | v20240501/storage | PolicyFragment                                   | Identical |       |
-| v1api20240501/storage | Product                                          | v20240501/storage | Product                                          | Identical |       |
-| v1api20240501/storage | ProductApi                                       | v20240501/storage | ProductApi                                       | Identical |       |
-| v1api20240501/storage | ProductPolicy                                    | v20240501/storage | ProductPolicy                                    | Identical |       |
-| v1api20240501/storage | Service                                          | v20240501/storage | Service                                          | Identical |       |
-| v1api20240501/storage | Subscription                                     | v20240501/storage | Subscription                                     | Identical |       |
+| v1api20240501/storage                            | v20240501/storage                                | Status    | Notes |
+|:-------------------------------------------------|:-------------------------------------------------|:---------:|:------|
+| Api                                              | Api                                              | Identical |       |
+| ApiVersionSet                                    | ApiVersionSet                                    | Identical |       |
+| AuthorizationProvider                            | AuthorizationProvider                            | Identical |       |
+| AuthorizationProvidersAuthorization              | AuthorizationProvidersAuthorization              | Identical |       |
+| AuthorizationProvidersAuthorizationsAccessPolicy | AuthorizationProvidersAuthorizationsAccessPolicy | Identical |       |
+| Backend                                          | Backend                                          | Identical |       |
+| NamedValue                                       | NamedValue                                       | Identical |       |
+| Policy                                           | Policy                                           | Identical |       |
+| PolicyFragment                                   | PolicyFragment                                   | Identical |       |
+| Product                                          | Product                                          | Identical |       |
+| ProductApi                                       | ProductApi                                       | Identical |       |
+| ProductPolicy                                    | ProductPolicy                                    | Identical |       |
+| Service                                          | Service                                          | Identical |       |
+| Subscription                                     | Subscription                                     | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                                                 | Next Version      | Next Type                                                    | Status    | Notes |
-|:----------------------|:-------------------------------------------------------------|:------------------|:-------------------------------------------------------------|:---------:|:------|
-| v1api20240501/storage | AdditionalLocation                                           | v20240501/storage | AdditionalLocation                                           | Identical |       |
-| v1api20240501/storage | AdditionalLocation_STATUS                                    | v20240501/storage | AdditionalLocation_STATUS                                    | Identical |       |
-| v1api20240501/storage | ApiContactInformation                                        | v20240501/storage | ApiContactInformation                                        | Identical |       |
-| v1api20240501/storage | ApiContactInformation_STATUS                                 | v20240501/storage | ApiContactInformation_STATUS                                 | Identical |       |
-| v1api20240501/storage | ApiCreateOrUpdateProperties_WsdlSelector                     | v20240501/storage | ApiCreateOrUpdateProperties_WsdlSelector                     | Identical |       |
-| v1api20240501/storage | ApiLicenseInformation                                        | v20240501/storage | ApiLicenseInformation                                        | Identical |       |
-| v1api20240501/storage | ApiLicenseInformation_STATUS                                 | v20240501/storage | ApiLicenseInformation_STATUS                                 | Identical |       |
-| v1api20240501/storage | ApiManagementServiceIdentity                                 | v20240501/storage | ApiManagementServiceIdentity                                 | Identical |       |
-| v1api20240501/storage | ApiManagementServiceIdentity_STATUS                          | v20240501/storage | ApiManagementServiceIdentity_STATUS                          | Identical |       |
-| v1api20240501/storage | ApiManagementServiceSkuProperties                            | v20240501/storage | ApiManagementServiceSkuProperties                            | Identical |       |
-| v1api20240501/storage | ApiManagementServiceSkuProperties_STATUS                     | v20240501/storage | ApiManagementServiceSkuProperties_STATUS                     | Identical |       |
-| v1api20240501/storage | ApiOperatorSpec                                              | v20240501/storage | ApiOperatorSpec                                              | Identical |       |
-| v1api20240501/storage | ApiVersionConstraint                                         | v20240501/storage | ApiVersionConstraint                                         | Identical |       |
-| v1api20240501/storage | ApiVersionConstraint_STATUS                                  | v20240501/storage | ApiVersionConstraint_STATUS                                  | Identical |       |
-| v1api20240501/storage | ApiVersionSetContractDetails                                 | v20240501/storage | ApiVersionSetContractDetails                                 | Identical |       |
-| v1api20240501/storage | ApiVersionSetContractDetails_STATUS                          | v20240501/storage | ApiVersionSetContractDetails_STATUS                          | Identical |       |
-| v1api20240501/storage | ApiVersionSetOperatorSpec                                    | v20240501/storage | ApiVersionSetOperatorSpec                                    | Identical |       |
-| v1api20240501/storage | ApiVersionSet_STATUS                                         | v20240501/storage | ApiVersionSet_STATUS                                         | Identical |       |
-| v1api20240501/storage | ApiVersionSet_Spec                                           | v20240501/storage | ApiVersionSet_Spec                                           | Identical |       |
-| v1api20240501/storage | Api_STATUS                                                   | v20240501/storage | Api_STATUS                                                   | Identical |       |
-| v1api20240501/storage | Api_Spec                                                     | v20240501/storage | Api_Spec                                                     | Identical |       |
-| v1api20240501/storage | ArmIdWrapper_STATUS                                          | v20240501/storage | ArmIdWrapper_STATUS                                          | Identical |       |
-| v1api20240501/storage | AuthenticationSettingsContract                               | v20240501/storage | AuthenticationSettingsContract                               | Identical |       |
-| v1api20240501/storage | AuthenticationSettingsContract_STATUS                        | v20240501/storage | AuthenticationSettingsContract_STATUS                        | Identical |       |
-| v1api20240501/storage | AuthorizationError_STATUS                                    | v20240501/storage | AuthorizationError_STATUS                                    | Identical |       |
-| v1api20240501/storage | AuthorizationProviderOAuth2GrantTypes                        | v20240501/storage | AuthorizationProviderOAuth2GrantTypes                        | Identical |       |
-| v1api20240501/storage | AuthorizationProviderOAuth2GrantTypes_STATUS                 | v20240501/storage | AuthorizationProviderOAuth2GrantTypes_STATUS                 | Identical |       |
-| v1api20240501/storage | AuthorizationProviderOAuth2Settings                          | v20240501/storage | AuthorizationProviderOAuth2Settings                          | Identical |       |
-| v1api20240501/storage | AuthorizationProviderOAuth2Settings_STATUS                   | v20240501/storage | AuthorizationProviderOAuth2Settings_STATUS                   | Identical |       |
-| v1api20240501/storage | AuthorizationProviderOperatorSpec                            | v20240501/storage | AuthorizationProviderOperatorSpec                            | Identical |       |
-| v1api20240501/storage | AuthorizationProvider_STATUS                                 | v20240501/storage | AuthorizationProvider_STATUS                                 | Identical |       |
-| v1api20240501/storage | AuthorizationProvider_Spec                                   | v20240501/storage | AuthorizationProvider_Spec                                   | Identical |       |
-| v1api20240501/storage | AuthorizationProvidersAuthorizationOperatorSpec              | v20240501/storage | AuthorizationProvidersAuthorizationOperatorSpec              | Identical |       |
-| v1api20240501/storage | AuthorizationProvidersAuthorization_STATUS                   | v20240501/storage | AuthorizationProvidersAuthorization_STATUS                   | Identical |       |
-| v1api20240501/storage | AuthorizationProvidersAuthorization_Spec                     | v20240501/storage | AuthorizationProvidersAuthorization_Spec                     | Identical |       |
-| v1api20240501/storage | AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec | v20240501/storage | AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec | Identical |       |
-| v1api20240501/storage | AuthorizationProvidersAuthorizationsAccessPolicy_STATUS      | v20240501/storage | AuthorizationProvidersAuthorizationsAccessPolicy_STATUS      | Identical |       |
-| v1api20240501/storage | AuthorizationProvidersAuthorizationsAccessPolicy_Spec        | v20240501/storage | AuthorizationProvidersAuthorizationsAccessPolicy_Spec        | Identical |       |
-| v1api20240501/storage | BackendAuthorizationHeaderCredentials                        | v20240501/storage | BackendAuthorizationHeaderCredentials                        | Identical |       |
-| v1api20240501/storage | BackendAuthorizationHeaderCredentials_STATUS                 | v20240501/storage | BackendAuthorizationHeaderCredentials_STATUS                 | Identical |       |
-| v1api20240501/storage | BackendCircuitBreaker                                        | v20240501/storage | BackendCircuitBreaker                                        | Identical |       |
-| v1api20240501/storage | BackendCircuitBreaker_STATUS                                 | v20240501/storage | BackendCircuitBreaker_STATUS                                 | Identical |       |
-| v1api20240501/storage | BackendCredentialsContract                                   | v20240501/storage | BackendCredentialsContract                                   | Identical |       |
-| v1api20240501/storage | BackendCredentialsContract_STATUS                            | v20240501/storage | BackendCredentialsContract_STATUS                            | Identical |       |
-| v1api20240501/storage | BackendOperatorSpec                                          | v20240501/storage | BackendOperatorSpec                                          | Identical |       |
-| v1api20240501/storage | BackendPool                                                  | v20240501/storage | BackendPool                                                  | Identical |       |
-| v1api20240501/storage | BackendPoolItem                                              | v20240501/storage | BackendPoolItem                                              | Identical |       |
-| v1api20240501/storage | BackendPoolItem_STATUS                                       | v20240501/storage | BackendPoolItem_STATUS                                       | Identical |       |
-| v1api20240501/storage | BackendPool_STATUS                                           | v20240501/storage | BackendPool_STATUS                                           | Identical |       |
-| v1api20240501/storage | BackendProperties                                            | v20240501/storage | BackendProperties                                            | Identical |       |
-| v1api20240501/storage | BackendProperties_STATUS                                     | v20240501/storage | BackendProperties_STATUS                                     | Identical |       |
-| v1api20240501/storage | BackendProxyContract                                         | v20240501/storage | BackendProxyContract                                         | Identical |       |
-| v1api20240501/storage | BackendProxyContract_STATUS                                  | v20240501/storage | BackendProxyContract_STATUS                                  | Identical |       |
-| v1api20240501/storage | BackendServiceFabricClusterProperties                        | v20240501/storage | BackendServiceFabricClusterProperties                        | Identical |       |
-| v1api20240501/storage | BackendServiceFabricClusterProperties_STATUS                 | v20240501/storage | BackendServiceFabricClusterProperties_STATUS                 | Identical |       |
-| v1api20240501/storage | BackendTlsProperties                                         | v20240501/storage | BackendTlsProperties                                         | Identical |       |
-| v1api20240501/storage | BackendTlsProperties_STATUS                                  | v20240501/storage | BackendTlsProperties_STATUS                                  | Identical |       |
-| v1api20240501/storage | Backend_STATUS                                               | v20240501/storage | Backend_STATUS                                               | Identical |       |
-| v1api20240501/storage | Backend_Spec                                                 | v20240501/storage | Backend_Spec                                                 | Identical |       |
-| v1api20240501/storage | CertificateConfiguration                                     | v20240501/storage | CertificateConfiguration                                     | Identical |       |
-| v1api20240501/storage | CertificateConfiguration_STATUS                              | v20240501/storage | CertificateConfiguration_STATUS                              | Identical |       |
-| v1api20240501/storage | CertificateInformation                                       | v20240501/storage | CertificateInformation                                       | Identical |       |
-| v1api20240501/storage | CertificateInformation_STATUS                                | v20240501/storage | CertificateInformation_STATUS                                | Identical |       |
-| v1api20240501/storage | CircuitBreakerFailureCondition                               | v20240501/storage | CircuitBreakerFailureCondition                               | Identical |       |
-| v1api20240501/storage | CircuitBreakerFailureCondition_STATUS                        | v20240501/storage | CircuitBreakerFailureCondition_STATUS                        | Identical |       |
-| v1api20240501/storage | CircuitBreakerRule                                           | v20240501/storage | CircuitBreakerRule                                           | Identical |       |
-| v1api20240501/storage | CircuitBreakerRule_STATUS                                    | v20240501/storage | CircuitBreakerRule_STATUS                                    | Identical |       |
-| v1api20240501/storage | ConfigurationApi                                             | v20240501/storage | ConfigurationApi                                             | Identical |       |
-| v1api20240501/storage | ConfigurationApi_STATUS                                      | v20240501/storage | ConfigurationApi_STATUS                                      | Identical |       |
-| v1api20240501/storage | FailureStatusCodeRange                                       | v20240501/storage | FailureStatusCodeRange                                       | Identical |       |
-| v1api20240501/storage | FailureStatusCodeRange_STATUS                                | v20240501/storage | FailureStatusCodeRange_STATUS                                | Identical |       |
-| v1api20240501/storage | HostnameConfiguration                                        | v20240501/storage | HostnameConfiguration                                        | Identical |       |
-| v1api20240501/storage | HostnameConfiguration_STATUS                                 | v20240501/storage | HostnameConfiguration_STATUS                                 | Identical |       |
-| v1api20240501/storage | KeyVaultContractCreateProperties                             | v20240501/storage | KeyVaultContractCreateProperties                             | Identical |       |
-| v1api20240501/storage | KeyVaultContractProperties_STATUS                            | v20240501/storage | KeyVaultContractProperties_STATUS                            | Identical |       |
-| v1api20240501/storage | KeyVaultLastAccessStatusContractProperties_STATUS            | v20240501/storage | KeyVaultLastAccessStatusContractProperties_STATUS            | Identical |       |
-| v1api20240501/storage | NamedValueOperatorSpec                                       | v20240501/storage | NamedValueOperatorSpec                                       | Identical |       |
-| v1api20240501/storage | NamedValue_STATUS                                            | v20240501/storage | NamedValue_STATUS                                            | Identical |       |
-| v1api20240501/storage | NamedValue_Spec                                              | v20240501/storage | NamedValue_Spec                                              | Identical |       |
-| v1api20240501/storage | OAuth2AuthenticationSettingsContract                         | v20240501/storage | OAuth2AuthenticationSettingsContract                         | Identical |       |
-| v1api20240501/storage | OAuth2AuthenticationSettingsContract_STATUS                  | v20240501/storage | OAuth2AuthenticationSettingsContract_STATUS                  | Identical |       |
-| v1api20240501/storage | OpenIdAuthenticationSettingsContract                         | v20240501/storage | OpenIdAuthenticationSettingsContract                         | Identical |       |
-| v1api20240501/storage | OpenIdAuthenticationSettingsContract_STATUS                  | v20240501/storage | OpenIdAuthenticationSettingsContract_STATUS                  | Identical |       |
-| v1api20240501/storage | PolicyFragmentOperatorSpec                                   | v20240501/storage | PolicyFragmentOperatorSpec                                   | Identical |       |
-| v1api20240501/storage | PolicyFragment_STATUS                                        | v20240501/storage | PolicyFragment_STATUS                                        | Identical |       |
-| v1api20240501/storage | PolicyFragment_Spec                                          | v20240501/storage | PolicyFragment_Spec                                          | Identical |       |
-| v1api20240501/storage | PolicyOperatorSpec                                           | v20240501/storage | PolicyOperatorSpec                                           | Identical |       |
-| v1api20240501/storage | Policy_STATUS                                                | v20240501/storage | Policy_STATUS                                                | Identical |       |
-| v1api20240501/storage | Policy_Spec                                                  | v20240501/storage | Policy_Spec                                                  | Identical |       |
-| v1api20240501/storage | PrivateLinkServiceConnectionState_STATUS                     | v20240501/storage | PrivateLinkServiceConnectionState_STATUS                     | Identical |       |
-| v1api20240501/storage | ProductApiOperatorSpec                                       | v20240501/storage | ProductApiOperatorSpec                                       | Identical |       |
-| v1api20240501/storage | ProductApi_STATUS                                            | v20240501/storage | ProductApi_STATUS                                            | Identical |       |
-| v1api20240501/storage | ProductApi_Spec                                              | v20240501/storage | ProductApi_Spec                                              | Identical |       |
-| v1api20240501/storage | ProductOperatorSpec                                          | v20240501/storage | ProductOperatorSpec                                          | Identical |       |
-| v1api20240501/storage | ProductPolicyOperatorSpec                                    | v20240501/storage | ProductPolicyOperatorSpec                                    | Identical |       |
-| v1api20240501/storage | ProductPolicy_STATUS                                         | v20240501/storage | ProductPolicy_STATUS                                         | Identical |       |
-| v1api20240501/storage | ProductPolicy_Spec                                           | v20240501/storage | ProductPolicy_Spec                                           | Identical |       |
-| v1api20240501/storage | Product_STATUS                                               | v20240501/storage | Product_STATUS                                               | Identical |       |
-| v1api20240501/storage | Product_Spec                                                 | v20240501/storage | Product_Spec                                                 | Identical |       |
-| v1api20240501/storage | RemotePrivateEndpointConnectionWrapper_STATUS                | v20240501/storage | RemotePrivateEndpointConnectionWrapper_STATUS                | Identical |       |
-| v1api20240501/storage | ServiceOperatorSpec                                          | v20240501/storage | ServiceOperatorSpec                                          | Identical |       |
-| v1api20240501/storage | Service_STATUS                                               | v20240501/storage | Service_STATUS                                               | Identical |       |
-| v1api20240501/storage | Service_Spec                                                 | v20240501/storage | Service_Spec                                                 | Identical |       |
-| v1api20240501/storage | SubscriptionKeyParameterNamesContract                        | v20240501/storage | SubscriptionKeyParameterNamesContract                        | Identical |       |
-| v1api20240501/storage | SubscriptionKeyParameterNamesContract_STATUS                 | v20240501/storage | SubscriptionKeyParameterNamesContract_STATUS                 | Identical |       |
-| v1api20240501/storage | SubscriptionOperatorSecrets                                  | v20240501/storage | SubscriptionOperatorSecrets                                  | Identical |       |
-| v1api20240501/storage | SubscriptionOperatorSpec                                     | v20240501/storage | SubscriptionOperatorSpec                                     | Identical |       |
-| v1api20240501/storage | Subscription_STATUS                                          | v20240501/storage | Subscription_STATUS                                          | Identical |       |
-| v1api20240501/storage | Subscription_Spec                                            | v20240501/storage | Subscription_Spec                                            | Identical |       |
-| v1api20240501/storage | SystemData_STATUS                                            | v20240501/storage | SystemData_STATUS                                            | Identical |       |
-| v1api20240501/storage | UserAssignedIdentityDetails                                  | v20240501/storage | UserAssignedIdentityDetails                                  | Identical |       |
-| v1api20240501/storage | UserIdentityProperties_STATUS                                | v20240501/storage | UserIdentityProperties_STATUS                                | Identical |       |
-| v1api20240501/storage | VirtualNetworkConfiguration                                  | v20240501/storage | VirtualNetworkConfiguration                                  | Identical |       |
-| v1api20240501/storage | VirtualNetworkConfiguration_STATUS                           | v20240501/storage | VirtualNetworkConfiguration_STATUS                           | Identical |       |
-| v1api20240501/storage | X509CertificateName                                          | v20240501/storage | X509CertificateName                                          | Identical |       |
-| v1api20240501/storage | X509CertificateName_STATUS                                   | v20240501/storage | X509CertificateName_STATUS                                   | Identical |       |
+| v1api20240501/storage                                        | v20240501/storage                                            | Status    | Notes |
+|:-------------------------------------------------------------|:-------------------------------------------------------------|:---------:|:------|
+| AdditionalLocation                                           | AdditionalLocation                                           | Identical |       |
+| AdditionalLocation_STATUS                                    | AdditionalLocation_STATUS                                    | Identical |       |
+| ApiContactInformation                                        | ApiContactInformation                                        | Identical |       |
+| ApiContactInformation_STATUS                                 | ApiContactInformation_STATUS                                 | Identical |       |
+| ApiCreateOrUpdateProperties_WsdlSelector                     | ApiCreateOrUpdateProperties_WsdlSelector                     | Identical |       |
+| ApiLicenseInformation                                        | ApiLicenseInformation                                        | Identical |       |
+| ApiLicenseInformation_STATUS                                 | ApiLicenseInformation_STATUS                                 | Identical |       |
+| ApiManagementServiceIdentity                                 | ApiManagementServiceIdentity                                 | Identical |       |
+| ApiManagementServiceIdentity_STATUS                          | ApiManagementServiceIdentity_STATUS                          | Identical |       |
+| ApiManagementServiceSkuProperties                            | ApiManagementServiceSkuProperties                            | Identical |       |
+| ApiManagementServiceSkuProperties_STATUS                     | ApiManagementServiceSkuProperties_STATUS                     | Identical |       |
+| ApiOperatorSpec                                              | ApiOperatorSpec                                              | Identical |       |
+| ApiVersionConstraint                                         | ApiVersionConstraint                                         | Identical |       |
+| ApiVersionConstraint_STATUS                                  | ApiVersionConstraint_STATUS                                  | Identical |       |
+| ApiVersionSetContractDetails                                 | ApiVersionSetContractDetails                                 | Identical |       |
+| ApiVersionSetContractDetails_STATUS                          | ApiVersionSetContractDetails_STATUS                          | Identical |       |
+| ApiVersionSetOperatorSpec                                    | ApiVersionSetOperatorSpec                                    | Identical |       |
+| ApiVersionSet_STATUS                                         | ApiVersionSet_STATUS                                         | Identical |       |
+| ApiVersionSet_Spec                                           | ApiVersionSet_Spec                                           | Identical |       |
+| Api_STATUS                                                   | Api_STATUS                                                   | Identical |       |
+| Api_Spec                                                     | Api_Spec                                                     | Identical |       |
+| ArmIdWrapper_STATUS                                          | ArmIdWrapper_STATUS                                          | Identical |       |
+| AuthenticationSettingsContract                               | AuthenticationSettingsContract                               | Identical |       |
+| AuthenticationSettingsContract_STATUS                        | AuthenticationSettingsContract_STATUS                        | Identical |       |
+| AuthorizationError_STATUS                                    | AuthorizationError_STATUS                                    | Identical |       |
+| AuthorizationProviderOAuth2GrantTypes                        | AuthorizationProviderOAuth2GrantTypes                        | Identical |       |
+| AuthorizationProviderOAuth2GrantTypes_STATUS                 | AuthorizationProviderOAuth2GrantTypes_STATUS                 | Identical |       |
+| AuthorizationProviderOAuth2Settings                          | AuthorizationProviderOAuth2Settings                          | Identical |       |
+| AuthorizationProviderOAuth2Settings_STATUS                   | AuthorizationProviderOAuth2Settings_STATUS                   | Identical |       |
+| AuthorizationProviderOperatorSpec                            | AuthorizationProviderOperatorSpec                            | Identical |       |
+| AuthorizationProvider_STATUS                                 | AuthorizationProvider_STATUS                                 | Identical |       |
+| AuthorizationProvider_Spec                                   | AuthorizationProvider_Spec                                   | Identical |       |
+| AuthorizationProvidersAuthorizationOperatorSpec              | AuthorizationProvidersAuthorizationOperatorSpec              | Identical |       |
+| AuthorizationProvidersAuthorization_STATUS                   | AuthorizationProvidersAuthorization_STATUS                   | Identical |       |
+| AuthorizationProvidersAuthorization_Spec                     | AuthorizationProvidersAuthorization_Spec                     | Identical |       |
+| AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec | AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec | Identical |       |
+| AuthorizationProvidersAuthorizationsAccessPolicy_STATUS      | AuthorizationProvidersAuthorizationsAccessPolicy_STATUS      | Identical |       |
+| AuthorizationProvidersAuthorizationsAccessPolicy_Spec        | AuthorizationProvidersAuthorizationsAccessPolicy_Spec        | Identical |       |
+| BackendAuthorizationHeaderCredentials                        | BackendAuthorizationHeaderCredentials                        | Identical |       |
+| BackendAuthorizationHeaderCredentials_STATUS                 | BackendAuthorizationHeaderCredentials_STATUS                 | Identical |       |
+| BackendCircuitBreaker                                        | BackendCircuitBreaker                                        | Identical |       |
+| BackendCircuitBreaker_STATUS                                 | BackendCircuitBreaker_STATUS                                 | Identical |       |
+| BackendCredentialsContract                                   | BackendCredentialsContract                                   | Identical |       |
+| BackendCredentialsContract_STATUS                            | BackendCredentialsContract_STATUS                            | Identical |       |
+| BackendOperatorSpec                                          | BackendOperatorSpec                                          | Identical |       |
+| BackendPool                                                  | BackendPool                                                  | Identical |       |
+| BackendPoolItem                                              | BackendPoolItem                                              | Identical |       |
+| BackendPoolItem_STATUS                                       | BackendPoolItem_STATUS                                       | Identical |       |
+| BackendPool_STATUS                                           | BackendPool_STATUS                                           | Identical |       |
+| BackendProperties                                            | BackendProperties                                            | Identical |       |
+| BackendProperties_STATUS                                     | BackendProperties_STATUS                                     | Identical |       |
+| BackendProxyContract                                         | BackendProxyContract                                         | Identical |       |
+| BackendProxyContract_STATUS                                  | BackendProxyContract_STATUS                                  | Identical |       |
+| BackendServiceFabricClusterProperties                        | BackendServiceFabricClusterProperties                        | Identical |       |
+| BackendServiceFabricClusterProperties_STATUS                 | BackendServiceFabricClusterProperties_STATUS                 | Identical |       |
+| BackendTlsProperties                                         | BackendTlsProperties                                         | Identical |       |
+| BackendTlsProperties_STATUS                                  | BackendTlsProperties_STATUS                                  | Identical |       |
+| Backend_STATUS                                               | Backend_STATUS                                               | Identical |       |
+| Backend_Spec                                                 | Backend_Spec                                                 | Identical |       |
+| CertificateConfiguration                                     | CertificateConfiguration                                     | Identical |       |
+| CertificateConfiguration_STATUS                              | CertificateConfiguration_STATUS                              | Identical |       |
+| CertificateInformation                                       | CertificateInformation                                       | Identical |       |
+| CertificateInformation_STATUS                                | CertificateInformation_STATUS                                | Identical |       |
+| CircuitBreakerFailureCondition                               | CircuitBreakerFailureCondition                               | Identical |       |
+| CircuitBreakerFailureCondition_STATUS                        | CircuitBreakerFailureCondition_STATUS                        | Identical |       |
+| CircuitBreakerRule                                           | CircuitBreakerRule                                           | Identical |       |
+| CircuitBreakerRule_STATUS                                    | CircuitBreakerRule_STATUS                                    | Identical |       |
+| ConfigurationApi                                             | ConfigurationApi                                             | Identical |       |
+| ConfigurationApi_STATUS                                      | ConfigurationApi_STATUS                                      | Identical |       |
+| FailureStatusCodeRange                                       | FailureStatusCodeRange                                       | Identical |       |
+| FailureStatusCodeRange_STATUS                                | FailureStatusCodeRange_STATUS                                | Identical |       |
+| HostnameConfiguration                                        | HostnameConfiguration                                        | Identical |       |
+| HostnameConfiguration_STATUS                                 | HostnameConfiguration_STATUS                                 | Identical |       |
+| KeyVaultContractCreateProperties                             | KeyVaultContractCreateProperties                             | Identical |       |
+| KeyVaultContractProperties_STATUS                            | KeyVaultContractProperties_STATUS                            | Identical |       |
+| KeyVaultLastAccessStatusContractProperties_STATUS            | KeyVaultLastAccessStatusContractProperties_STATUS            | Identical |       |
+| NamedValueOperatorSpec                                       | NamedValueOperatorSpec                                       | Identical |       |
+| NamedValue_STATUS                                            | NamedValue_STATUS                                            | Identical |       |
+| NamedValue_Spec                                              | NamedValue_Spec                                              | Identical |       |
+| OAuth2AuthenticationSettingsContract                         | OAuth2AuthenticationSettingsContract                         | Identical |       |
+| OAuth2AuthenticationSettingsContract_STATUS                  | OAuth2AuthenticationSettingsContract_STATUS                  | Identical |       |
+| OpenIdAuthenticationSettingsContract                         | OpenIdAuthenticationSettingsContract                         | Identical |       |
+| OpenIdAuthenticationSettingsContract_STATUS                  | OpenIdAuthenticationSettingsContract_STATUS                  | Identical |       |
+| PolicyFragmentOperatorSpec                                   | PolicyFragmentOperatorSpec                                   | Identical |       |
+| PolicyFragment_STATUS                                        | PolicyFragment_STATUS                                        | Identical |       |
+| PolicyFragment_Spec                                          | PolicyFragment_Spec                                          | Identical |       |
+| PolicyOperatorSpec                                           | PolicyOperatorSpec                                           | Identical |       |
+| Policy_STATUS                                                | Policy_STATUS                                                | Identical |       |
+| Policy_Spec                                                  | Policy_Spec                                                  | Identical |       |
+| PrivateLinkServiceConnectionState_STATUS                     | PrivateLinkServiceConnectionState_STATUS                     | Identical |       |
+| ProductApiOperatorSpec                                       | ProductApiOperatorSpec                                       | Identical |       |
+| ProductApi_STATUS                                            | ProductApi_STATUS                                            | Identical |       |
+| ProductApi_Spec                                              | ProductApi_Spec                                              | Identical |       |
+| ProductOperatorSpec                                          | ProductOperatorSpec                                          | Identical |       |
+| ProductPolicyOperatorSpec                                    | ProductPolicyOperatorSpec                                    | Identical |       |
+| ProductPolicy_STATUS                                         | ProductPolicy_STATUS                                         | Identical |       |
+| ProductPolicy_Spec                                           | ProductPolicy_Spec                                           | Identical |       |
+| Product_STATUS                                               | Product_STATUS                                               | Identical |       |
+| Product_Spec                                                 | Product_Spec                                                 | Identical |       |
+| RemotePrivateEndpointConnectionWrapper_STATUS                | RemotePrivateEndpointConnectionWrapper_STATUS                | Identical |       |
+| ServiceOperatorSpec                                          | ServiceOperatorSpec                                          | Identical |       |
+| Service_STATUS                                               | Service_STATUS                                               | Identical |       |
+| Service_Spec                                                 | Service_Spec                                                 | Identical |       |
+| SubscriptionKeyParameterNamesContract                        | SubscriptionKeyParameterNamesContract                        | Identical |       |
+| SubscriptionKeyParameterNamesContract_STATUS                 | SubscriptionKeyParameterNamesContract_STATUS                 | Identical |       |
+| SubscriptionOperatorSecrets                                  | SubscriptionOperatorSecrets                                  | Identical |       |
+| SubscriptionOperatorSpec                                     | SubscriptionOperatorSpec                                     | Identical |       |
+| Subscription_STATUS                                          | Subscription_STATUS                                          | Identical |       |
+| Subscription_Spec                                            | Subscription_Spec                                            | Identical |       |
+| SystemData_STATUS                                            | SystemData_STATUS                                            | Identical |       |
+| UserAssignedIdentityDetails                                  | UserAssignedIdentityDetails                                  | Identical |       |
+| UserIdentityProperties_STATUS                                | UserIdentityProperties_STATUS                                | Identical |       |
+| VirtualNetworkConfiguration                                  | VirtualNetworkConfiguration                                  | Identical |       |
+| VirtualNetworkConfiguration_STATUS                           | VirtualNetworkConfiguration_STATUS                           | Identical |       |
+| X509CertificateName                                          | X509CertificateName                                          | Identical |       |
+| X509CertificateName_STATUS                                   | X509CertificateName_STATUS                                   | Identical |       |

@@ -11,48 +11,46 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type | Next Version      | Next Type | Status    | Notes |
-|:----------------------|:-------------|:------------------|:----------|:---------:|:------|
-| v1api20200930/storage | Disk         | v20200930/storage | Disk      | Identical |       |
-| v1api20200930/storage | Snapshot     | v20200930/storage | Snapshot  | Identical |       |
+| v1api20200930/storage | v20200930/storage | Status    | Notes |
+|:----------------------|:------------------|:---------:|:------|
+| Disk                  | Disk              | Identical |       |
+| Snapshot              | Snapshot          | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                        | Next Version      | Next Type                           | Status    | Notes                                                       |
-|:----------------------|:------------------------------------|:------------------|:------------------------------------|:---------:|:------------------------------------------------------------|
-| v1api20200930/storage | CreationData                        | v20200930/storage | CreationData                        | Identical |                                                             |
-| v1api20200930/storage | CreationData_STATUS                 | v20200930/storage | CreationData_STATUS                 | Identical |                                                             |
-| v1api20200930/storage | DiskOperatorSpec                    | v20200930/storage | DiskOperatorSpec                    | Identical |                                                             |
-| v1api20200930/storage | DiskSku                             | v20200930/storage | DiskSku                             | Identical |                                                             |
-| v1api20200930/storage | DiskSku_STATUS                      | v20200930/storage | DiskSku_STATUS                      | Identical |                                                             |
-| v1api20200930/storage | Disk_STATUS                         | v20200930/storage | Disk_STATUS                         | Modified  |                                                             |
-| v1api20200930/storage | Disk_Spec                           | v20200930/storage | Disk_Spec                           | Modified  |                                                             |
-| v1api20200930/storage | Encryption                          | v20200930/storage | Encryption                          | Identical |                                                             |
-| v1api20200930/storage | EncryptionSettingsCollection        | v20200930/storage | EncryptionSettingsCollection        | Identical |                                                             |
-| v1api20200930/storage | EncryptionSettingsCollection_STATUS | v20200930/storage | EncryptionSettingsCollection_STATUS | Identical |                                                             |
-| v1api20200930/storage | EncryptionSettingsElement           | v20200930/storage | EncryptionSettingsElement           | Identical |                                                             |
-| v1api20200930/storage | EncryptionSettingsElement_STATUS    | v20200930/storage | EncryptionSettingsElement_STATUS    | Identical |                                                             |
-| v1api20200930/storage | Encryption_STATUS                   | v20200930/storage | Encryption_STATUS                   | Identical |                                                             |
-| v1api20200930/storage | ExtendedLocation                    | v20200930/storage | ExtendedLocation                    | Identical |                                                             |
-| v1api20200930/storage | ExtendedLocation_STATUS             | v20200930/storage | ExtendedLocation_STATUS             | Identical |                                                             |
-| v1api20200930/storage | ImageDiskReference                  | v20200930/storage | ImageDiskReference                  | Identical |                                                             |
-| v1api20200930/storage | ImageDiskReference_STATUS           | v20200930/storage | ImageDiskReference_STATUS           | Identical |                                                             |
-| v1api20200930/storage | KeyVaultAndKeyReference             | v20200930/storage | KeyVaultAndKeyReference             | Identical |                                                             |
-| v1api20200930/storage | KeyVaultAndKeyReference_STATUS      | v20200930/storage | KeyVaultAndKeyReference_STATUS      | Identical |                                                             |
-| v1api20200930/storage | KeyVaultAndSecretReference          | v20200930/storage | KeyVaultAndSecretReference          | Identical |                                                             |
-| v1api20200930/storage | KeyVaultAndSecretReference_STATUS   | v20200930/storage | KeyVaultAndSecretReference_STATUS   | Identical |                                                             |
-| v1api20200930/storage | PurchasePlan                        | v20200930/storage |                                     | Retired   | Configured rename to DiskPurchasePlan was not found.        |
-|                       |                                     | v20200930/storage | PurchasePlan                        | New       | Configured rename to DiskPurchasePlan was not found.        |
-| v1api20200930/storage | PurchasePlan_STATUS                 | v20200930/storage |                                     | Retired   | Configured rename to DiskPurchasePlan_STATUS was not found. |
-|                       |                                     | v20200930/storage | PurchasePlan_STATUS                 | New       | Configured rename to DiskPurchasePlan_STATUS was not found. |
-| v1api20200930/storage | ShareInfoElement_STATUS             | v20200930/storage | ShareInfoElement_STATUS             | Identical |                                                             |
-| v1api20200930/storage | SnapshotOperatorSpec                | v20200930/storage | SnapshotOperatorSpec                | Identical |                                                             |
-| v1api20200930/storage | SnapshotSku                         | v20200930/storage | SnapshotSku                         | Identical |                                                             |
-| v1api20200930/storage | SnapshotSku_STATUS                  | v20200930/storage | SnapshotSku_STATUS                  | Identical |                                                             |
-| v1api20200930/storage | Snapshot_STATUS                     | v20200930/storage | Snapshot_STATUS                     | Modified  |                                                             |
-| v1api20200930/storage | Snapshot_Spec                       | v20200930/storage | Snapshot_Spec                       | Modified  |                                                             |
-| v1api20200930/storage | SourceVault                         | v20200930/storage | SourceVault                         | Identical |                                                             |
-| v1api20200930/storage | SourceVault_STATUS                  | v20200930/storage | SourceVault_STATUS                  | Identical |                                                             |
+| v1api20200930/storage               | v20200930/storage                   | Status    | Notes |
+|:------------------------------------|:------------------------------------|:---------:|:------|
+| CreationData                        | CreationData                        | Identical |       |
+| CreationData_STATUS                 | CreationData_STATUS                 | Identical |       |
+| DiskOperatorSpec                    | DiskOperatorSpec                    | Identical |       |
+| DiskSku                             | DiskSku                             | Identical |       |
+| DiskSku_STATUS                      | DiskSku_STATUS                      | Identical |       |
+| Disk_STATUS                         | Disk_STATUS                         | Modified  |       |
+| Disk_Spec                           | Disk_Spec                           | Modified  |       |
+| Encryption                          | Encryption                          | Identical |       |
+| EncryptionSettingsCollection        | EncryptionSettingsCollection        | Identical |       |
+| EncryptionSettingsCollection_STATUS | EncryptionSettingsCollection_STATUS | Identical |       |
+| EncryptionSettingsElement           | EncryptionSettingsElement           | Identical |       |
+| EncryptionSettingsElement_STATUS    | EncryptionSettingsElement_STATUS    | Identical |       |
+| Encryption_STATUS                   | Encryption_STATUS                   | Identical |       |
+| ExtendedLocation                    | ExtendedLocation                    | Identical |       |
+| ExtendedLocation_STATUS             | ExtendedLocation_STATUS             | Identical |       |
+| ImageDiskReference                  | ImageDiskReference                  | Identical |       |
+| ImageDiskReference_STATUS           | ImageDiskReference_STATUS           | Identical |       |
+| KeyVaultAndKeyReference             | KeyVaultAndKeyReference             | Identical |       |
+| KeyVaultAndKeyReference_STATUS      | KeyVaultAndKeyReference_STATUS      | Identical |       |
+| KeyVaultAndSecretReference          | KeyVaultAndSecretReference          | Identical |       |
+| KeyVaultAndSecretReference_STATUS   | KeyVaultAndSecretReference_STATUS   | Identical |       |
+| PurchasePlan                        | PurchasePlan                        | Identical |       |
+| PurchasePlan_STATUS                 | PurchasePlan_STATUS                 | Identical |       |
+| ShareInfoElement_STATUS             | ShareInfoElement_STATUS             | Identical |       |
+| SnapshotOperatorSpec                | SnapshotOperatorSpec                | Identical |       |
+| SnapshotSku                         | SnapshotSku                         | Identical |       |
+| SnapshotSku_STATUS                  | SnapshotSku_STATUS                  | Identical |       |
+| Snapshot_STATUS                     | Snapshot_STATUS                     | Modified  |       |
+| Snapshot_Spec                       | Snapshot_Spec                       | Modified  |       |
+| SourceVault                         | SourceVault                         | Identical |       |
+| SourceVault_STATUS                  | SourceVault_STATUS                  | Identical |       |
 
 ### Disk_STATUS
 

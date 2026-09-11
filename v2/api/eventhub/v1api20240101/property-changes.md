@@ -11,58 +11,58 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                         | Next Version          | Next Type                            | Status    | Notes |
-|:----------------|:-------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
-| v1api20240101   | Namespace                            | v1api20240101/storage | Namespace                            | Identical |       |
-| v1api20240101   | NamespacesAuthorizationRule          | v1api20240101/storage | NamespacesAuthorizationRule          | Identical |       |
-| v1api20240101   | NamespacesEventhub                   | v1api20240101/storage | NamespacesEventhub                   | Identical |       |
-| v1api20240101   | NamespacesEventhubsAuthorizationRule | v1api20240101/storage | NamespacesEventhubsAuthorizationRule | Identical |       |
-| v1api20240101   | NamespacesEventhubsConsumerGroup     | v1api20240101/storage | NamespacesEventhubsConsumerGroup     | Identical |       |
+| v1api20240101                        | v1api20240101/storage                | Status    | Notes |
+|:-------------------------------------|:-------------------------------------|:---------:|:------|
+| Namespace                            | Namespace                            | Identical |       |
+| NamespacesAuthorizationRule          | NamespacesAuthorizationRule          | Identical |       |
+| NamespacesEventhub                   | NamespacesEventhub                   | Identical |       |
+| NamespacesEventhubsAuthorizationRule | NamespacesEventhubsAuthorizationRule | Identical |       |
+| NamespacesEventhubsConsumerGroup     | NamespacesEventhubsConsumerGroup     | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                        | Next Version          | Next Type                                           | Status   | Notes |
-|:----------------|:----------------------------------------------------|:----------------------|:----------------------------------------------------|:--------:|:------|
-| v1api20240101   | CaptureDescription                                  | v1api20240101/storage | CaptureDescription                                  | Modified |       |
-| v1api20240101   | CaptureDescription_STATUS                           | v1api20240101/storage | CaptureDescription_STATUS                           | Modified |       |
-| v1api20240101   | CaptureIdentity                                     | v1api20240101/storage | CaptureIdentity                                     | Modified |       |
-| v1api20240101   | CaptureIdentity_STATUS                              | v1api20240101/storage | CaptureIdentity_STATUS                              | Modified |       |
-| v1api20240101   | Destination                                         | v1api20240101/storage | Destination                                         | Modified |       |
-| v1api20240101   | Destination_STATUS                                  | v1api20240101/storage | Destination_STATUS                                  | Extended |       |
-| v1api20240101   | Encryption                                          | v1api20240101/storage | Encryption                                          | Modified |       |
-| v1api20240101   | Encryption_STATUS                                   | v1api20240101/storage | Encryption_STATUS                                   | Modified |       |
-| v1api20240101   | Identity                                            | v1api20240101/storage | Identity                                            | Modified |       |
-| v1api20240101   | Identity_STATUS                                     | v1api20240101/storage | Identity_STATUS                                     | Modified |       |
-| v1api20240101   | KeyVaultProperties                                  | v1api20240101/storage | KeyVaultProperties                                  | Extended |       |
-| v1api20240101   | KeyVaultProperties_STATUS                           | v1api20240101/storage | KeyVaultProperties_STATUS                           | Extended |       |
-| v1api20240101   | NamespaceOperatorSecrets                            | v1api20240101/storage | NamespaceOperatorSecrets                            | Extended |       |
-| v1api20240101   | NamespaceOperatorSpec                               | v1api20240101/storage | NamespaceOperatorSpec                               | Extended |       |
-| v1api20240101   | Namespace_STATUS                                    | v1api20240101/storage | Namespace_STATUS                                    | Modified |       |
-| v1api20240101   | Namespace_Spec                                      | v1api20240101/storage | Namespace_Spec                                      | Modified |       |
-| v1api20240101   | NamespacesAuthorizationRuleOperatorSecrets          | v1api20240101/storage | NamespacesAuthorizationRuleOperatorSecrets          | Extended |       |
-| v1api20240101   | NamespacesAuthorizationRuleOperatorSpec             | v1api20240101/storage | NamespacesAuthorizationRuleOperatorSpec             | Extended |       |
-| v1api20240101   | NamespacesAuthorizationRule_STATUS                  | v1api20240101/storage | NamespacesAuthorizationRule_STATUS                  | Modified |       |
-| v1api20240101   | NamespacesAuthorizationRule_Spec                    | v1api20240101/storage | NamespacesAuthorizationRule_Spec                    | Modified |       |
-| v1api20240101   | NamespacesEventhubOperatorSpec                      | v1api20240101/storage | NamespacesEventhubOperatorSpec                      | Extended |       |
-| v1api20240101   | NamespacesEventhub_STATUS                           | v1api20240101/storage | NamespacesEventhub_STATUS                           | Modified |       |
-| v1api20240101   | NamespacesEventhub_Spec                             | v1api20240101/storage | NamespacesEventhub_Spec                             | Modified |       |
-| v1api20240101   | NamespacesEventhubsAuthorizationRuleOperatorSecrets | v1api20240101/storage | NamespacesEventhubsAuthorizationRuleOperatorSecrets | Extended |       |
-| v1api20240101   | NamespacesEventhubsAuthorizationRuleOperatorSpec    | v1api20240101/storage | NamespacesEventhubsAuthorizationRuleOperatorSpec    | Extended |       |
-| v1api20240101   | NamespacesEventhubsAuthorizationRule_STATUS         | v1api20240101/storage | NamespacesEventhubsAuthorizationRule_STATUS         | Modified |       |
-| v1api20240101   | NamespacesEventhubsAuthorizationRule_Spec           | v1api20240101/storage | NamespacesEventhubsAuthorizationRule_Spec           | Modified |       |
-| v1api20240101   | NamespacesEventhubsConsumerGroupOperatorSpec        | v1api20240101/storage | NamespacesEventhubsConsumerGroupOperatorSpec        | Extended |       |
-| v1api20240101   | NamespacesEventhubsConsumerGroup_STATUS             | v1api20240101/storage | NamespacesEventhubsConsumerGroup_STATUS             | Extended |       |
-| v1api20240101   | NamespacesEventhubsConsumerGroup_Spec               | v1api20240101/storage | NamespacesEventhubsConsumerGroup_Spec               | Modified |       |
-| v1api20240101   | PrivateEndpointConnection_STATUS                    | v1api20240101/storage | PrivateEndpointConnection_STATUS                    | Extended |       |
-| v1api20240101   | RetentionDescription                                | v1api20240101/storage | RetentionDescription                                | Modified |       |
-| v1api20240101   | RetentionDescription_STATUS                         | v1api20240101/storage | RetentionDescription_STATUS                         | Modified |       |
-| v1api20240101   | Sku                                                 | v1api20240101/storage | Sku                                                 | Modified |       |
-| v1api20240101   | Sku_STATUS                                          | v1api20240101/storage | Sku_STATUS                                          | Modified |       |
-| v1api20240101   | SystemData_STATUS                                   | v1api20240101/storage | SystemData_STATUS                                   | Modified |       |
-| v1api20240101   | UserAssignedIdentityDetails                         | v1api20240101/storage | UserAssignedIdentityDetails                         | Extended |       |
-| v1api20240101   | UserAssignedIdentityProperties                      | v1api20240101/storage | UserAssignedIdentityProperties                      | Extended |       |
-| v1api20240101   | UserAssignedIdentityProperties_STATUS               | v1api20240101/storage | UserAssignedIdentityProperties_STATUS               | Extended |       |
-| v1api20240101   | UserAssignedIdentity_STATUS                         | v1api20240101/storage | UserAssignedIdentity_STATUS                         | Extended |       |
+| v1api20240101                                       | v1api20240101/storage                               | Status   | Notes |
+|:----------------------------------------------------|:----------------------------------------------------|:--------:|:------|
+| CaptureDescription                                  | CaptureDescription                                  | Modified |       |
+| CaptureDescription_STATUS                           | CaptureDescription_STATUS                           | Modified |       |
+| CaptureIdentity                                     | CaptureIdentity                                     | Modified |       |
+| CaptureIdentity_STATUS                              | CaptureIdentity_STATUS                              | Modified |       |
+| Destination                                         | Destination                                         | Modified |       |
+| Destination_STATUS                                  | Destination_STATUS                                  | Extended |       |
+| Encryption                                          | Encryption                                          | Modified |       |
+| Encryption_STATUS                                   | Encryption_STATUS                                   | Modified |       |
+| Identity                                            | Identity                                            | Modified |       |
+| Identity_STATUS                                     | Identity_STATUS                                     | Modified |       |
+| KeyVaultProperties                                  | KeyVaultProperties                                  | Extended |       |
+| KeyVaultProperties_STATUS                           | KeyVaultProperties_STATUS                           | Extended |       |
+| NamespaceOperatorSecrets                            | NamespaceOperatorSecrets                            | Extended |       |
+| NamespaceOperatorSpec                               | NamespaceOperatorSpec                               | Extended |       |
+| Namespace_STATUS                                    | Namespace_STATUS                                    | Modified |       |
+| Namespace_Spec                                      | Namespace_Spec                                      | Modified |       |
+| NamespacesAuthorizationRuleOperatorSecrets          | NamespacesAuthorizationRuleOperatorSecrets          | Extended |       |
+| NamespacesAuthorizationRuleOperatorSpec             | NamespacesAuthorizationRuleOperatorSpec             | Extended |       |
+| NamespacesAuthorizationRule_STATUS                  | NamespacesAuthorizationRule_STATUS                  | Modified |       |
+| NamespacesAuthorizationRule_Spec                    | NamespacesAuthorizationRule_Spec                    | Modified |       |
+| NamespacesEventhubOperatorSpec                      | NamespacesEventhubOperatorSpec                      | Extended |       |
+| NamespacesEventhub_STATUS                           | NamespacesEventhub_STATUS                           | Modified |       |
+| NamespacesEventhub_Spec                             | NamespacesEventhub_Spec                             | Modified |       |
+| NamespacesEventhubsAuthorizationRuleOperatorSecrets | NamespacesEventhubsAuthorizationRuleOperatorSecrets | Extended |       |
+| NamespacesEventhubsAuthorizationRuleOperatorSpec    | NamespacesEventhubsAuthorizationRuleOperatorSpec    | Extended |       |
+| NamespacesEventhubsAuthorizationRule_STATUS         | NamespacesEventhubsAuthorizationRule_STATUS         | Modified |       |
+| NamespacesEventhubsAuthorizationRule_Spec           | NamespacesEventhubsAuthorizationRule_Spec           | Modified |       |
+| NamespacesEventhubsConsumerGroupOperatorSpec        | NamespacesEventhubsConsumerGroupOperatorSpec        | Extended |       |
+| NamespacesEventhubsConsumerGroup_STATUS             | NamespacesEventhubsConsumerGroup_STATUS             | Extended |       |
+| NamespacesEventhubsConsumerGroup_Spec               | NamespacesEventhubsConsumerGroup_Spec               | Modified |       |
+| PrivateEndpointConnection_STATUS                    | PrivateEndpointConnection_STATUS                    | Extended |       |
+| RetentionDescription                                | RetentionDescription                                | Modified |       |
+| RetentionDescription_STATUS                         | RetentionDescription_STATUS                         | Modified |       |
+| Sku                                                 | Sku                                                 | Modified |       |
+| Sku_STATUS                                          | Sku_STATUS                                          | Modified |       |
+| SystemData_STATUS                                   | SystemData_STATUS                                   | Modified |       |
+| UserAssignedIdentityDetails                         | UserAssignedIdentityDetails                         | Extended |       |
+| UserAssignedIdentityProperties                      | UserAssignedIdentityProperties                      | Extended |       |
+| UserAssignedIdentityProperties_STATUS               | UserAssignedIdentityProperties_STATUS               | Extended |       |
+| UserAssignedIdentity_STATUS                         | UserAssignedIdentity_STATUS                         | Extended |       |
 
 ### CaptureDescription
 

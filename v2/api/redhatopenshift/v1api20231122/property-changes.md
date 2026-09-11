@@ -11,39 +11,39 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type     | Next Version          | Next Type        | Status    | Notes |
-|:----------------|:-----------------|:----------------------|:-----------------|:---------:|:------|
-| v1api20231122   | OpenShiftCluster | v1api20231122/storage | OpenShiftCluster | Identical |       |
+| v1api20231122    | v1api20231122/storage | Status    | Notes |
+|:-----------------|:----------------------|:---------:|:------|
+| OpenShiftCluster | OpenShiftCluster      | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                    | Next Version          | Next Type                       | Status   | Notes |
-|:----------------|:--------------------------------|:----------------------|:--------------------------------|:--------:|:------|
-| v1api20231122   | APIServerProfile                | v1api20231122/storage | APIServerProfile                | Modified |       |
-| v1api20231122   | APIServerProfile_STATUS         | v1api20231122/storage | APIServerProfile_STATUS         | Modified |       |
-| v1api20231122   | ClusterProfile                  | v1api20231122/storage | ClusterProfile                  | Modified |       |
-| v1api20231122   | ClusterProfile_STATUS           | v1api20231122/storage | ClusterProfile_STATUS           | Modified |       |
-| v1api20231122   | ConsoleProfile_STATUS           | v1api20231122/storage | ConsoleProfile_STATUS           | Extended |       |
-| v1api20231122   | EffectiveOutboundIP_STATUS      | v1api20231122/storage | EffectiveOutboundIP_STATUS      | Extended |       |
-| v1api20231122   | IngressProfile                  | v1api20231122/storage | IngressProfile                  | Modified |       |
-| v1api20231122   | IngressProfile_STATUS           | v1api20231122/storage | IngressProfile_STATUS           | Modified |       |
-| v1api20231122   | LoadBalancerProfile             | v1api20231122/storage | LoadBalancerProfile             | Extended |       |
-| v1api20231122   | LoadBalancerProfile_STATUS      | v1api20231122/storage | LoadBalancerProfile_STATUS      | Extended |       |
-| v1api20231122   | ManagedOutboundIPs              | v1api20231122/storage | ManagedOutboundIPs              | Extended |       |
-| v1api20231122   | ManagedOutboundIPs_STATUS       | v1api20231122/storage | ManagedOutboundIPs_STATUS       | Extended |       |
-| v1api20231122   | MasterProfile                   | v1api20231122/storage | MasterProfile                   | Modified |       |
-| v1api20231122   | MasterProfile_STATUS            | v1api20231122/storage | MasterProfile_STATUS            | Modified |       |
-| v1api20231122   | NetworkProfile                  | v1api20231122/storage | NetworkProfile                  | Modified |       |
-| v1api20231122   | NetworkProfile_STATUS           | v1api20231122/storage | NetworkProfile_STATUS           | Modified |       |
-| v1api20231122   | OpenShiftClusterOperatorSecrets | v1api20231122/storage | OpenShiftClusterOperatorSecrets | Extended |       |
-| v1api20231122   | OpenShiftClusterOperatorSpec    | v1api20231122/storage | OpenShiftClusterOperatorSpec    | Extended |       |
-| v1api20231122   | OpenShiftCluster_STATUS         | v1api20231122/storage | OpenShiftCluster_STATUS         | Modified |       |
-| v1api20231122   | OpenShiftCluster_Spec           | v1api20231122/storage | OpenShiftCluster_Spec           | Extended |       |
-| v1api20231122   | ServicePrincipalProfile         | v1api20231122/storage | ServicePrincipalProfile         | Extended |       |
-| v1api20231122   | ServicePrincipalProfile_STATUS  | v1api20231122/storage | ServicePrincipalProfile_STATUS  | Extended |       |
-| v1api20231122   | SystemData_STATUS               | v1api20231122/storage | SystemData_STATUS               | Modified |       |
-| v1api20231122   | WorkerProfile                   | v1api20231122/storage | WorkerProfile                   | Modified |       |
-| v1api20231122   | WorkerProfile_STATUS            | v1api20231122/storage | WorkerProfile_STATUS            | Modified |       |
+| v1api20231122                   | v1api20231122/storage           | Status   | Notes |
+|:--------------------------------|:--------------------------------|:--------:|:------|
+| APIServerProfile                | APIServerProfile                | Modified |       |
+| APIServerProfile_STATUS         | APIServerProfile_STATUS         | Modified |       |
+| ClusterProfile                  | ClusterProfile                  | Modified |       |
+| ClusterProfile_STATUS           | ClusterProfile_STATUS           | Modified |       |
+| ConsoleProfile_STATUS           | ConsoleProfile_STATUS           | Extended |       |
+| EffectiveOutboundIP_STATUS      | EffectiveOutboundIP_STATUS      | Extended |       |
+| IngressProfile                  | IngressProfile                  | Modified |       |
+| IngressProfile_STATUS           | IngressProfile_STATUS           | Modified |       |
+| LoadBalancerProfile             | LoadBalancerProfile             | Extended |       |
+| LoadBalancerProfile_STATUS      | LoadBalancerProfile_STATUS      | Extended |       |
+| ManagedOutboundIPs              | ManagedOutboundIPs              | Extended |       |
+| ManagedOutboundIPs_STATUS       | ManagedOutboundIPs_STATUS       | Extended |       |
+| MasterProfile                   | MasterProfile                   | Modified |       |
+| MasterProfile_STATUS            | MasterProfile_STATUS            | Modified |       |
+| NetworkProfile                  | NetworkProfile                  | Modified |       |
+| NetworkProfile_STATUS           | NetworkProfile_STATUS           | Modified |       |
+| OpenShiftClusterOperatorSecrets | OpenShiftClusterOperatorSecrets | Extended |       |
+| OpenShiftClusterOperatorSpec    | OpenShiftClusterOperatorSpec    | Extended |       |
+| OpenShiftCluster_STATUS         | OpenShiftCluster_STATUS         | Modified |       |
+| OpenShiftCluster_Spec           | OpenShiftCluster_Spec           | Extended |       |
+| ServicePrincipalProfile         | ServicePrincipalProfile         | Extended |       |
+| ServicePrincipalProfile_STATUS  | ServicePrincipalProfile_STATUS  | Extended |       |
+| SystemData_STATUS               | SystemData_STATUS               | Modified |       |
+| WorkerProfile                   | WorkerProfile                   | Modified |       |
+| WorkerProfile_STATUS            | WorkerProfile_STATUS            | Modified |       |
 
 ### APIServerProfile
 

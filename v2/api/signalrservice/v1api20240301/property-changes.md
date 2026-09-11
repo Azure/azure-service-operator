@@ -11,73 +11,73 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type      | Next Version          | Next Type         | Status    | Notes |
-|:----------------|:------------------|:----------------------|:------------------|:---------:|:------|
-| v1api20240301   | CustomCertificate | v1api20240301/storage | CustomCertificate | Identical |       |
-| v1api20240301   | CustomDomain      | v1api20240301/storage | CustomDomain      | Identical |       |
-| v1api20240301   | Replica           | v1api20240301/storage | Replica           | Identical |       |
-| v1api20240301   | SignalR           | v1api20240301/storage | SignalR           | Identical |       |
+| v1api20240301     | v1api20240301/storage | Status    | Notes |
+|:------------------|:----------------------|:---------:|:------|
+| CustomCertificate | CustomCertificate     | Identical |       |
+| CustomDomain      | CustomDomain          | Identical |       |
+| Replica           | Replica               | Identical |       |
+| SignalR           | SignalR               | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                                 | Next Version          | Next Type                                                    | Status   | Notes |
-|:----------------|:-------------------------------------------------------------|:----------------------|:-------------------------------------------------------------|:--------:|:------|
-| v1api20240301   | CustomCertificateOperatorSpec                                | v1api20240301/storage | CustomCertificateOperatorSpec                                | Extended |       |
-| v1api20240301   | CustomCertificate_STATUS                                     | v1api20240301/storage | CustomCertificate_STATUS                                     | Modified |       |
-| v1api20240301   | CustomCertificate_Spec                                       | v1api20240301/storage | CustomCertificate_Spec                                       | Extended |       |
-| v1api20240301   | CustomDomainOperatorSpec                                     | v1api20240301/storage | CustomDomainOperatorSpec                                     | Extended |       |
-| v1api20240301   | CustomDomain_STATUS                                          | v1api20240301/storage | CustomDomain_STATUS                                          | Modified |       |
-| v1api20240301   | CustomDomain_Spec                                            | v1api20240301/storage | CustomDomain_Spec                                            | Extended |       |
-| v1api20240301   | IPRule                                                       | v1api20240301/storage | IPRule                                                       | Modified |       |
-| v1api20240301   | IPRule_STATUS                                                | v1api20240301/storage | IPRule_STATUS                                                | Modified |       |
-| v1api20240301   | LiveTraceCategory                                            | v1api20240301/storage | LiveTraceCategory                                            | Extended |       |
-| v1api20240301   | LiveTraceCategory_STATUS                                     | v1api20240301/storage | LiveTraceCategory_STATUS                                     | Extended |       |
-| v1api20240301   | LiveTraceConfiguration                                       | v1api20240301/storage | LiveTraceConfiguration                                       | Extended |       |
-| v1api20240301   | LiveTraceConfiguration_STATUS                                | v1api20240301/storage | LiveTraceConfiguration_STATUS                                | Extended |       |
-| v1api20240301   | ManagedIdentity                                              | v1api20240301/storage | ManagedIdentity                                              | Modified |       |
-| v1api20240301   | ManagedIdentitySettings                                      | v1api20240301/storage | ManagedIdentitySettings                                      | Extended |       |
-| v1api20240301   | ManagedIdentitySettings_STATUS                               | v1api20240301/storage | ManagedIdentitySettings_STATUS                               | Extended |       |
-| v1api20240301   | ManagedIdentity_STATUS                                       | v1api20240301/storage | ManagedIdentity_STATUS                                       | Modified |       |
-| v1api20240301   | NetworkACL                                                   | v1api20240301/storage | NetworkACL                                                   | Modified |       |
-| v1api20240301   | NetworkACL_STATUS                                            | v1api20240301/storage | NetworkACL_STATUS                                            | Modified |       |
-| v1api20240301   | PrivateEndpointACL                                           | v1api20240301/storage | PrivateEndpointACL                                           | Modified |       |
-| v1api20240301   | PrivateEndpointACL_STATUS                                    | v1api20240301/storage | PrivateEndpointACL_STATUS                                    | Modified |       |
-| v1api20240301   | PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | v1api20240301/storage | PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | Extended |       |
-| v1api20240301   | ReplicaOperatorSpec                                          | v1api20240301/storage | ReplicaOperatorSpec                                          | Extended |       |
-| v1api20240301   | Replica_STATUS                                               | v1api20240301/storage | Replica_STATUS                                               | Modified |       |
-| v1api20240301   | Replica_Spec                                                 | v1api20240301/storage | Replica_Spec                                                 | Modified |       |
-| v1api20240301   | ResourceLogCategory                                          | v1api20240301/storage | ResourceLogCategory                                          | Extended |       |
-| v1api20240301   | ResourceLogCategory_STATUS                                   | v1api20240301/storage | ResourceLogCategory_STATUS                                   | Extended |       |
-| v1api20240301   | ResourceLogConfiguration                                     | v1api20240301/storage | ResourceLogConfiguration                                     | Extended |       |
-| v1api20240301   | ResourceLogConfiguration_STATUS                              | v1api20240301/storage | ResourceLogConfiguration_STATUS                              | Extended |       |
-| v1api20240301   | ResourceReference                                            | v1api20240301/storage | ResourceReference                                            | Extended |       |
-| v1api20240301   | ResourceReference_STATUS                                     | v1api20240301/storage | ResourceReference_STATUS                                     | Extended |       |
-| v1api20240301   | ResourceSku                                                  | v1api20240301/storage | ResourceSku                                                  | Modified |       |
-| v1api20240301   | ResourceSku_STATUS                                           | v1api20240301/storage | ResourceSku_STATUS                                           | Modified |       |
-| v1api20240301   | ServerlessSettings                                           | v1api20240301/storage | ServerlessSettings                                           | Modified |       |
-| v1api20240301   | ServerlessSettings_STATUS                                    | v1api20240301/storage | ServerlessSettings_STATUS                                    | Extended |       |
-| v1api20240301   | ServerlessUpstreamSettings                                   | v1api20240301/storage | ServerlessUpstreamSettings                                   | Extended |       |
-| v1api20240301   | ServerlessUpstreamSettings_STATUS                            | v1api20240301/storage | ServerlessUpstreamSettings_STATUS                            | Extended |       |
-| v1api20240301   | SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | v1api20240301/storage | SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | Extended |       |
-| v1api20240301   | SignalRCorsSettings                                          | v1api20240301/storage | SignalRCorsSettings                                          | Extended |       |
-| v1api20240301   | SignalRCorsSettings_STATUS                                   | v1api20240301/storage | SignalRCorsSettings_STATUS                                   | Extended |       |
-| v1api20240301   | SignalRFeature                                               | v1api20240301/storage | SignalRFeature                                               | Modified |       |
-| v1api20240301   | SignalRFeature_STATUS                                        | v1api20240301/storage | SignalRFeature_STATUS                                        | Modified |       |
-| v1api20240301   | SignalRNetworkACLs                                           | v1api20240301/storage | SignalRNetworkACLs                                           | Modified |       |
-| v1api20240301   | SignalRNetworkACLs_STATUS                                    | v1api20240301/storage | SignalRNetworkACLs_STATUS                                    | Modified |       |
-| v1api20240301   | SignalROperatorSecrets                                       | v1api20240301/storage | SignalROperatorSecrets                                       | Extended |       |
-| v1api20240301   | SignalROperatorSpec                                          | v1api20240301/storage | SignalROperatorSpec                                          | Extended |       |
-| v1api20240301   | SignalRTlsSettings                                           | v1api20240301/storage | SignalRTlsSettings                                           | Extended |       |
-| v1api20240301   | SignalRTlsSettings_STATUS                                    | v1api20240301/storage | SignalRTlsSettings_STATUS                                    | Extended |       |
-| v1api20240301   | SignalR_STATUS                                               | v1api20240301/storage | SignalR_STATUS                                               | Modified |       |
-| v1api20240301   | SignalR_Spec                                                 | v1api20240301/storage | SignalR_Spec                                                 | Modified |       |
-| v1api20240301   | SystemData_STATUS                                            | v1api20240301/storage | SystemData_STATUS                                            | Modified |       |
-| v1api20240301   | UpstreamAuthSettings                                         | v1api20240301/storage | UpstreamAuthSettings                                         | Modified |       |
-| v1api20240301   | UpstreamAuthSettings_STATUS                                  | v1api20240301/storage | UpstreamAuthSettings_STATUS                                  | Modified |       |
-| v1api20240301   | UpstreamTemplate                                             | v1api20240301/storage | UpstreamTemplate                                             | Extended |       |
-| v1api20240301   | UpstreamTemplate_STATUS                                      | v1api20240301/storage | UpstreamTemplate_STATUS                                      | Extended |       |
-| v1api20240301   | UserAssignedIdentityDetails                                  | v1api20240301/storage | UserAssignedIdentityDetails                                  | Extended |       |
-| v1api20240301   | UserAssignedIdentityProperty_STATUS                          | v1api20240301/storage | UserAssignedIdentityProperty_STATUS                          | Extended |       |
+| v1api20240301                                                | v1api20240301/storage                                        | Status   | Notes |
+|:-------------------------------------------------------------|:-------------------------------------------------------------|:--------:|:------|
+| CustomCertificateOperatorSpec                                | CustomCertificateOperatorSpec                                | Extended |       |
+| CustomCertificate_STATUS                                     | CustomCertificate_STATUS                                     | Modified |       |
+| CustomCertificate_Spec                                       | CustomCertificate_Spec                                       | Extended |       |
+| CustomDomainOperatorSpec                                     | CustomDomainOperatorSpec                                     | Extended |       |
+| CustomDomain_STATUS                                          | CustomDomain_STATUS                                          | Modified |       |
+| CustomDomain_Spec                                            | CustomDomain_Spec                                            | Extended |       |
+| IPRule                                                       | IPRule                                                       | Modified |       |
+| IPRule_STATUS                                                | IPRule_STATUS                                                | Modified |       |
+| LiveTraceCategory                                            | LiveTraceCategory                                            | Extended |       |
+| LiveTraceCategory_STATUS                                     | LiveTraceCategory_STATUS                                     | Extended |       |
+| LiveTraceConfiguration                                       | LiveTraceConfiguration                                       | Extended |       |
+| LiveTraceConfiguration_STATUS                                | LiveTraceConfiguration_STATUS                                | Extended |       |
+| ManagedIdentity                                              | ManagedIdentity                                              | Modified |       |
+| ManagedIdentitySettings                                      | ManagedIdentitySettings                                      | Extended |       |
+| ManagedIdentitySettings_STATUS                               | ManagedIdentitySettings_STATUS                               | Extended |       |
+| ManagedIdentity_STATUS                                       | ManagedIdentity_STATUS                                       | Modified |       |
+| NetworkACL                                                   | NetworkACL                                                   | Modified |       |
+| NetworkACL_STATUS                                            | NetworkACL_STATUS                                            | Modified |       |
+| PrivateEndpointACL                                           | PrivateEndpointACL                                           | Modified |       |
+| PrivateEndpointACL_STATUS                                    | PrivateEndpointACL_STATUS                                    | Modified |       |
+| PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | Extended |       |
+| ReplicaOperatorSpec                                          | ReplicaOperatorSpec                                          | Extended |       |
+| Replica_STATUS                                               | Replica_STATUS                                               | Modified |       |
+| Replica_Spec                                                 | Replica_Spec                                                 | Modified |       |
+| ResourceLogCategory                                          | ResourceLogCategory                                          | Extended |       |
+| ResourceLogCategory_STATUS                                   | ResourceLogCategory_STATUS                                   | Extended |       |
+| ResourceLogConfiguration                                     | ResourceLogConfiguration                                     | Extended |       |
+| ResourceLogConfiguration_STATUS                              | ResourceLogConfiguration_STATUS                              | Extended |       |
+| ResourceReference                                            | ResourceReference                                            | Extended |       |
+| ResourceReference_STATUS                                     | ResourceReference_STATUS                                     | Extended |       |
+| ResourceSku                                                  | ResourceSku                                                  | Modified |       |
+| ResourceSku_STATUS                                           | ResourceSku_STATUS                                           | Modified |       |
+| ServerlessSettings                                           | ServerlessSettings                                           | Modified |       |
+| ServerlessSettings_STATUS                                    | ServerlessSettings_STATUS                                    | Extended |       |
+| ServerlessUpstreamSettings                                   | ServerlessUpstreamSettings                                   | Extended |       |
+| ServerlessUpstreamSettings_STATUS                            | ServerlessUpstreamSettings_STATUS                            | Extended |       |
+| SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | Extended |       |
+| SignalRCorsSettings                                          | SignalRCorsSettings                                          | Extended |       |
+| SignalRCorsSettings_STATUS                                   | SignalRCorsSettings_STATUS                                   | Extended |       |
+| SignalRFeature                                               | SignalRFeature                                               | Modified |       |
+| SignalRFeature_STATUS                                        | SignalRFeature_STATUS                                        | Modified |       |
+| SignalRNetworkACLs                                           | SignalRNetworkACLs                                           | Modified |       |
+| SignalRNetworkACLs_STATUS                                    | SignalRNetworkACLs_STATUS                                    | Modified |       |
+| SignalROperatorSecrets                                       | SignalROperatorSecrets                                       | Extended |       |
+| SignalROperatorSpec                                          | SignalROperatorSpec                                          | Extended |       |
+| SignalRTlsSettings                                           | SignalRTlsSettings                                           | Extended |       |
+| SignalRTlsSettings_STATUS                                    | SignalRTlsSettings_STATUS                                    | Extended |       |
+| SignalR_STATUS                                               | SignalR_STATUS                                               | Modified |       |
+| SignalR_Spec                                                 | SignalR_Spec                                                 | Modified |       |
+| SystemData_STATUS                                            | SystemData_STATUS                                            | Modified |       |
+| UpstreamAuthSettings                                         | UpstreamAuthSettings                                         | Modified |       |
+| UpstreamAuthSettings_STATUS                                  | UpstreamAuthSettings_STATUS                                  | Modified |       |
+| UpstreamTemplate                                             | UpstreamTemplate                                             | Extended |       |
+| UpstreamTemplate_STATUS                                      | UpstreamTemplate_STATUS                                      | Extended |       |
+| UserAssignedIdentityDetails                                  | UserAssignedIdentityDetails                                  | Extended |       |
+| UserAssignedIdentityProperty_STATUS                          | UserAssignedIdentityProperty_STATUS                          | Extended |       |
 
 ### CustomCertificateOperatorSpec
 

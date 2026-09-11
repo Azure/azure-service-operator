@@ -11,142 +11,142 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type       | Next Version      | Next Type          | Status    | Notes |
-|:----------------|:-------------------|:------------------|:-------------------|:---------:|:------|
-| v20250501       | ServerFarm         | v20250501/storage | ServerFarm         | Identical |       |
-| v20250501       | Site               | v20250501/storage | Site               | Identical |       |
-| v20250501       | SitesSourcecontrol | v20250501/storage | SitesSourcecontrol | Identical |       |
+| v20250501          | v20250501/storage  | Status    | Notes |
+|:-------------------|:-------------------|:---------:|:------|
+| ServerFarm         | ServerFarm         | Identical |       |
+| Site               | Site               | Identical |       |
+| SitesSourcecontrol | SitesSourcecontrol | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                    | Next Version      | Next Type                                       | Status   | Notes |
-|:----------------|:------------------------------------------------|:------------------|:------------------------------------------------|:--------:|:------|
-| v20250501       | ApiDefinitionInfo                               | v20250501/storage | ApiDefinitionInfo                               | Extended |       |
-| v20250501       | ApiDefinitionInfo_STATUS                        | v20250501/storage | ApiDefinitionInfo_STATUS                        | Extended |       |
-| v20250501       | ApiManagementConfig                             | v20250501/storage | ApiManagementConfig                             | Extended |       |
-| v20250501       | ApiManagementConfig_STATUS                      | v20250501/storage | ApiManagementConfig_STATUS                      | Extended |       |
-| v20250501       | AutoHealActions                                 | v20250501/storage | AutoHealActions                                 | Modified |       |
-| v20250501       | AutoHealActions_STATUS                          | v20250501/storage | AutoHealActions_STATUS                          | Modified |       |
-| v20250501       | AutoHealCustomAction                            | v20250501/storage | AutoHealCustomAction                            | Extended |       |
-| v20250501       | AutoHealCustomAction_STATUS                     | v20250501/storage | AutoHealCustomAction_STATUS                     | Extended |       |
-| v20250501       | AutoHealRules                                   | v20250501/storage | AutoHealRules                                   | Extended |       |
-| v20250501       | AutoHealRules_STATUS                            | v20250501/storage | AutoHealRules_STATUS                            | Extended |       |
-| v20250501       | AutoHealTriggers                                | v20250501/storage | AutoHealTriggers                                | Extended |       |
-| v20250501       | AutoHealTriggers_STATUS                         | v20250501/storage | AutoHealTriggers_STATUS                         | Extended |       |
-| v20250501       | AzureStorageInfoValue                           | v20250501/storage | AzureStorageInfoValue                           | Modified |       |
-| v20250501       | AzureStorageInfoValue_STATUS                    | v20250501/storage | AzureStorageInfoValue_STATUS                    | Modified |       |
-| v20250501       | Capability                                      | v20250501/storage | Capability                                      | Extended |       |
-| v20250501       | Capability_STATUS                               | v20250501/storage | Capability_STATUS                               | Extended |       |
-| v20250501       | CloningInfo                                     | v20250501/storage | CloningInfo                                     | Modified |       |
-| v20250501       | CloningInfo_STATUS                              | v20250501/storage | CloningInfo_STATUS                              | Extended |       |
-| v20250501       | ConnStringInfo                                  | v20250501/storage | ConnStringInfo                                  | Modified |       |
-| v20250501       | ConnStringInfo_STATUS                           | v20250501/storage | ConnStringInfo_STATUS                           | Modified |       |
-| v20250501       | CorsSettings                                    | v20250501/storage | CorsSettings                                    | Extended |       |
-| v20250501       | CorsSettings_STATUS                             | v20250501/storage | CorsSettings_STATUS                             | Extended |       |
-| v20250501       | DaprConfig                                      | v20250501/storage | DaprConfig                                      | Modified |       |
-| v20250501       | DaprConfig_STATUS                               | v20250501/storage | DaprConfig_STATUS                               | Modified |       |
-| v20250501       | DefaultIdentity                                 | v20250501/storage | DefaultIdentity                                 | Modified |       |
-| v20250501       | DefaultIdentity_STATUS                          | v20250501/storage | DefaultIdentity_STATUS                          | Modified |       |
-| v20250501       | Experiments                                     | v20250501/storage | Experiments                                     | Extended |       |
-| v20250501       | Experiments_STATUS                              | v20250501/storage | Experiments_STATUS                              | Extended |       |
-| v20250501       | ExtendedLocation                                | v20250501/storage | ExtendedLocation                                | Extended |       |
-| v20250501       | ExtendedLocation_STATUS                         | v20250501/storage | ExtendedLocation_STATUS                         | Extended |       |
-| v20250501       | FunctionAppConfig                               | v20250501/storage | FunctionAppConfig                               | Extended |       |
-| v20250501       | FunctionAppConfig_STATUS                        | v20250501/storage | FunctionAppConfig_STATUS                        | Extended |       |
-| v20250501       | FunctionsAlwaysReadyConfig                      | v20250501/storage | FunctionsAlwaysReadyConfig                      | Extended |       |
-| v20250501       | FunctionsAlwaysReadyConfig_STATUS               | v20250501/storage | FunctionsAlwaysReadyConfig_STATUS               | Extended |       |
-| v20250501       | FunctionsDeployment                             | v20250501/storage | FunctionsDeployment                             | Extended |       |
-| v20250501       | FunctionsDeploymentStorage                      | v20250501/storage | FunctionsDeploymentStorage                      | Modified |       |
-| v20250501       | FunctionsDeploymentStorageAuthentication        | v20250501/storage | FunctionsDeploymentStorageAuthentication        | Modified |       |
-| v20250501       | FunctionsDeploymentStorageAuthentication_STATUS | v20250501/storage | FunctionsDeploymentStorageAuthentication_STATUS | Modified |       |
-| v20250501       | FunctionsDeploymentStorage_STATUS               | v20250501/storage | FunctionsDeploymentStorage_STATUS               | Modified |       |
-| v20250501       | FunctionsDeployment_STATUS                      | v20250501/storage | FunctionsDeployment_STATUS                      | Extended |       |
-| v20250501       | FunctionsRuntime                                | v20250501/storage | FunctionsRuntime                                | Modified |       |
-| v20250501       | FunctionsRuntime_STATUS                         | v20250501/storage | FunctionsRuntime_STATUS                         | Modified |       |
-| v20250501       | FunctionsScaleAndConcurrency                    | v20250501/storage | FunctionsScaleAndConcurrency                    | Extended |       |
-| v20250501       | FunctionsScaleAndConcurrencyTriggers            | v20250501/storage | FunctionsScaleAndConcurrencyTriggers            | Extended |       |
-| v20250501       | FunctionsScaleAndConcurrencyTriggersHttp        | v20250501/storage | FunctionsScaleAndConcurrencyTriggersHttp        | Extended |       |
-| v20250501       | FunctionsScaleAndConcurrencyTriggersHttp_STATUS | v20250501/storage | FunctionsScaleAndConcurrencyTriggersHttp_STATUS | Extended |       |
-| v20250501       | FunctionsScaleAndConcurrencyTriggers_STATUS     | v20250501/storage | FunctionsScaleAndConcurrencyTriggers_STATUS     | Extended |       |
-| v20250501       | FunctionsScaleAndConcurrency_STATUS             | v20250501/storage | FunctionsScaleAndConcurrency_STATUS             | Extended |       |
-| v20250501       | FunctionsSiteUpdateStrategy                     | v20250501/storage | FunctionsSiteUpdateStrategy                     | Modified |       |
-| v20250501       | FunctionsSiteUpdateStrategy_STATUS              | v20250501/storage | FunctionsSiteUpdateStrategy_STATUS              | Modified |       |
-| v20250501       | GitHubActionCodeConfiguration                   | v20250501/storage | GitHubActionCodeConfiguration                   | Extended |       |
-| v20250501       | GitHubActionCodeConfiguration_STATUS            | v20250501/storage | GitHubActionCodeConfiguration_STATUS            | Extended |       |
-| v20250501       | GitHubActionConfiguration                       | v20250501/storage | GitHubActionConfiguration                       | Extended |       |
-| v20250501       | GitHubActionConfiguration_STATUS                | v20250501/storage | GitHubActionConfiguration_STATUS                | Extended |       |
-| v20250501       | GitHubActionContainerConfiguration              | v20250501/storage | GitHubActionContainerConfiguration              | Extended |       |
-| v20250501       | GitHubActionContainerConfiguration_STATUS       | v20250501/storage | GitHubActionContainerConfiguration_STATUS       | Extended |       |
-| v20250501       | HandlerMapping                                  | v20250501/storage | HandlerMapping                                  | Extended |       |
-| v20250501       | HandlerMapping_STATUS                           | v20250501/storage | HandlerMapping_STATUS                           | Extended |       |
-| v20250501       | HostNameSslState                                | v20250501/storage | HostNameSslState                                | Modified |       |
-| v20250501       | HostNameSslState_STATUS                         | v20250501/storage | HostNameSslState_STATUS                         | Modified |       |
-| v20250501       | HostingEnvironmentProfile                       | v20250501/storage | HostingEnvironmentProfile                       | Extended |       |
-| v20250501       | HostingEnvironmentProfile_STATUS                | v20250501/storage | HostingEnvironmentProfile_STATUS                | Extended |       |
-| v20250501       | InstallScript                                   | v20250501/storage | InstallScript                                   | Extended |       |
-| v20250501       | InstallScriptSource                             | v20250501/storage | InstallScriptSource                             | Modified |       |
-| v20250501       | InstallScriptSource_STATUS                      | v20250501/storage | InstallScriptSource_STATUS                      | Modified |       |
-| v20250501       | InstallScript_STATUS                            | v20250501/storage | InstallScript_STATUS                            | Extended |       |
-| v20250501       | IpSecurityRestriction                           | v20250501/storage | IpSecurityRestriction                           | Modified |       |
-| v20250501       | IpSecurityRestriction_STATUS                    | v20250501/storage | IpSecurityRestriction_STATUS                    | Modified |       |
-| v20250501       | KeyVaultReferenceWithStatus                     | v20250501/storage | KeyVaultReferenceWithStatus                     | Extended |       |
-| v20250501       | KeyVaultReferenceWithStatus_STATUS              | v20250501/storage | KeyVaultReferenceWithStatus_STATUS              | Extended |       |
-| v20250501       | KubeEnvironmentProfile                          | v20250501/storage | KubeEnvironmentProfile                          | Extended |       |
-| v20250501       | KubeEnvironmentProfile_STATUS                   | v20250501/storage | KubeEnvironmentProfile_STATUS                   | Extended |       |
-| v20250501       | ManagedServiceIdentity                          | v20250501/storage | ManagedServiceIdentity                          | Modified |       |
-| v20250501       | ManagedServiceIdentity_STATUS                   | v20250501/storage | ManagedServiceIdentity_STATUS                   | Modified |       |
-| v20250501       | NameValuePair                                   | v20250501/storage | NameValuePair                                   | Extended |       |
-| v20250501       | NameValuePair_STATUS                            | v20250501/storage | NameValuePair_STATUS                            | Extended |       |
-| v20250501       | OutboundVnetRouting                             | v20250501/storage | OutboundVnetRouting                             | Extended |       |
-| v20250501       | OutboundVnetRouting_STATUS                      | v20250501/storage | OutboundVnetRouting_STATUS                      | Extended |       |
-| v20250501       | PushSettings                                    | v20250501/storage | PushSettings                                    | Extended |       |
-| v20250501       | PushSettings_STATUS                             | v20250501/storage | PushSettings_STATUS                             | Extended |       |
-| v20250501       | RampUpRule                                      | v20250501/storage | RampUpRule                                      | Extended |       |
-| v20250501       | RampUpRule_STATUS                               | v20250501/storage | RampUpRule_STATUS                               | Extended |       |
-| v20250501       | RegistryAdapter                                 | v20250501/storage | RegistryAdapter                                 | Modified |       |
-| v20250501       | RegistryAdapter_STATUS                          | v20250501/storage | RegistryAdapter_STATUS                          | Modified |       |
-| v20250501       | RequestsBasedTrigger                            | v20250501/storage | RequestsBasedTrigger                            | Extended |       |
-| v20250501       | RequestsBasedTrigger_STATUS                     | v20250501/storage | RequestsBasedTrigger_STATUS                     | Extended |       |
-| v20250501       | ResourceConfig                                  | v20250501/storage | ResourceConfig                                  | Extended |       |
-| v20250501       | ResourceConfig_STATUS                           | v20250501/storage | ResourceConfig_STATUS                           | Extended |       |
-| v20250501       | ServerFarmNetworkSettings                       | v20250501/storage | ServerFarmNetworkSettings                       | Extended |       |
-| v20250501       | ServerFarmNetworkSettings_STATUS                | v20250501/storage | ServerFarmNetworkSettings_STATUS                | Extended |       |
-| v20250501       | ServerFarmOperatorSpec                          | v20250501/storage | ServerFarmOperatorSpec                          | Extended |       |
-| v20250501       | ServerFarm_STATUS                               | v20250501/storage | ServerFarm_STATUS                               | Modified |       |
-| v20250501       | ServerFarm_Spec                                 | v20250501/storage | ServerFarm_Spec                                 | Extended |       |
-| v20250501       | SiteConfig                                      | v20250501/storage | SiteConfig                                      | Modified |       |
-| v20250501       | SiteConfig_STATUS                               | v20250501/storage | SiteConfig_STATUS                               | Modified |       |
-| v20250501       | SiteDnsConfig                                   | v20250501/storage | SiteDnsConfig                                   | Extended |       |
-| v20250501       | SiteDnsConfig_STATUS                            | v20250501/storage | SiteDnsConfig_STATUS                            | Extended |       |
-| v20250501       | SiteLimits                                      | v20250501/storage | SiteLimits                                      | Extended |       |
-| v20250501       | SiteLimits_STATUS                               | v20250501/storage | SiteLimits_STATUS                               | Extended |       |
-| v20250501       | SiteMachineKey_STATUS                           | v20250501/storage | SiteMachineKey_STATUS                           | Extended |       |
-| v20250501       | SiteOperatorSpec                                | v20250501/storage | SiteOperatorSpec                                | Extended |       |
-| v20250501       | Site_STATUS                                     | v20250501/storage | Site_STATUS                                     | Modified |       |
-| v20250501       | Site_Spec                                       | v20250501/storage | Site_Spec                                       | Modified |       |
-| v20250501       | SitesSourcecontrolOperatorSpec                  | v20250501/storage | SitesSourcecontrolOperatorSpec                  | Extended |       |
-| v20250501       | SitesSourcecontrol_STATUS                       | v20250501/storage | SitesSourcecontrol_STATUS                       | Extended |       |
-| v20250501       | SitesSourcecontrol_Spec                         | v20250501/storage | SitesSourcecontrol_Spec                         | Extended |       |
-| v20250501       | SkuCapacity                                     | v20250501/storage | SkuCapacity                                     | Extended |       |
-| v20250501       | SkuCapacity_STATUS                              | v20250501/storage | SkuCapacity_STATUS                              | Extended |       |
-| v20250501       | SkuDescription                                  | v20250501/storage | SkuDescription                                  | Extended |       |
-| v20250501       | SkuDescription_STATUS                           | v20250501/storage | SkuDescription_STATUS                           | Extended |       |
-| v20250501       | SlotSwapStatus_STATUS                           | v20250501/storage | SlotSwapStatus_STATUS                           | Extended |       |
-| v20250501       | SlowRequestsBasedTrigger                        | v20250501/storage | SlowRequestsBasedTrigger                        | Extended |       |
-| v20250501       | SlowRequestsBasedTrigger_STATUS                 | v20250501/storage | SlowRequestsBasedTrigger_STATUS                 | Extended |       |
-| v20250501       | StatusCodesBasedTrigger                         | v20250501/storage | StatusCodesBasedTrigger                         | Extended |       |
-| v20250501       | StatusCodesBasedTrigger_STATUS                  | v20250501/storage | StatusCodesBasedTrigger_STATUS                  | Extended |       |
-| v20250501       | StatusCodesRangeBasedTrigger                    | v20250501/storage | StatusCodesRangeBasedTrigger                    | Extended |       |
-| v20250501       | StatusCodesRangeBasedTrigger_STATUS             | v20250501/storage | StatusCodesRangeBasedTrigger_STATUS             | Extended |       |
-| v20250501       | StorageMount                                    | v20250501/storage | StorageMount                                    | Modified |       |
-| v20250501       | StorageMount_STATUS                             | v20250501/storage | StorageMount_STATUS                             | Modified |       |
-| v20250501       | SystemData_STATUS                               | v20250501/storage | SystemData_STATUS                               | Modified |       |
-| v20250501       | UserAssignedIdentityDetails                     | v20250501/storage | UserAssignedIdentityDetails                     | Extended |       |
-| v20250501       | UserAssignedIdentity_STATUS                     | v20250501/storage | UserAssignedIdentity_STATUS                     | Extended |       |
-| v20250501       | VirtualApplication                              | v20250501/storage | VirtualApplication                              | Extended |       |
-| v20250501       | VirtualApplication_STATUS                       | v20250501/storage | VirtualApplication_STATUS                       | Extended |       |
-| v20250501       | VirtualDirectory                                | v20250501/storage | VirtualDirectory                                | Extended |       |
-| v20250501       | VirtualDirectory_STATUS                         | v20250501/storage | VirtualDirectory_STATUS                         | Extended |       |
+| v20250501                                       | v20250501/storage                               | Status   | Notes |
+|:------------------------------------------------|:------------------------------------------------|:--------:|:------|
+| ApiDefinitionInfo                               | ApiDefinitionInfo                               | Extended |       |
+| ApiDefinitionInfo_STATUS                        | ApiDefinitionInfo_STATUS                        | Extended |       |
+| ApiManagementConfig                             | ApiManagementConfig                             | Extended |       |
+| ApiManagementConfig_STATUS                      | ApiManagementConfig_STATUS                      | Extended |       |
+| AutoHealActions                                 | AutoHealActions                                 | Modified |       |
+| AutoHealActions_STATUS                          | AutoHealActions_STATUS                          | Modified |       |
+| AutoHealCustomAction                            | AutoHealCustomAction                            | Extended |       |
+| AutoHealCustomAction_STATUS                     | AutoHealCustomAction_STATUS                     | Extended |       |
+| AutoHealRules                                   | AutoHealRules                                   | Extended |       |
+| AutoHealRules_STATUS                            | AutoHealRules_STATUS                            | Extended |       |
+| AutoHealTriggers                                | AutoHealTriggers                                | Extended |       |
+| AutoHealTriggers_STATUS                         | AutoHealTriggers_STATUS                         | Extended |       |
+| AzureStorageInfoValue                           | AzureStorageInfoValue                           | Modified |       |
+| AzureStorageInfoValue_STATUS                    | AzureStorageInfoValue_STATUS                    | Modified |       |
+| Capability                                      | Capability                                      | Extended |       |
+| Capability_STATUS                               | Capability_STATUS                               | Extended |       |
+| CloningInfo                                     | CloningInfo                                     | Modified |       |
+| CloningInfo_STATUS                              | CloningInfo_STATUS                              | Extended |       |
+| ConnStringInfo                                  | ConnStringInfo                                  | Modified |       |
+| ConnStringInfo_STATUS                           | ConnStringInfo_STATUS                           | Modified |       |
+| CorsSettings                                    | CorsSettings                                    | Extended |       |
+| CorsSettings_STATUS                             | CorsSettings_STATUS                             | Extended |       |
+| DaprConfig                                      | DaprConfig                                      | Modified |       |
+| DaprConfig_STATUS                               | DaprConfig_STATUS                               | Modified |       |
+| DefaultIdentity                                 | DefaultIdentity                                 | Modified |       |
+| DefaultIdentity_STATUS                          | DefaultIdentity_STATUS                          | Modified |       |
+| Experiments                                     | Experiments                                     | Extended |       |
+| Experiments_STATUS                              | Experiments_STATUS                              | Extended |       |
+| ExtendedLocation                                | ExtendedLocation                                | Extended |       |
+| ExtendedLocation_STATUS                         | ExtendedLocation_STATUS                         | Extended |       |
+| FunctionAppConfig                               | FunctionAppConfig                               | Extended |       |
+| FunctionAppConfig_STATUS                        | FunctionAppConfig_STATUS                        | Extended |       |
+| FunctionsAlwaysReadyConfig                      | FunctionsAlwaysReadyConfig                      | Extended |       |
+| FunctionsAlwaysReadyConfig_STATUS               | FunctionsAlwaysReadyConfig_STATUS               | Extended |       |
+| FunctionsDeployment                             | FunctionsDeployment                             | Extended |       |
+| FunctionsDeploymentStorage                      | FunctionsDeploymentStorage                      | Modified |       |
+| FunctionsDeploymentStorageAuthentication        | FunctionsDeploymentStorageAuthentication        | Modified |       |
+| FunctionsDeploymentStorageAuthentication_STATUS | FunctionsDeploymentStorageAuthentication_STATUS | Modified |       |
+| FunctionsDeploymentStorage_STATUS               | FunctionsDeploymentStorage_STATUS               | Modified |       |
+| FunctionsDeployment_STATUS                      | FunctionsDeployment_STATUS                      | Extended |       |
+| FunctionsRuntime                                | FunctionsRuntime                                | Modified |       |
+| FunctionsRuntime_STATUS                         | FunctionsRuntime_STATUS                         | Modified |       |
+| FunctionsScaleAndConcurrency                    | FunctionsScaleAndConcurrency                    | Extended |       |
+| FunctionsScaleAndConcurrencyTriggers            | FunctionsScaleAndConcurrencyTriggers            | Extended |       |
+| FunctionsScaleAndConcurrencyTriggersHttp        | FunctionsScaleAndConcurrencyTriggersHttp        | Extended |       |
+| FunctionsScaleAndConcurrencyTriggersHttp_STATUS | FunctionsScaleAndConcurrencyTriggersHttp_STATUS | Extended |       |
+| FunctionsScaleAndConcurrencyTriggers_STATUS     | FunctionsScaleAndConcurrencyTriggers_STATUS     | Extended |       |
+| FunctionsScaleAndConcurrency_STATUS             | FunctionsScaleAndConcurrency_STATUS             | Extended |       |
+| FunctionsSiteUpdateStrategy                     | FunctionsSiteUpdateStrategy                     | Modified |       |
+| FunctionsSiteUpdateStrategy_STATUS              | FunctionsSiteUpdateStrategy_STATUS              | Modified |       |
+| GitHubActionCodeConfiguration                   | GitHubActionCodeConfiguration                   | Extended |       |
+| GitHubActionCodeConfiguration_STATUS            | GitHubActionCodeConfiguration_STATUS            | Extended |       |
+| GitHubActionConfiguration                       | GitHubActionConfiguration                       | Extended |       |
+| GitHubActionConfiguration_STATUS                | GitHubActionConfiguration_STATUS                | Extended |       |
+| GitHubActionContainerConfiguration              | GitHubActionContainerConfiguration              | Extended |       |
+| GitHubActionContainerConfiguration_STATUS       | GitHubActionContainerConfiguration_STATUS       | Extended |       |
+| HandlerMapping                                  | HandlerMapping                                  | Extended |       |
+| HandlerMapping_STATUS                           | HandlerMapping_STATUS                           | Extended |       |
+| HostNameSslState                                | HostNameSslState                                | Modified |       |
+| HostNameSslState_STATUS                         | HostNameSslState_STATUS                         | Modified |       |
+| HostingEnvironmentProfile                       | HostingEnvironmentProfile                       | Extended |       |
+| HostingEnvironmentProfile_STATUS                | HostingEnvironmentProfile_STATUS                | Extended |       |
+| InstallScript                                   | InstallScript                                   | Extended |       |
+| InstallScriptSource                             | InstallScriptSource                             | Modified |       |
+| InstallScriptSource_STATUS                      | InstallScriptSource_STATUS                      | Modified |       |
+| InstallScript_STATUS                            | InstallScript_STATUS                            | Extended |       |
+| IpSecurityRestriction                           | IpSecurityRestriction                           | Modified |       |
+| IpSecurityRestriction_STATUS                    | IpSecurityRestriction_STATUS                    | Modified |       |
+| KeyVaultReferenceWithStatus                     | KeyVaultReferenceWithStatus                     | Extended |       |
+| KeyVaultReferenceWithStatus_STATUS              | KeyVaultReferenceWithStatus_STATUS              | Extended |       |
+| KubeEnvironmentProfile                          | KubeEnvironmentProfile                          | Extended |       |
+| KubeEnvironmentProfile_STATUS                   | KubeEnvironmentProfile_STATUS                   | Extended |       |
+| ManagedServiceIdentity                          | ManagedServiceIdentity                          | Modified |       |
+| ManagedServiceIdentity_STATUS                   | ManagedServiceIdentity_STATUS                   | Modified |       |
+| NameValuePair                                   | NameValuePair                                   | Extended |       |
+| NameValuePair_STATUS                            | NameValuePair_STATUS                            | Extended |       |
+| OutboundVnetRouting                             | OutboundVnetRouting                             | Extended |       |
+| OutboundVnetRouting_STATUS                      | OutboundVnetRouting_STATUS                      | Extended |       |
+| PushSettings                                    | PushSettings                                    | Extended |       |
+| PushSettings_STATUS                             | PushSettings_STATUS                             | Extended |       |
+| RampUpRule                                      | RampUpRule                                      | Extended |       |
+| RampUpRule_STATUS                               | RampUpRule_STATUS                               | Extended |       |
+| RegistryAdapter                                 | RegistryAdapter                                 | Modified |       |
+| RegistryAdapter_STATUS                          | RegistryAdapter_STATUS                          | Modified |       |
+| RequestsBasedTrigger                            | RequestsBasedTrigger                            | Extended |       |
+| RequestsBasedTrigger_STATUS                     | RequestsBasedTrigger_STATUS                     | Extended |       |
+| ResourceConfig                                  | ResourceConfig                                  | Extended |       |
+| ResourceConfig_STATUS                           | ResourceConfig_STATUS                           | Extended |       |
+| ServerFarmNetworkSettings                       | ServerFarmNetworkSettings                       | Extended |       |
+| ServerFarmNetworkSettings_STATUS                | ServerFarmNetworkSettings_STATUS                | Extended |       |
+| ServerFarmOperatorSpec                          | ServerFarmOperatorSpec                          | Extended |       |
+| ServerFarm_STATUS                               | ServerFarm_STATUS                               | Modified |       |
+| ServerFarm_Spec                                 | ServerFarm_Spec                                 | Extended |       |
+| SiteConfig                                      | SiteConfig                                      | Modified |       |
+| SiteConfig_STATUS                               | SiteConfig_STATUS                               | Modified |       |
+| SiteDnsConfig                                   | SiteDnsConfig                                   | Extended |       |
+| SiteDnsConfig_STATUS                            | SiteDnsConfig_STATUS                            | Extended |       |
+| SiteLimits                                      | SiteLimits                                      | Extended |       |
+| SiteLimits_STATUS                               | SiteLimits_STATUS                               | Extended |       |
+| SiteMachineKey_STATUS                           | SiteMachineKey_STATUS                           | Extended |       |
+| SiteOperatorSpec                                | SiteOperatorSpec                                | Extended |       |
+| Site_STATUS                                     | Site_STATUS                                     | Modified |       |
+| Site_Spec                                       | Site_Spec                                       | Modified |       |
+| SitesSourcecontrolOperatorSpec                  | SitesSourcecontrolOperatorSpec                  | Extended |       |
+| SitesSourcecontrol_STATUS                       | SitesSourcecontrol_STATUS                       | Extended |       |
+| SitesSourcecontrol_Spec                         | SitesSourcecontrol_Spec                         | Extended |       |
+| SkuCapacity                                     | SkuCapacity                                     | Extended |       |
+| SkuCapacity_STATUS                              | SkuCapacity_STATUS                              | Extended |       |
+| SkuDescription                                  | SkuDescription                                  | Extended |       |
+| SkuDescription_STATUS                           | SkuDescription_STATUS                           | Extended |       |
+| SlotSwapStatus_STATUS                           | SlotSwapStatus_STATUS                           | Extended |       |
+| SlowRequestsBasedTrigger                        | SlowRequestsBasedTrigger                        | Extended |       |
+| SlowRequestsBasedTrigger_STATUS                 | SlowRequestsBasedTrigger_STATUS                 | Extended |       |
+| StatusCodesBasedTrigger                         | StatusCodesBasedTrigger                         | Extended |       |
+| StatusCodesBasedTrigger_STATUS                  | StatusCodesBasedTrigger_STATUS                  | Extended |       |
+| StatusCodesRangeBasedTrigger                    | StatusCodesRangeBasedTrigger                    | Extended |       |
+| StatusCodesRangeBasedTrigger_STATUS             | StatusCodesRangeBasedTrigger_STATUS             | Extended |       |
+| StorageMount                                    | StorageMount                                    | Modified |       |
+| StorageMount_STATUS                             | StorageMount_STATUS                             | Modified |       |
+| SystemData_STATUS                               | SystemData_STATUS                               | Modified |       |
+| UserAssignedIdentityDetails                     | UserAssignedIdentityDetails                     | Extended |       |
+| UserAssignedIdentity_STATUS                     | UserAssignedIdentity_STATUS                     | Extended |       |
+| VirtualApplication                              | VirtualApplication                              | Extended |       |
+| VirtualApplication_STATUS                       | VirtualApplication_STATUS                       | Extended |       |
+| VirtualDirectory                                | VirtualDirectory                                | Extended |       |
+| VirtualDirectory_STATUS                         | VirtualDirectory_STATUS                         | Extended |       |
 
 ### ApiDefinitionInfo
 

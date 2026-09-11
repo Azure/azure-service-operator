@@ -11,67 +11,67 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type        | Next Version          | Next Type           | Status    | Notes |
-|:----------------|:--------------------|:----------------------|:--------------------|:---------:|:------|
-| v1api20240413   | Cluster             | v1api20240413/storage | Cluster             | Identical |       |
-| v1api20240413   | DataConnection      | v1api20240413/storage | DataConnection      | Identical |       |
-| v1api20240413   | Database            | v1api20240413/storage | Database            | Identical |       |
-| v1api20240413   | PrincipalAssignment | v1api20240413/storage | PrincipalAssignment | Identical |       |
+| v1api20240413       | v1api20240413/storage | Status    | Notes |
+|:--------------------|:----------------------|:---------:|:------|
+| Cluster             | Cluster               | Identical |       |
+| DataConnection      | DataConnection        | Identical |       |
+| Database            | Database              | Identical |       |
+| PrincipalAssignment | PrincipalAssignment   | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                           | Next Version          | Next Type                              | Status   | Notes |
-|:----------------|:---------------------------------------|:----------------------|:---------------------------------------|:--------:|:------|
-| v1api20240413   | AcceptedAudiences                      | v1api20240413/storage | AcceptedAudiences                      | Extended |       |
-| v1api20240413   | AcceptedAudiences_STATUS               | v1api20240413/storage | AcceptedAudiences_STATUS               | Extended |       |
-| v1api20240413   | AzureSku                               | v1api20240413/storage | AzureSku                               | Modified |       |
-| v1api20240413   | AzureSku_STATUS                        | v1api20240413/storage | AzureSku_STATUS                        | Modified |       |
-| v1api20240413   | CalloutPolicy                          | v1api20240413/storage | CalloutPolicy                          | Modified |       |
-| v1api20240413   | CalloutPolicy_STATUS                   | v1api20240413/storage | CalloutPolicy_STATUS                   | Modified |       |
-| v1api20240413   | ClusterOperatorConfigMaps              | v1api20240413/storage | ClusterOperatorConfigMaps              | Extended |       |
-| v1api20240413   | ClusterOperatorSpec                    | v1api20240413/storage | ClusterOperatorSpec                    | Extended |       |
-| v1api20240413   | Cluster_STATUS                         | v1api20240413/storage | Cluster_STATUS                         | Modified |       |
-| v1api20240413   | Cluster_Spec                           | v1api20240413/storage | Cluster_Spec                           | Modified |       |
-| v1api20240413   | CosmosDbDataConnection                 | v1api20240413/storage | CosmosDbDataConnection                 | Modified |       |
-| v1api20240413   | CosmosDbDataConnection_STATUS          | v1api20240413/storage | CosmosDbDataConnection_STATUS          | Modified |       |
-| v1api20240413   | DataConnectionOperatorSpec             | v1api20240413/storage | DataConnectionOperatorSpec             | Extended |       |
-| v1api20240413   | DataConnection_STATUS                  | v1api20240413/storage | DataConnection_STATUS                  | Extended |       |
-| v1api20240413   | DataConnection_Spec                    | v1api20240413/storage | DataConnection_Spec                    | Modified |       |
-| v1api20240413   | DatabaseOperatorSpec                   | v1api20240413/storage | DatabaseOperatorSpec                   | Extended |       |
-| v1api20240413   | DatabaseStatistics_STATUS              | v1api20240413/storage | DatabaseStatistics_STATUS              | Extended |       |
-| v1api20240413   | Database_STATUS                        | v1api20240413/storage | Database_STATUS                        | Extended |       |
-| v1api20240413   | Database_Spec                          | v1api20240413/storage | Database_Spec                          | Modified |       |
-| v1api20240413   | EventGridDataConnection                | v1api20240413/storage | EventGridDataConnection                | Modified |       |
-| v1api20240413   | EventGridDataConnection_STATUS         | v1api20240413/storage | EventGridDataConnection_STATUS         | Modified |       |
-| v1api20240413   | EventHubDataConnection                 | v1api20240413/storage | EventHubDataConnection                 | Modified |       |
-| v1api20240413   | EventHubDataConnection_STATUS          | v1api20240413/storage | EventHubDataConnection_STATUS          | Modified |       |
-| v1api20240413   | Identity                               | v1api20240413/storage | Identity                               | Modified |       |
-| v1api20240413   | Identity_STATUS                        | v1api20240413/storage | Identity_STATUS                        | Modified |       |
-| v1api20240413   | Identity_UserAssignedIdentities_STATUS | v1api20240413/storage | Identity_UserAssignedIdentities_STATUS | Extended |       |
-| v1api20240413   | IotHubDataConnection                   | v1api20240413/storage | IotHubDataConnection                   | Modified |       |
-| v1api20240413   | IotHubDataConnection_STATUS            | v1api20240413/storage | IotHubDataConnection_STATUS            | Modified |       |
-| v1api20240413   | KeyVaultProperties                     | v1api20240413/storage | KeyVaultProperties                     | Extended |       |
-| v1api20240413   | KeyVaultProperties_STATUS              | v1api20240413/storage | KeyVaultProperties_STATUS              | Extended |       |
-| v1api20240413   | LanguageExtension                      | v1api20240413/storage | LanguageExtension                      | Modified |       |
-| v1api20240413   | LanguageExtension_STATUS               | v1api20240413/storage | LanguageExtension_STATUS               | Modified |       |
-| v1api20240413   | LanguageExtensionsList                 | v1api20240413/storage | LanguageExtensionsList                 | Extended |       |
-| v1api20240413   | LanguageExtensionsList_STATUS          | v1api20240413/storage | LanguageExtensionsList_STATUS          | Extended |       |
-| v1api20240413   | MigrationClusterProperties_STATUS      | v1api20240413/storage | MigrationClusterProperties_STATUS      | Modified |       |
-| v1api20240413   | OptimizedAutoscale                     | v1api20240413/storage | OptimizedAutoscale                     | Extended |       |
-| v1api20240413   | OptimizedAutoscale_STATUS              | v1api20240413/storage | OptimizedAutoscale_STATUS              | Extended |       |
-| v1api20240413   | PrincipalAssignmentOperatorSpec        | v1api20240413/storage | PrincipalAssignmentOperatorSpec        | Extended |       |
-| v1api20240413   | PrincipalAssignment_STATUS             | v1api20240413/storage | PrincipalAssignment_STATUS             | Modified |       |
-| v1api20240413   | PrincipalAssignment_Spec               | v1api20240413/storage | PrincipalAssignment_Spec               | Modified |       |
-| v1api20240413   | PrivateEndpointConnection_STATUS       | v1api20240413/storage | PrivateEndpointConnection_STATUS       | Extended |       |
-| v1api20240413   | ReadWriteDatabase                      | v1api20240413/storage | ReadWriteDatabase                      | Modified |       |
-| v1api20240413   | ReadWriteDatabase_STATUS               | v1api20240413/storage | ReadWriteDatabase_STATUS               | Modified |       |
-| v1api20240413   | SuspensionDetails_STATUS               | v1api20240413/storage | SuspensionDetails_STATUS               | Extended |       |
-| v1api20240413   | SystemData_STATUS                      | v1api20240413/storage | SystemData_STATUS                      | Modified |       |
-| v1api20240413   | TrustedExternalTenant                  | v1api20240413/storage | TrustedExternalTenant                  | Extended |       |
-| v1api20240413   | TrustedExternalTenant_STATUS           | v1api20240413/storage | TrustedExternalTenant_STATUS           | Extended |       |
-| v1api20240413   | UserAssignedIdentityDetails            | v1api20240413/storage | UserAssignedIdentityDetails            | Extended |       |
-| v1api20240413   | VirtualNetworkConfiguration            | v1api20240413/storage | VirtualNetworkConfiguration            | Modified |       |
-| v1api20240413   | VirtualNetworkConfiguration_STATUS     | v1api20240413/storage | VirtualNetworkConfiguration_STATUS     | Modified |       |
+| v1api20240413                          | v1api20240413/storage                  | Status   | Notes |
+|:---------------------------------------|:---------------------------------------|:--------:|:------|
+| AcceptedAudiences                      | AcceptedAudiences                      | Extended |       |
+| AcceptedAudiences_STATUS               | AcceptedAudiences_STATUS               | Extended |       |
+| AzureSku                               | AzureSku                               | Modified |       |
+| AzureSku_STATUS                        | AzureSku_STATUS                        | Modified |       |
+| CalloutPolicy                          | CalloutPolicy                          | Modified |       |
+| CalloutPolicy_STATUS                   | CalloutPolicy_STATUS                   | Modified |       |
+| ClusterOperatorConfigMaps              | ClusterOperatorConfigMaps              | Extended |       |
+| ClusterOperatorSpec                    | ClusterOperatorSpec                    | Extended |       |
+| Cluster_STATUS                         | Cluster_STATUS                         | Modified |       |
+| Cluster_Spec                           | Cluster_Spec                           | Modified |       |
+| CosmosDbDataConnection                 | CosmosDbDataConnection                 | Modified |       |
+| CosmosDbDataConnection_STATUS          | CosmosDbDataConnection_STATUS          | Modified |       |
+| DataConnectionOperatorSpec             | DataConnectionOperatorSpec             | Extended |       |
+| DataConnection_STATUS                  | DataConnection_STATUS                  | Extended |       |
+| DataConnection_Spec                    | DataConnection_Spec                    | Modified |       |
+| DatabaseOperatorSpec                   | DatabaseOperatorSpec                   | Extended |       |
+| DatabaseStatistics_STATUS              | DatabaseStatistics_STATUS              | Extended |       |
+| Database_STATUS                        | Database_STATUS                        | Extended |       |
+| Database_Spec                          | Database_Spec                          | Modified |       |
+| EventGridDataConnection                | EventGridDataConnection                | Modified |       |
+| EventGridDataConnection_STATUS         | EventGridDataConnection_STATUS         | Modified |       |
+| EventHubDataConnection                 | EventHubDataConnection                 | Modified |       |
+| EventHubDataConnection_STATUS          | EventHubDataConnection_STATUS          | Modified |       |
+| Identity                               | Identity                               | Modified |       |
+| Identity_STATUS                        | Identity_STATUS                        | Modified |       |
+| Identity_UserAssignedIdentities_STATUS | Identity_UserAssignedIdentities_STATUS | Extended |       |
+| IotHubDataConnection                   | IotHubDataConnection                   | Modified |       |
+| IotHubDataConnection_STATUS            | IotHubDataConnection_STATUS            | Modified |       |
+| KeyVaultProperties                     | KeyVaultProperties                     | Extended |       |
+| KeyVaultProperties_STATUS              | KeyVaultProperties_STATUS              | Extended |       |
+| LanguageExtension                      | LanguageExtension                      | Modified |       |
+| LanguageExtension_STATUS               | LanguageExtension_STATUS               | Modified |       |
+| LanguageExtensionsList                 | LanguageExtensionsList                 | Extended |       |
+| LanguageExtensionsList_STATUS          | LanguageExtensionsList_STATUS          | Extended |       |
+| MigrationClusterProperties_STATUS      | MigrationClusterProperties_STATUS      | Modified |       |
+| OptimizedAutoscale                     | OptimizedAutoscale                     | Extended |       |
+| OptimizedAutoscale_STATUS              | OptimizedAutoscale_STATUS              | Extended |       |
+| PrincipalAssignmentOperatorSpec        | PrincipalAssignmentOperatorSpec        | Extended |       |
+| PrincipalAssignment_STATUS             | PrincipalAssignment_STATUS             | Modified |       |
+| PrincipalAssignment_Spec               | PrincipalAssignment_Spec               | Modified |       |
+| PrivateEndpointConnection_STATUS       | PrivateEndpointConnection_STATUS       | Extended |       |
+| ReadWriteDatabase                      | ReadWriteDatabase                      | Modified |       |
+| ReadWriteDatabase_STATUS               | ReadWriteDatabase_STATUS               | Modified |       |
+| SuspensionDetails_STATUS               | SuspensionDetails_STATUS               | Extended |       |
+| SystemData_STATUS                      | SystemData_STATUS                      | Modified |       |
+| TrustedExternalTenant                  | TrustedExternalTenant                  | Extended |       |
+| TrustedExternalTenant_STATUS           | TrustedExternalTenant_STATUS           | Extended |       |
+| UserAssignedIdentityDetails            | UserAssignedIdentityDetails            | Extended |       |
+| VirtualNetworkConfiguration            | VirtualNetworkConfiguration            | Modified |       |
+| VirtualNetworkConfiguration_STATUS     | VirtualNetworkConfiguration_STATUS     | Modified |       |
 
 ### AcceptedAudiences
 

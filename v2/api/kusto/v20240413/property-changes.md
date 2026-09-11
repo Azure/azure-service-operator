@@ -11,17 +11,17 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type               | Next Version      | Next Type                  | Status    | Notes |
-|:----------------|:---------------------------|:------------------|:---------------------------|:---------:|:------|
-| v20240413       | ClusterPrincipalAssignment | v20240413/storage | ClusterPrincipalAssignment | Identical |       |
+| v20240413                  | v20240413/storage          | Status    | Notes |
+|:---------------------------|:---------------------------|:---------:|:------|
+| ClusterPrincipalAssignment | ClusterPrincipalAssignment | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                           | Next Version      | Next Type                              | Status   | Notes |
-|:----------------|:---------------------------------------|:------------------|:---------------------------------------|:--------:|:------|
-| v20240413       | ClusterPrincipalAssignmentOperatorSpec | v20240413/storage | ClusterPrincipalAssignmentOperatorSpec | Extended |       |
-| v20240413       | ClusterPrincipalAssignment_STATUS      | v20240413/storage | ClusterPrincipalAssignment_STATUS      | Modified |       |
-| v20240413       | ClusterPrincipalAssignment_Spec        | v20240413/storage | ClusterPrincipalAssignment_Spec        | Modified |       |
+| v20240413                              | v20240413/storage                      | Status   | Notes |
+|:---------------------------------------|:---------------------------------------|:--------:|:------|
+| ClusterPrincipalAssignmentOperatorSpec | ClusterPrincipalAssignmentOperatorSpec | Extended |       |
+| ClusterPrincipalAssignment_STATUS      | ClusterPrincipalAssignment_STATUS      | Modified |       |
+| ClusterPrincipalAssignment_Spec        | ClusterPrincipalAssignment_Spec        | Modified |       |
 
 ### ClusterPrincipalAssignmentOperatorSpec
 

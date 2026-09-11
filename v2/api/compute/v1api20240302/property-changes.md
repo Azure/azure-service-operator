@@ -11,72 +11,72 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type      | Next Version          | Next Type         | Status    | Notes |
-|:----------------|:------------------|:----------------------|:------------------|:---------:|:------|
-| v1api20240302   | Disk              | v1api20240302/storage | Disk              | Identical |       |
-| v1api20240302   | DiskAccess        | v1api20240302/storage | DiskAccess        | Identical |       |
-| v1api20240302   | DiskEncryptionSet | v1api20240302/storage | DiskEncryptionSet | Identical |       |
-| v1api20240302   | Snapshot          | v1api20240302/storage | Snapshot          | Identical |       |
+| v1api20240302     | v1api20240302/storage | Status    | Notes |
+|:------------------|:----------------------|:---------:|:------|
+| Disk              | Disk                  | Identical |       |
+| DiskAccess        | DiskAccess            | Identical |       |
+| DiskEncryptionSet | DiskEncryptionSet     | Identical |       |
+| Snapshot          | Snapshot              | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                        | Next Version          | Next Type                           | Status   | Notes |
-|:----------------|:------------------------------------|:----------------------|:------------------------------------|:--------:|:------|
-| v1api20240302   | ApiErrorBase_STATUS                 | v1api20240302/storage | ApiErrorBase_STATUS                 | Extended |       |
-| v1api20240302   | ApiError_STATUS                     | v1api20240302/storage | ApiError_STATUS                     | Extended |       |
-| v1api20240302   | CopyCompletionError                 | v1api20240302/storage | CopyCompletionError                 | Modified |       |
-| v1api20240302   | CopyCompletionError_STATUS          | v1api20240302/storage | CopyCompletionError_STATUS          | Modified |       |
-| v1api20240302   | CreationData                        | v1api20240302/storage | CreationData                        | Modified |       |
-| v1api20240302   | CreationData_STATUS                 | v1api20240302/storage | CreationData_STATUS                 | Modified |       |
-| v1api20240302   | DiskAccessOperatorSpec              | v1api20240302/storage | DiskAccessOperatorSpec              | Extended |       |
-| v1api20240302   | DiskAccess_STATUS                   | v1api20240302/storage | DiskAccess_STATUS                   | Extended |       |
-| v1api20240302   | DiskAccess_Spec                     | v1api20240302/storage | DiskAccess_Spec                     | Extended |       |
-| v1api20240302   | DiskEncryptionSetOperatorSpec       | v1api20240302/storage | DiskEncryptionSetOperatorSpec       | Extended |       |
-| v1api20240302   | DiskEncryptionSet_STATUS            | v1api20240302/storage | DiskEncryptionSet_STATUS            | Modified |       |
-| v1api20240302   | DiskEncryptionSet_Spec              | v1api20240302/storage | DiskEncryptionSet_Spec              | Modified |       |
-| v1api20240302   | DiskOperatorSpec                    | v1api20240302/storage | DiskOperatorSpec                    | Extended |       |
-| v1api20240302   | DiskPurchasePlan                    | v1api20240302/storage | DiskPurchasePlan                    | Extended |       |
-| v1api20240302   | DiskPurchasePlan_STATUS             | v1api20240302/storage | DiskPurchasePlan_STATUS             | Extended |       |
-| v1api20240302   | DiskSecurityProfile                 | v1api20240302/storage | DiskSecurityProfile                 | Modified |       |
-| v1api20240302   | DiskSecurityProfile_STATUS          | v1api20240302/storage | DiskSecurityProfile_STATUS          | Modified |       |
-| v1api20240302   | DiskSku                             | v1api20240302/storage | DiskSku                             | Modified |       |
-| v1api20240302   | DiskSku_STATUS                      | v1api20240302/storage | DiskSku_STATUS                      | Modified |       |
-| v1api20240302   | Disk_STATUS                         | v1api20240302/storage | Disk_STATUS                         | Modified |       |
-| v1api20240302   | Disk_Spec                           | v1api20240302/storage | Disk_Spec                           | Modified |       |
-| v1api20240302   | Encryption                          | v1api20240302/storage | Encryption                          | Modified |       |
-| v1api20240302   | EncryptionSetIdentity               | v1api20240302/storage | EncryptionSetIdentity               | Modified |       |
-| v1api20240302   | EncryptionSetIdentity_STATUS        | v1api20240302/storage | EncryptionSetIdentity_STATUS        | Modified |       |
-| v1api20240302   | EncryptionSettingsCollection        | v1api20240302/storage | EncryptionSettingsCollection        | Extended |       |
-| v1api20240302   | EncryptionSettingsCollection_STATUS | v1api20240302/storage | EncryptionSettingsCollection_STATUS | Extended |       |
-| v1api20240302   | EncryptionSettingsElement           | v1api20240302/storage | EncryptionSettingsElement           | Extended |       |
-| v1api20240302   | EncryptionSettingsElement_STATUS    | v1api20240302/storage | EncryptionSettingsElement_STATUS    | Extended |       |
-| v1api20240302   | Encryption_STATUS                   | v1api20240302/storage | Encryption_STATUS                   | Modified |       |
-| v1api20240302   | ExtendedLocation                    | v1api20240302/storage | ExtendedLocation                    | Modified |       |
-| v1api20240302   | ExtendedLocation_STATUS             | v1api20240302/storage | ExtendedLocation_STATUS             | Modified |       |
-| v1api20240302   | ImageDiskReference                  | v1api20240302/storage | ImageDiskReference                  | Extended |       |
-| v1api20240302   | ImageDiskReference_STATUS           | v1api20240302/storage | ImageDiskReference_STATUS           | Extended |       |
-| v1api20240302   | InnerError_STATUS                   | v1api20240302/storage | InnerError_STATUS                   | Extended |       |
-| v1api20240302   | KeyForDiskEncryptionSet             | v1api20240302/storage | KeyForDiskEncryptionSet             | Extended |       |
-| v1api20240302   | KeyForDiskEncryptionSet_STATUS      | v1api20240302/storage | KeyForDiskEncryptionSet_STATUS      | Extended |       |
-| v1api20240302   | KeyVaultAndKeyReference             | v1api20240302/storage | KeyVaultAndKeyReference             | Extended |       |
-| v1api20240302   | KeyVaultAndKeyReference_STATUS      | v1api20240302/storage | KeyVaultAndKeyReference_STATUS      | Extended |       |
-| v1api20240302   | KeyVaultAndSecretReference          | v1api20240302/storage | KeyVaultAndSecretReference          | Extended |       |
-| v1api20240302   | KeyVaultAndSecretReference_STATUS   | v1api20240302/storage | KeyVaultAndSecretReference_STATUS   | Extended |       |
-| v1api20240302   | PrivateEndpointConnection_STATUS    | v1api20240302/storage | PrivateEndpointConnection_STATUS    | Extended |       |
-| v1api20240302   | PropertyUpdatesInProgress_STATUS    | v1api20240302/storage | PropertyUpdatesInProgress_STATUS    | Extended |       |
-| v1api20240302   | ShareInfoElement_STATUS             | v1api20240302/storage | ShareInfoElement_STATUS             | Extended |       |
-| v1api20240302   | SnapshotOperatorSpec                | v1api20240302/storage | SnapshotOperatorSpec                | Extended |       |
-| v1api20240302   | SnapshotSku                         | v1api20240302/storage | SnapshotSku                         | Modified |       |
-| v1api20240302   | SnapshotSku_STATUS                  | v1api20240302/storage | SnapshotSku_STATUS                  | Modified |       |
-| v1api20240302   | Snapshot_STATUS                     | v1api20240302/storage | Snapshot_STATUS                     | Modified |       |
-| v1api20240302   | Snapshot_Spec                       | v1api20240302/storage | Snapshot_Spec                       | Modified |       |
-| v1api20240302   | SourceVault                         | v1api20240302/storage | SourceVault                         | Extended |       |
-| v1api20240302   | SourceVault_STATUS                  | v1api20240302/storage | SourceVault_STATUS                  | Extended |       |
-| v1api20240302   | SupportedCapabilities               | v1api20240302/storage | SupportedCapabilities               | Modified |       |
-| v1api20240302   | SupportedCapabilities_STATUS        | v1api20240302/storage | SupportedCapabilities_STATUS        | Modified |       |
-| v1api20240302   | SystemData_STATUS                   | v1api20240302/storage | SystemData_STATUS                   | Modified |       |
-| v1api20240302   | UserAssignedIdentitiesValue_STATUS  | v1api20240302/storage | UserAssignedIdentitiesValue_STATUS  | Extended |       |
-| v1api20240302   | UserAssignedIdentityDetails         | v1api20240302/storage | UserAssignedIdentityDetails         | Extended |       |
+| v1api20240302                       | v1api20240302/storage               | Status   | Notes |
+|:------------------------------------|:------------------------------------|:--------:|:------|
+| ApiErrorBase_STATUS                 | ApiErrorBase_STATUS                 | Extended |       |
+| ApiError_STATUS                     | ApiError_STATUS                     | Extended |       |
+| CopyCompletionError                 | CopyCompletionError                 | Modified |       |
+| CopyCompletionError_STATUS          | CopyCompletionError_STATUS          | Modified |       |
+| CreationData                        | CreationData                        | Modified |       |
+| CreationData_STATUS                 | CreationData_STATUS                 | Modified |       |
+| DiskAccessOperatorSpec              | DiskAccessOperatorSpec              | Extended |       |
+| DiskAccess_STATUS                   | DiskAccess_STATUS                   | Extended |       |
+| DiskAccess_Spec                     | DiskAccess_Spec                     | Extended |       |
+| DiskEncryptionSetOperatorSpec       | DiskEncryptionSetOperatorSpec       | Extended |       |
+| DiskEncryptionSet_STATUS            | DiskEncryptionSet_STATUS            | Modified |       |
+| DiskEncryptionSet_Spec              | DiskEncryptionSet_Spec              | Modified |       |
+| DiskOperatorSpec                    | DiskOperatorSpec                    | Extended |       |
+| DiskPurchasePlan                    | DiskPurchasePlan                    | Extended |       |
+| DiskPurchasePlan_STATUS             | DiskPurchasePlan_STATUS             | Extended |       |
+| DiskSecurityProfile                 | DiskSecurityProfile                 | Modified |       |
+| DiskSecurityProfile_STATUS          | DiskSecurityProfile_STATUS          | Modified |       |
+| DiskSku                             | DiskSku                             | Modified |       |
+| DiskSku_STATUS                      | DiskSku_STATUS                      | Modified |       |
+| Disk_STATUS                         | Disk_STATUS                         | Modified |       |
+| Disk_Spec                           | Disk_Spec                           | Modified |       |
+| Encryption                          | Encryption                          | Modified |       |
+| EncryptionSetIdentity               | EncryptionSetIdentity               | Modified |       |
+| EncryptionSetIdentity_STATUS        | EncryptionSetIdentity_STATUS        | Modified |       |
+| EncryptionSettingsCollection        | EncryptionSettingsCollection        | Extended |       |
+| EncryptionSettingsCollection_STATUS | EncryptionSettingsCollection_STATUS | Extended |       |
+| EncryptionSettingsElement           | EncryptionSettingsElement           | Extended |       |
+| EncryptionSettingsElement_STATUS    | EncryptionSettingsElement_STATUS    | Extended |       |
+| Encryption_STATUS                   | Encryption_STATUS                   | Modified |       |
+| ExtendedLocation                    | ExtendedLocation                    | Modified |       |
+| ExtendedLocation_STATUS             | ExtendedLocation_STATUS             | Modified |       |
+| ImageDiskReference                  | ImageDiskReference                  | Extended |       |
+| ImageDiskReference_STATUS           | ImageDiskReference_STATUS           | Extended |       |
+| InnerError_STATUS                   | InnerError_STATUS                   | Extended |       |
+| KeyForDiskEncryptionSet             | KeyForDiskEncryptionSet             | Extended |       |
+| KeyForDiskEncryptionSet_STATUS      | KeyForDiskEncryptionSet_STATUS      | Extended |       |
+| KeyVaultAndKeyReference             | KeyVaultAndKeyReference             | Extended |       |
+| KeyVaultAndKeyReference_STATUS      | KeyVaultAndKeyReference_STATUS      | Extended |       |
+| KeyVaultAndSecretReference          | KeyVaultAndSecretReference          | Extended |       |
+| KeyVaultAndSecretReference_STATUS   | KeyVaultAndSecretReference_STATUS   | Extended |       |
+| PrivateEndpointConnection_STATUS    | PrivateEndpointConnection_STATUS    | Extended |       |
+| PropertyUpdatesInProgress_STATUS    | PropertyUpdatesInProgress_STATUS    | Extended |       |
+| ShareInfoElement_STATUS             | ShareInfoElement_STATUS             | Extended |       |
+| SnapshotOperatorSpec                | SnapshotOperatorSpec                | Extended |       |
+| SnapshotSku                         | SnapshotSku                         | Modified |       |
+| SnapshotSku_STATUS                  | SnapshotSku_STATUS                  | Modified |       |
+| Snapshot_STATUS                     | Snapshot_STATUS                     | Modified |       |
+| Snapshot_Spec                       | Snapshot_Spec                       | Modified |       |
+| SourceVault                         | SourceVault                         | Extended |       |
+| SourceVault_STATUS                  | SourceVault_STATUS                  | Extended |       |
+| SupportedCapabilities               | SupportedCapabilities               | Modified |       |
+| SupportedCapabilities_STATUS        | SupportedCapabilities_STATUS        | Modified |       |
+| SystemData_STATUS                   | SystemData_STATUS                   | Modified |       |
+| UserAssignedIdentitiesValue_STATUS  | UserAssignedIdentitiesValue_STATUS  | Extended |       |
+| UserAssignedIdentityDetails         | UserAssignedIdentityDetails         | Extended |       |
 
 ### ApiErrorBase_STATUS
 

@@ -11,22 +11,22 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                 | Next Version      | Next Type                    | Status    | Notes |
-|:----------------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
-| v20220101       | FlexibleServersAdministrator | v20220101/storage | FlexibleServersAdministrator | Identical |       |
-| v20220101       | FlexibleServersConfiguration | v20220101/storage | FlexibleServersConfiguration | Identical |       |
+| v20220101                    | v20220101/storage            | Status    | Notes |
+|:-----------------------------|:-----------------------------|:---------:|:------|
+| FlexibleServersAdministrator | FlexibleServersAdministrator | Identical |       |
+| FlexibleServersConfiguration | FlexibleServersConfiguration | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                             | Next Version      | Next Type                                | Status   | Notes |
-|:----------------|:-----------------------------------------|:------------------|:-----------------------------------------|:--------:|:------|
-| v20220101       | FlexibleServersAdministratorOperatorSpec | v20220101/storage | FlexibleServersAdministratorOperatorSpec | Extended |       |
-| v20220101       | FlexibleServersAdministrator_STATUS      | v20220101/storage | FlexibleServersAdministrator_STATUS      | Modified |       |
-| v20220101       | FlexibleServersAdministrator_Spec        | v20220101/storage | FlexibleServersAdministrator_Spec        | Modified |       |
-| v20220101       | FlexibleServersConfigurationOperatorSpec | v20220101/storage | FlexibleServersConfigurationOperatorSpec | Extended |       |
-| v20220101       | FlexibleServersConfiguration_STATUS      | v20220101/storage | FlexibleServersConfiguration_STATUS      | Modified |       |
-| v20220101       | FlexibleServersConfiguration_Spec        | v20220101/storage | FlexibleServersConfiguration_Spec        | Modified |       |
-| v20220101       | SystemData_STATUS                        | v20220101/storage | SystemData_STATUS                        | Modified |       |
+| v20220101                                | v20220101/storage                        | Status   | Notes |
+|:-----------------------------------------|:-----------------------------------------|:--------:|:------|
+| FlexibleServersAdministratorOperatorSpec | FlexibleServersAdministratorOperatorSpec | Extended |       |
+| FlexibleServersAdministrator_STATUS      | FlexibleServersAdministrator_STATUS      | Modified |       |
+| FlexibleServersAdministrator_Spec        | FlexibleServersAdministrator_Spec        | Modified |       |
+| FlexibleServersConfigurationOperatorSpec | FlexibleServersConfigurationOperatorSpec | Extended |       |
+| FlexibleServersConfiguration_STATUS      | FlexibleServersConfiguration_STATUS      | Modified |       |
+| FlexibleServersConfiguration_Spec        | FlexibleServersConfiguration_Spec        | Modified |       |
+| SystemData_STATUS                        | SystemData_STATUS                        | Modified |       |
 
 ### FlexibleServersAdministratorOperatorSpec
 

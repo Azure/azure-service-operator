@@ -11,21 +11,21 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type | Status    | Notes |
-|:----------------|:-------------|:----------------------|:----------|:---------:|:------|
-| v1api20230403   | Account      | v1api20230403/storage | Account   | Identical |       |
+| v1api20230403 | v1api20230403/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| Account       | Account               | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                     | Next Version          | Next Type                        | Status   | Notes |
-|:----------------|:---------------------------------|:----------------------|:---------------------------------|:--------:|:------|
-| v1api20230403   | AccountOperatorSpec              | v1api20230403/storage | AccountOperatorSpec              | Extended |       |
-| v1api20230403   | Account_STATUS                   | v1api20230403/storage | Account_STATUS                   | Modified |       |
-| v1api20230403   | Account_Spec                     | v1api20230403/storage | Account_Spec                     | Modified |       |
-| v1api20230403   | IngestionSettings_STATUS         | v1api20230403/storage | IngestionSettings_STATUS         | Extended |       |
-| v1api20230403   | Metrics_STATUS                   | v1api20230403/storage | Metrics_STATUS                   | Extended |       |
-| v1api20230403   | PrivateEndpointConnection_STATUS | v1api20230403/storage | PrivateEndpointConnection_STATUS | Extended |       |
-| v1api20230403   | SystemData_STATUS                | v1api20230403/storage | SystemData_STATUS                | Modified |       |
+| v1api20230403                    | v1api20230403/storage            | Status   | Notes |
+|:---------------------------------|:---------------------------------|:--------:|:------|
+| AccountOperatorSpec              | AccountOperatorSpec              | Extended |       |
+| Account_STATUS                   | Account_STATUS                   | Modified |       |
+| Account_Spec                     | Account_Spec                     | Modified |       |
+| IngestionSettings_STATUS         | IngestionSettings_STATUS         | Extended |       |
+| Metrics_STATUS                   | Metrics_STATUS                   | Extended |       |
+| PrivateEndpointConnection_STATUS | PrivateEndpointConnection_STATUS | Extended |       |
+| SystemData_STATUS                | SystemData_STATUS                | Modified |       |
 
 ### AccountOperatorSpec
 

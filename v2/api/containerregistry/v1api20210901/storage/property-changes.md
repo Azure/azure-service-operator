@@ -11,44 +11,44 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type | Next Version          | Next Type | Status    | Notes |
-|:----------------------|:-------------|:----------------------|:----------|:---------:|:------|
-| v1api20210901/storage | Registry     | v1api20230701/storage | Registry  | Identical |       |
+| v1api20210901/storage | v1api20230701/storage | Status    | Notes |
+|:----------------------|:----------------------|:---------:|:------|
+| Registry              | Registry              | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                     | Next Version          | Next Type                        | Status    | Notes |
-|:----------------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
-| v1api20210901/storage | EncryptionProperty               | v1api20230701/storage | EncryptionProperty               | Identical |       |
-| v1api20210901/storage | EncryptionProperty_STATUS        | v1api20230701/storage | EncryptionProperty_STATUS        | Identical |       |
-| v1api20210901/storage | ExportPolicy                     | v1api20230701/storage | ExportPolicy                     | Identical |       |
-| v1api20210901/storage | ExportPolicy_STATUS              | v1api20230701/storage | ExportPolicy_STATUS              | Identical |       |
-| v1api20210901/storage | IPRule                           | v1api20230701/storage | IPRule                           | Identical |       |
-| v1api20210901/storage | IPRule_STATUS                    | v1api20230701/storage | IPRule_STATUS                    | Identical |       |
-| v1api20210901/storage | IdentityProperties               | v1api20230701/storage | IdentityProperties               | Modified  |       |
-| v1api20210901/storage | IdentityProperties_STATUS        | v1api20230701/storage | IdentityProperties_STATUS        | Identical |       |
-| v1api20210901/storage | KeyVaultProperties               | v1api20230701/storage | KeyVaultProperties               | Extended  |       |
-| v1api20210901/storage | KeyVaultProperties_STATUS        | v1api20230701/storage | KeyVaultProperties_STATUS        | Identical |       |
-| v1api20210901/storage | NetworkRuleSet                   | v1api20230701/storage | NetworkRuleSet                   | Identical |       |
-| v1api20210901/storage | NetworkRuleSet_STATUS            | v1api20230701/storage | NetworkRuleSet_STATUS            | Identical |       |
-| v1api20210901/storage | Policies                         | v1api20230701/storage | Policies                         | Identical |       |
-| v1api20210901/storage | Policies_STATUS                  | v1api20230701/storage | Policies_STATUS                  | Identical |       |
-| v1api20210901/storage | PrivateEndpointConnection_STATUS | v1api20230701/storage | PrivateEndpointConnection_STATUS | Identical |       |
-| v1api20210901/storage | QuarantinePolicy                 | v1api20230701/storage | QuarantinePolicy                 | Identical |       |
-| v1api20210901/storage | QuarantinePolicy_STATUS          | v1api20230701/storage | QuarantinePolicy_STATUS          | Identical |       |
-| v1api20210901/storage | RegistryOperatorSpec             | v1api20230701/storage | RegistryOperatorSpec             | Identical |       |
-| v1api20210901/storage | Registry_STATUS                  | v1api20230701/storage | Registry_STATUS                  | Identical |       |
-| v1api20210901/storage | Registry_Spec                    | v1api20230701/storage | Registry_Spec                    | Identical |       |
-| v1api20210901/storage | RetentionPolicy                  | v1api20230701/storage | RetentionPolicy                  | Identical |       |
-| v1api20210901/storage | RetentionPolicy_STATUS           | v1api20230701/storage | RetentionPolicy_STATUS           | Identical |       |
-| v1api20210901/storage | Sku                              | v1api20230701/storage | Sku                              | Identical |       |
-| v1api20210901/storage | Sku_STATUS                       | v1api20230701/storage | Sku_STATUS                       | Identical |       |
-| v1api20210901/storage | Status_STATUS                    | v1api20230701/storage | Status_STATUS                    | Identical |       |
-| v1api20210901/storage | SystemData_STATUS                | v1api20230701/storage | SystemData_STATUS                | Identical |       |
-| v1api20210901/storage | TrustPolicy                      | v1api20230701/storage | TrustPolicy                      | Identical |       |
-| v1api20210901/storage | TrustPolicy_STATUS               | v1api20230701/storage | TrustPolicy_STATUS               | Identical |       |
-| v1api20210901/storage | UserAssignedIdentityDetails      | v1api20230701/storage | UserAssignedIdentityDetails      | Identical |       |
-| v1api20210901/storage | UserIdentityProperties_STATUS    | v1api20230701/storage | UserIdentityProperties_STATUS    | Identical |       |
+| v1api20210901/storage            | v1api20230701/storage            | Status    | Notes |
+|:---------------------------------|:---------------------------------|:---------:|:------|
+| EncryptionProperty               | EncryptionProperty               | Identical |       |
+| EncryptionProperty_STATUS        | EncryptionProperty_STATUS        | Identical |       |
+| ExportPolicy                     | ExportPolicy                     | Identical |       |
+| ExportPolicy_STATUS              | ExportPolicy_STATUS              | Identical |       |
+| IPRule                           | IPRule                           | Identical |       |
+| IPRule_STATUS                    | IPRule_STATUS                    | Identical |       |
+| IdentityProperties               | IdentityProperties               | Modified  |       |
+| IdentityProperties_STATUS        | IdentityProperties_STATUS        | Identical |       |
+| KeyVaultProperties               | KeyVaultProperties               | Extended  |       |
+| KeyVaultProperties_STATUS        | KeyVaultProperties_STATUS        | Identical |       |
+| NetworkRuleSet                   | NetworkRuleSet                   | Identical |       |
+| NetworkRuleSet_STATUS            | NetworkRuleSet_STATUS            | Identical |       |
+| Policies                         | Policies                         | Identical |       |
+| Policies_STATUS                  | Policies_STATUS                  | Identical |       |
+| PrivateEndpointConnection_STATUS | PrivateEndpointConnection_STATUS | Identical |       |
+| QuarantinePolicy                 | QuarantinePolicy                 | Identical |       |
+| QuarantinePolicy_STATUS          | QuarantinePolicy_STATUS          | Identical |       |
+| RegistryOperatorSpec             | RegistryOperatorSpec             | Identical |       |
+| Registry_STATUS                  | Registry_STATUS                  | Identical |       |
+| Registry_Spec                    | Registry_Spec                    | Identical |       |
+| RetentionPolicy                  | RetentionPolicy                  | Identical |       |
+| RetentionPolicy_STATUS           | RetentionPolicy_STATUS           | Identical |       |
+| Sku                              | Sku                              | Identical |       |
+| Sku_STATUS                       | Sku_STATUS                       | Identical |       |
+| Status_STATUS                    | Status_STATUS                    | Identical |       |
+| SystemData_STATUS                | SystemData_STATUS                | Identical |       |
+| TrustPolicy                      | TrustPolicy                      | Identical |       |
+| TrustPolicy_STATUS               | TrustPolicy_STATUS               | Identical |       |
+| UserAssignedIdentityDetails      | UserAssignedIdentityDetails      | Identical |       |
+| UserIdentityProperties_STATUS    | UserIdentityProperties_STATUS    | Identical |       |
 
 ### IdentityProperties
 

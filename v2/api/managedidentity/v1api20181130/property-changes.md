@@ -11,18 +11,18 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type         | Next Version          | Next Type            | Status    | Notes |
-|:----------------|:---------------------|:----------------------|:---------------------|:---------:|:------|
-| v1api20181130   | UserAssignedIdentity | v1api20181130/storage | UserAssignedIdentity | Identical |       |
+| v1api20181130        | v1api20181130/storage | Status    | Notes |
+|:---------------------|:----------------------|:---------:|:------|
+| UserAssignedIdentity | UserAssignedIdentity  | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                           | Next Version          | Next Type                              | Status   | Notes |
-|:----------------|:---------------------------------------|:----------------------|:---------------------------------------|:--------:|:------|
-| v1api20181130   | UserAssignedIdentityOperatorConfigMaps | v1api20181130/storage | UserAssignedIdentityOperatorConfigMaps | Extended |       |
-| v1api20181130   | UserAssignedIdentityOperatorSpec       | v1api20181130/storage | UserAssignedIdentityOperatorSpec       | Extended |       |
-| v1api20181130   | UserAssignedIdentity_STATUS            | v1api20181130/storage | UserAssignedIdentity_STATUS            | Extended |       |
-| v1api20181130   | UserAssignedIdentity_Spec              | v1api20181130/storage | UserAssignedIdentity_Spec              | Extended |       |
+| v1api20181130                          | v1api20181130/storage                  | Status   | Notes |
+|:---------------------------------------|:---------------------------------------|:--------:|:------|
+| UserAssignedIdentityOperatorConfigMaps | UserAssignedIdentityOperatorConfigMaps | Extended |       |
+| UserAssignedIdentityOperatorSpec       | UserAssignedIdentityOperatorSpec       | Extended |       |
+| UserAssignedIdentity_STATUS            | UserAssignedIdentity_STATUS            | Extended |       |
+| UserAssignedIdentity_Spec              | UserAssignedIdentity_Spec              | Extended |       |
 
 ### UserAssignedIdentityOperatorConfigMaps
 

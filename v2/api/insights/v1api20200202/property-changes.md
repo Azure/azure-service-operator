@@ -11,19 +11,19 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type | Status    | Notes |
-|:----------------|:-------------|:----------------------|:----------|:---------:|:------|
-| v1api20200202   | Component    | v1api20200202/storage | Component | Identical |       |
+| v1api20200202 | v1api20200202/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| Component     | Component             | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                     | Next Version          | Next Type                        | Status   | Notes |
-|:----------------|:---------------------------------|:----------------------|:---------------------------------|:--------:|:------|
-| v1api20200202   | ComponentOperatorConfigMaps      | v1api20200202/storage | ComponentOperatorConfigMaps      | Extended |       |
-| v1api20200202   | ComponentOperatorSpec            | v1api20200202/storage | ComponentOperatorSpec            | Extended |       |
-| v1api20200202   | Component_STATUS                 | v1api20200202/storage | Component_STATUS                 | Modified |       |
-| v1api20200202   | Component_Spec                   | v1api20200202/storage | Component_Spec                   | Modified |       |
-| v1api20200202   | PrivateLinkScopedResource_STATUS | v1api20200202/storage | PrivateLinkScopedResource_STATUS | Extended |       |
+| v1api20200202                    | v1api20200202/storage            | Status   | Notes |
+|:---------------------------------|:---------------------------------|:--------:|:------|
+| ComponentOperatorConfigMaps      | ComponentOperatorConfigMaps      | Extended |       |
+| ComponentOperatorSpec            | ComponentOperatorSpec            | Extended |       |
+| Component_STATUS                 | Component_STATUS                 | Modified |       |
+| Component_Spec                   | Component_Spec                   | Modified |       |
+| PrivateLinkScopedResource_STATUS | PrivateLinkScopedResource_STATUS | Extended |       |
 
 ### ComponentOperatorConfigMaps
 

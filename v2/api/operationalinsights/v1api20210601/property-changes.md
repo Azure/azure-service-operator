@@ -11,25 +11,25 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type | Status    | Notes |
-|:----------------|:-------------|:----------------------|:----------|:---------:|:------|
-| v1api20210601   | Workspace    | v1api20210601/storage | Workspace | Identical |       |
+| v1api20210601 | v1api20210601/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| Workspace     | Workspace             | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                     | Next Version          | Next Type                        | Status   | Notes |
-|:----------------|:---------------------------------|:----------------------|:---------------------------------|:--------:|:------|
-| v1api20210601   | PrivateLinkScopedResource_STATUS | v1api20210601/storage | PrivateLinkScopedResource_STATUS | Extended |       |
-| v1api20210601   | WorkspaceCapping                 | v1api20210601/storage | WorkspaceCapping                 | Extended |       |
-| v1api20210601   | WorkspaceCapping_STATUS          | v1api20210601/storage | WorkspaceCapping_STATUS          | Modified |       |
-| v1api20210601   | WorkspaceFeatures                | v1api20210601/storage | WorkspaceFeatures                | Extended |       |
-| v1api20210601   | WorkspaceFeatures_STATUS         | v1api20210601/storage | WorkspaceFeatures_STATUS         | Extended |       |
-| v1api20210601   | WorkspaceOperatorSecrets         | v1api20210601/storage | WorkspaceOperatorSecrets         | Extended |       |
-| v1api20210601   | WorkspaceOperatorSpec            | v1api20210601/storage | WorkspaceOperatorSpec            | Extended |       |
-| v1api20210601   | WorkspaceSku                     | v1api20210601/storage | WorkspaceSku                     | Modified |       |
-| v1api20210601   | WorkspaceSku_STATUS              | v1api20210601/storage | WorkspaceSku_STATUS              | Modified |       |
-| v1api20210601   | Workspace_STATUS                 | v1api20210601/storage | Workspace_STATUS                 | Modified |       |
-| v1api20210601   | Workspace_Spec                   | v1api20210601/storage | Workspace_Spec                   | Modified |       |
+| v1api20210601                    | v1api20210601/storage            | Status   | Notes |
+|:---------------------------------|:---------------------------------|:--------:|:------|
+| PrivateLinkScopedResource_STATUS | PrivateLinkScopedResource_STATUS | Extended |       |
+| WorkspaceCapping                 | WorkspaceCapping                 | Extended |       |
+| WorkspaceCapping_STATUS          | WorkspaceCapping_STATUS          | Modified |       |
+| WorkspaceFeatures                | WorkspaceFeatures                | Extended |       |
+| WorkspaceFeatures_STATUS         | WorkspaceFeatures_STATUS         | Extended |       |
+| WorkspaceOperatorSecrets         | WorkspaceOperatorSecrets         | Extended |       |
+| WorkspaceOperatorSpec            | WorkspaceOperatorSpec            | Extended |       |
+| WorkspaceSku                     | WorkspaceSku                     | Modified |       |
+| WorkspaceSku_STATUS              | WorkspaceSku_STATUS              | Modified |       |
+| Workspace_STATUS                 | Workspace_STATUS                 | Modified |       |
+| Workspace_Spec                   | Workspace_Spec                   | Modified |       |
 
 ### PrivateLinkScopedResource_STATUS
 

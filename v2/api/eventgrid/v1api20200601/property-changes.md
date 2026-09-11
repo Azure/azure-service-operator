@@ -11,94 +11,94 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type      | Next Version          | Next Type         | Status    | Notes |
-|:----------------|:------------------|:----------------------|:------------------|:---------:|:------|
-| v1api20200601   | Domain            | v1api20200601/storage | Domain            | Identical |       |
-| v1api20200601   | DomainsTopic      | v1api20200601/storage | DomainsTopic      | Identical |       |
-| v1api20200601   | EventSubscription | v1api20200601/storage | EventSubscription | Identical |       |
-| v1api20200601   | Topic             | v1api20200601/storage | Topic             | Identical |       |
+| v1api20200601     | v1api20200601/storage | Status    | Notes |
+|:------------------|:----------------------|:---------:|:------|
+| Domain            | Domain                | Identical |       |
+| DomainsTopic      | DomainsTopic          | Identical |       |
+| EventSubscription | EventSubscription     | Identical |       |
+| Topic             | Topic                 | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                                | Next Version          | Next Type                                                   | Status   | Notes |
-|:----------------|:------------------------------------------------------------|:----------------------|:------------------------------------------------------------|:--------:|:------|
-| v1api20200601   | AdvancedFilter                                              | v1api20200601/storage | AdvancedFilter                                              | Extended |       |
-| v1api20200601   | AdvancedFilter_STATUS                                       | v1api20200601/storage | AdvancedFilter_STATUS                                       | Extended |       |
-| v1api20200601   | AzureFunctionEventSubscriptionDestination                   | v1api20200601/storage | AzureFunctionEventSubscriptionDestination                   | Modified |       |
-| v1api20200601   | AzureFunctionEventSubscriptionDestination_STATUS            | v1api20200601/storage | AzureFunctionEventSubscriptionDestination_STATUS            | Modified |       |
-| v1api20200601   | BoolEqualsAdvancedFilter                                    | v1api20200601/storage | BoolEqualsAdvancedFilter                                    | Modified |       |
-| v1api20200601   | BoolEqualsAdvancedFilter_STATUS                             | v1api20200601/storage | BoolEqualsAdvancedFilter_STATUS                             | Modified |       |
-| v1api20200601   | DeadLetterDestination                                       | v1api20200601/storage | DeadLetterDestination                                       | Extended |       |
-| v1api20200601   | DeadLetterDestination_STATUS                                | v1api20200601/storage | DeadLetterDestination_STATUS                                | Extended |       |
-| v1api20200601   | DomainOperatorSpec                                          | v1api20200601/storage | DomainOperatorSpec                                          | Extended |       |
-| v1api20200601   | Domain_STATUS                                               | v1api20200601/storage | Domain_STATUS                                               | Modified |       |
-| v1api20200601   | Domain_Spec                                                 | v1api20200601/storage | Domain_Spec                                                 | Modified |       |
-| v1api20200601   | DomainsTopicOperatorSpec                                    | v1api20200601/storage | DomainsTopicOperatorSpec                                    | Extended |       |
-| v1api20200601   | DomainsTopic_STATUS                                         | v1api20200601/storage | DomainsTopic_STATUS                                         | Modified |       |
-| v1api20200601   | DomainsTopic_Spec                                           | v1api20200601/storage | DomainsTopic_Spec                                           | Extended |       |
-| v1api20200601   | EventHubEventSubscriptionDestination                        | v1api20200601/storage | EventHubEventSubscriptionDestination                        | Modified |       |
-| v1api20200601   | EventHubEventSubscriptionDestination_STATUS                 | v1api20200601/storage | EventHubEventSubscriptionDestination_STATUS                 | Modified |       |
-| v1api20200601   | EventSubscriptionDestination                                | v1api20200601/storage | EventSubscriptionDestination                                | Extended |       |
-| v1api20200601   | EventSubscriptionDestination_STATUS                         | v1api20200601/storage | EventSubscriptionDestination_STATUS                         | Extended |       |
-| v1api20200601   | EventSubscriptionFilter                                     | v1api20200601/storage | EventSubscriptionFilter                                     | Extended |       |
-| v1api20200601   | EventSubscriptionFilter_STATUS                              | v1api20200601/storage | EventSubscriptionFilter_STATUS                              | Extended |       |
-| v1api20200601   | EventSubscriptionOperatorSpec                               | v1api20200601/storage | EventSubscriptionOperatorSpec                               | Extended |       |
-| v1api20200601   | EventSubscription_STATUS                                    | v1api20200601/storage | EventSubscription_STATUS                                    | Modified |       |
-| v1api20200601   | EventSubscription_Spec                                      | v1api20200601/storage | EventSubscription_Spec                                      | Modified |       |
-| v1api20200601   | HybridConnectionEventSubscriptionDestination                | v1api20200601/storage | HybridConnectionEventSubscriptionDestination                | Modified |       |
-| v1api20200601   | HybridConnectionEventSubscriptionDestination_STATUS         | v1api20200601/storage | HybridConnectionEventSubscriptionDestination_STATUS         | Modified |       |
-| v1api20200601   | InboundIpRule                                               | v1api20200601/storage | InboundIpRule                                               | Modified |       |
-| v1api20200601   | InboundIpRule_STATUS                                        | v1api20200601/storage | InboundIpRule_STATUS                                        | Modified |       |
-| v1api20200601   | InputSchemaMapping                                          | v1api20200601/storage | InputSchemaMapping                                          | Extended |       |
-| v1api20200601   | InputSchemaMapping_STATUS                                   | v1api20200601/storage | InputSchemaMapping_STATUS                                   | Extended |       |
-| v1api20200601   | JsonField                                                   | v1api20200601/storage | JsonField                                                   | Extended |       |
-| v1api20200601   | JsonFieldWithDefault                                        | v1api20200601/storage | JsonFieldWithDefault                                        | Extended |       |
-| v1api20200601   | JsonFieldWithDefault_STATUS                                 | v1api20200601/storage | JsonFieldWithDefault_STATUS                                 | Extended |       |
-| v1api20200601   | JsonField_STATUS                                            | v1api20200601/storage | JsonField_STATUS                                            | Extended |       |
-| v1api20200601   | JsonInputSchemaMapping                                      | v1api20200601/storage | JsonInputSchemaMapping                                      | Modified |       |
-| v1api20200601   | JsonInputSchemaMapping_STATUS                               | v1api20200601/storage | JsonInputSchemaMapping_STATUS                               | Modified |       |
-| v1api20200601   | NumberGreaterThanAdvancedFilter                             | v1api20200601/storage | NumberGreaterThanAdvancedFilter                             | Modified |       |
-| v1api20200601   | NumberGreaterThanAdvancedFilter_STATUS                      | v1api20200601/storage | NumberGreaterThanAdvancedFilter_STATUS                      | Modified |       |
-| v1api20200601   | NumberGreaterThanOrEqualsAdvancedFilter                     | v1api20200601/storage | NumberGreaterThanOrEqualsAdvancedFilter                     | Modified |       |
-| v1api20200601   | NumberGreaterThanOrEqualsAdvancedFilter_STATUS              | v1api20200601/storage | NumberGreaterThanOrEqualsAdvancedFilter_STATUS              | Modified |       |
-| v1api20200601   | NumberInAdvancedFilter                                      | v1api20200601/storage | NumberInAdvancedFilter                                      | Modified |       |
-| v1api20200601   | NumberInAdvancedFilter_STATUS                               | v1api20200601/storage | NumberInAdvancedFilter_STATUS                               | Modified |       |
-| v1api20200601   | NumberLessThanAdvancedFilter                                | v1api20200601/storage | NumberLessThanAdvancedFilter                                | Modified |       |
-| v1api20200601   | NumberLessThanAdvancedFilter_STATUS                         | v1api20200601/storage | NumberLessThanAdvancedFilter_STATUS                         | Modified |       |
-| v1api20200601   | NumberLessThanOrEqualsAdvancedFilter                        | v1api20200601/storage | NumberLessThanOrEqualsAdvancedFilter                        | Modified |       |
-| v1api20200601   | NumberLessThanOrEqualsAdvancedFilter_STATUS                 | v1api20200601/storage | NumberLessThanOrEqualsAdvancedFilter_STATUS                 | Modified |       |
-| v1api20200601   | NumberNotInAdvancedFilter                                   | v1api20200601/storage | NumberNotInAdvancedFilter                                   | Modified |       |
-| v1api20200601   | NumberNotInAdvancedFilter_STATUS                            | v1api20200601/storage | NumberNotInAdvancedFilter_STATUS                            | Modified |       |
-| v1api20200601   | PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded | v1api20200601/storage | PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded | Extended |       |
-| v1api20200601   | PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded  | v1api20200601/storage | PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded  | Extended |       |
-| v1api20200601   | RetryPolicy                                                 | v1api20200601/storage | RetryPolicy                                                 | Extended |       |
-| v1api20200601   | RetryPolicy_STATUS                                          | v1api20200601/storage | RetryPolicy_STATUS                                          | Extended |       |
-| v1api20200601   | ServiceBusQueueEventSubscriptionDestination                 | v1api20200601/storage | ServiceBusQueueEventSubscriptionDestination                 | Modified |       |
-| v1api20200601   | ServiceBusQueueEventSubscriptionDestination_STATUS          | v1api20200601/storage | ServiceBusQueueEventSubscriptionDestination_STATUS          | Modified |       |
-| v1api20200601   | ServiceBusTopicEventSubscriptionDestination                 | v1api20200601/storage | ServiceBusTopicEventSubscriptionDestination                 | Modified |       |
-| v1api20200601   | ServiceBusTopicEventSubscriptionDestination_STATUS          | v1api20200601/storage | ServiceBusTopicEventSubscriptionDestination_STATUS          | Modified |       |
-| v1api20200601   | StorageBlobDeadLetterDestination                            | v1api20200601/storage | StorageBlobDeadLetterDestination                            | Modified |       |
-| v1api20200601   | StorageBlobDeadLetterDestination_STATUS                     | v1api20200601/storage | StorageBlobDeadLetterDestination_STATUS                     | Modified |       |
-| v1api20200601   | StorageQueueEventSubscriptionDestination                    | v1api20200601/storage | StorageQueueEventSubscriptionDestination                    | Modified |       |
-| v1api20200601   | StorageQueueEventSubscriptionDestination_STATUS             | v1api20200601/storage | StorageQueueEventSubscriptionDestination_STATUS             | Modified |       |
-| v1api20200601   | StringBeginsWithAdvancedFilter                              | v1api20200601/storage | StringBeginsWithAdvancedFilter                              | Modified |       |
-| v1api20200601   | StringBeginsWithAdvancedFilter_STATUS                       | v1api20200601/storage | StringBeginsWithAdvancedFilter_STATUS                       | Modified |       |
-| v1api20200601   | StringContainsAdvancedFilter                                | v1api20200601/storage | StringContainsAdvancedFilter                                | Modified |       |
-| v1api20200601   | StringContainsAdvancedFilter_STATUS                         | v1api20200601/storage | StringContainsAdvancedFilter_STATUS                         | Modified |       |
-| v1api20200601   | StringEndsWithAdvancedFilter                                | v1api20200601/storage | StringEndsWithAdvancedFilter                                | Modified |       |
-| v1api20200601   | StringEndsWithAdvancedFilter_STATUS                         | v1api20200601/storage | StringEndsWithAdvancedFilter_STATUS                         | Modified |       |
-| v1api20200601   | StringInAdvancedFilter                                      | v1api20200601/storage | StringInAdvancedFilter                                      | Modified |       |
-| v1api20200601   | StringInAdvancedFilter_STATUS                               | v1api20200601/storage | StringInAdvancedFilter_STATUS                               | Modified |       |
-| v1api20200601   | StringNotInAdvancedFilter                                   | v1api20200601/storage | StringNotInAdvancedFilter                                   | Modified |       |
-| v1api20200601   | StringNotInAdvancedFilter_STATUS                            | v1api20200601/storage | StringNotInAdvancedFilter_STATUS                            | Modified |       |
-| v1api20200601   | SystemData_STATUS                                           | v1api20200601/storage | SystemData_STATUS                                           | Modified |       |
-| v1api20200601   | TopicOperatorConfigMaps                                     | v1api20200601/storage | TopicOperatorConfigMaps                                     | Extended |       |
-| v1api20200601   | TopicOperatorSecrets                                        | v1api20200601/storage | TopicOperatorSecrets                                        | Extended |       |
-| v1api20200601   | TopicOperatorSpec                                           | v1api20200601/storage | TopicOperatorSpec                                           | Extended |       |
-| v1api20200601   | Topic_STATUS                                                | v1api20200601/storage | Topic_STATUS                                                | Modified |       |
-| v1api20200601   | Topic_Spec                                                  | v1api20200601/storage | Topic_Spec                                                  | Modified |       |
-| v1api20200601   | WebHookEventSubscriptionDestination                         | v1api20200601/storage | WebHookEventSubscriptionDestination                         | Modified |       |
-| v1api20200601   | WebHookEventSubscriptionDestination_STATUS                  | v1api20200601/storage | WebHookEventSubscriptionDestination_STATUS                  | Modified |       |
+| v1api20200601                                               | v1api20200601/storage                                       | Status   | Notes |
+|:------------------------------------------------------------|:------------------------------------------------------------|:--------:|:------|
+| AdvancedFilter                                              | AdvancedFilter                                              | Extended |       |
+| AdvancedFilter_STATUS                                       | AdvancedFilter_STATUS                                       | Extended |       |
+| AzureFunctionEventSubscriptionDestination                   | AzureFunctionEventSubscriptionDestination                   | Modified |       |
+| AzureFunctionEventSubscriptionDestination_STATUS            | AzureFunctionEventSubscriptionDestination_STATUS            | Modified |       |
+| BoolEqualsAdvancedFilter                                    | BoolEqualsAdvancedFilter                                    | Modified |       |
+| BoolEqualsAdvancedFilter_STATUS                             | BoolEqualsAdvancedFilter_STATUS                             | Modified |       |
+| DeadLetterDestination                                       | DeadLetterDestination                                       | Extended |       |
+| DeadLetterDestination_STATUS                                | DeadLetterDestination_STATUS                                | Extended |       |
+| DomainOperatorSpec                                          | DomainOperatorSpec                                          | Extended |       |
+| Domain_STATUS                                               | Domain_STATUS                                               | Modified |       |
+| Domain_Spec                                                 | Domain_Spec                                                 | Modified |       |
+| DomainsTopicOperatorSpec                                    | DomainsTopicOperatorSpec                                    | Extended |       |
+| DomainsTopic_STATUS                                         | DomainsTopic_STATUS                                         | Modified |       |
+| DomainsTopic_Spec                                           | DomainsTopic_Spec                                           | Extended |       |
+| EventHubEventSubscriptionDestination                        | EventHubEventSubscriptionDestination                        | Modified |       |
+| EventHubEventSubscriptionDestination_STATUS                 | EventHubEventSubscriptionDestination_STATUS                 | Modified |       |
+| EventSubscriptionDestination                                | EventSubscriptionDestination                                | Extended |       |
+| EventSubscriptionDestination_STATUS                         | EventSubscriptionDestination_STATUS                         | Extended |       |
+| EventSubscriptionFilter                                     | EventSubscriptionFilter                                     | Extended |       |
+| EventSubscriptionFilter_STATUS                              | EventSubscriptionFilter_STATUS                              | Extended |       |
+| EventSubscriptionOperatorSpec                               | EventSubscriptionOperatorSpec                               | Extended |       |
+| EventSubscription_STATUS                                    | EventSubscription_STATUS                                    | Modified |       |
+| EventSubscription_Spec                                      | EventSubscription_Spec                                      | Modified |       |
+| HybridConnectionEventSubscriptionDestination                | HybridConnectionEventSubscriptionDestination                | Modified |       |
+| HybridConnectionEventSubscriptionDestination_STATUS         | HybridConnectionEventSubscriptionDestination_STATUS         | Modified |       |
+| InboundIpRule                                               | InboundIpRule                                               | Modified |       |
+| InboundIpRule_STATUS                                        | InboundIpRule_STATUS                                        | Modified |       |
+| InputSchemaMapping                                          | InputSchemaMapping                                          | Extended |       |
+| InputSchemaMapping_STATUS                                   | InputSchemaMapping_STATUS                                   | Extended |       |
+| JsonField                                                   | JsonField                                                   | Extended |       |
+| JsonFieldWithDefault                                        | JsonFieldWithDefault                                        | Extended |       |
+| JsonFieldWithDefault_STATUS                                 | JsonFieldWithDefault_STATUS                                 | Extended |       |
+| JsonField_STATUS                                            | JsonField_STATUS                                            | Extended |       |
+| JsonInputSchemaMapping                                      | JsonInputSchemaMapping                                      | Modified |       |
+| JsonInputSchemaMapping_STATUS                               | JsonInputSchemaMapping_STATUS                               | Modified |       |
+| NumberGreaterThanAdvancedFilter                             | NumberGreaterThanAdvancedFilter                             | Modified |       |
+| NumberGreaterThanAdvancedFilter_STATUS                      | NumberGreaterThanAdvancedFilter_STATUS                      | Modified |       |
+| NumberGreaterThanOrEqualsAdvancedFilter                     | NumberGreaterThanOrEqualsAdvancedFilter                     | Modified |       |
+| NumberGreaterThanOrEqualsAdvancedFilter_STATUS              | NumberGreaterThanOrEqualsAdvancedFilter_STATUS              | Modified |       |
+| NumberInAdvancedFilter                                      | NumberInAdvancedFilter                                      | Modified |       |
+| NumberInAdvancedFilter_STATUS                               | NumberInAdvancedFilter_STATUS                               | Modified |       |
+| NumberLessThanAdvancedFilter                                | NumberLessThanAdvancedFilter                                | Modified |       |
+| NumberLessThanAdvancedFilter_STATUS                         | NumberLessThanAdvancedFilter_STATUS                         | Modified |       |
+| NumberLessThanOrEqualsAdvancedFilter                        | NumberLessThanOrEqualsAdvancedFilter                        | Modified |       |
+| NumberLessThanOrEqualsAdvancedFilter_STATUS                 | NumberLessThanOrEqualsAdvancedFilter_STATUS                 | Modified |       |
+| NumberNotInAdvancedFilter                                   | NumberNotInAdvancedFilter                                   | Modified |       |
+| NumberNotInAdvancedFilter_STATUS                            | NumberNotInAdvancedFilter_STATUS                            | Modified |       |
+| PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded | PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded | Extended |       |
+| PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded  | PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded  | Extended |       |
+| RetryPolicy                                                 | RetryPolicy                                                 | Extended |       |
+| RetryPolicy_STATUS                                          | RetryPolicy_STATUS                                          | Extended |       |
+| ServiceBusQueueEventSubscriptionDestination                 | ServiceBusQueueEventSubscriptionDestination                 | Modified |       |
+| ServiceBusQueueEventSubscriptionDestination_STATUS          | ServiceBusQueueEventSubscriptionDestination_STATUS          | Modified |       |
+| ServiceBusTopicEventSubscriptionDestination                 | ServiceBusTopicEventSubscriptionDestination                 | Modified |       |
+| ServiceBusTopicEventSubscriptionDestination_STATUS          | ServiceBusTopicEventSubscriptionDestination_STATUS          | Modified |       |
+| StorageBlobDeadLetterDestination                            | StorageBlobDeadLetterDestination                            | Modified |       |
+| StorageBlobDeadLetterDestination_STATUS                     | StorageBlobDeadLetterDestination_STATUS                     | Modified |       |
+| StorageQueueEventSubscriptionDestination                    | StorageQueueEventSubscriptionDestination                    | Modified |       |
+| StorageQueueEventSubscriptionDestination_STATUS             | StorageQueueEventSubscriptionDestination_STATUS             | Modified |       |
+| StringBeginsWithAdvancedFilter                              | StringBeginsWithAdvancedFilter                              | Modified |       |
+| StringBeginsWithAdvancedFilter_STATUS                       | StringBeginsWithAdvancedFilter_STATUS                       | Modified |       |
+| StringContainsAdvancedFilter                                | StringContainsAdvancedFilter                                | Modified |       |
+| StringContainsAdvancedFilter_STATUS                         | StringContainsAdvancedFilter_STATUS                         | Modified |       |
+| StringEndsWithAdvancedFilter                                | StringEndsWithAdvancedFilter                                | Modified |       |
+| StringEndsWithAdvancedFilter_STATUS                         | StringEndsWithAdvancedFilter_STATUS                         | Modified |       |
+| StringInAdvancedFilter                                      | StringInAdvancedFilter                                      | Modified |       |
+| StringInAdvancedFilter_STATUS                               | StringInAdvancedFilter_STATUS                               | Modified |       |
+| StringNotInAdvancedFilter                                   | StringNotInAdvancedFilter                                   | Modified |       |
+| StringNotInAdvancedFilter_STATUS                            | StringNotInAdvancedFilter_STATUS                            | Modified |       |
+| SystemData_STATUS                                           | SystemData_STATUS                                           | Modified |       |
+| TopicOperatorConfigMaps                                     | TopicOperatorConfigMaps                                     | Extended |       |
+| TopicOperatorSecrets                                        | TopicOperatorSecrets                                        | Extended |       |
+| TopicOperatorSpec                                           | TopicOperatorSpec                                           | Extended |       |
+| Topic_STATUS                                                | Topic_STATUS                                                | Modified |       |
+| Topic_Spec                                                  | Topic_Spec                                                  | Modified |       |
+| WebHookEventSubscriptionDestination                         | WebHookEventSubscriptionDestination                         | Modified |       |
+| WebHookEventSubscriptionDestination_STATUS                  | WebHookEventSubscriptionDestination_STATUS                  | Modified |       |
 
 ### AdvancedFilter
 

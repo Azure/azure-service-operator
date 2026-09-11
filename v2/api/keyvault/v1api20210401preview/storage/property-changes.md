@@ -11,35 +11,35 @@ Statuses:
 
 ## Resources
 
-| Current Version              | Current Type | Next Version          | Next Type | Status    | Notes |
-|:-----------------------------|:-------------|:----------------------|:----------|:---------:|:------|
-| v1api20210401preview/storage | Vault        | v1api20230701/storage | Vault     | Identical |       |
+| v1api20210401preview/storage | v1api20230701/storage | Status    | Notes |
+|:-----------------------------|:----------------------|:---------:|:------|
+| Vault                        | Vault                 | Identical |       |
 
 ## Objects
 
-| Current Version              | Current Type                             | Next Version          | Next Type                                | Status    | Notes |
-|:-----------------------------|:-----------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
-| v1api20210401preview/storage | AccessPolicyEntry                        | v1api20230701/storage | AccessPolicyEntry                        | Identical |       |
-| v1api20210401preview/storage | AccessPolicyEntry_STATUS                 | v1api20230701/storage | AccessPolicyEntry_STATUS                 | Identical |       |
-| v1api20210401preview/storage | IPRule                                   | v1api20230701/storage | IPRule                                   | Identical |       |
-| v1api20210401preview/storage | IPRule_STATUS                            | v1api20230701/storage | IPRule_STATUS                            | Identical |       |
-| v1api20210401preview/storage | NetworkRuleSet                           | v1api20230701/storage | NetworkRuleSet                           | Identical |       |
-| v1api20210401preview/storage | NetworkRuleSet_STATUS                    | v1api20230701/storage | NetworkRuleSet_STATUS                    | Identical |       |
-| v1api20210401preview/storage | Permissions                              | v1api20230701/storage | Permissions                              | Identical |       |
-| v1api20210401preview/storage | Permissions_STATUS                       | v1api20230701/storage | Permissions_STATUS                       | Identical |       |
-| v1api20210401preview/storage | PrivateEndpointConnectionItem_STATUS     | v1api20230701/storage | PrivateEndpointConnectionItem_STATUS     | Identical |       |
-| v1api20210401preview/storage | PrivateEndpoint_STATUS                   | v1api20230701/storage | PrivateEndpoint_STATUS                   | Identical |       |
-| v1api20210401preview/storage | PrivateLinkServiceConnectionState_STATUS | v1api20230701/storage | PrivateLinkServiceConnectionState_STATUS | Identical |       |
-| v1api20210401preview/storage | Sku                                      | v1api20230701/storage | Sku                                      | Identical |       |
-| v1api20210401preview/storage | Sku_STATUS                               | v1api20230701/storage | Sku_STATUS                               | Identical |       |
-| v1api20210401preview/storage | SystemData_STATUS                        | v1api20230701/storage | SystemData_STATUS                        | Identical |       |
-| v1api20210401preview/storage | VaultOperatorSpec                        | v1api20230701/storage | VaultOperatorSpec                        | Identical |       |
-| v1api20210401preview/storage | VaultProperties                          | v1api20230701/storage | VaultProperties                          | Extended  |       |
-| v1api20210401preview/storage | VaultProperties_STATUS                   | v1api20230701/storage | VaultProperties_STATUS                   | Extended  |       |
-| v1api20210401preview/storage | Vault_STATUS                             | v1api20230701/storage | Vault_STATUS                             | Identical |       |
-| v1api20210401preview/storage | Vault_Spec                               | v1api20230701/storage | Vault_Spec                               | Identical |       |
-| v1api20210401preview/storage | VirtualNetworkRule                       | v1api20230701/storage | VirtualNetworkRule                       | Identical |       |
-| v1api20210401preview/storage | VirtualNetworkRule_STATUS                | v1api20230701/storage | VirtualNetworkRule_STATUS                | Identical |       |
+| v1api20210401preview/storage             | v1api20230701/storage                    | Status    | Notes |
+|:-----------------------------------------|:-----------------------------------------|:---------:|:------|
+| AccessPolicyEntry                        | AccessPolicyEntry                        | Identical |       |
+| AccessPolicyEntry_STATUS                 | AccessPolicyEntry_STATUS                 | Identical |       |
+| IPRule                                   | IPRule                                   | Identical |       |
+| IPRule_STATUS                            | IPRule_STATUS                            | Identical |       |
+| NetworkRuleSet                           | NetworkRuleSet                           | Identical |       |
+| NetworkRuleSet_STATUS                    | NetworkRuleSet_STATUS                    | Identical |       |
+| Permissions                              | Permissions                              | Identical |       |
+| Permissions_STATUS                       | Permissions_STATUS                       | Identical |       |
+| PrivateEndpointConnectionItem_STATUS     | PrivateEndpointConnectionItem_STATUS     | Identical |       |
+| PrivateEndpoint_STATUS                   | PrivateEndpoint_STATUS                   | Identical |       |
+| PrivateLinkServiceConnectionState_STATUS | PrivateLinkServiceConnectionState_STATUS | Identical |       |
+| Sku                                      | Sku                                      | Identical |       |
+| Sku_STATUS                               | Sku_STATUS                               | Identical |       |
+| SystemData_STATUS                        | SystemData_STATUS                        | Identical |       |
+| VaultOperatorSpec                        | VaultOperatorSpec                        | Identical |       |
+| VaultProperties                          | VaultProperties                          | Extended  |       |
+| VaultProperties_STATUS                   | VaultProperties_STATUS                   | Extended  |       |
+| Vault_STATUS                             | Vault_STATUS                             | Identical |       |
+| Vault_Spec                               | Vault_Spec                               | Identical |       |
+| VirtualNetworkRule                       | VirtualNetworkRule                       | Identical |       |
+| VirtualNetworkRule_STATUS                | VirtualNetworkRule_STATUS                | Identical |       |
 
 ### VaultProperties
 

@@ -11,73 +11,73 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type             | Next Version          | Next Type                | Status    | Notes |
-|:----------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
-| v1api20250301   | Fleet                    | v1api20250301/storage | Fleet                    | Identical |       |
-| v1api20250301   | FleetsAutoUpgradeProfile | v1api20250301/storage | FleetsAutoUpgradeProfile | Identical |       |
-| v1api20250301   | FleetsMember             | v1api20250301/storage | FleetsMember             | Identical |       |
-| v1api20250301   | FleetsUpdateRun          | v1api20250301/storage | FleetsUpdateRun          | Identical |       |
-| v1api20250301   | FleetsUpdateStrategy     | v1api20250301/storage | FleetsUpdateStrategy     | Identical |       |
+| v1api20250301            | v1api20250301/storage    | Status    | Notes |
+|:-------------------------|:-------------------------|:---------:|:------|
+| Fleet                    | Fleet                    | Identical |       |
+| FleetsAutoUpgradeProfile | FleetsAutoUpgradeProfile | Identical |       |
+| FleetsMember             | FleetsMember             | Identical |       |
+| FleetsUpdateRun          | FleetsUpdateRun          | Identical |       |
+| FleetsUpdateStrategy     | FleetsUpdateStrategy     | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                         | Next Version          | Next Type                            | Status   | Notes |
-|:----------------|:-------------------------------------|:----------------------|:-------------------------------------|:--------:|:------|
-| v1api20250301   | APIServerAccessProfile               | v1api20250301/storage | APIServerAccessProfile               | Extended |       |
-| v1api20250301   | APIServerAccessProfile_STATUS        | v1api20250301/storage | APIServerAccessProfile_STATUS        | Extended |       |
-| v1api20250301   | AgentProfile                         | v1api20250301/storage | AgentProfile                         | Extended |       |
-| v1api20250301   | AgentProfile_STATUS                  | v1api20250301/storage | AgentProfile_STATUS                  | Extended |       |
-| v1api20250301   | AutoUpgradeNodeImageSelection        | v1api20250301/storage | AutoUpgradeNodeImageSelection        | Modified |       |
-| v1api20250301   | AutoUpgradeNodeImageSelection_STATUS | v1api20250301/storage | AutoUpgradeNodeImageSelection_STATUS | Modified |       |
-| v1api20250301   | AutoUpgradeProfileStatus_STATUS      | v1api20250301/storage | AutoUpgradeProfileStatus_STATUS      | Modified |       |
-| v1api20250301   | CommonUserAssignedIdentity_STATUS    | v1api20250301/storage | CommonUserAssignedIdentity_STATUS    | Extended |       |
-| v1api20250301   | ErrorAdditionalInfo_STATUS           | v1api20250301/storage | ErrorAdditionalInfo_STATUS           | Extended |       |
-| v1api20250301   | ErrorDetail_STATUS                   | v1api20250301/storage | ErrorDetail_STATUS                   | Extended |       |
-| v1api20250301   | ErrorDetail_STATUS_Unrolled          | v1api20250301/storage | ErrorDetail_STATUS_Unrolled          | Extended |       |
-| v1api20250301   | FleetHubProfile                      | v1api20250301/storage | FleetHubProfile                      | Modified |       |
-| v1api20250301   | FleetHubProfile_STATUS               | v1api20250301/storage | FleetHubProfile_STATUS               | Extended |       |
-| v1api20250301   | FleetMemberStatus_STATUS             | v1api20250301/storage | FleetMemberStatus_STATUS             | Extended |       |
-| v1api20250301   | FleetOperatorSecrets                 | v1api20250301/storage | FleetOperatorSecrets                 | Extended |       |
-| v1api20250301   | FleetOperatorSpec                    | v1api20250301/storage | FleetOperatorSpec                    | Extended |       |
-| v1api20250301   | FleetStatus_STATUS                   | v1api20250301/storage | FleetStatus_STATUS                   | Extended |       |
-| v1api20250301   | Fleet_STATUS                         | v1api20250301/storage | Fleet_STATUS                         | Modified |       |
-| v1api20250301   | Fleet_Spec                           | v1api20250301/storage | Fleet_Spec                           | Modified |       |
-| v1api20250301   | FleetsAutoUpgradeProfileOperatorSpec | v1api20250301/storage | FleetsAutoUpgradeProfileOperatorSpec | Extended |       |
-| v1api20250301   | FleetsAutoUpgradeProfile_STATUS      | v1api20250301/storage | FleetsAutoUpgradeProfile_STATUS      | Modified |       |
-| v1api20250301   | FleetsAutoUpgradeProfile_Spec        | v1api20250301/storage | FleetsAutoUpgradeProfile_Spec        | Modified |       |
-| v1api20250301   | FleetsMemberOperatorSpec             | v1api20250301/storage | FleetsMemberOperatorSpec             | Extended |       |
-| v1api20250301   | FleetsMember_STATUS                  | v1api20250301/storage | FleetsMember_STATUS                  | Modified |       |
-| v1api20250301   | FleetsMember_Spec                    | v1api20250301/storage | FleetsMember_Spec                    | Modified |       |
-| v1api20250301   | FleetsUpdateRunOperatorSpec          | v1api20250301/storage | FleetsUpdateRunOperatorSpec          | Extended |       |
-| v1api20250301   | FleetsUpdateRun_STATUS               | v1api20250301/storage | FleetsUpdateRun_STATUS               | Modified |       |
-| v1api20250301   | FleetsUpdateRun_Spec                 | v1api20250301/storage | FleetsUpdateRun_Spec                 | Modified |       |
-| v1api20250301   | FleetsUpdateStrategyOperatorSpec     | v1api20250301/storage | FleetsUpdateStrategyOperatorSpec     | Extended |       |
-| v1api20250301   | FleetsUpdateStrategy_STATUS          | v1api20250301/storage | FleetsUpdateStrategy_STATUS          | Modified |       |
-| v1api20250301   | FleetsUpdateStrategy_Spec            | v1api20250301/storage | FleetsUpdateStrategy_Spec            | Modified |       |
-| v1api20250301   | ManagedClusterUpdate                 | v1api20250301/storage | ManagedClusterUpdate                 | Extended |       |
-| v1api20250301   | ManagedClusterUpdate_STATUS          | v1api20250301/storage | ManagedClusterUpdate_STATUS          | Extended |       |
-| v1api20250301   | ManagedClusterUpgradeSpec            | v1api20250301/storage | ManagedClusterUpgradeSpec            | Modified |       |
-| v1api20250301   | ManagedClusterUpgradeSpec_STATUS     | v1api20250301/storage | ManagedClusterUpgradeSpec_STATUS     | Modified |       |
-| v1api20250301   | ManagedServiceIdentity               | v1api20250301/storage | ManagedServiceIdentity               | Modified |       |
-| v1api20250301   | ManagedServiceIdentity_STATUS        | v1api20250301/storage | ManagedServiceIdentity_STATUS        | Modified |       |
-| v1api20250301   | MemberUpdateStatus_STATUS            | v1api20250301/storage | MemberUpdateStatus_STATUS            | Extended |       |
-| v1api20250301   | NodeImageSelection                   | v1api20250301/storage | NodeImageSelection                   | Modified |       |
-| v1api20250301   | NodeImageSelectionStatus_STATUS      | v1api20250301/storage | NodeImageSelectionStatus_STATUS      | Extended |       |
-| v1api20250301   | NodeImageSelection_STATUS            | v1api20250301/storage | NodeImageSelection_STATUS            | Modified |       |
-| v1api20250301   | NodeImageVersion_STATUS              | v1api20250301/storage | NodeImageVersion_STATUS              | Extended |       |
-| v1api20250301   | SystemData_STATUS                    | v1api20250301/storage | SystemData_STATUS                    | Modified |       |
-| v1api20250301   | UpdateGroup                          | v1api20250301/storage | UpdateGroup                          | Modified |       |
-| v1api20250301   | UpdateGroupStatus_STATUS             | v1api20250301/storage | UpdateGroupStatus_STATUS             | Extended |       |
-| v1api20250301   | UpdateGroup_STATUS                   | v1api20250301/storage | UpdateGroup_STATUS                   | Extended |       |
-| v1api20250301   | UpdateRunStatus_STATUS               | v1api20250301/storage | UpdateRunStatus_STATUS               | Extended |       |
-| v1api20250301   | UpdateRunStrategy                    | v1api20250301/storage | UpdateRunStrategy                    | Extended |       |
-| v1api20250301   | UpdateRunStrategy_STATUS             | v1api20250301/storage | UpdateRunStrategy_STATUS             | Extended |       |
-| v1api20250301   | UpdateStage                          | v1api20250301/storage | UpdateStage                          | Modified |       |
-| v1api20250301   | UpdateStageStatus_STATUS             | v1api20250301/storage | UpdateStageStatus_STATUS             | Extended |       |
-| v1api20250301   | UpdateStage_STATUS                   | v1api20250301/storage | UpdateStage_STATUS                   | Extended |       |
-| v1api20250301   | UpdateStatus_STATUS                  | v1api20250301/storage | UpdateStatus_STATUS                  | Modified |       |
-| v1api20250301   | UserAssignedIdentityDetails          | v1api20250301/storage | UserAssignedIdentityDetails          | Extended |       |
-| v1api20250301   | WaitStatus_STATUS                    | v1api20250301/storage | WaitStatus_STATUS                    | Extended |       |
+| v1api20250301                        | v1api20250301/storage                | Status   | Notes |
+|:-------------------------------------|:-------------------------------------|:--------:|:------|
+| APIServerAccessProfile               | APIServerAccessProfile               | Extended |       |
+| APIServerAccessProfile_STATUS        | APIServerAccessProfile_STATUS        | Extended |       |
+| AgentProfile                         | AgentProfile                         | Extended |       |
+| AgentProfile_STATUS                  | AgentProfile_STATUS                  | Extended |       |
+| AutoUpgradeNodeImageSelection        | AutoUpgradeNodeImageSelection        | Modified |       |
+| AutoUpgradeNodeImageSelection_STATUS | AutoUpgradeNodeImageSelection_STATUS | Modified |       |
+| AutoUpgradeProfileStatus_STATUS      | AutoUpgradeProfileStatus_STATUS      | Modified |       |
+| CommonUserAssignedIdentity_STATUS    | CommonUserAssignedIdentity_STATUS    | Extended |       |
+| ErrorAdditionalInfo_STATUS           | ErrorAdditionalInfo_STATUS           | Extended |       |
+| ErrorDetail_STATUS                   | ErrorDetail_STATUS                   | Extended |       |
+| ErrorDetail_STATUS_Unrolled          | ErrorDetail_STATUS_Unrolled          | Extended |       |
+| FleetHubProfile                      | FleetHubProfile                      | Modified |       |
+| FleetHubProfile_STATUS               | FleetHubProfile_STATUS               | Extended |       |
+| FleetMemberStatus_STATUS             | FleetMemberStatus_STATUS             | Extended |       |
+| FleetOperatorSecrets                 | FleetOperatorSecrets                 | Extended |       |
+| FleetOperatorSpec                    | FleetOperatorSpec                    | Extended |       |
+| FleetStatus_STATUS                   | FleetStatus_STATUS                   | Extended |       |
+| Fleet_STATUS                         | Fleet_STATUS                         | Modified |       |
+| Fleet_Spec                           | Fleet_Spec                           | Modified |       |
+| FleetsAutoUpgradeProfileOperatorSpec | FleetsAutoUpgradeProfileOperatorSpec | Extended |       |
+| FleetsAutoUpgradeProfile_STATUS      | FleetsAutoUpgradeProfile_STATUS      | Modified |       |
+| FleetsAutoUpgradeProfile_Spec        | FleetsAutoUpgradeProfile_Spec        | Modified |       |
+| FleetsMemberOperatorSpec             | FleetsMemberOperatorSpec             | Extended |       |
+| FleetsMember_STATUS                  | FleetsMember_STATUS                  | Modified |       |
+| FleetsMember_Spec                    | FleetsMember_Spec                    | Modified |       |
+| FleetsUpdateRunOperatorSpec          | FleetsUpdateRunOperatorSpec          | Extended |       |
+| FleetsUpdateRun_STATUS               | FleetsUpdateRun_STATUS               | Modified |       |
+| FleetsUpdateRun_Spec                 | FleetsUpdateRun_Spec                 | Modified |       |
+| FleetsUpdateStrategyOperatorSpec     | FleetsUpdateStrategyOperatorSpec     | Extended |       |
+| FleetsUpdateStrategy_STATUS          | FleetsUpdateStrategy_STATUS          | Modified |       |
+| FleetsUpdateStrategy_Spec            | FleetsUpdateStrategy_Spec            | Modified |       |
+| ManagedClusterUpdate                 | ManagedClusterUpdate                 | Extended |       |
+| ManagedClusterUpdate_STATUS          | ManagedClusterUpdate_STATUS          | Extended |       |
+| ManagedClusterUpgradeSpec            | ManagedClusterUpgradeSpec            | Modified |       |
+| ManagedClusterUpgradeSpec_STATUS     | ManagedClusterUpgradeSpec_STATUS     | Modified |       |
+| ManagedServiceIdentity               | ManagedServiceIdentity               | Modified |       |
+| ManagedServiceIdentity_STATUS        | ManagedServiceIdentity_STATUS        | Modified |       |
+| MemberUpdateStatus_STATUS            | MemberUpdateStatus_STATUS            | Extended |       |
+| NodeImageSelection                   | NodeImageSelection                   | Modified |       |
+| NodeImageSelectionStatus_STATUS      | NodeImageSelectionStatus_STATUS      | Extended |       |
+| NodeImageSelection_STATUS            | NodeImageSelection_STATUS            | Modified |       |
+| NodeImageVersion_STATUS              | NodeImageVersion_STATUS              | Extended |       |
+| SystemData_STATUS                    | SystemData_STATUS                    | Modified |       |
+| UpdateGroup                          | UpdateGroup                          | Modified |       |
+| UpdateGroupStatus_STATUS             | UpdateGroupStatus_STATUS             | Extended |       |
+| UpdateGroup_STATUS                   | UpdateGroup_STATUS                   | Extended |       |
+| UpdateRunStatus_STATUS               | UpdateRunStatus_STATUS               | Extended |       |
+| UpdateRunStrategy                    | UpdateRunStrategy                    | Extended |       |
+| UpdateRunStrategy_STATUS             | UpdateRunStrategy_STATUS             | Extended |       |
+| UpdateStage                          | UpdateStage                          | Modified |       |
+| UpdateStageStatus_STATUS             | UpdateStageStatus_STATUS             | Extended |       |
+| UpdateStage_STATUS                   | UpdateStage_STATUS                   | Extended |       |
+| UpdateStatus_STATUS                  | UpdateStatus_STATUS                  | Modified |       |
+| UserAssignedIdentityDetails          | UserAssignedIdentityDetails          | Extended |       |
+| WaitStatus_STATUS                    | WaitStatus_STATUS                    | Extended |       |
 
 ### APIServerAccessProfile
 

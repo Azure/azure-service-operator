@@ -11,37 +11,37 @@ Statuses:
 
 ## Resources
 
-| Current Version   | Current Type        | Next Version      | Next Type           | Status    | Notes |
-|:------------------|:--------------------|:------------------|:--------------------|:---------:|:------|
-| v20251015/storage | CassandraCluster    | v20260315/storage | CassandraCluster    | Identical |       |
-| v20251015/storage | CassandraDataCenter | v20260315/storage | CassandraDataCenter | Identical |       |
+| v20251015/storage   | v20260315/storage   | Status    | Notes |
+|:--------------------|:--------------------|:---------:|:------|
+| CassandraCluster    | CassandraCluster    | Identical |       |
+| CassandraDataCenter | CassandraDataCenter | Identical |       |
 
 ## Objects
 
-| Current Version   | Current Type                                   | Next Version      | Next Type                                     | Status            | Notes |
-|:------------------|:-----------------------------------------------|:------------------|:----------------------------------------------|:-----------------:|:------|
-| v20251015/storage | AuthenticationMethodLdapProperties             | v20260315/storage | AuthenticationMethodLdapProperties            | Identical         |       |
-| v20251015/storage | AuthenticationMethodLdapProperties_STATUS      | v20260315/storage | AuthenticationMethodLdapProperties_STATUS     | Identical         |       |
-|                   |                                                | v20260315/storage | BackupSchedule                                | New               |       |
-|                   |                                                | v20260315/storage | BackupSchedule_STATUS                         | New               |       |
-| v20251015/storage | CassandraClusterOperatorSpec                   | v20260315/storage | CassandraClusterOperatorSpec                  | Identical         |       |
-| v20251015/storage | CassandraCluster_Properties_STATUS             | v20260315/storage | ClusterResourceProperties_STATUS              | Renamed, Extended |       |
-| v20251015/storage | CassandraCluster_Properties_Spec               | v20260315/storage | ClusterResourceProperties                     | Renamed, Extended |       |
-| v20251015/storage | CassandraCluster_STATUS                        | v20260315/storage | CassandraCluster_STATUS                       | Extended          |       |
-| v20251015/storage | CassandraCluster_Spec                          | v20260315/storage | CassandraCluster_Spec                         | Identical         |       |
-| v20251015/storage | CassandraClusters_DataCenter_Properties_STATUS | v20260315/storage | DataCenterResourceProperties_STATUS           | Renamed           |       |
-| v20251015/storage | CassandraClusters_DataCenter_Properties_Spec   | v20260315/storage | DataCenterResourceProperties                  | Renamed           |       |
-| v20251015/storage | CassandraDataCenterOperatorSpec                | v20260315/storage | CassandraDataCenterOperatorSpec               | Identical         |       |
-| v20251015/storage | CassandraDataCenter_STATUS                     | v20260315/storage | CassandraDataCenter_STATUS                    | Extended          |       |
-| v20251015/storage | CassandraDataCenter_Spec                       | v20260315/storage | CassandraDataCenter_Spec                      | Identical         |       |
-| v20251015/storage | CassandraError_STATUS                          | v20260315/storage | CassandraError_STATUS                         | Identical         |       |
-| v20251015/storage | Certificate                                    | v20260315/storage | Certificate                                   | Identical         |       |
-| v20251015/storage | Certificate_STATUS                             | v20260315/storage | Certificate_STATUS                            | Identical         |       |
-| v20251015/storage | ManagedCassandraManagedServiceIdentity         | v20260315/storage | ManagedCassandraManagedServiceIdentity        | Identical         |       |
-| v20251015/storage | ManagedCassandraManagedServiceIdentity_STATUS  | v20260315/storage | ManagedCassandraManagedServiceIdentity_STATUS | Identical         |       |
-| v20251015/storage | SeedNode                                       | v20260315/storage | SeedNode                                      | Identical         |       |
-| v20251015/storage | SeedNode_STATUS                                | v20260315/storage | SeedNode_STATUS                               | Identical         |       |
-|                   |                                                | v20260315/storage | SystemData_STATUS                             | New               |       |
+| v20251015/storage                              | v20260315/storage                             | Status            | Notes |
+|:-----------------------------------------------|:----------------------------------------------|:-----------------:|:------|
+| AuthenticationMethodLdapProperties             | AuthenticationMethodLdapProperties            | Identical         |       |
+| AuthenticationMethodLdapProperties_STATUS      | AuthenticationMethodLdapProperties_STATUS     | Identical         |       |
+|                                                | BackupSchedule                                | New               |       |
+|                                                | BackupSchedule_STATUS                         | New               |       |
+| CassandraClusterOperatorSpec                   | CassandraClusterOperatorSpec                  | Identical         |       |
+| CassandraCluster_Properties_STATUS             | ClusterResourceProperties_STATUS              | Renamed, Extended |       |
+| CassandraCluster_Properties_Spec               | ClusterResourceProperties                     | Renamed, Extended |       |
+| CassandraCluster_STATUS                        | CassandraCluster_STATUS                       | Extended          |       |
+| CassandraCluster_Spec                          | CassandraCluster_Spec                         | Identical         |       |
+| CassandraClusters_DataCenter_Properties_STATUS | DataCenterResourceProperties_STATUS           | Renamed           |       |
+| CassandraClusters_DataCenter_Properties_Spec   | DataCenterResourceProperties                  | Renamed           |       |
+| CassandraDataCenterOperatorSpec                | CassandraDataCenterOperatorSpec               | Identical         |       |
+| CassandraDataCenter_STATUS                     | CassandraDataCenter_STATUS                    | Extended          |       |
+| CassandraDataCenter_Spec                       | CassandraDataCenter_Spec                      | Identical         |       |
+| CassandraError_STATUS                          | CassandraError_STATUS                         | Identical         |       |
+| Certificate                                    | Certificate                                   | Identical         |       |
+| Certificate_STATUS                             | Certificate_STATUS                            | Identical         |       |
+| ManagedCassandraManagedServiceIdentity         | ManagedCassandraManagedServiceIdentity        | Identical         |       |
+| ManagedCassandraManagedServiceIdentity_STATUS  | ManagedCassandraManagedServiceIdentity_STATUS | Identical         |       |
+| SeedNode                                       | SeedNode                                      | Identical         |       |
+| SeedNode_STATUS                                | SeedNode_STATUS                               | Identical         |       |
+|                                                | SystemData_STATUS                             | New               |       |
 
 ### CassandraCluster_Properties_STATUS
 
