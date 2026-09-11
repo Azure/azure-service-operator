@@ -11,39 +11,39 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type   | Status    | Notes |
-|:----------------|:-------------|:----------------------|:------------|:---------:|:------|
-| v1api20230101   | ActionGroup  | v1api20230101/storage | ActionGroup | Identical |       |
+| v1api20230101 | v1api20230101/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| ActionGroup   | ActionGroup           | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                     | Next Version          | Next Type                        | Status   | Notes |
-|:----------------|:---------------------------------|:----------------------|:---------------------------------|:--------:|:------|
-| v1api20230101   | ActionGroupOperatorSpec          | v1api20230101/storage | ActionGroupOperatorSpec          | Extended |       |
-| v1api20230101   | ActionGroupResource_STATUS       | v1api20230101/storage | ActionGroupResource_STATUS       | Extended |       |
-| v1api20230101   | ActionGroup_Spec                 | v1api20230101/storage | ActionGroup_Spec                 | Modified |       |
-| v1api20230101   | ArmRoleReceiver                  | v1api20230101/storage | ArmRoleReceiver                  | Extended |       |
-| v1api20230101   | ArmRoleReceiver_STATUS           | v1api20230101/storage | ArmRoleReceiver_STATUS           | Extended |       |
-| v1api20230101   | AutomationRunbookReceiver        | v1api20230101/storage | AutomationRunbookReceiver        | Extended |       |
-| v1api20230101   | AutomationRunbookReceiver_STATUS | v1api20230101/storage | AutomationRunbookReceiver_STATUS | Extended |       |
-| v1api20230101   | AzureAppPushReceiver             | v1api20230101/storage | AzureAppPushReceiver             | Extended |       |
-| v1api20230101   | AzureAppPushReceiver_STATUS      | v1api20230101/storage | AzureAppPushReceiver_STATUS      | Extended |       |
-| v1api20230101   | AzureFunctionReceiver            | v1api20230101/storage | AzureFunctionReceiver            | Extended |       |
-| v1api20230101   | AzureFunctionReceiver_STATUS     | v1api20230101/storage | AzureFunctionReceiver_STATUS     | Extended |       |
-| v1api20230101   | EmailReceiver                    | v1api20230101/storage | EmailReceiver                    | Extended |       |
-| v1api20230101   | EmailReceiver_STATUS             | v1api20230101/storage | EmailReceiver_STATUS             | Modified |       |
-| v1api20230101   | EventHubReceiver                 | v1api20230101/storage | EventHubReceiver                 | Extended |       |
-| v1api20230101   | EventHubReceiver_STATUS          | v1api20230101/storage | EventHubReceiver_STATUS          | Extended |       |
-| v1api20230101   | ItsmReceiver                     | v1api20230101/storage | ItsmReceiver                     | Extended |       |
-| v1api20230101   | ItsmReceiver_STATUS              | v1api20230101/storage | ItsmReceiver_STATUS              | Extended |       |
-| v1api20230101   | LogicAppReceiver                 | v1api20230101/storage | LogicAppReceiver                 | Extended |       |
-| v1api20230101   | LogicAppReceiver_STATUS          | v1api20230101/storage | LogicAppReceiver_STATUS          | Extended |       |
-| v1api20230101   | SmsReceiver                      | v1api20230101/storage | SmsReceiver                      | Extended |       |
-| v1api20230101   | SmsReceiver_STATUS               | v1api20230101/storage | SmsReceiver_STATUS               | Modified |       |
-| v1api20230101   | VoiceReceiver                    | v1api20230101/storage | VoiceReceiver                    | Extended |       |
-| v1api20230101   | VoiceReceiver_STATUS             | v1api20230101/storage | VoiceReceiver_STATUS             | Extended |       |
-| v1api20230101   | WebhookReceiver                  | v1api20230101/storage | WebhookReceiver                  | Extended |       |
-| v1api20230101   | WebhookReceiver_STATUS           | v1api20230101/storage | WebhookReceiver_STATUS           | Extended |       |
+| v1api20230101                    | v1api20230101/storage            | Status   | Notes |
+|:---------------------------------|:---------------------------------|:--------:|:------|
+| ActionGroupOperatorSpec          | ActionGroupOperatorSpec          | Extended |       |
+| ActionGroupResource_STATUS       | ActionGroupResource_STATUS       | Extended |       |
+| ActionGroup_Spec                 | ActionGroup_Spec                 | Modified |       |
+| ArmRoleReceiver                  | ArmRoleReceiver                  | Extended |       |
+| ArmRoleReceiver_STATUS           | ArmRoleReceiver_STATUS           | Extended |       |
+| AutomationRunbookReceiver        | AutomationRunbookReceiver        | Extended |       |
+| AutomationRunbookReceiver_STATUS | AutomationRunbookReceiver_STATUS | Extended |       |
+| AzureAppPushReceiver             | AzureAppPushReceiver             | Extended |       |
+| AzureAppPushReceiver_STATUS      | AzureAppPushReceiver_STATUS      | Extended |       |
+| AzureFunctionReceiver            | AzureFunctionReceiver            | Extended |       |
+| AzureFunctionReceiver_STATUS     | AzureFunctionReceiver_STATUS     | Extended |       |
+| EmailReceiver                    | EmailReceiver                    | Extended |       |
+| EmailReceiver_STATUS             | EmailReceiver_STATUS             | Modified |       |
+| EventHubReceiver                 | EventHubReceiver                 | Extended |       |
+| EventHubReceiver_STATUS          | EventHubReceiver_STATUS          | Extended |       |
+| ItsmReceiver                     | ItsmReceiver                     | Extended |       |
+| ItsmReceiver_STATUS              | ItsmReceiver_STATUS              | Extended |       |
+| LogicAppReceiver                 | LogicAppReceiver                 | Extended |       |
+| LogicAppReceiver_STATUS          | LogicAppReceiver_STATUS          | Extended |       |
+| SmsReceiver                      | SmsReceiver                      | Extended |       |
+| SmsReceiver_STATUS               | SmsReceiver_STATUS               | Modified |       |
+| VoiceReceiver                    | VoiceReceiver                    | Extended |       |
+| VoiceReceiver_STATUS             | VoiceReceiver_STATUS             | Extended |       |
+| WebhookReceiver                  | WebhookReceiver                  | Extended |       |
+| WebhookReceiver_STATUS           | WebhookReceiver_STATUS           | Extended |       |
 
 ### ActionGroupOperatorSpec
 

@@ -11,30 +11,30 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type       | Next Version      | Next Type          | Status    | Notes |
-|:----------------|:-------------------|:------------------|:-------------------|:---------:|:------|
-| v20220501       | ConfigurationStore | v20220501/storage | ConfigurationStore | Identical |       |
+| v20220501          | v20220501/storage  | Status    | Notes |
+|:-------------------|:-------------------|:---------:|:------|
+| ConfigurationStore | ConfigurationStore | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                              | Next Version      | Next Type                                 | Status   | Notes |
-|:----------------|:------------------------------------------|:------------------|:------------------------------------------|:--------:|:------|
-| v20220501       | ConfigurationStoreOperatorSecrets         | v20220501/storage | ConfigurationStoreOperatorSecrets         | Extended |       |
-| v20220501       | ConfigurationStoreOperatorSpec            | v20220501/storage | ConfigurationStoreOperatorSpec            | Extended |       |
-| v20220501       | ConfigurationStore_STATUS                 | v20220501/storage | ConfigurationStore_STATUS                 | Modified |       |
-| v20220501       | ConfigurationStore_Spec                   | v20220501/storage | ConfigurationStore_Spec                   | Modified |       |
-| v20220501       | EncryptionProperties                      | v20220501/storage | EncryptionProperties                      | Extended |       |
-| v20220501       | EncryptionProperties_STATUS               | v20220501/storage | EncryptionProperties_STATUS               | Extended |       |
-| v20220501       | KeyVaultProperties                        | v20220501/storage | KeyVaultProperties                        | Extended |       |
-| v20220501       | KeyVaultProperties_STATUS                 | v20220501/storage | KeyVaultProperties_STATUS                 | Extended |       |
-| v20220501       | PrivateEndpointConnectionReference_STATUS | v20220501/storage | PrivateEndpointConnectionReference_STATUS | Extended |       |
-| v20220501       | ResourceIdentity                          | v20220501/storage | ResourceIdentity                          | Modified |       |
-| v20220501       | ResourceIdentity_STATUS                   | v20220501/storage | ResourceIdentity_STATUS                   | Modified |       |
-| v20220501       | Sku                                       | v20220501/storage | Sku                                       | Extended |       |
-| v20220501       | Sku_STATUS                                | v20220501/storage | Sku_STATUS                                | Extended |       |
-| v20220501       | SystemData_STATUS                         | v20220501/storage | SystemData_STATUS                         | Modified |       |
-| v20220501       | UserAssignedIdentityDetails               | v20220501/storage | UserAssignedIdentityDetails               | Extended |       |
-| v20220501       | UserIdentity_STATUS                       | v20220501/storage | UserIdentity_STATUS                       | Extended |       |
+| v20220501                                 | v20220501/storage                         | Status   | Notes |
+|:------------------------------------------|:------------------------------------------|:--------:|:------|
+| ConfigurationStoreOperatorSecrets         | ConfigurationStoreOperatorSecrets         | Extended |       |
+| ConfigurationStoreOperatorSpec            | ConfigurationStoreOperatorSpec            | Extended |       |
+| ConfigurationStore_STATUS                 | ConfigurationStore_STATUS                 | Modified |       |
+| ConfigurationStore_Spec                   | ConfigurationStore_Spec                   | Modified |       |
+| EncryptionProperties                      | EncryptionProperties                      | Extended |       |
+| EncryptionProperties_STATUS               | EncryptionProperties_STATUS               | Extended |       |
+| KeyVaultProperties                        | KeyVaultProperties                        | Extended |       |
+| KeyVaultProperties_STATUS                 | KeyVaultProperties_STATUS                 | Extended |       |
+| PrivateEndpointConnectionReference_STATUS | PrivateEndpointConnectionReference_STATUS | Extended |       |
+| ResourceIdentity                          | ResourceIdentity                          | Modified |       |
+| ResourceIdentity_STATUS                   | ResourceIdentity_STATUS                   | Modified |       |
+| Sku                                       | Sku                                       | Extended |       |
+| Sku_STATUS                                | Sku_STATUS                                | Extended |       |
+| SystemData_STATUS                         | SystemData_STATUS                         | Modified |       |
+| UserAssignedIdentityDetails               | UserAssignedIdentityDetails               | Extended |       |
+| UserIdentity_STATUS                       | UserIdentity_STATUS                       | Extended |       |
 
 ### ConfigurationStoreOperatorSecrets
 

@@ -11,63 +11,63 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type   | Next Version          | Next Type      | Status    | Notes |
-|:----------------------|:---------------|:----------------------|:---------------|:---------:|:------|
-| v1api20230815/storage | Cluster        | v1api20240413/storage | Cluster        | Identical |       |
-| v1api20230815/storage | DataConnection | v1api20240413/storage | DataConnection | Identical |       |
-| v1api20230815/storage | Database       | v1api20240413/storage | Database       | Identical |       |
+| v1api20230815/storage | v1api20240413/storage | Status    | Notes |
+|:----------------------|:----------------------|:---------:|:------|
+| Cluster               | Cluster               | Identical |       |
+| DataConnection        | DataConnection        | Identical |       |
+| Database              | Database              | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                           | Next Version          | Next Type                              | Status    | Notes |
-|:----------------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
-| v1api20230815/storage | AcceptedAudiences                      | v1api20240413/storage | AcceptedAudiences                      | Identical |       |
-| v1api20230815/storage | AcceptedAudiences_STATUS               | v1api20240413/storage | AcceptedAudiences_STATUS               | Identical |       |
-| v1api20230815/storage | AzureSku                               | v1api20240413/storage | AzureSku                               | Identical |       |
-| v1api20230815/storage | AzureSku_STATUS                        | v1api20240413/storage | AzureSku_STATUS                        | Identical |       |
-|                       |                                        | v1api20240413/storage | CalloutPolicy                          | New       |       |
-|                       |                                        | v1api20240413/storage | CalloutPolicy_STATUS                   | New       |       |
-|                       |                                        | v1api20240413/storage | ClusterOperatorConfigMaps              | New       |       |
-| v1api20230815/storage | ClusterOperatorSpec                    | v1api20240413/storage | ClusterOperatorSpec                    | Extended  |       |
-| v1api20230815/storage | Cluster_STATUS                         | v1api20240413/storage | Cluster_STATUS                         | Extended  |       |
-| v1api20230815/storage | Cluster_Spec                           | v1api20240413/storage | Cluster_Spec                           | Extended  |       |
-| v1api20230815/storage | CosmosDbDataConnection                 | v1api20240413/storage | CosmosDbDataConnection                 | Identical |       |
-| v1api20230815/storage | CosmosDbDataConnection_STATUS          | v1api20240413/storage | CosmosDbDataConnection_STATUS          | Identical |       |
-| v1api20230815/storage | DataConnectionOperatorSpec             | v1api20240413/storage | DataConnectionOperatorSpec             | Identical |       |
-| v1api20230815/storage | DataConnection_STATUS                  | v1api20240413/storage | DataConnection_STATUS                  | Identical |       |
-| v1api20230815/storage | DataConnection_Spec                    | v1api20240413/storage | DataConnection_Spec                    | Identical |       |
-| v1api20230815/storage | DatabaseOperatorSpec                   | v1api20240413/storage | DatabaseOperatorSpec                   | Identical |       |
-| v1api20230815/storage | DatabaseStatistics_STATUS              | v1api20240413/storage | DatabaseStatistics_STATUS              | Identical |       |
-| v1api20230815/storage | Database_STATUS                        | v1api20240413/storage | Database_STATUS                        | Identical |       |
-| v1api20230815/storage | Database_Spec                          | v1api20240413/storage | Database_Spec                          | Identical |       |
-| v1api20230815/storage | EventGridDataConnection                | v1api20240413/storage | EventGridDataConnection                | Identical |       |
-| v1api20230815/storage | EventGridDataConnection_STATUS         | v1api20240413/storage | EventGridDataConnection_STATUS         | Identical |       |
-| v1api20230815/storage | EventHubDataConnection                 | v1api20240413/storage | EventHubDataConnection                 | Identical |       |
-| v1api20230815/storage | EventHubDataConnection_STATUS          | v1api20240413/storage | EventHubDataConnection_STATUS          | Identical |       |
-| v1api20230815/storage | Identity                               | v1api20240413/storage | Identity                               | Identical |       |
-| v1api20230815/storage | Identity_STATUS                        | v1api20240413/storage | Identity_STATUS                        | Identical |       |
-| v1api20230815/storage | Identity_UserAssignedIdentities_STATUS | v1api20240413/storage | Identity_UserAssignedIdentities_STATUS | Identical |       |
-| v1api20230815/storage | IotHubDataConnection                   | v1api20240413/storage | IotHubDataConnection                   | Identical |       |
-| v1api20230815/storage | IotHubDataConnection_STATUS            | v1api20240413/storage | IotHubDataConnection_STATUS            | Identical |       |
-| v1api20230815/storage | KeyVaultProperties                     | v1api20240413/storage | KeyVaultProperties                     | Identical |       |
-| v1api20230815/storage | KeyVaultProperties_STATUS              | v1api20240413/storage | KeyVaultProperties_STATUS              | Identical |       |
-| v1api20230815/storage | LanguageExtension                      | v1api20240413/storage | LanguageExtension                      | Identical |       |
-| v1api20230815/storage | LanguageExtension_STATUS               | v1api20240413/storage | LanguageExtension_STATUS               | Identical |       |
-| v1api20230815/storage | LanguageExtensionsList                 | v1api20240413/storage | LanguageExtensionsList                 | Identical |       |
-| v1api20230815/storage | LanguageExtensionsList_STATUS          | v1api20240413/storage | LanguageExtensionsList_STATUS          | Identical |       |
-| v1api20230815/storage | MigrationClusterProperties_STATUS      | v1api20240413/storage | MigrationClusterProperties_STATUS      | Identical |       |
-| v1api20230815/storage | OptimizedAutoscale                     | v1api20240413/storage | OptimizedAutoscale                     | Identical |       |
-| v1api20230815/storage | OptimizedAutoscale_STATUS              | v1api20240413/storage | OptimizedAutoscale_STATUS              | Identical |       |
-| v1api20230815/storage | PrivateEndpointConnection_STATUS       | v1api20240413/storage | PrivateEndpointConnection_STATUS       | Identical |       |
-| v1api20230815/storage | ReadWriteDatabase                      | v1api20240413/storage | ReadWriteDatabase                      | Identical |       |
-| v1api20230815/storage | ReadWriteDatabase_STATUS               | v1api20240413/storage | ReadWriteDatabase_STATUS               | Identical |       |
-| v1api20230815/storage | SuspensionDetails_STATUS               | v1api20240413/storage | SuspensionDetails_STATUS               | Identical |       |
-| v1api20230815/storage | SystemData_STATUS                      | v1api20240413/storage | SystemData_STATUS                      | Identical |       |
-| v1api20230815/storage | TrustedExternalTenant                  | v1api20240413/storage | TrustedExternalTenant                  | Identical |       |
-| v1api20230815/storage | TrustedExternalTenant_STATUS           | v1api20240413/storage | TrustedExternalTenant_STATUS           | Identical |       |
-| v1api20230815/storage | UserAssignedIdentityDetails            | v1api20240413/storage | UserAssignedIdentityDetails            | Identical |       |
-| v1api20230815/storage | VirtualNetworkConfiguration            | v1api20240413/storage | VirtualNetworkConfiguration            | Identical |       |
-| v1api20230815/storage | VirtualNetworkConfiguration_STATUS     | v1api20240413/storage | VirtualNetworkConfiguration_STATUS     | Identical |       |
+| v1api20230815/storage                  | v1api20240413/storage                  | Status    | Notes |
+|:---------------------------------------|:---------------------------------------|:---------:|:------|
+| AcceptedAudiences                      | AcceptedAudiences                      | Identical |       |
+| AcceptedAudiences_STATUS               | AcceptedAudiences_STATUS               | Identical |       |
+| AzureSku                               | AzureSku                               | Identical |       |
+| AzureSku_STATUS                        | AzureSku_STATUS                        | Identical |       |
+|                                        | CalloutPolicy                          | New       |       |
+|                                        | CalloutPolicy_STATUS                   | New       |       |
+|                                        | ClusterOperatorConfigMaps              | New       |       |
+| ClusterOperatorSpec                    | ClusterOperatorSpec                    | Extended  |       |
+| Cluster_STATUS                         | Cluster_STATUS                         | Extended  |       |
+| Cluster_Spec                           | Cluster_Spec                           | Extended  |       |
+| CosmosDbDataConnection                 | CosmosDbDataConnection                 | Identical |       |
+| CosmosDbDataConnection_STATUS          | CosmosDbDataConnection_STATUS          | Identical |       |
+| DataConnectionOperatorSpec             | DataConnectionOperatorSpec             | Identical |       |
+| DataConnection_STATUS                  | DataConnection_STATUS                  | Identical |       |
+| DataConnection_Spec                    | DataConnection_Spec                    | Identical |       |
+| DatabaseOperatorSpec                   | DatabaseOperatorSpec                   | Identical |       |
+| DatabaseStatistics_STATUS              | DatabaseStatistics_STATUS              | Identical |       |
+| Database_STATUS                        | Database_STATUS                        | Identical |       |
+| Database_Spec                          | Database_Spec                          | Identical |       |
+| EventGridDataConnection                | EventGridDataConnection                | Identical |       |
+| EventGridDataConnection_STATUS         | EventGridDataConnection_STATUS         | Identical |       |
+| EventHubDataConnection                 | EventHubDataConnection                 | Identical |       |
+| EventHubDataConnection_STATUS          | EventHubDataConnection_STATUS          | Identical |       |
+| Identity                               | Identity                               | Identical |       |
+| Identity_STATUS                        | Identity_STATUS                        | Identical |       |
+| Identity_UserAssignedIdentities_STATUS | Identity_UserAssignedIdentities_STATUS | Identical |       |
+| IotHubDataConnection                   | IotHubDataConnection                   | Identical |       |
+| IotHubDataConnection_STATUS            | IotHubDataConnection_STATUS            | Identical |       |
+| KeyVaultProperties                     | KeyVaultProperties                     | Identical |       |
+| KeyVaultProperties_STATUS              | KeyVaultProperties_STATUS              | Identical |       |
+| LanguageExtension                      | LanguageExtension                      | Identical |       |
+| LanguageExtension_STATUS               | LanguageExtension_STATUS               | Identical |       |
+| LanguageExtensionsList                 | LanguageExtensionsList                 | Identical |       |
+| LanguageExtensionsList_STATUS          | LanguageExtensionsList_STATUS          | Identical |       |
+| MigrationClusterProperties_STATUS      | MigrationClusterProperties_STATUS      | Identical |       |
+| OptimizedAutoscale                     | OptimizedAutoscale                     | Identical |       |
+| OptimizedAutoscale_STATUS              | OptimizedAutoscale_STATUS              | Identical |       |
+| PrivateEndpointConnection_STATUS       | PrivateEndpointConnection_STATUS       | Identical |       |
+| ReadWriteDatabase                      | ReadWriteDatabase                      | Identical |       |
+| ReadWriteDatabase_STATUS               | ReadWriteDatabase_STATUS               | Identical |       |
+| SuspensionDetails_STATUS               | SuspensionDetails_STATUS               | Identical |       |
+| SystemData_STATUS                      | SystemData_STATUS                      | Identical |       |
+| TrustedExternalTenant                  | TrustedExternalTenant                  | Identical |       |
+| TrustedExternalTenant_STATUS           | TrustedExternalTenant_STATUS           | Identical |       |
+| UserAssignedIdentityDetails            | UserAssignedIdentityDetails            | Identical |       |
+| VirtualNetworkConfiguration            | VirtualNetworkConfiguration            | Identical |       |
+| VirtualNetworkConfiguration_STATUS     | VirtualNetworkConfiguration_STATUS     | Identical |       |
 
 ### ClusterOperatorSpec
 

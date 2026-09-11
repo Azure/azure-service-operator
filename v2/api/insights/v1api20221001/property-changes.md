@@ -11,44 +11,44 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type     | Next Version          | Next Type        | Status    | Notes |
-|:----------------|:-----------------|:----------------------|:-----------------|:---------:|:------|
-| v1api20221001   | AutoscaleSetting | v1api20221001/storage | AutoscaleSetting | Identical |       |
+| v1api20221001    | v1api20221001/storage | Status    | Notes |
+|:-----------------|:----------------------|:---------:|:------|
+| AutoscaleSetting | AutoscaleSetting      | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                     | Next Version          | Next Type                        | Status   | Notes |
-|:----------------|:---------------------------------|:----------------------|:---------------------------------|:--------:|:------|
-| v1api20221001   | AutoscaleNotification            | v1api20221001/storage | AutoscaleNotification            | Modified |       |
-| v1api20221001   | AutoscaleNotification_STATUS     | v1api20221001/storage | AutoscaleNotification_STATUS     | Modified |       |
-| v1api20221001   | AutoscaleProfile                 | v1api20221001/storage | AutoscaleProfile                 | Extended |       |
-| v1api20221001   | AutoscaleProfile_STATUS          | v1api20221001/storage | AutoscaleProfile_STATUS          | Extended |       |
-| v1api20221001   | AutoscaleSettingOperatorSpec     | v1api20221001/storage | AutoscaleSettingOperatorSpec     | Extended |       |
-| v1api20221001   | AutoscaleSetting_Spec            | v1api20221001/storage | AutoscaleSetting_Spec            | Modified |       |
-| v1api20221001   | Autoscalesetting_STATUS          | v1api20221001/storage | Autoscalesetting_STATUS          | Extended |       |
-| v1api20221001   | EmailNotification                | v1api20221001/storage | EmailNotification                | Extended |       |
-| v1api20221001   | EmailNotification_STATUS         | v1api20221001/storage | EmailNotification_STATUS         | Extended |       |
-| v1api20221001   | MetricTrigger                    | v1api20221001/storage | MetricTrigger                    | Modified |       |
-| v1api20221001   | MetricTrigger_STATUS             | v1api20221001/storage | MetricTrigger_STATUS             | Modified |       |
-| v1api20221001   | PredictiveAutoscalePolicy        | v1api20221001/storage | PredictiveAutoscalePolicy        | Modified |       |
-| v1api20221001   | PredictiveAutoscalePolicy_STATUS | v1api20221001/storage | PredictiveAutoscalePolicy_STATUS | Modified |       |
-| v1api20221001   | Recurrence                       | v1api20221001/storage | Recurrence                       | Modified |       |
-| v1api20221001   | Recurrence_STATUS                | v1api20221001/storage | Recurrence_STATUS                | Modified |       |
-| v1api20221001   | RecurrentSchedule                | v1api20221001/storage | RecurrentSchedule                | Extended |       |
-| v1api20221001   | RecurrentSchedule_STATUS         | v1api20221001/storage | RecurrentSchedule_STATUS         | Extended |       |
-| v1api20221001   | ScaleAction                      | v1api20221001/storage | ScaleAction                      | Modified |       |
-| v1api20221001   | ScaleAction_STATUS               | v1api20221001/storage | ScaleAction_STATUS               | Modified |       |
-| v1api20221001   | ScaleCapacity                    | v1api20221001/storage | ScaleCapacity                    | Extended |       |
-| v1api20221001   | ScaleCapacity_STATUS             | v1api20221001/storage | ScaleCapacity_STATUS             | Extended |       |
-| v1api20221001   | ScaleRule                        | v1api20221001/storage | ScaleRule                        | Extended |       |
-| v1api20221001   | ScaleRuleMetricDimension         | v1api20221001/storage | ScaleRuleMetricDimension         | Modified |       |
-| v1api20221001   | ScaleRuleMetricDimension_STATUS  | v1api20221001/storage | ScaleRuleMetricDimension_STATUS  | Modified |       |
-| v1api20221001   | ScaleRule_STATUS                 | v1api20221001/storage | ScaleRule_STATUS                 | Extended |       |
-| v1api20221001   | SystemData_STATUS                | v1api20221001/storage | SystemData_STATUS                | Modified |       |
-| v1api20221001   | TimeWindow                       | v1api20221001/storage | TimeWindow                       | Extended |       |
-| v1api20221001   | TimeWindow_STATUS                | v1api20221001/storage | TimeWindow_STATUS                | Extended |       |
-| v1api20221001   | WebhookNotification              | v1api20221001/storage | WebhookNotification              | Extended |       |
-| v1api20221001   | WebhookNotification_STATUS       | v1api20221001/storage | WebhookNotification_STATUS       | Extended |       |
+| v1api20221001                    | v1api20221001/storage            | Status   | Notes |
+|:---------------------------------|:---------------------------------|:--------:|:------|
+| AutoscaleNotification            | AutoscaleNotification            | Modified |       |
+| AutoscaleNotification_STATUS     | AutoscaleNotification_STATUS     | Modified |       |
+| AutoscaleProfile                 | AutoscaleProfile                 | Extended |       |
+| AutoscaleProfile_STATUS          | AutoscaleProfile_STATUS          | Extended |       |
+| AutoscaleSettingOperatorSpec     | AutoscaleSettingOperatorSpec     | Extended |       |
+| AutoscaleSetting_Spec            | AutoscaleSetting_Spec            | Modified |       |
+| Autoscalesetting_STATUS          | Autoscalesetting_STATUS          | Extended |       |
+| EmailNotification                | EmailNotification                | Extended |       |
+| EmailNotification_STATUS         | EmailNotification_STATUS         | Extended |       |
+| MetricTrigger                    | MetricTrigger                    | Modified |       |
+| MetricTrigger_STATUS             | MetricTrigger_STATUS             | Modified |       |
+| PredictiveAutoscalePolicy        | PredictiveAutoscalePolicy        | Modified |       |
+| PredictiveAutoscalePolicy_STATUS | PredictiveAutoscalePolicy_STATUS | Modified |       |
+| Recurrence                       | Recurrence                       | Modified |       |
+| Recurrence_STATUS                | Recurrence_STATUS                | Modified |       |
+| RecurrentSchedule                | RecurrentSchedule                | Extended |       |
+| RecurrentSchedule_STATUS         | RecurrentSchedule_STATUS         | Extended |       |
+| ScaleAction                      | ScaleAction                      | Modified |       |
+| ScaleAction_STATUS               | ScaleAction_STATUS               | Modified |       |
+| ScaleCapacity                    | ScaleCapacity                    | Extended |       |
+| ScaleCapacity_STATUS             | ScaleCapacity_STATUS             | Extended |       |
+| ScaleRule                        | ScaleRule                        | Extended |       |
+| ScaleRuleMetricDimension         | ScaleRuleMetricDimension         | Modified |       |
+| ScaleRuleMetricDimension_STATUS  | ScaleRuleMetricDimension_STATUS  | Modified |       |
+| ScaleRule_STATUS                 | ScaleRule_STATUS                 | Extended |       |
+| SystemData_STATUS                | SystemData_STATUS                | Modified |       |
+| TimeWindow                       | TimeWindow                       | Extended |       |
+| TimeWindow_STATUS                | TimeWindow_STATUS                | Extended |       |
+| WebhookNotification              | WebhookNotification              | Extended |       |
+| WebhookNotification_STATUS       | WebhookNotification_STATUS       | Extended |       |
 
 ### AutoscaleNotification
 

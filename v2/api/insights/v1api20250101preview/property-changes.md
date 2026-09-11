@@ -11,34 +11,34 @@ Statuses:
 
 ## Resources
 
-| Current Version      | Current Type       | Next Version                 | Next Type          | Status    | Notes |
-|:---------------------|:-------------------|:-----------------------------|:-------------------|:---------:|:------|
-| v1api20250101preview | ScheduledQueryRule | v1api20250101preview/storage | ScheduledQueryRule | Identical |       |
+| v1api20250101preview | v1api20250101preview/storage | Status    | Notes |
+|:---------------------|:-----------------------------|:---------:|:------|
+| ScheduledQueryRule   | ScheduledQueryRule           | Identical |       |
 
 ## Objects
 
-| Current Version      | Current Type                                 | Next Version                 | Next Type                                    | Status   | Notes |
-|:---------------------|:---------------------------------------------|:-----------------------------|:---------------------------------------------|:--------:|:------|
-| v1api20250101preview | Actions                                      | v1api20250101preview/storage | Actions                                      | Extended |       |
-| v1api20250101preview | Actions_STATUS                               | v1api20250101preview/storage | Actions_STATUS                               | Extended |       |
-| v1api20250101preview | Condition                                    | v1api20250101preview/storage | Condition                                    | Modified |       |
-| v1api20250101preview | ConditionFailingPeriods                      | v1api20250101preview/storage | ConditionFailingPeriods                      | Extended |       |
-| v1api20250101preview | ConditionFailingPeriods_STATUS               | v1api20250101preview/storage | ConditionFailingPeriods_STATUS               | Extended |       |
-| v1api20250101preview | Condition_STATUS                             | v1api20250101preview/storage | Condition_STATUS                             | Modified |       |
-| v1api20250101preview | Dimension                                    | v1api20250101preview/storage | Dimension                                    | Modified |       |
-| v1api20250101preview | Dimension_STATUS                             | v1api20250101preview/storage | Dimension_STATUS                             | Modified |       |
-| v1api20250101preview | MicrosoftCommonIdentity                      | v1api20250101preview/storage | MicrosoftCommonIdentity                      | Modified |       |
-| v1api20250101preview | MicrosoftCommonIdentity_STATUS               | v1api20250101preview/storage | MicrosoftCommonIdentity_STATUS               | Modified |       |
-| v1api20250101preview | MicrosoftCommonUserIdentityProperties_STATUS | v1api20250101preview/storage | MicrosoftCommonUserIdentityProperties_STATUS | Extended |       |
-| v1api20250101preview | RuleResolveConfiguration                     | v1api20250101preview/storage | RuleResolveConfiguration                     | Extended |       |
-| v1api20250101preview | RuleResolveConfiguration_STATUS              | v1api20250101preview/storage | RuleResolveConfiguration_STATUS              | Extended |       |
-| v1api20250101preview | ScheduledQueryRuleCriteria                   | v1api20250101preview/storage | ScheduledQueryRuleCriteria                   | Extended |       |
-| v1api20250101preview | ScheduledQueryRuleCriteria_STATUS            | v1api20250101preview/storage | ScheduledQueryRuleCriteria_STATUS            | Extended |       |
-| v1api20250101preview | ScheduledQueryRuleOperatorSpec               | v1api20250101preview/storage | ScheduledQueryRuleOperatorSpec               | Extended |       |
-| v1api20250101preview | ScheduledQueryRule_STATUS                    | v1api20250101preview/storage | ScheduledQueryRule_STATUS                    | Modified |       |
-| v1api20250101preview | ScheduledQueryRule_Spec                      | v1api20250101preview/storage | ScheduledQueryRule_Spec                      | Modified |       |
-| v1api20250101preview | SystemData_STATUS                            | v1api20250101preview/storage | SystemData_STATUS                            | Modified |       |
-| v1api20250101preview | UserAssignedIdentityDetails                  | v1api20250101preview/storage | UserAssignedIdentityDetails                  | Extended |       |
+| v1api20250101preview                         | v1api20250101preview/storage                 | Status   | Notes |
+|:---------------------------------------------|:---------------------------------------------|:--------:|:------|
+| Actions                                      | Actions                                      | Extended |       |
+| Actions_STATUS                               | Actions_STATUS                               | Extended |       |
+| Condition                                    | Condition                                    | Modified |       |
+| ConditionFailingPeriods                      | ConditionFailingPeriods                      | Extended |       |
+| ConditionFailingPeriods_STATUS               | ConditionFailingPeriods_STATUS               | Extended |       |
+| Condition_STATUS                             | Condition_STATUS                             | Modified |       |
+| Dimension                                    | Dimension                                    | Modified |       |
+| Dimension_STATUS                             | Dimension_STATUS                             | Modified |       |
+| MicrosoftCommonIdentity                      | MicrosoftCommonIdentity                      | Modified |       |
+| MicrosoftCommonIdentity_STATUS               | MicrosoftCommonIdentity_STATUS               | Modified |       |
+| MicrosoftCommonUserIdentityProperties_STATUS | MicrosoftCommonUserIdentityProperties_STATUS | Extended |       |
+| RuleResolveConfiguration                     | RuleResolveConfiguration                     | Extended |       |
+| RuleResolveConfiguration_STATUS              | RuleResolveConfiguration_STATUS              | Extended |       |
+| ScheduledQueryRuleCriteria                   | ScheduledQueryRuleCriteria                   | Extended |       |
+| ScheduledQueryRuleCriteria_STATUS            | ScheduledQueryRuleCriteria_STATUS            | Extended |       |
+| ScheduledQueryRuleOperatorSpec               | ScheduledQueryRuleOperatorSpec               | Extended |       |
+| ScheduledQueryRule_STATUS                    | ScheduledQueryRule_STATUS                    | Modified |       |
+| ScheduledQueryRule_Spec                      | ScheduledQueryRule_Spec                      | Modified |       |
+| SystemData_STATUS                            | SystemData_STATUS                            | Modified |       |
+| UserAssignedIdentityDetails                  | UserAssignedIdentityDetails                  | Extended |       |
 
 ### Actions
 

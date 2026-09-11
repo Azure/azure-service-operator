@@ -11,37 +11,29 @@ Statuses:
 
 ## Resources
 
-| Current Version      | Current Type | Next Version                 | Next Type | Status    | Notes |
-|:---------------------|:-------------|:-----------------------------|:----------|:---------:|:------|
-| v1api20180501preview | Webtest      | v1api20180501preview/storage | Webtest   | Identical |       |
+| v1api20180501preview | v1api20180501preview/storage | Status    | Notes |
+|:---------------------|:-----------------------------|:---------:|:------|
+| Webtest              | Webtest                      | Identical |       |
 
 ## Objects
 
-| Current Version      | Current Type                                               | Next Version                 | Next Type                                                  | Status   | Notes                                                                                        |
-|:---------------------|:-----------------------------------------------------------|:-----------------------------|:-----------------------------------------------------------|:--------:|:---------------------------------------------------------------------------------------------|
-| v1api20180501preview | HeaderField                                                | v1api20180501preview/storage | HeaderField                                                | Extended |                                                                                              |
-| v1api20180501preview | HeaderField_STATUS                                         | v1api20180501preview/storage | HeaderField_STATUS                                         | Extended |                                                                                              |
-| v1api20180501preview | WebTestGeolocation                                         | v1api20180501preview/storage | WebTestGeolocation                                         | Extended |                                                                                              |
-| v1api20180501preview | WebTestGeolocation_STATUS                                  | v1api20180501preview/storage | WebTestGeolocation_STATUS                                  | Extended |                                                                                              |
-| v1api20180501preview | WebTestProperties_Configuration                            | v1api20180501preview/storage |                                                            | Retired  | Configured rename to WebTestPropertiesConfiguration was not found.                           |
-|                      |                                                            | v1api20180501preview/storage | WebTestProperties_Configuration                            | New      | Configured rename to WebTestPropertiesConfiguration was not found.                           |
-| v1api20180501preview | WebTestProperties_Configuration_STATUS                     | v1api20180501preview/storage |                                                            | Retired  | Configured rename to WebTestPropertiesConfiguration_STATUS was not found.                    |
-|                      |                                                            | v1api20180501preview/storage | WebTestProperties_Configuration_STATUS                     | New      | Configured rename to WebTestPropertiesConfiguration_STATUS was not found.                    |
-| v1api20180501preview | WebTestProperties_Request                                  | v1api20180501preview/storage |                                                            | Retired  | Configured rename to WebTestPropertiesRequest was not found.                                 |
-|                      |                                                            | v1api20180501preview/storage | WebTestProperties_Request                                  | New      | Configured rename to WebTestPropertiesRequest was not found.                                 |
-| v1api20180501preview | WebTestProperties_Request_STATUS                           | v1api20180501preview/storage |                                                            | Retired  | Configured rename to WebTestPropertiesRequest_STATUS was not found.                          |
-|                      |                                                            | v1api20180501preview/storage | WebTestProperties_Request_STATUS                           | New      | Configured rename to WebTestPropertiesRequest_STATUS was not found.                          |
-| v1api20180501preview | WebTestProperties_ValidationRules                          | v1api20180501preview/storage |                                                            | Retired  | Configured rename to WebTestPropertiesValidationRules was not found.                         |
-|                      |                                                            | v1api20180501preview/storage | WebTestProperties_ValidationRules                          | New      | Configured rename to WebTestPropertiesValidationRules was not found.                         |
-| v1api20180501preview | WebTestProperties_ValidationRules_ContentValidation        | v1api20180501preview/storage |                                                            | Retired  | Configured rename to WebTestPropertiesValidationRulesContentValidation was not found.        |
-|                      |                                                            | v1api20180501preview/storage | WebTestProperties_ValidationRules_ContentValidation        | New      | Configured rename to WebTestPropertiesValidationRulesContentValidation was not found.        |
-| v1api20180501preview | WebTestProperties_ValidationRules_ContentValidation_STATUS | v1api20180501preview/storage |                                                            | Retired  | Configured rename to WebTestPropertiesValidationRulesContentValidation_STATUS was not found. |
-|                      |                                                            | v1api20180501preview/storage | WebTestProperties_ValidationRules_ContentValidation_STATUS | New      | Configured rename to WebTestPropertiesValidationRulesContentValidation_STATUS was not found. |
-| v1api20180501preview | WebTestProperties_ValidationRules_STATUS                   | v1api20180501preview/storage |                                                            | Retired  | Configured rename to WebTestPropertiesValidationRules_STATUS was not found.                  |
-|                      |                                                            | v1api20180501preview/storage | WebTestProperties_ValidationRules_STATUS                   | New      | Configured rename to WebTestPropertiesValidationRules_STATUS was not found.                  |
-| v1api20180501preview | WebtestOperatorSpec                                        | v1api20180501preview/storage | WebtestOperatorSpec                                        | Extended |                                                                                              |
-| v1api20180501preview | Webtest_STATUS                                             | v1api20180501preview/storage | Webtest_STATUS                                             | Modified |                                                                                              |
-| v1api20180501preview | Webtest_Spec                                               | v1api20180501preview/storage | Webtest_Spec                                               | Modified |                                                                                              |
+| v1api20180501preview                                       | v1api20180501preview/storage                               | Status   | Notes |
+|:-----------------------------------------------------------|:-----------------------------------------------------------|:--------:|:------|
+| HeaderField                                                | HeaderField                                                | Extended |       |
+| HeaderField_STATUS                                         | HeaderField_STATUS                                         | Extended |       |
+| WebTestGeolocation                                         | WebTestGeolocation                                         | Extended |       |
+| WebTestGeolocation_STATUS                                  | WebTestGeolocation_STATUS                                  | Extended |       |
+| WebTestProperties_Configuration                            | WebTestProperties_Configuration                            | Extended |       |
+| WebTestProperties_Configuration_STATUS                     | WebTestProperties_Configuration_STATUS                     | Extended |       |
+| WebTestProperties_Request                                  | WebTestProperties_Request                                  | Extended |       |
+| WebTestProperties_Request_STATUS                           | WebTestProperties_Request_STATUS                           | Extended |       |
+| WebTestProperties_ValidationRules                          | WebTestProperties_ValidationRules                          | Modified |       |
+| WebTestProperties_ValidationRules_ContentValidation        | WebTestProperties_ValidationRules_ContentValidation        | Extended |       |
+| WebTestProperties_ValidationRules_ContentValidation_STATUS | WebTestProperties_ValidationRules_ContentValidation_STATUS | Extended |       |
+| WebTestProperties_ValidationRules_STATUS                   | WebTestProperties_ValidationRules_STATUS                   | Modified |       |
+| WebtestOperatorSpec                                        | WebtestOperatorSpec                                        | Extended |       |
+| Webtest_STATUS                                             | Webtest_STATUS                                             | Modified |       |
+| Webtest_Spec                                               | Webtest_Spec                                               | Modified |       |
 
 ### HeaderField
 
@@ -72,6 +64,84 @@ Statuses:
 |:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
 | Id                   | *string | Id                           | *string                | Identical |       |
 |                      |         | PropertyBag                  | genruntime.PropertyBag | New       |       |
+
+### WebTestProperties_Configuration
+
+| v1api20180501preview |         | v1api20180501preview/storage |                        | Status    | Notes |
+|:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
+|                      |         | PropertyBag                  | genruntime.PropertyBag | New       |       |
+| WebTest              | *string | WebTest                      | *string                | Identical |       |
+
+### WebTestProperties_Configuration_STATUS
+
+| v1api20180501preview |         | v1api20180501preview/storage |                        | Status    | Notes |
+|:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
+|                      |         | PropertyBag                  | genruntime.PropertyBag | New       |       |
+| WebTest              | *string | WebTest                      | *string                | Identical |       |
+
+### WebTestProperties_Request
+
+| v1api20180501preview   |               | v1api20180501preview/storage |                        | Status    | Notes |
+|:-----------------------|:--------------|:-----------------------------|:-----------------------|:---------:|:------|
+| FollowRedirects        | *bool         | FollowRedirects              | *bool                  | Identical |       |
+| Headers                | HeaderField[] | Headers                      | HeaderField[]          | Identical |       |
+| HttpVerb               | *string       | HttpVerb                     | *string                | Identical |       |
+| ParseDependentRequests | *bool         | ParseDependentRequests       | *bool                  | Identical |       |
+|                        |               | PropertyBag                  | genruntime.PropertyBag | New       |       |
+| RequestBody            | *string       | RequestBody                  | *string                | Identical |       |
+| RequestUrl             | *string       | RequestUrl                   | *string                | Identical |       |
+
+### WebTestProperties_Request_STATUS
+
+| v1api20180501preview   |                      | v1api20180501preview/storage |                        | Status    | Notes |
+|:-----------------------|:---------------------|:-----------------------------|:-----------------------|:---------:|:------|
+| FollowRedirects        | *bool                | FollowRedirects              | *bool                  | Identical |       |
+| Headers                | HeaderField_STATUS[] | Headers                      | HeaderField_STATUS[]   | Identical |       |
+| HttpVerb               | *string              | HttpVerb                     | *string                | Identical |       |
+| ParseDependentRequests | *bool                | ParseDependentRequests       | *bool                  | Identical |       |
+|                        |                      | PropertyBag                  | genruntime.PropertyBag | New       |       |
+| RequestBody            | *string              | RequestBody                  | *string                | Identical |       |
+| RequestUrl             | *string              | RequestUrl                   | *string                | Identical |       |
+
+### WebTestProperties_ValidationRules
+
+| v1api20180501preview          |                                                      | v1api20180501preview/storage  |                                                      | Status    | Notes |
+|:------------------------------|:-----------------------------------------------------|:------------------------------|:-----------------------------------------------------|:---------:|:------|
+| ContentValidation             | *WebTestProperties_ValidationRules_ContentValidation | ContentValidation             | *WebTestProperties_ValidationRules_ContentValidation | Modified  |       |
+| ExpectedHttpStatusCode        | *int                                                 | ExpectedHttpStatusCode        | *int                                                 | Identical |       |
+| IgnoreHttpsStatusCode         | *bool                                                | IgnoreHttpsStatusCode         | *bool                                                | Identical |       |
+|                               |                                                      | PropertyBag                   | genruntime.PropertyBag                               | New       |       |
+| SSLCertRemainingLifetimeCheck | *int                                                 | SSLCertRemainingLifetimeCheck | *int                                                 | Identical |       |
+| SSLCheck                      | *bool                                                | SSLCheck                      | *bool                                                | Identical |       |
+
+### WebTestProperties_ValidationRules_ContentValidation
+
+| v1api20180501preview |         | v1api20180501preview/storage |                        | Status    | Notes |
+|:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
+| ContentMatch         | *string | ContentMatch                 | *string                | Identical |       |
+| IgnoreCase           | *bool   | IgnoreCase                   | *bool                  | Identical |       |
+| PassIfTextFound      | *bool   | PassIfTextFound              | *bool                  | Identical |       |
+|                      |         | PropertyBag                  | genruntime.PropertyBag | New       |       |
+
+### WebTestProperties_ValidationRules_ContentValidation_STATUS
+
+| v1api20180501preview |         | v1api20180501preview/storage |                        | Status    | Notes |
+|:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
+| ContentMatch         | *string | ContentMatch                 | *string                | Identical |       |
+| IgnoreCase           | *bool   | IgnoreCase                   | *bool                  | Identical |       |
+| PassIfTextFound      | *bool   | PassIfTextFound              | *bool                  | Identical |       |
+|                      |         | PropertyBag                  | genruntime.PropertyBag | New       |       |
+
+### WebTestProperties_ValidationRules_STATUS
+
+| v1api20180501preview          |                                                             | v1api20180501preview/storage  |                                                             | Status    | Notes |
+|:------------------------------|:------------------------------------------------------------|:------------------------------|:------------------------------------------------------------|:---------:|:------|
+| ContentValidation             | *WebTestProperties_ValidationRules_ContentValidation_STATUS | ContentValidation             | *WebTestProperties_ValidationRules_ContentValidation_STATUS | Modified  |       |
+| ExpectedHttpStatusCode        | *int                                                        | ExpectedHttpStatusCode        | *int                                                        | Identical |       |
+| IgnoreHttpsStatusCode         | *bool                                                       | IgnoreHttpsStatusCode         | *bool                                                       | Identical |       |
+|                               |                                                             | PropertyBag                   | genruntime.PropertyBag                                      | New       |       |
+| SSLCertRemainingLifetimeCheck | *int                                                        | SSLCertRemainingLifetimeCheck | *int                                                        | Identical |       |
+| SSLCheck                      | *bool                                                       | SSLCheck                      | *bool                                                       | Identical |       |
 
 ### WebtestOperatorSpec
 

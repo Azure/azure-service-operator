@@ -11,71 +11,71 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type   | Next Version      | Next Type      | Status    | Notes |
-|:----------------------|:---------------|:------------------|:---------------|:---------:|:------|
-| v1api20211001/storage | ContainerGroup | v20211001/storage | ContainerGroup | Identical |       |
+| v1api20211001/storage | v20211001/storage | Status    | Notes |
+|:----------------------|:------------------|:---------:|:------|
+| ContainerGroup        | ContainerGroup    | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                                          | Next Version      | Next Type                                             | Status    | Notes |
-|:----------------------|:------------------------------------------------------|:------------------|:------------------------------------------------------|:---------:|:------|
-| v1api20211001/storage | AzureFileVolume                                       | v20211001/storage | AzureFileVolume                                       | Identical |       |
-| v1api20211001/storage | AzureFileVolume_STATUS                                | v20211001/storage | AzureFileVolume_STATUS                                | Identical |       |
-| v1api20211001/storage | Container                                             | v20211001/storage | Container                                             | Identical |       |
-| v1api20211001/storage | ContainerExec                                         | v20211001/storage | ContainerExec                                         | Identical |       |
-| v1api20211001/storage | ContainerExec_STATUS                                  | v20211001/storage | ContainerExec_STATUS                                  | Identical |       |
-| v1api20211001/storage | ContainerGroupDiagnostics                             | v20211001/storage | ContainerGroupDiagnostics                             | Identical |       |
-| v1api20211001/storage | ContainerGroupDiagnostics_STATUS                      | v20211001/storage | ContainerGroupDiagnostics_STATUS                      | Identical |       |
-| v1api20211001/storage | ContainerGroupIdentity                                | v20211001/storage | ContainerGroupIdentity                                | Identical |       |
-| v1api20211001/storage | ContainerGroupIdentity_STATUS                         | v20211001/storage | ContainerGroupIdentity_STATUS                         | Identical |       |
-| v1api20211001/storage | ContainerGroupOperatorSpec                            | v20211001/storage | ContainerGroupOperatorSpec                            | Identical |       |
-| v1api20211001/storage | ContainerGroupSubnetId                                | v20211001/storage | ContainerGroupSubnetId                                | Identical |       |
-| v1api20211001/storage | ContainerGroupSubnetId_STATUS                         | v20211001/storage | ContainerGroupSubnetId_STATUS                         | Identical |       |
-| v1api20211001/storage | ContainerGroup_Properties_InstanceView_STATUS         | v20211001/storage | ContainerGroup_Properties_InstanceView_STATUS         | Identical |       |
-| v1api20211001/storage | ContainerGroup_STATUS                                 | v20211001/storage | ContainerGroup_STATUS                                 | Identical |       |
-| v1api20211001/storage | ContainerGroup_Spec                                   | v20211001/storage | ContainerGroup_Spec                                   | Identical |       |
-| v1api20211001/storage | ContainerHttpGet                                      | v20211001/storage | ContainerHttpGet                                      | Identical |       |
-| v1api20211001/storage | ContainerHttpGet_STATUS                               | v20211001/storage | ContainerHttpGet_STATUS                               | Identical |       |
-| v1api20211001/storage | ContainerPort                                         | v20211001/storage | ContainerPort                                         | Identical |       |
-| v1api20211001/storage | ContainerPort_STATUS                                  | v20211001/storage | ContainerPort_STATUS                                  | Identical |       |
-| v1api20211001/storage | ContainerProbe                                        | v20211001/storage | ContainerProbe                                        | Identical |       |
-| v1api20211001/storage | ContainerProbe_STATUS                                 | v20211001/storage | ContainerProbe_STATUS                                 | Identical |       |
-| v1api20211001/storage | ContainerProperties_InstanceView_STATUS               | v20211001/storage | ContainerProperties_InstanceView_STATUS               | Identical |       |
-| v1api20211001/storage | ContainerState_STATUS                                 | v20211001/storage | ContainerState_STATUS                                 | Identical |       |
-| v1api20211001/storage | Container_STATUS                                      | v20211001/storage | Container_STATUS                                      | Identical |       |
-| v1api20211001/storage | DnsConfiguration                                      | v20211001/storage | DnsConfiguration                                      | Identical |       |
-| v1api20211001/storage | DnsConfiguration_STATUS                               | v20211001/storage | DnsConfiguration_STATUS                               | Identical |       |
-| v1api20211001/storage | EncryptionProperties                                  | v20211001/storage | EncryptionProperties                                  | Identical |       |
-| v1api20211001/storage | EncryptionProperties_STATUS                           | v20211001/storage | EncryptionProperties_STATUS                           | Identical |       |
-| v1api20211001/storage | EnvironmentVariable                                   | v20211001/storage | EnvironmentVariable                                   | Identical |       |
-| v1api20211001/storage | EnvironmentVariable_STATUS                            | v20211001/storage | EnvironmentVariable_STATUS                            | Identical |       |
-| v1api20211001/storage | Event_STATUS                                          | v20211001/storage | Event_STATUS                                          | Identical |       |
-| v1api20211001/storage | GitRepoVolume                                         | v20211001/storage | GitRepoVolume                                         | Identical |       |
-| v1api20211001/storage | GitRepoVolume_STATUS                                  | v20211001/storage | GitRepoVolume_STATUS                                  | Identical |       |
-| v1api20211001/storage | GpuResource                                           | v20211001/storage | GpuResource                                           | Identical |       |
-| v1api20211001/storage | GpuResource_STATUS                                    | v20211001/storage | GpuResource_STATUS                                    | Identical |       |
-| v1api20211001/storage | HttpHeader                                            | v20211001/storage | HttpHeader                                            | Identical |       |
-| v1api20211001/storage | HttpHeader_STATUS                                     | v20211001/storage | HttpHeader_STATUS                                     | Identical |       |
-| v1api20211001/storage | ImageRegistryCredential                               | v20211001/storage | ImageRegistryCredential                               | Identical |       |
-| v1api20211001/storage | ImageRegistryCredential_STATUS                        | v20211001/storage | ImageRegistryCredential_STATUS                        | Identical |       |
-| v1api20211001/storage | InitContainerDefinition                               | v20211001/storage | InitContainerDefinition                               | Identical |       |
-| v1api20211001/storage | InitContainerDefinition_STATUS                        | v20211001/storage | InitContainerDefinition_STATUS                        | Identical |       |
-| v1api20211001/storage | InitContainerPropertiesDefinition_InstanceView_STATUS | v20211001/storage | InitContainerPropertiesDefinition_InstanceView_STATUS | Identical |       |
-| v1api20211001/storage | IpAddress                                             | v20211001/storage | IpAddress                                             | Identical |       |
-| v1api20211001/storage | IpAddress_STATUS                                      | v20211001/storage | IpAddress_STATUS                                      | Identical |       |
-| v1api20211001/storage | LogAnalytics                                          | v20211001/storage | LogAnalytics                                          | Identical |       |
-| v1api20211001/storage | LogAnalytics_STATUS                                   | v20211001/storage | LogAnalytics_STATUS                                   | Identical |       |
-| v1api20211001/storage | Port                                                  | v20211001/storage | Port                                                  | Identical |       |
-| v1api20211001/storage | Port_STATUS                                           | v20211001/storage | Port_STATUS                                           | Identical |       |
-| v1api20211001/storage | ResourceLimits                                        | v20211001/storage | ResourceLimits                                        | Identical |       |
-| v1api20211001/storage | ResourceLimits_STATUS                                 | v20211001/storage | ResourceLimits_STATUS                                 | Identical |       |
-| v1api20211001/storage | ResourceRequests                                      | v20211001/storage | ResourceRequests                                      | Identical |       |
-| v1api20211001/storage | ResourceRequests_STATUS                               | v20211001/storage | ResourceRequests_STATUS                               | Identical |       |
-| v1api20211001/storage | ResourceRequirements                                  | v20211001/storage | ResourceRequirements                                  | Identical |       |
-| v1api20211001/storage | ResourceRequirements_STATUS                           | v20211001/storage | ResourceRequirements_STATUS                           | Identical |       |
-| v1api20211001/storage | UserAssignedIdentities_STATUS                         | v20211001/storage | UserAssignedIdentities_STATUS                         | Identical |       |
-| v1api20211001/storage | UserAssignedIdentityDetails                           | v20211001/storage | UserAssignedIdentityDetails                           | Identical |       |
-| v1api20211001/storage | Volume                                                | v20211001/storage | Volume                                                | Identical |       |
-| v1api20211001/storage | VolumeMount                                           | v20211001/storage | VolumeMount                                           | Identical |       |
-| v1api20211001/storage | VolumeMount_STATUS                                    | v20211001/storage | VolumeMount_STATUS                                    | Identical |       |
-| v1api20211001/storage | Volume_STATUS                                         | v20211001/storage | Volume_STATUS                                         | Identical |       |
+| v1api20211001/storage                                 | v20211001/storage                                     | Status    | Notes |
+|:------------------------------------------------------|:------------------------------------------------------|:---------:|:------|
+| AzureFileVolume                                       | AzureFileVolume                                       | Identical |       |
+| AzureFileVolume_STATUS                                | AzureFileVolume_STATUS                                | Identical |       |
+| Container                                             | Container                                             | Identical |       |
+| ContainerExec                                         | ContainerExec                                         | Identical |       |
+| ContainerExec_STATUS                                  | ContainerExec_STATUS                                  | Identical |       |
+| ContainerGroupDiagnostics                             | ContainerGroupDiagnostics                             | Identical |       |
+| ContainerGroupDiagnostics_STATUS                      | ContainerGroupDiagnostics_STATUS                      | Identical |       |
+| ContainerGroupIdentity                                | ContainerGroupIdentity                                | Identical |       |
+| ContainerGroupIdentity_STATUS                         | ContainerGroupIdentity_STATUS                         | Identical |       |
+| ContainerGroupOperatorSpec                            | ContainerGroupOperatorSpec                            | Identical |       |
+| ContainerGroupSubnetId                                | ContainerGroupSubnetId                                | Identical |       |
+| ContainerGroupSubnetId_STATUS                         | ContainerGroupSubnetId_STATUS                         | Identical |       |
+| ContainerGroup_Properties_InstanceView_STATUS         | ContainerGroup_Properties_InstanceView_STATUS         | Identical |       |
+| ContainerGroup_STATUS                                 | ContainerGroup_STATUS                                 | Identical |       |
+| ContainerGroup_Spec                                   | ContainerGroup_Spec                                   | Identical |       |
+| ContainerHttpGet                                      | ContainerHttpGet                                      | Identical |       |
+| ContainerHttpGet_STATUS                               | ContainerHttpGet_STATUS                               | Identical |       |
+| ContainerPort                                         | ContainerPort                                         | Identical |       |
+| ContainerPort_STATUS                                  | ContainerPort_STATUS                                  | Identical |       |
+| ContainerProbe                                        | ContainerProbe                                        | Identical |       |
+| ContainerProbe_STATUS                                 | ContainerProbe_STATUS                                 | Identical |       |
+| ContainerProperties_InstanceView_STATUS               | ContainerProperties_InstanceView_STATUS               | Identical |       |
+| ContainerState_STATUS                                 | ContainerState_STATUS                                 | Identical |       |
+| Container_STATUS                                      | Container_STATUS                                      | Identical |       |
+| DnsConfiguration                                      | DnsConfiguration                                      | Identical |       |
+| DnsConfiguration_STATUS                               | DnsConfiguration_STATUS                               | Identical |       |
+| EncryptionProperties                                  | EncryptionProperties                                  | Identical |       |
+| EncryptionProperties_STATUS                           | EncryptionProperties_STATUS                           | Identical |       |
+| EnvironmentVariable                                   | EnvironmentVariable                                   | Identical |       |
+| EnvironmentVariable_STATUS                            | EnvironmentVariable_STATUS                            | Identical |       |
+| Event_STATUS                                          | Event_STATUS                                          | Identical |       |
+| GitRepoVolume                                         | GitRepoVolume                                         | Identical |       |
+| GitRepoVolume_STATUS                                  | GitRepoVolume_STATUS                                  | Identical |       |
+| GpuResource                                           | GpuResource                                           | Identical |       |
+| GpuResource_STATUS                                    | GpuResource_STATUS                                    | Identical |       |
+| HttpHeader                                            | HttpHeader                                            | Identical |       |
+| HttpHeader_STATUS                                     | HttpHeader_STATUS                                     | Identical |       |
+| ImageRegistryCredential                               | ImageRegistryCredential                               | Identical |       |
+| ImageRegistryCredential_STATUS                        | ImageRegistryCredential_STATUS                        | Identical |       |
+| InitContainerDefinition                               | InitContainerDefinition                               | Identical |       |
+| InitContainerDefinition_STATUS                        | InitContainerDefinition_STATUS                        | Identical |       |
+| InitContainerPropertiesDefinition_InstanceView_STATUS | InitContainerPropertiesDefinition_InstanceView_STATUS | Identical |       |
+| IpAddress                                             | IpAddress                                             | Identical |       |
+| IpAddress_STATUS                                      | IpAddress_STATUS                                      | Identical |       |
+| LogAnalytics                                          | LogAnalytics                                          | Identical |       |
+| LogAnalytics_STATUS                                   | LogAnalytics_STATUS                                   | Identical |       |
+| Port                                                  | Port                                                  | Identical |       |
+| Port_STATUS                                           | Port_STATUS                                           | Identical |       |
+| ResourceLimits                                        | ResourceLimits                                        | Identical |       |
+| ResourceLimits_STATUS                                 | ResourceLimits_STATUS                                 | Identical |       |
+| ResourceRequests                                      | ResourceRequests                                      | Identical |       |
+| ResourceRequests_STATUS                               | ResourceRequests_STATUS                               | Identical |       |
+| ResourceRequirements                                  | ResourceRequirements                                  | Identical |       |
+| ResourceRequirements_STATUS                           | ResourceRequirements_STATUS                           | Identical |       |
+| UserAssignedIdentities_STATUS                         | UserAssignedIdentities_STATUS                         | Identical |       |
+| UserAssignedIdentityDetails                           | UserAssignedIdentityDetails                           | Identical |       |
+| Volume                                                | Volume                                                | Identical |       |
+| VolumeMount                                           | VolumeMount                                           | Identical |       |
+| VolumeMount_STATUS                                    | VolumeMount_STATUS                                    | Identical |       |
+| Volume_STATUS                                         | Volume_STATUS                                         | Identical |       |

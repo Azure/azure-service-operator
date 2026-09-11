@@ -11,130 +11,130 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                  | Next Version          | Next Type                     | Status    | Notes |
-|:----------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
-| v1api20240311   | DataCollectionEndpoint        | v1api20240311/storage | DataCollectionEndpoint        | Identical |       |
-| v1api20240311   | DataCollectionRule            | v1api20240311/storage | DataCollectionRule            | Identical |       |
-| v1api20240311   | DataCollectionRuleAssociation | v1api20240311/storage | DataCollectionRuleAssociation | Identical |       |
+| v1api20240311                 | v1api20240311/storage         | Status    | Notes |
+|:------------------------------|:------------------------------|:---------:|:------|
+| DataCollectionEndpoint        | DataCollectionEndpoint        | Identical |       |
+| DataCollectionRule            | DataCollectionRule            | Identical |       |
+| DataCollectionRuleAssociation | DataCollectionRuleAssociation | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                          | Next Version          | Next Type                                             | Status   | Notes |
-|:----------------|:------------------------------------------------------|:----------------------|:------------------------------------------------------|:--------:|:------|
-| v1api20240311   | AdxDestination                                        | v1api20240311/storage | AdxDestination                                        | Extended |       |
-| v1api20240311   | AdxDestination_STATUS                                 | v1api20240311/storage | AdxDestination_STATUS                                 | Extended |       |
-| v1api20240311   | AgentSetting                                          | v1api20240311/storage | AgentSetting                                          | Modified |       |
-| v1api20240311   | AgentSetting_STATUS                                   | v1api20240311/storage | AgentSetting_STATUS                                   | Modified |       |
-| v1api20240311   | AgentSettingsSpec                                     | v1api20240311/storage | AgentSettingsSpec                                     | Extended |       |
-| v1api20240311   | AgentSettingsSpec_STATUS                              | v1api20240311/storage | AgentSettingsSpec_STATUS                              | Extended |       |
-| v1api20240311   | ApplicationInsights                                   | v1api20240311/storage | ApplicationInsights                                   | Extended |       |
-| v1api20240311   | ApplicationInsights_STATUS                            | v1api20240311/storage | ApplicationInsights_STATUS                            | Extended |       |
-| v1api20240311   | AzureMonitorMetricsDestination                        | v1api20240311/storage | AzureMonitorMetricsDestination                        | Extended |       |
-| v1api20240311   | AzureMonitorMetricsDestination_STATUS                 | v1api20240311/storage | AzureMonitorMetricsDestination_STATUS                 | Extended |       |
-| v1api20240311   | ColumnDefinition                                      | v1api20240311/storage | ColumnDefinition                                      | Modified |       |
-| v1api20240311   | ColumnDefinition_STATUS                               | v1api20240311/storage | ColumnDefinition_STATUS                               | Modified |       |
-| v1api20240311   | ConfigurationAccessEndpointSpec_STATUS                | v1api20240311/storage | ConfigurationAccessEndpointSpec_STATUS                | Extended |       |
-| v1api20240311   | DataCollectionEndpointOperatorSpec                    | v1api20240311/storage | DataCollectionEndpointOperatorSpec                    | Extended |       |
-| v1api20240311   | DataCollectionEndpointResource_STATUS                 | v1api20240311/storage | DataCollectionEndpointResource_STATUS                 | Modified |       |
-| v1api20240311   | DataCollectionEndpoint_Spec                           | v1api20240311/storage | DataCollectionEndpoint_Spec                           | Modified |       |
-| v1api20240311   | DataCollectionRuleAssociationOperatorSpec             | v1api20240311/storage | DataCollectionRuleAssociationOperatorSpec             | Extended |       |
-| v1api20240311   | DataCollectionRuleAssociationProxyOnlyResource_STATUS | v1api20240311/storage | DataCollectionRuleAssociationProxyOnlyResource_STATUS | Modified |       |
-| v1api20240311   | DataCollectionRuleAssociation_Spec                    | v1api20240311/storage | DataCollectionRuleAssociation_Spec                    | Extended |       |
-| v1api20240311   | DataCollectionRuleOperatorSpec                        | v1api20240311/storage | DataCollectionRuleOperatorSpec                        | Extended |       |
-| v1api20240311   | DataCollectionRuleResource_STATUS                     | v1api20240311/storage | DataCollectionRuleResource_STATUS                     | Modified |       |
-| v1api20240311   | DataCollectionRule_Spec                               | v1api20240311/storage | DataCollectionRule_Spec                               | Modified |       |
-| v1api20240311   | DataFlow                                              | v1api20240311/storage | DataFlow                                              | Extended |       |
-| v1api20240311   | DataFlow_STATUS                                       | v1api20240311/storage | DataFlow_STATUS                                       | Extended |       |
-| v1api20240311   | DataImportSources                                     | v1api20240311/storage | DataImportSources                                     | Extended |       |
-| v1api20240311   | DataImportSources_STATUS                              | v1api20240311/storage | DataImportSources_STATUS                              | Extended |       |
-| v1api20240311   | DataSourcesSpec                                       | v1api20240311/storage | DataSourcesSpec                                       | Extended |       |
-| v1api20240311   | DataSourcesSpec_STATUS                                | v1api20240311/storage | DataSourcesSpec_STATUS                                | Extended |       |
-| v1api20240311   | DestinationsSpec                                      | v1api20240311/storage | DestinationsSpec                                      | Extended |       |
-| v1api20240311   | DestinationsSpec_STATUS                               | v1api20240311/storage | DestinationsSpec_STATUS                               | Extended |       |
-| v1api20240311   | DirectDataSourcesSpec                                 | v1api20240311/storage | DirectDataSourcesSpec                                 | Extended |       |
-| v1api20240311   | DirectDataSourcesSpec_STATUS                          | v1api20240311/storage | DirectDataSourcesSpec_STATUS                          | Extended |       |
-| v1api20240311   | EndpointsSpec_STATUS                                  | v1api20240311/storage | EndpointsSpec_STATUS                                  | Extended |       |
-| v1api20240311   | EnrichmentData                                        | v1api20240311/storage | EnrichmentData                                        | Extended |       |
-| v1api20240311   | EnrichmentData_STATUS                                 | v1api20240311/storage | EnrichmentData_STATUS                                 | Extended |       |
-| v1api20240311   | EtwProviderDataSource                                 | v1api20240311/storage | EtwProviderDataSource                                 | Modified |       |
-| v1api20240311   | EtwProviderDataSource_STATUS                          | v1api20240311/storage | EtwProviderDataSource_STATUS                          | Modified |       |
-| v1api20240311   | EventHubDataSource                                    | v1api20240311/storage | EventHubDataSource                                    | Extended |       |
-| v1api20240311   | EventHubDataSource_STATUS                             | v1api20240311/storage | EventHubDataSource_STATUS                             | Extended |       |
-| v1api20240311   | EventHubDestination                                   | v1api20240311/storage | EventHubDestination                                   | Extended |       |
-| v1api20240311   | EventHubDestination_STATUS                            | v1api20240311/storage | EventHubDestination_STATUS                            | Extended |       |
-| v1api20240311   | EventHubDirectDestination                             | v1api20240311/storage | EventHubDirectDestination                             | Extended |       |
-| v1api20240311   | EventHubDirectDestination_STATUS                      | v1api20240311/storage | EventHubDirectDestination_STATUS                      | Extended |       |
-| v1api20240311   | ExtensionDataSource                                   | v1api20240311/storage | ExtensionDataSource                                   | Extended |       |
-| v1api20240311   | ExtensionDataSource_STATUS                            | v1api20240311/storage | ExtensionDataSource_STATUS                            | Extended |       |
-| v1api20240311   | FailoverConfigurationSpec_STATUS                      | v1api20240311/storage | FailoverConfigurationSpec_STATUS                      | Extended |       |
-| v1api20240311   | IisLogsDataSource                                     | v1api20240311/storage | IisLogsDataSource                                     | Extended |       |
-| v1api20240311   | IisLogsDataSource_STATUS                              | v1api20240311/storage | IisLogsDataSource_STATUS                              | Extended |       |
-| v1api20240311   | IngestionQuotas_STATUS                                | v1api20240311/storage | IngestionQuotas_STATUS                                | Extended |       |
-| v1api20240311   | LocationSpec_STATUS                                   | v1api20240311/storage | LocationSpec_STATUS                                   | Modified |       |
-| v1api20240311   | LogAnalyticsDestination                               | v1api20240311/storage | LogAnalyticsDestination                               | Extended |       |
-| v1api20240311   | LogAnalyticsDestination_STATUS                        | v1api20240311/storage | LogAnalyticsDestination_STATUS                        | Extended |       |
-| v1api20240311   | LogFileSettings                                       | v1api20240311/storage | LogFileSettings                                       | Extended |       |
-| v1api20240311   | LogFileSettings_STATUS                                | v1api20240311/storage | LogFileSettings_STATUS                                | Extended |       |
-| v1api20240311   | LogFileTextSettings                                   | v1api20240311/storage | LogFileTextSettings                                   | Modified |       |
-| v1api20240311   | LogFileTextSettings_STATUS                            | v1api20240311/storage | LogFileTextSettings_STATUS                            | Modified |       |
-| v1api20240311   | LogFilesDataSource                                    | v1api20240311/storage | LogFilesDataSource                                    | Modified |       |
-| v1api20240311   | LogFilesDataSource_STATUS                             | v1api20240311/storage | LogFilesDataSource_STATUS                             | Modified |       |
-| v1api20240311   | LogsIngestionEndpointSpec_STATUS                      | v1api20240311/storage | LogsIngestionEndpointSpec_STATUS                      | Extended |       |
-| v1api20240311   | LogsQuotaSpec_STATUS                                  | v1api20240311/storage | LogsQuotaSpec_STATUS                                  | Extended |       |
-| v1api20240311   | ManagedServiceIdentity                                | v1api20240311/storage | ManagedServiceIdentity                                | Modified |       |
-| v1api20240311   | ManagedServiceIdentity_STATUS                         | v1api20240311/storage | ManagedServiceIdentity_STATUS                         | Modified |       |
-| v1api20240311   | Metadata_STATUS                                       | v1api20240311/storage | Metadata_STATUS                                       | Extended |       |
-| v1api20240311   | MetricsIngestionEndpointSpec_STATUS                   | v1api20240311/storage | MetricsIngestionEndpointSpec_STATUS                   | Extended |       |
-| v1api20240311   | MicrosoftFabricDestination                            | v1api20240311/storage | MicrosoftFabricDestination                            | Extended |       |
-| v1api20240311   | MicrosoftFabricDestination_STATUS                     | v1api20240311/storage | MicrosoftFabricDestination_STATUS                     | Extended |       |
-| v1api20240311   | MonitoringAccountDestination                          | v1api20240311/storage | MonitoringAccountDestination                          | Extended |       |
-| v1api20240311   | MonitoringAccountDestination_STATUS                   | v1api20240311/storage | MonitoringAccountDestination_STATUS                   | Extended |       |
-| v1api20240311   | NetworkRuleSet                                        | v1api20240311/storage | NetworkRuleSet                                        | Modified |       |
-| v1api20240311   | NetworkRuleSet_STATUS                                 | v1api20240311/storage | NetworkRuleSet_STATUS                                 | Modified |       |
-| v1api20240311   | OtelDataSourceResourceAttributeRouting                | v1api20240311/storage | OtelDataSourceResourceAttributeRouting                | Extended |       |
-| v1api20240311   | OtelDataSourceResourceAttributeRouting_STATUS         | v1api20240311/storage | OtelDataSourceResourceAttributeRouting_STATUS         | Extended |       |
-| v1api20240311   | OtelLogsDataSource                                    | v1api20240311/storage | OtelLogsDataSource                                    | Modified |       |
-| v1api20240311   | OtelLogsDataSource_STATUS                             | v1api20240311/storage | OtelLogsDataSource_STATUS                             | Modified |       |
-| v1api20240311   | OtelLogsDirectDataSource                              | v1api20240311/storage | OtelLogsDirectDataSource                              | Modified |       |
-| v1api20240311   | OtelLogsDirectDataSource_STATUS                       | v1api20240311/storage | OtelLogsDirectDataSource_STATUS                       | Modified |       |
-| v1api20240311   | OtelMetricsDataSource                                 | v1api20240311/storage | OtelMetricsDataSource                                 | Extended |       |
-| v1api20240311   | OtelMetricsDataSource_STATUS                          | v1api20240311/storage | OtelMetricsDataSource_STATUS                          | Extended |       |
-| v1api20240311   | OtelMetricsDirectDataSource                           | v1api20240311/storage | OtelMetricsDirectDataSource                           | Extended |       |
-| v1api20240311   | OtelMetricsDirectDataSource_STATUS                    | v1api20240311/storage | OtelMetricsDirectDataSource_STATUS                    | Extended |       |
-| v1api20240311   | OtelTracesDataSource                                  | v1api20240311/storage | OtelTracesDataSource                                  | Modified |       |
-| v1api20240311   | OtelTracesDataSource_STATUS                           | v1api20240311/storage | OtelTracesDataSource_STATUS                           | Modified |       |
-| v1api20240311   | OtelTracesDirectDataSource                            | v1api20240311/storage | OtelTracesDirectDataSource                            | Modified |       |
-| v1api20240311   | OtelTracesDirectDataSource_STATUS                     | v1api20240311/storage | OtelTracesDirectDataSource_STATUS                     | Modified |       |
-| v1api20240311   | PerfCounterDataSource                                 | v1api20240311/storage | PerfCounterDataSource                                 | Extended |       |
-| v1api20240311   | PerfCounterDataSource_STATUS                          | v1api20240311/storage | PerfCounterDataSource_STATUS                          | Extended |       |
-| v1api20240311   | PerformanceCountersOTelDataSource                     | v1api20240311/storage | PerformanceCountersOTelDataSource                     | Modified |       |
-| v1api20240311   | PerformanceCountersOTelDataSource_STATUS              | v1api20240311/storage | PerformanceCountersOTelDataSource_STATUS              | Modified |       |
-| v1api20240311   | PlatformTelemetryDataSource                           | v1api20240311/storage | PlatformTelemetryDataSource                           | Extended |       |
-| v1api20240311   | PlatformTelemetryDataSource_STATUS                    | v1api20240311/storage | PlatformTelemetryDataSource_STATUS                    | Extended |       |
-| v1api20240311   | PrivateLinkScopedResource_STATUS                      | v1api20240311/storage | PrivateLinkScopedResource_STATUS                      | Extended |       |
-| v1api20240311   | PrometheusForwarderDataSource                         | v1api20240311/storage | PrometheusForwarderDataSource                         | Extended |       |
-| v1api20240311   | PrometheusForwarderDataSource_STATUS                  | v1api20240311/storage | PrometheusForwarderDataSource_STATUS                  | Extended |       |
-| v1api20240311   | ReferencesSpec                                        | v1api20240311/storage | ReferencesSpec                                        | Extended |       |
-| v1api20240311   | ReferencesSpec_STATUS                                 | v1api20240311/storage | ReferencesSpec_STATUS                                 | Extended |       |
-| v1api20240311   | Sku                                                   | v1api20240311/storage | Sku                                                   | Modified |       |
-| v1api20240311   | Sku_STATUS                                            | v1api20240311/storage | Sku_STATUS                                            | Modified |       |
-| v1api20240311   | StorageBlob                                           | v1api20240311/storage | StorageBlob                                           | Modified |       |
-| v1api20240311   | StorageBlobDestination                                | v1api20240311/storage | StorageBlobDestination                                | Extended |       |
-| v1api20240311   | StorageBlobDestination_STATUS                         | v1api20240311/storage | StorageBlobDestination_STATUS                         | Extended |       |
-| v1api20240311   | StorageBlob_STATUS                                    | v1api20240311/storage | StorageBlob_STATUS                                    | Modified |       |
-| v1api20240311   | StorageTableDestination                               | v1api20240311/storage | StorageTableDestination                               | Extended |       |
-| v1api20240311   | StorageTableDestination_STATUS                        | v1api20240311/storage | StorageTableDestination_STATUS                        | Extended |       |
-| v1api20240311   | StreamDeclaration                                     | v1api20240311/storage | StreamDeclaration                                     | Extended |       |
-| v1api20240311   | StreamDeclaration_STATUS                              | v1api20240311/storage | StreamDeclaration_STATUS                              | Extended |       |
-| v1api20240311   | SyslogDataSource                                      | v1api20240311/storage | SyslogDataSource                                      | Modified |       |
-| v1api20240311   | SyslogDataSource_STATUS                               | v1api20240311/storage | SyslogDataSource_STATUS                               | Modified |       |
-| v1api20240311   | SystemData_STATUS                                     | v1api20240311/storage | SystemData_STATUS                                     | Modified |       |
-| v1api20240311   | UserAssignedIdentityDetails                           | v1api20240311/storage | UserAssignedIdentityDetails                           | Extended |       |
-| v1api20240311   | UserAssignedIdentity_STATUS                           | v1api20240311/storage | UserAssignedIdentity_STATUS                           | Extended |       |
-| v1api20240311   | WindowsEventLogDataSource                             | v1api20240311/storage | WindowsEventLogDataSource                             | Extended |       |
-| v1api20240311   | WindowsEventLogDataSource_STATUS                      | v1api20240311/storage | WindowsEventLogDataSource_STATUS                      | Extended |       |
-| v1api20240311   | WindowsFirewallLogsDataSource                         | v1api20240311/storage | WindowsFirewallLogsDataSource                         | Modified |       |
-| v1api20240311   | WindowsFirewallLogsDataSource_STATUS                  | v1api20240311/storage | WindowsFirewallLogsDataSource_STATUS                  | Modified |       |
+| v1api20240311                                         | v1api20240311/storage                                 | Status   | Notes |
+|:------------------------------------------------------|:------------------------------------------------------|:--------:|:------|
+| AdxDestination                                        | AdxDestination                                        | Extended |       |
+| AdxDestination_STATUS                                 | AdxDestination_STATUS                                 | Extended |       |
+| AgentSetting                                          | AgentSetting                                          | Modified |       |
+| AgentSetting_STATUS                                   | AgentSetting_STATUS                                   | Modified |       |
+| AgentSettingsSpec                                     | AgentSettingsSpec                                     | Extended |       |
+| AgentSettingsSpec_STATUS                              | AgentSettingsSpec_STATUS                              | Extended |       |
+| ApplicationInsights                                   | ApplicationInsights                                   | Extended |       |
+| ApplicationInsights_STATUS                            | ApplicationInsights_STATUS                            | Extended |       |
+| AzureMonitorMetricsDestination                        | AzureMonitorMetricsDestination                        | Extended |       |
+| AzureMonitorMetricsDestination_STATUS                 | AzureMonitorMetricsDestination_STATUS                 | Extended |       |
+| ColumnDefinition                                      | ColumnDefinition                                      | Modified |       |
+| ColumnDefinition_STATUS                               | ColumnDefinition_STATUS                               | Modified |       |
+| ConfigurationAccessEndpointSpec_STATUS                | ConfigurationAccessEndpointSpec_STATUS                | Extended |       |
+| DataCollectionEndpointOperatorSpec                    | DataCollectionEndpointOperatorSpec                    | Extended |       |
+| DataCollectionEndpointResource_STATUS                 | DataCollectionEndpointResource_STATUS                 | Modified |       |
+| DataCollectionEndpoint_Spec                           | DataCollectionEndpoint_Spec                           | Modified |       |
+| DataCollectionRuleAssociationOperatorSpec             | DataCollectionRuleAssociationOperatorSpec             | Extended |       |
+| DataCollectionRuleAssociationProxyOnlyResource_STATUS | DataCollectionRuleAssociationProxyOnlyResource_STATUS | Modified |       |
+| DataCollectionRuleAssociation_Spec                    | DataCollectionRuleAssociation_Spec                    | Extended |       |
+| DataCollectionRuleOperatorSpec                        | DataCollectionRuleOperatorSpec                        | Extended |       |
+| DataCollectionRuleResource_STATUS                     | DataCollectionRuleResource_STATUS                     | Modified |       |
+| DataCollectionRule_Spec                               | DataCollectionRule_Spec                               | Modified |       |
+| DataFlow                                              | DataFlow                                              | Extended |       |
+| DataFlow_STATUS                                       | DataFlow_STATUS                                       | Extended |       |
+| DataImportSources                                     | DataImportSources                                     | Extended |       |
+| DataImportSources_STATUS                              | DataImportSources_STATUS                              | Extended |       |
+| DataSourcesSpec                                       | DataSourcesSpec                                       | Extended |       |
+| DataSourcesSpec_STATUS                                | DataSourcesSpec_STATUS                                | Extended |       |
+| DestinationsSpec                                      | DestinationsSpec                                      | Extended |       |
+| DestinationsSpec_STATUS                               | DestinationsSpec_STATUS                               | Extended |       |
+| DirectDataSourcesSpec                                 | DirectDataSourcesSpec                                 | Extended |       |
+| DirectDataSourcesSpec_STATUS                          | DirectDataSourcesSpec_STATUS                          | Extended |       |
+| EndpointsSpec_STATUS                                  | EndpointsSpec_STATUS                                  | Extended |       |
+| EnrichmentData                                        | EnrichmentData                                        | Extended |       |
+| EnrichmentData_STATUS                                 | EnrichmentData_STATUS                                 | Extended |       |
+| EtwProviderDataSource                                 | EtwProviderDataSource                                 | Modified |       |
+| EtwProviderDataSource_STATUS                          | EtwProviderDataSource_STATUS                          | Modified |       |
+| EventHubDataSource                                    | EventHubDataSource                                    | Extended |       |
+| EventHubDataSource_STATUS                             | EventHubDataSource_STATUS                             | Extended |       |
+| EventHubDestination                                   | EventHubDestination                                   | Extended |       |
+| EventHubDestination_STATUS                            | EventHubDestination_STATUS                            | Extended |       |
+| EventHubDirectDestination                             | EventHubDirectDestination                             | Extended |       |
+| EventHubDirectDestination_STATUS                      | EventHubDirectDestination_STATUS                      | Extended |       |
+| ExtensionDataSource                                   | ExtensionDataSource                                   | Extended |       |
+| ExtensionDataSource_STATUS                            | ExtensionDataSource_STATUS                            | Extended |       |
+| FailoverConfigurationSpec_STATUS                      | FailoverConfigurationSpec_STATUS                      | Extended |       |
+| IisLogsDataSource                                     | IisLogsDataSource                                     | Extended |       |
+| IisLogsDataSource_STATUS                              | IisLogsDataSource_STATUS                              | Extended |       |
+| IngestionQuotas_STATUS                                | IngestionQuotas_STATUS                                | Extended |       |
+| LocationSpec_STATUS                                   | LocationSpec_STATUS                                   | Modified |       |
+| LogAnalyticsDestination                               | LogAnalyticsDestination                               | Extended |       |
+| LogAnalyticsDestination_STATUS                        | LogAnalyticsDestination_STATUS                        | Extended |       |
+| LogFileSettings                                       | LogFileSettings                                       | Extended |       |
+| LogFileSettings_STATUS                                | LogFileSettings_STATUS                                | Extended |       |
+| LogFileTextSettings                                   | LogFileTextSettings                                   | Modified |       |
+| LogFileTextSettings_STATUS                            | LogFileTextSettings_STATUS                            | Modified |       |
+| LogFilesDataSource                                    | LogFilesDataSource                                    | Modified |       |
+| LogFilesDataSource_STATUS                             | LogFilesDataSource_STATUS                             | Modified |       |
+| LogsIngestionEndpointSpec_STATUS                      | LogsIngestionEndpointSpec_STATUS                      | Extended |       |
+| LogsQuotaSpec_STATUS                                  | LogsQuotaSpec_STATUS                                  | Extended |       |
+| ManagedServiceIdentity                                | ManagedServiceIdentity                                | Modified |       |
+| ManagedServiceIdentity_STATUS                         | ManagedServiceIdentity_STATUS                         | Modified |       |
+| Metadata_STATUS                                       | Metadata_STATUS                                       | Extended |       |
+| MetricsIngestionEndpointSpec_STATUS                   | MetricsIngestionEndpointSpec_STATUS                   | Extended |       |
+| MicrosoftFabricDestination                            | MicrosoftFabricDestination                            | Extended |       |
+| MicrosoftFabricDestination_STATUS                     | MicrosoftFabricDestination_STATUS                     | Extended |       |
+| MonitoringAccountDestination                          | MonitoringAccountDestination                          | Extended |       |
+| MonitoringAccountDestination_STATUS                   | MonitoringAccountDestination_STATUS                   | Extended |       |
+| NetworkRuleSet                                        | NetworkRuleSet                                        | Modified |       |
+| NetworkRuleSet_STATUS                                 | NetworkRuleSet_STATUS                                 | Modified |       |
+| OtelDataSourceResourceAttributeRouting                | OtelDataSourceResourceAttributeRouting                | Extended |       |
+| OtelDataSourceResourceAttributeRouting_STATUS         | OtelDataSourceResourceAttributeRouting_STATUS         | Extended |       |
+| OtelLogsDataSource                                    | OtelLogsDataSource                                    | Modified |       |
+| OtelLogsDataSource_STATUS                             | OtelLogsDataSource_STATUS                             | Modified |       |
+| OtelLogsDirectDataSource                              | OtelLogsDirectDataSource                              | Modified |       |
+| OtelLogsDirectDataSource_STATUS                       | OtelLogsDirectDataSource_STATUS                       | Modified |       |
+| OtelMetricsDataSource                                 | OtelMetricsDataSource                                 | Extended |       |
+| OtelMetricsDataSource_STATUS                          | OtelMetricsDataSource_STATUS                          | Extended |       |
+| OtelMetricsDirectDataSource                           | OtelMetricsDirectDataSource                           | Extended |       |
+| OtelMetricsDirectDataSource_STATUS                    | OtelMetricsDirectDataSource_STATUS                    | Extended |       |
+| OtelTracesDataSource                                  | OtelTracesDataSource                                  | Modified |       |
+| OtelTracesDataSource_STATUS                           | OtelTracesDataSource_STATUS                           | Modified |       |
+| OtelTracesDirectDataSource                            | OtelTracesDirectDataSource                            | Modified |       |
+| OtelTracesDirectDataSource_STATUS                     | OtelTracesDirectDataSource_STATUS                     | Modified |       |
+| PerfCounterDataSource                                 | PerfCounterDataSource                                 | Extended |       |
+| PerfCounterDataSource_STATUS                          | PerfCounterDataSource_STATUS                          | Extended |       |
+| PerformanceCountersOTelDataSource                     | PerformanceCountersOTelDataSource                     | Modified |       |
+| PerformanceCountersOTelDataSource_STATUS              | PerformanceCountersOTelDataSource_STATUS              | Modified |       |
+| PlatformTelemetryDataSource                           | PlatformTelemetryDataSource                           | Extended |       |
+| PlatformTelemetryDataSource_STATUS                    | PlatformTelemetryDataSource_STATUS                    | Extended |       |
+| PrivateLinkScopedResource_STATUS                      | PrivateLinkScopedResource_STATUS                      | Extended |       |
+| PrometheusForwarderDataSource                         | PrometheusForwarderDataSource                         | Extended |       |
+| PrometheusForwarderDataSource_STATUS                  | PrometheusForwarderDataSource_STATUS                  | Extended |       |
+| ReferencesSpec                                        | ReferencesSpec                                        | Extended |       |
+| ReferencesSpec_STATUS                                 | ReferencesSpec_STATUS                                 | Extended |       |
+| Sku                                                   | Sku                                                   | Modified |       |
+| Sku_STATUS                                            | Sku_STATUS                                            | Modified |       |
+| StorageBlob                                           | StorageBlob                                           | Modified |       |
+| StorageBlobDestination                                | StorageBlobDestination                                | Extended |       |
+| StorageBlobDestination_STATUS                         | StorageBlobDestination_STATUS                         | Extended |       |
+| StorageBlob_STATUS                                    | StorageBlob_STATUS                                    | Modified |       |
+| StorageTableDestination                               | StorageTableDestination                               | Extended |       |
+| StorageTableDestination_STATUS                        | StorageTableDestination_STATUS                        | Extended |       |
+| StreamDeclaration                                     | StreamDeclaration                                     | Extended |       |
+| StreamDeclaration_STATUS                              | StreamDeclaration_STATUS                              | Extended |       |
+| SyslogDataSource                                      | SyslogDataSource                                      | Modified |       |
+| SyslogDataSource_STATUS                               | SyslogDataSource_STATUS                               | Modified |       |
+| SystemData_STATUS                                     | SystemData_STATUS                                     | Modified |       |
+| UserAssignedIdentityDetails                           | UserAssignedIdentityDetails                           | Extended |       |
+| UserAssignedIdentity_STATUS                           | UserAssignedIdentity_STATUS                           | Extended |       |
+| WindowsEventLogDataSource                             | WindowsEventLogDataSource                             | Extended |       |
+| WindowsEventLogDataSource_STATUS                      | WindowsEventLogDataSource_STATUS                      | Extended |       |
+| WindowsFirewallLogsDataSource                         | WindowsFirewallLogsDataSource                         | Modified |       |
+| WindowsFirewallLogsDataSource_STATUS                  | WindowsFirewallLogsDataSource_STATUS                  | Modified |       |
 
 ### AdxDestination
 

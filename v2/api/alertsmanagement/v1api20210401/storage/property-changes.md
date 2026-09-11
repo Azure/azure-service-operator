@@ -11,21 +11,21 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type           | Next Version      | Next Type              | Status    | Notes |
-|:----------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
-| v1api20210401/storage | SmartDetectorAlertRule | v20210401/storage | SmartDetectorAlertRule | Identical |       |
+| v1api20210401/storage  | v20210401/storage      | Status    | Notes |
+|:-----------------------|:-----------------------|:---------:|:------|
+| SmartDetectorAlertRule | SmartDetectorAlertRule | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                       | Next Version      | Next Type                          | Status    | Notes |
-|:----------------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
-| v1api20210401/storage | ActionGroupsInformation            | v20210401/storage | ActionGroupsInformation            | Identical |       |
-| v1api20210401/storage | ActionGroupsInformation_STATUS     | v20210401/storage | ActionGroupsInformation_STATUS     | Identical |       |
-| v1api20210401/storage | Detector                           | v20210401/storage | Detector                           | Identical |       |
-| v1api20210401/storage | DetectorParameterDefinition_STATUS | v20210401/storage | DetectorParameterDefinition_STATUS | Identical |       |
-| v1api20210401/storage | Detector_STATUS                    | v20210401/storage | Detector_STATUS                    | Identical |       |
-| v1api20210401/storage | SmartDetectorAlertRuleOperatorSpec | v20210401/storage | SmartDetectorAlertRuleOperatorSpec | Identical |       |
-| v1api20210401/storage | SmartDetectorAlertRule_STATUS      | v20210401/storage | SmartDetectorAlertRule_STATUS      | Identical |       |
-| v1api20210401/storage | SmartDetectorAlertRule_Spec        | v20210401/storage | SmartDetectorAlertRule_Spec        | Identical |       |
-| v1api20210401/storage | ThrottlingInformation              | v20210401/storage | ThrottlingInformation              | Identical |       |
-| v1api20210401/storage | ThrottlingInformation_STATUS       | v20210401/storage | ThrottlingInformation_STATUS       | Identical |       |
+| v1api20210401/storage              | v20210401/storage                  | Status    | Notes |
+|:-----------------------------------|:-----------------------------------|:---------:|:------|
+| ActionGroupsInformation            | ActionGroupsInformation            | Identical |       |
+| ActionGroupsInformation_STATUS     | ActionGroupsInformation_STATUS     | Identical |       |
+| Detector                           | Detector                           | Identical |       |
+| DetectorParameterDefinition_STATUS | DetectorParameterDefinition_STATUS | Identical |       |
+| Detector_STATUS                    | Detector_STATUS                    | Identical |       |
+| SmartDetectorAlertRuleOperatorSpec | SmartDetectorAlertRuleOperatorSpec | Identical |       |
+| SmartDetectorAlertRule_STATUS      | SmartDetectorAlertRule_STATUS      | Identical |       |
+| SmartDetectorAlertRule_Spec        | SmartDetectorAlertRule_Spec        | Identical |       |
+| ThrottlingInformation              | ThrottlingInformation              | Identical |       |
+| ThrottlingInformation_STATUS       | ThrottlingInformation_STATUS       | Identical |       |

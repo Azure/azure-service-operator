@@ -11,86 +11,86 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type                        | Next Version          | Next Type                           | Status    | Notes |
-|:----------------------|:------------------------------------|:----------------------|:------------------------------------|:---------:|:------|
-| v1api20220701/storage | BastionHost                         | v1api20240301/storage | BastionHost                         | Identical |       |
-| v1api20220701/storage | NatGateway                          | v1api20240301/storage | NatGateway                          | Identical |       |
-| v1api20220701/storage | PrivateEndpoint                     | v1api20240301/storage | PrivateEndpoint                     | Identical |       |
-| v1api20220701/storage | PrivateEndpointsPrivateDnsZoneGroup | v1api20240301/storage | PrivateEndpointsPrivateDnsZoneGroup | Identical |       |
-| v1api20220701/storage | PrivateLinkService                  | v1api20240301/storage | PrivateLinkService                  | Identical |       |
-| v1api20220701/storage | PublicIPPrefix                      | v1api20240301/storage | PublicIPPrefix                      | Identical |       |
+| v1api20220701/storage               | v1api20240301/storage               | Status    | Notes |
+|:------------------------------------|:------------------------------------|:---------:|:------|
+| BastionHost                         | BastionHost                         | Identical |       |
+| NatGateway                          | NatGateway                          | Identical |       |
+| PrivateEndpoint                     | PrivateEndpoint                     | Identical |       |
+| PrivateEndpointsPrivateDnsZoneGroup | PrivateEndpointsPrivateDnsZoneGroup | Identical |       |
+| PrivateLinkService                  | PrivateLinkService                  | Identical |       |
+| PublicIPPrefix                      | PublicIPPrefix                      | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                                                          | Next Version          | Next Type                                                             | Status    | Notes |
-|:----------------------|:----------------------------------------------------------------------|:----------------------|:----------------------------------------------------------------------|:---------:|:------|
-| v1api20220701/storage | ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded      | v1api20240301/storage | ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded      | Identical |       |
-| v1api20220701/storage | ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded   | v1api20240301/storage | ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded   | Identical |       |
-| v1api20220701/storage | BastionHostIPConfiguration                                            | v1api20240301/storage | BastionHostIPConfiguration                                            | Identical |       |
-| v1api20220701/storage | BastionHostIPConfiguration_STATUS                                     | v1api20240301/storage | BastionHostIPConfiguration_STATUS                                     | Identical |       |
-| v1api20220701/storage | BastionHostOperatorSpec                                               | v1api20240301/storage | BastionHostOperatorSpec                                               | Identical |       |
-|                       |                                                                       | v1api20240301/storage | BastionHostPropertiesFormat_NetworkAcls                               | New       |       |
-|                       |                                                                       | v1api20240301/storage | BastionHostPropertiesFormat_NetworkAcls_STATUS                        | New       |       |
-| v1api20220701/storage | BastionHost_STATUS                                                    | v1api20240301/storage | BastionHost_STATUS                                                    | Extended  |       |
-| v1api20220701/storage | BastionHost_Spec                                                      | v1api20240301/storage | BastionHost_Spec                                                      | Extended  |       |
-| v1api20220701/storage | CustomDnsConfigPropertiesFormat_STATUS                                | v1api20240301/storage | CustomDnsConfigPropertiesFormat_STATUS                                | Identical |       |
-| v1api20220701/storage | ExtendedLocation                                                      | v1api20240301/storage | ExtendedLocation                                                      | Identical |       |
-| v1api20220701/storage | ExtendedLocation_STATUS                                               | v1api20240301/storage | ExtendedLocation_STATUS                                               | Identical |       |
-| v1api20220701/storage | FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded        | v1api20240301/storage | FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded        | Identical |       |
-| v1api20220701/storage | FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded | v1api20240301/storage | FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded | Identical |       |
-|                       |                                                                       | v1api20240301/storage | IPRule                                                                | New       |       |
-|                       |                                                                       | v1api20240301/storage | IPRule_STATUS                                                         | New       |       |
-| v1api20220701/storage | IpTag                                                                 | v1api20240301/storage | IpTag                                                                 | Identical |       |
-| v1api20220701/storage | IpTag_STATUS                                                          | v1api20240301/storage | IpTag_STATUS                                                          | Identical |       |
-| v1api20220701/storage | NatGatewayOperatorSpec                                                | v1api20240301/storage | NatGatewayOperatorSpec                                                | Identical |       |
-| v1api20220701/storage | NatGatewaySku                                                         | v1api20240301/storage | NatGatewaySku                                                         | Identical |       |
-| v1api20220701/storage | NatGatewaySku_STATUS                                                  | v1api20240301/storage | NatGatewaySku_STATUS                                                  | Identical |       |
-| v1api20220701/storage | NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                     | v1api20240301/storage | NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                     | Identical |       |
-| v1api20220701/storage | NatGateway_STATUS                                                     | v1api20240301/storage | NatGateway_STATUS                                                     | Identical |       |
-| v1api20220701/storage | NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                  | v1api20240301/storage | NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                  | Identical |       |
-| v1api20220701/storage | NatGateway_Spec                                                       | v1api20240301/storage | NatGateway_Spec                                                       | Identical |       |
-| v1api20220701/storage | NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded           | v1api20240301/storage | NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded           | Identical |       |
-| v1api20220701/storage | NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded        | v1api20240301/storage | NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded        | Identical |       |
-| v1api20220701/storage | PrivateDnsZoneConfig                                                  | v1api20240301/storage | PrivateDnsZoneConfig                                                  | Identical |       |
-| v1api20220701/storage | PrivateDnsZoneConfig_STATUS                                           | v1api20240301/storage | PrivateDnsZoneConfig_STATUS                                           | Identical |       |
-| v1api20220701/storage | PrivateEndpointConnection_STATUS                                      | v1api20240301/storage | PrivateEndpointConnection_STATUS                                      | Identical |       |
-| v1api20220701/storage | PrivateEndpointIPConfiguration                                        | v1api20240301/storage | PrivateEndpointIPConfiguration                                        | Identical |       |
-| v1api20220701/storage | PrivateEndpointIPConfiguration_STATUS                                 | v1api20240301/storage | PrivateEndpointIPConfiguration_STATUS                                 | Identical |       |
-| v1api20220701/storage | PrivateEndpointOperatorConfigMaps                                     | v1api20240301/storage | PrivateEndpointOperatorConfigMaps                                     | Identical |       |
-| v1api20220701/storage | PrivateEndpointOperatorSpec                                           | v1api20240301/storage | PrivateEndpointOperatorSpec                                           | Identical |       |
-| v1api20220701/storage | PrivateEndpoint_STATUS                                                | v1api20240301/storage | PrivateEndpoint_STATUS                                                | Identical |       |
-| v1api20220701/storage | PrivateEndpoint_Spec                                                  | v1api20240301/storage | PrivateEndpoint_Spec                                                  | Identical |       |
-| v1api20220701/storage | PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                       | v1api20240301/storage | PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                       | Identical |       |
-| v1api20220701/storage | PrivateEndpointsPrivateDnsZoneGroup_STATUS                            | v1api20240301/storage | PrivateEndpointsPrivateDnsZoneGroup_STATUS                            | Identical |       |
-| v1api20220701/storage | PrivateEndpointsPrivateDnsZoneGroup_Spec                              | v1api20240301/storage | PrivateEndpointsPrivateDnsZoneGroup_Spec                              | Identical |       |
-| v1api20220701/storage | PrivateLinkServiceConnection                                          | v1api20240301/storage | PrivateLinkServiceConnection                                          | Identical |       |
-| v1api20220701/storage | PrivateLinkServiceConnectionState                                     | v1api20240301/storage | PrivateLinkServiceConnectionState                                     | Identical |       |
-| v1api20220701/storage | PrivateLinkServiceConnectionState_STATUS                              | v1api20240301/storage | PrivateLinkServiceConnectionState_STATUS                              | Identical |       |
-| v1api20220701/storage | PrivateLinkServiceConnection_STATUS                                   | v1api20240301/storage | PrivateLinkServiceConnection_STATUS                                   | Identical |       |
-| v1api20220701/storage | PrivateLinkServiceIpConfiguration                                     | v1api20240301/storage | PrivateLinkServiceIpConfiguration                                     | Identical |       |
-| v1api20220701/storage | PrivateLinkServiceIpConfiguration_STATUS                              | v1api20240301/storage | PrivateLinkServiceIpConfiguration_STATUS                              | Identical |       |
-| v1api20220701/storage | PrivateLinkServiceOperatorConfigMaps                                  | v1api20240301/storage | PrivateLinkServiceOperatorConfigMaps                                  | Identical |       |
-| v1api20220701/storage | PrivateLinkServiceOperatorSpec                                        | v1api20240301/storage | PrivateLinkServiceOperatorSpec                                        | Identical |       |
-| v1api20220701/storage | PrivateLinkService_STATUS                                             | v1api20240301/storage | PrivateLinkService_STATUS                                             | Extended  |       |
-| v1api20220701/storage | PrivateLinkService_Spec                                               | v1api20240301/storage | PrivateLinkService_Spec                                               | Extended  |       |
-| v1api20220701/storage | PublicIPPrefixOperatorSpec                                            | v1api20240301/storage | PublicIPPrefixOperatorSpec                                            | Identical |       |
-| v1api20220701/storage | PublicIPPrefixSku                                                     | v1api20240301/storage | PublicIPPrefixSku                                                     | Identical |       |
-| v1api20220701/storage | PublicIPPrefixSku_STATUS                                              | v1api20240301/storage | PublicIPPrefixSku_STATUS                                              | Identical |       |
-| v1api20220701/storage | PublicIPPrefix_STATUS                                                 | v1api20240301/storage | PublicIPPrefix_STATUS                                                 | Identical |       |
-| v1api20220701/storage | PublicIPPrefix_Spec                                                   | v1api20240301/storage | PublicIPPrefix_Spec                                                   | Identical |       |
-| v1api20220701/storage | RecordSet_STATUS                                                      | v1api20240301/storage | RecordSet_STATUS                                                      | Identical |       |
-| v1api20220701/storage | ReferencedPublicIpAddress_STATUS                                      | v1api20240301/storage | ReferencedPublicIpAddress_STATUS                                      | Identical |       |
-| v1api20220701/storage | ResourceSet                                                           | v1api20240301/storage | ResourceSet                                                           | Identical |       |
-| v1api20220701/storage | ResourceSet_STATUS                                                    | v1api20240301/storage | ResourceSet_STATUS                                                    | Identical |       |
-| v1api20220701/storage | Sku                                                                   | v1api20240301/storage | Sku                                                                   | Identical |       |
-| v1api20220701/storage | Sku_STATUS                                                            | v1api20240301/storage | Sku_STATUS                                                            | Identical |       |
-| v1api20220701/storage | SubResource                                                           | v1api20240301/storage | SubResource                                                           | Identical |       |
-|                       |                                                                       | v1api20240301/storage | SubResource_STATUS                                                    | New       |       |
-| v1api20220701/storage | SubResource_STATUS                                                    | v1api20240301/storage | SubResource_STATUS                                                    | Identical |       |
-| v1api20220701/storage | Subnet_PrivateEndpoint_SubResourceEmbedded                            | v1api20240301/storage | Subnet_PrivateEndpoint_SubResourceEmbedded                            | Identical |       |
-| v1api20220701/storage | Subnet_PrivateLinkService_SubResourceEmbedded                         | v1api20240301/storage | Subnet_PrivateLinkService_SubResourceEmbedded                         | Identical |       |
-| v1api20220701/storage | Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                     | v1api20240301/storage | Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                     | Identical |       |
-| v1api20220701/storage | Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                  | v1api20240301/storage | Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                  | Identical |       |
+| v1api20220701/storage                                                 | v1api20240301/storage                                                 | Status    | Notes |
+|:----------------------------------------------------------------------|:----------------------------------------------------------------------|:---------:|:------|
+| ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded      | ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded      | Identical |       |
+| ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded   | ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded   | Identical |       |
+| BastionHostIPConfiguration                                            | BastionHostIPConfiguration                                            | Identical |       |
+| BastionHostIPConfiguration_STATUS                                     | BastionHostIPConfiguration_STATUS                                     | Identical |       |
+| BastionHostOperatorSpec                                               | BastionHostOperatorSpec                                               | Identical |       |
+|                                                                       | BastionHostPropertiesFormat_NetworkAcls                               | New       |       |
+|                                                                       | BastionHostPropertiesFormat_NetworkAcls_STATUS                        | New       |       |
+| BastionHost_STATUS                                                    | BastionHost_STATUS                                                    | Extended  |       |
+| BastionHost_Spec                                                      | BastionHost_Spec                                                      | Extended  |       |
+| CustomDnsConfigPropertiesFormat_STATUS                                | CustomDnsConfigPropertiesFormat_STATUS                                | Identical |       |
+| ExtendedLocation                                                      | ExtendedLocation                                                      | Identical |       |
+| ExtendedLocation_STATUS                                               | ExtendedLocation_STATUS                                               | Identical |       |
+| FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded        | FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded        | Identical |       |
+| FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded | FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded | Identical |       |
+|                                                                       | IPRule                                                                | New       |       |
+|                                                                       | IPRule_STATUS                                                         | New       |       |
+| IpTag                                                                 | IpTag                                                                 | Identical |       |
+| IpTag_STATUS                                                          | IpTag_STATUS                                                          | Identical |       |
+| NatGatewayOperatorSpec                                                | NatGatewayOperatorSpec                                                | Identical |       |
+| NatGatewaySku                                                         | NatGatewaySku                                                         | Identical |       |
+| NatGatewaySku_STATUS                                                  | NatGatewaySku_STATUS                                                  | Identical |       |
+| NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                     | NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                     | Identical |       |
+| NatGateway_STATUS                                                     | NatGateway_STATUS                                                     | Identical |       |
+| NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                  | NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                  | Identical |       |
+| NatGateway_Spec                                                       | NatGateway_Spec                                                       | Identical |       |
+| NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded           | NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded           | Identical |       |
+| NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded        | NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded        | Identical |       |
+| PrivateDnsZoneConfig                                                  | PrivateDnsZoneConfig                                                  | Identical |       |
+| PrivateDnsZoneConfig_STATUS                                           | PrivateDnsZoneConfig_STATUS                                           | Identical |       |
+| PrivateEndpointConnection_STATUS                                      | PrivateEndpointConnection_STATUS                                      | Identical |       |
+| PrivateEndpointIPConfiguration                                        | PrivateEndpointIPConfiguration                                        | Identical |       |
+| PrivateEndpointIPConfiguration_STATUS                                 | PrivateEndpointIPConfiguration_STATUS                                 | Identical |       |
+| PrivateEndpointOperatorConfigMaps                                     | PrivateEndpointOperatorConfigMaps                                     | Identical |       |
+| PrivateEndpointOperatorSpec                                           | PrivateEndpointOperatorSpec                                           | Identical |       |
+| PrivateEndpoint_STATUS                                                | PrivateEndpoint_STATUS                                                | Identical |       |
+| PrivateEndpoint_Spec                                                  | PrivateEndpoint_Spec                                                  | Identical |       |
+| PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                       | PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                       | Identical |       |
+| PrivateEndpointsPrivateDnsZoneGroup_STATUS                            | PrivateEndpointsPrivateDnsZoneGroup_STATUS                            | Identical |       |
+| PrivateEndpointsPrivateDnsZoneGroup_Spec                              | PrivateEndpointsPrivateDnsZoneGroup_Spec                              | Identical |       |
+| PrivateLinkServiceConnection                                          | PrivateLinkServiceConnection                                          | Identical |       |
+| PrivateLinkServiceConnectionState                                     | PrivateLinkServiceConnectionState                                     | Identical |       |
+| PrivateLinkServiceConnectionState_STATUS                              | PrivateLinkServiceConnectionState_STATUS                              | Identical |       |
+| PrivateLinkServiceConnection_STATUS                                   | PrivateLinkServiceConnection_STATUS                                   | Identical |       |
+| PrivateLinkServiceIpConfiguration                                     | PrivateLinkServiceIpConfiguration                                     | Identical |       |
+| PrivateLinkServiceIpConfiguration_STATUS                              | PrivateLinkServiceIpConfiguration_STATUS                              | Identical |       |
+| PrivateLinkServiceOperatorConfigMaps                                  | PrivateLinkServiceOperatorConfigMaps                                  | Identical |       |
+| PrivateLinkServiceOperatorSpec                                        | PrivateLinkServiceOperatorSpec                                        | Identical |       |
+| PrivateLinkService_STATUS                                             | PrivateLinkService_STATUS                                             | Extended  |       |
+| PrivateLinkService_Spec                                               | PrivateLinkService_Spec                                               | Extended  |       |
+| PublicIPPrefixOperatorSpec                                            | PublicIPPrefixOperatorSpec                                            | Identical |       |
+| PublicIPPrefixSku                                                     | PublicIPPrefixSku                                                     | Identical |       |
+| PublicIPPrefixSku_STATUS                                              | PublicIPPrefixSku_STATUS                                              | Identical |       |
+| PublicIPPrefix_STATUS                                                 | PublicIPPrefix_STATUS                                                 | Identical |       |
+| PublicIPPrefix_Spec                                                   | PublicIPPrefix_Spec                                                   | Identical |       |
+| RecordSet_STATUS                                                      | RecordSet_STATUS                                                      | Identical |       |
+| ReferencedPublicIpAddress_STATUS                                      | ReferencedPublicIpAddress_STATUS                                      | Identical |       |
+| ResourceSet                                                           | ResourceSet                                                           | Identical |       |
+| ResourceSet_STATUS                                                    | ResourceSet_STATUS                                                    | Identical |       |
+| Sku                                                                   | Sku                                                                   | Identical |       |
+| Sku_STATUS                                                            | Sku_STATUS                                                            | Identical |       |
+| SubResource                                                           | SubResource                                                           | Identical |       |
+|                                                                       | SubResource_STATUS                                                    | New       |       |
+| SubResource_STATUS                                                    | SubResource_STATUS                                                    | Identical |       |
+| Subnet_PrivateEndpoint_SubResourceEmbedded                            | Subnet_PrivateEndpoint_SubResourceEmbedded                            | Identical |       |
+| Subnet_PrivateLinkService_SubResourceEmbedded                         | Subnet_PrivateLinkService_SubResourceEmbedded                         | Identical |       |
+| Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                     | Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                     | Identical |       |
+| Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                  | Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                  | Identical |       |
 
 ### BastionHost_STATUS
 

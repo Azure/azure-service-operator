@@ -11,18 +11,18 @@ Statuses:
 
 ## Resources
 
-| Current Version          | Current Type   | Next Version      | Next Type      | Status    | Notes |
-|:-------------------------|:---------------|:------------------|:---------------|:---------:|:------|
-| v20200801preview/storage | RoleAssignment | v20220401/storage | RoleAssignment | Identical |       |
+| v20200801preview/storage | v20220401/storage | Status    | Notes |
+|:-------------------------|:------------------|:---------:|:------|
+| RoleAssignment           | RoleAssignment    | Identical |       |
 
 ## Objects
 
-| Current Version          | Current Type               | Next Version      | Next Type                  | Status    | Notes |
-|:-------------------------|:---------------------------|:------------------|:---------------------------|:---------:|:------|
-| v20200801preview/storage | RoleAssignmentOperatorSpec | v20220401/storage | RoleAssignmentOperatorSpec | Identical |       |
-| v20200801preview/storage | RoleAssignment_STATUS      | v20220401/storage | RoleAssignment_STATUS      | Extended  |       |
-| v20200801preview/storage | RoleAssignment_Spec        | v20220401/storage | RoleAssignment_Spec        | Identical |       |
-|                          |                            | v20220401/storage | SystemData_STATUS          | New       |       |
+| v20200801preview/storage   | v20220401/storage          | Status    | Notes |
+|:---------------------------|:---------------------------|:---------:|:------|
+| RoleAssignmentOperatorSpec | RoleAssignmentOperatorSpec | Identical |       |
+| RoleAssignment_STATUS      | RoleAssignment_STATUS      | Extended  |       |
+| RoleAssignment_Spec        | RoleAssignment_Spec        | Identical |       |
+|                            | SystemData_STATUS          | New       |       |
 
 ### RoleAssignment_STATUS
 

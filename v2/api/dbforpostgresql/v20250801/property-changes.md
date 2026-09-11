@@ -11,73 +11,73 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                                    | Next Version      | Next Type                                       | Status    | Notes |
-|:----------------|:------------------------------------------------|:------------------|:------------------------------------------------|:---------:|:------|
-| v20250801       | FlexibleServer                                  | v20250801/storage | FlexibleServer                                  | Identical |       |
-| v20250801       | FlexibleServersAdministrator                    | v20250801/storage | FlexibleServersAdministrator                    | Identical |       |
-| v20250801       | FlexibleServersAdvancedThreatProtectionSettings | v20250801/storage | FlexibleServersAdvancedThreatProtectionSettings | Identical |       |
-| v20250801       | FlexibleServersBackup                           | v20250801/storage | FlexibleServersBackup                           | Identical |       |
-| v20250801       | FlexibleServersConfiguration                    | v20250801/storage | FlexibleServersConfiguration                    | Identical |       |
-| v20250801       | FlexibleServersDatabase                         | v20250801/storage | FlexibleServersDatabase                         | Identical |       |
-| v20250801       | FlexibleServersFirewallRule                     | v20250801/storage | FlexibleServersFirewallRule                     | Identical |       |
-| v20250801       | FlexibleServersVirtualEndpoint                  | v20250801/storage | FlexibleServersVirtualEndpoint                  | Identical |       |
+| v20250801                                       | v20250801/storage                               | Status    | Notes |
+|:------------------------------------------------|:------------------------------------------------|:---------:|:------|
+| FlexibleServer                                  | FlexibleServer                                  | Identical |       |
+| FlexibleServersAdministrator                    | FlexibleServersAdministrator                    | Identical |       |
+| FlexibleServersAdvancedThreatProtectionSettings | FlexibleServersAdvancedThreatProtectionSettings | Identical |       |
+| FlexibleServersBackup                           | FlexibleServersBackup                           | Identical |       |
+| FlexibleServersConfiguration                    | FlexibleServersConfiguration                    | Identical |       |
+| FlexibleServersDatabase                         | FlexibleServersDatabase                         | Identical |       |
+| FlexibleServersFirewallRule                     | FlexibleServersFirewallRule                     | Identical |       |
+| FlexibleServersVirtualEndpoint                  | FlexibleServersVirtualEndpoint                  | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                                | Next Version      | Next Type                                                   | Status   | Notes |
-|:----------------|:------------------------------------------------------------|:------------------|:------------------------------------------------------------|:--------:|:------|
-| v20250801       | AuthConfig                                                  | v20250801/storage | AuthConfig                                                  | Modified |       |
-| v20250801       | AuthConfig_STATUS                                           | v20250801/storage | AuthConfig_STATUS                                           | Modified |       |
-| v20250801       | Backup                                                      | v20250801/storage | Backup                                                      | Modified |       |
-| v20250801       | Backup_STATUS                                               | v20250801/storage | Backup_STATUS                                               | Modified |       |
-| v20250801       | Cluster                                                     | v20250801/storage | Cluster                                                     | Extended |       |
-| v20250801       | Cluster_STATUS                                              | v20250801/storage | Cluster_STATUS                                              | Extended |       |
-| v20250801       | DataEncryption                                              | v20250801/storage | DataEncryption                                              | Modified |       |
-| v20250801       | DataEncryption_STATUS                                       | v20250801/storage | DataEncryption_STATUS                                       | Modified |       |
-| v20250801       | FlexibleServerOperatorConfigMaps                            | v20250801/storage | FlexibleServerOperatorConfigMaps                            | Extended |       |
-| v20250801       | FlexibleServerOperatorSecrets                               | v20250801/storage | FlexibleServerOperatorSecrets                               | Extended |       |
-| v20250801       | FlexibleServerOperatorSpec                                  | v20250801/storage | FlexibleServerOperatorSpec                                  | Extended |       |
-| v20250801       | FlexibleServer_STATUS                                       | v20250801/storage | FlexibleServer_STATUS                                       | Modified |       |
-| v20250801       | FlexibleServer_Spec                                         | v20250801/storage | FlexibleServer_Spec                                         | Modified |       |
-| v20250801       | FlexibleServersAdministratorOperatorSpec                    | v20250801/storage | FlexibleServersAdministratorOperatorSpec                    | Extended |       |
-| v20250801       | FlexibleServersAdministrator_STATUS                         | v20250801/storage | FlexibleServersAdministrator_STATUS                         | Modified |       |
-| v20250801       | FlexibleServersAdministrator_Spec                           | v20250801/storage | FlexibleServersAdministrator_Spec                           | Modified |       |
-| v20250801       | FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec | v20250801/storage | FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec | Extended |       |
-| v20250801       | FlexibleServersAdvancedThreatProtectionSettings_STATUS      | v20250801/storage | FlexibleServersAdvancedThreatProtectionSettings_STATUS      | Modified |       |
-| v20250801       | FlexibleServersAdvancedThreatProtectionSettings_Spec        | v20250801/storage | FlexibleServersAdvancedThreatProtectionSettings_Spec        | Modified |       |
-| v20250801       | FlexibleServersBackupOperatorSpec                           | v20250801/storage | FlexibleServersBackupOperatorSpec                           | Extended |       |
-| v20250801       | FlexibleServersBackup_STATUS                                | v20250801/storage | FlexibleServersBackup_STATUS                                | Modified |       |
-| v20250801       | FlexibleServersBackup_Spec                                  | v20250801/storage | FlexibleServersBackup_Spec                                  | Modified |       |
-| v20250801       | FlexibleServersConfigurationOperatorSpec                    | v20250801/storage | FlexibleServersConfigurationOperatorSpec                    | Extended |       |
-| v20250801       | FlexibleServersConfiguration_STATUS                         | v20250801/storage | FlexibleServersConfiguration_STATUS                         | Modified |       |
-| v20250801       | FlexibleServersConfiguration_Spec                           | v20250801/storage | FlexibleServersConfiguration_Spec                           | Modified |       |
-| v20250801       | FlexibleServersDatabaseOperatorSpec                         | v20250801/storage | FlexibleServersDatabaseOperatorSpec                         | Extended |       |
-| v20250801       | FlexibleServersDatabase_STATUS                              | v20250801/storage | FlexibleServersDatabase_STATUS                              | Extended |       |
-| v20250801       | FlexibleServersDatabase_Spec                                | v20250801/storage | FlexibleServersDatabase_Spec                                | Modified |       |
-| v20250801       | FlexibleServersFirewallRuleOperatorSpec                     | v20250801/storage | FlexibleServersFirewallRuleOperatorSpec                     | Extended |       |
-| v20250801       | FlexibleServersFirewallRule_STATUS                          | v20250801/storage | FlexibleServersFirewallRule_STATUS                          | Extended |       |
-| v20250801       | FlexibleServersFirewallRule_Spec                            | v20250801/storage | FlexibleServersFirewallRule_Spec                            | Modified |       |
-| v20250801       | FlexibleServersVirtualEndpointOperatorSpec                  | v20250801/storage | FlexibleServersVirtualEndpointOperatorSpec                  | Extended |       |
-| v20250801       | FlexibleServersVirtualEndpoint_STATUS                       | v20250801/storage | FlexibleServersVirtualEndpoint_STATUS                       | Modified |       |
-| v20250801       | FlexibleServersVirtualEndpoint_Spec                         | v20250801/storage | FlexibleServersVirtualEndpoint_Spec                         | Modified |       |
-| v20250801       | HighAvailability                                            | v20250801/storage | HighAvailability                                            | Modified |       |
-| v20250801       | HighAvailability_STATUS                                     | v20250801/storage | HighAvailability_STATUS                                     | Modified |       |
-| v20250801       | MaintenanceWindow                                           | v20250801/storage | MaintenanceWindow                                           | Extended |       |
-| v20250801       | MaintenanceWindow_STATUS                                    | v20250801/storage | MaintenanceWindow_STATUS                                    | Extended |       |
-| v20250801       | Network                                                     | v20250801/storage | Network                                                     | Modified |       |
-| v20250801       | Network_STATUS                                              | v20250801/storage | Network_STATUS                                              | Modified |       |
-| v20250801       | PrivateEndpointConnection_STATUS                            | v20250801/storage | PrivateEndpointConnection_STATUS                            | Extended |       |
-| v20250801       | Replica                                                     | v20250801/storage | Replica                                                     | Modified |       |
-| v20250801       | Replica_STATUS                                              | v20250801/storage | Replica_STATUS                                              | Modified |       |
-| v20250801       | Sku                                                         | v20250801/storage | Sku                                                         | Modified |       |
-| v20250801       | Sku_STATUS                                                  | v20250801/storage | Sku_STATUS                                                  | Modified |       |
-| v20250801       | Storage                                                     | v20250801/storage | Storage                                                     | Modified |       |
-| v20250801       | Storage_STATUS                                              | v20250801/storage | Storage_STATUS                                              | Modified |       |
-| v20250801       | SystemData_STATUS                                           | v20250801/storage | SystemData_STATUS                                           | Modified |       |
-| v20250801       | UserAssignedIdentity                                        | v20250801/storage | UserAssignedIdentity                                        | Modified |       |
-| v20250801       | UserAssignedIdentityDetails                                 | v20250801/storage | UserAssignedIdentityDetails                                 | Extended |       |
-| v20250801       | UserAssignedIdentity_STATUS                                 | v20250801/storage | UserAssignedIdentity_STATUS                                 | Modified |       |
-| v20250801       | UserIdentity_STATUS                                         | v20250801/storage | UserIdentity_STATUS                                         | Extended |       |
+| v20250801                                                   | v20250801/storage                                           | Status   | Notes |
+|:------------------------------------------------------------|:------------------------------------------------------------|:--------:|:------|
+| AuthConfig                                                  | AuthConfig                                                  | Modified |       |
+| AuthConfig_STATUS                                           | AuthConfig_STATUS                                           | Modified |       |
+| Backup                                                      | Backup                                                      | Modified |       |
+| Backup_STATUS                                               | Backup_STATUS                                               | Modified |       |
+| Cluster                                                     | Cluster                                                     | Extended |       |
+| Cluster_STATUS                                              | Cluster_STATUS                                              | Extended |       |
+| DataEncryption                                              | DataEncryption                                              | Modified |       |
+| DataEncryption_STATUS                                       | DataEncryption_STATUS                                       | Modified |       |
+| FlexibleServerOperatorConfigMaps                            | FlexibleServerOperatorConfigMaps                            | Extended |       |
+| FlexibleServerOperatorSecrets                               | FlexibleServerOperatorSecrets                               | Extended |       |
+| FlexibleServerOperatorSpec                                  | FlexibleServerOperatorSpec                                  | Extended |       |
+| FlexibleServer_STATUS                                       | FlexibleServer_STATUS                                       | Modified |       |
+| FlexibleServer_Spec                                         | FlexibleServer_Spec                                         | Modified |       |
+| FlexibleServersAdministratorOperatorSpec                    | FlexibleServersAdministratorOperatorSpec                    | Extended |       |
+| FlexibleServersAdministrator_STATUS                         | FlexibleServersAdministrator_STATUS                         | Modified |       |
+| FlexibleServersAdministrator_Spec                           | FlexibleServersAdministrator_Spec                           | Modified |       |
+| FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec | FlexibleServersAdvancedThreatProtectionSettingsOperatorSpec | Extended |       |
+| FlexibleServersAdvancedThreatProtectionSettings_STATUS      | FlexibleServersAdvancedThreatProtectionSettings_STATUS      | Modified |       |
+| FlexibleServersAdvancedThreatProtectionSettings_Spec        | FlexibleServersAdvancedThreatProtectionSettings_Spec        | Modified |       |
+| FlexibleServersBackupOperatorSpec                           | FlexibleServersBackupOperatorSpec                           | Extended |       |
+| FlexibleServersBackup_STATUS                                | FlexibleServersBackup_STATUS                                | Modified |       |
+| FlexibleServersBackup_Spec                                  | FlexibleServersBackup_Spec                                  | Modified |       |
+| FlexibleServersConfigurationOperatorSpec                    | FlexibleServersConfigurationOperatorSpec                    | Extended |       |
+| FlexibleServersConfiguration_STATUS                         | FlexibleServersConfiguration_STATUS                         | Modified |       |
+| FlexibleServersConfiguration_Spec                           | FlexibleServersConfiguration_Spec                           | Modified |       |
+| FlexibleServersDatabaseOperatorSpec                         | FlexibleServersDatabaseOperatorSpec                         | Extended |       |
+| FlexibleServersDatabase_STATUS                              | FlexibleServersDatabase_STATUS                              | Extended |       |
+| FlexibleServersDatabase_Spec                                | FlexibleServersDatabase_Spec                                | Modified |       |
+| FlexibleServersFirewallRuleOperatorSpec                     | FlexibleServersFirewallRuleOperatorSpec                     | Extended |       |
+| FlexibleServersFirewallRule_STATUS                          | FlexibleServersFirewallRule_STATUS                          | Extended |       |
+| FlexibleServersFirewallRule_Spec                            | FlexibleServersFirewallRule_Spec                            | Modified |       |
+| FlexibleServersVirtualEndpointOperatorSpec                  | FlexibleServersVirtualEndpointOperatorSpec                  | Extended |       |
+| FlexibleServersVirtualEndpoint_STATUS                       | FlexibleServersVirtualEndpoint_STATUS                       | Modified |       |
+| FlexibleServersVirtualEndpoint_Spec                         | FlexibleServersVirtualEndpoint_Spec                         | Modified |       |
+| HighAvailability                                            | HighAvailability                                            | Modified |       |
+| HighAvailability_STATUS                                     | HighAvailability_STATUS                                     | Modified |       |
+| MaintenanceWindow                                           | MaintenanceWindow                                           | Extended |       |
+| MaintenanceWindow_STATUS                                    | MaintenanceWindow_STATUS                                    | Extended |       |
+| Network                                                     | Network                                                     | Modified |       |
+| Network_STATUS                                              | Network_STATUS                                              | Modified |       |
+| PrivateEndpointConnection_STATUS                            | PrivateEndpointConnection_STATUS                            | Extended |       |
+| Replica                                                     | Replica                                                     | Modified |       |
+| Replica_STATUS                                              | Replica_STATUS                                              | Modified |       |
+| Sku                                                         | Sku                                                         | Modified |       |
+| Sku_STATUS                                                  | Sku_STATUS                                                  | Modified |       |
+| Storage                                                     | Storage                                                     | Modified |       |
+| Storage_STATUS                                              | Storage_STATUS                                              | Modified |       |
+| SystemData_STATUS                                           | SystemData_STATUS                                           | Modified |       |
+| UserAssignedIdentity                                        | UserAssignedIdentity                                        | Modified |       |
+| UserAssignedIdentityDetails                                 | UserAssignedIdentityDetails                                 | Extended |       |
+| UserAssignedIdentity_STATUS                                 | UserAssignedIdentity_STATUS                                 | Modified |       |
+| UserIdentity_STATUS                                         | UserIdentity_STATUS                                         | Extended |       |
 
 ### AuthConfig
 

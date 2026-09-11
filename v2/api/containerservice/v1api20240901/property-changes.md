@@ -11,208 +11,208 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type             | Next Version          | Next Type                | Status    | Notes |
-|:----------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
-| v1api20240901   | MaintenanceConfiguration | v1api20240901/storage | MaintenanceConfiguration | Identical |       |
-| v1api20240901   | ManagedCluster           | v1api20240901/storage | ManagedCluster           | Identical |       |
-| v1api20240901   | ManagedClustersAgentPool | v1api20240901/storage | ManagedClustersAgentPool | Identical |       |
-| v1api20240901   | TrustedAccessRoleBinding | v1api20240901/storage | TrustedAccessRoleBinding | Identical |       |
+| v1api20240901            | v1api20240901/storage    | Status    | Notes |
+|:-------------------------|:-------------------------|:---------:|:------|
+| MaintenanceConfiguration | MaintenanceConfiguration | Identical |       |
+| ManagedCluster           | ManagedCluster           | Identical |       |
+| ManagedClustersAgentPool | ManagedClustersAgentPool | Identical |       |
+| TrustedAccessRoleBinding | TrustedAccessRoleBinding | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                                        | Next Version          | Next Type                                                           | Status   | Notes |
-|:----------------|:--------------------------------------------------------------------|:----------------------|:--------------------------------------------------------------------|:--------:|:------|
-| v1api20240901   | AbsoluteMonthlySchedule                                             | v1api20240901/storage | AbsoluteMonthlySchedule                                             | Modified |       |
-| v1api20240901   | AbsoluteMonthlySchedule_STATUS                                      | v1api20240901/storage | AbsoluteMonthlySchedule_STATUS                                      | Extended |       |
-| v1api20240901   | AdvancedNetworking                                                  | v1api20240901/storage | AdvancedNetworking                                                  | Extended |       |
-| v1api20240901   | AdvancedNetworkingObservability                                     | v1api20240901/storage | AdvancedNetworkingObservability                                     | Extended |       |
-| v1api20240901   | AdvancedNetworkingObservability_STATUS                              | v1api20240901/storage | AdvancedNetworkingObservability_STATUS                              | Extended |       |
-| v1api20240901   | AdvancedNetworkingSecurity                                          | v1api20240901/storage | AdvancedNetworkingSecurity                                          | Extended |       |
-| v1api20240901   | AdvancedNetworkingSecurity_STATUS                                   | v1api20240901/storage | AdvancedNetworkingSecurity_STATUS                                   | Extended |       |
-| v1api20240901   | AdvancedNetworking_STATUS                                           | v1api20240901/storage | AdvancedNetworking_STATUS                                           | Extended |       |
-| v1api20240901   | AgentPoolNetworkProfile                                             | v1api20240901/storage | AgentPoolNetworkProfile                                             | Extended |       |
-| v1api20240901   | AgentPoolNetworkProfile_STATUS                                      | v1api20240901/storage | AgentPoolNetworkProfile_STATUS                                      | Extended |       |
-| v1api20240901   | AgentPoolSecurityProfile                                            | v1api20240901/storage | AgentPoolSecurityProfile                                            | Extended |       |
-| v1api20240901   | AgentPoolSecurityProfile_STATUS                                     | v1api20240901/storage | AgentPoolSecurityProfile_STATUS                                     | Extended |       |
-| v1api20240901   | AgentPoolUpgradeSettings                                            | v1api20240901/storage | AgentPoolUpgradeSettings                                            | Modified |       |
-| v1api20240901   | AgentPoolUpgradeSettings_STATUS                                     | v1api20240901/storage | AgentPoolUpgradeSettings_STATUS                                     | Extended |       |
-| v1api20240901   | AgentPoolWindowsProfile                                             | v1api20240901/storage | AgentPoolWindowsProfile                                             | Extended |       |
-| v1api20240901   | AgentPoolWindowsProfile_STATUS                                      | v1api20240901/storage | AgentPoolWindowsProfile_STATUS                                      | Extended |       |
-| v1api20240901   | AzureKeyVaultKms                                                    | v1api20240901/storage | AzureKeyVaultKms                                                    | Modified |       |
-| v1api20240901   | AzureKeyVaultKms_STATUS                                             | v1api20240901/storage | AzureKeyVaultKms_STATUS                                             | Modified |       |
-| v1api20240901   | ClusterUpgradeSettings                                              | v1api20240901/storage | ClusterUpgradeSettings                                              | Extended |       |
-| v1api20240901   | ClusterUpgradeSettings_STATUS                                       | v1api20240901/storage | ClusterUpgradeSettings_STATUS                                       | Extended |       |
-| v1api20240901   | ContainerServiceLinuxProfile                                        | v1api20240901/storage | ContainerServiceLinuxProfile                                        | Modified |       |
-| v1api20240901   | ContainerServiceLinuxProfile_STATUS                                 | v1api20240901/storage | ContainerServiceLinuxProfile_STATUS                                 | Extended |       |
-| v1api20240901   | ContainerServiceNetworkProfile                                      | v1api20240901/storage | ContainerServiceNetworkProfile                                      | Modified |       |
-| v1api20240901   | ContainerServiceNetworkProfile_STATUS                               | v1api20240901/storage | ContainerServiceNetworkProfile_STATUS                               | Modified |       |
-| v1api20240901   | ContainerServiceSshConfiguration                                    | v1api20240901/storage | ContainerServiceSshConfiguration                                    | Extended |       |
-| v1api20240901   | ContainerServiceSshConfiguration_STATUS                             | v1api20240901/storage | ContainerServiceSshConfiguration_STATUS                             | Extended |       |
-| v1api20240901   | ContainerServiceSshPublicKey                                        | v1api20240901/storage | ContainerServiceSshPublicKey                                        | Extended |       |
-| v1api20240901   | ContainerServiceSshPublicKey_STATUS                                 | v1api20240901/storage | ContainerServiceSshPublicKey_STATUS                                 | Extended |       |
-| v1api20240901   | CreationData                                                        | v1api20240901/storage | CreationData                                                        | Extended |       |
-| v1api20240901   | CreationData_STATUS                                                 | v1api20240901/storage | CreationData_STATUS                                                 | Extended |       |
-| v1api20240901   | DailySchedule                                                       | v1api20240901/storage | DailySchedule                                                       | Modified |       |
-| v1api20240901   | DailySchedule_STATUS                                                | v1api20240901/storage | DailySchedule_STATUS                                                | Extended |       |
-| v1api20240901   | DateSpan                                                            | v1api20240901/storage | DateSpan                                                            | Extended |       |
-| v1api20240901   | DateSpan_STATUS                                                     | v1api20240901/storage | DateSpan_STATUS                                                     | Extended |       |
-| v1api20240901   | DelegatedResource                                                   | v1api20240901/storage | DelegatedResource                                                   | Modified |       |
-| v1api20240901   | DelegatedResource_STATUS                                            | v1api20240901/storage | DelegatedResource_STATUS                                            | Extended |       |
-| v1api20240901   | ExtendedLocation                                                    | v1api20240901/storage | ExtendedLocation                                                    | Modified |       |
-| v1api20240901   | ExtendedLocation_STATUS                                             | v1api20240901/storage | ExtendedLocation_STATUS                                             | Modified |       |
-| v1api20240901   | IPTag                                                               | v1api20240901/storage | IPTag                                                               | Extended |       |
-| v1api20240901   | IPTag_STATUS                                                        | v1api20240901/storage | IPTag_STATUS                                                        | Extended |       |
-| v1api20240901   | IstioCertificateAuthority                                           | v1api20240901/storage | IstioCertificateAuthority                                           | Extended |       |
-| v1api20240901   | IstioCertificateAuthority_STATUS                                    | v1api20240901/storage | IstioCertificateAuthority_STATUS                                    | Extended |       |
-| v1api20240901   | IstioComponents                                                     | v1api20240901/storage | IstioComponents                                                     | Extended |       |
-| v1api20240901   | IstioComponents_STATUS                                              | v1api20240901/storage | IstioComponents_STATUS                                              | Extended |       |
-| v1api20240901   | IstioEgressGateway                                                  | v1api20240901/storage | IstioEgressGateway                                                  | Extended |       |
-| v1api20240901   | IstioEgressGateway_STATUS                                           | v1api20240901/storage | IstioEgressGateway_STATUS                                           | Extended |       |
-| v1api20240901   | IstioIngressGateway                                                 | v1api20240901/storage | IstioIngressGateway                                                 | Modified |       |
-| v1api20240901   | IstioIngressGateway_STATUS                                          | v1api20240901/storage | IstioIngressGateway_STATUS                                          | Modified |       |
-| v1api20240901   | IstioPluginCertificateAuthority                                     | v1api20240901/storage | IstioPluginCertificateAuthority                                     | Extended |       |
-| v1api20240901   | IstioPluginCertificateAuthority_STATUS                              | v1api20240901/storage | IstioPluginCertificateAuthority_STATUS                              | Extended |       |
-| v1api20240901   | IstioServiceMesh                                                    | v1api20240901/storage | IstioServiceMesh                                                    | Modified |       |
-| v1api20240901   | IstioServiceMesh_STATUS                                             | v1api20240901/storage | IstioServiceMesh_STATUS                                             | Extended |       |
-| v1api20240901   | KubeletConfig                                                       | v1api20240901/storage | KubeletConfig                                                       | Modified |       |
-| v1api20240901   | KubeletConfig_STATUS                                                | v1api20240901/storage | KubeletConfig_STATUS                                                | Extended |       |
-| v1api20240901   | LinuxOSConfig                                                       | v1api20240901/storage | LinuxOSConfig                                                       | Extended |       |
-| v1api20240901   | LinuxOSConfig_STATUS                                                | v1api20240901/storage | LinuxOSConfig_STATUS                                                | Extended |       |
-| v1api20240901   | MaintenanceConfigurationOperatorSpec                                | v1api20240901/storage | MaintenanceConfigurationOperatorSpec                                | Extended |       |
-| v1api20240901   | MaintenanceConfiguration_STATUS                                     | v1api20240901/storage | MaintenanceConfiguration_STATUS                                     | Extended |       |
-| v1api20240901   | MaintenanceConfiguration_Spec                                       | v1api20240901/storage | MaintenanceConfiguration_Spec                                       | Extended |       |
-| v1api20240901   | MaintenanceWindow                                                   | v1api20240901/storage | MaintenanceWindow                                                   | Modified |       |
-| v1api20240901   | MaintenanceWindow_STATUS                                            | v1api20240901/storage | MaintenanceWindow_STATUS                                            | Extended |       |
-| v1api20240901   | ManagedClusterAADProfile                                            | v1api20240901/storage | ManagedClusterAADProfile                                            | Extended |       |
-| v1api20240901   | ManagedClusterAADProfile_STATUS                                     | v1api20240901/storage | ManagedClusterAADProfile_STATUS                                     | Extended |       |
-| v1api20240901   | ManagedClusterAPIServerAccessProfile                                | v1api20240901/storage | ManagedClusterAPIServerAccessProfile                                | Extended |       |
-| v1api20240901   | ManagedClusterAPIServerAccessProfile_STATUS                         | v1api20240901/storage | ManagedClusterAPIServerAccessProfile_STATUS                         | Extended |       |
-| v1api20240901   | ManagedClusterAddonProfile                                          | v1api20240901/storage | ManagedClusterAddonProfile                                          | Extended |       |
-| v1api20240901   | ManagedClusterAddonProfile_STATUS                                   | v1api20240901/storage | ManagedClusterAddonProfile_STATUS                                   | Extended |       |
-| v1api20240901   | ManagedClusterAgentPoolProfile                                      | v1api20240901/storage | ManagedClusterAgentPoolProfile                                      | Modified |       |
-| v1api20240901   | ManagedClusterAgentPoolProfile_STATUS                               | v1api20240901/storage | ManagedClusterAgentPoolProfile_STATUS                               | Modified |       |
-| v1api20240901   | ManagedClusterAutoUpgradeProfile                                    | v1api20240901/storage | ManagedClusterAutoUpgradeProfile                                    | Modified |       |
-| v1api20240901   | ManagedClusterAutoUpgradeProfile_STATUS                             | v1api20240901/storage | ManagedClusterAutoUpgradeProfile_STATUS                             | Modified |       |
-| v1api20240901   | ManagedClusterAzureMonitorProfile                                   | v1api20240901/storage | ManagedClusterAzureMonitorProfile                                   | Extended |       |
-| v1api20240901   | ManagedClusterAzureMonitorProfileKubeStateMetrics                   | v1api20240901/storage | ManagedClusterAzureMonitorProfileKubeStateMetrics                   | Extended |       |
-| v1api20240901   | ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS            | v1api20240901/storage | ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS            | Extended |       |
-| v1api20240901   | ManagedClusterAzureMonitorProfileMetrics                            | v1api20240901/storage | ManagedClusterAzureMonitorProfileMetrics                            | Extended |       |
-| v1api20240901   | ManagedClusterAzureMonitorProfileMetrics_STATUS                     | v1api20240901/storage | ManagedClusterAzureMonitorProfileMetrics_STATUS                     | Extended |       |
-| v1api20240901   | ManagedClusterAzureMonitorProfile_STATUS                            | v1api20240901/storage | ManagedClusterAzureMonitorProfile_STATUS                            | Extended |       |
-| v1api20240901   | ManagedClusterCostAnalysis                                          | v1api20240901/storage | ManagedClusterCostAnalysis                                          | Extended |       |
-| v1api20240901   | ManagedClusterCostAnalysis_STATUS                                   | v1api20240901/storage | ManagedClusterCostAnalysis_STATUS                                   | Extended |       |
-| v1api20240901   | ManagedClusterHTTPProxyConfig                                       | v1api20240901/storage | ManagedClusterHTTPProxyConfig                                       | Extended |       |
-| v1api20240901   | ManagedClusterHTTPProxyConfig_STATUS                                | v1api20240901/storage | ManagedClusterHTTPProxyConfig_STATUS                                | Extended |       |
-| v1api20240901   | ManagedClusterIdentity                                              | v1api20240901/storage | ManagedClusterIdentity                                              | Modified |       |
-| v1api20240901   | ManagedClusterIdentity_STATUS                                       | v1api20240901/storage | ManagedClusterIdentity_STATUS                                       | Modified |       |
-| v1api20240901   | ManagedClusterIdentity_UserAssignedIdentities_STATUS                | v1api20240901/storage | ManagedClusterIdentity_UserAssignedIdentities_STATUS                | Extended |       |
-| v1api20240901   | ManagedClusterIngressProfile                                        | v1api20240901/storage | ManagedClusterIngressProfile                                        | Extended |       |
-| v1api20240901   | ManagedClusterIngressProfileWebAppRouting                           | v1api20240901/storage | ManagedClusterIngressProfileWebAppRouting                           | Extended |       |
-| v1api20240901   | ManagedClusterIngressProfileWebAppRouting_STATUS                    | v1api20240901/storage | ManagedClusterIngressProfileWebAppRouting_STATUS                    | Extended |       |
-| v1api20240901   | ManagedClusterIngressProfile_STATUS                                 | v1api20240901/storage | ManagedClusterIngressProfile_STATUS                                 | Extended |       |
-| v1api20240901   | ManagedClusterLoadBalancerProfile                                   | v1api20240901/storage | ManagedClusterLoadBalancerProfile                                   | Modified |       |
-| v1api20240901   | ManagedClusterLoadBalancerProfile_ManagedOutboundIPs                | v1api20240901/storage | ManagedClusterLoadBalancerProfile_ManagedOutboundIPs                | Modified |       |
-| v1api20240901   | ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS         | v1api20240901/storage | ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS         | Extended |       |
-| v1api20240901   | ManagedClusterLoadBalancerProfile_OutboundIPPrefixes                | v1api20240901/storage | ManagedClusterLoadBalancerProfile_OutboundIPPrefixes                | Extended |       |
-| v1api20240901   | ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS         | v1api20240901/storage | ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS         | Extended |       |
-| v1api20240901   | ManagedClusterLoadBalancerProfile_OutboundIPs                       | v1api20240901/storage | ManagedClusterLoadBalancerProfile_OutboundIPs                       | Extended |       |
-| v1api20240901   | ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS                | v1api20240901/storage | ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS                | Extended |       |
-| v1api20240901   | ManagedClusterLoadBalancerProfile_STATUS                            | v1api20240901/storage | ManagedClusterLoadBalancerProfile_STATUS                            | Modified |       |
-| v1api20240901   | ManagedClusterManagedOutboundIPProfile                              | v1api20240901/storage | ManagedClusterManagedOutboundIPProfile                              | Modified |       |
-| v1api20240901   | ManagedClusterManagedOutboundIPProfile_STATUS                       | v1api20240901/storage | ManagedClusterManagedOutboundIPProfile_STATUS                       | Extended |       |
-| v1api20240901   | ManagedClusterMetricsProfile                                        | v1api20240901/storage | ManagedClusterMetricsProfile                                        | Extended |       |
-| v1api20240901   | ManagedClusterMetricsProfile_STATUS                                 | v1api20240901/storage | ManagedClusterMetricsProfile_STATUS                                 | Extended |       |
-| v1api20240901   | ManagedClusterNATGatewayProfile                                     | v1api20240901/storage | ManagedClusterNATGatewayProfile                                     | Modified |       |
-| v1api20240901   | ManagedClusterNATGatewayProfile_STATUS                              | v1api20240901/storage | ManagedClusterNATGatewayProfile_STATUS                              | Extended |       |
-| v1api20240901   | ManagedClusterNodeResourceGroupProfile                              | v1api20240901/storage | ManagedClusterNodeResourceGroupProfile                              | Modified |       |
-| v1api20240901   | ManagedClusterNodeResourceGroupProfile_STATUS                       | v1api20240901/storage | ManagedClusterNodeResourceGroupProfile_STATUS                       | Modified |       |
-| v1api20240901   | ManagedClusterOIDCIssuerProfile                                     | v1api20240901/storage | ManagedClusterOIDCIssuerProfile                                     | Extended |       |
-| v1api20240901   | ManagedClusterOIDCIssuerProfile_STATUS                              | v1api20240901/storage | ManagedClusterOIDCIssuerProfile_STATUS                              | Extended |       |
-| v1api20240901   | ManagedClusterOperatorConfigMaps                                    | v1api20240901/storage | ManagedClusterOperatorConfigMaps                                    | Extended |       |
-| v1api20240901   | ManagedClusterOperatorSecrets                                       | v1api20240901/storage | ManagedClusterOperatorSecrets                                       | Extended |       |
-| v1api20240901   | ManagedClusterOperatorSpec                                          | v1api20240901/storage | ManagedClusterOperatorSpec                                          | Extended |       |
-| v1api20240901   | ManagedClusterPodIdentity                                           | v1api20240901/storage | ManagedClusterPodIdentity                                           | Extended |       |
-| v1api20240901   | ManagedClusterPodIdentityException                                  | v1api20240901/storage | ManagedClusterPodIdentityException                                  | Extended |       |
-| v1api20240901   | ManagedClusterPodIdentityException_STATUS                           | v1api20240901/storage | ManagedClusterPodIdentityException_STATUS                           | Extended |       |
-| v1api20240901   | ManagedClusterPodIdentityProfile                                    | v1api20240901/storage | ManagedClusterPodIdentityProfile                                    | Extended |       |
-| v1api20240901   | ManagedClusterPodIdentityProfile_STATUS                             | v1api20240901/storage | ManagedClusterPodIdentityProfile_STATUS                             | Extended |       |
-| v1api20240901   | ManagedClusterPodIdentityProvisioningErrorBody_STATUS               | v1api20240901/storage | ManagedClusterPodIdentityProvisioningErrorBody_STATUS               | Extended |       |
-| v1api20240901   | ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled      | v1api20240901/storage | ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled      | Extended |       |
-| v1api20240901   | ManagedClusterPodIdentityProvisioningError_STATUS                   | v1api20240901/storage | ManagedClusterPodIdentityProvisioningError_STATUS                   | Extended |       |
-| v1api20240901   | ManagedClusterPodIdentity_ProvisioningInfo_STATUS                   | v1api20240901/storage | ManagedClusterPodIdentity_ProvisioningInfo_STATUS                   | Extended |       |
-| v1api20240901   | ManagedClusterPodIdentity_STATUS                                    | v1api20240901/storage | ManagedClusterPodIdentity_STATUS                                    | Modified |       |
-| v1api20240901   | ManagedClusterProperties_AutoScalerProfile                          | v1api20240901/storage | ManagedClusterProperties_AutoScalerProfile                          | Modified |       |
-| v1api20240901   | ManagedClusterProperties_AutoScalerProfile_STATUS                   | v1api20240901/storage | ManagedClusterProperties_AutoScalerProfile_STATUS                   | Modified |       |
-| v1api20240901   | ManagedClusterSKU                                                   | v1api20240901/storage | ManagedClusterSKU                                                   | Modified |       |
-| v1api20240901   | ManagedClusterSKU_STATUS                                            | v1api20240901/storage | ManagedClusterSKU_STATUS                                            | Modified |       |
-| v1api20240901   | ManagedClusterSecurityProfile                                       | v1api20240901/storage | ManagedClusterSecurityProfile                                       | Extended |       |
-| v1api20240901   | ManagedClusterSecurityProfileDefender                               | v1api20240901/storage | ManagedClusterSecurityProfileDefender                               | Extended |       |
-| v1api20240901   | ManagedClusterSecurityProfileDefenderSecurityMonitoring             | v1api20240901/storage | ManagedClusterSecurityProfileDefenderSecurityMonitoring             | Extended |       |
-| v1api20240901   | ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS      | v1api20240901/storage | ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS      | Extended |       |
-| v1api20240901   | ManagedClusterSecurityProfileDefender_STATUS                        | v1api20240901/storage | ManagedClusterSecurityProfileDefender_STATUS                        | Extended |       |
-| v1api20240901   | ManagedClusterSecurityProfileImageCleaner                           | v1api20240901/storage | ManagedClusterSecurityProfileImageCleaner                           | Extended |       |
-| v1api20240901   | ManagedClusterSecurityProfileImageCleaner_STATUS                    | v1api20240901/storage | ManagedClusterSecurityProfileImageCleaner_STATUS                    | Extended |       |
-| v1api20240901   | ManagedClusterSecurityProfileWorkloadIdentity                       | v1api20240901/storage | ManagedClusterSecurityProfileWorkloadIdentity                       | Extended |       |
-| v1api20240901   | ManagedClusterSecurityProfileWorkloadIdentity_STATUS                | v1api20240901/storage | ManagedClusterSecurityProfileWorkloadIdentity_STATUS                | Extended |       |
-| v1api20240901   | ManagedClusterSecurityProfile_STATUS                                | v1api20240901/storage | ManagedClusterSecurityProfile_STATUS                                | Extended |       |
-| v1api20240901   | ManagedClusterServicePrincipalProfile                               | v1api20240901/storage | ManagedClusterServicePrincipalProfile                               | Extended |       |
-| v1api20240901   | ManagedClusterServicePrincipalProfile_STATUS                        | v1api20240901/storage | ManagedClusterServicePrincipalProfile_STATUS                        | Extended |       |
-| v1api20240901   | ManagedClusterStorageProfile                                        | v1api20240901/storage | ManagedClusterStorageProfile                                        | Extended |       |
-| v1api20240901   | ManagedClusterStorageProfileBlobCSIDriver                           | v1api20240901/storage | ManagedClusterStorageProfileBlobCSIDriver                           | Extended |       |
-| v1api20240901   | ManagedClusterStorageProfileBlobCSIDriver_STATUS                    | v1api20240901/storage | ManagedClusterStorageProfileBlobCSIDriver_STATUS                    | Extended |       |
-| v1api20240901   | ManagedClusterStorageProfileDiskCSIDriver                           | v1api20240901/storage | ManagedClusterStorageProfileDiskCSIDriver                           | Extended |       |
-| v1api20240901   | ManagedClusterStorageProfileDiskCSIDriver_STATUS                    | v1api20240901/storage | ManagedClusterStorageProfileDiskCSIDriver_STATUS                    | Extended |       |
-| v1api20240901   | ManagedClusterStorageProfileFileCSIDriver                           | v1api20240901/storage | ManagedClusterStorageProfileFileCSIDriver                           | Extended |       |
-| v1api20240901   | ManagedClusterStorageProfileFileCSIDriver_STATUS                    | v1api20240901/storage | ManagedClusterStorageProfileFileCSIDriver_STATUS                    | Extended |       |
-| v1api20240901   | ManagedClusterStorageProfileSnapshotController                      | v1api20240901/storage | ManagedClusterStorageProfileSnapshotController                      | Extended |       |
-| v1api20240901   | ManagedClusterStorageProfileSnapshotController_STATUS               | v1api20240901/storage | ManagedClusterStorageProfileSnapshotController_STATUS               | Extended |       |
-| v1api20240901   | ManagedClusterStorageProfile_STATUS                                 | v1api20240901/storage | ManagedClusterStorageProfile_STATUS                                 | Extended |       |
-| v1api20240901   | ManagedClusterWindowsProfile                                        | v1api20240901/storage | ManagedClusterWindowsProfile                                        | Modified |       |
-| v1api20240901   | ManagedClusterWindowsProfile_STATUS                                 | v1api20240901/storage | ManagedClusterWindowsProfile_STATUS                                 | Modified |       |
-| v1api20240901   | ManagedClusterWorkloadAutoScalerProfile                             | v1api20240901/storage | ManagedClusterWorkloadAutoScalerProfile                             | Extended |       |
-| v1api20240901   | ManagedClusterWorkloadAutoScalerProfileKeda                         | v1api20240901/storage | ManagedClusterWorkloadAutoScalerProfileKeda                         | Extended |       |
-| v1api20240901   | ManagedClusterWorkloadAutoScalerProfileKeda_STATUS                  | v1api20240901/storage | ManagedClusterWorkloadAutoScalerProfileKeda_STATUS                  | Extended |       |
-| v1api20240901   | ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler        | v1api20240901/storage | ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler        | Extended |       |
-| v1api20240901   | ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS | v1api20240901/storage | ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS | Extended |       |
-| v1api20240901   | ManagedClusterWorkloadAutoScalerProfile_STATUS                      | v1api20240901/storage | ManagedClusterWorkloadAutoScalerProfile_STATUS                      | Extended |       |
-| v1api20240901   | ManagedCluster_STATUS                                               | v1api20240901/storage | ManagedCluster_STATUS                                               | Modified |       |
-| v1api20240901   | ManagedCluster_Spec                                                 | v1api20240901/storage | ManagedCluster_Spec                                                 | Modified |       |
-| v1api20240901   | ManagedClustersAgentPoolOperatorSpec                                | v1api20240901/storage | ManagedClustersAgentPoolOperatorSpec                                | Extended |       |
-| v1api20240901   | ManagedClustersAgentPool_STATUS                                     | v1api20240901/storage | ManagedClustersAgentPool_STATUS                                     | Modified |       |
-| v1api20240901   | ManagedClustersAgentPool_Spec                                       | v1api20240901/storage | ManagedClustersAgentPool_Spec                                       | Modified |       |
-| v1api20240901   | PortRange                                                           | v1api20240901/storage | PortRange                                                           | Modified |       |
-| v1api20240901   | PortRange_STATUS                                                    | v1api20240901/storage | PortRange_STATUS                                                    | Modified |       |
-| v1api20240901   | PowerState                                                          | v1api20240901/storage | PowerState                                                          | Modified |       |
-| v1api20240901   | PowerState_STATUS                                                   | v1api20240901/storage | PowerState_STATUS                                                   | Modified |       |
-| v1api20240901   | PrivateLinkResource                                                 | v1api20240901/storage | PrivateLinkResource                                                 | Extended |       |
-| v1api20240901   | PrivateLinkResource_STATUS                                          | v1api20240901/storage | PrivateLinkResource_STATUS                                          | Extended |       |
-| v1api20240901   | RelativeMonthlySchedule                                             | v1api20240901/storage | RelativeMonthlySchedule                                             | Modified |       |
-| v1api20240901   | RelativeMonthlySchedule_STATUS                                      | v1api20240901/storage | RelativeMonthlySchedule_STATUS                                      | Modified |       |
-| v1api20240901   | ResourceReference                                                   | v1api20240901/storage | ResourceReference                                                   | Extended |       |
-| v1api20240901   | ResourceReference_STATUS                                            | v1api20240901/storage | ResourceReference_STATUS                                            | Extended |       |
-| v1api20240901   | Schedule                                                            | v1api20240901/storage | Schedule                                                            | Extended |       |
-| v1api20240901   | Schedule_STATUS                                                     | v1api20240901/storage | Schedule_STATUS                                                     | Extended |       |
-| v1api20240901   | ServiceMeshProfile                                                  | v1api20240901/storage | ServiceMeshProfile                                                  | Modified |       |
-| v1api20240901   | ServiceMeshProfile_STATUS                                           | v1api20240901/storage | ServiceMeshProfile_STATUS                                           | Modified |       |
-| v1api20240901   | SysctlConfig                                                        | v1api20240901/storage | SysctlConfig                                                        | Modified |       |
-| v1api20240901   | SysctlConfig_STATUS                                                 | v1api20240901/storage | SysctlConfig_STATUS                                                 | Extended |       |
-| v1api20240901   | SystemData_STATUS                                                   | v1api20240901/storage | SystemData_STATUS                                                   | Modified |       |
-| v1api20240901   | TimeInWeek                                                          | v1api20240901/storage | TimeInWeek                                                          | Modified |       |
-| v1api20240901   | TimeInWeek_STATUS                                                   | v1api20240901/storage | TimeInWeek_STATUS                                                   | Modified |       |
-| v1api20240901   | TimeSpan                                                            | v1api20240901/storage | TimeSpan                                                            | Extended |       |
-| v1api20240901   | TimeSpan_STATUS                                                     | v1api20240901/storage | TimeSpan_STATUS                                                     | Extended |       |
-| v1api20240901   | TrustedAccessRoleBindingOperatorSpec                                | v1api20240901/storage | TrustedAccessRoleBindingOperatorSpec                                | Extended |       |
-| v1api20240901   | TrustedAccessRoleBinding_STATUS                                     | v1api20240901/storage | TrustedAccessRoleBinding_STATUS                                     | Modified |       |
-| v1api20240901   | TrustedAccessRoleBinding_Spec                                       | v1api20240901/storage | TrustedAccessRoleBinding_Spec                                       | Modified |       |
-| v1api20240901   | UpgradeOverrideSettings                                             | v1api20240901/storage | UpgradeOverrideSettings                                             | Extended |       |
-| v1api20240901   | UpgradeOverrideSettings_STATUS                                      | v1api20240901/storage | UpgradeOverrideSettings_STATUS                                      | Extended |       |
-| v1api20240901   | UserAssignedIdentity                                                | v1api20240901/storage | UserAssignedIdentity                                                | Extended |       |
-| v1api20240901   | UserAssignedIdentityDetails                                         | v1api20240901/storage | UserAssignedIdentityDetails                                         | Extended |       |
-| v1api20240901   | UserAssignedIdentity_STATUS                                         | v1api20240901/storage | UserAssignedIdentity_STATUS                                         | Extended |       |
-| v1api20240901   | WeeklySchedule                                                      | v1api20240901/storage | WeeklySchedule                                                      | Modified |       |
-| v1api20240901   | WeeklySchedule_STATUS                                               | v1api20240901/storage | WeeklySchedule_STATUS                                               | Modified |       |
-| v1api20240901   | WindowsGmsaProfile                                                  | v1api20240901/storage | WindowsGmsaProfile                                                  | Extended |       |
-| v1api20240901   | WindowsGmsaProfile_STATUS                                           | v1api20240901/storage | WindowsGmsaProfile_STATUS                                           | Extended |       |
+| v1api20240901                                                       | v1api20240901/storage                                               | Status   | Notes |
+|:--------------------------------------------------------------------|:--------------------------------------------------------------------|:--------:|:------|
+| AbsoluteMonthlySchedule                                             | AbsoluteMonthlySchedule                                             | Modified |       |
+| AbsoluteMonthlySchedule_STATUS                                      | AbsoluteMonthlySchedule_STATUS                                      | Extended |       |
+| AdvancedNetworking                                                  | AdvancedNetworking                                                  | Extended |       |
+| AdvancedNetworkingObservability                                     | AdvancedNetworkingObservability                                     | Extended |       |
+| AdvancedNetworkingObservability_STATUS                              | AdvancedNetworkingObservability_STATUS                              | Extended |       |
+| AdvancedNetworkingSecurity                                          | AdvancedNetworkingSecurity                                          | Extended |       |
+| AdvancedNetworkingSecurity_STATUS                                   | AdvancedNetworkingSecurity_STATUS                                   | Extended |       |
+| AdvancedNetworking_STATUS                                           | AdvancedNetworking_STATUS                                           | Extended |       |
+| AgentPoolNetworkProfile                                             | AgentPoolNetworkProfile                                             | Extended |       |
+| AgentPoolNetworkProfile_STATUS                                      | AgentPoolNetworkProfile_STATUS                                      | Extended |       |
+| AgentPoolSecurityProfile                                            | AgentPoolSecurityProfile                                            | Extended |       |
+| AgentPoolSecurityProfile_STATUS                                     | AgentPoolSecurityProfile_STATUS                                     | Extended |       |
+| AgentPoolUpgradeSettings                                            | AgentPoolUpgradeSettings                                            | Modified |       |
+| AgentPoolUpgradeSettings_STATUS                                     | AgentPoolUpgradeSettings_STATUS                                     | Extended |       |
+| AgentPoolWindowsProfile                                             | AgentPoolWindowsProfile                                             | Extended |       |
+| AgentPoolWindowsProfile_STATUS                                      | AgentPoolWindowsProfile_STATUS                                      | Extended |       |
+| AzureKeyVaultKms                                                    | AzureKeyVaultKms                                                    | Modified |       |
+| AzureKeyVaultKms_STATUS                                             | AzureKeyVaultKms_STATUS                                             | Modified |       |
+| ClusterUpgradeSettings                                              | ClusterUpgradeSettings                                              | Extended |       |
+| ClusterUpgradeSettings_STATUS                                       | ClusterUpgradeSettings_STATUS                                       | Extended |       |
+| ContainerServiceLinuxProfile                                        | ContainerServiceLinuxProfile                                        | Modified |       |
+| ContainerServiceLinuxProfile_STATUS                                 | ContainerServiceLinuxProfile_STATUS                                 | Extended |       |
+| ContainerServiceNetworkProfile                                      | ContainerServiceNetworkProfile                                      | Modified |       |
+| ContainerServiceNetworkProfile_STATUS                               | ContainerServiceNetworkProfile_STATUS                               | Modified |       |
+| ContainerServiceSshConfiguration                                    | ContainerServiceSshConfiguration                                    | Extended |       |
+| ContainerServiceSshConfiguration_STATUS                             | ContainerServiceSshConfiguration_STATUS                             | Extended |       |
+| ContainerServiceSshPublicKey                                        | ContainerServiceSshPublicKey                                        | Extended |       |
+| ContainerServiceSshPublicKey_STATUS                                 | ContainerServiceSshPublicKey_STATUS                                 | Extended |       |
+| CreationData                                                        | CreationData                                                        | Extended |       |
+| CreationData_STATUS                                                 | CreationData_STATUS                                                 | Extended |       |
+| DailySchedule                                                       | DailySchedule                                                       | Modified |       |
+| DailySchedule_STATUS                                                | DailySchedule_STATUS                                                | Extended |       |
+| DateSpan                                                            | DateSpan                                                            | Extended |       |
+| DateSpan_STATUS                                                     | DateSpan_STATUS                                                     | Extended |       |
+| DelegatedResource                                                   | DelegatedResource                                                   | Modified |       |
+| DelegatedResource_STATUS                                            | DelegatedResource_STATUS                                            | Extended |       |
+| ExtendedLocation                                                    | ExtendedLocation                                                    | Modified |       |
+| ExtendedLocation_STATUS                                             | ExtendedLocation_STATUS                                             | Modified |       |
+| IPTag                                                               | IPTag                                                               | Extended |       |
+| IPTag_STATUS                                                        | IPTag_STATUS                                                        | Extended |       |
+| IstioCertificateAuthority                                           | IstioCertificateAuthority                                           | Extended |       |
+| IstioCertificateAuthority_STATUS                                    | IstioCertificateAuthority_STATUS                                    | Extended |       |
+| IstioComponents                                                     | IstioComponents                                                     | Extended |       |
+| IstioComponents_STATUS                                              | IstioComponents_STATUS                                              | Extended |       |
+| IstioEgressGateway                                                  | IstioEgressGateway                                                  | Extended |       |
+| IstioEgressGateway_STATUS                                           | IstioEgressGateway_STATUS                                           | Extended |       |
+| IstioIngressGateway                                                 | IstioIngressGateway                                                 | Modified |       |
+| IstioIngressGateway_STATUS                                          | IstioIngressGateway_STATUS                                          | Modified |       |
+| IstioPluginCertificateAuthority                                     | IstioPluginCertificateAuthority                                     | Extended |       |
+| IstioPluginCertificateAuthority_STATUS                              | IstioPluginCertificateAuthority_STATUS                              | Extended |       |
+| IstioServiceMesh                                                    | IstioServiceMesh                                                    | Modified |       |
+| IstioServiceMesh_STATUS                                             | IstioServiceMesh_STATUS                                             | Extended |       |
+| KubeletConfig                                                       | KubeletConfig                                                       | Modified |       |
+| KubeletConfig_STATUS                                                | KubeletConfig_STATUS                                                | Extended |       |
+| LinuxOSConfig                                                       | LinuxOSConfig                                                       | Extended |       |
+| LinuxOSConfig_STATUS                                                | LinuxOSConfig_STATUS                                                | Extended |       |
+| MaintenanceConfigurationOperatorSpec                                | MaintenanceConfigurationOperatorSpec                                | Extended |       |
+| MaintenanceConfiguration_STATUS                                     | MaintenanceConfiguration_STATUS                                     | Extended |       |
+| MaintenanceConfiguration_Spec                                       | MaintenanceConfiguration_Spec                                       | Extended |       |
+| MaintenanceWindow                                                   | MaintenanceWindow                                                   | Modified |       |
+| MaintenanceWindow_STATUS                                            | MaintenanceWindow_STATUS                                            | Extended |       |
+| ManagedClusterAADProfile                                            | ManagedClusterAADProfile                                            | Extended |       |
+| ManagedClusterAADProfile_STATUS                                     | ManagedClusterAADProfile_STATUS                                     | Extended |       |
+| ManagedClusterAPIServerAccessProfile                                | ManagedClusterAPIServerAccessProfile                                | Extended |       |
+| ManagedClusterAPIServerAccessProfile_STATUS                         | ManagedClusterAPIServerAccessProfile_STATUS                         | Extended |       |
+| ManagedClusterAddonProfile                                          | ManagedClusterAddonProfile                                          | Extended |       |
+| ManagedClusterAddonProfile_STATUS                                   | ManagedClusterAddonProfile_STATUS                                   | Extended |       |
+| ManagedClusterAgentPoolProfile                                      | ManagedClusterAgentPoolProfile                                      | Modified |       |
+| ManagedClusterAgentPoolProfile_STATUS                               | ManagedClusterAgentPoolProfile_STATUS                               | Modified |       |
+| ManagedClusterAutoUpgradeProfile                                    | ManagedClusterAutoUpgradeProfile                                    | Modified |       |
+| ManagedClusterAutoUpgradeProfile_STATUS                             | ManagedClusterAutoUpgradeProfile_STATUS                             | Modified |       |
+| ManagedClusterAzureMonitorProfile                                   | ManagedClusterAzureMonitorProfile                                   | Extended |       |
+| ManagedClusterAzureMonitorProfileKubeStateMetrics                   | ManagedClusterAzureMonitorProfileKubeStateMetrics                   | Extended |       |
+| ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS            | ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS            | Extended |       |
+| ManagedClusterAzureMonitorProfileMetrics                            | ManagedClusterAzureMonitorProfileMetrics                            | Extended |       |
+| ManagedClusterAzureMonitorProfileMetrics_STATUS                     | ManagedClusterAzureMonitorProfileMetrics_STATUS                     | Extended |       |
+| ManagedClusterAzureMonitorProfile_STATUS                            | ManagedClusterAzureMonitorProfile_STATUS                            | Extended |       |
+| ManagedClusterCostAnalysis                                          | ManagedClusterCostAnalysis                                          | Extended |       |
+| ManagedClusterCostAnalysis_STATUS                                   | ManagedClusterCostAnalysis_STATUS                                   | Extended |       |
+| ManagedClusterHTTPProxyConfig                                       | ManagedClusterHTTPProxyConfig                                       | Extended |       |
+| ManagedClusterHTTPProxyConfig_STATUS                                | ManagedClusterHTTPProxyConfig_STATUS                                | Extended |       |
+| ManagedClusterIdentity                                              | ManagedClusterIdentity                                              | Modified |       |
+| ManagedClusterIdentity_STATUS                                       | ManagedClusterIdentity_STATUS                                       | Modified |       |
+| ManagedClusterIdentity_UserAssignedIdentities_STATUS                | ManagedClusterIdentity_UserAssignedIdentities_STATUS                | Extended |       |
+| ManagedClusterIngressProfile                                        | ManagedClusterIngressProfile                                        | Extended |       |
+| ManagedClusterIngressProfileWebAppRouting                           | ManagedClusterIngressProfileWebAppRouting                           | Extended |       |
+| ManagedClusterIngressProfileWebAppRouting_STATUS                    | ManagedClusterIngressProfileWebAppRouting_STATUS                    | Extended |       |
+| ManagedClusterIngressProfile_STATUS                                 | ManagedClusterIngressProfile_STATUS                                 | Extended |       |
+| ManagedClusterLoadBalancerProfile                                   | ManagedClusterLoadBalancerProfile                                   | Modified |       |
+| ManagedClusterLoadBalancerProfile_ManagedOutboundIPs                | ManagedClusterLoadBalancerProfile_ManagedOutboundIPs                | Modified |       |
+| ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS         | ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS         | Extended |       |
+| ManagedClusterLoadBalancerProfile_OutboundIPPrefixes                | ManagedClusterLoadBalancerProfile_OutboundIPPrefixes                | Extended |       |
+| ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS         | ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS         | Extended |       |
+| ManagedClusterLoadBalancerProfile_OutboundIPs                       | ManagedClusterLoadBalancerProfile_OutboundIPs                       | Extended |       |
+| ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS                | ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS                | Extended |       |
+| ManagedClusterLoadBalancerProfile_STATUS                            | ManagedClusterLoadBalancerProfile_STATUS                            | Modified |       |
+| ManagedClusterManagedOutboundIPProfile                              | ManagedClusterManagedOutboundIPProfile                              | Modified |       |
+| ManagedClusterManagedOutboundIPProfile_STATUS                       | ManagedClusterManagedOutboundIPProfile_STATUS                       | Extended |       |
+| ManagedClusterMetricsProfile                                        | ManagedClusterMetricsProfile                                        | Extended |       |
+| ManagedClusterMetricsProfile_STATUS                                 | ManagedClusterMetricsProfile_STATUS                                 | Extended |       |
+| ManagedClusterNATGatewayProfile                                     | ManagedClusterNATGatewayProfile                                     | Modified |       |
+| ManagedClusterNATGatewayProfile_STATUS                              | ManagedClusterNATGatewayProfile_STATUS                              | Extended |       |
+| ManagedClusterNodeResourceGroupProfile                              | ManagedClusterNodeResourceGroupProfile                              | Modified |       |
+| ManagedClusterNodeResourceGroupProfile_STATUS                       | ManagedClusterNodeResourceGroupProfile_STATUS                       | Modified |       |
+| ManagedClusterOIDCIssuerProfile                                     | ManagedClusterOIDCIssuerProfile                                     | Extended |       |
+| ManagedClusterOIDCIssuerProfile_STATUS                              | ManagedClusterOIDCIssuerProfile_STATUS                              | Extended |       |
+| ManagedClusterOperatorConfigMaps                                    | ManagedClusterOperatorConfigMaps                                    | Extended |       |
+| ManagedClusterOperatorSecrets                                       | ManagedClusterOperatorSecrets                                       | Extended |       |
+| ManagedClusterOperatorSpec                                          | ManagedClusterOperatorSpec                                          | Extended |       |
+| ManagedClusterPodIdentity                                           | ManagedClusterPodIdentity                                           | Extended |       |
+| ManagedClusterPodIdentityException                                  | ManagedClusterPodIdentityException                                  | Extended |       |
+| ManagedClusterPodIdentityException_STATUS                           | ManagedClusterPodIdentityException_STATUS                           | Extended |       |
+| ManagedClusterPodIdentityProfile                                    | ManagedClusterPodIdentityProfile                                    | Extended |       |
+| ManagedClusterPodIdentityProfile_STATUS                             | ManagedClusterPodIdentityProfile_STATUS                             | Extended |       |
+| ManagedClusterPodIdentityProvisioningErrorBody_STATUS               | ManagedClusterPodIdentityProvisioningErrorBody_STATUS               | Extended |       |
+| ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled      | ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled      | Extended |       |
+| ManagedClusterPodIdentityProvisioningError_STATUS                   | ManagedClusterPodIdentityProvisioningError_STATUS                   | Extended |       |
+| ManagedClusterPodIdentity_ProvisioningInfo_STATUS                   | ManagedClusterPodIdentity_ProvisioningInfo_STATUS                   | Extended |       |
+| ManagedClusterPodIdentity_STATUS                                    | ManagedClusterPodIdentity_STATUS                                    | Modified |       |
+| ManagedClusterProperties_AutoScalerProfile                          | ManagedClusterProperties_AutoScalerProfile                          | Modified |       |
+| ManagedClusterProperties_AutoScalerProfile_STATUS                   | ManagedClusterProperties_AutoScalerProfile_STATUS                   | Modified |       |
+| ManagedClusterSKU                                                   | ManagedClusterSKU                                                   | Modified |       |
+| ManagedClusterSKU_STATUS                                            | ManagedClusterSKU_STATUS                                            | Modified |       |
+| ManagedClusterSecurityProfile                                       | ManagedClusterSecurityProfile                                       | Extended |       |
+| ManagedClusterSecurityProfileDefender                               | ManagedClusterSecurityProfileDefender                               | Extended |       |
+| ManagedClusterSecurityProfileDefenderSecurityMonitoring             | ManagedClusterSecurityProfileDefenderSecurityMonitoring             | Extended |       |
+| ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS      | ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS      | Extended |       |
+| ManagedClusterSecurityProfileDefender_STATUS                        | ManagedClusterSecurityProfileDefender_STATUS                        | Extended |       |
+| ManagedClusterSecurityProfileImageCleaner                           | ManagedClusterSecurityProfileImageCleaner                           | Extended |       |
+| ManagedClusterSecurityProfileImageCleaner_STATUS                    | ManagedClusterSecurityProfileImageCleaner_STATUS                    | Extended |       |
+| ManagedClusterSecurityProfileWorkloadIdentity                       | ManagedClusterSecurityProfileWorkloadIdentity                       | Extended |       |
+| ManagedClusterSecurityProfileWorkloadIdentity_STATUS                | ManagedClusterSecurityProfileWorkloadIdentity_STATUS                | Extended |       |
+| ManagedClusterSecurityProfile_STATUS                                | ManagedClusterSecurityProfile_STATUS                                | Extended |       |
+| ManagedClusterServicePrincipalProfile                               | ManagedClusterServicePrincipalProfile                               | Extended |       |
+| ManagedClusterServicePrincipalProfile_STATUS                        | ManagedClusterServicePrincipalProfile_STATUS                        | Extended |       |
+| ManagedClusterStorageProfile                                        | ManagedClusterStorageProfile                                        | Extended |       |
+| ManagedClusterStorageProfileBlobCSIDriver                           | ManagedClusterStorageProfileBlobCSIDriver                           | Extended |       |
+| ManagedClusterStorageProfileBlobCSIDriver_STATUS                    | ManagedClusterStorageProfileBlobCSIDriver_STATUS                    | Extended |       |
+| ManagedClusterStorageProfileDiskCSIDriver                           | ManagedClusterStorageProfileDiskCSIDriver                           | Extended |       |
+| ManagedClusterStorageProfileDiskCSIDriver_STATUS                    | ManagedClusterStorageProfileDiskCSIDriver_STATUS                    | Extended |       |
+| ManagedClusterStorageProfileFileCSIDriver                           | ManagedClusterStorageProfileFileCSIDriver                           | Extended |       |
+| ManagedClusterStorageProfileFileCSIDriver_STATUS                    | ManagedClusterStorageProfileFileCSIDriver_STATUS                    | Extended |       |
+| ManagedClusterStorageProfileSnapshotController                      | ManagedClusterStorageProfileSnapshotController                      | Extended |       |
+| ManagedClusterStorageProfileSnapshotController_STATUS               | ManagedClusterStorageProfileSnapshotController_STATUS               | Extended |       |
+| ManagedClusterStorageProfile_STATUS                                 | ManagedClusterStorageProfile_STATUS                                 | Extended |       |
+| ManagedClusterWindowsProfile                                        | ManagedClusterWindowsProfile                                        | Modified |       |
+| ManagedClusterWindowsProfile_STATUS                                 | ManagedClusterWindowsProfile_STATUS                                 | Modified |       |
+| ManagedClusterWorkloadAutoScalerProfile                             | ManagedClusterWorkloadAutoScalerProfile                             | Extended |       |
+| ManagedClusterWorkloadAutoScalerProfileKeda                         | ManagedClusterWorkloadAutoScalerProfileKeda                         | Extended |       |
+| ManagedClusterWorkloadAutoScalerProfileKeda_STATUS                  | ManagedClusterWorkloadAutoScalerProfileKeda_STATUS                  | Extended |       |
+| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler        | ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler        | Extended |       |
+| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS | ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS | Extended |       |
+| ManagedClusterWorkloadAutoScalerProfile_STATUS                      | ManagedClusterWorkloadAutoScalerProfile_STATUS                      | Extended |       |
+| ManagedCluster_STATUS                                               | ManagedCluster_STATUS                                               | Modified |       |
+| ManagedCluster_Spec                                                 | ManagedCluster_Spec                                                 | Modified |       |
+| ManagedClustersAgentPoolOperatorSpec                                | ManagedClustersAgentPoolOperatorSpec                                | Extended |       |
+| ManagedClustersAgentPool_STATUS                                     | ManagedClustersAgentPool_STATUS                                     | Modified |       |
+| ManagedClustersAgentPool_Spec                                       | ManagedClustersAgentPool_Spec                                       | Modified |       |
+| PortRange                                                           | PortRange                                                           | Modified |       |
+| PortRange_STATUS                                                    | PortRange_STATUS                                                    | Modified |       |
+| PowerState                                                          | PowerState                                                          | Modified |       |
+| PowerState_STATUS                                                   | PowerState_STATUS                                                   | Modified |       |
+| PrivateLinkResource                                                 | PrivateLinkResource                                                 | Extended |       |
+| PrivateLinkResource_STATUS                                          | PrivateLinkResource_STATUS                                          | Extended |       |
+| RelativeMonthlySchedule                                             | RelativeMonthlySchedule                                             | Modified |       |
+| RelativeMonthlySchedule_STATUS                                      | RelativeMonthlySchedule_STATUS                                      | Modified |       |
+| ResourceReference                                                   | ResourceReference                                                   | Extended |       |
+| ResourceReference_STATUS                                            | ResourceReference_STATUS                                            | Extended |       |
+| Schedule                                                            | Schedule                                                            | Extended |       |
+| Schedule_STATUS                                                     | Schedule_STATUS                                                     | Extended |       |
+| ServiceMeshProfile                                                  | ServiceMeshProfile                                                  | Modified |       |
+| ServiceMeshProfile_STATUS                                           | ServiceMeshProfile_STATUS                                           | Modified |       |
+| SysctlConfig                                                        | SysctlConfig                                                        | Modified |       |
+| SysctlConfig_STATUS                                                 | SysctlConfig_STATUS                                                 | Extended |       |
+| SystemData_STATUS                                                   | SystemData_STATUS                                                   | Modified |       |
+| TimeInWeek                                                          | TimeInWeek                                                          | Modified |       |
+| TimeInWeek_STATUS                                                   | TimeInWeek_STATUS                                                   | Modified |       |
+| TimeSpan                                                            | TimeSpan                                                            | Extended |       |
+| TimeSpan_STATUS                                                     | TimeSpan_STATUS                                                     | Extended |       |
+| TrustedAccessRoleBindingOperatorSpec                                | TrustedAccessRoleBindingOperatorSpec                                | Extended |       |
+| TrustedAccessRoleBinding_STATUS                                     | TrustedAccessRoleBinding_STATUS                                     | Modified |       |
+| TrustedAccessRoleBinding_Spec                                       | TrustedAccessRoleBinding_Spec                                       | Modified |       |
+| UpgradeOverrideSettings                                             | UpgradeOverrideSettings                                             | Extended |       |
+| UpgradeOverrideSettings_STATUS                                      | UpgradeOverrideSettings_STATUS                                      | Extended |       |
+| UserAssignedIdentity                                                | UserAssignedIdentity                                                | Extended |       |
+| UserAssignedIdentityDetails                                         | UserAssignedIdentityDetails                                         | Extended |       |
+| UserAssignedIdentity_STATUS                                         | UserAssignedIdentity_STATUS                                         | Extended |       |
+| WeeklySchedule                                                      | WeeklySchedule                                                      | Modified |       |
+| WeeklySchedule_STATUS                                               | WeeklySchedule_STATUS                                               | Modified |       |
+| WindowsGmsaProfile                                                  | WindowsGmsaProfile                                                  | Extended |       |
+| WindowsGmsaProfile_STATUS                                           | WindowsGmsaProfile_STATUS                                           | Extended |       |
 
 ### AbsoluteMonthlySchedule
 

@@ -11,22 +11,22 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type | Status    | Notes |
-|:----------------|:-------------|:----------------------|:----------|:---------:|:------|
-| v1api20230601   | Workbook     | v1api20230601/storage | Workbook  | Identical |       |
+| v1api20230601 | v1api20230601/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| Workbook      | Workbook              | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                  | Next Version          | Next Type                     | Status   | Notes |
-|:----------------|:------------------------------|:----------------------|:------------------------------|:--------:|:------|
-| v1api20230601   | ManagedServiceIdentity        | v1api20230601/storage | ManagedServiceIdentity        | Modified |       |
-| v1api20230601   | ManagedServiceIdentity_STATUS | v1api20230601/storage | ManagedServiceIdentity_STATUS | Modified |       |
-| v1api20230601   | SystemData_STATUS             | v1api20230601/storage | SystemData_STATUS             | Modified |       |
-| v1api20230601   | UserAssignedIdentityDetails   | v1api20230601/storage | UserAssignedIdentityDetails   | Extended |       |
-| v1api20230601   | UserAssignedIdentity_STATUS   | v1api20230601/storage | UserAssignedIdentity_STATUS   | Extended |       |
-| v1api20230601   | WorkbookOperatorSpec          | v1api20230601/storage | WorkbookOperatorSpec          | Extended |       |
-| v1api20230601   | Workbook_STATUS               | v1api20230601/storage | Workbook_STATUS               | Modified |       |
-| v1api20230601   | Workbook_Spec                 | v1api20230601/storage | Workbook_Spec                 | Modified |       |
+| v1api20230601                 | v1api20230601/storage         | Status   | Notes |
+|:------------------------------|:------------------------------|:--------:|:------|
+| ManagedServiceIdentity        | ManagedServiceIdentity        | Modified |       |
+| ManagedServiceIdentity_STATUS | ManagedServiceIdentity_STATUS | Modified |       |
+| SystemData_STATUS             | SystemData_STATUS             | Modified |       |
+| UserAssignedIdentityDetails   | UserAssignedIdentityDetails   | Extended |       |
+| UserAssignedIdentity_STATUS   | UserAssignedIdentity_STATUS   | Extended |       |
+| WorkbookOperatorSpec          | WorkbookOperatorSpec          | Extended |       |
+| Workbook_STATUS               | Workbook_STATUS               | Modified |       |
+| Workbook_Spec                 | Workbook_Spec                 | Modified |       |
 
 ### ManagedServiceIdentity
 

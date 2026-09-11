@@ -11,24 +11,24 @@ Statuses:
 
 ## Resources
 
-| Current Version   | Current Type | Next Version      | Next Type | Status    | Notes |
-|:------------------|:-------------|:------------------|:----------|:---------:|:------|
-| v20210601/storage | Profile      | v20230501/storage | Profile   | Identical |       |
+| v20210601/storage | v20230501/storage | Status    | Notes |
+|:------------------|:------------------|:---------:|:------|
+| Profile           | Profile           | Identical |       |
 
 ## Objects
 
-| Current Version   | Current Type        | Next Version      | Next Type                     | Status    | Notes |
-|:------------------|:--------------------|:------------------|:------------------------------|:---------:|:------|
-|                   |                     | v20230501/storage | ManagedServiceIdentity        | New       |       |
-|                   |                     | v20230501/storage | ManagedServiceIdentity_STATUS | New       |       |
-| v20210601/storage | ProfileOperatorSpec | v20230501/storage | ProfileOperatorSpec           | Identical |       |
-| v20210601/storage | Profile_STATUS      | v20230501/storage | Profile_STATUS                | Extended  |       |
-| v20210601/storage | Profile_Spec        | v20230501/storage | Profile_Spec                  | Extended  |       |
-| v20210601/storage | Sku                 | v20230501/storage | Sku                           | Identical |       |
-| v20210601/storage | Sku_STATUS          | v20230501/storage | Sku_STATUS                    | Identical |       |
-| v20210601/storage | SystemData_STATUS   | v20230501/storage | SystemData_STATUS             | Identical |       |
-|                   |                     | v20230501/storage | UserAssignedIdentityDetails   | New       |       |
-|                   |                     | v20230501/storage | UserAssignedIdentity_STATUS   | New       |       |
+| v20210601/storage   | v20230501/storage             | Status    | Notes |
+|:--------------------|:------------------------------|:---------:|:------|
+|                     | ManagedServiceIdentity        | New       |       |
+|                     | ManagedServiceIdentity_STATUS | New       |       |
+| ProfileOperatorSpec | ProfileOperatorSpec           | Identical |       |
+| Profile_STATUS      | Profile_STATUS                | Extended  |       |
+| Profile_Spec        | Profile_Spec                  | Extended  |       |
+| Sku                 | Sku                           | Identical |       |
+| Sku_STATUS          | Sku_STATUS                    | Identical |       |
+| SystemData_STATUS   | SystemData_STATUS             | Identical |       |
+|                     | UserAssignedIdentityDetails   | New       |       |
+|                     | UserAssignedIdentity_STATUS   | New       |       |
 
 ### Profile_STATUS
 

@@ -11,44 +11,44 @@ Statuses:
 
 ## Resources
 
-| Current Version      | Current Type                 | Next Version                 | Next Type                    | Status    | Notes |
-|:---------------------|:-----------------------------|:-----------------------------|:-----------------------------|:---------:|:------|
-| v1api20220120preview | FlexibleServer               | v1api20220120preview/storage | FlexibleServer               | Identical |       |
-| v1api20220120preview | FlexibleServersConfiguration | v1api20220120preview/storage | FlexibleServersConfiguration | Identical |       |
-| v1api20220120preview | FlexibleServersDatabase      | v1api20220120preview/storage | FlexibleServersDatabase      | Identical |       |
-| v1api20220120preview | FlexibleServersFirewallRule  | v1api20220120preview/storage | FlexibleServersFirewallRule  | Identical |       |
+| v1api20220120preview         | v1api20220120preview/storage | Status    | Notes |
+|:-----------------------------|:-----------------------------|:---------:|:------|
+| FlexibleServer               | FlexibleServer               | Identical |       |
+| FlexibleServersConfiguration | FlexibleServersConfiguration | Identical |       |
+| FlexibleServersDatabase      | FlexibleServersDatabase      | Identical |       |
+| FlexibleServersFirewallRule  | FlexibleServersFirewallRule  | Identical |       |
 
 ## Objects
 
-| Current Version      | Current Type                             | Next Version                 | Next Type                                | Status   | Notes |
-|:---------------------|:-----------------------------------------|:-----------------------------|:-----------------------------------------|:--------:|:------|
-| v1api20220120preview | Backup                                   | v1api20220120preview/storage | Backup                                   | Modified |       |
-| v1api20220120preview | Backup_STATUS                            | v1api20220120preview/storage | Backup_STATUS                            | Modified |       |
-| v1api20220120preview | FlexibleServerOperatorConfigMaps         | v1api20220120preview/storage | FlexibleServerOperatorConfigMaps         | Extended |       |
-| v1api20220120preview | FlexibleServerOperatorSecrets            | v1api20220120preview/storage | FlexibleServerOperatorSecrets            | Extended |       |
-| v1api20220120preview | FlexibleServerOperatorSpec               | v1api20220120preview/storage | FlexibleServerOperatorSpec               | Extended |       |
-| v1api20220120preview | FlexibleServer_STATUS                    | v1api20220120preview/storage | FlexibleServer_STATUS                    | Modified |       |
-| v1api20220120preview | FlexibleServer_Spec                      | v1api20220120preview/storage | FlexibleServer_Spec                      | Modified |       |
-| v1api20220120preview | FlexibleServersConfigurationOperatorSpec | v1api20220120preview/storage | FlexibleServersConfigurationOperatorSpec | Extended |       |
-| v1api20220120preview | FlexibleServersConfiguration_STATUS      | v1api20220120preview/storage | FlexibleServersConfiguration_STATUS      | Modified |       |
-| v1api20220120preview | FlexibleServersConfiguration_Spec        | v1api20220120preview/storage | FlexibleServersConfiguration_Spec        | Extended |       |
-| v1api20220120preview | FlexibleServersDatabaseOperatorSpec      | v1api20220120preview/storage | FlexibleServersDatabaseOperatorSpec      | Extended |       |
-| v1api20220120preview | FlexibleServersDatabase_STATUS           | v1api20220120preview/storage | FlexibleServersDatabase_STATUS           | Extended |       |
-| v1api20220120preview | FlexibleServersDatabase_Spec             | v1api20220120preview/storage | FlexibleServersDatabase_Spec             | Extended |       |
-| v1api20220120preview | FlexibleServersFirewallRuleOperatorSpec  | v1api20220120preview/storage | FlexibleServersFirewallRuleOperatorSpec  | Extended |       |
-| v1api20220120preview | FlexibleServersFirewallRule_STATUS       | v1api20220120preview/storage | FlexibleServersFirewallRule_STATUS       | Extended |       |
-| v1api20220120preview | FlexibleServersFirewallRule_Spec         | v1api20220120preview/storage | FlexibleServersFirewallRule_Spec         | Modified |       |
-| v1api20220120preview | HighAvailability                         | v1api20220120preview/storage | HighAvailability                         | Modified |       |
-| v1api20220120preview | HighAvailability_STATUS                  | v1api20220120preview/storage | HighAvailability_STATUS                  | Modified |       |
-| v1api20220120preview | MaintenanceWindow                        | v1api20220120preview/storage | MaintenanceWindow                        | Extended |       |
-| v1api20220120preview | MaintenanceWindow_STATUS                 | v1api20220120preview/storage | MaintenanceWindow_STATUS                 | Extended |       |
-| v1api20220120preview | Network                                  | v1api20220120preview/storage | Network                                  | Extended |       |
-| v1api20220120preview | Network_STATUS                           | v1api20220120preview/storage | Network_STATUS                           | Modified |       |
-| v1api20220120preview | Sku                                      | v1api20220120preview/storage | Sku                                      | Modified |       |
-| v1api20220120preview | Sku_STATUS                               | v1api20220120preview/storage | Sku_STATUS                               | Modified |       |
-| v1api20220120preview | Storage                                  | v1api20220120preview/storage | Storage                                  | Extended |       |
-| v1api20220120preview | Storage_STATUS                           | v1api20220120preview/storage | Storage_STATUS                           | Extended |       |
-| v1api20220120preview | SystemData_STATUS                        | v1api20220120preview/storage | SystemData_STATUS                        | Modified |       |
+| v1api20220120preview                     | v1api20220120preview/storage             | Status   | Notes |
+|:-----------------------------------------|:-----------------------------------------|:--------:|:------|
+| Backup                                   | Backup                                   | Modified |       |
+| Backup_STATUS                            | Backup_STATUS                            | Modified |       |
+| FlexibleServerOperatorConfigMaps         | FlexibleServerOperatorConfigMaps         | Extended |       |
+| FlexibleServerOperatorSecrets            | FlexibleServerOperatorSecrets            | Extended |       |
+| FlexibleServerOperatorSpec               | FlexibleServerOperatorSpec               | Extended |       |
+| FlexibleServer_STATUS                    | FlexibleServer_STATUS                    | Modified |       |
+| FlexibleServer_Spec                      | FlexibleServer_Spec                      | Modified |       |
+| FlexibleServersConfigurationOperatorSpec | FlexibleServersConfigurationOperatorSpec | Extended |       |
+| FlexibleServersConfiguration_STATUS      | FlexibleServersConfiguration_STATUS      | Modified |       |
+| FlexibleServersConfiguration_Spec        | FlexibleServersConfiguration_Spec        | Extended |       |
+| FlexibleServersDatabaseOperatorSpec      | FlexibleServersDatabaseOperatorSpec      | Extended |       |
+| FlexibleServersDatabase_STATUS           | FlexibleServersDatabase_STATUS           | Extended |       |
+| FlexibleServersDatabase_Spec             | FlexibleServersDatabase_Spec             | Extended |       |
+| FlexibleServersFirewallRuleOperatorSpec  | FlexibleServersFirewallRuleOperatorSpec  | Extended |       |
+| FlexibleServersFirewallRule_STATUS       | FlexibleServersFirewallRule_STATUS       | Extended |       |
+| FlexibleServersFirewallRule_Spec         | FlexibleServersFirewallRule_Spec         | Modified |       |
+| HighAvailability                         | HighAvailability                         | Modified |       |
+| HighAvailability_STATUS                  | HighAvailability_STATUS                  | Modified |       |
+| MaintenanceWindow                        | MaintenanceWindow                        | Extended |       |
+| MaintenanceWindow_STATUS                 | MaintenanceWindow_STATUS                 | Extended |       |
+| Network                                  | Network                                  | Extended |       |
+| Network_STATUS                           | Network_STATUS                           | Modified |       |
+| Sku                                      | Sku                                      | Modified |       |
+| Sku_STATUS                               | Sku_STATUS                               | Modified |       |
+| Storage                                  | Storage                                  | Extended |       |
+| Storage_STATUS                           | Storage_STATUS                           | Extended |       |
+| SystemData_STATUS                        | SystemData_STATUS                        | Modified |       |
 
 ### Backup
 

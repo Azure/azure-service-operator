@@ -11,44 +11,44 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type       | Next Version          | Next Type          | Status    | Notes |
-|:----------------|:-------------------|:----------------------|:-------------------|:---------:|:------|
-| v1api20220615   | ScheduledQueryRule | v1api20220615/storage | ScheduledQueryRule | Identical |       |
-| v1api20220615   | Webtest            | v1api20220615/storage | Webtest            | Identical |       |
+| v1api20220615      | v1api20220615/storage | Status    | Notes |
+|:-------------------|:----------------------|:---------:|:------|
+| ScheduledQueryRule | ScheduledQueryRule    | Identical |       |
+| Webtest            | Webtest               | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                             | Next Version          | Next Type                                                | Status   | Notes |
-|:----------------|:---------------------------------------------------------|:----------------------|:---------------------------------------------------------|:--------:|:------|
-| v1api20220615   | Actions                                                  | v1api20220615/storage | Actions                                                  | Extended |       |
-| v1api20220615   | Actions_STATUS                                           | v1api20220615/storage | Actions_STATUS                                           | Extended |       |
-| v1api20220615   | Condition                                                | v1api20220615/storage | Condition                                                | Modified |       |
-| v1api20220615   | ConditionFailingPeriods                                  | v1api20220615/storage | ConditionFailingPeriods                                  | Extended |       |
-| v1api20220615   | ConditionFailingPeriods_STATUS                           | v1api20220615/storage | ConditionFailingPeriods_STATUS                           | Extended |       |
-| v1api20220615   | Condition_STATUS                                         | v1api20220615/storage | Condition_STATUS                                         | Modified |       |
-| v1api20220615   | Dimension                                                | v1api20220615/storage | Dimension                                                | Modified |       |
-| v1api20220615   | Dimension_STATUS                                         | v1api20220615/storage | Dimension_STATUS                                         | Modified |       |
-| v1api20220615   | HeaderField                                              | v1api20220615/storage | HeaderField                                              | Extended |       |
-| v1api20220615   | HeaderField_STATUS                                       | v1api20220615/storage | HeaderField_STATUS                                       | Extended |       |
-| v1api20220615   | ScheduledQueryRuleCriteria                               | v1api20220615/storage | ScheduledQueryRuleCriteria                               | Extended |       |
-| v1api20220615   | ScheduledQueryRuleCriteria_STATUS                        | v1api20220615/storage | ScheduledQueryRuleCriteria_STATUS                        | Extended |       |
-| v1api20220615   | ScheduledQueryRuleOperatorSpec                           | v1api20220615/storage | ScheduledQueryRuleOperatorSpec                           | Extended |       |
-| v1api20220615   | ScheduledQueryRule_STATUS                                | v1api20220615/storage | ScheduledQueryRule_STATUS                                | Modified |       |
-| v1api20220615   | ScheduledQueryRule_Spec                                  | v1api20220615/storage | ScheduledQueryRule_Spec                                  | Modified |       |
-| v1api20220615   | SystemData_STATUS                                        | v1api20220615/storage | SystemData_STATUS                                        | Modified |       |
-| v1api20220615   | WebTestGeolocation                                       | v1api20220615/storage | WebTestGeolocation                                       | Extended |       |
-| v1api20220615   | WebTestGeolocation_STATUS                                | v1api20220615/storage | WebTestGeolocation_STATUS                                | Extended |       |
-| v1api20220615   | WebTestPropertiesConfiguration                           | v1api20220615/storage | WebTestPropertiesConfiguration                           | Extended |       |
-| v1api20220615   | WebTestPropertiesConfiguration_STATUS                    | v1api20220615/storage | WebTestPropertiesConfiguration_STATUS                    | Extended |       |
-| v1api20220615   | WebTestPropertiesRequest                                 | v1api20220615/storage | WebTestPropertiesRequest                                 | Extended |       |
-| v1api20220615   | WebTestPropertiesRequest_STATUS                          | v1api20220615/storage | WebTestPropertiesRequest_STATUS                          | Extended |       |
-| v1api20220615   | WebTestPropertiesValidationRules                         | v1api20220615/storage | WebTestPropertiesValidationRules                         | Extended |       |
-| v1api20220615   | WebTestPropertiesValidationRulesContentValidation        | v1api20220615/storage | WebTestPropertiesValidationRulesContentValidation        | Extended |       |
-| v1api20220615   | WebTestPropertiesValidationRulesContentValidation_STATUS | v1api20220615/storage | WebTestPropertiesValidationRulesContentValidation_STATUS | Extended |       |
-| v1api20220615   | WebTestPropertiesValidationRules_STATUS                  | v1api20220615/storage | WebTestPropertiesValidationRules_STATUS                  | Extended |       |
-| v1api20220615   | WebtestOperatorSpec                                      | v1api20220615/storage | WebtestOperatorSpec                                      | Extended |       |
-| v1api20220615   | Webtest_STATUS                                           | v1api20220615/storage | Webtest_STATUS                                           | Modified |       |
-| v1api20220615   | Webtest_Spec                                             | v1api20220615/storage | Webtest_Spec                                             | Modified |       |
+| v1api20220615                                            | v1api20220615/storage                                    | Status   | Notes |
+|:---------------------------------------------------------|:---------------------------------------------------------|:--------:|:------|
+| Actions                                                  | Actions                                                  | Extended |       |
+| Actions_STATUS                                           | Actions_STATUS                                           | Extended |       |
+| Condition                                                | Condition                                                | Modified |       |
+| ConditionFailingPeriods                                  | ConditionFailingPeriods                                  | Extended |       |
+| ConditionFailingPeriods_STATUS                           | ConditionFailingPeriods_STATUS                           | Extended |       |
+| Condition_STATUS                                         | Condition_STATUS                                         | Modified |       |
+| Dimension                                                | Dimension                                                | Modified |       |
+| Dimension_STATUS                                         | Dimension_STATUS                                         | Modified |       |
+| HeaderField                                              | HeaderField                                              | Extended |       |
+| HeaderField_STATUS                                       | HeaderField_STATUS                                       | Extended |       |
+| ScheduledQueryRuleCriteria                               | ScheduledQueryRuleCriteria                               | Extended |       |
+| ScheduledQueryRuleCriteria_STATUS                        | ScheduledQueryRuleCriteria_STATUS                        | Extended |       |
+| ScheduledQueryRuleOperatorSpec                           | ScheduledQueryRuleOperatorSpec                           | Extended |       |
+| ScheduledQueryRule_STATUS                                | ScheduledQueryRule_STATUS                                | Modified |       |
+| ScheduledQueryRule_Spec                                  | ScheduledQueryRule_Spec                                  | Modified |       |
+| SystemData_STATUS                                        | SystemData_STATUS                                        | Modified |       |
+| WebTestGeolocation                                       | WebTestGeolocation                                       | Extended |       |
+| WebTestGeolocation_STATUS                                | WebTestGeolocation_STATUS                                | Extended |       |
+| WebTestPropertiesConfiguration                           | WebTestPropertiesConfiguration                           | Extended |       |
+| WebTestPropertiesConfiguration_STATUS                    | WebTestPropertiesConfiguration_STATUS                    | Extended |       |
+| WebTestPropertiesRequest                                 | WebTestPropertiesRequest                                 | Extended |       |
+| WebTestPropertiesRequest_STATUS                          | WebTestPropertiesRequest_STATUS                          | Extended |       |
+| WebTestPropertiesValidationRules                         | WebTestPropertiesValidationRules                         | Extended |       |
+| WebTestPropertiesValidationRulesContentValidation        | WebTestPropertiesValidationRulesContentValidation        | Extended |       |
+| WebTestPropertiesValidationRulesContentValidation_STATUS | WebTestPropertiesValidationRulesContentValidation_STATUS | Extended |       |
+| WebTestPropertiesValidationRules_STATUS                  | WebTestPropertiesValidationRules_STATUS                  | Extended |       |
+| WebtestOperatorSpec                                      | WebtestOperatorSpec                                      | Extended |       |
+| Webtest_STATUS                                           | Webtest_STATUS                                           | Modified |       |
+| Webtest_Spec                                             | Webtest_Spec                                             | Modified |       |
 
 ### Actions
 

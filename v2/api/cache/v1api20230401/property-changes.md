@@ -11,43 +11,43 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type       | Next Version          | Next Type          | Status    | Notes |
-|:----------------|:-------------------|:----------------------|:-------------------|:---------:|:------|
-| v1api20230401   | Redis              | v1api20230401/storage | Redis              | Identical |       |
-| v1api20230401   | RedisFirewallRule  | v1api20230401/storage | RedisFirewallRule  | Identical |       |
-| v1api20230401   | RedisLinkedServer  | v1api20230401/storage | RedisLinkedServer  | Identical |       |
-| v1api20230401   | RedisPatchSchedule | v1api20230401/storage | RedisPatchSchedule | Identical |       |
+| v1api20230401      | v1api20230401/storage | Status    | Notes |
+|:-------------------|:----------------------|:---------:|:------|
+| Redis              | Redis                 | Identical |       |
+| RedisFirewallRule  | RedisFirewallRule     | Identical |       |
+| RedisLinkedServer  | RedisLinkedServer     | Identical |       |
+| RedisPatchSchedule | RedisPatchSchedule    | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                              | Next Version          | Next Type                                 | Status   | Notes |
-|:----------------|:------------------------------------------|:----------------------|:------------------------------------------|:--------:|:------|
-| v1api20230401   | ManagedServiceIdentity                    | v1api20230401/storage | ManagedServiceIdentity                    | Modified |       |
-| v1api20230401   | ManagedServiceIdentity_STATUS             | v1api20230401/storage | ManagedServiceIdentity_STATUS             | Modified |       |
-| v1api20230401   | PrivateEndpointConnection_STATUS          | v1api20230401/storage | PrivateEndpointConnection_STATUS          | Extended |       |
-| v1api20230401   | RedisCreateProperties_RedisConfiguration  | v1api20230401/storage | RedisCreateProperties_RedisConfiguration  | Extended |       |
-| v1api20230401   | RedisFirewallRuleOperatorSpec             | v1api20230401/storage | RedisFirewallRuleOperatorSpec             | Extended |       |
-| v1api20230401   | RedisFirewallRule_STATUS                  | v1api20230401/storage | RedisFirewallRule_STATUS                  | Extended |       |
-| v1api20230401   | RedisFirewallRule_Spec                    | v1api20230401/storage | RedisFirewallRule_Spec                    | Extended |       |
-| v1api20230401   | RedisInstanceDetails_STATUS               | v1api20230401/storage | RedisInstanceDetails_STATUS               | Extended |       |
-| v1api20230401   | RedisLinkedServerOperatorSpec             | v1api20230401/storage | RedisLinkedServerOperatorSpec             | Extended |       |
-| v1api20230401   | RedisLinkedServer_STATUS                  | v1api20230401/storage | RedisLinkedServer_STATUS                  | Extended |       |
-| v1api20230401   | RedisLinkedServer_Spec                    | v1api20230401/storage | RedisLinkedServer_Spec                    | Modified |       |
-| v1api20230401   | RedisOperatorSecrets                      | v1api20230401/storage | RedisOperatorSecrets                      | Extended |       |
-| v1api20230401   | RedisOperatorSpec                         | v1api20230401/storage | RedisOperatorSpec                         | Extended |       |
-| v1api20230401   | RedisPatchScheduleOperatorSpec            | v1api20230401/storage | RedisPatchScheduleOperatorSpec            | Extended |       |
-| v1api20230401   | RedisPatchSchedule_STATUS                 | v1api20230401/storage | RedisPatchSchedule_STATUS                 | Extended |       |
-| v1api20230401   | RedisPatchSchedule_Spec                   | v1api20230401/storage | RedisPatchSchedule_Spec                   | Extended |       |
-| v1api20230401   | RedisProperties_RedisConfiguration_STATUS | v1api20230401/storage | RedisProperties_RedisConfiguration_STATUS | Extended |       |
-| v1api20230401   | Redis_LinkedServer_STATUS                 | v1api20230401/storage | Redis_LinkedServer_STATUS                 | Modified |       |
-| v1api20230401   | Redis_STATUS                              | v1api20230401/storage | Redis_STATUS                              | Modified |       |
-| v1api20230401   | Redis_Spec                                | v1api20230401/storage | Redis_Spec                                | Modified |       |
-| v1api20230401   | ScheduleEntry                             | v1api20230401/storage | ScheduleEntry                             | Modified |       |
-| v1api20230401   | ScheduleEntry_STATUS                      | v1api20230401/storage | ScheduleEntry_STATUS                      | Modified |       |
-| v1api20230401   | Sku                                       | v1api20230401/storage | Sku                                       | Modified |       |
-| v1api20230401   | Sku_STATUS                                | v1api20230401/storage | Sku_STATUS                                | Modified |       |
-| v1api20230401   | UserAssignedIdentityDetails               | v1api20230401/storage | UserAssignedIdentityDetails               | Extended |       |
-| v1api20230401   | UserAssignedIdentity_STATUS               | v1api20230401/storage | UserAssignedIdentity_STATUS               | Extended |       |
+| v1api20230401                             | v1api20230401/storage                     | Status   | Notes |
+|:------------------------------------------|:------------------------------------------|:--------:|:------|
+| ManagedServiceIdentity                    | ManagedServiceIdentity                    | Modified |       |
+| ManagedServiceIdentity_STATUS             | ManagedServiceIdentity_STATUS             | Modified |       |
+| PrivateEndpointConnection_STATUS          | PrivateEndpointConnection_STATUS          | Extended |       |
+| RedisCreateProperties_RedisConfiguration  | RedisCreateProperties_RedisConfiguration  | Extended |       |
+| RedisFirewallRuleOperatorSpec             | RedisFirewallRuleOperatorSpec             | Extended |       |
+| RedisFirewallRule_STATUS                  | RedisFirewallRule_STATUS                  | Extended |       |
+| RedisFirewallRule_Spec                    | RedisFirewallRule_Spec                    | Extended |       |
+| RedisInstanceDetails_STATUS               | RedisInstanceDetails_STATUS               | Extended |       |
+| RedisLinkedServerOperatorSpec             | RedisLinkedServerOperatorSpec             | Extended |       |
+| RedisLinkedServer_STATUS                  | RedisLinkedServer_STATUS                  | Extended |       |
+| RedisLinkedServer_Spec                    | RedisLinkedServer_Spec                    | Modified |       |
+| RedisOperatorSecrets                      | RedisOperatorSecrets                      | Extended |       |
+| RedisOperatorSpec                         | RedisOperatorSpec                         | Extended |       |
+| RedisPatchScheduleOperatorSpec            | RedisPatchScheduleOperatorSpec            | Extended |       |
+| RedisPatchSchedule_STATUS                 | RedisPatchSchedule_STATUS                 | Extended |       |
+| RedisPatchSchedule_Spec                   | RedisPatchSchedule_Spec                   | Extended |       |
+| RedisProperties_RedisConfiguration_STATUS | RedisProperties_RedisConfiguration_STATUS | Extended |       |
+| Redis_LinkedServer_STATUS                 | Redis_LinkedServer_STATUS                 | Modified |       |
+| Redis_STATUS                              | Redis_STATUS                              | Modified |       |
+| Redis_Spec                                | Redis_Spec                                | Modified |       |
+| ScheduleEntry                             | ScheduleEntry                             | Modified |       |
+| ScheduleEntry_STATUS                      | ScheduleEntry_STATUS                      | Modified |       |
+| Sku                                       | Sku                                       | Modified |       |
+| Sku_STATUS                                | Sku_STATUS                                | Modified |       |
+| UserAssignedIdentityDetails               | UserAssignedIdentityDetails               | Extended |       |
+| UserAssignedIdentity_STATUS               | UserAssignedIdentity_STATUS               | Extended |       |
 
 ### ManagedServiceIdentity
 

@@ -11,75 +11,75 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type        | Next Version          | Next Type           | Status    | Notes |
-|:----------------|:--------------------|:----------------------|:--------------------|:---------:|:------|
-| v1api20180501   | DnsZone             | v1api20180501/storage | DnsZone             | Identical |       |
-| v1api20180501   | DnsZonesAAAARecord  | v1api20180501/storage | DnsZonesAAAARecord  | Identical |       |
-| v1api20180501   | DnsZonesARecord     | v1api20180501/storage | DnsZonesARecord     | Identical |       |
-| v1api20180501   | DnsZonesCAARecord   | v1api20180501/storage | DnsZonesCAARecord   | Identical |       |
-| v1api20180501   | DnsZonesCNAMERecord | v1api20180501/storage | DnsZonesCNAMERecord | Identical |       |
-| v1api20180501   | DnsZonesMXRecord    | v1api20180501/storage | DnsZonesMXRecord    | Identical |       |
-| v1api20180501   | DnsZonesNSRecord    | v1api20180501/storage | DnsZonesNSRecord    | Identical |       |
-| v1api20180501   | DnsZonesPTRRecord   | v1api20180501/storage | DnsZonesPTRRecord   | Identical |       |
-| v1api20180501   | DnsZonesSRVRecord   | v1api20180501/storage | DnsZonesSRVRecord   | Identical |       |
-| v1api20180501   | DnsZonesTXTRecord   | v1api20180501/storage | DnsZonesTXTRecord   | Identical |       |
+| v1api20180501       | v1api20180501/storage | Status    | Notes |
+|:--------------------|:----------------------|:---------:|:------|
+| DnsZone             | DnsZone               | Identical |       |
+| DnsZonesAAAARecord  | DnsZonesAAAARecord    | Identical |       |
+| DnsZonesARecord     | DnsZonesARecord       | Identical |       |
+| DnsZonesCAARecord   | DnsZonesCAARecord     | Identical |       |
+| DnsZonesCNAMERecord | DnsZonesCNAMERecord   | Identical |       |
+| DnsZonesMXRecord    | DnsZonesMXRecord      | Identical |       |
+| DnsZonesNSRecord    | DnsZonesNSRecord      | Identical |       |
+| DnsZonesPTRRecord   | DnsZonesPTRRecord     | Identical |       |
+| DnsZonesSRVRecord   | DnsZonesSRVRecord     | Identical |       |
+| DnsZonesTXTRecord   | DnsZonesTXTRecord     | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                    | Next Version          | Next Type                       | Status   | Notes |
-|:----------------|:--------------------------------|:----------------------|:--------------------------------|:--------:|:------|
-| v1api20180501   | ARecord                         | v1api20180501/storage | ARecord                         | Extended |       |
-| v1api20180501   | ARecord_STATUS                  | v1api20180501/storage | ARecord_STATUS                  | Extended |       |
-| v1api20180501   | AaaaRecord                      | v1api20180501/storage | AaaaRecord                      | Extended |       |
-| v1api20180501   | AaaaRecord_STATUS               | v1api20180501/storage | AaaaRecord_STATUS               | Extended |       |
-| v1api20180501   | CaaRecord                       | v1api20180501/storage | CaaRecord                       | Extended |       |
-| v1api20180501   | CaaRecord_STATUS                | v1api20180501/storage | CaaRecord_STATUS                | Extended |       |
-| v1api20180501   | CnameRecord                     | v1api20180501/storage | CnameRecord                     | Extended |       |
-| v1api20180501   | CnameRecord_STATUS              | v1api20180501/storage | CnameRecord_STATUS              | Extended |       |
-| v1api20180501   | DnsZoneOperatorSpec             | v1api20180501/storage | DnsZoneOperatorSpec             | Extended |       |
-| v1api20180501   | DnsZone_STATUS                  | v1api20180501/storage | DnsZone_STATUS                  | Modified |       |
-| v1api20180501   | DnsZone_Spec                    | v1api20180501/storage | DnsZone_Spec                    | Modified |       |
-| v1api20180501   | DnsZonesAAAARecordOperatorSpec  | v1api20180501/storage | DnsZonesAAAARecordOperatorSpec  | Extended |       |
-| v1api20180501   | DnsZonesAAAARecord_STATUS       | v1api20180501/storage | DnsZonesAAAARecord_STATUS       | Extended |       |
-| v1api20180501   | DnsZonesAAAARecord_Spec         | v1api20180501/storage | DnsZonesAAAARecord_Spec         | Extended |       |
-| v1api20180501   | DnsZonesARecordOperatorSpec     | v1api20180501/storage | DnsZonesARecordOperatorSpec     | Extended |       |
-| v1api20180501   | DnsZonesARecord_STATUS          | v1api20180501/storage | DnsZonesARecord_STATUS          | Extended |       |
-| v1api20180501   | DnsZonesARecord_Spec            | v1api20180501/storage | DnsZonesARecord_Spec            | Extended |       |
-| v1api20180501   | DnsZonesCAARecordOperatorSpec   | v1api20180501/storage | DnsZonesCAARecordOperatorSpec   | Extended |       |
-| v1api20180501   | DnsZonesCAARecord_STATUS        | v1api20180501/storage | DnsZonesCAARecord_STATUS        | Extended |       |
-| v1api20180501   | DnsZonesCAARecord_Spec          | v1api20180501/storage | DnsZonesCAARecord_Spec          | Extended |       |
-| v1api20180501   | DnsZonesCNAMERecordOperatorSpec | v1api20180501/storage | DnsZonesCNAMERecordOperatorSpec | Extended |       |
-| v1api20180501   | DnsZonesCNAMERecord_STATUS      | v1api20180501/storage | DnsZonesCNAMERecord_STATUS      | Extended |       |
-| v1api20180501   | DnsZonesCNAMERecord_Spec        | v1api20180501/storage | DnsZonesCNAMERecord_Spec        | Extended |       |
-| v1api20180501   | DnsZonesMXRecordOperatorSpec    | v1api20180501/storage | DnsZonesMXRecordOperatorSpec    | Extended |       |
-| v1api20180501   | DnsZonesMXRecord_STATUS         | v1api20180501/storage | DnsZonesMXRecord_STATUS         | Extended |       |
-| v1api20180501   | DnsZonesMXRecord_Spec           | v1api20180501/storage | DnsZonesMXRecord_Spec           | Extended |       |
-| v1api20180501   | DnsZonesNSRecordOperatorSpec    | v1api20180501/storage | DnsZonesNSRecordOperatorSpec    | Extended |       |
-| v1api20180501   | DnsZonesNSRecord_STATUS         | v1api20180501/storage | DnsZonesNSRecord_STATUS         | Extended |       |
-| v1api20180501   | DnsZonesNSRecord_Spec           | v1api20180501/storage | DnsZonesNSRecord_Spec           | Extended |       |
-| v1api20180501   | DnsZonesPTRRecordOperatorSpec   | v1api20180501/storage | DnsZonesPTRRecordOperatorSpec   | Extended |       |
-| v1api20180501   | DnsZonesPTRRecord_STATUS        | v1api20180501/storage | DnsZonesPTRRecord_STATUS        | Extended |       |
-| v1api20180501   | DnsZonesPTRRecord_Spec          | v1api20180501/storage | DnsZonesPTRRecord_Spec          | Extended |       |
-| v1api20180501   | DnsZonesSRVRecordOperatorSpec   | v1api20180501/storage | DnsZonesSRVRecordOperatorSpec   | Extended |       |
-| v1api20180501   | DnsZonesSRVRecord_STATUS        | v1api20180501/storage | DnsZonesSRVRecord_STATUS        | Extended |       |
-| v1api20180501   | DnsZonesSRVRecord_Spec          | v1api20180501/storage | DnsZonesSRVRecord_Spec          | Extended |       |
-| v1api20180501   | DnsZonesTXTRecordOperatorSpec   | v1api20180501/storage | DnsZonesTXTRecordOperatorSpec   | Extended |       |
-| v1api20180501   | DnsZonesTXTRecord_STATUS        | v1api20180501/storage | DnsZonesTXTRecord_STATUS        | Extended |       |
-| v1api20180501   | DnsZonesTXTRecord_Spec          | v1api20180501/storage | DnsZonesTXTRecord_Spec          | Extended |       |
-| v1api20180501   | MxRecord                        | v1api20180501/storage | MxRecord                        | Extended |       |
-| v1api20180501   | MxRecord_STATUS                 | v1api20180501/storage | MxRecord_STATUS                 | Extended |       |
-| v1api20180501   | NsRecord                        | v1api20180501/storage | NsRecord                        | Extended |       |
-| v1api20180501   | NsRecord_STATUS                 | v1api20180501/storage | NsRecord_STATUS                 | Extended |       |
-| v1api20180501   | PtrRecord                       | v1api20180501/storage | PtrRecord                       | Extended |       |
-| v1api20180501   | PtrRecord_STATUS                | v1api20180501/storage | PtrRecord_STATUS                | Extended |       |
-| v1api20180501   | SoaRecord                       | v1api20180501/storage | SoaRecord                       | Extended |       |
-| v1api20180501   | SoaRecord_STATUS                | v1api20180501/storage | SoaRecord_STATUS                | Extended |       |
-| v1api20180501   | SrvRecord                       | v1api20180501/storage | SrvRecord                       | Extended |       |
-| v1api20180501   | SrvRecord_STATUS                | v1api20180501/storage | SrvRecord_STATUS                | Extended |       |
-| v1api20180501   | SubResource                     | v1api20180501/storage | SubResource                     | Extended |       |
-| v1api20180501   | SubResource_STATUS              | v1api20180501/storage | SubResource_STATUS              | Extended |       |
-| v1api20180501   | TxtRecord                       | v1api20180501/storage | TxtRecord                       | Extended |       |
-| v1api20180501   | TxtRecord_STATUS                | v1api20180501/storage | TxtRecord_STATUS                | Extended |       |
+| v1api20180501                   | v1api20180501/storage           | Status   | Notes |
+|:--------------------------------|:--------------------------------|:--------:|:------|
+| ARecord                         | ARecord                         | Extended |       |
+| ARecord_STATUS                  | ARecord_STATUS                  | Extended |       |
+| AaaaRecord                      | AaaaRecord                      | Extended |       |
+| AaaaRecord_STATUS               | AaaaRecord_STATUS               | Extended |       |
+| CaaRecord                       | CaaRecord                       | Extended |       |
+| CaaRecord_STATUS                | CaaRecord_STATUS                | Extended |       |
+| CnameRecord                     | CnameRecord                     | Extended |       |
+| CnameRecord_STATUS              | CnameRecord_STATUS              | Extended |       |
+| DnsZoneOperatorSpec             | DnsZoneOperatorSpec             | Extended |       |
+| DnsZone_STATUS                  | DnsZone_STATUS                  | Modified |       |
+| DnsZone_Spec                    | DnsZone_Spec                    | Modified |       |
+| DnsZonesAAAARecordOperatorSpec  | DnsZonesAAAARecordOperatorSpec  | Extended |       |
+| DnsZonesAAAARecord_STATUS       | DnsZonesAAAARecord_STATUS       | Extended |       |
+| DnsZonesAAAARecord_Spec         | DnsZonesAAAARecord_Spec         | Extended |       |
+| DnsZonesARecordOperatorSpec     | DnsZonesARecordOperatorSpec     | Extended |       |
+| DnsZonesARecord_STATUS          | DnsZonesARecord_STATUS          | Extended |       |
+| DnsZonesARecord_Spec            | DnsZonesARecord_Spec            | Extended |       |
+| DnsZonesCAARecordOperatorSpec   | DnsZonesCAARecordOperatorSpec   | Extended |       |
+| DnsZonesCAARecord_STATUS        | DnsZonesCAARecord_STATUS        | Extended |       |
+| DnsZonesCAARecord_Spec          | DnsZonesCAARecord_Spec          | Extended |       |
+| DnsZonesCNAMERecordOperatorSpec | DnsZonesCNAMERecordOperatorSpec | Extended |       |
+| DnsZonesCNAMERecord_STATUS      | DnsZonesCNAMERecord_STATUS      | Extended |       |
+| DnsZonesCNAMERecord_Spec        | DnsZonesCNAMERecord_Spec        | Extended |       |
+| DnsZonesMXRecordOperatorSpec    | DnsZonesMXRecordOperatorSpec    | Extended |       |
+| DnsZonesMXRecord_STATUS         | DnsZonesMXRecord_STATUS         | Extended |       |
+| DnsZonesMXRecord_Spec           | DnsZonesMXRecord_Spec           | Extended |       |
+| DnsZonesNSRecordOperatorSpec    | DnsZonesNSRecordOperatorSpec    | Extended |       |
+| DnsZonesNSRecord_STATUS         | DnsZonesNSRecord_STATUS         | Extended |       |
+| DnsZonesNSRecord_Spec           | DnsZonesNSRecord_Spec           | Extended |       |
+| DnsZonesPTRRecordOperatorSpec   | DnsZonesPTRRecordOperatorSpec   | Extended |       |
+| DnsZonesPTRRecord_STATUS        | DnsZonesPTRRecord_STATUS        | Extended |       |
+| DnsZonesPTRRecord_Spec          | DnsZonesPTRRecord_Spec          | Extended |       |
+| DnsZonesSRVRecordOperatorSpec   | DnsZonesSRVRecordOperatorSpec   | Extended |       |
+| DnsZonesSRVRecord_STATUS        | DnsZonesSRVRecord_STATUS        | Extended |       |
+| DnsZonesSRVRecord_Spec          | DnsZonesSRVRecord_Spec          | Extended |       |
+| DnsZonesTXTRecordOperatorSpec   | DnsZonesTXTRecordOperatorSpec   | Extended |       |
+| DnsZonesTXTRecord_STATUS        | DnsZonesTXTRecord_STATUS        | Extended |       |
+| DnsZonesTXTRecord_Spec          | DnsZonesTXTRecord_Spec          | Extended |       |
+| MxRecord                        | MxRecord                        | Extended |       |
+| MxRecord_STATUS                 | MxRecord_STATUS                 | Extended |       |
+| NsRecord                        | NsRecord                        | Extended |       |
+| NsRecord_STATUS                 | NsRecord_STATUS                 | Extended |       |
+| PtrRecord                       | PtrRecord                       | Extended |       |
+| PtrRecord_STATUS                | PtrRecord_STATUS                | Extended |       |
+| SoaRecord                       | SoaRecord                       | Extended |       |
+| SoaRecord_STATUS                | SoaRecord_STATUS                | Extended |       |
+| SrvRecord                       | SrvRecord                       | Extended |       |
+| SrvRecord_STATUS                | SrvRecord_STATUS                | Extended |       |
+| SubResource                     | SubResource                     | Extended |       |
+| SubResource_STATUS              | SubResource_STATUS              | Extended |       |
+| TxtRecord                       | TxtRecord                       | Extended |       |
+| TxtRecord_STATUS                | TxtRecord_STATUS                | Extended |       |
 
 ### ARecord
 

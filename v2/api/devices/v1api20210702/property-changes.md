@@ -11,67 +11,67 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type | Status    | Notes |
-|:----------------|:-------------|:----------------------|:----------|:---------:|:------|
-| v1api20210702   | IotHub       | v1api20210702/storage | IotHub    | Identical |       |
+| v1api20210702 | v1api20210702/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| IotHub        | IotHub                | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                    | Next Version          | Next Type                                       | Status   | Notes |
-|:----------------|:------------------------------------------------|:----------------------|:------------------------------------------------|:--------:|:------|
-| v1api20210702   | ArmIdentity                                     | v1api20210702/storage | ArmIdentity                                     | Modified |       |
-| v1api20210702   | ArmIdentity_STATUS                              | v1api20210702/storage | ArmIdentity_STATUS                              | Modified |       |
-| v1api20210702   | ArmUserIdentity_STATUS                          | v1api20210702/storage | ArmUserIdentity_STATUS                          | Extended |       |
-| v1api20210702   | CloudToDeviceProperties                         | v1api20210702/storage | CloudToDeviceProperties                         | Modified |       |
-| v1api20210702   | CloudToDeviceProperties_STATUS                  | v1api20210702/storage | CloudToDeviceProperties_STATUS                  | Extended |       |
-| v1api20210702   | EnrichmentProperties                            | v1api20210702/storage | EnrichmentProperties                            | Modified |       |
-| v1api20210702   | EnrichmentProperties_STATUS                     | v1api20210702/storage | EnrichmentProperties_STATUS                     | Extended |       |
-| v1api20210702   | EventHubProperties                              | v1api20210702/storage | EventHubProperties                              | Extended |       |
-| v1api20210702   | EventHubProperties_STATUS                       | v1api20210702/storage | EventHubProperties_STATUS                       | Extended |       |
-| v1api20210702   | FallbackRouteProperties                         | v1api20210702/storage | FallbackRouteProperties                         | Modified |       |
-| v1api20210702   | FallbackRouteProperties_STATUS                  | v1api20210702/storage | FallbackRouteProperties_STATUS                  | Modified |       |
-| v1api20210702   | FeedbackProperties                              | v1api20210702/storage | FeedbackProperties                              | Modified |       |
-| v1api20210702   | FeedbackProperties_STATUS                       | v1api20210702/storage | FeedbackProperties_STATUS                       | Extended |       |
-| v1api20210702   | IotHubLocationDescription_STATUS                | v1api20210702/storage | IotHubLocationDescription_STATUS                | Modified |       |
-| v1api20210702   | IotHubOperatorSecrets                           | v1api20210702/storage | IotHubOperatorSecrets                           | Extended |       |
-| v1api20210702   | IotHubOperatorSpec                              | v1api20210702/storage | IotHubOperatorSpec                              | Extended |       |
-| v1api20210702   | IotHubProperties                                | v1api20210702/storage | IotHubProperties                                | Modified |       |
-| v1api20210702   | IotHubProperties_STATUS                         | v1api20210702/storage | IotHubProperties_STATUS                         | Modified |       |
-| v1api20210702   | IotHubSkuInfo                                   | v1api20210702/storage | IotHubSkuInfo                                   | Modified |       |
-| v1api20210702   | IotHubSkuInfo_STATUS                            | v1api20210702/storage | IotHubSkuInfo_STATUS                            | Modified |       |
-| v1api20210702   | IotHub_STATUS                                   | v1api20210702/storage | IotHub_STATUS                                   | Extended |       |
-| v1api20210702   | IotHub_Spec                                     | v1api20210702/storage | IotHub_Spec                                     | Extended |       |
-| v1api20210702   | IpFilterRule                                    | v1api20210702/storage | IpFilterRule                                    | Modified |       |
-| v1api20210702   | IpFilterRule_STATUS                             | v1api20210702/storage | IpFilterRule_STATUS                             | Modified |       |
-| v1api20210702   | ManagedIdentity                                 | v1api20210702/storage | ManagedIdentity                                 | Extended |       |
-| v1api20210702   | ManagedIdentity_STATUS                          | v1api20210702/storage | ManagedIdentity_STATUS                          | Extended |       |
-| v1api20210702   | MessagingEndpointProperties                     | v1api20210702/storage | MessagingEndpointProperties                     | Modified |       |
-| v1api20210702   | MessagingEndpointProperties_STATUS              | v1api20210702/storage | MessagingEndpointProperties_STATUS              | Extended |       |
-| v1api20210702   | NetworkRuleSetIpRule                            | v1api20210702/storage | NetworkRuleSetIpRule                            | Modified |       |
-| v1api20210702   | NetworkRuleSetIpRule_STATUS                     | v1api20210702/storage | NetworkRuleSetIpRule_STATUS                     | Modified |       |
-| v1api20210702   | NetworkRuleSetProperties                        | v1api20210702/storage | NetworkRuleSetProperties                        | Modified |       |
-| v1api20210702   | NetworkRuleSetProperties_STATUS                 | v1api20210702/storage | NetworkRuleSetProperties_STATUS                 | Modified |       |
-| v1api20210702   | PrivateEndpointConnection_STATUS                | v1api20210702/storage | PrivateEndpointConnection_STATUS                | Extended |       |
-| v1api20210702   | RouteProperties                                 | v1api20210702/storage | RouteProperties                                 | Modified |       |
-| v1api20210702   | RouteProperties_STATUS                          | v1api20210702/storage | RouteProperties_STATUS                          | Modified |       |
-| v1api20210702   | RoutingEndpoints                                | v1api20210702/storage | RoutingEndpoints                                | Extended |       |
-| v1api20210702   | RoutingEndpoints_STATUS                         | v1api20210702/storage | RoutingEndpoints_STATUS                         | Extended |       |
-| v1api20210702   | RoutingEventHubProperties                       | v1api20210702/storage | RoutingEventHubProperties                       | Modified |       |
-| v1api20210702   | RoutingEventHubProperties_STATUS                | v1api20210702/storage | RoutingEventHubProperties_STATUS                | Modified |       |
-| v1api20210702   | RoutingProperties                               | v1api20210702/storage | RoutingProperties                               | Extended |       |
-| v1api20210702   | RoutingProperties_STATUS                        | v1api20210702/storage | RoutingProperties_STATUS                        | Extended |       |
-| v1api20210702   | RoutingServiceBusQueueEndpointProperties        | v1api20210702/storage | RoutingServiceBusQueueEndpointProperties        | Modified |       |
-| v1api20210702   | RoutingServiceBusQueueEndpointProperties_STATUS | v1api20210702/storage | RoutingServiceBusQueueEndpointProperties_STATUS | Modified |       |
-| v1api20210702   | RoutingServiceBusTopicEndpointProperties        | v1api20210702/storage | RoutingServiceBusTopicEndpointProperties        | Modified |       |
-| v1api20210702   | RoutingServiceBusTopicEndpointProperties_STATUS | v1api20210702/storage | RoutingServiceBusTopicEndpointProperties_STATUS | Modified |       |
-| v1api20210702   | RoutingStorageContainerProperties               | v1api20210702/storage | RoutingStorageContainerProperties               | Modified |       |
-| v1api20210702   | RoutingStorageContainerProperties_STATUS        | v1api20210702/storage | RoutingStorageContainerProperties_STATUS        | Modified |       |
-| v1api20210702   | SharedAccessSignatureAuthorizationRule          | v1api20210702/storage | SharedAccessSignatureAuthorizationRule          | Modified |       |
-| v1api20210702   | SharedAccessSignatureAuthorizationRule_STATUS   | v1api20210702/storage | SharedAccessSignatureAuthorizationRule_STATUS   | Modified |       |
-| v1api20210702   | StorageEndpointProperties                       | v1api20210702/storage | StorageEndpointProperties                       | Modified |       |
-| v1api20210702   | StorageEndpointProperties_STATUS                | v1api20210702/storage | StorageEndpointProperties_STATUS                | Modified |       |
-| v1api20210702   | SystemData_STATUS                               | v1api20210702/storage | SystemData_STATUS                               | Modified |       |
-| v1api20210702   | UserAssignedIdentityDetails                     | v1api20210702/storage | UserAssignedIdentityDetails                     | Extended |       |
+| v1api20210702                                   | v1api20210702/storage                           | Status   | Notes |
+|:------------------------------------------------|:------------------------------------------------|:--------:|:------|
+| ArmIdentity                                     | ArmIdentity                                     | Modified |       |
+| ArmIdentity_STATUS                              | ArmIdentity_STATUS                              | Modified |       |
+| ArmUserIdentity_STATUS                          | ArmUserIdentity_STATUS                          | Extended |       |
+| CloudToDeviceProperties                         | CloudToDeviceProperties                         | Modified |       |
+| CloudToDeviceProperties_STATUS                  | CloudToDeviceProperties_STATUS                  | Extended |       |
+| EnrichmentProperties                            | EnrichmentProperties                            | Modified |       |
+| EnrichmentProperties_STATUS                     | EnrichmentProperties_STATUS                     | Extended |       |
+| EventHubProperties                              | EventHubProperties                              | Extended |       |
+| EventHubProperties_STATUS                       | EventHubProperties_STATUS                       | Extended |       |
+| FallbackRouteProperties                         | FallbackRouteProperties                         | Modified |       |
+| FallbackRouteProperties_STATUS                  | FallbackRouteProperties_STATUS                  | Modified |       |
+| FeedbackProperties                              | FeedbackProperties                              | Modified |       |
+| FeedbackProperties_STATUS                       | FeedbackProperties_STATUS                       | Extended |       |
+| IotHubLocationDescription_STATUS                | IotHubLocationDescription_STATUS                | Modified |       |
+| IotHubOperatorSecrets                           | IotHubOperatorSecrets                           | Extended |       |
+| IotHubOperatorSpec                              | IotHubOperatorSpec                              | Extended |       |
+| IotHubProperties                                | IotHubProperties                                | Modified |       |
+| IotHubProperties_STATUS                         | IotHubProperties_STATUS                         | Modified |       |
+| IotHubSkuInfo                                   | IotHubSkuInfo                                   | Modified |       |
+| IotHubSkuInfo_STATUS                            | IotHubSkuInfo_STATUS                            | Modified |       |
+| IotHub_STATUS                                   | IotHub_STATUS                                   | Extended |       |
+| IotHub_Spec                                     | IotHub_Spec                                     | Extended |       |
+| IpFilterRule                                    | IpFilterRule                                    | Modified |       |
+| IpFilterRule_STATUS                             | IpFilterRule_STATUS                             | Modified |       |
+| ManagedIdentity                                 | ManagedIdentity                                 | Extended |       |
+| ManagedIdentity_STATUS                          | ManagedIdentity_STATUS                          | Extended |       |
+| MessagingEndpointProperties                     | MessagingEndpointProperties                     | Modified |       |
+| MessagingEndpointProperties_STATUS              | MessagingEndpointProperties_STATUS              | Extended |       |
+| NetworkRuleSetIpRule                            | NetworkRuleSetIpRule                            | Modified |       |
+| NetworkRuleSetIpRule_STATUS                     | NetworkRuleSetIpRule_STATUS                     | Modified |       |
+| NetworkRuleSetProperties                        | NetworkRuleSetProperties                        | Modified |       |
+| NetworkRuleSetProperties_STATUS                 | NetworkRuleSetProperties_STATUS                 | Modified |       |
+| PrivateEndpointConnection_STATUS                | PrivateEndpointConnection_STATUS                | Extended |       |
+| RouteProperties                                 | RouteProperties                                 | Modified |       |
+| RouteProperties_STATUS                          | RouteProperties_STATUS                          | Modified |       |
+| RoutingEndpoints                                | RoutingEndpoints                                | Extended |       |
+| RoutingEndpoints_STATUS                         | RoutingEndpoints_STATUS                         | Extended |       |
+| RoutingEventHubProperties                       | RoutingEventHubProperties                       | Modified |       |
+| RoutingEventHubProperties_STATUS                | RoutingEventHubProperties_STATUS                | Modified |       |
+| RoutingProperties                               | RoutingProperties                               | Extended |       |
+| RoutingProperties_STATUS                        | RoutingProperties_STATUS                        | Extended |       |
+| RoutingServiceBusQueueEndpointProperties        | RoutingServiceBusQueueEndpointProperties        | Modified |       |
+| RoutingServiceBusQueueEndpointProperties_STATUS | RoutingServiceBusQueueEndpointProperties_STATUS | Modified |       |
+| RoutingServiceBusTopicEndpointProperties        | RoutingServiceBusTopicEndpointProperties        | Modified |       |
+| RoutingServiceBusTopicEndpointProperties_STATUS | RoutingServiceBusTopicEndpointProperties_STATUS | Modified |       |
+| RoutingStorageContainerProperties               | RoutingStorageContainerProperties               | Modified |       |
+| RoutingStorageContainerProperties_STATUS        | RoutingStorageContainerProperties_STATUS        | Modified |       |
+| SharedAccessSignatureAuthorizationRule          | SharedAccessSignatureAuthorizationRule          | Modified |       |
+| SharedAccessSignatureAuthorizationRule_STATUS   | SharedAccessSignatureAuthorizationRule_STATUS   | Modified |       |
+| StorageEndpointProperties                       | StorageEndpointProperties                       | Modified |       |
+| StorageEndpointProperties_STATUS                | StorageEndpointProperties_STATUS                | Modified |       |
+| SystemData_STATUS                               | SystemData_STATUS                               | Modified |       |
+| UserAssignedIdentityDetails                     | UserAssignedIdentityDetails                     | Extended |       |
 
 ### ArmIdentity
 

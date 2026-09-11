@@ -11,27 +11,27 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type     | Next Version          | Next Type        | Status    | Notes |
-|:----------------|:-----------------|:----------------------|:-----------------|:---------:|:------|
-| v1api20201001   | ActivityLogAlert | v1api20201001/storage | ActivityLogAlert | Identical |       |
+| v1api20201001    | v1api20201001/storage | Status    | Notes |
+|:-----------------|:----------------------|:---------:|:------|
+| ActivityLogAlert | ActivityLogAlert      | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                         | Next Version          | Next Type                            | Status   | Notes |
-|:----------------|:-------------------------------------|:----------------------|:-------------------------------------|:--------:|:------|
-| v1api20201001   | ActionGroupReference                 | v1api20201001/storage | ActionGroupReference                 | Extended |       |
-| v1api20201001   | ActionGroup_STATUS                   | v1api20201001/storage | ActionGroup_STATUS                   | Extended |       |
-| v1api20201001   | ActionList                           | v1api20201001/storage | ActionList                           | Extended |       |
-| v1api20201001   | ActionList_STATUS                    | v1api20201001/storage | ActionList_STATUS                    | Extended |       |
-| v1api20201001   | ActivityLogAlertOperatorSpec         | v1api20201001/storage | ActivityLogAlertOperatorSpec         | Extended |       |
-| v1api20201001   | ActivityLogAlert_STATUS              | v1api20201001/storage | ActivityLogAlert_STATUS              | Extended |       |
-| v1api20201001   | ActivityLogAlert_Spec                | v1api20201001/storage | ActivityLogAlert_Spec                | Extended |       |
-| v1api20201001   | AlertRuleAllOfCondition              | v1api20201001/storage | AlertRuleAllOfCondition              | Extended |       |
-| v1api20201001   | AlertRuleAllOfCondition_STATUS       | v1api20201001/storage | AlertRuleAllOfCondition_STATUS       | Extended |       |
-| v1api20201001   | AlertRuleAnyOfOrLeafCondition        | v1api20201001/storage | AlertRuleAnyOfOrLeafCondition        | Extended |       |
-| v1api20201001   | AlertRuleAnyOfOrLeafCondition_STATUS | v1api20201001/storage | AlertRuleAnyOfOrLeafCondition_STATUS | Extended |       |
-| v1api20201001   | AlertRuleLeafCondition               | v1api20201001/storage | AlertRuleLeafCondition               | Extended |       |
-| v1api20201001   | AlertRuleLeafCondition_STATUS        | v1api20201001/storage | AlertRuleLeafCondition_STATUS        | Extended |       |
+| v1api20201001                        | v1api20201001/storage                | Status   | Notes |
+|:-------------------------------------|:-------------------------------------|:--------:|:------|
+| ActionGroupReference                 | ActionGroupReference                 | Extended |       |
+| ActionGroup_STATUS                   | ActionGroup_STATUS                   | Extended |       |
+| ActionList                           | ActionList                           | Extended |       |
+| ActionList_STATUS                    | ActionList_STATUS                    | Extended |       |
+| ActivityLogAlertOperatorSpec         | ActivityLogAlertOperatorSpec         | Extended |       |
+| ActivityLogAlert_STATUS              | ActivityLogAlert_STATUS              | Extended |       |
+| ActivityLogAlert_Spec                | ActivityLogAlert_Spec                | Extended |       |
+| AlertRuleAllOfCondition              | AlertRuleAllOfCondition              | Extended |       |
+| AlertRuleAllOfCondition_STATUS       | AlertRuleAllOfCondition_STATUS       | Extended |       |
+| AlertRuleAnyOfOrLeafCondition        | AlertRuleAnyOfOrLeafCondition        | Extended |       |
+| AlertRuleAnyOfOrLeafCondition_STATUS | AlertRuleAnyOfOrLeafCondition_STATUS | Extended |       |
+| AlertRuleLeafCondition               | AlertRuleLeafCondition               | Extended |       |
+| AlertRuleLeafCondition_STATUS        | AlertRuleLeafCondition_STATUS        | Extended |       |
 
 ### ActionGroupReference
 

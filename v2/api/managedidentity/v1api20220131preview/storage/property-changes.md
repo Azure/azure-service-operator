@@ -11,18 +11,18 @@ Statuses:
 
 ## Resources
 
-| Current Version              | Current Type                | Next Version          | Next Type                   | Status    | Notes |
-|:-----------------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
-| v1api20220131preview/storage | FederatedIdentityCredential | v1api20230131/storage | FederatedIdentityCredential | Identical |       |
+| v1api20220131preview/storage | v1api20230131/storage       | Status    | Notes |
+|:-----------------------------|:----------------------------|:---------:|:------|
+| FederatedIdentityCredential  | FederatedIdentityCredential | Identical |       |
 
 ## Objects
 
-| Current Version              | Current Type                            | Next Version          | Next Type                               | Status    | Notes |
-|:-----------------------------|:----------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
-| v1api20220131preview/storage | FederatedIdentityCredentialOperatorSpec | v1api20230131/storage | FederatedIdentityCredentialOperatorSpec | Identical |       |
-| v1api20220131preview/storage | FederatedIdentityCredential_STATUS      | v1api20230131/storage | FederatedIdentityCredential_STATUS      | Extended  |       |
-| v1api20220131preview/storage | FederatedIdentityCredential_Spec        | v1api20230131/storage | FederatedIdentityCredential_Spec        | Identical |       |
-|                              |                                         | v1api20230131/storage | SystemData_STATUS                       | New       |       |
+| v1api20220131preview/storage            | v1api20230131/storage                   | Status    | Notes |
+|:----------------------------------------|:----------------------------------------|:---------:|:------|
+| FederatedIdentityCredentialOperatorSpec | FederatedIdentityCredentialOperatorSpec | Identical |       |
+| FederatedIdentityCredential_STATUS      | FederatedIdentityCredential_STATUS      | Extended  |       |
+| FederatedIdentityCredential_Spec        | FederatedIdentityCredential_Spec        | Identical |       |
+|                                         | SystemData_STATUS                       | New       |       |
 
 ### FederatedIdentityCredential_STATUS
 

@@ -11,27 +11,27 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type       | Next Version      | Next Type          | Status    | Notes |
-|:----------------------|:-------------------|:------------------|:-------------------|:---------:|:------|
-| v1api20220501/storage | ConfigurationStore | v20220501/storage | ConfigurationStore | Identical |       |
+| v1api20220501/storage | v20220501/storage  | Status    | Notes |
+|:----------------------|:-------------------|:---------:|:------|
+| ConfigurationStore    | ConfigurationStore | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                              | Next Version      | Next Type                                 | Status    | Notes |
-|:----------------------|:------------------------------------------|:------------------|:------------------------------------------|:---------:|:------|
-| v1api20220501/storage | ConfigurationStoreOperatorSecrets         | v20220501/storage | ConfigurationStoreOperatorSecrets         | Identical |       |
-| v1api20220501/storage | ConfigurationStoreOperatorSpec            | v20220501/storage | ConfigurationStoreOperatorSpec            | Identical |       |
-| v1api20220501/storage | ConfigurationStore_STATUS                 | v20220501/storage | ConfigurationStore_STATUS                 | Identical |       |
-| v1api20220501/storage | ConfigurationStore_Spec                   | v20220501/storage | ConfigurationStore_Spec                   | Identical |       |
-| v1api20220501/storage | EncryptionProperties                      | v20220501/storage | EncryptionProperties                      | Identical |       |
-| v1api20220501/storage | EncryptionProperties_STATUS               | v20220501/storage | EncryptionProperties_STATUS               | Identical |       |
-| v1api20220501/storage | KeyVaultProperties                        | v20220501/storage | KeyVaultProperties                        | Identical |       |
-| v1api20220501/storage | KeyVaultProperties_STATUS                 | v20220501/storage | KeyVaultProperties_STATUS                 | Identical |       |
-| v1api20220501/storage | PrivateEndpointConnectionReference_STATUS | v20220501/storage | PrivateEndpointConnectionReference_STATUS | Identical |       |
-| v1api20220501/storage | ResourceIdentity                          | v20220501/storage | ResourceIdentity                          | Identical |       |
-| v1api20220501/storage | ResourceIdentity_STATUS                   | v20220501/storage | ResourceIdentity_STATUS                   | Identical |       |
-| v1api20220501/storage | Sku                                       | v20220501/storage | Sku                                       | Identical |       |
-| v1api20220501/storage | Sku_STATUS                                | v20220501/storage | Sku_STATUS                                | Identical |       |
-| v1api20220501/storage | SystemData_STATUS                         | v20220501/storage | SystemData_STATUS                         | Identical |       |
-| v1api20220501/storage | UserAssignedIdentityDetails               | v20220501/storage | UserAssignedIdentityDetails               | Identical |       |
-| v1api20220501/storage | UserIdentity_STATUS                       | v20220501/storage | UserIdentity_STATUS                       | Identical |       |
+| v1api20220501/storage                     | v20220501/storage                         | Status    | Notes |
+|:------------------------------------------|:------------------------------------------|:---------:|:------|
+| ConfigurationStoreOperatorSecrets         | ConfigurationStoreOperatorSecrets         | Identical |       |
+| ConfigurationStoreOperatorSpec            | ConfigurationStoreOperatorSpec            | Identical |       |
+| ConfigurationStore_STATUS                 | ConfigurationStore_STATUS                 | Identical |       |
+| ConfigurationStore_Spec                   | ConfigurationStore_Spec                   | Identical |       |
+| EncryptionProperties                      | EncryptionProperties                      | Identical |       |
+| EncryptionProperties_STATUS               | EncryptionProperties_STATUS               | Identical |       |
+| KeyVaultProperties                        | KeyVaultProperties                        | Identical |       |
+| KeyVaultProperties_STATUS                 | KeyVaultProperties_STATUS                 | Identical |       |
+| PrivateEndpointConnectionReference_STATUS | PrivateEndpointConnectionReference_STATUS | Identical |       |
+| ResourceIdentity                          | ResourceIdentity                          | Identical |       |
+| ResourceIdentity_STATUS                   | ResourceIdentity_STATUS                   | Identical |       |
+| Sku                                       | Sku                                       | Identical |       |
+| Sku_STATUS                                | Sku_STATUS                                | Identical |       |
+| SystemData_STATUS                         | SystemData_STATUS                         | Identical |       |
+| UserAssignedIdentityDetails               | UserAssignedIdentityDetails               | Identical |       |
+| UserIdentity_STATUS                       | UserIdentity_STATUS                       | Identical |       |

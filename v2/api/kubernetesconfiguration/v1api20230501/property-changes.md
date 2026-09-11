@@ -11,64 +11,62 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type      | Next Version          | Next Type         | Status    | Notes |
-|:----------------|:------------------|:----------------------|:------------------|:---------:|:------|
-| v1api20230501   | Extension         | v1api20230501/storage | Extension         | Identical |       |
-| v1api20230501   | FluxConfiguration | v1api20230501/storage | FluxConfiguration | Identical |       |
+| v1api20230501     | v1api20230501/storage | Status    | Notes |
+|:------------------|:----------------------|:---------:|:------|
+| Extension         | Extension             | Identical |       |
+| FluxConfiguration | FluxConfiguration     | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                    | Next Version          | Next Type                                       | Status   | Notes                                                                             |
-|:----------------|:------------------------------------------------|:----------------------|:------------------------------------------------|:--------:|:----------------------------------------------------------------------------------|
-| v1api20230501   | AzureBlobDefinition                             | v1api20230501/storage | AzureBlobDefinition                             | Extended |                                                                                   |
-| v1api20230501   | AzureBlobDefinition_STATUS                      | v1api20230501/storage | AzureBlobDefinition_STATUS                      | Extended |                                                                                   |
-| v1api20230501   | BucketDefinition                                | v1api20230501/storage | BucketDefinition                                | Extended |                                                                                   |
-| v1api20230501   | BucketDefinition_STATUS                         | v1api20230501/storage | BucketDefinition_STATUS                         | Extended |                                                                                   |
-| v1api20230501   | ErrorAdditionalInfo_STATUS                      | v1api20230501/storage | ErrorAdditionalInfo_STATUS                      | Extended |                                                                                   |
-| v1api20230501   | ErrorDetail_STATUS                              | v1api20230501/storage | ErrorDetail_STATUS                              | Extended |                                                                                   |
-| v1api20230501   | ErrorDetail_STATUS_Unrolled                     | v1api20230501/storage | ErrorDetail_STATUS_Unrolled                     | Extended |                                                                                   |
-| v1api20230501   | ExtensionOperatorConfigMaps                     | v1api20230501/storage | ExtensionOperatorConfigMaps                     | Extended |                                                                                   |
-| v1api20230501   | ExtensionOperatorSpec                           | v1api20230501/storage | ExtensionOperatorSpec                           | Extended |                                                                                   |
-| v1api20230501   | ExtensionStatus_STATUS                          | v1api20230501/storage | ExtensionStatus_STATUS                          | Modified |                                                                                   |
-| v1api20230501   | Extension_Properties_AksAssignedIdentity_STATUS | v1api20230501/storage |                                                 | Retired  | Configured rename to ExtensionPropertiesAksAssignedIdentity_STATUS was not found. |
-|                 |                                                 | v1api20230501/storage | Extension_Properties_AksAssignedIdentity_STATUS | New      | Configured rename to ExtensionPropertiesAksAssignedIdentity_STATUS was not found. |
-|                 |                                                 | v1api20230501/storage | Extension_Properties_AksAssignedIdentity_Spec   | New      | Configured rename to ExtensionPropertiesAksAssignedIdentity was not found.        |
-| v1api20230501   | Extension_Properties_AksAssignedIdentity_Spec   | v1api20230501/storage |                                                 | Retired  | Configured rename to ExtensionPropertiesAksAssignedIdentity was not found.        |
-| v1api20230501   | Extension_STATUS                                | v1api20230501/storage | Extension_STATUS                                | Modified |                                                                                   |
-| v1api20230501   | Extension_Spec                                  | v1api20230501/storage | Extension_Spec                                  | Modified |                                                                                   |
-| v1api20230501   | FluxConfigurationOperatorSpec                   | v1api20230501/storage | FluxConfigurationOperatorSpec                   | Extended |                                                                                   |
-| v1api20230501   | FluxConfiguration_STATUS                        | v1api20230501/storage | FluxConfiguration_STATUS                        | Modified |                                                                                   |
-| v1api20230501   | FluxConfiguration_Spec                          | v1api20230501/storage | FluxConfiguration_Spec                          | Modified |                                                                                   |
-| v1api20230501   | GitRepositoryDefinition                         | v1api20230501/storage | GitRepositoryDefinition                         | Extended |                                                                                   |
-| v1api20230501   | GitRepositoryDefinition_STATUS                  | v1api20230501/storage | GitRepositoryDefinition_STATUS                  | Extended |                                                                                   |
-| v1api20230501   | HelmReleasePropertiesDefinition_STATUS          | v1api20230501/storage | HelmReleasePropertiesDefinition_STATUS          | Extended |                                                                                   |
-| v1api20230501   | Identity                                        | v1api20230501/storage | Identity                                        | Modified |                                                                                   |
-| v1api20230501   | Identity_STATUS                                 | v1api20230501/storage | Identity_STATUS                                 | Modified |                                                                                   |
-| v1api20230501   | KustomizationDefinition                         | v1api20230501/storage | KustomizationDefinition                         | Extended |                                                                                   |
-| v1api20230501   | KustomizationDefinition_STATUS                  | v1api20230501/storage | KustomizationDefinition_STATUS                  | Extended |                                                                                   |
-| v1api20230501   | ManagedIdentityDefinition                       | v1api20230501/storage | ManagedIdentityDefinition                       | Extended |                                                                                   |
-| v1api20230501   | ManagedIdentityDefinition_STATUS                | v1api20230501/storage | ManagedIdentityDefinition_STATUS                | Extended |                                                                                   |
-| v1api20230501   | ObjectReferenceDefinition_STATUS                | v1api20230501/storage | ObjectReferenceDefinition_STATUS                | Extended |                                                                                   |
-| v1api20230501   | ObjectStatusConditionDefinition_STATUS          | v1api20230501/storage | ObjectStatusConditionDefinition_STATUS          | Extended |                                                                                   |
-| v1api20230501   | ObjectStatusDefinition_STATUS                   | v1api20230501/storage | ObjectStatusDefinition_STATUS                   | Modified |                                                                                   |
-| v1api20230501   | Plan                                            | v1api20230501/storage | Plan                                            | Extended |                                                                                   |
-| v1api20230501   | Plan_STATUS                                     | v1api20230501/storage | Plan_STATUS                                     | Extended |                                                                                   |
-| v1api20230501   | PostBuildDefinition                             | v1api20230501/storage | PostBuildDefinition                             | Extended |                                                                                   |
-| v1api20230501   | PostBuildDefinition_STATUS                      | v1api20230501/storage | PostBuildDefinition_STATUS                      | Extended |                                                                                   |
-| v1api20230501   | RepositoryRefDefinition                         | v1api20230501/storage | RepositoryRefDefinition                         | Extended |                                                                                   |
-| v1api20230501   | RepositoryRefDefinition_STATUS                  | v1api20230501/storage | RepositoryRefDefinition_STATUS                  | Extended |                                                                                   |
-| v1api20230501   | Scope                                           | v1api20230501/storage | Scope                                           | Extended |                                                                                   |
-| v1api20230501   | ScopeCluster                                    | v1api20230501/storage | ScopeCluster                                    | Extended |                                                                                   |
-| v1api20230501   | ScopeCluster_STATUS                             | v1api20230501/storage | ScopeCluster_STATUS                             | Extended |                                                                                   |
-| v1api20230501   | ScopeNamespace                                  | v1api20230501/storage | ScopeNamespace                                  | Extended |                                                                                   |
-| v1api20230501   | ScopeNamespace_STATUS                           | v1api20230501/storage | ScopeNamespace_STATUS                           | Extended |                                                                                   |
-| v1api20230501   | Scope_STATUS                                    | v1api20230501/storage | Scope_STATUS                                    | Extended |                                                                                   |
-| v1api20230501   | ServicePrincipalDefinition                      | v1api20230501/storage | ServicePrincipalDefinition                      | Extended |                                                                                   |
-| v1api20230501   | ServicePrincipalDefinition_STATUS               | v1api20230501/storage | ServicePrincipalDefinition_STATUS               | Extended |                                                                                   |
-| v1api20230501   | SubstituteFromDefinition                        | v1api20230501/storage | SubstituteFromDefinition                        | Extended |                                                                                   |
-| v1api20230501   | SubstituteFromDefinition_STATUS                 | v1api20230501/storage | SubstituteFromDefinition_STATUS                 | Extended |                                                                                   |
-| v1api20230501   | SystemData                                      | v1api20230501/storage | SystemData                                      | Modified |                                                                                   |
-| v1api20230501   | SystemData_STATUS                               | v1api20230501/storage | SystemData_STATUS                               | Modified |                                                                                   |
+| v1api20230501                                   | v1api20230501/storage                           | Status   | Notes |
+|:------------------------------------------------|:------------------------------------------------|:--------:|:------|
+| AzureBlobDefinition                             | AzureBlobDefinition                             | Extended |       |
+| AzureBlobDefinition_STATUS                      | AzureBlobDefinition_STATUS                      | Extended |       |
+| BucketDefinition                                | BucketDefinition                                | Extended |       |
+| BucketDefinition_STATUS                         | BucketDefinition_STATUS                         | Extended |       |
+| ErrorAdditionalInfo_STATUS                      | ErrorAdditionalInfo_STATUS                      | Extended |       |
+| ErrorDetail_STATUS                              | ErrorDetail_STATUS                              | Extended |       |
+| ErrorDetail_STATUS_Unrolled                     | ErrorDetail_STATUS_Unrolled                     | Extended |       |
+| ExtensionOperatorConfigMaps                     | ExtensionOperatorConfigMaps                     | Extended |       |
+| ExtensionOperatorSpec                           | ExtensionOperatorSpec                           | Extended |       |
+| ExtensionStatus_STATUS                          | ExtensionStatus_STATUS                          | Modified |       |
+| Extension_Properties_AksAssignedIdentity_STATUS | Extension_Properties_AksAssignedIdentity_STATUS | Modified |       |
+| Extension_Properties_AksAssignedIdentity_Spec   | Extension_Properties_AksAssignedIdentity_Spec   | Modified |       |
+| Extension_STATUS                                | Extension_STATUS                                | Modified |       |
+| Extension_Spec                                  | Extension_Spec                                  | Modified |       |
+| FluxConfigurationOperatorSpec                   | FluxConfigurationOperatorSpec                   | Extended |       |
+| FluxConfiguration_STATUS                        | FluxConfiguration_STATUS                        | Modified |       |
+| FluxConfiguration_Spec                          | FluxConfiguration_Spec                          | Modified |       |
+| GitRepositoryDefinition                         | GitRepositoryDefinition                         | Extended |       |
+| GitRepositoryDefinition_STATUS                  | GitRepositoryDefinition_STATUS                  | Extended |       |
+| HelmReleasePropertiesDefinition_STATUS          | HelmReleasePropertiesDefinition_STATUS          | Extended |       |
+| Identity                                        | Identity                                        | Modified |       |
+| Identity_STATUS                                 | Identity_STATUS                                 | Modified |       |
+| KustomizationDefinition                         | KustomizationDefinition                         | Extended |       |
+| KustomizationDefinition_STATUS                  | KustomizationDefinition_STATUS                  | Extended |       |
+| ManagedIdentityDefinition                       | ManagedIdentityDefinition                       | Extended |       |
+| ManagedIdentityDefinition_STATUS                | ManagedIdentityDefinition_STATUS                | Extended |       |
+| ObjectReferenceDefinition_STATUS                | ObjectReferenceDefinition_STATUS                | Extended |       |
+| ObjectStatusConditionDefinition_STATUS          | ObjectStatusConditionDefinition_STATUS          | Extended |       |
+| ObjectStatusDefinition_STATUS                   | ObjectStatusDefinition_STATUS                   | Modified |       |
+| Plan                                            | Plan                                            | Extended |       |
+| Plan_STATUS                                     | Plan_STATUS                                     | Extended |       |
+| PostBuildDefinition                             | PostBuildDefinition                             | Extended |       |
+| PostBuildDefinition_STATUS                      | PostBuildDefinition_STATUS                      | Extended |       |
+| RepositoryRefDefinition                         | RepositoryRefDefinition                         | Extended |       |
+| RepositoryRefDefinition_STATUS                  | RepositoryRefDefinition_STATUS                  | Extended |       |
+| Scope                                           | Scope                                           | Extended |       |
+| ScopeCluster                                    | ScopeCluster                                    | Extended |       |
+| ScopeCluster_STATUS                             | ScopeCluster_STATUS                             | Extended |       |
+| ScopeNamespace                                  | ScopeNamespace                                  | Extended |       |
+| ScopeNamespace_STATUS                           | ScopeNamespace_STATUS                           | Extended |       |
+| Scope_STATUS                                    | Scope_STATUS                                    | Extended |       |
+| ServicePrincipalDefinition                      | ServicePrincipalDefinition                      | Extended |       |
+| ServicePrincipalDefinition_STATUS               | ServicePrincipalDefinition_STATUS               | Extended |       |
+| SubstituteFromDefinition                        | SubstituteFromDefinition                        | Extended |       |
+| SubstituteFromDefinition_STATUS                 | SubstituteFromDefinition_STATUS                 | Extended |       |
+| SystemData                                      | SystemData                                      | Modified |       |
+| SystemData_STATUS                               | SystemData_STATUS                               | Modified |       |
 
 ### AzureBlobDefinition
 
@@ -178,6 +176,22 @@ Statuses:
 | Message       | *string                       | Message               | *string                | Identical |       |
 |               |                               | PropertyBag           | genruntime.PropertyBag | New       |       |
 | Time          | *string                       | Time                  | *string                | Identical |       |
+
+### Extension_Properties_AksAssignedIdentity_STATUS
+
+| v1api20230501 |                                                       | v1api20230501/storage |                        | Status    | Notes |
+|:--------------|:------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
+| PrincipalId   | *string                                               | PrincipalId           | *string                | Identical |       |
+|               |                                                       | PropertyBag           | genruntime.PropertyBag | New       |       |
+| TenantId      | *string                                               | TenantId              | *string                | Identical |       |
+| Type          | *Extension_Properties_AksAssignedIdentity_Type_STATUS | Type                  | *string                | Modified  |       |
+
+### Extension_Properties_AksAssignedIdentity_Spec
+
+| v1api20230501 |                                                     | v1api20230501/storage |                        | Status   | Notes |
+|:--------------|:----------------------------------------------------|:----------------------|:-----------------------|:--------:|:------|
+|               |                                                     | PropertyBag           | genruntime.PropertyBag | New      |       |
+| Type          | *Extension_Properties_AksAssignedIdentity_Type_Spec | Type                  | *string                | Modified |       |
 
 ### Extension_STATUS
 

@@ -11,21 +11,21 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type   | Next Version      | Next Type      | Status    | Notes |
-|:----------------------|:---------------|:------------------|:---------------|:---------:|:------|
-| v1api20220401/storage | RoleAssignment | v20220401/storage | RoleAssignment | Identical |       |
-| v1api20220401/storage | RoleDefinition | v20220401/storage | RoleDefinition | Identical |       |
+| v1api20220401/storage | v20220401/storage | Status    | Notes |
+|:----------------------|:------------------|:---------:|:------|
+| RoleAssignment        | RoleAssignment    | Identical |       |
+| RoleDefinition        | RoleDefinition    | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type               | Next Version      | Next Type                  | Status    | Notes |
-|:----------------------|:---------------------------|:------------------|:---------------------------|:---------:|:------|
-| v1api20220401/storage | Permission                 | v20220401/storage | Permission                 | Identical |       |
-| v1api20220401/storage | Permission_STATUS          | v20220401/storage | Permission_STATUS          | Identical |       |
-| v1api20220401/storage | RoleAssignmentOperatorSpec | v20220401/storage | RoleAssignmentOperatorSpec | Identical |       |
-| v1api20220401/storage | RoleAssignment_STATUS      | v20220401/storage | RoleAssignment_STATUS      | Identical |       |
-| v1api20220401/storage | RoleAssignment_Spec        | v20220401/storage | RoleAssignment_Spec        | Identical |       |
-| v1api20220401/storage | RoleDefinitionOperatorSpec | v20220401/storage | RoleDefinitionOperatorSpec | Identical |       |
-| v1api20220401/storage | RoleDefinition_STATUS      | v20220401/storage | RoleDefinition_STATUS      | Identical |       |
-| v1api20220401/storage | RoleDefinition_Spec        | v20220401/storage | RoleDefinition_Spec        | Identical |       |
-| v1api20220401/storage | SystemData_STATUS          | v20220401/storage | SystemData_STATUS          | Identical |       |
+| v1api20220401/storage      | v20220401/storage          | Status    | Notes |
+|:---------------------------|:---------------------------|:---------:|:------|
+| Permission                 | Permission                 | Identical |       |
+| Permission_STATUS          | Permission_STATUS          | Identical |       |
+| RoleAssignmentOperatorSpec | RoleAssignmentOperatorSpec | Identical |       |
+| RoleAssignment_STATUS      | RoleAssignment_STATUS      | Identical |       |
+| RoleAssignment_Spec        | RoleAssignment_Spec        | Identical |       |
+| RoleDefinitionOperatorSpec | RoleDefinitionOperatorSpec | Identical |       |
+| RoleDefinition_STATUS      | RoleDefinition_STATUS      | Identical |       |
+| RoleDefinition_Spec        | RoleDefinition_Spec        | Identical |       |
+| SystemData_STATUS          | SystemData_STATUS          | Identical |       |

@@ -11,125 +11,125 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type                                    | Next Version      | Next Type                                       | Status    | Notes |
-|:----------------------|:------------------------------------------------|:------------------|:------------------------------------------------|:---------:|:------|
-| v1api20211101/storage | Server                                          | v20211101/storage | Server                                          | Identical |       |
-| v1api20211101/storage | ServersAdministrator                            | v20211101/storage | ServersAdministrator                            | Identical |       |
-| v1api20211101/storage | ServersAdvancedThreatProtectionSetting          | v20211101/storage | ServersAdvancedThreatProtectionSetting          | Identical |       |
-| v1api20211101/storage | ServersAuditingSetting                          | v20211101/storage | ServersAuditingSetting                          | Identical |       |
-| v1api20211101/storage | ServersAzureADOnlyAuthentication                | v20211101/storage | ServersAzureADOnlyAuthentication                | Identical |       |
-| v1api20211101/storage | ServersConnectionPolicy                         | v20211101/storage | ServersConnectionPolicy                         | Identical |       |
-| v1api20211101/storage | ServersDatabase                                 | v20211101/storage | ServersDatabase                                 | Identical |       |
-| v1api20211101/storage | ServersDatabasesAdvancedThreatProtectionSetting | v20211101/storage | ServersDatabasesAdvancedThreatProtectionSetting | Identical |       |
-| v1api20211101/storage | ServersDatabasesAuditingSetting                 | v20211101/storage | ServersDatabasesAuditingSetting                 | Identical |       |
-| v1api20211101/storage | ServersDatabasesBackupLongTermRetentionPolicy   | v20211101/storage | ServersDatabasesBackupLongTermRetentionPolicy   | Identical |       |
-| v1api20211101/storage | ServersDatabasesBackupShortTermRetentionPolicy  | v20211101/storage | ServersDatabasesBackupShortTermRetentionPolicy  | Identical |       |
-| v1api20211101/storage | ServersDatabasesSecurityAlertPolicy             | v20211101/storage | ServersDatabasesSecurityAlertPolicy             | Identical |       |
-| v1api20211101/storage | ServersDatabasesTransparentDataEncryption       | v20211101/storage | ServersDatabasesTransparentDataEncryption       | Identical |       |
-| v1api20211101/storage | ServersDatabasesVulnerabilityAssessment         | v20211101/storage | ServersDatabasesVulnerabilityAssessment         | Identical |       |
-| v1api20211101/storage | ServersElasticPool                              | v20211101/storage | ServersElasticPool                              | Identical |       |
-| v1api20211101/storage | ServersFailoverGroup                            | v20211101/storage | ServersFailoverGroup                            | Identical |       |
-| v1api20211101/storage | ServersFirewallRule                             | v20211101/storage | ServersFirewallRule                             | Identical |       |
-| v1api20211101/storage | ServersIPV6FirewallRule                         | v20211101/storage | ServersIPV6FirewallRule                         | Identical |       |
-| v1api20211101/storage | ServersOutboundFirewallRule                     | v20211101/storage | ServersOutboundFirewallRule                     | Identical |       |
-| v1api20211101/storage | ServersSecurityAlertPolicy                      | v20211101/storage | ServersSecurityAlertPolicy                      | Identical |       |
-| v1api20211101/storage | ServersVirtualNetworkRule                       | v20211101/storage | ServersVirtualNetworkRule                       | Identical |       |
-| v1api20211101/storage | ServersVulnerabilityAssessment                  | v20211101/storage | ServersVulnerabilityAssessment                  | Identical |       |
+| v1api20211101/storage                           | v20211101/storage                               | Status    | Notes |
+|:------------------------------------------------|:------------------------------------------------|:---------:|:------|
+| Server                                          | Server                                          | Identical |       |
+| ServersAdministrator                            | ServersAdministrator                            | Identical |       |
+| ServersAdvancedThreatProtectionSetting          | ServersAdvancedThreatProtectionSetting          | Identical |       |
+| ServersAuditingSetting                          | ServersAuditingSetting                          | Identical |       |
+| ServersAzureADOnlyAuthentication                | ServersAzureADOnlyAuthentication                | Identical |       |
+| ServersConnectionPolicy                         | ServersConnectionPolicy                         | Identical |       |
+| ServersDatabase                                 | ServersDatabase                                 | Identical |       |
+| ServersDatabasesAdvancedThreatProtectionSetting | ServersDatabasesAdvancedThreatProtectionSetting | Identical |       |
+| ServersDatabasesAuditingSetting                 | ServersDatabasesAuditingSetting                 | Identical |       |
+| ServersDatabasesBackupLongTermRetentionPolicy   | ServersDatabasesBackupLongTermRetentionPolicy   | Identical |       |
+| ServersDatabasesBackupShortTermRetentionPolicy  | ServersDatabasesBackupShortTermRetentionPolicy  | Identical |       |
+| ServersDatabasesSecurityAlertPolicy             | ServersDatabasesSecurityAlertPolicy             | Identical |       |
+| ServersDatabasesTransparentDataEncryption       | ServersDatabasesTransparentDataEncryption       | Identical |       |
+| ServersDatabasesVulnerabilityAssessment         | ServersDatabasesVulnerabilityAssessment         | Identical |       |
+| ServersElasticPool                              | ServersElasticPool                              | Identical |       |
+| ServersFailoverGroup                            | ServersFailoverGroup                            | Identical |       |
+| ServersFirewallRule                             | ServersFirewallRule                             | Identical |       |
+| ServersIPV6FirewallRule                         | ServersIPV6FirewallRule                         | Identical |       |
+| ServersOutboundFirewallRule                     | ServersOutboundFirewallRule                     | Identical |       |
+| ServersSecurityAlertPolicy                      | ServersSecurityAlertPolicy                      | Identical |       |
+| ServersVirtualNetworkRule                       | ServersVirtualNetworkRule                       | Identical |       |
+| ServersVulnerabilityAssessment                  | ServersVulnerabilityAssessment                  | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                                                | Next Version      | Next Type                                                   | Status    | Notes |
-|:----------------------|:------------------------------------------------------------|:------------------|:------------------------------------------------------------|:---------:|:------|
-| v1api20211101/storage | DatabaseIdentity                                            | v20211101/storage | DatabaseIdentity                                            | Identical |       |
-| v1api20211101/storage | DatabaseIdentity_STATUS                                     | v20211101/storage | DatabaseIdentity_STATUS                                     | Identical |       |
-| v1api20211101/storage | DatabaseUserIdentity_STATUS                                 | v20211101/storage | DatabaseUserIdentity_STATUS                                 | Identical |       |
-| v1api20211101/storage | ElasticPoolPerDatabaseSettings                              | v20211101/storage | ElasticPoolPerDatabaseSettings                              | Identical |       |
-| v1api20211101/storage | ElasticPoolPerDatabaseSettings_STATUS                       | v20211101/storage | ElasticPoolPerDatabaseSettings_STATUS                       | Identical |       |
-| v1api20211101/storage | FailoverGroupReadOnlyEndpoint                               | v20211101/storage | FailoverGroupReadOnlyEndpoint                               | Identical |       |
-| v1api20211101/storage | FailoverGroupReadOnlyEndpoint_STATUS                        | v20211101/storage | FailoverGroupReadOnlyEndpoint_STATUS                        | Identical |       |
-| v1api20211101/storage | FailoverGroupReadWriteEndpoint                              | v20211101/storage | FailoverGroupReadWriteEndpoint                              | Identical |       |
-| v1api20211101/storage | FailoverGroupReadWriteEndpoint_STATUS                       | v20211101/storage | FailoverGroupReadWriteEndpoint_STATUS                       | Identical |       |
-| v1api20211101/storage | PartnerInfo                                                 | v20211101/storage | PartnerInfo                                                 | Identical |       |
-| v1api20211101/storage | PartnerInfo_STATUS                                          | v20211101/storage | PartnerInfo_STATUS                                          | Identical |       |
-| v1api20211101/storage | PrivateEndpointConnectionProperties_STATUS                  | v20211101/storage | PrivateEndpointConnectionProperties_STATUS                  | Identical |       |
-| v1api20211101/storage | PrivateEndpointProperty_STATUS                              | v20211101/storage | PrivateEndpointProperty_STATUS                              | Identical |       |
-| v1api20211101/storage | PrivateLinkServiceConnectionStateProperty_STATUS            | v20211101/storage | PrivateLinkServiceConnectionStateProperty_STATUS            | Identical |       |
-| v1api20211101/storage | ResourceIdentity                                            | v20211101/storage | ResourceIdentity                                            | Identical |       |
-| v1api20211101/storage | ResourceIdentity_STATUS                                     | v20211101/storage | ResourceIdentity_STATUS                                     | Identical |       |
-| v1api20211101/storage | ServerExternalAdministrator                                 | v20211101/storage | ServerExternalAdministrator                                 | Identical |       |
-| v1api20211101/storage | ServerExternalAdministrator_STATUS                          | v20211101/storage | ServerExternalAdministrator_STATUS                          | Identical |       |
-| v1api20211101/storage | ServerOperatorConfigMaps                                    | v20211101/storage | ServerOperatorConfigMaps                                    | Identical |       |
-| v1api20211101/storage | ServerOperatorSpec                                          | v20211101/storage | ServerOperatorSpec                                          | Identical |       |
-| v1api20211101/storage | ServerPrivateEndpointConnection_STATUS                      | v20211101/storage | ServerPrivateEndpointConnection_STATUS                      | Identical |       |
-| v1api20211101/storage | Server_STATUS                                               | v20211101/storage | Server_STATUS                                               | Identical |       |
-| v1api20211101/storage | Server_Spec                                                 | v20211101/storage | Server_Spec                                                 | Identical |       |
-| v1api20211101/storage | ServersAdministratorOperatorSpec                            | v20211101/storage | ServersAdministratorOperatorSpec                            | Identical |       |
-| v1api20211101/storage | ServersAdministrator_STATUS                                 | v20211101/storage | ServersAdministrator_STATUS                                 | Identical |       |
-| v1api20211101/storage | ServersAdministrator_Spec                                   | v20211101/storage | ServersAdministrator_Spec                                   | Identical |       |
-| v1api20211101/storage | ServersAdvancedThreatProtectionSettingOperatorSpec          | v20211101/storage | ServersAdvancedThreatProtectionSettingOperatorSpec          | Identical |       |
-| v1api20211101/storage | ServersAdvancedThreatProtectionSetting_STATUS               | v20211101/storage | ServersAdvancedThreatProtectionSetting_STATUS               | Identical |       |
-| v1api20211101/storage | ServersAdvancedThreatProtectionSetting_Spec                 | v20211101/storage | ServersAdvancedThreatProtectionSetting_Spec                 | Identical |       |
-| v1api20211101/storage | ServersAuditingSettingOperatorSpec                          | v20211101/storage | ServersAuditingSettingOperatorSpec                          | Identical |       |
-| v1api20211101/storage | ServersAuditingSetting_STATUS                               | v20211101/storage | ServersAuditingSetting_STATUS                               | Identical |       |
-| v1api20211101/storage | ServersAuditingSetting_Spec                                 | v20211101/storage | ServersAuditingSetting_Spec                                 | Identical |       |
-| v1api20211101/storage | ServersAzureADOnlyAuthenticationOperatorSpec                | v20211101/storage | ServersAzureADOnlyAuthenticationOperatorSpec                | Identical |       |
-| v1api20211101/storage | ServersAzureADOnlyAuthentication_STATUS                     | v20211101/storage | ServersAzureADOnlyAuthentication_STATUS                     | Identical |       |
-| v1api20211101/storage | ServersAzureADOnlyAuthentication_Spec                       | v20211101/storage | ServersAzureADOnlyAuthentication_Spec                       | Identical |       |
-| v1api20211101/storage | ServersConnectionPolicyOperatorSpec                         | v20211101/storage | ServersConnectionPolicyOperatorSpec                         | Identical |       |
-| v1api20211101/storage | ServersConnectionPolicy_STATUS                              | v20211101/storage | ServersConnectionPolicy_STATUS                              | Identical |       |
-| v1api20211101/storage | ServersConnectionPolicy_Spec                                | v20211101/storage | ServersConnectionPolicy_Spec                                | Identical |       |
-| v1api20211101/storage | ServersDatabaseOperatorSpec                                 | v20211101/storage | ServersDatabaseOperatorSpec                                 | Identical |       |
-| v1api20211101/storage | ServersDatabase_STATUS                                      | v20211101/storage | ServersDatabase_STATUS                                      | Identical |       |
-| v1api20211101/storage | ServersDatabase_Spec                                        | v20211101/storage | ServersDatabase_Spec                                        | Identical |       |
-| v1api20211101/storage | ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec | v20211101/storage | ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec | Identical |       |
-| v1api20211101/storage | ServersDatabasesAdvancedThreatProtectionSetting_STATUS      | v20211101/storage | ServersDatabasesAdvancedThreatProtectionSetting_STATUS      | Identical |       |
-| v1api20211101/storage | ServersDatabasesAdvancedThreatProtectionSetting_Spec        | v20211101/storage | ServersDatabasesAdvancedThreatProtectionSetting_Spec        | Identical |       |
-| v1api20211101/storage | ServersDatabasesAuditingSettingOperatorSpec                 | v20211101/storage | ServersDatabasesAuditingSettingOperatorSpec                 | Identical |       |
-| v1api20211101/storage | ServersDatabasesAuditingSetting_STATUS                      | v20211101/storage | ServersDatabasesAuditingSetting_STATUS                      | Identical |       |
-| v1api20211101/storage | ServersDatabasesAuditingSetting_Spec                        | v20211101/storage | ServersDatabasesAuditingSetting_Spec                        | Identical |       |
-| v1api20211101/storage | ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec   | v20211101/storage | ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec   | Identical |       |
-| v1api20211101/storage | ServersDatabasesBackupLongTermRetentionPolicy_STATUS        | v20211101/storage | ServersDatabasesBackupLongTermRetentionPolicy_STATUS        | Identical |       |
-| v1api20211101/storage | ServersDatabasesBackupLongTermRetentionPolicy_Spec          | v20211101/storage | ServersDatabasesBackupLongTermRetentionPolicy_Spec          | Identical |       |
-| v1api20211101/storage | ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec  | v20211101/storage | ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec  | Identical |       |
-| v1api20211101/storage | ServersDatabasesBackupShortTermRetentionPolicy_STATUS       | v20211101/storage | ServersDatabasesBackupShortTermRetentionPolicy_STATUS       | Identical |       |
-| v1api20211101/storage | ServersDatabasesBackupShortTermRetentionPolicy_Spec         | v20211101/storage | ServersDatabasesBackupShortTermRetentionPolicy_Spec         | Identical |       |
-| v1api20211101/storage | ServersDatabasesSecurityAlertPolicyOperatorSpec             | v20211101/storage | ServersDatabasesSecurityAlertPolicyOperatorSpec             | Identical |       |
-| v1api20211101/storage | ServersDatabasesSecurityAlertPolicy_STATUS                  | v20211101/storage | ServersDatabasesSecurityAlertPolicy_STATUS                  | Identical |       |
-| v1api20211101/storage | ServersDatabasesSecurityAlertPolicy_Spec                    | v20211101/storage | ServersDatabasesSecurityAlertPolicy_Spec                    | Identical |       |
-| v1api20211101/storage | ServersDatabasesTransparentDataEncryptionOperatorSpec       | v20211101/storage | ServersDatabasesTransparentDataEncryptionOperatorSpec       | Identical |       |
-| v1api20211101/storage | ServersDatabasesTransparentDataEncryption_STATUS            | v20211101/storage | ServersDatabasesTransparentDataEncryption_STATUS            | Identical |       |
-| v1api20211101/storage | ServersDatabasesTransparentDataEncryption_Spec              | v20211101/storage | ServersDatabasesTransparentDataEncryption_Spec              | Identical |       |
-| v1api20211101/storage | ServersDatabasesVulnerabilityAssessmentOperatorSpec         | v20211101/storage | ServersDatabasesVulnerabilityAssessmentOperatorSpec         | Identical |       |
-| v1api20211101/storage | ServersDatabasesVulnerabilityAssessment_STATUS              | v20211101/storage | ServersDatabasesVulnerabilityAssessment_STATUS              | Identical |       |
-| v1api20211101/storage | ServersDatabasesVulnerabilityAssessment_Spec                | v20211101/storage | ServersDatabasesVulnerabilityAssessment_Spec                | Identical |       |
-| v1api20211101/storage | ServersElasticPoolOperatorSpec                              | v20211101/storage | ServersElasticPoolOperatorSpec                              | Identical |       |
-| v1api20211101/storage | ServersElasticPool_STATUS                                   | v20211101/storage | ServersElasticPool_STATUS                                   | Identical |       |
-| v1api20211101/storage | ServersElasticPool_Spec                                     | v20211101/storage | ServersElasticPool_Spec                                     | Identical |       |
-| v1api20211101/storage | ServersFailoverGroupOperatorSpec                            | v20211101/storage | ServersFailoverGroupOperatorSpec                            | Identical |       |
-| v1api20211101/storage | ServersFailoverGroup_STATUS                                 | v20211101/storage | ServersFailoverGroup_STATUS                                 | Identical |       |
-| v1api20211101/storage | ServersFailoverGroup_Spec                                   | v20211101/storage | ServersFailoverGroup_Spec                                   | Identical |       |
-| v1api20211101/storage | ServersFirewallRuleOperatorSpec                             | v20211101/storage | ServersFirewallRuleOperatorSpec                             | Identical |       |
-| v1api20211101/storage | ServersFirewallRule_STATUS                                  | v20211101/storage | ServersFirewallRule_STATUS                                  | Identical |       |
-| v1api20211101/storage | ServersFirewallRule_Spec                                    | v20211101/storage | ServersFirewallRule_Spec                                    | Identical |       |
-| v1api20211101/storage | ServersIPV6FirewallRuleOperatorSpec                         | v20211101/storage | ServersIPV6FirewallRuleOperatorSpec                         | Identical |       |
-| v1api20211101/storage | ServersIPV6FirewallRule_STATUS                              | v20211101/storage | ServersIPV6FirewallRule_STATUS                              | Identical |       |
-| v1api20211101/storage | ServersIPV6FirewallRule_Spec                                | v20211101/storage | ServersIPV6FirewallRule_Spec                                | Identical |       |
-| v1api20211101/storage | ServersOutboundFirewallRuleOperatorSpec                     | v20211101/storage | ServersOutboundFirewallRuleOperatorSpec                     | Identical |       |
-| v1api20211101/storage | ServersOutboundFirewallRule_STATUS                          | v20211101/storage | ServersOutboundFirewallRule_STATUS                          | Identical |       |
-| v1api20211101/storage | ServersOutboundFirewallRule_Spec                            | v20211101/storage | ServersOutboundFirewallRule_Spec                            | Identical |       |
-| v1api20211101/storage | ServersSecurityAlertPolicyOperatorSpec                      | v20211101/storage | ServersSecurityAlertPolicyOperatorSpec                      | Identical |       |
-| v1api20211101/storage | ServersSecurityAlertPolicy_STATUS                           | v20211101/storage | ServersSecurityAlertPolicy_STATUS                           | Identical |       |
-| v1api20211101/storage | ServersSecurityAlertPolicy_Spec                             | v20211101/storage | ServersSecurityAlertPolicy_Spec                             | Identical |       |
-| v1api20211101/storage | ServersVirtualNetworkRuleOperatorSpec                       | v20211101/storage | ServersVirtualNetworkRuleOperatorSpec                       | Identical |       |
-| v1api20211101/storage | ServersVirtualNetworkRule_STATUS                            | v20211101/storage | ServersVirtualNetworkRule_STATUS                            | Identical |       |
-| v1api20211101/storage | ServersVirtualNetworkRule_Spec                              | v20211101/storage | ServersVirtualNetworkRule_Spec                              | Identical |       |
-| v1api20211101/storage | ServersVulnerabilityAssessmentOperatorSpec                  | v20211101/storage | ServersVulnerabilityAssessmentOperatorSpec                  | Identical |       |
-| v1api20211101/storage | ServersVulnerabilityAssessment_STATUS                       | v20211101/storage | ServersVulnerabilityAssessment_STATUS                       | Identical |       |
-| v1api20211101/storage | ServersVulnerabilityAssessment_Spec                         | v20211101/storage | ServersVulnerabilityAssessment_Spec                         | Identical |       |
-| v1api20211101/storage | Sku                                                         | v20211101/storage | Sku                                                         | Identical |       |
-| v1api20211101/storage | Sku_STATUS                                                  | v20211101/storage | Sku_STATUS                                                  | Identical |       |
-| v1api20211101/storage | SystemData_STATUS                                           | v20211101/storage | SystemData_STATUS                                           | Identical |       |
-| v1api20211101/storage | UserAssignedIdentityDetails                                 | v20211101/storage | UserAssignedIdentityDetails                                 | Identical |       |
-| v1api20211101/storage | UserIdentity_STATUS                                         | v20211101/storage | UserIdentity_STATUS                                         | Identical |       |
-| v1api20211101/storage | VulnerabilityAssessmentRecurringScansProperties             | v20211101/storage | VulnerabilityAssessmentRecurringScansProperties             | Identical |       |
-| v1api20211101/storage | VulnerabilityAssessmentRecurringScansProperties_STATUS      | v20211101/storage | VulnerabilityAssessmentRecurringScansProperties_STATUS      | Identical |       |
+| v1api20211101/storage                                       | v20211101/storage                                           | Status    | Notes |
+|:------------------------------------------------------------|:------------------------------------------------------------|:---------:|:------|
+| DatabaseIdentity                                            | DatabaseIdentity                                            | Identical |       |
+| DatabaseIdentity_STATUS                                     | DatabaseIdentity_STATUS                                     | Identical |       |
+| DatabaseUserIdentity_STATUS                                 | DatabaseUserIdentity_STATUS                                 | Identical |       |
+| ElasticPoolPerDatabaseSettings                              | ElasticPoolPerDatabaseSettings                              | Identical |       |
+| ElasticPoolPerDatabaseSettings_STATUS                       | ElasticPoolPerDatabaseSettings_STATUS                       | Identical |       |
+| FailoverGroupReadOnlyEndpoint                               | FailoverGroupReadOnlyEndpoint                               | Identical |       |
+| FailoverGroupReadOnlyEndpoint_STATUS                        | FailoverGroupReadOnlyEndpoint_STATUS                        | Identical |       |
+| FailoverGroupReadWriteEndpoint                              | FailoverGroupReadWriteEndpoint                              | Identical |       |
+| FailoverGroupReadWriteEndpoint_STATUS                       | FailoverGroupReadWriteEndpoint_STATUS                       | Identical |       |
+| PartnerInfo                                                 | PartnerInfo                                                 | Identical |       |
+| PartnerInfo_STATUS                                          | PartnerInfo_STATUS                                          | Identical |       |
+| PrivateEndpointConnectionProperties_STATUS                  | PrivateEndpointConnectionProperties_STATUS                  | Identical |       |
+| PrivateEndpointProperty_STATUS                              | PrivateEndpointProperty_STATUS                              | Identical |       |
+| PrivateLinkServiceConnectionStateProperty_STATUS            | PrivateLinkServiceConnectionStateProperty_STATUS            | Identical |       |
+| ResourceIdentity                                            | ResourceIdentity                                            | Identical |       |
+| ResourceIdentity_STATUS                                     | ResourceIdentity_STATUS                                     | Identical |       |
+| ServerExternalAdministrator                                 | ServerExternalAdministrator                                 | Identical |       |
+| ServerExternalAdministrator_STATUS                          | ServerExternalAdministrator_STATUS                          | Identical |       |
+| ServerOperatorConfigMaps                                    | ServerOperatorConfigMaps                                    | Identical |       |
+| ServerOperatorSpec                                          | ServerOperatorSpec                                          | Identical |       |
+| ServerPrivateEndpointConnection_STATUS                      | ServerPrivateEndpointConnection_STATUS                      | Identical |       |
+| Server_STATUS                                               | Server_STATUS                                               | Identical |       |
+| Server_Spec                                                 | Server_Spec                                                 | Identical |       |
+| ServersAdministratorOperatorSpec                            | ServersAdministratorOperatorSpec                            | Identical |       |
+| ServersAdministrator_STATUS                                 | ServersAdministrator_STATUS                                 | Identical |       |
+| ServersAdministrator_Spec                                   | ServersAdministrator_Spec                                   | Identical |       |
+| ServersAdvancedThreatProtectionSettingOperatorSpec          | ServersAdvancedThreatProtectionSettingOperatorSpec          | Identical |       |
+| ServersAdvancedThreatProtectionSetting_STATUS               | ServersAdvancedThreatProtectionSetting_STATUS               | Identical |       |
+| ServersAdvancedThreatProtectionSetting_Spec                 | ServersAdvancedThreatProtectionSetting_Spec                 | Identical |       |
+| ServersAuditingSettingOperatorSpec                          | ServersAuditingSettingOperatorSpec                          | Identical |       |
+| ServersAuditingSetting_STATUS                               | ServersAuditingSetting_STATUS                               | Identical |       |
+| ServersAuditingSetting_Spec                                 | ServersAuditingSetting_Spec                                 | Identical |       |
+| ServersAzureADOnlyAuthenticationOperatorSpec                | ServersAzureADOnlyAuthenticationOperatorSpec                | Identical |       |
+| ServersAzureADOnlyAuthentication_STATUS                     | ServersAzureADOnlyAuthentication_STATUS                     | Identical |       |
+| ServersAzureADOnlyAuthentication_Spec                       | ServersAzureADOnlyAuthentication_Spec                       | Identical |       |
+| ServersConnectionPolicyOperatorSpec                         | ServersConnectionPolicyOperatorSpec                         | Identical |       |
+| ServersConnectionPolicy_STATUS                              | ServersConnectionPolicy_STATUS                              | Identical |       |
+| ServersConnectionPolicy_Spec                                | ServersConnectionPolicy_Spec                                | Identical |       |
+| ServersDatabaseOperatorSpec                                 | ServersDatabaseOperatorSpec                                 | Identical |       |
+| ServersDatabase_STATUS                                      | ServersDatabase_STATUS                                      | Identical |       |
+| ServersDatabase_Spec                                        | ServersDatabase_Spec                                        | Identical |       |
+| ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec | ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec | Identical |       |
+| ServersDatabasesAdvancedThreatProtectionSetting_STATUS      | ServersDatabasesAdvancedThreatProtectionSetting_STATUS      | Identical |       |
+| ServersDatabasesAdvancedThreatProtectionSetting_Spec        | ServersDatabasesAdvancedThreatProtectionSetting_Spec        | Identical |       |
+| ServersDatabasesAuditingSettingOperatorSpec                 | ServersDatabasesAuditingSettingOperatorSpec                 | Identical |       |
+| ServersDatabasesAuditingSetting_STATUS                      | ServersDatabasesAuditingSetting_STATUS                      | Identical |       |
+| ServersDatabasesAuditingSetting_Spec                        | ServersDatabasesAuditingSetting_Spec                        | Identical |       |
+| ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec   | ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec   | Identical |       |
+| ServersDatabasesBackupLongTermRetentionPolicy_STATUS        | ServersDatabasesBackupLongTermRetentionPolicy_STATUS        | Identical |       |
+| ServersDatabasesBackupLongTermRetentionPolicy_Spec          | ServersDatabasesBackupLongTermRetentionPolicy_Spec          | Identical |       |
+| ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec  | ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec  | Identical |       |
+| ServersDatabasesBackupShortTermRetentionPolicy_STATUS       | ServersDatabasesBackupShortTermRetentionPolicy_STATUS       | Identical |       |
+| ServersDatabasesBackupShortTermRetentionPolicy_Spec         | ServersDatabasesBackupShortTermRetentionPolicy_Spec         | Identical |       |
+| ServersDatabasesSecurityAlertPolicyOperatorSpec             | ServersDatabasesSecurityAlertPolicyOperatorSpec             | Identical |       |
+| ServersDatabasesSecurityAlertPolicy_STATUS                  | ServersDatabasesSecurityAlertPolicy_STATUS                  | Identical |       |
+| ServersDatabasesSecurityAlertPolicy_Spec                    | ServersDatabasesSecurityAlertPolicy_Spec                    | Identical |       |
+| ServersDatabasesTransparentDataEncryptionOperatorSpec       | ServersDatabasesTransparentDataEncryptionOperatorSpec       | Identical |       |
+| ServersDatabasesTransparentDataEncryption_STATUS            | ServersDatabasesTransparentDataEncryption_STATUS            | Identical |       |
+| ServersDatabasesTransparentDataEncryption_Spec              | ServersDatabasesTransparentDataEncryption_Spec              | Identical |       |
+| ServersDatabasesVulnerabilityAssessmentOperatorSpec         | ServersDatabasesVulnerabilityAssessmentOperatorSpec         | Identical |       |
+| ServersDatabasesVulnerabilityAssessment_STATUS              | ServersDatabasesVulnerabilityAssessment_STATUS              | Identical |       |
+| ServersDatabasesVulnerabilityAssessment_Spec                | ServersDatabasesVulnerabilityAssessment_Spec                | Identical |       |
+| ServersElasticPoolOperatorSpec                              | ServersElasticPoolOperatorSpec                              | Identical |       |
+| ServersElasticPool_STATUS                                   | ServersElasticPool_STATUS                                   | Identical |       |
+| ServersElasticPool_Spec                                     | ServersElasticPool_Spec                                     | Identical |       |
+| ServersFailoverGroupOperatorSpec                            | ServersFailoverGroupOperatorSpec                            | Identical |       |
+| ServersFailoverGroup_STATUS                                 | ServersFailoverGroup_STATUS                                 | Identical |       |
+| ServersFailoverGroup_Spec                                   | ServersFailoverGroup_Spec                                   | Identical |       |
+| ServersFirewallRuleOperatorSpec                             | ServersFirewallRuleOperatorSpec                             | Identical |       |
+| ServersFirewallRule_STATUS                                  | ServersFirewallRule_STATUS                                  | Identical |       |
+| ServersFirewallRule_Spec                                    | ServersFirewallRule_Spec                                    | Identical |       |
+| ServersIPV6FirewallRuleOperatorSpec                         | ServersIPV6FirewallRuleOperatorSpec                         | Identical |       |
+| ServersIPV6FirewallRule_STATUS                              | ServersIPV6FirewallRule_STATUS                              | Identical |       |
+| ServersIPV6FirewallRule_Spec                                | ServersIPV6FirewallRule_Spec                                | Identical |       |
+| ServersOutboundFirewallRuleOperatorSpec                     | ServersOutboundFirewallRuleOperatorSpec                     | Identical |       |
+| ServersOutboundFirewallRule_STATUS                          | ServersOutboundFirewallRule_STATUS                          | Identical |       |
+| ServersOutboundFirewallRule_Spec                            | ServersOutboundFirewallRule_Spec                            | Identical |       |
+| ServersSecurityAlertPolicyOperatorSpec                      | ServersSecurityAlertPolicyOperatorSpec                      | Identical |       |
+| ServersSecurityAlertPolicy_STATUS                           | ServersSecurityAlertPolicy_STATUS                           | Identical |       |
+| ServersSecurityAlertPolicy_Spec                             | ServersSecurityAlertPolicy_Spec                             | Identical |       |
+| ServersVirtualNetworkRuleOperatorSpec                       | ServersVirtualNetworkRuleOperatorSpec                       | Identical |       |
+| ServersVirtualNetworkRule_STATUS                            | ServersVirtualNetworkRule_STATUS                            | Identical |       |
+| ServersVirtualNetworkRule_Spec                              | ServersVirtualNetworkRule_Spec                              | Identical |       |
+| ServersVulnerabilityAssessmentOperatorSpec                  | ServersVulnerabilityAssessmentOperatorSpec                  | Identical |       |
+| ServersVulnerabilityAssessment_STATUS                       | ServersVulnerabilityAssessment_STATUS                       | Identical |       |
+| ServersVulnerabilityAssessment_Spec                         | ServersVulnerabilityAssessment_Spec                         | Identical |       |
+| Sku                                                         | Sku                                                         | Identical |       |
+| Sku_STATUS                                                  | Sku_STATUS                                                  | Identical |       |
+| SystemData_STATUS                                           | SystemData_STATUS                                           | Identical |       |
+| UserAssignedIdentityDetails                                 | UserAssignedIdentityDetails                                 | Identical |       |
+| UserIdentity_STATUS                                         | UserIdentity_STATUS                                         | Identical |       |
+| VulnerabilityAssessmentRecurringScansProperties             | VulnerabilityAssessmentRecurringScansProperties             | Identical |       |
+| VulnerabilityAssessmentRecurringScansProperties_STATUS      | VulnerabilityAssessmentRecurringScansProperties_STATUS      | Identical |       |

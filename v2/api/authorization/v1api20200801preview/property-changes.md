@@ -11,17 +11,17 @@ Statuses:
 
 ## Resources
 
-| Current Version      | Current Type   | Next Version                 | Next Type      | Status    | Notes |
-|:---------------------|:---------------|:-----------------------------|:---------------|:---------:|:------|
-| v1api20200801preview | RoleAssignment | v1api20200801preview/storage | RoleAssignment | Identical |       |
+| v1api20200801preview | v1api20200801preview/storage | Status    | Notes |
+|:---------------------|:-----------------------------|:---------:|:------|
+| RoleAssignment       | RoleAssignment               | Identical |       |
 
 ## Objects
 
-| Current Version      | Current Type               | Next Version                 | Next Type                  | Status   | Notes |
-|:---------------------|:---------------------------|:-----------------------------|:---------------------------|:--------:|:------|
-| v1api20200801preview | RoleAssignmentOperatorSpec | v1api20200801preview/storage | RoleAssignmentOperatorSpec | Extended |       |
-| v1api20200801preview | RoleAssignment_STATUS      | v1api20200801preview/storage | RoleAssignment_STATUS      | Modified |       |
-| v1api20200801preview | RoleAssignment_Spec        | v1api20200801preview/storage | RoleAssignment_Spec        | Modified |       |
+| v1api20200801preview       | v1api20200801preview/storage | Status   | Notes |
+|:---------------------------|:-----------------------------|:--------:|:------|
+| RoleAssignmentOperatorSpec | RoleAssignmentOperatorSpec   | Extended |       |
+| RoleAssignment_STATUS      | RoleAssignment_STATUS        | Modified |       |
+| RoleAssignment_Spec        | RoleAssignment_Spec          | Modified |       |
 
 ### RoleAssignmentOperatorSpec
 

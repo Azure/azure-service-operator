@@ -11,35 +11,35 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type  | Next Version          | Next Type     | Status    | Notes |
-|:----------------------|:--------------|:----------------------|:--------------|:---------:|:------|
-| v1api20220901/storage | SearchService | v1api20231101/storage | SearchService | Identical |       |
+| v1api20220901/storage | v1api20231101/storage | Status    | Notes |
+|:----------------------|:----------------------|:---------:|:------|
+| SearchService         | SearchService         | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                          | Next Version          | Next Type                             | Status    | Notes |
-|:----------------------|:--------------------------------------|:----------------------|:--------------------------------------|:---------:|:------|
-| v1api20220901/storage | DataPlaneAadOrApiKeyAuthOption        | v1api20231101/storage | DataPlaneAadOrApiKeyAuthOption        | Identical |       |
-| v1api20220901/storage | DataPlaneAadOrApiKeyAuthOption_STATUS | v1api20231101/storage | DataPlaneAadOrApiKeyAuthOption_STATUS | Identical |       |
-| v1api20220901/storage | DataPlaneAuthOptions                  | v1api20231101/storage | DataPlaneAuthOptions                  | Identical |       |
-| v1api20220901/storage | DataPlaneAuthOptions_STATUS           | v1api20231101/storage | DataPlaneAuthOptions_STATUS           | Identical |       |
-| v1api20220901/storage | EncryptionWithCmk                     | v1api20231101/storage | EncryptionWithCmk                     | Identical |       |
-| v1api20220901/storage | EncryptionWithCmk_STATUS              | v1api20231101/storage | EncryptionWithCmk_STATUS              | Identical |       |
-| v1api20220901/storage | Identity                              | v1api20231101/storage | Identity                              | Identical |       |
-| v1api20220901/storage | Identity_STATUS                       | v1api20231101/storage | Identity_STATUS                       | Identical |       |
-| v1api20220901/storage | IpRule                                | v1api20231101/storage | IpRule                                | Identical |       |
-| v1api20220901/storage | IpRule_STATUS                         | v1api20231101/storage | IpRule_STATUS                         | Identical |       |
-| v1api20220901/storage | NetworkRuleSet                        | v1api20231101/storage | NetworkRuleSet                        | Identical |       |
-| v1api20220901/storage | NetworkRuleSet_STATUS                 | v1api20231101/storage | NetworkRuleSet_STATUS                 | Identical |       |
-| v1api20220901/storage | PrivateEndpointConnection_STATUS      | v1api20231101/storage | PrivateEndpointConnection_STATUS      | Identical |       |
-| v1api20220901/storage | SearchServiceOperatorConfigMaps       | v1api20231101/storage | SearchServiceOperatorConfigMaps       | Identical |       |
-| v1api20220901/storage | SearchServiceOperatorSecrets          | v1api20231101/storage | SearchServiceOperatorSecrets          | Identical |       |
-| v1api20220901/storage | SearchServiceOperatorSpec             | v1api20231101/storage | SearchServiceOperatorSpec             | Identical |       |
-| v1api20220901/storage | SearchService_STATUS                  | v1api20231101/storage | SearchService_STATUS                  | Extended  |       |
-| v1api20220901/storage | SearchService_Spec                    | v1api20231101/storage | SearchService_Spec                    | Extended  |       |
-| v1api20220901/storage | SharedPrivateLinkResource_STATUS      | v1api20231101/storage | SharedPrivateLinkResource_STATUS      | Identical |       |
-| v1api20220901/storage | Sku                                   | v1api20231101/storage | Sku                                   | Identical |       |
-| v1api20220901/storage | Sku_STATUS                            | v1api20231101/storage | Sku_STATUS                            | Identical |       |
+| v1api20220901/storage                 | v1api20231101/storage                 | Status    | Notes |
+|:--------------------------------------|:--------------------------------------|:---------:|:------|
+| DataPlaneAadOrApiKeyAuthOption        | DataPlaneAadOrApiKeyAuthOption        | Identical |       |
+| DataPlaneAadOrApiKeyAuthOption_STATUS | DataPlaneAadOrApiKeyAuthOption_STATUS | Identical |       |
+| DataPlaneAuthOptions                  | DataPlaneAuthOptions                  | Identical |       |
+| DataPlaneAuthOptions_STATUS           | DataPlaneAuthOptions_STATUS           | Identical |       |
+| EncryptionWithCmk                     | EncryptionWithCmk                     | Identical |       |
+| EncryptionWithCmk_STATUS              | EncryptionWithCmk_STATUS              | Identical |       |
+| Identity                              | Identity                              | Identical |       |
+| Identity_STATUS                       | Identity_STATUS                       | Identical |       |
+| IpRule                                | IpRule                                | Identical |       |
+| IpRule_STATUS                         | IpRule_STATUS                         | Identical |       |
+| NetworkRuleSet                        | NetworkRuleSet                        | Identical |       |
+| NetworkRuleSet_STATUS                 | NetworkRuleSet_STATUS                 | Identical |       |
+| PrivateEndpointConnection_STATUS      | PrivateEndpointConnection_STATUS      | Identical |       |
+| SearchServiceOperatorConfigMaps       | SearchServiceOperatorConfigMaps       | Identical |       |
+| SearchServiceOperatorSecrets          | SearchServiceOperatorSecrets          | Identical |       |
+| SearchServiceOperatorSpec             | SearchServiceOperatorSpec             | Identical |       |
+| SearchService_STATUS                  | SearchService_STATUS                  | Extended  |       |
+| SearchService_Spec                    | SearchService_Spec                    | Extended  |       |
+| SharedPrivateLinkResource_STATUS      | SharedPrivateLinkResource_STATUS      | Identical |       |
+| Sku                                   | Sku                                   | Identical |       |
+| Sku_STATUS                            | Sku_STATUS                            | Identical |       |
 
 ### SearchService_STATUS
 

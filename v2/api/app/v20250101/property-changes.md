@@ -11,219 +11,219 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type       | Next Version      | Next Type          | Status    | Notes |
-|:----------------|:-------------------|:------------------|:-------------------|:---------:|:------|
-| v20250101       | AuthConfig         | v20250101/storage | AuthConfig         | Identical |       |
-| v20250101       | ContainerApp       | v20250101/storage | ContainerApp       | Identical |       |
-| v20250101       | Job                | v20250101/storage | Job                | Identical |       |
-| v20250101       | ManagedEnvironment | v20250101/storage | ManagedEnvironment | Identical |       |
+| v20250101          | v20250101/storage  | Status    | Notes |
+|:-------------------|:-------------------|:---------:|:------|
+| AuthConfig         | AuthConfig         | Identical |       |
+| ContainerApp       | ContainerApp       | Identical |       |
+| Job                | Job                | Identical |       |
+| ManagedEnvironment | ManagedEnvironment | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                                             | Next Version      | Next Type                                                                | Status   | Notes |
-|:----------------|:-------------------------------------------------------------------------|:------------------|:-------------------------------------------------------------------------|:--------:|:------|
-| v20250101       | AllowedAudiencesValidation                                               | v20250101/storage | AllowedAudiencesValidation                                               | Extended |       |
-| v20250101       | AllowedAudiencesValidation_STATUS                                        | v20250101/storage | AllowedAudiencesValidation_STATUS                                        | Extended |       |
-| v20250101       | AllowedPrincipals                                                        | v20250101/storage | AllowedPrincipals                                                        | Extended |       |
-| v20250101       | AllowedPrincipals_STATUS                                                 | v20250101/storage | AllowedPrincipals_STATUS                                                 | Extended |       |
-| v20250101       | AppLogsConfiguration                                                     | v20250101/storage | AppLogsConfiguration                                                     | Extended |       |
-| v20250101       | AppLogsConfiguration_STATUS                                              | v20250101/storage | AppLogsConfiguration_STATUS                                              | Extended |       |
-| v20250101       | AppRegistration                                                          | v20250101/storage | AppRegistration                                                          | Extended |       |
-| v20250101       | AppRegistration_STATUS                                                   | v20250101/storage | AppRegistration_STATUS                                                   | Extended |       |
-| v20250101       | Apple                                                                    | v20250101/storage | Apple                                                                    | Extended |       |
-| v20250101       | AppleRegistration                                                        | v20250101/storage | AppleRegistration                                                        | Extended |       |
-| v20250101       | AppleRegistration_STATUS                                                 | v20250101/storage | AppleRegistration_STATUS                                                 | Extended |       |
-| v20250101       | Apple_STATUS                                                             | v20250101/storage | Apple_STATUS                                                             | Extended |       |
-| v20250101       | AuthConfigOperatorSpec                                                   | v20250101/storage | AuthConfigOperatorSpec                                                   | Extended |       |
-| v20250101       | AuthConfig_STATUS                                                        | v20250101/storage | AuthConfig_STATUS                                                        | Extended |       |
-| v20250101       | AuthConfig_Spec                                                          | v20250101/storage | AuthConfig_Spec                                                          | Extended |       |
-| v20250101       | AuthPlatform                                                             | v20250101/storage | AuthPlatform                                                             | Extended |       |
-| v20250101       | AuthPlatform_STATUS                                                      | v20250101/storage | AuthPlatform_STATUS                                                      | Extended |       |
-| v20250101       | AzureActiveDirectory                                                     | v20250101/storage | AzureActiveDirectory                                                     | Extended |       |
-| v20250101       | AzureActiveDirectoryLogin                                                | v20250101/storage | AzureActiveDirectoryLogin                                                | Extended |       |
-| v20250101       | AzureActiveDirectoryLogin_STATUS                                         | v20250101/storage | AzureActiveDirectoryLogin_STATUS                                         | Extended |       |
-| v20250101       | AzureActiveDirectoryRegistration                                         | v20250101/storage | AzureActiveDirectoryRegistration                                         | Extended |       |
-| v20250101       | AzureActiveDirectoryRegistration_STATUS                                  | v20250101/storage | AzureActiveDirectoryRegistration_STATUS                                  | Extended |       |
-| v20250101       | AzureActiveDirectoryValidation                                           | v20250101/storage | AzureActiveDirectoryValidation                                           | Extended |       |
-| v20250101       | AzureActiveDirectoryValidation_STATUS                                    | v20250101/storage | AzureActiveDirectoryValidation_STATUS                                    | Extended |       |
-| v20250101       | AzureActiveDirectory_STATUS                                              | v20250101/storage | AzureActiveDirectory_STATUS                                              | Extended |       |
-| v20250101       | AzureStaticWebApps                                                       | v20250101/storage | AzureStaticWebApps                                                       | Extended |       |
-| v20250101       | AzureStaticWebAppsRegistration                                           | v20250101/storage | AzureStaticWebAppsRegistration                                           | Extended |       |
-| v20250101       | AzureStaticWebAppsRegistration_STATUS                                    | v20250101/storage | AzureStaticWebAppsRegistration_STATUS                                    | Extended |       |
-| v20250101       | AzureStaticWebApps_STATUS                                                | v20250101/storage | AzureStaticWebApps_STATUS                                                | Extended |       |
-| v20250101       | BaseContainer                                                            | v20250101/storage | BaseContainer                                                            | Extended |       |
-| v20250101       | BaseContainer_STATUS                                                     | v20250101/storage | BaseContainer_STATUS                                                     | Extended |       |
-| v20250101       | BlobStorageTokenStore                                                    | v20250101/storage | BlobStorageTokenStore                                                    | Extended |       |
-| v20250101       | BlobStorageTokenStore_STATUS                                             | v20250101/storage | BlobStorageTokenStore_STATUS                                             | Extended |       |
-| v20250101       | CertificateKeyVaultProperties                                            | v20250101/storage | CertificateKeyVaultProperties                                            | Modified |       |
-| v20250101       | CertificateKeyVaultProperties_STATUS                                     | v20250101/storage | CertificateKeyVaultProperties_STATUS                                     | Extended |       |
-| v20250101       | ClientRegistration                                                       | v20250101/storage | ClientRegistration                                                       | Extended |       |
-| v20250101       | ClientRegistration_STATUS                                                | v20250101/storage | ClientRegistration_STATUS                                                | Extended |       |
-| v20250101       | Configuration                                                            | v20250101/storage | Configuration                                                            | Modified |       |
-| v20250101       | Configuration_STATUS                                                     | v20250101/storage | Configuration_STATUS                                                     | Modified |       |
-| v20250101       | Container                                                                | v20250101/storage | Container                                                                | Extended |       |
-| v20250101       | ContainerAppOperatorConfigMaps                                           | v20250101/storage | ContainerAppOperatorConfigMaps                                           | Extended |       |
-| v20250101       | ContainerAppOperatorSpec                                                 | v20250101/storage | ContainerAppOperatorSpec                                                 | Extended |       |
-| v20250101       | ContainerAppProbe                                                        | v20250101/storage | ContainerAppProbe                                                        | Modified |       |
-| v20250101       | ContainerAppProbe_HttpGet                                                | v20250101/storage | ContainerAppProbe_HttpGet                                                | Modified |       |
-| v20250101       | ContainerAppProbe_HttpGet_HttpHeaders                                    | v20250101/storage | ContainerAppProbe_HttpGet_HttpHeaders                                    | Extended |       |
-| v20250101       | ContainerAppProbe_HttpGet_HttpHeaders_STATUS                             | v20250101/storage | ContainerAppProbe_HttpGet_HttpHeaders_STATUS                             | Extended |       |
-| v20250101       | ContainerAppProbe_HttpGet_STATUS                                         | v20250101/storage | ContainerAppProbe_HttpGet_STATUS                                         | Modified |       |
-| v20250101       | ContainerAppProbe_STATUS                                                 | v20250101/storage | ContainerAppProbe_STATUS                                                 | Modified |       |
-| v20250101       | ContainerAppProbe_TcpSocket                                              | v20250101/storage | ContainerAppProbe_TcpSocket                                              | Extended |       |
-| v20250101       | ContainerAppProbe_TcpSocket_STATUS                                       | v20250101/storage | ContainerAppProbe_TcpSocket_STATUS                                       | Extended |       |
-| v20250101       | ContainerApp_STATUS                                                      | v20250101/storage | ContainerApp_STATUS                                                      | Modified |       |
-| v20250101       | ContainerApp_Spec                                                        | v20250101/storage | ContainerApp_Spec                                                        | Extended |       |
-| v20250101       | ContainerResources                                                       | v20250101/storage | ContainerResources                                                       | Extended |       |
-| v20250101       | ContainerResources_STATUS                                                | v20250101/storage | ContainerResources_STATUS                                                | Extended |       |
-| v20250101       | Container_STATUS                                                         | v20250101/storage | Container_STATUS                                                         | Extended |       |
-| v20250101       | CookieExpiration                                                         | v20250101/storage | CookieExpiration                                                         | Modified |       |
-| v20250101       | CookieExpiration_STATUS                                                  | v20250101/storage | CookieExpiration_STATUS                                                  | Modified |       |
-| v20250101       | CorsPolicy                                                               | v20250101/storage | CorsPolicy                                                               | Extended |       |
-| v20250101       | CorsPolicy_STATUS                                                        | v20250101/storage | CorsPolicy_STATUS                                                        | Extended |       |
-| v20250101       | CustomDomain                                                             | v20250101/storage | CustomDomain                                                             | Modified |       |
-| v20250101       | CustomDomainConfiguration                                                | v20250101/storage | CustomDomainConfiguration                                                | Extended |       |
-| v20250101       | CustomDomainConfiguration_STATUS                                         | v20250101/storage | CustomDomainConfiguration_STATUS                                         | Extended |       |
-| v20250101       | CustomDomain_STATUS                                                      | v20250101/storage | CustomDomain_STATUS                                                      | Modified |       |
-| v20250101       | CustomOpenIdConnectProvider                                              | v20250101/storage | CustomOpenIdConnectProvider                                              | Extended |       |
-| v20250101       | CustomOpenIdConnectProvider_STATUS                                       | v20250101/storage | CustomOpenIdConnectProvider_STATUS                                       | Extended |       |
-| v20250101       | CustomScaleRule                                                          | v20250101/storage | CustomScaleRule                                                          | Extended |       |
-| v20250101       | CustomScaleRule_STATUS                                                   | v20250101/storage | CustomScaleRule_STATUS                                                   | Extended |       |
-| v20250101       | Dapr                                                                     | v20250101/storage | Dapr                                                                     | Modified |       |
-| v20250101       | DaprConfiguration_STATUS                                                 | v20250101/storage | DaprConfiguration_STATUS                                                 | Extended |       |
-| v20250101       | Dapr_STATUS                                                              | v20250101/storage | Dapr_STATUS                                                              | Modified |       |
-| v20250101       | DefaultAuthorizationPolicy                                               | v20250101/storage | DefaultAuthorizationPolicy                                               | Extended |       |
-| v20250101       | DefaultAuthorizationPolicy_STATUS                                        | v20250101/storage | DefaultAuthorizationPolicy_STATUS                                        | Extended |       |
-| v20250101       | EncryptionSettings                                                       | v20250101/storage | EncryptionSettings                                                       | Extended |       |
-| v20250101       | EncryptionSettings_STATUS                                                | v20250101/storage | EncryptionSettings_STATUS                                                | Extended |       |
-| v20250101       | EnvironmentVar                                                           | v20250101/storage | EnvironmentVar                                                           | Extended |       |
-| v20250101       | EnvironmentVar_STATUS                                                    | v20250101/storage | EnvironmentVar_STATUS                                                    | Extended |       |
-| v20250101       | ExtendedLocation                                                         | v20250101/storage | ExtendedLocation                                                         | Modified |       |
-| v20250101       | ExtendedLocation_STATUS                                                  | v20250101/storage | ExtendedLocation_STATUS                                                  | Modified |       |
-| v20250101       | Facebook                                                                 | v20250101/storage | Facebook                                                                 | Extended |       |
-| v20250101       | Facebook_STATUS                                                          | v20250101/storage | Facebook_STATUS                                                          | Extended |       |
-| v20250101       | ForwardProxy                                                             | v20250101/storage | ForwardProxy                                                             | Modified |       |
-| v20250101       | ForwardProxy_STATUS                                                      | v20250101/storage | ForwardProxy_STATUS                                                      | Modified |       |
-| v20250101       | GitHub                                                                   | v20250101/storage | GitHub                                                                   | Extended |       |
-| v20250101       | GitHub_STATUS                                                            | v20250101/storage | GitHub_STATUS                                                            | Extended |       |
-| v20250101       | GlobalValidation                                                         | v20250101/storage | GlobalValidation                                                         | Modified |       |
-| v20250101       | GlobalValidation_STATUS                                                  | v20250101/storage | GlobalValidation_STATUS                                                  | Modified |       |
-| v20250101       | Google                                                                   | v20250101/storage | Google                                                                   | Extended |       |
-| v20250101       | Google_STATUS                                                            | v20250101/storage | Google_STATUS                                                            | Extended |       |
-| v20250101       | HttpScaleRule                                                            | v20250101/storage | HttpScaleRule                                                            | Extended |       |
-| v20250101       | HttpScaleRule_STATUS                                                     | v20250101/storage | HttpScaleRule_STATUS                                                     | Extended |       |
-| v20250101       | HttpSettings                                                             | v20250101/storage | HttpSettings                                                             | Extended |       |
-| v20250101       | HttpSettingsRoutes                                                       | v20250101/storage | HttpSettingsRoutes                                                       | Extended |       |
-| v20250101       | HttpSettingsRoutes_STATUS                                                | v20250101/storage | HttpSettingsRoutes_STATUS                                                | Extended |       |
-| v20250101       | HttpSettings_STATUS                                                      | v20250101/storage | HttpSettings_STATUS                                                      | Extended |       |
-| v20250101       | IdentityProviders                                                        | v20250101/storage | IdentityProviders                                                        | Extended |       |
-| v20250101       | IdentityProviders_STATUS                                                 | v20250101/storage | IdentityProviders_STATUS                                                 | Extended |       |
-| v20250101       | IdentitySettings                                                         | v20250101/storage | IdentitySettings                                                         | Modified |       |
-| v20250101       | IdentitySettings_STATUS                                                  | v20250101/storage | IdentitySettings_STATUS                                                  | Modified |       |
-| v20250101       | Ingress                                                                  | v20250101/storage | Ingress                                                                  | Modified |       |
-| v20250101       | IngressPortMapping                                                       | v20250101/storage | IngressPortMapping                                                       | Extended |       |
-| v20250101       | IngressPortMapping_STATUS                                                | v20250101/storage | IngressPortMapping_STATUS                                                | Extended |       |
-| v20250101       | Ingress_STATUS                                                           | v20250101/storage | Ingress_STATUS                                                           | Modified |       |
-| v20250101       | Ingress_StickySessions                                                   | v20250101/storage | Ingress_StickySessions                                                   | Modified |       |
-| v20250101       | Ingress_StickySessions_STATUS                                            | v20250101/storage | Ingress_StickySessions_STATUS                                            | Modified |       |
-| v20250101       | IpSecurityRestrictionRule                                                | v20250101/storage | IpSecurityRestrictionRule                                                | Modified |       |
-| v20250101       | IpSecurityRestrictionRule_STATUS                                         | v20250101/storage | IpSecurityRestrictionRule_STATUS                                         | Modified |       |
-| v20250101       | JobConfiguration                                                         | v20250101/storage | JobConfiguration                                                         | Modified |       |
-| v20250101       | JobConfiguration_EventTriggerConfig                                      | v20250101/storage | JobConfiguration_EventTriggerConfig                                      | Extended |       |
-| v20250101       | JobConfiguration_EventTriggerConfig_STATUS                               | v20250101/storage | JobConfiguration_EventTriggerConfig_STATUS                               | Extended |       |
-| v20250101       | JobConfiguration_ManualTriggerConfig                                     | v20250101/storage | JobConfiguration_ManualTriggerConfig                                     | Extended |       |
-| v20250101       | JobConfiguration_ManualTriggerConfig_STATUS                              | v20250101/storage | JobConfiguration_ManualTriggerConfig_STATUS                              | Extended |       |
-| v20250101       | JobConfiguration_STATUS                                                  | v20250101/storage | JobConfiguration_STATUS                                                  | Modified |       |
-| v20250101       | JobConfiguration_ScheduleTriggerConfig                                   | v20250101/storage | JobConfiguration_ScheduleTriggerConfig                                   | Extended |       |
-| v20250101       | JobConfiguration_ScheduleTriggerConfig_STATUS                            | v20250101/storage | JobConfiguration_ScheduleTriggerConfig_STATUS                            | Extended |       |
-| v20250101       | JobOperatorSpec                                                          | v20250101/storage | JobOperatorSpec                                                          | Extended |       |
-| v20250101       | JobScale                                                                 | v20250101/storage | JobScale                                                                 | Extended |       |
-| v20250101       | JobScaleRule                                                             | v20250101/storage | JobScaleRule                                                             | Extended |       |
-| v20250101       | JobScaleRule_STATUS                                                      | v20250101/storage | JobScaleRule_STATUS                                                      | Extended |       |
-| v20250101       | JobScale_STATUS                                                          | v20250101/storage | JobScale_STATUS                                                          | Extended |       |
-| v20250101       | JobTemplate                                                              | v20250101/storage | JobTemplate                                                              | Extended |       |
-| v20250101       | JobTemplate_STATUS                                                       | v20250101/storage | JobTemplate_STATUS                                                       | Extended |       |
-| v20250101       | Job_STATUS                                                               | v20250101/storage | Job_STATUS                                                               | Modified |       |
-| v20250101       | Job_Spec                                                                 | v20250101/storage | Job_Spec                                                                 | Modified |       |
-| v20250101       | JwtClaimChecks                                                           | v20250101/storage | JwtClaimChecks                                                           | Extended |       |
-| v20250101       | JwtClaimChecks_STATUS                                                    | v20250101/storage | JwtClaimChecks_STATUS                                                    | Extended |       |
-| v20250101       | KedaConfiguration_STATUS                                                 | v20250101/storage | KedaConfiguration_STATUS                                                 | Extended |       |
-| v20250101       | LogAnalyticsConfiguration                                                | v20250101/storage | LogAnalyticsConfiguration                                                | Extended |       |
-| v20250101       | LogAnalyticsConfiguration_STATUS                                         | v20250101/storage | LogAnalyticsConfiguration_STATUS                                         | Extended |       |
-| v20250101       | Login                                                                    | v20250101/storage | Login                                                                    | Extended |       |
-| v20250101       | LoginRoutes                                                              | v20250101/storage | LoginRoutes                                                              | Extended |       |
-| v20250101       | LoginRoutes_STATUS                                                       | v20250101/storage | LoginRoutes_STATUS                                                       | Extended |       |
-| v20250101       | LoginScopes                                                              | v20250101/storage | LoginScopes                                                              | Extended |       |
-| v20250101       | LoginScopes_STATUS                                                       | v20250101/storage | LoginScopes_STATUS                                                       | Extended |       |
-| v20250101       | Login_STATUS                                                             | v20250101/storage | Login_STATUS                                                             | Extended |       |
-| v20250101       | ManagedEnvironmentOperatorSpec                                           | v20250101/storage | ManagedEnvironmentOperatorSpec                                           | Extended |       |
-| v20250101       | ManagedEnvironment_Properties_PeerAuthentication_STATUS                  | v20250101/storage | ManagedEnvironment_Properties_PeerAuthentication_STATUS                  | Extended |       |
-| v20250101       | ManagedEnvironment_Properties_PeerAuthentication_Spec                    | v20250101/storage | ManagedEnvironment_Properties_PeerAuthentication_Spec                    | Extended |       |
-| v20250101       | ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS | v20250101/storage | ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS | Extended |       |
-| v20250101       | ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec   | v20250101/storage | ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec   | Extended |       |
-| v20250101       | ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS            | v20250101/storage | ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS            | Extended |       |
-| v20250101       | ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | v20250101/storage | ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | Extended |       |
-| v20250101       | ManagedEnvironment_STATUS                                                | v20250101/storage | ManagedEnvironment_STATUS                                                | Modified |       |
-| v20250101       | ManagedEnvironment_Spec                                                  | v20250101/storage | ManagedEnvironment_Spec                                                  | Extended |       |
-| v20250101       | ManagedServiceIdentity                                                   | v20250101/storage | ManagedServiceIdentity                                                   | Modified |       |
-| v20250101       | ManagedServiceIdentity_STATUS                                            | v20250101/storage | ManagedServiceIdentity_STATUS                                            | Modified |       |
-| v20250101       | Mtls                                                                     | v20250101/storage | Mtls                                                                     | Extended |       |
-| v20250101       | Mtls_STATUS                                                              | v20250101/storage | Mtls_STATUS                                                              | Extended |       |
-| v20250101       | Nonce                                                                    | v20250101/storage | Nonce                                                                    | Extended |       |
-| v20250101       | Nonce_STATUS                                                             | v20250101/storage | Nonce_STATUS                                                             | Extended |       |
-| v20250101       | OpenIdConnectClientCredential                                            | v20250101/storage | OpenIdConnectClientCredential                                            | Modified |       |
-| v20250101       | OpenIdConnectClientCredential_STATUS                                     | v20250101/storage | OpenIdConnectClientCredential_STATUS                                     | Modified |       |
-| v20250101       | OpenIdConnectConfig                                                      | v20250101/storage | OpenIdConnectConfig                                                      | Extended |       |
-| v20250101       | OpenIdConnectConfig_STATUS                                               | v20250101/storage | OpenIdConnectConfig_STATUS                                               | Extended |       |
-| v20250101       | OpenIdConnectLogin                                                       | v20250101/storage | OpenIdConnectLogin                                                       | Extended |       |
-| v20250101       | OpenIdConnectLogin_STATUS                                                | v20250101/storage | OpenIdConnectLogin_STATUS                                                | Extended |       |
-| v20250101       | OpenIdConnectRegistration                                                | v20250101/storage | OpenIdConnectRegistration                                                | Extended |       |
-| v20250101       | OpenIdConnectRegistration_STATUS                                         | v20250101/storage | OpenIdConnectRegistration_STATUS                                         | Extended |       |
-| v20250101       | QueueScaleRule                                                           | v20250101/storage | QueueScaleRule                                                           | Extended |       |
-| v20250101       | QueueScaleRule_STATUS                                                    | v20250101/storage | QueueScaleRule_STATUS                                                    | Extended |       |
-| v20250101       | RegistryCredentials                                                      | v20250101/storage | RegistryCredentials                                                      | Extended |       |
-| v20250101       | RegistryCredentials_STATUS                                               | v20250101/storage | RegistryCredentials_STATUS                                               | Extended |       |
-| v20250101       | Runtime                                                                  | v20250101/storage | Runtime                                                                  | Extended |       |
-| v20250101       | Runtime_Java                                                             | v20250101/storage | Runtime_Java                                                             | Extended |       |
-| v20250101       | Runtime_Java_STATUS                                                      | v20250101/storage | Runtime_Java_STATUS                                                      | Extended |       |
-| v20250101       | Runtime_STATUS                                                           | v20250101/storage | Runtime_STATUS                                                           | Extended |       |
-| v20250101       | Scale                                                                    | v20250101/storage | Scale                                                                    | Extended |       |
-| v20250101       | ScaleRule                                                                | v20250101/storage | ScaleRule                                                                | Extended |       |
-| v20250101       | ScaleRuleAuth                                                            | v20250101/storage | ScaleRuleAuth                                                            | Extended |       |
-| v20250101       | ScaleRuleAuth_STATUS                                                     | v20250101/storage | ScaleRuleAuth_STATUS                                                     | Extended |       |
-| v20250101       | ScaleRule_STATUS                                                         | v20250101/storage | ScaleRule_STATUS                                                         | Extended |       |
-| v20250101       | Scale_STATUS                                                             | v20250101/storage | Scale_STATUS                                                             | Extended |       |
-| v20250101       | Secret                                                                   | v20250101/storage | Secret                                                                   | Extended |       |
-| v20250101       | SecretVolumeItem                                                         | v20250101/storage | SecretVolumeItem                                                         | Extended |       |
-| v20250101       | SecretVolumeItem_STATUS                                                  | v20250101/storage | SecretVolumeItem_STATUS                                                  | Extended |       |
-| v20250101       | Secret_STATUS                                                            | v20250101/storage | Secret_STATUS                                                            | Extended |       |
-| v20250101       | Service                                                                  | v20250101/storage | Service                                                                  | Extended |       |
-| v20250101       | ServiceBind                                                              | v20250101/storage | ServiceBind                                                              | Extended |       |
-| v20250101       | ServiceBind_STATUS                                                       | v20250101/storage | ServiceBind_STATUS                                                       | Extended |       |
-| v20250101       | Service_STATUS                                                           | v20250101/storage | Service_STATUS                                                           | Extended |       |
-| v20250101       | SystemData_STATUS                                                        | v20250101/storage | SystemData_STATUS                                                        | Modified |       |
-| v20250101       | TcpScaleRule                                                             | v20250101/storage | TcpScaleRule                                                             | Extended |       |
-| v20250101       | TcpScaleRule_STATUS                                                      | v20250101/storage | TcpScaleRule_STATUS                                                      | Extended |       |
-| v20250101       | Template                                                                 | v20250101/storage | Template                                                                 | Extended |       |
-| v20250101       | Template_STATUS                                                          | v20250101/storage | Template_STATUS                                                          | Extended |       |
-| v20250101       | TokenStore                                                               | v20250101/storage | TokenStore                                                               | Extended |       |
-| v20250101       | TokenStore_STATUS                                                        | v20250101/storage | TokenStore_STATUS                                                        | Extended |       |
-| v20250101       | TrafficWeight                                                            | v20250101/storage | TrafficWeight                                                            | Extended |       |
-| v20250101       | TrafficWeight_STATUS                                                     | v20250101/storage | TrafficWeight_STATUS                                                     | Extended |       |
-| v20250101       | Twitter                                                                  | v20250101/storage | Twitter                                                                  | Extended |       |
-| v20250101       | TwitterRegistration                                                      | v20250101/storage | TwitterRegistration                                                      | Extended |       |
-| v20250101       | TwitterRegistration_STATUS                                               | v20250101/storage | TwitterRegistration_STATUS                                               | Extended |       |
-| v20250101       | Twitter_STATUS                                                           | v20250101/storage | Twitter_STATUS                                                           | Extended |       |
-| v20250101       | UserAssignedIdentityDetails                                              | v20250101/storage | UserAssignedIdentityDetails                                              | Extended |       |
-| v20250101       | UserAssignedIdentity_STATUS                                              | v20250101/storage | UserAssignedIdentity_STATUS                                              | Extended |       |
-| v20250101       | VnetConfiguration                                                        | v20250101/storage | VnetConfiguration                                                        | Extended |       |
-| v20250101       | VnetConfiguration_STATUS                                                 | v20250101/storage | VnetConfiguration_STATUS                                                 | Extended |       |
-| v20250101       | Volume                                                                   | v20250101/storage | Volume                                                                   | Modified |       |
-| v20250101       | VolumeMount                                                              | v20250101/storage | VolumeMount                                                              | Extended |       |
-| v20250101       | VolumeMount_STATUS                                                       | v20250101/storage | VolumeMount_STATUS                                                       | Extended |       |
-| v20250101       | Volume_STATUS                                                            | v20250101/storage | Volume_STATUS                                                            | Modified |       |
-| v20250101       | WorkloadProfile                                                          | v20250101/storage | WorkloadProfile                                                          | Extended |       |
-| v20250101       | WorkloadProfile_STATUS                                                   | v20250101/storage | WorkloadProfile_STATUS                                                   | Extended |       |
+| v20250101                                                                | v20250101/storage                                                        | Status   | Notes |
+|:-------------------------------------------------------------------------|:-------------------------------------------------------------------------|:--------:|:------|
+| AllowedAudiencesValidation                                               | AllowedAudiencesValidation                                               | Extended |       |
+| AllowedAudiencesValidation_STATUS                                        | AllowedAudiencesValidation_STATUS                                        | Extended |       |
+| AllowedPrincipals                                                        | AllowedPrincipals                                                        | Extended |       |
+| AllowedPrincipals_STATUS                                                 | AllowedPrincipals_STATUS                                                 | Extended |       |
+| AppLogsConfiguration                                                     | AppLogsConfiguration                                                     | Extended |       |
+| AppLogsConfiguration_STATUS                                              | AppLogsConfiguration_STATUS                                              | Extended |       |
+| AppRegistration                                                          | AppRegistration                                                          | Extended |       |
+| AppRegistration_STATUS                                                   | AppRegistration_STATUS                                                   | Extended |       |
+| Apple                                                                    | Apple                                                                    | Extended |       |
+| AppleRegistration                                                        | AppleRegistration                                                        | Extended |       |
+| AppleRegistration_STATUS                                                 | AppleRegistration_STATUS                                                 | Extended |       |
+| Apple_STATUS                                                             | Apple_STATUS                                                             | Extended |       |
+| AuthConfigOperatorSpec                                                   | AuthConfigOperatorSpec                                                   | Extended |       |
+| AuthConfig_STATUS                                                        | AuthConfig_STATUS                                                        | Extended |       |
+| AuthConfig_Spec                                                          | AuthConfig_Spec                                                          | Extended |       |
+| AuthPlatform                                                             | AuthPlatform                                                             | Extended |       |
+| AuthPlatform_STATUS                                                      | AuthPlatform_STATUS                                                      | Extended |       |
+| AzureActiveDirectory                                                     | AzureActiveDirectory                                                     | Extended |       |
+| AzureActiveDirectoryLogin                                                | AzureActiveDirectoryLogin                                                | Extended |       |
+| AzureActiveDirectoryLogin_STATUS                                         | AzureActiveDirectoryLogin_STATUS                                         | Extended |       |
+| AzureActiveDirectoryRegistration                                         | AzureActiveDirectoryRegistration                                         | Extended |       |
+| AzureActiveDirectoryRegistration_STATUS                                  | AzureActiveDirectoryRegistration_STATUS                                  | Extended |       |
+| AzureActiveDirectoryValidation                                           | AzureActiveDirectoryValidation                                           | Extended |       |
+| AzureActiveDirectoryValidation_STATUS                                    | AzureActiveDirectoryValidation_STATUS                                    | Extended |       |
+| AzureActiveDirectory_STATUS                                              | AzureActiveDirectory_STATUS                                              | Extended |       |
+| AzureStaticWebApps                                                       | AzureStaticWebApps                                                       | Extended |       |
+| AzureStaticWebAppsRegistration                                           | AzureStaticWebAppsRegistration                                           | Extended |       |
+| AzureStaticWebAppsRegistration_STATUS                                    | AzureStaticWebAppsRegistration_STATUS                                    | Extended |       |
+| AzureStaticWebApps_STATUS                                                | AzureStaticWebApps_STATUS                                                | Extended |       |
+| BaseContainer                                                            | BaseContainer                                                            | Extended |       |
+| BaseContainer_STATUS                                                     | BaseContainer_STATUS                                                     | Extended |       |
+| BlobStorageTokenStore                                                    | BlobStorageTokenStore                                                    | Extended |       |
+| BlobStorageTokenStore_STATUS                                             | BlobStorageTokenStore_STATUS                                             | Extended |       |
+| CertificateKeyVaultProperties                                            | CertificateKeyVaultProperties                                            | Modified |       |
+| CertificateKeyVaultProperties_STATUS                                     | CertificateKeyVaultProperties_STATUS                                     | Extended |       |
+| ClientRegistration                                                       | ClientRegistration                                                       | Extended |       |
+| ClientRegistration_STATUS                                                | ClientRegistration_STATUS                                                | Extended |       |
+| Configuration                                                            | Configuration                                                            | Modified |       |
+| Configuration_STATUS                                                     | Configuration_STATUS                                                     | Modified |       |
+| Container                                                                | Container                                                                | Extended |       |
+| ContainerAppOperatorConfigMaps                                           | ContainerAppOperatorConfigMaps                                           | Extended |       |
+| ContainerAppOperatorSpec                                                 | ContainerAppOperatorSpec                                                 | Extended |       |
+| ContainerAppProbe                                                        | ContainerAppProbe                                                        | Modified |       |
+| ContainerAppProbe_HttpGet                                                | ContainerAppProbe_HttpGet                                                | Modified |       |
+| ContainerAppProbe_HttpGet_HttpHeaders                                    | ContainerAppProbe_HttpGet_HttpHeaders                                    | Extended |       |
+| ContainerAppProbe_HttpGet_HttpHeaders_STATUS                             | ContainerAppProbe_HttpGet_HttpHeaders_STATUS                             | Extended |       |
+| ContainerAppProbe_HttpGet_STATUS                                         | ContainerAppProbe_HttpGet_STATUS                                         | Modified |       |
+| ContainerAppProbe_STATUS                                                 | ContainerAppProbe_STATUS                                                 | Modified |       |
+| ContainerAppProbe_TcpSocket                                              | ContainerAppProbe_TcpSocket                                              | Extended |       |
+| ContainerAppProbe_TcpSocket_STATUS                                       | ContainerAppProbe_TcpSocket_STATUS                                       | Extended |       |
+| ContainerApp_STATUS                                                      | ContainerApp_STATUS                                                      | Modified |       |
+| ContainerApp_Spec                                                        | ContainerApp_Spec                                                        | Extended |       |
+| ContainerResources                                                       | ContainerResources                                                       | Extended |       |
+| ContainerResources_STATUS                                                | ContainerResources_STATUS                                                | Extended |       |
+| Container_STATUS                                                         | Container_STATUS                                                         | Extended |       |
+| CookieExpiration                                                         | CookieExpiration                                                         | Modified |       |
+| CookieExpiration_STATUS                                                  | CookieExpiration_STATUS                                                  | Modified |       |
+| CorsPolicy                                                               | CorsPolicy                                                               | Extended |       |
+| CorsPolicy_STATUS                                                        | CorsPolicy_STATUS                                                        | Extended |       |
+| CustomDomain                                                             | CustomDomain                                                             | Modified |       |
+| CustomDomainConfiguration                                                | CustomDomainConfiguration                                                | Extended |       |
+| CustomDomainConfiguration_STATUS                                         | CustomDomainConfiguration_STATUS                                         | Extended |       |
+| CustomDomain_STATUS                                                      | CustomDomain_STATUS                                                      | Modified |       |
+| CustomOpenIdConnectProvider                                              | CustomOpenIdConnectProvider                                              | Extended |       |
+| CustomOpenIdConnectProvider_STATUS                                       | CustomOpenIdConnectProvider_STATUS                                       | Extended |       |
+| CustomScaleRule                                                          | CustomScaleRule                                                          | Extended |       |
+| CustomScaleRule_STATUS                                                   | CustomScaleRule_STATUS                                                   | Extended |       |
+| Dapr                                                                     | Dapr                                                                     | Modified |       |
+| DaprConfiguration_STATUS                                                 | DaprConfiguration_STATUS                                                 | Extended |       |
+| Dapr_STATUS                                                              | Dapr_STATUS                                                              | Modified |       |
+| DefaultAuthorizationPolicy                                               | DefaultAuthorizationPolicy                                               | Extended |       |
+| DefaultAuthorizationPolicy_STATUS                                        | DefaultAuthorizationPolicy_STATUS                                        | Extended |       |
+| EncryptionSettings                                                       | EncryptionSettings                                                       | Extended |       |
+| EncryptionSettings_STATUS                                                | EncryptionSettings_STATUS                                                | Extended |       |
+| EnvironmentVar                                                           | EnvironmentVar                                                           | Extended |       |
+| EnvironmentVar_STATUS                                                    | EnvironmentVar_STATUS                                                    | Extended |       |
+| ExtendedLocation                                                         | ExtendedLocation                                                         | Modified |       |
+| ExtendedLocation_STATUS                                                  | ExtendedLocation_STATUS                                                  | Modified |       |
+| Facebook                                                                 | Facebook                                                                 | Extended |       |
+| Facebook_STATUS                                                          | Facebook_STATUS                                                          | Extended |       |
+| ForwardProxy                                                             | ForwardProxy                                                             | Modified |       |
+| ForwardProxy_STATUS                                                      | ForwardProxy_STATUS                                                      | Modified |       |
+| GitHub                                                                   | GitHub                                                                   | Extended |       |
+| GitHub_STATUS                                                            | GitHub_STATUS                                                            | Extended |       |
+| GlobalValidation                                                         | GlobalValidation                                                         | Modified |       |
+| GlobalValidation_STATUS                                                  | GlobalValidation_STATUS                                                  | Modified |       |
+| Google                                                                   | Google                                                                   | Extended |       |
+| Google_STATUS                                                            | Google_STATUS                                                            | Extended |       |
+| HttpScaleRule                                                            | HttpScaleRule                                                            | Extended |       |
+| HttpScaleRule_STATUS                                                     | HttpScaleRule_STATUS                                                     | Extended |       |
+| HttpSettings                                                             | HttpSettings                                                             | Extended |       |
+| HttpSettingsRoutes                                                       | HttpSettingsRoutes                                                       | Extended |       |
+| HttpSettingsRoutes_STATUS                                                | HttpSettingsRoutes_STATUS                                                | Extended |       |
+| HttpSettings_STATUS                                                      | HttpSettings_STATUS                                                      | Extended |       |
+| IdentityProviders                                                        | IdentityProviders                                                        | Extended |       |
+| IdentityProviders_STATUS                                                 | IdentityProviders_STATUS                                                 | Extended |       |
+| IdentitySettings                                                         | IdentitySettings                                                         | Modified |       |
+| IdentitySettings_STATUS                                                  | IdentitySettings_STATUS                                                  | Modified |       |
+| Ingress                                                                  | Ingress                                                                  | Modified |       |
+| IngressPortMapping                                                       | IngressPortMapping                                                       | Extended |       |
+| IngressPortMapping_STATUS                                                | IngressPortMapping_STATUS                                                | Extended |       |
+| Ingress_STATUS                                                           | Ingress_STATUS                                                           | Modified |       |
+| Ingress_StickySessions                                                   | Ingress_StickySessions                                                   | Modified |       |
+| Ingress_StickySessions_STATUS                                            | Ingress_StickySessions_STATUS                                            | Modified |       |
+| IpSecurityRestrictionRule                                                | IpSecurityRestrictionRule                                                | Modified |       |
+| IpSecurityRestrictionRule_STATUS                                         | IpSecurityRestrictionRule_STATUS                                         | Modified |       |
+| JobConfiguration                                                         | JobConfiguration                                                         | Modified |       |
+| JobConfiguration_EventTriggerConfig                                      | JobConfiguration_EventTriggerConfig                                      | Extended |       |
+| JobConfiguration_EventTriggerConfig_STATUS                               | JobConfiguration_EventTriggerConfig_STATUS                               | Extended |       |
+| JobConfiguration_ManualTriggerConfig                                     | JobConfiguration_ManualTriggerConfig                                     | Extended |       |
+| JobConfiguration_ManualTriggerConfig_STATUS                              | JobConfiguration_ManualTriggerConfig_STATUS                              | Extended |       |
+| JobConfiguration_STATUS                                                  | JobConfiguration_STATUS                                                  | Modified |       |
+| JobConfiguration_ScheduleTriggerConfig                                   | JobConfiguration_ScheduleTriggerConfig                                   | Extended |       |
+| JobConfiguration_ScheduleTriggerConfig_STATUS                            | JobConfiguration_ScheduleTriggerConfig_STATUS                            | Extended |       |
+| JobOperatorSpec                                                          | JobOperatorSpec                                                          | Extended |       |
+| JobScale                                                                 | JobScale                                                                 | Extended |       |
+| JobScaleRule                                                             | JobScaleRule                                                             | Extended |       |
+| JobScaleRule_STATUS                                                      | JobScaleRule_STATUS                                                      | Extended |       |
+| JobScale_STATUS                                                          | JobScale_STATUS                                                          | Extended |       |
+| JobTemplate                                                              | JobTemplate                                                              | Extended |       |
+| JobTemplate_STATUS                                                       | JobTemplate_STATUS                                                       | Extended |       |
+| Job_STATUS                                                               | Job_STATUS                                                               | Modified |       |
+| Job_Spec                                                                 | Job_Spec                                                                 | Modified |       |
+| JwtClaimChecks                                                           | JwtClaimChecks                                                           | Extended |       |
+| JwtClaimChecks_STATUS                                                    | JwtClaimChecks_STATUS                                                    | Extended |       |
+| KedaConfiguration_STATUS                                                 | KedaConfiguration_STATUS                                                 | Extended |       |
+| LogAnalyticsConfiguration                                                | LogAnalyticsConfiguration                                                | Extended |       |
+| LogAnalyticsConfiguration_STATUS                                         | LogAnalyticsConfiguration_STATUS                                         | Extended |       |
+| Login                                                                    | Login                                                                    | Extended |       |
+| LoginRoutes                                                              | LoginRoutes                                                              | Extended |       |
+| LoginRoutes_STATUS                                                       | LoginRoutes_STATUS                                                       | Extended |       |
+| LoginScopes                                                              | LoginScopes                                                              | Extended |       |
+| LoginScopes_STATUS                                                       | LoginScopes_STATUS                                                       | Extended |       |
+| Login_STATUS                                                             | Login_STATUS                                                             | Extended |       |
+| ManagedEnvironmentOperatorSpec                                           | ManagedEnvironmentOperatorSpec                                           | Extended |       |
+| ManagedEnvironment_Properties_PeerAuthentication_STATUS                  | ManagedEnvironment_Properties_PeerAuthentication_STATUS                  | Extended |       |
+| ManagedEnvironment_Properties_PeerAuthentication_Spec                    | ManagedEnvironment_Properties_PeerAuthentication_Spec                    | Extended |       |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS | ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS | Extended |       |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec   | ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec   | Extended |       |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS            | ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS            | Extended |       |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | Extended |       |
+| ManagedEnvironment_STATUS                                                | ManagedEnvironment_STATUS                                                | Modified |       |
+| ManagedEnvironment_Spec                                                  | ManagedEnvironment_Spec                                                  | Extended |       |
+| ManagedServiceIdentity                                                   | ManagedServiceIdentity                                                   | Modified |       |
+| ManagedServiceIdentity_STATUS                                            | ManagedServiceIdentity_STATUS                                            | Modified |       |
+| Mtls                                                                     | Mtls                                                                     | Extended |       |
+| Mtls_STATUS                                                              | Mtls_STATUS                                                              | Extended |       |
+| Nonce                                                                    | Nonce                                                                    | Extended |       |
+| Nonce_STATUS                                                             | Nonce_STATUS                                                             | Extended |       |
+| OpenIdConnectClientCredential                                            | OpenIdConnectClientCredential                                            | Modified |       |
+| OpenIdConnectClientCredential_STATUS                                     | OpenIdConnectClientCredential_STATUS                                     | Modified |       |
+| OpenIdConnectConfig                                                      | OpenIdConnectConfig                                                      | Extended |       |
+| OpenIdConnectConfig_STATUS                                               | OpenIdConnectConfig_STATUS                                               | Extended |       |
+| OpenIdConnectLogin                                                       | OpenIdConnectLogin                                                       | Extended |       |
+| OpenIdConnectLogin_STATUS                                                | OpenIdConnectLogin_STATUS                                                | Extended |       |
+| OpenIdConnectRegistration                                                | OpenIdConnectRegistration                                                | Extended |       |
+| OpenIdConnectRegistration_STATUS                                         | OpenIdConnectRegistration_STATUS                                         | Extended |       |
+| QueueScaleRule                                                           | QueueScaleRule                                                           | Extended |       |
+| QueueScaleRule_STATUS                                                    | QueueScaleRule_STATUS                                                    | Extended |       |
+| RegistryCredentials                                                      | RegistryCredentials                                                      | Extended |       |
+| RegistryCredentials_STATUS                                               | RegistryCredentials_STATUS                                               | Extended |       |
+| Runtime                                                                  | Runtime                                                                  | Extended |       |
+| Runtime_Java                                                             | Runtime_Java                                                             | Extended |       |
+| Runtime_Java_STATUS                                                      | Runtime_Java_STATUS                                                      | Extended |       |
+| Runtime_STATUS                                                           | Runtime_STATUS                                                           | Extended |       |
+| Scale                                                                    | Scale                                                                    | Extended |       |
+| ScaleRule                                                                | ScaleRule                                                                | Extended |       |
+| ScaleRuleAuth                                                            | ScaleRuleAuth                                                            | Extended |       |
+| ScaleRuleAuth_STATUS                                                     | ScaleRuleAuth_STATUS                                                     | Extended |       |
+| ScaleRule_STATUS                                                         | ScaleRule_STATUS                                                         | Extended |       |
+| Scale_STATUS                                                             | Scale_STATUS                                                             | Extended |       |
+| Secret                                                                   | Secret                                                                   | Extended |       |
+| SecretVolumeItem                                                         | SecretVolumeItem                                                         | Extended |       |
+| SecretVolumeItem_STATUS                                                  | SecretVolumeItem_STATUS                                                  | Extended |       |
+| Secret_STATUS                                                            | Secret_STATUS                                                            | Extended |       |
+| Service                                                                  | Service                                                                  | Extended |       |
+| ServiceBind                                                              | ServiceBind                                                              | Extended |       |
+| ServiceBind_STATUS                                                       | ServiceBind_STATUS                                                       | Extended |       |
+| Service_STATUS                                                           | Service_STATUS                                                           | Extended |       |
+| SystemData_STATUS                                                        | SystemData_STATUS                                                        | Modified |       |
+| TcpScaleRule                                                             | TcpScaleRule                                                             | Extended |       |
+| TcpScaleRule_STATUS                                                      | TcpScaleRule_STATUS                                                      | Extended |       |
+| Template                                                                 | Template                                                                 | Extended |       |
+| Template_STATUS                                                          | Template_STATUS                                                          | Extended |       |
+| TokenStore                                                               | TokenStore                                                               | Extended |       |
+| TokenStore_STATUS                                                        | TokenStore_STATUS                                                        | Extended |       |
+| TrafficWeight                                                            | TrafficWeight                                                            | Extended |       |
+| TrafficWeight_STATUS                                                     | TrafficWeight_STATUS                                                     | Extended |       |
+| Twitter                                                                  | Twitter                                                                  | Extended |       |
+| TwitterRegistration                                                      | TwitterRegistration                                                      | Extended |       |
+| TwitterRegistration_STATUS                                               | TwitterRegistration_STATUS                                               | Extended |       |
+| Twitter_STATUS                                                           | Twitter_STATUS                                                           | Extended |       |
+| UserAssignedIdentityDetails                                              | UserAssignedIdentityDetails                                              | Extended |       |
+| UserAssignedIdentity_STATUS                                              | UserAssignedIdentity_STATUS                                              | Extended |       |
+| VnetConfiguration                                                        | VnetConfiguration                                                        | Extended |       |
+| VnetConfiguration_STATUS                                                 | VnetConfiguration_STATUS                                                 | Extended |       |
+| Volume                                                                   | Volume                                                                   | Modified |       |
+| VolumeMount                                                              | VolumeMount                                                              | Extended |       |
+| VolumeMount_STATUS                                                       | VolumeMount_STATUS                                                       | Extended |       |
+| Volume_STATUS                                                            | Volume_STATUS                                                            | Modified |       |
+| WorkloadProfile                                                          | WorkloadProfile                                                          | Extended |       |
+| WorkloadProfile_STATUS                                                   | WorkloadProfile_STATUS                                                   | Extended |       |
 
 ### AllowedAudiencesValidation
 

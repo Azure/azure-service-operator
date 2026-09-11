@@ -11,69 +11,69 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type      | Next Version      | Next Type         | Status    | Notes |
-|:----------------------|:------------------|:------------------|:------------------|:---------:|:------|
-| v1api20240302/storage | Disk              | v20240302/storage | Disk              | Identical |       |
-| v1api20240302/storage | DiskAccess        | v20240302/storage | DiskAccess        | Identical |       |
-| v1api20240302/storage | DiskEncryptionSet | v20240302/storage | DiskEncryptionSet | Identical |       |
-| v1api20240302/storage | Snapshot          | v20240302/storage | Snapshot          | Identical |       |
+| v1api20240302/storage | v20240302/storage | Status    | Notes |
+|:----------------------|:------------------|:---------:|:------|
+| Disk                  | Disk              | Identical |       |
+| DiskAccess            | DiskAccess        | Identical |       |
+| DiskEncryptionSet     | DiskEncryptionSet | Identical |       |
+| Snapshot              | Snapshot          | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                        | Next Version      | Next Type                           | Status    | Notes |
-|:----------------------|:------------------------------------|:------------------|:------------------------------------|:---------:|:------|
-| v1api20240302/storage | ApiErrorBase_STATUS                 | v20240302/storage | ApiErrorBase_STATUS                 | Identical |       |
-| v1api20240302/storage | ApiError_STATUS                     | v20240302/storage | ApiError_STATUS                     | Identical |       |
-| v1api20240302/storage | CopyCompletionError                 | v20240302/storage | CopyCompletionError                 | Identical |       |
-| v1api20240302/storage | CopyCompletionError_STATUS          | v20240302/storage | CopyCompletionError_STATUS          | Identical |       |
-| v1api20240302/storage | CreationData                        | v20240302/storage | CreationData                        | Identical |       |
-| v1api20240302/storage | CreationData_STATUS                 | v20240302/storage | CreationData_STATUS                 | Identical |       |
-| v1api20240302/storage | DiskAccessOperatorSpec              | v20240302/storage | DiskAccessOperatorSpec              | Identical |       |
-| v1api20240302/storage | DiskAccess_STATUS                   | v20240302/storage | DiskAccess_STATUS                   | Identical |       |
-| v1api20240302/storage | DiskAccess_Spec                     | v20240302/storage | DiskAccess_Spec                     | Identical |       |
-| v1api20240302/storage | DiskEncryptionSetOperatorSpec       | v20240302/storage | DiskEncryptionSetOperatorSpec       | Identical |       |
-| v1api20240302/storage | DiskEncryptionSet_STATUS            | v20240302/storage | DiskEncryptionSet_STATUS            | Identical |       |
-| v1api20240302/storage | DiskEncryptionSet_Spec              | v20240302/storage | DiskEncryptionSet_Spec              | Identical |       |
-| v1api20240302/storage | DiskOperatorSpec                    | v20240302/storage | DiskOperatorSpec                    | Identical |       |
-| v1api20240302/storage | DiskPurchasePlan                    | v20240302/storage | DiskPurchasePlan                    | Identical |       |
-| v1api20240302/storage | DiskPurchasePlan_STATUS             | v20240302/storage | DiskPurchasePlan_STATUS             | Identical |       |
-| v1api20240302/storage | DiskSecurityProfile                 | v20240302/storage | DiskSecurityProfile                 | Identical |       |
-| v1api20240302/storage | DiskSecurityProfile_STATUS          | v20240302/storage | DiskSecurityProfile_STATUS          | Identical |       |
-| v1api20240302/storage | DiskSku                             | v20240302/storage | DiskSku                             | Identical |       |
-| v1api20240302/storage | DiskSku_STATUS                      | v20240302/storage | DiskSku_STATUS                      | Identical |       |
-| v1api20240302/storage | Disk_STATUS                         | v20240302/storage | Disk_STATUS                         | Identical |       |
-| v1api20240302/storage | Disk_Spec                           | v20240302/storage | Disk_Spec                           | Identical |       |
-| v1api20240302/storage | Encryption                          | v20240302/storage | Encryption                          | Identical |       |
-| v1api20240302/storage | EncryptionSetIdentity               | v20240302/storage | EncryptionSetIdentity               | Identical |       |
-| v1api20240302/storage | EncryptionSetIdentity_STATUS        | v20240302/storage | EncryptionSetIdentity_STATUS        | Identical |       |
-| v1api20240302/storage | EncryptionSettingsCollection        | v20240302/storage | EncryptionSettingsCollection        | Identical |       |
-| v1api20240302/storage | EncryptionSettingsCollection_STATUS | v20240302/storage | EncryptionSettingsCollection_STATUS | Identical |       |
-| v1api20240302/storage | EncryptionSettingsElement           | v20240302/storage | EncryptionSettingsElement           | Identical |       |
-| v1api20240302/storage | EncryptionSettingsElement_STATUS    | v20240302/storage | EncryptionSettingsElement_STATUS    | Identical |       |
-| v1api20240302/storage | Encryption_STATUS                   | v20240302/storage | Encryption_STATUS                   | Identical |       |
-| v1api20240302/storage | ExtendedLocation                    | v20240302/storage | ExtendedLocation                    | Identical |       |
-| v1api20240302/storage | ExtendedLocation_STATUS             | v20240302/storage | ExtendedLocation_STATUS             | Identical |       |
-| v1api20240302/storage | ImageDiskReference                  | v20240302/storage | ImageDiskReference                  | Identical |       |
-| v1api20240302/storage | ImageDiskReference_STATUS           | v20240302/storage | ImageDiskReference_STATUS           | Identical |       |
-| v1api20240302/storage | InnerError_STATUS                   | v20240302/storage | InnerError_STATUS                   | Identical |       |
-| v1api20240302/storage | KeyForDiskEncryptionSet             | v20240302/storage | KeyForDiskEncryptionSet             | Identical |       |
-| v1api20240302/storage | KeyForDiskEncryptionSet_STATUS      | v20240302/storage | KeyForDiskEncryptionSet_STATUS      | Identical |       |
-| v1api20240302/storage | KeyVaultAndKeyReference             | v20240302/storage | KeyVaultAndKeyReference             | Identical |       |
-| v1api20240302/storage | KeyVaultAndKeyReference_STATUS      | v20240302/storage | KeyVaultAndKeyReference_STATUS      | Identical |       |
-| v1api20240302/storage | KeyVaultAndSecretReference          | v20240302/storage | KeyVaultAndSecretReference          | Identical |       |
-| v1api20240302/storage | KeyVaultAndSecretReference_STATUS   | v20240302/storage | KeyVaultAndSecretReference_STATUS   | Identical |       |
-| v1api20240302/storage | PrivateEndpointConnection_STATUS    | v20240302/storage | PrivateEndpointConnection_STATUS    | Identical |       |
-| v1api20240302/storage | PropertyUpdatesInProgress_STATUS    | v20240302/storage | PropertyUpdatesInProgress_STATUS    | Identical |       |
-| v1api20240302/storage | ShareInfoElement_STATUS             | v20240302/storage | ShareInfoElement_STATUS             | Identical |       |
-| v1api20240302/storage | SnapshotOperatorSpec                | v20240302/storage | SnapshotOperatorSpec                | Identical |       |
-| v1api20240302/storage | SnapshotSku                         | v20240302/storage | SnapshotSku                         | Identical |       |
-| v1api20240302/storage | SnapshotSku_STATUS                  | v20240302/storage | SnapshotSku_STATUS                  | Identical |       |
-| v1api20240302/storage | Snapshot_STATUS                     | v20240302/storage | Snapshot_STATUS                     | Identical |       |
-| v1api20240302/storage | Snapshot_Spec                       | v20240302/storage | Snapshot_Spec                       | Identical |       |
-| v1api20240302/storage | SourceVault                         | v20240302/storage | SourceVault                         | Identical |       |
-| v1api20240302/storage | SourceVault_STATUS                  | v20240302/storage | SourceVault_STATUS                  | Identical |       |
-| v1api20240302/storage | SupportedCapabilities               | v20240302/storage | SupportedCapabilities               | Identical |       |
-| v1api20240302/storage | SupportedCapabilities_STATUS        | v20240302/storage | SupportedCapabilities_STATUS        | Identical |       |
-| v1api20240302/storage | SystemData_STATUS                   | v20240302/storage | SystemData_STATUS                   | Identical |       |
-| v1api20240302/storage | UserAssignedIdentitiesValue_STATUS  | v20240302/storage | UserAssignedIdentitiesValue_STATUS  | Identical |       |
-| v1api20240302/storage | UserAssignedIdentityDetails         | v20240302/storage | UserAssignedIdentityDetails         | Identical |       |
+| v1api20240302/storage               | v20240302/storage                   | Status    | Notes |
+|:------------------------------------|:------------------------------------|:---------:|:------|
+| ApiErrorBase_STATUS                 | ApiErrorBase_STATUS                 | Identical |       |
+| ApiError_STATUS                     | ApiError_STATUS                     | Identical |       |
+| CopyCompletionError                 | CopyCompletionError                 | Identical |       |
+| CopyCompletionError_STATUS          | CopyCompletionError_STATUS          | Identical |       |
+| CreationData                        | CreationData                        | Identical |       |
+| CreationData_STATUS                 | CreationData_STATUS                 | Identical |       |
+| DiskAccessOperatorSpec              | DiskAccessOperatorSpec              | Identical |       |
+| DiskAccess_STATUS                   | DiskAccess_STATUS                   | Identical |       |
+| DiskAccess_Spec                     | DiskAccess_Spec                     | Identical |       |
+| DiskEncryptionSetOperatorSpec       | DiskEncryptionSetOperatorSpec       | Identical |       |
+| DiskEncryptionSet_STATUS            | DiskEncryptionSet_STATUS            | Identical |       |
+| DiskEncryptionSet_Spec              | DiskEncryptionSet_Spec              | Identical |       |
+| DiskOperatorSpec                    | DiskOperatorSpec                    | Identical |       |
+| DiskPurchasePlan                    | DiskPurchasePlan                    | Identical |       |
+| DiskPurchasePlan_STATUS             | DiskPurchasePlan_STATUS             | Identical |       |
+| DiskSecurityProfile                 | DiskSecurityProfile                 | Identical |       |
+| DiskSecurityProfile_STATUS          | DiskSecurityProfile_STATUS          | Identical |       |
+| DiskSku                             | DiskSku                             | Identical |       |
+| DiskSku_STATUS                      | DiskSku_STATUS                      | Identical |       |
+| Disk_STATUS                         | Disk_STATUS                         | Identical |       |
+| Disk_Spec                           | Disk_Spec                           | Identical |       |
+| Encryption                          | Encryption                          | Identical |       |
+| EncryptionSetIdentity               | EncryptionSetIdentity               | Identical |       |
+| EncryptionSetIdentity_STATUS        | EncryptionSetIdentity_STATUS        | Identical |       |
+| EncryptionSettingsCollection        | EncryptionSettingsCollection        | Identical |       |
+| EncryptionSettingsCollection_STATUS | EncryptionSettingsCollection_STATUS | Identical |       |
+| EncryptionSettingsElement           | EncryptionSettingsElement           | Identical |       |
+| EncryptionSettingsElement_STATUS    | EncryptionSettingsElement_STATUS    | Identical |       |
+| Encryption_STATUS                   | Encryption_STATUS                   | Identical |       |
+| ExtendedLocation                    | ExtendedLocation                    | Identical |       |
+| ExtendedLocation_STATUS             | ExtendedLocation_STATUS             | Identical |       |
+| ImageDiskReference                  | ImageDiskReference                  | Identical |       |
+| ImageDiskReference_STATUS           | ImageDiskReference_STATUS           | Identical |       |
+| InnerError_STATUS                   | InnerError_STATUS                   | Identical |       |
+| KeyForDiskEncryptionSet             | KeyForDiskEncryptionSet             | Identical |       |
+| KeyForDiskEncryptionSet_STATUS      | KeyForDiskEncryptionSet_STATUS      | Identical |       |
+| KeyVaultAndKeyReference             | KeyVaultAndKeyReference             | Identical |       |
+| KeyVaultAndKeyReference_STATUS      | KeyVaultAndKeyReference_STATUS      | Identical |       |
+| KeyVaultAndSecretReference          | KeyVaultAndSecretReference          | Identical |       |
+| KeyVaultAndSecretReference_STATUS   | KeyVaultAndSecretReference_STATUS   | Identical |       |
+| PrivateEndpointConnection_STATUS    | PrivateEndpointConnection_STATUS    | Identical |       |
+| PropertyUpdatesInProgress_STATUS    | PropertyUpdatesInProgress_STATUS    | Identical |       |
+| ShareInfoElement_STATUS             | ShareInfoElement_STATUS             | Identical |       |
+| SnapshotOperatorSpec                | SnapshotOperatorSpec                | Identical |       |
+| SnapshotSku                         | SnapshotSku                         | Identical |       |
+| SnapshotSku_STATUS                  | SnapshotSku_STATUS                  | Identical |       |
+| Snapshot_STATUS                     | Snapshot_STATUS                     | Identical |       |
+| Snapshot_Spec                       | Snapshot_Spec                       | Identical |       |
+| SourceVault                         | SourceVault                         | Identical |       |
+| SourceVault_STATUS                  | SourceVault_STATUS                  | Identical |       |
+| SupportedCapabilities               | SupportedCapabilities               | Identical |       |
+| SupportedCapabilities_STATUS        | SupportedCapabilities_STATUS        | Identical |       |
+| SystemData_STATUS                   | SystemData_STATUS                   | Identical |       |
+| UserAssignedIdentitiesValue_STATUS  | UserAssignedIdentitiesValue_STATUS  | Identical |       |
+| UserAssignedIdentityDetails         | UserAssignedIdentityDetails         | Identical |       |

@@ -11,44 +11,44 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type | Status    | Notes |
-|:----------------|:-------------|:----------------------|:----------|:---------:|:------|
-| v1api20210901   | Registry     | v1api20210901/storage | Registry  | Identical |       |
+| v1api20210901 | v1api20210901/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| Registry      | Registry              | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                     | Next Version          | Next Type                        | Status   | Notes |
-|:----------------|:---------------------------------|:----------------------|:---------------------------------|:--------:|:------|
-| v1api20210901   | EncryptionProperty               | v1api20210901/storage | EncryptionProperty               | Modified |       |
-| v1api20210901   | EncryptionProperty_STATUS        | v1api20210901/storage | EncryptionProperty_STATUS        | Modified |       |
-| v1api20210901   | ExportPolicy                     | v1api20210901/storage | ExportPolicy                     | Modified |       |
-| v1api20210901   | ExportPolicy_STATUS              | v1api20210901/storage | ExportPolicy_STATUS              | Modified |       |
-| v1api20210901   | IPRule                           | v1api20210901/storage | IPRule                           | Modified |       |
-| v1api20210901   | IPRule_STATUS                    | v1api20210901/storage | IPRule_STATUS                    | Modified |       |
-| v1api20210901   | IdentityProperties               | v1api20210901/storage | IdentityProperties               | Modified |       |
-| v1api20210901   | IdentityProperties_STATUS        | v1api20210901/storage | IdentityProperties_STATUS        | Modified |       |
-| v1api20210901   | KeyVaultProperties               | v1api20210901/storage | KeyVaultProperties               | Extended |       |
-| v1api20210901   | KeyVaultProperties_STATUS        | v1api20210901/storage | KeyVaultProperties_STATUS        | Extended |       |
-| v1api20210901   | NetworkRuleSet                   | v1api20210901/storage | NetworkRuleSet                   | Modified |       |
-| v1api20210901   | NetworkRuleSet_STATUS            | v1api20210901/storage | NetworkRuleSet_STATUS            | Modified |       |
-| v1api20210901   | Policies                         | v1api20210901/storage | Policies                         | Extended |       |
-| v1api20210901   | Policies_STATUS                  | v1api20210901/storage | Policies_STATUS                  | Extended |       |
-| v1api20210901   | PrivateEndpointConnection_STATUS | v1api20210901/storage | PrivateEndpointConnection_STATUS | Extended |       |
-| v1api20210901   | QuarantinePolicy                 | v1api20210901/storage | QuarantinePolicy                 | Modified |       |
-| v1api20210901   | QuarantinePolicy_STATUS          | v1api20210901/storage | QuarantinePolicy_STATUS          | Modified |       |
-| v1api20210901   | RegistryOperatorSpec             | v1api20210901/storage | RegistryOperatorSpec             | Extended |       |
-| v1api20210901   | Registry_STATUS                  | v1api20210901/storage | Registry_STATUS                  | Modified |       |
-| v1api20210901   | Registry_Spec                    | v1api20210901/storage | Registry_Spec                    | Modified |       |
-| v1api20210901   | RetentionPolicy                  | v1api20210901/storage | RetentionPolicy                  | Modified |       |
-| v1api20210901   | RetentionPolicy_STATUS           | v1api20210901/storage | RetentionPolicy_STATUS           | Modified |       |
-| v1api20210901   | Sku                              | v1api20210901/storage | Sku                              | Modified |       |
-| v1api20210901   | Sku_STATUS                       | v1api20210901/storage | Sku_STATUS                       | Modified |       |
-| v1api20210901   | Status_STATUS                    | v1api20210901/storage | Status_STATUS                    | Extended |       |
-| v1api20210901   | SystemData_STATUS                | v1api20210901/storage | SystemData_STATUS                | Modified |       |
-| v1api20210901   | TrustPolicy                      | v1api20210901/storage | TrustPolicy                      | Modified |       |
-| v1api20210901   | TrustPolicy_STATUS               | v1api20210901/storage | TrustPolicy_STATUS               | Modified |       |
-| v1api20210901   | UserAssignedIdentityDetails      | v1api20210901/storage | UserAssignedIdentityDetails      | Extended |       |
-| v1api20210901   | UserIdentityProperties_STATUS    | v1api20210901/storage | UserIdentityProperties_STATUS    | Extended |       |
+| v1api20210901                    | v1api20210901/storage            | Status   | Notes |
+|:---------------------------------|:---------------------------------|:--------:|:------|
+| EncryptionProperty               | EncryptionProperty               | Modified |       |
+| EncryptionProperty_STATUS        | EncryptionProperty_STATUS        | Modified |       |
+| ExportPolicy                     | ExportPolicy                     | Modified |       |
+| ExportPolicy_STATUS              | ExportPolicy_STATUS              | Modified |       |
+| IPRule                           | IPRule                           | Modified |       |
+| IPRule_STATUS                    | IPRule_STATUS                    | Modified |       |
+| IdentityProperties               | IdentityProperties               | Modified |       |
+| IdentityProperties_STATUS        | IdentityProperties_STATUS        | Modified |       |
+| KeyVaultProperties               | KeyVaultProperties               | Extended |       |
+| KeyVaultProperties_STATUS        | KeyVaultProperties_STATUS        | Extended |       |
+| NetworkRuleSet                   | NetworkRuleSet                   | Modified |       |
+| NetworkRuleSet_STATUS            | NetworkRuleSet_STATUS            | Modified |       |
+| Policies                         | Policies                         | Extended |       |
+| Policies_STATUS                  | Policies_STATUS                  | Extended |       |
+| PrivateEndpointConnection_STATUS | PrivateEndpointConnection_STATUS | Extended |       |
+| QuarantinePolicy                 | QuarantinePolicy                 | Modified |       |
+| QuarantinePolicy_STATUS          | QuarantinePolicy_STATUS          | Modified |       |
+| RegistryOperatorSpec             | RegistryOperatorSpec             | Extended |       |
+| Registry_STATUS                  | Registry_STATUS                  | Modified |       |
+| Registry_Spec                    | Registry_Spec                    | Modified |       |
+| RetentionPolicy                  | RetentionPolicy                  | Modified |       |
+| RetentionPolicy_STATUS           | RetentionPolicy_STATUS           | Modified |       |
+| Sku                              | Sku                              | Modified |       |
+| Sku_STATUS                       | Sku_STATUS                       | Modified |       |
+| Status_STATUS                    | Status_STATUS                    | Extended |       |
+| SystemData_STATUS                | SystemData_STATUS                | Modified |       |
+| TrustPolicy                      | TrustPolicy                      | Modified |       |
+| TrustPolicy_STATUS               | TrustPolicy_STATUS               | Modified |       |
+| UserAssignedIdentityDetails      | UserAssignedIdentityDetails      | Extended |       |
+| UserIdentityProperties_STATUS    | UserIdentityProperties_STATUS    | Extended |       |
 
 ### EncryptionProperty
 

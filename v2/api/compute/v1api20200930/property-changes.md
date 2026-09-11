@@ -11,48 +11,46 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type | Status    | Notes |
-|:----------------|:-------------|:----------------------|:----------|:---------:|:------|
-| v1api20200930   | Disk         | v1api20200930/storage | Disk      | Identical |       |
-| v1api20200930   | Snapshot     | v1api20200930/storage | Snapshot  | Identical |       |
+| v1api20200930 | v1api20200930/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| Disk          | Disk                  | Identical |       |
+| Snapshot      | Snapshot              | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                        | Next Version          | Next Type                           | Status   | Notes                                                       |
-|:----------------|:------------------------------------|:----------------------|:------------------------------------|:--------:|:------------------------------------------------------------|
-| v1api20200930   | CreationData                        | v1api20200930/storage | CreationData                        | Modified |                                                             |
-| v1api20200930   | CreationData_STATUS                 | v1api20200930/storage | CreationData_STATUS                 | Modified |                                                             |
-| v1api20200930   | DiskOperatorSpec                    | v1api20200930/storage | DiskOperatorSpec                    | Extended |                                                             |
-| v1api20200930   | DiskSku                             | v1api20200930/storage | DiskSku                             | Modified |                                                             |
-| v1api20200930   | DiskSku_STATUS                      | v1api20200930/storage | DiskSku_STATUS                      | Modified |                                                             |
-| v1api20200930   | Disk_STATUS                         | v1api20200930/storage | Disk_STATUS                         | Modified |                                                             |
-| v1api20200930   | Disk_Spec                           | v1api20200930/storage | Disk_Spec                           | Modified |                                                             |
-| v1api20200930   | Encryption                          | v1api20200930/storage | Encryption                          | Modified |                                                             |
-| v1api20200930   | EncryptionSettingsCollection        | v1api20200930/storage | EncryptionSettingsCollection        | Extended |                                                             |
-| v1api20200930   | EncryptionSettingsCollection_STATUS | v1api20200930/storage | EncryptionSettingsCollection_STATUS | Extended |                                                             |
-| v1api20200930   | EncryptionSettingsElement           | v1api20200930/storage | EncryptionSettingsElement           | Extended |                                                             |
-| v1api20200930   | EncryptionSettingsElement_STATUS    | v1api20200930/storage | EncryptionSettingsElement_STATUS    | Extended |                                                             |
-| v1api20200930   | Encryption_STATUS                   | v1api20200930/storage | Encryption_STATUS                   | Modified |                                                             |
-| v1api20200930   | ExtendedLocation                    | v1api20200930/storage | ExtendedLocation                    | Modified |                                                             |
-| v1api20200930   | ExtendedLocation_STATUS             | v1api20200930/storage | ExtendedLocation_STATUS             | Modified |                                                             |
-| v1api20200930   | ImageDiskReference                  | v1api20200930/storage | ImageDiskReference                  | Extended |                                                             |
-| v1api20200930   | ImageDiskReference_STATUS           | v1api20200930/storage | ImageDiskReference_STATUS           | Extended |                                                             |
-| v1api20200930   | KeyVaultAndKeyReference             | v1api20200930/storage | KeyVaultAndKeyReference             | Extended |                                                             |
-| v1api20200930   | KeyVaultAndKeyReference_STATUS      | v1api20200930/storage | KeyVaultAndKeyReference_STATUS      | Extended |                                                             |
-| v1api20200930   | KeyVaultAndSecretReference          | v1api20200930/storage | KeyVaultAndSecretReference          | Extended |                                                             |
-| v1api20200930   | KeyVaultAndSecretReference_STATUS   | v1api20200930/storage | KeyVaultAndSecretReference_STATUS   | Extended |                                                             |
-| v1api20200930   | PurchasePlan                        | v1api20200930/storage |                                     | Retired  | Configured rename to DiskPurchasePlan was not found.        |
-|                 |                                     | v1api20200930/storage | PurchasePlan                        | New      | Configured rename to DiskPurchasePlan was not found.        |
-| v1api20200930   | PurchasePlan_STATUS                 | v1api20200930/storage |                                     | Retired  | Configured rename to DiskPurchasePlan_STATUS was not found. |
-|                 |                                     | v1api20200930/storage | PurchasePlan_STATUS                 | New      | Configured rename to DiskPurchasePlan_STATUS was not found. |
-| v1api20200930   | ShareInfoElement_STATUS             | v1api20200930/storage | ShareInfoElement_STATUS             | Extended |                                                             |
-| v1api20200930   | SnapshotOperatorSpec                | v1api20200930/storage | SnapshotOperatorSpec                | Extended |                                                             |
-| v1api20200930   | SnapshotSku                         | v1api20200930/storage | SnapshotSku                         | Modified |                                                             |
-| v1api20200930   | SnapshotSku_STATUS                  | v1api20200930/storage | SnapshotSku_STATUS                  | Modified |                                                             |
-| v1api20200930   | Snapshot_STATUS                     | v1api20200930/storage | Snapshot_STATUS                     | Modified |                                                             |
-| v1api20200930   | Snapshot_Spec                       | v1api20200930/storage | Snapshot_Spec                       | Modified |                                                             |
-| v1api20200930   | SourceVault                         | v1api20200930/storage | SourceVault                         | Extended |                                                             |
-| v1api20200930   | SourceVault_STATUS                  | v1api20200930/storage | SourceVault_STATUS                  | Extended |                                                             |
+| v1api20200930                       | v1api20200930/storage               | Status   | Notes |
+|:------------------------------------|:------------------------------------|:--------:|:------|
+| CreationData                        | CreationData                        | Modified |       |
+| CreationData_STATUS                 | CreationData_STATUS                 | Modified |       |
+| DiskOperatorSpec                    | DiskOperatorSpec                    | Extended |       |
+| DiskSku                             | DiskSku                             | Modified |       |
+| DiskSku_STATUS                      | DiskSku_STATUS                      | Modified |       |
+| Disk_STATUS                         | Disk_STATUS                         | Modified |       |
+| Disk_Spec                           | Disk_Spec                           | Modified |       |
+| Encryption                          | Encryption                          | Modified |       |
+| EncryptionSettingsCollection        | EncryptionSettingsCollection        | Extended |       |
+| EncryptionSettingsCollection_STATUS | EncryptionSettingsCollection_STATUS | Extended |       |
+| EncryptionSettingsElement           | EncryptionSettingsElement           | Extended |       |
+| EncryptionSettingsElement_STATUS    | EncryptionSettingsElement_STATUS    | Extended |       |
+| Encryption_STATUS                   | Encryption_STATUS                   | Modified |       |
+| ExtendedLocation                    | ExtendedLocation                    | Modified |       |
+| ExtendedLocation_STATUS             | ExtendedLocation_STATUS             | Modified |       |
+| ImageDiskReference                  | ImageDiskReference                  | Extended |       |
+| ImageDiskReference_STATUS           | ImageDiskReference_STATUS           | Extended |       |
+| KeyVaultAndKeyReference             | KeyVaultAndKeyReference             | Extended |       |
+| KeyVaultAndKeyReference_STATUS      | KeyVaultAndKeyReference_STATUS      | Extended |       |
+| KeyVaultAndSecretReference          | KeyVaultAndSecretReference          | Extended |       |
+| KeyVaultAndSecretReference_STATUS   | KeyVaultAndSecretReference_STATUS   | Extended |       |
+| PurchasePlan                        | PurchasePlan                        | Extended |       |
+| PurchasePlan_STATUS                 | PurchasePlan_STATUS                 | Extended |       |
+| ShareInfoElement_STATUS             | ShareInfoElement_STATUS             | Extended |       |
+| SnapshotOperatorSpec                | SnapshotOperatorSpec                | Extended |       |
+| SnapshotSku                         | SnapshotSku                         | Modified |       |
+| SnapshotSku_STATUS                  | SnapshotSku_STATUS                  | Modified |       |
+| Snapshot_STATUS                     | Snapshot_STATUS                     | Modified |       |
+| Snapshot_Spec                       | Snapshot_Spec                       | Modified |       |
+| SourceVault                         | SourceVault                         | Extended |       |
+| SourceVault_STATUS                  | SourceVault_STATUS                  | Extended |       |
 
 ### CreationData
 
@@ -289,6 +287,26 @@ Statuses:
 |               |                     | PropertyBag           | genruntime.PropertyBag | New       |       |
 | SecretUrl     | *string             | SecretUrl             | *string                | Identical |       |
 | SourceVault   | *SourceVault_STATUS | SourceVault           | *SourceVault_STATUS    | Identical |       |
+
+### PurchasePlan
+
+| v1api20200930 |         | v1api20200930/storage |                        | Status    | Notes |
+|:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
+| Name          | *string | Name                  | *string                | Identical |       |
+| Product       | *string | Product               | *string                | Identical |       |
+| PromotionCode | *string | PromotionCode         | *string                | Identical |       |
+|               |         | PropertyBag           | genruntime.PropertyBag | New       |       |
+| Publisher     | *string | Publisher             | *string                | Identical |       |
+
+### PurchasePlan_STATUS
+
+| v1api20200930 |         | v1api20200930/storage |                        | Status    | Notes |
+|:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
+| Name          | *string | Name                  | *string                | Identical |       |
+| Product       | *string | Product               | *string                | Identical |       |
+| PromotionCode | *string | PromotionCode         | *string                | Identical |       |
+|               |         | PropertyBag           | genruntime.PropertyBag | New       |       |
+| Publisher     | *string | Publisher             | *string                | Identical |       |
 
 ### ShareInfoElement_STATUS
 

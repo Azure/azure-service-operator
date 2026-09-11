@@ -11,58 +11,50 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                                  | Next Version      | Next Type                                     | Status    | Notes |
-|:----------------|:----------------------------------------------|:------------------|:----------------------------------------------|:---------:|:------|
-| v20250401       | RedisEnterprise                               | v20250401/storage | RedisEnterprise                               | Identical |       |
-| v20250401       | RedisEnterpriseDatabase                       | v20250401/storage | RedisEnterpriseDatabase                       | Identical |       |
-| v20250401       | RedisEnterpriseDatabaseAccessPolicyAssignment | v20250401/storage | RedisEnterpriseDatabaseAccessPolicyAssignment | Identical |       |
+| v20250401                                     | v20250401/storage                             | Status    | Notes |
+|:----------------------------------------------|:----------------------------------------------|:---------:|:------|
+| RedisEnterprise                               | RedisEnterprise                               | Identical |       |
+| RedisEnterpriseDatabase                       | RedisEnterpriseDatabase                       | Identical |       |
+| RedisEnterpriseDatabaseAccessPolicyAssignment | RedisEnterpriseDatabaseAccessPolicyAssignment | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                                                              | Next Version      | Next Type                                                                                 | Status   | Notes                                                                                                                               |
-|:----------------|:------------------------------------------------------------------------------------------|:------------------|:------------------------------------------------------------------------------------------|:--------:|:------------------------------------------------------------------------------------------------------------------------------------|
-| v20250401       | AccessPolicyAssignmentProperties_User                                                     | v20250401/storage | AccessPolicyAssignmentProperties_User                                                     | Extended |                                                                                                                                     |
-| v20250401       | AccessPolicyAssignmentProperties_User_STATUS                                              | v20250401/storage | AccessPolicyAssignmentProperties_User_STATUS                                              | Extended |                                                                                                                                     |
-|                 |                                                                                           | v20250401/storage | ClusterProperties_Encryption                                                              | New      | Configured rename to ClusterCreateProperties_Encryption was not found.                                                              |
-| v20250401       | ClusterProperties_Encryption                                                              | v20250401/storage |                                                                                           | Retired  | Configured rename to ClusterCreateProperties_Encryption was not found.                                                              |
-| v20250401       | ClusterProperties_Encryption_CustomerManagedKeyEncryption                                 | v20250401/storage |                                                                                           | Retired  | Configured rename to ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption was not found.                                 |
-|                 |                                                                                           | v20250401/storage | ClusterProperties_Encryption_CustomerManagedKeyEncryption                                 | New      | Configured rename to ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption was not found.                                 |
-|                 |                                                                                           | v20250401/storage | ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity        | New      | Configured rename to ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity was not found.        |
-| v20250401       | ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity        | v20250401/storage |                                                                                           | Retired  | Configured rename to ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity was not found.        |
-| v20250401       | ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | v20250401/storage |                                                                                           | Retired  | Configured rename to ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS was not found. |
-|                 |                                                                                           | v20250401/storage | ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | New      | Configured rename to ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS was not found. |
-| v20250401       | ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          | v20250401/storage |                                                                                           | Retired  | Configured rename to ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS was not found.                          |
-|                 |                                                                                           | v20250401/storage | ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          | New      | Configured rename to ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS was not found.                          |
-| v20250401       | ClusterProperties_Encryption_STATUS                                                       | v20250401/storage |                                                                                           | Retired  | Configured rename to ClusterCreateProperties_Encryption_STATUS was not found.                                                       |
-|                 |                                                                                           | v20250401/storage | ClusterProperties_Encryption_STATUS                                                       | New      | Configured rename to ClusterCreateProperties_Encryption_STATUS was not found.                                                       |
-|                 |                                                                                           | v20250401/storage | DatabaseProperties_GeoReplication                                                         | New      | Configured rename to DatabaseCreateProperties_GeoReplication was not found.                                                         |
-| v20250401       | DatabaseProperties_GeoReplication                                                         | v20250401/storage |                                                                                           | Retired  | Configured rename to DatabaseCreateProperties_GeoReplication was not found.                                                         |
-| v20250401       | DatabaseProperties_GeoReplication_STATUS                                                  | v20250401/storage |                                                                                           | Retired  | Configured rename to DatabaseCreateProperties_GeoReplication_STATUS was not found.                                                  |
-|                 |                                                                                           | v20250401/storage | DatabaseProperties_GeoReplication_STATUS                                                  | New      | Configured rename to DatabaseCreateProperties_GeoReplication_STATUS was not found.                                                  |
-| v20250401       | LinkedDatabase                                                                            | v20250401/storage | LinkedDatabase                                                                            | Extended |                                                                                                                                     |
-| v20250401       | LinkedDatabase_STATUS                                                                     | v20250401/storage | LinkedDatabase_STATUS                                                                     | Modified |                                                                                                                                     |
-| v20250401       | ManagedServiceIdentity                                                                    | v20250401/storage | ManagedServiceIdentity                                                                    | Modified |                                                                                                                                     |
-| v20250401       | ManagedServiceIdentity_STATUS                                                             | v20250401/storage | ManagedServiceIdentity_STATUS                                                             | Modified |                                                                                                                                     |
-| v20250401       | Module                                                                                    | v20250401/storage | Module                                                                                    | Extended |                                                                                                                                     |
-| v20250401       | Module_STATUS                                                                             | v20250401/storage | Module_STATUS                                                                             | Extended |                                                                                                                                     |
-| v20250401       | Persistence                                                                               | v20250401/storage | Persistence                                                                               | Modified |                                                                                                                                     |
-| v20250401       | Persistence_STATUS                                                                        | v20250401/storage | Persistence_STATUS                                                                        | Modified |                                                                                                                                     |
-| v20250401       | PrivateEndpointConnection_STATUS                                                          | v20250401/storage | PrivateEndpointConnection_STATUS                                                          | Extended |                                                                                                                                     |
-| v20250401       | RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec                                 | v20250401/storage | RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec                                 | Extended |                                                                                                                                     |
-| v20250401       | RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS                                      | v20250401/storage | RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS                                      | Modified |                                                                                                                                     |
-| v20250401       | RedisEnterpriseDatabaseAccessPolicyAssignment_Spec                                        | v20250401/storage | RedisEnterpriseDatabaseAccessPolicyAssignment_Spec                                        | Modified |                                                                                                                                     |
-| v20250401       | RedisEnterpriseDatabaseOperatorSecrets                                                    | v20250401/storage | RedisEnterpriseDatabaseOperatorSecrets                                                    | Extended |                                                                                                                                     |
-| v20250401       | RedisEnterpriseDatabaseOperatorSpec                                                       | v20250401/storage | RedisEnterpriseDatabaseOperatorSpec                                                       | Extended |                                                                                                                                     |
-| v20250401       | RedisEnterpriseDatabase_STATUS                                                            | v20250401/storage | RedisEnterpriseDatabase_STATUS                                                            | Modified |                                                                                                                                     |
-| v20250401       | RedisEnterpriseDatabase_Spec                                                              | v20250401/storage | RedisEnterpriseDatabase_Spec                                                              | Modified |                                                                                                                                     |
-| v20250401       | RedisEnterpriseOperatorSpec                                                               | v20250401/storage | RedisEnterpriseOperatorSpec                                                               | Extended |                                                                                                                                     |
-| v20250401       | RedisEnterprise_STATUS                                                                    | v20250401/storage | RedisEnterprise_STATUS                                                                    | Modified |                                                                                                                                     |
-| v20250401       | RedisEnterprise_Spec                                                                      | v20250401/storage | RedisEnterprise_Spec                                                                      | Modified |                                                                                                                                     |
-| v20250401       | Sku                                                                                       | v20250401/storage | Sku                                                                                       | Modified |                                                                                                                                     |
-| v20250401       | Sku_STATUS                                                                                | v20250401/storage | Sku_STATUS                                                                                | Modified |                                                                                                                                     |
-| v20250401       | SystemData_STATUS                                                                         | v20250401/storage | SystemData_STATUS                                                                         | Modified |                                                                                                                                     |
-| v20250401       | UserAssignedIdentityDetails                                                               | v20250401/storage | UserAssignedIdentityDetails                                                               | Extended |                                                                                                                                     |
-| v20250401       | UserAssignedIdentity_STATUS                                                               | v20250401/storage | UserAssignedIdentity_STATUS                                                               | Extended |                                                                                                                                     |
+| v20250401                                                                                 | v20250401/storage                                                                         | Status   | Notes |
+|:------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------|:--------:|:------|
+| AccessPolicyAssignmentProperties_User                                                     | AccessPolicyAssignmentProperties_User                                                     | Extended |       |
+| AccessPolicyAssignmentProperties_User_STATUS                                              | AccessPolicyAssignmentProperties_User_STATUS                                              | Extended |       |
+| ClusterProperties_Encryption                                                              | ClusterProperties_Encryption                                                              | Modified |       |
+| ClusterProperties_Encryption_CustomerManagedKeyEncryption                                 | ClusterProperties_Encryption_CustomerManagedKeyEncryption                                 | Modified |       |
+| ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity        | ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity        | Modified |       |
+| ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | Modified |       |
+| ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          | ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          | Modified |       |
+| ClusterProperties_Encryption_STATUS                                                       | ClusterProperties_Encryption_STATUS                                                       | Modified |       |
+| DatabaseProperties_GeoReplication                                                         | DatabaseProperties_GeoReplication                                                         | Extended |       |
+| DatabaseProperties_GeoReplication_STATUS                                                  | DatabaseProperties_GeoReplication_STATUS                                                  | Extended |       |
+| LinkedDatabase                                                                            | LinkedDatabase                                                                            | Extended |       |
+| LinkedDatabase_STATUS                                                                     | LinkedDatabase_STATUS                                                                     | Modified |       |
+| ManagedServiceIdentity                                                                    | ManagedServiceIdentity                                                                    | Modified |       |
+| ManagedServiceIdentity_STATUS                                                             | ManagedServiceIdentity_STATUS                                                             | Modified |       |
+| Module                                                                                    | Module                                                                                    | Extended |       |
+| Module_STATUS                                                                             | Module_STATUS                                                                             | Extended |       |
+| Persistence                                                                               | Persistence                                                                               | Modified |       |
+| Persistence_STATUS                                                                        | Persistence_STATUS                                                                        | Modified |       |
+| PrivateEndpointConnection_STATUS                                                          | PrivateEndpointConnection_STATUS                                                          | Extended |       |
+| RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec                                 | RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec                                 | Extended |       |
+| RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS                                      | RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS                                      | Modified |       |
+| RedisEnterpriseDatabaseAccessPolicyAssignment_Spec                                        | RedisEnterpriseDatabaseAccessPolicyAssignment_Spec                                        | Modified |       |
+| RedisEnterpriseDatabaseOperatorSecrets                                                    | RedisEnterpriseDatabaseOperatorSecrets                                                    | Extended |       |
+| RedisEnterpriseDatabaseOperatorSpec                                                       | RedisEnterpriseDatabaseOperatorSpec                                                       | Extended |       |
+| RedisEnterpriseDatabase_STATUS                                                            | RedisEnterpriseDatabase_STATUS                                                            | Modified |       |
+| RedisEnterpriseDatabase_Spec                                                              | RedisEnterpriseDatabase_Spec                                                              | Modified |       |
+| RedisEnterpriseOperatorSpec                                                               | RedisEnterpriseOperatorSpec                                                               | Extended |       |
+| RedisEnterprise_STATUS                                                                    | RedisEnterprise_STATUS                                                                    | Modified |       |
+| RedisEnterprise_Spec                                                                      | RedisEnterprise_Spec                                                                      | Modified |       |
+| Sku                                                                                       | Sku                                                                                       | Modified |       |
+| Sku_STATUS                                                                                | Sku_STATUS                                                                                | Modified |       |
+| SystemData_STATUS                                                                         | SystemData_STATUS                                                                         | Modified |       |
+| UserAssignedIdentityDetails                                                               | UserAssignedIdentityDetails                                                               | Extended |       |
+| UserAssignedIdentity_STATUS                                                               | UserAssignedIdentity_STATUS                                                               | Extended |       |
 
 ### AccessPolicyAssignmentProperties_User
 
@@ -78,6 +70,68 @@ Statuses:
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
 | ObjectId  | *string | ObjectId          | *string                | Identical |       |
 |           |         | PropertyBag       | genruntime.PropertyBag | New       |       |
+
+### ClusterProperties_Encryption
+
+| v20250401                    |                                                            | v20250401/storage            |                                                            | Status   | Notes |
+|:-----------------------------|:-----------------------------------------------------------|:-----------------------------|:-----------------------------------------------------------|:--------:|:------|
+| CustomerManagedKeyEncryption | *ClusterProperties_Encryption_CustomerManagedKeyEncryption | CustomerManagedKeyEncryption | *ClusterProperties_Encryption_CustomerManagedKeyEncryption | Modified |       |
+|                              |                                                            | PropertyBag                  | genruntime.PropertyBag                                     | New      |       |
+
+### ClusterProperties_Encryption_CustomerManagedKeyEncryption
+
+| v20250401                |                                                                                     | v20250401/storage        |                                                                                     | Status    | Notes |
+|:-------------------------|:------------------------------------------------------------------------------------|:-------------------------|:------------------------------------------------------------------------------------|:---------:|:------|
+| KeyEncryptionKeyIdentity | *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity | KeyEncryptionKeyIdentity | *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity | Modified  |       |
+| KeyEncryptionKeyUrl      | *string                                                                             | KeyEncryptionKeyUrl      | *string                                                                             | Identical |       |
+|                          |                                                                                     | PropertyBag              | genruntime.PropertyBag                                                              | New       |       |
+
+### ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
+
+| v20250401                             |                                                                                                  | v20250401/storage                     |                               | Status    | Notes |
+|:--------------------------------------|:-------------------------------------------------------------------------------------------------|:--------------------------------------|:------------------------------|:---------:|:------|
+| IdentityType                          | *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_IdentityType | IdentityType                          | *string                       | Modified  |       |
+|                                       |                                                                                                  | PropertyBag                           | genruntime.PropertyBag        | New       |       |
+| UserAssignedIdentityResourceReference | *genruntime.ResourceReference                                                                    | UserAssignedIdentityResourceReference | *genruntime.ResourceReference | Identical |       |
+
+### ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
+
+| v20250401                      |                                                                                                         | v20250401/storage              |                        | Status    | Notes |
+|:-------------------------------|:--------------------------------------------------------------------------------------------------------|:-------------------------------|:-----------------------|:---------:|:------|
+| IdentityType                   | *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_IdentityType_STATUS | IdentityType                   | *string                | Modified  |       |
+|                                |                                                                                                         | PropertyBag                    | genruntime.PropertyBag | New       |       |
+| UserAssignedIdentityResourceId | *string                                                                                                 | UserAssignedIdentityResourceId | *string                | Identical |       |
+
+### ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS
+
+| v20250401                |                                                                                            | v20250401/storage        |                                                                                            | Status    | Notes |
+|:-------------------------|:-------------------------------------------------------------------------------------------|:-------------------------|:-------------------------------------------------------------------------------------------|:---------:|:------|
+| KeyEncryptionKeyIdentity | *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | KeyEncryptionKeyIdentity | *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | Modified  |       |
+| KeyEncryptionKeyUrl      | *string                                                                                    | KeyEncryptionKeyUrl      | *string                                                                                    | Identical |       |
+|                          |                                                                                            | PropertyBag              | genruntime.PropertyBag                                                                     | New       |       |
+
+### ClusterProperties_Encryption_STATUS
+
+| v20250401                    |                                                                   | v20250401/storage            |                                                                   | Status   | Notes |
+|:-----------------------------|:------------------------------------------------------------------|:-----------------------------|:------------------------------------------------------------------|:--------:|:------|
+| CustomerManagedKeyEncryption | *ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS | CustomerManagedKeyEncryption | *ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS | Modified |       |
+|                              |                                                                   | PropertyBag                  | genruntime.PropertyBag                                            | New      |       |
+
+### DatabaseProperties_GeoReplication
+
+| v20250401       |                  | v20250401/storage |                        | Status    | Notes |
+|:----------------|:-----------------|:------------------|:-----------------------|:---------:|:------|
+| GroupNickname   | *string          | GroupNickname     | *string                | Identical |       |
+| LinkedDatabases | LinkedDatabase[] | LinkedDatabases   | LinkedDatabase[]       | Identical |       |
+|                 |                  | PropertyBag       | genruntime.PropertyBag | New       |       |
+
+### DatabaseProperties_GeoReplication_STATUS
+
+| v20250401       |                         | v20250401/storage |                         | Status    | Notes |
+|:----------------|:------------------------|:------------------|:------------------------|:---------:|:------|
+| GroupNickname   | *string                 | GroupNickname     | *string                 | Identical |       |
+| LinkedDatabases | LinkedDatabase_STATUS[] | LinkedDatabases   | LinkedDatabase_STATUS[] | Identical |       |
+|                 |                         | PropertyBag       | genruntime.PropertyBag  | New       |       |
 
 ### LinkedDatabase
 

@@ -11,55 +11,55 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type          | Next Version      | Next Type             | Status    | Notes |
-|:----------------------|:----------------------|:------------------|:----------------------|:---------:|:------|
-| v1api20210601/storage | Workspace             | v20210601/storage | Workspace             | Identical |       |
-| v1api20210601/storage | WorkspacesBigDataPool | v20210601/storage | WorkspacesBigDataPool | Identical |       |
+| v1api20210601/storage | v20210601/storage     | Status    | Notes |
+|:----------------------|:----------------------|:---------:|:------|
+| Workspace             | Workspace             | Identical |       |
+| WorkspacesBigDataPool | WorkspacesBigDataPool | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                            | Next Version      | Next Type                               | Status    | Notes |
-|:----------------------|:----------------------------------------|:------------------|:----------------------------------------|:---------:|:------|
-| v1api20210601/storage | AutoPauseProperties                     | v20210601/storage | AutoPauseProperties                     | Identical |       |
-| v1api20210601/storage | AutoPauseProperties_STATUS              | v20210601/storage | AutoPauseProperties_STATUS              | Identical |       |
-| v1api20210601/storage | AutoScaleProperties                     | v20210601/storage | AutoScaleProperties                     | Identical |       |
-| v1api20210601/storage | AutoScaleProperties_STATUS              | v20210601/storage | AutoScaleProperties_STATUS              | Identical |       |
-| v1api20210601/storage | CspWorkspaceAdminProperties             | v20210601/storage | CspWorkspaceAdminProperties             | Identical |       |
-| v1api20210601/storage | CspWorkspaceAdminProperties_STATUS      | v20210601/storage | CspWorkspaceAdminProperties_STATUS      | Identical |       |
-| v1api20210601/storage | CustomerManagedKeyDetails               | v20210601/storage | CustomerManagedKeyDetails               | Identical |       |
-| v1api20210601/storage | CustomerManagedKeyDetails_STATUS        | v20210601/storage | CustomerManagedKeyDetails_STATUS        | Identical |       |
-| v1api20210601/storage | DataLakeStorageAccountDetails           | v20210601/storage | DataLakeStorageAccountDetails           | Identical |       |
-| v1api20210601/storage | DataLakeStorageAccountDetails_STATUS    | v20210601/storage | DataLakeStorageAccountDetails_STATUS    | Identical |       |
-| v1api20210601/storage | DynamicExecutorAllocation               | v20210601/storage | DynamicExecutorAllocation               | Identical |       |
-| v1api20210601/storage | DynamicExecutorAllocation_STATUS        | v20210601/storage | DynamicExecutorAllocation_STATUS        | Identical |       |
-| v1api20210601/storage | EncryptionDetails                       | v20210601/storage | EncryptionDetails                       | Identical |       |
-| v1api20210601/storage | EncryptionDetails_STATUS                | v20210601/storage | EncryptionDetails_STATUS                | Identical |       |
-| v1api20210601/storage | KekIdentityProperties                   | v20210601/storage | KekIdentityProperties                   | Identical |       |
-| v1api20210601/storage | KekIdentityProperties_STATUS            | v20210601/storage | KekIdentityProperties_STATUS            | Identical |       |
-| v1api20210601/storage | LibraryInfo                             | v20210601/storage | LibraryInfo                             | Identical |       |
-| v1api20210601/storage | LibraryInfo_STATUS                      | v20210601/storage | LibraryInfo_STATUS                      | Identical |       |
-| v1api20210601/storage | LibraryRequirements                     | v20210601/storage | LibraryRequirements                     | Identical |       |
-| v1api20210601/storage | LibraryRequirements_STATUS              | v20210601/storage | LibraryRequirements_STATUS              | Identical |       |
-| v1api20210601/storage | ManagedIdentity                         | v20210601/storage | ManagedIdentity                         | Identical |       |
-| v1api20210601/storage | ManagedIdentity_STATUS                  | v20210601/storage | ManagedIdentity_STATUS                  | Identical |       |
-| v1api20210601/storage | ManagedVirtualNetworkSettings           | v20210601/storage | ManagedVirtualNetworkSettings           | Identical |       |
-| v1api20210601/storage | ManagedVirtualNetworkSettings_STATUS    | v20210601/storage | ManagedVirtualNetworkSettings_STATUS    | Identical |       |
-| v1api20210601/storage | PrivateEndpointConnection_STATUS        | v20210601/storage | PrivateEndpointConnection_STATUS        | Identical |       |
-| v1api20210601/storage | PurviewConfiguration                    | v20210601/storage | PurviewConfiguration                    | Identical |       |
-| v1api20210601/storage | PurviewConfiguration_STATUS             | v20210601/storage | PurviewConfiguration_STATUS             | Identical |       |
-| v1api20210601/storage | SparkConfigProperties                   | v20210601/storage | SparkConfigProperties                   | Identical |       |
-| v1api20210601/storage | SparkConfigProperties_STATUS            | v20210601/storage | SparkConfigProperties_STATUS            | Identical |       |
-| v1api20210601/storage | UserAssignedIdentityDetails             | v20210601/storage | UserAssignedIdentityDetails             | Identical |       |
-| v1api20210601/storage | UserAssignedManagedIdentity_STATUS      | v20210601/storage | UserAssignedManagedIdentity_STATUS      | Identical |       |
-| v1api20210601/storage | VirtualNetworkProfile                   | v20210601/storage | VirtualNetworkProfile                   | Identical |       |
-| v1api20210601/storage | VirtualNetworkProfile_STATUS            | v20210601/storage | VirtualNetworkProfile_STATUS            | Identical |       |
-| v1api20210601/storage | WorkspaceKeyDetails                     | v20210601/storage | WorkspaceKeyDetails                     | Identical |       |
-| v1api20210601/storage | WorkspaceKeyDetails_STATUS              | v20210601/storage | WorkspaceKeyDetails_STATUS              | Identical |       |
-| v1api20210601/storage | WorkspaceOperatorSpec                   | v20210601/storage | WorkspaceOperatorSpec                   | Identical |       |
-| v1api20210601/storage | WorkspaceRepositoryConfiguration        | v20210601/storage | WorkspaceRepositoryConfiguration        | Identical |       |
-| v1api20210601/storage | WorkspaceRepositoryConfiguration_STATUS | v20210601/storage | WorkspaceRepositoryConfiguration_STATUS | Identical |       |
-| v1api20210601/storage | Workspace_STATUS                        | v20210601/storage | Workspace_STATUS                        | Identical |       |
-| v1api20210601/storage | Workspace_Spec                          | v20210601/storage | Workspace_Spec                          | Identical |       |
-| v1api20210601/storage | WorkspacesBigDataPoolOperatorSpec       | v20210601/storage | WorkspacesBigDataPoolOperatorSpec       | Identical |       |
-| v1api20210601/storage | WorkspacesBigDataPool_STATUS            | v20210601/storage | WorkspacesBigDataPool_STATUS            | Identical |       |
-| v1api20210601/storage | WorkspacesBigDataPool_Spec              | v20210601/storage | WorkspacesBigDataPool_Spec              | Identical |       |
+| v1api20210601/storage                   | v20210601/storage                       | Status    | Notes |
+|:----------------------------------------|:----------------------------------------|:---------:|:------|
+| AutoPauseProperties                     | AutoPauseProperties                     | Identical |       |
+| AutoPauseProperties_STATUS              | AutoPauseProperties_STATUS              | Identical |       |
+| AutoScaleProperties                     | AutoScaleProperties                     | Identical |       |
+| AutoScaleProperties_STATUS              | AutoScaleProperties_STATUS              | Identical |       |
+| CspWorkspaceAdminProperties             | CspWorkspaceAdminProperties             | Identical |       |
+| CspWorkspaceAdminProperties_STATUS      | CspWorkspaceAdminProperties_STATUS      | Identical |       |
+| CustomerManagedKeyDetails               | CustomerManagedKeyDetails               | Identical |       |
+| CustomerManagedKeyDetails_STATUS        | CustomerManagedKeyDetails_STATUS        | Identical |       |
+| DataLakeStorageAccountDetails           | DataLakeStorageAccountDetails           | Identical |       |
+| DataLakeStorageAccountDetails_STATUS    | DataLakeStorageAccountDetails_STATUS    | Identical |       |
+| DynamicExecutorAllocation               | DynamicExecutorAllocation               | Identical |       |
+| DynamicExecutorAllocation_STATUS        | DynamicExecutorAllocation_STATUS        | Identical |       |
+| EncryptionDetails                       | EncryptionDetails                       | Identical |       |
+| EncryptionDetails_STATUS                | EncryptionDetails_STATUS                | Identical |       |
+| KekIdentityProperties                   | KekIdentityProperties                   | Identical |       |
+| KekIdentityProperties_STATUS            | KekIdentityProperties_STATUS            | Identical |       |
+| LibraryInfo                             | LibraryInfo                             | Identical |       |
+| LibraryInfo_STATUS                      | LibraryInfo_STATUS                      | Identical |       |
+| LibraryRequirements                     | LibraryRequirements                     | Identical |       |
+| LibraryRequirements_STATUS              | LibraryRequirements_STATUS              | Identical |       |
+| ManagedIdentity                         | ManagedIdentity                         | Identical |       |
+| ManagedIdentity_STATUS                  | ManagedIdentity_STATUS                  | Identical |       |
+| ManagedVirtualNetworkSettings           | ManagedVirtualNetworkSettings           | Identical |       |
+| ManagedVirtualNetworkSettings_STATUS    | ManagedVirtualNetworkSettings_STATUS    | Identical |       |
+| PrivateEndpointConnection_STATUS        | PrivateEndpointConnection_STATUS        | Identical |       |
+| PurviewConfiguration                    | PurviewConfiguration                    | Identical |       |
+| PurviewConfiguration_STATUS             | PurviewConfiguration_STATUS             | Identical |       |
+| SparkConfigProperties                   | SparkConfigProperties                   | Identical |       |
+| SparkConfigProperties_STATUS            | SparkConfigProperties_STATUS            | Identical |       |
+| UserAssignedIdentityDetails             | UserAssignedIdentityDetails             | Identical |       |
+| UserAssignedManagedIdentity_STATUS      | UserAssignedManagedIdentity_STATUS      | Identical |       |
+| VirtualNetworkProfile                   | VirtualNetworkProfile                   | Identical |       |
+| VirtualNetworkProfile_STATUS            | VirtualNetworkProfile_STATUS            | Identical |       |
+| WorkspaceKeyDetails                     | WorkspaceKeyDetails                     | Identical |       |
+| WorkspaceKeyDetails_STATUS              | WorkspaceKeyDetails_STATUS              | Identical |       |
+| WorkspaceOperatorSpec                   | WorkspaceOperatorSpec                   | Identical |       |
+| WorkspaceRepositoryConfiguration        | WorkspaceRepositoryConfiguration        | Identical |       |
+| WorkspaceRepositoryConfiguration_STATUS | WorkspaceRepositoryConfiguration_STATUS | Identical |       |
+| Workspace_STATUS                        | Workspace_STATUS                        | Identical |       |
+| Workspace_Spec                          | Workspace_Spec                          | Identical |       |
+| WorkspacesBigDataPoolOperatorSpec       | WorkspacesBigDataPoolOperatorSpec       | Identical |       |
+| WorkspacesBigDataPool_STATUS            | WorkspacesBigDataPool_STATUS            | Identical |       |
+| WorkspacesBigDataPool_Spec              | WorkspacesBigDataPool_Spec              | Identical |       |

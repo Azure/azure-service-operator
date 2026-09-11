@@ -11,35 +11,35 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type | Status    | Notes |
-|:----------------|:-------------|:----------------------|:----------|:---------:|:------|
-| v1api20230701   | Vault        | v1api20230701/storage | Vault     | Identical |       |
+| v1api20230701 | v1api20230701/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| Vault         | Vault                 | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                             | Next Version          | Next Type                                | Status   | Notes |
-|:----------------|:-----------------------------------------|:----------------------|:-----------------------------------------|:--------:|:------|
-| v1api20230701   | AccessPolicyEntry                        | v1api20230701/storage | AccessPolicyEntry                        | Modified |       |
-| v1api20230701   | AccessPolicyEntry_STATUS                 | v1api20230701/storage | AccessPolicyEntry_STATUS                 | Extended |       |
-| v1api20230701   | IPRule                                   | v1api20230701/storage | IPRule                                   | Extended |       |
-| v1api20230701   | IPRule_STATUS                            | v1api20230701/storage | IPRule_STATUS                            | Extended |       |
-| v1api20230701   | NetworkRuleSet                           | v1api20230701/storage | NetworkRuleSet                           | Modified |       |
-| v1api20230701   | NetworkRuleSet_STATUS                    | v1api20230701/storage | NetworkRuleSet_STATUS                    | Modified |       |
-| v1api20230701   | Permissions                              | v1api20230701/storage | Permissions                              | Modified |       |
-| v1api20230701   | Permissions_STATUS                       | v1api20230701/storage | Permissions_STATUS                       | Modified |       |
-| v1api20230701   | PrivateEndpointConnectionItem_STATUS     | v1api20230701/storage | PrivateEndpointConnectionItem_STATUS     | Modified |       |
-| v1api20230701   | PrivateEndpoint_STATUS                   | v1api20230701/storage | PrivateEndpoint_STATUS                   | Extended |       |
-| v1api20230701   | PrivateLinkServiceConnectionState_STATUS | v1api20230701/storage | PrivateLinkServiceConnectionState_STATUS | Modified |       |
-| v1api20230701   | Sku                                      | v1api20230701/storage | Sku                                      | Modified |       |
-| v1api20230701   | Sku_STATUS                               | v1api20230701/storage | Sku_STATUS                               | Modified |       |
-| v1api20230701   | SystemData_STATUS                        | v1api20230701/storage | SystemData_STATUS                        | Modified |       |
-| v1api20230701   | VaultOperatorSpec                        | v1api20230701/storage | VaultOperatorSpec                        | Extended |       |
-| v1api20230701   | VaultProperties                          | v1api20230701/storage | VaultProperties                          | Modified |       |
-| v1api20230701   | VaultProperties_STATUS                   | v1api20230701/storage | VaultProperties_STATUS                   | Modified |       |
-| v1api20230701   | Vault_STATUS                             | v1api20230701/storage | Vault_STATUS                             | Extended |       |
-| v1api20230701   | Vault_Spec                               | v1api20230701/storage | Vault_Spec                               | Modified |       |
-| v1api20230701   | VirtualNetworkRule                       | v1api20230701/storage | VirtualNetworkRule                       | Extended |       |
-| v1api20230701   | VirtualNetworkRule_STATUS                | v1api20230701/storage | VirtualNetworkRule_STATUS                | Extended |       |
+| v1api20230701                            | v1api20230701/storage                    | Status   | Notes |
+|:-----------------------------------------|:-----------------------------------------|:--------:|:------|
+| AccessPolicyEntry                        | AccessPolicyEntry                        | Modified |       |
+| AccessPolicyEntry_STATUS                 | AccessPolicyEntry_STATUS                 | Extended |       |
+| IPRule                                   | IPRule                                   | Extended |       |
+| IPRule_STATUS                            | IPRule_STATUS                            | Extended |       |
+| NetworkRuleSet                           | NetworkRuleSet                           | Modified |       |
+| NetworkRuleSet_STATUS                    | NetworkRuleSet_STATUS                    | Modified |       |
+| Permissions                              | Permissions                              | Modified |       |
+| Permissions_STATUS                       | Permissions_STATUS                       | Modified |       |
+| PrivateEndpointConnectionItem_STATUS     | PrivateEndpointConnectionItem_STATUS     | Modified |       |
+| PrivateEndpoint_STATUS                   | PrivateEndpoint_STATUS                   | Extended |       |
+| PrivateLinkServiceConnectionState_STATUS | PrivateLinkServiceConnectionState_STATUS | Modified |       |
+| Sku                                      | Sku                                      | Modified |       |
+| Sku_STATUS                               | Sku_STATUS                               | Modified |       |
+| SystemData_STATUS                        | SystemData_STATUS                        | Modified |       |
+| VaultOperatorSpec                        | VaultOperatorSpec                        | Extended |       |
+| VaultProperties                          | VaultProperties                          | Modified |       |
+| VaultProperties_STATUS                   | VaultProperties_STATUS                   | Modified |       |
+| Vault_STATUS                             | Vault_STATUS                             | Extended |       |
+| Vault_Spec                               | Vault_Spec                               | Modified |       |
+| VirtualNetworkRule                       | VirtualNetworkRule                       | Extended |       |
+| VirtualNetworkRule_STATUS                | VirtualNetworkRule_STATUS                | Extended |       |
 
 ### AccessPolicyEntry
 

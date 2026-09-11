@@ -11,43 +11,43 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                           | Next Version          | Next Type                              | Status    | Notes |
-|:----------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
-| v1api20220401   | TrafficManagerProfile                  | v1api20220401/storage | TrafficManagerProfile                  | Identical |       |
-| v1api20220401   | TrafficManagerProfilesAzureEndpoint    | v1api20220401/storage | TrafficManagerProfilesAzureEndpoint    | Identical |       |
-| v1api20220401   | TrafficManagerProfilesExternalEndpoint | v1api20220401/storage | TrafficManagerProfilesExternalEndpoint | Identical |       |
-| v1api20220401   | TrafficManagerProfilesNestedEndpoint   | v1api20220401/storage | TrafficManagerProfilesNestedEndpoint   | Identical |       |
+| v1api20220401                          | v1api20220401/storage                  | Status    | Notes |
+|:---------------------------------------|:---------------------------------------|:---------:|:------|
+| TrafficManagerProfile                  | TrafficManagerProfile                  | Identical |       |
+| TrafficManagerProfilesAzureEndpoint    | TrafficManagerProfilesAzureEndpoint    | Identical |       |
+| TrafficManagerProfilesExternalEndpoint | TrafficManagerProfilesExternalEndpoint | Identical |       |
+| TrafficManagerProfilesNestedEndpoint   | TrafficManagerProfilesNestedEndpoint   | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                       | Next Version          | Next Type                                          | Status   | Notes |
-|:----------------|:---------------------------------------------------|:----------------------|:---------------------------------------------------|:--------:|:------|
-| v1api20220401   | DnsConfig                                          | v1api20220401/storage | DnsConfig                                          | Extended |       |
-| v1api20220401   | DnsConfig_STATUS                                   | v1api20220401/storage | DnsConfig_STATUS                                   | Extended |       |
-| v1api20220401   | EndpointPropertiesCustomHeadersItem                | v1api20220401/storage | EndpointPropertiesCustomHeadersItem                | Extended |       |
-| v1api20220401   | EndpointPropertiesCustomHeadersItem_STATUS         | v1api20220401/storage | EndpointPropertiesCustomHeadersItem_STATUS         | Extended |       |
-| v1api20220401   | EndpointPropertiesSubnetsItem                      | v1api20220401/storage | EndpointPropertiesSubnetsItem                      | Extended |       |
-| v1api20220401   | EndpointPropertiesSubnetsItem_STATUS               | v1api20220401/storage | EndpointPropertiesSubnetsItem_STATUS               | Extended |       |
-| v1api20220401   | Endpoint_STATUS                                    | v1api20220401/storage | Endpoint_STATUS                                    | Modified |       |
-| v1api20220401   | MonitorConfig                                      | v1api20220401/storage | MonitorConfig                                      | Modified |       |
-| v1api20220401   | MonitorConfigCustomHeadersItem                     | v1api20220401/storage | MonitorConfigCustomHeadersItem                     | Extended |       |
-| v1api20220401   | MonitorConfigCustomHeadersItem_STATUS              | v1api20220401/storage | MonitorConfigCustomHeadersItem_STATUS              | Extended |       |
-| v1api20220401   | MonitorConfigExpectedStatusCodeRangesItem          | v1api20220401/storage | MonitorConfigExpectedStatusCodeRangesItem          | Extended |       |
-| v1api20220401   | MonitorConfigExpectedStatusCodeRangesItem_STATUS   | v1api20220401/storage | MonitorConfigExpectedStatusCodeRangesItem_STATUS   | Extended |       |
-| v1api20220401   | MonitorConfig_STATUS                               | v1api20220401/storage | MonitorConfig_STATUS                               | Modified |       |
-| v1api20220401   | TrafficManagerProfileOperatorConfigMaps            | v1api20220401/storage | TrafficManagerProfileOperatorConfigMaps            | Extended |       |
-| v1api20220401   | TrafficManagerProfileOperatorSpec                  | v1api20220401/storage | TrafficManagerProfileOperatorSpec                  | Extended |       |
-| v1api20220401   | TrafficManagerProfile_STATUS                       | v1api20220401/storage | TrafficManagerProfile_STATUS                       | Modified |       |
-| v1api20220401   | TrafficManagerProfile_Spec                         | v1api20220401/storage | TrafficManagerProfile_Spec                         | Modified |       |
-| v1api20220401   | TrafficManagerProfilesAzureEndpointOperatorSpec    | v1api20220401/storage | TrafficManagerProfilesAzureEndpointOperatorSpec    | Extended |       |
-| v1api20220401   | TrafficManagerProfilesAzureEndpoint_STATUS         | v1api20220401/storage | TrafficManagerProfilesAzureEndpoint_STATUS         | Modified |       |
-| v1api20220401   | TrafficManagerProfilesAzureEndpoint_Spec           | v1api20220401/storage | TrafficManagerProfilesAzureEndpoint_Spec           | Modified |       |
-| v1api20220401   | TrafficManagerProfilesExternalEndpointOperatorSpec | v1api20220401/storage | TrafficManagerProfilesExternalEndpointOperatorSpec | Extended |       |
-| v1api20220401   | TrafficManagerProfilesExternalEndpoint_STATUS      | v1api20220401/storage | TrafficManagerProfilesExternalEndpoint_STATUS      | Modified |       |
-| v1api20220401   | TrafficManagerProfilesExternalEndpoint_Spec        | v1api20220401/storage | TrafficManagerProfilesExternalEndpoint_Spec        | Modified |       |
-| v1api20220401   | TrafficManagerProfilesNestedEndpointOperatorSpec   | v1api20220401/storage | TrafficManagerProfilesNestedEndpointOperatorSpec   | Extended |       |
-| v1api20220401   | TrafficManagerProfilesNestedEndpoint_STATUS        | v1api20220401/storage | TrafficManagerProfilesNestedEndpoint_STATUS        | Modified |       |
-| v1api20220401   | TrafficManagerProfilesNestedEndpoint_Spec          | v1api20220401/storage | TrafficManagerProfilesNestedEndpoint_Spec          | Modified |       |
+| v1api20220401                                      | v1api20220401/storage                              | Status   | Notes |
+|:---------------------------------------------------|:---------------------------------------------------|:--------:|:------|
+| DnsConfig                                          | DnsConfig                                          | Extended |       |
+| DnsConfig_STATUS                                   | DnsConfig_STATUS                                   | Extended |       |
+| EndpointPropertiesCustomHeadersItem                | EndpointPropertiesCustomHeadersItem                | Extended |       |
+| EndpointPropertiesCustomHeadersItem_STATUS         | EndpointPropertiesCustomHeadersItem_STATUS         | Extended |       |
+| EndpointPropertiesSubnetsItem                      | EndpointPropertiesSubnetsItem                      | Extended |       |
+| EndpointPropertiesSubnetsItem_STATUS               | EndpointPropertiesSubnetsItem_STATUS               | Extended |       |
+| Endpoint_STATUS                                    | Endpoint_STATUS                                    | Modified |       |
+| MonitorConfig                                      | MonitorConfig                                      | Modified |       |
+| MonitorConfigCustomHeadersItem                     | MonitorConfigCustomHeadersItem                     | Extended |       |
+| MonitorConfigCustomHeadersItem_STATUS              | MonitorConfigCustomHeadersItem_STATUS              | Extended |       |
+| MonitorConfigExpectedStatusCodeRangesItem          | MonitorConfigExpectedStatusCodeRangesItem          | Extended |       |
+| MonitorConfigExpectedStatusCodeRangesItem_STATUS   | MonitorConfigExpectedStatusCodeRangesItem_STATUS   | Extended |       |
+| MonitorConfig_STATUS                               | MonitorConfig_STATUS                               | Modified |       |
+| TrafficManagerProfileOperatorConfigMaps            | TrafficManagerProfileOperatorConfigMaps            | Extended |       |
+| TrafficManagerProfileOperatorSpec                  | TrafficManagerProfileOperatorSpec                  | Extended |       |
+| TrafficManagerProfile_STATUS                       | TrafficManagerProfile_STATUS                       | Modified |       |
+| TrafficManagerProfile_Spec                         | TrafficManagerProfile_Spec                         | Modified |       |
+| TrafficManagerProfilesAzureEndpointOperatorSpec    | TrafficManagerProfilesAzureEndpointOperatorSpec    | Extended |       |
+| TrafficManagerProfilesAzureEndpoint_STATUS         | TrafficManagerProfilesAzureEndpoint_STATUS         | Modified |       |
+| TrafficManagerProfilesAzureEndpoint_Spec           | TrafficManagerProfilesAzureEndpoint_Spec           | Modified |       |
+| TrafficManagerProfilesExternalEndpointOperatorSpec | TrafficManagerProfilesExternalEndpointOperatorSpec | Extended |       |
+| TrafficManagerProfilesExternalEndpoint_STATUS      | TrafficManagerProfilesExternalEndpoint_STATUS      | Modified |       |
+| TrafficManagerProfilesExternalEndpoint_Spec        | TrafficManagerProfilesExternalEndpoint_Spec        | Modified |       |
+| TrafficManagerProfilesNestedEndpointOperatorSpec   | TrafficManagerProfilesNestedEndpointOperatorSpec   | Extended |       |
+| TrafficManagerProfilesNestedEndpoint_STATUS        | TrafficManagerProfilesNestedEndpoint_STATUS        | Modified |       |
+| TrafficManagerProfilesNestedEndpoint_Spec          | TrafficManagerProfilesNestedEndpoint_Spec          | Modified |       |
 
 ### DnsConfig
 

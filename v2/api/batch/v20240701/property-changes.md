@@ -11,40 +11,40 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version      | Next Type    | Status    | Notes |
-|:----------------|:-------------|:------------------|:-------------|:---------:|:------|
-| v20240701       | BatchAccount | v20240701/storage | BatchAccount | Identical |       |
+| v20240701    | v20240701/storage | Status    | Notes |
+|:-------------|:------------------|:---------:|:------|
+| BatchAccount | BatchAccount      | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                         | Next Version      | Next Type                            | Status   | Notes |
-|:----------------|:-------------------------------------|:------------------|:-------------------------------------|:--------:|:------|
-| v20240701       | AutoStorageBaseProperties            | v20240701/storage | AutoStorageBaseProperties            | Modified |       |
-| v20240701       | AutoStorageProperties_STATUS         | v20240701/storage | AutoStorageProperties_STATUS         | Modified |       |
-| v20240701       | BatchAccountIdentity                 | v20240701/storage | BatchAccountIdentity                 | Modified |       |
-| v20240701       | BatchAccountIdentity_STATUS          | v20240701/storage | BatchAccountIdentity_STATUS          | Modified |       |
-| v20240701       | BatchAccountOperatorSpec             | v20240701/storage | BatchAccountOperatorSpec             | Extended |       |
-| v20240701       | BatchAccount_STATUS                  | v20240701/storage | BatchAccount_STATUS                  | Modified |       |
-| v20240701       | BatchAccount_Spec                    | v20240701/storage | BatchAccount_Spec                    | Modified |       |
-| v20240701       | ComputeNodeIdentityReference         | v20240701/storage | ComputeNodeIdentityReference         | Extended |       |
-| v20240701       | ComputeNodeIdentityReference_STATUS  | v20240701/storage | ComputeNodeIdentityReference_STATUS  | Extended |       |
-| v20240701       | EncryptionProperties                 | v20240701/storage | EncryptionProperties                 | Modified |       |
-| v20240701       | EncryptionProperties_STATUS          | v20240701/storage | EncryptionProperties_STATUS          | Modified |       |
-| v20240701       | EndpointAccessProfile                | v20240701/storage | EndpointAccessProfile                | Modified |       |
-| v20240701       | EndpointAccessProfile_STATUS         | v20240701/storage | EndpointAccessProfile_STATUS         | Modified |       |
-| v20240701       | IPRule                               | v20240701/storage | IPRule                               | Modified |       |
-| v20240701       | IPRule_STATUS                        | v20240701/storage | IPRule_STATUS                        | Modified |       |
-| v20240701       | KeyVaultProperties                   | v20240701/storage | KeyVaultProperties                   | Extended |       |
-| v20240701       | KeyVaultProperties_STATUS            | v20240701/storage | KeyVaultProperties_STATUS            | Extended |       |
-| v20240701       | KeyVaultReference                    | v20240701/storage | KeyVaultReference                    | Extended |       |
-| v20240701       | KeyVaultReference_STATUS             | v20240701/storage | KeyVaultReference_STATUS             | Extended |       |
-| v20240701       | NetworkProfile                       | v20240701/storage | NetworkProfile                       | Extended |       |
-| v20240701       | NetworkProfile_STATUS                | v20240701/storage | NetworkProfile_STATUS                | Extended |       |
-| v20240701       | PrivateEndpointConnection_STATUS     | v20240701/storage | PrivateEndpointConnection_STATUS     | Extended |       |
-| v20240701       | SystemData_STATUS                    | v20240701/storage | SystemData_STATUS                    | Modified |       |
-| v20240701       | UserAssignedIdentities_STATUS        | v20240701/storage | UserAssignedIdentities_STATUS        | Extended |       |
-| v20240701       | UserAssignedIdentityDetails          | v20240701/storage | UserAssignedIdentityDetails          | Extended |       |
-| v20240701       | VirtualMachineFamilyCoreQuota_STATUS | v20240701/storage | VirtualMachineFamilyCoreQuota_STATUS | Extended |       |
+| v20240701                            | v20240701/storage                    | Status   | Notes |
+|:-------------------------------------|:-------------------------------------|:--------:|:------|
+| AutoStorageBaseProperties            | AutoStorageBaseProperties            | Modified |       |
+| AutoStorageProperties_STATUS         | AutoStorageProperties_STATUS         | Modified |       |
+| BatchAccountIdentity                 | BatchAccountIdentity                 | Modified |       |
+| BatchAccountIdentity_STATUS          | BatchAccountIdentity_STATUS          | Modified |       |
+| BatchAccountOperatorSpec             | BatchAccountOperatorSpec             | Extended |       |
+| BatchAccount_STATUS                  | BatchAccount_STATUS                  | Modified |       |
+| BatchAccount_Spec                    | BatchAccount_Spec                    | Modified |       |
+| ComputeNodeIdentityReference         | ComputeNodeIdentityReference         | Extended |       |
+| ComputeNodeIdentityReference_STATUS  | ComputeNodeIdentityReference_STATUS  | Extended |       |
+| EncryptionProperties                 | EncryptionProperties                 | Modified |       |
+| EncryptionProperties_STATUS          | EncryptionProperties_STATUS          | Modified |       |
+| EndpointAccessProfile                | EndpointAccessProfile                | Modified |       |
+| EndpointAccessProfile_STATUS         | EndpointAccessProfile_STATUS         | Modified |       |
+| IPRule                               | IPRule                               | Modified |       |
+| IPRule_STATUS                        | IPRule_STATUS                        | Modified |       |
+| KeyVaultProperties                   | KeyVaultProperties                   | Extended |       |
+| KeyVaultProperties_STATUS            | KeyVaultProperties_STATUS            | Extended |       |
+| KeyVaultReference                    | KeyVaultReference                    | Extended |       |
+| KeyVaultReference_STATUS             | KeyVaultReference_STATUS             | Extended |       |
+| NetworkProfile                       | NetworkProfile                       | Extended |       |
+| NetworkProfile_STATUS                | NetworkProfile_STATUS                | Extended |       |
+| PrivateEndpointConnection_STATUS     | PrivateEndpointConnection_STATUS     | Extended |       |
+| SystemData_STATUS                    | SystemData_STATUS                    | Modified |       |
+| UserAssignedIdentities_STATUS        | UserAssignedIdentities_STATUS        | Extended |       |
+| UserAssignedIdentityDetails          | UserAssignedIdentityDetails          | Extended |       |
+| VirtualMachineFamilyCoreQuota_STATUS | VirtualMachineFamilyCoreQuota_STATUS | Extended |       |
 
 ### AutoStorageBaseProperties
 

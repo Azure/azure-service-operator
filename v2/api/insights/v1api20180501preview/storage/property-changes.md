@@ -11,29 +11,29 @@ Statuses:
 
 ## Resources
 
-| Current Version              | Current Type | Next Version          | Next Type | Status    | Notes |
-|:-----------------------------|:-------------|:----------------------|:----------|:---------:|:------|
-| v1api20180501preview/storage | Webtest      | v1api20220615/storage | Webtest   | Identical |       |
+| v1api20180501preview/storage | v1api20220615/storage | Status    | Notes |
+|:-----------------------------|:----------------------|:---------:|:------|
+| Webtest                      | Webtest               | Identical |       |
 
 ## Objects
 
-| Current Version              | Current Type                                               | Next Version          | Next Type                                                | Status            | Notes |
-|:-----------------------------|:-----------------------------------------------------------|:----------------------|:---------------------------------------------------------|:-----------------:|:------|
-| v1api20180501preview/storage | HeaderField                                                | v1api20220615/storage | HeaderField                                              | Identical         |       |
-| v1api20180501preview/storage | HeaderField_STATUS                                         | v1api20220615/storage | HeaderField_STATUS                                       | Identical         |       |
-| v1api20180501preview/storage | WebTestGeolocation                                         | v1api20220615/storage | WebTestGeolocation                                       | Identical         |       |
-| v1api20180501preview/storage | WebTestGeolocation_STATUS                                  | v1api20220615/storage | WebTestGeolocation_STATUS                                | Identical         |       |
-| v1api20180501preview/storage | WebTestProperties_Configuration                            | v1api20220615/storage | WebTestPropertiesConfiguration                           | Renamed           |       |
-| v1api20180501preview/storage | WebTestProperties_Configuration_STATUS                     | v1api20220615/storage | WebTestPropertiesConfiguration_STATUS                    | Renamed           |       |
-| v1api20180501preview/storage | WebTestProperties_Request                                  | v1api20220615/storage | WebTestPropertiesRequest                                 | Renamed           |       |
-| v1api20180501preview/storage | WebTestProperties_Request_STATUS                           | v1api20220615/storage | WebTestPropertiesRequest_STATUS                          | Renamed           |       |
-| v1api20180501preview/storage | WebTestProperties_ValidationRules                          | v1api20220615/storage | WebTestPropertiesValidationRules                         | Renamed, Modified |       |
-| v1api20180501preview/storage | WebTestProperties_ValidationRules_ContentValidation        | v1api20220615/storage | WebTestPropertiesValidationRulesContentValidation        | Renamed           |       |
-| v1api20180501preview/storage | WebTestProperties_ValidationRules_ContentValidation_STATUS | v1api20220615/storage | WebTestPropertiesValidationRulesContentValidation_STATUS | Renamed           |       |
-| v1api20180501preview/storage | WebTestProperties_ValidationRules_STATUS                   | v1api20220615/storage | WebTestPropertiesValidationRules_STATUS                  | Renamed, Modified |       |
-| v1api20180501preview/storage | WebtestOperatorSpec                                        | v1api20220615/storage | WebtestOperatorSpec                                      | Identical         |       |
-| v1api20180501preview/storage | Webtest_STATUS                                             | v1api20220615/storage | Webtest_STATUS                                           | Identical         |       |
-| v1api20180501preview/storage | Webtest_Spec                                               | v1api20220615/storage | Webtest_Spec                                             | Identical         |       |
+| v1api20180501preview/storage                               | v1api20220615/storage                                    | Status            | Notes |
+|:-----------------------------------------------------------|:---------------------------------------------------------|:-----------------:|:------|
+| HeaderField                                                | HeaderField                                              | Identical         |       |
+| HeaderField_STATUS                                         | HeaderField_STATUS                                       | Identical         |       |
+| WebTestGeolocation                                         | WebTestGeolocation                                       | Identical         |       |
+| WebTestGeolocation_STATUS                                  | WebTestGeolocation_STATUS                                | Identical         |       |
+| WebTestProperties_Configuration                            | WebTestPropertiesConfiguration                           | Renamed           |       |
+| WebTestProperties_Configuration_STATUS                     | WebTestPropertiesConfiguration_STATUS                    | Renamed           |       |
+| WebTestProperties_Request                                  | WebTestPropertiesRequest                                 | Renamed           |       |
+| WebTestProperties_Request_STATUS                           | WebTestPropertiesRequest_STATUS                          | Renamed           |       |
+| WebTestProperties_ValidationRules                          | WebTestPropertiesValidationRules                         | Renamed, Modified |       |
+| WebTestProperties_ValidationRules_ContentValidation        | WebTestPropertiesValidationRulesContentValidation        | Renamed           |       |
+| WebTestProperties_ValidationRules_ContentValidation_STATUS | WebTestPropertiesValidationRulesContentValidation_STATUS | Renamed           |       |
+| WebTestProperties_ValidationRules_STATUS                   | WebTestPropertiesValidationRules_STATUS                  | Renamed, Modified |       |
+| WebtestOperatorSpec                                        | WebtestOperatorSpec                                      | Identical         |       |
+| Webtest_STATUS                                             | Webtest_STATUS                                           | Identical         |       |
+| Webtest_Spec                                               | Webtest_Spec                                             | Identical         |       |
 
 ### WebTestProperties_ValidationRules
 

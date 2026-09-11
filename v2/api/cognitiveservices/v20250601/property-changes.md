@@ -11,78 +11,78 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version      | Next Type  | Status    | Notes |
-|:----------------|:-------------|:------------------|:-----------|:---------:|:------|
-| v20250601       | Account      | v20250601/storage | Account    | Identical |       |
-| v20250601       | Deployment   | v20250601/storage | Deployment | Identical |       |
-| v20250601       | Project      | v20250601/storage | Project    | Identical |       |
+| v20250601  | v20250601/storage | Status    | Notes |
+|:-----------|:------------------|:---------:|:------|
+| Account    | Account           | Identical |       |
+| Deployment | Deployment        | Identical |       |
+| Project    | Project           | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                      | Next Version      | Next Type                         | Status   | Notes |
-|:----------------|:----------------------------------|:------------------|:----------------------------------|:--------:|:------|
-| v20250601       | AbusePenalty_STATUS               | v20250601/storage | AbusePenalty_STATUS               | Modified |       |
-| v20250601       | AccountOperatorSecrets            | v20250601/storage | AccountOperatorSecrets            | Extended |       |
-| v20250601       | AccountOperatorSpec               | v20250601/storage | AccountOperatorSpec               | Extended |       |
-| v20250601       | AccountProperties                 | v20250601/storage | AccountProperties                 | Modified |       |
-| v20250601       | AccountProperties_STATUS          | v20250601/storage | AccountProperties_STATUS          | Modified |       |
-| v20250601       | Account_STATUS                    | v20250601/storage | Account_STATUS                    | Extended |       |
-| v20250601       | Account_Spec                      | v20250601/storage | Account_Spec                      | Modified |       |
-| v20250601       | ApiProperties                     | v20250601/storage | ApiProperties                     | Modified |       |
-| v20250601       | ApiProperties_STATUS              | v20250601/storage | ApiProperties_STATUS              | Extended |       |
-| v20250601       | CallRateLimit_STATUS              | v20250601/storage | CallRateLimit_STATUS              | Extended |       |
-| v20250601       | CommitmentPlanAssociation_STATUS  | v20250601/storage | CommitmentPlanAssociation_STATUS  | Extended |       |
-| v20250601       | DeploymentCapacitySettings        | v20250601/storage | DeploymentCapacitySettings        | Modified |       |
-| v20250601       | DeploymentCapacitySettings_STATUS | v20250601/storage | DeploymentCapacitySettings_STATUS | Extended |       |
-| v20250601       | DeploymentModel                   | v20250601/storage | DeploymentModel                   | Extended |       |
-| v20250601       | DeploymentModel_STATUS            | v20250601/storage | DeploymentModel_STATUS            | Extended |       |
-| v20250601       | DeploymentOperatorSpec            | v20250601/storage | DeploymentOperatorSpec            | Extended |       |
-| v20250601       | DeploymentProperties              | v20250601/storage | DeploymentProperties              | Modified |       |
-| v20250601       | DeploymentProperties_STATUS       | v20250601/storage | DeploymentProperties_STATUS       | Modified |       |
-| v20250601       | DeploymentScaleSettings           | v20250601/storage | DeploymentScaleSettings           | Modified |       |
-| v20250601       | DeploymentScaleSettings_STATUS    | v20250601/storage | DeploymentScaleSettings_STATUS    | Modified |       |
-| v20250601       | Deployment_STATUS                 | v20250601/storage | Deployment_STATUS                 | Extended |       |
-| v20250601       | Deployment_Spec                   | v20250601/storage | Deployment_Spec                   | Extended |       |
-| v20250601       | Encryption                        | v20250601/storage | Encryption                        | Modified |       |
-| v20250601       | Encryption_STATUS                 | v20250601/storage | Encryption_STATUS                 | Modified |       |
-| v20250601       | Identity                          | v20250601/storage | Identity                          | Modified |       |
-| v20250601       | Identity_STATUS                   | v20250601/storage | Identity_STATUS                   | Modified |       |
-| v20250601       | IpRule                            | v20250601/storage | IpRule                            | Extended |       |
-| v20250601       | IpRule_STATUS                     | v20250601/storage | IpRule_STATUS                     | Extended |       |
-| v20250601       | KeyVaultProperties                | v20250601/storage | KeyVaultProperties                | Extended |       |
-| v20250601       | KeyVaultProperties_STATUS         | v20250601/storage | KeyVaultProperties_STATUS         | Extended |       |
-| v20250601       | MultiRegionSettings               | v20250601/storage | MultiRegionSettings               | Modified |       |
-| v20250601       | MultiRegionSettings_STATUS        | v20250601/storage | MultiRegionSettings_STATUS        | Modified |       |
-| v20250601       | NetworkInjection                  | v20250601/storage | NetworkInjection                  | Modified |       |
-| v20250601       | NetworkInjection_STATUS           | v20250601/storage | NetworkInjection_STATUS           | Modified |       |
-| v20250601       | NetworkRuleSet                    | v20250601/storage | NetworkRuleSet                    | Modified |       |
-| v20250601       | NetworkRuleSet_STATUS             | v20250601/storage | NetworkRuleSet_STATUS             | Modified |       |
-| v20250601       | PrivateEndpointConnection_STATUS  | v20250601/storage | PrivateEndpointConnection_STATUS  | Extended |       |
-| v20250601       | ProjectOperatorSpec               | v20250601/storage | ProjectOperatorSpec               | Extended |       |
-| v20250601       | ProjectProperties                 | v20250601/storage | ProjectProperties                 | Extended |       |
-| v20250601       | ProjectProperties_STATUS          | v20250601/storage | ProjectProperties_STATUS          | Modified |       |
-| v20250601       | Project_STATUS                    | v20250601/storage | Project_STATUS                    | Extended |       |
-| v20250601       | Project_Spec                      | v20250601/storage | Project_Spec                      | Modified |       |
-| v20250601       | QuotaLimit_STATUS                 | v20250601/storage | QuotaLimit_STATUS                 | Extended |       |
-| v20250601       | RaiMonitorConfig                  | v20250601/storage | RaiMonitorConfig                  | Extended |       |
-| v20250601       | RaiMonitorConfig_STATUS           | v20250601/storage | RaiMonitorConfig_STATUS           | Extended |       |
-| v20250601       | RegionSetting                     | v20250601/storage | RegionSetting                     | Extended |       |
-| v20250601       | RegionSetting_STATUS              | v20250601/storage | RegionSetting_STATUS              | Extended |       |
-| v20250601       | RequestMatchPattern_STATUS        | v20250601/storage | RequestMatchPattern_STATUS        | Extended |       |
-| v20250601       | Sku                               | v20250601/storage | Sku                               | Modified |       |
-| v20250601       | SkuCapability_STATUS              | v20250601/storage | SkuCapability_STATUS              | Extended |       |
-| v20250601       | SkuChangeInfo_STATUS              | v20250601/storage | SkuChangeInfo_STATUS              | Extended |       |
-| v20250601       | Sku_STATUS                        | v20250601/storage | Sku_STATUS                        | Modified |       |
-| v20250601       | SystemData_STATUS                 | v20250601/storage | SystemData_STATUS                 | Modified |       |
-| v20250601       | ThrottlingRule_STATUS             | v20250601/storage | ThrottlingRule_STATUS             | Extended |       |
-| v20250601       | UserAssignedIdentityDetails       | v20250601/storage | UserAssignedIdentityDetails       | Extended |       |
-| v20250601       | UserAssignedIdentity_STATUS       | v20250601/storage | UserAssignedIdentity_STATUS       | Extended |       |
-| v20250601       | UserOwnedAmlWorkspace             | v20250601/storage | UserOwnedAmlWorkspace             | Extended |       |
-| v20250601       | UserOwnedAmlWorkspace_STATUS      | v20250601/storage | UserOwnedAmlWorkspace_STATUS      | Extended |       |
-| v20250601       | UserOwnedStorage                  | v20250601/storage | UserOwnedStorage                  | Extended |       |
-| v20250601       | UserOwnedStorage_STATUS           | v20250601/storage | UserOwnedStorage_STATUS           | Extended |       |
-| v20250601       | VirtualNetworkRule                | v20250601/storage | VirtualNetworkRule                | Extended |       |
-| v20250601       | VirtualNetworkRule_STATUS         | v20250601/storage | VirtualNetworkRule_STATUS         | Extended |       |
+| v20250601                         | v20250601/storage                 | Status   | Notes |
+|:----------------------------------|:----------------------------------|:--------:|:------|
+| AbusePenalty_STATUS               | AbusePenalty_STATUS               | Modified |       |
+| AccountOperatorSecrets            | AccountOperatorSecrets            | Extended |       |
+| AccountOperatorSpec               | AccountOperatorSpec               | Extended |       |
+| AccountProperties                 | AccountProperties                 | Modified |       |
+| AccountProperties_STATUS          | AccountProperties_STATUS          | Modified |       |
+| Account_STATUS                    | Account_STATUS                    | Extended |       |
+| Account_Spec                      | Account_Spec                      | Modified |       |
+| ApiProperties                     | ApiProperties                     | Modified |       |
+| ApiProperties_STATUS              | ApiProperties_STATUS              | Extended |       |
+| CallRateLimit_STATUS              | CallRateLimit_STATUS              | Extended |       |
+| CommitmentPlanAssociation_STATUS  | CommitmentPlanAssociation_STATUS  | Extended |       |
+| DeploymentCapacitySettings        | DeploymentCapacitySettings        | Modified |       |
+| DeploymentCapacitySettings_STATUS | DeploymentCapacitySettings_STATUS | Extended |       |
+| DeploymentModel                   | DeploymentModel                   | Extended |       |
+| DeploymentModel_STATUS            | DeploymentModel_STATUS            | Extended |       |
+| DeploymentOperatorSpec            | DeploymentOperatorSpec            | Extended |       |
+| DeploymentProperties              | DeploymentProperties              | Modified |       |
+| DeploymentProperties_STATUS       | DeploymentProperties_STATUS       | Modified |       |
+| DeploymentScaleSettings           | DeploymentScaleSettings           | Modified |       |
+| DeploymentScaleSettings_STATUS    | DeploymentScaleSettings_STATUS    | Modified |       |
+| Deployment_STATUS                 | Deployment_STATUS                 | Extended |       |
+| Deployment_Spec                   | Deployment_Spec                   | Extended |       |
+| Encryption                        | Encryption                        | Modified |       |
+| Encryption_STATUS                 | Encryption_STATUS                 | Modified |       |
+| Identity                          | Identity                          | Modified |       |
+| Identity_STATUS                   | Identity_STATUS                   | Modified |       |
+| IpRule                            | IpRule                            | Extended |       |
+| IpRule_STATUS                     | IpRule_STATUS                     | Extended |       |
+| KeyVaultProperties                | KeyVaultProperties                | Extended |       |
+| KeyVaultProperties_STATUS         | KeyVaultProperties_STATUS         | Extended |       |
+| MultiRegionSettings               | MultiRegionSettings               | Modified |       |
+| MultiRegionSettings_STATUS        | MultiRegionSettings_STATUS        | Modified |       |
+| NetworkInjection                  | NetworkInjection                  | Modified |       |
+| NetworkInjection_STATUS           | NetworkInjection_STATUS           | Modified |       |
+| NetworkRuleSet                    | NetworkRuleSet                    | Modified |       |
+| NetworkRuleSet_STATUS             | NetworkRuleSet_STATUS             | Modified |       |
+| PrivateEndpointConnection_STATUS  | PrivateEndpointConnection_STATUS  | Extended |       |
+| ProjectOperatorSpec               | ProjectOperatorSpec               | Extended |       |
+| ProjectProperties                 | ProjectProperties                 | Extended |       |
+| ProjectProperties_STATUS          | ProjectProperties_STATUS          | Modified |       |
+| Project_STATUS                    | Project_STATUS                    | Extended |       |
+| Project_Spec                      | Project_Spec                      | Modified |       |
+| QuotaLimit_STATUS                 | QuotaLimit_STATUS                 | Extended |       |
+| RaiMonitorConfig                  | RaiMonitorConfig                  | Extended |       |
+| RaiMonitorConfig_STATUS           | RaiMonitorConfig_STATUS           | Extended |       |
+| RegionSetting                     | RegionSetting                     | Extended |       |
+| RegionSetting_STATUS              | RegionSetting_STATUS              | Extended |       |
+| RequestMatchPattern_STATUS        | RequestMatchPattern_STATUS        | Extended |       |
+| Sku                               | Sku                               | Modified |       |
+| SkuCapability_STATUS              | SkuCapability_STATUS              | Extended |       |
+| SkuChangeInfo_STATUS              | SkuChangeInfo_STATUS              | Extended |       |
+| Sku_STATUS                        | Sku_STATUS                        | Modified |       |
+| SystemData_STATUS                 | SystemData_STATUS                 | Modified |       |
+| ThrottlingRule_STATUS             | ThrottlingRule_STATUS             | Extended |       |
+| UserAssignedIdentityDetails       | UserAssignedIdentityDetails       | Extended |       |
+| UserAssignedIdentity_STATUS       | UserAssignedIdentity_STATUS       | Extended |       |
+| UserOwnedAmlWorkspace             | UserOwnedAmlWorkspace             | Extended |       |
+| UserOwnedAmlWorkspace_STATUS      | UserOwnedAmlWorkspace_STATUS      | Extended |       |
+| UserOwnedStorage                  | UserOwnedStorage                  | Extended |       |
+| UserOwnedStorage_STATUS           | UserOwnedStorage_STATUS           | Extended |       |
+| VirtualNetworkRule                | VirtualNetworkRule                | Extended |       |
+| VirtualNetworkRule_STATUS         | VirtualNetworkRule_STATUS         | Extended |       |
 
 ### AbusePenalty_STATUS
 

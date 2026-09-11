@@ -11,35 +11,35 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type    | Next Version      | Next Type       | Status    | Notes |
-|:----------------|:----------------|:------------------|:----------------|:---------:|:------|
-| v20241101       | AvailabilitySet | v20241101/storage | AvailabilitySet | Identical |       |
+| v20241101       | v20241101/storage | Status    | Notes |
+|:----------------|:------------------|:---------:|:------|
+| AvailabilitySet | AvailabilitySet   | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                      | Next Version      | Next Type                                         | Status   | Notes |
-|:----------------|:--------------------------------------------------|:------------------|:--------------------------------------------------|:--------:|:------|
-| v20241101       | AvailabilitySetOperatorSpec                       | v20241101/storage | AvailabilitySetOperatorSpec                       | Extended |       |
-| v20241101       | AvailabilitySet_STATUS                            | v20241101/storage | AvailabilitySet_STATUS                            | Extended |       |
-| v20241101       | AvailabilitySet_Spec                              | v20241101/storage | AvailabilitySet_Spec                              | Extended |       |
-| v20241101       | DefaultVirtualMachineScaleSetInfo_STATUS          | v20241101/storage | DefaultVirtualMachineScaleSetInfo_STATUS          | Extended |       |
-| v20241101       | EventGridAndResourceGraph                         | v20241101/storage | EventGridAndResourceGraph                         | Extended |       |
-| v20241101       | EventGridAndResourceGraph_STATUS                  | v20241101/storage | EventGridAndResourceGraph_STATUS                  | Extended |       |
-| v20241101       | InstanceViewStatus_STATUS                         | v20241101/storage | InstanceViewStatus_STATUS                         | Modified |       |
-| v20241101       | ScheduledEventsAdditionalPublishingTargets        | v20241101/storage | ScheduledEventsAdditionalPublishingTargets        | Extended |       |
-| v20241101       | ScheduledEventsAdditionalPublishingTargets_STATUS | v20241101/storage | ScheduledEventsAdditionalPublishingTargets_STATUS | Extended |       |
-| v20241101       | ScheduledEventsPolicy                             | v20241101/storage | ScheduledEventsPolicy                             | Extended |       |
-| v20241101       | ScheduledEventsPolicy_STATUS                      | v20241101/storage | ScheduledEventsPolicy_STATUS                      | Extended |       |
-| v20241101       | Sku                                               | v20241101/storage | Sku                                               | Extended |       |
-| v20241101       | Sku_STATUS                                        | v20241101/storage | Sku_STATUS                                        | Extended |       |
-| v20241101       | SubResource                                       | v20241101/storage | SubResource                                       | Extended |       |
-| v20241101       | SubResource_STATUS                                | v20241101/storage | SubResource_STATUS                                | Extended |       |
-| v20241101       | SystemData_STATUS                                 | v20241101/storage | SystemData_STATUS                                 | Modified |       |
-| v20241101       | UserInitiatedReboot                               | v20241101/storage | UserInitiatedReboot                               | Extended |       |
-| v20241101       | UserInitiatedReboot_STATUS                        | v20241101/storage | UserInitiatedReboot_STATUS                        | Extended |       |
-| v20241101       | UserInitiatedRedeploy                             | v20241101/storage | UserInitiatedRedeploy                             | Extended |       |
-| v20241101       | UserInitiatedRedeploy_STATUS                      | v20241101/storage | UserInitiatedRedeploy_STATUS                      | Extended |       |
-| v20241101       | VirtualMachineScaleSetMigrationInfo_STATUS        | v20241101/storage | VirtualMachineScaleSetMigrationInfo_STATUS        | Extended |       |
+| v20241101                                         | v20241101/storage                                 | Status   | Notes |
+|:--------------------------------------------------|:--------------------------------------------------|:--------:|:------|
+| AvailabilitySetOperatorSpec                       | AvailabilitySetOperatorSpec                       | Extended |       |
+| AvailabilitySet_STATUS                            | AvailabilitySet_STATUS                            | Extended |       |
+| AvailabilitySet_Spec                              | AvailabilitySet_Spec                              | Extended |       |
+| DefaultVirtualMachineScaleSetInfo_STATUS          | DefaultVirtualMachineScaleSetInfo_STATUS          | Extended |       |
+| EventGridAndResourceGraph                         | EventGridAndResourceGraph                         | Extended |       |
+| EventGridAndResourceGraph_STATUS                  | EventGridAndResourceGraph_STATUS                  | Extended |       |
+| InstanceViewStatus_STATUS                         | InstanceViewStatus_STATUS                         | Modified |       |
+| ScheduledEventsAdditionalPublishingTargets        | ScheduledEventsAdditionalPublishingTargets        | Extended |       |
+| ScheduledEventsAdditionalPublishingTargets_STATUS | ScheduledEventsAdditionalPublishingTargets_STATUS | Extended |       |
+| ScheduledEventsPolicy                             | ScheduledEventsPolicy                             | Extended |       |
+| ScheduledEventsPolicy_STATUS                      | ScheduledEventsPolicy_STATUS                      | Extended |       |
+| Sku                                               | Sku                                               | Extended |       |
+| Sku_STATUS                                        | Sku_STATUS                                        | Extended |       |
+| SubResource                                       | SubResource                                       | Extended |       |
+| SubResource_STATUS                                | SubResource_STATUS                                | Extended |       |
+| SystemData_STATUS                                 | SystemData_STATUS                                 | Modified |       |
+| UserInitiatedReboot                               | UserInitiatedReboot                               | Extended |       |
+| UserInitiatedReboot_STATUS                        | UserInitiatedReboot_STATUS                        | Extended |       |
+| UserInitiatedRedeploy                             | UserInitiatedRedeploy                             | Extended |       |
+| UserInitiatedRedeploy_STATUS                      | UserInitiatedRedeploy_STATUS                      | Extended |       |
+| VirtualMachineScaleSetMigrationInfo_STATUS        | VirtualMachineScaleSetMigrationInfo_STATUS        | Extended |       |
 
 ### AvailabilitySetOperatorSpec
 

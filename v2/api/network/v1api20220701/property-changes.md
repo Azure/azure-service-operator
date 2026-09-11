@@ -11,190 +11,190 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                            | Next Version          | Next Type                               | Status    | Notes |
-|:----------------|:----------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
-| v1api20220701   | ApplicationGateway                      | v1api20220701/storage | ApplicationGateway                      | Identical |       |
-| v1api20220701   | BastionHost                             | v1api20220701/storage | BastionHost                             | Identical |       |
-| v1api20220701   | DnsForwardingRuleSetsForwardingRule     | v1api20220701/storage | DnsForwardingRuleSetsForwardingRule     | Identical |       |
-| v1api20220701   | DnsForwardingRuleSetsVirtualNetworkLink | v1api20220701/storage | DnsForwardingRuleSetsVirtualNetworkLink | Identical |       |
-| v1api20220701   | DnsForwardingRuleset                    | v1api20220701/storage | DnsForwardingRuleset                    | Identical |       |
-| v1api20220701   | DnsResolver                             | v1api20220701/storage | DnsResolver                             | Identical |       |
-| v1api20220701   | DnsResolversInboundEndpoint             | v1api20220701/storage | DnsResolversInboundEndpoint             | Identical |       |
-| v1api20220701   | DnsResolversOutboundEndpoint            | v1api20220701/storage | DnsResolversOutboundEndpoint            | Identical |       |
-| v1api20220701   | NatGateway                              | v1api20220701/storage | NatGateway                              | Identical |       |
-| v1api20220701   | PrivateEndpoint                         | v1api20220701/storage | PrivateEndpoint                         | Identical |       |
-| v1api20220701   | PrivateEndpointsPrivateDnsZoneGroup     | v1api20220701/storage | PrivateEndpointsPrivateDnsZoneGroup     | Identical |       |
-| v1api20220701   | PrivateLinkService                      | v1api20220701/storage | PrivateLinkService                      | Identical |       |
-| v1api20220701   | PublicIPPrefix                          | v1api20220701/storage | PublicIPPrefix                          | Identical |       |
+| v1api20220701                           | v1api20220701/storage                   | Status    | Notes |
+|:----------------------------------------|:----------------------------------------|:---------:|:------|
+| ApplicationGateway                      | ApplicationGateway                      | Identical |       |
+| BastionHost                             | BastionHost                             | Identical |       |
+| DnsForwardingRuleSetsForwardingRule     | DnsForwardingRuleSetsForwardingRule     | Identical |       |
+| DnsForwardingRuleSetsVirtualNetworkLink | DnsForwardingRuleSetsVirtualNetworkLink | Identical |       |
+| DnsForwardingRuleset                    | DnsForwardingRuleset                    | Identical |       |
+| DnsResolver                             | DnsResolver                             | Identical |       |
+| DnsResolversInboundEndpoint             | DnsResolversInboundEndpoint             | Identical |       |
+| DnsResolversOutboundEndpoint            | DnsResolversOutboundEndpoint            | Identical |       |
+| NatGateway                              | NatGateway                              | Identical |       |
+| PrivateEndpoint                         | PrivateEndpoint                         | Identical |       |
+| PrivateEndpointsPrivateDnsZoneGroup     | PrivateEndpointsPrivateDnsZoneGroup     | Identical |       |
+| PrivateLinkService                      | PrivateLinkService                      | Identical |       |
+| PublicIPPrefix                          | PublicIPPrefix                          | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                                                    | Next Version          | Next Type                                                                       | Status   | Notes |
-|:----------------|:--------------------------------------------------------------------------------|:----------------------|:--------------------------------------------------------------------------------|:--------:|:------|
-| v1api20220701   | ApplicationGatewayAuthenticationCertificate                                     | v1api20220701/storage | ApplicationGatewayAuthenticationCertificate                                     | Extended |       |
-| v1api20220701   | ApplicationGatewayAuthenticationCertificate_STATUS                              | v1api20220701/storage | ApplicationGatewayAuthenticationCertificate_STATUS                              | Extended |       |
-| v1api20220701   | ApplicationGatewayAutoscaleConfiguration                                        | v1api20220701/storage | ApplicationGatewayAutoscaleConfiguration                                        | Modified |       |
-| v1api20220701   | ApplicationGatewayAutoscaleConfiguration_STATUS                                 | v1api20220701/storage | ApplicationGatewayAutoscaleConfiguration_STATUS                                 | Extended |       |
-| v1api20220701   | ApplicationGatewayBackendAddress                                                | v1api20220701/storage | ApplicationGatewayBackendAddress                                                | Extended |       |
-| v1api20220701   | ApplicationGatewayBackendAddressPool                                            | v1api20220701/storage | ApplicationGatewayBackendAddressPool                                            | Extended |       |
-| v1api20220701   | ApplicationGatewayBackendAddressPool_STATUS                                     | v1api20220701/storage | ApplicationGatewayBackendAddressPool_STATUS                                     | Extended |       |
-| v1api20220701   | ApplicationGatewayBackendHttpSettings                                           | v1api20220701/storage | ApplicationGatewayBackendHttpSettings                                           | Modified |       |
-| v1api20220701   | ApplicationGatewayBackendHttpSettings_STATUS                                    | v1api20220701/storage | ApplicationGatewayBackendHttpSettings_STATUS                                    | Extended |       |
-| v1api20220701   | ApplicationGatewayBackendSettings                                               | v1api20220701/storage | ApplicationGatewayBackendSettings                                               | Modified |       |
-| v1api20220701   | ApplicationGatewayBackendSettings_STATUS                                        | v1api20220701/storage | ApplicationGatewayBackendSettings_STATUS                                        | Extended |       |
-| v1api20220701   | ApplicationGatewayClientAuthConfiguration                                       | v1api20220701/storage | ApplicationGatewayClientAuthConfiguration                                       | Modified |       |
-| v1api20220701   | ApplicationGatewayConnectionDraining                                            | v1api20220701/storage | ApplicationGatewayConnectionDraining                                            | Modified |       |
-| v1api20220701   | ApplicationGatewayCustomError                                                   | v1api20220701/storage | ApplicationGatewayCustomError                                                   | Modified |       |
-| v1api20220701   | ApplicationGatewayCustomError_STATUS                                            | v1api20220701/storage | ApplicationGatewayCustomError_STATUS                                            | Modified |       |
-| v1api20220701   | ApplicationGatewayFirewallDisabledRuleGroup                                     | v1api20220701/storage | ApplicationGatewayFirewallDisabledRuleGroup                                     | Extended |       |
-| v1api20220701   | ApplicationGatewayFirewallDisabledRuleGroup_STATUS                              | v1api20220701/storage | ApplicationGatewayFirewallDisabledRuleGroup_STATUS                              | Extended |       |
-| v1api20220701   | ApplicationGatewayFirewallExclusion                                             | v1api20220701/storage | ApplicationGatewayFirewallExclusion                                             | Extended |       |
-| v1api20220701   | ApplicationGatewayFirewallExclusion_STATUS                                      | v1api20220701/storage | ApplicationGatewayFirewallExclusion_STATUS                                      | Extended |       |
-| v1api20220701   | ApplicationGatewayFrontendIPConfiguration                                       | v1api20220701/storage | ApplicationGatewayFrontendIPConfiguration                                       | Modified |       |
-| v1api20220701   | ApplicationGatewayFrontendIPConfiguration_STATUS                                | v1api20220701/storage | ApplicationGatewayFrontendIPConfiguration_STATUS                                | Extended |       |
-| v1api20220701   | ApplicationGatewayFrontendPort                                                  | v1api20220701/storage | ApplicationGatewayFrontendPort                                                  | Extended |       |
-| v1api20220701   | ApplicationGatewayFrontendPort_STATUS                                           | v1api20220701/storage | ApplicationGatewayFrontendPort_STATUS                                           | Extended |       |
-| v1api20220701   | ApplicationGatewayGlobalConfiguration                                           | v1api20220701/storage | ApplicationGatewayGlobalConfiguration                                           | Extended |       |
-| v1api20220701   | ApplicationGatewayGlobalConfiguration_STATUS                                    | v1api20220701/storage | ApplicationGatewayGlobalConfiguration_STATUS                                    | Extended |       |
-| v1api20220701   | ApplicationGatewayHeaderConfiguration                                           | v1api20220701/storage | ApplicationGatewayHeaderConfiguration                                           | Extended |       |
-| v1api20220701   | ApplicationGatewayHttpListener                                                  | v1api20220701/storage | ApplicationGatewayHttpListener                                                  | Modified |       |
-| v1api20220701   | ApplicationGatewayHttpListener_STATUS                                           | v1api20220701/storage | ApplicationGatewayHttpListener_STATUS                                           | Extended |       |
-| v1api20220701   | ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded        | v1api20220701/storage | ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded        | Extended |       |
-| v1api20220701   | ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded | v1api20220701/storage | ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded | Extended |       |
-| v1api20220701   | ApplicationGatewayListener                                                      | v1api20220701/storage | ApplicationGatewayListener                                                      | Modified |       |
-| v1api20220701   | ApplicationGatewayListener_STATUS                                               | v1api20220701/storage | ApplicationGatewayListener_STATUS                                               | Extended |       |
-| v1api20220701   | ApplicationGatewayLoadDistributionPolicy                                        | v1api20220701/storage | ApplicationGatewayLoadDistributionPolicy                                        | Modified |       |
-| v1api20220701   | ApplicationGatewayLoadDistributionPolicy_STATUS                                 | v1api20220701/storage | ApplicationGatewayLoadDistributionPolicy_STATUS                                 | Extended |       |
-| v1api20220701   | ApplicationGatewayLoadDistributionTarget                                        | v1api20220701/storage | ApplicationGatewayLoadDistributionTarget                                        | Extended |       |
-| v1api20220701   | ApplicationGatewayOperatorSpec                                                  | v1api20220701/storage | ApplicationGatewayOperatorSpec                                                  | Extended |       |
-| v1api20220701   | ApplicationGatewayPathRule                                                      | v1api20220701/storage | ApplicationGatewayPathRule                                                      | Extended |       |
-| v1api20220701   | ApplicationGatewayPrivateEndpointConnection_STATUS                              | v1api20220701/storage | ApplicationGatewayPrivateEndpointConnection_STATUS                              | Extended |       |
-| v1api20220701   | ApplicationGatewayPrivateLinkConfiguration                                      | v1api20220701/storage | ApplicationGatewayPrivateLinkConfiguration                                      | Extended |       |
-| v1api20220701   | ApplicationGatewayPrivateLinkConfiguration_STATUS                               | v1api20220701/storage | ApplicationGatewayPrivateLinkConfiguration_STATUS                               | Modified |       |
-| v1api20220701   | ApplicationGatewayPrivateLinkIpConfiguration                                    | v1api20220701/storage | ApplicationGatewayPrivateLinkIpConfiguration                                    | Modified |       |
-| v1api20220701   | ApplicationGatewayPrivateLinkIpConfiguration_STATUS                             | v1api20220701/storage | ApplicationGatewayPrivateLinkIpConfiguration_STATUS                             | Modified |       |
-| v1api20220701   | ApplicationGatewayProbe                                                         | v1api20220701/storage | ApplicationGatewayProbe                                                         | Modified |       |
-| v1api20220701   | ApplicationGatewayProbeHealthResponseMatch                                      | v1api20220701/storage | ApplicationGatewayProbeHealthResponseMatch                                      | Extended |       |
-| v1api20220701   | ApplicationGatewayProbe_STATUS                                                  | v1api20220701/storage | ApplicationGatewayProbe_STATUS                                                  | Extended |       |
-| v1api20220701   | ApplicationGatewayRedirectConfiguration                                         | v1api20220701/storage | ApplicationGatewayRedirectConfiguration                                         | Modified |       |
-| v1api20220701   | ApplicationGatewayRedirectConfiguration_STATUS                                  | v1api20220701/storage | ApplicationGatewayRedirectConfiguration_STATUS                                  | Extended |       |
-| v1api20220701   | ApplicationGatewayRequestRoutingRule                                            | v1api20220701/storage | ApplicationGatewayRequestRoutingRule                                            | Modified |       |
-| v1api20220701   | ApplicationGatewayRequestRoutingRule_STATUS                                     | v1api20220701/storage | ApplicationGatewayRequestRoutingRule_STATUS                                     | Extended |       |
-| v1api20220701   | ApplicationGatewayRewriteRule                                                   | v1api20220701/storage | ApplicationGatewayRewriteRule                                                   | Extended |       |
-| v1api20220701   | ApplicationGatewayRewriteRuleActionSet                                          | v1api20220701/storage | ApplicationGatewayRewriteRuleActionSet                                          | Extended |       |
-| v1api20220701   | ApplicationGatewayRewriteRuleCondition                                          | v1api20220701/storage | ApplicationGatewayRewriteRuleCondition                                          | Extended |       |
-| v1api20220701   | ApplicationGatewayRewriteRuleSet                                                | v1api20220701/storage | ApplicationGatewayRewriteRuleSet                                                | Extended |       |
-| v1api20220701   | ApplicationGatewayRewriteRuleSet_STATUS                                         | v1api20220701/storage | ApplicationGatewayRewriteRuleSet_STATUS                                         | Extended |       |
-| v1api20220701   | ApplicationGatewayRoutingRule                                                   | v1api20220701/storage | ApplicationGatewayRoutingRule                                                   | Modified |       |
-| v1api20220701   | ApplicationGatewayRoutingRule_STATUS                                            | v1api20220701/storage | ApplicationGatewayRoutingRule_STATUS                                            | Extended |       |
-| v1api20220701   | ApplicationGatewaySku                                                           | v1api20220701/storage | ApplicationGatewaySku                                                           | Modified |       |
-| v1api20220701   | ApplicationGatewaySku_STATUS                                                    | v1api20220701/storage | ApplicationGatewaySku_STATUS                                                    | Modified |       |
-| v1api20220701   | ApplicationGatewaySslCertificate                                                | v1api20220701/storage | ApplicationGatewaySslCertificate                                                | Extended |       |
-| v1api20220701   | ApplicationGatewaySslCertificate_STATUS                                         | v1api20220701/storage | ApplicationGatewaySslCertificate_STATUS                                         | Extended |       |
-| v1api20220701   | ApplicationGatewaySslPolicy                                                     | v1api20220701/storage | ApplicationGatewaySslPolicy                                                     | Modified |       |
-| v1api20220701   | ApplicationGatewaySslPolicy_STATUS                                              | v1api20220701/storage | ApplicationGatewaySslPolicy_STATUS                                              | Modified |       |
-| v1api20220701   | ApplicationGatewaySslProfile                                                    | v1api20220701/storage | ApplicationGatewaySslProfile                                                    | Extended |       |
-| v1api20220701   | ApplicationGatewaySslProfile_STATUS                                             | v1api20220701/storage | ApplicationGatewaySslProfile_STATUS                                             | Extended |       |
-| v1api20220701   | ApplicationGatewayTrustedClientCertificate                                      | v1api20220701/storage | ApplicationGatewayTrustedClientCertificate                                      | Extended |       |
-| v1api20220701   | ApplicationGatewayTrustedClientCertificate_STATUS                               | v1api20220701/storage | ApplicationGatewayTrustedClientCertificate_STATUS                               | Extended |       |
-| v1api20220701   | ApplicationGatewayTrustedRootCertificate                                        | v1api20220701/storage | ApplicationGatewayTrustedRootCertificate                                        | Extended |       |
-| v1api20220701   | ApplicationGatewayTrustedRootCertificate_STATUS                                 | v1api20220701/storage | ApplicationGatewayTrustedRootCertificate_STATUS                                 | Extended |       |
-| v1api20220701   | ApplicationGatewayUrlConfiguration                                              | v1api20220701/storage | ApplicationGatewayUrlConfiguration                                              | Extended |       |
-| v1api20220701   | ApplicationGatewayUrlPathMap                                                    | v1api20220701/storage | ApplicationGatewayUrlPathMap                                                    | Extended |       |
-| v1api20220701   | ApplicationGatewayUrlPathMap_STATUS                                             | v1api20220701/storage | ApplicationGatewayUrlPathMap_STATUS                                             | Extended |       |
-| v1api20220701   | ApplicationGatewayWebApplicationFirewallConfiguration                           | v1api20220701/storage | ApplicationGatewayWebApplicationFirewallConfiguration                           | Modified |       |
-| v1api20220701   | ApplicationGatewayWebApplicationFirewallConfiguration_STATUS                    | v1api20220701/storage | ApplicationGatewayWebApplicationFirewallConfiguration_STATUS                    | Modified |       |
-| v1api20220701   | ApplicationGateway_STATUS                                                       | v1api20220701/storage | ApplicationGateway_STATUS                                                       | Modified |       |
-| v1api20220701   | ApplicationGateway_Spec                                                         | v1api20220701/storage | ApplicationGateway_Spec                                                         | Extended |       |
-| v1api20220701   | ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded                | v1api20220701/storage | ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded                | Extended |       |
-| v1api20220701   | ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded             | v1api20220701/storage | ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded             | Extended |       |
-| v1api20220701   | BastionHostIPConfiguration                                                      | v1api20220701/storage | BastionHostIPConfiguration                                                      | Modified |       |
-| v1api20220701   | BastionHostIPConfiguration_STATUS                                               | v1api20220701/storage | BastionHostIPConfiguration_STATUS                                               | Extended |       |
-| v1api20220701   | BastionHostOperatorSpec                                                         | v1api20220701/storage | BastionHostOperatorSpec                                                         | Extended |       |
-| v1api20220701   | BastionHost_STATUS                                                              | v1api20220701/storage | BastionHost_STATUS                                                              | Modified |       |
-| v1api20220701   | BastionHost_Spec                                                                | v1api20220701/storage | BastionHost_Spec                                                                | Modified |       |
-| v1api20220701   | CustomDnsConfigPropertiesFormat_STATUS                                          | v1api20220701/storage | CustomDnsConfigPropertiesFormat_STATUS                                          | Extended |       |
-| v1api20220701   | DnsForwardingRuleSetsForwardingRuleOperatorSpec                                 | v1api20220701/storage | DnsForwardingRuleSetsForwardingRuleOperatorSpec                                 | Extended |       |
-| v1api20220701   | DnsForwardingRuleSetsForwardingRule_STATUS                                      | v1api20220701/storage | DnsForwardingRuleSetsForwardingRule_STATUS                                      | Modified |       |
-| v1api20220701   | DnsForwardingRuleSetsForwardingRule_Spec                                        | v1api20220701/storage | DnsForwardingRuleSetsForwardingRule_Spec                                        | Modified |       |
-| v1api20220701   | DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec                             | v1api20220701/storage | DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec                             | Extended |       |
-| v1api20220701   | DnsForwardingRuleSetsVirtualNetworkLink_STATUS                                  | v1api20220701/storage | DnsForwardingRuleSetsVirtualNetworkLink_STATUS                                  | Modified |       |
-| v1api20220701   | DnsForwardingRuleSetsVirtualNetworkLink_Spec                                    | v1api20220701/storage | DnsForwardingRuleSetsVirtualNetworkLink_Spec                                    | Extended |       |
-| v1api20220701   | DnsForwardingRulesetOperatorSpec                                                | v1api20220701/storage | DnsForwardingRulesetOperatorSpec                                                | Extended |       |
-| v1api20220701   | DnsForwardingRuleset_STATUS                                                     | v1api20220701/storage | DnsForwardingRuleset_STATUS                                                     | Modified |       |
-| v1api20220701   | DnsForwardingRuleset_Spec                                                       | v1api20220701/storage | DnsForwardingRuleset_Spec                                                       | Extended |       |
-| v1api20220701   | DnsResolverOperatorSpec                                                         | v1api20220701/storage | DnsResolverOperatorSpec                                                         | Extended |       |
-| v1api20220701   | DnsResolver_STATUS                                                              | v1api20220701/storage | DnsResolver_STATUS                                                              | Modified |       |
-| v1api20220701   | DnsResolver_Spec                                                                | v1api20220701/storage | DnsResolver_Spec                                                                | Extended |       |
-| v1api20220701   | DnsResolversInboundEndpointOperatorSpec                                         | v1api20220701/storage | DnsResolversInboundEndpointOperatorSpec                                         | Extended |       |
-| v1api20220701   | DnsResolversInboundEndpoint_STATUS                                              | v1api20220701/storage | DnsResolversInboundEndpoint_STATUS                                              | Modified |       |
-| v1api20220701   | DnsResolversInboundEndpoint_Spec                                                | v1api20220701/storage | DnsResolversInboundEndpoint_Spec                                                | Extended |       |
-| v1api20220701   | DnsResolversOutboundEndpointOperatorSpec                                        | v1api20220701/storage | DnsResolversOutboundEndpointOperatorSpec                                        | Extended |       |
-| v1api20220701   | DnsResolversOutboundEndpoint_STATUS                                             | v1api20220701/storage | DnsResolversOutboundEndpoint_STATUS                                             | Modified |       |
-| v1api20220701   | DnsResolversOutboundEndpoint_Spec                                               | v1api20220701/storage | DnsResolversOutboundEndpoint_Spec                                               | Extended |       |
-| v1api20220701   | ExtendedLocation                                                                | v1api20220701/storage | ExtendedLocation                                                                | Modified |       |
-| v1api20220701   | ExtendedLocation_STATUS                                                         | v1api20220701/storage | ExtendedLocation_STATUS                                                         | Modified |       |
-| v1api20220701   | FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded                  | v1api20220701/storage | FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded                  | Extended |       |
-| v1api20220701   | FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded           | v1api20220701/storage | FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded           | Extended |       |
-| v1api20220701   | IpConfiguration                                                                 | v1api20220701/storage | IpConfiguration                                                                 | Modified |       |
-| v1api20220701   | IpConfiguration_STATUS                                                          | v1api20220701/storage | IpConfiguration_STATUS                                                          | Modified |       |
-| v1api20220701   | IpTag                                                                           | v1api20220701/storage | IpTag                                                                           | Extended |       |
-| v1api20220701   | IpTag_STATUS                                                                    | v1api20220701/storage | IpTag_STATUS                                                                    | Extended |       |
-| v1api20220701   | ManagedServiceIdentity                                                          | v1api20220701/storage | ManagedServiceIdentity                                                          | Modified |       |
-| v1api20220701   | ManagedServiceIdentity_STATUS                                                   | v1api20220701/storage | ManagedServiceIdentity_STATUS                                                   | Modified |       |
-| v1api20220701   | ManagedServiceIdentity_UserAssignedIdentities_STATUS                            | v1api20220701/storage | ManagedServiceIdentity_UserAssignedIdentities_STATUS                            | Extended |       |
-| v1api20220701   | NatGatewayOperatorSpec                                                          | v1api20220701/storage | NatGatewayOperatorSpec                                                          | Extended |       |
-| v1api20220701   | NatGatewaySku                                                                   | v1api20220701/storage | NatGatewaySku                                                                   | Modified |       |
-| v1api20220701   | NatGatewaySku_STATUS                                                            | v1api20220701/storage | NatGatewaySku_STATUS                                                            | Modified |       |
-| v1api20220701   | NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                               | v1api20220701/storage | NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                               | Extended |       |
-| v1api20220701   | NatGateway_STATUS                                                               | v1api20220701/storage | NatGateway_STATUS                                                               | Modified |       |
-| v1api20220701   | NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                            | v1api20220701/storage | NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                            | Extended |       |
-| v1api20220701   | NatGateway_Spec                                                                 | v1api20220701/storage | NatGateway_Spec                                                                 | Extended |       |
-| v1api20220701   | NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded                     | v1api20220701/storage | NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded                     | Extended |       |
-| v1api20220701   | NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded                  | v1api20220701/storage | NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded                  | Extended |       |
-| v1api20220701   | PrivateDnsZoneConfig                                                            | v1api20220701/storage | PrivateDnsZoneConfig                                                            | Extended |       |
-| v1api20220701   | PrivateDnsZoneConfig_STATUS                                                     | v1api20220701/storage | PrivateDnsZoneConfig_STATUS                                                     | Extended |       |
-| v1api20220701   | PrivateEndpointConnection_STATUS                                                | v1api20220701/storage | PrivateEndpointConnection_STATUS                                                | Extended |       |
-| v1api20220701   | PrivateEndpointIPConfiguration                                                  | v1api20220701/storage | PrivateEndpointIPConfiguration                                                  | Extended |       |
-| v1api20220701   | PrivateEndpointIPConfiguration_STATUS                                           | v1api20220701/storage | PrivateEndpointIPConfiguration_STATUS                                           | Extended |       |
-| v1api20220701   | PrivateEndpointOperatorConfigMaps                                               | v1api20220701/storage | PrivateEndpointOperatorConfigMaps                                               | Extended |       |
-| v1api20220701   | PrivateEndpointOperatorSpec                                                     | v1api20220701/storage | PrivateEndpointOperatorSpec                                                     | Extended |       |
-| v1api20220701   | PrivateEndpoint_STATUS                                                          | v1api20220701/storage | PrivateEndpoint_STATUS                                                          | Modified |       |
-| v1api20220701   | PrivateEndpoint_Spec                                                            | v1api20220701/storage | PrivateEndpoint_Spec                                                            | Extended |       |
-| v1api20220701   | PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                                 | v1api20220701/storage | PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                                 | Extended |       |
-| v1api20220701   | PrivateEndpointsPrivateDnsZoneGroup_STATUS                                      | v1api20220701/storage | PrivateEndpointsPrivateDnsZoneGroup_STATUS                                      | Modified |       |
-| v1api20220701   | PrivateEndpointsPrivateDnsZoneGroup_Spec                                        | v1api20220701/storage | PrivateEndpointsPrivateDnsZoneGroup_Spec                                        | Extended |       |
-| v1api20220701   | PrivateLinkServiceConnection                                                    | v1api20220701/storage | PrivateLinkServiceConnection                                                    | Extended |       |
-| v1api20220701   | PrivateLinkServiceConnectionState                                               | v1api20220701/storage | PrivateLinkServiceConnectionState                                               | Extended |       |
-| v1api20220701   | PrivateLinkServiceConnectionState_STATUS                                        | v1api20220701/storage | PrivateLinkServiceConnectionState_STATUS                                        | Extended |       |
-| v1api20220701   | PrivateLinkServiceConnection_STATUS                                             | v1api20220701/storage | PrivateLinkServiceConnection_STATUS                                             | Modified |       |
-| v1api20220701   | PrivateLinkServiceIpConfiguration                                               | v1api20220701/storage | PrivateLinkServiceIpConfiguration                                               | Modified |       |
-| v1api20220701   | PrivateLinkServiceIpConfiguration_STATUS                                        | v1api20220701/storage | PrivateLinkServiceIpConfiguration_STATUS                                        | Modified |       |
-| v1api20220701   | PrivateLinkServiceOperatorConfigMaps                                            | v1api20220701/storage | PrivateLinkServiceOperatorConfigMaps                                            | Extended |       |
-| v1api20220701   | PrivateLinkServiceOperatorSpec                                                  | v1api20220701/storage | PrivateLinkServiceOperatorSpec                                                  | Extended |       |
-| v1api20220701   | PrivateLinkService_STATUS                                                       | v1api20220701/storage | PrivateLinkService_STATUS                                                       | Modified |       |
-| v1api20220701   | PrivateLinkService_Spec                                                         | v1api20220701/storage | PrivateLinkService_Spec                                                         | Extended |       |
-| v1api20220701   | PublicIPPrefixOperatorSpec                                                      | v1api20220701/storage | PublicIPPrefixOperatorSpec                                                      | Extended |       |
-| v1api20220701   | PublicIPPrefixSku                                                               | v1api20220701/storage | PublicIPPrefixSku                                                               | Modified |       |
-| v1api20220701   | PublicIPPrefixSku_STATUS                                                        | v1api20220701/storage | PublicIPPrefixSku_STATUS                                                        | Modified |       |
-| v1api20220701   | PublicIPPrefix_STATUS                                                           | v1api20220701/storage | PublicIPPrefix_STATUS                                                           | Modified |       |
-| v1api20220701   | PublicIPPrefix_Spec                                                             | v1api20220701/storage | PublicIPPrefix_Spec                                                             | Modified |       |
-| v1api20220701   | RecordSet_STATUS                                                                | v1api20220701/storage | RecordSet_STATUS                                                                | Modified |       |
-| v1api20220701   | ReferencedPublicIpAddress_STATUS                                                | v1api20220701/storage | ReferencedPublicIpAddress_STATUS                                                | Extended |       |
-| v1api20220701   | ResourceSet                                                                     | v1api20220701/storage | ResourceSet                                                                     | Extended |       |
-| v1api20220701   | ResourceSet_STATUS                                                              | v1api20220701/storage | ResourceSet_STATUS                                                              | Extended |       |
-| v1api20220701   | Sku                                                                             | v1api20220701/storage | Sku                                                                             | Modified |       |
-| v1api20220701   | Sku_STATUS                                                                      | v1api20220701/storage | Sku_STATUS                                                                      | Modified |       |
-| v1api20220701   | SubResource                                                                     | v1api20220701/storage | SubResource                                                                     | Extended |       |
-| v1api20220701   | SubResource_STATUS                                                              | v1api20220701/storage | SubResource_STATUS                                                              | Extended |       |
-| v1api20220701   | Subnet_PrivateEndpoint_SubResourceEmbedded                                      | v1api20220701/storage | Subnet_PrivateEndpoint_SubResourceEmbedded                                      | Extended |       |
-| v1api20220701   | Subnet_PrivateLinkService_SubResourceEmbedded                                   | v1api20220701/storage | Subnet_PrivateLinkService_SubResourceEmbedded                                   | Extended |       |
-| v1api20220701   | Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                               | v1api20220701/storage | Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                               | Extended |       |
-| v1api20220701   | Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                            | v1api20220701/storage | Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                            | Extended |       |
-| v1api20220701   | SystemData_STATUS                                                               | v1api20220701/storage | SystemData_STATUS                                                               | Modified |       |
-| v1api20220701   | TargetDnsServer                                                                 | v1api20220701/storage | TargetDnsServer                                                                 | Extended |       |
-| v1api20220701   | TargetDnsServer_STATUS                                                          | v1api20220701/storage | TargetDnsServer_STATUS                                                          | Extended |       |
-| v1api20220701   | UserAssignedIdentityDetails                                                     | v1api20220701/storage | UserAssignedIdentityDetails                                                     | Extended |       |
+| v1api20220701                                                                   | v1api20220701/storage                                                           | Status   | Notes |
+|:--------------------------------------------------------------------------------|:--------------------------------------------------------------------------------|:--------:|:------|
+| ApplicationGatewayAuthenticationCertificate                                     | ApplicationGatewayAuthenticationCertificate                                     | Extended |       |
+| ApplicationGatewayAuthenticationCertificate_STATUS                              | ApplicationGatewayAuthenticationCertificate_STATUS                              | Extended |       |
+| ApplicationGatewayAutoscaleConfiguration                                        | ApplicationGatewayAutoscaleConfiguration                                        | Modified |       |
+| ApplicationGatewayAutoscaleConfiguration_STATUS                                 | ApplicationGatewayAutoscaleConfiguration_STATUS                                 | Extended |       |
+| ApplicationGatewayBackendAddress                                                | ApplicationGatewayBackendAddress                                                | Extended |       |
+| ApplicationGatewayBackendAddressPool                                            | ApplicationGatewayBackendAddressPool                                            | Extended |       |
+| ApplicationGatewayBackendAddressPool_STATUS                                     | ApplicationGatewayBackendAddressPool_STATUS                                     | Extended |       |
+| ApplicationGatewayBackendHttpSettings                                           | ApplicationGatewayBackendHttpSettings                                           | Modified |       |
+| ApplicationGatewayBackendHttpSettings_STATUS                                    | ApplicationGatewayBackendHttpSettings_STATUS                                    | Extended |       |
+| ApplicationGatewayBackendSettings                                               | ApplicationGatewayBackendSettings                                               | Modified |       |
+| ApplicationGatewayBackendSettings_STATUS                                        | ApplicationGatewayBackendSettings_STATUS                                        | Extended |       |
+| ApplicationGatewayClientAuthConfiguration                                       | ApplicationGatewayClientAuthConfiguration                                       | Modified |       |
+| ApplicationGatewayConnectionDraining                                            | ApplicationGatewayConnectionDraining                                            | Modified |       |
+| ApplicationGatewayCustomError                                                   | ApplicationGatewayCustomError                                                   | Modified |       |
+| ApplicationGatewayCustomError_STATUS                                            | ApplicationGatewayCustomError_STATUS                                            | Modified |       |
+| ApplicationGatewayFirewallDisabledRuleGroup                                     | ApplicationGatewayFirewallDisabledRuleGroup                                     | Extended |       |
+| ApplicationGatewayFirewallDisabledRuleGroup_STATUS                              | ApplicationGatewayFirewallDisabledRuleGroup_STATUS                              | Extended |       |
+| ApplicationGatewayFirewallExclusion                                             | ApplicationGatewayFirewallExclusion                                             | Extended |       |
+| ApplicationGatewayFirewallExclusion_STATUS                                      | ApplicationGatewayFirewallExclusion_STATUS                                      | Extended |       |
+| ApplicationGatewayFrontendIPConfiguration                                       | ApplicationGatewayFrontendIPConfiguration                                       | Modified |       |
+| ApplicationGatewayFrontendIPConfiguration_STATUS                                | ApplicationGatewayFrontendIPConfiguration_STATUS                                | Extended |       |
+| ApplicationGatewayFrontendPort                                                  | ApplicationGatewayFrontendPort                                                  | Extended |       |
+| ApplicationGatewayFrontendPort_STATUS                                           | ApplicationGatewayFrontendPort_STATUS                                           | Extended |       |
+| ApplicationGatewayGlobalConfiguration                                           | ApplicationGatewayGlobalConfiguration                                           | Extended |       |
+| ApplicationGatewayGlobalConfiguration_STATUS                                    | ApplicationGatewayGlobalConfiguration_STATUS                                    | Extended |       |
+| ApplicationGatewayHeaderConfiguration                                           | ApplicationGatewayHeaderConfiguration                                           | Extended |       |
+| ApplicationGatewayHttpListener                                                  | ApplicationGatewayHttpListener                                                  | Modified |       |
+| ApplicationGatewayHttpListener_STATUS                                           | ApplicationGatewayHttpListener_STATUS                                           | Extended |       |
+| ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded        | ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded        | Extended |       |
+| ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded | ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded | Extended |       |
+| ApplicationGatewayListener                                                      | ApplicationGatewayListener                                                      | Modified |       |
+| ApplicationGatewayListener_STATUS                                               | ApplicationGatewayListener_STATUS                                               | Extended |       |
+| ApplicationGatewayLoadDistributionPolicy                                        | ApplicationGatewayLoadDistributionPolicy                                        | Modified |       |
+| ApplicationGatewayLoadDistributionPolicy_STATUS                                 | ApplicationGatewayLoadDistributionPolicy_STATUS                                 | Extended |       |
+| ApplicationGatewayLoadDistributionTarget                                        | ApplicationGatewayLoadDistributionTarget                                        | Extended |       |
+| ApplicationGatewayOperatorSpec                                                  | ApplicationGatewayOperatorSpec                                                  | Extended |       |
+| ApplicationGatewayPathRule                                                      | ApplicationGatewayPathRule                                                      | Extended |       |
+| ApplicationGatewayPrivateEndpointConnection_STATUS                              | ApplicationGatewayPrivateEndpointConnection_STATUS                              | Extended |       |
+| ApplicationGatewayPrivateLinkConfiguration                                      | ApplicationGatewayPrivateLinkConfiguration                                      | Extended |       |
+| ApplicationGatewayPrivateLinkConfiguration_STATUS                               | ApplicationGatewayPrivateLinkConfiguration_STATUS                               | Modified |       |
+| ApplicationGatewayPrivateLinkIpConfiguration                                    | ApplicationGatewayPrivateLinkIpConfiguration                                    | Modified |       |
+| ApplicationGatewayPrivateLinkIpConfiguration_STATUS                             | ApplicationGatewayPrivateLinkIpConfiguration_STATUS                             | Modified |       |
+| ApplicationGatewayProbe                                                         | ApplicationGatewayProbe                                                         | Modified |       |
+| ApplicationGatewayProbeHealthResponseMatch                                      | ApplicationGatewayProbeHealthResponseMatch                                      | Extended |       |
+| ApplicationGatewayProbe_STATUS                                                  | ApplicationGatewayProbe_STATUS                                                  | Extended |       |
+| ApplicationGatewayRedirectConfiguration                                         | ApplicationGatewayRedirectConfiguration                                         | Modified |       |
+| ApplicationGatewayRedirectConfiguration_STATUS                                  | ApplicationGatewayRedirectConfiguration_STATUS                                  | Extended |       |
+| ApplicationGatewayRequestRoutingRule                                            | ApplicationGatewayRequestRoutingRule                                            | Modified |       |
+| ApplicationGatewayRequestRoutingRule_STATUS                                     | ApplicationGatewayRequestRoutingRule_STATUS                                     | Extended |       |
+| ApplicationGatewayRewriteRule                                                   | ApplicationGatewayRewriteRule                                                   | Extended |       |
+| ApplicationGatewayRewriteRuleActionSet                                          | ApplicationGatewayRewriteRuleActionSet                                          | Extended |       |
+| ApplicationGatewayRewriteRuleCondition                                          | ApplicationGatewayRewriteRuleCondition                                          | Extended |       |
+| ApplicationGatewayRewriteRuleSet                                                | ApplicationGatewayRewriteRuleSet                                                | Extended |       |
+| ApplicationGatewayRewriteRuleSet_STATUS                                         | ApplicationGatewayRewriteRuleSet_STATUS                                         | Extended |       |
+| ApplicationGatewayRoutingRule                                                   | ApplicationGatewayRoutingRule                                                   | Modified |       |
+| ApplicationGatewayRoutingRule_STATUS                                            | ApplicationGatewayRoutingRule_STATUS                                            | Extended |       |
+| ApplicationGatewaySku                                                           | ApplicationGatewaySku                                                           | Modified |       |
+| ApplicationGatewaySku_STATUS                                                    | ApplicationGatewaySku_STATUS                                                    | Modified |       |
+| ApplicationGatewaySslCertificate                                                | ApplicationGatewaySslCertificate                                                | Extended |       |
+| ApplicationGatewaySslCertificate_STATUS                                         | ApplicationGatewaySslCertificate_STATUS                                         | Extended |       |
+| ApplicationGatewaySslPolicy                                                     | ApplicationGatewaySslPolicy                                                     | Modified |       |
+| ApplicationGatewaySslPolicy_STATUS                                              | ApplicationGatewaySslPolicy_STATUS                                              | Modified |       |
+| ApplicationGatewaySslProfile                                                    | ApplicationGatewaySslProfile                                                    | Extended |       |
+| ApplicationGatewaySslProfile_STATUS                                             | ApplicationGatewaySslProfile_STATUS                                             | Extended |       |
+| ApplicationGatewayTrustedClientCertificate                                      | ApplicationGatewayTrustedClientCertificate                                      | Extended |       |
+| ApplicationGatewayTrustedClientCertificate_STATUS                               | ApplicationGatewayTrustedClientCertificate_STATUS                               | Extended |       |
+| ApplicationGatewayTrustedRootCertificate                                        | ApplicationGatewayTrustedRootCertificate                                        | Extended |       |
+| ApplicationGatewayTrustedRootCertificate_STATUS                                 | ApplicationGatewayTrustedRootCertificate_STATUS                                 | Extended |       |
+| ApplicationGatewayUrlConfiguration                                              | ApplicationGatewayUrlConfiguration                                              | Extended |       |
+| ApplicationGatewayUrlPathMap                                                    | ApplicationGatewayUrlPathMap                                                    | Extended |       |
+| ApplicationGatewayUrlPathMap_STATUS                                             | ApplicationGatewayUrlPathMap_STATUS                                             | Extended |       |
+| ApplicationGatewayWebApplicationFirewallConfiguration                           | ApplicationGatewayWebApplicationFirewallConfiguration                           | Modified |       |
+| ApplicationGatewayWebApplicationFirewallConfiguration_STATUS                    | ApplicationGatewayWebApplicationFirewallConfiguration_STATUS                    | Modified |       |
+| ApplicationGateway_STATUS                                                       | ApplicationGateway_STATUS                                                       | Modified |       |
+| ApplicationGateway_Spec                                                         | ApplicationGateway_Spec                                                         | Extended |       |
+| ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded                | ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded                | Extended |       |
+| ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded             | ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded             | Extended |       |
+| BastionHostIPConfiguration                                                      | BastionHostIPConfiguration                                                      | Modified |       |
+| BastionHostIPConfiguration_STATUS                                               | BastionHostIPConfiguration_STATUS                                               | Extended |       |
+| BastionHostOperatorSpec                                                         | BastionHostOperatorSpec                                                         | Extended |       |
+| BastionHost_STATUS                                                              | BastionHost_STATUS                                                              | Modified |       |
+| BastionHost_Spec                                                                | BastionHost_Spec                                                                | Modified |       |
+| CustomDnsConfigPropertiesFormat_STATUS                                          | CustomDnsConfigPropertiesFormat_STATUS                                          | Extended |       |
+| DnsForwardingRuleSetsForwardingRuleOperatorSpec                                 | DnsForwardingRuleSetsForwardingRuleOperatorSpec                                 | Extended |       |
+| DnsForwardingRuleSetsForwardingRule_STATUS                                      | DnsForwardingRuleSetsForwardingRule_STATUS                                      | Modified |       |
+| DnsForwardingRuleSetsForwardingRule_Spec                                        | DnsForwardingRuleSetsForwardingRule_Spec                                        | Modified |       |
+| DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec                             | DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec                             | Extended |       |
+| DnsForwardingRuleSetsVirtualNetworkLink_STATUS                                  | DnsForwardingRuleSetsVirtualNetworkLink_STATUS                                  | Modified |       |
+| DnsForwardingRuleSetsVirtualNetworkLink_Spec                                    | DnsForwardingRuleSetsVirtualNetworkLink_Spec                                    | Extended |       |
+| DnsForwardingRulesetOperatorSpec                                                | DnsForwardingRulesetOperatorSpec                                                | Extended |       |
+| DnsForwardingRuleset_STATUS                                                     | DnsForwardingRuleset_STATUS                                                     | Modified |       |
+| DnsForwardingRuleset_Spec                                                       | DnsForwardingRuleset_Spec                                                       | Extended |       |
+| DnsResolverOperatorSpec                                                         | DnsResolverOperatorSpec                                                         | Extended |       |
+| DnsResolver_STATUS                                                              | DnsResolver_STATUS                                                              | Modified |       |
+| DnsResolver_Spec                                                                | DnsResolver_Spec                                                                | Extended |       |
+| DnsResolversInboundEndpointOperatorSpec                                         | DnsResolversInboundEndpointOperatorSpec                                         | Extended |       |
+| DnsResolversInboundEndpoint_STATUS                                              | DnsResolversInboundEndpoint_STATUS                                              | Modified |       |
+| DnsResolversInboundEndpoint_Spec                                                | DnsResolversInboundEndpoint_Spec                                                | Extended |       |
+| DnsResolversOutboundEndpointOperatorSpec                                        | DnsResolversOutboundEndpointOperatorSpec                                        | Extended |       |
+| DnsResolversOutboundEndpoint_STATUS                                             | DnsResolversOutboundEndpoint_STATUS                                             | Modified |       |
+| DnsResolversOutboundEndpoint_Spec                                               | DnsResolversOutboundEndpoint_Spec                                               | Extended |       |
+| ExtendedLocation                                                                | ExtendedLocation                                                                | Modified |       |
+| ExtendedLocation_STATUS                                                         | ExtendedLocation_STATUS                                                         | Modified |       |
+| FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded                  | FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded                  | Extended |       |
+| FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded           | FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded           | Extended |       |
+| IpConfiguration                                                                 | IpConfiguration                                                                 | Modified |       |
+| IpConfiguration_STATUS                                                          | IpConfiguration_STATUS                                                          | Modified |       |
+| IpTag                                                                           | IpTag                                                                           | Extended |       |
+| IpTag_STATUS                                                                    | IpTag_STATUS                                                                    | Extended |       |
+| ManagedServiceIdentity                                                          | ManagedServiceIdentity                                                          | Modified |       |
+| ManagedServiceIdentity_STATUS                                                   | ManagedServiceIdentity_STATUS                                                   | Modified |       |
+| ManagedServiceIdentity_UserAssignedIdentities_STATUS                            | ManagedServiceIdentity_UserAssignedIdentities_STATUS                            | Extended |       |
+| NatGatewayOperatorSpec                                                          | NatGatewayOperatorSpec                                                          | Extended |       |
+| NatGatewaySku                                                                   | NatGatewaySku                                                                   | Modified |       |
+| NatGatewaySku_STATUS                                                            | NatGatewaySku_STATUS                                                            | Modified |       |
+| NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                               | NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                               | Extended |       |
+| NatGateway_STATUS                                                               | NatGateway_STATUS                                                               | Modified |       |
+| NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                            | NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                            | Extended |       |
+| NatGateway_Spec                                                                 | NatGateway_Spec                                                                 | Extended |       |
+| NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded                     | NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded                     | Extended |       |
+| NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded                  | NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded                  | Extended |       |
+| PrivateDnsZoneConfig                                                            | PrivateDnsZoneConfig                                                            | Extended |       |
+| PrivateDnsZoneConfig_STATUS                                                     | PrivateDnsZoneConfig_STATUS                                                     | Extended |       |
+| PrivateEndpointConnection_STATUS                                                | PrivateEndpointConnection_STATUS                                                | Extended |       |
+| PrivateEndpointIPConfiguration                                                  | PrivateEndpointIPConfiguration                                                  | Extended |       |
+| PrivateEndpointIPConfiguration_STATUS                                           | PrivateEndpointIPConfiguration_STATUS                                           | Extended |       |
+| PrivateEndpointOperatorConfigMaps                                               | PrivateEndpointOperatorConfigMaps                                               | Extended |       |
+| PrivateEndpointOperatorSpec                                                     | PrivateEndpointOperatorSpec                                                     | Extended |       |
+| PrivateEndpoint_STATUS                                                          | PrivateEndpoint_STATUS                                                          | Modified |       |
+| PrivateEndpoint_Spec                                                            | PrivateEndpoint_Spec                                                            | Extended |       |
+| PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                                 | PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                                 | Extended |       |
+| PrivateEndpointsPrivateDnsZoneGroup_STATUS                                      | PrivateEndpointsPrivateDnsZoneGroup_STATUS                                      | Modified |       |
+| PrivateEndpointsPrivateDnsZoneGroup_Spec                                        | PrivateEndpointsPrivateDnsZoneGroup_Spec                                        | Extended |       |
+| PrivateLinkServiceConnection                                                    | PrivateLinkServiceConnection                                                    | Extended |       |
+| PrivateLinkServiceConnectionState                                               | PrivateLinkServiceConnectionState                                               | Extended |       |
+| PrivateLinkServiceConnectionState_STATUS                                        | PrivateLinkServiceConnectionState_STATUS                                        | Extended |       |
+| PrivateLinkServiceConnection_STATUS                                             | PrivateLinkServiceConnection_STATUS                                             | Modified |       |
+| PrivateLinkServiceIpConfiguration                                               | PrivateLinkServiceIpConfiguration                                               | Modified |       |
+| PrivateLinkServiceIpConfiguration_STATUS                                        | PrivateLinkServiceIpConfiguration_STATUS                                        | Modified |       |
+| PrivateLinkServiceOperatorConfigMaps                                            | PrivateLinkServiceOperatorConfigMaps                                            | Extended |       |
+| PrivateLinkServiceOperatorSpec                                                  | PrivateLinkServiceOperatorSpec                                                  | Extended |       |
+| PrivateLinkService_STATUS                                                       | PrivateLinkService_STATUS                                                       | Modified |       |
+| PrivateLinkService_Spec                                                         | PrivateLinkService_Spec                                                         | Extended |       |
+| PublicIPPrefixOperatorSpec                                                      | PublicIPPrefixOperatorSpec                                                      | Extended |       |
+| PublicIPPrefixSku                                                               | PublicIPPrefixSku                                                               | Modified |       |
+| PublicIPPrefixSku_STATUS                                                        | PublicIPPrefixSku_STATUS                                                        | Modified |       |
+| PublicIPPrefix_STATUS                                                           | PublicIPPrefix_STATUS                                                           | Modified |       |
+| PublicIPPrefix_Spec                                                             | PublicIPPrefix_Spec                                                             | Modified |       |
+| RecordSet_STATUS                                                                | RecordSet_STATUS                                                                | Modified |       |
+| ReferencedPublicIpAddress_STATUS                                                | ReferencedPublicIpAddress_STATUS                                                | Extended |       |
+| ResourceSet                                                                     | ResourceSet                                                                     | Extended |       |
+| ResourceSet_STATUS                                                              | ResourceSet_STATUS                                                              | Extended |       |
+| Sku                                                                             | Sku                                                                             | Modified |       |
+| Sku_STATUS                                                                      | Sku_STATUS                                                                      | Modified |       |
+| SubResource                                                                     | SubResource                                                                     | Extended |       |
+| SubResource_STATUS                                                              | SubResource_STATUS                                                              | Extended |       |
+| Subnet_PrivateEndpoint_SubResourceEmbedded                                      | Subnet_PrivateEndpoint_SubResourceEmbedded                                      | Extended |       |
+| Subnet_PrivateLinkService_SubResourceEmbedded                                   | Subnet_PrivateLinkService_SubResourceEmbedded                                   | Extended |       |
+| Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                               | Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                               | Extended |       |
+| Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                            | Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                            | Extended |       |
+| SystemData_STATUS                                                               | SystemData_STATUS                                                               | Modified |       |
+| TargetDnsServer                                                                 | TargetDnsServer                                                                 | Extended |       |
+| TargetDnsServer_STATUS                                                          | TargetDnsServer_STATUS                                                          | Extended |       |
+| UserAssignedIdentityDetails                                                     | UserAssignedIdentityDetails                                                     | Extended |       |
 
 ### ApplicationGatewayAuthenticationCertificate
 

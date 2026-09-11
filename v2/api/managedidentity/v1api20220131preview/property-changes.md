@@ -11,17 +11,17 @@ Statuses:
 
 ## Resources
 
-| Current Version      | Current Type                | Next Version                 | Next Type                   | Status    | Notes |
-|:---------------------|:----------------------------|:-----------------------------|:----------------------------|:---------:|:------|
-| v1api20220131preview | FederatedIdentityCredential | v1api20220131preview/storage | FederatedIdentityCredential | Identical |       |
+| v1api20220131preview        | v1api20220131preview/storage | Status    | Notes |
+|:----------------------------|:-----------------------------|:---------:|:------|
+| FederatedIdentityCredential | FederatedIdentityCredential  | Identical |       |
 
 ## Objects
 
-| Current Version      | Current Type                            | Next Version                 | Next Type                               | Status   | Notes |
-|:---------------------|:----------------------------------------|:-----------------------------|:----------------------------------------|:--------:|:------|
-| v1api20220131preview | FederatedIdentityCredentialOperatorSpec | v1api20220131preview/storage | FederatedIdentityCredentialOperatorSpec | Extended |       |
-| v1api20220131preview | FederatedIdentityCredential_STATUS      | v1api20220131preview/storage | FederatedIdentityCredential_STATUS      | Extended |       |
-| v1api20220131preview | FederatedIdentityCredential_Spec        | v1api20220131preview/storage | FederatedIdentityCredential_Spec        | Modified |       |
+| v1api20220131preview                    | v1api20220131preview/storage            | Status   | Notes |
+|:----------------------------------------|:----------------------------------------|:--------:|:------|
+| FederatedIdentityCredentialOperatorSpec | FederatedIdentityCredentialOperatorSpec | Extended |       |
+| FederatedIdentityCredential_STATUS      | FederatedIdentityCredential_STATUS      | Extended |       |
+| FederatedIdentityCredential_Spec        | FederatedIdentityCredential_Spec        | Modified |       |
 
 ### FederatedIdentityCredentialOperatorSpec
 

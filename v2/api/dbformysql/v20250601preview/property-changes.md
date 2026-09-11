@@ -11,59 +11,59 @@ Statuses:
 
 ## Resources
 
-| Current Version  | Current Type                 | Next Version             | Next Type                    | Status    | Notes |
-|:-----------------|:-----------------------------|:-------------------------|:-----------------------------|:---------:|:------|
-| v20250601preview | FlexibleServer               | v20250601preview/storage | FlexibleServer               | Identical |       |
-| v20250601preview | FlexibleServersAdministrator | v20250601preview/storage | FlexibleServersAdministrator | Identical |       |
-| v20250601preview | FlexibleServersConfiguration | v20250601preview/storage | FlexibleServersConfiguration | Identical |       |
-| v20250601preview | FlexibleServersDatabase      | v20250601preview/storage | FlexibleServersDatabase      | Identical |       |
-| v20250601preview | FlexibleServersFirewallRule  | v20250601preview/storage | FlexibleServersFirewallRule  | Identical |       |
+| v20250601preview             | v20250601preview/storage     | Status    | Notes |
+|:-----------------------------|:-----------------------------|:---------:|:------|
+| FlexibleServer               | FlexibleServer               | Identical |       |
+| FlexibleServersAdministrator | FlexibleServersAdministrator | Identical |       |
+| FlexibleServersConfiguration | FlexibleServersConfiguration | Identical |       |
+| FlexibleServersDatabase      | FlexibleServersDatabase      | Identical |       |
+| FlexibleServersFirewallRule  | FlexibleServersFirewallRule  | Identical |       |
 
 ## Objects
 
-| Current Version  | Current Type                             | Next Version             | Next Type                                | Status   | Notes |
-|:-----------------|:-----------------------------------------|:-------------------------|:-----------------------------------------|:--------:|:------|
-| v20250601preview | Backup                                   | v20250601preview/storage | Backup                                   | Modified |       |
-| v20250601preview | Backup_STATUS                            | v20250601preview/storage | Backup_STATUS                            | Modified |       |
-| v20250601preview | DataEncryption                           | v20250601preview/storage | DataEncryption                           | Modified |       |
-| v20250601preview | DataEncryption_STATUS                    | v20250601preview/storage | DataEncryption_STATUS                    | Modified |       |
-| v20250601preview | FlexibleServerOperatorConfigMaps         | v20250601preview/storage | FlexibleServerOperatorConfigMaps         | Extended |       |
-| v20250601preview | FlexibleServerOperatorSecrets            | v20250601preview/storage | FlexibleServerOperatorSecrets            | Extended |       |
-| v20250601preview | FlexibleServerOperatorSpec               | v20250601preview/storage | FlexibleServerOperatorSpec               | Extended |       |
-| v20250601preview | FlexibleServer_STATUS                    | v20250601preview/storage | FlexibleServer_STATUS                    | Modified |       |
-| v20250601preview | FlexibleServer_Spec                      | v20250601preview/storage | FlexibleServer_Spec                      | Modified |       |
-| v20250601preview | FlexibleServersAdministratorOperatorSpec | v20250601preview/storage | FlexibleServersAdministratorOperatorSpec | Extended |       |
-| v20250601preview | FlexibleServersAdministrator_STATUS      | v20250601preview/storage | FlexibleServersAdministrator_STATUS      | Modified |       |
-| v20250601preview | FlexibleServersAdministrator_Spec        | v20250601preview/storage | FlexibleServersAdministrator_Spec        | Modified |       |
-| v20250601preview | FlexibleServersConfigurationOperatorSpec | v20250601preview/storage | FlexibleServersConfigurationOperatorSpec | Extended |       |
-| v20250601preview | FlexibleServersConfiguration_STATUS      | v20250601preview/storage | FlexibleServersConfiguration_STATUS      | Modified |       |
-| v20250601preview | FlexibleServersConfiguration_Spec        | v20250601preview/storage | FlexibleServersConfiguration_Spec        | Modified |       |
-| v20250601preview | FlexibleServersDatabaseOperatorSpec      | v20250601preview/storage | FlexibleServersDatabaseOperatorSpec      | Extended |       |
-| v20250601preview | FlexibleServersDatabase_STATUS           | v20250601preview/storage | FlexibleServersDatabase_STATUS           | Extended |       |
-| v20250601preview | FlexibleServersDatabase_Spec             | v20250601preview/storage | FlexibleServersDatabase_Spec             | Extended |       |
-| v20250601preview | FlexibleServersFirewallRuleOperatorSpec  | v20250601preview/storage | FlexibleServersFirewallRuleOperatorSpec  | Extended |       |
-| v20250601preview | FlexibleServersFirewallRule_STATUS       | v20250601preview/storage | FlexibleServersFirewallRule_STATUS       | Extended |       |
-| v20250601preview | FlexibleServersFirewallRule_Spec         | v20250601preview/storage | FlexibleServersFirewallRule_Spec         | Modified |       |
-| v20250601preview | HighAvailability                         | v20250601preview/storage | HighAvailability                         | Modified |       |
-| v20250601preview | HighAvailability_STATUS                  | v20250601preview/storage | HighAvailability_STATUS                  | Modified |       |
-| v20250601preview | ImportSourceProperties                   | v20250601preview/storage | ImportSourceProperties                   | Modified |       |
-| v20250601preview | ImportSourceProperties_STATUS            | v20250601preview/storage | ImportSourceProperties_STATUS            | Modified |       |
-| v20250601preview | MaintenancePolicy                        | v20250601preview/storage | MaintenancePolicy                        | Modified |       |
-| v20250601preview | MaintenancePolicy_STATUS                 | v20250601preview/storage | MaintenancePolicy_STATUS                 | Modified |       |
-| v20250601preview | MaintenanceWindow                        | v20250601preview/storage | MaintenanceWindow                        | Modified |       |
-| v20250601preview | MaintenanceWindow_STATUS                 | v20250601preview/storage | MaintenanceWindow_STATUS                 | Modified |       |
-| v20250601preview | MySQLServerIdentity                      | v20250601preview/storage | MySQLServerIdentity                      | Modified |       |
-| v20250601preview | MySQLServerIdentity_STATUS               | v20250601preview/storage | MySQLServerIdentity_STATUS               | Modified |       |
-| v20250601preview | MySQLServerSku                           | v20250601preview/storage | MySQLServerSku                           | Modified |       |
-| v20250601preview | MySQLServerSku_STATUS                    | v20250601preview/storage | MySQLServerSku_STATUS                    | Modified |       |
-| v20250601preview | Network                                  | v20250601preview/storage | Network                                  | Modified |       |
-| v20250601preview | Network_STATUS                           | v20250601preview/storage | Network_STATUS                           | Modified |       |
-| v20250601preview | PrivateEndpointConnection_STATUS         | v20250601preview/storage | PrivateEndpointConnection_STATUS         | Extended |       |
-| v20250601preview | Storage                                  | v20250601preview/storage | Storage                                  | Modified |       |
-| v20250601preview | Storage_STATUS                           | v20250601preview/storage | Storage_STATUS                           | Modified |       |
-| v20250601preview | SystemData_STATUS                        | v20250601preview/storage | SystemData_STATUS                        | Modified |       |
-| v20250601preview | UserAssignedIdentityDetails              | v20250601preview/storage | UserAssignedIdentityDetails              | Extended |       |
-| v20250601preview | UserAssignedIdentity_STATUS              | v20250601preview/storage | UserAssignedIdentity_STATUS              | Extended |       |
+| v20250601preview                         | v20250601preview/storage                 | Status   | Notes |
+|:-----------------------------------------|:-----------------------------------------|:--------:|:------|
+| Backup                                   | Backup                                   | Modified |       |
+| Backup_STATUS                            | Backup_STATUS                            | Modified |       |
+| DataEncryption                           | DataEncryption                           | Modified |       |
+| DataEncryption_STATUS                    | DataEncryption_STATUS                    | Modified |       |
+| FlexibleServerOperatorConfigMaps         | FlexibleServerOperatorConfigMaps         | Extended |       |
+| FlexibleServerOperatorSecrets            | FlexibleServerOperatorSecrets            | Extended |       |
+| FlexibleServerOperatorSpec               | FlexibleServerOperatorSpec               | Extended |       |
+| FlexibleServer_STATUS                    | FlexibleServer_STATUS                    | Modified |       |
+| FlexibleServer_Spec                      | FlexibleServer_Spec                      | Modified |       |
+| FlexibleServersAdministratorOperatorSpec | FlexibleServersAdministratorOperatorSpec | Extended |       |
+| FlexibleServersAdministrator_STATUS      | FlexibleServersAdministrator_STATUS      | Modified |       |
+| FlexibleServersAdministrator_Spec        | FlexibleServersAdministrator_Spec        | Modified |       |
+| FlexibleServersConfigurationOperatorSpec | FlexibleServersConfigurationOperatorSpec | Extended |       |
+| FlexibleServersConfiguration_STATUS      | FlexibleServersConfiguration_STATUS      | Modified |       |
+| FlexibleServersConfiguration_Spec        | FlexibleServersConfiguration_Spec        | Modified |       |
+| FlexibleServersDatabaseOperatorSpec      | FlexibleServersDatabaseOperatorSpec      | Extended |       |
+| FlexibleServersDatabase_STATUS           | FlexibleServersDatabase_STATUS           | Extended |       |
+| FlexibleServersDatabase_Spec             | FlexibleServersDatabase_Spec             | Extended |       |
+| FlexibleServersFirewallRuleOperatorSpec  | FlexibleServersFirewallRuleOperatorSpec  | Extended |       |
+| FlexibleServersFirewallRule_STATUS       | FlexibleServersFirewallRule_STATUS       | Extended |       |
+| FlexibleServersFirewallRule_Spec         | FlexibleServersFirewallRule_Spec         | Modified |       |
+| HighAvailability                         | HighAvailability                         | Modified |       |
+| HighAvailability_STATUS                  | HighAvailability_STATUS                  | Modified |       |
+| ImportSourceProperties                   | ImportSourceProperties                   | Modified |       |
+| ImportSourceProperties_STATUS            | ImportSourceProperties_STATUS            | Modified |       |
+| MaintenancePolicy                        | MaintenancePolicy                        | Modified |       |
+| MaintenancePolicy_STATUS                 | MaintenancePolicy_STATUS                 | Modified |       |
+| MaintenanceWindow                        | MaintenanceWindow                        | Modified |       |
+| MaintenanceWindow_STATUS                 | MaintenanceWindow_STATUS                 | Modified |       |
+| MySQLServerIdentity                      | MySQLServerIdentity                      | Modified |       |
+| MySQLServerIdentity_STATUS               | MySQLServerIdentity_STATUS               | Modified |       |
+| MySQLServerSku                           | MySQLServerSku                           | Modified |       |
+| MySQLServerSku_STATUS                    | MySQLServerSku_STATUS                    | Modified |       |
+| Network                                  | Network                                  | Modified |       |
+| Network_STATUS                           | Network_STATUS                           | Modified |       |
+| PrivateEndpointConnection_STATUS         | PrivateEndpointConnection_STATUS         | Extended |       |
+| Storage                                  | Storage                                  | Modified |       |
+| Storage_STATUS                           | Storage_STATUS                           | Modified |       |
+| SystemData_STATUS                        | SystemData_STATUS                        | Modified |       |
+| UserAssignedIdentityDetails              | UserAssignedIdentityDetails              | Extended |       |
+| UserAssignedIdentity_STATUS              | UserAssignedIdentity_STATUS              | Extended |       |
 
 ### Backup
 

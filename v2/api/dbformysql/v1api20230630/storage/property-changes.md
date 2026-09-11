@@ -11,53 +11,53 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type                 | Next Version      | Next Type                    | Status    | Notes |
-|:----------------------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
-| v1api20230630/storage | FlexibleServer               | v20230630/storage | FlexibleServer               | Identical |       |
-| v1api20230630/storage | FlexibleServersAdministrator | v20230630/storage | FlexibleServersAdministrator | Identical |       |
-| v1api20230630/storage | FlexibleServersConfiguration | v20230630/storage | FlexibleServersConfiguration | Identical |       |
-| v1api20230630/storage | FlexibleServersDatabase      | v20230630/storage | FlexibleServersDatabase      | Identical |       |
-| v1api20230630/storage | FlexibleServersFirewallRule  | v20230630/storage | FlexibleServersFirewallRule  | Identical |       |
+| v1api20230630/storage        | v20230630/storage            | Status    | Notes |
+|:-----------------------------|:-----------------------------|:---------:|:------|
+| FlexibleServer               | FlexibleServer               | Identical |       |
+| FlexibleServersAdministrator | FlexibleServersAdministrator | Identical |       |
+| FlexibleServersConfiguration | FlexibleServersConfiguration | Identical |       |
+| FlexibleServersDatabase      | FlexibleServersDatabase      | Identical |       |
+| FlexibleServersFirewallRule  | FlexibleServersFirewallRule  | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                             | Next Version      | Next Type                                | Status    | Notes |
-|:----------------------|:-----------------------------------------|:------------------|:-----------------------------------------|:---------:|:------|
-| v1api20230630/storage | Backup                                   | v20230630/storage | Backup                                   | Identical |       |
-| v1api20230630/storage | Backup_STATUS                            | v20230630/storage | Backup_STATUS                            | Identical |       |
-| v1api20230630/storage | DataEncryption                           | v20230630/storage | DataEncryption                           | Identical |       |
-| v1api20230630/storage | DataEncryption_STATUS                    | v20230630/storage | DataEncryption_STATUS                    | Identical |       |
-| v1api20230630/storage | FlexibleServerOperatorConfigMaps         | v20230630/storage | FlexibleServerOperatorConfigMaps         | Identical |       |
-| v1api20230630/storage | FlexibleServerOperatorSecrets            | v20230630/storage | FlexibleServerOperatorSecrets            | Identical |       |
-| v1api20230630/storage | FlexibleServerOperatorSpec               | v20230630/storage | FlexibleServerOperatorSpec               | Identical |       |
-| v1api20230630/storage | FlexibleServer_STATUS                    | v20230630/storage | FlexibleServer_STATUS                    | Identical |       |
-| v1api20230630/storage | FlexibleServer_Spec                      | v20230630/storage | FlexibleServer_Spec                      | Identical |       |
-| v1api20230630/storage | FlexibleServersAdministratorOperatorSpec | v20230630/storage | FlexibleServersAdministratorOperatorSpec | Identical |       |
-| v1api20230630/storage | FlexibleServersAdministrator_STATUS      | v20230630/storage | FlexibleServersAdministrator_STATUS      | Identical |       |
-| v1api20230630/storage | FlexibleServersAdministrator_Spec        | v20230630/storage | FlexibleServersAdministrator_Spec        | Identical |       |
-| v1api20230630/storage | FlexibleServersConfigurationOperatorSpec | v20230630/storage | FlexibleServersConfigurationOperatorSpec | Identical |       |
-| v1api20230630/storage | FlexibleServersConfiguration_STATUS      | v20230630/storage | FlexibleServersConfiguration_STATUS      | Identical |       |
-| v1api20230630/storage | FlexibleServersConfiguration_Spec        | v20230630/storage | FlexibleServersConfiguration_Spec        | Identical |       |
-| v1api20230630/storage | FlexibleServersDatabaseOperatorSpec      | v20230630/storage | FlexibleServersDatabaseOperatorSpec      | Identical |       |
-| v1api20230630/storage | FlexibleServersDatabase_STATUS           | v20230630/storage | FlexibleServersDatabase_STATUS           | Identical |       |
-| v1api20230630/storage | FlexibleServersDatabase_Spec             | v20230630/storage | FlexibleServersDatabase_Spec             | Identical |       |
-| v1api20230630/storage | FlexibleServersFirewallRuleOperatorSpec  | v20230630/storage | FlexibleServersFirewallRuleOperatorSpec  | Identical |       |
-| v1api20230630/storage | FlexibleServersFirewallRule_STATUS       | v20230630/storage | FlexibleServersFirewallRule_STATUS       | Identical |       |
-| v1api20230630/storage | FlexibleServersFirewallRule_Spec         | v20230630/storage | FlexibleServersFirewallRule_Spec         | Identical |       |
-| v1api20230630/storage | HighAvailability                         | v20230630/storage | HighAvailability                         | Identical |       |
-| v1api20230630/storage | HighAvailability_STATUS                  | v20230630/storage | HighAvailability_STATUS                  | Identical |       |
-| v1api20230630/storage | ImportSourceProperties                   | v20230630/storage | ImportSourceProperties                   | Identical |       |
-| v1api20230630/storage | ImportSourceProperties_STATUS            | v20230630/storage | ImportSourceProperties_STATUS            | Identical |       |
-| v1api20230630/storage | MaintenanceWindow                        | v20230630/storage | MaintenanceWindow                        | Identical |       |
-| v1api20230630/storage | MaintenanceWindow_STATUS                 | v20230630/storage | MaintenanceWindow_STATUS                 | Identical |       |
-| v1api20230630/storage | MySQLServerIdentity                      | v20230630/storage | MySQLServerIdentity                      | Identical |       |
-| v1api20230630/storage | MySQLServerIdentity_STATUS               | v20230630/storage | MySQLServerIdentity_STATUS               | Identical |       |
-| v1api20230630/storage | MySQLServerSku                           | v20230630/storage | MySQLServerSku                           | Identical |       |
-| v1api20230630/storage | MySQLServerSku_STATUS                    | v20230630/storage | MySQLServerSku_STATUS                    | Identical |       |
-| v1api20230630/storage | Network                                  | v20230630/storage | Network                                  | Identical |       |
-| v1api20230630/storage | Network_STATUS                           | v20230630/storage | Network_STATUS                           | Identical |       |
-| v1api20230630/storage | PrivateEndpointConnection_STATUS         | v20230630/storage | PrivateEndpointConnection_STATUS         | Identical |       |
-| v1api20230630/storage | Storage                                  | v20230630/storage | Storage                                  | Identical |       |
-| v1api20230630/storage | Storage_STATUS                           | v20230630/storage | Storage_STATUS                           | Identical |       |
-| v1api20230630/storage | SystemData_STATUS                        | v20230630/storage | SystemData_STATUS                        | Identical |       |
-| v1api20230630/storage | UserAssignedIdentityDetails              | v20230630/storage | UserAssignedIdentityDetails              | Identical |       |
+| v1api20230630/storage                    | v20230630/storage                        | Status    | Notes |
+|:-----------------------------------------|:-----------------------------------------|:---------:|:------|
+| Backup                                   | Backup                                   | Identical |       |
+| Backup_STATUS                            | Backup_STATUS                            | Identical |       |
+| DataEncryption                           | DataEncryption                           | Identical |       |
+| DataEncryption_STATUS                    | DataEncryption_STATUS                    | Identical |       |
+| FlexibleServerOperatorConfigMaps         | FlexibleServerOperatorConfigMaps         | Identical |       |
+| FlexibleServerOperatorSecrets            | FlexibleServerOperatorSecrets            | Identical |       |
+| FlexibleServerOperatorSpec               | FlexibleServerOperatorSpec               | Identical |       |
+| FlexibleServer_STATUS                    | FlexibleServer_STATUS                    | Identical |       |
+| FlexibleServer_Spec                      | FlexibleServer_Spec                      | Identical |       |
+| FlexibleServersAdministratorOperatorSpec | FlexibleServersAdministratorOperatorSpec | Identical |       |
+| FlexibleServersAdministrator_STATUS      | FlexibleServersAdministrator_STATUS      | Identical |       |
+| FlexibleServersAdministrator_Spec        | FlexibleServersAdministrator_Spec        | Identical |       |
+| FlexibleServersConfigurationOperatorSpec | FlexibleServersConfigurationOperatorSpec | Identical |       |
+| FlexibleServersConfiguration_STATUS      | FlexibleServersConfiguration_STATUS      | Identical |       |
+| FlexibleServersConfiguration_Spec        | FlexibleServersConfiguration_Spec        | Identical |       |
+| FlexibleServersDatabaseOperatorSpec      | FlexibleServersDatabaseOperatorSpec      | Identical |       |
+| FlexibleServersDatabase_STATUS           | FlexibleServersDatabase_STATUS           | Identical |       |
+| FlexibleServersDatabase_Spec             | FlexibleServersDatabase_Spec             | Identical |       |
+| FlexibleServersFirewallRuleOperatorSpec  | FlexibleServersFirewallRuleOperatorSpec  | Identical |       |
+| FlexibleServersFirewallRule_STATUS       | FlexibleServersFirewallRule_STATUS       | Identical |       |
+| FlexibleServersFirewallRule_Spec         | FlexibleServersFirewallRule_Spec         | Identical |       |
+| HighAvailability                         | HighAvailability                         | Identical |       |
+| HighAvailability_STATUS                  | HighAvailability_STATUS                  | Identical |       |
+| ImportSourceProperties                   | ImportSourceProperties                   | Identical |       |
+| ImportSourceProperties_STATUS            | ImportSourceProperties_STATUS            | Identical |       |
+| MaintenanceWindow                        | MaintenanceWindow                        | Identical |       |
+| MaintenanceWindow_STATUS                 | MaintenanceWindow_STATUS                 | Identical |       |
+| MySQLServerIdentity                      | MySQLServerIdentity                      | Identical |       |
+| MySQLServerIdentity_STATUS               | MySQLServerIdentity_STATUS               | Identical |       |
+| MySQLServerSku                           | MySQLServerSku                           | Identical |       |
+| MySQLServerSku_STATUS                    | MySQLServerSku_STATUS                    | Identical |       |
+| Network                                  | Network                                  | Identical |       |
+| Network_STATUS                           | Network_STATUS                           | Identical |       |
+| PrivateEndpointConnection_STATUS         | PrivateEndpointConnection_STATUS         | Identical |       |
+| Storage                                  | Storage                                  | Identical |       |
+| Storage_STATUS                           | Storage_STATUS                           | Identical |       |
+| SystemData_STATUS                        | SystemData_STATUS                        | Identical |       |
+| UserAssignedIdentityDetails              | UserAssignedIdentityDetails              | Identical |       |

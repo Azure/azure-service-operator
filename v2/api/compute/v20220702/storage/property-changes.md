@@ -11,29 +11,29 @@ Statuses:
 
 ## Resources
 
-| Current Version   | Current Type      | Next Version      | Next Type         | Status    | Notes |
-|:------------------|:------------------|:------------------|:------------------|:---------:|:------|
-| v20220702/storage | DiskEncryptionSet | v20240302/storage | DiskEncryptionSet | Identical |       |
+| v20220702/storage | v20240302/storage | Status    | Notes |
+|:------------------|:------------------|:---------:|:------|
+| DiskEncryptionSet | DiskEncryptionSet | Identical |       |
 
 ## Objects
 
-| Current Version   | Current Type                       | Next Version      | Next Type                          | Status    | Notes |
-|:------------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
-| v20220702/storage | ApiErrorBase_STATUS                | v20240302/storage | ApiErrorBase_STATUS                | Identical |       |
-| v20220702/storage | ApiError_STATUS                    | v20240302/storage | ApiError_STATUS                    | Identical |       |
-| v20220702/storage | DiskEncryptionSetOperatorSpec      | v20240302/storage | DiskEncryptionSetOperatorSpec      | Identical |       |
-| v20220702/storage | DiskEncryptionSet_STATUS           | v20240302/storage | DiskEncryptionSet_STATUS           | Extended  |       |
-| v20220702/storage | DiskEncryptionSet_Spec             | v20240302/storage | DiskEncryptionSet_Spec             | Identical |       |
-| v20220702/storage | EncryptionSetIdentity              | v20240302/storage | EncryptionSetIdentity              | Identical |       |
-| v20220702/storage | EncryptionSetIdentity_STATUS       | v20240302/storage | EncryptionSetIdentity_STATUS       | Identical |       |
-| v20220702/storage | InnerError_STATUS                  | v20240302/storage | InnerError_STATUS                  | Identical |       |
-| v20220702/storage | KeyForDiskEncryptionSet            | v20240302/storage | KeyForDiskEncryptionSet            | Identical |       |
-| v20220702/storage | KeyForDiskEncryptionSet_STATUS     | v20240302/storage | KeyForDiskEncryptionSet_STATUS     | Identical |       |
-| v20220702/storage | SourceVault                        | v20240302/storage | SourceVault                        | Identical |       |
-| v20220702/storage | SourceVault_STATUS                 | v20240302/storage | SourceVault_STATUS                 | Identical |       |
-|                   |                                    | v20240302/storage | SystemData_STATUS                  | New       |       |
-| v20220702/storage | UserAssignedIdentitiesValue_STATUS | v20240302/storage | UserAssignedIdentitiesValue_STATUS | Identical |       |
-| v20220702/storage | UserAssignedIdentityDetails        | v20240302/storage | UserAssignedIdentityDetails        | Identical |       |
+| v20220702/storage                  | v20240302/storage                  | Status    | Notes |
+|:-----------------------------------|:-----------------------------------|:---------:|:------|
+| ApiErrorBase_STATUS                | ApiErrorBase_STATUS                | Identical |       |
+| ApiError_STATUS                    | ApiError_STATUS                    | Identical |       |
+| DiskEncryptionSetOperatorSpec      | DiskEncryptionSetOperatorSpec      | Identical |       |
+| DiskEncryptionSet_STATUS           | DiskEncryptionSet_STATUS           | Extended  |       |
+| DiskEncryptionSet_Spec             | DiskEncryptionSet_Spec             | Identical |       |
+| EncryptionSetIdentity              | EncryptionSetIdentity              | Identical |       |
+| EncryptionSetIdentity_STATUS       | EncryptionSetIdentity_STATUS       | Identical |       |
+| InnerError_STATUS                  | InnerError_STATUS                  | Identical |       |
+| KeyForDiskEncryptionSet            | KeyForDiskEncryptionSet            | Identical |       |
+| KeyForDiskEncryptionSet_STATUS     | KeyForDiskEncryptionSet_STATUS     | Identical |       |
+| SourceVault                        | SourceVault                        | Identical |       |
+| SourceVault_STATUS                 | SourceVault_STATUS                 | Identical |       |
+|                                    | SystemData_STATUS                  | New       |       |
+| UserAssignedIdentitiesValue_STATUS | UserAssignedIdentitiesValue_STATUS | Identical |       |
+| UserAssignedIdentityDetails        | UserAssignedIdentityDetails        | Identical |       |
 
 ### DiskEncryptionSet_STATUS
 

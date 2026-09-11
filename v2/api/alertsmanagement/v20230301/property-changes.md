@@ -11,24 +11,24 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type        | Next Version      | Next Type           | Status    | Notes |
-|:----------------|:--------------------|:------------------|:--------------------|:---------:|:------|
-| v20230301       | PrometheusRuleGroup | v20230301/storage | PrometheusRuleGroup | Identical |       |
+| v20230301           | v20230301/storage   | Status    | Notes |
+|:--------------------|:--------------------|:---------:|:------|
+| PrometheusRuleGroup | PrometheusRuleGroup | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                              | Next Version      | Next Type                                 | Status   | Notes |
-|:----------------|:------------------------------------------|:------------------|:------------------------------------------|:--------:|:------|
-| v20230301       | PrometheusRule                            | v20230301/storage | PrometheusRule                            | Extended |       |
-| v20230301       | PrometheusRuleGroupAction                 | v20230301/storage | PrometheusRuleGroupAction                 | Extended |       |
-| v20230301       | PrometheusRuleGroupAction_STATUS          | v20230301/storage | PrometheusRuleGroupAction_STATUS          | Extended |       |
-| v20230301       | PrometheusRuleGroupOperatorSpec           | v20230301/storage | PrometheusRuleGroupOperatorSpec           | Extended |       |
-| v20230301       | PrometheusRuleGroup_STATUS                | v20230301/storage | PrometheusRuleGroup_STATUS                | Extended |       |
-| v20230301       | PrometheusRuleGroup_Spec                  | v20230301/storage | PrometheusRuleGroup_Spec                  | Modified |       |
-| v20230301       | PrometheusRuleResolveConfiguration        | v20230301/storage | PrometheusRuleResolveConfiguration        | Extended |       |
-| v20230301       | PrometheusRuleResolveConfiguration_STATUS | v20230301/storage | PrometheusRuleResolveConfiguration_STATUS | Extended |       |
-| v20230301       | PrometheusRule_STATUS                     | v20230301/storage | PrometheusRule_STATUS                     | Extended |       |
-| v20230301       | SystemData_STATUS                         | v20230301/storage | SystemData_STATUS                         | Modified |       |
+| v20230301                                 | v20230301/storage                         | Status   | Notes |
+|:------------------------------------------|:------------------------------------------|:--------:|:------|
+| PrometheusRule                            | PrometheusRule                            | Extended |       |
+| PrometheusRuleGroupAction                 | PrometheusRuleGroupAction                 | Extended |       |
+| PrometheusRuleGroupAction_STATUS          | PrometheusRuleGroupAction_STATUS          | Extended |       |
+| PrometheusRuleGroupOperatorSpec           | PrometheusRuleGroupOperatorSpec           | Extended |       |
+| PrometheusRuleGroup_STATUS                | PrometheusRuleGroup_STATUS                | Extended |       |
+| PrometheusRuleGroup_Spec                  | PrometheusRuleGroup_Spec                  | Modified |       |
+| PrometheusRuleResolveConfiguration        | PrometheusRuleResolveConfiguration        | Extended |       |
+| PrometheusRuleResolveConfiguration_STATUS | PrometheusRuleResolveConfiguration_STATUS | Extended |       |
+| PrometheusRule_STATUS                     | PrometheusRule_STATUS                     | Extended |       |
+| SystemData_STATUS                         | SystemData_STATUS                         | Modified |       |
 
 ### PrometheusRule
 

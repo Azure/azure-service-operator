@@ -11,17 +11,17 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type   | Status    | Notes |
-|:----------------|:-------------|:----------------------|:------------|:---------:|:------|
-| v1api20171001   | PricingPlan  | v1api20171001/storage | PricingPlan | Identical |       |
+| v1api20171001 | v1api20171001/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| PricingPlan   | PricingPlan           | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type            | Next Version          | Next Type               | Status   | Notes |
-|:----------------|:------------------------|:----------------------|:------------------------|:--------:|:------|
-| v1api20171001   | PricingPlanOperatorSpec | v1api20171001/storage | PricingPlanOperatorSpec | Extended |       |
-| v1api20171001   | PricingPlan_STATUS      | v1api20171001/storage | PricingPlan_STATUS      | Extended |       |
-| v1api20171001   | PricingPlan_Spec        | v1api20171001/storage | PricingPlan_Spec        | Extended |       |
+| v1api20171001           | v1api20171001/storage   | Status   | Notes |
+|:------------------------|:------------------------|:--------:|:------|
+| PricingPlanOperatorSpec | PricingPlanOperatorSpec | Extended |       |
+| PricingPlan_STATUS      | PricingPlan_STATUS      | Extended |       |
+| PricingPlan_Spec        | PricingPlan_Spec        | Extended |       |
 
 ### PricingPlanOperatorSpec
 

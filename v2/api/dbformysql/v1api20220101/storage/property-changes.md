@@ -11,19 +11,19 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type                 | Next Version      | Next Type                    | Status    | Notes |
-|:----------------------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
-| v1api20220101/storage | FlexibleServersAdministrator | v20220101/storage | FlexibleServersAdministrator | Identical |       |
-| v1api20220101/storage | FlexibleServersConfiguration | v20220101/storage | FlexibleServersConfiguration | Identical |       |
+| v1api20220101/storage        | v20220101/storage            | Status    | Notes |
+|:-----------------------------|:-----------------------------|:---------:|:------|
+| FlexibleServersAdministrator | FlexibleServersAdministrator | Identical |       |
+| FlexibleServersConfiguration | FlexibleServersConfiguration | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                             | Next Version      | Next Type                                | Status    | Notes |
-|:----------------------|:-----------------------------------------|:------------------|:-----------------------------------------|:---------:|:------|
-| v1api20220101/storage | FlexibleServersAdministratorOperatorSpec | v20220101/storage | FlexibleServersAdministratorOperatorSpec | Identical |       |
-| v1api20220101/storage | FlexibleServersAdministrator_STATUS      | v20220101/storage | FlexibleServersAdministrator_STATUS      | Identical |       |
-| v1api20220101/storage | FlexibleServersAdministrator_Spec        | v20220101/storage | FlexibleServersAdministrator_Spec        | Identical |       |
-| v1api20220101/storage | FlexibleServersConfigurationOperatorSpec | v20220101/storage | FlexibleServersConfigurationOperatorSpec | Identical |       |
-| v1api20220101/storage | FlexibleServersConfiguration_STATUS      | v20220101/storage | FlexibleServersConfiguration_STATUS      | Identical |       |
-| v1api20220101/storage | FlexibleServersConfiguration_Spec        | v20220101/storage | FlexibleServersConfiguration_Spec        | Identical |       |
-| v1api20220101/storage | SystemData_STATUS                        | v20220101/storage | SystemData_STATUS                        | Identical |       |
+| v1api20220101/storage                    | v20220101/storage                        | Status    | Notes |
+|:-----------------------------------------|:-----------------------------------------|:---------:|:------|
+| FlexibleServersAdministratorOperatorSpec | FlexibleServersAdministratorOperatorSpec | Identical |       |
+| FlexibleServersAdministrator_STATUS      | FlexibleServersAdministrator_STATUS      | Identical |       |
+| FlexibleServersAdministrator_Spec        | FlexibleServersAdministrator_Spec        | Identical |       |
+| FlexibleServersConfigurationOperatorSpec | FlexibleServersConfigurationOperatorSpec | Identical |       |
+| FlexibleServersConfiguration_STATUS      | FlexibleServersConfiguration_STATUS      | Identical |       |
+| FlexibleServersConfiguration_Spec        | FlexibleServersConfiguration_Spec        | Identical |       |
+| SystemData_STATUS                        | SystemData_STATUS                        | Identical |       |

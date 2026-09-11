@@ -11,171 +11,171 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                               | Next Version          | Next Type                                  | Status    | Notes |
-|:----------------|:-------------------------------------------|:----------------------|:-------------------------------------------|:---------:|:------|
-| v1api20231115   | DatabaseAccount                            | v1api20231115/storage | DatabaseAccount                            | Identical |       |
-| v1api20231115   | MongodbDatabase                            | v1api20231115/storage | MongodbDatabase                            | Identical |       |
-| v1api20231115   | MongodbDatabaseCollection                  | v1api20231115/storage | MongodbDatabaseCollection                  | Identical |       |
-| v1api20231115   | MongodbDatabaseCollectionThroughputSetting | v1api20231115/storage | MongodbDatabaseCollectionThroughputSetting | Identical |       |
-| v1api20231115   | MongodbDatabaseThroughputSetting           | v1api20231115/storage | MongodbDatabaseThroughputSetting           | Identical |       |
-| v1api20231115   | SqlDatabase                                | v1api20231115/storage | SqlDatabase                                | Identical |       |
-| v1api20231115   | SqlDatabaseContainer                       | v1api20231115/storage | SqlDatabaseContainer                       | Identical |       |
-| v1api20231115   | SqlDatabaseContainerStoredProcedure        | v1api20231115/storage | SqlDatabaseContainerStoredProcedure        | Identical |       |
-| v1api20231115   | SqlDatabaseContainerThroughputSetting      | v1api20231115/storage | SqlDatabaseContainerThroughputSetting      | Identical |       |
-| v1api20231115   | SqlDatabaseContainerTrigger                | v1api20231115/storage | SqlDatabaseContainerTrigger                | Identical |       |
-| v1api20231115   | SqlDatabaseContainerUserDefinedFunction    | v1api20231115/storage | SqlDatabaseContainerUserDefinedFunction    | Identical |       |
-| v1api20231115   | SqlDatabaseThroughputSetting               | v1api20231115/storage | SqlDatabaseThroughputSetting               | Identical |       |
-| v1api20231115   | SqlRoleAssignment                          | v1api20231115/storage | SqlRoleAssignment                          | Identical |       |
+| v1api20231115                              | v1api20231115/storage                      | Status    | Notes |
+|:-------------------------------------------|:-------------------------------------------|:---------:|:------|
+| DatabaseAccount                            | DatabaseAccount                            | Identical |       |
+| MongodbDatabase                            | MongodbDatabase                            | Identical |       |
+| MongodbDatabaseCollection                  | MongodbDatabaseCollection                  | Identical |       |
+| MongodbDatabaseCollectionThroughputSetting | MongodbDatabaseCollectionThroughputSetting | Identical |       |
+| MongodbDatabaseThroughputSetting           | MongodbDatabaseThroughputSetting           | Identical |       |
+| SqlDatabase                                | SqlDatabase                                | Identical |       |
+| SqlDatabaseContainer                       | SqlDatabaseContainer                       | Identical |       |
+| SqlDatabaseContainerStoredProcedure        | SqlDatabaseContainerStoredProcedure        | Identical |       |
+| SqlDatabaseContainerThroughputSetting      | SqlDatabaseContainerThroughputSetting      | Identical |       |
+| SqlDatabaseContainerTrigger                | SqlDatabaseContainerTrigger                | Identical |       |
+| SqlDatabaseContainerUserDefinedFunction    | SqlDatabaseContainerUserDefinedFunction    | Identical |       |
+| SqlDatabaseThroughputSetting               | SqlDatabaseThroughputSetting               | Identical |       |
+| SqlRoleAssignment                          | SqlRoleAssignment                          | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                           | Next Version          | Next Type                                              | Status   | Notes |
-|:----------------|:-------------------------------------------------------|:----------------------|:-------------------------------------------------------|:--------:|:------|
-| v1api20231115   | AccountKeyMetadata_STATUS                              | v1api20231115/storage | AccountKeyMetadata_STATUS                              | Extended |       |
-| v1api20231115   | AnalyticalStorageConfiguration                         | v1api20231115/storage | AnalyticalStorageConfiguration                         | Modified |       |
-| v1api20231115   | AnalyticalStorageConfiguration_STATUS                  | v1api20231115/storage | AnalyticalStorageConfiguration_STATUS                  | Modified |       |
-| v1api20231115   | ApiProperties                                          | v1api20231115/storage | ApiProperties                                          | Modified |       |
-| v1api20231115   | ApiProperties_STATUS                                   | v1api20231115/storage | ApiProperties_STATUS                                   | Modified |       |
-| v1api20231115   | AutoUpgradePolicyResource                              | v1api20231115/storage | AutoUpgradePolicyResource                              | Extended |       |
-| v1api20231115   | AutoUpgradePolicyResource_STATUS                       | v1api20231115/storage | AutoUpgradePolicyResource_STATUS                       | Extended |       |
-| v1api20231115   | AutoscaleSettings                                      | v1api20231115/storage | AutoscaleSettings                                      | Extended |       |
-| v1api20231115   | AutoscaleSettingsResource                              | v1api20231115/storage | AutoscaleSettingsResource                              | Extended |       |
-| v1api20231115   | AutoscaleSettingsResource_STATUS                       | v1api20231115/storage | AutoscaleSettingsResource_STATUS                       | Extended |       |
-| v1api20231115   | AutoscaleSettings_STATUS                               | v1api20231115/storage | AutoscaleSettings_STATUS                               | Extended |       |
-| v1api20231115   | BackupPolicy                                           | v1api20231115/storage | BackupPolicy                                           | Extended |       |
-| v1api20231115   | BackupPolicyMigrationState                             | v1api20231115/storage | BackupPolicyMigrationState                             | Modified |       |
-| v1api20231115   | BackupPolicyMigrationState_STATUS                      | v1api20231115/storage | BackupPolicyMigrationState_STATUS                      | Modified |       |
-| v1api20231115   | BackupPolicy_STATUS                                    | v1api20231115/storage | BackupPolicy_STATUS                                    | Extended |       |
-| v1api20231115   | Capability                                             | v1api20231115/storage | Capability                                             | Extended |       |
-| v1api20231115   | Capability_STATUS                                      | v1api20231115/storage | Capability_STATUS                                      | Extended |       |
-| v1api20231115   | Capacity                                               | v1api20231115/storage | Capacity                                               | Modified |       |
-| v1api20231115   | Capacity_STATUS                                        | v1api20231115/storage | Capacity_STATUS                                        | Extended |       |
-| v1api20231115   | ClientEncryptionIncludedPath                           | v1api20231115/storage | ClientEncryptionIncludedPath                           | Extended |       |
-| v1api20231115   | ClientEncryptionIncludedPath_STATUS                    | v1api20231115/storage | ClientEncryptionIncludedPath_STATUS                    | Extended |       |
-| v1api20231115   | ClientEncryptionPolicy                                 | v1api20231115/storage | ClientEncryptionPolicy                                 | Modified |       |
-| v1api20231115   | ClientEncryptionPolicy_STATUS                          | v1api20231115/storage | ClientEncryptionPolicy_STATUS                          | Extended |       |
-| v1api20231115   | CompositePath                                          | v1api20231115/storage | CompositePath                                          | Modified |       |
-| v1api20231115   | CompositePath_STATUS                                   | v1api20231115/storage | CompositePath_STATUS                                   | Modified |       |
-| v1api20231115   | ComputedProperty                                       | v1api20231115/storage | ComputedProperty                                       | Extended |       |
-| v1api20231115   | ComputedProperty_STATUS                                | v1api20231115/storage | ComputedProperty_STATUS                                | Extended |       |
-| v1api20231115   | ConflictResolutionPolicy                               | v1api20231115/storage | ConflictResolutionPolicy                               | Modified |       |
-| v1api20231115   | ConflictResolutionPolicy_STATUS                        | v1api20231115/storage | ConflictResolutionPolicy_STATUS                        | Modified |       |
-| v1api20231115   | ConsistencyPolicy                                      | v1api20231115/storage | ConsistencyPolicy                                      | Modified |       |
-| v1api20231115   | ConsistencyPolicy_STATUS                               | v1api20231115/storage | ConsistencyPolicy_STATUS                               | Modified |       |
-| v1api20231115   | ContainerPartitionKey                                  | v1api20231115/storage | ContainerPartitionKey                                  | Modified |       |
-| v1api20231115   | ContainerPartitionKey_STATUS                           | v1api20231115/storage | ContainerPartitionKey_STATUS                           | Modified |       |
-| v1api20231115   | ContinuousModeBackupPolicy                             | v1api20231115/storage | ContinuousModeBackupPolicy                             | Modified |       |
-| v1api20231115   | ContinuousModeBackupPolicy_STATUS                      | v1api20231115/storage | ContinuousModeBackupPolicy_STATUS                      | Modified |       |
-| v1api20231115   | ContinuousModeProperties                               | v1api20231115/storage | ContinuousModeProperties                               | Modified |       |
-| v1api20231115   | ContinuousModeProperties_STATUS                        | v1api20231115/storage | ContinuousModeProperties_STATUS                        | Modified |       |
-| v1api20231115   | CorsPolicy                                             | v1api20231115/storage | CorsPolicy                                             | Modified |       |
-| v1api20231115   | CorsPolicy_STATUS                                      | v1api20231115/storage | CorsPolicy_STATUS                                      | Extended |       |
-| v1api20231115   | CreateUpdateOptions                                    | v1api20231115/storage | CreateUpdateOptions                                    | Extended |       |
-| v1api20231115   | DatabaseAccountKeysMetadata_STATUS                     | v1api20231115/storage | DatabaseAccountKeysMetadata_STATUS                     | Extended |       |
-| v1api20231115   | DatabaseAccountOperatorSecrets                         | v1api20231115/storage | DatabaseAccountOperatorSecrets                         | Extended |       |
-| v1api20231115   | DatabaseAccountOperatorSpec                            | v1api20231115/storage | DatabaseAccountOperatorSpec                            | Extended |       |
-| v1api20231115   | DatabaseAccount_STATUS                                 | v1api20231115/storage | DatabaseAccount_STATUS                                 | Modified |       |
-| v1api20231115   | DatabaseAccount_Spec                                   | v1api20231115/storage | DatabaseAccount_Spec                                   | Modified |       |
-| v1api20231115   | DatabaseRestoreResource                                | v1api20231115/storage | DatabaseRestoreResource                                | Extended |       |
-| v1api20231115   | DatabaseRestoreResource_STATUS                         | v1api20231115/storage | DatabaseRestoreResource_STATUS                         | Extended |       |
-| v1api20231115   | ExcludedPath                                           | v1api20231115/storage | ExcludedPath                                           | Extended |       |
-| v1api20231115   | ExcludedPath_STATUS                                    | v1api20231115/storage | ExcludedPath_STATUS                                    | Extended |       |
-| v1api20231115   | FailoverPolicy_STATUS                                  | v1api20231115/storage | FailoverPolicy_STATUS                                  | Extended |       |
-| v1api20231115   | GremlinDatabaseRestoreResource                         | v1api20231115/storage | GremlinDatabaseRestoreResource                         | Extended |       |
-| v1api20231115   | GremlinDatabaseRestoreResource_STATUS                  | v1api20231115/storage | GremlinDatabaseRestoreResource_STATUS                  | Extended |       |
-| v1api20231115   | IncludedPath                                           | v1api20231115/storage | IncludedPath                                           | Extended |       |
-| v1api20231115   | IncludedPath_STATUS                                    | v1api20231115/storage | IncludedPath_STATUS                                    | Extended |       |
-| v1api20231115   | Indexes                                                | v1api20231115/storage | Indexes                                                | Modified |       |
-| v1api20231115   | Indexes_STATUS                                         | v1api20231115/storage | Indexes_STATUS                                         | Modified |       |
-| v1api20231115   | IndexingPolicy                                         | v1api20231115/storage | IndexingPolicy                                         | Modified |       |
-| v1api20231115   | IndexingPolicy_STATUS                                  | v1api20231115/storage | IndexingPolicy_STATUS                                  | Modified |       |
-| v1api20231115   | IpAddressOrRange                                       | v1api20231115/storage | IpAddressOrRange                                       | Extended |       |
-| v1api20231115   | IpAddressOrRange_STATUS                                | v1api20231115/storage | IpAddressOrRange_STATUS                                | Extended |       |
-| v1api20231115   | Location                                               | v1api20231115/storage | Location                                               | Modified |       |
-| v1api20231115   | Location_STATUS                                        | v1api20231115/storage | Location_STATUS                                        | Extended |       |
-| v1api20231115   | ManagedServiceIdentity                                 | v1api20231115/storage | ManagedServiceIdentity                                 | Modified |       |
-| v1api20231115   | ManagedServiceIdentity_STATUS                          | v1api20231115/storage | ManagedServiceIdentity_STATUS                          | Modified |       |
-| v1api20231115   | ManagedServiceIdentity_UserAssignedIdentities_STATUS   | v1api20231115/storage | ManagedServiceIdentity_UserAssignedIdentities_STATUS   | Extended |       |
-| v1api20231115   | MongoDBCollectionGetProperties_Resource_STATUS         | v1api20231115/storage | MongoDBCollectionGetProperties_Resource_STATUS         | Modified |       |
-| v1api20231115   | MongoDBCollectionResource                              | v1api20231115/storage | MongoDBCollectionResource                              | Modified |       |
-| v1api20231115   | MongoDBDatabaseGetProperties_Resource_STATUS           | v1api20231115/storage | MongoDBDatabaseGetProperties_Resource_STATUS           | Modified |       |
-| v1api20231115   | MongoDBDatabaseResource                                | v1api20231115/storage | MongoDBDatabaseResource                                | Modified |       |
-| v1api20231115   | MongoIndex                                             | v1api20231115/storage | MongoIndex                                             | Extended |       |
-| v1api20231115   | MongoIndexKeys                                         | v1api20231115/storage | MongoIndexKeys                                         | Extended |       |
-| v1api20231115   | MongoIndexKeys_STATUS                                  | v1api20231115/storage | MongoIndexKeys_STATUS                                  | Extended |       |
-| v1api20231115   | MongoIndexOptions                                      | v1api20231115/storage | MongoIndexOptions                                      | Extended |       |
-| v1api20231115   | MongoIndexOptions_STATUS                               | v1api20231115/storage | MongoIndexOptions_STATUS                               | Extended |       |
-| v1api20231115   | MongoIndex_STATUS                                      | v1api20231115/storage | MongoIndex_STATUS                                      | Extended |       |
-| v1api20231115   | MongodbDatabaseCollectionOperatorSpec                  | v1api20231115/storage | MongodbDatabaseCollectionOperatorSpec                  | Extended |       |
-| v1api20231115   | MongodbDatabaseCollectionThroughputSettingOperatorSpec | v1api20231115/storage | MongodbDatabaseCollectionThroughputSettingOperatorSpec | Extended |       |
-| v1api20231115   | MongodbDatabaseCollectionThroughputSetting_STATUS      | v1api20231115/storage | MongodbDatabaseCollectionThroughputSetting_STATUS      | Extended |       |
-| v1api20231115   | MongodbDatabaseCollectionThroughputSetting_Spec        | v1api20231115/storage | MongodbDatabaseCollectionThroughputSetting_Spec        | Extended |       |
-| v1api20231115   | MongodbDatabaseCollection_STATUS                       | v1api20231115/storage | MongodbDatabaseCollection_STATUS                       | Extended |       |
-| v1api20231115   | MongodbDatabaseCollection_Spec                         | v1api20231115/storage | MongodbDatabaseCollection_Spec                         | Extended |       |
-| v1api20231115   | MongodbDatabaseOperatorSpec                            | v1api20231115/storage | MongodbDatabaseOperatorSpec                            | Extended |       |
-| v1api20231115   | MongodbDatabaseThroughputSettingOperatorSpec           | v1api20231115/storage | MongodbDatabaseThroughputSettingOperatorSpec           | Extended |       |
-| v1api20231115   | MongodbDatabaseThroughputSetting_STATUS                | v1api20231115/storage | MongodbDatabaseThroughputSetting_STATUS                | Extended |       |
-| v1api20231115   | MongodbDatabaseThroughputSetting_Spec                  | v1api20231115/storage | MongodbDatabaseThroughputSetting_Spec                  | Extended |       |
-| v1api20231115   | MongodbDatabase_STATUS                                 | v1api20231115/storage | MongodbDatabase_STATUS                                 | Extended |       |
-| v1api20231115   | MongodbDatabase_Spec                                   | v1api20231115/storage | MongodbDatabase_Spec                                   | Extended |       |
-| v1api20231115   | OptionsResource_STATUS                                 | v1api20231115/storage | OptionsResource_STATUS                                 | Extended |       |
-| v1api20231115   | PeriodicModeBackupPolicy                               | v1api20231115/storage | PeriodicModeBackupPolicy                               | Modified |       |
-| v1api20231115   | PeriodicModeBackupPolicy_STATUS                        | v1api20231115/storage | PeriodicModeBackupPolicy_STATUS                        | Modified |       |
-| v1api20231115   | PeriodicModeProperties                                 | v1api20231115/storage | PeriodicModeProperties                                 | Modified |       |
-| v1api20231115   | PeriodicModeProperties_STATUS                          | v1api20231115/storage | PeriodicModeProperties_STATUS                          | Modified |       |
-| v1api20231115   | PrivateEndpointConnection_STATUS                       | v1api20231115/storage | PrivateEndpointConnection_STATUS                       | Extended |       |
-| v1api20231115   | RestoreParameters                                      | v1api20231115/storage | RestoreParameters                                      | Modified |       |
-| v1api20231115   | RestoreParametersBase                                  | v1api20231115/storage | RestoreParametersBase                                  | Extended |       |
-| v1api20231115   | RestoreParametersBase_STATUS                           | v1api20231115/storage | RestoreParametersBase_STATUS                           | Extended |       |
-| v1api20231115   | RestoreParameters_STATUS                               | v1api20231115/storage | RestoreParameters_STATUS                               | Modified |       |
-| v1api20231115   | SpatialSpec                                            | v1api20231115/storage | SpatialSpec                                            | Modified |       |
-| v1api20231115   | SpatialSpec_STATUS                                     | v1api20231115/storage | SpatialSpec_STATUS                                     | Modified |       |
-| v1api20231115   | SqlContainerGetProperties_Resource_STATUS              | v1api20231115/storage | SqlContainerGetProperties_Resource_STATUS              | Modified |       |
-| v1api20231115   | SqlContainerResource                                   | v1api20231115/storage | SqlContainerResource                                   | Modified |       |
-| v1api20231115   | SqlDatabaseContainerOperatorSpec                       | v1api20231115/storage | SqlDatabaseContainerOperatorSpec                       | Extended |       |
-| v1api20231115   | SqlDatabaseContainerStoredProcedureOperatorSpec        | v1api20231115/storage | SqlDatabaseContainerStoredProcedureOperatorSpec        | Extended |       |
-| v1api20231115   | SqlDatabaseContainerStoredProcedure_STATUS             | v1api20231115/storage | SqlDatabaseContainerStoredProcedure_STATUS             | Extended |       |
-| v1api20231115   | SqlDatabaseContainerStoredProcedure_Spec               | v1api20231115/storage | SqlDatabaseContainerStoredProcedure_Spec               | Extended |       |
-| v1api20231115   | SqlDatabaseContainerThroughputSettingOperatorSpec      | v1api20231115/storage | SqlDatabaseContainerThroughputSettingOperatorSpec      | Extended |       |
-| v1api20231115   | SqlDatabaseContainerThroughputSetting_STATUS           | v1api20231115/storage | SqlDatabaseContainerThroughputSetting_STATUS           | Extended |       |
-| v1api20231115   | SqlDatabaseContainerThroughputSetting_Spec             | v1api20231115/storage | SqlDatabaseContainerThroughputSetting_Spec             | Extended |       |
-| v1api20231115   | SqlDatabaseContainerTriggerOperatorSpec                | v1api20231115/storage | SqlDatabaseContainerTriggerOperatorSpec                | Extended |       |
-| v1api20231115   | SqlDatabaseContainerTrigger_STATUS                     | v1api20231115/storage | SqlDatabaseContainerTrigger_STATUS                     | Extended |       |
-| v1api20231115   | SqlDatabaseContainerTrigger_Spec                       | v1api20231115/storage | SqlDatabaseContainerTrigger_Spec                       | Extended |       |
-| v1api20231115   | SqlDatabaseContainerUserDefinedFunctionOperatorSpec    | v1api20231115/storage | SqlDatabaseContainerUserDefinedFunctionOperatorSpec    | Extended |       |
-| v1api20231115   | SqlDatabaseContainerUserDefinedFunction_STATUS         | v1api20231115/storage | SqlDatabaseContainerUserDefinedFunction_STATUS         | Extended |       |
-| v1api20231115   | SqlDatabaseContainerUserDefinedFunction_Spec           | v1api20231115/storage | SqlDatabaseContainerUserDefinedFunction_Spec           | Extended |       |
-| v1api20231115   | SqlDatabaseContainer_STATUS                            | v1api20231115/storage | SqlDatabaseContainer_STATUS                            | Extended |       |
-| v1api20231115   | SqlDatabaseContainer_Spec                              | v1api20231115/storage | SqlDatabaseContainer_Spec                              | Extended |       |
-| v1api20231115   | SqlDatabaseGetProperties_Resource_STATUS               | v1api20231115/storage | SqlDatabaseGetProperties_Resource_STATUS               | Modified |       |
-| v1api20231115   | SqlDatabaseOperatorSpec                                | v1api20231115/storage | SqlDatabaseOperatorSpec                                | Extended |       |
-| v1api20231115   | SqlDatabaseResource                                    | v1api20231115/storage | SqlDatabaseResource                                    | Modified |       |
-| v1api20231115   | SqlDatabaseThroughputSettingOperatorSpec               | v1api20231115/storage | SqlDatabaseThroughputSettingOperatorSpec               | Extended |       |
-| v1api20231115   | SqlDatabaseThroughputSetting_STATUS                    | v1api20231115/storage | SqlDatabaseThroughputSetting_STATUS                    | Extended |       |
-| v1api20231115   | SqlDatabaseThroughputSetting_Spec                      | v1api20231115/storage | SqlDatabaseThroughputSetting_Spec                      | Extended |       |
-| v1api20231115   | SqlDatabase_STATUS                                     | v1api20231115/storage | SqlDatabase_STATUS                                     | Extended |       |
-| v1api20231115   | SqlDatabase_Spec                                       | v1api20231115/storage | SqlDatabase_Spec                                       | Extended |       |
-| v1api20231115   | SqlRoleAssignmentOperatorSpec                          | v1api20231115/storage | SqlRoleAssignmentOperatorSpec                          | Extended |       |
-| v1api20231115   | SqlRoleAssignment_STATUS                               | v1api20231115/storage | SqlRoleAssignment_STATUS                               | Extended |       |
-| v1api20231115   | SqlRoleAssignment_Spec                                 | v1api20231115/storage | SqlRoleAssignment_Spec                                 | Extended |       |
-| v1api20231115   | SqlStoredProcedureGetProperties_Resource_STATUS        | v1api20231115/storage | SqlStoredProcedureGetProperties_Resource_STATUS        | Extended |       |
-| v1api20231115   | SqlStoredProcedureResource                             | v1api20231115/storage | SqlStoredProcedureResource                             | Extended |       |
-| v1api20231115   | SqlTriggerGetProperties_Resource_STATUS                | v1api20231115/storage | SqlTriggerGetProperties_Resource_STATUS                | Modified |       |
-| v1api20231115   | SqlTriggerResource                                     | v1api20231115/storage | SqlTriggerResource                                     | Modified |       |
-| v1api20231115   | SqlUserDefinedFunctionGetProperties_Resource_STATUS    | v1api20231115/storage | SqlUserDefinedFunctionGetProperties_Resource_STATUS    | Extended |       |
-| v1api20231115   | SqlUserDefinedFunctionResource                         | v1api20231115/storage | SqlUserDefinedFunctionResource                         | Extended |       |
-| v1api20231115   | SystemData_STATUS                                      | v1api20231115/storage | SystemData_STATUS                                      | Modified |       |
-| v1api20231115   | ThroughputPolicyResource                               | v1api20231115/storage | ThroughputPolicyResource                               | Extended |       |
-| v1api20231115   | ThroughputPolicyResource_STATUS                        | v1api20231115/storage | ThroughputPolicyResource_STATUS                        | Extended |       |
-| v1api20231115   | ThroughputSettingsGetProperties_Resource_STATUS        | v1api20231115/storage | ThroughputSettingsGetProperties_Resource_STATUS        | Extended |       |
-| v1api20231115   | ThroughputSettingsResource                             | v1api20231115/storage | ThroughputSettingsResource                             | Extended |       |
-| v1api20231115   | UniqueKey                                              | v1api20231115/storage | UniqueKey                                              | Extended |       |
-| v1api20231115   | UniqueKeyPolicy                                        | v1api20231115/storage | UniqueKeyPolicy                                        | Extended |       |
-| v1api20231115   | UniqueKeyPolicy_STATUS                                 | v1api20231115/storage | UniqueKeyPolicy_STATUS                                 | Extended |       |
-| v1api20231115   | UniqueKey_STATUS                                       | v1api20231115/storage | UniqueKey_STATUS                                       | Extended |       |
-| v1api20231115   | UserAssignedIdentityDetails                            | v1api20231115/storage | UserAssignedIdentityDetails                            | Extended |       |
-| v1api20231115   | VirtualNetworkRule                                     | v1api20231115/storage | VirtualNetworkRule                                     | Extended |       |
-| v1api20231115   | VirtualNetworkRule_STATUS                              | v1api20231115/storage | VirtualNetworkRule_STATUS                              | Extended |       |
+| v1api20231115                                          | v1api20231115/storage                                  | Status   | Notes |
+|:-------------------------------------------------------|:-------------------------------------------------------|:--------:|:------|
+| AccountKeyMetadata_STATUS                              | AccountKeyMetadata_STATUS                              | Extended |       |
+| AnalyticalStorageConfiguration                         | AnalyticalStorageConfiguration                         | Modified |       |
+| AnalyticalStorageConfiguration_STATUS                  | AnalyticalStorageConfiguration_STATUS                  | Modified |       |
+| ApiProperties                                          | ApiProperties                                          | Modified |       |
+| ApiProperties_STATUS                                   | ApiProperties_STATUS                                   | Modified |       |
+| AutoUpgradePolicyResource                              | AutoUpgradePolicyResource                              | Extended |       |
+| AutoUpgradePolicyResource_STATUS                       | AutoUpgradePolicyResource_STATUS                       | Extended |       |
+| AutoscaleSettings                                      | AutoscaleSettings                                      | Extended |       |
+| AutoscaleSettingsResource                              | AutoscaleSettingsResource                              | Extended |       |
+| AutoscaleSettingsResource_STATUS                       | AutoscaleSettingsResource_STATUS                       | Extended |       |
+| AutoscaleSettings_STATUS                               | AutoscaleSettings_STATUS                               | Extended |       |
+| BackupPolicy                                           | BackupPolicy                                           | Extended |       |
+| BackupPolicyMigrationState                             | BackupPolicyMigrationState                             | Modified |       |
+| BackupPolicyMigrationState_STATUS                      | BackupPolicyMigrationState_STATUS                      | Modified |       |
+| BackupPolicy_STATUS                                    | BackupPolicy_STATUS                                    | Extended |       |
+| Capability                                             | Capability                                             | Extended |       |
+| Capability_STATUS                                      | Capability_STATUS                                      | Extended |       |
+| Capacity                                               | Capacity                                               | Modified |       |
+| Capacity_STATUS                                        | Capacity_STATUS                                        | Extended |       |
+| ClientEncryptionIncludedPath                           | ClientEncryptionIncludedPath                           | Extended |       |
+| ClientEncryptionIncludedPath_STATUS                    | ClientEncryptionIncludedPath_STATUS                    | Extended |       |
+| ClientEncryptionPolicy                                 | ClientEncryptionPolicy                                 | Modified |       |
+| ClientEncryptionPolicy_STATUS                          | ClientEncryptionPolicy_STATUS                          | Extended |       |
+| CompositePath                                          | CompositePath                                          | Modified |       |
+| CompositePath_STATUS                                   | CompositePath_STATUS                                   | Modified |       |
+| ComputedProperty                                       | ComputedProperty                                       | Extended |       |
+| ComputedProperty_STATUS                                | ComputedProperty_STATUS                                | Extended |       |
+| ConflictResolutionPolicy                               | ConflictResolutionPolicy                               | Modified |       |
+| ConflictResolutionPolicy_STATUS                        | ConflictResolutionPolicy_STATUS                        | Modified |       |
+| ConsistencyPolicy                                      | ConsistencyPolicy                                      | Modified |       |
+| ConsistencyPolicy_STATUS                               | ConsistencyPolicy_STATUS                               | Modified |       |
+| ContainerPartitionKey                                  | ContainerPartitionKey                                  | Modified |       |
+| ContainerPartitionKey_STATUS                           | ContainerPartitionKey_STATUS                           | Modified |       |
+| ContinuousModeBackupPolicy                             | ContinuousModeBackupPolicy                             | Modified |       |
+| ContinuousModeBackupPolicy_STATUS                      | ContinuousModeBackupPolicy_STATUS                      | Modified |       |
+| ContinuousModeProperties                               | ContinuousModeProperties                               | Modified |       |
+| ContinuousModeProperties_STATUS                        | ContinuousModeProperties_STATUS                        | Modified |       |
+| CorsPolicy                                             | CorsPolicy                                             | Modified |       |
+| CorsPolicy_STATUS                                      | CorsPolicy_STATUS                                      | Extended |       |
+| CreateUpdateOptions                                    | CreateUpdateOptions                                    | Extended |       |
+| DatabaseAccountKeysMetadata_STATUS                     | DatabaseAccountKeysMetadata_STATUS                     | Extended |       |
+| DatabaseAccountOperatorSecrets                         | DatabaseAccountOperatorSecrets                         | Extended |       |
+| DatabaseAccountOperatorSpec                            | DatabaseAccountOperatorSpec                            | Extended |       |
+| DatabaseAccount_STATUS                                 | DatabaseAccount_STATUS                                 | Modified |       |
+| DatabaseAccount_Spec                                   | DatabaseAccount_Spec                                   | Modified |       |
+| DatabaseRestoreResource                                | DatabaseRestoreResource                                | Extended |       |
+| DatabaseRestoreResource_STATUS                         | DatabaseRestoreResource_STATUS                         | Extended |       |
+| ExcludedPath                                           | ExcludedPath                                           | Extended |       |
+| ExcludedPath_STATUS                                    | ExcludedPath_STATUS                                    | Extended |       |
+| FailoverPolicy_STATUS                                  | FailoverPolicy_STATUS                                  | Extended |       |
+| GremlinDatabaseRestoreResource                         | GremlinDatabaseRestoreResource                         | Extended |       |
+| GremlinDatabaseRestoreResource_STATUS                  | GremlinDatabaseRestoreResource_STATUS                  | Extended |       |
+| IncludedPath                                           | IncludedPath                                           | Extended |       |
+| IncludedPath_STATUS                                    | IncludedPath_STATUS                                    | Extended |       |
+| Indexes                                                | Indexes                                                | Modified |       |
+| Indexes_STATUS                                         | Indexes_STATUS                                         | Modified |       |
+| IndexingPolicy                                         | IndexingPolicy                                         | Modified |       |
+| IndexingPolicy_STATUS                                  | IndexingPolicy_STATUS                                  | Modified |       |
+| IpAddressOrRange                                       | IpAddressOrRange                                       | Extended |       |
+| IpAddressOrRange_STATUS                                | IpAddressOrRange_STATUS                                | Extended |       |
+| Location                                               | Location                                               | Modified |       |
+| Location_STATUS                                        | Location_STATUS                                        | Extended |       |
+| ManagedServiceIdentity                                 | ManagedServiceIdentity                                 | Modified |       |
+| ManagedServiceIdentity_STATUS                          | ManagedServiceIdentity_STATUS                          | Modified |       |
+| ManagedServiceIdentity_UserAssignedIdentities_STATUS   | ManagedServiceIdentity_UserAssignedIdentities_STATUS   | Extended |       |
+| MongoDBCollectionGetProperties_Resource_STATUS         | MongoDBCollectionGetProperties_Resource_STATUS         | Modified |       |
+| MongoDBCollectionResource                              | MongoDBCollectionResource                              | Modified |       |
+| MongoDBDatabaseGetProperties_Resource_STATUS           | MongoDBDatabaseGetProperties_Resource_STATUS           | Modified |       |
+| MongoDBDatabaseResource                                | MongoDBDatabaseResource                                | Modified |       |
+| MongoIndex                                             | MongoIndex                                             | Extended |       |
+| MongoIndexKeys                                         | MongoIndexKeys                                         | Extended |       |
+| MongoIndexKeys_STATUS                                  | MongoIndexKeys_STATUS                                  | Extended |       |
+| MongoIndexOptions                                      | MongoIndexOptions                                      | Extended |       |
+| MongoIndexOptions_STATUS                               | MongoIndexOptions_STATUS                               | Extended |       |
+| MongoIndex_STATUS                                      | MongoIndex_STATUS                                      | Extended |       |
+| MongodbDatabaseCollectionOperatorSpec                  | MongodbDatabaseCollectionOperatorSpec                  | Extended |       |
+| MongodbDatabaseCollectionThroughputSettingOperatorSpec | MongodbDatabaseCollectionThroughputSettingOperatorSpec | Extended |       |
+| MongodbDatabaseCollectionThroughputSetting_STATUS      | MongodbDatabaseCollectionThroughputSetting_STATUS      | Extended |       |
+| MongodbDatabaseCollectionThroughputSetting_Spec        | MongodbDatabaseCollectionThroughputSetting_Spec        | Extended |       |
+| MongodbDatabaseCollection_STATUS                       | MongodbDatabaseCollection_STATUS                       | Extended |       |
+| MongodbDatabaseCollection_Spec                         | MongodbDatabaseCollection_Spec                         | Extended |       |
+| MongodbDatabaseOperatorSpec                            | MongodbDatabaseOperatorSpec                            | Extended |       |
+| MongodbDatabaseThroughputSettingOperatorSpec           | MongodbDatabaseThroughputSettingOperatorSpec           | Extended |       |
+| MongodbDatabaseThroughputSetting_STATUS                | MongodbDatabaseThroughputSetting_STATUS                | Extended |       |
+| MongodbDatabaseThroughputSetting_Spec                  | MongodbDatabaseThroughputSetting_Spec                  | Extended |       |
+| MongodbDatabase_STATUS                                 | MongodbDatabase_STATUS                                 | Extended |       |
+| MongodbDatabase_Spec                                   | MongodbDatabase_Spec                                   | Extended |       |
+| OptionsResource_STATUS                                 | OptionsResource_STATUS                                 | Extended |       |
+| PeriodicModeBackupPolicy                               | PeriodicModeBackupPolicy                               | Modified |       |
+| PeriodicModeBackupPolicy_STATUS                        | PeriodicModeBackupPolicy_STATUS                        | Modified |       |
+| PeriodicModeProperties                                 | PeriodicModeProperties                                 | Modified |       |
+| PeriodicModeProperties_STATUS                          | PeriodicModeProperties_STATUS                          | Modified |       |
+| PrivateEndpointConnection_STATUS                       | PrivateEndpointConnection_STATUS                       | Extended |       |
+| RestoreParameters                                      | RestoreParameters                                      | Modified |       |
+| RestoreParametersBase                                  | RestoreParametersBase                                  | Extended |       |
+| RestoreParametersBase_STATUS                           | RestoreParametersBase_STATUS                           | Extended |       |
+| RestoreParameters_STATUS                               | RestoreParameters_STATUS                               | Modified |       |
+| SpatialSpec                                            | SpatialSpec                                            | Modified |       |
+| SpatialSpec_STATUS                                     | SpatialSpec_STATUS                                     | Modified |       |
+| SqlContainerGetProperties_Resource_STATUS              | SqlContainerGetProperties_Resource_STATUS              | Modified |       |
+| SqlContainerResource                                   | SqlContainerResource                                   | Modified |       |
+| SqlDatabaseContainerOperatorSpec                       | SqlDatabaseContainerOperatorSpec                       | Extended |       |
+| SqlDatabaseContainerStoredProcedureOperatorSpec        | SqlDatabaseContainerStoredProcedureOperatorSpec        | Extended |       |
+| SqlDatabaseContainerStoredProcedure_STATUS             | SqlDatabaseContainerStoredProcedure_STATUS             | Extended |       |
+| SqlDatabaseContainerStoredProcedure_Spec               | SqlDatabaseContainerStoredProcedure_Spec               | Extended |       |
+| SqlDatabaseContainerThroughputSettingOperatorSpec      | SqlDatabaseContainerThroughputSettingOperatorSpec      | Extended |       |
+| SqlDatabaseContainerThroughputSetting_STATUS           | SqlDatabaseContainerThroughputSetting_STATUS           | Extended |       |
+| SqlDatabaseContainerThroughputSetting_Spec             | SqlDatabaseContainerThroughputSetting_Spec             | Extended |       |
+| SqlDatabaseContainerTriggerOperatorSpec                | SqlDatabaseContainerTriggerOperatorSpec                | Extended |       |
+| SqlDatabaseContainerTrigger_STATUS                     | SqlDatabaseContainerTrigger_STATUS                     | Extended |       |
+| SqlDatabaseContainerTrigger_Spec                       | SqlDatabaseContainerTrigger_Spec                       | Extended |       |
+| SqlDatabaseContainerUserDefinedFunctionOperatorSpec    | SqlDatabaseContainerUserDefinedFunctionOperatorSpec    | Extended |       |
+| SqlDatabaseContainerUserDefinedFunction_STATUS         | SqlDatabaseContainerUserDefinedFunction_STATUS         | Extended |       |
+| SqlDatabaseContainerUserDefinedFunction_Spec           | SqlDatabaseContainerUserDefinedFunction_Spec           | Extended |       |
+| SqlDatabaseContainer_STATUS                            | SqlDatabaseContainer_STATUS                            | Extended |       |
+| SqlDatabaseContainer_Spec                              | SqlDatabaseContainer_Spec                              | Extended |       |
+| SqlDatabaseGetProperties_Resource_STATUS               | SqlDatabaseGetProperties_Resource_STATUS               | Modified |       |
+| SqlDatabaseOperatorSpec                                | SqlDatabaseOperatorSpec                                | Extended |       |
+| SqlDatabaseResource                                    | SqlDatabaseResource                                    | Modified |       |
+| SqlDatabaseThroughputSettingOperatorSpec               | SqlDatabaseThroughputSettingOperatorSpec               | Extended |       |
+| SqlDatabaseThroughputSetting_STATUS                    | SqlDatabaseThroughputSetting_STATUS                    | Extended |       |
+| SqlDatabaseThroughputSetting_Spec                      | SqlDatabaseThroughputSetting_Spec                      | Extended |       |
+| SqlDatabase_STATUS                                     | SqlDatabase_STATUS                                     | Extended |       |
+| SqlDatabase_Spec                                       | SqlDatabase_Spec                                       | Extended |       |
+| SqlRoleAssignmentOperatorSpec                          | SqlRoleAssignmentOperatorSpec                          | Extended |       |
+| SqlRoleAssignment_STATUS                               | SqlRoleAssignment_STATUS                               | Extended |       |
+| SqlRoleAssignment_Spec                                 | SqlRoleAssignment_Spec                                 | Extended |       |
+| SqlStoredProcedureGetProperties_Resource_STATUS        | SqlStoredProcedureGetProperties_Resource_STATUS        | Extended |       |
+| SqlStoredProcedureResource                             | SqlStoredProcedureResource                             | Extended |       |
+| SqlTriggerGetProperties_Resource_STATUS                | SqlTriggerGetProperties_Resource_STATUS                | Modified |       |
+| SqlTriggerResource                                     | SqlTriggerResource                                     | Modified |       |
+| SqlUserDefinedFunctionGetProperties_Resource_STATUS    | SqlUserDefinedFunctionGetProperties_Resource_STATUS    | Extended |       |
+| SqlUserDefinedFunctionResource                         | SqlUserDefinedFunctionResource                         | Extended |       |
+| SystemData_STATUS                                      | SystemData_STATUS                                      | Modified |       |
+| ThroughputPolicyResource                               | ThroughputPolicyResource                               | Extended |       |
+| ThroughputPolicyResource_STATUS                        | ThroughputPolicyResource_STATUS                        | Extended |       |
+| ThroughputSettingsGetProperties_Resource_STATUS        | ThroughputSettingsGetProperties_Resource_STATUS        | Extended |       |
+| ThroughputSettingsResource                             | ThroughputSettingsResource                             | Extended |       |
+| UniqueKey                                              | UniqueKey                                              | Extended |       |
+| UniqueKeyPolicy                                        | UniqueKeyPolicy                                        | Extended |       |
+| UniqueKeyPolicy_STATUS                                 | UniqueKeyPolicy_STATUS                                 | Extended |       |
+| UniqueKey_STATUS                                       | UniqueKey_STATUS                                       | Extended |       |
+| UserAssignedIdentityDetails                            | UserAssignedIdentityDetails                            | Extended |       |
+| VirtualNetworkRule                                     | VirtualNetworkRule                                     | Extended |       |
+| VirtualNetworkRule_STATUS                              | VirtualNetworkRule_STATUS                              | Extended |       |
 
 ### AccountKeyMetadata_STATUS
 

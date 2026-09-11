@@ -11,24 +11,24 @@ Statuses:
 
 ## Resources
 
-| Current Version      | Current Type      | Next Version                 | Next Type         | Status    | Notes |
-|:---------------------|:------------------|:-----------------------------|:------------------|:---------:|:------|
-| v1api20210501preview | DiagnosticSetting | v1api20210501preview/storage | DiagnosticSetting | Identical |       |
+| v1api20210501preview | v1api20210501preview/storage | Status    | Notes |
+|:---------------------|:-----------------------------|:---------:|:------|
+| DiagnosticSetting    | DiagnosticSetting            | Identical |       |
 
 ## Objects
 
-| Current Version      | Current Type                          | Next Version                 | Next Type                             | Status   | Notes |
-|:---------------------|:--------------------------------------|:-----------------------------|:--------------------------------------|:--------:|:------|
-| v1api20210501preview | DiagnosticSettingOperatorSpec         | v1api20210501preview/storage | DiagnosticSettingOperatorSpec         | Extended |       |
-| v1api20210501preview | DiagnosticSetting_STATUS              | v1api20210501preview/storage | DiagnosticSetting_STATUS              | Extended |       |
-| v1api20210501preview | DiagnosticSetting_Spec                | v1api20210501preview/storage | DiagnosticSetting_Spec                | Extended |       |
-| v1api20210501preview | DiagnosticsLogSettings                | v1api20210501preview/storage | DiagnosticsLogSettings                | Extended |       |
-| v1api20210501preview | DiagnosticsLogSettings_STATUS         | v1api20210501preview/storage | DiagnosticsLogSettings_STATUS         | Extended |       |
-| v1api20210501preview | DiagnosticsMetricSettings             | v1api20210501preview/storage | DiagnosticsMetricSettings             | Extended |       |
-| v1api20210501preview | DiagnosticsMetricSettings_STATUS      | v1api20210501preview/storage | DiagnosticsMetricSettings_STATUS      | Extended |       |
-| v1api20210501preview | MicrosoftCommonRetentionPolicy        | v1api20210501preview/storage | MicrosoftCommonRetentionPolicy        | Modified |       |
-| v1api20210501preview | MicrosoftCommonRetentionPolicy_STATUS | v1api20210501preview/storage | MicrosoftCommonRetentionPolicy_STATUS | Extended |       |
-| v1api20210501preview | SystemData_STATUS                     | v1api20210501preview/storage | SystemData_STATUS                     | Modified |       |
+| v1api20210501preview                  | v1api20210501preview/storage          | Status   | Notes |
+|:--------------------------------------|:--------------------------------------|:--------:|:------|
+| DiagnosticSettingOperatorSpec         | DiagnosticSettingOperatorSpec         | Extended |       |
+| DiagnosticSetting_STATUS              | DiagnosticSetting_STATUS              | Extended |       |
+| DiagnosticSetting_Spec                | DiagnosticSetting_Spec                | Extended |       |
+| DiagnosticsLogSettings                | DiagnosticsLogSettings                | Extended |       |
+| DiagnosticsLogSettings_STATUS         | DiagnosticsLogSettings_STATUS         | Extended |       |
+| DiagnosticsMetricSettings             | DiagnosticsMetricSettings             | Extended |       |
+| DiagnosticsMetricSettings_STATUS      | DiagnosticsMetricSettings_STATUS      | Extended |       |
+| MicrosoftCommonRetentionPolicy        | MicrosoftCommonRetentionPolicy        | Modified |       |
+| MicrosoftCommonRetentionPolicy_STATUS | MicrosoftCommonRetentionPolicy_STATUS | Extended |       |
+| SystemData_STATUS                     | SystemData_STATUS                     | Modified |       |
 
 ### DiagnosticSettingOperatorSpec
 

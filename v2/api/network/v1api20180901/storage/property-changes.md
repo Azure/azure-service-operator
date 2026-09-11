@@ -11,18 +11,18 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type   | Next Version          | Next Type      | Status    | Notes |
-|:----------------------|:---------------|:----------------------|:---------------|:---------:|:------|
-| v1api20180901/storage | PrivateDnsZone | v1api20240601/storage | PrivateDnsZone | Identical |       |
+| v1api20180901/storage | v1api20240601/storage | Status    | Notes |
+|:----------------------|:----------------------|:---------:|:------|
+| PrivateDnsZone        | PrivateDnsZone        | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type               | Next Version          | Next Type                  | Status    | Notes |
-|:----------------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
-| v1api20180901/storage | PrivateDnsZoneOperatorSpec | v1api20240601/storage | PrivateDnsZoneOperatorSpec | Identical |       |
-| v1api20180901/storage | PrivateDnsZone_STATUS      | v1api20240601/storage | PrivateDnsZone_STATUS      | Extended  |       |
-| v1api20180901/storage | PrivateDnsZone_Spec        | v1api20240601/storage | PrivateDnsZone_Spec        | Identical |       |
-|                       |                            | v1api20240601/storage | SystemData_STATUS          | New       |       |
+| v1api20180901/storage      | v1api20240601/storage      | Status    | Notes |
+|:---------------------------|:---------------------------|:---------:|:------|
+| PrivateDnsZoneOperatorSpec | PrivateDnsZoneOperatorSpec | Identical |       |
+| PrivateDnsZone_STATUS      | PrivateDnsZone_STATUS      | Extended  |       |
+| PrivateDnsZone_Spec        | PrivateDnsZone_Spec        | Identical |       |
+|                            | SystemData_STATUS          | New       |       |
 
 ### PrivateDnsZone_STATUS
 

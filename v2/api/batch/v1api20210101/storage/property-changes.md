@@ -11,32 +11,31 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type | Next Version      | Next Type    | Status    | Notes |
-|:----------------------|:-------------|:------------------|:-------------|:---------:|:------|
-| v1api20210101/storage | BatchAccount | v20210101/storage | BatchAccount | Identical |       |
+| v1api20210101/storage | v20210101/storage | Status    | Notes |
+|:----------------------|:------------------|:---------:|:------|
+| BatchAccount          | BatchAccount      | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                                       | Next Version      | Next Type                                          | Status    | Notes                                                             |
-|:----------------------|:---------------------------------------------------|:------------------|:---------------------------------------------------|:---------:|:------------------------------------------------------------------|
-| v1api20210101/storage | AutoStorageBaseProperties                          | v20210101/storage | AutoStorageBaseProperties                          | Identical |                                                                   |
-| v1api20210101/storage | AutoStorageProperties_STATUS                       | v20210101/storage | AutoStorageProperties_STATUS                       | Identical |                                                                   |
-| v1api20210101/storage | BatchAccountIdentity                               | v20210101/storage | BatchAccountIdentity                               | Identical |                                                                   |
-| v1api20210101/storage | BatchAccountIdentity_STATUS                        | v20210101/storage | BatchAccountIdentity_STATUS                        | Modified  |                                                                   |
-| v1api20210101/storage | BatchAccountIdentity_UserAssignedIdentities_STATUS | v20210101/storage |                                                    | Retired   | Configured rename to UserAssignedIdentities_STATUS was not found. |
-|                       |                                                    | v20210101/storage | BatchAccountIdentity_UserAssignedIdentities_STATUS | New       | Configured rename to UserAssignedIdentities_STATUS was not found. |
-| v1api20210101/storage | BatchAccountOperatorSpec                           | v20210101/storage | BatchAccountOperatorSpec                           | Identical |                                                                   |
-| v1api20210101/storage | BatchAccount_STATUS                                | v20210101/storage | BatchAccount_STATUS                                | Identical |                                                                   |
-| v1api20210101/storage | BatchAccount_Spec                                  | v20210101/storage | BatchAccount_Spec                                  | Identical |                                                                   |
-| v1api20210101/storage | EncryptionProperties                               | v20210101/storage | EncryptionProperties                               | Identical |                                                                   |
-| v1api20210101/storage | EncryptionProperties_STATUS                        | v20210101/storage | EncryptionProperties_STATUS                        | Identical |                                                                   |
-| v1api20210101/storage | KeyVaultProperties                                 | v20210101/storage | KeyVaultProperties                                 | Identical |                                                                   |
-| v1api20210101/storage | KeyVaultProperties_STATUS                          | v20210101/storage | KeyVaultProperties_STATUS                          | Identical |                                                                   |
-| v1api20210101/storage | KeyVaultReference                                  | v20210101/storage | KeyVaultReference                                  | Identical |                                                                   |
-| v1api20210101/storage | KeyVaultReference_STATUS                           | v20210101/storage | KeyVaultReference_STATUS                           | Identical |                                                                   |
-| v1api20210101/storage | PrivateEndpointConnection_STATUS                   | v20210101/storage | PrivateEndpointConnection_STATUS                   | Identical |                                                                   |
-| v1api20210101/storage | UserAssignedIdentityDetails                        | v20210101/storage | UserAssignedIdentityDetails                        | Identical |                                                                   |
-| v1api20210101/storage | VirtualMachineFamilyCoreQuota_STATUS               | v20210101/storage | VirtualMachineFamilyCoreQuota_STATUS               | Identical |                                                                   |
+| v1api20210101/storage                              | v20210101/storage                                  | Status    | Notes |
+|:---------------------------------------------------|:---------------------------------------------------|:---------:|:------|
+| AutoStorageBaseProperties                          | AutoStorageBaseProperties                          | Identical |       |
+| AutoStorageProperties_STATUS                       | AutoStorageProperties_STATUS                       | Identical |       |
+| BatchAccountIdentity                               | BatchAccountIdentity                               | Identical |       |
+| BatchAccountIdentity_STATUS                        | BatchAccountIdentity_STATUS                        | Modified  |       |
+| BatchAccountIdentity_UserAssignedIdentities_STATUS | BatchAccountIdentity_UserAssignedIdentities_STATUS | Identical |       |
+| BatchAccountOperatorSpec                           | BatchAccountOperatorSpec                           | Identical |       |
+| BatchAccount_STATUS                                | BatchAccount_STATUS                                | Identical |       |
+| BatchAccount_Spec                                  | BatchAccount_Spec                                  | Identical |       |
+| EncryptionProperties                               | EncryptionProperties                               | Identical |       |
+| EncryptionProperties_STATUS                        | EncryptionProperties_STATUS                        | Identical |       |
+| KeyVaultProperties                                 | KeyVaultProperties                                 | Identical |       |
+| KeyVaultProperties_STATUS                          | KeyVaultProperties_STATUS                          | Identical |       |
+| KeyVaultReference                                  | KeyVaultReference                                  | Identical |       |
+| KeyVaultReference_STATUS                           | KeyVaultReference_STATUS                           | Identical |       |
+| PrivateEndpointConnection_STATUS                   | PrivateEndpointConnection_STATUS                   | Identical |       |
+| UserAssignedIdentityDetails                        | UserAssignedIdentityDetails                        | Identical |       |
+| VirtualMachineFamilyCoreQuota_STATUS               | VirtualMachineFamilyCoreQuota_STATUS               | Identical |       |
 
 ### BatchAccountIdentity_STATUS
 

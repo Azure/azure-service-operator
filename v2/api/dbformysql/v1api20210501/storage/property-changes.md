@@ -11,49 +11,45 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type                | Next Version      | Next Type                   | Status    | Notes |
-|:----------------------|:----------------------------|:------------------|:----------------------------|:---------:|:------|
-| v1api20210501/storage | FlexibleServer              | v20210501/storage | FlexibleServer              | Identical |       |
-| v1api20210501/storage | FlexibleServersDatabase     | v20210501/storage | FlexibleServersDatabase     | Identical |       |
-| v1api20210501/storage | FlexibleServersFirewallRule | v20210501/storage | FlexibleServersFirewallRule | Identical |       |
+| v1api20210501/storage       | v20210501/storage           | Status    | Notes |
+|:----------------------------|:----------------------------|:---------:|:------|
+| FlexibleServer              | FlexibleServer              | Identical |       |
+| FlexibleServersDatabase     | FlexibleServersDatabase     | Identical |       |
+| FlexibleServersFirewallRule | FlexibleServersFirewallRule | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                            | Next Version      | Next Type                               | Status    | Notes                                                          |
-|:----------------------|:----------------------------------------|:------------------|:----------------------------------------|:---------:|:---------------------------------------------------------------|
-| v1api20210501/storage | Backup                                  | v20210501/storage | Backup                                  | Identical |                                                                |
-| v1api20210501/storage | Backup_STATUS                           | v20210501/storage | Backup_STATUS                           | Identical |                                                                |
-| v1api20210501/storage | DataEncryption                          | v20210501/storage | DataEncryption                          | Identical |                                                                |
-| v1api20210501/storage | DataEncryption_STATUS                   | v20210501/storage | DataEncryption_STATUS                   | Identical |                                                                |
-| v1api20210501/storage | FlexibleServerOperatorConfigMaps        | v20210501/storage | FlexibleServerOperatorConfigMaps        | Identical |                                                                |
-| v1api20210501/storage | FlexibleServerOperatorSecrets           | v20210501/storage | FlexibleServerOperatorSecrets           | Identical |                                                                |
-| v1api20210501/storage | FlexibleServerOperatorSpec              | v20210501/storage | FlexibleServerOperatorSpec              | Identical |                                                                |
-| v1api20210501/storage | FlexibleServer_STATUS                   | v20210501/storage | FlexibleServer_STATUS                   | Modified  |                                                                |
-| v1api20210501/storage | FlexibleServer_Spec                     | v20210501/storage | FlexibleServer_Spec                     | Modified  |                                                                |
-| v1api20210501/storage | FlexibleServersDatabaseOperatorSpec     | v20210501/storage | FlexibleServersDatabaseOperatorSpec     | Identical |                                                                |
-| v1api20210501/storage | FlexibleServersDatabase_STATUS          | v20210501/storage | FlexibleServersDatabase_STATUS          | Identical |                                                                |
-| v1api20210501/storage | FlexibleServersDatabase_Spec            | v20210501/storage | FlexibleServersDatabase_Spec            | Identical |                                                                |
-| v1api20210501/storage | FlexibleServersFirewallRuleOperatorSpec | v20210501/storage | FlexibleServersFirewallRuleOperatorSpec | Identical |                                                                |
-| v1api20210501/storage | FlexibleServersFirewallRule_STATUS      | v20210501/storage | FlexibleServersFirewallRule_STATUS      | Identical |                                                                |
-| v1api20210501/storage | FlexibleServersFirewallRule_Spec        | v20210501/storage | FlexibleServersFirewallRule_Spec        | Identical |                                                                |
-| v1api20210501/storage | HighAvailability                        | v20210501/storage | HighAvailability                        | Identical |                                                                |
-| v1api20210501/storage | HighAvailability_STATUS                 | v20210501/storage | HighAvailability_STATUS                 | Identical |                                                                |
-|                       |                                         | v20210501/storage | Identity                                | New       | Configured rename to MySQLServerIdentity was not found.        |
-| v1api20210501/storage | Identity                                | v20210501/storage |                                         | Retired   | Configured rename to MySQLServerIdentity was not found.        |
-|                       |                                         | v20210501/storage | Identity_STATUS                         | New       | Configured rename to MySQLServerIdentity_STATUS was not found. |
-| v1api20210501/storage | Identity_STATUS                         | v20210501/storage |                                         | Retired   | Configured rename to MySQLServerIdentity_STATUS was not found. |
-| v1api20210501/storage | MaintenanceWindow                       | v20210501/storage | MaintenanceWindow                       | Identical |                                                                |
-| v1api20210501/storage | MaintenanceWindow_STATUS                | v20210501/storage | MaintenanceWindow_STATUS                | Identical |                                                                |
-| v1api20210501/storage | Network                                 | v20210501/storage | Network                                 | Identical |                                                                |
-| v1api20210501/storage | Network_STATUS                          | v20210501/storage | Network_STATUS                          | Identical |                                                                |
-|                       |                                         | v20210501/storage | Sku                                     | New       | Configured rename to MySQLServerSku was not found.             |
-| v1api20210501/storage | Sku                                     | v20210501/storage |                                         | Retired   | Configured rename to MySQLServerSku was not found.             |
-|                       |                                         | v20210501/storage | Sku_STATUS                              | New       | Configured rename to MySQLServerSku_STATUS was not found.      |
-| v1api20210501/storage | Sku_STATUS                              | v20210501/storage |                                         | Retired   | Configured rename to MySQLServerSku_STATUS was not found.      |
-| v1api20210501/storage | Storage                                 | v20210501/storage | Storage                                 | Identical |                                                                |
-| v1api20210501/storage | Storage_STATUS                          | v20210501/storage | Storage_STATUS                          | Identical |                                                                |
-| v1api20210501/storage | SystemData_STATUS                       | v20210501/storage | SystemData_STATUS                       | Identical |                                                                |
-| v1api20210501/storage | UserAssignedIdentityDetails             | v20210501/storage | UserAssignedIdentityDetails             | Identical |                                                                |
+| v1api20210501/storage                   | v20210501/storage                       | Status    | Notes |
+|:----------------------------------------|:----------------------------------------|:---------:|:------|
+| Backup                                  | Backup                                  | Identical |       |
+| Backup_STATUS                           | Backup_STATUS                           | Identical |       |
+| DataEncryption                          | DataEncryption                          | Identical |       |
+| DataEncryption_STATUS                   | DataEncryption_STATUS                   | Identical |       |
+| FlexibleServerOperatorConfigMaps        | FlexibleServerOperatorConfigMaps        | Identical |       |
+| FlexibleServerOperatorSecrets           | FlexibleServerOperatorSecrets           | Identical |       |
+| FlexibleServerOperatorSpec              | FlexibleServerOperatorSpec              | Identical |       |
+| FlexibleServer_STATUS                   | FlexibleServer_STATUS                   | Modified  |       |
+| FlexibleServer_Spec                     | FlexibleServer_Spec                     | Modified  |       |
+| FlexibleServersDatabaseOperatorSpec     | FlexibleServersDatabaseOperatorSpec     | Identical |       |
+| FlexibleServersDatabase_STATUS          | FlexibleServersDatabase_STATUS          | Identical |       |
+| FlexibleServersDatabase_Spec            | FlexibleServersDatabase_Spec            | Identical |       |
+| FlexibleServersFirewallRuleOperatorSpec | FlexibleServersFirewallRuleOperatorSpec | Identical |       |
+| FlexibleServersFirewallRule_STATUS      | FlexibleServersFirewallRule_STATUS      | Identical |       |
+| FlexibleServersFirewallRule_Spec        | FlexibleServersFirewallRule_Spec        | Identical |       |
+| HighAvailability                        | HighAvailability                        | Identical |       |
+| HighAvailability_STATUS                 | HighAvailability_STATUS                 | Identical |       |
+| Identity                                | Identity                                | Identical |       |
+| Identity_STATUS                         | Identity_STATUS                         | Identical |       |
+| MaintenanceWindow                       | MaintenanceWindow                       | Identical |       |
+| MaintenanceWindow_STATUS                | MaintenanceWindow_STATUS                | Identical |       |
+| Network                                 | Network                                 | Identical |       |
+| Network_STATUS                          | Network_STATUS                          | Identical |       |
+| Sku                                     | Sku                                     | Identical |       |
+| Sku_STATUS                              | Sku_STATUS                              | Identical |       |
+| Storage                                 | Storage                                 | Identical |       |
+| Storage_STATUS                          | Storage_STATUS                          | Identical |       |
+| SystemData_STATUS                       | SystemData_STATUS                       | Identical |       |
+| UserAssignedIdentityDetails             | UserAssignedIdentityDetails             | Identical |       |
 
 ### FlexibleServer_STATUS
 

@@ -11,18 +11,18 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type      | Next Version      | Next Type         | Status    | Notes |
-|:----------------|:------------------|:------------------|:------------------|:---------:|:------|
-| v20251101       | RegistryCacheRule | v20251101/storage | RegistryCacheRule | Identical |       |
+| v20251101         | v20251101/storage | Status    | Notes |
+|:------------------|:------------------|:---------:|:------|
+| RegistryCacheRule | RegistryCacheRule | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                  | Next Version      | Next Type                     | Status   | Notes |
-|:----------------|:------------------------------|:------------------|:------------------------------|:--------:|:------|
-| v20251101       | RegistryCacheRuleOperatorSpec | v20251101/storage | RegistryCacheRuleOperatorSpec | Extended |       |
-| v20251101       | RegistryCacheRule_STATUS      | v20251101/storage | RegistryCacheRule_STATUS      | Modified |       |
-| v20251101       | RegistryCacheRule_Spec        | v20251101/storage | RegistryCacheRule_Spec        | Modified |       |
-| v20251101       | SystemData_STATUS             | v20251101/storage | SystemData_STATUS             | Modified |       |
+| v20251101                     | v20251101/storage             | Status   | Notes |
+|:------------------------------|:------------------------------|:--------:|:------|
+| RegistryCacheRuleOperatorSpec | RegistryCacheRuleOperatorSpec | Extended |       |
+| RegistryCacheRule_STATUS      | RegistryCacheRule_STATUS      | Modified |       |
+| RegistryCacheRule_Spec        | RegistryCacheRule_Spec        | Modified |       |
+| SystemData_STATUS             | SystemData_STATUS             | Modified |       |
 
 ### RegistryCacheRuleOperatorSpec
 

@@ -11,34 +11,34 @@ Statuses:
 
 ## Resources
 
-| Current Version   | Current Type       | Next Version      | Next Type          | Status    | Notes |
-|:------------------|:-------------------|:------------------|:-------------------|:---------:|:------|
-| v20220501/storage | ConfigurationStore | v20240601/storage | ConfigurationStore | Identical |       |
+| v20220501/storage  | v20240601/storage  | Status    | Notes |
+|:-------------------|:-------------------|:---------:|:------|
+| ConfigurationStore | ConfigurationStore | Identical |       |
 
 ## Objects
 
-| Current Version   | Current Type                              | Next Version      | Next Type                                 | Status    | Notes |
-|:------------------|:------------------------------------------|:------------------|:------------------------------------------|:---------:|:------|
-| v20220501/storage | ConfigurationStoreOperatorSecrets         | v20240601/storage | ConfigurationStoreOperatorSecrets         | Identical |       |
-| v20220501/storage | ConfigurationStoreOperatorSpec            | v20240601/storage | ConfigurationStoreOperatorSpec            | Identical |       |
-| v20220501/storage | ConfigurationStore_STATUS                 | v20240601/storage | ConfigurationStore_STATUS                 | Extended  |       |
-| v20220501/storage | ConfigurationStore_Spec                   | v20240601/storage | ConfigurationStore_Spec                   | Extended  |       |
-|                   |                                           | v20240601/storage | DataPlaneProxyProperties                  | New       |       |
-|                   |                                           | v20240601/storage | DataPlaneProxyProperties_STATUS           | New       |       |
-| v20220501/storage | EncryptionProperties                      | v20240601/storage | EncryptionProperties                      | Identical |       |
-| v20220501/storage | EncryptionProperties_STATUS               | v20240601/storage | EncryptionProperties_STATUS               | Identical |       |
-| v20220501/storage | KeyVaultProperties                        | v20240601/storage | KeyVaultProperties                        | Identical |       |
-| v20220501/storage | KeyVaultProperties_STATUS                 | v20240601/storage | KeyVaultProperties_STATUS                 | Identical |       |
-| v20220501/storage | PrivateEndpointConnectionReference_STATUS | v20240601/storage | PrivateEndpointConnectionReference_STATUS | Extended  |       |
-|                   |                                           | v20240601/storage | PrivateEndpoint_STATUS                    | New       |       |
-|                   |                                           | v20240601/storage | PrivateLinkServiceConnectionState_STATUS  | New       |       |
-| v20220501/storage | ResourceIdentity                          | v20240601/storage | ResourceIdentity                          | Identical |       |
-| v20220501/storage | ResourceIdentity_STATUS                   | v20240601/storage | ResourceIdentity_STATUS                   | Identical |       |
-| v20220501/storage | Sku                                       | v20240601/storage | Sku                                       | Identical |       |
-| v20220501/storage | Sku_STATUS                                | v20240601/storage | Sku_STATUS                                | Identical |       |
-| v20220501/storage | SystemData_STATUS                         | v20240601/storage | SystemData_STATUS                         | Identical |       |
-| v20220501/storage | UserAssignedIdentityDetails               | v20240601/storage | UserAssignedIdentityDetails               | Identical |       |
-| v20220501/storage | UserIdentity_STATUS                       | v20240601/storage | UserIdentity_STATUS                       | Identical |       |
+| v20220501/storage                         | v20240601/storage                         | Status    | Notes |
+|:------------------------------------------|:------------------------------------------|:---------:|:------|
+| ConfigurationStoreOperatorSecrets         | ConfigurationStoreOperatorSecrets         | Identical |       |
+| ConfigurationStoreOperatorSpec            | ConfigurationStoreOperatorSpec            | Identical |       |
+| ConfigurationStore_STATUS                 | ConfigurationStore_STATUS                 | Extended  |       |
+| ConfigurationStore_Spec                   | ConfigurationStore_Spec                   | Extended  |       |
+|                                           | DataPlaneProxyProperties                  | New       |       |
+|                                           | DataPlaneProxyProperties_STATUS           | New       |       |
+| EncryptionProperties                      | EncryptionProperties                      | Identical |       |
+| EncryptionProperties_STATUS               | EncryptionProperties_STATUS               | Identical |       |
+| KeyVaultProperties                        | KeyVaultProperties                        | Identical |       |
+| KeyVaultProperties_STATUS                 | KeyVaultProperties_STATUS                 | Identical |       |
+| PrivateEndpointConnectionReference_STATUS | PrivateEndpointConnectionReference_STATUS | Extended  |       |
+|                                           | PrivateEndpoint_STATUS                    | New       |       |
+|                                           | PrivateLinkServiceConnectionState_STATUS  | New       |       |
+| ResourceIdentity                          | ResourceIdentity                          | Identical |       |
+| ResourceIdentity_STATUS                   | ResourceIdentity_STATUS                   | Identical |       |
+| Sku                                       | Sku                                       | Identical |       |
+| Sku_STATUS                                | Sku_STATUS                                | Identical |       |
+| SystemData_STATUS                         | SystemData_STATUS                         | Identical |       |
+| UserAssignedIdentityDetails               | UserAssignedIdentityDetails               | Identical |       |
+| UserIdentity_STATUS                       | UserIdentity_STATUS                       | Identical |       |
 
 ### ConfigurationStore_STATUS
 

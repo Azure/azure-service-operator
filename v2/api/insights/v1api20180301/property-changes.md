@@ -11,37 +11,37 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version          | Next Type   | Status    | Notes |
-|:----------------|:-------------|:----------------------|:------------|:---------:|:------|
-| v1api20180301   | MetricAlert  | v1api20180301/storage | MetricAlert | Identical |       |
+| v1api20180301 | v1api20180301/storage | Status    | Notes |
+|:--------------|:----------------------|:---------:|:------|
+| MetricAlert   | MetricAlert           | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                             | Next Version          | Next Type                                                | Status   | Notes |
-|:----------------|:---------------------------------------------------------|:----------------------|:---------------------------------------------------------|:--------:|:------|
-| v1api20180301   | DynamicMetricCriteria                                    | v1api20180301/storage | DynamicMetricCriteria                                    | Modified |       |
-| v1api20180301   | DynamicMetricCriteria_STATUS                             | v1api20180301/storage | DynamicMetricCriteria_STATUS                             | Modified |       |
-| v1api20180301   | DynamicThresholdFailingPeriods                           | v1api20180301/storage | DynamicThresholdFailingPeriods                           | Extended |       |
-| v1api20180301   | DynamicThresholdFailingPeriods_STATUS                    | v1api20180301/storage | DynamicThresholdFailingPeriods_STATUS                    | Extended |       |
-| v1api20180301   | MetricAlertAction                                        | v1api20180301/storage | MetricAlertAction                                        | Extended |       |
-| v1api20180301   | MetricAlertAction_STATUS                                 | v1api20180301/storage | MetricAlertAction_STATUS                                 | Extended |       |
-| v1api20180301   | MetricAlertCriteria                                      | v1api20180301/storage | MetricAlertCriteria                                      | Extended |       |
-| v1api20180301   | MetricAlertCriteria_STATUS                               | v1api20180301/storage | MetricAlertCriteria_STATUS                               | Extended |       |
-| v1api20180301   | MetricAlertMultipleResourceMultipleMetricCriteria        | v1api20180301/storage | MetricAlertMultipleResourceMultipleMetricCriteria        | Modified |       |
-| v1api20180301   | MetricAlertMultipleResourceMultipleMetricCriteria_STATUS | v1api20180301/storage | MetricAlertMultipleResourceMultipleMetricCriteria_STATUS | Modified |       |
-| v1api20180301   | MetricAlertOperatorSpec                                  | v1api20180301/storage | MetricAlertOperatorSpec                                  | Extended |       |
-| v1api20180301   | MetricAlertSingleResourceMultipleMetricCriteria          | v1api20180301/storage | MetricAlertSingleResourceMultipleMetricCriteria          | Modified |       |
-| v1api20180301   | MetricAlertSingleResourceMultipleMetricCriteria_STATUS   | v1api20180301/storage | MetricAlertSingleResourceMultipleMetricCriteria_STATUS   | Modified |       |
-| v1api20180301   | MetricAlert_STATUS                                       | v1api20180301/storage | MetricAlert_STATUS                                       | Extended |       |
-| v1api20180301   | MetricAlert_Spec                                         | v1api20180301/storage | MetricAlert_Spec                                         | Extended |       |
-| v1api20180301   | MetricCriteria                                           | v1api20180301/storage | MetricCriteria                                           | Modified |       |
-| v1api20180301   | MetricCriteria_STATUS                                    | v1api20180301/storage | MetricCriteria_STATUS                                    | Modified |       |
-| v1api20180301   | MetricDimension                                          | v1api20180301/storage | MetricDimension                                          | Extended |       |
-| v1api20180301   | MetricDimension_STATUS                                   | v1api20180301/storage | MetricDimension_STATUS                                   | Extended |       |
-| v1api20180301   | MultiMetricCriteria                                      | v1api20180301/storage | MultiMetricCriteria                                      | Extended |       |
-| v1api20180301   | MultiMetricCriteria_STATUS                               | v1api20180301/storage | MultiMetricCriteria_STATUS                               | Extended |       |
-| v1api20180301   | WebtestLocationAvailabilityCriteria                      | v1api20180301/storage | WebtestLocationAvailabilityCriteria                      | Modified |       |
-| v1api20180301   | WebtestLocationAvailabilityCriteria_STATUS               | v1api20180301/storage | WebtestLocationAvailabilityCriteria_STATUS               | Modified |       |
+| v1api20180301                                            | v1api20180301/storage                                    | Status   | Notes |
+|:---------------------------------------------------------|:---------------------------------------------------------|:--------:|:------|
+| DynamicMetricCriteria                                    | DynamicMetricCriteria                                    | Modified |       |
+| DynamicMetricCriteria_STATUS                             | DynamicMetricCriteria_STATUS                             | Modified |       |
+| DynamicThresholdFailingPeriods                           | DynamicThresholdFailingPeriods                           | Extended |       |
+| DynamicThresholdFailingPeriods_STATUS                    | DynamicThresholdFailingPeriods_STATUS                    | Extended |       |
+| MetricAlertAction                                        | MetricAlertAction                                        | Extended |       |
+| MetricAlertAction_STATUS                                 | MetricAlertAction_STATUS                                 | Extended |       |
+| MetricAlertCriteria                                      | MetricAlertCriteria                                      | Extended |       |
+| MetricAlertCriteria_STATUS                               | MetricAlertCriteria_STATUS                               | Extended |       |
+| MetricAlertMultipleResourceMultipleMetricCriteria        | MetricAlertMultipleResourceMultipleMetricCriteria        | Modified |       |
+| MetricAlertMultipleResourceMultipleMetricCriteria_STATUS | MetricAlertMultipleResourceMultipleMetricCriteria_STATUS | Modified |       |
+| MetricAlertOperatorSpec                                  | MetricAlertOperatorSpec                                  | Extended |       |
+| MetricAlertSingleResourceMultipleMetricCriteria          | MetricAlertSingleResourceMultipleMetricCriteria          | Modified |       |
+| MetricAlertSingleResourceMultipleMetricCriteria_STATUS   | MetricAlertSingleResourceMultipleMetricCriteria_STATUS   | Modified |       |
+| MetricAlert_STATUS                                       | MetricAlert_STATUS                                       | Extended |       |
+| MetricAlert_Spec                                         | MetricAlert_Spec                                         | Extended |       |
+| MetricCriteria                                           | MetricCriteria                                           | Modified |       |
+| MetricCriteria_STATUS                                    | MetricCriteria_STATUS                                    | Modified |       |
+| MetricDimension                                          | MetricDimension                                          | Extended |       |
+| MetricDimension_STATUS                                   | MetricDimension_STATUS                                   | Extended |       |
+| MultiMetricCriteria                                      | MultiMetricCriteria                                      | Extended |       |
+| MultiMetricCriteria_STATUS                               | MultiMetricCriteria_STATUS                               | Extended |       |
+| WebtestLocationAvailabilityCriteria                      | WebtestLocationAvailabilityCriteria                      | Modified |       |
+| WebtestLocationAvailabilityCriteria_STATUS               | WebtestLocationAvailabilityCriteria_STATUS               | Modified |       |
 
 ### DynamicMetricCriteria
 

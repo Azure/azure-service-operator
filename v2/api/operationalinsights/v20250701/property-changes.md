@@ -11,33 +11,33 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version      | Next Type | Status    | Notes |
-|:----------------|:-------------|:------------------|:----------|:---------:|:------|
-| v20250701       | Workspace    | v20250701/storage | Workspace | Identical |       |
+| v20250701 | v20250701/storage | Status    | Notes |
+|:----------|:------------------|:---------:|:------|
+| Workspace | Workspace         | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                          | Next Version      | Next Type                             | Status   | Notes |
-|:----------------|:--------------------------------------|:------------------|:--------------------------------------|:--------:|:------|
-| v20250701       | Identity                              | v20250701/storage | Identity                              | Modified |       |
-| v20250701       | Identity_STATUS                       | v20250701/storage | Identity_STATUS                       | Modified |       |
-| v20250701       | PrivateLinkScopedResource_STATUS      | v20250701/storage | PrivateLinkScopedResource_STATUS      | Extended |       |
-| v20250701       | SystemData_STATUS                     | v20250701/storage | SystemData_STATUS                     | Modified |       |
-| v20250701       | UserAssignedIdentityDetails           | v20250701/storage | UserAssignedIdentityDetails           | Extended |       |
-| v20250701       | UserIdentityProperties_STATUS         | v20250701/storage | UserIdentityProperties_STATUS         | Extended |       |
-| v20250701       | WorkspaceCapping                      | v20250701/storage | WorkspaceCapping                      | Extended |       |
-| v20250701       | WorkspaceCapping_STATUS               | v20250701/storage | WorkspaceCapping_STATUS               | Modified |       |
-| v20250701       | WorkspaceFailoverProperties_STATUS    | v20250701/storage | WorkspaceFailoverProperties_STATUS    | Modified |       |
-| v20250701       | WorkspaceFeatures                     | v20250701/storage | WorkspaceFeatures                     | Extended |       |
-| v20250701       | WorkspaceFeatures_STATUS              | v20250701/storage | WorkspaceFeatures_STATUS              | Extended |       |
-| v20250701       | WorkspaceOperatorSecrets              | v20250701/storage | WorkspaceOperatorSecrets              | Extended |       |
-| v20250701       | WorkspaceOperatorSpec                 | v20250701/storage | WorkspaceOperatorSpec                 | Extended |       |
-| v20250701       | WorkspaceReplicationProperties        | v20250701/storage | WorkspaceReplicationProperties        | Extended |       |
-| v20250701       | WorkspaceReplicationProperties_STATUS | v20250701/storage | WorkspaceReplicationProperties_STATUS | Modified |       |
-| v20250701       | WorkspaceSku                          | v20250701/storage | WorkspaceSku                          | Modified |       |
-| v20250701       | WorkspaceSku_STATUS                   | v20250701/storage | WorkspaceSku_STATUS                   | Modified |       |
-| v20250701       | Workspace_STATUS                      | v20250701/storage | Workspace_STATUS                      | Modified |       |
-| v20250701       | Workspace_Spec                        | v20250701/storage | Workspace_Spec                        | Modified |       |
+| v20250701                             | v20250701/storage                     | Status   | Notes |
+|:--------------------------------------|:--------------------------------------|:--------:|:------|
+| Identity                              | Identity                              | Modified |       |
+| Identity_STATUS                       | Identity_STATUS                       | Modified |       |
+| PrivateLinkScopedResource_STATUS      | PrivateLinkScopedResource_STATUS      | Extended |       |
+| SystemData_STATUS                     | SystemData_STATUS                     | Modified |       |
+| UserAssignedIdentityDetails           | UserAssignedIdentityDetails           | Extended |       |
+| UserIdentityProperties_STATUS         | UserIdentityProperties_STATUS         | Extended |       |
+| WorkspaceCapping                      | WorkspaceCapping                      | Extended |       |
+| WorkspaceCapping_STATUS               | WorkspaceCapping_STATUS               | Modified |       |
+| WorkspaceFailoverProperties_STATUS    | WorkspaceFailoverProperties_STATUS    | Modified |       |
+| WorkspaceFeatures                     | WorkspaceFeatures                     | Extended |       |
+| WorkspaceFeatures_STATUS              | WorkspaceFeatures_STATUS              | Extended |       |
+| WorkspaceOperatorSecrets              | WorkspaceOperatorSecrets              | Extended |       |
+| WorkspaceOperatorSpec                 | WorkspaceOperatorSpec                 | Extended |       |
+| WorkspaceReplicationProperties        | WorkspaceReplicationProperties        | Extended |       |
+| WorkspaceReplicationProperties_STATUS | WorkspaceReplicationProperties_STATUS | Modified |       |
+| WorkspaceSku                          | WorkspaceSku                          | Modified |       |
+| WorkspaceSku_STATUS                   | WorkspaceSku_STATUS                   | Modified |       |
+| Workspace_STATUS                      | Workspace_STATUS                      | Modified |       |
+| Workspace_Spec                        | Workspace_Spec                        | Modified |       |
 
 ### Identity
 

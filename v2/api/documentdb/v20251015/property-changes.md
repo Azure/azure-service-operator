@@ -11,38 +11,34 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type        | Next Version      | Next Type           | Status    | Notes |
-|:----------------|:--------------------|:------------------|:--------------------|:---------:|:------|
-| v20251015       | CassandraCluster    | v20251015/storage | CassandraCluster    | Identical |       |
-| v20251015       | CassandraDataCenter | v20251015/storage | CassandraDataCenter | Identical |       |
+| v20251015           | v20251015/storage   | Status    | Notes |
+|:--------------------|:--------------------|:---------:|:------|
+| CassandraCluster    | CassandraCluster    | Identical |       |
+| CassandraDataCenter | CassandraDataCenter | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                   | Next Version      | Next Type                                      | Status   | Notes                                                                   |
-|:----------------|:-----------------------------------------------|:------------------|:-----------------------------------------------|:--------:|:------------------------------------------------------------------------|
-| v20251015       | AuthenticationMethodLdapProperties             | v20251015/storage | AuthenticationMethodLdapProperties             | Extended |                                                                         |
-| v20251015       | AuthenticationMethodLdapProperties_STATUS      | v20251015/storage | AuthenticationMethodLdapProperties_STATUS      | Extended |                                                                         |
-| v20251015       | CassandraClusterOperatorSpec                   | v20251015/storage | CassandraClusterOperatorSpec                   | Extended |                                                                         |
-| v20251015       | CassandraCluster_Properties_STATUS             | v20251015/storage |                                                | Retired  | Configured rename to ClusterResourceProperties_STATUS was not found.    |
-|                 |                                                | v20251015/storage | CassandraCluster_Properties_STATUS             | New      | Configured rename to ClusterResourceProperties_STATUS was not found.    |
-| v20251015       | CassandraCluster_Properties_Spec               | v20251015/storage |                                                | Retired  | Configured rename to ClusterResourceProperties was not found.           |
-|                 |                                                | v20251015/storage | CassandraCluster_Properties_Spec               | New      | Configured rename to ClusterResourceProperties was not found.           |
-| v20251015       | CassandraCluster_STATUS                        | v20251015/storage | CassandraCluster_STATUS                        | Modified |                                                                         |
-| v20251015       | CassandraCluster_Spec                          | v20251015/storage | CassandraCluster_Spec                          | Modified |                                                                         |
-| v20251015       | CassandraClusters_DataCenter_Properties_STATUS | v20251015/storage |                                                | Retired  | Configured rename to DataCenterResourceProperties_STATUS was not found. |
-|                 |                                                | v20251015/storage | CassandraClusters_DataCenter_Properties_STATUS | New      | Configured rename to DataCenterResourceProperties_STATUS was not found. |
-|                 |                                                | v20251015/storage | CassandraClusters_DataCenter_Properties_Spec   | New      | Configured rename to DataCenterResourceProperties was not found.        |
-| v20251015       | CassandraClusters_DataCenter_Properties_Spec   | v20251015/storage |                                                | Retired  | Configured rename to DataCenterResourceProperties was not found.        |
-| v20251015       | CassandraDataCenterOperatorSpec                | v20251015/storage | CassandraDataCenterOperatorSpec                | Extended |                                                                         |
-| v20251015       | CassandraDataCenter_STATUS                     | v20251015/storage | CassandraDataCenter_STATUS                     | Modified |                                                                         |
-| v20251015       | CassandraDataCenter_Spec                       | v20251015/storage | CassandraDataCenter_Spec                       | Modified |                                                                         |
-| v20251015       | CassandraError_STATUS                          | v20251015/storage | CassandraError_STATUS                          | Extended |                                                                         |
-| v20251015       | Certificate                                    | v20251015/storage | Certificate                                    | Extended |                                                                         |
-| v20251015       | Certificate_STATUS                             | v20251015/storage | Certificate_STATUS                             | Extended |                                                                         |
-| v20251015       | ManagedCassandraManagedServiceIdentity         | v20251015/storage | ManagedCassandraManagedServiceIdentity         | Modified |                                                                         |
-| v20251015       | ManagedCassandraManagedServiceIdentity_STATUS  | v20251015/storage | ManagedCassandraManagedServiceIdentity_STATUS  | Modified |                                                                         |
-| v20251015       | SeedNode                                       | v20251015/storage | SeedNode                                       | Extended |                                                                         |
-| v20251015       | SeedNode_STATUS                                | v20251015/storage | SeedNode_STATUS                                | Extended |                                                                         |
+| v20251015                                      | v20251015/storage                              | Status   | Notes |
+|:-----------------------------------------------|:-----------------------------------------------|:--------:|:------|
+| AuthenticationMethodLdapProperties             | AuthenticationMethodLdapProperties             | Extended |       |
+| AuthenticationMethodLdapProperties_STATUS      | AuthenticationMethodLdapProperties_STATUS      | Extended |       |
+| CassandraClusterOperatorSpec                   | CassandraClusterOperatorSpec                   | Extended |       |
+| CassandraCluster_Properties_STATUS             | CassandraCluster_Properties_STATUS             | Modified |       |
+| CassandraCluster_Properties_Spec               | CassandraCluster_Properties_Spec               | Modified |       |
+| CassandraCluster_STATUS                        | CassandraCluster_STATUS                        | Modified |       |
+| CassandraCluster_Spec                          | CassandraCluster_Spec                          | Modified |       |
+| CassandraClusters_DataCenter_Properties_STATUS | CassandraClusters_DataCenter_Properties_STATUS | Modified |       |
+| CassandraClusters_DataCenter_Properties_Spec   | CassandraClusters_DataCenter_Properties_Spec   | Extended |       |
+| CassandraDataCenterOperatorSpec                | CassandraDataCenterOperatorSpec                | Extended |       |
+| CassandraDataCenter_STATUS                     | CassandraDataCenter_STATUS                     | Modified |       |
+| CassandraDataCenter_Spec                       | CassandraDataCenter_Spec                       | Modified |       |
+| CassandraError_STATUS                          | CassandraError_STATUS                          | Extended |       |
+| Certificate                                    | Certificate                                    | Extended |       |
+| Certificate_STATUS                             | Certificate_STATUS                             | Extended |       |
+| ManagedCassandraManagedServiceIdentity         | ManagedCassandraManagedServiceIdentity         | Modified |       |
+| ManagedCassandraManagedServiceIdentity_STATUS  | ManagedCassandraManagedServiceIdentity_STATUS  | Modified |       |
+| SeedNode                                       | SeedNode                                       | Extended |       |
+| SeedNode_STATUS                                | SeedNode_STATUS                                | Extended |       |
 
 ### AuthenticationMethodLdapProperties
 
@@ -79,6 +75,51 @@ Statuses:
 |                      |                               | PropertyBag          | genruntime.PropertyBag        | New       |       |
 | SecretExpressions    | *core.DestinationExpression[] | SecretExpressions    | *core.DestinationExpression[] | Identical |       |
 
+### CassandraCluster_Properties_STATUS
+
+| v20251015                    |                                                           | v20251015/storage            |                        | Status    | Notes |
+|:-----------------------------|:----------------------------------------------------------|:-----------------------------|:-----------------------|:---------:|:------|
+| AuthenticationMethod         | *CassandraCluster_Properties_AuthenticationMethod_STATUS  | AuthenticationMethod         | *string                | Modified  |       |
+| AzureConnectionMethod        | *CassandraCluster_Properties_AzureConnectionMethod_STATUS | AzureConnectionMethod        | *string                | Modified  |       |
+| CassandraAuditLoggingEnabled | *bool                                                     | CassandraAuditLoggingEnabled | *bool                  | Identical |       |
+| CassandraVersion             | *string                                                   | CassandraVersion             | *string                | Identical |       |
+| ClientCertificates           | Certificate_STATUS[]                                      | ClientCertificates           | Certificate_STATUS[]   | Identical |       |
+| ClusterNameOverride          | *string                                                   | ClusterNameOverride          | *string                | Identical |       |
+| Deallocated                  | *bool                                                     | Deallocated                  | *bool                  | Identical |       |
+| DelegatedManagementSubnetId  | *string                                                   | DelegatedManagementSubnetId  | *string                | Identical |       |
+| ExternalGossipCertificates   | Certificate_STATUS[]                                      | ExternalGossipCertificates   | Certificate_STATUS[]   | Identical |       |
+| ExternalSeedNodes            | SeedNode_STATUS[]                                         | ExternalSeedNodes            | SeedNode_STATUS[]      | Identical |       |
+| GossipCertificates           | Certificate_STATUS[]                                      | GossipCertificates           | Certificate_STATUS[]   | Identical |       |
+| HoursBetweenBackups          | *int                                                      | HoursBetweenBackups          | *int                   | Identical |       |
+| PrivateLinkResourceId        | *string                                                   | PrivateLinkResourceId        | *string                | Identical |       |
+| PrometheusEndpoint           | *SeedNode_STATUS                                          | PrometheusEndpoint           | *SeedNode_STATUS       | Identical |       |
+|                              |                                                           | PropertyBag                  | genruntime.PropertyBag | New       |       |
+| ProvisionError               | *CassandraError_STATUS                                    | ProvisionError               | *CassandraError_STATUS | Identical |       |
+| ProvisioningState            | *ManagedCassandraProvisioningState_STATUS                 | ProvisioningState            | *string                | Modified  |       |
+| RepairEnabled                | *bool                                                     | RepairEnabled                | *bool                  | Identical |       |
+| RestoreFromBackupId          | *string                                                   | RestoreFromBackupId          | *string                | Identical |       |
+| SeedNodes                    | SeedNode_STATUS[]                                         | SeedNodes                    | SeedNode_STATUS[]      | Identical |       |
+
+### CassandraCluster_Properties_Spec
+
+| v20251015                          |                                                         | v20251015/storage                  |                               | Status    | Notes |
+|:-----------------------------------|:--------------------------------------------------------|:-----------------------------------|:------------------------------|:---------:|:------|
+| AuthenticationMethod               | *CassandraCluster_Properties_AuthenticationMethod_Spec  | AuthenticationMethod               | *string                       | Modified  |       |
+| AzureConnectionMethod              | *CassandraCluster_Properties_AzureConnectionMethod_Spec | AzureConnectionMethod              | *string                       | Modified  |       |
+| CassandraAuditLoggingEnabled       | *bool                                                   | CassandraAuditLoggingEnabled       | *bool                         | Identical |       |
+| CassandraVersion                   | *string                                                 | CassandraVersion                   | *string                       | Identical |       |
+| ClientCertificates                 | Certificate[]                                           | ClientCertificates                 | Certificate[]                 | Identical |       |
+| ClusterNameOverride                | *string                                                 | ClusterNameOverride                | *string                       | Identical |       |
+| DelegatedManagementSubnetReference | *genruntime.ResourceReference                           | DelegatedManagementSubnetReference | *genruntime.ResourceReference | Identical |       |
+| ExternalGossipCertificates         | Certificate[]                                           | ExternalGossipCertificates         | Certificate[]                 | Identical |       |
+| ExternalSeedNodes                  | SeedNode[]                                              | ExternalSeedNodes                  | SeedNode[]                    | Identical |       |
+| HoursBetweenBackups                | *int                                                    | HoursBetweenBackups                | *int                          | Identical |       |
+| InitialCassandraAdminPassword      | *genruntime.SecretReference                             | InitialCassandraAdminPassword      | *genruntime.SecretReference   | Identical |       |
+| PrometheusEndpoint                 | *SeedNode                                               | PrometheusEndpoint                 | *SeedNode                     | Identical |       |
+|                                    |                                                         | PropertyBag                        | genruntime.PropertyBag        | New       |       |
+| RepairEnabled                      | *bool                                                   | RepairEnabled                      | *bool                         | Identical |       |
+| RestoreFromBackupReference         | *genruntime.ResourceReference                           | RestoreFromBackupReference         | *genruntime.ResourceReference | Identical |       |
+
 ### CassandraCluster_STATUS
 
 | v20251015  |                                                | v20251015/storage |                                                | Status    | Notes |
@@ -106,6 +147,48 @@ Statuses:
 | Properties   | *CassandraCluster_Properties_Spec       | Properties        | *CassandraCluster_Properties_Spec       | Modified  |       |
 |              |                                         | PropertyBag       | genruntime.PropertyBag                  | New       |       |
 | Tags         | map[string]string                       | Tags              | map[string]string                       | Identical |       |
+
+### CassandraClusters_DataCenter_Properties_STATUS
+
+| v20251015                          |                                            | v20251015/storage                  |                                            | Status    | Notes |
+|:-----------------------------------|:-------------------------------------------|:-----------------------------------|:-------------------------------------------|:---------:|:------|
+| AuthenticationMethodLdapProperties | *AuthenticationMethodLdapProperties_STATUS | AuthenticationMethodLdapProperties | *AuthenticationMethodLdapProperties_STATUS | Identical |       |
+| AvailabilityZone                   | *bool                                      | AvailabilityZone                   | *bool                                      | Identical |       |
+| BackupStorageCustomerKeyUri        | *string                                    | BackupStorageCustomerKeyUri        | *string                                    | Identical |       |
+| Base64EncodedCassandraYamlFragment | *string                                    | Base64EncodedCassandraYamlFragment | *string                                    | Identical |       |
+| DataCenterLocation                 | *string                                    | DataCenterLocation                 | *string                                    | Identical |       |
+| Deallocated                        | *bool                                      | Deallocated                        | *bool                                      | Identical |       |
+| DelegatedSubnetId                  | *string                                    | DelegatedSubnetId                  | *string                                    | Identical |       |
+| DiskCapacity                       | *int                                       | DiskCapacity                       | *int                                       | Identical |       |
+| DiskSku                            | *string                                    | DiskSku                            | *string                                    | Identical |       |
+| ManagedDiskCustomerKeyUri          | *string                                    | ManagedDiskCustomerKeyUri          | *string                                    | Identical |       |
+| NodeCount                          | *int                                       | NodeCount                          | *int                                       | Identical |       |
+| PrivateEndpointIpAddress           | *string                                    | PrivateEndpointIpAddress           | *string                                    | Identical |       |
+|                                    |                                            | PropertyBag                        | genruntime.PropertyBag                     | New       |       |
+| ProvisionError                     | *CassandraError_STATUS                     | ProvisionError                     | *CassandraError_STATUS                     | Identical |       |
+| ProvisioningState                  | *ManagedCassandraProvisioningState_STATUS  | ProvisioningState                  | *string                                    | Modified  |       |
+| SeedNodes                          | SeedNode_STATUS[]                          | SeedNodes                          | SeedNode_STATUS[]                          | Identical |       |
+| Sku                                | *string                                    | Sku                                | *string                                    | Identical |       |
+
+### CassandraClusters_DataCenter_Properties_Spec
+
+| v20251015                             |                                     | v20251015/storage                     |                                     | Status    | Notes |
+|:--------------------------------------|:------------------------------------|:--------------------------------------|:------------------------------------|:---------:|:------|
+| AuthenticationMethodLdapProperties    | *AuthenticationMethodLdapProperties | AuthenticationMethodLdapProperties    | *AuthenticationMethodLdapProperties | Identical |       |
+| AvailabilityZone                      | *bool                               | AvailabilityZone                      | *bool                               | Identical |       |
+| BackupStorageCustomerKeyUri           | *string                             | BackupStorageCustomerKeyUri           | *string                             | Identical |       |
+| BackupStorageCustomerKeyUriFromConfig | *genruntime.ConfigMapReference      | BackupStorageCustomerKeyUriFromConfig | *genruntime.ConfigMapReference      | Identical |       |
+| Base64EncodedCassandraYamlFragment    | *string                             | Base64EncodedCassandraYamlFragment    | *string                             | Identical |       |
+| DataCenterLocation                    | *string                             | DataCenterLocation                    | *string                             | Identical |       |
+| DelegatedSubnetReference              | *genruntime.ResourceReference       | DelegatedSubnetReference              | *genruntime.ResourceReference       | Identical |       |
+| DiskCapacity                          | *int                                | DiskCapacity                          | *int                                | Identical |       |
+| DiskSku                               | *string                             | DiskSku                               | *string                             | Identical |       |
+| ManagedDiskCustomerKeyUriReference    | *genruntime.ResourceReference       | ManagedDiskCustomerKeyUriReference    | *genruntime.ResourceReference       | Identical |       |
+| NodeCount                             | *int                                | NodeCount                             | *int                                | Identical |       |
+| PrivateEndpointIpAddress              | *string                             | PrivateEndpointIpAddress              | *string                             | Identical |       |
+| PrivateEndpointIpAddressFromConfig    | *genruntime.ConfigMapReference      | PrivateEndpointIpAddressFromConfig    | *genruntime.ConfigMapReference      | Identical |       |
+|                                       |                                     | PropertyBag                           | genruntime.PropertyBag              | New       |       |
+| Sku                                   | *string                             | Sku                                   | *string                             | Identical |       |
 
 ### CassandraDataCenterOperatorSpec
 

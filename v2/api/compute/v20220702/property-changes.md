@@ -11,28 +11,28 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type      | Next Version      | Next Type         | Status    | Notes |
-|:----------------|:------------------|:------------------|:------------------|:---------:|:------|
-| v20220702       | DiskEncryptionSet | v20220702/storage | DiskEncryptionSet | Identical |       |
+| v20220702         | v20220702/storage | Status    | Notes |
+|:------------------|:------------------|:---------:|:------|
+| DiskEncryptionSet | DiskEncryptionSet | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                       | Next Version      | Next Type                          | Status   | Notes |
-|:----------------|:-----------------------------------|:------------------|:-----------------------------------|:--------:|:------|
-| v20220702       | ApiErrorBase_STATUS                | v20220702/storage | ApiErrorBase_STATUS                | Extended |       |
-| v20220702       | ApiError_STATUS                    | v20220702/storage | ApiError_STATUS                    | Extended |       |
-| v20220702       | DiskEncryptionSetOperatorSpec      | v20220702/storage | DiskEncryptionSetOperatorSpec      | Extended |       |
-| v20220702       | DiskEncryptionSet_STATUS           | v20220702/storage | DiskEncryptionSet_STATUS           | Modified |       |
-| v20220702       | DiskEncryptionSet_Spec             | v20220702/storage | DiskEncryptionSet_Spec             | Modified |       |
-| v20220702       | EncryptionSetIdentity              | v20220702/storage | EncryptionSetIdentity              | Modified |       |
-| v20220702       | EncryptionSetIdentity_STATUS       | v20220702/storage | EncryptionSetIdentity_STATUS       | Modified |       |
-| v20220702       | InnerError_STATUS                  | v20220702/storage | InnerError_STATUS                  | Extended |       |
-| v20220702       | KeyForDiskEncryptionSet            | v20220702/storage | KeyForDiskEncryptionSet            | Extended |       |
-| v20220702       | KeyForDiskEncryptionSet_STATUS     | v20220702/storage | KeyForDiskEncryptionSet_STATUS     | Extended |       |
-| v20220702       | SourceVault                        | v20220702/storage | SourceVault                        | Extended |       |
-| v20220702       | SourceVault_STATUS                 | v20220702/storage | SourceVault_STATUS                 | Extended |       |
-| v20220702       | UserAssignedIdentitiesValue_STATUS | v20220702/storage | UserAssignedIdentitiesValue_STATUS | Extended |       |
-| v20220702       | UserAssignedIdentityDetails        | v20220702/storage | UserAssignedIdentityDetails        | Extended |       |
+| v20220702                          | v20220702/storage                  | Status   | Notes |
+|:-----------------------------------|:-----------------------------------|:--------:|:------|
+| ApiErrorBase_STATUS                | ApiErrorBase_STATUS                | Extended |       |
+| ApiError_STATUS                    | ApiError_STATUS                    | Extended |       |
+| DiskEncryptionSetOperatorSpec      | DiskEncryptionSetOperatorSpec      | Extended |       |
+| DiskEncryptionSet_STATUS           | DiskEncryptionSet_STATUS           | Modified |       |
+| DiskEncryptionSet_Spec             | DiskEncryptionSet_Spec             | Modified |       |
+| EncryptionSetIdentity              | EncryptionSetIdentity              | Modified |       |
+| EncryptionSetIdentity_STATUS       | EncryptionSetIdentity_STATUS       | Modified |       |
+| InnerError_STATUS                  | InnerError_STATUS                  | Extended |       |
+| KeyForDiskEncryptionSet            | KeyForDiskEncryptionSet            | Extended |       |
+| KeyForDiskEncryptionSet_STATUS     | KeyForDiskEncryptionSet_STATUS     | Extended |       |
+| SourceVault                        | SourceVault                        | Extended |       |
+| SourceVault_STATUS                 | SourceVault_STATUS                 | Extended |       |
+| UserAssignedIdentitiesValue_STATUS | UserAssignedIdentitiesValue_STATUS | Extended |       |
+| UserAssignedIdentityDetails        | UserAssignedIdentityDetails        | Extended |       |
 
 ### ApiErrorBase_STATUS
 

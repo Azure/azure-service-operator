@@ -11,58 +11,58 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type          | Next Version          | Next Type             | Status    | Notes |
-|:----------------|:----------------------|:----------------------|:----------------------|:---------:|:------|
-| v1api20210601   | Workspace             | v1api20210601/storage | Workspace             | Identical |       |
-| v1api20210601   | WorkspacesBigDataPool | v1api20210601/storage | WorkspacesBigDataPool | Identical |       |
+| v1api20210601         | v1api20210601/storage | Status    | Notes |
+|:----------------------|:----------------------|:---------:|:------|
+| Workspace             | Workspace             | Identical |       |
+| WorkspacesBigDataPool | WorkspacesBigDataPool | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                            | Next Version          | Next Type                               | Status   | Notes |
-|:----------------|:----------------------------------------|:----------------------|:----------------------------------------|:--------:|:------|
-| v1api20210601   | AutoPauseProperties                     | v1api20210601/storage | AutoPauseProperties                     | Extended |       |
-| v1api20210601   | AutoPauseProperties_STATUS              | v1api20210601/storage | AutoPauseProperties_STATUS              | Extended |       |
-| v1api20210601   | AutoScaleProperties                     | v1api20210601/storage | AutoScaleProperties                     | Extended |       |
-| v1api20210601   | AutoScaleProperties_STATUS              | v1api20210601/storage | AutoScaleProperties_STATUS              | Extended |       |
-| v1api20210601   | CspWorkspaceAdminProperties             | v1api20210601/storage | CspWorkspaceAdminProperties             | Extended |       |
-| v1api20210601   | CspWorkspaceAdminProperties_STATUS      | v1api20210601/storage | CspWorkspaceAdminProperties_STATUS      | Extended |       |
-| v1api20210601   | CustomerManagedKeyDetails               | v1api20210601/storage | CustomerManagedKeyDetails               | Extended |       |
-| v1api20210601   | CustomerManagedKeyDetails_STATUS        | v1api20210601/storage | CustomerManagedKeyDetails_STATUS        | Extended |       |
-| v1api20210601   | DataLakeStorageAccountDetails           | v1api20210601/storage | DataLakeStorageAccountDetails           | Extended |       |
-| v1api20210601   | DataLakeStorageAccountDetails_STATUS    | v1api20210601/storage | DataLakeStorageAccountDetails_STATUS    | Extended |       |
-| v1api20210601   | DynamicExecutorAllocation               | v1api20210601/storage | DynamicExecutorAllocation               | Extended |       |
-| v1api20210601   | DynamicExecutorAllocation_STATUS        | v1api20210601/storage | DynamicExecutorAllocation_STATUS        | Extended |       |
-| v1api20210601   | EncryptionDetails                       | v1api20210601/storage | EncryptionDetails                       | Extended |       |
-| v1api20210601   | EncryptionDetails_STATUS                | v1api20210601/storage | EncryptionDetails_STATUS                | Extended |       |
-| v1api20210601   | KekIdentityProperties                   | v1api20210601/storage | KekIdentityProperties                   | Extended |       |
-| v1api20210601   | KekIdentityProperties_STATUS            | v1api20210601/storage | KekIdentityProperties_STATUS            | Extended |       |
-| v1api20210601   | LibraryInfo                             | v1api20210601/storage | LibraryInfo                             | Extended |       |
-| v1api20210601   | LibraryInfo_STATUS                      | v1api20210601/storage | LibraryInfo_STATUS                      | Extended |       |
-| v1api20210601   | LibraryRequirements                     | v1api20210601/storage | LibraryRequirements                     | Extended |       |
-| v1api20210601   | LibraryRequirements_STATUS              | v1api20210601/storage | LibraryRequirements_STATUS              | Extended |       |
-| v1api20210601   | ManagedIdentity                         | v1api20210601/storage | ManagedIdentity                         | Modified |       |
-| v1api20210601   | ManagedIdentity_STATUS                  | v1api20210601/storage | ManagedIdentity_STATUS                  | Modified |       |
-| v1api20210601   | ManagedVirtualNetworkSettings           | v1api20210601/storage | ManagedVirtualNetworkSettings           | Extended |       |
-| v1api20210601   | ManagedVirtualNetworkSettings_STATUS    | v1api20210601/storage | ManagedVirtualNetworkSettings_STATUS    | Extended |       |
-| v1api20210601   | PrivateEndpointConnection_STATUS        | v1api20210601/storage | PrivateEndpointConnection_STATUS        | Extended |       |
-| v1api20210601   | PurviewConfiguration                    | v1api20210601/storage | PurviewConfiguration                    | Extended |       |
-| v1api20210601   | PurviewConfiguration_STATUS             | v1api20210601/storage | PurviewConfiguration_STATUS             | Extended |       |
-| v1api20210601   | SparkConfigProperties                   | v1api20210601/storage | SparkConfigProperties                   | Modified |       |
-| v1api20210601   | SparkConfigProperties_STATUS            | v1api20210601/storage | SparkConfigProperties_STATUS            | Modified |       |
-| v1api20210601   | UserAssignedIdentityDetails             | v1api20210601/storage | UserAssignedIdentityDetails             | Extended |       |
-| v1api20210601   | UserAssignedManagedIdentity_STATUS      | v1api20210601/storage | UserAssignedManagedIdentity_STATUS      | Extended |       |
-| v1api20210601   | VirtualNetworkProfile                   | v1api20210601/storage | VirtualNetworkProfile                   | Extended |       |
-| v1api20210601   | VirtualNetworkProfile_STATUS            | v1api20210601/storage | VirtualNetworkProfile_STATUS            | Extended |       |
-| v1api20210601   | WorkspaceKeyDetails                     | v1api20210601/storage | WorkspaceKeyDetails                     | Extended |       |
-| v1api20210601   | WorkspaceKeyDetails_STATUS              | v1api20210601/storage | WorkspaceKeyDetails_STATUS              | Extended |       |
-| v1api20210601   | WorkspaceOperatorSpec                   | v1api20210601/storage | WorkspaceOperatorSpec                   | Extended |       |
-| v1api20210601   | WorkspaceRepositoryConfiguration        | v1api20210601/storage | WorkspaceRepositoryConfiguration        | Modified |       |
-| v1api20210601   | WorkspaceRepositoryConfiguration_STATUS | v1api20210601/storage | WorkspaceRepositoryConfiguration_STATUS | Extended |       |
-| v1api20210601   | Workspace_STATUS                        | v1api20210601/storage | Workspace_STATUS                        | Modified |       |
-| v1api20210601   | Workspace_Spec                          | v1api20210601/storage | Workspace_Spec                          | Modified |       |
-| v1api20210601   | WorkspacesBigDataPoolOperatorSpec       | v1api20210601/storage | WorkspacesBigDataPoolOperatorSpec       | Extended |       |
-| v1api20210601   | WorkspacesBigDataPool_STATUS            | v1api20210601/storage | WorkspacesBigDataPool_STATUS            | Modified |       |
-| v1api20210601   | WorkspacesBigDataPool_Spec              | v1api20210601/storage | WorkspacesBigDataPool_Spec              | Modified |       |
+| v1api20210601                           | v1api20210601/storage                   | Status   | Notes |
+|:----------------------------------------|:----------------------------------------|:--------:|:------|
+| AutoPauseProperties                     | AutoPauseProperties                     | Extended |       |
+| AutoPauseProperties_STATUS              | AutoPauseProperties_STATUS              | Extended |       |
+| AutoScaleProperties                     | AutoScaleProperties                     | Extended |       |
+| AutoScaleProperties_STATUS              | AutoScaleProperties_STATUS              | Extended |       |
+| CspWorkspaceAdminProperties             | CspWorkspaceAdminProperties             | Extended |       |
+| CspWorkspaceAdminProperties_STATUS      | CspWorkspaceAdminProperties_STATUS      | Extended |       |
+| CustomerManagedKeyDetails               | CustomerManagedKeyDetails               | Extended |       |
+| CustomerManagedKeyDetails_STATUS        | CustomerManagedKeyDetails_STATUS        | Extended |       |
+| DataLakeStorageAccountDetails           | DataLakeStorageAccountDetails           | Extended |       |
+| DataLakeStorageAccountDetails_STATUS    | DataLakeStorageAccountDetails_STATUS    | Extended |       |
+| DynamicExecutorAllocation               | DynamicExecutorAllocation               | Extended |       |
+| DynamicExecutorAllocation_STATUS        | DynamicExecutorAllocation_STATUS        | Extended |       |
+| EncryptionDetails                       | EncryptionDetails                       | Extended |       |
+| EncryptionDetails_STATUS                | EncryptionDetails_STATUS                | Extended |       |
+| KekIdentityProperties                   | KekIdentityProperties                   | Extended |       |
+| KekIdentityProperties_STATUS            | KekIdentityProperties_STATUS            | Extended |       |
+| LibraryInfo                             | LibraryInfo                             | Extended |       |
+| LibraryInfo_STATUS                      | LibraryInfo_STATUS                      | Extended |       |
+| LibraryRequirements                     | LibraryRequirements                     | Extended |       |
+| LibraryRequirements_STATUS              | LibraryRequirements_STATUS              | Extended |       |
+| ManagedIdentity                         | ManagedIdentity                         | Modified |       |
+| ManagedIdentity_STATUS                  | ManagedIdentity_STATUS                  | Modified |       |
+| ManagedVirtualNetworkSettings           | ManagedVirtualNetworkSettings           | Extended |       |
+| ManagedVirtualNetworkSettings_STATUS    | ManagedVirtualNetworkSettings_STATUS    | Extended |       |
+| PrivateEndpointConnection_STATUS        | PrivateEndpointConnection_STATUS        | Extended |       |
+| PurviewConfiguration                    | PurviewConfiguration                    | Extended |       |
+| PurviewConfiguration_STATUS             | PurviewConfiguration_STATUS             | Extended |       |
+| SparkConfigProperties                   | SparkConfigProperties                   | Modified |       |
+| SparkConfigProperties_STATUS            | SparkConfigProperties_STATUS            | Modified |       |
+| UserAssignedIdentityDetails             | UserAssignedIdentityDetails             | Extended |       |
+| UserAssignedManagedIdentity_STATUS      | UserAssignedManagedIdentity_STATUS      | Extended |       |
+| VirtualNetworkProfile                   | VirtualNetworkProfile                   | Extended |       |
+| VirtualNetworkProfile_STATUS            | VirtualNetworkProfile_STATUS            | Extended |       |
+| WorkspaceKeyDetails                     | WorkspaceKeyDetails                     | Extended |       |
+| WorkspaceKeyDetails_STATUS              | WorkspaceKeyDetails_STATUS              | Extended |       |
+| WorkspaceOperatorSpec                   | WorkspaceOperatorSpec                   | Extended |       |
+| WorkspaceRepositoryConfiguration        | WorkspaceRepositoryConfiguration        | Modified |       |
+| WorkspaceRepositoryConfiguration_STATUS | WorkspaceRepositoryConfiguration_STATUS | Extended |       |
+| Workspace_STATUS                        | Workspace_STATUS                        | Modified |       |
+| Workspace_Spec                          | Workspace_Spec                          | Modified |       |
+| WorkspacesBigDataPoolOperatorSpec       | WorkspacesBigDataPoolOperatorSpec       | Extended |       |
+| WorkspacesBigDataPool_STATUS            | WorkspacesBigDataPool_STATUS            | Modified |       |
+| WorkspacesBigDataPool_Spec              | WorkspacesBigDataPool_Spec              | Modified |       |
 
 ### AutoPauseProperties
 

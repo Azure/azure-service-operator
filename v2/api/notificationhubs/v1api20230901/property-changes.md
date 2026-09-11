@@ -11,82 +11,82 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type                      | Next Version          | Next Type                         | Status    | Notes |
-|:----------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
-| v1api20230901   | Namespace                         | v1api20230901/storage | Namespace                         | Identical |       |
-| v1api20230901   | NamespacesAuthorizationRule       | v1api20230901/storage | NamespacesAuthorizationRule       | Identical |       |
-| v1api20230901   | NotificationHub                   | v1api20230901/storage | NotificationHub                   | Identical |       |
-| v1api20230901   | NotificationHubsAuthorizationRule | v1api20230901/storage | NotificationHubsAuthorizationRule | Identical |       |
+| v1api20230901                     | v1api20230901/storage             | Status    | Notes |
+|:----------------------------------|:----------------------------------|:---------:|:------|
+| Namespace                         | Namespace                         | Identical |       |
+| NamespacesAuthorizationRule       | NamespacesAuthorizationRule       | Identical |       |
+| NotificationHub                   | NotificationHub                   | Identical |       |
+| NotificationHubsAuthorizationRule | NotificationHubsAuthorizationRule | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type                                   | Next Version          | Next Type                                      | Status   | Notes |
-|:----------------|:-----------------------------------------------|:----------------------|:-----------------------------------------------|:--------:|:------|
-| v1api20230901   | AdmCredential                                  | v1api20230901/storage | AdmCredential                                  | Extended |       |
-| v1api20230901   | AdmCredentialProperties                        | v1api20230901/storage | AdmCredentialProperties                        | Extended |       |
-| v1api20230901   | AdmCredentialProperties_STATUS                 | v1api20230901/storage | AdmCredentialProperties_STATUS                 | Extended |       |
-| v1api20230901   | AdmCredential_STATUS                           | v1api20230901/storage | AdmCredential_STATUS                           | Extended |       |
-| v1api20230901   | ApnsCredential                                 | v1api20230901/storage | ApnsCredential                                 | Extended |       |
-| v1api20230901   | ApnsCredentialProperties                       | v1api20230901/storage | ApnsCredentialProperties                       | Extended |       |
-| v1api20230901   | ApnsCredentialProperties_STATUS                | v1api20230901/storage | ApnsCredentialProperties_STATUS                | Extended |       |
-| v1api20230901   | ApnsCredential_STATUS                          | v1api20230901/storage | ApnsCredential_STATUS                          | Extended |       |
-| v1api20230901   | BaiduCredential                                | v1api20230901/storage | BaiduCredential                                | Extended |       |
-| v1api20230901   | BaiduCredentialProperties                      | v1api20230901/storage | BaiduCredentialProperties                      | Extended |       |
-| v1api20230901   | BaiduCredentialProperties_STATUS               | v1api20230901/storage | BaiduCredentialProperties_STATUS               | Extended |       |
-| v1api20230901   | BaiduCredential_STATUS                         | v1api20230901/storage | BaiduCredential_STATUS                         | Extended |       |
-| v1api20230901   | BrowserCredential                              | v1api20230901/storage | BrowserCredential                              | Extended |       |
-| v1api20230901   | BrowserCredentialProperties                    | v1api20230901/storage | BrowserCredentialProperties                    | Extended |       |
-| v1api20230901   | BrowserCredentialProperties_STATUS             | v1api20230901/storage | BrowserCredentialProperties_STATUS             | Extended |       |
-| v1api20230901   | BrowserCredential_STATUS                       | v1api20230901/storage | BrowserCredential_STATUS                       | Extended |       |
-| v1api20230901   | GcmCredential                                  | v1api20230901/storage | GcmCredential                                  | Extended |       |
-| v1api20230901   | GcmCredentialProperties                        | v1api20230901/storage | GcmCredentialProperties                        | Extended |       |
-| v1api20230901   | GcmCredentialProperties_STATUS                 | v1api20230901/storage | GcmCredentialProperties_STATUS                 | Extended |       |
-| v1api20230901   | GcmCredential_STATUS                           | v1api20230901/storage | GcmCredential_STATUS                           | Extended |       |
-| v1api20230901   | IpRule                                         | v1api20230901/storage | IpRule                                         | Modified |       |
-| v1api20230901   | IpRule_STATUS                                  | v1api20230901/storage | IpRule_STATUS                                  | Modified |       |
-| v1api20230901   | MpnsCredential                                 | v1api20230901/storage | MpnsCredential                                 | Extended |       |
-| v1api20230901   | MpnsCredentialProperties                       | v1api20230901/storage | MpnsCredentialProperties                       | Extended |       |
-| v1api20230901   | MpnsCredentialProperties_STATUS                | v1api20230901/storage | MpnsCredentialProperties_STATUS                | Extended |       |
-| v1api20230901   | MpnsCredential_STATUS                          | v1api20230901/storage | MpnsCredential_STATUS                          | Extended |       |
-| v1api20230901   | NamespaceOperatorConfigMaps                    | v1api20230901/storage | NamespaceOperatorConfigMaps                    | Extended |       |
-| v1api20230901   | NamespaceOperatorSecrets                       | v1api20230901/storage | NamespaceOperatorSecrets                       | Extended |       |
-| v1api20230901   | NamespaceOperatorSpec                          | v1api20230901/storage | NamespaceOperatorSpec                          | Extended |       |
-| v1api20230901   | NamespaceProperties                            | v1api20230901/storage | NamespaceProperties                            | Modified |       |
-| v1api20230901   | NamespaceProperties_STATUS                     | v1api20230901/storage | NamespaceProperties_STATUS                     | Modified |       |
-| v1api20230901   | Namespace_STATUS                               | v1api20230901/storage | Namespace_STATUS                               | Extended |       |
-| v1api20230901   | Namespace_Spec                                 | v1api20230901/storage | Namespace_Spec                                 | Modified |       |
-| v1api20230901   | NamespacesAuthorizationRuleOperatorSpec        | v1api20230901/storage | NamespacesAuthorizationRuleOperatorSpec        | Extended |       |
-| v1api20230901   | NamespacesAuthorizationRule_STATUS             | v1api20230901/storage | NamespacesAuthorizationRule_STATUS             | Extended |       |
-| v1api20230901   | NamespacesAuthorizationRule_Spec               | v1api20230901/storage | NamespacesAuthorizationRule_Spec               | Modified |       |
-| v1api20230901   | NetworkAcls                                    | v1api20230901/storage | NetworkAcls                                    | Extended |       |
-| v1api20230901   | NetworkAcls_STATUS                             | v1api20230901/storage | NetworkAcls_STATUS                             | Extended |       |
-| v1api20230901   | NotificationHubOperatorSecrets                 | v1api20230901/storage | NotificationHubOperatorSecrets                 | Extended |       |
-| v1api20230901   | NotificationHubOperatorSpec                    | v1api20230901/storage | NotificationHubOperatorSpec                    | Extended |       |
-| v1api20230901   | NotificationHubProperties                      | v1api20230901/storage | NotificationHubProperties                      | Extended |       |
-| v1api20230901   | NotificationHubProperties_STATUS               | v1api20230901/storage | NotificationHubProperties_STATUS               | Extended |       |
-| v1api20230901   | NotificationHub_STATUS                         | v1api20230901/storage | NotificationHub_STATUS                         | Extended |       |
-| v1api20230901   | NotificationHub_Spec                           | v1api20230901/storage | NotificationHub_Spec                           | Modified |       |
-| v1api20230901   | NotificationHubsAuthorizationRuleOperatorSpec  | v1api20230901/storage | NotificationHubsAuthorizationRuleOperatorSpec  | Extended |       |
-| v1api20230901   | NotificationHubsAuthorizationRule_STATUS       | v1api20230901/storage | NotificationHubsAuthorizationRule_STATUS       | Extended |       |
-| v1api20230901   | NotificationHubsAuthorizationRule_Spec         | v1api20230901/storage | NotificationHubsAuthorizationRule_Spec         | Modified |       |
-| v1api20230901   | PnsCredentials                                 | v1api20230901/storage | PnsCredentials                                 | Extended |       |
-| v1api20230901   | PnsCredentials_STATUS                          | v1api20230901/storage | PnsCredentials_STATUS                          | Extended |       |
-| v1api20230901   | PrivateEndpointConnectionResource_STATUS       | v1api20230901/storage | PrivateEndpointConnectionResource_STATUS       | Extended |       |
-| v1api20230901   | PublicInternetAuthorizationRule                | v1api20230901/storage | PublicInternetAuthorizationRule                | Modified |       |
-| v1api20230901   | PublicInternetAuthorizationRule_STATUS         | v1api20230901/storage | PublicInternetAuthorizationRule_STATUS         | Modified |       |
-| v1api20230901   | SharedAccessAuthorizationRuleProperties        | v1api20230901/storage | SharedAccessAuthorizationRuleProperties        | Modified |       |
-| v1api20230901   | SharedAccessAuthorizationRuleProperties_STATUS | v1api20230901/storage | SharedAccessAuthorizationRuleProperties_STATUS | Modified |       |
-| v1api20230901   | Sku                                            | v1api20230901/storage | Sku                                            | Modified |       |
-| v1api20230901   | Sku_STATUS                                     | v1api20230901/storage | Sku_STATUS                                     | Modified |       |
-| v1api20230901   | SystemData_STATUS                              | v1api20230901/storage | SystemData_STATUS                              | Modified |       |
-| v1api20230901   | WnsCredential                                  | v1api20230901/storage | WnsCredential                                  | Extended |       |
-| v1api20230901   | WnsCredentialProperties                        | v1api20230901/storage | WnsCredentialProperties                        | Extended |       |
-| v1api20230901   | WnsCredentialProperties_STATUS                 | v1api20230901/storage | WnsCredentialProperties_STATUS                 | Extended |       |
-| v1api20230901   | WnsCredential_STATUS                           | v1api20230901/storage | WnsCredential_STATUS                           | Extended |       |
-| v1api20230901   | XiaomiCredential                               | v1api20230901/storage | XiaomiCredential                               | Extended |       |
-| v1api20230901   | XiaomiCredentialProperties                     | v1api20230901/storage | XiaomiCredentialProperties                     | Extended |       |
-| v1api20230901   | XiaomiCredentialProperties_STATUS              | v1api20230901/storage | XiaomiCredentialProperties_STATUS              | Extended |       |
-| v1api20230901   | XiaomiCredential_STATUS                        | v1api20230901/storage | XiaomiCredential_STATUS                        | Extended |       |
+| v1api20230901                                  | v1api20230901/storage                          | Status   | Notes |
+|:-----------------------------------------------|:-----------------------------------------------|:--------:|:------|
+| AdmCredential                                  | AdmCredential                                  | Extended |       |
+| AdmCredentialProperties                        | AdmCredentialProperties                        | Extended |       |
+| AdmCredentialProperties_STATUS                 | AdmCredentialProperties_STATUS                 | Extended |       |
+| AdmCredential_STATUS                           | AdmCredential_STATUS                           | Extended |       |
+| ApnsCredential                                 | ApnsCredential                                 | Extended |       |
+| ApnsCredentialProperties                       | ApnsCredentialProperties                       | Extended |       |
+| ApnsCredentialProperties_STATUS                | ApnsCredentialProperties_STATUS                | Extended |       |
+| ApnsCredential_STATUS                          | ApnsCredential_STATUS                          | Extended |       |
+| BaiduCredential                                | BaiduCredential                                | Extended |       |
+| BaiduCredentialProperties                      | BaiduCredentialProperties                      | Extended |       |
+| BaiduCredentialProperties_STATUS               | BaiduCredentialProperties_STATUS               | Extended |       |
+| BaiduCredential_STATUS                         | BaiduCredential_STATUS                         | Extended |       |
+| BrowserCredential                              | BrowserCredential                              | Extended |       |
+| BrowserCredentialProperties                    | BrowserCredentialProperties                    | Extended |       |
+| BrowserCredentialProperties_STATUS             | BrowserCredentialProperties_STATUS             | Extended |       |
+| BrowserCredential_STATUS                       | BrowserCredential_STATUS                       | Extended |       |
+| GcmCredential                                  | GcmCredential                                  | Extended |       |
+| GcmCredentialProperties                        | GcmCredentialProperties                        | Extended |       |
+| GcmCredentialProperties_STATUS                 | GcmCredentialProperties_STATUS                 | Extended |       |
+| GcmCredential_STATUS                           | GcmCredential_STATUS                           | Extended |       |
+| IpRule                                         | IpRule                                         | Modified |       |
+| IpRule_STATUS                                  | IpRule_STATUS                                  | Modified |       |
+| MpnsCredential                                 | MpnsCredential                                 | Extended |       |
+| MpnsCredentialProperties                       | MpnsCredentialProperties                       | Extended |       |
+| MpnsCredentialProperties_STATUS                | MpnsCredentialProperties_STATUS                | Extended |       |
+| MpnsCredential_STATUS                          | MpnsCredential_STATUS                          | Extended |       |
+| NamespaceOperatorConfigMaps                    | NamespaceOperatorConfigMaps                    | Extended |       |
+| NamespaceOperatorSecrets                       | NamespaceOperatorSecrets                       | Extended |       |
+| NamespaceOperatorSpec                          | NamespaceOperatorSpec                          | Extended |       |
+| NamespaceProperties                            | NamespaceProperties                            | Modified |       |
+| NamespaceProperties_STATUS                     | NamespaceProperties_STATUS                     | Modified |       |
+| Namespace_STATUS                               | Namespace_STATUS                               | Extended |       |
+| Namespace_Spec                                 | Namespace_Spec                                 | Modified |       |
+| NamespacesAuthorizationRuleOperatorSpec        | NamespacesAuthorizationRuleOperatorSpec        | Extended |       |
+| NamespacesAuthorizationRule_STATUS             | NamespacesAuthorizationRule_STATUS             | Extended |       |
+| NamespacesAuthorizationRule_Spec               | NamespacesAuthorizationRule_Spec               | Modified |       |
+| NetworkAcls                                    | NetworkAcls                                    | Extended |       |
+| NetworkAcls_STATUS                             | NetworkAcls_STATUS                             | Extended |       |
+| NotificationHubOperatorSecrets                 | NotificationHubOperatorSecrets                 | Extended |       |
+| NotificationHubOperatorSpec                    | NotificationHubOperatorSpec                    | Extended |       |
+| NotificationHubProperties                      | NotificationHubProperties                      | Extended |       |
+| NotificationHubProperties_STATUS               | NotificationHubProperties_STATUS               | Extended |       |
+| NotificationHub_STATUS                         | NotificationHub_STATUS                         | Extended |       |
+| NotificationHub_Spec                           | NotificationHub_Spec                           | Modified |       |
+| NotificationHubsAuthorizationRuleOperatorSpec  | NotificationHubsAuthorizationRuleOperatorSpec  | Extended |       |
+| NotificationHubsAuthorizationRule_STATUS       | NotificationHubsAuthorizationRule_STATUS       | Extended |       |
+| NotificationHubsAuthorizationRule_Spec         | NotificationHubsAuthorizationRule_Spec         | Modified |       |
+| PnsCredentials                                 | PnsCredentials                                 | Extended |       |
+| PnsCredentials_STATUS                          | PnsCredentials_STATUS                          | Extended |       |
+| PrivateEndpointConnectionResource_STATUS       | PrivateEndpointConnectionResource_STATUS       | Extended |       |
+| PublicInternetAuthorizationRule                | PublicInternetAuthorizationRule                | Modified |       |
+| PublicInternetAuthorizationRule_STATUS         | PublicInternetAuthorizationRule_STATUS         | Modified |       |
+| SharedAccessAuthorizationRuleProperties        | SharedAccessAuthorizationRuleProperties        | Modified |       |
+| SharedAccessAuthorizationRuleProperties_STATUS | SharedAccessAuthorizationRuleProperties_STATUS | Modified |       |
+| Sku                                            | Sku                                            | Modified |       |
+| Sku_STATUS                                     | Sku_STATUS                                     | Modified |       |
+| SystemData_STATUS                              | SystemData_STATUS                              | Modified |       |
+| WnsCredential                                  | WnsCredential                                  | Extended |       |
+| WnsCredentialProperties                        | WnsCredentialProperties                        | Extended |       |
+| WnsCredentialProperties_STATUS                 | WnsCredentialProperties_STATUS                 | Extended |       |
+| WnsCredential_STATUS                           | WnsCredential_STATUS                           | Extended |       |
+| XiaomiCredential                               | XiaomiCredential                               | Extended |       |
+| XiaomiCredentialProperties                     | XiaomiCredentialProperties                     | Extended |       |
+| XiaomiCredentialProperties_STATUS              | XiaomiCredentialProperties_STATUS              | Extended |       |
+| XiaomiCredential_STATUS                        | XiaomiCredential_STATUS                        | Extended |       |
 
 ### AdmCredential
 

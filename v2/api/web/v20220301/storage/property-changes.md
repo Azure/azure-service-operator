@@ -11,146 +11,146 @@ Statuses:
 
 ## Resources
 
-| Current Version   | Current Type       | Next Version      | Next Type          | Status    | Notes |
-|:------------------|:-------------------|:------------------|:-------------------|:---------:|:------|
-| v20220301/storage | ServerFarm         | v20250501/storage | ServerFarm         | Identical |       |
-| v20220301/storage | Site               | v20250501/storage | Site               | Identical |       |
-| v20220301/storage | SitesSourcecontrol | v20250501/storage | SitesSourcecontrol | Identical |       |
+| v20220301/storage  | v20250501/storage  | Status    | Notes |
+|:-------------------|:-------------------|:---------:|:------|
+| ServerFarm         | ServerFarm         | Identical |       |
+| Site               | Site               | Identical |       |
+| SitesSourcecontrol | SitesSourcecontrol | Identical |       |
 
 ## Objects
 
-| Current Version   | Current Type                              | Next Version      | Next Type                                       | Status    | Notes |
-|:------------------|:------------------------------------------|:------------------|:------------------------------------------------|:---------:|:------|
-| v20220301/storage | ApiDefinitionInfo                         | v20250501/storage | ApiDefinitionInfo                               | Identical |       |
-| v20220301/storage | ApiDefinitionInfo_STATUS                  | v20250501/storage | ApiDefinitionInfo_STATUS                        | Identical |       |
-| v20220301/storage | ApiManagementConfig                       | v20250501/storage | ApiManagementConfig                             | Identical |       |
-| v20220301/storage | ApiManagementConfig_STATUS                | v20250501/storage | ApiManagementConfig_STATUS                      | Identical |       |
-| v20220301/storage | AutoHealActions                           | v20250501/storage | AutoHealActions                                 | Identical |       |
-| v20220301/storage | AutoHealActions_STATUS                    | v20250501/storage | AutoHealActions_STATUS                          | Identical |       |
-| v20220301/storage | AutoHealCustomAction                      | v20250501/storage | AutoHealCustomAction                            | Identical |       |
-| v20220301/storage | AutoHealCustomAction_STATUS               | v20250501/storage | AutoHealCustomAction_STATUS                     | Identical |       |
-| v20220301/storage | AutoHealRules                             | v20250501/storage | AutoHealRules                                   | Identical |       |
-| v20220301/storage | AutoHealRules_STATUS                      | v20250501/storage | AutoHealRules_STATUS                            | Identical |       |
-| v20220301/storage | AutoHealTriggers                          | v20250501/storage | AutoHealTriggers                                | Identical |       |
-| v20220301/storage | AutoHealTriggers_STATUS                   | v20250501/storage | AutoHealTriggers_STATUS                         | Identical |       |
-| v20220301/storage | AzureStorageInfoValue                     | v20250501/storage | AzureStorageInfoValue                           | Extended  |       |
-| v20220301/storage | AzureStorageInfoValue_STATUS              | v20250501/storage | AzureStorageInfoValue_STATUS                    | Extended  |       |
-| v20220301/storage | Capability                                | v20250501/storage | Capability                                      | Identical |       |
-| v20220301/storage | Capability_STATUS                         | v20250501/storage | Capability_STATUS                               | Identical |       |
-| v20220301/storage | CloningInfo                               | v20250501/storage | CloningInfo                                     | Identical |       |
-| v20220301/storage | CloningInfo_STATUS                        | v20250501/storage | CloningInfo_STATUS                              | Identical |       |
-| v20220301/storage | ConnStringInfo                            | v20250501/storage | ConnStringInfo                                  | Identical |       |
-| v20220301/storage | ConnStringInfo_STATUS                     | v20250501/storage | ConnStringInfo_STATUS                           | Identical |       |
-| v20220301/storage | CorsSettings                              | v20250501/storage | CorsSettings                                    | Identical |       |
-| v20220301/storage | CorsSettings_STATUS                       | v20250501/storage | CorsSettings_STATUS                             | Identical |       |
-|                   |                                           | v20250501/storage | DaprConfig                                      | New       |       |
-|                   |                                           | v20250501/storage | DaprConfig_STATUS                               | New       |       |
-|                   |                                           | v20250501/storage | DefaultIdentity                                 | New       |       |
-|                   |                                           | v20250501/storage | DefaultIdentity_STATUS                          | New       |       |
-| v20220301/storage | Experiments                               | v20250501/storage | Experiments                                     | Identical |       |
-| v20220301/storage | Experiments_STATUS                        | v20250501/storage | Experiments_STATUS                              | Identical |       |
-| v20220301/storage | ExtendedLocation                          | v20250501/storage | ExtendedLocation                                | Identical |       |
-| v20220301/storage | ExtendedLocation_STATUS                   | v20250501/storage | ExtendedLocation_STATUS                         | Identical |       |
-|                   |                                           | v20250501/storage | FunctionAppConfig                               | New       |       |
-|                   |                                           | v20250501/storage | FunctionAppConfig_STATUS                        | New       |       |
-|                   |                                           | v20250501/storage | FunctionsAlwaysReadyConfig                      | New       |       |
-|                   |                                           | v20250501/storage | FunctionsAlwaysReadyConfig_STATUS               | New       |       |
-|                   |                                           | v20250501/storage | FunctionsDeployment                             | New       |       |
-|                   |                                           | v20250501/storage | FunctionsDeploymentStorage                      | New       |       |
-|                   |                                           | v20250501/storage | FunctionsDeploymentStorageAuthentication        | New       |       |
-|                   |                                           | v20250501/storage | FunctionsDeploymentStorageAuthentication_STATUS | New       |       |
-|                   |                                           | v20250501/storage | FunctionsDeploymentStorage_STATUS               | New       |       |
-|                   |                                           | v20250501/storage | FunctionsDeployment_STATUS                      | New       |       |
-|                   |                                           | v20250501/storage | FunctionsRuntime                                | New       |       |
-|                   |                                           | v20250501/storage | FunctionsRuntime_STATUS                         | New       |       |
-|                   |                                           | v20250501/storage | FunctionsScaleAndConcurrency                    | New       |       |
-|                   |                                           | v20250501/storage | FunctionsScaleAndConcurrencyTriggers            | New       |       |
-|                   |                                           | v20250501/storage | FunctionsScaleAndConcurrencyTriggersHttp        | New       |       |
-|                   |                                           | v20250501/storage | FunctionsScaleAndConcurrencyTriggersHttp_STATUS | New       |       |
-|                   |                                           | v20250501/storage | FunctionsScaleAndConcurrencyTriggers_STATUS     | New       |       |
-|                   |                                           | v20250501/storage | FunctionsScaleAndConcurrency_STATUS             | New       |       |
-|                   |                                           | v20250501/storage | FunctionsSiteUpdateStrategy                     | New       |       |
-|                   |                                           | v20250501/storage | FunctionsSiteUpdateStrategy_STATUS              | New       |       |
-| v20220301/storage | GitHubActionCodeConfiguration             | v20250501/storage | GitHubActionCodeConfiguration                   | Identical |       |
-| v20220301/storage | GitHubActionCodeConfiguration_STATUS      | v20250501/storage | GitHubActionCodeConfiguration_STATUS            | Identical |       |
-| v20220301/storage | GitHubActionConfiguration                 | v20250501/storage | GitHubActionConfiguration                       | Identical |       |
-| v20220301/storage | GitHubActionConfiguration_STATUS          | v20250501/storage | GitHubActionConfiguration_STATUS                | Identical |       |
-| v20220301/storage | GitHubActionContainerConfiguration        | v20250501/storage | GitHubActionContainerConfiguration              | Identical |       |
-| v20220301/storage | GitHubActionContainerConfiguration_STATUS | v20250501/storage | GitHubActionContainerConfiguration_STATUS       | Identical |       |
-| v20220301/storage | HandlerMapping                            | v20250501/storage | HandlerMapping                                  | Identical |       |
-| v20220301/storage | HandlerMapping_STATUS                     | v20250501/storage | HandlerMapping_STATUS                           | Identical |       |
-| v20220301/storage | HostNameSslState                          | v20250501/storage | HostNameSslState                                | Identical |       |
-| v20220301/storage | HostNameSslState_STATUS                   | v20250501/storage | HostNameSslState_STATUS                         | Identical |       |
-| v20220301/storage | HostingEnvironmentProfile                 | v20250501/storage | HostingEnvironmentProfile                       | Identical |       |
-| v20220301/storage | HostingEnvironmentProfile_STATUS          | v20250501/storage | HostingEnvironmentProfile_STATUS                | Identical |       |
-|                   |                                           | v20250501/storage | InstallScript                                   | New       |       |
-|                   |                                           | v20250501/storage | InstallScriptSource                             | New       |       |
-|                   |                                           | v20250501/storage | InstallScriptSource_STATUS                      | New       |       |
-|                   |                                           | v20250501/storage | InstallScript_STATUS                            | New       |       |
-| v20220301/storage | IpSecurityRestriction                     | v20250501/storage | IpSecurityRestriction                           | Identical |       |
-| v20220301/storage | IpSecurityRestriction_STATUS              | v20250501/storage | IpSecurityRestriction_STATUS                    | Identical |       |
-|                   |                                           | v20250501/storage | KeyVaultReferenceWithStatus                     | New       |       |
-|                   |                                           | v20250501/storage | KeyVaultReferenceWithStatus_STATUS              | New       |       |
-| v20220301/storage | KubeEnvironmentProfile                    | v20250501/storage | KubeEnvironmentProfile                          | Identical |       |
-| v20220301/storage | KubeEnvironmentProfile_STATUS             | v20250501/storage | KubeEnvironmentProfile_STATUS                   | Identical |       |
-| v20220301/storage | ManagedServiceIdentity                    | v20250501/storage | ManagedServiceIdentity                          | Identical |       |
-|                   |                                           | v20250501/storage | ManagedServiceIdentity                          | New       |       |
-|                   |                                           | v20250501/storage | ManagedServiceIdentity_STATUS                   | New       |       |
-| v20220301/storage | ManagedServiceIdentity_STATUS             | v20250501/storage | ManagedServiceIdentity_STATUS                   | Identical |       |
-| v20220301/storage | NameValuePair                             | v20250501/storage | NameValuePair                                   | Identical |       |
-| v20220301/storage | NameValuePair_STATUS                      | v20250501/storage | NameValuePair_STATUS                            | Identical |       |
-|                   |                                           | v20250501/storage | OutboundVnetRouting                             | New       |       |
-|                   |                                           | v20250501/storage | OutboundVnetRouting_STATUS                      | New       |       |
-| v20220301/storage | PushSettings                              | v20250501/storage | PushSettings                                    | Identical |       |
-| v20220301/storage | PushSettings_STATUS                       | v20250501/storage | PushSettings_STATUS                             | Identical |       |
-| v20220301/storage | RampUpRule                                | v20250501/storage | RampUpRule                                      | Identical |       |
-| v20220301/storage | RampUpRule_STATUS                         | v20250501/storage | RampUpRule_STATUS                               | Identical |       |
-|                   |                                           | v20250501/storage | RegistryAdapter                                 | New       |       |
-|                   |                                           | v20250501/storage | RegistryAdapter_STATUS                          | New       |       |
-| v20220301/storage | RequestsBasedTrigger                      | v20250501/storage | RequestsBasedTrigger                            | Identical |       |
-| v20220301/storage | RequestsBasedTrigger_STATUS               | v20250501/storage | RequestsBasedTrigger_STATUS                     | Identical |       |
-|                   |                                           | v20250501/storage | ResourceConfig                                  | New       |       |
-|                   |                                           | v20250501/storage | ResourceConfig_STATUS                           | New       |       |
-|                   |                                           | v20250501/storage | ServerFarmNetworkSettings                       | New       |       |
-|                   |                                           | v20250501/storage | ServerFarmNetworkSettings_STATUS                | New       |       |
-| v20220301/storage | ServerFarmOperatorSpec                    | v20250501/storage | ServerFarmOperatorSpec                          | Identical |       |
-| v20220301/storage | ServerFarm_STATUS                         | v20250501/storage | ServerFarm_STATUS                               | Extended  |       |
-| v20220301/storage | ServerFarm_Spec                           | v20250501/storage | ServerFarm_Spec                                 | Extended  |       |
-| v20220301/storage | SiteConfig                                | v20250501/storage | SiteConfig                                      | Extended  |       |
-| v20220301/storage | SiteConfig_STATUS                         | v20250501/storage | SiteConfig_STATUS                               | Extended  |       |
-|                   |                                           | v20250501/storage | SiteDnsConfig                                   | New       |       |
-|                   |                                           | v20250501/storage | SiteDnsConfig_STATUS                            | New       |       |
-| v20220301/storage | SiteLimits                                | v20250501/storage | SiteLimits                                      | Identical |       |
-| v20220301/storage | SiteLimits_STATUS                         | v20250501/storage | SiteLimits_STATUS                               | Identical |       |
-| v20220301/storage | SiteMachineKey_STATUS                     | v20250501/storage | SiteMachineKey_STATUS                           | Identical |       |
-| v20220301/storage | SiteOperatorSpec                          | v20250501/storage | SiteOperatorSpec                                | Identical |       |
-| v20220301/storage | Site_STATUS                               | v20250501/storage | Site_STATUS                                     | Modified  |       |
-| v20220301/storage | Site_Spec                                 | v20250501/storage | Site_Spec                                       | Modified  |       |
-| v20220301/storage | SitesSourcecontrolOperatorSpec            | v20250501/storage | SitesSourcecontrolOperatorSpec                  | Identical |       |
-| v20220301/storage | SitesSourcecontrol_STATUS                 | v20250501/storage | SitesSourcecontrol_STATUS                       | Extended  |       |
-| v20220301/storage | SitesSourcecontrol_Spec                   | v20250501/storage | SitesSourcecontrol_Spec                         | Identical |       |
-| v20220301/storage | SkuCapacity                               | v20250501/storage | SkuCapacity                                     | Identical |       |
-| v20220301/storage | SkuCapacity_STATUS                        | v20250501/storage | SkuCapacity_STATUS                              | Identical |       |
-| v20220301/storage | SkuDescription                            | v20250501/storage | SkuDescription                                  | Identical |       |
-| v20220301/storage | SkuDescription_STATUS                     | v20250501/storage | SkuDescription_STATUS                           | Identical |       |
-| v20220301/storage | SlotSwapStatus_STATUS                     | v20250501/storage | SlotSwapStatus_STATUS                           | Identical |       |
-| v20220301/storage | SlowRequestsBasedTrigger                  | v20250501/storage | SlowRequestsBasedTrigger                        | Identical |       |
-| v20220301/storage | SlowRequestsBasedTrigger_STATUS           | v20250501/storage | SlowRequestsBasedTrigger_STATUS                 | Identical |       |
-| v20220301/storage | StatusCodesBasedTrigger                   | v20250501/storage | StatusCodesBasedTrigger                         | Identical |       |
-| v20220301/storage | StatusCodesBasedTrigger_STATUS            | v20250501/storage | StatusCodesBasedTrigger_STATUS                  | Identical |       |
-| v20220301/storage | StatusCodesRangeBasedTrigger              | v20250501/storage | StatusCodesRangeBasedTrigger                    | Identical |       |
-| v20220301/storage | StatusCodesRangeBasedTrigger_STATUS       | v20250501/storage | StatusCodesRangeBasedTrigger_STATUS             | Identical |       |
-|                   |                                           | v20250501/storage | StorageMount                                    | New       |       |
-|                   |                                           | v20250501/storage | StorageMount_STATUS                             | New       |       |
-|                   |                                           | v20250501/storage | SystemData_STATUS                               | New       |       |
-| v20220301/storage | UserAssignedIdentityDetails               | v20250501/storage | UserAssignedIdentityDetails                     | Identical |       |
-|                   |                                           | v20250501/storage | UserAssignedIdentityDetails                     | New       |       |
-| v20220301/storage | UserAssignedIdentity_STATUS               | v20250501/storage | UserAssignedIdentity_STATUS                     | Identical |       |
-|                   |                                           | v20250501/storage | UserAssignedIdentity_STATUS                     | New       |       |
-| v20220301/storage | VirtualApplication                        | v20250501/storage | VirtualApplication                              | Identical |       |
-| v20220301/storage | VirtualApplication_STATUS                 | v20250501/storage | VirtualApplication_STATUS                       | Identical |       |
-| v20220301/storage | VirtualDirectory                          | v20250501/storage | VirtualDirectory                                | Identical |       |
-| v20220301/storage | VirtualDirectory_STATUS                   | v20250501/storage | VirtualDirectory_STATUS                         | Identical |       |
+| v20220301/storage                         | v20250501/storage                               | Status    | Notes |
+|:------------------------------------------|:------------------------------------------------|:---------:|:------|
+| ApiDefinitionInfo                         | ApiDefinitionInfo                               | Identical |       |
+| ApiDefinitionInfo_STATUS                  | ApiDefinitionInfo_STATUS                        | Identical |       |
+| ApiManagementConfig                       | ApiManagementConfig                             | Identical |       |
+| ApiManagementConfig_STATUS                | ApiManagementConfig_STATUS                      | Identical |       |
+| AutoHealActions                           | AutoHealActions                                 | Identical |       |
+| AutoHealActions_STATUS                    | AutoHealActions_STATUS                          | Identical |       |
+| AutoHealCustomAction                      | AutoHealCustomAction                            | Identical |       |
+| AutoHealCustomAction_STATUS               | AutoHealCustomAction_STATUS                     | Identical |       |
+| AutoHealRules                             | AutoHealRules                                   | Identical |       |
+| AutoHealRules_STATUS                      | AutoHealRules_STATUS                            | Identical |       |
+| AutoHealTriggers                          | AutoHealTriggers                                | Identical |       |
+| AutoHealTriggers_STATUS                   | AutoHealTriggers_STATUS                         | Identical |       |
+| AzureStorageInfoValue                     | AzureStorageInfoValue                           | Extended  |       |
+| AzureStorageInfoValue_STATUS              | AzureStorageInfoValue_STATUS                    | Extended  |       |
+| Capability                                | Capability                                      | Identical |       |
+| Capability_STATUS                         | Capability_STATUS                               | Identical |       |
+| CloningInfo                               | CloningInfo                                     | Identical |       |
+| CloningInfo_STATUS                        | CloningInfo_STATUS                              | Identical |       |
+| ConnStringInfo                            | ConnStringInfo                                  | Identical |       |
+| ConnStringInfo_STATUS                     | ConnStringInfo_STATUS                           | Identical |       |
+| CorsSettings                              | CorsSettings                                    | Identical |       |
+| CorsSettings_STATUS                       | CorsSettings_STATUS                             | Identical |       |
+|                                           | DaprConfig                                      | New       |       |
+|                                           | DaprConfig_STATUS                               | New       |       |
+|                                           | DefaultIdentity                                 | New       |       |
+|                                           | DefaultIdentity_STATUS                          | New       |       |
+| Experiments                               | Experiments                                     | Identical |       |
+| Experiments_STATUS                        | Experiments_STATUS                              | Identical |       |
+| ExtendedLocation                          | ExtendedLocation                                | Identical |       |
+| ExtendedLocation_STATUS                   | ExtendedLocation_STATUS                         | Identical |       |
+|                                           | FunctionAppConfig                               | New       |       |
+|                                           | FunctionAppConfig_STATUS                        | New       |       |
+|                                           | FunctionsAlwaysReadyConfig                      | New       |       |
+|                                           | FunctionsAlwaysReadyConfig_STATUS               | New       |       |
+|                                           | FunctionsDeployment                             | New       |       |
+|                                           | FunctionsDeploymentStorage                      | New       |       |
+|                                           | FunctionsDeploymentStorageAuthentication        | New       |       |
+|                                           | FunctionsDeploymentStorageAuthentication_STATUS | New       |       |
+|                                           | FunctionsDeploymentStorage_STATUS               | New       |       |
+|                                           | FunctionsDeployment_STATUS                      | New       |       |
+|                                           | FunctionsRuntime                                | New       |       |
+|                                           | FunctionsRuntime_STATUS                         | New       |       |
+|                                           | FunctionsScaleAndConcurrency                    | New       |       |
+|                                           | FunctionsScaleAndConcurrencyTriggers            | New       |       |
+|                                           | FunctionsScaleAndConcurrencyTriggersHttp        | New       |       |
+|                                           | FunctionsScaleAndConcurrencyTriggersHttp_STATUS | New       |       |
+|                                           | FunctionsScaleAndConcurrencyTriggers_STATUS     | New       |       |
+|                                           | FunctionsScaleAndConcurrency_STATUS             | New       |       |
+|                                           | FunctionsSiteUpdateStrategy                     | New       |       |
+|                                           | FunctionsSiteUpdateStrategy_STATUS              | New       |       |
+| GitHubActionCodeConfiguration             | GitHubActionCodeConfiguration                   | Identical |       |
+| GitHubActionCodeConfiguration_STATUS      | GitHubActionCodeConfiguration_STATUS            | Identical |       |
+| GitHubActionConfiguration                 | GitHubActionConfiguration                       | Identical |       |
+| GitHubActionConfiguration_STATUS          | GitHubActionConfiguration_STATUS                | Identical |       |
+| GitHubActionContainerConfiguration        | GitHubActionContainerConfiguration              | Identical |       |
+| GitHubActionContainerConfiguration_STATUS | GitHubActionContainerConfiguration_STATUS       | Identical |       |
+| HandlerMapping                            | HandlerMapping                                  | Identical |       |
+| HandlerMapping_STATUS                     | HandlerMapping_STATUS                           | Identical |       |
+| HostNameSslState                          | HostNameSslState                                | Identical |       |
+| HostNameSslState_STATUS                   | HostNameSslState_STATUS                         | Identical |       |
+| HostingEnvironmentProfile                 | HostingEnvironmentProfile                       | Identical |       |
+| HostingEnvironmentProfile_STATUS          | HostingEnvironmentProfile_STATUS                | Identical |       |
+|                                           | InstallScript                                   | New       |       |
+|                                           | InstallScriptSource                             | New       |       |
+|                                           | InstallScriptSource_STATUS                      | New       |       |
+|                                           | InstallScript_STATUS                            | New       |       |
+| IpSecurityRestriction                     | IpSecurityRestriction                           | Identical |       |
+| IpSecurityRestriction_STATUS              | IpSecurityRestriction_STATUS                    | Identical |       |
+|                                           | KeyVaultReferenceWithStatus                     | New       |       |
+|                                           | KeyVaultReferenceWithStatus_STATUS              | New       |       |
+| KubeEnvironmentProfile                    | KubeEnvironmentProfile                          | Identical |       |
+| KubeEnvironmentProfile_STATUS             | KubeEnvironmentProfile_STATUS                   | Identical |       |
+| ManagedServiceIdentity                    | ManagedServiceIdentity                          | Identical |       |
+|                                           | ManagedServiceIdentity                          | New       |       |
+|                                           | ManagedServiceIdentity_STATUS                   | New       |       |
+| ManagedServiceIdentity_STATUS             | ManagedServiceIdentity_STATUS                   | Identical |       |
+| NameValuePair                             | NameValuePair                                   | Identical |       |
+| NameValuePair_STATUS                      | NameValuePair_STATUS                            | Identical |       |
+|                                           | OutboundVnetRouting                             | New       |       |
+|                                           | OutboundVnetRouting_STATUS                      | New       |       |
+| PushSettings                              | PushSettings                                    | Identical |       |
+| PushSettings_STATUS                       | PushSettings_STATUS                             | Identical |       |
+| RampUpRule                                | RampUpRule                                      | Identical |       |
+| RampUpRule_STATUS                         | RampUpRule_STATUS                               | Identical |       |
+|                                           | RegistryAdapter                                 | New       |       |
+|                                           | RegistryAdapter_STATUS                          | New       |       |
+| RequestsBasedTrigger                      | RequestsBasedTrigger                            | Identical |       |
+| RequestsBasedTrigger_STATUS               | RequestsBasedTrigger_STATUS                     | Identical |       |
+|                                           | ResourceConfig                                  | New       |       |
+|                                           | ResourceConfig_STATUS                           | New       |       |
+|                                           | ServerFarmNetworkSettings                       | New       |       |
+|                                           | ServerFarmNetworkSettings_STATUS                | New       |       |
+| ServerFarmOperatorSpec                    | ServerFarmOperatorSpec                          | Identical |       |
+| ServerFarm_STATUS                         | ServerFarm_STATUS                               | Extended  |       |
+| ServerFarm_Spec                           | ServerFarm_Spec                                 | Extended  |       |
+| SiteConfig                                | SiteConfig                                      | Extended  |       |
+| SiteConfig_STATUS                         | SiteConfig_STATUS                               | Extended  |       |
+|                                           | SiteDnsConfig                                   | New       |       |
+|                                           | SiteDnsConfig_STATUS                            | New       |       |
+| SiteLimits                                | SiteLimits                                      | Identical |       |
+| SiteLimits_STATUS                         | SiteLimits_STATUS                               | Identical |       |
+| SiteMachineKey_STATUS                     | SiteMachineKey_STATUS                           | Identical |       |
+| SiteOperatorSpec                          | SiteOperatorSpec                                | Identical |       |
+| Site_STATUS                               | Site_STATUS                                     | Modified  |       |
+| Site_Spec                                 | Site_Spec                                       | Modified  |       |
+| SitesSourcecontrolOperatorSpec            | SitesSourcecontrolOperatorSpec                  | Identical |       |
+| SitesSourcecontrol_STATUS                 | SitesSourcecontrol_STATUS                       | Extended  |       |
+| SitesSourcecontrol_Spec                   | SitesSourcecontrol_Spec                         | Identical |       |
+| SkuCapacity                               | SkuCapacity                                     | Identical |       |
+| SkuCapacity_STATUS                        | SkuCapacity_STATUS                              | Identical |       |
+| SkuDescription                            | SkuDescription                                  | Identical |       |
+| SkuDescription_STATUS                     | SkuDescription_STATUS                           | Identical |       |
+| SlotSwapStatus_STATUS                     | SlotSwapStatus_STATUS                           | Identical |       |
+| SlowRequestsBasedTrigger                  | SlowRequestsBasedTrigger                        | Identical |       |
+| SlowRequestsBasedTrigger_STATUS           | SlowRequestsBasedTrigger_STATUS                 | Identical |       |
+| StatusCodesBasedTrigger                   | StatusCodesBasedTrigger                         | Identical |       |
+| StatusCodesBasedTrigger_STATUS            | StatusCodesBasedTrigger_STATUS                  | Identical |       |
+| StatusCodesRangeBasedTrigger              | StatusCodesRangeBasedTrigger                    | Identical |       |
+| StatusCodesRangeBasedTrigger_STATUS       | StatusCodesRangeBasedTrigger_STATUS             | Identical |       |
+|                                           | StorageMount                                    | New       |       |
+|                                           | StorageMount_STATUS                             | New       |       |
+|                                           | SystemData_STATUS                               | New       |       |
+| UserAssignedIdentityDetails               | UserAssignedIdentityDetails                     | Identical |       |
+|                                           | UserAssignedIdentityDetails                     | New       |       |
+| UserAssignedIdentity_STATUS               | UserAssignedIdentity_STATUS                     | Identical |       |
+|                                           | UserAssignedIdentity_STATUS                     | New       |       |
+| VirtualApplication                        | VirtualApplication                              | Identical |       |
+| VirtualApplication_STATUS                 | VirtualApplication_STATUS                       | Identical |       |
+| VirtualDirectory                          | VirtualDirectory                                | Identical |       |
+| VirtualDirectory_STATUS                   | VirtualDirectory_STATUS                         | Identical |       |
 
 ### AzureStorageInfoValue
 
@@ -422,133 +422,133 @@ Statuses:
 
 ### Site_STATUS
 
-| v20220301/storage           |                                   | v20250501/storage                 |                                   | Status    | Notes                                          |
-|:----------------------------|:----------------------------------|:----------------------------------|:----------------------------------|:---------:|:-----------------------------------------------|
-|                             |                                   | AutoGeneratedDomainNameLabelScope | *string                           | New       |                                                |
-| AvailabilityState           | *string                           | AvailabilityState                 | *string                           | Identical |                                                |
-| ClientAffinityEnabled       | *bool                             | ClientAffinityEnabled             | *bool                             | Identical |                                                |
-|                             |                                   | ClientAffinityPartitioningEnabled | *bool                             | New       |                                                |
-|                             |                                   | ClientAffinityProxyEnabled        | *bool                             | New       |                                                |
-| ClientCertEnabled           | *bool                             | ClientCertEnabled                 | *bool                             | Identical |                                                |
-| ClientCertExclusionPaths    | *string                           | ClientCertExclusionPaths          | *string                           | Identical |                                                |
-| ClientCertMode              | *string                           | ClientCertMode                    | *string                           | Identical |                                                |
-| CloningInfo                 | *CloningInfo_STATUS               | CloningInfo                       | *CloningInfo_STATUS               | Identical |                                                |
-| Conditions                  | conditions.Condition[]            | Conditions                        | conditions.Condition[]            | Identical |                                                |
-| ContainerSize               | *int                              | ContainerSize                     | *int                              | Identical |                                                |
-| CustomDomainVerificationId  | *string                           | CustomDomainVerificationId        | *string                           | Identical |                                                |
-| DailyMemoryTimeQuota        | *int                              | DailyMemoryTimeQuota              | *int                              | Identical |                                                |
-|                             |                                   | DaprConfig                        | *DaprConfig_STATUS                | New       |                                                |
-| DefaultHostName             | *string                           | DefaultHostName                   | *string                           | Identical |                                                |
-|                             |                                   | DnsConfiguration                  | *SiteDnsConfig_STATUS             | New       |                                                |
-| Enabled                     | *bool                             | Enabled                           | *bool                             | Identical |                                                |
-| EnabledHostNames            | string[]                          | EnabledHostNames                  | string[]                          | Identical |                                                |
-|                             |                                   | EndToEndEncryptionEnabled         | *bool                             | New       |                                                |
-| ExtendedLocation            | *ExtendedLocation_STATUS          | ExtendedLocation                  | *ExtendedLocation_STATUS          | Identical |                                                |
-|                             |                                   | FunctionAppConfig                 | *FunctionAppConfig_STATUS         | New       |                                                |
-| HostNameSslStates           | HostNameSslState_STATUS[]         | HostNameSslStates                 | HostNameSslState_STATUS[]         | Identical |                                                |
-| HostNames                   | string[]                          | HostNames                         | string[]                          | Identical |                                                |
-| HostNamesDisabled           | *bool                             | HostNamesDisabled                 | *bool                             | Identical |                                                |
-| HostingEnvironmentProfile   | *HostingEnvironmentProfile_STATUS | HostingEnvironmentProfile         | *HostingEnvironmentProfile_STATUS | Identical |                                                |
-| HttpsOnly                   | *bool                             | HttpsOnly                         | *bool                             | Identical |                                                |
-| HyperV                      | *bool                             | HyperV                            | *bool                             | Identical |                                                |
-| Id                          | *string                           | Id                                | *string                           | Identical |                                                |
-| Identity                    | *ManagedServiceIdentity_STATUS    | Identity                          | *ManagedServiceIdentity_STATUS    | Identical |                                                |
-| InProgressOperationId       | *string                           | InProgressOperationId             | *string                           | Identical |                                                |
-|                             |                                   | IpMode                            | *string                           | New       |                                                |
-| IsDefaultContainer          | *bool                             | IsDefaultContainer                | *bool                             | Identical |                                                |
-| IsXenon                     | *bool                             | IsXenon                           | *bool                             | Identical |                                                |
-| KeyVaultReferenceIdentity   | *string                           | KeyVaultReferenceIdentity         | *string                           | Identical |                                                |
-| Kind                        | *string                           | Kind                              | *string                           | Identical |                                                |
-| LastModifiedTimeUtc         | *string                           | LastModifiedTimeUtc               | *string                           | Identical |                                                |
-| Location                    | *string                           | Location                          | *string                           | Identical |                                                |
-|                             |                                   | ManagedEnvironmentId              | *string                           | New       |                                                |
-| MaxNumberOfWorkers          | *int                              | MaxNumberOfWorkers                | *int                              | Identical |                                                |
-| Name                        | *string                           | Name                              | *string                           | Identical |                                                |
-| OutboundIpAddresses         | *string                           | OutboundIpAddresses               | *string                           | Identical |                                                |
-|                             |                                   | OutboundVnetRouting               | *OutboundVnetRouting_STATUS       | New       |                                                |
-| PossibleOutboundIpAddresses | *string                           | PossibleOutboundIpAddresses       | *string                           | Identical |                                                |
-| PropertyBag                 | genruntime.PropertyBag            | PropertyBag                       | genruntime.PropertyBag            | Identical |                                                |
-| PublicNetworkAccess         | *string                           | PublicNetworkAccess               | *string                           | Identical |                                                |
-| RedundancyMode              | *string                           | RedundancyMode                    | *string                           | Identical |                                                |
-| RepositorySiteName          | *string                           | RepositorySiteName                | *string                           | Identical |                                                |
-| Reserved                    | *bool                             | Reserved                          | *bool                             | Identical |                                                |
-|                             |                                   | ResourceConfig                    | *ResourceConfig_STATUS            | New       |                                                |
-| ResourceGroup               | *string                           | ResourceGroup                     | *string                           | Identical |                                                |
-| ScmSiteAlsoStopped          | *bool                             | ScmSiteAlsoStopped                | *bool                             | Identical |                                                |
-| ServerFarmId                | *string                           | ServerFarmId                      | *string                           | Identical |                                                |
-| SiteConfig                  | *SiteConfig_STATUS                | SiteConfig                        | *SiteConfig_STATUS                | Identical |                                                |
-|                             |                                   | Sku                               | *string                           | New       |                                                |
-| SlotSwapStatus              | *SlotSwapStatus_STATUS            | SlotSwapStatus                    | *SlotSwapStatus_STATUS            | Identical |                                                |
-|                             |                                   | SshEnabled                        | *bool                             | New       |                                                |
-| State                       | *string                           | State                             | *string                           | Identical |                                                |
-| StorageAccountRequired      | *bool                             | StorageAccountRequired            | *bool                             | Identical |                                                |
-| SuspendedTill               | *string                           | SuspendedTill                     | *string                           | Identical |                                                |
-|                             |                                   | SystemData                        | *SystemData_STATUS                | New       |                                                |
-| Tags                        | map[string]string                 | Tags                              | map[string]string                 | Identical |                                                |
-| TargetSwapSlot              | *string                           | TargetSwapSlot                    | *string                           | Identical |                                                |
-| TrafficManagerHostNames     | string[]                          | TrafficManagerHostNames           | string[]                          | Identical |                                                |
-| Type                        | *string                           | Type                              | *string                           | Identical |                                                |
-| UsageState                  | *string                           | UsageState                        | *string                           | Identical |                                                |
-| VirtualNetworkSubnetId      | *string                           | VirtualNetworkSubnetId            | *string                           | Identical |                                                |
-| VnetContentShareEnabled     | *bool                             |                                   |                                   | Retired   | Possibly renamed to EndToEndEncryptionEnabled? |
-| VnetImagePullEnabled        | *bool                             |                                   |                                   | Retired   | Possibly renamed to EndToEndEncryptionEnabled? |
-| VnetRouteAllEnabled         | *bool                             |                                   |                                   | Retired   | Possibly renamed to EndToEndEncryptionEnabled? |
-|                             |                                   | WorkloadProfileName               | *string                           | New       |                                                |
+| v20220301/storage           |                                   | v20250501/storage                 |                                   | Status    | Notes |
+|:----------------------------|:----------------------------------|:----------------------------------|:----------------------------------|:---------:|:------|
+|                             |                                   | AutoGeneratedDomainNameLabelScope | *string                           | New       |       |
+| AvailabilityState           | *string                           | AvailabilityState                 | *string                           | Identical |       |
+| ClientAffinityEnabled       | *bool                             | ClientAffinityEnabled             | *bool                             | Identical |       |
+|                             |                                   | ClientAffinityPartitioningEnabled | *bool                             | New       |       |
+|                             |                                   | ClientAffinityProxyEnabled        | *bool                             | New       |       |
+| ClientCertEnabled           | *bool                             | ClientCertEnabled                 | *bool                             | Identical |       |
+| ClientCertExclusionPaths    | *string                           | ClientCertExclusionPaths          | *string                           | Identical |       |
+| ClientCertMode              | *string                           | ClientCertMode                    | *string                           | Identical |       |
+| CloningInfo                 | *CloningInfo_STATUS               | CloningInfo                       | *CloningInfo_STATUS               | Identical |       |
+| Conditions                  | conditions.Condition[]            | Conditions                        | conditions.Condition[]            | Identical |       |
+| ContainerSize               | *int                              | ContainerSize                     | *int                              | Identical |       |
+| CustomDomainVerificationId  | *string                           | CustomDomainVerificationId        | *string                           | Identical |       |
+| DailyMemoryTimeQuota        | *int                              | DailyMemoryTimeQuota              | *int                              | Identical |       |
+|                             |                                   | DaprConfig                        | *DaprConfig_STATUS                | New       |       |
+| DefaultHostName             | *string                           | DefaultHostName                   | *string                           | Identical |       |
+|                             |                                   | DnsConfiguration                  | *SiteDnsConfig_STATUS             | New       |       |
+| Enabled                     | *bool                             | Enabled                           | *bool                             | Identical |       |
+| EnabledHostNames            | string[]                          | EnabledHostNames                  | string[]                          | Identical |       |
+|                             |                                   | EndToEndEncryptionEnabled         | *bool                             | New       |       |
+| ExtendedLocation            | *ExtendedLocation_STATUS          | ExtendedLocation                  | *ExtendedLocation_STATUS          | Identical |       |
+|                             |                                   | FunctionAppConfig                 | *FunctionAppConfig_STATUS         | New       |       |
+| HostNameSslStates           | HostNameSslState_STATUS[]         | HostNameSslStates                 | HostNameSslState_STATUS[]         | Identical |       |
+| HostNames                   | string[]                          | HostNames                         | string[]                          | Identical |       |
+| HostNamesDisabled           | *bool                             | HostNamesDisabled                 | *bool                             | Identical |       |
+| HostingEnvironmentProfile   | *HostingEnvironmentProfile_STATUS | HostingEnvironmentProfile         | *HostingEnvironmentProfile_STATUS | Identical |       |
+| HttpsOnly                   | *bool                             | HttpsOnly                         | *bool                             | Identical |       |
+| HyperV                      | *bool                             | HyperV                            | *bool                             | Identical |       |
+| Id                          | *string                           | Id                                | *string                           | Identical |       |
+| Identity                    | *ManagedServiceIdentity_STATUS    | Identity                          | *ManagedServiceIdentity_STATUS    | Identical |       |
+| InProgressOperationId       | *string                           | InProgressOperationId             | *string                           | Identical |       |
+|                             |                                   | IpMode                            | *string                           | New       |       |
+| IsDefaultContainer          | *bool                             | IsDefaultContainer                | *bool                             | Identical |       |
+| IsXenon                     | *bool                             | IsXenon                           | *bool                             | Identical |       |
+| KeyVaultReferenceIdentity   | *string                           | KeyVaultReferenceIdentity         | *string                           | Identical |       |
+| Kind                        | *string                           | Kind                              | *string                           | Identical |       |
+| LastModifiedTimeUtc         | *string                           | LastModifiedTimeUtc               | *string                           | Identical |       |
+| Location                    | *string                           | Location                          | *string                           | Identical |       |
+|                             |                                   | ManagedEnvironmentId              | *string                           | New       |       |
+| MaxNumberOfWorkers          | *int                              | MaxNumberOfWorkers                | *int                              | Identical |       |
+| Name                        | *string                           | Name                              | *string                           | Identical |       |
+| OutboundIpAddresses         | *string                           | OutboundIpAddresses               | *string                           | Identical |       |
+|                             |                                   | OutboundVnetRouting               | *OutboundVnetRouting_STATUS       | New       |       |
+| PossibleOutboundIpAddresses | *string                           | PossibleOutboundIpAddresses       | *string                           | Identical |       |
+| PropertyBag                 | genruntime.PropertyBag            | PropertyBag                       | genruntime.PropertyBag            | Identical |       |
+| PublicNetworkAccess         | *string                           | PublicNetworkAccess               | *string                           | Identical |       |
+| RedundancyMode              | *string                           | RedundancyMode                    | *string                           | Identical |       |
+| RepositorySiteName          | *string                           | RepositorySiteName                | *string                           | Identical |       |
+| Reserved                    | *bool                             | Reserved                          | *bool                             | Identical |       |
+|                             |                                   | ResourceConfig                    | *ResourceConfig_STATUS            | New       |       |
+| ResourceGroup               | *string                           | ResourceGroup                     | *string                           | Identical |       |
+| ScmSiteAlsoStopped          | *bool                             | ScmSiteAlsoStopped                | *bool                             | Identical |       |
+| ServerFarmId                | *string                           | ServerFarmId                      | *string                           | Identical |       |
+| SiteConfig                  | *SiteConfig_STATUS                | SiteConfig                        | *SiteConfig_STATUS                | Identical |       |
+|                             |                                   | Sku                               | *string                           | New       |       |
+| SlotSwapStatus              | *SlotSwapStatus_STATUS            | SlotSwapStatus                    | *SlotSwapStatus_STATUS            | Identical |       |
+|                             |                                   | SshEnabled                        | *bool                             | New       |       |
+| State                       | *string                           | State                             | *string                           | Identical |       |
+| StorageAccountRequired      | *bool                             | StorageAccountRequired            | *bool                             | Identical |       |
+| SuspendedTill               | *string                           | SuspendedTill                     | *string                           | Identical |       |
+|                             |                                   | SystemData                        | *SystemData_STATUS                | New       |       |
+| Tags                        | map[string]string                 | Tags                              | map[string]string                 | Identical |       |
+| TargetSwapSlot              | *string                           | TargetSwapSlot                    | *string                           | Identical |       |
+| TrafficManagerHostNames     | string[]                          | TrafficManagerHostNames           | string[]                          | Identical |       |
+| Type                        | *string                           | Type                              | *string                           | Identical |       |
+| UsageState                  | *string                           | UsageState                        | *string                           | Identical |       |
+| VirtualNetworkSubnetId      | *string                           | VirtualNetworkSubnetId            | *string                           | Identical |       |
+| VnetContentShareEnabled     | *bool                             |                                   |                                   | Retired   |       |
+| VnetImagePullEnabled        | *bool                             |                                   |                                   | Retired   |       |
+| VnetRouteAllEnabled         | *bool                             |                                   |                                   | Retired   |       |
+|                             |                                   | WorkloadProfileName               | *string                           | New       |       |
 
 ### Site_Spec
 
-| v20220301/storage             |                                    | v20250501/storage                 |                                    | Status    | Notes                                          |
-|:------------------------------|:-----------------------------------|:----------------------------------|:-----------------------------------|:---------:|:-----------------------------------------------|
-|                               |                                    | AutoGeneratedDomainNameLabelScope | *string                            | New       |                                                |
-| AzureName                     | string                             | AzureName                         | string                             | Identical |                                                |
-| ClientAffinityEnabled         | *bool                              | ClientAffinityEnabled             | *bool                              | Identical |                                                |
-|                               |                                    | ClientAffinityPartitioningEnabled | *bool                              | New       |                                                |
-|                               |                                    | ClientAffinityProxyEnabled        | *bool                              | New       |                                                |
-| ClientCertEnabled             | *bool                              | ClientCertEnabled                 | *bool                              | Identical |                                                |
-| ClientCertExclusionPaths      | *string                            | ClientCertExclusionPaths          | *string                            | Identical |                                                |
-| ClientCertMode                | *string                            | ClientCertMode                    | *string                            | Identical |                                                |
-| CloningInfo                   | *CloningInfo                       | CloningInfo                       | *CloningInfo                       | Identical |                                                |
-| ContainerSize                 | *int                               | ContainerSize                     | *int                               | Identical |                                                |
-| CustomDomainVerificationId    | *string                            | CustomDomainVerificationId        | *string                            | Identical |                                                |
-| DailyMemoryTimeQuota          | *int                               | DailyMemoryTimeQuota              | *int                               | Identical |                                                |
-|                               |                                    | DaprConfig                        | *DaprConfig                        | New       |                                                |
-|                               |                                    | DnsConfiguration                  | *SiteDnsConfig                     | New       |                                                |
-| Enabled                       | *bool                              | Enabled                           | *bool                              | Identical |                                                |
-|                               |                                    | EndToEndEncryptionEnabled         | *bool                              | New       |                                                |
-| ExtendedLocation              | *ExtendedLocation                  | ExtendedLocation                  | *ExtendedLocation                  | Identical |                                                |
-|                               |                                    | FunctionAppConfig                 | *FunctionAppConfig                 | New       |                                                |
-| HostNameSslStates             | HostNameSslState[]                 | HostNameSslStates                 | HostNameSslState[]                 | Identical |                                                |
-| HostNamesDisabled             | *bool                              | HostNamesDisabled                 | *bool                              | Identical |                                                |
-| HostingEnvironmentProfile     | *HostingEnvironmentProfile         | HostingEnvironmentProfile         | *HostingEnvironmentProfile         | Identical |                                                |
-| HttpsOnly                     | *bool                              | HttpsOnly                         | *bool                              | Identical |                                                |
-| HyperV                        | *bool                              | HyperV                            | *bool                              | Identical |                                                |
-| Identity                      | *ManagedServiceIdentity            | Identity                          | *ManagedServiceIdentity            | Identical |                                                |
-|                               |                                    | IpMode                            | *string                            | New       |                                                |
-| IsXenon                       | *bool                              | IsXenon                           | *bool                              | Identical |                                                |
-| KeyVaultReferenceIdentity     | *string                            | KeyVaultReferenceIdentity         | *string                            | Identical |                                                |
-| Kind                          | *string                            | Kind                              | *string                            | Identical |                                                |
-| Location                      | *string                            | Location                          | *string                            | Identical |                                                |
-|                               |                                    | ManagedEnvironmentReference       | *genruntime.ResourceReference      | New       |                                                |
-| OperatorSpec                  | *SiteOperatorSpec                  | OperatorSpec                      | *SiteOperatorSpec                  | Identical |                                                |
-| OriginalVersion               | string                             | OriginalVersion                   | string                             | Identical |                                                |
-|                               |                                    | OutboundVnetRouting               | *OutboundVnetRouting               | New       |                                                |
-| Owner                         | *genruntime.KnownResourceReference | Owner                             | *genruntime.KnownResourceReference | Identical |                                                |
-| PropertyBag                   | genruntime.PropertyBag             | PropertyBag                       | genruntime.PropertyBag             | Identical |                                                |
-| PublicNetworkAccess           | *string                            | PublicNetworkAccess               | *string                            | Identical |                                                |
-| RedundancyMode                | *string                            | RedundancyMode                    | *string                            | Identical |                                                |
-| Reserved                      | *bool                              | Reserved                          | *bool                              | Identical |                                                |
-|                               |                                    | ResourceConfig                    | *ResourceConfig                    | New       |                                                |
-| ScmSiteAlsoStopped            | *bool                              | ScmSiteAlsoStopped                | *bool                              | Identical |                                                |
-| ServerFarmReference           | *genruntime.ResourceReference      | ServerFarmReference               | *genruntime.ResourceReference      | Identical |                                                |
-| SiteConfig                    | *SiteConfig                        | SiteConfig                        | *SiteConfig                        | Identical |                                                |
-|                               |                                    | SshEnabled                        | *bool                              | New       |                                                |
-| StorageAccountRequired        | *bool                              | StorageAccountRequired            | *bool                              | Identical |                                                |
-| Tags                          | map[string]string                  | Tags                              | map[string]string                  | Identical |                                                |
-| VirtualNetworkSubnetReference | *genruntime.ResourceReference      | VirtualNetworkSubnetReference     | *genruntime.ResourceReference      | Identical |                                                |
-| VnetContentShareEnabled       | *bool                              |                                   |                                    | Retired   | Possibly renamed to EndToEndEncryptionEnabled? |
-| VnetImagePullEnabled          | *bool                              |                                   |                                    | Retired   | Possibly renamed to EndToEndEncryptionEnabled? |
-| VnetRouteAllEnabled           | *bool                              |                                   |                                    | Retired   | Possibly renamed to EndToEndEncryptionEnabled? |
-|                               |                                    | WorkloadProfileName               | *string                            | New       |                                                |
+| v20220301/storage             |                                    | v20250501/storage                 |                                    | Status    | Notes |
+|:------------------------------|:-----------------------------------|:----------------------------------|:-----------------------------------|:---------:|:------|
+|                               |                                    | AutoGeneratedDomainNameLabelScope | *string                            | New       |       |
+| AzureName                     | string                             | AzureName                         | string                             | Identical |       |
+| ClientAffinityEnabled         | *bool                              | ClientAffinityEnabled             | *bool                              | Identical |       |
+|                               |                                    | ClientAffinityPartitioningEnabled | *bool                              | New       |       |
+|                               |                                    | ClientAffinityProxyEnabled        | *bool                              | New       |       |
+| ClientCertEnabled             | *bool                              | ClientCertEnabled                 | *bool                              | Identical |       |
+| ClientCertExclusionPaths      | *string                            | ClientCertExclusionPaths          | *string                            | Identical |       |
+| ClientCertMode                | *string                            | ClientCertMode                    | *string                            | Identical |       |
+| CloningInfo                   | *CloningInfo                       | CloningInfo                       | *CloningInfo                       | Identical |       |
+| ContainerSize                 | *int                               | ContainerSize                     | *int                               | Identical |       |
+| CustomDomainVerificationId    | *string                            | CustomDomainVerificationId        | *string                            | Identical |       |
+| DailyMemoryTimeQuota          | *int                               | DailyMemoryTimeQuota              | *int                               | Identical |       |
+|                               |                                    | DaprConfig                        | *DaprConfig                        | New       |       |
+|                               |                                    | DnsConfiguration                  | *SiteDnsConfig                     | New       |       |
+| Enabled                       | *bool                              | Enabled                           | *bool                              | Identical |       |
+|                               |                                    | EndToEndEncryptionEnabled         | *bool                              | New       |       |
+| ExtendedLocation              | *ExtendedLocation                  | ExtendedLocation                  | *ExtendedLocation                  | Identical |       |
+|                               |                                    | FunctionAppConfig                 | *FunctionAppConfig                 | New       |       |
+| HostNameSslStates             | HostNameSslState[]                 | HostNameSslStates                 | HostNameSslState[]                 | Identical |       |
+| HostNamesDisabled             | *bool                              | HostNamesDisabled                 | *bool                              | Identical |       |
+| HostingEnvironmentProfile     | *HostingEnvironmentProfile         | HostingEnvironmentProfile         | *HostingEnvironmentProfile         | Identical |       |
+| HttpsOnly                     | *bool                              | HttpsOnly                         | *bool                              | Identical |       |
+| HyperV                        | *bool                              | HyperV                            | *bool                              | Identical |       |
+| Identity                      | *ManagedServiceIdentity            | Identity                          | *ManagedServiceIdentity            | Identical |       |
+|                               |                                    | IpMode                            | *string                            | New       |       |
+| IsXenon                       | *bool                              | IsXenon                           | *bool                              | Identical |       |
+| KeyVaultReferenceIdentity     | *string                            | KeyVaultReferenceIdentity         | *string                            | Identical |       |
+| Kind                          | *string                            | Kind                              | *string                            | Identical |       |
+| Location                      | *string                            | Location                          | *string                            | Identical |       |
+|                               |                                    | ManagedEnvironmentReference       | *genruntime.ResourceReference      | New       |       |
+| OperatorSpec                  | *SiteOperatorSpec                  | OperatorSpec                      | *SiteOperatorSpec                  | Identical |       |
+| OriginalVersion               | string                             | OriginalVersion                   | string                             | Identical |       |
+|                               |                                    | OutboundVnetRouting               | *OutboundVnetRouting               | New       |       |
+| Owner                         | *genruntime.KnownResourceReference | Owner                             | *genruntime.KnownResourceReference | Identical |       |
+| PropertyBag                   | genruntime.PropertyBag             | PropertyBag                       | genruntime.PropertyBag             | Identical |       |
+| PublicNetworkAccess           | *string                            | PublicNetworkAccess               | *string                            | Identical |       |
+| RedundancyMode                | *string                            | RedundancyMode                    | *string                            | Identical |       |
+| Reserved                      | *bool                              | Reserved                          | *bool                              | Identical |       |
+|                               |                                    | ResourceConfig                    | *ResourceConfig                    | New       |       |
+| ScmSiteAlsoStopped            | *bool                              | ScmSiteAlsoStopped                | *bool                              | Identical |       |
+| ServerFarmReference           | *genruntime.ResourceReference      | ServerFarmReference               | *genruntime.ResourceReference      | Identical |       |
+| SiteConfig                    | *SiteConfig                        | SiteConfig                        | *SiteConfig                        | Identical |       |
+|                               |                                    | SshEnabled                        | *bool                              | New       |       |
+| StorageAccountRequired        | *bool                              | StorageAccountRequired            | *bool                              | Identical |       |
+| Tags                          | map[string]string                  | Tags                              | map[string]string                  | Identical |       |
+| VirtualNetworkSubnetReference | *genruntime.ResourceReference      | VirtualNetworkSubnetReference     | *genruntime.ResourceReference      | Identical |       |
+| VnetContentShareEnabled       | *bool                              |                                   |                                    | Retired   |       |
+| VnetImagePullEnabled          | *bool                              |                                   |                                    | Retired   |       |
+| VnetRouteAllEnabled           | *bool                              |                                   |                                    | Retired   |       |
+|                               |                                    | WorkloadProfileName               | *string                            | New       |       |
 
 ### SitesSourcecontrol_STATUS
 

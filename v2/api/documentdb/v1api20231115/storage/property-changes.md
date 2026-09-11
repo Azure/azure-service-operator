@@ -11,171 +11,171 @@ Statuses:
 
 ## Resources
 
-| Current Version       | Current Type                               | Next Version          | Next Type                                  | Status    | Notes |
-|:----------------------|:-------------------------------------------|:----------------------|:-------------------------------------------|:---------:|:------|
-| v1api20231115/storage | DatabaseAccount                            | v1api20240815/storage | DatabaseAccount                            | Identical |       |
-| v1api20231115/storage | MongodbDatabase                            | v1api20240815/storage | MongodbDatabase                            | Identical |       |
-| v1api20231115/storage | MongodbDatabaseCollection                  | v1api20240815/storage | MongodbDatabaseCollection                  | Identical |       |
-| v1api20231115/storage | MongodbDatabaseCollectionThroughputSetting | v1api20240815/storage | MongodbDatabaseCollectionThroughputSetting | Identical |       |
-| v1api20231115/storage | MongodbDatabaseThroughputSetting           | v1api20240815/storage | MongodbDatabaseThroughputSetting           | Identical |       |
-| v1api20231115/storage | SqlDatabase                                | v1api20240815/storage | SqlDatabase                                | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainer                       | v1api20240815/storage | SqlDatabaseContainer                       | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerStoredProcedure        | v1api20240815/storage | SqlDatabaseContainerStoredProcedure        | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerThroughputSetting      | v1api20240815/storage | SqlDatabaseContainerThroughputSetting      | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerTrigger                | v1api20240815/storage | SqlDatabaseContainerTrigger                | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerUserDefinedFunction    | v1api20240815/storage | SqlDatabaseContainerUserDefinedFunction    | Identical |       |
-| v1api20231115/storage | SqlDatabaseThroughputSetting               | v1api20240815/storage | SqlDatabaseThroughputSetting               | Identical |       |
-| v1api20231115/storage | SqlRoleAssignment                          | v1api20240815/storage | SqlRoleAssignment                          | Identical |       |
+| v1api20231115/storage                      | v1api20240815/storage                      | Status    | Notes |
+|:-------------------------------------------|:-------------------------------------------|:---------:|:------|
+| DatabaseAccount                            | DatabaseAccount                            | Identical |       |
+| MongodbDatabase                            | MongodbDatabase                            | Identical |       |
+| MongodbDatabaseCollection                  | MongodbDatabaseCollection                  | Identical |       |
+| MongodbDatabaseCollectionThroughputSetting | MongodbDatabaseCollectionThroughputSetting | Identical |       |
+| MongodbDatabaseThroughputSetting           | MongodbDatabaseThroughputSetting           | Identical |       |
+| SqlDatabase                                | SqlDatabase                                | Identical |       |
+| SqlDatabaseContainer                       | SqlDatabaseContainer                       | Identical |       |
+| SqlDatabaseContainerStoredProcedure        | SqlDatabaseContainerStoredProcedure        | Identical |       |
+| SqlDatabaseContainerThroughputSetting      | SqlDatabaseContainerThroughputSetting      | Identical |       |
+| SqlDatabaseContainerTrigger                | SqlDatabaseContainerTrigger                | Identical |       |
+| SqlDatabaseContainerUserDefinedFunction    | SqlDatabaseContainerUserDefinedFunction    | Identical |       |
+| SqlDatabaseThroughputSetting               | SqlDatabaseThroughputSetting               | Identical |       |
+| SqlRoleAssignment                          | SqlRoleAssignment                          | Identical |       |
 
 ## Objects
 
-| Current Version       | Current Type                                           | Next Version          | Next Type                                              | Status    | Notes |
-|:----------------------|:-------------------------------------------------------|:----------------------|:-------------------------------------------------------|:---------:|:------|
-| v1api20231115/storage | AccountKeyMetadata_STATUS                              | v1api20240815/storage | AccountKeyMetadata_STATUS                              | Identical |       |
-| v1api20231115/storage | AnalyticalStorageConfiguration                         | v1api20240815/storage | AnalyticalStorageConfiguration                         | Identical |       |
-| v1api20231115/storage | AnalyticalStorageConfiguration_STATUS                  | v1api20240815/storage | AnalyticalStorageConfiguration_STATUS                  | Identical |       |
-| v1api20231115/storage | ApiProperties                                          | v1api20240815/storage | ApiProperties                                          | Identical |       |
-| v1api20231115/storage | ApiProperties_STATUS                                   | v1api20240815/storage | ApiProperties_STATUS                                   | Identical |       |
-| v1api20231115/storage | AutoUpgradePolicyResource                              | v1api20240815/storage | AutoUpgradePolicyResource                              | Identical |       |
-| v1api20231115/storage | AutoUpgradePolicyResource_STATUS                       | v1api20240815/storage | AutoUpgradePolicyResource_STATUS                       | Identical |       |
-| v1api20231115/storage | AutoscaleSettings                                      | v1api20240815/storage | AutoscaleSettings                                      | Identical |       |
-| v1api20231115/storage | AutoscaleSettingsResource                              | v1api20240815/storage | AutoscaleSettingsResource                              | Identical |       |
-| v1api20231115/storage | AutoscaleSettingsResource_STATUS                       | v1api20240815/storage | AutoscaleSettingsResource_STATUS                       | Identical |       |
-| v1api20231115/storage | AutoscaleSettings_STATUS                               | v1api20240815/storage | AutoscaleSettings_STATUS                               | Identical |       |
-| v1api20231115/storage | BackupPolicy                                           | v1api20240815/storage | BackupPolicy                                           | Identical |       |
-| v1api20231115/storage | BackupPolicyMigrationState                             | v1api20240815/storage | BackupPolicyMigrationState                             | Identical |       |
-| v1api20231115/storage | BackupPolicyMigrationState_STATUS                      | v1api20240815/storage | BackupPolicyMigrationState_STATUS                      | Identical |       |
-| v1api20231115/storage | BackupPolicy_STATUS                                    | v1api20240815/storage | BackupPolicy_STATUS                                    | Identical |       |
-| v1api20231115/storage | Capability                                             | v1api20240815/storage | Capability                                             | Identical |       |
-| v1api20231115/storage | Capability_STATUS                                      | v1api20240815/storage | Capability_STATUS                                      | Identical |       |
-| v1api20231115/storage | Capacity                                               | v1api20240815/storage | Capacity                                               | Identical |       |
-| v1api20231115/storage | Capacity_STATUS                                        | v1api20240815/storage | Capacity_STATUS                                        | Identical |       |
-| v1api20231115/storage | ClientEncryptionIncludedPath                           | v1api20240815/storage | ClientEncryptionIncludedPath                           | Identical |       |
-| v1api20231115/storage | ClientEncryptionIncludedPath_STATUS                    | v1api20240815/storage | ClientEncryptionIncludedPath_STATUS                    | Identical |       |
-| v1api20231115/storage | ClientEncryptionPolicy                                 | v1api20240815/storage | ClientEncryptionPolicy                                 | Identical |       |
-| v1api20231115/storage | ClientEncryptionPolicy_STATUS                          | v1api20240815/storage | ClientEncryptionPolicy_STATUS                          | Identical |       |
-| v1api20231115/storage | CompositePath                                          | v1api20240815/storage | CompositePath                                          | Identical |       |
-| v1api20231115/storage | CompositePath_STATUS                                   | v1api20240815/storage | CompositePath_STATUS                                   | Identical |       |
-| v1api20231115/storage | ComputedProperty                                       | v1api20240815/storage | ComputedProperty                                       | Identical |       |
-| v1api20231115/storage | ComputedProperty_STATUS                                | v1api20240815/storage | ComputedProperty_STATUS                                | Identical |       |
-| v1api20231115/storage | ConflictResolutionPolicy                               | v1api20240815/storage | ConflictResolutionPolicy                               | Identical |       |
-| v1api20231115/storage | ConflictResolutionPolicy_STATUS                        | v1api20240815/storage | ConflictResolutionPolicy_STATUS                        | Identical |       |
-| v1api20231115/storage | ConsistencyPolicy                                      | v1api20240815/storage | ConsistencyPolicy                                      | Identical |       |
-| v1api20231115/storage | ConsistencyPolicy_STATUS                               | v1api20240815/storage | ConsistencyPolicy_STATUS                               | Identical |       |
-| v1api20231115/storage | ContainerPartitionKey                                  | v1api20240815/storage | ContainerPartitionKey                                  | Identical |       |
-| v1api20231115/storage | ContainerPartitionKey_STATUS                           | v1api20240815/storage | ContainerPartitionKey_STATUS                           | Identical |       |
-| v1api20231115/storage | ContinuousModeBackupPolicy                             | v1api20240815/storage | ContinuousModeBackupPolicy                             | Identical |       |
-| v1api20231115/storage | ContinuousModeBackupPolicy_STATUS                      | v1api20240815/storage | ContinuousModeBackupPolicy_STATUS                      | Identical |       |
-| v1api20231115/storage | ContinuousModeProperties                               | v1api20240815/storage | ContinuousModeProperties                               | Identical |       |
-| v1api20231115/storage | ContinuousModeProperties_STATUS                        | v1api20240815/storage | ContinuousModeProperties_STATUS                        | Identical |       |
-| v1api20231115/storage | CorsPolicy                                             | v1api20240815/storage | CorsPolicy                                             | Identical |       |
-| v1api20231115/storage | CorsPolicy_STATUS                                      | v1api20240815/storage | CorsPolicy_STATUS                                      | Identical |       |
-| v1api20231115/storage | CreateUpdateOptions                                    | v1api20240815/storage | CreateUpdateOptions                                    | Identical |       |
-| v1api20231115/storage | DatabaseAccountKeysMetadata_STATUS                     | v1api20240815/storage | DatabaseAccountKeysMetadata_STATUS                     | Identical |       |
-| v1api20231115/storage | DatabaseAccountOperatorSecrets                         | v1api20240815/storage | DatabaseAccountOperatorSecrets                         | Identical |       |
-| v1api20231115/storage | DatabaseAccountOperatorSpec                            | v1api20240815/storage | DatabaseAccountOperatorSpec                            | Identical |       |
-| v1api20231115/storage | DatabaseAccount_STATUS                                 | v1api20240815/storage | DatabaseAccount_STATUS                                 | Identical |       |
-| v1api20231115/storage | DatabaseAccount_Spec                                   | v1api20240815/storage | DatabaseAccount_Spec                                   | Identical |       |
-| v1api20231115/storage | DatabaseRestoreResource                                | v1api20240815/storage | DatabaseRestoreResource                                | Identical |       |
-| v1api20231115/storage | DatabaseRestoreResource_STATUS                         | v1api20240815/storage | DatabaseRestoreResource_STATUS                         | Identical |       |
-| v1api20231115/storage | ExcludedPath                                           | v1api20240815/storage | ExcludedPath                                           | Identical |       |
-| v1api20231115/storage | ExcludedPath_STATUS                                    | v1api20240815/storage | ExcludedPath_STATUS                                    | Identical |       |
-| v1api20231115/storage | FailoverPolicy_STATUS                                  | v1api20240815/storage | FailoverPolicy_STATUS                                  | Identical |       |
-| v1api20231115/storage | GremlinDatabaseRestoreResource                         | v1api20240815/storage | GremlinDatabaseRestoreResource                         | Identical |       |
-| v1api20231115/storage | GremlinDatabaseRestoreResource_STATUS                  | v1api20240815/storage | GremlinDatabaseRestoreResource_STATUS                  | Identical |       |
-| v1api20231115/storage | IncludedPath                                           | v1api20240815/storage | IncludedPath                                           | Identical |       |
-| v1api20231115/storage | IncludedPath_STATUS                                    | v1api20240815/storage | IncludedPath_STATUS                                    | Identical |       |
-| v1api20231115/storage | Indexes                                                | v1api20240815/storage | Indexes                                                | Identical |       |
-| v1api20231115/storage | Indexes_STATUS                                         | v1api20240815/storage | Indexes_STATUS                                         | Identical |       |
-| v1api20231115/storage | IndexingPolicy                                         | v1api20240815/storage | IndexingPolicy                                         | Identical |       |
-| v1api20231115/storage | IndexingPolicy_STATUS                                  | v1api20240815/storage | IndexingPolicy_STATUS                                  | Identical |       |
-| v1api20231115/storage | IpAddressOrRange                                       | v1api20240815/storage | IpAddressOrRange                                       | Identical |       |
-| v1api20231115/storage | IpAddressOrRange_STATUS                                | v1api20240815/storage | IpAddressOrRange_STATUS                                | Identical |       |
-| v1api20231115/storage | Location                                               | v1api20240815/storage | Location                                               | Identical |       |
-| v1api20231115/storage | Location_STATUS                                        | v1api20240815/storage | Location_STATUS                                        | Identical |       |
-| v1api20231115/storage | ManagedServiceIdentity                                 | v1api20240815/storage | ManagedServiceIdentity                                 | Identical |       |
-| v1api20231115/storage | ManagedServiceIdentity_STATUS                          | v1api20240815/storage | ManagedServiceIdentity_STATUS                          | Identical |       |
-| v1api20231115/storage | ManagedServiceIdentity_UserAssignedIdentities_STATUS   | v1api20240815/storage | ManagedServiceIdentity_UserAssignedIdentities_STATUS   | Identical |       |
-| v1api20231115/storage | MongoDBCollectionGetProperties_Resource_STATUS         | v1api20240815/storage | MongoDBCollectionGetProperties_Resource_STATUS         | Identical |       |
-| v1api20231115/storage | MongoDBCollectionResource                              | v1api20240815/storage | MongoDBCollectionResource                              | Identical |       |
-| v1api20231115/storage | MongoDBDatabaseGetProperties_Resource_STATUS           | v1api20240815/storage | MongoDBDatabaseGetProperties_Resource_STATUS           | Identical |       |
-| v1api20231115/storage | MongoDBDatabaseResource                                | v1api20240815/storage | MongoDBDatabaseResource                                | Identical |       |
-| v1api20231115/storage | MongoIndex                                             | v1api20240815/storage | MongoIndex                                             | Identical |       |
-| v1api20231115/storage | MongoIndexKeys                                         | v1api20240815/storage | MongoIndexKeys                                         | Identical |       |
-| v1api20231115/storage | MongoIndexKeys_STATUS                                  | v1api20240815/storage | MongoIndexKeys_STATUS                                  | Identical |       |
-| v1api20231115/storage | MongoIndexOptions                                      | v1api20240815/storage | MongoIndexOptions                                      | Identical |       |
-| v1api20231115/storage | MongoIndexOptions_STATUS                               | v1api20240815/storage | MongoIndexOptions_STATUS                               | Identical |       |
-| v1api20231115/storage | MongoIndex_STATUS                                      | v1api20240815/storage | MongoIndex_STATUS                                      | Identical |       |
-| v1api20231115/storage | MongodbDatabaseCollectionOperatorSpec                  | v1api20240815/storage | MongodbDatabaseCollectionOperatorSpec                  | Identical |       |
-| v1api20231115/storage | MongodbDatabaseCollectionThroughputSettingOperatorSpec | v1api20240815/storage | MongodbDatabaseCollectionThroughputSettingOperatorSpec | Identical |       |
-| v1api20231115/storage | MongodbDatabaseCollectionThroughputSetting_STATUS      | v1api20240815/storage | MongodbDatabaseCollectionThroughputSetting_STATUS      | Identical |       |
-| v1api20231115/storage | MongodbDatabaseCollectionThroughputSetting_Spec        | v1api20240815/storage | MongodbDatabaseCollectionThroughputSetting_Spec        | Identical |       |
-| v1api20231115/storage | MongodbDatabaseCollection_STATUS                       | v1api20240815/storage | MongodbDatabaseCollection_STATUS                       | Identical |       |
-| v1api20231115/storage | MongodbDatabaseCollection_Spec                         | v1api20240815/storage | MongodbDatabaseCollection_Spec                         | Identical |       |
-| v1api20231115/storage | MongodbDatabaseOperatorSpec                            | v1api20240815/storage | MongodbDatabaseOperatorSpec                            | Identical |       |
-| v1api20231115/storage | MongodbDatabaseThroughputSettingOperatorSpec           | v1api20240815/storage | MongodbDatabaseThroughputSettingOperatorSpec           | Identical |       |
-| v1api20231115/storage | MongodbDatabaseThroughputSetting_STATUS                | v1api20240815/storage | MongodbDatabaseThroughputSetting_STATUS                | Identical |       |
-| v1api20231115/storage | MongodbDatabaseThroughputSetting_Spec                  | v1api20240815/storage | MongodbDatabaseThroughputSetting_Spec                  | Identical |       |
-| v1api20231115/storage | MongodbDatabase_STATUS                                 | v1api20240815/storage | MongodbDatabase_STATUS                                 | Identical |       |
-| v1api20231115/storage | MongodbDatabase_Spec                                   | v1api20240815/storage | MongodbDatabase_Spec                                   | Identical |       |
-| v1api20231115/storage | OptionsResource_STATUS                                 | v1api20240815/storage | OptionsResource_STATUS                                 | Identical |       |
-| v1api20231115/storage | PeriodicModeBackupPolicy                               | v1api20240815/storage | PeriodicModeBackupPolicy                               | Identical |       |
-| v1api20231115/storage | PeriodicModeBackupPolicy_STATUS                        | v1api20240815/storage | PeriodicModeBackupPolicy_STATUS                        | Identical |       |
-| v1api20231115/storage | PeriodicModeProperties                                 | v1api20240815/storage | PeriodicModeProperties                                 | Identical |       |
-| v1api20231115/storage | PeriodicModeProperties_STATUS                          | v1api20240815/storage | PeriodicModeProperties_STATUS                          | Identical |       |
-| v1api20231115/storage | PrivateEndpointConnection_STATUS                       | v1api20240815/storage | PrivateEndpointConnection_STATUS                       | Identical |       |
-| v1api20231115/storage | RestoreParameters                                      | v1api20240815/storage | RestoreParameters                                      | Extended  |       |
-| v1api20231115/storage | RestoreParametersBase                                  | v1api20240815/storage | RestoreParametersBase                                  | Extended  |       |
-| v1api20231115/storage | RestoreParametersBase_STATUS                           | v1api20240815/storage | RestoreParametersBase_STATUS                           | Extended  |       |
-| v1api20231115/storage | RestoreParameters_STATUS                               | v1api20240815/storage | RestoreParameters_STATUS                               | Extended  |       |
-| v1api20231115/storage | SpatialSpec                                            | v1api20240815/storage | SpatialSpec                                            | Identical |       |
-| v1api20231115/storage | SpatialSpec_STATUS                                     | v1api20240815/storage | SpatialSpec_STATUS                                     | Identical |       |
-| v1api20231115/storage | SqlContainerGetProperties_Resource_STATUS              | v1api20240815/storage | SqlContainerGetProperties_Resource_STATUS              | Identical |       |
-| v1api20231115/storage | SqlContainerResource                                   | v1api20240815/storage | SqlContainerResource                                   | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerOperatorSpec                       | v1api20240815/storage | SqlDatabaseContainerOperatorSpec                       | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerStoredProcedureOperatorSpec        | v1api20240815/storage | SqlDatabaseContainerStoredProcedureOperatorSpec        | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerStoredProcedure_STATUS             | v1api20240815/storage | SqlDatabaseContainerStoredProcedure_STATUS             | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerStoredProcedure_Spec               | v1api20240815/storage | SqlDatabaseContainerStoredProcedure_Spec               | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerThroughputSettingOperatorSpec      | v1api20240815/storage | SqlDatabaseContainerThroughputSettingOperatorSpec      | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerThroughputSetting_STATUS           | v1api20240815/storage | SqlDatabaseContainerThroughputSetting_STATUS           | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerThroughputSetting_Spec             | v1api20240815/storage | SqlDatabaseContainerThroughputSetting_Spec             | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerTriggerOperatorSpec                | v1api20240815/storage | SqlDatabaseContainerTriggerOperatorSpec                | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerTrigger_STATUS                     | v1api20240815/storage | SqlDatabaseContainerTrigger_STATUS                     | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerTrigger_Spec                       | v1api20240815/storage | SqlDatabaseContainerTrigger_Spec                       | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerUserDefinedFunctionOperatorSpec    | v1api20240815/storage | SqlDatabaseContainerUserDefinedFunctionOperatorSpec    | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerUserDefinedFunction_STATUS         | v1api20240815/storage | SqlDatabaseContainerUserDefinedFunction_STATUS         | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainerUserDefinedFunction_Spec           | v1api20240815/storage | SqlDatabaseContainerUserDefinedFunction_Spec           | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainer_STATUS                            | v1api20240815/storage | SqlDatabaseContainer_STATUS                            | Identical |       |
-| v1api20231115/storage | SqlDatabaseContainer_Spec                              | v1api20240815/storage | SqlDatabaseContainer_Spec                              | Identical |       |
-| v1api20231115/storage | SqlDatabaseGetProperties_Resource_STATUS               | v1api20240815/storage | SqlDatabaseGetProperties_Resource_STATUS               | Identical |       |
-| v1api20231115/storage | SqlDatabaseOperatorSpec                                | v1api20240815/storage | SqlDatabaseOperatorSpec                                | Identical |       |
-| v1api20231115/storage | SqlDatabaseResource                                    | v1api20240815/storage | SqlDatabaseResource                                    | Identical |       |
-| v1api20231115/storage | SqlDatabaseThroughputSettingOperatorSpec               | v1api20240815/storage | SqlDatabaseThroughputSettingOperatorSpec               | Identical |       |
-| v1api20231115/storage | SqlDatabaseThroughputSetting_STATUS                    | v1api20240815/storage | SqlDatabaseThroughputSetting_STATUS                    | Identical |       |
-| v1api20231115/storage | SqlDatabaseThroughputSetting_Spec                      | v1api20240815/storage | SqlDatabaseThroughputSetting_Spec                      | Identical |       |
-| v1api20231115/storage | SqlDatabase_STATUS                                     | v1api20240815/storage | SqlDatabase_STATUS                                     | Identical |       |
-| v1api20231115/storage | SqlDatabase_Spec                                       | v1api20240815/storage | SqlDatabase_Spec                                       | Identical |       |
-| v1api20231115/storage | SqlRoleAssignmentOperatorSpec                          | v1api20240815/storage | SqlRoleAssignmentOperatorSpec                          | Identical |       |
-| v1api20231115/storage | SqlRoleAssignment_STATUS                               | v1api20240815/storage | SqlRoleAssignment_STATUS                               | Identical |       |
-| v1api20231115/storage | SqlRoleAssignment_Spec                                 | v1api20240815/storage | SqlRoleAssignment_Spec                                 | Identical |       |
-| v1api20231115/storage | SqlStoredProcedureGetProperties_Resource_STATUS        | v1api20240815/storage | SqlStoredProcedureGetProperties_Resource_STATUS        | Identical |       |
-| v1api20231115/storage | SqlStoredProcedureResource                             | v1api20240815/storage | SqlStoredProcedureResource                             | Identical |       |
-| v1api20231115/storage | SqlTriggerGetProperties_Resource_STATUS                | v1api20240815/storage | SqlTriggerGetProperties_Resource_STATUS                | Identical |       |
-| v1api20231115/storage | SqlTriggerResource                                     | v1api20240815/storage | SqlTriggerResource                                     | Identical |       |
-| v1api20231115/storage | SqlUserDefinedFunctionGetProperties_Resource_STATUS    | v1api20240815/storage | SqlUserDefinedFunctionGetProperties_Resource_STATUS    | Identical |       |
-| v1api20231115/storage | SqlUserDefinedFunctionResource                         | v1api20240815/storage | SqlUserDefinedFunctionResource                         | Identical |       |
-| v1api20231115/storage | SystemData_STATUS                                      | v1api20240815/storage | SystemData_STATUS                                      | Identical |       |
-| v1api20231115/storage | ThroughputPolicyResource                               | v1api20240815/storage | ThroughputPolicyResource                               | Identical |       |
-| v1api20231115/storage | ThroughputPolicyResource_STATUS                        | v1api20240815/storage | ThroughputPolicyResource_STATUS                        | Identical |       |
-| v1api20231115/storage | ThroughputSettingsGetProperties_Resource_STATUS        | v1api20240815/storage | ThroughputSettingsGetProperties_Resource_STATUS        | Identical |       |
-| v1api20231115/storage | ThroughputSettingsResource                             | v1api20240815/storage | ThroughputSettingsResource                             | Identical |       |
-| v1api20231115/storage | UniqueKey                                              | v1api20240815/storage | UniqueKey                                              | Identical |       |
-| v1api20231115/storage | UniqueKeyPolicy                                        | v1api20240815/storage | UniqueKeyPolicy                                        | Identical |       |
-| v1api20231115/storage | UniqueKeyPolicy_STATUS                                 | v1api20240815/storage | UniqueKeyPolicy_STATUS                                 | Identical |       |
-| v1api20231115/storage | UniqueKey_STATUS                                       | v1api20240815/storage | UniqueKey_STATUS                                       | Identical |       |
-| v1api20231115/storage | UserAssignedIdentityDetails                            | v1api20240815/storage | UserAssignedIdentityDetails                            | Identical |       |
-| v1api20231115/storage | VirtualNetworkRule                                     | v1api20240815/storage | VirtualNetworkRule                                     | Identical |       |
-| v1api20231115/storage | VirtualNetworkRule_STATUS                              | v1api20240815/storage | VirtualNetworkRule_STATUS                              | Identical |       |
+| v1api20231115/storage                                  | v1api20240815/storage                                  | Status    | Notes |
+|:-------------------------------------------------------|:-------------------------------------------------------|:---------:|:------|
+| AccountKeyMetadata_STATUS                              | AccountKeyMetadata_STATUS                              | Identical |       |
+| AnalyticalStorageConfiguration                         | AnalyticalStorageConfiguration                         | Identical |       |
+| AnalyticalStorageConfiguration_STATUS                  | AnalyticalStorageConfiguration_STATUS                  | Identical |       |
+| ApiProperties                                          | ApiProperties                                          | Identical |       |
+| ApiProperties_STATUS                                   | ApiProperties_STATUS                                   | Identical |       |
+| AutoUpgradePolicyResource                              | AutoUpgradePolicyResource                              | Identical |       |
+| AutoUpgradePolicyResource_STATUS                       | AutoUpgradePolicyResource_STATUS                       | Identical |       |
+| AutoscaleSettings                                      | AutoscaleSettings                                      | Identical |       |
+| AutoscaleSettingsResource                              | AutoscaleSettingsResource                              | Identical |       |
+| AutoscaleSettingsResource_STATUS                       | AutoscaleSettingsResource_STATUS                       | Identical |       |
+| AutoscaleSettings_STATUS                               | AutoscaleSettings_STATUS                               | Identical |       |
+| BackupPolicy                                           | BackupPolicy                                           | Identical |       |
+| BackupPolicyMigrationState                             | BackupPolicyMigrationState                             | Identical |       |
+| BackupPolicyMigrationState_STATUS                      | BackupPolicyMigrationState_STATUS                      | Identical |       |
+| BackupPolicy_STATUS                                    | BackupPolicy_STATUS                                    | Identical |       |
+| Capability                                             | Capability                                             | Identical |       |
+| Capability_STATUS                                      | Capability_STATUS                                      | Identical |       |
+| Capacity                                               | Capacity                                               | Identical |       |
+| Capacity_STATUS                                        | Capacity_STATUS                                        | Identical |       |
+| ClientEncryptionIncludedPath                           | ClientEncryptionIncludedPath                           | Identical |       |
+| ClientEncryptionIncludedPath_STATUS                    | ClientEncryptionIncludedPath_STATUS                    | Identical |       |
+| ClientEncryptionPolicy                                 | ClientEncryptionPolicy                                 | Identical |       |
+| ClientEncryptionPolicy_STATUS                          | ClientEncryptionPolicy_STATUS                          | Identical |       |
+| CompositePath                                          | CompositePath                                          | Identical |       |
+| CompositePath_STATUS                                   | CompositePath_STATUS                                   | Identical |       |
+| ComputedProperty                                       | ComputedProperty                                       | Identical |       |
+| ComputedProperty_STATUS                                | ComputedProperty_STATUS                                | Identical |       |
+| ConflictResolutionPolicy                               | ConflictResolutionPolicy                               | Identical |       |
+| ConflictResolutionPolicy_STATUS                        | ConflictResolutionPolicy_STATUS                        | Identical |       |
+| ConsistencyPolicy                                      | ConsistencyPolicy                                      | Identical |       |
+| ConsistencyPolicy_STATUS                               | ConsistencyPolicy_STATUS                               | Identical |       |
+| ContainerPartitionKey                                  | ContainerPartitionKey                                  | Identical |       |
+| ContainerPartitionKey_STATUS                           | ContainerPartitionKey_STATUS                           | Identical |       |
+| ContinuousModeBackupPolicy                             | ContinuousModeBackupPolicy                             | Identical |       |
+| ContinuousModeBackupPolicy_STATUS                      | ContinuousModeBackupPolicy_STATUS                      | Identical |       |
+| ContinuousModeProperties                               | ContinuousModeProperties                               | Identical |       |
+| ContinuousModeProperties_STATUS                        | ContinuousModeProperties_STATUS                        | Identical |       |
+| CorsPolicy                                             | CorsPolicy                                             | Identical |       |
+| CorsPolicy_STATUS                                      | CorsPolicy_STATUS                                      | Identical |       |
+| CreateUpdateOptions                                    | CreateUpdateOptions                                    | Identical |       |
+| DatabaseAccountKeysMetadata_STATUS                     | DatabaseAccountKeysMetadata_STATUS                     | Identical |       |
+| DatabaseAccountOperatorSecrets                         | DatabaseAccountOperatorSecrets                         | Identical |       |
+| DatabaseAccountOperatorSpec                            | DatabaseAccountOperatorSpec                            | Identical |       |
+| DatabaseAccount_STATUS                                 | DatabaseAccount_STATUS                                 | Identical |       |
+| DatabaseAccount_Spec                                   | DatabaseAccount_Spec                                   | Identical |       |
+| DatabaseRestoreResource                                | DatabaseRestoreResource                                | Identical |       |
+| DatabaseRestoreResource_STATUS                         | DatabaseRestoreResource_STATUS                         | Identical |       |
+| ExcludedPath                                           | ExcludedPath                                           | Identical |       |
+| ExcludedPath_STATUS                                    | ExcludedPath_STATUS                                    | Identical |       |
+| FailoverPolicy_STATUS                                  | FailoverPolicy_STATUS                                  | Identical |       |
+| GremlinDatabaseRestoreResource                         | GremlinDatabaseRestoreResource                         | Identical |       |
+| GremlinDatabaseRestoreResource_STATUS                  | GremlinDatabaseRestoreResource_STATUS                  | Identical |       |
+| IncludedPath                                           | IncludedPath                                           | Identical |       |
+| IncludedPath_STATUS                                    | IncludedPath_STATUS                                    | Identical |       |
+| Indexes                                                | Indexes                                                | Identical |       |
+| Indexes_STATUS                                         | Indexes_STATUS                                         | Identical |       |
+| IndexingPolicy                                         | IndexingPolicy                                         | Identical |       |
+| IndexingPolicy_STATUS                                  | IndexingPolicy_STATUS                                  | Identical |       |
+| IpAddressOrRange                                       | IpAddressOrRange                                       | Identical |       |
+| IpAddressOrRange_STATUS                                | IpAddressOrRange_STATUS                                | Identical |       |
+| Location                                               | Location                                               | Identical |       |
+| Location_STATUS                                        | Location_STATUS                                        | Identical |       |
+| ManagedServiceIdentity                                 | ManagedServiceIdentity                                 | Identical |       |
+| ManagedServiceIdentity_STATUS                          | ManagedServiceIdentity_STATUS                          | Identical |       |
+| ManagedServiceIdentity_UserAssignedIdentities_STATUS   | ManagedServiceIdentity_UserAssignedIdentities_STATUS   | Identical |       |
+| MongoDBCollectionGetProperties_Resource_STATUS         | MongoDBCollectionGetProperties_Resource_STATUS         | Identical |       |
+| MongoDBCollectionResource                              | MongoDBCollectionResource                              | Identical |       |
+| MongoDBDatabaseGetProperties_Resource_STATUS           | MongoDBDatabaseGetProperties_Resource_STATUS           | Identical |       |
+| MongoDBDatabaseResource                                | MongoDBDatabaseResource                                | Identical |       |
+| MongoIndex                                             | MongoIndex                                             | Identical |       |
+| MongoIndexKeys                                         | MongoIndexKeys                                         | Identical |       |
+| MongoIndexKeys_STATUS                                  | MongoIndexKeys_STATUS                                  | Identical |       |
+| MongoIndexOptions                                      | MongoIndexOptions                                      | Identical |       |
+| MongoIndexOptions_STATUS                               | MongoIndexOptions_STATUS                               | Identical |       |
+| MongoIndex_STATUS                                      | MongoIndex_STATUS                                      | Identical |       |
+| MongodbDatabaseCollectionOperatorSpec                  | MongodbDatabaseCollectionOperatorSpec                  | Identical |       |
+| MongodbDatabaseCollectionThroughputSettingOperatorSpec | MongodbDatabaseCollectionThroughputSettingOperatorSpec | Identical |       |
+| MongodbDatabaseCollectionThroughputSetting_STATUS      | MongodbDatabaseCollectionThroughputSetting_STATUS      | Identical |       |
+| MongodbDatabaseCollectionThroughputSetting_Spec        | MongodbDatabaseCollectionThroughputSetting_Spec        | Identical |       |
+| MongodbDatabaseCollection_STATUS                       | MongodbDatabaseCollection_STATUS                       | Identical |       |
+| MongodbDatabaseCollection_Spec                         | MongodbDatabaseCollection_Spec                         | Identical |       |
+| MongodbDatabaseOperatorSpec                            | MongodbDatabaseOperatorSpec                            | Identical |       |
+| MongodbDatabaseThroughputSettingOperatorSpec           | MongodbDatabaseThroughputSettingOperatorSpec           | Identical |       |
+| MongodbDatabaseThroughputSetting_STATUS                | MongodbDatabaseThroughputSetting_STATUS                | Identical |       |
+| MongodbDatabaseThroughputSetting_Spec                  | MongodbDatabaseThroughputSetting_Spec                  | Identical |       |
+| MongodbDatabase_STATUS                                 | MongodbDatabase_STATUS                                 | Identical |       |
+| MongodbDatabase_Spec                                   | MongodbDatabase_Spec                                   | Identical |       |
+| OptionsResource_STATUS                                 | OptionsResource_STATUS                                 | Identical |       |
+| PeriodicModeBackupPolicy                               | PeriodicModeBackupPolicy                               | Identical |       |
+| PeriodicModeBackupPolicy_STATUS                        | PeriodicModeBackupPolicy_STATUS                        | Identical |       |
+| PeriodicModeProperties                                 | PeriodicModeProperties                                 | Identical |       |
+| PeriodicModeProperties_STATUS                          | PeriodicModeProperties_STATUS                          | Identical |       |
+| PrivateEndpointConnection_STATUS                       | PrivateEndpointConnection_STATUS                       | Identical |       |
+| RestoreParameters                                      | RestoreParameters                                      | Extended  |       |
+| RestoreParametersBase                                  | RestoreParametersBase                                  | Extended  |       |
+| RestoreParametersBase_STATUS                           | RestoreParametersBase_STATUS                           | Extended  |       |
+| RestoreParameters_STATUS                               | RestoreParameters_STATUS                               | Extended  |       |
+| SpatialSpec                                            | SpatialSpec                                            | Identical |       |
+| SpatialSpec_STATUS                                     | SpatialSpec_STATUS                                     | Identical |       |
+| SqlContainerGetProperties_Resource_STATUS              | SqlContainerGetProperties_Resource_STATUS              | Identical |       |
+| SqlContainerResource                                   | SqlContainerResource                                   | Identical |       |
+| SqlDatabaseContainerOperatorSpec                       | SqlDatabaseContainerOperatorSpec                       | Identical |       |
+| SqlDatabaseContainerStoredProcedureOperatorSpec        | SqlDatabaseContainerStoredProcedureOperatorSpec        | Identical |       |
+| SqlDatabaseContainerStoredProcedure_STATUS             | SqlDatabaseContainerStoredProcedure_STATUS             | Identical |       |
+| SqlDatabaseContainerStoredProcedure_Spec               | SqlDatabaseContainerStoredProcedure_Spec               | Identical |       |
+| SqlDatabaseContainerThroughputSettingOperatorSpec      | SqlDatabaseContainerThroughputSettingOperatorSpec      | Identical |       |
+| SqlDatabaseContainerThroughputSetting_STATUS           | SqlDatabaseContainerThroughputSetting_STATUS           | Identical |       |
+| SqlDatabaseContainerThroughputSetting_Spec             | SqlDatabaseContainerThroughputSetting_Spec             | Identical |       |
+| SqlDatabaseContainerTriggerOperatorSpec                | SqlDatabaseContainerTriggerOperatorSpec                | Identical |       |
+| SqlDatabaseContainerTrigger_STATUS                     | SqlDatabaseContainerTrigger_STATUS                     | Identical |       |
+| SqlDatabaseContainerTrigger_Spec                       | SqlDatabaseContainerTrigger_Spec                       | Identical |       |
+| SqlDatabaseContainerUserDefinedFunctionOperatorSpec    | SqlDatabaseContainerUserDefinedFunctionOperatorSpec    | Identical |       |
+| SqlDatabaseContainerUserDefinedFunction_STATUS         | SqlDatabaseContainerUserDefinedFunction_STATUS         | Identical |       |
+| SqlDatabaseContainerUserDefinedFunction_Spec           | SqlDatabaseContainerUserDefinedFunction_Spec           | Identical |       |
+| SqlDatabaseContainer_STATUS                            | SqlDatabaseContainer_STATUS                            | Identical |       |
+| SqlDatabaseContainer_Spec                              | SqlDatabaseContainer_Spec                              | Identical |       |
+| SqlDatabaseGetProperties_Resource_STATUS               | SqlDatabaseGetProperties_Resource_STATUS               | Identical |       |
+| SqlDatabaseOperatorSpec                                | SqlDatabaseOperatorSpec                                | Identical |       |
+| SqlDatabaseResource                                    | SqlDatabaseResource                                    | Identical |       |
+| SqlDatabaseThroughputSettingOperatorSpec               | SqlDatabaseThroughputSettingOperatorSpec               | Identical |       |
+| SqlDatabaseThroughputSetting_STATUS                    | SqlDatabaseThroughputSetting_STATUS                    | Identical |       |
+| SqlDatabaseThroughputSetting_Spec                      | SqlDatabaseThroughputSetting_Spec                      | Identical |       |
+| SqlDatabase_STATUS                                     | SqlDatabase_STATUS                                     | Identical |       |
+| SqlDatabase_Spec                                       | SqlDatabase_Spec                                       | Identical |       |
+| SqlRoleAssignmentOperatorSpec                          | SqlRoleAssignmentOperatorSpec                          | Identical |       |
+| SqlRoleAssignment_STATUS                               | SqlRoleAssignment_STATUS                               | Identical |       |
+| SqlRoleAssignment_Spec                                 | SqlRoleAssignment_Spec                                 | Identical |       |
+| SqlStoredProcedureGetProperties_Resource_STATUS        | SqlStoredProcedureGetProperties_Resource_STATUS        | Identical |       |
+| SqlStoredProcedureResource                             | SqlStoredProcedureResource                             | Identical |       |
+| SqlTriggerGetProperties_Resource_STATUS                | SqlTriggerGetProperties_Resource_STATUS                | Identical |       |
+| SqlTriggerResource                                     | SqlTriggerResource                                     | Identical |       |
+| SqlUserDefinedFunctionGetProperties_Resource_STATUS    | SqlUserDefinedFunctionGetProperties_Resource_STATUS    | Identical |       |
+| SqlUserDefinedFunctionResource                         | SqlUserDefinedFunctionResource                         | Identical |       |
+| SystemData_STATUS                                      | SystemData_STATUS                                      | Identical |       |
+| ThroughputPolicyResource                               | ThroughputPolicyResource                               | Identical |       |
+| ThroughputPolicyResource_STATUS                        | ThroughputPolicyResource_STATUS                        | Identical |       |
+| ThroughputSettingsGetProperties_Resource_STATUS        | ThroughputSettingsGetProperties_Resource_STATUS        | Identical |       |
+| ThroughputSettingsResource                             | ThroughputSettingsResource                             | Identical |       |
+| UniqueKey                                              | UniqueKey                                              | Identical |       |
+| UniqueKeyPolicy                                        | UniqueKeyPolicy                                        | Identical |       |
+| UniqueKeyPolicy_STATUS                                 | UniqueKeyPolicy_STATUS                                 | Identical |       |
+| UniqueKey_STATUS                                       | UniqueKey_STATUS                                       | Identical |       |
+| UserAssignedIdentityDetails                            | UserAssignedIdentityDetails                            | Identical |       |
+| VirtualNetworkRule                                     | VirtualNetworkRule                                     | Identical |       |
+| VirtualNetworkRule_STATUS                              | VirtualNetworkRule_STATUS                              | Identical |       |
 
 ### RestoreParameters
 
