@@ -11,19 +11,19 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version | Next Type | Status    | Notes |
-|:----------------|:-------------|:-------------|:----------|:---------:|:------|
-| v20200101       | Person       | v20211231    | Person    | Identical |       |
+| v20200101 | v20211231 | Status    | Notes |
+|:----------|:----------|:---------:|:------|
+| Person    | Person    | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type  | Next Version | Next Type     | Status    | Notes |
-|:----------------|:--------------|:-------------|:--------------|:---------:|:------|
-| v20200101       | Address       | v20211231    | PostalAddress | Renamed   |       |
-|                 |               | v20211231    | CensusData    | New       |       |
-| v20200101       | Demographics  | v20211231    |               | Retired   |       |
-| v20200101       | Person_STATUS | v20211231    | Person_STATUS | Identical |       |
-| v20200101       | Person_Spec   | v20211231    | Person_Spec   | Modified  |       |
+| v20200101     | v20211231     | Status    | Notes |
+|:--------------|:--------------|:---------:|:------|
+| Address       | PostalAddress | Renamed   |       |
+|               | CensusData    | New       |       |
+| Demographics  |               | Retired   |       |
+| Person_STATUS | Person_STATUS | Identical |       |
+| Person_Spec   | Person_Spec   | Modified  |       |
 
 ### Person_Spec
 
@@ -32,9 +32,9 @@ Statuses:
 | BirthDate | string       | BirthDate  | string        | Identical |                                   |
 | Category  | Category     | Category   | Category      | Identical |                                   |
 |           |              | Census     | CensusData    | New       |                                   |
-| FirstName | string       |            |               | Retired   | Possibly renamed to LegalName?    |
+| FirstName | string       |            |               | Retired   |                                   |
 | LastName  | string       | FamilyName | string        | Renamed   |                                   |
 |           |              | LegalName  | string        | New       |                                   |
 | Nickname  | string       | KnownAs    | string        | Renamed   |                                   |
 | Residence | Address      | Residence  | PostalAddress | Identical | Address renamed to PostalAddress. |
-| Stats     | Demographics |            |               | Retired   | Possibly renamed to Census?       |
+| Stats     | Demographics |            |               | Retired   |                                   |

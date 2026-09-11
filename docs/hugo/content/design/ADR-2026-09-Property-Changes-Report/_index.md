@@ -40,7 +40,8 @@ The report will start with a legend explaining the statuses used. Two summary ta
 #### Summary Table format
 
 * Both spec and status types are included in the Objects summary.
-* Package versions are included in each row. Subpackages use the parent version and subpackage name, such as `v1api20260801/storage`.
+* Each package version has its own column. Subpackages use the parent version and subpackage name, such as `v1api20260801/storage`.
+* If resources in the current package transition to different package versions, the table has a sparse column for each target version.
 * Resources are listed alphabetically in the Resources summary.
 * Referenced objects are listed alphabetically in the Objects summary.
 * Type renames already specified in generator config are respected.
@@ -49,14 +50,14 @@ The report will start with a legend explaining the statuses used. Two summary ta
 
 Sample summary table:
 
-| Current Version | Current Type | Next Version | Next Type     |  Status  | Notes |
-| :-------------- | :----------- | :----------- | :------------ | :------: | :---- |
-| v20240101       | Person       | v20260101    | Person        | Identical |       |
-| v20240101       | Address      | v20260101    | PostalAddress | Renamed  |       |
-|                 |              | v20260101    | CensusData    |   New    |       |
-| v20240101       | Demographics | v20260101    |               | Retired  |       |
-| v20240101       | Person_Spec  | v20260101    | Person_Spec   | Modified |       |
-| v20240101       | Person_Status | v20260101   | Person_Status | Identical |       |
+| v20240101   | v20260101    |  Status  | Notes |
+| :---------- | :----------- | :------: | :---- |
+| Person      | Person       | Identical |       |
+| Address     | PostalAddress | Renamed |       |
+|             | CensusData   |   New    |       |
+| Demographics |             | Retired  |       |
+| Person_Spec | Person_Spec  | Modified |       |
+| Person_Status | Person_Status | Identical |    |
 
 Status meanings
 
@@ -97,7 +98,9 @@ For the `Person_Spec` type above, we might see:
 * Multiple statuses are comma-separated, as in the summary table.
 * A notes column explains differences that do not represent modifications, such as a configured rename of a referenced type.
 
-When both _retired_ and _new_ properties exist (and thus we have a potential opportunity for a rename), use the notes column to propose the closest match for each retirement. Reuse the existing TypoAdvisor for this.
+When both _retired_ and _new_ properties exist (and thus we have a potential opportunity for a rename), use the notes column to propose the closest match for each retirement. Reuse the existing TypoAdvisor for this, omitting suggestions below a minimum similarity threshold.
+
+Configured type renames follow conversion-graph semantics: an exact name match in the next package takes precedence over `$nameInNextVersion`.
 
 ## Status
 

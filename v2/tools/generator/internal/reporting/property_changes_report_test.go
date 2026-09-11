@@ -106,7 +106,47 @@ func Test_PropertyChangesReport_GivenStoragePackagesAndAddedProperties_ShowsLabe
 	g.Expect(content.String()).To(gomega.ContainSubstring("Extended"))
 }
 
-func Test_PropertyChangesReport_GivenConfiguredRenameWithSameNamedSuccessor_ExplainsUnmatchedRows(t *testing.T) {
+func Test_PropertyChangesReport_GivenMultipleTargets_UsesSparseVersionColumns(t *testing.T) {
+	t.Parallel()
+
+	g := gomega.NewWithT(t)
+	personSpec := test.CreateSpec(test.Pkg2020s, "Person", test.FullNameProperty)
+	personStatus := test.CreateStatus(test.Pkg2020s, "Person")
+	person := test.CreateResource(test.Pkg2020s, "Person", personSpec, personStatus)
+	nextPersonSpec := test.CreateSpec(test.Pkg2021s, "Person", test.FullNameProperty)
+	nextPersonStatus := test.CreateStatus(test.Pkg2021s, "Person")
+	nextPerson := test.CreateResource(test.Pkg2021s, "Person", nextPersonSpec, nextPersonStatus)
+
+	accountSpec := test.CreateSpec(test.Pkg2020s, "Account", test.FullNameProperty)
+	accountStatus := test.CreateStatus(test.Pkg2020s, "Account")
+	account := test.CreateResource(test.Pkg2020s, "Account", accountSpec, accountStatus)
+	nextAccountSpec := test.CreateSpec(test.Pkg2022s, "Account", test.FullNameProperty)
+	nextAccountStatus := test.CreateStatus(test.Pkg2022s, "Account")
+	nextAccount := test.CreateResource(test.Pkg2022s, "Account", nextAccountSpec, nextAccountStatus)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(
+		personSpec, personStatus, person, nextPersonSpec, nextPersonStatus, nextPerson,
+		accountSpec, accountStatus, account, nextAccountSpec, nextAccountStatus, nextAccount,
+	)
+
+	var content bytes.Buffer
+	rpt := reporting.NewPropertyChangesReport(
+		[]reporting.ResourceVersionPair{
+			{This: person.Name(), Next: nextPerson.Name()},
+			{This: account.Name(), Next: nextAccount.Name()},
+		},
+		defs,
+		func(astmodel.InternalTypeName) (string, bool) { return "", false },
+		func(astmodel.InternalTypeName, astmodel.PropertyName) (string, bool) { return "", false },
+	)
+	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
+	g.Expect(content.String()).To(gomega.ContainSubstring(
+		"| v20200101/storage | v20211231/storage | v20220630/storage | Status",
+	))
+}
+
+func Test_PropertyChangesReport_GivenConfiguredRenameWithSameNamedSuccessor_UsesExactMatch(t *testing.T) {
 	t.Parallel()
 
 	g := gomega.NewWithT(t)
@@ -148,7 +188,10 @@ func Test_PropertyChangesReport_GivenConfiguredRenameWithSameNamedSuccessor_Expl
 		func(astmodel.InternalTypeName, astmodel.PropertyName) (string, bool) { return "", false },
 	)
 	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
-	g.Expect(content.String()).To(gomega.ContainSubstring("Configured rename to RenamedDetail was not found."))
+	g.Expect(content.String()).To(gomega.ContainSubstring(
+		"| Detail        | Detail        | Identical",
+	))
+	g.Expect(content.String()).NotTo(gomega.ContainSubstring("RenamedDetail"))
 }
 
 func createPropertyChangesFixture() (

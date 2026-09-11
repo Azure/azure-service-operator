@@ -22,6 +22,8 @@ type Advisor struct {
 	terms set.Set[string] // set of terms we know to exist
 }
 
+const minimumSuggestionSimilarity = 0.5
+
 func NewAdvisor() *Advisor {
 	return &Advisor{
 		terms: set.Make[string](),
@@ -67,7 +69,8 @@ func (advisor *Advisor) ClearTerms() {
 // known. If no terms have been recorded, returns "", false. Unlike Errorf/Wrapf (which lowercase
 // only the query term, a good fit for the typically-lowercase group names they're used with),
 // comparison here is case-insensitive on both sides, making this suitable for suggesting renames
-// of PascalCase identifiers such as property names.
+// of PascalCase identifiers such as property names. Suggestions below a minimum similarity are
+// omitted to avoid presenting unrelated terms as plausible corrections.
 func (advisor *Advisor) Suggest(term string) (string, bool) {
 	advisor.lock.RLock()
 	defer advisor.lock.RUnlock()
@@ -87,12 +90,13 @@ func (advisor *Advisor) Suggest(term string) (string, bool) {
 		}
 	}
 
-	suggestion, err := edlib.FuzzySearch(
+	suggestion, err := edlib.FuzzySearchThreshold(
 		strings.ToLower(term),
 		candidates,
+		minimumSuggestionSimilarity,
 		edlib.Levenshtein,
 	)
-	if err != nil {
+	if err != nil || suggestion == "" {
 		// Can't offer a suggestion
 		return "", false
 	}

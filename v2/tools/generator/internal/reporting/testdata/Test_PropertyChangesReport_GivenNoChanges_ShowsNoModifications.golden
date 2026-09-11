@@ -10,13 +10,13 @@ Statuses:
 
 ## Resources
 
-| Current Version | Current Type | Next Version | Next Type | Status    | Notes |
-|:----------------|:-------------|:-------------|:----------|:---------:|:------|
-| v20200101       | Person       | v20211231    | Person    | Identical |       |
+| v20200101 | v20211231 | Status    | Notes |
+|:----------|:----------|:---------:|:------|
+| Person    | Person    | Identical |       |
 
 ## Objects
 
-| Current Version | Current Type  | Next Version | Next Type     | Status    | Notes |
-|:----------------|:--------------|:-------------|:--------------|:---------:|:------|
-| v20200101       | Person_STATUS | v20211231    | Person_STATUS | Identical |       |
-| v20200101       | Person_Spec   | v20211231    | Person_Spec   | Identical |       |
+| v20200101     | v20211231     | Status    | Notes |
+|:--------------|:--------------|:---------:|:------|
+| Person_STATUS | Person_STATUS | Identical |       |
+| Person_Spec   | Person_Spec   | Identical |       |
