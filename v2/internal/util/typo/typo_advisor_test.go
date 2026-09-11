@@ -65,6 +65,40 @@ func TestTypoAdvisor_Wrapf_WhenErrorAndTypo_ReturnsExpectedError(t *testing.T) {
 	g.Expect(actual.Error()).To(ContainSubstring("did you mean beta?"))
 }
 
+func TestTypoAdvisor_Suggest_WhenNoTerms_ReturnsFalse(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	advisor := createTestTypoAdvisor()
+	_, ok := advisor.Suggest("FirstName")
+	g.Expect(ok).To(BeFalse())
+}
+
+func TestTypoAdvisor_Suggest_WhenTermsAvailable_ReturnsExpectedSuggestion(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	advisor := createTestTypoAdvisor("LegalName", "KnownAs", "BirthDate")
+	suggestion, ok := advisor.Suggest("FamilyName")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(suggestion).To(Equal("LegalName"))
+}
+
+func TestTypoAdvisor_Suggest_IsCaseInsensitive(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	advisor := createTestTypoAdvisor("KNOWNAS")
+	suggestion, ok := advisor.Suggest("knownas")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(suggestion).To(Equal("KNOWNAS"))
+}
+
+func TestTypoAdvisor_Suggest_WhenClosestTermIsDissimilar_ReturnsFalse(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	advisor := createTestTypoAdvisor("Identity", "SystemData")
+	_, ok := advisor.Suggest("ProvisioningState")
+	g.Expect(ok).To(BeFalse())
+}
+
 func createTestTypoAdvisor(terms ...string) *Advisor {
 	result := NewAdvisor()
 	for _, term := range terms {
