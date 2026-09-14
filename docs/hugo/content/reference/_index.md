@@ -770,9 +770,9 @@ To install the CRDs for these resources, your ASO configuration must include `se
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource | ARM Version | CRD Version | Supported From | Sample |
-|----------|-------------|-------------|----------------|--------|
-| Linker   | 2024-04-01  | v20240401   | v2.22.0        | -      |
+| Resource                                                             | ARM Version | CRD Version | Supported From | Sample                                                                                                                     |
+|----------------------------------------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------|
+| [Linker]({{< relref "/reference/servicelinker/v20240401#Linker" >}}) | 2024-04-01  | v20240401   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicelinker/v20240401/v20240401_linker.yaml) |
 
 ## SignalRService
 
