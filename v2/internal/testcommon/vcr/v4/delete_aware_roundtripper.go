@@ -58,31 +58,53 @@ func (r *deleteAwareRoundTripper) RoundTrip(request *http.Request) (*http.Respon
 }
 
 func (r *deleteAwareRoundTripper) roundTripGet(request *http.Request) (*http.Response, error) {
+	// No special handling for long-running-operations
 	if r.isLROPollURL(request.URL.String()) {
 		return r.inner.RoundTrip(request)
 	}
 
 	var previousResponse *http.Response
 	for {
+		// Nasty edge case: Some (rare) resources treat DELETE as RESET to remove custom configuration.
+		// To avoid breaking those, we *always* return _something_, even if it's a GET/OK or Get/Created, if it's the
+		// last GET available.
 		response, err := r.inner.RoundTrip(request)
 		if err != nil {
 			if previousResponse != nil {
 				return previousResponse, nil
 			}
+
 			return response, err
 		}
 
+		// If we're GETting something that hasn't been deleted, we can return it immediately
 		requestPath := urlPath(request.URL.String())
-		if !r.wasDeleted(requestPath) ||
-			(response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated) {
+		if !r.wasDeleted(requestPath) {
+			// Close the body of our cached previous response to avoid leaks
 			if previousResponse != nil && previousResponse.Body != nil {
 				if err := previousResponse.Body.Close(); err != nil {
 					return nil, fmt.Errorf("closing stale GET response body: %w", err)
 				}
 			}
+
 			return response, nil
 		}
 
+		// Return what we have UNLESS it has a status OK or Created.
+		// These happen when test replay issues a DELETE *before* consuming all the GETs in the recording.
+		// Returning a GET/OK to the controller after a DELETE doesn't make sense, so we skip it.
+		if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated {
+			// Close the body of our cached previous response to avoid leaks
+			if previousResponse != nil && previousResponse.Body != nil {
+				if err := previousResponse.Body.Close(); err != nil {
+					return nil, fmt.Errorf("closing stale GET response body: %w", err)
+				}
+			}
+
+			return response, nil
+		}
+
+		// We're going to skip this response, so tidy up any previousResponse we already have
 		if previousResponse != nil {
 			r.log.V(1).Info("Discarding stale GET response after deletion", "url", request.URL.String())
 			if previousResponse.Body != nil {
@@ -91,12 +113,17 @@ func (r *deleteAwareRoundTripper) roundTripGet(request *http.Request) (*http.Res
 				}
 			}
 		}
+
 		previousResponse = response
 	}
 }
 
 func (r *deleteAwareRoundTripper) recordLROPollURLs(request *http.Request, response *http.Response) {
-	for _, header := range []string{"Operation-Location", "Azure-AsyncOperation", "Location"} {
+	for _, header := range []string{
+		"Operation-Location",
+		"Azure-AsyncOperation",
+		"Location",
+	} {
 		value := response.Header.Get(header)
 		if value == "" {
 			continue
@@ -150,17 +177,20 @@ func (r *deleteAwareRoundTripper) wasDeleted(path string) bool {
 }
 
 func (*deleteAwareRoundTripper) isSameOrDescendantPath(path string, ancestor string) bool {
+	// Everything descends from root
 	if ancestor == "/" {
 		return strings.HasPrefix(path, "/")
 	}
+
 	path = strings.TrimSuffix(path, "/")
 	ancestor = strings.TrimSuffix(ancestor, "/")
+
+	// If same, then it is considered a descendant as well
 	if strings.EqualFold(path, ancestor) {
 		return true
 	}
-	if ancestor == "" {
-		return false
-	}
+
+	// if path is shorter, can't descend from ancestor
 	if len(path) <= len(ancestor) {
 		return false
 	}
