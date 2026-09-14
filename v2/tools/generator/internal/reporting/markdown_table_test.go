@@ -26,3 +26,21 @@ func TestMarkdownTable_GivesExpectedResults(t *testing.T) {
 
 	g.Assert(t, t.Name(), []byte(buff.String()))
 }
+
+func TestMarkdownTable_WithAlignment_GivesExpectedResults(t *testing.T) {
+	t.Parallel()
+	g := goldie.New(t)
+
+	table := NewMarkdownTable("Name", "Description", "Status")
+	table.SetAlignment(0, AlignLeft)
+	table.SetAlignment(1, AlignRight)
+	table.SetAlignment(2, AlignCenter)
+	table.AddRow("Alpha", "The first, be cautious", "New")
+	table.AddRow("Beta", "The second, should be stable", "Modified")
+	table.AddRow("Gamma", "The third, general availability", "-")
+
+	var buff strings.Builder
+	table.WriteTo(&buff)
+
+	g.Assert(t, t.Name(), []byte(buff.String()))
+}
