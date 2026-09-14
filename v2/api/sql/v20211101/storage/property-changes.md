@@ -128,8 +128,8 @@
 | ServersVulnerabilityAssessment_Spec                         | ServersVulnerabilityAssessment_Spec                         | Identical |       |
 | Sku                                                         | Sku                                                         | Identical |       |
 | Sku_STATUS                                                  | Sku_STATUS                                                  | Identical |       |
-| SystemData_STATUS                                           | SystemData_STATUS                                           | Identical |       |
 |                                                             | SystemData_STATUS                                           |    New    |       |
+| SystemData_STATUS                                           | SystemData_STATUS                                           | Identical |       |
 | UserAssignedIdentityDetails                                 | UserAssignedIdentityDetails                                 | Identical |       |
 | UserIdentity_STATUS                                         | UserIdentity_STATUS                                         | Identical |       |
 | VulnerabilityAssessmentRecurringScansProperties             | VulnerabilityAssessmentRecurringScansProperties             | Identical |       |
