@@ -11,8 +11,10 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strings"
 
 	"github.com/rotisserie/eris"
+	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
@@ -70,7 +72,7 @@ func NewPropertyChangesReporter(
 
 // SaveReports writes one property-changes.md file per package containing non-hub resources.
 func (r *PropertyChangesReporter) SaveReports(baseFolder string) error {
-	pairsByPackage := make(map[astmodel.InternalPackageReference][]reporting.ResourceVersionPair)
+	pairsByPackage := make(map[astmodel.InternalPackageReference]astmodel.TypeAssociation)
 	for _, resource := range r.findResources() {
 		nextResource, err := r.graph.FindNextType(resource, r.definitions)
 		if err != nil {
@@ -83,10 +85,11 @@ func (r *PropertyChangesReporter) SaveReports(baseFolder string) error {
 		}
 
 		pkg := resource.InternalPackageReference()
-		pairsByPackage[pkg] = append(
-			pairsByPackage[pkg],
-			reporting.ResourceVersionPair{This: resource, Next: nextResource},
-		)
+		if pairsByPackage[pkg] == nil {
+			pairsByPackage[pkg] = make(astmodel.TypeAssociation)
+		}
+
+		pairsByPackage[pkg][resource] = nextResource
 	}
 
 	packages := make([]astmodel.InternalPackageReference, 0, len(pairsByPackage))
@@ -128,14 +131,14 @@ func (r *PropertyChangesReporter) findResources() []astmodel.InternalTypeName {
 		result = append(result, name)
 	}
 
-	sort.Slice(result, func(i, j int) bool {
-		leftPath := result[i].InternalPackageReference().PackagePath()
-		rightPath := result[j].InternalPackageReference().PackagePath()
+	slices.SortFunc(result, func(left astmodel.InternalTypeName, right astmodel.InternalTypeName) int {
+		leftPath := left.InternalPackageReference().PackagePath()
+		rightPath := right.InternalPackageReference().PackagePath()
 		if leftPath != rightPath {
-			return leftPath < rightPath
+			return strings.Compare(leftPath, rightPath)
 		}
 
-		return result[i].Name() < result[j].Name()
+		return strings.Compare(left.Name(), right.Name())
 	})
 
 	return result
@@ -143,7 +146,7 @@ func (r *PropertyChangesReporter) findResources() []astmodel.InternalTypeName {
 
 func (r *PropertyChangesReporter) saveReport(
 	filePath string,
-	resources []reporting.ResourceVersionPair,
+	resources astmodel.TypeAssociation,
 ) error {
 	rpt := reporting.NewPropertyChangesReport(
 		resources,

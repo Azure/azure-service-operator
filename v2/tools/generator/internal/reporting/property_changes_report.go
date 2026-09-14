@@ -12,6 +12,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/typo"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -21,18 +22,12 @@ type (
 	PropertyRenameLookup func(astmodel.InternalTypeName, astmodel.PropertyName) (string, bool)
 )
 
-// ResourceVersionPair identifies a resource and its successor in the conversion graph.
-type ResourceVersionPair struct {
-	This astmodel.InternalTypeName
-	Next astmodel.InternalTypeName
-}
-
 // PropertyChangesReport documents the differences between all resources in a package and their
 // successors, together with the object types referenced by their specs and statuses.
 //
 // See docs/hugo/content/design/ADR-2026-09-Property-Changes-Report for the design this implements.
 type PropertyChangesReport struct {
-	resources            []ResourceVersionPair
+	resources            astmodel.TypeAssociation
 	definitions          astmodel.TypeDefinitionSet
 	typeRenameLookup     TypeRenameLookup
 	propertyRenameLookup PropertyRenameLookup
@@ -41,7 +36,7 @@ type PropertyChangesReport struct {
 
 // NewPropertyChangesReport creates a package report for the supplied resource pairs.
 func NewPropertyChangesReport(
-	resources []ResourceVersionPair,
+	resources astmodel.TypeAssociation,
 	defs astmodel.TypeDefinitionSet,
 	typeRenameLookup TypeRenameLookup,
 	propertyRenameLookup PropertyRenameLookup,
@@ -98,22 +93,12 @@ func (r *PropertyChangesReport) WriteTo(writer io.Writer) error {
 		}
 	}
 
-	resourceRows, objectRows, diffs := r.buildRows()
-
-	if _, err := io.WriteString(writer, "\n"); err != nil {
+	resourceRows, objectRows, diffs, err := r.buildRows()
+	if err != nil {
 		return err
 	}
 
-	if _, err := io.WriteString(
-		writer,
-		"Statuses:\n\n"+
-			"* **Identical**: No properties changed.\n"+
-			"* **New**: The type or property exists only in the newer version.\n"+
-			"* **Retired**: The type or property exists only in the older version.\n"+
-			"* **Renamed**: A configured rename links the old and new names.\n"+
-			"* **Extended**: The newer type only adds properties.\n"+
-			"* **Modified**: Properties were retired, renamed, or changed type.\n\n",
-	); err != nil {
+	if _, err := io.WriteString(writer, "\n"); err != nil {
 		return err
 	}
 
@@ -133,6 +118,19 @@ func (r *PropertyChangesReport) WriteTo(writer io.Writer) error {
 		return err
 	}
 
+	if _, err := io.WriteString(
+		writer,
+		"\n## Legend\n\n"+
+			"* **Identical**: No properties changed.\n"+
+			"* **New**: The type or property exists only in the newer version.\n"+
+			"* **Retired**: The type or property exists only in the older version.\n"+
+			"* **Renamed**: A configured rename links the old and new names.\n"+
+			"* **Extended**: The newer type only adds properties.\n"+
+			"* **Modified**: Properties were retired, renamed, or changed type.\n",
+	); err != nil {
+		return err
+	}
+
 	// Differential tables are emitted in the same order as the summaries.
 	rows := append(resourceRows, objectRows...)
 	for _, row := range rows {
@@ -143,6 +141,10 @@ func (r *PropertyChangesReport) WriteTo(writer io.Writer) error {
 
 		heading := row.sortKey()
 		if _, err := fmt.Fprintf(writer, "\n### %s\n\n", heading); err != nil {
+			return err
+		}
+
+		if _, err := fmt.Fprintf(writer, "%s\n\n", summarizeChanges(propRows)); err != nil {
 			return err
 		}
 
@@ -217,14 +219,14 @@ func writeSummaryTable(writer io.Writer, rows []*typeChangeRow) error {
 
 func summaryPackages(rows []*typeChangeRow) []astmodel.InternalPackageReference {
 	var current astmodel.InternalPackageReference
-	next := make(map[astmodel.InternalPackageReference]struct{})
+	next := set.Make[astmodel.InternalPackageReference]()
 	for _, row := range rows {
 		if current == nil && row.thisPackage != nil {
 			current = row.thisPackage
 		}
 
 		if row.nextPackage != nil && (current == nil || !row.nextPackage.Equals(current)) {
-			next[row.nextPackage] = struct{}{}
+			next.Add(row.nextPackage)
 		}
 	}
 
@@ -233,10 +235,7 @@ func summaryPackages(rows []*typeChangeRow) []astmodel.InternalPackageReference 
 		result = append(result, current)
 	}
 
-	remaining := make([]astmodel.InternalPackageReference, 0, len(next))
-	for pkg := range next {
-		remaining = append(remaining, pkg)
-	}
+	remaining := next.Values()
 
 	sort.Slice(remaining, func(i, j int) bool {
 		return remaining[i].PackagePath() < remaining[j].PackagePath()
@@ -266,6 +265,37 @@ func formatStatuses(statuses []changeStatus) string {
 	parts := make([]string, len(statuses))
 	for i, s := range statuses {
 		parts[i] = string(s)
+	}
+
+	return strings.Join(parts, ", ")
+}
+
+func summarizeChanges(rows []propertyChangeRow) string {
+	counts := map[changeStatus]int{
+		"": 0,
+	}
+	for _, row := range rows {
+		if len(row.statuses) == 0 {
+			counts[""]++
+			continue
+		}
+
+		for _, status := range row.statuses {
+			counts[status]++
+		}
+	}
+
+	ordered := []changeStatus{"", statusNew, statusRetired, statusRenamed, statusExtended, statusModified}
+	parts := make([]string, 0, len(ordered))
+	for _, status := range ordered {
+		if count := counts[status]; count > 0 {
+			name := string(status)
+			if status == "" {
+				name = "Identical"
+			}
+
+			parts = append(parts, fmt.Sprintf("%d x %s", count, name))
+		}
 	}
 
 	return strings.Join(parts, ", ")
@@ -317,14 +347,19 @@ func (r *PropertyChangesReport) buildRows() (
 	[]*typeChangeRow,
 	[]*typeChangeRow,
 	map[*typeChangeRow][]propertyChangeRow,
+	error,
 ) {
 	resourceRows := make([]*typeChangeRow, 0, len(r.resources))
 	var objectRows []*typeChangeRow
 	diffs := make(map[*typeChangeRow][]propertyChangeRow)
 	seenObjects := make(map[string]struct{})
 
-	for _, pair := range r.resources {
-		resourceRow, objects, pairDiffs := r.buildRowsForPair(pair)
+	for thisResource, nextResource := range r.resources {
+		resourceRow, objects, pairDiffs, err := r.buildRowsForPair(thisResource, nextResource)
+		if err != nil {
+			return nil, nil, nil, err
+		}
+
 		resourceRows = append(resourceRows, resourceRow)
 
 		for _, row := range objects {
@@ -358,25 +393,34 @@ func (r *PropertyChangesReport) buildRows() (
 		return objectRows[i].sortKey() < objectRows[j].sortKey()
 	})
 
-	return resourceRows, objectRows, diffs
+	return resourceRows, objectRows, diffs, nil
 }
 
 func (r *PropertyChangesReport) buildRowsForPair(
-	pair ResourceVersionPair,
-) (*typeChangeRow, []*typeChangeRow, map[*typeChangeRow][]propertyChangeRow) {
-	thisClosure := propertyContainerClosureOf(pair.This, r.definitions)
-	nextClosure := propertyContainerClosureOf(pair.Next, r.definitions)
+	thisResource astmodel.InternalTypeName,
+	nextResource astmodel.InternalTypeName,
+) (*typeChangeRow, []*typeChangeRow, map[*typeChangeRow][]propertyChangeRow, error) {
+	thisClosure, err := propertyContainerClosureOf(thisResource, r.definitions)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+
+	nextClosure, err := propertyContainerClosureOf(nextResource, r.definitions)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+
 	diffs := make(map[*typeChangeRow][]propertyChangeRow)
 
 	resourceRow := &typeChangeRow{
-		thisPackage: pair.This.InternalPackageReference(),
-		thisName:    pair.This.Name(),
-		nextPackage: pair.Next.InternalPackageReference(),
-		nextName:    pair.Next.Name(),
+		thisPackage: thisResource.InternalPackageReference(),
+		thisName:    thisResource.Name(),
+		nextPackage: nextResource.InternalPackageReference(),
+		nextName:    nextResource.Name(),
 	}
 
-	thisResourceDef, thisHasResource := r.definitions[pair.This]
-	nextResourceDef, nextHasResource := r.definitions[pair.Next]
+	thisResourceDef, thisHasResource := r.definitions[thisResource]
+	nextResourceDef, nextHasResource := r.definitions[nextResource]
 	if thisHasResource && nextHasResource {
 		propRows, status := r.computeModification(thisResourceDef, nextResourceDef)
 		if status != "" {
@@ -387,7 +431,7 @@ func (r *PropertyChangesReport) buildRowsForPair(
 
 	nextByName := make(map[string]astmodel.TypeDefinition, len(nextClosure))
 	for name, def := range nextClosure {
-		if name != pair.Next {
+		if name != nextResource {
 			nextByName[def.Name().Name()] = def
 		}
 	}
@@ -395,7 +439,7 @@ func (r *PropertyChangesReport) buildRowsForPair(
 	consumedNext := make(map[string]bool, len(nextByName))
 	var thisDefs []astmodel.TypeDefinition
 	for name, def := range thisClosure {
-		if name != pair.This {
+		if name != thisResource {
 			thisDefs = append(thisDefs, def)
 		}
 	}
@@ -409,7 +453,7 @@ func (r *PropertyChangesReport) buildRowsForPair(
 		row := &typeChangeRow{
 			thisPackage: thisDef.Name().InternalPackageReference(),
 			thisName:    thisDef.Name().Name(),
-			nextPackage: pair.Next.InternalPackageReference(),
+			nextPackage: nextResource.InternalPackageReference(),
 		}
 
 		expectedNextName := thisDef.Name().Name()
@@ -446,7 +490,7 @@ func (r *PropertyChangesReport) buildRowsForPair(
 	var newNames []string
 	for _, def := range nextClosure {
 		displayName := def.Name().Name()
-		if def.Name() == pair.Next || consumedNext[displayName] {
+		if def.Name() == nextResource || consumedNext[displayName] {
 			continue
 		}
 
@@ -456,7 +500,7 @@ func (r *PropertyChangesReport) buildRowsForPair(
 	sort.Strings(newNames)
 	for _, name := range newNames {
 		row := &typeChangeRow{
-			nextPackage: pair.Next.InternalPackageReference(),
+			nextPackage: nextResource.InternalPackageReference(),
 			nextName:    name,
 			statuses:    []changeStatus{statusNew},
 		}
@@ -467,7 +511,7 @@ func (r *PropertyChangesReport) buildRowsForPair(
 		return rows[i].sortKey() < rows[j].sortKey()
 	})
 
-	return resourceRow, rows, diffs
+	return resourceRow, rows, diffs, nil
 }
 
 // computeModification compares the properties of thisDef and nextDef (if both are property
@@ -672,45 +716,40 @@ func typeRenameNote(thisType astmodel.Type, nextType astmodel.Type) string {
 	return fmt.Sprintf("%s renamed to %s.", thisName.Name(), nextName.Name())
 }
 
-// closureOf returns the recursive closure of types referenced (via properties only - functions are
-// deliberately ignored) starting from root, restricted to types defined in the same package as root.
-// The returned set always includes root itself, if a definition for it exists in defs.
-func closureOf(root astmodel.InternalTypeName, defs astmodel.TypeDefinitionSet) astmodel.TypeDefinitionSet {
-	result := make(astmodel.TypeDefinitionSet)
-	visited := astmodel.NewInternalTypeNameSet()
+// closureOf returns the recursive closure of types referenced via properties, restricted to types
+// defined in the same package as root.
+func closureOf(
+	root astmodel.InternalTypeName,
+	defs astmodel.TypeDefinitionSet,
+) (astmodel.TypeDefinitionSet, error) {
 	rootPackage := root.InternalPackageReference()
-
-	var visit func(name astmodel.InternalTypeName)
-	visit = func(name astmodel.InternalTypeName) {
-		if visited.Contains(name) {
-			return
-		}
-
-		visited.Add(name)
-
-		def, ok := defs[name]
-		if !ok {
-			return
-		}
-
-		result.Add(def)
-
-		for _, ref := range referencedTypeNames(def.Type()) {
-			if ref.InternalPackageReference().Equals(rootPackage) {
-				visit(ref)
-			}
+	packageDefs := make(astmodel.TypeDefinitionSet)
+	for name, def := range defs {
+		if name.InternalPackageReference().Equals(rootPackage) {
+			packageDefs.Add(def)
 		}
 	}
 
-	visit(root)
-	return result
+	rootDef, ok := packageDefs[root]
+	if !ok {
+		return make(astmodel.TypeDefinitionSet), nil
+	}
+
+	return astmodel.FindConnectedDefinitions(
+		packageDefs,
+		astmodel.MakeTypeDefinitionSetFromDefinitions(rootDef),
+	)
 }
 
 func propertyContainerClosureOf(
 	root astmodel.InternalTypeName,
 	defs astmodel.TypeDefinitionSet,
-) astmodel.TypeDefinitionSet {
-	closure := closureOf(root, defs)
+) (astmodel.TypeDefinitionSet, error) {
+	closure, err := closureOf(root, defs)
+	if err != nil {
+		return nil, err
+	}
+
 	result := make(astmodel.TypeDefinitionSet)
 	for _, def := range closure {
 		if _, ok := astmodel.AsResourceType(def.Type()); ok {
@@ -723,7 +762,7 @@ func propertyContainerClosureOf(
 		}
 	}
 
-	return result
+	return result, nil
 }
 
 func packageLabel(pkg astmodel.InternalPackageReference) string {
@@ -736,59 +775,6 @@ func packageLabel(pkg astmodel.InternalPackageReference) string {
 	}
 
 	return pkg.PackageName()
-}
-
-// referencedTypeNames returns the names of all types directly referenced by t via its properties.
-// Functions are deliberately not included, as by the time this report runs, property assignment
-// functions have already been injected and would otherwise pull in cross-version types.
-func referencedTypeNames(t astmodel.Type) []astmodel.InternalTypeName {
-	switch t := t.(type) {
-	case astmodel.InternalTypeName:
-		return []astmodel.InternalTypeName{t}
-	case *astmodel.ResourceType:
-		var result []astmodel.InternalTypeName
-		result = append(result, referencedTypeNames(t.SpecType())...)
-		if status := t.StatusType(); status != nil {
-			result = append(result, referencedTypeNames(status)...)
-		}
-
-		return result
-	case *astmodel.ObjectType:
-		var result []astmodel.InternalTypeName
-		for _, p := range t.Properties().AsSlice() {
-			result = append(result, referencedTypeNames(p.PropertyType())...)
-		}
-
-		return result
-	case *astmodel.ArrayType:
-		return referencedTypeNames(t.Element())
-	case *astmodel.MapType:
-		result := referencedTypeNames(t.KeyType())
-		return append(result, referencedTypeNames(t.ValueType())...)
-	case *astmodel.OneOfType:
-		var result []astmodel.InternalTypeName
-		for _, obj := range t.PropertyObjects() {
-			result = append(result, referencedTypeNames(obj)...)
-		}
-
-		t.Types().ForEach(func(opt astmodel.Type, _ int) {
-			result = append(result, referencedTypeNames(opt)...)
-		})
-
-		return result
-	case *astmodel.AllOfType:
-		var result []astmodel.InternalTypeName
-		t.Types().ForEach(func(opt astmodel.Type, _ int) {
-			result = append(result, referencedTypeNames(opt)...)
-		})
-
-		return result
-	case astmodel.MetaType:
-		return referencedTypeNames(t.Unwrap())
-	default:
-		// Primitive types, enums, external types, etc. don't reference anything further
-		return nil
-	}
 }
 
 // describeType renders a concise description of a type, following the same conventions used by the

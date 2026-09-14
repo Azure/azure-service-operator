@@ -97,6 +97,7 @@ For the `Person_Spec` type above, we might see:
 * A status column gives a key for easy scanning.
 * Multiple statuses are comma-separated, as in the summary table.
 * A notes column explains differences that do not represent modifications, such as a configured rename of a referenced type.
+* Each differential table is preceded by counts of its changes, ordered as Identical, New, Retired, Renamed, Extended, and Modified, with zero counts omitted.
 
 When both _retired_ and _new_ properties exist (and thus we have a potential opportunity for a rename), use the notes column to propose the closest match for each retirement. Reuse the existing TypoAdvisor for this, omitting suggestions below a minimum similarity threshold.
 

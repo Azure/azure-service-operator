@@ -35,7 +35,7 @@ func Test_PropertyChangesReport_GivenTypicalChanges_ShowsExpectedDetails(t *test
 
 	var content bytes.Buffer
 	rpt := reporting.NewPropertyChangesReport(
-		[]reporting.ResourceVersionPair{{This: thisPerson, Next: nextPerson}},
+		astmodel.TypeAssociation{thisPerson: nextPerson},
 		defs,
 		cfg.TypeNameInNextVersion.Lookup,
 		cfg.PropertyNameInNextVersion.Lookup,
@@ -69,7 +69,7 @@ func Test_PropertyChangesReport_GivenNoChanges_ShowsNoModifications(t *testing.T
 
 	var content bytes.Buffer
 	rpt := reporting.NewPropertyChangesReport(
-		[]reporting.ResourceVersionPair{{This: thisPerson.Name(), Next: nextPerson.Name()}},
+		astmodel.TypeAssociation{thisPerson.Name(): nextPerson.Name()},
 		defs,
 		cfg.TypeNameInNextVersion.Lookup,
 		cfg.PropertyNameInNextVersion.Lookup,
@@ -95,7 +95,7 @@ func Test_PropertyChangesReport_GivenStoragePackagesAndAddedProperties_ShowsLabe
 
 	var content bytes.Buffer
 	rpt := reporting.NewPropertyChangesReport(
-		[]reporting.ResourceVersionPair{{This: thisPerson.Name(), Next: nextPerson.Name()}},
+		astmodel.TypeAssociation{thisPerson.Name(): nextPerson.Name()},
 		defs,
 		func(astmodel.InternalTypeName) (string, bool) { return "", false },
 		func(astmodel.InternalTypeName, astmodel.PropertyName) (string, bool) { return "", false },
@@ -132,9 +132,9 @@ func Test_PropertyChangesReport_GivenMultipleTargets_UsesSparseVersionColumns(t 
 
 	var content bytes.Buffer
 	rpt := reporting.NewPropertyChangesReport(
-		[]reporting.ResourceVersionPair{
-			{This: person.Name(), Next: nextPerson.Name()},
-			{This: account.Name(), Next: nextAccount.Name()},
+		astmodel.TypeAssociation{
+			person.Name():  nextPerson.Name(),
+			account.Name(): nextAccount.Name(),
 		},
 		defs,
 		func(astmodel.InternalTypeName) (string, bool) { return "", false },
@@ -142,7 +142,7 @@ func Test_PropertyChangesReport_GivenMultipleTargets_UsesSparseVersionColumns(t 
 	)
 	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
 	g.Expect(content.String()).To(gomega.ContainSubstring(
-		"| v20200101/storage | v20211231/storage | v20220630/storage | Status",
+		"| v20200101/storage | v20211231/storage | v20220630/storage |  Status",
 	))
 }
 
@@ -176,7 +176,7 @@ func Test_PropertyChangesReport_GivenConfiguredRenameWithSameNamedSuccessor_Uses
 
 	var content bytes.Buffer
 	rpt := reporting.NewPropertyChangesReport(
-		[]reporting.ResourceVersionPair{{This: thisPerson.Name(), Next: nextPerson.Name()}},
+		astmodel.TypeAssociation{thisPerson.Name(): nextPerson.Name()},
 		defs,
 		func(name astmodel.InternalTypeName) (string, bool) {
 			if name == thisDetail.Name() {
