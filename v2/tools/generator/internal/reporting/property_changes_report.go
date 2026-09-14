@@ -322,6 +322,22 @@ func (row *typeChangeRow) sortKey() string {
 	return row.nextName
 }
 
+func compareTypeChangeRows(left *typeChangeRow, right *typeChangeRow) int {
+	if result := strings.Compare(left.sortKey(), right.sortKey()); result != 0 {
+		return result
+	}
+
+	if result := strings.Compare(left.thisName, right.thisName); result != 0 {
+		return result
+	}
+
+	if result := strings.Compare(left.nextName, right.nextName); result != 0 {
+		return result
+	}
+
+	return strings.Compare(formatStatuses(left.statuses), formatStatuses(right.statuses))
+}
+
 // propertyChangeRow is a single row of a differential table, describing the relationship (if any)
 // between a property in this version and its counterpart (if any) in the next version.
 type propertyChangeRow struct {
@@ -387,10 +403,10 @@ func (r *PropertyChangesReport) buildRows() (
 	}
 
 	sort.Slice(resourceRows, func(i, j int) bool {
-		return resourceRows[i].sortKey() < resourceRows[j].sortKey()
+		return compareTypeChangeRows(resourceRows[i], resourceRows[j]) < 0
 	})
 	sort.Slice(objectRows, func(i, j int) bool {
-		return objectRows[i].sortKey() < objectRows[j].sortKey()
+		return compareTypeChangeRows(objectRows[i], objectRows[j]) < 0
 	})
 
 	return resourceRows, objectRows, diffs, nil
@@ -508,7 +524,7 @@ func (r *PropertyChangesReport) buildRowsForPair(
 	}
 
 	sort.SliceStable(rows, func(i, j int) bool {
-		return rows[i].sortKey() < rows[j].sortKey()
+		return compareTypeChangeRows(rows[i], rows[j]) < 0
 	})
 
 	return resourceRow, rows, diffs, nil
