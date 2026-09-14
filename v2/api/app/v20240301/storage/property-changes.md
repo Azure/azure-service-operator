@@ -156,8 +156,8 @@
 | ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | Identical |       |
 | ManagedEnvironment_STATUS                                                | ManagedEnvironment_STATUS                                                | Extended  |       |
 | ManagedEnvironment_Spec                                                  | ManagedEnvironment_Spec                                                  | Extended  |       |
-| ManagedServiceIdentity                                                   | ManagedServiceIdentity                                                   | Identical |       |
 |                                                                          | ManagedServiceIdentity                                                   |    New    |       |
+| ManagedServiceIdentity                                                   | ManagedServiceIdentity                                                   | Identical |       |
 |                                                                          | ManagedServiceIdentity_STATUS                                            |    New    |       |
 | ManagedServiceIdentity_STATUS                                            | ManagedServiceIdentity_STATUS                                            | Identical |       |
 | Mtls                                                                     | Mtls                                                                     | Identical |       |
@@ -207,10 +207,10 @@
 | TwitterRegistration                                                      | TwitterRegistration                                                      | Identical |       |
 | TwitterRegistration_STATUS                                               | TwitterRegistration_STATUS                                               | Identical |       |
 | Twitter_STATUS                                                           | Twitter_STATUS                                                           | Identical |       |
-| UserAssignedIdentityDetails                                              | UserAssignedIdentityDetails                                              | Identical |       |
 |                                                                          | UserAssignedIdentityDetails                                              |    New    |       |
-| UserAssignedIdentity_STATUS                                              | UserAssignedIdentity_STATUS                                              | Identical |       |
+| UserAssignedIdentityDetails                                              | UserAssignedIdentityDetails                                              | Identical |       |
 |                                                                          | UserAssignedIdentity_STATUS                                              |    New    |       |
+| UserAssignedIdentity_STATUS                                              | UserAssignedIdentity_STATUS                                              | Identical |       |
 | VnetConfiguration                                                        | VnetConfiguration                                                        | Identical |       |
 | VnetConfiguration_STATUS                                                 | VnetConfiguration_STATUS                                                 | Identical |       |
 | Volume                                                                   | Volume                                                                   | Identical |       |

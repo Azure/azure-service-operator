@@ -143,8 +143,8 @@
 | ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                 | ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                 | Identical |       |
 | ServiceEndpointPropertiesFormat                                                         | ServiceEndpointPropertiesFormat                                                         | Extended  |       |
 | ServiceEndpointPropertiesFormat_STATUS                                                  | ServiceEndpointPropertiesFormat_STATUS                                                  | Extended  |       |
-| SubResource                                                                             | SubResource                                                                             | Identical |       |
 |                                                                                         | SubResource                                                                             |    New    |       |
+| SubResource                                                                             | SubResource                                                                             | Identical |       |
 | SubResource_STATUS                                                                      | SubResource_STATUS                                                                      | Identical |       |
 | Subnet_LoadBalancer_SubResourceEmbedded                                                 | Subnet_LoadBalancer_SubResourceEmbedded                                                 | Identical |       |
 | Subnet_NetworkInterface_SubResourceEmbedded                                             | Subnet_NetworkInterface_SubResourceEmbedded                                             | Identical |       |

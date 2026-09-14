@@ -87,8 +87,8 @@
 | RollingUpgradePolicy_STATUS                                          | RollingUpgradePolicy_STATUS                                          | Identical |       |
 | ScaleInPolicy                                                        | ScaleInPolicy                                                        | Extended  |       |
 | ScaleInPolicy_STATUS                                                 | ScaleInPolicy_STATUS                                                 | Extended  |       |
-| ScheduledEventsProfile                                               | ScheduledEventsProfile                                               | Identical |       |
 |                                                                      | ScheduledEventsProfile                                               |    New    |       |
+| ScheduledEventsProfile                                               | ScheduledEventsProfile                                               | Identical |       |
 |                                                                      | ScheduledEventsProfile_STATUS                                        |    New    |       |
 | ScheduledEventsProfile_STATUS                                        | ScheduledEventsProfile_STATUS                                        | Identical |       |
 | SecurityProfile                                                      | SecurityProfile                                                      | Identical |       |
@@ -103,12 +103,12 @@
 | SshPublicKey_STATUS                                                  | SshPublicKey_STATUS                                                  | Identical |       |
 | StorageProfile                                                       | StorageProfile                                                       | Identical |       |
 | StorageProfile_STATUS                                                | StorageProfile_STATUS                                                | Identical |       |
-| SubResource                                                          | SubResource                                                          | Identical |       |
 |                                                                      | SubResource                                                          |    New    |       |
-| SubResource_STATUS                                                   | SubResource_STATUS                                                   | Identical |       |
+| SubResource                                                          | SubResource                                                          | Identical |       |
 |                                                                      | SubResource_STATUS                                                   |    New    |       |
-| TerminateNotificationProfile                                         | TerminateNotificationProfile                                         | Identical |       |
+| SubResource_STATUS                                                   | SubResource_STATUS                                                   | Identical |       |
 |                                                                      | TerminateNotificationProfile                                         |    New    |       |
+| TerminateNotificationProfile                                         | TerminateNotificationProfile                                         | Identical |       |
 |                                                                      | TerminateNotificationProfile_STATUS                                  |    New    |       |
 | TerminateNotificationProfile_STATUS                                  | TerminateNotificationProfile_STATUS                                  | Identical |       |
 | UefiSettings                                                         | UefiSettings                                                         | Identical |       |

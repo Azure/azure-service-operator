@@ -84,8 +84,8 @@
 |                                           | KeyVaultReferenceWithStatus_STATUS              |    New    |       |
 | KubeEnvironmentProfile                    | KubeEnvironmentProfile                          | Identical |       |
 | KubeEnvironmentProfile_STATUS             | KubeEnvironmentProfile_STATUS                   | Identical |       |
-| ManagedServiceIdentity                    | ManagedServiceIdentity                          | Identical |       |
 |                                           | ManagedServiceIdentity                          |    New    |       |
+| ManagedServiceIdentity                    | ManagedServiceIdentity                          | Identical |       |
 |                                           | ManagedServiceIdentity_STATUS                   |    New    |       |
 | ManagedServiceIdentity_STATUS             | ManagedServiceIdentity_STATUS                   | Identical |       |
 | NameValuePair                             | NameValuePair                                   | Identical |       |
@@ -134,10 +134,10 @@
 |                                           | StorageMount                                    |    New    |       |
 |                                           | StorageMount_STATUS                             |    New    |       |
 |                                           | SystemData_STATUS                               |    New    |       |
-| UserAssignedIdentityDetails               | UserAssignedIdentityDetails                     | Identical |       |
 |                                           | UserAssignedIdentityDetails                     |    New    |       |
-| UserAssignedIdentity_STATUS               | UserAssignedIdentity_STATUS                     | Identical |       |
+| UserAssignedIdentityDetails               | UserAssignedIdentityDetails                     | Identical |       |
 |                                           | UserAssignedIdentity_STATUS                     |    New    |       |
+| UserAssignedIdentity_STATUS               | UserAssignedIdentity_STATUS                     | Identical |       |
 | VirtualApplication                        | VirtualApplication                              | Identical |       |
 | VirtualApplication_STATUS                 | VirtualApplication_STATUS                       | Identical |       |
 | VirtualDirectory                          | VirtualDirectory                                | Identical |       |
