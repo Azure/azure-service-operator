@@ -106,7 +106,7 @@ type Result struct {
 // It automatically collects CPU and memory metrics from the ASO controller pod
 // and writes a CSV report to the output directory. The test fails immediately
 // if metrics-server is not available on the cluster.
-func RunPerfTest(t *testing.T, tc *testcommon.KubePerTestContext, cfg Config) (result Result, err error) {
+func RunPerfTest(t *testing.T, tc *testcommon.KubePerTestContext, cfg Config) (Result, error) {
 	t.Helper()
 
 	// Set up metrics collection
