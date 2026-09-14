@@ -8,7 +8,7 @@ interactions:
         proto_minor: 1
         content_length: 93
         host: management.azure.com
-        body: '{"location":"westus2","name":"asotest-rg-jslmnj","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+        body: '{"location":"westus3","name":"asotest-rg-jslmnj","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
         form:
             api-version:
                 - "2020-06-01"
@@ -30,7 +30,7 @@ interactions:
         proto_major: 2
         proto_minor: 0
         content_length: 276
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jslmnj","name":"asotest-rg-jslmnj","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jslmnj","name":"asotest-rg-jslmnj","type":"Microsoft.Resources/resourceGroups","location":"westus3","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -75,7 +75,7 @@ interactions:
         proto_major: 2
         proto_minor: 0
         content_length: 276
-        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jslmnj","name":"asotest-rg-jslmnj","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jslmnj","name":"asotest-rg-jslmnj","type":"Microsoft.Resources/resourceGroups","location":"westus3","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
         headers:
             Cache-Control:
                 - no-cache
