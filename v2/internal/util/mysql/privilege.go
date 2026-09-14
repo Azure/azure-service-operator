@@ -9,6 +9,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/rotisserie/eris"
@@ -16,6 +17,11 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
+
+// MySQL privilege names cannot be parameterized, so allow only SQL keyword characters before interpolation.
+// See https://dev.mysql.com/doc/refman/8.4/en/grant.html (Privileges Supported by MySQL).
+// Note that while static privileges seem to never contain _, dynamic privileges can contain _
+var validPrivilegeName = regexp.MustCompile(`^[A-Za-z_ ]+$`)
 
 type SQLPrivilegeDelta struct {
 	AddedPrivileges   set.Set[string]
@@ -221,6 +227,10 @@ func addPrivileges(ctx context.Context, db *sql.DB, database string, user string
 		return nil
 	}
 
+	if err := validatePrivilegeNames(privileges); err != nil {
+		return err
+	}
+
 	toAdd := strings.Join(privileges.Values(), ",")
 	// TODO: Is there a way to just disable G201, which this violates?
 	// We say //nolint:gosec below because gosec is trying to tell us this is a dangerous SQL query with a risk of SQL
@@ -235,6 +245,10 @@ func deletePrivileges(ctx context.Context, db *sql.DB, database string, user str
 	if len(privileges) == 0 {
 		// Nothing to do
 		return nil
+	}
+
+	if err := validatePrivilegeNames(privileges); err != nil {
+		return err
 	}
 
 	toDelete := strings.Join(privileges.Values(), ",")
@@ -255,7 +269,22 @@ func asGrantTarget(database string) string {
 	if database == "" {
 		return "*.*"
 	}
-	return fmt.Sprintf("`%s`.*", database)
+	return fmt.Sprintf("%s.*", escapeBacktickIdentifier(database))
+}
+
+// escapeBacktickIdentifier escapes and wraps a value for use as a backtick-delimited MySQL identifier.
+func escapeBacktickIdentifier(value string) string {
+	escaped := strings.ReplaceAll(value, "`", "``")
+	return "`" + escaped + "`"
+}
+
+func validatePrivilegeNames(privileges set.Set[string]) error {
+	for _, priv := range privileges.Values() {
+		if !validPrivilegeName.MatchString(priv) {
+			return fmt.Errorf("invalid privilege name %q: must contain only letters, underscores, and spaces", priv)
+		}
+	}
+	return nil
 }
 
 func formatUser(user string, hostname string) string {

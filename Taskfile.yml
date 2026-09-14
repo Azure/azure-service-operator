@@ -33,10 +33,10 @@ vars:
 
   VERSION:
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
-    sh: "{{.SCRIPTS_ROOT}}/build_version.py v2"
+    sh: 'if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then {{.SCRIPTS_ROOT}}/build_version.py v2; else echo dev; fi'
 
   LATEST_VERSION_TAG:
-    sh: git describe --tags $(git rev-list --tags='v2*' --max-count=1) --match 'v2*'
+    sh: 'if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then git describe --tags $(git rev-list --tags=''v2*'' --max-count=1) --match ''v2*''; else echo dev; fi'
 
   VERSION_FLAGS: '"-X {{.PACKAGE}}/internal/version.BuildVersion={{.VERSION}}"'
   LDFLAGS: -ldflags {{.VERSION_FLAGS}}
@@ -745,16 +745,24 @@ tasks:
     env:
       RECORD_REPLAY: 0
 
+  controller:test-integration:
+    desc: Run live integration tests against the current cluster.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps:
+      - setup
+    cmds:
+      # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
+      # to keep CI fast
+      - go test -timeout 40m -v -run '{{default ".*" .TEST_FILTER}}' ./test | tee '{{.TEST_OUT}}/test-integration.log'
+
   controller:test-integration-kind-ci:
     desc: Run live integration tests in kind and deletes the kind cluster afterwards.
     dir: "{{.CONTROLLER_ROOT}}"
     deps:  
       - controller:kind-create-helm-workload-identity
     cmds:
-      # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
-      # to keep CI fast
       - defer: { task: controller:kind-delete }
-      - go test -timeout 40m -run '{{default ".*" .TEST_FILTER}}' ./test
+      - task: controller:test-integration
 
   # Note that this target isn't used in CI and is intended for use when running locally on a kind cluster
   # that you don't want to delete (in contrast to test-integration-kind-ci which will delete the kind cluster
@@ -765,9 +773,7 @@ tasks:
     deps: 
       - controller:kind-create-helm-workload-identity
     cmds:
-      # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
-      # to keep CI fast
-      - go test -timeout 40m -v -run '{{default ".*" .TEST_FILTER}}' ./test
+      - task: controller:test-integration
 
   # To control as many variables as possible and get repeatable runs, it's recommended to 
   # run this test against a real AKS cluster rather than a local kind cluster

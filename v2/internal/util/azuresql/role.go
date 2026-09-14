@@ -147,7 +147,7 @@ func alterRoles(ctx context.Context, db *sql.DB, user string, roles set.Set[stri
 		if err := findBadChars(role); err != nil {
 			return eris.Wrap(err, "problem found with role")
 		}
-		_, err := builder.WriteString(fmt.Sprintf("ALTER ROLE %s %s MEMBER %s;\n", role, string(mode), user))
+		_, err := builder.WriteString(fmt.Sprintf("ALTER ROLE %s %s MEMBER %s;\n", escapeBracketIdentifier(role), string(mode), escapeBracketIdentifier(user)))
 		if err != nil {
 			return eris.Wrapf(err, "failed to build T-SQL ALTER ROLE %s statement", mode)
 		}

@@ -6,42 +6,45 @@ Licensed under the MIT license.
 package test
 
 import (
+	"encoding/base64"
+	"encoding/json"
+	"fmt"
+	"os"
+	"strings"
 	"testing"
 	"time"
 
 	. "github.com/onsi/gomega"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	_ "github.com/microsoft/go-mssqldb"
-	v1 "k8s.io/api/core/v1"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-	azuresqlv1 "github.com/Azure/azure-service-operator/v2/api/sql/v1"
 	sql "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	azuresqlutil "github.com/Azure/azure-service-operator/v2/internal/util/azuresql"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+)
+
+const (
+	azureSQLTokenScope       = "https://database.windows.net/.default" // #nosec G101
+	azureTestIdentityNameVar = "AZURE_TEST_IDENTITY_NAME"
 )
 
 func Test_AzureSQL_Combined(t *testing.T) {
 	t.Parallel()
-	t.Skip("Skipping this test since this test is blocked by 'Entra-only auth' policy, Need to use AzureAd for auth")
 	tc := globalTestContext.ForTest(t)
 
 	// Use a different region where we have quota
-	tc.AzureRegion = to.Ptr("eastus")
+	tc.AzureRegion = to.Ptr("australiaeast")
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	adminUsername := "myadmin"
-	adminPasswordKey := "adminPassword"
-	adminPassword := tc.Namer.GeneratePasswordOfLength(60) // Use a long password to ensure we meet complexity requirements
+	admin, err := azureSQLAdminForTest(tc)
+	tc.Expect(err).ToNot(HaveOccurred())
 
-	secret := newSecret(tc, adminPasswordKey, adminPassword)
-	tc.CreateResource(secret)
-
-	server := newAzureSQLServer(tc, rg, adminUsername, adminPasswordKey, secret.Name)
+	server := newAzureSQLAADServer(tc, rg, admin)
 	database := newAzureSQLServerDatabase(tc, server)
 	firewallRule := newSQLServerOpenFirewallRule(tc, server)
 
@@ -53,13 +56,12 @@ func Test_AzureSQL_Combined(t *testing.T) {
 	// Ensure that firewall rule access has worked. It can take up to 5 minutes to take effect
 	tc.G.Eventually(
 		func() error {
-			db, err := azuresqlutil.ConnectToDB(
+			db, err := azuresqlutil.ConnectToDBUsingAAD(
 				tc.Ctx,
 				fqdn,
 				database.AzureName(),
 				azuresqlutil.ServerPort,
-				adminUsername,
-				adminPassword,
+				admin.tokenProvider,
 			)
 			if err != nil {
 				return err
@@ -75,86 +77,22 @@ func Test_AzureSQL_Combined(t *testing.T) {
 		testcommon.Subtest{
 			Name: "AzureSQL User Helpers",
 			Test: func(testContext *testcommon.KubePerTestContext) {
-				AzureSQL_User_Helpers(testContext, fqdn, database.AzureName(), adminUsername, adminPassword)
-			},
-		},
-		testcommon.Subtest{
-			Name: "AzureSQL User CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				AzureSQL_User_CRUD(testContext, server, database, adminPassword)
-			},
-		},
-		testcommon.Subtest{
-			Name: "AzureSQL Secret Rollover",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				AzureSQL_AdminSecret_Rollover(testContext, fqdn, database.AzureName(), adminUsername, adminPasswordKey, adminPassword, secret)
+				AzureSQL_User_Helpers(testContext, fqdn, database.AzureName(), admin.tokenProvider)
 			},
 		},
 	)
 }
 
-// AzureSQL_AdminSecret_Rollover ensures that when a secret is modified, the modified value
-// is sent to Azure. This cannot be tested in the recording tests because it's not possible
-// to attempt to connect to the server in replay mode (there is no server).
-func AzureSQL_AdminSecret_Rollover(tc *testcommon.KubePerTestContext, fqdn string, database string, adminUsername string, adminPasswordKey string, adminPassword string, secret *v1.Secret) {
+func AzureSQL_User_Helpers(tc *testcommon.KubePerTestContext, fqdn string, database string, tokenProvider func() (string, error)) {
+	// Connect to the DB
 	ctx := tc.Ctx
 
-	// Connect to the DB
-	db, err := azuresqlutil.ConnectToDB(
+	db, err := azuresqlutil.ConnectToDBUsingAAD(
 		ctx,
 		fqdn,
 		database,
 		azuresqlutil.ServerPort,
-		adminUsername,
-		adminPassword,
-	)
-	tc.Expect(err).ToNot(HaveOccurred())
-	// Close the connection
-	tc.Expect(db.Close()).To(Succeed())
-
-	// Update the secret
-	newAdminPassword := tc.Namer.GeneratePasswordOfLength(60)
-
-	newSecret := &v1.Secret{
-		ObjectMeta: secret.ObjectMeta,
-		StringData: map[string]string{
-			adminPasswordKey: newAdminPassword,
-		},
-	}
-	tc.UpdateResource(newSecret)
-
-	// Connect to the DB - this may fail initially as reconcile runs and the server updates
-	tc.G.Eventually(
-		func() error {
-			db, err = azuresqlutil.ConnectToDB(
-				tc.Ctx,
-				fqdn,
-				database,
-				azuresqlutil.ServerPort,
-				adminUsername,
-				newAdminPassword,
-			)
-			if err != nil {
-				return err
-			}
-
-			return db.Close()
-		},
-		2*time.Minute, // We expect this to pass pretty quickly
-	).Should(Succeed())
-}
-
-func AzureSQL_User_Helpers(tc *testcommon.KubePerTestContext, fqdn string, database string, adminUsername string, adminPassword string) {
-	// Connect to the DB
-	ctx := tc.Ctx
-
-	db, err := azuresqlutil.ConnectToDB(
-		ctx,
-		fqdn,
-		database,
-		azuresqlutil.ServerPort,
-		adminUsername,
-		adminPassword,
+		tokenProvider,
 	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	defer db.Close()
@@ -195,161 +133,127 @@ func AzureSQL_User_Helpers(tc *testcommon.KubePerTestContext, fqdn string, datab
 	tc.Expect(exists).To(BeFalse())
 }
 
-func AzureSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server, database *sql.ServersDatabase, adminPassword string) {
-	passwordKey := "password"
-	password := tc.Namer.GeneratePasswordOfLength(60) // Use a long password to ensure we meet complexity requirements
-	userSecret := newSecret(tc, passwordKey, password)
-
-	tc.CreateResource(userSecret)
-
-	username := tc.NoSpaceNamer.GenerateName("user")
-	user := &azuresqlv1.User{
-		ObjectMeta: tc.MakeObjectMetaWithName(username),
-		Spec: azuresqlv1.UserSpec{
-			Owner: testcommon.AsOwner(database),
-			Roles: []string{
-				"db_datareader",
-			},
-			LocalUser: &azuresqlv1.LocalUserSpec{
-				// TODO: Should adminusername be able to be sourced from a configmap?
-				ServerAdminUsername: to.Value(server.Spec.AdministratorLogin),
-				ServerAdminPassword: server.Spec.AdministratorLoginPassword,
-				Password: &genruntime.SecretReference{
-					Name: userSecret.Name,
-					Key:  passwordKey,
-				},
-			},
-		},
-	}
-	tc.CreateResourcesAndWait(user)
-
-	// Connect to the DB
-	fqdn := to.Value(server.Status.FullyQualifiedDomainName)
-	conn, err := azuresqlutil.ConnectToDB(
-		tc.Ctx,
-		fqdn,
-		database.AzureName(),
-		azuresqlutil.ServerPort,
-		to.Value(server.Spec.AdministratorLogin),
-		adminPassword,
-	)
-	tc.Expect(err).ToNot(HaveOccurred())
-	defer conn.Close()
-
-	// Confirm that we have the right roles
-	roles, err := azuresqlutil.GetUserRoles(tc.Ctx, conn, username)
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(roles).To(Equal(set.Make[string](user.Spec.Roles...)))
-
-	// Update the user
-	old := user.DeepCopy()
-	user.Spec.Roles = []string{
-		"db_datareader",
-		"db_datawriter",
-		"db_securityadmin",
-	}
-	tc.PatchResourceAndWait(old, user)
-
-	// Confirm that we have the right roles
-	roles, err = azuresqlutil.GetUserRoles(tc.Ctx, conn, username)
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(roles).To(Equal(set.Make[string](user.Spec.Roles...)))
-
-	// Close the connection
-	tc.Expect(conn.Close()).To(Succeed())
-
-	// Confirm we can connect as the user
-	conn, err = azuresqlutil.ConnectToDB(
-		tc.Ctx,
-		fqdn,
-		database.AzureName(),
-		azuresqlutil.ServerPort,
-		user.Spec.AzureName,
-		password,
-	)
-	tc.Expect(err).ToNot(HaveOccurred())
-	// Close the connection
-	tc.Expect(conn.Close()).To(Succeed())
-
-	// Update the secret
-	newPassword := tc.Namer.GeneratePasswordOfLength(60)
-	updatedSecret := &v1.Secret{
-		ObjectMeta: userSecret.ObjectMeta,
-		StringData: map[string]string{
-			passwordKey: newPassword,
-		},
-	}
-	tc.UpdateResource(updatedSecret)
-
-	// Connect to the DB as the user, using the new secret
-	tc.G.Eventually(
-		func() error {
-			conn, err = azuresqlutil.ConnectToDB(
-				tc.Ctx,
-				fqdn,
-				database.AzureName(),
-				azuresqlutil.ServerPort,
-				user.Spec.AzureName,
-				newPassword,
-			)
-			if err != nil {
-				return err
-			}
-
-			return conn.Close()
-		},
-		2*time.Minute, // We expect this to pass pretty quickly
-	).Should(Succeed())
-
-	originalUser := user.DeepCopy()
-
-	// Confirm that we cannot change the user owner
-	old = user.DeepCopy()
-	user.Spec.Owner.Name = "adifferentowner"
-	err = tc.PatchAndExpectError(old, user)
-	tc.Expect(err).To(HaveOccurred())
-	tc.Expect(err.Error()).To(ContainSubstring("updating 'Owner.Name' is not allowed"))
-
-	// Confirm that we cannot change the user AzureName
-	user = originalUser.DeepCopy()
-	old = user.DeepCopy()
-	user.Spec.AzureName = "adifferentname"
-	err = tc.PatchAndExpectError(old, user)
-	tc.Expect(err).To(HaveOccurred())
-	tc.Expect(err.Error()).To(ContainSubstring("updating 'AzureName' is not allowed"))
-
-	user = originalUser.DeepCopy()
-	tc.DeleteResourceAndWait(user)
-
-	conn, err = azuresqlutil.ConnectToDB(
-		tc.Ctx,
-		fqdn,
-		database.AzureName(),
-		azuresqlutil.ServerPort,
-		to.Value(server.Spec.AdministratorLogin),
-		adminPassword,
-	)
-	tc.Expect(err).ToNot(HaveOccurred())
-	defer conn.Close()
-
-	exists, err := azuresqlutil.DoesUserExist(tc.Ctx, conn, user.Name)
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(exists).To(BeFalse())
+type azureSQLAdminIdentity struct {
+	login         string
+	objectID      string
+	tenantID      string
+	principalType sql.ServerExternalAdministrator_PrincipalType
+	tokenProvider func() (string, error)
 }
 
-func newAzureSQLServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminUsername string, adminKey string, adminSecretName string) *sql.Server {
-	secretRef := genruntime.SecretReference{
-		Name: adminSecretName,
-		Key:  adminKey,
+type azureSQLTokenClaims struct {
+	ObjectID          string `json:"oid"`
+	TenantID          string `json:"tid"`
+	IdentityType      string `json:"idtyp"`
+	Scopes            string `json:"scp"`
+	Name              string `json:"name"`
+	PreferredUsername string `json:"preferred_username"`
+	UPN               string `json:"upn"`
+	UniqueName        string `json:"unique_name"`
+}
+
+func azureSQLAdminForTest(tc *testcommon.KubePerTestContext) (azureSQLAdminIdentity, error) {
+	credential := tc.AzureClient.Creds()
+	tokenProvider := func() (string, error) {
+		token, err := credential.GetToken(tc.Ctx, policy.TokenRequestOptions{Scopes: []string{azureSQLTokenScope}})
+		if err != nil {
+			return "", err
+		}
+
+		return token.Token, nil
 	}
+
+	token, err := tokenProvider()
+	if err != nil {
+		return azureSQLAdminIdentity{}, fmt.Errorf("getting Azure SQL access token: %w", err)
+	}
+
+	claims, err := parseAzureSQLTokenClaims(token)
+	if err != nil {
+		return azureSQLAdminIdentity{}, err
+	}
+
+	if claims.ObjectID == "" || claims.TenantID == "" {
+		return azureSQLAdminIdentity{}, fmt.Errorf("Azure SQL access token is missing oid or tid claim")
+	}
+
+	// If AZURE_TEST_IDENTITY_NAME is set, we're in CI and we have a managed identity
+	if login := os.Getenv(azureTestIdentityNameVar); login != "" {
+		return azureSQLAdminIdentity{
+			login:         login,
+			objectID:      claims.ObjectID,
+			tenantID:      claims.TenantID,
+			principalType: sql.ServerExternalAdministrator_PrincipalType_Application,
+			tokenProvider: tokenProvider,
+		}, nil
+	}
+
+	userLogin := firstNonEmpty(claims.PreferredUsername, claims.UPN, claims.UniqueName)
+	// User tokens can also contain appid/azp, identifying the client application that acquired the token.
+	// Prefer idtyp, with scp and username claims as fallbacks; scp is emitted only for user tokens.
+	isUser := strings.EqualFold(claims.IdentityType, "user") || claims.Scopes != "" || userLogin != ""
+	if !isUser {
+		return azureSQLAdminIdentity{}, fmt.Errorf("Azure SQL application identity requires environment variable %q", azureTestIdentityNameVar)
+	}
+
+	login := firstNonEmpty(userLogin, claims.Name)
+	if login == "" {
+		return azureSQLAdminIdentity{}, fmt.Errorf("Azure SQL user access token is missing a login name claim")
+	}
+
+	return azureSQLAdminIdentity{
+		login:         login,
+		objectID:      claims.ObjectID,
+		tenantID:      claims.TenantID,
+		principalType: sql.ServerExternalAdministrator_PrincipalType_User,
+		tokenProvider: tokenProvider,
+	}, nil
+}
+
+func parseAzureSQLTokenClaims(token string) (azureSQLTokenClaims, error) {
+	parts := strings.Split(token, ".")
+	if len(parts) != 3 {
+		return azureSQLTokenClaims{}, fmt.Errorf("Azure SQL access token is not a JWT")
+	}
+
+	payload, err := base64.RawURLEncoding.DecodeString(parts[1])
+	if err != nil {
+		return azureSQLTokenClaims{}, fmt.Errorf("decoding Azure SQL access token claims: %w", err)
+	}
+
+	var claims azureSQLTokenClaims
+	if err := json.Unmarshal(payload, &claims); err != nil {
+		return azureSQLTokenClaims{}, fmt.Errorf("parsing Azure SQL access token claims: %w", err)
+	}
+
+	return claims, nil
+}
+
+func firstNonEmpty(values ...string) string {
+	for _, value := range values {
+		if value != "" {
+			return value
+		}
+	}
+
+	return ""
+}
+
+func newAzureSQLAADServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, admin azureSQLAdminIdentity) *sql.Server {
 	server := &sql.Server{
 		ObjectMeta: tc.MakeObjectMeta("sqlserver"),
 		Spec: sql.Server_Spec{
-			Location:                   tc.AzureRegion,
-			Owner:                      testcommon.AsOwner(rg),
-			AdministratorLogin:         to.Ptr(adminUsername),
-			AdministratorLoginPassword: &secretRef,
-			Version:                    to.Ptr("12.0"),
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			Administrators: &sql.ServerExternalAdministrator{
+				AdministratorType:         to.Ptr(sql.ServerExternalAdministrator_AdministratorType_ActiveDirectory),
+				PrincipalType:             to.Ptr(admin.principalType),
+				AzureADOnlyAuthentication: to.Ptr(true),
+				Login:                     to.Ptr(admin.login),
+				Sid:                       to.Ptr(admin.objectID),
+				TenantId:                  to.Ptr(admin.tenantID),
+			},
+			Version: to.Ptr("12.0"),
 		},
 	}
 

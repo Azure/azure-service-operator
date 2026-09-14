@@ -7,11 +7,14 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"regexp"
 	"strings"
 
 	_ "github.com/jackc/pgx/v5/stdlib" // the pgx lib
 	"github.com/rotisserie/eris"
 )
+
+var validPermissionName = regexp.MustCompile(`^[A-Za-z]+$`)
 
 // PSqlServerPort is the default server port for sql server
 const PSqlServerPort = 5432
@@ -134,11 +137,14 @@ func CreateRoleWithPermissions(ctx context.Context, db *sql.DB, roleName string,
 		return eris.Wrap(err, "problem found with roleName")
 	}
 
-	permissionString := strings.Join(permissions, " ")
-	if err := FindBadChars(permissionString); err != nil {
-		return eris.Wrap(err, "problem found with permissions")
+	for _, perm := range permissions {
+		if !validPermissionName.MatchString(perm) {
+			return fmt.Errorf("invalid permission %q: must contain only letters", perm)
+		}
 	}
 
+	permissionString := strings.Join(permissions, " ")
+	// Permission words are validated above to contain only letters.
 	_, err := db.ExecContext(ctx, fmt.Sprintf("CREATE ROLE %s WITH %s", escapeIdentifier(roleName), permissionString))
 	if err != nil {
 		return eris.Wrap(err, "failed to create role")
