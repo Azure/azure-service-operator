@@ -20,9 +20,10 @@ func Test_ServiceLinker_Linker_CRUD_v20240401(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	rg := tc.CreateTestResourceGroupAndWait()
 
 	tc.AzureRegion = to.Ptr("westus3")
+	rg := tc.CreateTestResourceGroupAndWait()
+
 	serverFarm := newServerFarm(tc, rg, *tc.AzureRegion)
 	site := &web.Site{
 		ObjectMeta: tc.MakeObjectMeta("site"),
