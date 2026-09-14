@@ -73,7 +73,22 @@ func (t *MarkdownTable) WriteTo(buffer *strings.Builder) {
 func (t *MarkdownTable) renderRow(row []string, buffer *strings.Builder) {
 	buffer.WriteRune('|')
 	for i, c := range row {
-		fmt.Fprintf(buffer, " %*s |", -t.widths[i], c)
+		alignment := AlignDefault
+		if i < len(t.alignments) {
+			alignment = t.alignments[i]
+		}
+
+		switch alignment {
+		case AlignCenter:
+			padding := t.widths[i] - len(c)
+			left := padding / 2
+			right := padding - left
+			fmt.Fprintf(buffer, " %*s%s%*s |", left, "", c, right, "")
+		case AlignRight:
+			fmt.Fprintf(buffer, " %*s |", t.widths[i], c)
+		default:
+			fmt.Fprintf(buffer, " %*s |", -t.widths[i], c)
+		}
 	}
 
 	buffer.WriteString("\n")
