@@ -293,6 +293,8 @@ type RotationPolicy_STATUS struct {
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type VaultKeyOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	CreateMode           *string                       `json:"createMode,omitempty"`
+	DeleteMode           *string                       `json:"deleteMode,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }

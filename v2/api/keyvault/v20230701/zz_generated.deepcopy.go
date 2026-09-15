@@ -518,6 +518,16 @@ func (in *VaultKeyOperatorSpec) DeepCopyInto(out *VaultKeyOperatorSpec) {
 			}
 		}
 	}
+	if in.CreateMode != nil {
+		in, out := &in.CreateMode, &out.CreateMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeleteMode != nil {
+		in, out := &in.DeleteMode, &out.DeleteMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.SecretExpressions != nil {
 		in, out := &in.SecretExpressions, &out.SecretExpressions
 		*out = make([]*core.DestinationExpression, len(*in))

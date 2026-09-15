@@ -8,8 +8,10 @@ VaultKey: Resource
 ├── Owner: keyvault/v1api20230701.Vault
 ├── Spec: Object (7 properties)
 │   ├── AzureName: string
-│   ├── OperatorSpec: *Object (3 properties)
+│   ├── OperatorSpec: *Object (5 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── CreateMode: *string
+│   │   ├── DeleteMode: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string

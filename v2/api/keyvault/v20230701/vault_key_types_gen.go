@@ -1728,6 +1728,20 @@ type VaultKeyOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 
+	// CreateMode: Specifies how the operator handles a soft-deleted key occupying the requested name at creation time.
+	// 'default' issues a plain create and surfaces the Azure conflict error if a soft-deleted key blocks the name; 'recover'
+	// recovers the soft-deleted key and fails when none exists; 'createOrRecover' recovers a soft-deleted key when one exists
+	// and otherwise creates a new key; 'purgeThenCreate' permanently purges the soft-deleted key before creating a
+	// replacement. Defaults to 'default'.
+	// +kubebuilder:validation:Enum={"default","recover","createOrRecover","purgeThenCreate"}
+	CreateMode *string `json:"createMode,omitempty"`
+
+	// DeleteMode: Specifies what happens to the key in Azure when the VaultKey resource is deleted from Kubernetes. 'detach'
+	// leaves the key untouched in the vault; 'delete' soft-deletes the key via the Key Vault data plane; 'disable' sets the
+	// key's enabled attribute to false and leaves it in the vault. Defaults to 'detach', which preserves the key.
+	// +kubebuilder:validation:Enum={"detach","delete","disable"}
+	DeleteMode *string `json:"deleteMode,omitempty"`
+
 	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
 	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
@@ -1750,6 +1764,12 @@ func (operator *VaultKeyOperatorSpec) AssignProperties_From_VaultKeyOperatorSpec
 	} else {
 		operator.ConfigMapExpressions = nil
 	}
+
+	// CreateMode
+	operator.CreateMode = genruntime.ClonePointerToString(source.CreateMode)
+
+	// DeleteMode
+	operator.DeleteMode = genruntime.ClonePointerToString(source.DeleteMode)
 
 	// SecretExpressions
 	if source.SecretExpressions != nil {
@@ -1791,6 +1811,12 @@ func (operator *VaultKeyOperatorSpec) AssignProperties_To_VaultKeyOperatorSpec(d
 	} else {
 		destination.ConfigMapExpressions = nil
 	}
+
+	// CreateMode
+	destination.CreateMode = genruntime.ClonePointerToString(operator.CreateMode)
+
+	// DeleteMode
+	destination.DeleteMode = genruntime.ClonePointerToString(operator.DeleteMode)
 
 	// SecretExpressions
 	if operator.SecretExpressions != nil {
