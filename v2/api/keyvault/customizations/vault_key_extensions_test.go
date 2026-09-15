@@ -11,6 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azkeys"
 	"github.com/go-logr/logr"
 
 	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/storage"
@@ -85,6 +86,90 @@ func Test_VaultKeyExtension_Delete_RejectsUnknownDeleteMode(t *testing.T) {
 	_, err := ext.Delete(context.Background(), logr.Discard(), nil, nil, key, nil)
 	g.Expect(err).To(HaveOccurred())
 	g.Expect(err.Error()).To(ContainSubstring("deleteMode"))
+}
+
+func Test_VaultKeyCreateMode_DefaultsToDefault(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	g.Expect(vaultKeyCreateMode(&keys.VaultKey{})).To(Equal(CreateMode_Default))
+
+	g.Expect(vaultKeyCreateMode(&keys.VaultKey{
+		Spec: keys.VaultKey_Spec{
+			OperatorSpec: &keys.VaultKeyOperatorSpec{
+				CreateMode: to.Ptr(CreateMode_CreateOrRecover),
+			},
+		},
+	})).To(Equal(CreateMode_CreateOrRecover))
+}
+
+func Test_VaultKeyExtension_PreReconcileCheck_RejectsUnexpectedResourceType(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	ext := &VaultKeyExtension{}
+
+	_, err := ext.PreReconcileCheck(context.Background(), &keyvault.Vault{}, nil, nil, logr.Discard(), nil)
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring("unexpected resource type"))
+}
+
+func Test_IntrinsicMismatch(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	keyWith := func(props *keys.KeyProperties) *keys.VaultKey {
+		return &keys.VaultKey{
+			Spec: keys.VaultKey_Spec{
+				AzureName:  "my-key",
+				Properties: props,
+			},
+		}
+	}
+
+	rsa2048 := &azkeys.JSONWebKey{
+		Kty: to.Ptr(azkeys.KeyTypeRSA),
+		N:   make([]byte, 256), // 2048-bit modulus
+	}
+	ecP256 := &azkeys.JSONWebKey{
+		Kty: to.Ptr(azkeys.KeyTypeEC),
+		Crv: to.Ptr(azkeys.CurveNameP256),
+	}
+
+	// A spec with no properties can't conflict
+	g.Expect(intrinsicMismatch(keyWith(nil), rsa2048)).To(BeEmpty())
+
+	// Matching properties pass
+	g.Expect(intrinsicMismatch(keyWith(&keys.KeyProperties{
+		Kty:     to.Ptr("RSA"),
+		KeySize: to.Ptr(2048),
+	}), rsa2048)).To(BeEmpty())
+	g.Expect(intrinsicMismatch(keyWith(&keys.KeyProperties{
+		Kty:       to.Ptr("EC"),
+		CurveName: to.Ptr("P-256"),
+	}), ecP256)).To(BeEmpty())
+
+	// Unset spec properties match anything
+	g.Expect(intrinsicMismatch(keyWith(&keys.KeyProperties{}), rsa2048)).To(BeEmpty())
+
+	// Mismatches are reported per property
+	g.Expect(intrinsicMismatch(keyWith(&keys.KeyProperties{
+		Kty: to.Ptr("EC"),
+	}), rsa2048)).To(ContainSubstring("kty"))
+	g.Expect(intrinsicMismatch(keyWith(&keys.KeyProperties{
+		Kty:     to.Ptr("RSA"),
+		KeySize: to.Ptr(4096),
+	}), rsa2048)).To(ContainSubstring("keySize"))
+	g.Expect(intrinsicMismatch(keyWith(&keys.KeyProperties{
+		Kty:       to.Ptr("EC"),
+		CurveName: to.Ptr("P-384"),
+	}), ecP256)).To(ContainSubstring("curveName"))
+
+	// keySize can't be verified for keys without an RSA modulus, so it's left to the service
+	g.Expect(intrinsicMismatch(keyWith(&keys.KeyProperties{
+		Kty:     to.Ptr("EC"),
+		KeySize: to.Ptr(2048),
+	}), ecP256)).To(BeEmpty())
 }
 
 func Test_VaultURLFromKeyURI(t *testing.T) {
