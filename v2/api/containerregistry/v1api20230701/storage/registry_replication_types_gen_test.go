@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20230701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,101 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_RegistryReplication_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RegistryReplication to hub returns original",
+		prop.ForAll(RunResourceConversionTestForRegistryReplication, RegistryReplicationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForRegistryReplication tests if a specific instance of RegistryReplication round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForRegistryReplication(subject RegistryReplication) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.RegistryReplication
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual RegistryReplication
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RegistryReplication_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RegistryReplication to RegistryReplication via AssignProperties_To_RegistryReplication & AssignProperties_From_RegistryReplication returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRegistryReplication, RegistryReplicationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRegistryReplication tests if a specific instance of RegistryReplication can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRegistryReplication(subject RegistryReplication) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RegistryReplication
+	err := copied.AssignProperties_To_RegistryReplication(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RegistryReplication
+	err = actual.AssignProperties_From_RegistryReplication(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_RegistryReplication_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -84,6 +180,53 @@ func AddRelatedPropertyGeneratorsForRegistryReplication(gens map[string]gopter.G
 	gens["Status"] = RegistryReplication_STATUSGenerator()
 }
 
+func Test_RegistryReplicationOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RegistryReplicationOperatorSpec to RegistryReplicationOperatorSpec via AssignProperties_To_RegistryReplicationOperatorSpec & AssignProperties_From_RegistryReplicationOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRegistryReplicationOperatorSpec, RegistryReplicationOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRegistryReplicationOperatorSpec tests if a specific instance of RegistryReplicationOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRegistryReplicationOperatorSpec(subject RegistryReplicationOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RegistryReplicationOperatorSpec
+	err := copied.AssignProperties_To_RegistryReplicationOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RegistryReplicationOperatorSpec
+	err = actual.AssignProperties_From_RegistryReplicationOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RegistryReplicationOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -142,6 +285,53 @@ func RegistryReplicationOperatorSpecGenerator() gopter.Gen {
 	registryReplicationOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RegistryReplicationOperatorSpec{}), generators)
 
 	return registryReplicationOperatorSpecGenerator
+}
+
+func Test_RegistryReplication_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RegistryReplication_STATUS to RegistryReplication_STATUS via AssignProperties_To_RegistryReplication_STATUS & AssignProperties_From_RegistryReplication_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRegistryReplication_STATUS, RegistryReplication_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRegistryReplication_STATUS tests if a specific instance of RegistryReplication_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRegistryReplication_STATUS(subject RegistryReplication_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RegistryReplication_STATUS
+	err := copied.AssignProperties_To_RegistryReplication_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RegistryReplication_STATUS
+	err = actual.AssignProperties_From_RegistryReplication_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RegistryReplication_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -232,6 +422,53 @@ func AddIndependentPropertyGeneratorsForRegistryReplication_STATUS(gens map[stri
 func AddRelatedPropertyGeneratorsForRegistryReplication_STATUS(gens map[string]gopter.Gen) {
 	gens["Status"] = gen.PtrOf(Status_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_RegistryReplication_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RegistryReplication_Spec to RegistryReplication_Spec via AssignProperties_To_RegistryReplication_Spec & AssignProperties_From_RegistryReplication_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRegistryReplication_Spec, RegistryReplication_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRegistryReplication_Spec tests if a specific instance of RegistryReplication_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRegistryReplication_Spec(subject RegistryReplication_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RegistryReplication_Spec
+	err := copied.AssignProperties_To_RegistryReplication_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RegistryReplication_Spec
+	err = actual.AssignProperties_From_RegistryReplication_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RegistryReplication_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

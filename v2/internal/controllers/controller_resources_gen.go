@@ -197,12 +197,18 @@ import (
 	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v20211001/storage"
 	containerinstance_v20211001w "github.com/Azure/azure-service-operator/v2/api/containerinstance/v20211001/webhook"
 	containerregistry_customizations "github.com/Azure/azure-service-operator/v2/api/containerregistry/customizations"
-	containerregistry_v20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901"
-	containerregistry_v20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901/storage"
-	containerregistry_v20210901w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901/webhook"
-	containerregistry_v20230701 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701"
-	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
-	containerregistry_v20230701w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/webhook"
+	containerregistry_v1api20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901"
+	containerregistry_v1api20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901/storage"
+	containerregistry_v1api20210901w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901/webhook"
+	containerregistry_v1api20230701 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701"
+	containerregistry_v1api20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
+	containerregistry_v1api20230701w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/webhook"
+	containerregistry_v20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20210901"
+	containerregistry_v20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20210901/storage"
+	containerregistry_v20210901w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20210901/webhook"
+	containerregistry_v20230701 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20230701"
+	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20230701/storage"
+	containerregistry_v20230701w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20230701/webhook"
 	containerregistry_v20251101 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101"
 	containerregistry_v20251101s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/storage"
 	containerregistry_v20251101w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/webhook"
@@ -4964,6 +4970,22 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(containerinstance_v20211001s.ContainerGroup)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(containerregistry_v1api20210901.Registry),
+		Defaulter: &containerregistry_v1api20210901w.Registry{},
+		Validator: &containerregistry_v1api20210901w.Registry{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(containerregistry_v1api20210901s.Registry)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(containerregistry_v1api20230701.Registry),
+		Defaulter: &containerregistry_v1api20230701w.Registry{},
+		Validator: &containerregistry_v1api20230701w.Registry{},
+	}, &registration.KnownType{
+		Obj:       new(containerregistry_v1api20230701.RegistryReplication),
+		Defaulter: &containerregistry_v1api20230701w.RegistryReplication{},
+		Validator: &containerregistry_v1api20230701w.RegistryReplication{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(containerregistry_v1api20230701s.Registry)}, &registration.KnownType{Obj: new(containerregistry_v1api20230701s.RegistryReplication)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(containerregistry_v20210901.Registry),
 		Defaulter: &containerregistry_v20210901w.Registry{},
 		Validator: &containerregistry_v20210901w.Registry{},
@@ -8390,6 +8412,10 @@ func createScheme() *runtime.Scheme {
 	_ = containerinstance_v1api20211001s.AddToScheme(scheme)
 	_ = containerinstance_v20211001.AddToScheme(scheme)
 	_ = containerinstance_v20211001s.AddToScheme(scheme)
+	_ = containerregistry_v1api20210901.AddToScheme(scheme)
+	_ = containerregistry_v1api20210901s.AddToScheme(scheme)
+	_ = containerregistry_v1api20230701.AddToScheme(scheme)
+	_ = containerregistry_v1api20230701s.AddToScheme(scheme)
 	_ = containerregistry_v20210901.AddToScheme(scheme)
 	_ = containerregistry_v20210901s.AddToScheme(scheme)
 	_ = containerregistry_v20230701.AddToScheme(scheme)
