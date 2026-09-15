@@ -478,7 +478,4 @@ func assertExpectedResponse(
 		g.Expect(err).ToNot(HaveOccurred())
 		g.Expect(string(body.String())).To(ContainSubstring(expectedBodyContent))
 	}
-
-	// Reset the body so it can be read again
-	response.Body = io.NopCloser(&body)
 }
