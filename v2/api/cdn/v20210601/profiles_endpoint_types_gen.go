@@ -5128,7 +5128,15 @@ func (rule *DeliveryRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		rule.Actions = append(rule.Actions, item1)
 	}
 
-	// no assignment for property "Conditions"
+	// Set property "Conditions":
+	for _, item := range typedInput.Conditions {
+		var item1 DeliveryRuleCondition_STATUS
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		rule.Conditions = append(rule.Conditions, item1)
+	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
