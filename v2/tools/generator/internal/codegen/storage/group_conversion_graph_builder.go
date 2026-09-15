@@ -136,7 +136,14 @@ func (b *GroupConversionGraphBuilder) previewReferencesConvertBackward(refs []as
 			continue
 		}
 
-		b.links[ref] = refs[i-1]
+		previous := refs[i-1]
+		if compat, ok := previous.(astmodel.SubPackageReference); ok &&
+			compat.PackageName() == astmodel.CompatPackageName {
+			// Keep compat in its forward conversion chain, but start preview rename lookup at its owning storage package.
+			previous = compat.Parent()
+		}
+
+		b.links[ref] = previous
 	}
 }
 
