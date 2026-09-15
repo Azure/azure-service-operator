@@ -6,9 +6,13 @@ Licensed under the MIT license.
 package customizations
 
 import (
+	"bytes"
 	"context"
+	"encoding/base64"
 	"fmt"
 	"net/url"
+	"strings"
+	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
@@ -22,6 +26,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
@@ -261,6 +266,392 @@ func (ex *VaultKeyExtension) PreReconcileCheck(
 			key.Name,
 		)
 	}
+}
+
+var _ extensions.PostReconciliationChecker = &VaultKeyExtension{}
+
+// PostReconcileCheck implements extensions.PostReconciliationChecker. ARM's PUT for keys is
+// create-if-not-exist: it generates a missing key with the full spec, but silently ignores every
+// property once the key exists. This check closes that gap after each successful reconcile by
+// applying the mutable, spec-managed properties (attributes enabled/exp/nbf, keyOps, tags,
+// release_policy and rotationPolicy) through the data plane's UpdateKey and
+// UpdateKeyRotationPolicy operations. The generation-time properties are gated separately by
+// PreReconcileCheck and the validating webhook. Properties the spec leaves unset are not managed
+// and keep whatever value they have in Azure.
+func (ex *VaultKeyExtension) PostReconcileCheck(
+	ctx context.Context,
+	obj genruntime.MetaObject,
+	owner genruntime.MetaObject,
+	resourceResolver *resolver.Resolver,
+	armClient *genericarmclient.GenericClient,
+	log logr.Logger,
+	reconcilePolicies annotations.ResolvedReconcilePolicies,
+	next extensions.PostReconcileCheckFunc,
+) (extensions.PostReconcileCheckResult, error) {
+	key, ok := obj.(*keys.VaultKey)
+	if !ok {
+		return extensions.PostReconcileCheckResult{}, eris.Errorf(
+			"cannot run VaultKeyExtension.PostReconcileCheck() with unexpected resource type %T",
+			obj,
+		)
+	}
+
+	// Type assert that we are the hub type. This will fail to compile if
+	// the hub type has been changed but this extension has not been updated to match
+	var _ conversion.Hub = key
+
+	keyClient, err := newKeyClient(ctx, key, resourceResolver, armClient)
+	if err != nil {
+		return extensions.PostReconcileCheckResult{}, err
+	}
+
+	name := key.AzureName()
+	liveKey, err := keyClient.GetKey(ctx, name, "" /* latest version */, nil)
+	if err != nil {
+		return extensions.PostReconcileCheckResult{}, eris.Wrapf(err, "failed to read key %s to check for pending updates", name)
+	}
+
+	params, changed, err := keyUpdatesNeeded(key, liveKey.KeyBundle)
+	if err != nil {
+		return extensions.PostReconcileCheckResult{}, err
+	}
+
+	if changed {
+		_, err = keyClient.UpdateKey(ctx, name, "" /* latest version */, params, nil)
+		if err != nil {
+			return extensions.PostReconcileCheckResult{}, eris.Wrapf(err, "failed to update key %s", name)
+		}
+
+		log.Info(
+			"Updated key properties via data plane",
+			"key", name,
+		)
+	}
+
+	if key.Spec.Properties != nil && key.Spec.Properties.RotationPolicy != nil {
+		current, err := keyClient.GetKeyRotationPolicy(ctx, name, nil)
+		if err != nil {
+			return extensions.PostReconcileCheckResult{}, eris.Wrapf(err, "failed to read rotation policy of key %s", name)
+		}
+
+		desired, changed := rotationPolicyUpdateNeeded(key.Spec.Properties.RotationPolicy, current.KeyRotationPolicy)
+		if changed {
+			_, err = keyClient.UpdateKeyRotationPolicy(ctx, name, desired, nil)
+			if err != nil {
+				return extensions.PostReconcileCheckResult{}, eris.Wrapf(err, "failed to update rotation policy of key %s", name)
+			}
+
+			log.Info(
+				"Updated key rotation policy via data plane",
+				"key", name,
+			)
+		}
+	}
+
+	return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
+}
+
+// keyUpdatesNeeded diffs the spec-managed mutable properties against the actual key and returns
+// the UpdateKey parameters needed to converge, with changed reporting whether any update is
+// required. Unset spec properties are not managed. UpdateKey has patch semantics, so only the
+// properties that need changing are included.
+func keyUpdatesNeeded(key *keys.VaultKey, actual azkeys.KeyBundle) (azkeys.UpdateKeyParameters, bool, error) {
+	params := azkeys.UpdateKeyParameters{}
+	changed := false
+
+	props := key.Spec.Properties
+
+	if props != nil && props.KeyOps != nil && !stringSetsEqual(props.KeyOps, actualKeyOps(actual.Key)) {
+		ops := make([]*azkeys.KeyOperation, 0, len(props.KeyOps))
+		for _, op := range props.KeyOps {
+			ops = append(ops, to.Ptr(azkeys.KeyOperation(op)))
+		}
+
+		params.KeyOps = ops
+		changed = true
+	}
+
+	if props != nil && props.Attributes != nil {
+		attrs := &azkeys.KeyAttributes{}
+		attrsChanged := false
+
+		spec := props.Attributes
+		var actualAttrs azkeys.KeyAttributes
+		if actual.Attributes != nil {
+			actualAttrs = *actual.Attributes
+		}
+
+		if spec.Enabled != nil && (actualAttrs.Enabled == nil || *actualAttrs.Enabled != *spec.Enabled) {
+			attrs.Enabled = spec.Enabled
+			attrsChanged = true
+		}
+
+		if spec.Exp != nil {
+			desired := time.Unix(int64(*spec.Exp), 0).UTC()
+			if actualAttrs.Expires == nil || !actualAttrs.Expires.Equal(desired) {
+				attrs.Expires = &desired
+				attrsChanged = true
+			}
+		}
+
+		if spec.Nbf != nil {
+			desired := time.Unix(int64(*spec.Nbf), 0).UTC()
+			if actualAttrs.NotBefore == nil || !actualAttrs.NotBefore.Equal(desired) {
+				attrs.NotBefore = &desired
+				attrsChanged = true
+			}
+		}
+
+		if attrsChanged {
+			params.KeyAttributes = attrs
+			changed = true
+		}
+	}
+
+	// Tags are managed as a whole set, but only when the spec declares them
+	if key.Spec.Tags != nil && !tagsEqual(key.Spec.Tags, actual.Tags) {
+		tags := make(map[string]*string, len(key.Spec.Tags))
+		for k, v := range key.Spec.Tags {
+			tags[k] = to.Ptr(v)
+		}
+
+		params.Tags = tags
+		changed = true
+	}
+
+	if props != nil && props.Release_Policy != nil {
+		desired, policyChanged, err := releasePolicyUpdateNeeded(props.Release_Policy, actual.ReleasePolicy)
+		if err != nil {
+			return azkeys.UpdateKeyParameters{}, false, err
+		}
+
+		if policyChanged {
+			params.ReleasePolicy = desired
+			changed = true
+		}
+	}
+
+	return params, changed, nil
+}
+
+// releasePolicyUpdateNeeded compares the spec's release policy with the actual one. The spec
+// carries the policy blob base64url-encoded (as ARM defines it), while the data plane works with
+// the raw bytes, so the spec side is decoded for the comparison.
+func releasePolicyUpdateNeeded(
+	spec *keys.KeyReleasePolicy,
+	actual *azkeys.KeyReleasePolicy,
+) (*azkeys.KeyReleasePolicy, bool, error) {
+	desired := &azkeys.KeyReleasePolicy{
+		ContentType: spec.ContentType,
+	}
+
+	if spec.Data != nil {
+		data, err := decodeBase64URL(*spec.Data)
+		if err != nil {
+			return nil, false, eris.Wrap(err, "spec.properties.release_policy.data is not valid base64url")
+		}
+
+		desired.EncodedPolicy = data
+	}
+
+	changed := false
+	if desired.EncodedPolicy != nil &&
+		(actual == nil || !bytes.Equal(desired.EncodedPolicy, actual.EncodedPolicy)) {
+		changed = true
+	}
+
+	if spec.ContentType != nil &&
+		(actual == nil || actual.ContentType == nil || *actual.ContentType != *spec.ContentType) {
+		changed = true
+	}
+
+	return desired, changed, nil
+}
+
+// rotationPolicyUpdateNeeded compares the spec's rotation policy against the actual one and
+// returns the full desired policy to apply when they diverge. UpdateKeyRotationPolicy replaces
+// the whole policy, and the service adds a default notify action of its own, so the comparison
+// requires every spec-declared action (and expiryTime, when set) to be present in the actual
+// policy while tolerating extra service-added actions - otherwise every reconcile would see a
+// diff and update forever.
+func rotationPolicyUpdateNeeded(
+	spec *keys.RotationPolicy,
+	actual azkeys.KeyRotationPolicy,
+) (azkeys.KeyRotationPolicy, bool) {
+	changed := false
+
+	if spec.Attributes != nil && spec.Attributes.ExpiryTime != nil {
+		if actual.Attributes == nil ||
+			actual.Attributes.ExpiryTime == nil ||
+			*actual.Attributes.ExpiryTime != *spec.Attributes.ExpiryTime {
+			changed = true
+		}
+	}
+
+	for _, action := range spec.LifetimeActions {
+		if !rotationActionPresent(action, actual.LifetimeActions) {
+			changed = true
+			break
+		}
+	}
+
+	desired := azkeys.KeyRotationPolicy{}
+	if spec.Attributes != nil && spec.Attributes.ExpiryTime != nil {
+		desired.Attributes = &azkeys.KeyRotationPolicyAttributes{
+			ExpiryTime: spec.Attributes.ExpiryTime,
+		}
+	}
+
+	for _, action := range spec.LifetimeActions {
+		desiredAction := &azkeys.LifetimeAction{}
+		if action.Action != nil && action.Action.Type != nil {
+			desiredAction.Action = &azkeys.LifetimeActionType{
+				Type: to.Ptr(canonicalRotationAction(*action.Action.Type)),
+			}
+		}
+
+		if action.Trigger != nil {
+			desiredAction.Trigger = &azkeys.LifetimeActionTrigger{
+				TimeAfterCreate:  action.Trigger.TimeAfterCreate,
+				TimeBeforeExpiry: action.Trigger.TimeBeforeExpiry,
+			}
+		}
+
+		desired.LifetimeActions = append(desired.LifetimeActions, desiredAction)
+	}
+
+	return desired, changed
+}
+
+// rotationActionPresent reports whether an equivalent lifetime action (same type, compared
+// case-insensitively as the service documents, and same trigger) exists in the actual policy.
+func rotationActionPresent(spec keys.LifetimeAction, actual []*azkeys.LifetimeAction) bool {
+	specType := ""
+	if spec.Action != nil && spec.Action.Type != nil {
+		specType = *spec.Action.Type
+	}
+
+	var specAfterCreate, specBeforeExpiry *string
+	if spec.Trigger != nil {
+		specAfterCreate = spec.Trigger.TimeAfterCreate
+		specBeforeExpiry = spec.Trigger.TimeBeforeExpiry
+	}
+
+	for _, candidate := range actual {
+		if candidate == nil {
+			continue
+		}
+
+		candidateType := ""
+		if candidate.Action != nil && candidate.Action.Type != nil {
+			candidateType = string(*candidate.Action.Type)
+		}
+
+		if !strings.EqualFold(specType, candidateType) {
+			continue
+		}
+
+		var candidateAfterCreate, candidateBeforeExpiry *string
+		if candidate.Trigger != nil {
+			candidateAfterCreate = candidate.Trigger.TimeAfterCreate
+			candidateBeforeExpiry = candidate.Trigger.TimeBeforeExpiry
+		}
+
+		if stringPtrsEqual(specAfterCreate, candidateAfterCreate) &&
+			stringPtrsEqual(specBeforeExpiry, candidateBeforeExpiry) {
+			return true
+		}
+	}
+
+	return false
+}
+
+// canonicalRotationAction maps a spec action type to the data plane's canonical casing; the
+// service compares case-insensitively, so unknown values pass through unchanged.
+func canonicalRotationAction(actionType string) azkeys.KeyRotationPolicyAction {
+	switch {
+	case strings.EqualFold(actionType, string(azkeys.KeyRotationPolicyActionRotate)):
+		return azkeys.KeyRotationPolicyActionRotate
+	case strings.EqualFold(actionType, string(azkeys.KeyRotationPolicyActionNotify)):
+		return azkeys.KeyRotationPolicyActionNotify
+	default:
+		return azkeys.KeyRotationPolicyAction(actionType)
+	}
+}
+
+// actualKeyOps extracts the key's operations as plain strings.
+func actualKeyOps(jwk *azkeys.JSONWebKey) []string {
+	if jwk == nil {
+		return nil
+	}
+
+	ops := make([]string, 0, len(jwk.KeyOps))
+	for _, op := range jwk.KeyOps {
+		if op != nil {
+			ops = append(ops, string(*op))
+		}
+	}
+
+	return ops
+}
+
+// stringSetsEqual compares two string slices as sets, ignoring order and duplicates.
+func stringSetsEqual(left []string, right []string) bool {
+	leftSet := make(map[string]struct{}, len(left))
+	for _, s := range left {
+		leftSet[s] = struct{}{}
+	}
+
+	rightSet := make(map[string]struct{}, len(right))
+	for _, s := range right {
+		rightSet[s] = struct{}{}
+	}
+
+	if len(leftSet) != len(rightSet) {
+		return false
+	}
+
+	for s := range leftSet {
+		if _, ok := rightSet[s]; !ok {
+			return false
+		}
+	}
+
+	return true
+}
+
+// tagsEqual compares the spec's tags with the actual (pointer-valued) tags.
+func tagsEqual(spec map[string]string, actual map[string]*string) bool {
+	if len(spec) != len(actual) {
+		return false
+	}
+
+	for k, v := range spec {
+		actualValue, ok := actual[k]
+		if !ok || actualValue == nil || *actualValue != v {
+			return false
+		}
+	}
+
+	return true
+}
+
+func stringPtrsEqual(left *string, right *string) bool {
+	if left == nil || right == nil {
+		return left == right
+	}
+
+	return *left == *right
+}
+
+// decodeBase64URL decodes base64url content with or without padding, since ARM only specifies
+// "base64 URL encoded" without pinning down the padding convention.
+func decodeBase64URL(s string) ([]byte, error) {
+	if b, err := base64.RawURLEncoding.DecodeString(s); err == nil {
+		return b, nil
+	}
+
+	return base64.URLEncoding.DecodeString(s)
 }
 
 // intrinsicMismatch compares the generation-time properties in the spec (kty, keySize, curveName)
