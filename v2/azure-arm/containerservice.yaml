@@ -103,8 +103,13 @@ groupModelConfiguration:
         OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
         PrincipalId: $.Status.Identity.PrincipalId
     ManagedCluster_Spec:
+      AutoScalerProfile:
+        $conversionStrategy: manual
       Tags:
         $payloadType: explicitEmptyCollections
+    ManagedCluster_STATUS:
+      AutoScalerProfile:
+        $conversionStrategy: manual
     ManagedClusterAADProfile:
       ServerAppSecret:
         $importSecretMode: required
@@ -122,6 +127,46 @@ groupModelConfiguration:
         $payloadType: explicitEmptyCollections
       Tags:
         $payloadType: explicitEmptyCollections
+    ManagedClusterProperties_AutoScalerProfile:
+      $nameInNextVersion: ManagedClusterPropertiesAutoScalerProfile
+    ManagedClusterProperties_AutoScalerProfile_STATUS:
+      $nameInNextVersion: ManagedClusterPropertiesAutoScalerProfile_STATUS
+    ManagedClusterLoadBalancerProfile_ManagedOutboundIPs:
+      $nameInNextVersion: ManagedClusterLoadBalancerProfileManagedOutboundIPs
+    ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS:
+      $nameInNextVersion: ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS
+    ManagedClusterLoadBalancerProfile_OutboundIPPrefixes:
+      $nameInNextVersion: ManagedClusterLoadBalancerProfileOutboundIPPrefixes
+    ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS:
+      $nameInNextVersion: ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS
+    ManagedClusterLoadBalancerProfile_OutboundIPs:
+      $nameInNextVersion: ManagedClusterLoadBalancerProfileOutboundIPs
+    ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS:
+      $nameInNextVersion: ManagedClusterLoadBalancerProfileOutboundIPs_STATUS
+    ManagedClusterLoadBalancerProfile:
+      ManagedOutboundIPs:
+        $conversionStrategy: manual
+      OutboundIPPrefixes:
+        $conversionStrategy: manual
+      OutboundIPs:
+        $conversionStrategy: manual
+    ManagedClusterLoadBalancerProfile_STATUS:
+      ManagedOutboundIPs:
+        $conversionStrategy: manual
+      OutboundIPPrefixes:
+        $conversionStrategy: manual
+      OutboundIPs:
+        $conversionStrategy: manual
+    ManagedClusterIdentity_STATUS:
+      UserAssignedIdentities:
+        $conversionStrategy: manual
+    ManagedClusterIdentity_UserAssignedIdentities_STATUS:
+      $nameInNextVersion: ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS
+    ManagedClusterPodIdentity_STATUS:
+      ProvisioningInfo:
+        $conversionStrategy: manual
+    ManagedClusterPodIdentity_ProvisioningInfo_STATUS:
+      $nameInNextVersion: ManagedClusterPodIdentityProvisioningInfo_STATUS
     ManagedClusters_AgentPool:
       $exportAs: ManagedClustersAgentPool
       $supportedFrom: v2.16.0
@@ -180,26 +225,6 @@ groupModelConfiguration:
         $payloadType: explicitEmptyCollections
       Tags:
         $payloadType: explicitEmptyCollections
-    ManagedClusterPropertiesAutoScalerProfile:
-      $nameInNextVersion: ManagedClusterProperties_AutoScalerProfile
-    ManagedClusterPropertiesAutoScalerProfile_STATUS:
-      $nameInNextVersion: ManagedClusterProperties_AutoScalerProfile_STATUS
-    ManagedClusterLoadBalancerProfileManagedOutboundIPs:
-      $nameInNextVersion: ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
-    ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS:
-      $nameInNextVersion: ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
-    ManagedClusterLoadBalancerProfileOutboundIPPrefixes:
-      $nameInNextVersion: ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
-    ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS:
-      $nameInNextVersion: ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
-    ManagedClusterLoadBalancerProfileOutboundIPs:
-      $nameInNextVersion: ManagedClusterLoadBalancerProfile_OutboundIPs
-    ManagedClusterLoadBalancerProfileOutboundIPs_STATUS:
-      $nameInNextVersion: ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
-    ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS:
-      $nameInNextVersion: ManagedClusterIdentity_UserAssignedIdentities_STATUS
-    ManagedClusterPodIdentityProvisioningInfo_STATUS:
-      $nameInNextVersion: ManagedClusterPodIdentity_ProvisioningInfo_STATUS
     ManagedClusters_AgentPool:
       $exportAs: ManagedClustersAgentPool
       $supportedFrom: v2.18.0
@@ -229,3 +254,65 @@ groupModelConfiguration:
     ScaleProfile_STATUS:
       Autoscale:
         $conversionStrategy: manual
+  2026-03-01:
+    ContainerServiceSshPublicKey:
+      KeyData:
+        $importSecretMode: never
+    ContainerServiceSshPublicKey_STATUS:
+      KeyData:
+        $importSecretMode: never
+    DelegatedResource:
+      ResourceId:
+        $referenceType: arm
+    ManagedCluster:
+      $exportAs: ManagedCluster
+      $supportedFrom: v2.22.0
+      $azureGeneratedSecrets:
+        - AdminCredentials
+        - UserCredentials
+      $generatedConfigs:
+        OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+        PrincipalId: $.Status.Identity.PrincipalId
+    ManagedCluster_Spec:
+      Tags:
+        $payloadType: explicitEmptyCollections
+    ManagedClusterAADProfile:
+      ServerAppSecret:
+        $importSecretMode: required
+    ManagedClusterAgentPoolProfile:
+      NodeLabels:
+        $payloadType: explicitEmptyCollections
+      NodeTaints:
+        $payloadType: explicitEmptyCollections
+      Tags:
+        $payloadType: explicitEmptyCollections
+    ManagedClusterAgentPoolProfileProperties:
+      NodeLabels:
+        $payloadType: explicitEmptyCollections
+      NodeTaints:
+        $payloadType: explicitEmptyCollections
+      Tags:
+        $payloadType: explicitEmptyCollections
+    ManagedClusters_AgentPool:
+      $exportAs: ManagedClustersAgentPool
+      $supportedFrom: v2.22.0
+    ManagedClusterServicePrincipalProfile:
+      Secret:
+        $importSecretMode: required
+    ManagedClusterWindowsProfile:
+      AdminPassword:
+        $importSecretMode: required
+    PrivateLinkResource:
+      Id:
+        $referenceType: arm
+    ManagedClusters_TrustedAccessRoleBinding:
+      $exportAs: TrustedAccessRoleBinding
+      $supportedFrom: v2.22.0
+    ManagedClusters_MaintenanceConfiguration:
+      $exportAs: MaintenanceConfiguration
+      $supportedFrom: v2.22.0
+    UserAssignedIdentity:
+      ClientId:
+        $importConfigMapMode: optional
+      ObjectId:
+        $importConfigMapMode: optional

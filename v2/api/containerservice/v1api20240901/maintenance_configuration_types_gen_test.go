@@ -6,7 +6,7 @@ package v1api20240901
 import (
 	"encoding/json"
 	v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
-	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
+	v20260301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -721,7 +721,7 @@ func RunResourceConversionTestForMaintenanceConfiguration(subject MaintenanceCon
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20250801s.MaintenanceConfiguration
+	var hub v20260301s.MaintenanceConfiguration
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

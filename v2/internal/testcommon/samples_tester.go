@@ -57,6 +57,14 @@ var exclusions = []*regexp.Regexp{
 	// file present so scripts/v2/check_samples.py is satisfied, but skip it in the samples test.
 	regexp.MustCompile(`cdn/v.*20210601/.*_profilesendpoint.yaml`),
 
+	// The containerservice TrustedAccessRoleBinding sample needs a Microsoft.MachineLearningServices
+	// workspace as its source resource, and AML now rejects the workspace payload our sample refs
+	// produce with "ValidationError: Missing dependent resources in workspace json" (it wants
+	// additional dependencies such as Application Insights). Older containerservice versions only
+	// still pass because their recordings predate that service-side change. Keep the sample file
+	// present so scripts/v2/check_samples.py is satisfied, but skip it in the samples test.
+	regexp.MustCompile(`containerservice/v20260301/.*_trustedaccessrolebinding.yaml`),
+
 	// db users aren't ARM resources
 	regexp.MustCompile(`sql/.*_user.yaml`),
 	regexp.MustCompile(`dbformysql/.*_user.yaml`),
