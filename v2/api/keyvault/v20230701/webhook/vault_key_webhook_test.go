@@ -1,0 +1,259 @@
+/*
+Copyright (c) Microsoft Corporation.
+Licensed under the MIT license.
+*/
+
+package webhook
+
+import (
+	"context"
+	"testing"
+
+	. "github.com/onsi/gomega"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
+	v20230701 "github.com/Azure/azure-service-operator/v2/api/keyvault/v20230701"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+)
+
+func newTestVaultKeyObj() *v20230701.VaultKey {
+	kty := v20230701.KeyProperties_Kty_RSA
+	return &v20230701.VaultKey{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: "mykey",
+		},
+		Spec: v20230701.VaultKey_Spec{
+			AzureName: "mykey",
+			Properties: &v20230701.KeyProperties{
+				Kty:     &kty,
+				KeySize: to.Ptr(2048),
+				Attributes: &v20230701.KeyAttributes{
+					Enabled: to.Ptr(true),
+				},
+			},
+		},
+	}
+}
+
+func markCreated(obj *v20230701.VaultKey) *v20230701.VaultKey {
+	genruntime.SetResourceID(obj, "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myrg/providers/Microsoft.KeyVault/vaults/myvault/keys/mykey")
+	return obj
+}
+
+func Test_VaultKey_ValidateNotExportable(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	webhook := &VaultKey{}
+
+	t.Run("create with exportable=true is rejected", func(t *testing.T) {
+		obj := newTestVaultKeyObj()
+		obj.Spec.Properties.Attributes.Exportable = to.Ptr(true)
+
+		_, err := webhook.validateNotExportable(context.Background(), obj)
+		g.Expect(err).To(HaveOccurred())
+		g.Expect(err.Error()).To(ContainSubstring("exportable"))
+	})
+
+	t.Run("create with exportable=false is allowed", func(t *testing.T) {
+		obj := newTestVaultKeyObj()
+		obj.Spec.Properties.Attributes.Exportable = to.Ptr(false)
+
+		_, err := webhook.validateNotExportable(context.Background(), obj)
+		g.Expect(err).ToNot(HaveOccurred())
+	})
+
+	t.Run("create with exportable unset is allowed", func(t *testing.T) {
+		obj := newTestVaultKeyObj()
+
+		_, err := webhook.validateNotExportable(context.Background(), obj)
+		g.Expect(err).ToNot(HaveOccurred())
+	})
+
+	t.Run("update to exportable=true is rejected", func(t *testing.T) {
+		newObj := markCreated(newTestVaultKeyObj())
+		newObj.Spec.Properties.Attributes.Exportable = to.Ptr(true)
+
+		_, err := webhook.validateNotExportable(context.Background(), newObj)
+		g.Expect(err).To(HaveOccurred())
+		g.Expect(err.Error()).To(ContainSubstring("exportable"))
+	})
+}
+
+func Test_VaultKey_ValidateNoImportKeyOp(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	webhook := &VaultKey{}
+
+	t.Run("create with keyOps including import is rejected", func(t *testing.T) {
+		obj := newTestVaultKeyObj()
+		obj.Spec.Properties.KeyOps = []v20230701.KeyProperties_KeyOps{
+			v20230701.KeyProperties_KeyOps_Sign,
+			v20230701.KeyProperties_KeyOps_Import,
+		}
+
+		_, err := webhook.validateNoImportKeyOp(context.Background(), obj)
+		g.Expect(err).To(HaveOccurred())
+		g.Expect(err.Error()).To(ContainSubstring("import"))
+	})
+
+	t.Run("create with keyOps without import is allowed", func(t *testing.T) {
+		obj := newTestVaultKeyObj()
+		obj.Spec.Properties.KeyOps = []v20230701.KeyProperties_KeyOps{
+			v20230701.KeyProperties_KeyOps_Sign,
+			v20230701.KeyProperties_KeyOps_Verify,
+		}
+
+		_, err := webhook.validateNoImportKeyOp(context.Background(), obj)
+		g.Expect(err).ToNot(HaveOccurred())
+	})
+
+	t.Run("create with keyOps unset is allowed", func(t *testing.T) {
+		obj := newTestVaultKeyObj()
+
+		_, err := webhook.validateNoImportKeyOp(context.Background(), obj)
+		g.Expect(err).ToNot(HaveOccurred())
+	})
+
+	t.Run("update adding import to keyOps is rejected", func(t *testing.T) {
+		newObj := markCreated(newTestVaultKeyObj())
+		newObj.Spec.Properties.KeyOps = []v20230701.KeyProperties_KeyOps{
+			v20230701.KeyProperties_KeyOps_Import,
+		}
+
+		_, err := webhook.validateNoImportKeyOp(context.Background(), newObj)
+		g.Expect(err).To(HaveOccurred())
+		g.Expect(err.Error()).To(ContainSubstring("import"))
+	})
+}
+
+func Test_VaultKey_ValidateIntrinsicallyImmutable(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	webhook := &VaultKey{}
+
+	t.Run("not yet created - any change allowed", func(t *testing.T) {
+		oldObj := newTestVaultKeyObj()
+		newObj := newTestVaultKeyObj()
+		newObj.Spec.Properties.KeySize = to.Ptr(4096)
+
+		_, err := webhook.validateIntrinsicallyImmutable(context.Background(), oldObj, newObj)
+		g.Expect(err).ToNot(HaveOccurred())
+	})
+
+	t.Run("created - changing keySize is rejected", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+		newObj.Spec.Properties.KeySize = to.Ptr(4096)
+
+		_, err := webhook.validateIntrinsicallyImmutable(context.Background(), oldObj, newObj)
+		g.Expect(err).To(HaveOccurred())
+		g.Expect(err.Error()).To(ContainSubstring("keySize"))
+	})
+
+	t.Run("created - changing kty is rejected", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+		ec := v20230701.KeyProperties_Kty_EC
+		newObj.Spec.Properties.Kty = &ec
+
+		_, err := webhook.validateIntrinsicallyImmutable(context.Background(), oldObj, newObj)
+		g.Expect(err).To(HaveOccurred())
+		g.Expect(err.Error()).To(ContainSubstring("kty"))
+	})
+
+	t.Run("created - changing attributes is NOT this validator's concern", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+		newObj.Spec.Properties.Attributes.Enabled = to.Ptr(false)
+
+		_, err := webhook.validateIntrinsicallyImmutable(context.Background(), oldObj, newObj)
+		g.Expect(err).ToNot(HaveOccurred())
+	})
+
+	t.Run("created - true no-op update is allowed", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+
+		_, err := webhook.validateIntrinsicallyImmutable(context.Background(), oldObj, newObj)
+		g.Expect(err).ToNot(HaveOccurred())
+	})
+}
+
+// runUpdateValidations runs the full update-validation chain, the way the generated webhook does,
+// so these tests cover the wiring and not just individual validators.
+func runUpdateValidations(webhook *VaultKey, oldObj *v20230701.VaultKey, newObj *v20230701.VaultKey) error {
+	for _, validation := range webhook.UpdateValidations() {
+		if _, err := validation(context.Background(), oldObj, newObj); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// Mutable properties are applied through the Key Vault data plane by the VaultKeyExtension after
+// each reconcile, so the webhook must let those edits through.
+func Test_VaultKey_UpdateValidations_AllowMutablePropertyChanges(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	webhook := &VaultKey{}
+
+	t.Run("created - changing attributes is allowed", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+		newObj.Spec.Properties.Attributes.Enabled = to.Ptr(false)
+
+		g.Expect(runUpdateValidations(webhook, oldObj, newObj)).To(Succeed())
+	})
+
+	t.Run("created - changing keyOps is allowed", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+		newObj.Spec.Properties.KeyOps = []v20230701.KeyProperties_KeyOps{v20230701.KeyProperties_KeyOps_Sign}
+
+		g.Expect(runUpdateValidations(webhook, oldObj, newObj)).To(Succeed())
+	})
+
+	t.Run("created - changing tags is allowed", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+		newObj.Spec.Tags = map[string]string{"foo": "bar"}
+
+		g.Expect(runUpdateValidations(webhook, oldObj, newObj)).To(Succeed())
+	})
+
+	t.Run("created - changing kty is still rejected end to end", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+		ec := v20230701.KeyProperties_Kty_EC
+		newObj.Spec.Properties.Kty = &ec
+
+		err := runUpdateValidations(webhook, oldObj, newObj)
+		g.Expect(err).To(HaveOccurred())
+		g.Expect(err.Error()).To(ContainSubstring("kty"))
+	})
+
+	t.Run("created - adding import to keyOps is still rejected end to end", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+		newObj.Spec.Properties.KeyOps = []v20230701.KeyProperties_KeyOps{v20230701.KeyProperties_KeyOps_Import}
+
+		err := runUpdateValidations(webhook, oldObj, newObj)
+		g.Expect(err).To(HaveOccurred())
+		g.Expect(err.Error()).To(ContainSubstring("import"))
+	})
+
+	t.Run("created - enabling exportable is still rejected end to end", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+		newObj.Spec.Properties.Attributes.Exportable = to.Ptr(true)
+
+		err := runUpdateValidations(webhook, oldObj, newObj)
+		g.Expect(err).To(HaveOccurred())
+		g.Expect(err.Error()).To(ContainSubstring("exportable"))
+	})
+}
