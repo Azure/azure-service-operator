@@ -76,6 +76,7 @@ var versionMigrationHybridReleases = map[string]string{
 	"compute":           "v2.20.0",
 	"containerinstance": "v2.21.0",
 	"datafactory":       "v2.20.0",
+	"dataprotection":    "v2.21.0",
 	"dbformysql":        "v2.19.0",
 	"eventgrid":         "v2.20.0",
 	"sql":               "v2.21.0",
