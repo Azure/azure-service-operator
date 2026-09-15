@@ -16,6 +16,8 @@ import (
 	apimanagement_v20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20230501preview/storage"
 	apimanagement_v20240501 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501"
 	apimanagement_v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
+	apimanagement_v20250301p "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20250301preview"
+	apimanagement_v20250301ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20250301preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -36,5 +38,7 @@ func (extension *BackendExtension) GetExtendedResources() []genruntime.Kubernete
 		&apimanagement_v20230501p.Backend{},
 		&apimanagement_v20230501ps.Backend{},
 		&apimanagement_v20240501.Backend{},
-		&apimanagement_v20240501s.Backend{}}
+		&apimanagement_v20240501s.Backend{},
+		&apimanagement_v20250301p.Backend{},
+		&apimanagement_v20250301ps.Backend{}}
 }
