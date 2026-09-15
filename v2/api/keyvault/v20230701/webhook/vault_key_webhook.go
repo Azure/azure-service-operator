@@ -36,7 +36,6 @@ func (vaultKey *VaultKey) UpdateValidations() []func(ctx context.Context, oldObj
 			return vaultKey.validateNoImportKeyOp(ctx, newObj)
 		},
 		vaultKey.validateIntrinsicallyImmutable,
-		vaultKey.validateNotSilentlyIgnored,
 	}
 }
 
@@ -94,8 +93,9 @@ func (vaultKey *VaultKey) validateNoImportKeyOp(_ context.Context, obj *v2023070
 // validateIntrinsicallyImmutable rejects changes to the key properties that are immutable in Azure
 // under ANY mechanism, ARM or data-plane: a key's type, size, and curve are fixed at generation time.
 // Changing them describes a different key, not a modification of this one, so such an edit could never
-// be applied and is rejected outright. These fields would remain immutable even if this resource ever
-// gained data-plane update support (unlike the fields covered by validateNotSilentlyIgnored).
+// be applied and is rejected outright. The remaining spec properties (keyOps, attributes,
+// release_policy, rotationPolicy and tags) are mutable: the VaultKeyExtension applies them through
+// the Key Vault data plane after each reconcile, so they are deliberately not validated here.
 //
 // Note: spec.azureName and spec.owner are similarly write-once and are already validated by
 // genruntime.ValidateWriteOnceProperties, which every generated webhook runs - we don't duplicate
@@ -128,64 +128,6 @@ func (vaultKey *VaultKey) validateIntrinsicallyImmutable(_ context.Context, oldO
 				"of this one; delete and recreate the resource to change them (if the resource never "+
 				"successfully created in Azure, deletion is not blocked - delete and re-apply the corrected "+
 				"spec)",
-			newObj.GetObjectKind().GroupVersionKind(),
-			newObj.GetName(),
-		)
-	}
-
-	return nil, nil
-}
-
-// validateNotSilentlyIgnored rejects changes to the remaining spec fields (keyOps, attributes,
-// release_policy, rotationPolicy and tags). These are mutable on the key itself via the Key Vault
-// data plane, but this resource operates purely on the ARM control plane, whose only write operation
-// (CreateIfNotExist) is a no-op against an existing key. Letting such an edit through would leave the
-// resource reporting Ready with a spec that silently diverges from the real state in Azure - a worse
-// failure mode than a clear rejection. If data-plane update support is ever added, this validator -
-// and only this validator - can be relaxed.
-//
-// The comparison covers the whole spec.properties subtree except the fields owned by
-// validateIntrinsicallyImmutable, so a field added to KeyProperties by a future regeneration is
-// automatically covered until it is deliberately reviewed.
-func (vaultKey *VaultKey) validateNotSilentlyIgnored(_ context.Context, oldObj *v20230701.VaultKey, newObj *v20230701.VaultKey) (admission.Warnings, error) {
-	if !genruntime.IsResourceCreatedSuccessfully(oldObj) {
-		// No ARM resource ID stamped yet - no immutability concerns apply. (The ID is stamped when
-		// the operator first claims the resource, before the initial PUT to Azure, so this gate
-		// closes at claim time, not on confirmed successful creation.)
-		return nil, nil
-	}
-
-	// Mask out the intrinsically-immutable fields; those are validated, with a more precise error,
-	// by validateIntrinsicallyImmutable.
-	stripIntrinsic := func(props *v20230701.KeyProperties) *v20230701.KeyProperties {
-		if props == nil {
-			return nil
-		}
-		stripped := *props
-		stripped.Kty = nil
-		stripped.KeySize = nil
-		stripped.CurveName = nil
-		return &stripped
-	}
-
-	if !reflect.DeepEqual(stripIntrinsic(oldObj.Spec.Properties), stripIntrinsic(newObj.Spec.Properties)) {
-		return nil, eris.Errorf(
-			"spec.properties is immutable after creation for %s : %s (keyOps, attributes, release_policy "+
-				"and rotationPolicy cannot be changed through this resource: the ARM API's only write "+
-				"operation is create-if-not-exist, so the edit would be accepted but silently ignored by "+
-				"Azure); delete and recreate the resource to change them (if the resource never "+
-				"successfully created in Azure, deletion is not blocked - delete and re-apply the corrected "+
-				"spec)",
-			newObj.GetObjectKind().GroupVersionKind(),
-			newObj.GetName(),
-		)
-	}
-
-	if !reflect.DeepEqual(oldObj.Spec.Tags, newObj.Spec.Tags) {
-		return nil, eris.Errorf(
-			"spec.tags is immutable after creation for %s : %s (the ARM API's only write operation is "+
-				"create-if-not-exist, so the edit would be accepted but silently ignored by Azure); delete "+
-				"and recreate the resource to change it",
 			newObj.GetObjectKind().GroupVersionKind(),
 			newObj.GetName(),
 		)
