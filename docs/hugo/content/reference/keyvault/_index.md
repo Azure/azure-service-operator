@@ -13,7 +13,7 @@ Development of these new resources is complete and they will be available in the
 
 | Resource                                                            | ARM Version | CRD Version | Supported From | Sample                                                                                                                  |
 |---------------------------------------------------------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------------|
-| [VaultKey]({{< relref "/reference/keyvault/v20230701#VaultKey" >}}) | 2023-07-01  | v20230701   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v20230701/v20230701_vaultkey.yaml) |
+| [VaultKey]({{< relref "/reference/keyvault/v20230701#VaultKey" >}}) | 2023-07-01  | v20230701   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v20230701/v20230701_vaultkey.yaml) |
 
 ### Latest Released Versions
 
