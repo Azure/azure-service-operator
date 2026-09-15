@@ -34,6 +34,14 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `apimanagement.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                      | ARM Version        | CRD Version      | Supported From | Sample                                                                                                                                    |
+|-------------------------------------------------------------------------------|--------------------|------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| [Backend]({{< relref "/reference/apimanagement/v20250301preview#Backend" >}}) | 2025-03-01-preview | v20250301preview | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20250301preview/v20250301preview_backend.yaml) |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
@@ -58,7 +66,7 @@ These resource(s) are the latest versions available for use in the current relea
 | [ProductApi]({{< relref "/reference/apimanagement/v20240501#ProductApi" >}})                                                                             | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_productapi.yaml)                                       |
 | [ProductGroup]({{< relref "/reference/apimanagement/v20240501#ProductGroup" >}})                                                                         | 2024-05-01  | v20240501   | v2.20.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_productgroup.yaml)                                     |
 | [ProductPolicy]({{< relref "/reference/apimanagement/v20240501#ProductPolicy" >}})                                                                       | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_productpolicy.yaml)                                    |
-| [Service]({{< relref "/reference/apimanagement/v20240501#Service" >}})                                                                                   | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_service.yaml)                                          |
+| [Service]({{< relref "/reference/apimanagement/v20240501#Service" >}})                                                                                   | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20250301preview/v20240501_service.yaml)                                   |
 | [ServiceGateway]({{< relref "/reference/apimanagement/v20240501#ServiceGateway" >}})                                                                     | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_servicegateway.yaml)                                   |
 | [ServiceGatewayApi]({{< relref "/reference/apimanagement/v20240501#ServiceGatewayApi" >}})                                                               | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_servicegatewayapi.yaml)                                |
 | [ServiceGatewayCertificateAuthority]({{< relref "/reference/apimanagement/v20240501#ServiceGatewayCertificateAuthority" >}})                             | 2024-05-01  | v20240501   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_servicegatewaycertificateauthority.yaml)               |
