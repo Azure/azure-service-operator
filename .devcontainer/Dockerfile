@@ -2,7 +2,7 @@
 
 # Compound versioning - v2 of the devcontainer, v1.26 of Go. 
 # Should be automatically kept up to date by dependabot.
-FROM mcr.microsoft.com/devcontainers/go:2-1.26
+FROM mcr.microsoft.com/devcontainers/go:2.3-1.27
 
 # https://docs.docker.com/engine/reference/builder/#automatic-platform-args-in-the-global-scope
 
