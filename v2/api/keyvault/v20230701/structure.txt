@@ -9,8 +9,10 @@ VaultKey: Resource
 ├── Spec: Object (5 properties)
 │   ├── AzureName: Validated<string> (1 rule)
 │   │   └── Rule 0: Pattern: "^[a-zA-Z0-9-]{1,127}$"
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── CreateMode: *string
+│   │   ├── DeleteMode: *string
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Properties: *Object (7 properties)

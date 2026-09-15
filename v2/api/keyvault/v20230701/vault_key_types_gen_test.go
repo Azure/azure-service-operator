@@ -1688,7 +1688,14 @@ func VaultKeyOperatorSpecGenerator() *rapid.Generator[VaultKeyOperatorSpec] {
 		return vaultKeyOperatorSpecGenerator
 	}
 
-	vaultKeyOperatorSpecGenerator = rapid.Just(VaultKeyOperatorSpec{})
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	vaultKeyOperatorSpecGenerator = rapid.Custom(func(t *rapid.T) VaultKeyOperatorSpec {
+		var result VaultKeyOperatorSpec
+		result.CreateMode = ptrString.Draw(t, "CreateMode")
+		result.DeleteMode = ptrString.Draw(t, "DeleteMode")
+		return result
+	})
 
 	return vaultKeyOperatorSpecGenerator
 }
