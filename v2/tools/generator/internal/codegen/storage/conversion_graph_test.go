@@ -178,6 +178,80 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 	g.Expect(name).To(Equal(party2021s.Name()))
 }
 
+func Test_ConversionGraph_WhenPreviewRenamesTypeBeforeCompatPackage_FindsRenamedType(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	oldPackage := test.MakeLocalPackageReference(test.Group, "v20250801").WithVersionPrefix("v1api")
+	compatPackage := astmodel.MakeCompatPackageReference(astmodel.MakeStoragePackageReference(oldPackage))
+	previewPackage := test.MakeLocalPackageReference(test.Group, "v20251002preview").WithVersionPrefix("v")
+	newPackage := test.MakeLocalPackageReference(test.Group, "v20260301").WithVersionPrefix("v")
+
+	oldType := test.CreateSimpleResource(oldPackage, "OldName")
+	oldTypeStorage := test.CreateSimpleResource(astmodel.MakeStoragePackageReference(oldPackage), "OldName")
+	previewType := test.CreateSimpleResource(previewPackage, "NewName")
+	previewTypeStorage := test.CreateSimpleResource(astmodel.MakeStoragePackageReference(previewPackage), "NewName")
+	newType := test.CreateSimpleResource(newPackage, "NewName")
+	newTypeStorage := test.CreateSimpleResource(astmodel.MakeStoragePackageReference(newPackage), "NewName")
+	compatType := test.CreateSimpleResource(compatPackage, "CompatibilityType")
+
+	definitions := make(astmodel.TypeDefinitionSet)
+	definitions.AddAll(oldType, oldTypeStorage, previewType, previewTypeStorage, newType, newTypeStorage, compatType)
+
+	configuration := config.NewObjectModelConfiguration()
+	g.Expect(
+		configuration.ModifyType(
+			previewType.Name(),
+			func(typeConfiguration *config.TypeConfiguration) error {
+				typeConfiguration.NameInNextVersion.Set(oldType.Name().Name())
+				return nil
+			},
+		),
+	).To(Succeed())
+
+	builder := NewConversionGraphBuilder(configuration)
+	builder.Add(
+		oldType.Name(),
+		oldTypeStorage.Name(),
+		previewType.Name(),
+		previewTypeStorage.Name(),
+		newType.Name(),
+		newTypeStorage.Name(),
+		compatType.Name(),
+	)
+	graph, err := builder.Build()
+	g.Expect(err).To(Succeed())
+
+	nextType, err := graph.FindNextType(previewTypeStorage.Name(), definitions)
+	g.Expect(err).To(Succeed())
+	g.Expect(nextType).To(Equal(oldTypeStorage.Name()))
+}
+
+func Test_ConversionGraph_WhenPreviewAndCompatTypePresent_PreservesCompatTransitions(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	oldPackage := test.MakeLocalPackageReference(test.Group, "v20240901").WithVersionPrefix("v1api")
+	missingPackage := test.MakeLocalPackageReference(test.Group, "v20250801").WithVersionPrefix("v1api")
+	compatPackage := astmodel.MakeCompatPackageReference(astmodel.MakeStoragePackageReference(missingPackage))
+	previewPackage := test.MakeLocalPackageReference(test.Group, "v20251002preview").WithVersionPrefix("v")
+	newPackage := test.MakeLocalPackageReference(test.Group, "v20260301").WithVersionPrefix("v")
+
+	oldType := astmodel.MakeInternalTypeName(astmodel.MakeStoragePackageReference(oldPackage), "SharedName")
+	compatType := astmodel.MakeInternalTypeName(compatPackage, "SharedName")
+	previewType := astmodel.MakeInternalTypeName(astmodel.MakeStoragePackageReference(previewPackage), "SharedName")
+	newType := astmodel.MakeInternalTypeName(astmodel.MakeStoragePackageReference(newPackage), "SharedName")
+
+	builder := NewConversionGraphBuilder(config.NewObjectModelConfiguration())
+	builder.Add(oldType, compatType, previewType, newType)
+	graph, err := builder.Build()
+	g.Expect(err).To(Succeed())
+
+	g.Expect(graph.LookupTransition(oldType)).To(Equal(compatType))
+	g.Expect(graph.LookupTransition(previewType)).To(Equal(compatType))
+	g.Expect(graph.LookupTransition(compatType)).To(Equal(newType))
+}
+
 func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
