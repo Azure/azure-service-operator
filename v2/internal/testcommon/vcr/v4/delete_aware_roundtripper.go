@@ -190,6 +190,10 @@ func (*deleteAwareRoundTripper) isSameOrDescendantPath(path string, ancestor str
 		return true
 	}
 
+	if ancestor == "" {
+		return false
+	}
+
 	// if path is shorter, can't descend from ancestor
 	if len(path) <= len(ancestor) {
 		return false
