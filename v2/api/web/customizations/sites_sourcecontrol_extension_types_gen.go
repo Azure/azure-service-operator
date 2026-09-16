@@ -10,6 +10,8 @@ import (
 	web_v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v20220301/storage"
 	web_v20250501 "github.com/Azure/azure-service-operator/v2/api/web/v20250501"
 	web_v20250501s "github.com/Azure/azure-service-operator/v2/api/web/v20250501/storage"
+	web_v20260715 "github.com/Azure/azure-service-operator/v2/api/web/v20260715"
+	web_v20260715s "github.com/Azure/azure-service-operator/v2/api/web/v20260715/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -24,5 +26,7 @@ func (extension *SitesSourcecontrolExtension) GetExtendedResources() []genruntim
 		&web_v20220301.SitesSourcecontrol{},
 		&web_v20220301s.SitesSourcecontrol{},
 		&web_v20250501.SitesSourcecontrol{},
-		&web_v20250501s.SitesSourcecontrol{}}
+		&web_v20250501s.SitesSourcecontrol{},
+		&web_v20260715.SitesSourcecontrol{},
+		&web_v20260715s.SitesSourcecontrol{}}
 }
