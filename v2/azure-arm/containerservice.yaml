@@ -103,13 +103,8 @@ groupModelConfiguration:
         OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
         PrincipalId: $.Status.Identity.PrincipalId
     ManagedCluster_Spec:
-      AutoScalerProfile:
-        $conversionStrategy: manual
       Tags:
         $payloadType: explicitEmptyCollections
-    ManagedCluster_STATUS:
-      AutoScalerProfile:
-        $conversionStrategy: manual
     ManagedClusterAADProfile:
       ServerAppSecret:
         $importSecretMode: required
@@ -143,28 +138,8 @@ groupModelConfiguration:
       $nameInNextVersion: ManagedClusterLoadBalancerProfileOutboundIPs
     ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS:
       $nameInNextVersion: ManagedClusterLoadBalancerProfileOutboundIPs_STATUS
-    ManagedClusterLoadBalancerProfile:
-      ManagedOutboundIPs:
-        $conversionStrategy: manual
-      OutboundIPPrefixes:
-        $conversionStrategy: manual
-      OutboundIPs:
-        $conversionStrategy: manual
-    ManagedClusterLoadBalancerProfile_STATUS:
-      ManagedOutboundIPs:
-        $conversionStrategy: manual
-      OutboundIPPrefixes:
-        $conversionStrategy: manual
-      OutboundIPs:
-        $conversionStrategy: manual
-    ManagedClusterIdentity_STATUS:
-      UserAssignedIdentities:
-        $conversionStrategy: manual
     ManagedClusterIdentity_UserAssignedIdentities_STATUS:
       $nameInNextVersion: ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS
-    ManagedClusterPodIdentity_STATUS:
-      ProvisioningInfo:
-        $conversionStrategy: manual
     ManagedClusterPodIdentity_ProvisioningInfo_STATUS:
       $nameInNextVersion: ManagedClusterPodIdentityProvisioningInfo_STATUS
     ManagedClusters_AgentPool:
@@ -225,6 +200,26 @@ groupModelConfiguration:
         $payloadType: explicitEmptyCollections
       Tags:
         $payloadType: explicitEmptyCollections
+    ManagedClusterPropertiesAutoScalerProfile:
+      $nameInNextVersion: ManagedClusterProperties_AutoScalerProfile
+    ManagedClusterPropertiesAutoScalerProfile_STATUS:
+      $nameInNextVersion: ManagedClusterProperties_AutoScalerProfile_STATUS
+    ManagedClusterLoadBalancerProfileManagedOutboundIPs:
+      $nameInNextVersion: ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
+    ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS:
+      $nameInNextVersion: ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
+    ManagedClusterLoadBalancerProfileOutboundIPPrefixes:
+      $nameInNextVersion: ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
+    ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS:
+      $nameInNextVersion: ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
+    ManagedClusterLoadBalancerProfileOutboundIPs:
+      $nameInNextVersion: ManagedClusterLoadBalancerProfile_OutboundIPs
+    ManagedClusterLoadBalancerProfileOutboundIPs_STATUS:
+      $nameInNextVersion: ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
+    ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS:
+      $nameInNextVersion: ManagedClusterIdentity_UserAssignedIdentities_STATUS
+    ManagedClusterPodIdentityProvisioningInfo_STATUS:
+      $nameInNextVersion: ManagedClusterPodIdentity_ProvisioningInfo_STATUS
     ManagedClusters_AgentPool:
       $exportAs: ManagedClustersAgentPool
       $supportedFrom: v2.18.0
@@ -248,12 +243,6 @@ groupModelConfiguration:
         $importConfigMapMode: optional
       ObjectId:
         $importConfigMapMode: optional
-    ScaleProfile:
-      Autoscale:
-        $conversionStrategy: manual
-    ScaleProfile_STATUS:
-      Autoscale:
-        $conversionStrategy: manual
   2026-03-01:
     ContainerServiceSshPublicKey:
       KeyData:
