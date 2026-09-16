@@ -11463,7 +11463,7 @@ func Test_ManagedClusterLoadBalancerProfileManagedOutboundIPs_WhenPropertiesConv
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ManagedClusterLoadBalancerProfileManagedOutboundIPs to ManagedClusterLoadBalancerProfileManagedOutboundIPs via AssignProperties_To_ManagedClusterLoadBalancerProfileManagedOutboundIPs & AssignProperties_From_ManagedClusterLoadBalancerProfileManagedOutboundIPs returns original",
+		"Round trip from ManagedClusterLoadBalancerProfileManagedOutboundIPs to ManagedClusterLoadBalancerProfile_ManagedOutboundIPs via AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs & AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs returns original",
 		prop.ForAll(RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileManagedOutboundIPs, ManagedClusterLoadBalancerProfileManagedOutboundIPsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -11474,15 +11474,15 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileManagedOutboun
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.ManagedClusterLoadBalancerProfileManagedOutboundIPs
-	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfileManagedOutboundIPs(&other)
+	var other v20250801s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
+	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ManagedClusterLoadBalancerProfileManagedOutboundIPs
-	err = actual.AssignProperties_From_ManagedClusterLoadBalancerProfileManagedOutboundIPs(&other)
+	err = actual.AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -11577,7 +11577,7 @@ func Test_ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS_WhenPropert
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS to ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS via AssignProperties_To_ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS & AssignProperties_From_ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS returns original",
+		"Round trip from ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS to ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS via AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS & AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS, ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -11588,15 +11588,15 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileManagedOutboun
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS
-	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS(&other)
+	var other v20250801s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
+	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS
-	err = actual.AssignProperties_From_ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS(&other)
+	err = actual.AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -11691,7 +11691,7 @@ func Test_ManagedClusterLoadBalancerProfileOutboundIPPrefixes_WhenPropertiesConv
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ManagedClusterLoadBalancerProfileOutboundIPPrefixes to ManagedClusterLoadBalancerProfileOutboundIPPrefixes via AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPPrefixes & AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPPrefixes returns original",
+		"Round trip from ManagedClusterLoadBalancerProfileOutboundIPPrefixes to ManagedClusterLoadBalancerProfile_OutboundIPPrefixes via AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes & AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes returns original",
 		prop.ForAll(RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileOutboundIPPrefixes, ManagedClusterLoadBalancerProfileOutboundIPPrefixesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -11702,15 +11702,15 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileOutboundIPPref
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.ManagedClusterLoadBalancerProfileOutboundIPPrefixes
-	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPPrefixes(&other)
+	var other v20250801s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
+	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ManagedClusterLoadBalancerProfileOutboundIPPrefixes
-	err = actual.AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPPrefixes(&other)
+	err = actual.AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -11804,7 +11804,7 @@ func Test_ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS_WhenPropert
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS to ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS via AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS & AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS returns original",
+		"Round trip from ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS to ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS via AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS & AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS, ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -11815,15 +11815,15 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileOutboundIPPref
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS
-	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS(&other)
+	var other v20250801s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
+	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS
-	err = actual.AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS(&other)
+	err = actual.AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -11917,7 +11917,7 @@ func Test_ManagedClusterLoadBalancerProfileOutboundIPs_WhenPropertiesConverted_R
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ManagedClusterLoadBalancerProfileOutboundIPs to ManagedClusterLoadBalancerProfileOutboundIPs via AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPs & AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPs returns original",
+		"Round trip from ManagedClusterLoadBalancerProfileOutboundIPs to ManagedClusterLoadBalancerProfile_OutboundIPs via AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs & AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs returns original",
 		prop.ForAll(RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileOutboundIPs, ManagedClusterLoadBalancerProfileOutboundIPsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -11928,15 +11928,15 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileOutboundIPs(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.ManagedClusterLoadBalancerProfileOutboundIPs
-	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPs(&other)
+	var other v20250801s.ManagedClusterLoadBalancerProfile_OutboundIPs
+	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ManagedClusterLoadBalancerProfileOutboundIPs
-	err = actual.AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPs(&other)
+	err = actual.AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -12030,7 +12030,7 @@ func Test_ManagedClusterLoadBalancerProfileOutboundIPs_STATUS_WhenPropertiesConv
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ManagedClusterLoadBalancerProfileOutboundIPs_STATUS to ManagedClusterLoadBalancerProfileOutboundIPs_STATUS via AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPs_STATUS & AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPs_STATUS returns original",
+		"Round trip from ManagedClusterLoadBalancerProfileOutboundIPs_STATUS to ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS via AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS & AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileOutboundIPs_STATUS, ManagedClusterLoadBalancerProfileOutboundIPs_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -12041,15 +12041,15 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileOutboundIPs_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.ManagedClusterLoadBalancerProfileOutboundIPs_STATUS
-	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPs_STATUS(&other)
+	var other v20250801s.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
+	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ManagedClusterLoadBalancerProfileOutboundIPs_STATUS
-	err = actual.AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPs_STATUS(&other)
+	err = actual.AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -14971,7 +14971,7 @@ func Test_ManagedClusterPodIdentityProvisioningInfo_STATUS_WhenPropertiesConvert
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ManagedClusterPodIdentityProvisioningInfo_STATUS to ManagedClusterPodIdentityProvisioningInfo_STATUS via AssignProperties_To_ManagedClusterPodIdentityProvisioningInfo_STATUS & AssignProperties_From_ManagedClusterPodIdentityProvisioningInfo_STATUS returns original",
+		"Round trip from ManagedClusterPodIdentityProvisioningInfo_STATUS to ManagedClusterPodIdentity_ProvisioningInfo_STATUS via AssignProperties_To_ManagedClusterPodIdentity_ProvisioningInfo_STATUS & AssignProperties_From_ManagedClusterPodIdentity_ProvisioningInfo_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningInfo_STATUS, ManagedClusterPodIdentityProvisioningInfo_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -14982,15 +14982,15 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningInfo_STATU
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.ManagedClusterPodIdentityProvisioningInfo_STATUS
-	err := copied.AssignProperties_To_ManagedClusterPodIdentityProvisioningInfo_STATUS(&other)
+	var other v20250801s.ManagedClusterPodIdentity_ProvisioningInfo_STATUS
+	err := copied.AssignProperties_To_ManagedClusterPodIdentity_ProvisioningInfo_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ManagedClusterPodIdentityProvisioningInfo_STATUS
-	err = actual.AssignProperties_From_ManagedClusterPodIdentityProvisioningInfo_STATUS(&other)
+	err = actual.AssignProperties_From_ManagedClusterPodIdentity_ProvisioningInfo_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -15215,7 +15215,7 @@ func Test_ManagedClusterPropertiesAutoScalerProfile_WhenPropertiesConverted_Roun
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ManagedClusterPropertiesAutoScalerProfile to ManagedClusterPropertiesAutoScalerProfile via AssignProperties_To_ManagedClusterPropertiesAutoScalerProfile & AssignProperties_From_ManagedClusterPropertiesAutoScalerProfile returns original",
+		"Round trip from ManagedClusterPropertiesAutoScalerProfile to ManagedClusterProperties_AutoScalerProfile via AssignProperties_To_ManagedClusterProperties_AutoScalerProfile & AssignProperties_From_ManagedClusterProperties_AutoScalerProfile returns original",
 		prop.ForAll(RunPropertyAssignmentTestForManagedClusterPropertiesAutoScalerProfile, ManagedClusterPropertiesAutoScalerProfileGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -15226,15 +15226,15 @@ func RunPropertyAssignmentTestForManagedClusterPropertiesAutoScalerProfile(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.ManagedClusterPropertiesAutoScalerProfile
-	err := copied.AssignProperties_To_ManagedClusterPropertiesAutoScalerProfile(&other)
+	var other v20250801s.ManagedClusterProperties_AutoScalerProfile
+	err := copied.AssignProperties_To_ManagedClusterProperties_AutoScalerProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ManagedClusterPropertiesAutoScalerProfile
-	err = actual.AssignProperties_From_ManagedClusterPropertiesAutoScalerProfile(&other)
+	err = actual.AssignProperties_From_ManagedClusterProperties_AutoScalerProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -15347,7 +15347,7 @@ func Test_ManagedClusterPropertiesAutoScalerProfile_STATUS_WhenPropertiesConvert
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ManagedClusterPropertiesAutoScalerProfile_STATUS to ManagedClusterPropertiesAutoScalerProfile_STATUS via AssignProperties_To_ManagedClusterPropertiesAutoScalerProfile_STATUS & AssignProperties_From_ManagedClusterPropertiesAutoScalerProfile_STATUS returns original",
+		"Round trip from ManagedClusterPropertiesAutoScalerProfile_STATUS to ManagedClusterProperties_AutoScalerProfile_STATUS via AssignProperties_To_ManagedClusterProperties_AutoScalerProfile_STATUS & AssignProperties_From_ManagedClusterProperties_AutoScalerProfile_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForManagedClusterPropertiesAutoScalerProfile_STATUS, ManagedClusterPropertiesAutoScalerProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -15358,15 +15358,15 @@ func RunPropertyAssignmentTestForManagedClusterPropertiesAutoScalerProfile_STATU
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.ManagedClusterPropertiesAutoScalerProfile_STATUS
-	err := copied.AssignProperties_To_ManagedClusterPropertiesAutoScalerProfile_STATUS(&other)
+	var other v20250801s.ManagedClusterProperties_AutoScalerProfile_STATUS
+	err := copied.AssignProperties_To_ManagedClusterProperties_AutoScalerProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ManagedClusterPropertiesAutoScalerProfile_STATUS
-	err = actual.AssignProperties_From_ManagedClusterPropertiesAutoScalerProfile_STATUS(&other)
+	err = actual.AssignProperties_From_ManagedClusterProperties_AutoScalerProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -20425,7 +20425,7 @@ func Test_ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS_WhenPropertie
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS to ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS via AssignProperties_To_ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS & AssignProperties_From_ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS returns original",
+		"Round trip from ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS to ManagedClusterIdentity_UserAssignedIdentities_STATUS via AssignProperties_To_ManagedClusterIdentity_UserAssignedIdentities_STATUS & AssignProperties_From_ManagedClusterIdentity_UserAssignedIdentities_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForManagedServiceIdentityUserAssignedIdentitiesValue_STATUS, ManagedServiceIdentityUserAssignedIdentitiesValue_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -20436,15 +20436,15 @@ func RunPropertyAssignmentTestForManagedServiceIdentityUserAssignedIdentitiesVal
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS
-	err := copied.AssignProperties_To_ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS(&other)
+	var other v20250801s.ManagedClusterIdentity_UserAssignedIdentities_STATUS
+	err := copied.AssignProperties_To_ManagedClusterIdentity_UserAssignedIdentities_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS
-	err = actual.AssignProperties_From_ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS(&other)
+	err = actual.AssignProperties_From_ManagedClusterIdentity_UserAssignedIdentities_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
