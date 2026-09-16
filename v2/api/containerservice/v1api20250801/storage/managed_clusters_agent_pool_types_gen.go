@@ -5,7 +5,8 @@ package storage
 
 import (
 	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
+	compat "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage/compat"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -53,7 +54,7 @@ var _ conversion.Convertible = &ManagedClustersAgentPool{}
 func (pool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*storage.ManagedClustersAgentPool)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v20260301/storage/ManagedClustersAgentPool but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v20260501/storage/ManagedClustersAgentPool but received %T instead", hub)
 	}
 
 	return pool.AssignProperties_From_ManagedClustersAgentPool(source)
@@ -63,7 +64,7 @@ func (pool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
 func (pool *ManagedClustersAgentPool) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*storage.ManagedClustersAgentPool)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v20260301/storage/ManagedClustersAgentPool but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v20260501/storage/ManagedClustersAgentPool but received %T instead", hub)
 	}
 
 	return pool.AssignProperties_To_ManagedClustersAgentPool(destination)
@@ -572,6 +573,13 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClusters
 		pool.NetworkProfile = nil
 	}
 
+	// NodeImageVersion
+	if source.NodeImageVersion != nil {
+		propertyBag.Add("NodeImageVersion", *source.NodeImageVersion)
+	} else {
+		propertyBag.Remove("NodeImageVersion")
+	}
+
 	// NodeLabels
 	pool.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
 
@@ -963,6 +971,19 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 		destination.NetworkProfile = &networkProfile
 	} else {
 		destination.NetworkProfile = nil
+	}
+
+	// NodeImageVersion
+	if propertyBag.Contains("NodeImageVersion") {
+		var nodeImageVersion string
+		err := propertyBag.Pull("NodeImageVersion", &nodeImageVersion)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'NodeImageVersion' from propertyBag")
+		}
+
+		destination.NodeImageVersion = &nodeImageVersion
+	} else {
+		destination.NodeImageVersion = nil
 	}
 
 	// NodeLabels
@@ -4744,6 +4765,26 @@ func (profile *ScaleProfile) AssignProperties_From_ScaleProfile(source *storage.
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
+	// Autoscale
+	if len(source.Autoscale) > 0 {
+		if source.Autoscale != nil {
+			autoscaleList := make([]compat.AutoScaleProfile, len(source.Autoscale))
+			for autoscaleIndex, autoscaleItem := range source.Autoscale {
+				var autoscale compat.AutoScaleProfile
+				err := autoscale.AssignProperties_From_AutoScaleProfile(&autoscaleItem)
+				if err != nil {
+					return eris.Wrap(err, "calling AssignProperties_From_AutoScaleProfile() to populate field Autoscale")
+				}
+				autoscaleList[autoscaleIndex] = autoscale
+			}
+			propertyBag.Add("Autoscale", autoscaleList)
+		} else {
+			propertyBag.Add("Autoscale", nil)
+		}
+	} else {
+		propertyBag.Remove("Autoscale")
+	}
+
 	// Manual
 	if source.Manual != nil {
 		manualList := make([]ManualScaleProfile, len(source.Manual))
@@ -4784,6 +4825,32 @@ func (profile *ScaleProfile) AssignProperties_From_ScaleProfile(source *storage.
 func (profile *ScaleProfile) AssignProperties_To_ScaleProfile(destination *storage.ScaleProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Autoscale
+	if propertyBag.Contains("Autoscale") {
+		var autoscaleFromBag []compat.AutoScaleProfile
+		err := propertyBag.Pull("Autoscale", &autoscaleFromBag)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Autoscale' from propertyBag")
+		}
+
+		if autoscaleFromBag != nil {
+			autoscaleList := make([]storage.AutoScaleProfile, len(autoscaleFromBag))
+			for autoscaleIndex, autoscaleItem := range autoscaleFromBag {
+				var autoscale storage.AutoScaleProfile
+				err = autoscaleItem.AssignProperties_To_AutoScaleProfile(&autoscale)
+				if err != nil {
+					return eris.Wrap(err, "calling AssignProperties_To_AutoScaleProfile() to populate field Autoscale")
+				}
+				autoscaleList[autoscaleIndex] = autoscale
+			}
+			destination.Autoscale = autoscaleList
+		} else {
+			destination.Autoscale = nil
+		}
+	} else {
+		destination.Autoscale = nil
+	}
 
 	// Manual
 	if profile.Manual != nil {
@@ -4833,6 +4900,26 @@ func (profile *ScaleProfile_STATUS) AssignProperties_From_ScaleProfile_STATUS(so
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
+	// Autoscale
+	if len(source.Autoscale) > 0 {
+		if source.Autoscale != nil {
+			autoscaleList := make([]compat.AutoScaleProfile_STATUS, len(source.Autoscale))
+			for autoscaleIndex, autoscaleItem := range source.Autoscale {
+				var autoscale compat.AutoScaleProfile_STATUS
+				err := autoscale.AssignProperties_From_AutoScaleProfile_STATUS(&autoscaleItem)
+				if err != nil {
+					return eris.Wrap(err, "calling AssignProperties_From_AutoScaleProfile_STATUS() to populate field Autoscale")
+				}
+				autoscaleList[autoscaleIndex] = autoscale
+			}
+			propertyBag.Add("Autoscale", autoscaleList)
+		} else {
+			propertyBag.Add("Autoscale", nil)
+		}
+	} else {
+		propertyBag.Remove("Autoscale")
+	}
+
 	// Manual
 	if source.Manual != nil {
 		manualList := make([]ManualScaleProfile_STATUS, len(source.Manual))
@@ -4873,6 +4960,32 @@ func (profile *ScaleProfile_STATUS) AssignProperties_From_ScaleProfile_STATUS(so
 func (profile *ScaleProfile_STATUS) AssignProperties_To_ScaleProfile_STATUS(destination *storage.ScaleProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Autoscale
+	if propertyBag.Contains("Autoscale") {
+		var autoscaleFromBag []compat.AutoScaleProfile_STATUS
+		err := propertyBag.Pull("Autoscale", &autoscaleFromBag)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Autoscale' from propertyBag")
+		}
+
+		if autoscaleFromBag != nil {
+			autoscaleList := make([]storage.AutoScaleProfile_STATUS, len(autoscaleFromBag))
+			for autoscaleIndex, autoscaleItem := range autoscaleFromBag {
+				var autoscale storage.AutoScaleProfile_STATUS
+				err = autoscaleItem.AssignProperties_To_AutoScaleProfile_STATUS(&autoscale)
+				if err != nil {
+					return eris.Wrap(err, "calling AssignProperties_To_AutoScaleProfile_STATUS() to populate field Autoscale")
+				}
+				autoscaleList[autoscaleIndex] = autoscale
+			}
+			destination.Autoscale = autoscaleList
+		} else {
+			destination.Autoscale = nil
+		}
+	} else {
+		destination.Autoscale = nil
+	}
 
 	// Manual
 	if profile.Manual != nil {

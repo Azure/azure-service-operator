@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"

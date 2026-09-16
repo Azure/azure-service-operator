@@ -5,7 +5,7 @@ package storage
 
 import (
 	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -53,7 +53,7 @@ var _ conversion.Convertible = &MaintenanceConfiguration{}
 func (configuration *MaintenanceConfiguration) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*storage.MaintenanceConfiguration)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v20260301/storage/MaintenanceConfiguration but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v20260501/storage/MaintenanceConfiguration but received %T instead", hub)
 	}
 
 	return configuration.AssignProperties_From_MaintenanceConfiguration(source)
@@ -63,7 +63,7 @@ func (configuration *MaintenanceConfiguration) ConvertFrom(hub conversion.Hub) e
 func (configuration *MaintenanceConfiguration) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*storage.MaintenanceConfiguration)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v20260301/storage/MaintenanceConfiguration but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v20260501/storage/MaintenanceConfiguration but received %T instead", hub)
 	}
 
 	return configuration.AssignProperties_To_MaintenanceConfiguration(destination)

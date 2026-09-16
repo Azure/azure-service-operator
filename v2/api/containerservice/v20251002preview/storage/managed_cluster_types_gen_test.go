@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	v20250801sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage/compat"
-	v20260301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
+	v20260501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -396,7 +396,7 @@ func RunPropertyAssignmentTestForAdvancedNetworkingPerformance(subject AdvancedN
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.AdvancedNetworkingPerformance
+	var other v20260501s.AdvancedNetworkingPerformance
 	err := copied.AssignProperties_To_AdvancedNetworkingPerformance(&other)
 	if err != nil {
 		return err.Error()
@@ -509,7 +509,7 @@ func RunPropertyAssignmentTestForAdvancedNetworkingPerformance_STATUS(subject Ad
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.AdvancedNetworkingPerformance_STATUS
+	var other v20260501s.AdvancedNetworkingPerformance_STATUS
 	err := copied.AssignProperties_To_AdvancedNetworkingPerformance_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -750,7 +750,7 @@ func RunPropertyAssignmentTestForAdvancedNetworkingSecurityTransitEncryption(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.AdvancedNetworkingSecurityTransitEncryption
+	var other v20260501s.AdvancedNetworkingSecurityTransitEncryption
 	err := copied.AssignProperties_To_AdvancedNetworkingSecurityTransitEncryption(&other)
 	if err != nil {
 		return err.Error()
@@ -863,7 +863,7 @@ func RunPropertyAssignmentTestForAdvancedNetworkingSecurityTransitEncryption_STA
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.AdvancedNetworkingSecurityTransitEncryption_STATUS
+	var other v20260501s.AdvancedNetworkingSecurityTransitEncryption_STATUS
 	err := copied.AssignProperties_To_AdvancedNetworkingSecurityTransitEncryption_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5591,7 +5591,7 @@ func RunResourceConversionTestForManagedCluster(subject ManagedCluster) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20260301s.ManagedCluster
+	var hub v20260501s.ManagedCluster
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -10516,7 +10516,7 @@ func RunPropertyAssignmentTestForManagedClusterIngressProfileGatewayConfiguratio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.ManagedClusterIngressProfileGatewayConfiguration
+	var other v20260501s.ManagedClusterIngressProfileGatewayConfiguration
 	err := copied.AssignProperties_To_ManagedClusterIngressProfileGatewayConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -10629,7 +10629,7 @@ func RunPropertyAssignmentTestForManagedClusterIngressProfileGatewayConfiguratio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.ManagedClusterIngressProfileGatewayConfiguration_STATUS
+	var other v20260501s.ManagedClusterIngressProfileGatewayConfiguration_STATUS
 	err := copied.AssignProperties_To_ManagedClusterIngressProfileGatewayConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -15942,6 +15942,53 @@ func AddRelatedPropertyGeneratorsForManagedClusterSecurityProfileDefender(gens m
 	gens["SecurityMonitoring"] = gen.PtrOf(ManagedClusterSecurityProfileDefenderSecurityMonitoringGenerator())
 }
 
+func Test_ManagedClusterSecurityProfileDefenderSecurityGating_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedClusterSecurityProfileDefenderSecurityGating to ManagedClusterSecurityProfileDefenderSecurityGating via AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityGating & AssignProperties_From_ManagedClusterSecurityProfileDefenderSecurityGating returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClusterSecurityProfileDefenderSecurityGating, ManagedClusterSecurityProfileDefenderSecurityGatingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedClusterSecurityProfileDefenderSecurityGating tests if a specific instance of ManagedClusterSecurityProfileDefenderSecurityGating can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedClusterSecurityProfileDefenderSecurityGating(subject ManagedClusterSecurityProfileDefenderSecurityGating) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20260501s.ManagedClusterSecurityProfileDefenderSecurityGating
+	err := copied.AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityGating(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedClusterSecurityProfileDefenderSecurityGating
+	err = actual.AssignProperties_From_ManagedClusterSecurityProfileDefenderSecurityGating(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ManagedClusterSecurityProfileDefenderSecurityGating_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -16021,6 +16068,53 @@ func AddIndependentPropertyGeneratorsForManagedClusterSecurityProfileDefenderSec
 // AddRelatedPropertyGeneratorsForManagedClusterSecurityProfileDefenderSecurityGating is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterSecurityProfileDefenderSecurityGating(gens map[string]gopter.Gen) {
 	gens["Identities"] = gen.SliceOf(ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemGenerator())
+}
+
+func Test_ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem to ManagedClusterSecurityProfileDefenderSecurityGatingIdentity via AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityGatingIdentity & AssignProperties_From_ManagedClusterSecurityProfileDefenderSecurityGatingIdentity returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem, ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem tests if a specific instance of ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem(subject ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20260501s.ManagedClusterSecurityProfileDefenderSecurityGatingIdentity
+	err := copied.AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityGatingIdentity(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem
+	err = actual.AssignProperties_From_ManagedClusterSecurityProfileDefenderSecurityGatingIdentity(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -16103,6 +16197,53 @@ func AddRelatedPropertyGeneratorsForManagedClusterSecurityProfileDefenderSecurit
 	gens["Identity"] = gen.PtrOf(UserAssignedIdentityGenerator())
 }
 
+func Test_ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS to ManagedClusterSecurityProfileDefenderSecurityGatingIdentity_STATUS via AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityGatingIdentity_STATUS & AssignProperties_From_ManagedClusterSecurityProfileDefenderSecurityGatingIdentity_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS, ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS tests if a specific instance of ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS(subject ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20260501s.ManagedClusterSecurityProfileDefenderSecurityGatingIdentity_STATUS
+	err := copied.AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityGatingIdentity_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS
+	err = actual.AssignProperties_From_ManagedClusterSecurityProfileDefenderSecurityGatingIdentity_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -16181,6 +16322,53 @@ func AddIndependentPropertyGeneratorsForManagedClusterSecurityProfileDefenderSec
 // AddRelatedPropertyGeneratorsForManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(UserAssignedIdentity_STATUSGenerator())
+}
+
+func Test_ManagedClusterSecurityProfileDefenderSecurityGating_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedClusterSecurityProfileDefenderSecurityGating_STATUS to ManagedClusterSecurityProfileDefenderSecurityGating_STATUS via AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityGating_STATUS & AssignProperties_From_ManagedClusterSecurityProfileDefenderSecurityGating_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClusterSecurityProfileDefenderSecurityGating_STATUS, ManagedClusterSecurityProfileDefenderSecurityGating_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedClusterSecurityProfileDefenderSecurityGating_STATUS tests if a specific instance of ManagedClusterSecurityProfileDefenderSecurityGating_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedClusterSecurityProfileDefenderSecurityGating_STATUS(subject ManagedClusterSecurityProfileDefenderSecurityGating_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20260501s.ManagedClusterSecurityProfileDefenderSecurityGating_STATUS
+	err := copied.AssignProperties_To_ManagedClusterSecurityProfileDefenderSecurityGating_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedClusterSecurityProfileDefenderSecurityGating_STATUS
+	err = actual.AssignProperties_From_ManagedClusterSecurityProfileDefenderSecurityGating_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ManagedClusterSecurityProfileDefenderSecurityGating_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -21093,6 +21281,53 @@ func AddIndependentPropertyGeneratorsForResourceReference_STATUS(gens map[string
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_SchedulerInstanceProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SchedulerInstanceProfile to SchedulerInstanceProfile via AssignProperties_To_SchedulerInstanceProfile & AssignProperties_From_SchedulerInstanceProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSchedulerInstanceProfile, SchedulerInstanceProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSchedulerInstanceProfile tests if a specific instance of SchedulerInstanceProfile can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForSchedulerInstanceProfile(subject SchedulerInstanceProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801sc.SchedulerInstanceProfile
+	err := copied.AssignProperties_To_SchedulerInstanceProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SchedulerInstanceProfile
+	err = actual.AssignProperties_From_SchedulerInstanceProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SchedulerInstanceProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -21157,6 +21392,53 @@ func SchedulerInstanceProfileGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSchedulerInstanceProfile is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSchedulerInstanceProfile(gens map[string]gopter.Gen) {
 	gens["SchedulerConfigMode"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_SchedulerInstanceProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SchedulerInstanceProfile_STATUS to SchedulerInstanceProfile_STATUS via AssignProperties_To_SchedulerInstanceProfile_STATUS & AssignProperties_From_SchedulerInstanceProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSchedulerInstanceProfile_STATUS, SchedulerInstanceProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSchedulerInstanceProfile_STATUS tests if a specific instance of SchedulerInstanceProfile_STATUS can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForSchedulerInstanceProfile_STATUS(subject SchedulerInstanceProfile_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801sc.SchedulerInstanceProfile_STATUS
+	err := copied.AssignProperties_To_SchedulerInstanceProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SchedulerInstanceProfile_STATUS
+	err = actual.AssignProperties_From_SchedulerInstanceProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SchedulerInstanceProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -21225,6 +21507,53 @@ func AddIndependentPropertyGeneratorsForSchedulerInstanceProfile_STATUS(gens map
 	gens["SchedulerConfigMode"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_SchedulerProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SchedulerProfile to SchedulerProfile via AssignProperties_To_SchedulerProfile & AssignProperties_From_SchedulerProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSchedulerProfile, SchedulerProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSchedulerProfile tests if a specific instance of SchedulerProfile can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForSchedulerProfile(subject SchedulerProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801sc.SchedulerProfile
+	err := copied.AssignProperties_To_SchedulerProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SchedulerProfile
+	err = actual.AssignProperties_From_SchedulerProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SchedulerProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -21288,6 +21617,53 @@ func SchedulerProfileGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSchedulerProfile is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSchedulerProfile(gens map[string]gopter.Gen) {
 	gens["SchedulerInstanceProfiles"] = gen.PtrOf(SchedulerProfileSchedulerInstanceProfilesGenerator())
+}
+
+func Test_SchedulerProfileSchedulerInstanceProfiles_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SchedulerProfileSchedulerInstanceProfiles to SchedulerProfileSchedulerInstanceProfiles via AssignProperties_To_SchedulerProfileSchedulerInstanceProfiles & AssignProperties_From_SchedulerProfileSchedulerInstanceProfiles returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSchedulerProfileSchedulerInstanceProfiles, SchedulerProfileSchedulerInstanceProfilesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSchedulerProfileSchedulerInstanceProfiles tests if a specific instance of SchedulerProfileSchedulerInstanceProfiles can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForSchedulerProfileSchedulerInstanceProfiles(subject SchedulerProfileSchedulerInstanceProfiles) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801sc.SchedulerProfileSchedulerInstanceProfiles
+	err := copied.AssignProperties_To_SchedulerProfileSchedulerInstanceProfiles(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SchedulerProfileSchedulerInstanceProfiles
+	err = actual.AssignProperties_From_SchedulerProfileSchedulerInstanceProfiles(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SchedulerProfileSchedulerInstanceProfiles_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -21356,6 +21732,53 @@ func AddRelatedPropertyGeneratorsForSchedulerProfileSchedulerInstanceProfiles(ge
 	gens["Upstream"] = gen.PtrOf(SchedulerInstanceProfileGenerator())
 }
 
+func Test_SchedulerProfileSchedulerInstanceProfiles_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SchedulerProfileSchedulerInstanceProfiles_STATUS to SchedulerProfileSchedulerInstanceProfiles_STATUS via AssignProperties_To_SchedulerProfileSchedulerInstanceProfiles_STATUS & AssignProperties_From_SchedulerProfileSchedulerInstanceProfiles_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSchedulerProfileSchedulerInstanceProfiles_STATUS, SchedulerProfileSchedulerInstanceProfiles_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSchedulerProfileSchedulerInstanceProfiles_STATUS tests if a specific instance of SchedulerProfileSchedulerInstanceProfiles_STATUS can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForSchedulerProfileSchedulerInstanceProfiles_STATUS(subject SchedulerProfileSchedulerInstanceProfiles_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801sc.SchedulerProfileSchedulerInstanceProfiles_STATUS
+	err := copied.AssignProperties_To_SchedulerProfileSchedulerInstanceProfiles_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SchedulerProfileSchedulerInstanceProfiles_STATUS
+	err = actual.AssignProperties_From_SchedulerProfileSchedulerInstanceProfiles_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SchedulerProfileSchedulerInstanceProfiles_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -21420,6 +21843,53 @@ func SchedulerProfileSchedulerInstanceProfiles_STATUSGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSchedulerProfileSchedulerInstanceProfiles_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSchedulerProfileSchedulerInstanceProfiles_STATUS(gens map[string]gopter.Gen) {
 	gens["Upstream"] = gen.PtrOf(SchedulerInstanceProfile_STATUSGenerator())
+}
+
+func Test_SchedulerProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SchedulerProfile_STATUS to SchedulerProfile_STATUS via AssignProperties_To_SchedulerProfile_STATUS & AssignProperties_From_SchedulerProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSchedulerProfile_STATUS, SchedulerProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSchedulerProfile_STATUS tests if a specific instance of SchedulerProfile_STATUS can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForSchedulerProfile_STATUS(subject SchedulerProfile_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801sc.SchedulerProfile_STATUS
+	err := copied.AssignProperties_To_SchedulerProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SchedulerProfile_STATUS
+	err = actual.AssignProperties_From_SchedulerProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SchedulerProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

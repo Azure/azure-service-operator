@@ -10,8 +10,8 @@ import (
 	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
 	v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
-	v20260301 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301"
-	v20260301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
+	v20260501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501"
+	v20260501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -27,6 +27,6 @@ func (extension *ManagedClustersAgentPoolExtension) GetExtendedResources() []gen
 		&v20250801s.ManagedClustersAgentPool{},
 		&v20251002p.ManagedClustersAgentPool{},
 		&v20251002ps.ManagedClustersAgentPool{},
-		&v20260301.ManagedClustersAgentPool{},
-		&v20260301s.ManagedClustersAgentPool{}}
+		&v20260501.ManagedClustersAgentPool{},
+		&v20260501s.ManagedClustersAgentPool{}}
 }

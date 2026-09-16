@@ -5,7 +5,8 @@ package storage
 
 import (
 	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
-	v20260301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
+	v20250801sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage/compat"
+	v20260501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -2255,7 +2256,7 @@ type AgentPoolArtifactStreamingProfile struct {
 }
 
 // AssignProperties_From_AgentPoolArtifactStreamingProfile populates our AgentPoolArtifactStreamingProfile from the provided source AgentPoolArtifactStreamingProfile
-func (profile *AgentPoolArtifactStreamingProfile) AssignProperties_From_AgentPoolArtifactStreamingProfile(source *v20260301s.AgentPoolArtifactStreamingProfile) error {
+func (profile *AgentPoolArtifactStreamingProfile) AssignProperties_From_AgentPoolArtifactStreamingProfile(source *v20260501s.AgentPoolArtifactStreamingProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2288,7 +2289,7 @@ func (profile *AgentPoolArtifactStreamingProfile) AssignProperties_From_AgentPoo
 }
 
 // AssignProperties_To_AgentPoolArtifactStreamingProfile populates the provided destination AgentPoolArtifactStreamingProfile from our AgentPoolArtifactStreamingProfile
-func (profile *AgentPoolArtifactStreamingProfile) AssignProperties_To_AgentPoolArtifactStreamingProfile(destination *v20260301s.AgentPoolArtifactStreamingProfile) error {
+func (profile *AgentPoolArtifactStreamingProfile) AssignProperties_To_AgentPoolArtifactStreamingProfile(destination *v20260501s.AgentPoolArtifactStreamingProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -2328,7 +2329,7 @@ type AgentPoolArtifactStreamingProfile_STATUS struct {
 }
 
 // AssignProperties_From_AgentPoolArtifactStreamingProfile_STATUS populates our AgentPoolArtifactStreamingProfile_STATUS from the provided source AgentPoolArtifactStreamingProfile_STATUS
-func (profile *AgentPoolArtifactStreamingProfile_STATUS) AssignProperties_From_AgentPoolArtifactStreamingProfile_STATUS(source *v20260301s.AgentPoolArtifactStreamingProfile_STATUS) error {
+func (profile *AgentPoolArtifactStreamingProfile_STATUS) AssignProperties_From_AgentPoolArtifactStreamingProfile_STATUS(source *v20260501s.AgentPoolArtifactStreamingProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2361,7 +2362,7 @@ func (profile *AgentPoolArtifactStreamingProfile_STATUS) AssignProperties_From_A
 }
 
 // AssignProperties_To_AgentPoolArtifactStreamingProfile_STATUS populates the provided destination AgentPoolArtifactStreamingProfile_STATUS from our AgentPoolArtifactStreamingProfile_STATUS
-func (profile *AgentPoolArtifactStreamingProfile_STATUS) AssignProperties_To_AgentPoolArtifactStreamingProfile_STATUS(destination *v20260301s.AgentPoolArtifactStreamingProfile_STATUS) error {
+func (profile *AgentPoolArtifactStreamingProfile_STATUS) AssignProperties_To_AgentPoolArtifactStreamingProfile_STATUS(destination *v20260501s.AgentPoolArtifactStreamingProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -4203,7 +4204,7 @@ type LocalDNSProfile struct {
 }
 
 // AssignProperties_From_LocalDNSProfile populates our LocalDNSProfile from the provided source LocalDNSProfile
-func (profile *LocalDNSProfile) AssignProperties_From_LocalDNSProfile(source *v20260301s.LocalDNSProfile) error {
+func (profile *LocalDNSProfile) AssignProperties_From_LocalDNSProfile(source *v20260501s.LocalDNSProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4263,15 +4264,15 @@ func (profile *LocalDNSProfile) AssignProperties_From_LocalDNSProfile(source *v2
 }
 
 // AssignProperties_To_LocalDNSProfile populates the provided destination LocalDNSProfile from our LocalDNSProfile
-func (profile *LocalDNSProfile) AssignProperties_To_LocalDNSProfile(destination *v20260301s.LocalDNSProfile) error {
+func (profile *LocalDNSProfile) AssignProperties_To_LocalDNSProfile(destination *v20260501s.LocalDNSProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// KubeDNSOverrides
 	if profile.KubeDNSOverrides != nil {
-		kubeDNSOverrideMap := make(map[string]v20260301s.LocalDNSOverride, len(profile.KubeDNSOverrides))
+		kubeDNSOverrideMap := make(map[string]v20260501s.LocalDNSOverride, len(profile.KubeDNSOverrides))
 		for kubeDNSOverrideKey, kubeDNSOverrideValue := range profile.KubeDNSOverrides {
-			var kubeDNSOverride v20260301s.LocalDNSOverride
+			var kubeDNSOverride v20260501s.LocalDNSOverride
 			err := kubeDNSOverrideValue.AssignProperties_To_LocalDNSOverride(&kubeDNSOverride)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_LocalDNSOverride() to populate field KubeDNSOverrides")
@@ -4288,9 +4289,9 @@ func (profile *LocalDNSProfile) AssignProperties_To_LocalDNSProfile(destination 
 
 	// VnetDNSOverrides
 	if profile.VnetDNSOverrides != nil {
-		vnetDNSOverrideMap := make(map[string]v20260301s.LocalDNSOverride, len(profile.VnetDNSOverrides))
+		vnetDNSOverrideMap := make(map[string]v20260501s.LocalDNSOverride, len(profile.VnetDNSOverrides))
 		for vnetDNSOverrideKey, vnetDNSOverrideValue := range profile.VnetDNSOverrides {
-			var vnetDNSOverride v20260301s.LocalDNSOverride
+			var vnetDNSOverride v20260501s.LocalDNSOverride
 			err := vnetDNSOverrideValue.AssignProperties_To_LocalDNSOverride(&vnetDNSOverride)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_LocalDNSOverride() to populate field VnetDNSOverrides")
@@ -4334,7 +4335,7 @@ type LocalDNSProfile_STATUS struct {
 }
 
 // AssignProperties_From_LocalDNSProfile_STATUS populates our LocalDNSProfile_STATUS from the provided source LocalDNSProfile_STATUS
-func (profile *LocalDNSProfile_STATUS) AssignProperties_From_LocalDNSProfile_STATUS(source *v20260301s.LocalDNSProfile_STATUS) error {
+func (profile *LocalDNSProfile_STATUS) AssignProperties_From_LocalDNSProfile_STATUS(source *v20260501s.LocalDNSProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4397,15 +4398,15 @@ func (profile *LocalDNSProfile_STATUS) AssignProperties_From_LocalDNSProfile_STA
 }
 
 // AssignProperties_To_LocalDNSProfile_STATUS populates the provided destination LocalDNSProfile_STATUS from our LocalDNSProfile_STATUS
-func (profile *LocalDNSProfile_STATUS) AssignProperties_To_LocalDNSProfile_STATUS(destination *v20260301s.LocalDNSProfile_STATUS) error {
+func (profile *LocalDNSProfile_STATUS) AssignProperties_To_LocalDNSProfile_STATUS(destination *v20260501s.LocalDNSProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// KubeDNSOverrides
 	if profile.KubeDNSOverrides != nil {
-		kubeDNSOverrideMap := make(map[string]v20260301s.LocalDNSOverride_STATUS, len(profile.KubeDNSOverrides))
+		kubeDNSOverrideMap := make(map[string]v20260501s.LocalDNSOverride_STATUS, len(profile.KubeDNSOverrides))
 		for kubeDNSOverrideKey, kubeDNSOverrideValue := range profile.KubeDNSOverrides {
-			var kubeDNSOverride v20260301s.LocalDNSOverride_STATUS
+			var kubeDNSOverride v20260501s.LocalDNSOverride_STATUS
 			err := kubeDNSOverrideValue.AssignProperties_To_LocalDNSOverride_STATUS(&kubeDNSOverride)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_LocalDNSOverride_STATUS() to populate field KubeDNSOverrides")
@@ -4425,9 +4426,9 @@ func (profile *LocalDNSProfile_STATUS) AssignProperties_To_LocalDNSProfile_STATU
 
 	// VnetDNSOverrides
 	if profile.VnetDNSOverrides != nil {
-		vnetDNSOverrideMap := make(map[string]v20260301s.LocalDNSOverride_STATUS, len(profile.VnetDNSOverrides))
+		vnetDNSOverrideMap := make(map[string]v20260501s.LocalDNSOverride_STATUS, len(profile.VnetDNSOverrides))
 		for vnetDNSOverrideKey, vnetDNSOverrideValue := range profile.VnetDNSOverrides {
-			var vnetDNSOverride v20260301s.LocalDNSOverride_STATUS
+			var vnetDNSOverride v20260501s.LocalDNSOverride_STATUS
 			err := vnetDNSOverrideValue.AssignProperties_To_LocalDNSOverride_STATUS(&vnetDNSOverride)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_LocalDNSOverride_STATUS() to populate field VnetDNSOverrides")
@@ -4963,13 +4964,13 @@ func (profile *VirtualMachinesProfile_STATUS) AssignProperties_To_VirtualMachine
 }
 
 type augmentConversionForAgentPoolArtifactStreamingProfile interface {
-	AssignPropertiesFrom(src *v20260301s.AgentPoolArtifactStreamingProfile) error
-	AssignPropertiesTo(dst *v20260301s.AgentPoolArtifactStreamingProfile) error
+	AssignPropertiesFrom(src *v20260501s.AgentPoolArtifactStreamingProfile) error
+	AssignPropertiesTo(dst *v20260501s.AgentPoolArtifactStreamingProfile) error
 }
 
 type augmentConversionForAgentPoolArtifactStreamingProfile_STATUS interface {
-	AssignPropertiesFrom(src *v20260301s.AgentPoolArtifactStreamingProfile_STATUS) error
-	AssignPropertiesTo(dst *v20260301s.AgentPoolArtifactStreamingProfile_STATUS) error
+	AssignPropertiesFrom(src *v20260501s.AgentPoolArtifactStreamingProfile_STATUS) error
+	AssignPropertiesTo(dst *v20260501s.AgentPoolArtifactStreamingProfile_STATUS) error
 }
 
 type augmentConversionForAgentPoolGatewayProfile interface {
@@ -5058,13 +5059,13 @@ type augmentConversionForLinuxOSConfig_STATUS interface {
 }
 
 type augmentConversionForLocalDNSProfile interface {
-	AssignPropertiesFrom(src *v20260301s.LocalDNSProfile) error
-	AssignPropertiesTo(dst *v20260301s.LocalDNSProfile) error
+	AssignPropertiesFrom(src *v20260501s.LocalDNSProfile) error
+	AssignPropertiesTo(dst *v20260501s.LocalDNSProfile) error
 }
 
 type augmentConversionForLocalDNSProfile_STATUS interface {
-	AssignPropertiesFrom(src *v20260301s.LocalDNSProfile_STATUS) error
-	AssignPropertiesTo(dst *v20260301s.LocalDNSProfile_STATUS) error
+	AssignPropertiesFrom(src *v20260501s.LocalDNSProfile_STATUS) error
+	AssignPropertiesTo(dst *v20260501s.LocalDNSProfile_STATUS) error
 }
 
 type augmentConversionForManagedClustersAgentPoolOperatorSpec interface {
@@ -5252,7 +5253,7 @@ type LocalDNSOverride struct {
 }
 
 // AssignProperties_From_LocalDNSOverride populates our LocalDNSOverride from the provided source LocalDNSOverride
-func (override *LocalDNSOverride) AssignProperties_From_LocalDNSOverride(source *v20260301s.LocalDNSOverride) error {
+func (override *LocalDNSOverride) AssignProperties_From_LocalDNSOverride(source *v20260501s.LocalDNSOverride) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5301,7 +5302,7 @@ func (override *LocalDNSOverride) AssignProperties_From_LocalDNSOverride(source 
 }
 
 // AssignProperties_To_LocalDNSOverride populates the provided destination LocalDNSOverride from our LocalDNSOverride
-func (override *LocalDNSOverride) AssignProperties_To_LocalDNSOverride(destination *v20260301s.LocalDNSOverride) error {
+func (override *LocalDNSOverride) AssignProperties_To_LocalDNSOverride(destination *v20260501s.LocalDNSOverride) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(override.PropertyBag)
 
@@ -5364,7 +5365,7 @@ type LocalDNSOverride_STATUS struct {
 }
 
 // AssignProperties_From_LocalDNSOverride_STATUS populates our LocalDNSOverride_STATUS from the provided source LocalDNSOverride_STATUS
-func (override *LocalDNSOverride_STATUS) AssignProperties_From_LocalDNSOverride_STATUS(source *v20260301s.LocalDNSOverride_STATUS) error {
+func (override *LocalDNSOverride_STATUS) AssignProperties_From_LocalDNSOverride_STATUS(source *v20260501s.LocalDNSOverride_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5413,7 +5414,7 @@ func (override *LocalDNSOverride_STATUS) AssignProperties_From_LocalDNSOverride_
 }
 
 // AssignProperties_To_LocalDNSOverride_STATUS populates the provided destination LocalDNSOverride_STATUS from our LocalDNSOverride_STATUS
-func (override *LocalDNSOverride_STATUS) AssignProperties_To_LocalDNSOverride_STATUS(destination *v20260301s.LocalDNSOverride_STATUS) error {
+func (override *LocalDNSOverride_STATUS) AssignProperties_To_LocalDNSOverride_STATUS(destination *v20260501s.LocalDNSOverride_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(override.PropertyBag)
 
@@ -6370,13 +6371,13 @@ type augmentConversionForIPTag_STATUS interface {
 }
 
 type augmentConversionForLocalDNSOverride interface {
-	AssignPropertiesFrom(src *v20260301s.LocalDNSOverride) error
-	AssignPropertiesTo(dst *v20260301s.LocalDNSOverride) error
+	AssignPropertiesFrom(src *v20260501s.LocalDNSOverride) error
+	AssignPropertiesTo(dst *v20260501s.LocalDNSOverride) error
 }
 
 type augmentConversionForLocalDNSOverride_STATUS interface {
-	AssignPropertiesFrom(src *v20260301s.LocalDNSOverride_STATUS) error
-	AssignPropertiesTo(dst *v20260301s.LocalDNSOverride_STATUS) error
+	AssignPropertiesFrom(src *v20260501s.LocalDNSOverride_STATUS) error
+	AssignPropertiesTo(dst *v20260501s.LocalDNSOverride_STATUS) error
 }
 
 type augmentConversionForPortRange interface {
@@ -6418,6 +6419,74 @@ type AutoScaleProfile struct {
 	Size        *string                `json:"size,omitempty"`
 }
 
+// AssignProperties_From_AutoScaleProfile populates our AutoScaleProfile from the provided source AutoScaleProfile
+func (profile *AutoScaleProfile) AssignProperties_From_AutoScaleProfile(source *v20250801sc.AutoScaleProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// MaxCount
+	profile.MaxCount = genruntime.ClonePointerToInt(source.MaxCount)
+
+	// MinCount
+	profile.MinCount = genruntime.ClonePointerToInt(source.MinCount)
+
+	// Size
+	profile.Size = genruntime.ClonePointerToString(source.Size)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAutoScaleProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAutoScaleProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AutoScaleProfile populates the provided destination AutoScaleProfile from our AutoScaleProfile
+func (profile *AutoScaleProfile) AssignProperties_To_AutoScaleProfile(destination *v20250801sc.AutoScaleProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// MaxCount
+	destination.MaxCount = genruntime.ClonePointerToInt(profile.MaxCount)
+
+	// MinCount
+	destination.MinCount = genruntime.ClonePointerToInt(profile.MinCount)
+
+	// Size
+	destination.Size = genruntime.ClonePointerToString(profile.Size)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAutoScaleProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAutoScaleProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20251002preview.AutoScaleProfile_STATUS
 // Specifications on auto-scaling.
 type AutoScaleProfile_STATUS struct {
@@ -6425,6 +6494,74 @@ type AutoScaleProfile_STATUS struct {
 	MinCount    *int                   `json:"minCount,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Size        *string                `json:"size,omitempty"`
+}
+
+// AssignProperties_From_AutoScaleProfile_STATUS populates our AutoScaleProfile_STATUS from the provided source AutoScaleProfile_STATUS
+func (profile *AutoScaleProfile_STATUS) AssignProperties_From_AutoScaleProfile_STATUS(source *v20250801sc.AutoScaleProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// MaxCount
+	profile.MaxCount = genruntime.ClonePointerToInt(source.MaxCount)
+
+	// MinCount
+	profile.MinCount = genruntime.ClonePointerToInt(source.MinCount)
+
+	// Size
+	profile.Size = genruntime.ClonePointerToString(source.Size)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAutoScaleProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAutoScaleProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AutoScaleProfile_STATUS populates the provided destination AutoScaleProfile_STATUS from our AutoScaleProfile_STATUS
+func (profile *AutoScaleProfile_STATUS) AssignProperties_To_AutoScaleProfile_STATUS(destination *v20250801sc.AutoScaleProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// MaxCount
+	destination.MaxCount = genruntime.ClonePointerToInt(profile.MaxCount)
+
+	// MinCount
+	destination.MinCount = genruntime.ClonePointerToInt(profile.MinCount)
+
+	// Size
+	destination.Size = genruntime.ClonePointerToString(profile.Size)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAutoScaleProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAutoScaleProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20251002preview.ManualScaleProfile
@@ -6565,6 +6702,16 @@ func (profile *ManualScaleProfile_STATUS) AssignProperties_To_ManualScaleProfile
 
 	// No error
 	return nil
+}
+
+type augmentConversionForAutoScaleProfile interface {
+	AssignPropertiesFrom(src *v20250801sc.AutoScaleProfile) error
+	AssignPropertiesTo(dst *v20250801sc.AutoScaleProfile) error
+}
+
+type augmentConversionForAutoScaleProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20250801sc.AutoScaleProfile_STATUS) error
+	AssignPropertiesTo(dst *v20250801sc.AutoScaleProfile_STATUS) error
 }
 
 type augmentConversionForManualScaleProfile interface {

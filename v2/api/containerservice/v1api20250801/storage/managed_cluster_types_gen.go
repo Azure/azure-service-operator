@@ -7,7 +7,7 @@ import (
 	"context"
 	"fmt"
 	compat "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage/compat"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -59,7 +59,7 @@ var _ conversion.Convertible = &ManagedCluster{}
 func (cluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*storage.ManagedCluster)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v20260301/storage/ManagedCluster but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v20260501/storage/ManagedCluster but received %T instead", hub)
 	}
 
 	return cluster.AssignProperties_From_ManagedCluster(source)
@@ -69,7 +69,7 @@ func (cluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
 func (cluster *ManagedCluster) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*storage.ManagedCluster)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v20260301/storage/ManagedCluster but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v20260501/storage/ManagedCluster but received %T instead", hub)
 	}
 
 	return cluster.AssignProperties_To_ManagedCluster(destination)
@@ -772,6 +772,18 @@ func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(so
 	// PublicNetworkAccess
 	cluster.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
+	// SchedulerProfile
+	if source.SchedulerProfile != nil {
+		var schedulerProfile compat.SchedulerProfile
+		err := schedulerProfile.AssignProperties_From_SchedulerProfile(source.SchedulerProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SchedulerProfile() to populate field SchedulerProfile")
+		}
+		propertyBag.Add("SchedulerProfile", schedulerProfile)
+	} else {
+		propertyBag.Remove("SchedulerProfile")
+	}
+
 	// SecurityProfile
 	if source.SecurityProfile != nil {
 		var securityProfile ManagedClusterSecurityProfile
@@ -1267,6 +1279,24 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// PublicNetworkAccess
 	destination.PublicNetworkAccess = genruntime.ClonePointerToString(cluster.PublicNetworkAccess)
+
+	// SchedulerProfile
+	if propertyBag.Contains("SchedulerProfile") {
+		var schedulerProfileFromBag compat.SchedulerProfile
+		err := propertyBag.Pull("SchedulerProfile", &schedulerProfileFromBag)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SchedulerProfile' from propertyBag")
+		}
+
+		var schedulerProfile storage.SchedulerProfile
+		err = schedulerProfileFromBag.AssignProperties_To_SchedulerProfile(&schedulerProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SchedulerProfile() to populate field SchedulerProfile")
+		}
+		destination.SchedulerProfile = &schedulerProfile
+	} else {
+		destination.SchedulerProfile = nil
+	}
 
 	// SecurityProfile
 	if cluster.SecurityProfile != nil {
@@ -1885,6 +1915,18 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_From_ManagedCluster_STATU
 	// ResourceUID
 	cluster.ResourceUID = genruntime.ClonePointerToString(source.ResourceUID)
 
+	// SchedulerProfile
+	if source.SchedulerProfile != nil {
+		var schedulerProfile compat.SchedulerProfile_STATUS
+		err := schedulerProfile.AssignProperties_From_SchedulerProfile_STATUS(source.SchedulerProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SchedulerProfile_STATUS() to populate field SchedulerProfile")
+		}
+		propertyBag.Add("SchedulerProfile", schedulerProfile)
+	} else {
+		propertyBag.Remove("SchedulerProfile")
+	}
+
 	// SecurityProfile
 	if source.SecurityProfile != nil {
 		var securityProfile ManagedClusterSecurityProfile_STATUS
@@ -2421,6 +2463,24 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// ResourceUID
 	destination.ResourceUID = genruntime.ClonePointerToString(cluster.ResourceUID)
+
+	// SchedulerProfile
+	if propertyBag.Contains("SchedulerProfile") {
+		var schedulerProfileFromBag compat.SchedulerProfile_STATUS
+		err := propertyBag.Pull("SchedulerProfile", &schedulerProfileFromBag)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SchedulerProfile' from propertyBag")
+		}
+
+		var schedulerProfile storage.SchedulerProfile_STATUS
+		err = schedulerProfileFromBag.AssignProperties_To_SchedulerProfile_STATUS(&schedulerProfile)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SchedulerProfile_STATUS() to populate field SchedulerProfile")
+		}
+		destination.SchedulerProfile = &schedulerProfile
+	} else {
+		destination.SchedulerProfile = nil
+	}
 
 	// SecurityProfile
 	if cluster.SecurityProfile != nil {
@@ -4246,6 +4306,13 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 		profile.NetworkProfile = nil
 	}
 
+	// NodeImageVersion
+	if source.NodeImageVersion != nil {
+		propertyBag.Add("NodeImageVersion", *source.NodeImageVersion)
+	} else {
+		propertyBag.Remove("NodeImageVersion")
+	}
+
 	// NodeLabels
 	profile.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
 
@@ -4614,6 +4681,19 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 		destination.NetworkProfile = &networkProfile
 	} else {
 		destination.NetworkProfile = nil
+	}
+
+	// NodeImageVersion
+	if propertyBag.Contains("NodeImageVersion") {
+		var nodeImageVersion string
+		err := propertyBag.Pull("NodeImageVersion", &nodeImageVersion)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'NodeImageVersion' from propertyBag")
+		}
+
+		destination.NodeImageVersion = &nodeImageVersion
+	} else {
+		destination.NodeImageVersion = nil
 	}
 
 	// NodeLabels
@@ -12379,6 +12459,13 @@ func (metrics *ManagedClusterAzureMonitorProfileMetrics) AssignProperties_From_M
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
+	// ControlPlane
+	if source.ControlPlane != nil {
+		propertyBag.Add("ControlPlane", *source.ControlPlane)
+	} else {
+		propertyBag.Remove("ControlPlane")
+	}
+
 	// Enabled
 	if source.Enabled != nil {
 		enabled := *source.Enabled
@@ -12423,6 +12510,19 @@ func (metrics *ManagedClusterAzureMonitorProfileMetrics) AssignProperties_From_M
 func (metrics *ManagedClusterAzureMonitorProfileMetrics) AssignProperties_To_ManagedClusterAzureMonitorProfileMetrics(destination *storage.ManagedClusterAzureMonitorProfileMetrics) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(metrics.PropertyBag)
+
+	// ControlPlane
+	if propertyBag.Contains("ControlPlane") {
+		var controlPlane storage.ManagedClusterAzureMonitorProfileMetricsControlPlane
+		err := propertyBag.Pull("ControlPlane", &controlPlane)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ControlPlane' from propertyBag")
+		}
+
+		destination.ControlPlane = &controlPlane
+	} else {
+		destination.ControlPlane = nil
+	}
 
 	// Enabled
 	if metrics.Enabled != nil {
@@ -12479,6 +12579,13 @@ func (metrics *ManagedClusterAzureMonitorProfileMetrics_STATUS) AssignProperties
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
+	// ControlPlane
+	if source.ControlPlane != nil {
+		propertyBag.Add("ControlPlane", *source.ControlPlane)
+	} else {
+		propertyBag.Remove("ControlPlane")
+	}
+
 	// Enabled
 	if source.Enabled != nil {
 		enabled := *source.Enabled
@@ -12523,6 +12630,19 @@ func (metrics *ManagedClusterAzureMonitorProfileMetrics_STATUS) AssignProperties
 func (metrics *ManagedClusterAzureMonitorProfileMetrics_STATUS) AssignProperties_To_ManagedClusterAzureMonitorProfileMetrics_STATUS(destination *storage.ManagedClusterAzureMonitorProfileMetrics_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(metrics.PropertyBag)
+
+	// ControlPlane
+	if propertyBag.Contains("ControlPlane") {
+		var controlPlane storage.ManagedClusterAzureMonitorProfileMetricsControlPlane_STATUS
+		err := propertyBag.Pull("ControlPlane", &controlPlane)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ControlPlane' from propertyBag")
+		}
+
+		destination.ControlPlane = &controlPlane
+	} else {
+		destination.ControlPlane = nil
+	}
 
 	// Enabled
 	if metrics.Enabled != nil {
@@ -14248,6 +14368,13 @@ func (defender *ManagedClusterSecurityProfileDefender) AssignProperties_From_Man
 		defender.LogAnalyticsWorkspaceResourceReference = nil
 	}
 
+	// SecurityGating
+	if source.SecurityGating != nil {
+		propertyBag.Add("SecurityGating", *source.SecurityGating)
+	} else {
+		propertyBag.Remove("SecurityGating")
+	}
+
 	// SecurityMonitoring
 	if source.SecurityMonitoring != nil {
 		var securityMonitoring ManagedClusterSecurityProfileDefenderSecurityMonitoring
@@ -14291,6 +14418,19 @@ func (defender *ManagedClusterSecurityProfileDefender) AssignProperties_To_Manag
 		destination.LogAnalyticsWorkspaceResourceReference = &logAnalyticsWorkspaceResourceReference
 	} else {
 		destination.LogAnalyticsWorkspaceResourceReference = nil
+	}
+
+	// SecurityGating
+	if propertyBag.Contains("SecurityGating") {
+		var securityGating storage.ManagedClusterSecurityProfileDefenderSecurityGating
+		err := propertyBag.Pull("SecurityGating", &securityGating)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SecurityGating' from propertyBag")
+		}
+
+		destination.SecurityGating = &securityGating
+	} else {
+		destination.SecurityGating = nil
 	}
 
 	// SecurityMonitoring
@@ -14341,6 +14481,13 @@ func (defender *ManagedClusterSecurityProfileDefender_STATUS) AssignProperties_F
 	// LogAnalyticsWorkspaceResourceId
 	defender.LogAnalyticsWorkspaceResourceId = genruntime.ClonePointerToString(source.LogAnalyticsWorkspaceResourceId)
 
+	// SecurityGating
+	if source.SecurityGating != nil {
+		propertyBag.Add("SecurityGating", *source.SecurityGating)
+	} else {
+		propertyBag.Remove("SecurityGating")
+	}
+
 	// SecurityMonitoring
 	if source.SecurityMonitoring != nil {
 		var securityMonitoring ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
@@ -14380,6 +14527,19 @@ func (defender *ManagedClusterSecurityProfileDefender_STATUS) AssignProperties_T
 
 	// LogAnalyticsWorkspaceResourceId
 	destination.LogAnalyticsWorkspaceResourceId = genruntime.ClonePointerToString(defender.LogAnalyticsWorkspaceResourceId)
+
+	// SecurityGating
+	if propertyBag.Contains("SecurityGating") {
+		var securityGating storage.ManagedClusterSecurityProfileDefenderSecurityGating_STATUS
+		err := propertyBag.Pull("SecurityGating", &securityGating)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SecurityGating' from propertyBag")
+		}
+
+		destination.SecurityGating = &securityGating
+	} else {
+		destination.SecurityGating = nil
+	}
 
 	// SecurityMonitoring
 	if defender.SecurityMonitoring != nil {

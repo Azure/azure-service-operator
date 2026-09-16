@@ -1891,6 +1891,10 @@ augmentConversionForAgentPoolWindowsProfile: Interface
 
 augmentConversionForAgentPoolWindowsProfile_STATUS: Interface
 
+augmentConversionForAutoScaleProfile: Interface
+
+augmentConversionForAutoScaleProfile_STATUS: Interface
+
 augmentConversionForAzureKeyVaultKms: Interface
 
 augmentConversionForAzureKeyVaultKms_STATUS: Interface
@@ -2169,6 +2173,14 @@ augmentConversionForManagedClusterSecurityProfile: Interface
 
 augmentConversionForManagedClusterSecurityProfileDefender: Interface
 
+augmentConversionForManagedClusterSecurityProfileDefenderSecurityGating: Interface
+
+augmentConversionForManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem: Interface
+
+augmentConversionForManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS: Interface
+
+augmentConversionForManagedClusterSecurityProfileDefenderSecurityGating_STATUS: Interface
+
 augmentConversionForManagedClusterSecurityProfileDefenderSecurityMonitoring: Interface
 
 augmentConversionForManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS: Interface
@@ -2276,6 +2288,18 @@ augmentConversionForScaleProfile_STATUS: Interface
 augmentConversionForSchedule: Interface
 
 augmentConversionForSchedule_STATUS: Interface
+
+augmentConversionForSchedulerInstanceProfile: Interface
+
+augmentConversionForSchedulerInstanceProfile_STATUS: Interface
+
+augmentConversionForSchedulerProfile: Interface
+
+augmentConversionForSchedulerProfileSchedulerInstanceProfiles: Interface
+
+augmentConversionForSchedulerProfileSchedulerInstanceProfiles_STATUS: Interface
+
+augmentConversionForSchedulerProfile_STATUS: Interface
 
 augmentConversionForServiceMeshProfile: Interface
 

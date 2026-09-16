@@ -220,6 +220,10 @@ groupModelConfiguration:
       $nameInNextVersion: ManagedClusterIdentity_UserAssignedIdentities_STATUS
     ManagedClusterPodIdentityProvisioningInfo_STATUS:
       $nameInNextVersion: ManagedClusterPodIdentity_ProvisioningInfo_STATUS
+    ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem:
+      $nameInNextVersion: ManagedClusterSecurityProfileDefenderSecurityGatingIdentity
+    ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS:
+      $nameInNextVersion: ManagedClusterSecurityProfileDefenderSecurityGatingIdentity_STATUS
     ManagedClusters_AgentPool:
       $exportAs: ManagedClustersAgentPool
       $supportedFrom: v2.18.0
@@ -243,7 +247,7 @@ groupModelConfiguration:
         $importConfigMapMode: optional
       ObjectId:
         $importConfigMapMode: optional
-  2026-03-01:
+  2026-05-01:
     ContainerServiceSshPublicKey:
       KeyData:
         $importSecretMode: never

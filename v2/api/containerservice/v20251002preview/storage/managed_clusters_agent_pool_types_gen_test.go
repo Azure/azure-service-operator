@@ -6,7 +6,8 @@ package storage
 import (
 	"encoding/json"
 	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
-	v20260301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
+	v20250801sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage/compat"
+	v20260501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunPropertyAssignmentTestForAgentPoolArtifactStreamingProfile(subject Agent
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.AgentPoolArtifactStreamingProfile
+	var other v20260501s.AgentPoolArtifactStreamingProfile
 	err := copied.AssignProperties_To_AgentPoolArtifactStreamingProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -154,7 +155,7 @@ func RunPropertyAssignmentTestForAgentPoolArtifactStreamingProfile_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.AgentPoolArtifactStreamingProfile_STATUS
+	var other v20260501s.AgentPoolArtifactStreamingProfile_STATUS
 	err := copied.AssignProperties_To_AgentPoolArtifactStreamingProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1656,6 +1657,53 @@ func AddIndependentPropertyGeneratorsForAgentPoolWindowsProfile_STATUS(gens map[
 	gens["DisableOutboundNat"] = gen.PtrOf(gen.Bool())
 }
 
+func Test_AutoScaleProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoScaleProfile to AutoScaleProfile via AssignProperties_To_AutoScaleProfile & AssignProperties_From_AutoScaleProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoScaleProfile, AutoScaleProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoScaleProfile tests if a specific instance of AutoScaleProfile can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForAutoScaleProfile(subject AutoScaleProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801sc.AutoScaleProfile
+	err := copied.AssignProperties_To_AutoScaleProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoScaleProfile
+	err = actual.AssignProperties_From_AutoScaleProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AutoScaleProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1721,6 +1769,53 @@ func AddIndependentPropertyGeneratorsForAutoScaleProfile(gens map[string]gopter.
 	gens["MaxCount"] = gen.PtrOf(gen.Int())
 	gens["MinCount"] = gen.PtrOf(gen.Int())
 	gens["Size"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AutoScaleProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoScaleProfile_STATUS to AutoScaleProfile_STATUS via AssignProperties_To_AutoScaleProfile_STATUS & AssignProperties_From_AutoScaleProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoScaleProfile_STATUS, AutoScaleProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoScaleProfile_STATUS tests if a specific instance of AutoScaleProfile_STATUS can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForAutoScaleProfile_STATUS(subject AutoScaleProfile_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250801sc.AutoScaleProfile_STATUS
+	err := copied.AssignProperties_To_AutoScaleProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoScaleProfile_STATUS
+	err = actual.AssignProperties_From_AutoScaleProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AutoScaleProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2769,7 +2864,7 @@ func RunPropertyAssignmentTestForLocalDNSOverride(subject LocalDNSOverride) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.LocalDNSOverride
+	var other v20260501s.LocalDNSOverride
 	err := copied.AssignProperties_To_LocalDNSOverride(&other)
 	if err != nil {
 		return err.Error()
@@ -2888,7 +2983,7 @@ func RunPropertyAssignmentTestForLocalDNSOverride_STATUS(subject LocalDNSOverrid
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.LocalDNSOverride_STATUS
+	var other v20260501s.LocalDNSOverride_STATUS
 	err := copied.AssignProperties_To_LocalDNSOverride_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3008,7 +3103,7 @@ func RunPropertyAssignmentTestForLocalDNSProfile(subject LocalDNSProfile) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.LocalDNSProfile
+	var other v20260501s.LocalDNSProfile
 	err := copied.AssignProperties_To_LocalDNSProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -3139,7 +3234,7 @@ func RunPropertyAssignmentTestForLocalDNSProfile_STATUS(subject LocalDNSProfile_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20260301s.LocalDNSProfile_STATUS
+	var other v20260501s.LocalDNSProfile_STATUS
 	err := copied.AssignProperties_To_LocalDNSProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3273,7 +3368,7 @@ func RunResourceConversionTestForManagedClustersAgentPool(subject ManagedCluster
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20260301s.ManagedClustersAgentPool
+	var hub v20260501s.ManagedClustersAgentPool
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

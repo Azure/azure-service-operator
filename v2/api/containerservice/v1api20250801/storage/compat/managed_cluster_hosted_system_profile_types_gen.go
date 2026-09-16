@@ -4,7 +4,7 @@
 package compat
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260301/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/rotisserie/eris"
 )

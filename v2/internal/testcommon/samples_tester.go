@@ -63,7 +63,7 @@ var exclusions = []*regexp.Regexp{
 	// additional dependencies such as Application Insights). Older containerservice versions only
 	// still pass because their recordings predate that service-side change. Keep the sample file
 	// present so scripts/v2/check_samples.py is satisfied, but skip it in the samples test.
-	regexp.MustCompile(`containerservice/v20260301/.*_trustedaccessrolebinding.yaml`),
+	regexp.MustCompile(`containerservice/v20260501/.*_trustedaccessrolebinding.yaml`),
 
 	// db users aren't ARM resources
 	regexp.MustCompile(`sql/.*_user.yaml`),
