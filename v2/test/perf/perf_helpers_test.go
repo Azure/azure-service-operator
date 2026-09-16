@@ -198,7 +198,7 @@ func runStaticPattern(
 	tc *testcommon.KubePerTestContext,
 	factory ResourceFactory,
 	cfg *StaticConfig,
-) (Result, error) { //nolint:unparam
+) (Result, error) {
 	result := Result{}
 	start := time.Now()
 
