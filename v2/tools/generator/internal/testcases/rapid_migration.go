@@ -30,7 +30,6 @@ var gopterGroups = set.Make(
 	"machinelearningservices",
 	"network",
 	"servicebus",
-	"signalrservice",
 	"sql",
 	"storage",
 	"web",
