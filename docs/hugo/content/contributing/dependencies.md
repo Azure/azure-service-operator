@@ -25,6 +25,7 @@ If you prefer to install those dependencies manually (instead of using the `.dev
 | hugo | v0.166.0 | https://gohugo.io/ |
 | kind | v0.31.0 | https://kind.sigs.k8s.io/ |
 | kustomize | v4.5.7 | https://kustomize.io/ |
+| Node.js | v24.21.0 | https://nodejs.org/ |
 | Pip3 | latest | https://pip.pypa.io/en/stable/installation/ |
 | PostCSS | latest | https://postcss.org/ |
 | setup-envtest | v0.23.1 | https://book.kubebuilder.io/reference/envtest.html |
