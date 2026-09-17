@@ -45,6 +45,9 @@ spec:
         - --profiling-metrics=false
         - --health-addr=:8081
         - --enable-leader-election
+        - --lease-duration=15s
+        - --renew-deadline=10s
+        - --retry-period=2s
         - --v=2
         - --crd-pattern=
         - --crd-labels=

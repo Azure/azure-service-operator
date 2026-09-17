@@ -113,11 +113,10 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		},
 		LeaderElection:   flgs.EnableLeaderElection,
 		LeaderElectionID: "controllers-leader-election-azinfra-generated",
-		// Manually set lease duration (to default) so that we can use it for our leader elector too.
-		// See https://github.com/kubernetes-sigs/controller-runtime/blob/main/pkg/manager/internal.go#L52
-		LeaseDuration:           to.Ptr(15 * time.Second),
-		RenewDeadline:           to.Ptr(10 * time.Second),
-		RetryPeriod:             to.Ptr(2 * time.Second),
+		// Set explicitly rather than left to controller-runtime's defaults so that our CRD leader elector reuses them.
+		LeaseDuration:           to.Ptr(flgs.LeaseDuration),
+		RenewDeadline:           to.Ptr(flgs.RenewDeadline),
+		RetryPeriod:             to.Ptr(flgs.RetryPeriod),
 		GracefulShutdownTimeout: to.Ptr(30 * time.Second),
 		// It's only safe to set LeaderElectionReleaseOnCancel to true if the manager binary ends
 		// when the manager exits. This is the case with us today, so we set this to true whenever

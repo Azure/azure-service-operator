@@ -8,6 +8,7 @@ package app
 import (
 	"flag"
 	"fmt"
+	"time"
 
 	"github.com/rotisserie/eris"
 
@@ -24,6 +25,9 @@ type Flags struct {
 	WebhookPort          int
 	WebhookCertDir       string
 	EnableLeaderElection bool
+	LeaseDuration        time.Duration
+	RenewDeadline        time.Duration
+	RetryPeriod          time.Duration
 	CRDManagementMode    string
 	CRDPatterns          string // This is a ';' delimited string containing a collection of patterns
 	CRDLabels            string // This is a ',' or ';' delimited string containing labels to apply to managed CRDs
@@ -46,9 +50,22 @@ func parseCRDLabels(value string) (map[string]string, error) {
 	return result, nil
 }
 
+// Validate checks the flag combinations that would otherwise only fail once the manager starts.
+func (f Flags) Validate() error {
+	if f.LeaseDuration <= f.RenewDeadline {
+		return eris.Errorf("lease-duration (%s) must be greater than renew-deadline (%s)", f.LeaseDuration, f.RenewDeadline)
+	}
+
+	if f.RenewDeadline <= f.RetryPeriod {
+		return eris.Errorf("renew-deadline (%s) must be greater than retry-period (%s)", f.RenewDeadline, f.RetryPeriod)
+	}
+
+	return nil
+}
+
 func (f Flags) String() string {
 	return fmt.Sprintf(
-		"MetricsAddr: %s, SecureMetrics: %t, ProfilingMetrics: %t, MetricsCertDir: %s, HealthAddr: %s, WebhookPort: %d, WebhookCertDir: %s, EnableLeaderElection: %t, CRDManagementMode: %s, CRDPatterns: %s, CRDLabels: %s",
+		"MetricsAddr: %s, SecureMetrics: %t, ProfilingMetrics: %t, MetricsCertDir: %s, HealthAddr: %s, WebhookPort: %d, WebhookCertDir: %s, EnableLeaderElection: %t, LeaseDuration: %s, RenewDeadline: %s, RetryPeriod: %s, CRDManagementMode: %s, CRDPatterns: %s, CRDLabels: %s",
 		f.MetricsAddr,
 		f.SecureMetrics,
 		f.ProfilingMetrics,
@@ -57,6 +74,9 @@ func (f Flags) String() string {
 		f.WebhookPort,
 		f.WebhookCertDir,
 		f.EnableLeaderElection,
+		f.LeaseDuration,
+		f.RenewDeadline,
+		f.RetryPeriod,
 		f.CRDManagementMode,
 		f.CRDPatterns,
 		f.CRDLabels,
@@ -75,6 +95,10 @@ func InitFlags(flagSet *flag.FlagSet) *Flags {
 	flagSet.IntVar(&result.WebhookPort, "webhook-port", 9443, "The port the webhook endpoint binds to.")
 	flagSet.StringVar(&result.WebhookCertDir, "webhook-cert-dir", "", "The directory the webhook server's certs are stored.")
 	flagSet.BoolVar(&result.EnableLeaderElection, "enable-leader-election", false, "Enable leader election for controllers manager. Enabling this will ensure there is only one active controllers manager.")
+
+	flagSet.DurationVar(&result.LeaseDuration, "lease-duration", 15*time.Second, "How long a leader lease is valid for. Operators watching many resources may need a larger value, as the initial informer sync competes with lease renewal.")
+	flagSet.DurationVar(&result.RenewDeadline, "renew-deadline", 10*time.Second, "How long the leader has to renew its lease before giving it up. Must be less than lease-duration.")
+	flagSet.DurationVar(&result.RetryPeriod, "retry-period", 2*time.Second, "How long clients wait between attempts to acquire or renew the lease. Must be less than renew-deadline.")
 
 	flagSet.StringVar(&result.CRDManagementMode, "crd-management", "auto",
 		"Instructs the operator on how it should manage the Custom Resource Definitions. One of 'auto', 'none'")
