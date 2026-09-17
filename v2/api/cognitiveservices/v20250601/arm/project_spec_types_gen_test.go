@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ProjectProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProjectProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProjectProperties, ProjectPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProjectProperties)
 }
 
 // RunJSONSerializationTestForProjectProperties runs a test to see if a specific instance of ProjectProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForProjectProperties(subject ProjectProperties) string {
+func RunJSONSerializationTestForProjectProperties(t *rapid.T) {
+	subject := ProjectPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProjectProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,32 +45,29 @@ func RunJSONSerializationTestForProjectProperties(subject ProjectProperties) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProjectProperties instances for property testing - lazily instantiated by ProjectPropertiesGenerator()
-var projectPropertiesGenerator gopter.Gen
+var projectPropertiesGenerator *rapid.Generator[ProjectProperties]
 
 // ProjectPropertiesGenerator returns a generator of ProjectProperties instances for property testing.
-func ProjectPropertiesGenerator() gopter.Gen {
+func ProjectPropertiesGenerator() *rapid.Generator[ProjectProperties] {
 	if projectPropertiesGenerator != nil {
 		return projectPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProjectProperties(generators)
-	projectPropertiesGenerator = gen.Struct(reflect.TypeOf(ProjectProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	projectPropertiesGenerator = rapid.Custom(func(t *rapid.T) ProjectProperties {
+		var result ProjectProperties
+		result.Description = ptrString.Draw(t, "Description")
+		result.DisplayName = ptrString.Draw(t, "DisplayName")
+		return result
+	})
 
 	return projectPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProjectProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProjectProperties(gens map[string]gopter.Gen) {
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Project_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -90,29 +77,23 @@ func Test_Project_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Project_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProject_Spec, Project_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProject_Spec)
 }
 
 // RunJSONSerializationTestForProject_Spec runs a test to see if a specific instance of Project_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProject_Spec(subject Project_Spec) string {
+func RunJSONSerializationTestForProject_Spec(t *rapid.T) {
+	subject := Project_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Project_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -121,48 +102,36 @@ func RunJSONSerializationTestForProject_Spec(subject Project_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Project_Spec instances for property testing - lazily instantiated by Project_SpecGenerator()
-var project_SpecGenerator gopter.Gen
+var project_SpecGenerator *rapid.Generator[Project_Spec]
 
 // Project_SpecGenerator returns a generator of Project_Spec instances for property testing.
-// We first initialize project_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Project_SpecGenerator() gopter.Gen {
+func Project_SpecGenerator() *rapid.Generator[Project_Spec] {
 	if project_SpecGenerator != nil {
 		return project_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProject_Spec(generators)
-	project_SpecGenerator = gen.Struct(reflect.TypeOf(Project_Spec{}), generators)
+	identity := rapid.Ptr(IdentityGenerator(), true)
+	location := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+	properties := rapid.Ptr(ProjectPropertiesGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProject_Spec(generators)
-	AddRelatedPropertyGeneratorsForProject_Spec(generators)
-	project_SpecGenerator = gen.Struct(reflect.TypeOf(Project_Spec{}), generators)
+	project_SpecGenerator = rapid.Custom(func(t *rapid.T) Project_Spec {
+		var result Project_Spec
+		result.Identity = identity.Draw(t, "Identity")
+		result.Location = location.Draw(t, "Location")
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return project_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProject_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProject_Spec(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForProject_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProject_Spec(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(IdentityGenerator())
-	gens["Properties"] = gen.PtrOf(ProjectPropertiesGenerator())
 }
