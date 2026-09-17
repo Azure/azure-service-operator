@@ -747,9 +747,9 @@ To install the CRDs for these resources, your ASO configuration must include `se
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource               | ARM Version | CRD Version | Supported From | Sample |
-|------------------------|-------------|-------------|----------------|--------|
-| QueueAuthorizationRule | 2024-01-01  | v20240101   | v2.21.0        | -      |
+| Resource               | ARM Version | CRD Version | Supported From | Sample                                                                                                                                  |
+|------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| QueueAuthorizationRule | 2024-01-01  | v20240101   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20240101/v20240101_queueauthorizationrule.yaml) |
 
 ### Latest Released Versions
 
