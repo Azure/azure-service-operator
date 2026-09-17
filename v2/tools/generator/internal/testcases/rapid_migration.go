@@ -25,7 +25,6 @@ var gopterGroups = set.Make(
 	"entra",
 	"eventgrid",
 	"insights",
-	"kubernetesconfiguration",
 	"kusto",
 	"machinelearningservices",
 	"network",
