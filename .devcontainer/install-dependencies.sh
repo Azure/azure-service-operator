@@ -205,8 +205,8 @@ go-install kustomize sigs.k8s.io/kustomize/kustomize/v4@v4.5.7
 
 # for docs site
 
-#doc# | hugo | v0.152.2 | https://gohugo.io/ |
-go-install hugo -tags extended github.com/gohugoio/hugo@v0.152.2
+#doc# | hugo | v0.166.0 | https://gohugo.io/ |
+go-install hugo -tags extended github.com/gohugoio/hugo@v0.166.0
 
 #doc# | htmltest | latest | https://github.com/wjdp/htmltest (but see https://github.com/theunrepentantgeek/htmltest for our custom build )
 # Restore this to github.com/wjdp/htmltest@v?? once PR#215 is merged with the feature we need
@@ -313,12 +313,87 @@ if should-install "$TOOL_DEST/azwi"; then
 fi
 
 # Ensure tooling for Hugo is available
+#doc# | Node.js | v24.21.0 | https://nodejs.org/ |
+node_version=v24.21.0
+if [[ -x "$TOOL_DEST/node" && -e "$TOOL_DEST/npm" ]]; then
+    export PATH="$TOOL_DEST:$PATH"
+fi
+
+install_node=false
+if [[ "$DEVCONTAINER" == true ]]; then
+    install_node=true
+elif ! command -v node > /dev/null 2>&1 || ! command -v npm > /dev/null 2>&1; then
+    install_node=true
+elif [[ $(node --version) =~ ^v([0-9]+)\. ]] && [[ ${BASH_REMATCH[1]} -lt 24 ]]; then
+    install_node=true
+fi
+
+if [[ "$install_node" == true ]]; then
+    write-info "Installing Node.js"
+    case "$os-$arch" in
+        linux-amd64)
+            node_platform=linux-x64
+            ;;
+        linux-arm64)
+            node_platform=linux-arm64
+            ;;
+        darwin-amd64)
+            node_platform=darwin-x64
+            ;;
+        darwin-arm64)
+            node_platform=darwin-arm64
+            ;;
+        *)
+            write-error "Node.js is not available for $os-$arch"
+            exit 1
+            ;;
+    esac
+
+    rm -rf "$TOOL_DEST/nodejs"
+    mkdir -p "$TOOL_DEST/nodejs"
+    curl -sL "https://nodejs.org/dist/${node_version}/node-${node_version}-${node_platform}.tar.gz" |
+        tar xz --strip-components=1 -C "$TOOL_DEST/nodejs"
+    ln -sf "$TOOL_DEST/nodejs/bin/node" "$TOOL_DEST/node"
+    ln -sf "$TOOL_DEST/nodejs/bin/npm" "$TOOL_DEST/npm"
+    ln -sf "$TOOL_DEST/nodejs/bin/npx" "$TOOL_DEST/npx"
+    export PATH="$TOOL_DEST:$PATH"
+fi
+
+#doc# | Dart Sass | v1.102.0 | https://sass-lang.com/dart-sass/ |
+write-verbose "Checking for $TOOL_DEST/sass"
+if should-install "$TOOL_DEST/sass"; then
+    write-info "Installing Dart Sass"
+    case "$os-$arch" in
+        linux-amd64)
+            sass_platform=linux-x64
+            ;;
+        linux-arm64)
+            sass_platform=linux-arm64
+            ;;
+        darwin-amd64)
+            sass_platform=macos-x64
+            ;;
+        darwin-arm64)
+            sass_platform=macos-arm64
+            ;;
+        *)
+            write-error "Dart Sass is not available for $os-$arch"
+            exit 1
+            ;;
+    esac
+
+    rm -rf "$TOOL_DEST/dart-sass"
+    curl -sL "https://github.com/sass/dart-sass/releases/download/1.102.0/dart-sass-1.102.0-${sass_platform}.tar.gz" | tar xz -C "$TOOL_DEST"
+    ln -sf "$TOOL_DEST/dart-sass/sass" "$TOOL_DEST/sass"
+fi
+
 #doc# | PostCSS | latest | https://postcss.org/ |
 write-verbose "Checking for /usr/bin/postcss"
 if ! which postcss  > /dev/null 2>&1; then 
     write-info "Installing postcss"
     npm config set fund false --location=global
     npm install --global postcss postcss-cli autoprefixer
+    ln -sf "$(npm prefix --global)/bin/postcss" "$TOOL_DEST/postcss"
 fi
 
 if [ "$VERBOSE" == true ]; then 
