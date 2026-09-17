@@ -4,14 +4,22 @@
 package customizations
 
 import (
-	v20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
-	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
-	v20211101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
-	v20221001p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview"
-	v20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/storage"
-	v20240101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101"
-	v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v1api20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
+	servicebus_v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
+	servicebus_v1api20211101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101"
+	servicebus_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
+	servicebus_v1api20221001p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview"
+	servicebus_v1api20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/storage"
+	servicebus_v1api20240101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101"
+	servicebus_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v20210101preview"
+	servicebus_v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v20210101preview/storage"
+	servicebus_v20211101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v20211101"
+	servicebus_v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v20211101/storage"
+	servicebus_v20221001p "github.com/Azure/azure-service-operator/v2/api/servicebus/v20221001preview"
+	servicebus_v20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v20221001preview/storage"
+	servicebus_v20240101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101"
+	servicebus_v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -21,12 +29,20 @@ type NamespacesQueueExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *NamespacesQueueExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20210101p.NamespacesQueue{},
-		&v20210101ps.NamespacesQueue{},
-		&v20211101.NamespacesQueue{},
-		&v20211101s.NamespacesQueue{},
-		&v20221001p.NamespacesQueue{},
-		&v20221001ps.NamespacesQueue{},
-		&v20240101.NamespacesQueue{},
-		&v20240101s.NamespacesQueue{}}
+		&servicebus_v1api20210101p.NamespacesQueue{},
+		&servicebus_v1api20210101ps.NamespacesQueue{},
+		&servicebus_v1api20211101.NamespacesQueue{},
+		&servicebus_v1api20211101s.NamespacesQueue{},
+		&servicebus_v1api20221001p.NamespacesQueue{},
+		&servicebus_v1api20221001ps.NamespacesQueue{},
+		&servicebus_v1api20240101.NamespacesQueue{},
+		&servicebus_v1api20240101s.NamespacesQueue{},
+		&servicebus_v20210101p.NamespacesQueue{},
+		&servicebus_v20210101ps.NamespacesQueue{},
+		&servicebus_v20211101.NamespacesQueue{},
+		&servicebus_v20211101s.NamespacesQueue{},
+		&servicebus_v20221001p.NamespacesQueue{},
+		&servicebus_v20221001ps.NamespacesQueue{},
+		&servicebus_v20240101.NamespacesQueue{},
+		&servicebus_v20240101s.NamespacesQueue{}}
 }
