@@ -17,7 +17,6 @@ var gopterGroups = set.Make(
 	"cognitiveservices",
 	"compute",
 	"containerinstance",
-	"containerregistry",
 	"containerservice",
 	"dataprotection",
 	"dbformysql",

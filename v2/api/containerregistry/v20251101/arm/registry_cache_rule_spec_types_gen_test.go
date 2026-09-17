@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_CacheRuleProperties_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CacheRuleProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCacheRuleProperties, CacheRulePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCacheRuleProperties)
 }
 
 // RunJSONSerializationTestForCacheRuleProperties runs a test to see if a specific instance of CacheRuleProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForCacheRuleProperties(subject CacheRuleProperties) string {
+func RunJSONSerializationTestForCacheRuleProperties(t *rapid.T) {
+	subject := CacheRulePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CacheRuleProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,34 +45,31 @@ func RunJSONSerializationTestForCacheRuleProperties(subject CacheRuleProperties)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CacheRuleProperties instances for property testing - lazily instantiated by
 // CacheRulePropertiesGenerator()
-var cacheRulePropertiesGenerator gopter.Gen
+var cacheRulePropertiesGenerator *rapid.Generator[CacheRuleProperties]
 
 // CacheRulePropertiesGenerator returns a generator of CacheRuleProperties instances for property testing.
-func CacheRulePropertiesGenerator() gopter.Gen {
+func CacheRulePropertiesGenerator() *rapid.Generator[CacheRuleProperties] {
 	if cacheRulePropertiesGenerator != nil {
 		return cacheRulePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCacheRuleProperties(generators)
-	cacheRulePropertiesGenerator = gen.Struct(reflect.TypeOf(CacheRuleProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	cacheRulePropertiesGenerator = rapid.Custom(func(t *rapid.T) CacheRuleProperties {
+		var result CacheRuleProperties
+		result.CredentialSetResourceId = ptrString.Draw(t, "CredentialSetResourceId")
+		result.SourceRepository = ptrString.Draw(t, "SourceRepository")
+		result.TargetRepository = ptrString.Draw(t, "TargetRepository")
+		return result
+	})
 
 	return cacheRulePropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCacheRuleProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCacheRuleProperties(gens map[string]gopter.Gen) {
-	gens["CredentialSetResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["SourceRepository"] = gen.PtrOf(gen.AlphaString())
-	gens["TargetRepository"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RegistryCacheRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -92,29 +79,23 @@ func Test_RegistryCacheRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RegistryCacheRule_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRegistryCacheRule_Spec, RegistryCacheRule_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRegistryCacheRule_Spec)
 }
 
 // RunJSONSerializationTestForRegistryCacheRule_Spec runs a test to see if a specific instance of RegistryCacheRule_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRegistryCacheRule_Spec(subject RegistryCacheRule_Spec) string {
+func RunJSONSerializationTestForRegistryCacheRule_Spec(t *rapid.T) {
+	subject := RegistryCacheRule_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RegistryCacheRule_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -123,44 +104,29 @@ func RunJSONSerializationTestForRegistryCacheRule_Spec(subject RegistryCacheRule
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RegistryCacheRule_Spec instances for property testing - lazily instantiated by
 // RegistryCacheRule_SpecGenerator()
-var registryCacheRule_SpecGenerator gopter.Gen
+var registryCacheRule_SpecGenerator *rapid.Generator[RegistryCacheRule_Spec]
 
 // RegistryCacheRule_SpecGenerator returns a generator of RegistryCacheRule_Spec instances for property testing.
-// We first initialize registryCacheRule_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RegistryCacheRule_SpecGenerator() gopter.Gen {
+func RegistryCacheRule_SpecGenerator() *rapid.Generator[RegistryCacheRule_Spec] {
 	if registryCacheRule_SpecGenerator != nil {
 		return registryCacheRule_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRegistryCacheRule_Spec(generators)
-	registryCacheRule_SpecGenerator = gen.Struct(reflect.TypeOf(RegistryCacheRule_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(CacheRulePropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRegistryCacheRule_Spec(generators)
-	AddRelatedPropertyGeneratorsForRegistryCacheRule_Spec(generators)
-	registryCacheRule_SpecGenerator = gen.Struct(reflect.TypeOf(RegistryCacheRule_Spec{}), generators)
+	registryCacheRule_SpecGenerator = rapid.Custom(func(t *rapid.T) RegistryCacheRule_Spec {
+		var result RegistryCacheRule_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return registryCacheRule_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRegistryCacheRule_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRegistryCacheRule_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForRegistryCacheRule_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRegistryCacheRule_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(CacheRulePropertiesGenerator())
 }
