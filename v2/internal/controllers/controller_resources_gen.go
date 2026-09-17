@@ -294,9 +294,12 @@ import (
 	dbforpostgresql_v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	dbforpostgresql_v20250801w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/webhook"
 	devices_customizations "github.com/Azure/azure-service-operator/v2/api/devices/customizations"
-	devices_v20210702 "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702"
-	devices_v20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
-	devices_v20210702w "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/webhook"
+	devices_v1api20210702 "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702"
+	devices_v1api20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
+	devices_v1api20210702w "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/webhook"
+	devices_v20210702 "github.com/Azure/azure-service-operator/v2/api/devices/v20210702"
+	devices_v20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v20210702/storage"
+	devices_v20210702w "github.com/Azure/azure-service-operator/v2/api/devices/v20210702/webhook"
 	documentdb_customizations "github.com/Azure/azure-service-operator/v2/api/documentdb/customizations"
 	documentdb_v20210515 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515"
 	documentdb_v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
@@ -5680,6 +5683,12 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersFirewallRule)},
 		&registration.KnownType{Obj: new(dbforpostgresql_v20250801s.FlexibleServersVirtualEndpoint)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(devices_v1api20210702.IotHub),
+		Defaulter: &devices_v1api20210702w.IotHub{},
+		Validator: &devices_v1api20210702w.IotHub{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(devices_v1api20210702s.IotHub)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(devices_v20210702.IotHub),
 		Defaulter: &devices_v20210702w.IotHub{},
 		Validator: &devices_v20210702w.IotHub{},
@@ -8450,6 +8459,8 @@ func createScheme() *runtime.Scheme {
 	_ = dbforpostgresql_v20240801s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20250801.AddToScheme(scheme)
 	_ = dbforpostgresql_v20250801s.AddToScheme(scheme)
+	_ = devices_v1api20210702.AddToScheme(scheme)
+	_ = devices_v1api20210702s.AddToScheme(scheme)
 	_ = devices_v20210702.AddToScheme(scheme)
 	_ = devices_v20210702s.AddToScheme(scheme)
 	_ = documentdb_v20210515.AddToScheme(scheme)
