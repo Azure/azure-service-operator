@@ -5,8 +5,6 @@ package v1api20230701
 
 import (
 	"encoding/json"
-	"testing"
-
 	containerregistry_v1api20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
 	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20230701/storage"
 	"github.com/google/go-cmp/cmp"
@@ -14,6 +12,7 @@ import (
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
 	"pgregory.net/rapid"
+	"testing"
 )
 
 // Test_RegistryReplication_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of RegistryReplication round trips to the hub storage version and back losslessly
@@ -33,7 +32,7 @@ func Test_RegistryReplication_WhenConvertedToHub_RoundTripsWithoutLoss(t *testin
 		var hub containerregistry_v20230701s.RegistryReplication
 		err := copied.ConvertTo(&hub)
 		if err != nil {
-			return err.Error()
+			t.Fatal("ConvertTo: " + err.Error())
 		}
 
 		// Convert from our hub version
@@ -71,7 +70,7 @@ func Test_RegistryReplication_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 		var other containerregistry_v1api20230701s.RegistryReplication
 		err := copied.AssignProperties_To_RegistryReplication(&other)
 		if err != nil {
-			return err.Error()
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -168,7 +167,7 @@ func Test_RegistryReplicationOperatorSpec_WhenPropertiesConverted_RoundTripsWith
 		var other containerregistry_v1api20230701s.RegistryReplicationOperatorSpec
 		err := copied.AssignProperties_To_RegistryReplicationOperatorSpec(&other)
 		if err != nil {
-			return err.Error()
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -257,7 +256,7 @@ func Test_RegistryReplication_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 		var other containerregistry_v1api20230701s.RegistryReplication_STATUS
 		err := copied.AssignProperties_To_RegistryReplication_STATUS(&other)
 		if err != nil {
-			return err.Error()
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -369,7 +368,7 @@ func Test_RegistryReplication_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss
 		var other containerregistry_v1api20230701s.RegistryReplication_Spec
 		err := copied.AssignProperties_To_RegistryReplication_Spec(&other)
 		if err != nil {
-			return err.Error()
+			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
