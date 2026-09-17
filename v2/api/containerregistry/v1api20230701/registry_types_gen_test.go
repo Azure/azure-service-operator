@@ -5,13 +5,15 @@ package v1api20230701
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
+	"testing"
+
+	containerregistry_v1api20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
+	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20230701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
 	"pgregory.net/rapid"
-	"testing"
 )
 
 // Test_EncryptionProperty_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of EncryptionProperty can be assigned to storage and back losslessly
@@ -28,10 +30,10 @@ func Test_EncryptionProperty_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.EncryptionProperty
+		var other containerregistry_v1api20230701s.EncryptionProperty
 		err := copied.AssignProperties_To_EncryptionProperty(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -124,10 +126,10 @@ func Test_EncryptionProperty_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.EncryptionProperty_STATUS
+		var other containerregistry_v1api20230701s.EncryptionProperty_STATUS
 		err := copied.AssignProperties_To_EncryptionProperty_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -221,10 +223,10 @@ func Test_ExportPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.ExportPolicy
+		var other containerregistry_v1api20230701s.ExportPolicy
 		err := copied.AssignProperties_To_ExportPolicy(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -315,10 +317,10 @@ func Test_ExportPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.ExportPolicy_STATUS
+		var other containerregistry_v1api20230701s.ExportPolicy_STATUS
 		err := copied.AssignProperties_To_ExportPolicy_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -410,10 +412,10 @@ func Test_IPRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IPRule
+		var other containerregistry_v1api20230701s.IPRule
 		err := copied.AssignProperties_To_IPRule(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -506,10 +508,10 @@ func Test_IPRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IPRule_STATUS
+		var other containerregistry_v1api20230701s.IPRule_STATUS
 		err := copied.AssignProperties_To_IPRule_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -602,10 +604,10 @@ func Test_IdentityProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IdentityProperties
+		var other containerregistry_v1api20230701s.IdentityProperties
 		err := copied.AssignProperties_To_IdentityProperties(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -698,10 +700,10 @@ func Test_IdentityProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IdentityProperties_STATUS
+		var other containerregistry_v1api20230701s.IdentityProperties_STATUS
 		err := copied.AssignProperties_To_IdentityProperties_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -800,10 +802,10 @@ func Test_KeyVaultProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.KeyVaultProperties
+		var other containerregistry_v1api20230701s.KeyVaultProperties
 		err := copied.AssignProperties_To_KeyVaultProperties(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -895,10 +897,10 @@ func Test_KeyVaultProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.KeyVaultProperties_STATUS
+		var other containerregistry_v1api20230701s.KeyVaultProperties_STATUS
 		err := copied.AssignProperties_To_KeyVaultProperties_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -995,10 +997,10 @@ func Test_NetworkRuleSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NetworkRuleSet
+		var other containerregistry_v1api20230701s.NetworkRuleSet
 		err := copied.AssignProperties_To_NetworkRuleSet(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -1091,10 +1093,10 @@ func Test_NetworkRuleSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NetworkRuleSet_STATUS
+		var other containerregistry_v1api20230701s.NetworkRuleSet_STATUS
 		err := copied.AssignProperties_To_NetworkRuleSet_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -1188,10 +1190,10 @@ func Test_Policies_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.Policies
+		var other containerregistry_v1api20230701s.Policies
 		err := copied.AssignProperties_To_Policies(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -1288,10 +1290,10 @@ func Test_Policies_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.Policies_STATUS
+		var other containerregistry_v1api20230701s.Policies_STATUS
 		err := copied.AssignProperties_To_Policies_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -1388,10 +1390,10 @@ func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWit
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.PrivateEndpointConnection_STATUS
+		var other containerregistry_v1api20230701s.PrivateEndpointConnection_STATUS
 		err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -1483,10 +1485,10 @@ func Test_QuarantinePolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.QuarantinePolicy
+		var other containerregistry_v1api20230701s.QuarantinePolicy
 		err := copied.AssignProperties_To_QuarantinePolicy(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -1577,10 +1579,10 @@ func Test_QuarantinePolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.QuarantinePolicy_STATUS
+		var other containerregistry_v1api20230701s.QuarantinePolicy_STATUS
 		err := copied.AssignProperties_To_QuarantinePolicy_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -1672,10 +1674,10 @@ func Test_Registry_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 		copied := subject.DeepCopy()
 
 		// Convert to our hub version
-		var hub storage.Registry
+		var hub containerregistry_v20230701s.Registry
 		err := copied.ConvertTo(&hub)
 		if err != nil {
-			t.Fatal("ConvertTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Convert from our hub version
@@ -1710,10 +1712,10 @@ func Test_Registry_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.Registry
+		var other containerregistry_v1api20230701s.Registry
 		err := copied.AssignProperties_To_Registry(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -1806,10 +1808,10 @@ func Test_RegistryOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RegistryOperatorSpec
+		var other containerregistry_v1api20230701s.RegistryOperatorSpec
 		err := copied.AssignProperties_To_RegistryOperatorSpec(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -1895,10 +1897,10 @@ func Test_Registry_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.Registry_STATUS
+		var other containerregistry_v1api20230701s.Registry_STATUS
 		err := copied.AssignProperties_To_Registry_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -2027,10 +2029,10 @@ func Test_Registry_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.Registry_Spec
+		var other containerregistry_v1api20230701s.Registry_Spec
 		err := copied.AssignProperties_To_Registry_Spec(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -2148,10 +2150,10 @@ func Test_RetentionPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RetentionPolicy
+		var other containerregistry_v1api20230701s.RetentionPolicy
 		err := copied.AssignProperties_To_RetentionPolicy(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -2244,10 +2246,10 @@ func Test_RetentionPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RetentionPolicy_STATUS
+		var other containerregistry_v1api20230701s.RetentionPolicy_STATUS
 		err := copied.AssignProperties_To_RetentionPolicy_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -2343,10 +2345,10 @@ func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.Sku
+		var other containerregistry_v1api20230701s.Sku
 		err := copied.AssignProperties_To_Sku(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -2437,10 +2439,10 @@ func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.Sku_STATUS
+		var other containerregistry_v1api20230701s.Sku_STATUS
 		err := copied.AssignProperties_To_Sku_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -2533,10 +2535,10 @@ func Test_Status_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.Status_STATUS
+		var other containerregistry_v1api20230701s.Status_STATUS
 		err := copied.AssignProperties_To_Status_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -2629,10 +2631,10 @@ func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.SystemData_STATUS
+		var other containerregistry_v1api20230701s.SystemData_STATUS
 		err := copied.AssignProperties_To_SystemData_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -2730,10 +2732,10 @@ func Test_TrustPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.TrustPolicy
+		var other containerregistry_v1api20230701s.TrustPolicy
 		err := copied.AssignProperties_To_TrustPolicy(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -2826,10 +2828,10 @@ func Test_TrustPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.TrustPolicy_STATUS
+		var other containerregistry_v1api20230701s.TrustPolicy_STATUS
 		err := copied.AssignProperties_To_TrustPolicy_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -2922,10 +2924,10 @@ func Test_UserAssignedIdentityDetails_WhenPropertiesConverted_RoundTripsWithoutL
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.UserAssignedIdentityDetails
+		var other containerregistry_v1api20230701s.UserAssignedIdentityDetails
 		err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
@@ -3011,10 +3013,10 @@ func Test_UserIdentityProperties_STATUS_WhenPropertiesConverted_RoundTripsWithou
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.UserIdentityProperties_STATUS
+		var other containerregistry_v1api20230701s.UserIdentityProperties_STATUS
 		err := copied.AssignProperties_To_UserIdentityProperties_STATUS(&other)
 		if err != nil {
-			t.Fatal("AssignPropertiesTo: " + err.Error())
+			return err.Error()
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type

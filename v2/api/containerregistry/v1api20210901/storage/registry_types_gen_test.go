@@ -5,13 +5,14 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
+	"testing"
+
+	storage "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20210901/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
 	"pgregory.net/rapid"
-	"testing"
 )
 
 // Test_EncryptionProperty_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of EncryptionProperty can be assigned to storage and back losslessly
