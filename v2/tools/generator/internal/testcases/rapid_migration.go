@@ -32,7 +32,6 @@ var gopterGroups = set.Make(
 	"kusto",
 	"machinelearningservices",
 	"network",
-	"notificationhubs",
 	"servicebus",
 	"signalrservice",
 	"sql",
