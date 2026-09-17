@@ -205,8 +205,8 @@ go-install kustomize sigs.k8s.io/kustomize/kustomize/v4@v4.5.7
 
 # for docs site
 
-#doc# | hugo | v0.152.2 | https://gohugo.io/ |
-go-install hugo -tags extended github.com/gohugoio/hugo@v0.152.2
+#doc# | hugo | v0.166.0 | https://gohugo.io/ |
+go-install hugo -tags extended github.com/gohugoio/hugo@v0.166.0
 
 #doc# | htmltest | latest | https://github.com/wjdp/htmltest (but see https://github.com/theunrepentantgeek/htmltest for our custom build )
 # Restore this to github.com/wjdp/htmltest@v?? once PR#215 is merged with the feature we need
@@ -313,6 +313,34 @@ if should-install "$TOOL_DEST/azwi"; then
 fi
 
 # Ensure tooling for Hugo is available
+#doc# | Dart Sass | v1.102.0 | https://sass-lang.com/dart-sass/ |
+write-verbose "Checking for $TOOL_DEST/sass"
+if should-install "$TOOL_DEST/sass"; then
+    write-info "Installing Dart Sass"
+    case "$os-$arch" in
+        linux-amd64)
+            sass_platform=linux-x64
+            ;;
+        linux-arm64)
+            sass_platform=linux-arm64
+            ;;
+        darwin-amd64)
+            sass_platform=macos-x64
+            ;;
+        darwin-arm64)
+            sass_platform=macos-arm64
+            ;;
+        *)
+            write-error "Dart Sass is not available for $os-$arch"
+            exit 1
+            ;;
+    esac
+
+    rm -rf "$TOOL_DEST/dart-sass"
+    curl -sL "https://github.com/sass/dart-sass/releases/download/1.102.0/dart-sass-1.102.0-${sass_platform}.tar.gz" | tar xz -C "$TOOL_DEST"
+    ln -sf "$TOOL_DEST/dart-sass/sass" "$TOOL_DEST/sass"
+fi
+
 #doc# | PostCSS | latest | https://postcss.org/ |
 write-verbose "Checking for /usr/bin/postcss"
 if ! which postcss  > /dev/null 2>&1; then 

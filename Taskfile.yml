@@ -1404,11 +1404,9 @@ tasks:
     deps:
       - doc:frontmatter-check
     cmds:
+      - npm ci --ignore-scripts
       - hugo
       - htmltest
-    env:
-      NODE_PATH:
-        sh: npm root -g
 
   doc:render-diagrams:
     desc: Render all GraphViz diagrams

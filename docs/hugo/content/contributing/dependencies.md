@@ -15,13 +15,14 @@ If you prefer to install those dependencies manually (instead of using the `.dev
 | controller-gen | v0.19.0 | https://book.kubebuilder.io/reference/controller-gen |
 | conversion-gen | v0.34.1 | https://pkg.go.dev/k8s.io/code-generator/cmd/conversion-gen |
 | crddoc | latest | https://github.com/theunrepentantgeek/crddoc |
+| Dart Sass | v1.102.0 | https://sass-lang.com/dart-sass/ |
 | Go | 1.25 | https://golang.org/doc/install #
 | go-vcr-tidy | latest | https://github.com/theunrepentantgeek/go-vcr-tidy |
 | gofumpt | v0.10.0 | https://github.com/mvdan/gofumpt |
 | golangci-lint | 2.12.1 | https://github.com/golangci/golangci-lint |
 | Helm | v3.19.0 | https://helm.sh/ |
 | htmltest | latest | https://github.com/wjdp/htmltest (but see https://github.com/theunrepentantgeek/htmltest for our custom build )
-| hugo | v0.152.2 | https://gohugo.io/ |
+| hugo | v0.166.0 | https://gohugo.io/ |
 | kind | v0.31.0 | https://kind.sigs.k8s.io/ |
 | kustomize | v4.5.7 | https://kustomize.io/ |
 | Pip3 | latest | https://pip.pypa.io/en/stable/installation/ |
