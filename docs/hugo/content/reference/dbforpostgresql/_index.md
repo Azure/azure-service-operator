@@ -7,6 +7,36 @@ no_list: true
 
 To install the CRDs for these resources, your ASO configuration must include `dbforpostgresql.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                        | ARM Version        | CRD Version      | Supported From | Sample |
+|-------------------------------------------------|--------------------|------------------|----------------|--------|
+| FlexibleServer                                  | 2024-08-01         | v20240801        | v2.22.0        | -      |
+| FlexibleServer                                  | 2023-06-01-preview | v20230601preview | v2.22.0        | -      |
+| FlexibleServer                                  | 2022-12-01         | v20221201        | v2.22.0        | -      |
+| FlexibleServer                                  | 2022-01-20-preview | v20220120preview | v2.22.0        | -      |
+| FlexibleServer                                  | 2021-06-01         | v20210601        | v2.22.0        | -      |
+| FlexibleServersAdvancedThreatProtectionSettings | 2024-08-01         | v20240801        | v2.22.0        | -      |
+| FlexibleServersBackup                           | 2024-08-01         | v20240801        | v2.22.0        | -      |
+| FlexibleServersConfiguration                    | 2024-08-01         | v20240801        | v2.22.0        | -      |
+| FlexibleServersConfiguration                    | 2023-06-01-preview | v20230601preview | v2.22.0        | -      |
+| FlexibleServersConfiguration                    | 2022-12-01         | v20221201        | v2.22.0        | -      |
+| FlexibleServersConfiguration                    | 2022-01-20-preview | v20220120preview | v2.22.0        | -      |
+| FlexibleServersConfiguration                    | 2021-06-01         | v20210601        | v2.22.0        | -      |
+| FlexibleServersDatabase                         | 2024-08-01         | v20240801        | v2.22.0        | -      |
+| FlexibleServersDatabase                         | 2023-06-01-preview | v20230601preview | v2.22.0        | -      |
+| FlexibleServersDatabase                         | 2022-12-01         | v20221201        | v2.22.0        | -      |
+| FlexibleServersDatabase                         | 2022-01-20-preview | v20220120preview | v2.22.0        | -      |
+| FlexibleServersDatabase                         | 2021-06-01         | v20210601        | v2.22.0        | -      |
+| FlexibleServersFirewallRule                     | 2024-08-01         | v20240801        | v2.22.0        | -      |
+| FlexibleServersFirewallRule                     | 2023-06-01-preview | v20230601preview | v2.22.0        | -      |
+| FlexibleServersFirewallRule                     | 2022-12-01         | v20221201        | v2.22.0        | -      |
+| FlexibleServersFirewallRule                     | 2022-01-20-preview | v20220120preview | v2.22.0        | -      |
+| FlexibleServersFirewallRule                     | 2021-06-01         | v20210601        | v2.22.0        | -      |
+| FlexibleServersVirtualEndpoint                  | 2024-08-01         | v20240801        | v2.22.0        | -      |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
