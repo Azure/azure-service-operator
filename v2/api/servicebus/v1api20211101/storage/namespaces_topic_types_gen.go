@@ -5,7 +5,8 @@ package storage
 
 import (
 	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,7 +52,7 @@ var _ conversion.Convertible = &NamespacesTopic{}
 
 // ConvertFrom populates our NamespacesTopic from the provided hub NamespacesTopic
 func (topic *NamespacesTopic) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NamespacesTopic)
+	source, ok := hub.(*servicebus_v1api20240101s.NamespacesTopic)
 	if !ok {
 		return fmt.Errorf("expected servicebus/v1api20240101/storage/NamespacesTopic but received %T instead", hub)
 	}
@@ -61,7 +62,7 @@ func (topic *NamespacesTopic) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub NamespacesTopic from our NamespacesTopic
 func (topic *NamespacesTopic) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NamespacesTopic)
+	destination, ok := hub.(*servicebus_v1api20240101s.NamespacesTopic)
 	if !ok {
 		return fmt.Errorf("expected servicebus/v1api20240101/storage/NamespacesTopic but received %T instead", hub)
 	}
@@ -165,7 +166,7 @@ func (topic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) err
 }
 
 // AssignProperties_From_NamespacesTopic populates our NamespacesTopic from the provided source NamespacesTopic
-func (topic *NamespacesTopic) AssignProperties_From_NamespacesTopic(source *storage.NamespacesTopic) error {
+func (topic *NamespacesTopic) AssignProperties_From_NamespacesTopic(source *servicebus_v1api20240101s.NamespacesTopic) error {
 
 	// ObjectMeta
 	topic.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -200,13 +201,13 @@ func (topic *NamespacesTopic) AssignProperties_From_NamespacesTopic(source *stor
 }
 
 // AssignProperties_To_NamespacesTopic populates the provided destination NamespacesTopic from our NamespacesTopic
-func (topic *NamespacesTopic) AssignProperties_To_NamespacesTopic(destination *storage.NamespacesTopic) error {
+func (topic *NamespacesTopic) AssignProperties_To_NamespacesTopic(destination *servicebus_v1api20240101s.NamespacesTopic) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *topic.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.NamespacesTopic_Spec
+	var spec servicebus_v1api20240101s.NamespacesTopic_Spec
 	err := topic.Spec.AssignProperties_To_NamespacesTopic_Spec(&spec)
 	if err != nil {
 		return eris.Wrap(err, "calling AssignProperties_To_NamespacesTopic_Spec() to populate field Spec")
@@ -214,7 +215,7 @@ func (topic *NamespacesTopic) AssignProperties_To_NamespacesTopic(destination *s
 	destination.Spec = spec
 
 	// Status
-	var status storage.NamespacesTopic_STATUS
+	var status servicebus_v1api20240101s.NamespacesTopic_STATUS
 	err = topic.Status.AssignProperties_To_NamespacesTopic_STATUS(&status)
 	if err != nil {
 		return eris.Wrap(err, "calling AssignProperties_To_NamespacesTopic_STATUS() to populate field Status")
@@ -255,8 +256,8 @@ type NamespacesTopicList struct {
 }
 
 type augmentConversionForNamespacesTopic interface {
-	AssignPropertiesFrom(src *storage.NamespacesTopic) error
-	AssignPropertiesTo(dst *storage.NamespacesTopic) error
+	AssignPropertiesFrom(src *servicebus_v1api20240101s.NamespacesTopic) error
+	AssignPropertiesTo(dst *servicebus_v1api20240101s.NamespacesTopic) error
 }
 
 // Storage version of v1api20211101.NamespacesTopic_Spec
@@ -290,14 +291,14 @@ var _ genruntime.ConvertibleSpec = &NamespacesTopic_Spec{}
 
 // ConvertSpecFrom populates our NamespacesTopic_Spec from the provided source
 func (topic *NamespacesTopic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.NamespacesTopic_Spec)
+	src, ok := source.(*servicebus_v1api20240101s.NamespacesTopic_Spec)
 	if ok {
 		// Populate our instance from source
 		return topic.AssignProperties_From_NamespacesTopic_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.NamespacesTopic_Spec{}
+	src = &servicebus_v1api20240101s.NamespacesTopic_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -314,14 +315,14 @@ func (topic *NamespacesTopic_Spec) ConvertSpecFrom(source genruntime.Convertible
 
 // ConvertSpecTo populates the provided destination from our NamespacesTopic_Spec
 func (topic *NamespacesTopic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.NamespacesTopic_Spec)
+	dst, ok := destination.(*servicebus_v1api20240101s.NamespacesTopic_Spec)
 	if ok {
 		// Populate destination from our instance
 		return topic.AssignProperties_To_NamespacesTopic_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.NamespacesTopic_Spec{}
+	dst = &servicebus_v1api20240101s.NamespacesTopic_Spec{}
 	err := topic.AssignProperties_To_NamespacesTopic_Spec(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -337,7 +338,7 @@ func (topic *NamespacesTopic_Spec) ConvertSpecTo(destination genruntime.Converti
 }
 
 // AssignProperties_From_NamespacesTopic_Spec populates our NamespacesTopic_Spec from the provided source NamespacesTopic_Spec
-func (topic *NamespacesTopic_Spec) AssignProperties_From_NamespacesTopic_Spec(source *storage.NamespacesTopic_Spec) error {
+func (topic *NamespacesTopic_Spec) AssignProperties_From_NamespacesTopic_Spec(source *servicebus_v1api20240101s.NamespacesTopic_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -443,7 +444,7 @@ func (topic *NamespacesTopic_Spec) AssignProperties_From_NamespacesTopic_Spec(so
 }
 
 // AssignProperties_To_NamespacesTopic_Spec populates the provided destination NamespacesTopic_Spec from our NamespacesTopic_Spec
-func (topic *NamespacesTopic_Spec) AssignProperties_To_NamespacesTopic_Spec(destination *storage.NamespacesTopic_Spec) error {
+func (topic *NamespacesTopic_Spec) AssignProperties_To_NamespacesTopic_Spec(destination *servicebus_v1api20240101s.NamespacesTopic_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(topic.PropertyBag)
 
@@ -491,7 +492,7 @@ func (topic *NamespacesTopic_Spec) AssignProperties_To_NamespacesTopic_Spec(dest
 
 	// OperatorSpec
 	if topic.OperatorSpec != nil {
-		var operatorSpec storage.NamespacesTopicOperatorSpec
+		var operatorSpec servicebus_v1api20240101s.NamespacesTopicOperatorSpec
 		err := topic.OperatorSpec.AssignProperties_To_NamespacesTopicOperatorSpec(&operatorSpec)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_NamespacesTopicOperatorSpec() to populate field OperatorSpec")
@@ -580,14 +581,14 @@ var _ genruntime.ConvertibleStatus = &NamespacesTopic_STATUS{}
 
 // ConvertStatusFrom populates our NamespacesTopic_STATUS from the provided source
 func (topic *NamespacesTopic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.NamespacesTopic_STATUS)
+	src, ok := source.(*servicebus_v1api20240101s.NamespacesTopic_STATUS)
 	if ok {
 		// Populate our instance from source
 		return topic.AssignProperties_From_NamespacesTopic_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.NamespacesTopic_STATUS{}
+	src = &servicebus_v1api20240101s.NamespacesTopic_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -604,14 +605,14 @@ func (topic *NamespacesTopic_STATUS) ConvertStatusFrom(source genruntime.Convert
 
 // ConvertStatusTo populates the provided destination from our NamespacesTopic_STATUS
 func (topic *NamespacesTopic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.NamespacesTopic_STATUS)
+	dst, ok := destination.(*servicebus_v1api20240101s.NamespacesTopic_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return topic.AssignProperties_To_NamespacesTopic_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.NamespacesTopic_STATUS{}
+	dst = &servicebus_v1api20240101s.NamespacesTopic_STATUS{}
 	err := topic.AssignProperties_To_NamespacesTopic_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -627,7 +628,7 @@ func (topic *NamespacesTopic_STATUS) ConvertStatusTo(destination genruntime.Conv
 }
 
 // AssignProperties_From_NamespacesTopic_STATUS populates our NamespacesTopic_STATUS from the provided source NamespacesTopic_STATUS
-func (topic *NamespacesTopic_STATUS) AssignProperties_From_NamespacesTopic_STATUS(source *storage.NamespacesTopic_STATUS) error {
+func (topic *NamespacesTopic_STATUS) AssignProperties_From_NamespacesTopic_STATUS(source *servicebus_v1api20240101s.NamespacesTopic_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -727,10 +728,15 @@ func (topic *NamespacesTopic_STATUS) AssignProperties_From_NamespacesTopic_STATU
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		var systemDataSTATUSPivot servicebus_v20240101s.SystemData_STATUS
+		err := source.SystemData.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSPivot)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSPivot from SystemData")
+		}
+		var systemDatum SystemData_STATUS
+		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData from SystemData_STATUSPivot")
 		}
 		topic.SystemData = &systemDatum
 	} else {
@@ -764,7 +770,7 @@ func (topic *NamespacesTopic_STATUS) AssignProperties_From_NamespacesTopic_STATU
 }
 
 // AssignProperties_To_NamespacesTopic_STATUS populates the provided destination NamespacesTopic_STATUS from our NamespacesTopic_STATUS
-func (topic *NamespacesTopic_STATUS) AssignProperties_To_NamespacesTopic_STATUS(destination *storage.NamespacesTopic_STATUS) error {
+func (topic *NamespacesTopic_STATUS) AssignProperties_To_NamespacesTopic_STATUS(destination *servicebus_v1api20240101s.NamespacesTopic_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(topic.PropertyBag)
 
@@ -779,7 +785,7 @@ func (topic *NamespacesTopic_STATUS) AssignProperties_To_NamespacesTopic_STATUS(
 
 	// CountDetails
 	if topic.CountDetails != nil {
-		var countDetail storage.MessageCountDetails_STATUS
+		var countDetail servicebus_v1api20240101s.MessageCountDetails_STATUS
 		err := topic.CountDetails.AssignProperties_To_MessageCountDetails_STATUS(&countDetail)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_MessageCountDetails_STATUS() to populate field CountDetails")
@@ -864,10 +870,15 @@ func (topic *NamespacesTopic_STATUS) AssignProperties_To_NamespacesTopic_STATUS(
 
 	// SystemData
 	if topic.SystemData != nil {
-		var systemDatum storage.SystemData_STATUS
-		err := topic.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		var systemDataSTATUSPivot servicebus_v20240101s.SystemData_STATUS
+		err := topic.SystemData.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSPivot)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSPivot from SystemData")
+		}
+		var systemDatum servicebus_v1api20240101s.SystemData_STATUS
+		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData from SystemData_STATUSPivot")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -901,13 +912,13 @@ func (topic *NamespacesTopic_STATUS) AssignProperties_To_NamespacesTopic_STATUS(
 }
 
 type augmentConversionForNamespacesTopic_Spec interface {
-	AssignPropertiesFrom(src *storage.NamespacesTopic_Spec) error
-	AssignPropertiesTo(dst *storage.NamespacesTopic_Spec) error
+	AssignPropertiesFrom(src *servicebus_v1api20240101s.NamespacesTopic_Spec) error
+	AssignPropertiesTo(dst *servicebus_v1api20240101s.NamespacesTopic_Spec) error
 }
 
 type augmentConversionForNamespacesTopic_STATUS interface {
-	AssignPropertiesFrom(src *storage.NamespacesTopic_STATUS) error
-	AssignPropertiesTo(dst *storage.NamespacesTopic_STATUS) error
+	AssignPropertiesFrom(src *servicebus_v1api20240101s.NamespacesTopic_STATUS) error
+	AssignPropertiesTo(dst *servicebus_v1api20240101s.NamespacesTopic_STATUS) error
 }
 
 // Storage version of v1api20211101.NamespacesTopicOperatorSpec
@@ -919,7 +930,7 @@ type NamespacesTopicOperatorSpec struct {
 }
 
 // AssignProperties_From_NamespacesTopicOperatorSpec populates our NamespacesTopicOperatorSpec from the provided source NamespacesTopicOperatorSpec
-func (operator *NamespacesTopicOperatorSpec) AssignProperties_From_NamespacesTopicOperatorSpec(source *storage.NamespacesTopicOperatorSpec) error {
+func (operator *NamespacesTopicOperatorSpec) AssignProperties_From_NamespacesTopicOperatorSpec(source *servicebus_v1api20240101s.NamespacesTopicOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -976,7 +987,7 @@ func (operator *NamespacesTopicOperatorSpec) AssignProperties_From_NamespacesTop
 }
 
 // AssignProperties_To_NamespacesTopicOperatorSpec populates the provided destination NamespacesTopicOperatorSpec from our NamespacesTopicOperatorSpec
-func (operator *NamespacesTopicOperatorSpec) AssignProperties_To_NamespacesTopicOperatorSpec(destination *storage.NamespacesTopicOperatorSpec) error {
+func (operator *NamespacesTopicOperatorSpec) AssignProperties_To_NamespacesTopicOperatorSpec(destination *servicebus_v1api20240101s.NamespacesTopicOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
 
@@ -1033,8 +1044,8 @@ func (operator *NamespacesTopicOperatorSpec) AssignProperties_To_NamespacesTopic
 }
 
 type augmentConversionForNamespacesTopicOperatorSpec interface {
-	AssignPropertiesFrom(src *storage.NamespacesTopicOperatorSpec) error
-	AssignPropertiesTo(dst *storage.NamespacesTopicOperatorSpec) error
+	AssignPropertiesFrom(src *servicebus_v1api20240101s.NamespacesTopicOperatorSpec) error
+	AssignPropertiesTo(dst *servicebus_v1api20240101s.NamespacesTopicOperatorSpec) error
 }
 
 func init() {
