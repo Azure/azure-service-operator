@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
+	v20260501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +15,6 @@ type IdentityBindingExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *IdentityBindingExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20251002p.IdentityBinding{},
+		&v20260501.IdentityBinding{},
 		&storage.IdentityBinding{}}
 }

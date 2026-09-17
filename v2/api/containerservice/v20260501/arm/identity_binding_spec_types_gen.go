@@ -14,9 +14,9 @@ type IdentityBinding_Spec struct {
 
 var _ genruntime.ARMResourceSpec = &IdentityBinding_Spec{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2025-10-02-preview"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2026-05-01"
 func (binding IdentityBinding_Spec) GetAPIVersion() string {
-	return "2025-10-02-preview"
+	return "2026-05-01"
 }
 
 // GetName returns the Name of the resource

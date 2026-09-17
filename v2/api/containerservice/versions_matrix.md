@@ -159,15 +159,15 @@
 | IPFamily_STATUS                                                                      |               |               |               | v20251002preview | v20260501 |
 | IPTag                                                                                | v1api20240901 |               | v1api20250801 | v20251002preview | v20260501 |
 | IPTag_STATUS                                                                         | v1api20240901 |               | v1api20250801 | v20251002preview | v20260501 |
-| IdentityBinding                                                                      |               |               |               | v20251002preview |           |
-| IdentityBindingManagedIdentityProfile                                                |               |               |               | v20251002preview |           |
-| IdentityBindingManagedIdentityProfile_STATUS                                         |               |               |               | v20251002preview |           |
-| IdentityBindingOidcIssuerProfile_STATUS                                              |               |               |               | v20251002preview |           |
-| IdentityBindingProperties                                                            |               |               |               | v20251002preview |           |
-| IdentityBindingProperties_STATUS                                                     |               |               |               | v20251002preview |           |
-| IdentityBindingProvisioningState_STATUS                                              |               |               |               | v20251002preview |           |
-| IdentityBinding_STATUS                                                               |               |               |               | v20251002preview |           |
-| IdentityBinding_Spec                                                                 |               |               |               | v20251002preview |           |
+| IdentityBinding                                                                      |               |               |               |                  | v20260501 |
+| IdentityBindingManagedIdentityProfile                                                |               |               |               |                  | v20260501 |
+| IdentityBindingManagedIdentityProfile_STATUS                                         |               |               |               |                  | v20260501 |
+| IdentityBindingOidcIssuerProfile_STATUS                                              |               |               |               |                  | v20260501 |
+| IdentityBindingProperties                                                            |               |               |               |                  | v20260501 |
+| IdentityBindingProperties_STATUS                                                     |               |               |               |                  | v20260501 |
+| IdentityBindingProvisioningState_STATUS                                              |               |               |               |                  | v20260501 |
+| IdentityBinding_STATUS                                                               |               |               |               |                  | v20260501 |
+| IdentityBinding_Spec                                                                 |               |               |               |                  | v20260501 |
 | IpvsScheduler                                                                        |               |               |               | v20251002preview |           |
 | IpvsScheduler_STATUS                                                                 |               |               |               | v20251002preview |           |
 | IstioCertificateAuthority                                                            | v1api20240901 |               | v1api20250801 | v20251002preview | v20260501 |

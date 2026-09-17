@@ -11,8 +11,10 @@ import (
 	. "github.com/onsi/gomega"
 
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_AKS_ManagedCluster_20260501_CRUD(t *testing.T) {
@@ -42,16 +44,48 @@ func Test_AKS_ManagedCluster_20260501_CRUD(t *testing.T) {
 			Identity: &aks.ManagedClusterIdentity{
 				Type: to.Ptr(aks.ResourceIdentityType_SystemAssigned),
 			},
+			OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
+				Enabled: to.Ptr(true),
+			},
 		},
 	}
 
-	tc.CreateResourceAndWait(cluster)
+	identity := &managedidentity.UserAssignedIdentity{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("mi")),
+		Spec: managedidentity.UserAssignedIdentity_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+		},
+	}
+
+	identityBinding := &aks.IdentityBinding{
+		ObjectMeta: tc.MakeObjectMetaWithName("identitybinding1"),
+		Spec: aks.IdentityBinding_Spec{
+			Owner: testcommon.AsOwner(cluster),
+			Properties: &aks.IdentityBindingProperties{
+				ManagedIdentity: &aks.IdentityBindingManagedIdentityProfile{
+					ResourceReference: &genruntime.ResourceReference{
+						Group: managedidentity.GroupVersion.Group,
+						Kind:  "UserAssignedIdentity",
+						Name:  identity.Name,
+					},
+				},
+			},
+		},
+	}
+
+	tc.CreateResourcesAndWait(cluster, identity, identityBinding)
 
 	tc.Expect(cluster.Status.Id).ToNot(BeNil())
 	armId := *cluster.Status.Id
 	tc.Expect(cluster.Status.AgentPoolProfiles).To(HaveLen(1))
 	tc.Expect(cluster.Status.AgentPoolProfiles[0].OsSKU).ToNot(BeNil())
 	tc.Expect(*cluster.Status.AgentPoolProfiles[0].OsSKU).To(Equal(aks.OSSKU_STATUS_AzureContainerLinux))
+	tc.Expect(identity.Status.Id).ToNot(BeNil())
+	tc.Expect(identityBinding.Status.Id).ToNot(BeNil())
+	tc.Expect(identityBinding.Status.Properties).ToNot(BeNil())
+	tc.Expect(identityBinding.Status.Properties.ManagedIdentity).ToNot(BeNil())
+	tc.Expect(identityBinding.Status.Properties.ManagedIdentity.ResourceId).ToNot(BeNil())
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -62,7 +96,7 @@ func Test_AKS_ManagedCluster_20260501_CRUD(t *testing.T) {
 		},
 	)
 
-	tc.DeleteResourceAndWait(cluster)
+	tc.DeleteResourcesAndWait(cluster, identity, identityBinding)
 
 	// Ensure that the cluster was really deleted in Azure
 	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(aks.APIVersion_Value))

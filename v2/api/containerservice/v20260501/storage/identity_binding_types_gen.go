@@ -4,7 +4,6 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -26,9 +25,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v20251002preview.IdentityBinding
+// Storage version of v20260501.IdentityBinding
 // Generator information:
-// - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json
+// - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2026-05-01/managedClusters.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}
 type IdentityBinding struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -76,9 +75,9 @@ func (binding *IdentityBinding) AzureName() string {
 	return binding.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2025-10-02-preview"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2026-05-01"
 func (binding IdentityBinding) GetAPIVersion() string {
-	return "2025-10-02-preview"
+	return "2026-05-01"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -157,9 +156,9 @@ func (binding *IdentityBinding) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v20251002preview.IdentityBinding
+// Storage version of v20260501.IdentityBinding
 // Generator information:
-// - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json
+// - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2026-05-01/managedClusters.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}
 type IdentityBindingList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -167,13 +166,13 @@ type IdentityBindingList struct {
 	Items           []IdentityBinding `json:"items"`
 }
 
-// Storage version of v20251002preview.APIVersion
-// +kubebuilder:validation:Enum={"2025-10-02-preview"}
+// Storage version of v20260501.APIVersion
+// +kubebuilder:validation:Enum={"2026-05-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("2025-10-02-preview")
+const APIVersion_Value = APIVersion("2026-05-01")
 
-// Storage version of v20251002preview.IdentityBinding_Spec
+// Storage version of v20260501.IdentityBinding_Spec
 type IdentityBinding_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -210,7 +209,7 @@ func (binding *IdentityBinding_Spec) ConvertSpecTo(destination genruntime.Conver
 	return destination.ConvertSpecFrom(binding)
 }
 
-// Storage version of v20251002preview.IdentityBinding_STATUS
+// Storage version of v20260501.IdentityBinding_STATUS
 type IdentityBinding_STATUS struct {
 	Conditions  []conditions.Condition            `json:"conditions,omitempty"`
 	ETag        *string                           `json:"eTag,omitempty"`
@@ -242,7 +241,7 @@ func (binding *IdentityBinding_STATUS) ConvertStatusTo(destination genruntime.Co
 	return destination.ConvertStatusFrom(binding)
 }
 
-// Storage version of v20251002preview.IdentityBindingOperatorSpec
+// Storage version of v20260501.IdentityBindingOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type IdentityBindingOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
@@ -250,14 +249,14 @@ type IdentityBindingOperatorSpec struct {
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
-// Storage version of v20251002preview.IdentityBindingProperties
+// Storage version of v20260501.IdentityBindingProperties
 // IdentityBinding properties.
 type IdentityBindingProperties struct {
 	ManagedIdentity *IdentityBindingManagedIdentityProfile `json:"managedIdentity,omitempty"`
 	PropertyBag     genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20251002preview.IdentityBindingProperties_STATUS
+// Storage version of v20260501.IdentityBindingProperties_STATUS
 // IdentityBinding properties.
 type IdentityBindingProperties_STATUS struct {
 	ManagedIdentity   *IdentityBindingManagedIdentityProfile_STATUS `json:"managedIdentity,omitempty"`
@@ -266,7 +265,7 @@ type IdentityBindingProperties_STATUS struct {
 	ProvisioningState *string                                       `json:"provisioningState,omitempty"`
 }
 
-// Storage version of v20251002preview.SystemData_STATUS
+// Storage version of v20260501.SystemData_STATUS
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
@@ -278,98 +277,7 @@ type SystemData_STATUS struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// CreatedAt
-	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
-
-	// LastModifiedAt
-	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		data.PropertyBag = propertyBag
-	} else {
-		data.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
-	var dataAsAny any = data
-	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
-		err := augmentedData.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
-
-	// CreatedByType
-	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
-
-	// LastModifiedAt
-	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
-
-	// LastModifiedBy
-	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
-
-	// LastModifiedByType
-	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
-	var dataAsAny any = data
-	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
-		err := augmentedData.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-type augmentConversionForSystemData_STATUS interface {
-	AssignPropertiesFrom(src *storage.SystemData_STATUS) error
-	AssignPropertiesTo(dst *storage.SystemData_STATUS) error
-}
-
-// Storage version of v20251002preview.IdentityBindingManagedIdentityProfile
+// Storage version of v20260501.IdentityBindingManagedIdentityProfile
 // Managed identity profile for the identity binding.
 type IdentityBindingManagedIdentityProfile struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -379,7 +287,7 @@ type IdentityBindingManagedIdentityProfile struct {
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
-// Storage version of v20251002preview.IdentityBindingManagedIdentityProfile_STATUS
+// Storage version of v20260501.IdentityBindingManagedIdentityProfile_STATUS
 // Managed identity profile for the identity binding.
 type IdentityBindingManagedIdentityProfile_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
@@ -389,7 +297,7 @@ type IdentityBindingManagedIdentityProfile_STATUS struct {
 	TenantId    *string                `json:"tenantId,omitempty"`
 }
 
-// Storage version of v20251002preview.IdentityBindingOidcIssuerProfile_STATUS
+// Storage version of v20260501.IdentityBindingOidcIssuerProfile_STATUS
 // IdentityBinding OIDC issuer profile.
 type IdentityBindingOidcIssuerProfile_STATUS struct {
 	OidcIssuerUrl *string                `json:"oidcIssuerUrl,omitempty"`

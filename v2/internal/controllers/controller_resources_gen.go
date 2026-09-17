@@ -1327,7 +1327,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsMember)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsUpdateRun)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsUpdateStrategy)})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20251002ps.IdentityBinding)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20260501s.IdentityBinding)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20260501s.MaintenanceConfiguration)})
 	result = append(result, &registration.StorageType{
 		Obj: new(containerservice_v20260501s.ManagedCluster),
@@ -5092,11 +5092,6 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
-			Obj:       new(containerservice_v20251002p.IdentityBinding),
-			Defaulter: &containerservice_v20251002pw.IdentityBinding{},
-			Validator: &containerservice_v20251002pw.IdentityBinding{},
-		},
-		&registration.KnownType{
 			Obj:       new(containerservice_v20251002p.MaintenanceConfiguration),
 			Defaulter: &containerservice_v20251002pw.MaintenanceConfiguration{},
 			Validator: &containerservice_v20251002pw.MaintenanceConfiguration{},
@@ -5118,13 +5113,17 @@ func getKnownTypes() []*registration.KnownType {
 		})
 	result = append(
 		result,
-		&registration.KnownType{Obj: new(containerservice_v20251002ps.IdentityBinding)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.MaintenanceConfiguration)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedCluster)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedClustersAgentPool)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.TrustedAccessRoleBinding)})
 	result = append(
 		result,
+		&registration.KnownType{
+			Obj:       new(containerservice_v20260501.IdentityBinding),
+			Defaulter: &containerservice_v20260501w.IdentityBinding{},
+			Validator: &containerservice_v20260501w.IdentityBinding{},
+		},
 		&registration.KnownType{
 			Obj:       new(containerservice_v20260501.MaintenanceConfiguration),
 			Defaulter: &containerservice_v20260501w.MaintenanceConfiguration{},
@@ -5147,6 +5146,7 @@ func getKnownTypes() []*registration.KnownType {
 		})
 	result = append(
 		result,
+		&registration.KnownType{Obj: new(containerservice_v20260501s.IdentityBinding)},
 		&registration.KnownType{Obj: new(containerservice_v20260501s.MaintenanceConfiguration)},
 		&registration.KnownType{Obj: new(containerservice_v20260501s.ManagedCluster)},
 		&registration.KnownType{Obj: new(containerservice_v20260501s.ManagedClustersAgentPool)},
