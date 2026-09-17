@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ClusterPrincipalAssignment_Spec_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ClusterPrincipalAssignment_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForClusterPrincipalAssignment_Spec, ClusterPrincipalAssignment_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForClusterPrincipalAssignment_Spec)
 }
 
 // RunJSONSerializationTestForClusterPrincipalAssignment_Spec runs a test to see if a specific instance of ClusterPrincipalAssignment_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForClusterPrincipalAssignment_Spec(subject ClusterPrincipalAssignment_Spec) string {
+func RunJSONSerializationTestForClusterPrincipalAssignment_Spec(t *rapid.T) {
+	subject := ClusterPrincipalAssignment_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ClusterPrincipalAssignment_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,46 +45,31 @@ func RunJSONSerializationTestForClusterPrincipalAssignment_Spec(subject ClusterP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ClusterPrincipalAssignment_Spec instances for property testing - lazily instantiated by
 // ClusterPrincipalAssignment_SpecGenerator()
-var clusterPrincipalAssignment_SpecGenerator gopter.Gen
+var clusterPrincipalAssignment_SpecGenerator *rapid.Generator[ClusterPrincipalAssignment_Spec]
 
 // ClusterPrincipalAssignment_SpecGenerator returns a generator of ClusterPrincipalAssignment_Spec instances for property testing.
-// We first initialize clusterPrincipalAssignment_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ClusterPrincipalAssignment_SpecGenerator() gopter.Gen {
+func ClusterPrincipalAssignment_SpecGenerator() *rapid.Generator[ClusterPrincipalAssignment_Spec] {
 	if clusterPrincipalAssignment_SpecGenerator != nil {
 		return clusterPrincipalAssignment_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterPrincipalAssignment_Spec(generators)
-	clusterPrincipalAssignment_SpecGenerator = gen.Struct(reflect.TypeOf(ClusterPrincipalAssignment_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(ClusterPrincipalPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterPrincipalAssignment_Spec(generators)
-	AddRelatedPropertyGeneratorsForClusterPrincipalAssignment_Spec(generators)
-	clusterPrincipalAssignment_SpecGenerator = gen.Struct(reflect.TypeOf(ClusterPrincipalAssignment_Spec{}), generators)
+	clusterPrincipalAssignment_SpecGenerator = rapid.Custom(func(t *rapid.T) ClusterPrincipalAssignment_Spec {
+		var result ClusterPrincipalAssignment_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return clusterPrincipalAssignment_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForClusterPrincipalAssignment_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForClusterPrincipalAssignment_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForClusterPrincipalAssignment_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForClusterPrincipalAssignment_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ClusterPrincipalPropertiesGenerator())
 }
 
 func Test_ClusterPrincipalProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -104,29 +79,23 @@ func Test_ClusterPrincipalProperties_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ClusterPrincipalProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForClusterPrincipalProperties, ClusterPrincipalPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForClusterPrincipalProperties)
 }
 
 // RunJSONSerializationTestForClusterPrincipalProperties runs a test to see if a specific instance of ClusterPrincipalProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForClusterPrincipalProperties(subject ClusterPrincipalProperties) string {
+func RunJSONSerializationTestForClusterPrincipalProperties(t *rapid.T) {
+	subject := ClusterPrincipalPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ClusterPrincipalProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -135,33 +104,32 @@ func RunJSONSerializationTestForClusterPrincipalProperties(subject ClusterPrinci
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ClusterPrincipalProperties instances for property testing - lazily instantiated by
 // ClusterPrincipalPropertiesGenerator()
-var clusterPrincipalPropertiesGenerator gopter.Gen
+var clusterPrincipalPropertiesGenerator *rapid.Generator[ClusterPrincipalProperties]
 
 // ClusterPrincipalPropertiesGenerator returns a generator of ClusterPrincipalProperties instances for property testing.
-func ClusterPrincipalPropertiesGenerator() gopter.Gen {
+func ClusterPrincipalPropertiesGenerator() *rapid.Generator[ClusterPrincipalProperties] {
 	if clusterPrincipalPropertiesGenerator != nil {
 		return clusterPrincipalPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterPrincipalProperties(generators)
-	clusterPrincipalPropertiesGenerator = gen.Struct(reflect.TypeOf(ClusterPrincipalProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	principalType := rapid.Ptr(rapid.SampledFrom([]ClusterPrincipalProperties_PrincipalType{ClusterPrincipalProperties_PrincipalType_App, ClusterPrincipalProperties_PrincipalType_Group, ClusterPrincipalProperties_PrincipalType_User}), true)
+	role := rapid.Ptr(rapid.SampledFrom([]ClusterPrincipalProperties_Role{ClusterPrincipalProperties_Role_AllDatabasesAdmin, ClusterPrincipalProperties_Role_AllDatabasesMonitor, ClusterPrincipalProperties_Role_AllDatabasesViewer}), true)
+
+	clusterPrincipalPropertiesGenerator = rapid.Custom(func(t *rapid.T) ClusterPrincipalProperties {
+		var result ClusterPrincipalProperties
+		result.PrincipalId = ptrString.Draw(t, "PrincipalId")
+		result.PrincipalType = principalType.Draw(t, "PrincipalType")
+		result.Role = role.Draw(t, "Role")
+		result.TenantId = ptrString.Draw(t, "TenantId")
+		return result
+	})
 
 	return clusterPrincipalPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForClusterPrincipalProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForClusterPrincipalProperties(gens map[string]gopter.Gen) {
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(ClusterPrincipalProperties_PrincipalType_App, ClusterPrincipalProperties_PrincipalType_Group, ClusterPrincipalProperties_PrincipalType_User))
-	gens["Role"] = gen.PtrOf(gen.OneConstOf(ClusterPrincipalProperties_Role_AllDatabasesAdmin, ClusterPrincipalProperties_Role_AllDatabasesMonitor, ClusterPrincipalProperties_Role_AllDatabasesViewer))
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 }
