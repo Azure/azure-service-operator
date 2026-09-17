@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	v20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
 	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -52,22 +51,36 @@ var _ conversion.Convertible = &MaintenanceConfiguration{}
 
 // ConvertFrom populates our MaintenanceConfiguration from the provided hub MaintenanceConfiguration
 func (configuration *MaintenanceConfiguration) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20250801s.MaintenanceConfiguration)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20250801/storage/MaintenanceConfiguration but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20250801s.MaintenanceConfiguration
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return configuration.AssignProperties_From_MaintenanceConfiguration(source)
+	err = configuration.AssignProperties_From_MaintenanceConfiguration(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to configuration")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub MaintenanceConfiguration from our MaintenanceConfiguration
 func (configuration *MaintenanceConfiguration) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20250801s.MaintenanceConfiguration)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20250801/storage/MaintenanceConfiguration but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20250801s.MaintenanceConfiguration
+	err := configuration.AssignProperties_To_MaintenanceConfiguration(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from configuration")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return configuration.AssignProperties_To_MaintenanceConfiguration(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &MaintenanceConfiguration{}

@@ -6,6 +6,7 @@ package customizations
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
@@ -26,6 +27,12 @@ const (
 	watcherStatusRunning = "Running"
 	watcherStatusStopped = "Stopped"
 )
+
+// watcherStatuses are the statuses ARM documents, under the casing it documents them in.
+var watcherStatuses = []string{
+	watcherStatusRunning,
+	watcherStatusStopped,
+}
 
 // StartPollerResumeTokenAnnotation holds a watcher's start on the target, the resource written back.
 const StartPollerResumeTokenAnnotation = "serviceoperator.azure.com/watcher-start-resume-token"
@@ -86,6 +93,12 @@ func (extension *TargetExtension) PostReconcileCheck(
 		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
 	}
 
+	// A watcher somebody stopped deliberately would otherwise be started again on the next reconcile of any
+	// of its targets, so opting out is checked before the watcher is even read
+	if !autoStartEnabled(watcher) {
+		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
+	}
+
 	// The status on the watcher is only as fresh as its own last reconcile, so ask Azure instead
 	status, err := readWatcherStatus(ctx, armClient, watcher)
 	if err != nil {
@@ -121,7 +134,7 @@ func (extension *TargetExtension) PostReconcileCheck(
 	}
 
 	// A policy that forbids modifying the watcher forbids starting it
-	allowed, err := startAllowed(reconcilePolicies, watcher)
+	allowed, err := modifyAllowed(reconcilePolicies, watcher)
 	if err != nil {
 		// We couldn't work out whether starting the watcher is allowed, returning the error for visibility
 		return extensions.PostReconcileCheckResult{}, err
@@ -152,6 +165,15 @@ func (extension *TargetExtension) PostReconcileCheck(
 	// Stay short of ready so we're asked again, which is how the start is seen to have worked. Nothing is
 	// owned by a target, so this can't withhold anything the start itself needs.
 	return extensions.PostReconcileCheckResultFailure("waiting for the watcher to run"), nil
+}
+
+// autoStartEnabled reports whether the operator may start the watcher, which it does unless told otherwise.
+func autoStartEnabled(watcher *databasewatcher.Watcher) bool {
+	if watcher.Spec.OperatorSpec == nil || watcher.Spec.OperatorSpec.AutoStart == nil {
+		return true
+	}
+
+	return *watcher.Spec.OperatorSpec.AutoStart
 }
 
 func startResumeToken(target *databasewatcher.Target) (string, bool) {
@@ -185,8 +207,7 @@ func foreignWatcher(
 	target *databasewatcher.Target,
 	watcher *databasewatcher.Watcher,
 ) (string, bool) {
-	ours := operatorNamespace(target)
-	if theirs := operatorNamespace(watcher); theirs == "" || theirs != ours || ours == "" {
+	if differingOperator(target, watcher) {
 		return fmt.Sprintf(
 			"cannot start watcher %q, which is managed by the operator in %s while this target is managed by the operator in %s",
 			watcher.Name,
@@ -239,11 +260,21 @@ func describeOperator(obj genruntime.MetaObject) string {
 
 // differingCredential reports whether the watcher is managed with a credential this target cannot prove is
 // its own. Only annotations can be compared, so anything short of equal is refused rather than assumed.
-func differingCredential(target *databasewatcher.Target, watcher *databasewatcher.Watcher) bool {
-	watcherCredential, watcherAsks := credentialAnnotation(watcher)
-	targetCredential, targetAsks := credentialAnnotation(target)
+func differingCredential(ours genruntime.MetaObject, theirs genruntime.MetaObject) bool {
+	theirCredential, theyAsk := credentialAnnotation(theirs)
+	ourCredential, weAsk := credentialAnnotation(ours)
 
-	return watcherAsks != targetAsks || watcherCredential != targetCredential
+	return theyAsk != weAsk || theirCredential != ourCredential
+}
+
+// differingOperator reports whether two resources are managed by different operators. A matching namespace
+// is not a matching operator, and a resource is claimed before any extension runs, so one carrying no
+// operator is unknown rather than ours.
+func differingOperator(ours genruntime.MetaObject, theirs genruntime.MetaObject) bool {
+	our := operatorNamespace(ours)
+	their := operatorNamespace(theirs)
+
+	return our == "" || their == "" || our != their
 }
 
 // credentialAnnotation reports the secret a resource asks for, and whether it asks at all - naming an
@@ -262,15 +293,16 @@ func describeCredential(obj genruntime.MetaObject) string {
 	return fmt.Sprintf("credential %q", credential)
 }
 
-// startAllowed reports whether the watcher's own policy permits modifying it. An owner always shares the
-// target's namespace, so a mismatch here is a resolution the policies can't answer rather than a refusal.
-func startAllowed(
+// modifyAllowed reports whether a resource's own policy permits modifying it. Everything checked this way
+// shares the namespace of the resource being reconciled, so a mismatch here is a resolution the policies
+// can't answer rather than a refusal.
+func modifyAllowed(
 	policies annotations.ResolvedReconcilePolicies,
-	watcher *databasewatcher.Watcher,
+	resource genruntime.MetaObject,
 ) (bool, error) {
-	policy, err := policies.ForResource(watcher)
+	policy, err := policies.ForResource(resource)
 	if err != nil {
-		return false, eris.Wrapf(err, "resolving the reconcile policy of watcher %q", watcher.Name)
+		return false, eris.Wrapf(err, "resolving the reconcile policy of %s", resource.GetName())
 	}
 
 	return policy.AllowsModify(), nil
@@ -326,5 +358,17 @@ func readWatcherStatus(
 		return "", eris.Wrap(err, "reading watcher")
 	}
 
-	return state.Properties.Status, nil
+	return canonicalState(state.Properties.Status, watcherStatuses), nil
+}
+
+// canonicalState returns an ARM state under the casing ARM documents it in, which is not always the casing
+// ARM answers with. One ARM does not document is returned as it came, having nothing to be matched against.
+func canonicalState(state string, documented []string) string {
+	for _, known := range documented {
+		if strings.EqualFold(state, known) {
+			return known
+		}
+	}
+
+	return state
 }

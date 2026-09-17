@@ -219,6 +219,9 @@ import (
 	containerservice_v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
 	containerservice_v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
 	containerservice_v20251002pw "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/webhook"
+	containerservice_v20260501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501"
+	containerservice_v20260501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501/storage"
+	containerservice_v20260501w "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501/webhook"
 	databasewatcher_customizations "github.com/Azure/azure-service-operator/v2/api/databasewatcher/customizations"
 	databasewatcher_v20241001p "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview"
 	databasewatcher_v20241001ps "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview/storage"
@@ -1328,21 +1331,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsMember)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsUpdateRun)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsUpdateStrategy)})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.MaintenanceConfiguration)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20260501s.MaintenanceConfiguration)})
 	result = append(result, &registration.StorageType{
-		Obj: new(containerservice_v20250801s.ManagedCluster),
+		Obj: new(containerservice_v20260501s.ManagedCluster),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.windowsProfile.adminPassword",
 				Func: indexContainerserviceManagedClusterAdminPassword,
 			},
 			{
-				Key:  ".spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig",
-				Func: indexContainerserviceManagedClusterIdentityClientIdFromConfig,
+				Key:  ".spec.securityProfile.defender.securityGating.identities.identity.clientIdFromConfig",
+				Func: indexContainerserviceManagedClusterIdentitiesIdentityClientIdFromConfig,
 			},
 			{
-				Key:  ".spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig",
-				Func: indexContainerserviceManagedClusterIdentityObjectIdFromConfig,
+				Key:  ".spec.securityProfile.defender.securityGating.identities.identity.objectIdFromConfig",
+				Func: indexContainerserviceManagedClusterIdentitiesIdentityObjectIdFromConfig,
 			},
 			{
 				Key:  ".spec.identityProfile.clientIdFromConfig",
@@ -1360,6 +1363,14 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.aadProfile.serverAppSecret",
 				Func: indexContainerserviceManagedClusterServerAppSecret,
 			},
+			{
+				Key:  ".spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig",
+				Func: indexContainerserviceManagedClusterUserAssignedIdentitiesIdentityClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig",
+				Func: indexContainerserviceManagedClusterUserAssignedIdentitiesIdentityObjectIdFromConfig,
+			},
 		},
 		Watches: []registration.Watch{
 			{
@@ -1370,7 +1381,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.servicePrincipalProfile.secret",
 						".spec.windowsProfile.adminPassword",
 					},
-					&containerservice_v20250801s.ManagedClusterList{}),
+					&containerservice_v20260501s.ManagedClusterList{}),
 			},
 			{
 				Type: &v1.ConfigMap{},
@@ -1380,13 +1391,15 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.identityProfile.objectIdFromConfig",
 						".spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig",
 						".spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig",
+						".spec.securityProfile.defender.securityGating.identities.identity.clientIdFromConfig",
+						".spec.securityProfile.defender.securityGating.identities.identity.objectIdFromConfig",
 					},
-					&containerservice_v20250801s.ManagedClusterList{}),
+					&containerservice_v20260501s.ManagedClusterList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.ManagedClustersAgentPool)})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.TrustedAccessRoleBinding)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20260501s.ManagedClustersAgentPool)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20260501s.TrustedAccessRoleBinding)})
 	result = append(result, &registration.StorageType{Obj: new(databasewatcher_v20241001ps.SharedPrivateLink)})
 	result = append(result, &registration.StorageType{
 		Obj: new(databasewatcher_v20241001ps.Target),
@@ -5186,6 +5199,34 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(containerservice_v20260501.MaintenanceConfiguration),
+			Defaulter: &containerservice_v20260501w.MaintenanceConfiguration{},
+			Validator: &containerservice_v20260501w.MaintenanceConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v20260501.ManagedCluster),
+			Defaulter: &containerservice_v20260501w.ManagedCluster{},
+			Validator: &containerservice_v20260501w.ManagedCluster{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v20260501.ManagedClustersAgentPool),
+			Defaulter: &containerservice_v20260501w.ManagedClustersAgentPool{},
+			Validator: &containerservice_v20260501w.ManagedClustersAgentPool{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v20260501.TrustedAccessRoleBinding),
+			Defaulter: &containerservice_v20260501w.TrustedAccessRoleBinding{},
+			Validator: &containerservice_v20260501w.TrustedAccessRoleBinding{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(containerservice_v20260501s.MaintenanceConfiguration)},
+		&registration.KnownType{Obj: new(containerservice_v20260501s.ManagedCluster)},
+		&registration.KnownType{Obj: new(containerservice_v20260501s.ManagedClustersAgentPool)},
+		&registration.KnownType{Obj: new(containerservice_v20260501s.TrustedAccessRoleBinding)})
+	result = append(
+		result,
+		&registration.KnownType{
 			Obj:       new(databasewatcher_v20241001p.SharedPrivateLink),
 			Defaulter: &databasewatcher_v20241001pw.SharedPrivateLink{},
 			Validator: &databasewatcher_v20241001pw.SharedPrivateLink{},
@@ -8490,6 +8531,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20250801s.AddToScheme(scheme)
 	_ = containerservice_v20251002p.AddToScheme(scheme)
 	_ = containerservice_v20251002ps.AddToScheme(scheme)
+	_ = containerservice_v20260501.AddToScheme(scheme)
+	_ = containerservice_v20260501s.AddToScheme(scheme)
 	_ = databasewatcher_v20241001p.AddToScheme(scheme)
 	_ = databasewatcher_v20241001ps.AddToScheme(scheme)
 	_ = datafactory_v1api20180601.AddToScheme(scheme)
@@ -9962,9 +10005,9 @@ func indexContainerregistryRegistryIdentityFromConfig(rawObj client.Object) []st
 	return obj.Spec.Encryption.KeyVaultProperties.IdentityFromConfig.Index()
 }
 
-// indexContainerserviceManagedClusterAdminPassword an index function for containerservice_v20250801s.ManagedCluster .spec.windowsProfile.adminPassword
+// indexContainerserviceManagedClusterAdminPassword an index function for containerservice_v20260501s.ManagedCluster .spec.windowsProfile.adminPassword
 func indexContainerserviceManagedClusterAdminPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
 	if !ok {
 		return nil
 	}
@@ -9977,9 +10020,127 @@ func indexContainerserviceManagedClusterAdminPassword(rawObj client.Object) []st
 	return obj.Spec.WindowsProfile.AdminPassword.Index()
 }
 
-// indexContainerserviceManagedClusterIdentityClientIdFromConfig an index function for containerservice_v20250801s.ManagedCluster .spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig
-func indexContainerserviceManagedClusterIdentityClientIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
+// indexContainerserviceManagedClusterIdentitiesIdentityClientIdFromConfig an index function for containerservice_v20260501s.ManagedCluster .spec.securityProfile.defender.securityGating.identities.identity.clientIdFromConfig
+func indexContainerserviceManagedClusterIdentitiesIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.SecurityProfile == nil {
+		return nil
+	}
+	if obj.Spec.SecurityProfile.Defender == nil {
+		return nil
+	}
+	if obj.Spec.SecurityProfile.Defender.SecurityGating == nil {
+		return nil
+	}
+	for _, identityItem := range obj.Spec.SecurityProfile.Defender.SecurityGating.Identities {
+		if identityItem.Identity == nil {
+			continue
+		}
+		if identityItem.Identity.ClientIdFromConfig == nil {
+			continue
+		}
+		result = append(result, identityItem.Identity.ClientIdFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexContainerserviceManagedClusterIdentitiesIdentityObjectIdFromConfig an index function for containerservice_v20260501s.ManagedCluster .spec.securityProfile.defender.securityGating.identities.identity.objectIdFromConfig
+func indexContainerserviceManagedClusterIdentitiesIdentityObjectIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.SecurityProfile == nil {
+		return nil
+	}
+	if obj.Spec.SecurityProfile.Defender == nil {
+		return nil
+	}
+	if obj.Spec.SecurityProfile.Defender.SecurityGating == nil {
+		return nil
+	}
+	for _, identityItem := range obj.Spec.SecurityProfile.Defender.SecurityGating.Identities {
+		if identityItem.Identity == nil {
+			continue
+		}
+		if identityItem.Identity.ObjectIdFromConfig == nil {
+			continue
+		}
+		result = append(result, identityItem.Identity.ObjectIdFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexContainerserviceManagedClusterIdentityProfileClientIdFromConfig an index function for containerservice_v20260501s.ManagedCluster .spec.identityProfile.clientIdFromConfig
+func indexContainerserviceManagedClusterIdentityProfileClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, value := range obj.Spec.IdentityProfile {
+		if value.ClientIdFromConfig == nil {
+			continue
+		}
+		result = append(result, value.ClientIdFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexContainerserviceManagedClusterIdentityProfileObjectIdFromConfig an index function for containerservice_v20260501s.ManagedCluster .spec.identityProfile.objectIdFromConfig
+func indexContainerserviceManagedClusterIdentityProfileObjectIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, value := range obj.Spec.IdentityProfile {
+		if value.ObjectIdFromConfig == nil {
+			continue
+		}
+		result = append(result, value.ObjectIdFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexContainerserviceManagedClusterSecret an index function for containerservice_v20260501s.ManagedCluster .spec.servicePrincipalProfile.secret
+func indexContainerserviceManagedClusterSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ServicePrincipalProfile == nil {
+		return nil
+	}
+	if obj.Spec.ServicePrincipalProfile.Secret == nil {
+		return nil
+	}
+	return obj.Spec.ServicePrincipalProfile.Secret.Index()
+}
+
+// indexContainerserviceManagedClusterServerAppSecret an index function for containerservice_v20260501s.ManagedCluster .spec.aadProfile.serverAppSecret
+func indexContainerserviceManagedClusterServerAppSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AadProfile == nil {
+		return nil
+	}
+	if obj.Spec.AadProfile.ServerAppSecret == nil {
+		return nil
+	}
+	return obj.Spec.AadProfile.ServerAppSecret.Index()
+}
+
+// indexContainerserviceManagedClusterUserAssignedIdentitiesIdentityClientIdFromConfig an index function for containerservice_v20260501s.ManagedCluster .spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig
+func indexContainerserviceManagedClusterUserAssignedIdentitiesIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
 	if !ok {
 		return nil
 	}
@@ -9999,9 +10160,9 @@ func indexContainerserviceManagedClusterIdentityClientIdFromConfig(rawObj client
 	return result
 }
 
-// indexContainerserviceManagedClusterIdentityObjectIdFromConfig an index function for containerservice_v20250801s.ManagedCluster .spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig
-func indexContainerserviceManagedClusterIdentityObjectIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
+// indexContainerserviceManagedClusterUserAssignedIdentitiesIdentityObjectIdFromConfig an index function for containerservice_v20260501s.ManagedCluster .spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig
+func indexContainerserviceManagedClusterUserAssignedIdentitiesIdentityObjectIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
 	if !ok {
 		return nil
 	}
@@ -10019,68 +10180,6 @@ func indexContainerserviceManagedClusterIdentityObjectIdFromConfig(rawObj client
 		result = append(result, userAssignedIdentityItem.Identity.ObjectIdFromConfig.Index()...)
 	}
 	return result
-}
-
-// indexContainerserviceManagedClusterIdentityProfileClientIdFromConfig an index function for containerservice_v20250801s.ManagedCluster .spec.identityProfile.clientIdFromConfig
-func indexContainerserviceManagedClusterIdentityProfileClientIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
-	if !ok {
-		return nil
-	}
-	var result []string
-	for _, value := range obj.Spec.IdentityProfile {
-		if value.ClientIdFromConfig == nil {
-			continue
-		}
-		result = append(result, value.ClientIdFromConfig.Index()...)
-	}
-	return result
-}
-
-// indexContainerserviceManagedClusterIdentityProfileObjectIdFromConfig an index function for containerservice_v20250801s.ManagedCluster .spec.identityProfile.objectIdFromConfig
-func indexContainerserviceManagedClusterIdentityProfileObjectIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
-	if !ok {
-		return nil
-	}
-	var result []string
-	for _, value := range obj.Spec.IdentityProfile {
-		if value.ObjectIdFromConfig == nil {
-			continue
-		}
-		result = append(result, value.ObjectIdFromConfig.Index()...)
-	}
-	return result
-}
-
-// indexContainerserviceManagedClusterSecret an index function for containerservice_v20250801s.ManagedCluster .spec.servicePrincipalProfile.secret
-func indexContainerserviceManagedClusterSecret(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.ServicePrincipalProfile == nil {
-		return nil
-	}
-	if obj.Spec.ServicePrincipalProfile.Secret == nil {
-		return nil
-	}
-	return obj.Spec.ServicePrincipalProfile.Secret.Index()
-}
-
-// indexContainerserviceManagedClusterServerAppSecret an index function for containerservice_v20250801s.ManagedCluster .spec.aadProfile.serverAppSecret
-func indexContainerserviceManagedClusterServerAppSecret(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.AadProfile == nil {
-		return nil
-	}
-	if obj.Spec.AadProfile.ServerAppSecret == nil {
-		return nil
-	}
-	return obj.Spec.AadProfile.ServerAppSecret.Index()
 }
 
 // indexDatabasewatcherTargetSqlDbConnectionServerNameFromConfig an index function for databasewatcher_v20241001ps.Target .spec.properties.sqlDb.connectionServerNameFromConfig
