@@ -675,6 +675,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v20210701/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerregistry/v20210901/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerinstance/v20211001/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/subscription/v20211001/</loc>
@@ -712,6 +714,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/v20230501preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20230630/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerregistry/v20230701/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/v20230801/</loc>
   </url><url>
