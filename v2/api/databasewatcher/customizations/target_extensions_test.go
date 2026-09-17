@@ -34,7 +34,7 @@ var managed = annotations.ResolvedReconcilePolicies{
 	Global:          annotations.ReconcilePolicyManage,
 }
 
-func Test_StartAllowed_GivenPolicies_ReturnsExpectedResult(t *testing.T) {
+func Test_ModifyAllowed_GivenPolicies_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 
 	cases := map[string]struct {
@@ -111,14 +111,14 @@ func Test_StartAllowed_GivenPolicies_ReturnsExpectedResult(t *testing.T) {
 				watcher.SetAnnotations(map[string]string{annotations.ReconcilePolicy: c.watcherPolicy})
 			}
 
-			g.Expect(startAllowed(c.policies, watcher)).To(Equal(c.expected))
+			g.Expect(modifyAllowed(c.policies, watcher)).To(Equal(c.expected))
 		})
 	}
 }
 
 // A watcher always shares its target's namespace, so a mismatch means the policies in hand were resolved
 // somewhere else and can't answer for this watcher
-func Test_StartAllowed_GivenWatcherInAnotherNamespace_ReportsTheMismatch(t *testing.T) {
+func Test_ModifyAllowed_GivenWatcherInAnotherNamespace_ReportsTheMismatch(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -129,7 +129,7 @@ func Test_StartAllowed_GivenWatcherInAnotherNamespace_ReportsTheMismatch(t *test
 		},
 	}
 
-	_, err := startAllowed(managed, watcher)
+	_, err := modifyAllowed(managed, watcher)
 
 	g.Expect(err).To(HaveOccurred())
 	g.Expect(err.Error()).To(ContainSubstring("elsewhere"))
