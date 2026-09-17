@@ -227,6 +227,66 @@ func Test_ConversionGraph_WhenPreviewRenamesTypeBeforeCompatPackage_FindsRenamed
 	g.Expect(nextType).To(Equal(oldTypeStorage.Name()))
 }
 
+func Test_ConversionGraph_WhenHybridPreviewTypeRenamedInNextVersion_FindsRenamedType(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	legacyPreviewPackage := test.MakeLocalPackageReference(test.Group, "v20210101preview").WithVersionPrefix("v1api")
+	previewPackage := legacyPreviewPackage.WithVersionPrefix("v")
+	legacyNextPackage := test.MakeLocalPackageReference(test.Group, "v20211101").WithVersionPrefix("v1api")
+	nextPackage := legacyNextPackage.WithVersionPrefix("v")
+
+	legacyOldType := test.CreateSimpleResource(legacyPreviewPackage, "DictionaryValue_STATUS")
+	legacyOldTypeStorage := test.CreateSimpleResource(astmodel.MakeStoragePackageReference(legacyPreviewPackage), "DictionaryValue_STATUS")
+	oldType := test.CreateSimpleResource(previewPackage, "DictionaryValue_STATUS")
+	oldTypeStorage := test.CreateSimpleResource(astmodel.MakeStoragePackageReference(previewPackage), "DictionaryValue_STATUS")
+	legacyNewType := test.CreateSimpleResource(legacyNextPackage, "UserAssignedIdentity_STATUS")
+	legacyNewTypeStorage := test.CreateSimpleResource(astmodel.MakeStoragePackageReference(legacyNextPackage), "UserAssignedIdentity_STATUS")
+	newType := test.CreateSimpleResource(nextPackage, "UserAssignedIdentity_STATUS")
+	newTypeStorage := test.CreateSimpleResource(astmodel.MakeStoragePackageReference(nextPackage), "UserAssignedIdentity_STATUS")
+
+	definitions := make(astmodel.TypeDefinitionSet)
+	definitions.AddAll(
+		legacyOldType,
+		legacyOldTypeStorage,
+		oldType,
+		oldTypeStorage,
+		legacyNewType,
+		legacyNewTypeStorage,
+		newType,
+		newTypeStorage,
+	)
+
+	configuration := config.NewObjectModelConfiguration()
+	g.Expect(
+		configuration.ModifyType(
+			oldType.Name(),
+			func(typeConfiguration *config.TypeConfiguration) error {
+				typeConfiguration.NameInNextVersion.Set(newType.Name().Name())
+				return nil
+			},
+		),
+	).To(Succeed())
+
+	builder := NewConversionGraphBuilder(configuration)
+	builder.Add(
+		legacyOldType.Name(),
+		legacyOldTypeStorage.Name(),
+		oldType.Name(),
+		oldTypeStorage.Name(),
+		legacyNewType.Name(),
+		legacyNewTypeStorage.Name(),
+		newType.Name(),
+		newTypeStorage.Name(),
+	)
+	graph, err := builder.Build()
+	g.Expect(err).To(Succeed())
+
+	nextType, err := graph.FindNextType(oldTypeStorage.Name(), definitions)
+	g.Expect(err).To(Succeed())
+	g.Expect(nextType).To(Equal(newTypeStorage.Name()))
+}
+
 func Test_ConversionGraph_WhenPreviewAndCompatTypePresent_PreservesCompatTransitions(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
