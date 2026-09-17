@@ -70,6 +70,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/operatorspec/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/database-watchers/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/secrets/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/keyvaults/</loc>
@@ -770,6 +772,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/containerregistry/v20251101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/v20260315/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v20260501/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/web/</loc>
   </url><url>
