@@ -23,7 +23,6 @@ var gopterGroups = set.Make(
 	"dataprotection",
 	"dbformysql",
 	"dbforpostgresql",
-	"devices",
 	"documentdb",
 	"entra",
 	"eventgrid",
