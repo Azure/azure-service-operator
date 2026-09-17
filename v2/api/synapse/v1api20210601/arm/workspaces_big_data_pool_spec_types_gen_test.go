@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_AutoPauseProperties_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoPauseProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoPauseProperties, AutoPausePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAutoPauseProperties)
 }
 
 // RunJSONSerializationTestForAutoPauseProperties runs a test to see if a specific instance of AutoPauseProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoPauseProperties(subject AutoPauseProperties) string {
+func RunJSONSerializationTestForAutoPauseProperties(t *rapid.T) {
+	subject := AutoPausePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AutoPauseProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,33 +45,31 @@ func RunJSONSerializationTestForAutoPauseProperties(subject AutoPauseProperties)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AutoPauseProperties instances for property testing - lazily instantiated by
 // AutoPausePropertiesGenerator()
-var autoPausePropertiesGenerator gopter.Gen
+var autoPausePropertiesGenerator *rapid.Generator[AutoPauseProperties]
 
 // AutoPausePropertiesGenerator returns a generator of AutoPauseProperties instances for property testing.
-func AutoPausePropertiesGenerator() gopter.Gen {
+func AutoPausePropertiesGenerator() *rapid.Generator[AutoPauseProperties] {
 	if autoPausePropertiesGenerator != nil {
 		return autoPausePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoPauseProperties(generators)
-	autoPausePropertiesGenerator = gen.Struct(reflect.TypeOf(AutoPauseProperties{}), generators)
+	delayInMinutes := rapid.Ptr(rapid.Int(), true)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+
+	autoPausePropertiesGenerator = rapid.Custom(func(t *rapid.T) AutoPauseProperties {
+		var result AutoPauseProperties
+		result.DelayInMinutes = delayInMinutes.Draw(t, "DelayInMinutes")
+		result.Enabled = enabled.Draw(t, "Enabled")
+		return result
+	})
 
 	return autoPausePropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAutoPauseProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoPauseProperties(gens map[string]gopter.Gen) {
-	gens["DelayInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
 func Test_AutoScaleProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -91,29 +79,23 @@ func Test_AutoScaleProperties_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoScaleProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoScaleProperties, AutoScalePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAutoScaleProperties)
 }
 
 // RunJSONSerializationTestForAutoScaleProperties runs a test to see if a specific instance of AutoScaleProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoScaleProperties(subject AutoScaleProperties) string {
+func RunJSONSerializationTestForAutoScaleProperties(t *rapid.T) {
+	subject := AutoScalePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AutoScaleProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -122,34 +104,32 @@ func RunJSONSerializationTestForAutoScaleProperties(subject AutoScaleProperties)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AutoScaleProperties instances for property testing - lazily instantiated by
 // AutoScalePropertiesGenerator()
-var autoScalePropertiesGenerator gopter.Gen
+var autoScalePropertiesGenerator *rapid.Generator[AutoScaleProperties]
 
 // AutoScalePropertiesGenerator returns a generator of AutoScaleProperties instances for property testing.
-func AutoScalePropertiesGenerator() gopter.Gen {
+func AutoScalePropertiesGenerator() *rapid.Generator[AutoScaleProperties] {
 	if autoScalePropertiesGenerator != nil {
 		return autoScalePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoScaleProperties(generators)
-	autoScalePropertiesGenerator = gen.Struct(reflect.TypeOf(AutoScaleProperties{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+
+	autoScalePropertiesGenerator = rapid.Custom(func(t *rapid.T) AutoScaleProperties {
+		var result AutoScaleProperties
+		result.Enabled = enabled.Draw(t, "Enabled")
+		result.MaxNodeCount = ptrInt.Draw(t, "MaxNodeCount")
+		result.MinNodeCount = ptrInt.Draw(t, "MinNodeCount")
+		return result
+	})
 
 	return autoScalePropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAutoScaleProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoScaleProperties(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["MaxNodeCount"] = gen.PtrOf(gen.Int())
-	gens["MinNodeCount"] = gen.PtrOf(gen.Int())
 }
 
 func Test_BigDataPoolResourceProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -159,29 +139,23 @@ func Test_BigDataPoolResourceProperties_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BigDataPoolResourceProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBigDataPoolResourceProperties, BigDataPoolResourcePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBigDataPoolResourceProperties)
 }
 
 // RunJSONSerializationTestForBigDataPoolResourceProperties runs a test to see if a specific instance of BigDataPoolResourceProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForBigDataPoolResourceProperties(subject BigDataPoolResourceProperties) string {
+func RunJSONSerializationTestForBigDataPoolResourceProperties(t *rapid.T) {
+	subject := BigDataPoolResourcePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BigDataPoolResourceProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -190,72 +164,55 @@ func RunJSONSerializationTestForBigDataPoolResourceProperties(subject BigDataPoo
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BigDataPoolResourceProperties instances for property testing - lazily instantiated by
 // BigDataPoolResourcePropertiesGenerator()
-var bigDataPoolResourcePropertiesGenerator gopter.Gen
+var bigDataPoolResourcePropertiesGenerator *rapid.Generator[BigDataPoolResourceProperties]
 
 // BigDataPoolResourcePropertiesGenerator returns a generator of BigDataPoolResourceProperties instances for property testing.
-// We first initialize bigDataPoolResourcePropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func BigDataPoolResourcePropertiesGenerator() gopter.Gen {
+func BigDataPoolResourcePropertiesGenerator() *rapid.Generator[BigDataPoolResourceProperties] {
 	if bigDataPoolResourcePropertiesGenerator != nil {
 		return bigDataPoolResourcePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties(generators)
-	bigDataPoolResourcePropertiesGenerator = gen.Struct(reflect.TypeOf(BigDataPoolResourceProperties{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	autoPause := rapid.Ptr(AutoPausePropertiesGenerator(), true)
+	autoScale := rapid.Ptr(AutoScalePropertiesGenerator(), true)
+	customLibraries := rapid.SliceOf(LibraryInfoGenerator())
+	dynamicExecutorAllocation := rapid.Ptr(DynamicExecutorAllocationGenerator(), true)
+	libraryRequirements := rapid.Ptr(LibraryRequirementsGenerator(), true)
+	nodeSize := rapid.Ptr(rapid.SampledFrom([]BigDataPoolResourceProperties_NodeSize{BigDataPoolResourceProperties_NodeSize_Large, BigDataPoolResourceProperties_NodeSize_Medium, BigDataPoolResourceProperties_NodeSize_None, BigDataPoolResourceProperties_NodeSize_Small, BigDataPoolResourceProperties_NodeSize_XLarge, BigDataPoolResourceProperties_NodeSize_XXLarge, BigDataPoolResourceProperties_NodeSize_XXXLarge}), true)
+	nodeSizeFamily := rapid.Ptr(rapid.SampledFrom([]BigDataPoolResourceProperties_NodeSizeFamily{BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedFPGA, BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedGPU, BigDataPoolResourceProperties_NodeSizeFamily_MemoryOptimized, BigDataPoolResourceProperties_NodeSizeFamily_None}), true)
+	sparkConfigProperties := rapid.Ptr(SparkConfigPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties(generators)
-	AddRelatedPropertyGeneratorsForBigDataPoolResourceProperties(generators)
-	bigDataPoolResourcePropertiesGenerator = gen.Struct(reflect.TypeOf(BigDataPoolResourceProperties{}), generators)
+	bigDataPoolResourcePropertiesGenerator = rapid.Custom(func(t *rapid.T) BigDataPoolResourceProperties {
+		var result BigDataPoolResourceProperties
+		result.AutoPause = autoPause.Draw(t, "AutoPause")
+		result.AutoScale = autoScale.Draw(t, "AutoScale")
+		result.CacheSize = ptrInt.Draw(t, "CacheSize")
+		result.CustomLibraries = customLibraries.Draw(t, "CustomLibraries")
+		result.DefaultSparkLogFolder = ptrString.Draw(t, "DefaultSparkLogFolder")
+		result.DynamicExecutorAllocation = dynamicExecutorAllocation.Draw(t, "DynamicExecutorAllocation")
+		result.IsAutotuneEnabled = ptrBool.Draw(t, "IsAutotuneEnabled")
+		result.IsComputeIsolationEnabled = ptrBool.Draw(t, "IsComputeIsolationEnabled")
+		result.LibraryRequirements = libraryRequirements.Draw(t, "LibraryRequirements")
+		result.NodeCount = ptrInt.Draw(t, "NodeCount")
+		result.NodeSize = nodeSize.Draw(t, "NodeSize")
+		result.NodeSizeFamily = nodeSizeFamily.Draw(t, "NodeSizeFamily")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.SessionLevelPackagesEnabled = ptrBool.Draw(t, "SessionLevelPackagesEnabled")
+		result.SparkConfigProperties = sparkConfigProperties.Draw(t, "SparkConfigProperties")
+		result.SparkEventsFolder = ptrString.Draw(t, "SparkEventsFolder")
+		result.SparkVersion = ptrString.Draw(t, "SparkVersion")
+		return result
+	})
 
 	return bigDataPoolResourcePropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties(gens map[string]gopter.Gen) {
-	gens["CacheSize"] = gen.PtrOf(gen.Int())
-	gens["DefaultSparkLogFolder"] = gen.PtrOf(gen.AlphaString())
-	gens["IsAutotuneEnabled"] = gen.PtrOf(gen.Bool())
-	gens["IsComputeIsolationEnabled"] = gen.PtrOf(gen.Bool())
-	gens["NodeCount"] = gen.PtrOf(gen.Int())
-	gens["NodeSize"] = gen.PtrOf(gen.OneConstOf(
-		BigDataPoolResourceProperties_NodeSize_Large,
-		BigDataPoolResourceProperties_NodeSize_Medium,
-		BigDataPoolResourceProperties_NodeSize_None,
-		BigDataPoolResourceProperties_NodeSize_Small,
-		BigDataPoolResourceProperties_NodeSize_XLarge,
-		BigDataPoolResourceProperties_NodeSize_XXLarge,
-		BigDataPoolResourceProperties_NodeSize_XXXLarge))
-	gens["NodeSizeFamily"] = gen.PtrOf(gen.OneConstOf(
-		BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedFPGA,
-		BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedGPU,
-		BigDataPoolResourceProperties_NodeSizeFamily_MemoryOptimized,
-		BigDataPoolResourceProperties_NodeSizeFamily_None))
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["SessionLevelPackagesEnabled"] = gen.PtrOf(gen.Bool())
-	gens["SparkEventsFolder"] = gen.PtrOf(gen.AlphaString())
-	gens["SparkVersion"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForBigDataPoolResourceProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBigDataPoolResourceProperties(gens map[string]gopter.Gen) {
-	gens["AutoPause"] = gen.PtrOf(AutoPausePropertiesGenerator())
-	gens["AutoScale"] = gen.PtrOf(AutoScalePropertiesGenerator())
-	gens["CustomLibraries"] = gen.SliceOf(LibraryInfoGenerator())
-	gens["DynamicExecutorAllocation"] = gen.PtrOf(DynamicExecutorAllocationGenerator())
-	gens["LibraryRequirements"] = gen.PtrOf(LibraryRequirementsGenerator())
-	gens["SparkConfigProperties"] = gen.PtrOf(SparkConfigPropertiesGenerator())
 }
 
 func Test_DynamicExecutorAllocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -265,29 +222,23 @@ func Test_DynamicExecutorAllocation_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DynamicExecutorAllocation via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDynamicExecutorAllocation, DynamicExecutorAllocationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDynamicExecutorAllocation)
 }
 
 // RunJSONSerializationTestForDynamicExecutorAllocation runs a test to see if a specific instance of DynamicExecutorAllocation round trips to JSON and back losslessly
-func RunJSONSerializationTestForDynamicExecutorAllocation(subject DynamicExecutorAllocation) string {
+func RunJSONSerializationTestForDynamicExecutorAllocation(t *rapid.T) {
+	subject := DynamicExecutorAllocationGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DynamicExecutorAllocation
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -296,34 +247,32 @@ func RunJSONSerializationTestForDynamicExecutorAllocation(subject DynamicExecuto
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DynamicExecutorAllocation instances for property testing - lazily instantiated by
 // DynamicExecutorAllocationGenerator()
-var dynamicExecutorAllocationGenerator gopter.Gen
+var dynamicExecutorAllocationGenerator *rapid.Generator[DynamicExecutorAllocation]
 
 // DynamicExecutorAllocationGenerator returns a generator of DynamicExecutorAllocation instances for property testing.
-func DynamicExecutorAllocationGenerator() gopter.Gen {
+func DynamicExecutorAllocationGenerator() *rapid.Generator[DynamicExecutorAllocation] {
 	if dynamicExecutorAllocationGenerator != nil {
 		return dynamicExecutorAllocationGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDynamicExecutorAllocation(generators)
-	dynamicExecutorAllocationGenerator = gen.Struct(reflect.TypeOf(DynamicExecutorAllocation{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+
+	dynamicExecutorAllocationGenerator = rapid.Custom(func(t *rapid.T) DynamicExecutorAllocation {
+		var result DynamicExecutorAllocation
+		result.Enabled = enabled.Draw(t, "Enabled")
+		result.MaxExecutors = ptrInt.Draw(t, "MaxExecutors")
+		result.MinExecutors = ptrInt.Draw(t, "MinExecutors")
+		return result
+	})
 
 	return dynamicExecutorAllocationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDynamicExecutorAllocation is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDynamicExecutorAllocation(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["MaxExecutors"] = gen.PtrOf(gen.Int())
-	gens["MinExecutors"] = gen.PtrOf(gen.Int())
 }
 
 func Test_LibraryInfo_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -333,29 +282,23 @@ func Test_LibraryInfo_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LibraryInfo via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLibraryInfo, LibraryInfoGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLibraryInfo)
 }
 
 // RunJSONSerializationTestForLibraryInfo runs a test to see if a specific instance of LibraryInfo round trips to JSON and back losslessly
-func RunJSONSerializationTestForLibraryInfo(subject LibraryInfo) string {
+func RunJSONSerializationTestForLibraryInfo(t *rapid.T) {
+	subject := LibraryInfoGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LibraryInfo
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -364,34 +307,31 @@ func RunJSONSerializationTestForLibraryInfo(subject LibraryInfo) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LibraryInfo instances for property testing - lazily instantiated by LibraryInfoGenerator()
-var libraryInfoGenerator gopter.Gen
+var libraryInfoGenerator *rapid.Generator[LibraryInfo]
 
 // LibraryInfoGenerator returns a generator of LibraryInfo instances for property testing.
-func LibraryInfoGenerator() gopter.Gen {
+func LibraryInfoGenerator() *rapid.Generator[LibraryInfo] {
 	if libraryInfoGenerator != nil {
 		return libraryInfoGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLibraryInfo(generators)
-	libraryInfoGenerator = gen.Struct(reflect.TypeOf(LibraryInfo{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	libraryInfoGenerator = rapid.Custom(func(t *rapid.T) LibraryInfo {
+		var result LibraryInfo
+		result.ContainerName = ptrString.Draw(t, "ContainerName")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Path = ptrString.Draw(t, "Path")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return libraryInfoGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLibraryInfo is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLibraryInfo(gens map[string]gopter.Gen) {
-	gens["ContainerName"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Path"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_LibraryRequirements_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -401,29 +341,23 @@ func Test_LibraryRequirements_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LibraryRequirements via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLibraryRequirements, LibraryRequirementsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLibraryRequirements)
 }
 
 // RunJSONSerializationTestForLibraryRequirements runs a test to see if a specific instance of LibraryRequirements round trips to JSON and back losslessly
-func RunJSONSerializationTestForLibraryRequirements(subject LibraryRequirements) string {
+func RunJSONSerializationTestForLibraryRequirements(t *rapid.T) {
+	subject := LibraryRequirementsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LibraryRequirements
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -432,33 +366,30 @@ func RunJSONSerializationTestForLibraryRequirements(subject LibraryRequirements)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LibraryRequirements instances for property testing - lazily instantiated by
 // LibraryRequirementsGenerator()
-var libraryRequirementsGenerator gopter.Gen
+var libraryRequirementsGenerator *rapid.Generator[LibraryRequirements]
 
 // LibraryRequirementsGenerator returns a generator of LibraryRequirements instances for property testing.
-func LibraryRequirementsGenerator() gopter.Gen {
+func LibraryRequirementsGenerator() *rapid.Generator[LibraryRequirements] {
 	if libraryRequirementsGenerator != nil {
 		return libraryRequirementsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLibraryRequirements(generators)
-	libraryRequirementsGenerator = gen.Struct(reflect.TypeOf(LibraryRequirements{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	libraryRequirementsGenerator = rapid.Custom(func(t *rapid.T) LibraryRequirements {
+		var result LibraryRequirements
+		result.Content = ptrString.Draw(t, "Content")
+		result.Filename = ptrString.Draw(t, "Filename")
+		return result
+	})
 
 	return libraryRequirementsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLibraryRequirements is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLibraryRequirements(gens map[string]gopter.Gen) {
-	gens["Content"] = gen.PtrOf(gen.AlphaString())
-	gens["Filename"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SparkConfigProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -468,29 +399,23 @@ func Test_SparkConfigProperties_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SparkConfigProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSparkConfigProperties, SparkConfigPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSparkConfigProperties)
 }
 
 // RunJSONSerializationTestForSparkConfigProperties runs a test to see if a specific instance of SparkConfigProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForSparkConfigProperties(subject SparkConfigProperties) string {
+func RunJSONSerializationTestForSparkConfigProperties(t *rapid.T) {
+	subject := SparkConfigPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SparkConfigProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -499,34 +424,32 @@ func RunJSONSerializationTestForSparkConfigProperties(subject SparkConfigPropert
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SparkConfigProperties instances for property testing - lazily instantiated by
 // SparkConfigPropertiesGenerator()
-var sparkConfigPropertiesGenerator gopter.Gen
+var sparkConfigPropertiesGenerator *rapid.Generator[SparkConfigProperties]
 
 // SparkConfigPropertiesGenerator returns a generator of SparkConfigProperties instances for property testing.
-func SparkConfigPropertiesGenerator() gopter.Gen {
+func SparkConfigPropertiesGenerator() *rapid.Generator[SparkConfigProperties] {
 	if sparkConfigPropertiesGenerator != nil {
 		return sparkConfigPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSparkConfigProperties(generators)
-	sparkConfigPropertiesGenerator = gen.Struct(reflect.TypeOf(SparkConfigProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	configurationType := rapid.Ptr(rapid.SampledFrom([]SparkConfigProperties_ConfigurationType{SparkConfigProperties_ConfigurationType_Artifact, SparkConfigProperties_ConfigurationType_File}), true)
+
+	sparkConfigPropertiesGenerator = rapid.Custom(func(t *rapid.T) SparkConfigProperties {
+		var result SparkConfigProperties
+		result.ConfigurationType = configurationType.Draw(t, "ConfigurationType")
+		result.Content = ptrString.Draw(t, "Content")
+		result.Filename = ptrString.Draw(t, "Filename")
+		return result
+	})
 
 	return sparkConfigPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSparkConfigProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSparkConfigProperties(gens map[string]gopter.Gen) {
-	gens["ConfigurationType"] = gen.PtrOf(gen.OneConstOf(SparkConfigProperties_ConfigurationType_Artifact, SparkConfigProperties_ConfigurationType_File))
-	gens["Content"] = gen.PtrOf(gen.AlphaString())
-	gens["Filename"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspacesBigDataPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -536,29 +459,23 @@ func Test_WorkspacesBigDataPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WorkspacesBigDataPool_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspacesBigDataPool_Spec, WorkspacesBigDataPool_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForWorkspacesBigDataPool_Spec)
 }
 
 // RunJSONSerializationTestForWorkspacesBigDataPool_Spec runs a test to see if a specific instance of WorkspacesBigDataPool_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspacesBigDataPool_Spec(subject WorkspacesBigDataPool_Spec) string {
+func RunJSONSerializationTestForWorkspacesBigDataPool_Spec(t *rapid.T) {
+	subject := WorkspacesBigDataPool_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual WorkspacesBigDataPool_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -567,48 +484,35 @@ func RunJSONSerializationTestForWorkspacesBigDataPool_Spec(subject WorkspacesBig
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of WorkspacesBigDataPool_Spec instances for property testing - lazily instantiated by
 // WorkspacesBigDataPool_SpecGenerator()
-var workspacesBigDataPool_SpecGenerator gopter.Gen
+var workspacesBigDataPool_SpecGenerator *rapid.Generator[WorkspacesBigDataPool_Spec]
 
 // WorkspacesBigDataPool_SpecGenerator returns a generator of WorkspacesBigDataPool_Spec instances for property testing.
-// We first initialize workspacesBigDataPool_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func WorkspacesBigDataPool_SpecGenerator() gopter.Gen {
+func WorkspacesBigDataPool_SpecGenerator() *rapid.Generator[WorkspacesBigDataPool_Spec] {
 	if workspacesBigDataPool_SpecGenerator != nil {
 		return workspacesBigDataPool_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_Spec(generators)
-	workspacesBigDataPool_SpecGenerator = gen.Struct(reflect.TypeOf(WorkspacesBigDataPool_Spec{}), generators)
+	location := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+	properties := rapid.Ptr(BigDataPoolResourcePropertiesGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_Spec(generators)
-	AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_Spec(generators)
-	workspacesBigDataPool_SpecGenerator = gen.Struct(reflect.TypeOf(WorkspacesBigDataPool_Spec{}), generators)
+	workspacesBigDataPool_SpecGenerator = rapid.Custom(func(t *rapid.T) WorkspacesBigDataPool_Spec {
+		var result WorkspacesBigDataPool_Spec
+		result.Location = location.Draw(t, "Location")
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return workspacesBigDataPool_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_Spec(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(BigDataPoolResourcePropertiesGenerator())
 }

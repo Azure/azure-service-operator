@@ -34,7 +34,6 @@ var gopterGroups = set.Make(
 	"signalrservice",
 	"sql",
 	"storage",
-	"synapse",
 	"web",
 )
 
