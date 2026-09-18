@@ -159,6 +159,8 @@ require (
 	sigs.k8s.io/structured-merge-diff/v6 v6.4.2 // indirect
 )
 
+require github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azkeys v1.5.0
+
 require (
 	github.com/cenkalti/backoff/v5 v5.0.3 // indirect
 	github.com/go-openapi/swag/cmdutils v0.27.1 // indirect
