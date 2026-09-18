@@ -149,6 +149,15 @@ installCRDs: true
 # See https://azure.github.io/azure-service-operator/guide/crd-management for more details.
 crdPattern: ""
 
+# leaderElection configures the timings of the leader election lease. Operators watching a large number of
+# resources may need larger values than the defaults: the initial informer sync competes with lease renewal,
+# and a renewal missed during startup restarts the pod, which can leave the operator flapping across replicas.
+# leaseDuration must be greater than renewDeadline, and renewDeadline greater than retryPeriod.
+leaderElection:
+  leaseDuration: 15s
+  renewDeadline: 10s
+  retryPeriod: 2s
+
 # crdLabels is a comma-delimited (or semicolon-delimited) string, or a list of key=value strings, containing
 # additional labels to apply to all CRDs managed by ASO.
 # Setting this has no effect if installCRDs is false.
