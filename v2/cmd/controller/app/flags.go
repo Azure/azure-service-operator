@@ -53,11 +53,11 @@ func parseCRDLabels(value string) (map[string]string, error) {
 // Validate checks the flag combinations that would otherwise only fail once the manager starts.
 func (f Flags) Validate() error {
 	if f.LeaseDuration <= f.RenewDeadline {
-		return eris.Errorf("lease-duration (%s) must be greater than renew-deadline (%s)", f.LeaseDuration, f.RenewDeadline)
+		return eris.Errorf("leader-lease-duration (%s) must be greater than leader-renew-deadline (%s)", f.LeaseDuration, f.RenewDeadline)
 	}
 
 	if f.RenewDeadline <= f.RetryPeriod {
-		return eris.Errorf("renew-deadline (%s) must be greater than retry-period (%s)", f.RenewDeadline, f.RetryPeriod)
+		return eris.Errorf("leader-renew-deadline (%s) must be greater than leader-retry-period (%s)", f.RenewDeadline, f.RetryPeriod)
 	}
 
 	return nil
@@ -96,9 +96,9 @@ func InitFlags(flagSet *flag.FlagSet) *Flags {
 	flagSet.StringVar(&result.WebhookCertDir, "webhook-cert-dir", "", "The directory the webhook server's certs are stored.")
 	flagSet.BoolVar(&result.EnableLeaderElection, "enable-leader-election", false, "Enable leader election for controllers manager. Enabling this will ensure there is only one active controllers manager.")
 
-	flagSet.DurationVar(&result.LeaseDuration, "lease-duration", 15*time.Second, "How long a leader lease is valid for. Operators watching many resources may need a larger value, as the initial informer sync competes with lease renewal.")
-	flagSet.DurationVar(&result.RenewDeadline, "renew-deadline", 10*time.Second, "How long the leader has to renew its lease before giving it up. Must be less than lease-duration.")
-	flagSet.DurationVar(&result.RetryPeriod, "retry-period", 2*time.Second, "How long clients wait between attempts to acquire or renew the lease. Must be less than renew-deadline.")
+	flagSet.DurationVar(&result.LeaseDuration, "leader-lease-duration", 15*time.Second, "How long a leader lease is valid for. Operators watching many resources may need a larger value, as the initial informer sync competes with lease renewal.")
+	flagSet.DurationVar(&result.RenewDeadline, "leader-renew-deadline", 10*time.Second, "How long the leader has to renew its lease before giving it up. Must be less than leader-lease-duration.")
+	flagSet.DurationVar(&result.RetryPeriod, "leader-retry-period", 2*time.Second, "How long clients wait between attempts to acquire or renew the lease. Must be less than leader-renew-deadline.")
 
 	flagSet.StringVar(&result.CRDManagementMode, "crd-management", "auto",
 		"Instructs the operator on how it should manage the Custom Resource Definitions. One of 'auto', 'none'")

@@ -62,15 +62,17 @@ spec:
 
 ### Operator restarts in a loop with "leader election lost"
 
+This only affects large clusters - ones with many installed CRDs, many ASO resources, or both. Smaller clusters
+start well inside the default lease timings and never hit it.
+
 The error looks like this, shortly after the pod has started its controllers:
 ```
 E0916 23:52:08.898297  1 main.go:47] "failed to start manager" err="leader election lost"
 ```
 
 The pod exits, the standby replica takes over, reaches the same point and exits too, so the operator never
-finishes starting. This happens when the initial informer sync is slower than the lease renewal deadline: the
-renewal is starved while every watched kind is listed for the first time, the lease expires, and the manager
-stops. It gets more likely the more CRDs are installed and the more resources exist in the cluster.
+finishes starting. The initial informer sync is slower than the lease renewal deadline: the renewal is starved
+while every watched kind is listed for the first time, the lease expires, and the manager stops.
 
 Raise the lease timings so a cold start fits inside them. In Helm:
 ```yaml

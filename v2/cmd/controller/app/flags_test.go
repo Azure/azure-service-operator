@@ -19,7 +19,7 @@ func TestLeaderElectionFlags(t *testing.T) {
 
 	g.Expect(flags.Validate()).To(Succeed())
 
-	g.Expect(flagSet.Parse([]string{"--lease-duration=2m", "--renew-deadline=100s", "--retry-period=20s"})).To(Succeed())
+	g.Expect(flagSet.Parse([]string{"--leader-lease-duration=2m", "--leader-renew-deadline=100s", "--leader-retry-period=20s"})).To(Succeed())
 	g.Expect(flags.LeaseDuration).To(Equal(2 * time.Minute))
 	g.Expect(flags.RenewDeadline).To(Equal(100 * time.Second))
 	g.Expect(flags.RetryPeriod).To(Equal(20 * time.Second))
@@ -34,16 +34,16 @@ func TestLeaderElectionFlagsValidation(t *testing.T) {
 		expectedError string
 	}{
 		"renew deadline at lease duration": {
-			args:          []string{"--lease-duration=10s", "--renew-deadline=10s"},
-			expectedError: "lease-duration (10s) must be greater than renew-deadline (10s)",
+			args:          []string{"--leader-lease-duration=10s", "--leader-renew-deadline=10s"},
+			expectedError: "leader-lease-duration (10s) must be greater than leader-renew-deadline (10s)",
 		},
 		"renew deadline beyond lease duration": {
-			args:          []string{"--lease-duration=10s", "--renew-deadline=20s"},
-			expectedError: "lease-duration (10s) must be greater than renew-deadline (20s)",
+			args:          []string{"--leader-lease-duration=10s", "--leader-renew-deadline=20s"},
+			expectedError: "leader-lease-duration (10s) must be greater than leader-renew-deadline (20s)",
 		},
 		"retry period at renew deadline": {
-			args:          []string{"--renew-deadline=2s"},
-			expectedError: "renew-deadline (2s) must be greater than retry-period (2s)",
+			args:          []string{"--leader-renew-deadline=2s"},
+			expectedError: "leader-renew-deadline (2s) must be greater than leader-retry-period (2s)",
 		},
 	}
 
