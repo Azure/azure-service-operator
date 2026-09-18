@@ -236,6 +236,27 @@ resources:
 go:
   memLimit: 400MiB # This should be set to ~80-90% of the hard memory limit set above in resources
 
+# probes configures the timings of the operator's liveness, readiness and startup probes. The defaults are the
+# values the chart has always applied, so leaving this alone changes nothing.
+# The startup probe is the one most likely to need adjusting. The operator applies its CRDs and starts a
+# controller per installed CRD before it serves /healthz, so on a cluster with a large number of CRDs the default
+# budget of periodSeconds x failureThreshold can expire while it is still working, and the kubelet restarts it
+# mid-apply. Raise failureThreshold in that case.
+# The probe paths and ports are not configurable; only these timings are.
+probes:
+  startup:
+    periodSeconds: 10
+    failureThreshold: 12
+    timeoutSeconds: 1
+  liveness:
+    periodSeconds: 10
+    failureThreshold: 3
+    timeoutSeconds: 1
+  readiness:
+    periodSeconds: 10
+    failureThreshold: 3
+    timeoutSeconds: 1
+
 # Number of old history to retain to allow rollback
 # Default Kubernetes value is set to 10
 revisionHistoryLimit: 10
