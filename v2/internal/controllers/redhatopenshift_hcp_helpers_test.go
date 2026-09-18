@@ -76,7 +76,8 @@ func createHcpTestPrerequisites(
 		names = append(names, name)
 	}
 	sort.Strings(names) // Resource name generation must be deterministic for playback.
-	all := []client.Object{vnet, nsg, subnet, integrationSubnet, vault}
+	all := make([]client.Object, 0, 5+len(names)+len(assignments))
+	all = append(all, vnet, nsg, subnet, integrationSubnet, vault)
 	for _, name := range names {
 		identity := &managedidentity.UserAssignedIdentity{
 			ObjectMeta: tc.MakeObjectMeta(strings.ToLower(name)),

@@ -174,7 +174,7 @@ func loadHcpTestConfig(tc *testcommon.KubePerTestContext, configPath string) map
 	values := defaults
 	if !tc.AzureClientRecorder.IsReplaying() {
 		tc.Expect(configPath).ToNot(BeEmpty(), "recording requires ARO_HCP_TEST_CONFIG")
-		configBytes, err := os.ReadFile(configPath)
+		configBytes, err := os.ReadFile(configPath) //nolint:gosec // The test runner intentionally supplies this configuration path.
 		tc.Expect(err).ToNot(HaveOccurred())
 		values = map[string]string{}
 		tc.Expect(json.Unmarshal(configBytes, &values)).To(Succeed())
@@ -205,7 +205,7 @@ func loadHcpTestConfig(tc *testcommon.KubePerTestContext, configPath string) map
 
 func loadHcpTestResources(tc *testcommon.KubePerTestContext, values map[string]string) hcpTestResources {
 	tc.T.Helper()
-	var replacements []string
+	replacements := make([]string, 0, 2*len(values))
 	for key, value := range values {
 		encoded, err := json.Marshal(value)
 		tc.Expect(err).ToNot(HaveOccurred())
