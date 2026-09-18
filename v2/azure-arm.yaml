@@ -104,6 +104,11 @@ typeFilters:
     group: common
     because: we need these for common resource properties
 
+  - action: include
+    group: redhatopenshift
+    version: v*20260901preview
+    because: We want to export ARO-HCP resources from this preview version
+
   - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default (they often do very strange things)
