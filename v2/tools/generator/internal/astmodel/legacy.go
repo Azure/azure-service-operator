@@ -79,6 +79,7 @@ var versionMigrationHybridReleases = map[string]string{
 	"datafactory":       "v2.20.0",
 	"dataprotection":    "v2.21.0",
 	"dbformysql":        "v2.19.0",
+	"dbforpostgresql":   "v2.22.0",
 	"eventgrid":         "v2.20.0",
 	"sql":               "v2.21.0",
 	"storage":           "v2.18.0",
@@ -113,7 +114,7 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 
 	"dbformysql": VersionMigrationModeHybrid,
 
-	"dbforpostgresql": VersionMigrationModeLegacy,
+	"dbforpostgresql": VersionMigrationModeHybrid,
 	"devices":         VersionMigrationModeLegacy,
 	"documentdb":      VersionMigrationModeLegacy,
 

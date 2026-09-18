@@ -4,18 +4,28 @@
 package customizations
 
 import (
-	v20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
-	v20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview"
-	v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/storage"
-	v20221201 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201"
-	v20221201s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
-	v20230601p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview"
-	v20230601ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/storage"
-	v20240801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
-	v20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
-	v20250801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801"
-	v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
+	dbforpostgresql_v1api20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
+	dbforpostgresql_v1api20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
+	dbforpostgresql_v1api20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview"
+	dbforpostgresql_v1api20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/storage"
+	dbforpostgresql_v1api20221201 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201"
+	dbforpostgresql_v1api20221201s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
+	dbforpostgresql_v1api20230601p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview"
+	dbforpostgresql_v1api20230601ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/storage"
+	dbforpostgresql_v1api20240801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
+	dbforpostgresql_v1api20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	dbforpostgresql_v20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20210601"
+	dbforpostgresql_v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20210601/storage"
+	dbforpostgresql_v20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20220120preview"
+	dbforpostgresql_v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20220120preview/storage"
+	dbforpostgresql_v20221201 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20221201"
+	dbforpostgresql_v20221201s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20221201/storage"
+	dbforpostgresql_v20230601p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20230601preview"
+	dbforpostgresql_v20230601ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20230601preview/storage"
+	dbforpostgresql_v20240801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20240801"
+	dbforpostgresql_v20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20240801/storage"
+	dbforpostgresql_v20250801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801"
+	dbforpostgresql_v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -25,16 +35,26 @@ type FlexibleServerExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *FlexibleServerExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20210601.FlexibleServer{},
-		&v20210601s.FlexibleServer{},
-		&v20220120p.FlexibleServer{},
-		&v20220120ps.FlexibleServer{},
-		&v20221201.FlexibleServer{},
-		&v20221201s.FlexibleServer{},
-		&v20230601p.FlexibleServer{},
-		&v20230601ps.FlexibleServer{},
-		&v20240801.FlexibleServer{},
-		&v20240801s.FlexibleServer{},
-		&v20250801.FlexibleServer{},
-		&v20250801s.FlexibleServer{}}
+		&dbforpostgresql_v1api20210601.FlexibleServer{},
+		&dbforpostgresql_v1api20210601s.FlexibleServer{},
+		&dbforpostgresql_v1api20220120p.FlexibleServer{},
+		&dbforpostgresql_v1api20220120ps.FlexibleServer{},
+		&dbforpostgresql_v1api20221201.FlexibleServer{},
+		&dbforpostgresql_v1api20221201s.FlexibleServer{},
+		&dbforpostgresql_v1api20230601p.FlexibleServer{},
+		&dbforpostgresql_v1api20230601ps.FlexibleServer{},
+		&dbforpostgresql_v1api20240801.FlexibleServer{},
+		&dbforpostgresql_v1api20240801s.FlexibleServer{},
+		&dbforpostgresql_v20210601.FlexibleServer{},
+		&dbforpostgresql_v20210601s.FlexibleServer{},
+		&dbforpostgresql_v20220120p.FlexibleServer{},
+		&dbforpostgresql_v20220120ps.FlexibleServer{},
+		&dbforpostgresql_v20221201.FlexibleServer{},
+		&dbforpostgresql_v20221201s.FlexibleServer{},
+		&dbforpostgresql_v20230601p.FlexibleServer{},
+		&dbforpostgresql_v20230601ps.FlexibleServer{},
+		&dbforpostgresql_v20240801.FlexibleServer{},
+		&dbforpostgresql_v20240801s.FlexibleServer{},
+		&dbforpostgresql_v20250801.FlexibleServer{},
+		&dbforpostgresql_v20250801s.FlexibleServer{}}
 }
