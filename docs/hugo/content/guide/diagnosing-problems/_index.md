@@ -26,6 +26,31 @@ Events:
   ...
 ```
 
+### Operator pod is restarted before it finishes applying CRDs
+
+On a cluster with a large number of CRDs, the operator can be killed by the kubelet while it is still starting.
+The pod restarts repeatedly and never reports ready, and `kubectl describe pod` shows the startup probe failing:
+
+```
+  Warning  Unhealthy  2m (x12 over 4m)  kubelet  Startup probe failed: Get "http://10.244.0.9:8081/healthz": context deadline exceeded
+```
+
+The operator applies its CRDs and starts a controller for each installed CRD before it serves `/healthz`, so on
+a large cluster that work can outlast the startup probe's budget of `periodSeconds` x `failureThreshold`.
+
+Give it more time by raising `failureThreshold`. In Helm:
+```yaml
+probes:
+  startup:
+    failureThreshold: 60
+```
+
+That allows ten minutes rather than the default two. Raising it costs nothing when the operator starts quickly,
+because the probe stops as soon as it first succeeds.
+
+Installing fewer CRDs also shortens startup, since the operator only applies and watches the CRDs it is asked
+for. See [CRD management]( {{< relref "crd-management" >}} ).
+
 ### Helm installation via Argo missing ClusterRole and other resources
 
 See reference issue [#4184](https://github.com/Azure/azure-service-operator/issues/4184).
