@@ -67,6 +67,17 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 	// We have a configured rename, need to search through packages to find the type with that name
 	pkg := graph.links[name.InternalPackageReference()] // Start with the package following the package we're converting from
 	for pkg != nil {
+		isLaterVersion := astmodel.ComparePathAndVersion(
+			name.InternalPackageReference().APIVersion(),
+			pkg.APIVersion(),
+		) < 0
+		// Keep new-style renames in the new-style package chain, but preserve valid backward preview transitions
+		// into same-version or older compatibility packages.
+		if !isCompatibilityPackage(name.PackageReference()) && isCompatibilityPackage(pkg) && isLaterVersion {
+			pkg = graph.links[pkg]
+			continue
+		}
+
 		// Does our target type exist in this package?
 		newType := name.WithPackageReference(pkg).WithName(rename)
 		if definitions.Contains(newType) {
