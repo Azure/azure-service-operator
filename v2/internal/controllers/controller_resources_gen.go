@@ -36,6 +36,9 @@ import (
 	apimanagement_v20240501 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501"
 	apimanagement_v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
 	apimanagement_v20240501w "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/webhook"
+	apimanagement_v20250301p "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20250301preview"
+	apimanagement_v20250301ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20250301preview/storage"
+	apimanagement_v20250301pw "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20250301preview/webhook"
 	app_customizations "github.com/Azure/azure-service-operator/v2/api/app/customizations"
 	app_v1api20240301 "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301"
 	app_v1api20240301s "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
@@ -4002,6 +4005,12 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.ServiceGatewayHostnameConfiguration)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Subscription)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.User)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(apimanagement_v20250301p.Backend),
+		Defaulter: &apimanagement_v20250301pw.Backend{},
+		Validator: &apimanagement_v20250301pw.Backend{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(apimanagement_v20250301ps.Backend)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -8353,6 +8362,8 @@ func createScheme() *runtime.Scheme {
 	_ = apimanagement_v20230501ps.AddToScheme(scheme)
 	_ = apimanagement_v20240501.AddToScheme(scheme)
 	_ = apimanagement_v20240501s.AddToScheme(scheme)
+	_ = apimanagement_v20250301p.AddToScheme(scheme)
+	_ = apimanagement_v20250301ps.AddToScheme(scheme)
 	_ = app_v1api20240301.AddToScheme(scheme)
 	_ = app_v1api20240301s.AddToScheme(scheme)
 	_ = app_v1api20250101.AddToScheme(scheme)
