@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20240801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &FlexibleServersAdvancedThreatProtectionSettings{
 
 // ConvertFrom populates our FlexibleServersAdvancedThreatProtectionSettings from the provided hub FlexibleServersAdvancedThreatProtectionSettings
 func (settings *FlexibleServersAdvancedThreatProtectionSettings) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FlexibleServersAdvancedThreatProtectionSettings)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v20250801/storage/FlexibleServersAdvancedThreatProtectionSettings but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FlexibleServersAdvancedThreatProtectionSettings
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return settings.AssignProperties_From_FlexibleServersAdvancedThreatProtectionSettings(source)
+	err = settings.AssignProperties_From_FlexibleServersAdvancedThreatProtectionSettings(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to settings")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersAdvancedThreatProtectionSettings from our FlexibleServersAdvancedThreatProtectionSettings
 func (settings *FlexibleServersAdvancedThreatProtectionSettings) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FlexibleServersAdvancedThreatProtectionSettings)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v20250801/storage/FlexibleServersAdvancedThreatProtectionSettings but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FlexibleServersAdvancedThreatProtectionSettings
+	err := settings.AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettings(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from settings")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return settings.AssignProperties_To_FlexibleServersAdvancedThreatProtectionSettings(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FlexibleServersAdvancedThreatProtectionSettings{}
