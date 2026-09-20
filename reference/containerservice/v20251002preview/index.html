@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>containerservice.azure.com/v20251002preview | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2025-10-02-preview” MaintenanceConfiguration Generator information:
-Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​maintenanceConfigurations/​{configName} Used by: MaintenanceConfigurationList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConfiguration_SpecOptional status MaintenanceConfiguration_STATUSOptional MaintenanceConfiguration_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional maintenanceWindow Maintenance window for the maintenance configuration. MaintenanceWindowOptional notAllowedTime Time slots on which upgrade is not allowed. TimeSpan[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure MaintenanceConfigurationOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/ManagedCluster resource genruntime.KnownResourceReferenceRequired timeInWeek Time slots during the week when planned maintenance is allowed to proceed. If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. TimeInWeek[]Optional MaintenanceConfiguration_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional maintenanceWindow Maintenance window for the maintenance configuration. MaintenanceWindow_STATUSOptional name The name of the resource stringOptional notAllowedTime Time slots on which upgrade is not allowed. TimeSpan_STATUS[]Optional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional timeInWeek Time slots during the week when planned maintenance is allowed to proceed. If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. TimeInWeek_STATUS[]Optional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional MaintenanceConfigurationList Generator information:">
+<meta name="description" content="APIVersion Value Description “2025-10-02-preview” IdentityBinding Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​identityBindings/​{identityBindingName}
+Used by: IdentityBindingList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec IdentityBinding_SpecOptional status IdentityBinding_STATUSOptional IdentityBinding_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure IdentityBindingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/ManagedCluster resource genruntime.KnownResourceReferenceRequired properties The resource-specific properties for this resource. IdentityBindingPropertiesOptional IdentityBinding_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional eTag If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional properties The resource-specific properties for this resource. IdentityBindingProperties_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional IdentityBindingList Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​identityBindings/​{identityBindingName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/containerservice/v20251002preview/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="containerservice.azure.com/v20251002preview">
-  <meta property="og:description" content="APIVersion Value Description “2025-10-02-preview” MaintenanceConfiguration Generator information:
-Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​maintenanceConfigurations/​{configName} Used by: MaintenanceConfigurationList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConfiguration_SpecOptional status MaintenanceConfiguration_STATUSOptional MaintenanceConfiguration_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional maintenanceWindow Maintenance window for the maintenance configuration. MaintenanceWindowOptional notAllowedTime Time slots on which upgrade is not allowed. TimeSpan[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure MaintenanceConfigurationOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/ManagedCluster resource genruntime.KnownResourceReferenceRequired timeInWeek Time slots during the week when planned maintenance is allowed to proceed. If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. TimeInWeek[]Optional MaintenanceConfiguration_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional maintenanceWindow Maintenance window for the maintenance configuration. MaintenanceWindow_STATUSOptional name The name of the resource stringOptional notAllowedTime Time slots on which upgrade is not allowed. TimeSpan_STATUS[]Optional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional timeInWeek Time slots during the week when planned maintenance is allowed to proceed. If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. TimeInWeek_STATUS[]Optional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional MaintenanceConfigurationList Generator information:">
+  <meta property="og:description" content="APIVersion Value Description “2025-10-02-preview” IdentityBinding Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​identityBindings/​{identityBindingName}
+Used by: IdentityBindingList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec IdentityBinding_SpecOptional status IdentityBinding_STATUSOptional IdentityBinding_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure IdentityBindingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/ManagedCluster resource genruntime.KnownResourceReferenceRequired properties The resource-specific properties for this resource. IdentityBindingPropertiesOptional IdentityBinding_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional eTag If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional properties The resource-specific properties for this resource. IdentityBindingProperties_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional IdentityBindingList Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​identityBindings/​{identityBindingName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="containerservice.azure.com/v20251002preview">
-  <meta itemprop="description" content="APIVersion Value Description “2025-10-02-preview” MaintenanceConfiguration Generator information:
-Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​maintenanceConfigurations/​{configName} Used by: MaintenanceConfigurationList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConfiguration_SpecOptional status MaintenanceConfiguration_STATUSOptional MaintenanceConfiguration_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional maintenanceWindow Maintenance window for the maintenance configuration. MaintenanceWindowOptional notAllowedTime Time slots on which upgrade is not allowed. TimeSpan[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure MaintenanceConfigurationOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/ManagedCluster resource genruntime.KnownResourceReferenceRequired timeInWeek Time slots during the week when planned maintenance is allowed to proceed. If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. TimeInWeek[]Optional MaintenanceConfiguration_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional maintenanceWindow Maintenance window for the maintenance configuration. MaintenanceWindow_STATUSOptional name The name of the resource stringOptional notAllowedTime Time slots on which upgrade is not allowed. TimeSpan_STATUS[]Optional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional timeInWeek Time slots during the week when planned maintenance is allowed to proceed. If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. TimeInWeek_STATUS[]Optional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional MaintenanceConfigurationList Generator information:">
-  <meta itemprop="wordCount" content="37203">
+  <meta itemprop="description" content="APIVersion Value Description “2025-10-02-preview” IdentityBinding Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​identityBindings/​{identityBindingName}
+Used by: IdentityBindingList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec IdentityBinding_SpecOptional status IdentityBinding_STATUSOptional IdentityBinding_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure IdentityBindingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/ManagedCluster resource genruntime.KnownResourceReferenceRequired properties The resource-specific properties for this resource. IdentityBindingPropertiesOptional IdentityBinding_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional eTag If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional properties The resource-specific properties for this resource. IdentityBindingProperties_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional IdentityBindingList Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​identityBindings/​{identityBindingName}">
+  <meta itemprop="wordCount" content="37927">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="containerservice.azure.com/v20251002preview">
-  <meta name="twitter:description" content="APIVersion Value Description “2025-10-02-preview” MaintenanceConfiguration Generator information:
-Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​maintenanceConfigurations/​{configName} Used by: MaintenanceConfigurationList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConfiguration_SpecOptional status MaintenanceConfiguration_STATUSOptional MaintenanceConfiguration_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional maintenanceWindow Maintenance window for the maintenance configuration. MaintenanceWindowOptional notAllowedTime Time slots on which upgrade is not allowed. TimeSpan[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure MaintenanceConfigurationOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/ManagedCluster resource genruntime.KnownResourceReferenceRequired timeInWeek Time slots during the week when planned maintenance is allowed to proceed. If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. TimeInWeek[]Optional MaintenanceConfiguration_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional maintenanceWindow Maintenance window for the maintenance configuration. MaintenanceWindow_STATUSOptional name The name of the resource stringOptional notAllowedTime Time slots on which upgrade is not allowed. TimeSpan_STATUS[]Optional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional timeInWeek Time slots during the week when planned maintenance is allowed to proceed. If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. TimeInWeek_STATUS[]Optional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional MaintenanceConfigurationList Generator information:">
+  <meta name="twitter:description" content="APIVersion Value Description “2025-10-02-preview” IdentityBinding Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​identityBindings/​{identityBindingName}
+Used by: IdentityBindingList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec IdentityBinding_SpecOptional status IdentityBinding_STATUSOptional IdentityBinding_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure IdentityBindingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/ManagedCluster resource genruntime.KnownResourceReferenceRequired properties The resource-specific properties for this resource. IdentityBindingPropertiesOptional IdentityBinding_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional eTag If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional properties The resource-specific properties for this resource. IdentityBindingProperties_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional IdentityBindingList Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​identityBindings/​{identityBindingName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -1058,6 +1058,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
         <nav id="TableOfContents">
   <ul>
     <li><a href="#APIVersion">APIVersion</a></li>
+    <li><a href="#IdentityBinding">IdentityBinding</a>
+      <ul>
+        <li><a href="#IdentityBinding_Spec">IdentityBinding_Spec</a></li>
+        <li><a href="#IdentityBinding_STATUS">IdentityBinding_STATUS</a></li>
+      </ul>
+    </li>
+    <li><a href="#IdentityBindingList">IdentityBindingList</a></li>
     <li><a href="#MaintenanceConfiguration">MaintenanceConfiguration</a>
       <ul>
         <li><a href="#MaintenanceConfiguration_Spec">MaintenanceConfiguration_Spec</a></li>
@@ -1086,6 +1093,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
       </ul>
     </li>
     <li><a href="#TrustedAccessRoleBindingList">TrustedAccessRoleBindingList</a></li>
+    <li><a href="#IdentityBinding_Spec">IdentityBinding_Spec</a></li>
+    <li><a href="#IdentityBinding_STATUS">IdentityBinding_STATUS</a></li>
     <li><a href="#MaintenanceConfiguration_Spec">MaintenanceConfiguration_Spec</a></li>
     <li><a href="#MaintenanceConfiguration_STATUS">MaintenanceConfiguration_STATUS</a></li>
     <li><a href="#ManagedCluster_Spec">ManagedCluster_Spec</a></li>
@@ -1127,6 +1136,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
     <li><a href="#GPUInstanceProfile_STATUS">GPUInstanceProfile_STATUS</a></li>
     <li><a href="#GPUProfile">GPUProfile</a></li>
     <li><a href="#GPUProfile_STATUS">GPUProfile_STATUS</a></li>
+    <li><a href="#IdentityBindingOperatorSpec">IdentityBindingOperatorSpec</a></li>
+    <li><a href="#IdentityBindingProperties">IdentityBindingProperties</a></li>
+    <li><a href="#IdentityBindingProperties_STATUS">IdentityBindingProperties_STATUS</a></li>
     <li><a href="#KubeletConfig">KubeletConfig</a></li>
     <li><a href="#KubeletConfig_STATUS">KubeletConfig_STATUS</a></li>
     <li><a href="#KubeletDiskType">KubeletDiskType</a></li>
@@ -1262,6 +1274,10 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
     <li><a href="#GPUDriver">GPUDriver</a></li>
     <li><a href="#GPUDriver_STATUS">GPUDriver_STATUS</a></li>
     <li><a href="#HourInDay">HourInDay</a></li>
+    <li><a href="#IdentityBindingManagedIdentityProfile">IdentityBindingManagedIdentityProfile</a></li>
+    <li><a href="#IdentityBindingManagedIdentityProfile_STATUS">IdentityBindingManagedIdentityProfile_STATUS</a></li>
+    <li><a href="#IdentityBindingOidcIssuerProfile_STATUS">IdentityBindingOidcIssuerProfile_STATUS</a></li>
+    <li><a href="#IdentityBindingProvisioningState_STATUS">IdentityBindingProvisioningState_STATUS</a></li>
     <li><a href="#IPFamily">IPFamily</a></li>
     <li><a href="#IPFamily_STATUS">IPFamily_STATUS</a></li>
     <li><a href="#IPTag">IPTag</a></li>
@@ -1544,6 +1560,147 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
       <tr>
           <td>&ldquo;2025-10-02-preview&rdquo;</td>
           <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="IdentityBinding">IdentityBinding</h2>
+<p>Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​identityBindings/​{identityBindingName}</p>
+<p>Used by: <a href="#IdentityBindingList">IdentityBindingList</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#IdentityBinding_Spec">IdentityBinding_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td></td>
+          <td><a href="#IdentityBinding_STATUS">IdentityBinding_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="IdentityBinding_Spec">IdentityBinding_Spec</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#IdentityBindingOperatorSpec">IdentityBindingOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/ManagedCluster resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>The resource-specific properties for this resource.</td>
+          <td><a href="#IdentityBindingProperties">IdentityBindingProperties</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="IdentityBinding_STATUS">IdentityBinding_STATUS</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>eTag</td>
+          <td>If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>The resource-specific properties for this resource.</td>
+          <td><a href="#IdentityBindingProperties_STATUS">IdentityBindingProperties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="IdentityBindingList">IdentityBindingList</h2>
+<p>Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​identityBindings/​{identityBindingName}</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>items</td>
+          <td></td>
+          <td><a href="#IdentityBinding">IdentityBinding[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -3215,6 +3372,87 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
           <td>items</td>
           <td></td>
           <td><a href="#TrustedAccessRoleBinding">TrustedAccessRoleBinding[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="IdentityBinding_Spec">IdentityBinding_Spec</h2>
+<p>Used by: <a href="#IdentityBinding">IdentityBinding</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#IdentityBindingOperatorSpec">IdentityBindingOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/ManagedCluster resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>The resource-specific properties for this resource.</td>
+          <td><a href="#IdentityBindingProperties">IdentityBindingProperties</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="IdentityBinding_STATUS">IdentityBinding_STATUS</h2>
+<p>Used by: <a href="#IdentityBinding">IdentityBinding</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>eTag</td>
+          <td>If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. E.g. &ldquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>The resource-specific properties for this resource.</td>
+          <td><a href="#IdentityBindingProperties_STATUS">IdentityBindingProperties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>systemData</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
+          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -5640,6 +5878,78 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
           <td>driverType</td>
           <td>Specify the type of GPU driver to install when creating Windows agent pools. If not provided, AKS selects the driver based on system compatibility. This cannot be changed once the AgentPool has been created. This cannot be set on Linux AgentPools. For Linux AgentPools, the driver is selected based on system compatibility.</td>
           <td><a href="#DriverType_STATUS">DriverType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="IdentityBindingOperatorSpec">IdentityBindingOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#IdentityBinding_Spec">IdentityBinding_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="IdentityBindingProperties">IdentityBindingProperties</h2>
+<p>IdentityBinding properties.</p>
+<p>Used by: <a href="#IdentityBinding_Spec">IdentityBinding_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>managedIdentity</td>
+          <td>Managed identity profile for the identity binding.</td>
+          <td><a href="#IdentityBindingManagedIdentityProfile">IdentityBindingManagedIdentityProfile</a><br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="IdentityBindingProperties_STATUS">IdentityBindingProperties_STATUS</h2>
+<p>IdentityBinding properties.</p>
+<p>Used by: <a href="#IdentityBinding_STATUS">IdentityBinding_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>managedIdentity</td>
+          <td>Managed identity profile for the identity binding.</td>
+          <td><a href="#IdentityBindingManagedIdentityProfile_STATUS">IdentityBindingManagedIdentityProfile_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>oidcIssuer</td>
+          <td>The OIDC issuer URL of the IdentityBinding.</td>
+          <td><a href="#IdentityBindingOidcIssuerProfile_STATUS">IdentityBindingOidcIssuerProfile_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The status of the last operation.</td>
+          <td><a href="#IdentityBindingProvisioningState_STATUS">IdentityBindingProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -9002,7 +9312,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
 </table>
 <h2 id="SystemData_STATUS">SystemData_STATUS</h2>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
-<p>Used by: <a href="#MaintenanceConfiguration_STATUS">MaintenanceConfiguration_STATUS</a>, <a href="#ManagedCluster_STATUS">ManagedCluster_STATUS</a>, <a href="#ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>, and <a href="#TrustedAccessRoleBinding_STATUS">TrustedAccessRoleBinding_STATUS</a>.</p>
+<p>Used by: <a href="#IdentityBinding_STATUS">IdentityBinding_STATUS</a>, <a href="#MaintenanceConfiguration_STATUS">MaintenanceConfiguration_STATUS</a>, <a href="#ManagedCluster_STATUS">ManagedCluster_STATUS</a>, <a href="#ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>, and <a href="#TrustedAccessRoleBinding_STATUS">TrustedAccessRoleBinding_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -10172,6 +10482,115 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
 </table>
 <h2 id="HourInDay">HourInDay</h2>
 <p>Used by: <a href="#TimeInWeek">TimeInWeek</a>.</p>
+<h2 id="IdentityBindingManagedIdentityProfile">IdentityBindingManagedIdentityProfile</h2>
+<p>Managed identity profile for the identity binding.</p>
+<p>Used by: <a href="#IdentityBindingProperties">IdentityBindingProperties</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>resourceReference</td>
+          <td>The resource ID of the managed identity.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="IdentityBindingManagedIdentityProfile_STATUS">IdentityBindingManagedIdentityProfile_STATUS</h2>
+<p>Managed identity profile for the identity binding.</p>
+<p>Used by: <a href="#IdentityBindingProperties_STATUS">IdentityBindingProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>clientId</td>
+          <td>The client ID of the managed identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>objectId</td>
+          <td>The object ID of the managed identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>resourceId</td>
+          <td>The resource ID of the managed identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tenantId</td>
+          <td>The tenant ID of the managed identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="IdentityBindingOidcIssuerProfile_STATUS">IdentityBindingOidcIssuerProfile_STATUS</h2>
+<p>IdentityBinding OIDC issuer profile.</p>
+<p>Used by: <a href="#IdentityBindingProperties_STATUS">IdentityBindingProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>oidcIssuerUrl</td>
+          <td>The OIDC issuer URL of the IdentityBinding.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="IdentityBindingProvisioningState_STATUS">IdentityBindingProvisioningState_STATUS</h2>
+<p>The provisioning state of the last accepted operation.</p>
+<p>Used by: <a href="#IdentityBindingProperties_STATUS">IdentityBindingProperties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Canceled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Creating&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Updating&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="IPFamily">IPFamily</h2>
 <p>To determine if address belongs IPv4 or IPv6 family</p>
 <p>Used by: <a href="#ContainerServiceNetworkProfile">ContainerServiceNetworkProfile</a>.</p>
