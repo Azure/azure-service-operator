@@ -71,6 +71,10 @@ var exclusions = []*regexp.Regexp{
 	regexp.MustCompile(`dbformysql/.*_user_aad.yaml`),
 	regexp.MustCompile(`dbforpostgresql/.*_user.yaml`),
 
+	// PostgreSQL virtual endpoints require multiple servers with an established replication link.
+	// Older versions only pass because their recordings predate this service-side validation.
+	regexp.MustCompile(`dbforpostgresql/.*_flexibleserversvirtualendpoint.yaml`),
+
 	// Excluding sql serversadministrator and serversazureadonlyauthentication as they both require AAD auth
 	// which the samples recordings aren't using.
 	regexp.MustCompile(`sql/.*_serversadministrator.yaml`),

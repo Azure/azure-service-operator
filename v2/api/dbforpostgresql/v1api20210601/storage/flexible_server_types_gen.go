@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20210601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -379,13 +379,6 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 		server.AdministratorLoginPassword = nil
 	}
 
-	// AuthConfig
-	if source.AuthConfig != nil {
-		propertyBag.Add("AuthConfig", *source.AuthConfig)
-	} else {
-		propertyBag.Remove("AuthConfig")
-	}
-
 	// AvailabilityZone
 	server.AvailabilityZone = genruntime.ClonePointerToString(source.AvailabilityZone)
 
@@ -407,13 +400,6 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 	// CreateMode
 	server.CreateMode = genruntime.ClonePointerToString(source.CreateMode)
 
-	// DataEncryption
-	if source.DataEncryption != nil {
-		propertyBag.Add("DataEncryption", *source.DataEncryption)
-	} else {
-		propertyBag.Remove("DataEncryption")
-	}
-
 	// HighAvailability
 	if source.HighAvailability != nil {
 		var highAvailability HighAvailability
@@ -424,13 +410,6 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 		server.HighAvailability = &highAvailability
 	} else {
 		server.HighAvailability = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		propertyBag.Add("Identity", *source.Identity)
-	} else {
-		propertyBag.Remove("Identity")
 	}
 
 	// Location
@@ -485,13 +464,6 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 
 	// PointInTimeUTC
 	server.PointInTimeUTC = genruntime.ClonePointerToString(source.PointInTimeUTC)
-
-	// ReplicationRole
-	if source.ReplicationRole != nil {
-		propertyBag.Add("ReplicationRole", *source.ReplicationRole)
-	} else {
-		propertyBag.Remove("ReplicationRole")
-	}
 
 	// Sku
 	if source.Sku != nil {
@@ -567,19 +539,6 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 		destination.AdministratorLoginPassword = nil
 	}
 
-	// AuthConfig
-	if propertyBag.Contains("AuthConfig") {
-		var authConfig storage.AuthConfig
-		err := propertyBag.Pull("AuthConfig", &authConfig)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AuthConfig' from propertyBag")
-		}
-
-		destination.AuthConfig = &authConfig
-	} else {
-		destination.AuthConfig = nil
-	}
-
 	// AvailabilityZone
 	destination.AvailabilityZone = genruntime.ClonePointerToString(server.AvailabilityZone)
 
@@ -601,19 +560,6 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 	// CreateMode
 	destination.CreateMode = genruntime.ClonePointerToString(server.CreateMode)
 
-	// DataEncryption
-	if propertyBag.Contains("DataEncryption") {
-		var dataEncryption storage.DataEncryption
-		err := propertyBag.Pull("DataEncryption", &dataEncryption)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DataEncryption' from propertyBag")
-		}
-
-		destination.DataEncryption = &dataEncryption
-	} else {
-		destination.DataEncryption = nil
-	}
-
 	// HighAvailability
 	if server.HighAvailability != nil {
 		var highAvailability storage.HighAvailability
@@ -624,19 +570,6 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 		destination.HighAvailability = &highAvailability
 	} else {
 		destination.HighAvailability = nil
-	}
-
-	// Identity
-	if propertyBag.Contains("Identity") {
-		var identity storage.UserAssignedIdentity
-		err := propertyBag.Pull("Identity", &identity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
-		}
-
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
 	}
 
 	// Location
@@ -691,19 +624,6 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 
 	// PointInTimeUTC
 	destination.PointInTimeUTC = genruntime.ClonePointerToString(server.PointInTimeUTC)
-
-	// ReplicationRole
-	if propertyBag.Contains("ReplicationRole") {
-		var replicationRole string
-		err := propertyBag.Pull("ReplicationRole", &replicationRole)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ReplicationRole' from propertyBag")
-		}
-
-		destination.ReplicationRole = &replicationRole
-	} else {
-		destination.ReplicationRole = nil
-	}
 
 	// Sku
 	if server.Sku != nil {
@@ -848,13 +768,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 	// AdministratorLogin
 	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
 
-	// AuthConfig
-	if source.AuthConfig != nil {
-		propertyBag.Add("AuthConfig", *source.AuthConfig)
-	} else {
-		propertyBag.Remove("AuthConfig")
-	}
-
 	// AvailabilityZone
 	server.AvailabilityZone = genruntime.ClonePointerToString(source.AvailabilityZone)
 
@@ -876,13 +789,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 	// CreateMode
 	server.CreateMode = genruntime.ClonePointerToString(source.CreateMode)
 
-	// DataEncryption
-	if source.DataEncryption != nil {
-		propertyBag.Add("DataEncryption", *source.DataEncryption)
-	} else {
-		propertyBag.Remove("DataEncryption")
-	}
-
 	// FullyQualifiedDomainName
 	server.FullyQualifiedDomainName = genruntime.ClonePointerToString(source.FullyQualifiedDomainName)
 
@@ -900,13 +806,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 
 	// Id
 	server.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Identity
-	if source.Identity != nil {
-		propertyBag.Add("Identity", *source.Identity)
-	} else {
-		propertyBag.Remove("Identity")
-	}
 
 	// Location
 	server.Location = genruntime.ClonePointerToString(source.Location)
@@ -943,20 +842,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 
 	// PointInTimeUTC
 	server.PointInTimeUTC = genruntime.ClonePointerToString(source.PointInTimeUTC)
-
-	// ReplicaCapacity
-	if source.ReplicaCapacity != nil {
-		propertyBag.Add("ReplicaCapacity", *source.ReplicaCapacity)
-	} else {
-		propertyBag.Remove("ReplicaCapacity")
-	}
-
-	// ReplicationRole
-	if source.ReplicationRole != nil {
-		propertyBag.Add("ReplicationRole", *source.ReplicationRole)
-	} else {
-		propertyBag.Remove("ReplicationRole")
-	}
 
 	// Sku
 	if source.Sku != nil {
@@ -1037,19 +922,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 	// AdministratorLogin
 	destination.AdministratorLogin = genruntime.ClonePointerToString(server.AdministratorLogin)
 
-	// AuthConfig
-	if propertyBag.Contains("AuthConfig") {
-		var authConfig storage.AuthConfig_STATUS
-		err := propertyBag.Pull("AuthConfig", &authConfig)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AuthConfig' from propertyBag")
-		}
-
-		destination.AuthConfig = &authConfig
-	} else {
-		destination.AuthConfig = nil
-	}
-
 	// AvailabilityZone
 	destination.AvailabilityZone = genruntime.ClonePointerToString(server.AvailabilityZone)
 
@@ -1071,19 +943,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 	// CreateMode
 	destination.CreateMode = genruntime.ClonePointerToString(server.CreateMode)
 
-	// DataEncryption
-	if propertyBag.Contains("DataEncryption") {
-		var dataEncryption storage.DataEncryption_STATUS
-		err := propertyBag.Pull("DataEncryption", &dataEncryption)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DataEncryption' from propertyBag")
-		}
-
-		destination.DataEncryption = &dataEncryption
-	} else {
-		destination.DataEncryption = nil
-	}
-
 	// FullyQualifiedDomainName
 	destination.FullyQualifiedDomainName = genruntime.ClonePointerToString(server.FullyQualifiedDomainName)
 
@@ -1101,19 +960,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(server.Id)
-
-	// Identity
-	if propertyBag.Contains("Identity") {
-		var identity storage.UserAssignedIdentity_STATUS
-		err := propertyBag.Pull("Identity", &identity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
-		}
-
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(server.Location)
@@ -1150,32 +996,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// PointInTimeUTC
 	destination.PointInTimeUTC = genruntime.ClonePointerToString(server.PointInTimeUTC)
-
-	// ReplicaCapacity
-	if propertyBag.Contains("ReplicaCapacity") {
-		var replicaCapacity int
-		err := propertyBag.Pull("ReplicaCapacity", &replicaCapacity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ReplicaCapacity' from propertyBag")
-		}
-
-		destination.ReplicaCapacity = &replicaCapacity
-	} else {
-		destination.ReplicaCapacity = nil
-	}
-
-	// ReplicationRole
-	if propertyBag.Contains("ReplicationRole") {
-		var replicationRole string
-		err := propertyBag.Pull("ReplicationRole", &replicationRole)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ReplicationRole' from propertyBag")
-		}
-
-		destination.ReplicationRole = &replicationRole
-	} else {
-		destination.ReplicationRole = nil
-	}
 
 	// Sku
 	if server.Sku != nil {
@@ -1435,13 +1255,6 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_From_FlexibleServer
 		operator.ConfigMapExpressions = nil
 	}
 
-	// ConfigMaps
-	if source.ConfigMaps != nil {
-		propertyBag.Add("ConfigMaps", *source.ConfigMaps)
-	} else {
-		propertyBag.Remove("ConfigMaps")
-	}
-
 	// SecretExpressions
 	if source.SecretExpressions != nil {
 		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
@@ -1509,19 +1322,6 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_To_FlexibleServerOp
 		destination.ConfigMapExpressions = configMapExpressionList
 	} else {
 		destination.ConfigMapExpressions = nil
-	}
-
-	// ConfigMaps
-	if propertyBag.Contains("ConfigMaps") {
-		var configMap storage.FlexibleServerOperatorConfigMaps
-		err := propertyBag.Pull("ConfigMaps", &configMap)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ConfigMaps' from propertyBag")
-		}
-
-		destination.ConfigMaps = &configMap
-	} else {
-		destination.ConfigMaps = nil
 	}
 
 	// SecretExpressions
