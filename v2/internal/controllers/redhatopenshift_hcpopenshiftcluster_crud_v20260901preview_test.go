@@ -151,7 +151,8 @@ func Test_RedHatOpenShift_HcpOpenShiftCluster_v20260901preview_CRUD(t *testing.T
 			tc.DeleteResourceAndWait(resource.object)
 		}
 		exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(
-			tc.Ctx, resource.armID, string(aro.APIVersion_Value))
+			tc.Ctx, resource.armID, string(aro.APIVersion_Value),
+		)
 		tc.Expect(err).ToNot(HaveOccurred())
 		tc.Expect(retryAfter).To(BeZero())
 		tc.Expect(exists).To(BeFalse())
@@ -183,7 +184,8 @@ func loadHcpTestConfig(tc *testcommon.KubePerTestContext, configPath string) map
 	// The standard recorder redacts subscription and tenant IDs before custom values.
 	normalize := strings.NewReplacer(
 		tc.AzureSubscription, "00000000-0000-0000-0000-000000000000",
-		tc.AzureTenant, "00000000-0000-0000-0000-000000000000")
+		tc.AzureTenant, "00000000-0000-0000-0000-000000000000",
+	)
 	keys := make([]string, 0, len(defaults))
 	for key := range defaults {
 		keys = append(keys, key)
