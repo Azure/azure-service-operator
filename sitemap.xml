@@ -671,6 +671,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cdn/v20210601/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v20210601/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/synapse/v20210601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v20210701/</loc>
@@ -684,6 +686,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/sql/v20211101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20220101/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v20220120preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v20220301/</loc>
   </url><url>
@@ -699,6 +703,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20220901/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v20221201/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dataprotection/v20230101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20230101/</loc>
@@ -712,6 +718,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/cdn/v20230501/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/v20230501preview/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v20230601preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20230630/</loc>
   </url><url>
@@ -734,6 +742,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v20240601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v20240701/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v20240801/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/databasewatcher/v20241001preview/</loc>
   </url><url>
