@@ -21,26 +21,26 @@
 <title>Diagnosing problems | Azure Service Operator</title>
 <meta name="description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
 You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the “Error: secret “aso-controller-settings” not found” event in the describe output:
-Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning Failed 36s (x7 over 99s) kubelet Error: secret &#34;aso-controller-settings&#34; not found ... Helm installation via Argo missing ClusterRole and other resources See reference issue #4184.">
+Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning Failed 36s (x7 over 99s) kubelet Error: secret &#34;aso-controller-settings&#34; not found ... Operator pod is restarted before it finishes applying CRDs On a cluster with a large number of CRDs, the operator can be killed by the kubelet while it is still starting. The pod restarts repeatedly and never reports ready, and kubectl describe pod shows the startup probe failing:">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/diagnosing-problems/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Diagnosing problems">
   <meta property="og:description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
 You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the “Error: secret “aso-controller-settings” not found” event in the describe output:
-Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning Failed 36s (x7 over 99s) kubelet Error: secret &#34;aso-controller-settings&#34; not found ... Helm installation via Argo missing ClusterRole and other resources See reference issue #4184.">
+Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning Failed 36s (x7 over 99s) kubelet Error: secret &#34;aso-controller-settings&#34; not found ... Operator pod is restarted before it finishes applying CRDs On a cluster with a large number of CRDs, the operator can be killed by the kubelet while it is still starting. The pod restarts repeatedly and never reports ready, and kubectl describe pod shows the startup probe failing:">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 
   <meta itemprop="name" content="Diagnosing problems">
   <meta itemprop="description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
 You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the “Error: secret “aso-controller-settings” not found” event in the describe output:
-Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning Failed 36s (x7 over 99s) kubelet Error: secret &#34;aso-controller-settings&#34; not found ... Helm installation via Argo missing ClusterRole and other resources See reference issue #4184.">
-  <meta itemprop="wordCount" content="988">
+Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning Failed 36s (x7 over 99s) kubelet Error: secret &#34;aso-controller-settings&#34; not found ... Operator pod is restarted before it finishes applying CRDs On a cluster with a large number of CRDs, the operator can be killed by the kubelet while it is still starting. The pod restarts repeatedly and never reports ready, and kubectl describe pod shows the startup probe failing:">
+  <meta itemprop="wordCount" content="1148">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Diagnosing problems">
   <meta name="twitter:description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
 You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the “Error: secret “aso-controller-settings” not found” event in the describe output:
-Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning Failed 36s (x7 over 99s) kubelet Error: secret &#34;aso-controller-settings&#34; not found ... Helm installation via Argo missing ClusterRole and other resources See reference issue #4184.">
+Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning Failed 36s (x7 over 99s) kubelet Error: secret &#34;aso-controller-settings&#34; not found ... Operator pod is restarted before it finishes applying CRDs On a cluster with a large number of CRDs, the operator can be killed by the kubelet while it is still starting. The pod restarts repeatedly and never reports ready, and kubectl describe pod shows the startup probe failing:">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -1070,6 +1070,7 @@ Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning F
     <li><a href="#common-mistakes">Common mistakes</a>
       <ul>
         <li><a href="#aso-controller-pod-in-status-createcontainerconfigerror">ASO controller pod in Status CreateContainerConfigError</a></li>
+        <li><a href="#operator-pod-is-restarted-before-it-finishes-applying-crds">Operator pod is restarted before it finishes applying CRDs</a></li>
         <li><a href="#helm-installation-via-argo-missing-clusterrole-and-other-resources">Helm installation via Argo missing ClusterRole and other resources</a></li>
         <li><a href="#operator-restarts-in-a-loop-with-leader-election-lost">Operator restarts in a loop with &ldquo;leader election lost&rdquo;</a></li>
       </ul>
@@ -1128,7 +1129,21 @@ Look for the &ldquo;Error: secret &ldquo;aso-controller-settings&rdquo; not foun
   ...
   Warning  Failed     36s (x7 over 99s)  kubelet            Error: secret &#34;aso-controller-settings&#34; not found
   ...
-</code></pre><h3 id="helm-installation-via-argo-missing-clusterrole-and-other-resources">Helm installation via Argo missing ClusterRole and other resources</h3>
+</code></pre><h3 id="operator-pod-is-restarted-before-it-finishes-applying-crds">Operator pod is restarted before it finishes applying CRDs</h3>
+<p>On a cluster with a large number of CRDs, the operator can be killed by the kubelet while it is still starting.
+The pod restarts repeatedly and never reports ready, and <code>kubectl describe pod</code> shows the startup probe failing:</p>
+<pre tabindex="0"><code>  Warning  Unhealthy  2m (x12 over 4m)  kubelet  Startup probe failed: Get &#34;http://10.244.0.9:8081/healthz&#34;: context deadline exceeded
+</code></pre><p>The operator applies its CRDs and starts a controller for each installed CRD before it serves <code>/healthz</code>, so on
+a large cluster that work can outlast the startup probe&rsquo;s budget of <code>periodSeconds</code> x <code>failureThreshold</code>.</p>
+<p>Give it more time by raising <code>failureThreshold</code>. In Helm:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">probes</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">startup</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">failureThreshold</span>: <span style="color:#ae81ff">60</span>
+</span></span></code></pre></div><p>That allows ten minutes rather than the default two. Raising it costs nothing when the operator starts quickly,
+because the probe stops as soon as it first succeeds.</p>
+<p>Installing fewer CRDs also shortens startup, since the operator only applies and watches the CRDs it is asked
+for. See <a href="/azure-service-operator/guide/crd-management/">CRD management</a>.</p>
+<h3 id="helm-installation-via-argo-missing-clusterrole-and-other-resources">Helm installation via Argo missing ClusterRole and other resources</h3>
 <p>See reference issue <a href="https://github.com/Azure/azure-service-operator/issues/4184">#4184</a>.</p>
 <p>When using Argo to install the ASO Helm chart, make sure to specify the <code>raw</code> GitHub URL to the chart, rather than
 the URL to the ASO git repo. The chart <code>.tgz</code> file contains what you need to install ASO, not everything is in the
