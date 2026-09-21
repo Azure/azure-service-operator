@@ -496,18 +496,30 @@ import (
 	search_v20231101s "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/storage"
 	search_v20231101w "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/webhook"
 	servicebus_customizations "github.com/Azure/azure-service-operator/v2/api/servicebus/customizations"
-	servicebus_v20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
-	servicebus_v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
-	servicebus_v20210101pw "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/webhook"
-	servicebus_v20211101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101"
-	servicebus_v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
-	servicebus_v20211101w "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/webhook"
-	servicebus_v20221001p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview"
-	servicebus_v20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/storage"
-	servicebus_v20221001pw "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/webhook"
-	servicebus_v20240101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101"
-	servicebus_v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
-	servicebus_v20240101w "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/webhook"
+	servicebus_v1api20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
+	servicebus_v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
+	servicebus_v1api20210101pw "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/webhook"
+	servicebus_v1api20211101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101"
+	servicebus_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
+	servicebus_v1api20211101w "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/webhook"
+	servicebus_v1api20221001p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview"
+	servicebus_v1api20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/storage"
+	servicebus_v1api20221001pw "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/webhook"
+	servicebus_v1api20240101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101"
+	servicebus_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v1api20240101w "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/webhook"
+	servicebus_v20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v20210101preview"
+	servicebus_v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v20210101preview/storage"
+	servicebus_v20210101pw "github.com/Azure/azure-service-operator/v2/api/servicebus/v20210101preview/webhook"
+	servicebus_v20211101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v20211101"
+	servicebus_v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v20211101/storage"
+	servicebus_v20211101w "github.com/Azure/azure-service-operator/v2/api/servicebus/v20211101/webhook"
+	servicebus_v20221001p "github.com/Azure/azure-service-operator/v2/api/servicebus/v20221001preview"
+	servicebus_v20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v20221001preview/storage"
+	servicebus_v20221001pw "github.com/Azure/azure-service-operator/v2/api/servicebus/v20221001preview/webhook"
+	servicebus_v20240101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101"
+	servicebus_v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/storage"
+	servicebus_v20240101w "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/webhook"
 	signalrservice_customizations "github.com/Azure/azure-service-operator/v2/api/signalrservice/customizations"
 	signalrservice_v20211001 "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001"
 	signalrservice_v20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/storage"
@@ -2996,6 +3008,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesTopic)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscription)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscriptionsRule)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.QueueAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.TopicAuthorizationRule)})
 	result = append(result, &registration.StorageType{
 		Obj: new(signalrservice_v20240301s.CustomCertificate),
@@ -7206,6 +7219,172 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(servicebus_v1api20210101p.Namespace),
+			Defaulter: &servicebus_v1api20210101pw.Namespace{},
+			Validator: &servicebus_v1api20210101pw.Namespace{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20210101p.NamespacesAuthorizationRule),
+			Defaulter: &servicebus_v1api20210101pw.NamespacesAuthorizationRule{},
+			Validator: &servicebus_v1api20210101pw.NamespacesAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20210101p.NamespacesQueue),
+			Defaulter: &servicebus_v1api20210101pw.NamespacesQueue{},
+			Validator: &servicebus_v1api20210101pw.NamespacesQueue{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20210101p.NamespacesTopic),
+			Defaulter: &servicebus_v1api20210101pw.NamespacesTopic{},
+			Validator: &servicebus_v1api20210101pw.NamespacesTopic{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20210101p.NamespacesTopicsSubscription),
+			Defaulter: &servicebus_v1api20210101pw.NamespacesTopicsSubscription{},
+			Validator: &servicebus_v1api20210101pw.NamespacesTopicsSubscription{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20210101p.NamespacesTopicsSubscriptionsRule),
+			Defaulter: &servicebus_v1api20210101pw.NamespacesTopicsSubscriptionsRule{},
+			Validator: &servicebus_v1api20210101pw.NamespacesTopicsSubscriptionsRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(servicebus_v1api20210101ps.Namespace)},
+		&registration.KnownType{Obj: new(servicebus_v1api20210101ps.NamespacesAuthorizationRule)},
+		&registration.KnownType{Obj: new(servicebus_v1api20210101ps.NamespacesQueue)},
+		&registration.KnownType{Obj: new(servicebus_v1api20210101ps.NamespacesTopic)},
+		&registration.KnownType{Obj: new(servicebus_v1api20210101ps.NamespacesTopicsSubscription)},
+		&registration.KnownType{Obj: new(servicebus_v1api20210101ps.NamespacesTopicsSubscriptionsRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20211101.Namespace),
+			Defaulter: &servicebus_v1api20211101w.Namespace{},
+			Validator: &servicebus_v1api20211101w.Namespace{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20211101.NamespacesAuthorizationRule),
+			Defaulter: &servicebus_v1api20211101w.NamespacesAuthorizationRule{},
+			Validator: &servicebus_v1api20211101w.NamespacesAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20211101.NamespacesQueue),
+			Defaulter: &servicebus_v1api20211101w.NamespacesQueue{},
+			Validator: &servicebus_v1api20211101w.NamespacesQueue{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20211101.NamespacesTopic),
+			Defaulter: &servicebus_v1api20211101w.NamespacesTopic{},
+			Validator: &servicebus_v1api20211101w.NamespacesTopic{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20211101.NamespacesTopicsSubscription),
+			Defaulter: &servicebus_v1api20211101w.NamespacesTopicsSubscription{},
+			Validator: &servicebus_v1api20211101w.NamespacesTopicsSubscription{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20211101.NamespacesTopicsSubscriptionsRule),
+			Defaulter: &servicebus_v1api20211101w.NamespacesTopicsSubscriptionsRule{},
+			Validator: &servicebus_v1api20211101w.NamespacesTopicsSubscriptionsRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(servicebus_v1api20211101s.Namespace)},
+		&registration.KnownType{Obj: new(servicebus_v1api20211101s.NamespacesAuthorizationRule)},
+		&registration.KnownType{Obj: new(servicebus_v1api20211101s.NamespacesQueue)},
+		&registration.KnownType{Obj: new(servicebus_v1api20211101s.NamespacesTopic)},
+		&registration.KnownType{Obj: new(servicebus_v1api20211101s.NamespacesTopicsSubscription)},
+		&registration.KnownType{Obj: new(servicebus_v1api20211101s.NamespacesTopicsSubscriptionsRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20221001p.Namespace),
+			Defaulter: &servicebus_v1api20221001pw.Namespace{},
+			Validator: &servicebus_v1api20221001pw.Namespace{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20221001p.NamespacesAuthorizationRule),
+			Defaulter: &servicebus_v1api20221001pw.NamespacesAuthorizationRule{},
+			Validator: &servicebus_v1api20221001pw.NamespacesAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20221001p.NamespacesQueue),
+			Defaulter: &servicebus_v1api20221001pw.NamespacesQueue{},
+			Validator: &servicebus_v1api20221001pw.NamespacesQueue{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20221001p.NamespacesTopic),
+			Defaulter: &servicebus_v1api20221001pw.NamespacesTopic{},
+			Validator: &servicebus_v1api20221001pw.NamespacesTopic{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20221001p.NamespacesTopicsSubscription),
+			Defaulter: &servicebus_v1api20221001pw.NamespacesTopicsSubscription{},
+			Validator: &servicebus_v1api20221001pw.NamespacesTopicsSubscription{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20221001p.NamespacesTopicsSubscriptionsRule),
+			Defaulter: &servicebus_v1api20221001pw.NamespacesTopicsSubscriptionsRule{},
+			Validator: &servicebus_v1api20221001pw.NamespacesTopicsSubscriptionsRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(servicebus_v1api20221001ps.Namespace)},
+		&registration.KnownType{Obj: new(servicebus_v1api20221001ps.NamespacesAuthorizationRule)},
+		&registration.KnownType{Obj: new(servicebus_v1api20221001ps.NamespacesQueue)},
+		&registration.KnownType{Obj: new(servicebus_v1api20221001ps.NamespacesTopic)},
+		&registration.KnownType{Obj: new(servicebus_v1api20221001ps.NamespacesTopicsSubscription)},
+		&registration.KnownType{Obj: new(servicebus_v1api20221001ps.NamespacesTopicsSubscriptionsRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20240101.Namespace),
+			Defaulter: &servicebus_v1api20240101w.Namespace{},
+			Validator: &servicebus_v1api20240101w.Namespace{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20240101.NamespacesAuthorizationRule),
+			Defaulter: &servicebus_v1api20240101w.NamespacesAuthorizationRule{},
+			Validator: &servicebus_v1api20240101w.NamespacesAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20240101.NamespacesQueue),
+			Defaulter: &servicebus_v1api20240101w.NamespacesQueue{},
+			Validator: &servicebus_v1api20240101w.NamespacesQueue{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20240101.NamespacesTopic),
+			Defaulter: &servicebus_v1api20240101w.NamespacesTopic{},
+			Validator: &servicebus_v1api20240101w.NamespacesTopic{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20240101.NamespacesTopicsSubscription),
+			Defaulter: &servicebus_v1api20240101w.NamespacesTopicsSubscription{},
+			Validator: &servicebus_v1api20240101w.NamespacesTopicsSubscription{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20240101.NamespacesTopicsSubscriptionsRule),
+			Defaulter: &servicebus_v1api20240101w.NamespacesTopicsSubscriptionsRule{},
+			Validator: &servicebus_v1api20240101w.NamespacesTopicsSubscriptionsRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20240101.TopicAuthorizationRule),
+			Defaulter: &servicebus_v1api20240101w.TopicAuthorizationRule{},
+			Validator: &servicebus_v1api20240101w.TopicAuthorizationRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(servicebus_v1api20240101s.Namespace)},
+		&registration.KnownType{Obj: new(servicebus_v1api20240101s.NamespacesAuthorizationRule)},
+		&registration.KnownType{Obj: new(servicebus_v1api20240101s.NamespacesQueue)},
+		&registration.KnownType{Obj: new(servicebus_v1api20240101s.NamespacesTopic)},
+		&registration.KnownType{Obj: new(servicebus_v1api20240101s.NamespacesTopicsSubscription)},
+		&registration.KnownType{Obj: new(servicebus_v1api20240101s.NamespacesTopicsSubscriptionsRule)},
+		&registration.KnownType{Obj: new(servicebus_v1api20240101s.TopicAuthorizationRule)})
+	result = append(
+		result,
+		&registration.KnownType{
 			Obj:       new(servicebus_v20210101p.Namespace),
 			Defaulter: &servicebus_v20210101pw.Namespace{},
 			Validator: &servicebus_v20210101pw.Namespace{},
@@ -7356,6 +7535,11 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &servicebus_v20240101w.NamespacesTopicsSubscriptionsRule{},
 		},
 		&registration.KnownType{
+			Obj:       new(servicebus_v20240101.QueueAuthorizationRule),
+			Defaulter: &servicebus_v20240101w.QueueAuthorizationRule{},
+			Validator: &servicebus_v20240101w.QueueAuthorizationRule{},
+		},
+		&registration.KnownType{
 			Obj:       new(servicebus_v20240101.TopicAuthorizationRule),
 			Defaulter: &servicebus_v20240101w.TopicAuthorizationRule{},
 			Validator: &servicebus_v20240101w.TopicAuthorizationRule{},
@@ -7368,6 +7552,7 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(servicebus_v20240101s.NamespacesTopic)},
 		&registration.KnownType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscription)},
 		&registration.KnownType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscriptionsRule)},
+		&registration.KnownType{Obj: new(servicebus_v20240101s.QueueAuthorizationRule)},
 		&registration.KnownType{Obj: new(servicebus_v20240101s.TopicAuthorizationRule)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(signalrservice_v20211001.SignalR),
@@ -8642,6 +8827,14 @@ func createScheme() *runtime.Scheme {
 	_ = search_v20220901s.AddToScheme(scheme)
 	_ = search_v20231101.AddToScheme(scheme)
 	_ = search_v20231101s.AddToScheme(scheme)
+	_ = servicebus_v1api20210101p.AddToScheme(scheme)
+	_ = servicebus_v1api20210101ps.AddToScheme(scheme)
+	_ = servicebus_v1api20211101.AddToScheme(scheme)
+	_ = servicebus_v1api20211101s.AddToScheme(scheme)
+	_ = servicebus_v1api20221001p.AddToScheme(scheme)
+	_ = servicebus_v1api20221001ps.AddToScheme(scheme)
+	_ = servicebus_v1api20240101.AddToScheme(scheme)
+	_ = servicebus_v1api20240101s.AddToScheme(scheme)
 	_ = servicebus_v20210101p.AddToScheme(scheme)
 	_ = servicebus_v20210101ps.AddToScheme(scheme)
 	_ = servicebus_v20211101.AddToScheme(scheme)
@@ -8935,6 +9128,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &servicebus_customizations.NamespacesTopicExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionsRuleExtension{})
+	result = append(result, &servicebus_customizations.QueueAuthorizationRuleExtension{})
 	result = append(result, &servicebus_customizations.TopicAuthorizationRuleExtension{})
 	result = append(result, &signalrservice_customizations.CustomCertificateExtension{})
 	result = append(result, &signalrservice_customizations.CustomDomainExtension{})

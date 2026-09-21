@@ -5,7 +5,8 @@ package v1api20240101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForNamespacesTopic(subject NamespacesTopic) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.NamespacesTopic
+	var hub servicebus_v20240101s.NamespacesTopic
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForNamespacesTopic(subject NamespacesTopic) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesTopic
+	var other servicebus_v1api20240101s.NamespacesTopic
 	err := copied.AssignProperties_To_NamespacesTopic(&other)
 	if err != nil {
 		return err.Error()
@@ -201,7 +202,7 @@ func RunPropertyAssignmentTestForNamespacesTopicOperatorSpec(subject NamespacesT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesTopicOperatorSpec
+	var other servicebus_v1api20240101s.NamespacesTopicOperatorSpec
 	err := copied.AssignProperties_To_NamespacesTopicOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -308,7 +309,7 @@ func RunPropertyAssignmentTestForNamespacesTopic_STATUS(subject NamespacesTopic_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesTopic_STATUS
+	var other servicebus_v1api20240101s.NamespacesTopic_STATUS
 	err := copied.AssignProperties_To_NamespacesTopic_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -464,7 +465,7 @@ func RunPropertyAssignmentTestForNamespacesTopic_Spec(subject NamespacesTopic_Sp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesTopic_Spec
+	var other servicebus_v1api20240101s.NamespacesTopic_Spec
 	err := copied.AssignProperties_To_NamespacesTopic_Spec(&other)
 	if err != nil {
 		return err.Error()
