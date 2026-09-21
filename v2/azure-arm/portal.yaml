@@ -1,0 +1,9 @@
+typeFilters:
+  - action: include
+    version: v*20250401preview
+    because: Microsoft.Portal dashboards are only available in preview
+groupModelConfiguration:
+  2025-04-01-preview:
+    Dashboard:
+      $exportAs: Dashboard
+      $supportedFrom: v2.22.0
