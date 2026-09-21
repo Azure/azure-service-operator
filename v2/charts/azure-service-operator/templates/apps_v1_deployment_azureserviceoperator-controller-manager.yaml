@@ -223,6 +223,9 @@ spec:
           httpGet:
             path: /healthz
             port: 8081
+          periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
+          failureThreshold: {{ .Values.probes.liveness.failureThreshold }}
+          timeoutSeconds: {{ .Values.probes.liveness.timeoutSeconds }}
         name: manager
         ports:
         - containerPort: {{ .Values.webhook.port }}
@@ -240,6 +243,9 @@ spec:
           httpGet:
             path: /readyz
             port: 8081
+          periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
+          failureThreshold: {{ .Values.probes.readiness.failureThreshold }}
+          timeoutSeconds: {{ .Values.probes.readiness.timeoutSeconds }}
         {{- with .Values.resources }}
         resources:
           {{- toYaml . | nindent 10 }}
@@ -252,8 +258,9 @@ spec:
           httpGet:
             path: /healthz
             port: 8081
-          periodSeconds: 10
-          failureThreshold: 12
+          periodSeconds: {{ .Values.probes.startup.periodSeconds }}
+          failureThreshold: {{ .Values.probes.startup.failureThreshold }}
+          timeoutSeconds: {{ .Values.probes.startup.timeoutSeconds }}
         volumeMounts:
         - mountPath: /var/run/secrets/tokens
           name: azure-identity
