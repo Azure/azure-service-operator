@@ -35,7 +35,7 @@ Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning F
   <meta itemprop="description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
 You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the “Error: secret “aso-controller-settings” not found” event in the describe output:
 Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning Failed 36s (x7 over 99s) kubelet Error: secret &#34;aso-controller-settings&#34; not found ... Helm installation via Argo missing ClusterRole and other resources See reference issue #4184.">
-  <meta itemprop="wordCount" content="780">
+  <meta itemprop="wordCount" content="988">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Diagnosing problems">
   <meta name="twitter:description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
@@ -1061,6 +1061,7 @@ Events: Type Reason Age From Message ---- ------ ---- ---- ------- ... Warning F
       <ul>
         <li><a href="#aso-controller-pod-in-status-createcontainerconfigerror">ASO controller pod in Status CreateContainerConfigError</a></li>
         <li><a href="#helm-installation-via-argo-missing-clusterrole-and-other-resources">Helm installation via Argo missing ClusterRole and other resources</a></li>
+        <li><a href="#operator-restarts-in-a-loop-with-leader-election-lost">Operator restarts in a loop with &ldquo;leader election lost&rdquo;</a></li>
       </ul>
     </li>
     <li><a href="#problems-with-resources">Problems with resources</a>
@@ -1140,7 +1141,24 @@ spec:
     repoURL: https://github.com/Azure/azure-service-operator.git
     targetRevision: v2.8.0
     path: v2/charts/azure-service-operator
-</code></pre><h2 id="problems-with-resources">Problems with resources</h2>
+</code></pre><h3 id="operator-restarts-in-a-loop-with-leader-election-lost">Operator restarts in a loop with &ldquo;leader election lost&rdquo;</h3>
+<p>This only affects large clusters - ones with many installed CRDs, many ASO resources, or both. Smaller clusters
+start well inside the default lease timings and never hit it.</p>
+<p>The error looks like this, shortly after the pod has started its controllers:</p>
+<pre tabindex="0"><code>E0916 23:52:08.898297  1 main.go:47] &#34;failed to start manager&#34; err=&#34;leader election lost&#34;
+</code></pre><p>The pod exits, the standby replica takes over, reaches the same point and exits too, so the operator never
+finishes starting. The initial informer sync is slower than the lease renewal deadline: the renewal is starved
+while every watched kind is listed for the first time, the lease expires, and the manager stops.</p>
+<p>Raise the lease timings so a cold start fits inside them. In Helm:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">leaderElection</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">leaseDuration</span>: <span style="color:#ae81ff">2m</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">renewDeadline</span>: <span style="color:#ae81ff">100s</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">retryPeriod</span>: <span style="color:#ae81ff">20s</span>
+</span></span></code></pre></div><p>The trade-off is failover time: a leader that is killed rather than shut down gracefully is only replaced after
+<code>leaseDuration</code> expires. Graceful restarts are unaffected, because the operator releases its lease on shutdown.</p>
+<p>Installing fewer CRDs also helps, as the operator only starts controllers for CRDs that are present in the
+cluster. See <a href="/azure-service-operator/guide/crd-management/">CRD management</a>.</p>
+<h2 id="problems-with-resources">Problems with resources</h2>
 <h3 id="resource-with-no-ready-condition-set">Resource with no Ready condition set</h3>
 <p>When resources are first created a ready condition should appear quickly, indicating that the resource is being reconciled:</p>
 <pre tabindex="0"><code>$ kubectl get resourcegroups.resources.azure.com 
@@ -1180,7 +1198,8 @@ annotation to the resource in your cluster.</p>
 </code></pre><p>This may be caused by ASO pod restarts, which you can check via <code>kubectl get pods -n azureserviceoperator-system</code>. If
 you&rsquo;re seeing the ASO pod restart periodically check its logs to see if something is causing it to exit. A common cause
 of this is installing too many CRDs on a free tier AKS cluster overloading the API Server. See
-<a href="../crd-management/">CRD management</a> for more details.</p>
+<a href="../crd-management/">CRD management</a> for more details. Another is the operator losing its leader election lease
+during startup, covered in <a href="#operator-restarts-in-a-loop-with-leader-election-lost">operator restarts in a loop</a>.</p>
 <h2 id="getting-aso-controller-pod-logs">Getting ASO controller pod logs</h2>
 <p>The last stop when investigating most issues is to look at the ASO pod logs. We expect that
 most resource issues can be resolved using the resources .status.conditions without resorting to
