@@ -60,6 +60,34 @@ spec:
     path: v2/charts/azure-service-operator
 ```
 
+### Operator restarts in a loop with "leader election lost"
+
+This only affects large clusters - ones with many installed CRDs, many ASO resources, or both. Smaller clusters
+start well inside the default lease timings and never hit it.
+
+The error looks like this, shortly after the pod has started its controllers:
+```
+E0916 23:52:08.898297  1 main.go:47] "failed to start manager" err="leader election lost"
+```
+
+The pod exits, the standby replica takes over, reaches the same point and exits too, so the operator never
+finishes starting. The initial informer sync is slower than the lease renewal deadline: the renewal is starved
+while every watched kind is listed for the first time, the lease expires, and the manager stops.
+
+Raise the lease timings so a cold start fits inside them. In Helm:
+```yaml
+leaderElection:
+  leaseDuration: 2m
+  renewDeadline: 100s
+  retryPeriod: 20s
+```
+
+The trade-off is failover time: a leader that is killed rather than shut down gracefully is only replaced after
+`leaseDuration` expires. Graceful restarts are unaffected, because the operator releases its lease on shutdown.
+
+Installing fewer CRDs also helps, as the operator only starts controllers for CRDs that are present in the
+cluster. See [CRD management]( {{< relref "crd-management" >}} ).
+
 ## Problems with resources
 
 ### Resource with no Ready condition set
@@ -115,7 +143,8 @@ The error may look like this:
 This may be caused by ASO pod restarts, which you can check via `kubectl get pods -n azureserviceoperator-system`. If 
 you're seeing the ASO pod restart periodically check its logs to see if something is causing it to exit. A common cause 
 of this is installing too many CRDs on a free tier AKS cluster overloading the API Server. See 
-[CRD management](../crd-management/) for more details. 
+[CRD management](../crd-management/) for more details. Another is the operator losing its leader election lease
+during startup, covered in [operator restarts in a loop](#operator-restarts-in-a-loop-with-leader-election-lost).
 
 ## Getting ASO controller pod logs
 The last stop when investigating most issues is to look at the ASO pod logs. We expect that

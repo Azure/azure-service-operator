@@ -41,6 +41,11 @@ func main() {
 	ctrl.SetLogger(log)
 	log.Info("Launching with flags", "flags", appFlags.String())
 
+	if err = appFlags.Validate(); err != nil {
+		log.Error(err, "invalid cmdline flags")
+		os.Exit(1)
+	}
+
 	mgr := app.SetupControllerManager(ctx, log, appFlags)
 	log.Info("starting manager")
 	if err = mgr.Start(ctx); err != nil {
