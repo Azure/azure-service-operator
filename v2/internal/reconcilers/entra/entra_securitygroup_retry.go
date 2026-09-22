@@ -59,7 +59,7 @@ func classifyRelationshipError(err error) error {
 		)
 	}
 
-	if retryAfter, ok := retryAfterFromError(err); ok {
+	if retryAfter, ok := retryAfterFromError(err, time.Now()); ok {
 		result = result.WithRetryAfter(retryAfter)
 	}
 
@@ -80,6 +80,7 @@ func isPermissionError(err error) bool {
 // retryAfterFromError extracts the Retry-After header from an ODataError, if present, and returns it as a time.Duration.
 func retryAfterFromError(
 	err error,
+	now time.Time,
 ) (time.Duration, bool) {
 	odataError, ok := errors.AsType[*odataerrors.ODataError](err)
 	if !ok {
@@ -90,17 +91,28 @@ func retryAfterFromError(
 		return 0, false
 	}
 
+	// Get the Retry-After header value from the response headers (if any)
 	values := odataError.ResponseHeaders.Get("Retry-After")
 	if len(values) == 0 {
 		return 0, false
 	}
 
-	return parseRetryAfter(values[0], time.Now())
+	// Parse the Retry-After header value to determine the duration to wait before retrying.
+	retryAfter, ok := parseRetryAfter(values[0], now)
+	if !ok {
+		return 0, false
+	}
+
+	// Return (with a cap to ensure it doesn't exceed maxRetryAfter)
+	return min(retryAfter, maxRetryAfter), true
 }
 
+// parseRetryAfter parses the Retry-After header value and returns the duration to wait before retrying.
+// value is the raw Retry-After header value.
+// now is the current time used to calculate the duration (injecting this allows for easier testing).
 func parseRetryAfter(value string, now time.Time) (time.Duration, bool) {
 	if retryAfterVal, err := strconv.ParseInt(value, 10, 64); err == nil {
-		retryAfterVal = max(0, min(retryAfterVal, int64(maxRetryAfter/time.Second)))
+		retryAfterVal = max(0, retryAfterVal)
 		return time.Duration(retryAfterVal) * time.Second, true
 	}
 

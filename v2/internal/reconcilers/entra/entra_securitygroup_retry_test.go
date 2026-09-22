@@ -36,12 +36,15 @@ func TestClassifyRelationshipError_PermissionDenied_ReturnsSlowReadyConditionErr
 	g.Expect(readyErr.RetryClassification).To(Equal(reasonRelationshipPermissionDenied.RetryClassification))
 }
 
-func TestParseRetryAfter_ClampsHTTPDateToOneHour(t *testing.T) {
+func TestRetryAfterFromError_ClampsRetryDurationToOneHour(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	now := time.Date(2026, time.September, 4, 12, 0, 0, 0, time.UTC)
 
-	retryAfter, ok := parseRetryAfter(now.Add(2*time.Hour).Format(http.TimeFormat), now)
+	headers := map[string]string{
+		"Retry-After": now.Add(2 * time.Hour).Format(http.TimeFormat),
+	}
+	retryAfter, ok := retryAfterFromError(makeODataError(http.StatusTooManyRequests, headers), now)
 
 	g.Expect(ok).To(BeTrue())
 	g.Expect(retryAfter).To(Equal(time.Hour))

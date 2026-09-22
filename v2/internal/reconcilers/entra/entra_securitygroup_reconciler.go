@@ -34,6 +34,19 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 )
 
+//
+// Why use the BETA version of github.com/microsoftgraph/msgraph-beta-sdk-go ?
+//
+// As of now, September 2026, the regular SDK is somewhat crippled - when listing the contents of owners and members,
+// it will only provide _users_ and not service principals. The only supported way to check if a service principal is an
+// owner or member of a group is to load that SP directly, then check it's properties. This requires prior knowledge of
+// the principal ID.
+//
+// The BETA SDK includes both kinds of members in the listings directly.
+//
+// Terraform and other tools use the BETA SDK for the same (or similar) reasons.
+//
+
 // EntraSecurityGroupReconciler reconciles an Entra security group.
 // TODO: Factor out common code shared with other Entra resources into entraGenericReconciler
 type EntraSecurityGroupReconciler struct {

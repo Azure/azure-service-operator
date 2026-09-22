@@ -143,6 +143,8 @@ func (spec *SecurityGroupSpec) OriginalVersion() string {
 }
 
 // HasDynamicMembership returns true when membership is managed by an Entra dynamic membership rule.
+// If true, directly specifying members is not allowed.
+// See https://learn.microsoft.com/en-us/entra/identity/users/groups-dynamic-membership for more.
 func (spec *SecurityGroupSpec) HasDynamicMembership() bool {
 	if spec.MembershipType == nil {
 		return false
