@@ -1,75 +1,80 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Blog on Azure Service Operator</title>
-    <link>https://azure.github.io/azure-service-operator/blogs/</link>
-    <description>Recent content in Blog on Azure Service Operator</description>
-    <generator>Hugo</generator>
-    <language>en-us</language>
-    <lastBuildDate>Mon, 31 Aug 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://azure.github.io/azure-service-operator/blogs/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>ASO v2.21 Release Notes</title>
-      <link>https://azure.github.io/azure-service-operator/blogs/2026-08-31-release-notes-v2.21.0/</link>
-      <pubDate>Mon, 31 Aug 2026 00:00:00 +0000</pubDate>
-      <guid>https://azure.github.io/azure-service-operator/blogs/2026-08-31-release-notes-v2.21.0/</guid>
-      <description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.21.0! This release completes the rollout of smarter deletion, removes retired Redis Enterprise API versions, expands support for Entra ID and several Azure services, and adds more control over operator security and authentication.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;p&gt;The migration to &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/5108&#34;&gt;smart deletion prechecks&lt;/a&gt; is now complete. ASO checks whether a resource or its parent still exists before issuing a &lt;code&gt;DELETE&lt;/code&gt; to Azure, avoiding unnecessary calls and reducing error churn when you remove large resource graphs. This release enables the precheck for the remaining API groups, including &lt;code&gt;compute&lt;/code&gt;, &lt;code&gt;containerinstance&lt;/code&gt;, &lt;code&gt;datafactory&lt;/code&gt;, &lt;code&gt;dbforpostgresql&lt;/code&gt;, &lt;code&gt;devices&lt;/code&gt;, &lt;code&gt;insights&lt;/code&gt;, &lt;code&gt;keyvault&lt;/code&gt;, &lt;code&gt;machinelearningservices&lt;/code&gt;, &lt;code&gt;network&lt;/code&gt;, &lt;code&gt;redhatopenshift&lt;/code&gt;, &lt;code&gt;resources&lt;/code&gt;, &lt;code&gt;servicebus&lt;/code&gt;, and &lt;code&gt;storage&lt;/code&gt;.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Breaking Changes for Redis Enterprise</title>
-      <link>https://azure.github.io/azure-service-operator/blogs/2026-07-01-redis-breaking-changes/</link>
-      <pubDate>Wed, 01 Jul 2026 00:00:00 +0000</pubDate>
-      <guid>https://azure.github.io/azure-service-operator/blogs/2026-07-01-redis-breaking-changes/</guid>
-      <description>&lt;p&gt;If you manage &lt;code&gt;RedisEnterprise&lt;/code&gt; or &lt;code&gt;RedisEnterpriseDatabase&lt;/code&gt; resources with ASO, this post is for you. In &lt;strong&gt;ASO v2.21&lt;/strong&gt; (scheduled for August 2026), we will remove the &lt;code&gt;v1api20210301&lt;/code&gt; and &lt;code&gt;v1api20230701&lt;/code&gt; versions of both resources. You&amp;rsquo;ll need to move your YAML to a newer API version before upgrading.&lt;/p&gt;&#xA;&lt;p&gt;This change is driven by an upstream Azure decision: &lt;em&gt;Azure Cache for Redis Enterprise&lt;/em&gt; is being retired in favour of &lt;em&gt;Azure Managed Redis&lt;/em&gt;, and the older ARM API versions cannot manage the new product.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>ASO v2.20 Release Notes</title>
-      <link>https://azure.github.io/azure-service-operator/blogs/2026-06-24-release-notes-v2.20.0/</link>
-      <pubDate>Wed, 24 Jun 2026 00:00:00 +0000</pubDate>
-      <guid>https://azure.github.io/azure-service-operator/blogs/2026-06-24-release-notes-v2.20.0/</guid>
-      <description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.20.0! This release extends simplified versioning to four more resource groups, rolls smart deletion prechecks out across more than twenty groups, adds a way to resolve Azure resource names from ConfigMaps at reconciliation time, and introduces support for Microsoft Foundry projects.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;p&gt;Four more resource groups now support &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4831&#34;&gt;simplified API versioning&lt;/a&gt;: &lt;code&gt;compute&lt;/code&gt;, &lt;code&gt;app&lt;/code&gt;, &lt;code&gt;eventgrid&lt;/code&gt;, and &lt;code&gt;datafactory&lt;/code&gt; (&lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5348&#34;&gt;#5348&lt;/a&gt;, &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5342&#34;&gt;#5342&lt;/a&gt;, &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5344&#34;&gt;#5344&lt;/a&gt;, &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5343&#34;&gt;#5343&lt;/a&gt;). You can now use resources in these groups with the new &lt;code&gt;v&lt;/code&gt; prefix (e.g. &lt;code&gt;v20250701&lt;/code&gt; instead of &lt;code&gt;v1api20250701&lt;/code&gt;), while the legacy &lt;code&gt;v1api&lt;/code&gt; versions remain available for backward compatibility. We strongly recommend using the new version format wherever it&amp;rsquo;s available, as it sorts correctly for &lt;code&gt;kubectl get&lt;/code&gt; (see &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4147&#34;&gt;#4147&lt;/a&gt;) and the &lt;code&gt;v1api&lt;/code&gt; versions will eventually be removed after a deprecation period.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>ASO v2.19 Release Notes</title>
-      <link>https://azure.github.io/azure-service-operator/blogs/2026-04-24-release-notes-v2.19.0/</link>
-      <pubDate>Fri, 24 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://azure.github.io/azure-service-operator/blogs/2026-04-24-release-notes-v2.19.0/</guid>
-      <description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.19.0! This release expands simplified versioning to six more resource groups, adds new API Management and Cassandra resources, improves reconciliation performance, and tightens security by converting secret-bearing fields to proper secret references.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;p&gt;Six more resource groups now support &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4831&#34;&gt;simplified API versioning&lt;/a&gt;: &lt;code&gt;alertsmanagement&lt;/code&gt;, &lt;code&gt;appconfiguration&lt;/code&gt;, &lt;code&gt;apimanagement&lt;/code&gt;, &lt;code&gt;dbformysql&lt;/code&gt;, &lt;code&gt;synapse&lt;/code&gt;, and &lt;code&gt;web&lt;/code&gt;. You can use all resources in these groups with the new &lt;code&gt;v&lt;/code&gt; prefix (e.g. &lt;code&gt;v20250701&lt;/code&gt; instead of &lt;code&gt;v1api20250701&lt;/code&gt;), while the legacy &lt;code&gt;v1api&lt;/code&gt; versions remain available for backward compatibility. We recommend you using this new format for groups that support it. We will continue rolling out this version style to all groups over the next release or two.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>ASO v2.18 Release Notes</title>
-      <link>https://azure.github.io/azure-service-operator/blogs/2026-02-27-release-notes-v2.18.0/</link>
-      <pubDate>Wed, 18 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>https://azure.github.io/azure-service-operator/blogs/2026-02-27-release-notes-v2.18.0/</guid>
-      <description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.18.0! This release adds new AKS preview API support, expands simplified versioning to storage resources, strengthens reconciliation checks, fixes Helm configurability issues, and updates a broad set of dependencies and tooling.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;p&gt;The &lt;code&gt;storage&lt;/code&gt; group now supports &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5116&#34;&gt;simplified API versioning&lt;/a&gt;. You can use all storage resources with the new &lt;code&gt;v&lt;/code&gt; prefix, while the legacy &lt;code&gt;v1api&lt;/code&gt; versions remain available for backward compatibility. This continues our transition toward simplified versioning across all resource groups (see &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4831&#34;&gt;#4831&lt;/a&gt; for more detail).&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Why record our tests?</title>
-      <link>https://azure.github.io/azure-service-operator/blogs/2026-02-03-why-test-recordings/</link>
-      <pubDate>Tue, 03 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>https://azure.github.io/azure-service-operator/blogs/2026-02-03-why-test-recordings/</guid>
-      <description>&lt;p&gt;Azure Service Operator v2 uses recorded HTTP interactions for many of its integration tests. This blog post explains why we do this, and the benefits it brings.&lt;/p&gt;&#xA;&lt;p&gt;Early in the development of ASO v2, we ran into problems with some of our end-to-end tests.&lt;/p&gt;&#xA;&lt;p&gt;Sometimes a test that successfully worked one day would fail the next. We&amp;rsquo;d spend time investigating, assuming that this was due to something we&amp;rsquo;d changed, only to find the failure was due to outside factors.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Developer Talks - Quality of Life Features with Bevan</title>
-      <link>https://azure.github.io/azure-service-operator/blogs/2025-12-19-v2.17-features-with-bevan/</link>
-      <pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
-      <guid>https://azure.github.io/azure-service-operator/blogs/2025-12-19-v2.17-features-with-bevan/</guid>
-      <description>&lt;p&gt;With the release of ASO v2.17 coming soon, this felt like a great time to go behind the curtain and get a better idea of what us devs have been working on, both landed and upcoming, and how they contribute to a smoother user experience for ASO users.&lt;/p&gt;&#xA;&lt;p&gt;We&amp;rsquo;ll go over two exciting features, one landing in v2.17 and one that shipped in v2.16. Alongside our other host of improvements, we hope these features make using ASO that much smoother for our users.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>ASO v2.17 Release Notes</title>
-      <link>https://azure.github.io/azure-service-operator/blogs/2025-12-08-release-notes-v2.17.0/</link>
-      <pubDate>Mon, 08 Dec 2025 00:00:00 +0000</pubDate>
-      <guid>https://azure.github.io/azure-service-operator/blogs/2025-12-08-release-notes-v2.17.0/</guid>
-      <description>&lt;p&gt;We&amp;rsquo;re pleased to announce the release of Azure Service Operator v2.17.0! This release brings new PostgreSQL and Log Analytics resources, improved secret exports across several services, and the beginning of our transition to simplified API versioning.&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Administrative note: This blog post written in early February 2026 and backdated to the actual release date for v2.17.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;p&gt;Resources introduced in this release are using simplified versioning, as we&amp;rsquo;re deprecating the &lt;code&gt;v1api&lt;/code&gt; prefix (see &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4831&#34;&gt;#4831&lt;/a&gt;). We&amp;rsquo;ve laid the &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5031&#34;&gt;foundation for migration&lt;/a&gt; to the new versioning style, with &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5032&#34;&gt;batch resources&lt;/a&gt; being the first to migrate.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>ASO v2.16 Release Notes</title>
-      <link>https://azure.github.io/azure-service-operator/blogs/2025-10-29-release-notes-v2.16.0/</link>
-      <pubDate>Wed, 29 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://azure.github.io/azure-service-operator/blogs/2025-10-29-release-notes-v2.16.0/</guid>
-      <description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.16.0! This release comes with a host of improvements and fixes, along with support being added for some oft-requested resources.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-breaking-changes&#34;&gt;⚠️ Breaking changes&lt;/h2&gt;&#xA;&lt;p&gt;This release includes breaking changes. Please review the &lt;a href=&#34;https://azure.github.io/azure-service-operator/guide/breaking-changes/&#34;&gt;breaking changes documentation&lt;/a&gt; before upgrading.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-new-and-improved-resource-support&#34;&gt;🎉 New and improved resource support&lt;/h2&gt;&#xA;&lt;h3 id=&#34;new-resource-support&#34;&gt;New resource support&lt;/h3&gt;&#xA;&lt;p&gt;We&amp;rsquo;ve added support for three new resources:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/4980&#34;&gt;Azure Compute Capacity Reservation Groups&lt;/a&gt; allowing capacity reservation manifests to be declaratively included alongside VM manifests&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;em&gt;Special thanks to &lt;a href=&#34;https://github.com/bingikarthik&#34;&gt;bingikarthik&lt;/a&gt; for his contribution!&lt;/em&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/4979&#34;&gt;Managing Azure quotas&lt;/a&gt; for Kubernetes native management of Azure quotas&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;em&gt;Special thanks to &lt;a href=&#34;https://github.com/bingikarthik&#34;&gt;bingikarthik&lt;/a&gt; for his contribution!&lt;/em&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4614&#34;&gt;NetworkWatchers/flowLogs&lt;/a&gt; for management of Network Security Group Flow Logs.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;enhanced-resource-references&#34;&gt;Enhanced resource references&lt;/h3&gt;&#xA;&lt;p&gt;We&amp;rsquo;ve enhanced existing resource references with additional functionality:&lt;/p&gt;</description>
-    </item>
-  </channel>
+	<channel>
+		<title>Blog on Azure Service Operator</title>
+		<link>https://azure.github.io/azure-service-operator/blogs/</link>
+		<description>Recent content in Blog on Azure Service Operator</description>
+		<generator>Hugo</generator>
+		<language>en-US</language>
+		
+		
+		
+		
+			<lastBuildDate>Mon, 31 Aug 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="https://azure.github.io/azure-service-operator/blogs/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>ASO v2.21 Release Notes</title>
+				<link>https://azure.github.io/azure-service-operator/blogs/2026-08-31-release-notes-v2.21.0/</link>
+				<pubDate>Mon, 31 Aug 2026 00:00:00 +0000</pubDate>
+				<guid>https://azure.github.io/azure-service-operator/blogs/2026-08-31-release-notes-v2.21.0/</guid>
+				<description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.21.0! This release completes the rollout of smarter deletion, removes retired Redis Enterprise API versions, expands support for Entra ID and several Azure services, and adds more control over operator security and authentication.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;p&gt;The migration to &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/5108&#34;&gt;smart deletion prechecks&lt;/a&gt; is now complete. ASO checks whether a resource or its parent still exists before issuing a &lt;code&gt;DELETE&lt;/code&gt; to Azure, avoiding unnecessary calls and reducing error churn when you remove large resource graphs. This release enables the precheck for the remaining API groups, including &lt;code&gt;compute&lt;/code&gt;, &lt;code&gt;containerinstance&lt;/code&gt;, &lt;code&gt;datafactory&lt;/code&gt;, &lt;code&gt;dbforpostgresql&lt;/code&gt;, &lt;code&gt;devices&lt;/code&gt;, &lt;code&gt;insights&lt;/code&gt;, &lt;code&gt;keyvault&lt;/code&gt;, &lt;code&gt;machinelearningservices&lt;/code&gt;, &lt;code&gt;network&lt;/code&gt;, &lt;code&gt;redhatopenshift&lt;/code&gt;, &lt;code&gt;resources&lt;/code&gt;, &lt;code&gt;servicebus&lt;/code&gt;, and &lt;code&gt;storage&lt;/code&gt;.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Breaking Changes for Redis Enterprise</title>
+				<link>https://azure.github.io/azure-service-operator/blogs/2026-07-01-redis-breaking-changes/</link>
+				<pubDate>Wed, 01 Jul 2026 00:00:00 +0000</pubDate>
+				<guid>https://azure.github.io/azure-service-operator/blogs/2026-07-01-redis-breaking-changes/</guid>
+				<description>&lt;p&gt;If you manage &lt;code&gt;RedisEnterprise&lt;/code&gt; or &lt;code&gt;RedisEnterpriseDatabase&lt;/code&gt; resources with ASO, this post is for you. In &lt;strong&gt;ASO v2.21&lt;/strong&gt; (scheduled for August 2026), we will remove the &lt;code&gt;v1api20210301&lt;/code&gt; and &lt;code&gt;v1api20230701&lt;/code&gt; versions of both resources. You&amp;rsquo;ll need to move your YAML to a newer API version before upgrading.&lt;/p&gt;&#xA;&lt;p&gt;This change is driven by an upstream Azure decision: &lt;em&gt;Azure Cache for Redis Enterprise&lt;/em&gt; is being retired in favour of &lt;em&gt;Azure Managed Redis&lt;/em&gt;, and the older ARM API versions cannot manage the new product.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>ASO v2.20 Release Notes</title>
+				<link>https://azure.github.io/azure-service-operator/blogs/2026-06-24-release-notes-v2.20.0/</link>
+				<pubDate>Wed, 24 Jun 2026 00:00:00 +0000</pubDate>
+				<guid>https://azure.github.io/azure-service-operator/blogs/2026-06-24-release-notes-v2.20.0/</guid>
+				<description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.20.0! This release extends simplified versioning to four more resource groups, rolls smart deletion prechecks out across more than twenty groups, adds a way to resolve Azure resource names from ConfigMaps at reconciliation time, and introduces support for Microsoft Foundry projects.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;p&gt;Four more resource groups now support &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4831&#34;&gt;simplified API versioning&lt;/a&gt;: &lt;code&gt;compute&lt;/code&gt;, &lt;code&gt;app&lt;/code&gt;, &lt;code&gt;eventgrid&lt;/code&gt;, and &lt;code&gt;datafactory&lt;/code&gt; (&lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5348&#34;&gt;#5348&lt;/a&gt;, &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5342&#34;&gt;#5342&lt;/a&gt;, &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5344&#34;&gt;#5344&lt;/a&gt;, &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5343&#34;&gt;#5343&lt;/a&gt;). You can now use resources in these groups with the new &lt;code&gt;v&lt;/code&gt; prefix (e.g. &lt;code&gt;v20250701&lt;/code&gt; instead of &lt;code&gt;v1api20250701&lt;/code&gt;), while the legacy &lt;code&gt;v1api&lt;/code&gt; versions remain available for backward compatibility. We strongly recommend using the new version format wherever it&amp;rsquo;s available, as it sorts correctly for &lt;code&gt;kubectl get&lt;/code&gt; (see &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4147&#34;&gt;#4147&lt;/a&gt;) and the &lt;code&gt;v1api&lt;/code&gt; versions will eventually be removed after a deprecation period.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>ASO v2.19 Release Notes</title>
+				<link>https://azure.github.io/azure-service-operator/blogs/2026-04-24-release-notes-v2.19.0/</link>
+				<pubDate>Fri, 24 Apr 2026 00:00:00 +0000</pubDate>
+				<guid>https://azure.github.io/azure-service-operator/blogs/2026-04-24-release-notes-v2.19.0/</guid>
+				<description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.19.0! This release expands simplified versioning to six more resource groups, adds new API Management and Cassandra resources, improves reconciliation performance, and tightens security by converting secret-bearing fields to proper secret references.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;p&gt;Six more resource groups now support &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4831&#34;&gt;simplified API versioning&lt;/a&gt;: &lt;code&gt;alertsmanagement&lt;/code&gt;, &lt;code&gt;appconfiguration&lt;/code&gt;, &lt;code&gt;apimanagement&lt;/code&gt;, &lt;code&gt;dbformysql&lt;/code&gt;, &lt;code&gt;synapse&lt;/code&gt;, and &lt;code&gt;web&lt;/code&gt;. You can use all resources in these groups with the new &lt;code&gt;v&lt;/code&gt; prefix (e.g. &lt;code&gt;v20250701&lt;/code&gt; instead of &lt;code&gt;v1api20250701&lt;/code&gt;), while the legacy &lt;code&gt;v1api&lt;/code&gt; versions remain available for backward compatibility. We recommend you using this new format for groups that support it. We will continue rolling out this version style to all groups over the next release or two.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>ASO v2.18 Release Notes</title>
+				<link>https://azure.github.io/azure-service-operator/blogs/2026-02-27-release-notes-v2.18.0/</link>
+				<pubDate>Wed, 18 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>https://azure.github.io/azure-service-operator/blogs/2026-02-27-release-notes-v2.18.0/</guid>
+				<description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.18.0! This release adds new AKS preview API support, expands simplified versioning to storage resources, strengthens reconciliation checks, fixes Helm configurability issues, and updates a broad set of dependencies and tooling.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;p&gt;The &lt;code&gt;storage&lt;/code&gt; group now supports &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5116&#34;&gt;simplified API versioning&lt;/a&gt;. You can use all storage resources with the new &lt;code&gt;v&lt;/code&gt; prefix, while the legacy &lt;code&gt;v1api&lt;/code&gt; versions remain available for backward compatibility. This continues our transition toward simplified versioning across all resource groups (see &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4831&#34;&gt;#4831&lt;/a&gt; for more detail).&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Why record our tests?</title>
+				<link>https://azure.github.io/azure-service-operator/blogs/2026-02-03-why-test-recordings/</link>
+				<pubDate>Tue, 03 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>https://azure.github.io/azure-service-operator/blogs/2026-02-03-why-test-recordings/</guid>
+				<description>&lt;p&gt;Azure Service Operator v2 uses recorded HTTP interactions for many of its integration tests. This blog post explains why we do this, and the benefits it brings.&lt;/p&gt;&#xA;&lt;p&gt;Early in the development of ASO v2, we ran into problems with some of our end-to-end tests.&lt;/p&gt;&#xA;&lt;p&gt;Sometimes a test that successfully worked one day would fail the next. We&amp;rsquo;d spend time investigating, assuming that this was due to something we&amp;rsquo;d changed, only to find the failure was due to outside factors.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Developer Talks - Quality of Life Features with Bevan</title>
+				<link>https://azure.github.io/azure-service-operator/blogs/2025-12-19-v2.17-features-with-bevan/</link>
+				<pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
+				<guid>https://azure.github.io/azure-service-operator/blogs/2025-12-19-v2.17-features-with-bevan/</guid>
+				<description>&lt;p&gt;With the release of ASO v2.17 coming soon, this felt like a great time to go behind the curtain and get a better idea of what us devs have been working on, both landed and upcoming, and how they contribute to a smoother user experience for ASO users.&lt;/p&gt;&#xA;&lt;p&gt;We&amp;rsquo;ll go over two exciting features, one landing in v2.17 and one that shipped in v2.16. Alongside our other host of improvements, we hope these features make using ASO that much smoother for our users.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>ASO v2.17 Release Notes</title>
+				<link>https://azure.github.io/azure-service-operator/blogs/2025-12-08-release-notes-v2.17.0/</link>
+				<pubDate>Mon, 08 Dec 2025 00:00:00 +0000</pubDate>
+				<guid>https://azure.github.io/azure-service-operator/blogs/2025-12-08-release-notes-v2.17.0/</guid>
+				<description>&lt;p&gt;We&amp;rsquo;re pleased to announce the release of Azure Service Operator v2.17.0! This release brings new PostgreSQL and Log Analytics resources, improved secret exports across several services, and the beginning of our transition to simplified API versioning.&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Administrative note: This blog post written in early February 2026 and backdated to the actual release date for v2.17.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;p&gt;Resources introduced in this release are using simplified versioning, as we&amp;rsquo;re deprecating the &lt;code&gt;v1api&lt;/code&gt; prefix (see &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4831&#34;&gt;#4831&lt;/a&gt;). We&amp;rsquo;ve laid the &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5031&#34;&gt;foundation for migration&lt;/a&gt; to the new versioning style, with &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5032&#34;&gt;batch resources&lt;/a&gt; being the first to migrate.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>ASO v2.16 Release Notes</title>
+				<link>https://azure.github.io/azure-service-operator/blogs/2025-10-29-release-notes-v2.16.0/</link>
+				<pubDate>Wed, 29 Oct 2025 00:00:00 +0000</pubDate>
+				<guid>https://azure.github.io/azure-service-operator/blogs/2025-10-29-release-notes-v2.16.0/</guid>
+				<description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.16.0! This release comes with a host of improvements and fixes, along with support being added for some oft-requested resources.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-breaking-changes&#34;&gt;⚠️ Breaking changes&lt;/h2&gt;&#xA;&lt;p&gt;This release includes breaking changes. Please review the &lt;a href=&#34;https://azure.github.io/azure-service-operator/guide/breaking-changes/&#34;&gt;breaking changes documentation&lt;/a&gt; before upgrading.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-new-and-improved-resource-support&#34;&gt;🎉 New and improved resource support&lt;/h2&gt;&#xA;&lt;h3 id=&#34;new-resource-support&#34;&gt;New resource support&lt;/h3&gt;&#xA;&lt;p&gt;We&amp;rsquo;ve added support for three new resources:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/4980&#34;&gt;Azure Compute Capacity Reservation Groups&lt;/a&gt; allowing capacity reservation manifests to be declaratively included alongside VM manifests&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;em&gt;Special thanks to &lt;a href=&#34;https://github.com/bingikarthik&#34;&gt;bingikarthik&lt;/a&gt; for his contribution!&lt;/em&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/4979&#34;&gt;Managing Azure quotas&lt;/a&gt; for Kubernetes native management of Azure quotas&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;em&gt;Special thanks to &lt;a href=&#34;https://github.com/bingikarthik&#34;&gt;bingikarthik&lt;/a&gt; for his contribution!&lt;/em&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4614&#34;&gt;NetworkWatchers/flowLogs&lt;/a&gt; for management of Network Security Group Flow Logs.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;enhanced-resource-references&#34;&gt;Enhanced resource references&lt;/h3&gt;&#xA;&lt;p&gt;We&amp;rsquo;ve enhanced existing resource references with additional functionality:&lt;/p&gt;</description>
+			</item>
+	</channel>
 </rss>
