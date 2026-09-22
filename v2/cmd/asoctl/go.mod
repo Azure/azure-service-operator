@@ -10,7 +10,7 @@ require (
 	github.com/Azure/azure-service-operator/v2 v2.12.0
 	github.com/go-logr/logr v1.4.4
 	github.com/go-logr/zerologr v1.2.3
-	github.com/onsi/gomega v1.43.0
+	github.com/onsi/gomega v1.43.1
 	github.com/rotisserie/eris v0.5.4
 	github.com/rs/zerolog v1.35.1
 	github.com/sourcegraph/conc v0.3.0
@@ -113,7 +113,7 @@ require (
 	github.com/microsoft/kiota-serialization-json-go v1.1.2 // indirect
 	github.com/microsoft/kiota-serialization-multipart-go v1.1.2 // indirect
 	github.com/microsoft/kiota-serialization-text-go v1.1.3 // indirect
-	github.com/microsoftgraph/msgraph-sdk-go v1.102.0 // indirect
+	github.com/microsoftgraph/msgraph-sdk-go v1.103.0 // indirect
 	github.com/microsoftgraph/msgraph-sdk-go-core v1.4.1 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.3-0.20250322232337-35a7c28c31ee // indirect
