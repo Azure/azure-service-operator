@@ -1,0 +1,38 @@
+apiVersion: redhatopenshift.azure.com/v20260901preview
+kind: HcpOpenShiftClustersNodePool
+metadata:
+  name: aso-sample-hcp-mp-0
+  namespace: default
+spec:
+  azureName: aso-sample-hcp-mp-0
+  location: uksouth
+  owner:
+    group: redhatopenshift.azure.com
+    kind: HcpOpenShiftCluster
+    name: aso-sample-hcp
+  properties:
+    # replicas: 2
+    autoRepair: true
+    autoScaling:
+      min: 2
+      max: 10
+    labels:
+      - key: region
+        value: uksouth
+    taints:
+      - key: "example.com/special"
+        value: "true"
+        effect: "NoSchedule"
+    platform:
+      osDisk:
+        diskStorageAccountType: "Standard_LRS"
+        sizeGiB: 128
+      subnetReference:
+        armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/virtualNetworks/aso-sample-vnet/subnets/aso-sample-subnet"
+      vmSize: "Standard_D4s_v3"
+    version:
+      channelGroup: stable
+      id: "4.19.0"
+  tags:
+    environment: production
+    cost-center: engineering
