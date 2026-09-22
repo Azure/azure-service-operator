@@ -14,6 +14,7 @@ import (
 	databasewatcher "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview"
 	managedIdentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
 	sql "github.com/Azure/azure-service-operator/v2/api/sql/v20211101"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -163,10 +164,13 @@ func Test_DatabaseWatcher_Target_v20241001preview_CRUD(t *testing.T) {
 	tc.Expect(target.Status.Properties).ToNot(BeNil())
 	tc.Expect(target.Status.Properties.SqlDb).ToNot(BeNil())
 
-	// Status.Status reports the connection state, which the SQL server side fills in asynchronously, so
-	// it isn't populated yet
 	tc.Expect(sharedPrivateLink.Status.Id).ToNot(BeNil())
 	tc.Expect(sharedPrivateLink.Status.GroupId).To(Equal(to.Ptr("sqlServer")))
+
+	// Status.Status is where ARM documents the connection state, but it reports nothing there at any point,
+	// so the link is only ready once the connection on the server itself says it was approved
+	tc.Expect(sharedPrivateLink.Status.Status).To(BeNil())
+	tc.Expect(connectionStateFromAzure(tc, server)).To(Equal("Approved"))
 
 	old := target.DeepCopy()
 	target.Spec.Properties.SqlDb.ReadIntent = to.Ptr(true)
@@ -228,4 +232,27 @@ func watcherStatusFromAzure(tc *testcommon.KubePerTestContext, watcher *database
 	tc.Expect(err).ToNot(HaveOccurred())
 
 	return state.Properties.Status
+}
+
+// connectionStateFromAzure reports the state of the private endpoint connection a shared private link opened
+// on the server, which is the only place Azure reports it.
+func connectionStateFromAzure(tc *testcommon.KubePerTestContext, server *sql.Server) string {
+	type connection struct {
+		Properties struct {
+			PrivateLinkServiceConnectionState struct {
+				Status string `json:"status"`
+			} `json:"privateLinkServiceConnectionState"`
+		} `json:"properties"`
+	}
+
+	connections, err := genericarmclient.ListByContainerID[connection](
+		tc.Ctx,
+		tc.AzureClient,
+		*server.Status.Id+"/privateEndpointConnections",
+		server.GetAPIVersion(),
+	)
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(connections).To(HaveLen(1))
+
+	return connections[0].Properties.PrivateLinkServiceConnectionState.Status
 }

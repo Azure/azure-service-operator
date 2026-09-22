@@ -94,7 +94,7 @@ fi
 
 # Ensure we have the right version of GO
 
-#doc# | Go | 1.25 | https://golang.org/doc/install #
+#doc# | Go | 1.27 | https://golang.org/doc/install #
 if ! command -v go > /dev/null 2>&1; then
     write-error "Go must be installed manually; see https://golang.org/doc/install"
     exit 1
@@ -113,11 +113,11 @@ if ! [[ $GOVERACTUAL =~ $GOVERREGEX ]]; then
 fi
 
 GOMINORVER="${BASH_REMATCH[1]}"
-GOMINORREQUIRED=25
+GOMINORREQUIRED=27
 GOTOOLCHAINMINVER=21
 
-# Check Go version - we require 1.21+ (for toolchain support), prefer 1.25+
-# Go 1.21+ supports automatic toolchain downloads, so versions 1.21-1.24 can still work
+# Check Go version - we require 1.21+ (for toolchain support), prefer 1.27+
+# Go 1.21+ supports automatic toolchain downloads, so versions 1.21-1.27 can still work
 if [[ $GOMINORVER -lt $GOTOOLCHAINMINVER ]]; then
     write-error "Go must be at least version 1.$GOTOOLCHAINMINVER (for toolchain support), not $GOVERACTUAL; see: https://golang.org/doc/install"
     exit 1
@@ -232,13 +232,13 @@ fi
 go-install gofumpt mvdan.cc/gofumpt@v0.10.0
 
 # Install golangci-lint
-#doc# | golangci-lint | 2.12.1 | https://github.com/golangci/golangci-lint |
+#doc# | golangci-lint | 2.13.2 | https://github.com/golangci/golangci-lint |
 write-verbose "Checking for $TOOL_DEST/golangci-lint"
 if should-install "$TOOL_DEST/golangci-lint"; then
     write-info "Installing golangci-lint"
     # golangci-lint is provided by base image if in devcontainer
     # this command copied from there
-    curl -sSfL https://golangci-lint.run/install.sh  | sh -s -- -b "$TOOL_DEST" v2.12.1 2>&1
+    curl -sSfL https://golangci-lint.run/install.sh  | sh -s -- -b "$TOOL_DEST" v2.13.2 2>&1
 fi
 
 # Install Task

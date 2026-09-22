@@ -75,8 +75,11 @@ var versionMigrationHybridReleases = map[string]string{
 	"cognitiveservices": "v2.21.0",
 	"compute":           "v2.20.0",
 	"containerinstance": "v2.21.0",
+	"containerregistry": "v2.22.0",
 	"datafactory":       "v2.20.0",
+	"dataprotection":    "v2.21.0",
 	"dbformysql":        "v2.19.0",
+	"dbforpostgresql":   "v2.22.0",
 	"eventgrid":         "v2.20.0",
 	"sql":               "v2.21.0",
 	"storage":           "v2.18.0",
@@ -103,7 +106,7 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"compute":           VersionMigrationModeHybrid,
 
 	"containerinstance": VersionMigrationModeHybrid,
-	"containerregistry": VersionMigrationModeLegacy,
+	"containerregistry": VersionMigrationModeHybrid,
 	"containerservice":  VersionMigrationModeLegacy,
 
 	"datafactory":    VersionMigrationModeHybrid,
@@ -111,7 +114,7 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 
 	"dbformysql": VersionMigrationModeHybrid,
 
-	"dbforpostgresql": VersionMigrationModeLegacy,
+	"dbforpostgresql": VersionMigrationModeHybrid,
 	"devices":         VersionMigrationModeLegacy,
 	"documentdb":      VersionMigrationModeLegacy,
 
