@@ -362,6 +362,7 @@ type SecurityGroupOperatorSpec struct {
 	// CreationMode: Specifies how ASO will try to create the resource.
 	// Specify "AlwaysCreate" to always create a new security group when first reconciled.
 	// Or specify "AdoptOrCreate" to first try to adopt an existing security group with the same display name.
+	// Specify "AdoptOnly" to require an existing security group without creating one.
 	// If multiple security groups with the same display name are found, the resource condition will show an error.
 	// If not specified, defaults to "AdoptOrCreate".
 	CreationMode *CreationMode `json:"creationMode,omitempty"`
