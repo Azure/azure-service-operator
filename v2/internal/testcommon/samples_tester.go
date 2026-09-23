@@ -39,9 +39,12 @@ var subRegex = regexp.MustCompile(`/([0]+-?)+`)
 var emptyGUID = uuid.Nil.String()
 
 var wholeSampleExclusions = []*regexp.Regexp{
-	regexp.MustCompile(`/cache/`),                               // Cache has issues with linked caches being able to delete
-	regexp.MustCompile(`/subscription/`),                        // Can't easily be run/recorded in our standard subscription
-	regexp.MustCompile(`/redhatopenshift/`),                     // This requires SP creation
+	regexp.MustCompile(`/cache/`),                       // Cache has issues with linked caches being able to delete
+	regexp.MustCompile(`/subscription/`),                // Can't easily be run/recorded in our standard subscription
+	regexp.MustCompile(`/redhatopenshift/v1api(?:/|$)`), // This requires SP creation
+	// HCP samples reference external prerequisites (VNet, NSG, managed identities, Key Vault) that
+	// aren't yet self-contained in the sample directory; see v2/internal/controllers/testdata/redhatopenshift-hcp/README.md.
+	regexp.MustCompile(`/redhatopenshift/v20260901preview(?:/|$)`),
 	regexp.MustCompile(`/documentdb/sqldatabase/v1api20210515`), // This is blocked by corp policy (can't set DisableLocalAuth)
 	regexp.MustCompile(`/compute/v20250401`),                    // Quota restrictions mean we can't rerecord capacity reservation
 }
@@ -70,6 +73,10 @@ var exclusions = []*regexp.Regexp{
 	regexp.MustCompile(`dbformysql/.*_user.yaml`),
 	regexp.MustCompile(`dbformysql/.*_user_aad.yaml`),
 	regexp.MustCompile(`dbforpostgresql/.*_user.yaml`),
+
+	// PostgreSQL virtual endpoints require multiple servers with an established replication link.
+	// Older versions only pass because their recordings predate this service-side validation.
+	regexp.MustCompile(`dbforpostgresql/.*_flexibleserversvirtualendpoint.yaml`),
 
 	// Excluding sql serversadministrator and serversazureadonlyauthentication as they both require AAD auth
 	// which the samples recordings aren't using.

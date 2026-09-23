@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
+	v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20220120preview/storage"
 	v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -89,7 +89,7 @@ func RunPropertyAssignmentTestForFlexibleServersDatabase(subject FlexibleServers
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210601s.FlexibleServersDatabase
+	var other v20220120ps.FlexibleServersDatabase
 	err := copied.AssignProperties_To_FlexibleServersDatabase(&other)
 	if err != nil {
 		return err.Error()
@@ -203,7 +203,7 @@ func RunPropertyAssignmentTestForFlexibleServersDatabaseOperatorSpec(subject Fle
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210601s.FlexibleServersDatabaseOperatorSpec
+	var other v20220120ps.FlexibleServersDatabaseOperatorSpec
 	err := copied.AssignProperties_To_FlexibleServersDatabaseOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -310,7 +310,7 @@ func RunPropertyAssignmentTestForFlexibleServersDatabase_STATUS(subject Flexible
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210601s.FlexibleServersDatabase_STATUS
+	var other v20220120ps.FlexibleServersDatabase_STATUS
 	err := copied.AssignProperties_To_FlexibleServersDatabase_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -441,7 +441,7 @@ func RunPropertyAssignmentTestForFlexibleServersDatabase_Spec(subject FlexibleSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210601s.FlexibleServersDatabase_Spec
+	var other v20220120ps.FlexibleServersDatabase_Spec
 	err := copied.AssignProperties_To_FlexibleServersDatabase_Spec(&other)
 	if err != nil {
 		return err.Error()

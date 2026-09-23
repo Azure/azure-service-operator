@@ -284,21 +284,36 @@ import (
 	dbformysql_v20250601ps "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20250601preview/storage"
 	dbformysql_v20250601pw "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20250601preview/webhook"
 	dbforpostgresql_customizations "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/customizations"
-	dbforpostgresql_v20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
-	dbforpostgresql_v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
-	dbforpostgresql_v20210601w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/webhook"
-	dbforpostgresql_v20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview"
-	dbforpostgresql_v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/storage"
-	dbforpostgresql_v20220120pw "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/webhook"
-	dbforpostgresql_v20221201 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201"
-	dbforpostgresql_v20221201s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
-	dbforpostgresql_v20221201w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/webhook"
-	dbforpostgresql_v20230601p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview"
-	dbforpostgresql_v20230601ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/storage"
-	dbforpostgresql_v20230601pw "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/webhook"
-	dbforpostgresql_v20240801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
-	dbforpostgresql_v20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
-	dbforpostgresql_v20240801w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/webhook"
+	dbforpostgresql_v1api20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
+	dbforpostgresql_v1api20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
+	dbforpostgresql_v1api20210601w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/webhook"
+	dbforpostgresql_v1api20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview"
+	dbforpostgresql_v1api20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/storage"
+	dbforpostgresql_v1api20220120pw "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/webhook"
+	dbforpostgresql_v1api20221201 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201"
+	dbforpostgresql_v1api20221201s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
+	dbforpostgresql_v1api20221201w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/webhook"
+	dbforpostgresql_v1api20230601p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview"
+	dbforpostgresql_v1api20230601ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/storage"
+	dbforpostgresql_v1api20230601pw "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/webhook"
+	dbforpostgresql_v1api20240801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
+	dbforpostgresql_v1api20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	dbforpostgresql_v1api20240801w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/webhook"
+	dbforpostgresql_v20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20210601"
+	dbforpostgresql_v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20210601/storage"
+	dbforpostgresql_v20210601w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20210601/webhook"
+	dbforpostgresql_v20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20220120preview"
+	dbforpostgresql_v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20220120preview/storage"
+	dbforpostgresql_v20220120pw "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20220120preview/webhook"
+	dbforpostgresql_v20221201 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20221201"
+	dbforpostgresql_v20221201s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20221201/storage"
+	dbforpostgresql_v20221201w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20221201/webhook"
+	dbforpostgresql_v20230601p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20230601preview"
+	dbforpostgresql_v20230601ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20230601preview/storage"
+	dbforpostgresql_v20230601pw "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20230601preview/webhook"
+	dbforpostgresql_v20240801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20240801"
+	dbforpostgresql_v20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20240801/storage"
+	dbforpostgresql_v20240801w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20240801/webhook"
 	dbforpostgresql_v20250801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801"
 	dbforpostgresql_v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	dbforpostgresql_v20250801w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/webhook"
@@ -484,6 +499,9 @@ import (
 	redhatopenshift_v20231122 "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122"
 	redhatopenshift_v20231122s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/storage"
 	redhatopenshift_v20231122w "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/webhook"
+	redhatopenshift_v20260901p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview"
+	redhatopenshift_v20260901ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/storage"
+	redhatopenshift_v20260901pw "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/webhook"
 	resources_customizations "github.com/Azure/azure-service-operator/v2/api/resources/customizations"
 	resources_v20200601 "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	resources_v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
@@ -1333,6 +1351,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsMember)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsUpdateRun)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsUpdateStrategy)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20260501s.IdentityBinding)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20260501s.MaintenanceConfiguration)})
 	result = append(result, &registration.StorageType{
 		Obj: new(containerservice_v20260501s.ManagedCluster),
@@ -2987,6 +3006,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20260901ps.HcpOpenShiftCluster)})
+	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20260901ps.HcpOpenShiftClustersExternalAuth)})
+	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20260901ps.HcpOpenShiftClustersNodePool)})
 	result = append(result, &registration.StorageType{Obj: new(resources_v20200601s.ResourceGroup)})
 	result = append(result, &registration.StorageType{Obj: new(search_v20231101s.SearchService)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.Namespace)})
@@ -5141,6 +5163,11 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(containerservice_v20260501.IdentityBinding),
+			Defaulter: &containerservice_v20260501w.IdentityBinding{},
+			Validator: &containerservice_v20260501w.IdentityBinding{},
+		},
+		&registration.KnownType{
 			Obj:       new(containerservice_v20260501.MaintenanceConfiguration),
 			Defaulter: &containerservice_v20260501w.MaintenanceConfiguration{},
 			Validator: &containerservice_v20260501w.MaintenanceConfiguration{},
@@ -5162,6 +5189,7 @@ func getKnownTypes() []*registration.KnownType {
 		})
 	result = append(
 		result,
+		&registration.KnownType{Obj: new(containerservice_v20260501s.IdentityBinding)},
 		&registration.KnownType{Obj: new(containerservice_v20260501s.MaintenanceConfiguration)},
 		&registration.KnownType{Obj: new(containerservice_v20260501s.ManagedCluster)},
 		&registration.KnownType{Obj: new(containerservice_v20260501s.ManagedClustersAgentPool)},
@@ -5532,6 +5560,164 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(dbformysql_v20250601ps.FlexibleServersConfiguration)},
 		&registration.KnownType{Obj: new(dbformysql_v20250601ps.FlexibleServersDatabase)},
 		&registration.KnownType{Obj: new(dbformysql_v20250601ps.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20210601.FlexibleServer),
+			Defaulter: &dbforpostgresql_v1api20210601w.FlexibleServer{},
+			Validator: &dbforpostgresql_v1api20210601w.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20210601.FlexibleServersConfiguration),
+			Defaulter: &dbforpostgresql_v1api20210601w.FlexibleServersConfiguration{},
+			Validator: &dbforpostgresql_v1api20210601w.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20210601.FlexibleServersDatabase),
+			Defaulter: &dbforpostgresql_v1api20210601w.FlexibleServersDatabase{},
+			Validator: &dbforpostgresql_v1api20210601w.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20210601.FlexibleServersFirewallRule),
+			Defaulter: &dbforpostgresql_v1api20210601w.FlexibleServersFirewallRule{},
+			Validator: &dbforpostgresql_v1api20210601w.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20210601s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20210601s.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20210601s.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20210601s.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20220120p.FlexibleServer),
+			Defaulter: &dbforpostgresql_v1api20220120pw.FlexibleServer{},
+			Validator: &dbforpostgresql_v1api20220120pw.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20220120p.FlexibleServersConfiguration),
+			Defaulter: &dbforpostgresql_v1api20220120pw.FlexibleServersConfiguration{},
+			Validator: &dbforpostgresql_v1api20220120pw.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20220120p.FlexibleServersDatabase),
+			Defaulter: &dbforpostgresql_v1api20220120pw.FlexibleServersDatabase{},
+			Validator: &dbforpostgresql_v1api20220120pw.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20220120p.FlexibleServersFirewallRule),
+			Defaulter: &dbforpostgresql_v1api20220120pw.FlexibleServersFirewallRule{},
+			Validator: &dbforpostgresql_v1api20220120pw.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20220120ps.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20220120ps.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20220120ps.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20220120ps.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20221201.FlexibleServer),
+			Defaulter: &dbforpostgresql_v1api20221201w.FlexibleServer{},
+			Validator: &dbforpostgresql_v1api20221201w.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20221201.FlexibleServersConfiguration),
+			Defaulter: &dbforpostgresql_v1api20221201w.FlexibleServersConfiguration{},
+			Validator: &dbforpostgresql_v1api20221201w.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20221201.FlexibleServersDatabase),
+			Defaulter: &dbforpostgresql_v1api20221201w.FlexibleServersDatabase{},
+			Validator: &dbforpostgresql_v1api20221201w.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20221201.FlexibleServersFirewallRule),
+			Defaulter: &dbforpostgresql_v1api20221201w.FlexibleServersFirewallRule{},
+			Validator: &dbforpostgresql_v1api20221201w.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20221201s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20221201s.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20221201s.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20221201s.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20230601p.FlexibleServer),
+			Defaulter: &dbforpostgresql_v1api20230601pw.FlexibleServer{},
+			Validator: &dbforpostgresql_v1api20230601pw.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20230601p.FlexibleServersConfiguration),
+			Defaulter: &dbforpostgresql_v1api20230601pw.FlexibleServersConfiguration{},
+			Validator: &dbforpostgresql_v1api20230601pw.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20230601p.FlexibleServersDatabase),
+			Defaulter: &dbforpostgresql_v1api20230601pw.FlexibleServersDatabase{},
+			Validator: &dbforpostgresql_v1api20230601pw.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20230601p.FlexibleServersFirewallRule),
+			Defaulter: &dbforpostgresql_v1api20230601pw.FlexibleServersFirewallRule{},
+			Validator: &dbforpostgresql_v1api20230601pw.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20230601ps.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20230601ps.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20230601ps.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20230601ps.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20240801.FlexibleServer),
+			Defaulter: &dbforpostgresql_v1api20240801w.FlexibleServer{},
+			Validator: &dbforpostgresql_v1api20240801w.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20240801.FlexibleServersAdvancedThreatProtectionSettings),
+			Defaulter: &dbforpostgresql_v1api20240801w.FlexibleServersAdvancedThreatProtectionSettings{},
+			Validator: &dbforpostgresql_v1api20240801w.FlexibleServersAdvancedThreatProtectionSettings{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20240801.FlexibleServersBackup),
+			Defaulter: &dbforpostgresql_v1api20240801w.FlexibleServersBackup{},
+			Validator: &dbforpostgresql_v1api20240801w.FlexibleServersBackup{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20240801.FlexibleServersConfiguration),
+			Defaulter: &dbforpostgresql_v1api20240801w.FlexibleServersConfiguration{},
+			Validator: &dbforpostgresql_v1api20240801w.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20240801.FlexibleServersDatabase),
+			Defaulter: &dbforpostgresql_v1api20240801w.FlexibleServersDatabase{},
+			Validator: &dbforpostgresql_v1api20240801w.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20240801.FlexibleServersFirewallRule),
+			Defaulter: &dbforpostgresql_v1api20240801w.FlexibleServersFirewallRule{},
+			Validator: &dbforpostgresql_v1api20240801w.FlexibleServersFirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20240801.FlexibleServersVirtualEndpoint),
+			Defaulter: &dbforpostgresql_v1api20240801w.FlexibleServersVirtualEndpoint{},
+			Validator: &dbforpostgresql_v1api20240801w.FlexibleServersVirtualEndpoint{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20240801s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20240801s.FlexibleServersAdvancedThreatProtectionSettings)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20240801s.FlexibleServersBackup)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20240801s.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20240801s.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20240801s.FlexibleServersFirewallRule)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20240801s.FlexibleServersVirtualEndpoint)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -7178,6 +7364,28 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &redhatopenshift_v20231122w.OpenShiftCluster{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(redhatopenshift_v20231122s.OpenShiftCluster)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(redhatopenshift_v20260901p.HcpOpenShiftCluster),
+			Defaulter: &redhatopenshift_v20260901pw.HcpOpenShiftCluster{},
+			Validator: &redhatopenshift_v20260901pw.HcpOpenShiftCluster{},
+		},
+		&registration.KnownType{
+			Obj:       new(redhatopenshift_v20260901p.HcpOpenShiftClustersExternalAuth),
+			Defaulter: &redhatopenshift_v20260901pw.HcpOpenShiftClustersExternalAuth{},
+			Validator: &redhatopenshift_v20260901pw.HcpOpenShiftClustersExternalAuth{},
+		},
+		&registration.KnownType{
+			Obj:       new(redhatopenshift_v20260901p.HcpOpenShiftClustersNodePool),
+			Defaulter: &redhatopenshift_v20260901pw.HcpOpenShiftClustersNodePool{},
+			Validator: &redhatopenshift_v20260901pw.HcpOpenShiftClustersNodePool{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(redhatopenshift_v20260901ps.HcpOpenShiftCluster)},
+		&registration.KnownType{Obj: new(redhatopenshift_v20260901ps.HcpOpenShiftClustersExternalAuth)},
+		&registration.KnownType{Obj: new(redhatopenshift_v20260901ps.HcpOpenShiftClustersNodePool)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(resources_v20200601.ResourceGroup),
 		Defaulter: &resources_v20200601w.ResourceGroup{},
@@ -8507,6 +8715,16 @@ func createScheme() *runtime.Scheme {
 	_ = dbformysql_v20241230s.AddToScheme(scheme)
 	_ = dbformysql_v20250601p.AddToScheme(scheme)
 	_ = dbformysql_v20250601ps.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20210601.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20210601s.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20220120p.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20220120ps.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20221201.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20221201s.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20230601p.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20230601ps.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20240801.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20240801s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20210601.AddToScheme(scheme)
 	_ = dbforpostgresql_v20210601s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20220120p.AddToScheme(scheme)
@@ -8629,6 +8847,8 @@ func createScheme() *runtime.Scheme {
 	_ = quota_v20250901s.AddToScheme(scheme)
 	_ = redhatopenshift_v20231122.AddToScheme(scheme)
 	_ = redhatopenshift_v20231122s.AddToScheme(scheme)
+	_ = redhatopenshift_v20260901p.AddToScheme(scheme)
+	_ = redhatopenshift_v20260901ps.AddToScheme(scheme)
 	_ = resources_v20200601.AddToScheme(scheme)
 	_ = resources_v20200601s.AddToScheme(scheme)
 	_ = search_v20220901.AddToScheme(scheme)
@@ -8774,6 +8994,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &containerservice_customizations.FleetsMemberExtension{})
 	result = append(result, &containerservice_customizations.FleetsUpdateRunExtension{})
 	result = append(result, &containerservice_customizations.FleetsUpdateStrategyExtension{})
+	result = append(result, &containerservice_customizations.IdentityBindingExtension{})
 	result = append(result, &containerservice_customizations.MaintenanceConfigurationExtension{})
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
@@ -8918,6 +9139,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &notificationhubs_customizations.NotificationHubsAuthorizationRuleExtension{})
 	result = append(result, &operationalinsights_customizations.WorkspaceExtension{})
 	result = append(result, &quota_customizations.QuotaExtension{})
+	result = append(result, &redhatopenshift_customizations.HcpOpenShiftClusterExtension{})
+	result = append(result, &redhatopenshift_customizations.HcpOpenShiftClustersExternalAuthExtension{})
+	result = append(result, &redhatopenshift_customizations.HcpOpenShiftClustersNodePoolExtension{})
 	result = append(result, &redhatopenshift_customizations.OpenShiftClusterExtension{})
 	result = append(result, &resources_customizations.ResourceGroupExtension{})
 	result = append(result, &search_customizations.SearchServiceExtension{})

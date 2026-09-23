@@ -1,5 +1,5 @@
 baseURL = 'https://azure.github.io/azure-service-operator/'
-languageCode = 'en-us'
+locale = 'en-US'
 title = 'Azure Service Operator'
 
 # for API docs rendering
@@ -17,7 +17,7 @@ enableRobotsTXT = true
 enableGitInfo = false
 
 # Comment out to enable taxonomies in Docsy
-disableKinds = ["taxonomy", "taxonomyTerm"]
+disableKinds = ["taxonomy"]
 
 # Highlighting config
 pygmentsCodeFences = true
@@ -42,8 +42,13 @@ latexDashes = true
 # Image processing configuration.
 [imaging]
 resampleFilter = "CatmullRom"
-quality = 75
 anchor = "smart"
+  [imaging.jpeg]
+  quality = 75
+  [imaging.webp]
+  quality = 75
+  [imaging.avif]
+  quality = 75
 
 [services]
 [services.googleAnalytics]
@@ -89,11 +94,8 @@ url_latest_version = "https://azure.github.io/azure-service-operator/"
 # Specify a value here if your content directory is not in your repo's root directory
 github_subdir = "docs/hugo"
 
-# Enable Algolia DocSearch
-algolia_docsearch = false
-
 # Enable Lunr.js offline search
-offlineSearch = false
+offlineSearch = true
 
 # Enable syntax highlighting and copy buttons on code blocks with Prism
 prism_syntax_highlighting = false
@@ -102,8 +104,8 @@ prism_syntax_highlighting = false
 [params.ui]
 #  Set to true to disable breadcrumb navigation.
 breadcrumb_disable = false
-# Set to true to disable the About link in the site footer
-footer_about_disable = false
+# Set to false to disable the About link in the site footer
+footer_about_enable = true
 # Set to false if you don't want to display a logo (/assets/icons/logo.svg) in the top navbar
 navbar_logo = true
 # Set to true if you don't want the top navbar to be translucent when over a `block/cover`, like on the homepage.
@@ -165,9 +167,7 @@ enable = false
 
 [module]
 [[module.imports]]
-path = "github.com/google/docsy"
-[[module.imports]]
-path = "github.com/google/docsy/dependencies"
+path = "github.com/google/docsy/theme"
 
 [params.mermaid]
 enable = true

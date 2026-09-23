@@ -304,6 +304,9 @@ groupModelConfiguration:
     ManagedClusters_MaintenanceConfiguration:
       $exportAs: MaintenanceConfiguration
       $supportedFrom: v2.22.0
+    ManagedClusters_IdentityBinding:
+      $exportAs: IdentityBinding
+      $supportedFrom: v2.22.0
     UserAssignedIdentity:
       ClientId:
         $importConfigMapMode: optional
