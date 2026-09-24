@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_CosmosDbDataConnection_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CosmosDbDataConnection via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCosmosDbDataConnection, CosmosDbDataConnectionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCosmosDbDataConnection)
 }
 
 // RunJSONSerializationTestForCosmosDbDataConnection runs a test to see if a specific instance of CosmosDbDataConnection round trips to JSON and back losslessly
-func RunJSONSerializationTestForCosmosDbDataConnection(subject CosmosDbDataConnection) string {
+func RunJSONSerializationTestForCosmosDbDataConnection(t *rapid.T) {
+	subject := CosmosDbDataConnectionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CosmosDbDataConnection
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,38 +45,35 @@ func RunJSONSerializationTestForCosmosDbDataConnection(subject CosmosDbDataConne
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CosmosDbDataConnection instances for property testing - lazily instantiated by
 // CosmosDbDataConnectionGenerator()
-var cosmosDbDataConnectionGenerator gopter.Gen
+var cosmosDbDataConnectionGenerator *rapid.Generator[CosmosDbDataConnection]
 
 // CosmosDbDataConnectionGenerator returns a generator of CosmosDbDataConnection instances for property testing.
-func CosmosDbDataConnectionGenerator() gopter.Gen {
+func CosmosDbDataConnectionGenerator() *rapid.Generator[CosmosDbDataConnection] {
 	if cosmosDbDataConnectionGenerator != nil {
 		return cosmosDbDataConnectionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCosmosDbDataConnection(generators)
-	cosmosDbDataConnectionGenerator = gen.Struct(reflect.TypeOf(CosmosDbDataConnection{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	cosmosDbDataConnectionGenerator = rapid.Custom(func(t *rapid.T) CosmosDbDataConnection {
+		var result CosmosDbDataConnection
+		result.CosmosDbContainer = ptrString.Draw(t, "CosmosDbContainer")
+		result.CosmosDbDatabase = ptrString.Draw(t, "CosmosDbDatabase")
+		result.Kind = ptrString.Draw(t, "Kind")
+		result.Location = ptrString.Draw(t, "Location")
+		result.MappingRuleName = ptrString.Draw(t, "MappingRuleName")
+		result.RetrievalStartDate = ptrString.Draw(t, "RetrievalStartDate")
+		result.TableName = ptrString.Draw(t, "TableName")
+		return result
+	})
 
 	return cosmosDbDataConnectionGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCosmosDbDataConnection is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCosmosDbDataConnection(gens map[string]gopter.Gen) {
-	gens["CosmosDbContainer"] = gen.PtrOf(gen.AlphaString())
-	gens["CosmosDbDatabase"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["MappingRuleName"] = gen.PtrOf(gen.AlphaString())
-	gens["RetrievalStartDate"] = gen.PtrOf(gen.AlphaString())
-	gens["TableName"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_CosmosDbDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -96,29 +83,23 @@ func Test_CosmosDbDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CosmosDbDataConnection_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCosmosDbDataConnection_STATUS, CosmosDbDataConnection_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCosmosDbDataConnection_STATUS)
 }
 
 // RunJSONSerializationTestForCosmosDbDataConnection_STATUS runs a test to see if a specific instance of CosmosDbDataConnection_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCosmosDbDataConnection_STATUS(subject CosmosDbDataConnection_STATUS) string {
+func RunJSONSerializationTestForCosmosDbDataConnection_STATUS(t *rapid.T) {
+	subject := CosmosDbDataConnection_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CosmosDbDataConnection_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -127,44 +108,41 @@ func RunJSONSerializationTestForCosmosDbDataConnection_STATUS(subject CosmosDbDa
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CosmosDbDataConnection_STATUS instances for property testing - lazily instantiated by
 // CosmosDbDataConnection_STATUSGenerator()
-var cosmosDbDataConnection_STATUSGenerator gopter.Gen
+var cosmosDbDataConnection_STATUSGenerator *rapid.Generator[CosmosDbDataConnection_STATUS]
 
 // CosmosDbDataConnection_STATUSGenerator returns a generator of CosmosDbDataConnection_STATUS instances for property testing.
-func CosmosDbDataConnection_STATUSGenerator() gopter.Gen {
+func CosmosDbDataConnection_STATUSGenerator() *rapid.Generator[CosmosDbDataConnection_STATUS] {
 	if cosmosDbDataConnection_STATUSGenerator != nil {
 		return cosmosDbDataConnection_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCosmosDbDataConnection_STATUS(generators)
-	cosmosDbDataConnection_STATUSGenerator = gen.Struct(reflect.TypeOf(CosmosDbDataConnection_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	cosmosDbDataConnection_STATUSGenerator = rapid.Custom(func(t *rapid.T) CosmosDbDataConnection_STATUS {
+		var result CosmosDbDataConnection_STATUS
+		result.CosmosDbAccountResourceId = ptrString.Draw(t, "CosmosDbAccountResourceId")
+		result.CosmosDbContainer = ptrString.Draw(t, "CosmosDbContainer")
+		result.CosmosDbDatabase = ptrString.Draw(t, "CosmosDbDatabase")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Kind = ptrString.Draw(t, "Kind")
+		result.Location = ptrString.Draw(t, "Location")
+		result.ManagedIdentityObjectId = ptrString.Draw(t, "ManagedIdentityObjectId")
+		result.ManagedIdentityResourceId = ptrString.Draw(t, "ManagedIdentityResourceId")
+		result.MappingRuleName = ptrString.Draw(t, "MappingRuleName")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.RetrievalStartDate = ptrString.Draw(t, "RetrievalStartDate")
+		result.TableName = ptrString.Draw(t, "TableName")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return cosmosDbDataConnection_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCosmosDbDataConnection_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCosmosDbDataConnection_STATUS(gens map[string]gopter.Gen) {
-	gens["CosmosDbAccountResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["CosmosDbContainer"] = gen.PtrOf(gen.AlphaString())
-	gens["CosmosDbDatabase"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ManagedIdentityObjectId"] = gen.PtrOf(gen.AlphaString())
-	gens["ManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["MappingRuleName"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["RetrievalStartDate"] = gen.PtrOf(gen.AlphaString())
-	gens["TableName"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_DataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -174,29 +152,23 @@ func Test_DataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DataConnection via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDataConnection, DataConnectionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDataConnection)
 }
 
 // RunJSONSerializationTestForDataConnection runs a test to see if a specific instance of DataConnection round trips to JSON and back losslessly
-func RunJSONSerializationTestForDataConnection(subject DataConnection) string {
+func RunJSONSerializationTestForDataConnection(t *rapid.T) {
+	subject := DataConnectionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DataConnection
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -205,32 +177,30 @@ func RunJSONSerializationTestForDataConnection(subject DataConnection) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DataConnection instances for property testing - lazily instantiated by DataConnectionGenerator()
-var dataConnectionGenerator gopter.Gen
+var dataConnectionGenerator *rapid.Generator[DataConnection]
 
 // DataConnectionGenerator returns a generator of DataConnection instances for property testing.
-func DataConnectionGenerator() gopter.Gen {
+func DataConnectionGenerator() *rapid.Generator[DataConnection] {
 	if dataConnectionGenerator != nil {
 		return dataConnectionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDataConnection(generators)
-	dataConnectionGenerator = gen.Struct(reflect.TypeOf(DataConnection{}), generators)
+	spec := DataConnection_SpecGenerator()
+	status := DataConnection_STATUSGenerator()
+
+	dataConnectionGenerator = rapid.Custom(func(t *rapid.T) DataConnection {
+		var result DataConnection
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return dataConnectionGenerator
-}
-
-// AddRelatedPropertyGeneratorsForDataConnection is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDataConnection(gens map[string]gopter.Gen) {
-	gens["Spec"] = DataConnection_SpecGenerator()
-	gens["Status"] = DataConnection_STATUSGenerator()
 }
 
 func Test_DataConnectionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -240,29 +210,23 @@ func Test_DataConnectionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DataConnectionOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDataConnectionOperatorSpec, DataConnectionOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDataConnectionOperatorSpec)
 }
 
 // RunJSONSerializationTestForDataConnectionOperatorSpec runs a test to see if a specific instance of DataConnectionOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDataConnectionOperatorSpec(subject DataConnectionOperatorSpec) string {
+func RunJSONSerializationTestForDataConnectionOperatorSpec(t *rapid.T) {
+	subject := DataConnectionOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DataConnectionOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -271,24 +235,21 @@ func RunJSONSerializationTestForDataConnectionOperatorSpec(subject DataConnectio
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DataConnectionOperatorSpec instances for property testing - lazily instantiated by
 // DataConnectionOperatorSpecGenerator()
-var dataConnectionOperatorSpecGenerator gopter.Gen
+var dataConnectionOperatorSpecGenerator *rapid.Generator[DataConnectionOperatorSpec]
 
 // DataConnectionOperatorSpecGenerator returns a generator of DataConnectionOperatorSpec instances for property testing.
-func DataConnectionOperatorSpecGenerator() gopter.Gen {
+func DataConnectionOperatorSpecGenerator() *rapid.Generator[DataConnectionOperatorSpec] {
 	if dataConnectionOperatorSpecGenerator != nil {
 		return dataConnectionOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	dataConnectionOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DataConnectionOperatorSpec{}), generators)
+	dataConnectionOperatorSpecGenerator = rapid.Just(DataConnectionOperatorSpec{})
 
 	return dataConnectionOperatorSpecGenerator
 }
@@ -300,29 +261,23 @@ func Test_DataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DataConnection_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDataConnection_STATUS, DataConnection_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDataConnection_STATUS)
 }
 
 // RunJSONSerializationTestForDataConnection_STATUS runs a test to see if a specific instance of DataConnection_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDataConnection_STATUS(subject DataConnection_STATUS) string {
+func RunJSONSerializationTestForDataConnection_STATUS(t *rapid.T) {
+	subject := DataConnection_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DataConnection_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -331,55 +286,62 @@ func RunJSONSerializationTestForDataConnection_STATUS(subject DataConnection_STA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DataConnection_STATUS instances for property testing - lazily instantiated by
 // DataConnection_STATUSGenerator()
-var dataConnection_STATUSGenerator gopter.Gen
+var dataConnection_STATUSGenerator *rapid.Generator[DataConnection_STATUS]
 
 // DataConnection_STATUSGenerator returns a generator of DataConnection_STATUS instances for property testing.
-func DataConnection_STATUSGenerator() gopter.Gen {
+func DataConnection_STATUSGenerator() *rapid.Generator[DataConnection_STATUS] {
 	if dataConnection_STATUSGenerator != nil {
 		return dataConnection_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDataConnection_STATUS(generators)
-
 	// handle OneOf by choosing only one field to instantiate
-	var gens []gopter.Gen
-	for propName, propGen := range generators {
-		props := map[string]gopter.Gen{propName: propGen}
-		gens = append(gens, gen.Struct(reflect.TypeOf(DataConnection_STATUS{}), props))
-	}
-	dataConnection_STATUSGenerator = gen.OneGenOf(gens...)
+	var gens []*rapid.Generator[DataConnection_STATUS]
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DataConnection_STATUS {
+		var result DataConnection_STATUS
+		result.CosmosDb = rapid.Map(CosmosDbDataConnection_STATUSGenerator(), func(it CosmosDbDataConnection_STATUS) *CosmosDbDataConnection_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "CosmosDb")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DataConnection_STATUS {
+		var result DataConnection_STATUS
+		result.EventGrid = rapid.Map(EventGridDataConnection_STATUSGenerator(), func(it EventGridDataConnection_STATUS) *EventGridDataConnection_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "EventGrid")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DataConnection_STATUS {
+		var result DataConnection_STATUS
+		result.EventHub = rapid.Map(EventHubDataConnection_STATUSGenerator(), func(it EventHubDataConnection_STATUS) *EventHubDataConnection_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "EventHub")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DataConnection_STATUS {
+		var result DataConnection_STATUS
+		result.IotHub = rapid.Map(IotHubDataConnection_STATUSGenerator(), func(it IotHubDataConnection_STATUS) *IotHubDataConnection_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "IotHub")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DataConnection_STATUS {
+		var result DataConnection_STATUS
+		result.Name = rapid.Ptr(rapid.String(), true).Draw(t, "Name")
+		return result
+	}))
+	dataConnection_STATUSGenerator = rapid.OneOf(gens...)
 
 	return dataConnection_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDataConnection_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDataConnection_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDataConnection_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDataConnection_STATUS(gens map[string]gopter.Gen) {
-	gens["CosmosDb"] = CosmosDbDataConnection_STATUSGenerator().Map(func(it CosmosDbDataConnection_STATUS) *CosmosDbDataConnection_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["EventGrid"] = EventGridDataConnection_STATUSGenerator().Map(func(it EventGridDataConnection_STATUS) *EventGridDataConnection_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["EventHub"] = EventHubDataConnection_STATUSGenerator().Map(func(it EventHubDataConnection_STATUS) *EventHubDataConnection_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["IotHub"] = IotHubDataConnection_STATUSGenerator().Map(func(it IotHubDataConnection_STATUS) *IotHubDataConnection_STATUS {
-		return &it
-	}) // generate one case for OneOf type
 }
 
 func Test_DataConnection_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -389,29 +351,23 @@ func Test_DataConnection_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DataConnection_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDataConnection_Spec, DataConnection_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDataConnection_Spec)
 }
 
 // RunJSONSerializationTestForDataConnection_Spec runs a test to see if a specific instance of DataConnection_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDataConnection_Spec(subject DataConnection_Spec) string {
+func RunJSONSerializationTestForDataConnection_Spec(t *rapid.T) {
+	subject := DataConnection_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DataConnection_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -420,59 +376,75 @@ func RunJSONSerializationTestForDataConnection_Spec(subject DataConnection_Spec)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DataConnection_Spec instances for property testing - lazily instantiated by
 // DataConnection_SpecGenerator()
-var dataConnection_SpecGenerator gopter.Gen
+var dataConnection_SpecGenerator *rapid.Generator[DataConnection_Spec]
 
 // DataConnection_SpecGenerator returns a generator of DataConnection_Spec instances for property testing.
-func DataConnection_SpecGenerator() gopter.Gen {
+func DataConnection_SpecGenerator() *rapid.Generator[DataConnection_Spec] {
 	if dataConnection_SpecGenerator != nil {
 		return dataConnection_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDataConnection_Spec(generators)
-
 	// handle OneOf by choosing only one field to instantiate
-	var gens []gopter.Gen
-	for propName, propGen := range generators {
-		props := map[string]gopter.Gen{propName: propGen}
-		gens = append(gens, gen.Struct(reflect.TypeOf(DataConnection_Spec{}), props))
-	}
-	dataConnection_SpecGenerator = gen.OneGenOf(gens...)
+	var gens []*rapid.Generator[DataConnection_Spec]
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DataConnection_Spec {
+		var result DataConnection_Spec
+		result.AzureName = rapid.String().Draw(t, "AzureName")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DataConnection_Spec {
+		var result DataConnection_Spec
+		result.CosmosDb = rapid.Map(CosmosDbDataConnectionGenerator(), func(it CosmosDbDataConnection) *CosmosDbDataConnection {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "CosmosDb")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DataConnection_Spec {
+		var result DataConnection_Spec
+		result.EventGrid = rapid.Map(EventGridDataConnectionGenerator(), func(it EventGridDataConnection) *EventGridDataConnection {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "EventGrid")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DataConnection_Spec {
+		var result DataConnection_Spec
+		result.EventHub = rapid.Map(EventHubDataConnectionGenerator(), func(it EventHubDataConnection) *EventHubDataConnection {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "EventHub")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DataConnection_Spec {
+		var result DataConnection_Spec
+		result.IotHub = rapid.Map(IotHubDataConnectionGenerator(), func(it IotHubDataConnection) *IotHubDataConnection {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "IotHub")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DataConnection_Spec {
+		var result DataConnection_Spec
+		result.OperatorSpec = rapid.Map(DataConnectionOperatorSpecGenerator(), func(it DataConnectionOperatorSpec) *DataConnectionOperatorSpec {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "OperatorSpec")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DataConnection_Spec {
+		var result DataConnection_Spec
+		result.OriginalVersion = rapid.String().Draw(t, "OriginalVersion")
+		return result
+	}))
+	dataConnection_SpecGenerator = rapid.OneOf(gens...)
 
 	return dataConnection_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDataConnection_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDataConnection_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForDataConnection_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDataConnection_Spec(gens map[string]gopter.Gen) {
-	gens["CosmosDb"] = CosmosDbDataConnectionGenerator().Map(func(it CosmosDbDataConnection) *CosmosDbDataConnection {
-		return &it
-	}) // generate one case for OneOf type
-	gens["EventGrid"] = EventGridDataConnectionGenerator().Map(func(it EventGridDataConnection) *EventGridDataConnection {
-		return &it
-	}) // generate one case for OneOf type
-	gens["EventHub"] = EventHubDataConnectionGenerator().Map(func(it EventHubDataConnection) *EventHubDataConnection {
-		return &it
-	}) // generate one case for OneOf type
-	gens["IotHub"] = IotHubDataConnectionGenerator().Map(func(it IotHubDataConnection) *IotHubDataConnection {
-		return &it
-	}) // generate one case for OneOf type
-	gens["OperatorSpec"] = DataConnectionOperatorSpecGenerator().Map(func(it DataConnectionOperatorSpec) *DataConnectionOperatorSpec {
-		return &it
-	}) // generate one case for OneOf type
 }
 
 func Test_EventGridDataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -482,29 +454,23 @@ func Test_EventGridDataConnection_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of EventGridDataConnection via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEventGridDataConnection, EventGridDataConnectionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForEventGridDataConnection)
 }
 
 // RunJSONSerializationTestForEventGridDataConnection runs a test to see if a specific instance of EventGridDataConnection round trips to JSON and back losslessly
-func RunJSONSerializationTestForEventGridDataConnection(subject EventGridDataConnection) string {
+func RunJSONSerializationTestForEventGridDataConnection(t *rapid.T) {
+	subject := EventGridDataConnectionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual EventGridDataConnection
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -513,40 +479,38 @@ func RunJSONSerializationTestForEventGridDataConnection(subject EventGridDataCon
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of EventGridDataConnection instances for property testing - lazily instantiated by
 // EventGridDataConnectionGenerator()
-var eventGridDataConnectionGenerator gopter.Gen
+var eventGridDataConnectionGenerator *rapid.Generator[EventGridDataConnection]
 
 // EventGridDataConnectionGenerator returns a generator of EventGridDataConnection instances for property testing.
-func EventGridDataConnectionGenerator() gopter.Gen {
+func EventGridDataConnectionGenerator() *rapid.Generator[EventGridDataConnection] {
 	if eventGridDataConnectionGenerator != nil {
 		return eventGridDataConnectionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventGridDataConnection(generators)
-	eventGridDataConnectionGenerator = gen.Struct(reflect.TypeOf(EventGridDataConnection{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ignoreFirstRecord := rapid.Ptr(rapid.Bool(), true)
+
+	eventGridDataConnectionGenerator = rapid.Custom(func(t *rapid.T) EventGridDataConnection {
+		var result EventGridDataConnection
+		result.BlobStorageEventType = ptrString.Draw(t, "BlobStorageEventType")
+		result.ConsumerGroup = ptrString.Draw(t, "ConsumerGroup")
+		result.DataFormat = ptrString.Draw(t, "DataFormat")
+		result.DatabaseRouting = ptrString.Draw(t, "DatabaseRouting")
+		result.IgnoreFirstRecord = ignoreFirstRecord.Draw(t, "IgnoreFirstRecord")
+		result.Kind = ptrString.Draw(t, "Kind")
+		result.Location = ptrString.Draw(t, "Location")
+		result.MappingRuleName = ptrString.Draw(t, "MappingRuleName")
+		result.TableName = ptrString.Draw(t, "TableName")
+		return result
+	})
 
 	return eventGridDataConnectionGenerator
-}
-
-// AddIndependentPropertyGeneratorsForEventGridDataConnection is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEventGridDataConnection(gens map[string]gopter.Gen) {
-	gens["BlobStorageEventType"] = gen.PtrOf(gen.AlphaString())
-	gens["ConsumerGroup"] = gen.PtrOf(gen.AlphaString())
-	gens["DataFormat"] = gen.PtrOf(gen.AlphaString())
-	gens["DatabaseRouting"] = gen.PtrOf(gen.AlphaString())
-	gens["IgnoreFirstRecord"] = gen.PtrOf(gen.Bool())
-	gens["Kind"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["MappingRuleName"] = gen.PtrOf(gen.AlphaString())
-	gens["TableName"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_EventGridDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -556,29 +520,23 @@ func Test_EventGridDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqua
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of EventGridDataConnection_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEventGridDataConnection_STATUS, EventGridDataConnection_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForEventGridDataConnection_STATUS)
 }
 
 // RunJSONSerializationTestForEventGridDataConnection_STATUS runs a test to see if a specific instance of EventGridDataConnection_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForEventGridDataConnection_STATUS(subject EventGridDataConnection_STATUS) string {
+func RunJSONSerializationTestForEventGridDataConnection_STATUS(t *rapid.T) {
+	subject := EventGridDataConnection_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual EventGridDataConnection_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -587,48 +545,46 @@ func RunJSONSerializationTestForEventGridDataConnection_STATUS(subject EventGrid
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of EventGridDataConnection_STATUS instances for property testing - lazily instantiated by
 // EventGridDataConnection_STATUSGenerator()
-var eventGridDataConnection_STATUSGenerator gopter.Gen
+var eventGridDataConnection_STATUSGenerator *rapid.Generator[EventGridDataConnection_STATUS]
 
 // EventGridDataConnection_STATUSGenerator returns a generator of EventGridDataConnection_STATUS instances for property testing.
-func EventGridDataConnection_STATUSGenerator() gopter.Gen {
+func EventGridDataConnection_STATUSGenerator() *rapid.Generator[EventGridDataConnection_STATUS] {
 	if eventGridDataConnection_STATUSGenerator != nil {
 		return eventGridDataConnection_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventGridDataConnection_STATUS(generators)
-	eventGridDataConnection_STATUSGenerator = gen.Struct(reflect.TypeOf(EventGridDataConnection_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ignoreFirstRecord := rapid.Ptr(rapid.Bool(), true)
+
+	eventGridDataConnection_STATUSGenerator = rapid.Custom(func(t *rapid.T) EventGridDataConnection_STATUS {
+		var result EventGridDataConnection_STATUS
+		result.BlobStorageEventType = ptrString.Draw(t, "BlobStorageEventType")
+		result.ConsumerGroup = ptrString.Draw(t, "ConsumerGroup")
+		result.DataFormat = ptrString.Draw(t, "DataFormat")
+		result.DatabaseRouting = ptrString.Draw(t, "DatabaseRouting")
+		result.EventGridResourceId = ptrString.Draw(t, "EventGridResourceId")
+		result.EventHubResourceId = ptrString.Draw(t, "EventHubResourceId")
+		result.Id = ptrString.Draw(t, "Id")
+		result.IgnoreFirstRecord = ignoreFirstRecord.Draw(t, "IgnoreFirstRecord")
+		result.Kind = ptrString.Draw(t, "Kind")
+		result.Location = ptrString.Draw(t, "Location")
+		result.ManagedIdentityObjectId = ptrString.Draw(t, "ManagedIdentityObjectId")
+		result.ManagedIdentityResourceId = ptrString.Draw(t, "ManagedIdentityResourceId")
+		result.MappingRuleName = ptrString.Draw(t, "MappingRuleName")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.StorageAccountResourceId = ptrString.Draw(t, "StorageAccountResourceId")
+		result.TableName = ptrString.Draw(t, "TableName")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return eventGridDataConnection_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForEventGridDataConnection_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEventGridDataConnection_STATUS(gens map[string]gopter.Gen) {
-	gens["BlobStorageEventType"] = gen.PtrOf(gen.AlphaString())
-	gens["ConsumerGroup"] = gen.PtrOf(gen.AlphaString())
-	gens["DataFormat"] = gen.PtrOf(gen.AlphaString())
-	gens["DatabaseRouting"] = gen.PtrOf(gen.AlphaString())
-	gens["EventGridResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["EventHubResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["IgnoreFirstRecord"] = gen.PtrOf(gen.Bool())
-	gens["Kind"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ManagedIdentityObjectId"] = gen.PtrOf(gen.AlphaString())
-	gens["ManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["MappingRuleName"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["StorageAccountResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["TableName"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_EventHubDataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -638,29 +594,23 @@ func Test_EventHubDataConnection_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of EventHubDataConnection via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEventHubDataConnection, EventHubDataConnectionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForEventHubDataConnection)
 }
 
 // RunJSONSerializationTestForEventHubDataConnection runs a test to see if a specific instance of EventHubDataConnection round trips to JSON and back losslessly
-func RunJSONSerializationTestForEventHubDataConnection(subject EventHubDataConnection) string {
+func RunJSONSerializationTestForEventHubDataConnection(t *rapid.T) {
+	subject := EventHubDataConnectionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual EventHubDataConnection
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -669,41 +619,39 @@ func RunJSONSerializationTestForEventHubDataConnection(subject EventHubDataConne
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of EventHubDataConnection instances for property testing - lazily instantiated by
 // EventHubDataConnectionGenerator()
-var eventHubDataConnectionGenerator gopter.Gen
+var eventHubDataConnectionGenerator *rapid.Generator[EventHubDataConnection]
 
 // EventHubDataConnectionGenerator returns a generator of EventHubDataConnection instances for property testing.
-func EventHubDataConnectionGenerator() gopter.Gen {
+func EventHubDataConnectionGenerator() *rapid.Generator[EventHubDataConnection] {
 	if eventHubDataConnectionGenerator != nil {
 		return eventHubDataConnectionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventHubDataConnection(generators)
-	eventHubDataConnectionGenerator = gen.Struct(reflect.TypeOf(EventHubDataConnection{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	eventSystemProperties := rapid.SliceOf(rapid.String())
+
+	eventHubDataConnectionGenerator = rapid.Custom(func(t *rapid.T) EventHubDataConnection {
+		var result EventHubDataConnection
+		result.Compression = ptrString.Draw(t, "Compression")
+		result.ConsumerGroup = ptrString.Draw(t, "ConsumerGroup")
+		result.DataFormat = ptrString.Draw(t, "DataFormat")
+		result.DatabaseRouting = ptrString.Draw(t, "DatabaseRouting")
+		result.EventSystemProperties = eventSystemProperties.Draw(t, "EventSystemProperties")
+		result.Kind = ptrString.Draw(t, "Kind")
+		result.Location = ptrString.Draw(t, "Location")
+		result.MappingRuleName = ptrString.Draw(t, "MappingRuleName")
+		result.RetrievalStartDate = ptrString.Draw(t, "RetrievalStartDate")
+		result.TableName = ptrString.Draw(t, "TableName")
+		return result
+	})
 
 	return eventHubDataConnectionGenerator
-}
-
-// AddIndependentPropertyGeneratorsForEventHubDataConnection is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEventHubDataConnection(gens map[string]gopter.Gen) {
-	gens["Compression"] = gen.PtrOf(gen.AlphaString())
-	gens["ConsumerGroup"] = gen.PtrOf(gen.AlphaString())
-	gens["DataFormat"] = gen.PtrOf(gen.AlphaString())
-	gens["DatabaseRouting"] = gen.PtrOf(gen.AlphaString())
-	gens["EventSystemProperties"] = gen.SliceOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["MappingRuleName"] = gen.PtrOf(gen.AlphaString())
-	gens["RetrievalStartDate"] = gen.PtrOf(gen.AlphaString())
-	gens["TableName"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_EventHubDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -713,29 +661,23 @@ func Test_EventHubDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of EventHubDataConnection_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEventHubDataConnection_STATUS, EventHubDataConnection_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForEventHubDataConnection_STATUS)
 }
 
 // RunJSONSerializationTestForEventHubDataConnection_STATUS runs a test to see if a specific instance of EventHubDataConnection_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForEventHubDataConnection_STATUS(subject EventHubDataConnection_STATUS) string {
+func RunJSONSerializationTestForEventHubDataConnection_STATUS(t *rapid.T) {
+	subject := EventHubDataConnection_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual EventHubDataConnection_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -744,47 +686,45 @@ func RunJSONSerializationTestForEventHubDataConnection_STATUS(subject EventHubDa
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of EventHubDataConnection_STATUS instances for property testing - lazily instantiated by
 // EventHubDataConnection_STATUSGenerator()
-var eventHubDataConnection_STATUSGenerator gopter.Gen
+var eventHubDataConnection_STATUSGenerator *rapid.Generator[EventHubDataConnection_STATUS]
 
 // EventHubDataConnection_STATUSGenerator returns a generator of EventHubDataConnection_STATUS instances for property testing.
-func EventHubDataConnection_STATUSGenerator() gopter.Gen {
+func EventHubDataConnection_STATUSGenerator() *rapid.Generator[EventHubDataConnection_STATUS] {
 	if eventHubDataConnection_STATUSGenerator != nil {
 		return eventHubDataConnection_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventHubDataConnection_STATUS(generators)
-	eventHubDataConnection_STATUSGenerator = gen.Struct(reflect.TypeOf(EventHubDataConnection_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	eventSystemProperties := rapid.SliceOf(rapid.String())
+
+	eventHubDataConnection_STATUSGenerator = rapid.Custom(func(t *rapid.T) EventHubDataConnection_STATUS {
+		var result EventHubDataConnection_STATUS
+		result.Compression = ptrString.Draw(t, "Compression")
+		result.ConsumerGroup = ptrString.Draw(t, "ConsumerGroup")
+		result.DataFormat = ptrString.Draw(t, "DataFormat")
+		result.DatabaseRouting = ptrString.Draw(t, "DatabaseRouting")
+		result.EventHubResourceId = ptrString.Draw(t, "EventHubResourceId")
+		result.EventSystemProperties = eventSystemProperties.Draw(t, "EventSystemProperties")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Kind = ptrString.Draw(t, "Kind")
+		result.Location = ptrString.Draw(t, "Location")
+		result.ManagedIdentityObjectId = ptrString.Draw(t, "ManagedIdentityObjectId")
+		result.ManagedIdentityResourceId = ptrString.Draw(t, "ManagedIdentityResourceId")
+		result.MappingRuleName = ptrString.Draw(t, "MappingRuleName")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.RetrievalStartDate = ptrString.Draw(t, "RetrievalStartDate")
+		result.TableName = ptrString.Draw(t, "TableName")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return eventHubDataConnection_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForEventHubDataConnection_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEventHubDataConnection_STATUS(gens map[string]gopter.Gen) {
-	gens["Compression"] = gen.PtrOf(gen.AlphaString())
-	gens["ConsumerGroup"] = gen.PtrOf(gen.AlphaString())
-	gens["DataFormat"] = gen.PtrOf(gen.AlphaString())
-	gens["DatabaseRouting"] = gen.PtrOf(gen.AlphaString())
-	gens["EventHubResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["EventSystemProperties"] = gen.SliceOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ManagedIdentityObjectId"] = gen.PtrOf(gen.AlphaString())
-	gens["ManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["MappingRuleName"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["RetrievalStartDate"] = gen.PtrOf(gen.AlphaString())
-	gens["TableName"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_IotHubDataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -794,29 +734,23 @@ func Test_IotHubDataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of IotHubDataConnection via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIotHubDataConnection, IotHubDataConnectionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForIotHubDataConnection)
 }
 
 // RunJSONSerializationTestForIotHubDataConnection runs a test to see if a specific instance of IotHubDataConnection round trips to JSON and back losslessly
-func RunJSONSerializationTestForIotHubDataConnection(subject IotHubDataConnection) string {
+func RunJSONSerializationTestForIotHubDataConnection(t *rapid.T) {
+	subject := IotHubDataConnectionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual IotHubDataConnection
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -825,41 +759,39 @@ func RunJSONSerializationTestForIotHubDataConnection(subject IotHubDataConnectio
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of IotHubDataConnection instances for property testing - lazily instantiated by
 // IotHubDataConnectionGenerator()
-var iotHubDataConnectionGenerator gopter.Gen
+var iotHubDataConnectionGenerator *rapid.Generator[IotHubDataConnection]
 
 // IotHubDataConnectionGenerator returns a generator of IotHubDataConnection instances for property testing.
-func IotHubDataConnectionGenerator() gopter.Gen {
+func IotHubDataConnectionGenerator() *rapid.Generator[IotHubDataConnection] {
 	if iotHubDataConnectionGenerator != nil {
 		return iotHubDataConnectionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIotHubDataConnection(generators)
-	iotHubDataConnectionGenerator = gen.Struct(reflect.TypeOf(IotHubDataConnection{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	eventSystemProperties := rapid.SliceOf(rapid.String())
+
+	iotHubDataConnectionGenerator = rapid.Custom(func(t *rapid.T) IotHubDataConnection {
+		var result IotHubDataConnection
+		result.ConsumerGroup = ptrString.Draw(t, "ConsumerGroup")
+		result.DataFormat = ptrString.Draw(t, "DataFormat")
+		result.DatabaseRouting = ptrString.Draw(t, "DatabaseRouting")
+		result.EventSystemProperties = eventSystemProperties.Draw(t, "EventSystemProperties")
+		result.Kind = ptrString.Draw(t, "Kind")
+		result.Location = ptrString.Draw(t, "Location")
+		result.MappingRuleName = ptrString.Draw(t, "MappingRuleName")
+		result.RetrievalStartDate = ptrString.Draw(t, "RetrievalStartDate")
+		result.SharedAccessPolicyName = ptrString.Draw(t, "SharedAccessPolicyName")
+		result.TableName = ptrString.Draw(t, "TableName")
+		return result
+	})
 
 	return iotHubDataConnectionGenerator
-}
-
-// AddIndependentPropertyGeneratorsForIotHubDataConnection is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIotHubDataConnection(gens map[string]gopter.Gen) {
-	gens["ConsumerGroup"] = gen.PtrOf(gen.AlphaString())
-	gens["DataFormat"] = gen.PtrOf(gen.AlphaString())
-	gens["DatabaseRouting"] = gen.PtrOf(gen.AlphaString())
-	gens["EventSystemProperties"] = gen.SliceOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["MappingRuleName"] = gen.PtrOf(gen.AlphaString())
-	gens["RetrievalStartDate"] = gen.PtrOf(gen.AlphaString())
-	gens["SharedAccessPolicyName"] = gen.PtrOf(gen.AlphaString())
-	gens["TableName"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_IotHubDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -869,29 +801,23 @@ func Test_IotHubDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of IotHubDataConnection_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIotHubDataConnection_STATUS, IotHubDataConnection_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForIotHubDataConnection_STATUS)
 }
 
 // RunJSONSerializationTestForIotHubDataConnection_STATUS runs a test to see if a specific instance of IotHubDataConnection_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForIotHubDataConnection_STATUS(subject IotHubDataConnection_STATUS) string {
+func RunJSONSerializationTestForIotHubDataConnection_STATUS(t *rapid.T) {
+	subject := IotHubDataConnection_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual IotHubDataConnection_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -900,43 +826,41 @@ func RunJSONSerializationTestForIotHubDataConnection_STATUS(subject IotHubDataCo
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of IotHubDataConnection_STATUS instances for property testing - lazily instantiated by
 // IotHubDataConnection_STATUSGenerator()
-var iotHubDataConnection_STATUSGenerator gopter.Gen
+var iotHubDataConnection_STATUSGenerator *rapid.Generator[IotHubDataConnection_STATUS]
 
 // IotHubDataConnection_STATUSGenerator returns a generator of IotHubDataConnection_STATUS instances for property testing.
-func IotHubDataConnection_STATUSGenerator() gopter.Gen {
+func IotHubDataConnection_STATUSGenerator() *rapid.Generator[IotHubDataConnection_STATUS] {
 	if iotHubDataConnection_STATUSGenerator != nil {
 		return iotHubDataConnection_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIotHubDataConnection_STATUS(generators)
-	iotHubDataConnection_STATUSGenerator = gen.Struct(reflect.TypeOf(IotHubDataConnection_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	eventSystemProperties := rapid.SliceOf(rapid.String())
+
+	iotHubDataConnection_STATUSGenerator = rapid.Custom(func(t *rapid.T) IotHubDataConnection_STATUS {
+		var result IotHubDataConnection_STATUS
+		result.ConsumerGroup = ptrString.Draw(t, "ConsumerGroup")
+		result.DataFormat = ptrString.Draw(t, "DataFormat")
+		result.DatabaseRouting = ptrString.Draw(t, "DatabaseRouting")
+		result.EventSystemProperties = eventSystemProperties.Draw(t, "EventSystemProperties")
+		result.Id = ptrString.Draw(t, "Id")
+		result.IotHubResourceId = ptrString.Draw(t, "IotHubResourceId")
+		result.Kind = ptrString.Draw(t, "Kind")
+		result.Location = ptrString.Draw(t, "Location")
+		result.MappingRuleName = ptrString.Draw(t, "MappingRuleName")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.RetrievalStartDate = ptrString.Draw(t, "RetrievalStartDate")
+		result.SharedAccessPolicyName = ptrString.Draw(t, "SharedAccessPolicyName")
+		result.TableName = ptrString.Draw(t, "TableName")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return iotHubDataConnection_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForIotHubDataConnection_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIotHubDataConnection_STATUS(gens map[string]gopter.Gen) {
-	gens["ConsumerGroup"] = gen.PtrOf(gen.AlphaString())
-	gens["DataFormat"] = gen.PtrOf(gen.AlphaString())
-	gens["DatabaseRouting"] = gen.PtrOf(gen.AlphaString())
-	gens["EventSystemProperties"] = gen.SliceOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["IotHubResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["MappingRuleName"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["RetrievalStartDate"] = gen.PtrOf(gen.AlphaString())
-	gens["SharedAccessPolicyName"] = gen.PtrOf(gen.AlphaString())
-	gens["TableName"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

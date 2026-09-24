@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_KeyValue_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of KeyValue round trips to the hub storage version and back losslessly
 func Test_KeyValue_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,47 +22,37 @@ func Test_KeyValue_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from KeyValue to hub returns original",
-		prop.ForAll(RunResourceConversionTestForKeyValue, KeyValueGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := KeyValueGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.KeyValue
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual KeyValue
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForKeyValue tests if a specific instance of KeyValue round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForKeyValue(subject KeyValue) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.KeyValue
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual KeyValue
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_KeyValue_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of KeyValue can be assigned to storage and back losslessly
 func Test_KeyValue_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -73,44 +60,34 @@ func Test_KeyValue_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from KeyValue to KeyValue via AssignProperties_To_KeyValue & AssignProperties_From_KeyValue returns original",
-		prop.ForAll(RunPropertyAssignmentTestForKeyValue, KeyValueGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := KeyValueGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForKeyValue tests if a specific instance of KeyValue can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForKeyValue(subject KeyValue) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.KeyValue
+		err := copied.AssignProperties_To_KeyValue(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KeyValue
-	err := copied.AssignProperties_To_KeyValue(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual KeyValue
+		err = actual.AssignProperties_From_KeyValue(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual KeyValue
-	err = actual.AssignProperties_From_KeyValue(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_KeyValue_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -120,29 +97,23 @@ func Test_KeyValue_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of KeyValue via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyValue, KeyValueGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForKeyValue)
 }
 
 // RunJSONSerializationTestForKeyValue runs a test to see if a specific instance of KeyValue round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyValue(subject KeyValue) string {
+func RunJSONSerializationTestForKeyValue(t *rapid.T) {
+	subject := KeyValueGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual KeyValue
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -151,34 +122,33 @@ func RunJSONSerializationTestForKeyValue(subject KeyValue) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of KeyValue instances for property testing - lazily instantiated by KeyValueGenerator()
-var keyValueGenerator gopter.Gen
+var keyValueGenerator *rapid.Generator[KeyValue]
 
 // KeyValueGenerator returns a generator of KeyValue instances for property testing.
-func KeyValueGenerator() gopter.Gen {
+func KeyValueGenerator() *rapid.Generator[KeyValue] {
 	if keyValueGenerator != nil {
 		return keyValueGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForKeyValue(generators)
-	keyValueGenerator = gen.Struct(reflect.TypeOf(KeyValue{}), generators)
+	spec := KeyValue_SpecGenerator()
+	status := KeyValue_STATUSGenerator()
+
+	keyValueGenerator = rapid.Custom(func(t *rapid.T) KeyValue {
+		var result KeyValue
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return keyValueGenerator
 }
 
-// AddRelatedPropertyGeneratorsForKeyValue is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForKeyValue(gens map[string]gopter.Gen) {
-	gens["Spec"] = KeyValue_SpecGenerator()
-	gens["Status"] = KeyValue_STATUSGenerator()
-}
-
+// Test_KeyValueOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of KeyValueOperatorSpec can be assigned to storage and back losslessly
 func Test_KeyValueOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -186,44 +156,34 @@ func Test_KeyValueOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from KeyValueOperatorSpec to KeyValueOperatorSpec via AssignProperties_To_KeyValueOperatorSpec & AssignProperties_From_KeyValueOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForKeyValueOperatorSpec, KeyValueOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := KeyValueOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForKeyValueOperatorSpec tests if a specific instance of KeyValueOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForKeyValueOperatorSpec(subject KeyValueOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.KeyValueOperatorSpec
+		err := copied.AssignProperties_To_KeyValueOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KeyValueOperatorSpec
-	err := copied.AssignProperties_To_KeyValueOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual KeyValueOperatorSpec
+		err = actual.AssignProperties_From_KeyValueOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual KeyValueOperatorSpec
-	err = actual.AssignProperties_From_KeyValueOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_KeyValueOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -233,29 +193,23 @@ func Test_KeyValueOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of KeyValueOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyValueOperatorSpec, KeyValueOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForKeyValueOperatorSpec)
 }
 
 // RunJSONSerializationTestForKeyValueOperatorSpec runs a test to see if a specific instance of KeyValueOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyValueOperatorSpec(subject KeyValueOperatorSpec) string {
+func RunJSONSerializationTestForKeyValueOperatorSpec(t *rapid.T) {
+	subject := KeyValueOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual KeyValueOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -264,28 +218,26 @@ func RunJSONSerializationTestForKeyValueOperatorSpec(subject KeyValueOperatorSpe
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of KeyValueOperatorSpec instances for property testing - lazily instantiated by
 // KeyValueOperatorSpecGenerator()
-var keyValueOperatorSpecGenerator gopter.Gen
+var keyValueOperatorSpecGenerator *rapid.Generator[KeyValueOperatorSpec]
 
 // KeyValueOperatorSpecGenerator returns a generator of KeyValueOperatorSpec instances for property testing.
-func KeyValueOperatorSpecGenerator() gopter.Gen {
+func KeyValueOperatorSpecGenerator() *rapid.Generator[KeyValueOperatorSpec] {
 	if keyValueOperatorSpecGenerator != nil {
 		return keyValueOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	keyValueOperatorSpecGenerator = gen.Struct(reflect.TypeOf(KeyValueOperatorSpec{}), generators)
+	keyValueOperatorSpecGenerator = rapid.Just(KeyValueOperatorSpec{})
 
 	return keyValueOperatorSpecGenerator
 }
 
+// Test_KeyValue_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of KeyValue_STATUS can be assigned to storage and back losslessly
 func Test_KeyValue_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -293,44 +245,34 @@ func Test_KeyValue_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from KeyValue_STATUS to KeyValue_STATUS via AssignProperties_To_KeyValue_STATUS & AssignProperties_From_KeyValue_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForKeyValue_STATUS, KeyValue_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := KeyValue_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForKeyValue_STATUS tests if a specific instance of KeyValue_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForKeyValue_STATUS(subject KeyValue_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.KeyValue_STATUS
+		err := copied.AssignProperties_To_KeyValue_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KeyValue_STATUS
-	err := copied.AssignProperties_To_KeyValue_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual KeyValue_STATUS
+		err = actual.AssignProperties_From_KeyValue_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual KeyValue_STATUS
-	err = actual.AssignProperties_From_KeyValue_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_KeyValue_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -340,29 +282,23 @@ func Test_KeyValue_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of KeyValue_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyValue_STATUS, KeyValue_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForKeyValue_STATUS)
 }
 
 // RunJSONSerializationTestForKeyValue_STATUS runs a test to see if a specific instance of KeyValue_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyValue_STATUS(subject KeyValue_STATUS) string {
+func RunJSONSerializationTestForKeyValue_STATUS(t *rapid.T) {
+	subject := KeyValue_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual KeyValue_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -371,45 +307,45 @@ func RunJSONSerializationTestForKeyValue_STATUS(subject KeyValue_STATUS) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of KeyValue_STATUS instances for property testing - lazily instantiated by KeyValue_STATUSGenerator()
-var keyValue_STATUSGenerator gopter.Gen
+var keyValue_STATUSGenerator *rapid.Generator[KeyValue_STATUS]
 
 // KeyValue_STATUSGenerator returns a generator of KeyValue_STATUS instances for property testing.
-func KeyValue_STATUSGenerator() gopter.Gen {
+func KeyValue_STATUSGenerator() *rapid.Generator[KeyValue_STATUS] {
 	if keyValue_STATUSGenerator != nil {
 		return keyValue_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyValue_STATUS(generators)
-	keyValue_STATUSGenerator = gen.Struct(reflect.TypeOf(KeyValue_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	locked := rapid.Ptr(rapid.Bool(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+
+	keyValue_STATUSGenerator = rapid.Custom(func(t *rapid.T) KeyValue_STATUS {
+		var result KeyValue_STATUS
+		result.ContentType = ptrString.Draw(t, "ContentType")
+		result.ETag = ptrString.Draw(t, "ETag")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Key = ptrString.Draw(t, "Key")
+		result.Label = ptrString.Draw(t, "Label")
+		result.LastModified = ptrString.Draw(t, "LastModified")
+		result.Locked = locked.Draw(t, "Locked")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		result.Value = ptrString.Draw(t, "Value")
+		return result
+	})
 
 	return keyValue_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForKeyValue_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKeyValue_STATUS(gens map[string]gopter.Gen) {
-	gens["ContentType"] = gen.PtrOf(gen.AlphaString())
-	gens["ETag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["Label"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModified"] = gen.PtrOf(gen.AlphaString())
-	gens["Locked"] = gen.PtrOf(gen.Bool())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_KeyValue_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of KeyValue_Spec can be assigned to storage and back losslessly
 func Test_KeyValue_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -417,44 +353,34 @@ func Test_KeyValue_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from KeyValue_Spec to KeyValue_Spec via AssignProperties_To_KeyValue_Spec & AssignProperties_From_KeyValue_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForKeyValue_Spec, KeyValue_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := KeyValue_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForKeyValue_Spec tests if a specific instance of KeyValue_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForKeyValue_Spec(subject KeyValue_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.KeyValue_Spec
+		err := copied.AssignProperties_To_KeyValue_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KeyValue_Spec
-	err := copied.AssignProperties_To_KeyValue_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual KeyValue_Spec
+		err = actual.AssignProperties_From_KeyValue_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual KeyValue_Spec
-	err = actual.AssignProperties_From_KeyValue_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_KeyValue_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -464,29 +390,23 @@ func Test_KeyValue_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of KeyValue_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyValue_Spec, KeyValue_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForKeyValue_Spec)
 }
 
 // RunJSONSerializationTestForKeyValue_Spec runs a test to see if a specific instance of KeyValue_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyValue_Spec(subject KeyValue_Spec) string {
+func RunJSONSerializationTestForKeyValue_Spec(t *rapid.T) {
+	subject := KeyValue_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual KeyValue_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -495,48 +415,35 @@ func RunJSONSerializationTestForKeyValue_Spec(subject KeyValue_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of KeyValue_Spec instances for property testing - lazily instantiated by KeyValue_SpecGenerator()
-var keyValue_SpecGenerator gopter.Gen
+var keyValue_SpecGenerator *rapid.Generator[KeyValue_Spec]
 
 // KeyValue_SpecGenerator returns a generator of KeyValue_Spec instances for property testing.
-// We first initialize keyValue_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func KeyValue_SpecGenerator() gopter.Gen {
+func KeyValue_SpecGenerator() *rapid.Generator[KeyValue_Spec] {
 	if keyValue_SpecGenerator != nil {
 		return keyValue_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyValue_Spec(generators)
-	keyValue_SpecGenerator = gen.Struct(reflect.TypeOf(KeyValue_Spec{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	azureName := rapid.String()
+	operatorSpec := rapid.Ptr(KeyValueOperatorSpecGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyValue_Spec(generators)
-	AddRelatedPropertyGeneratorsForKeyValue_Spec(generators)
-	keyValue_SpecGenerator = gen.Struct(reflect.TypeOf(KeyValue_Spec{}), generators)
+	keyValue_SpecGenerator = rapid.Custom(func(t *rapid.T) KeyValue_Spec {
+		var result KeyValue_Spec
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.ContentType = ptrString.Draw(t, "ContentType")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Value = ptrString.Draw(t, "Value")
+		return result
+	})
 
 	return keyValue_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForKeyValue_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKeyValue_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["ContentType"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForKeyValue_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForKeyValue_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(KeyValueOperatorSpecGenerator())
 }

@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_AutoPauseProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AutoPauseProperties can be assigned to storage and back losslessly
 func Test_AutoPauseProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,44 +22,34 @@ func Test_AutoPauseProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AutoPauseProperties to AutoPauseProperties via AssignProperties_To_AutoPauseProperties & AssignProperties_From_AutoPauseProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAutoPauseProperties, AutoPausePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AutoPausePropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAutoPauseProperties tests if a specific instance of AutoPauseProperties can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAutoPauseProperties(subject AutoPauseProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AutoPauseProperties
+		err := copied.AssignProperties_To_AutoPauseProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoPauseProperties
-	err := copied.AssignProperties_To_AutoPauseProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AutoPauseProperties
+		err = actual.AssignProperties_From_AutoPauseProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AutoPauseProperties
-	err = actual.AssignProperties_From_AutoPauseProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AutoPauseProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -72,29 +59,23 @@ func Test_AutoPauseProperties_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoPauseProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoPauseProperties, AutoPausePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAutoPauseProperties)
 }
 
 // RunJSONSerializationTestForAutoPauseProperties runs a test to see if a specific instance of AutoPauseProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoPauseProperties(subject AutoPauseProperties) string {
+func RunJSONSerializationTestForAutoPauseProperties(t *rapid.T) {
+	subject := AutoPausePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AutoPauseProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -103,35 +84,34 @@ func RunJSONSerializationTestForAutoPauseProperties(subject AutoPauseProperties)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AutoPauseProperties instances for property testing - lazily instantiated by
 // AutoPausePropertiesGenerator()
-var autoPausePropertiesGenerator gopter.Gen
+var autoPausePropertiesGenerator *rapid.Generator[AutoPauseProperties]
 
 // AutoPausePropertiesGenerator returns a generator of AutoPauseProperties instances for property testing.
-func AutoPausePropertiesGenerator() gopter.Gen {
+func AutoPausePropertiesGenerator() *rapid.Generator[AutoPauseProperties] {
 	if autoPausePropertiesGenerator != nil {
 		return autoPausePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoPauseProperties(generators)
-	autoPausePropertiesGenerator = gen.Struct(reflect.TypeOf(AutoPauseProperties{}), generators)
+	delayInMinutes := rapid.Ptr(rapid.Int(), true)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+
+	autoPausePropertiesGenerator = rapid.Custom(func(t *rapid.T) AutoPauseProperties {
+		var result AutoPauseProperties
+		result.DelayInMinutes = delayInMinutes.Draw(t, "DelayInMinutes")
+		result.Enabled = enabled.Draw(t, "Enabled")
+		return result
+	})
 
 	return autoPausePropertiesGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutoPauseProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoPauseProperties(gens map[string]gopter.Gen) {
-	gens["DelayInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-}
-
+// Test_AutoPauseProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AutoPauseProperties_STATUS can be assigned to storage and back losslessly
 func Test_AutoPauseProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -139,44 +119,34 @@ func Test_AutoPauseProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AutoPauseProperties_STATUS to AutoPauseProperties_STATUS via AssignProperties_To_AutoPauseProperties_STATUS & AssignProperties_From_AutoPauseProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAutoPauseProperties_STATUS, AutoPauseProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AutoPauseProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAutoPauseProperties_STATUS tests if a specific instance of AutoPauseProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAutoPauseProperties_STATUS(subject AutoPauseProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AutoPauseProperties_STATUS
+		err := copied.AssignProperties_To_AutoPauseProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoPauseProperties_STATUS
-	err := copied.AssignProperties_To_AutoPauseProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AutoPauseProperties_STATUS
+		err = actual.AssignProperties_From_AutoPauseProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AutoPauseProperties_STATUS
-	err = actual.AssignProperties_From_AutoPauseProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AutoPauseProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -186,29 +156,23 @@ func Test_AutoPauseProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoPauseProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoPauseProperties_STATUS, AutoPauseProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAutoPauseProperties_STATUS)
 }
 
 // RunJSONSerializationTestForAutoPauseProperties_STATUS runs a test to see if a specific instance of AutoPauseProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoPauseProperties_STATUS(subject AutoPauseProperties_STATUS) string {
+func RunJSONSerializationTestForAutoPauseProperties_STATUS(t *rapid.T) {
+	subject := AutoPauseProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AutoPauseProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -217,35 +181,34 @@ func RunJSONSerializationTestForAutoPauseProperties_STATUS(subject AutoPauseProp
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AutoPauseProperties_STATUS instances for property testing - lazily instantiated by
 // AutoPauseProperties_STATUSGenerator()
-var autoPauseProperties_STATUSGenerator gopter.Gen
+var autoPauseProperties_STATUSGenerator *rapid.Generator[AutoPauseProperties_STATUS]
 
 // AutoPauseProperties_STATUSGenerator returns a generator of AutoPauseProperties_STATUS instances for property testing.
-func AutoPauseProperties_STATUSGenerator() gopter.Gen {
+func AutoPauseProperties_STATUSGenerator() *rapid.Generator[AutoPauseProperties_STATUS] {
 	if autoPauseProperties_STATUSGenerator != nil {
 		return autoPauseProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoPauseProperties_STATUS(generators)
-	autoPauseProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(AutoPauseProperties_STATUS{}), generators)
+	delayInMinutes := rapid.Ptr(rapid.Int(), true)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+
+	autoPauseProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) AutoPauseProperties_STATUS {
+		var result AutoPauseProperties_STATUS
+		result.DelayInMinutes = delayInMinutes.Draw(t, "DelayInMinutes")
+		result.Enabled = enabled.Draw(t, "Enabled")
+		return result
+	})
 
 	return autoPauseProperties_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutoPauseProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoPauseProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["DelayInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-}
-
+// Test_AutoScaleProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AutoScaleProperties can be assigned to storage and back losslessly
 func Test_AutoScaleProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -253,44 +216,34 @@ func Test_AutoScaleProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AutoScaleProperties to AutoScaleProperties via AssignProperties_To_AutoScaleProperties & AssignProperties_From_AutoScaleProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAutoScaleProperties, AutoScalePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AutoScalePropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAutoScaleProperties tests if a specific instance of AutoScaleProperties can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAutoScaleProperties(subject AutoScaleProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AutoScaleProperties
+		err := copied.AssignProperties_To_AutoScaleProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoScaleProperties
-	err := copied.AssignProperties_To_AutoScaleProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AutoScaleProperties
+		err = actual.AssignProperties_From_AutoScaleProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AutoScaleProperties
-	err = actual.AssignProperties_From_AutoScaleProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AutoScaleProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -300,29 +253,23 @@ func Test_AutoScaleProperties_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoScaleProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoScaleProperties, AutoScalePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAutoScaleProperties)
 }
 
 // RunJSONSerializationTestForAutoScaleProperties runs a test to see if a specific instance of AutoScaleProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoScaleProperties(subject AutoScaleProperties) string {
+func RunJSONSerializationTestForAutoScaleProperties(t *rapid.T) {
+	subject := AutoScalePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AutoScaleProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -331,36 +278,35 @@ func RunJSONSerializationTestForAutoScaleProperties(subject AutoScaleProperties)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AutoScaleProperties instances for property testing - lazily instantiated by
 // AutoScalePropertiesGenerator()
-var autoScalePropertiesGenerator gopter.Gen
+var autoScalePropertiesGenerator *rapid.Generator[AutoScaleProperties]
 
 // AutoScalePropertiesGenerator returns a generator of AutoScaleProperties instances for property testing.
-func AutoScalePropertiesGenerator() gopter.Gen {
+func AutoScalePropertiesGenerator() *rapid.Generator[AutoScaleProperties] {
 	if autoScalePropertiesGenerator != nil {
 		return autoScalePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoScaleProperties(generators)
-	autoScalePropertiesGenerator = gen.Struct(reflect.TypeOf(AutoScaleProperties{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+
+	autoScalePropertiesGenerator = rapid.Custom(func(t *rapid.T) AutoScaleProperties {
+		var result AutoScaleProperties
+		result.Enabled = enabled.Draw(t, "Enabled")
+		result.MaxNodeCount = ptrInt.Draw(t, "MaxNodeCount")
+		result.MinNodeCount = ptrInt.Draw(t, "MinNodeCount")
+		return result
+	})
 
 	return autoScalePropertiesGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutoScaleProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoScaleProperties(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["MaxNodeCount"] = gen.PtrOf(gen.Int())
-	gens["MinNodeCount"] = gen.PtrOf(gen.Int())
-}
-
+// Test_AutoScaleProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AutoScaleProperties_STATUS can be assigned to storage and back losslessly
 func Test_AutoScaleProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -368,44 +314,34 @@ func Test_AutoScaleProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AutoScaleProperties_STATUS to AutoScaleProperties_STATUS via AssignProperties_To_AutoScaleProperties_STATUS & AssignProperties_From_AutoScaleProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAutoScaleProperties_STATUS, AutoScaleProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AutoScaleProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAutoScaleProperties_STATUS tests if a specific instance of AutoScaleProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAutoScaleProperties_STATUS(subject AutoScaleProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AutoScaleProperties_STATUS
+		err := copied.AssignProperties_To_AutoScaleProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoScaleProperties_STATUS
-	err := copied.AssignProperties_To_AutoScaleProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AutoScaleProperties_STATUS
+		err = actual.AssignProperties_From_AutoScaleProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AutoScaleProperties_STATUS
-	err = actual.AssignProperties_From_AutoScaleProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AutoScaleProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -415,29 +351,23 @@ func Test_AutoScaleProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoScaleProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoScaleProperties_STATUS, AutoScaleProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAutoScaleProperties_STATUS)
 }
 
 // RunJSONSerializationTestForAutoScaleProperties_STATUS runs a test to see if a specific instance of AutoScaleProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoScaleProperties_STATUS(subject AutoScaleProperties_STATUS) string {
+func RunJSONSerializationTestForAutoScaleProperties_STATUS(t *rapid.T) {
+	subject := AutoScaleProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AutoScaleProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -446,36 +376,35 @@ func RunJSONSerializationTestForAutoScaleProperties_STATUS(subject AutoScaleProp
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AutoScaleProperties_STATUS instances for property testing - lazily instantiated by
 // AutoScaleProperties_STATUSGenerator()
-var autoScaleProperties_STATUSGenerator gopter.Gen
+var autoScaleProperties_STATUSGenerator *rapid.Generator[AutoScaleProperties_STATUS]
 
 // AutoScaleProperties_STATUSGenerator returns a generator of AutoScaleProperties_STATUS instances for property testing.
-func AutoScaleProperties_STATUSGenerator() gopter.Gen {
+func AutoScaleProperties_STATUSGenerator() *rapid.Generator[AutoScaleProperties_STATUS] {
 	if autoScaleProperties_STATUSGenerator != nil {
 		return autoScaleProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoScaleProperties_STATUS(generators)
-	autoScaleProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(AutoScaleProperties_STATUS{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+
+	autoScaleProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) AutoScaleProperties_STATUS {
+		var result AutoScaleProperties_STATUS
+		result.Enabled = enabled.Draw(t, "Enabled")
+		result.MaxNodeCount = ptrInt.Draw(t, "MaxNodeCount")
+		result.MinNodeCount = ptrInt.Draw(t, "MinNodeCount")
+		return result
+	})
 
 	return autoScaleProperties_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutoScaleProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoScaleProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["MaxNodeCount"] = gen.PtrOf(gen.Int())
-	gens["MinNodeCount"] = gen.PtrOf(gen.Int())
-}
-
+// Test_DynamicExecutorAllocation_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DynamicExecutorAllocation can be assigned to storage and back losslessly
 func Test_DynamicExecutorAllocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -483,44 +412,34 @@ func Test_DynamicExecutorAllocation_WhenPropertiesConverted_RoundTripsWithoutLos
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DynamicExecutorAllocation to DynamicExecutorAllocation via AssignProperties_To_DynamicExecutorAllocation & AssignProperties_From_DynamicExecutorAllocation returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDynamicExecutorAllocation, DynamicExecutorAllocationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DynamicExecutorAllocationGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDynamicExecutorAllocation tests if a specific instance of DynamicExecutorAllocation can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDynamicExecutorAllocation(subject DynamicExecutorAllocation) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DynamicExecutorAllocation
+		err := copied.AssignProperties_To_DynamicExecutorAllocation(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DynamicExecutorAllocation
-	err := copied.AssignProperties_To_DynamicExecutorAllocation(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DynamicExecutorAllocation
+		err = actual.AssignProperties_From_DynamicExecutorAllocation(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DynamicExecutorAllocation
-	err = actual.AssignProperties_From_DynamicExecutorAllocation(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DynamicExecutorAllocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -530,29 +449,23 @@ func Test_DynamicExecutorAllocation_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DynamicExecutorAllocation via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDynamicExecutorAllocation, DynamicExecutorAllocationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDynamicExecutorAllocation)
 }
 
 // RunJSONSerializationTestForDynamicExecutorAllocation runs a test to see if a specific instance of DynamicExecutorAllocation round trips to JSON and back losslessly
-func RunJSONSerializationTestForDynamicExecutorAllocation(subject DynamicExecutorAllocation) string {
+func RunJSONSerializationTestForDynamicExecutorAllocation(t *rapid.T) {
+	subject := DynamicExecutorAllocationGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DynamicExecutorAllocation
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -561,36 +474,35 @@ func RunJSONSerializationTestForDynamicExecutorAllocation(subject DynamicExecuto
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DynamicExecutorAllocation instances for property testing - lazily instantiated by
 // DynamicExecutorAllocationGenerator()
-var dynamicExecutorAllocationGenerator gopter.Gen
+var dynamicExecutorAllocationGenerator *rapid.Generator[DynamicExecutorAllocation]
 
 // DynamicExecutorAllocationGenerator returns a generator of DynamicExecutorAllocation instances for property testing.
-func DynamicExecutorAllocationGenerator() gopter.Gen {
+func DynamicExecutorAllocationGenerator() *rapid.Generator[DynamicExecutorAllocation] {
 	if dynamicExecutorAllocationGenerator != nil {
 		return dynamicExecutorAllocationGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDynamicExecutorAllocation(generators)
-	dynamicExecutorAllocationGenerator = gen.Struct(reflect.TypeOf(DynamicExecutorAllocation{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+
+	dynamicExecutorAllocationGenerator = rapid.Custom(func(t *rapid.T) DynamicExecutorAllocation {
+		var result DynamicExecutorAllocation
+		result.Enabled = enabled.Draw(t, "Enabled")
+		result.MaxExecutors = ptrInt.Draw(t, "MaxExecutors")
+		result.MinExecutors = ptrInt.Draw(t, "MinExecutors")
+		return result
+	})
 
 	return dynamicExecutorAllocationGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDynamicExecutorAllocation is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDynamicExecutorAllocation(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["MaxExecutors"] = gen.PtrOf(gen.Int())
-	gens["MinExecutors"] = gen.PtrOf(gen.Int())
-}
-
+// Test_DynamicExecutorAllocation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DynamicExecutorAllocation_STATUS can be assigned to storage and back losslessly
 func Test_DynamicExecutorAllocation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -598,44 +510,34 @@ func Test_DynamicExecutorAllocation_STATUS_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DynamicExecutorAllocation_STATUS to DynamicExecutorAllocation_STATUS via AssignProperties_To_DynamicExecutorAllocation_STATUS & AssignProperties_From_DynamicExecutorAllocation_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDynamicExecutorAllocation_STATUS, DynamicExecutorAllocation_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DynamicExecutorAllocation_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDynamicExecutorAllocation_STATUS tests if a specific instance of DynamicExecutorAllocation_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDynamicExecutorAllocation_STATUS(subject DynamicExecutorAllocation_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DynamicExecutorAllocation_STATUS
+		err := copied.AssignProperties_To_DynamicExecutorAllocation_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DynamicExecutorAllocation_STATUS
-	err := copied.AssignProperties_To_DynamicExecutorAllocation_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DynamicExecutorAllocation_STATUS
+		err = actual.AssignProperties_From_DynamicExecutorAllocation_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DynamicExecutorAllocation_STATUS
-	err = actual.AssignProperties_From_DynamicExecutorAllocation_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DynamicExecutorAllocation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -645,29 +547,23 @@ func Test_DynamicExecutorAllocation_STATUS_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DynamicExecutorAllocation_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDynamicExecutorAllocation_STATUS, DynamicExecutorAllocation_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDynamicExecutorAllocation_STATUS)
 }
 
 // RunJSONSerializationTestForDynamicExecutorAllocation_STATUS runs a test to see if a specific instance of DynamicExecutorAllocation_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDynamicExecutorAllocation_STATUS(subject DynamicExecutorAllocation_STATUS) string {
+func RunJSONSerializationTestForDynamicExecutorAllocation_STATUS(t *rapid.T) {
+	subject := DynamicExecutorAllocation_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DynamicExecutorAllocation_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -676,36 +572,35 @@ func RunJSONSerializationTestForDynamicExecutorAllocation_STATUS(subject Dynamic
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DynamicExecutorAllocation_STATUS instances for property testing - lazily instantiated by
 // DynamicExecutorAllocation_STATUSGenerator()
-var dynamicExecutorAllocation_STATUSGenerator gopter.Gen
+var dynamicExecutorAllocation_STATUSGenerator *rapid.Generator[DynamicExecutorAllocation_STATUS]
 
 // DynamicExecutorAllocation_STATUSGenerator returns a generator of DynamicExecutorAllocation_STATUS instances for property testing.
-func DynamicExecutorAllocation_STATUSGenerator() gopter.Gen {
+func DynamicExecutorAllocation_STATUSGenerator() *rapid.Generator[DynamicExecutorAllocation_STATUS] {
 	if dynamicExecutorAllocation_STATUSGenerator != nil {
 		return dynamicExecutorAllocation_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDynamicExecutorAllocation_STATUS(generators)
-	dynamicExecutorAllocation_STATUSGenerator = gen.Struct(reflect.TypeOf(DynamicExecutorAllocation_STATUS{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+
+	dynamicExecutorAllocation_STATUSGenerator = rapid.Custom(func(t *rapid.T) DynamicExecutorAllocation_STATUS {
+		var result DynamicExecutorAllocation_STATUS
+		result.Enabled = enabled.Draw(t, "Enabled")
+		result.MaxExecutors = ptrInt.Draw(t, "MaxExecutors")
+		result.MinExecutors = ptrInt.Draw(t, "MinExecutors")
+		return result
+	})
 
 	return dynamicExecutorAllocation_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDynamicExecutorAllocation_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDynamicExecutorAllocation_STATUS(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["MaxExecutors"] = gen.PtrOf(gen.Int())
-	gens["MinExecutors"] = gen.PtrOf(gen.Int())
-}
-
+// Test_LibraryInfo_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of LibraryInfo can be assigned to storage and back losslessly
 func Test_LibraryInfo_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -713,44 +608,34 @@ func Test_LibraryInfo_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from LibraryInfo to LibraryInfo via AssignProperties_To_LibraryInfo & AssignProperties_From_LibraryInfo returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLibraryInfo, LibraryInfoGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := LibraryInfoGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForLibraryInfo tests if a specific instance of LibraryInfo can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForLibraryInfo(subject LibraryInfo) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.LibraryInfo
+		err := copied.AssignProperties_To_LibraryInfo(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LibraryInfo
-	err := copied.AssignProperties_To_LibraryInfo(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual LibraryInfo
+		err = actual.AssignProperties_From_LibraryInfo(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual LibraryInfo
-	err = actual.AssignProperties_From_LibraryInfo(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_LibraryInfo_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -760,29 +645,23 @@ func Test_LibraryInfo_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LibraryInfo via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLibraryInfo, LibraryInfoGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLibraryInfo)
 }
 
 // RunJSONSerializationTestForLibraryInfo runs a test to see if a specific instance of LibraryInfo round trips to JSON and back losslessly
-func RunJSONSerializationTestForLibraryInfo(subject LibraryInfo) string {
+func RunJSONSerializationTestForLibraryInfo(t *rapid.T) {
+	subject := LibraryInfoGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LibraryInfo
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -791,36 +670,34 @@ func RunJSONSerializationTestForLibraryInfo(subject LibraryInfo) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LibraryInfo instances for property testing - lazily instantiated by LibraryInfoGenerator()
-var libraryInfoGenerator gopter.Gen
+var libraryInfoGenerator *rapid.Generator[LibraryInfo]
 
 // LibraryInfoGenerator returns a generator of LibraryInfo instances for property testing.
-func LibraryInfoGenerator() gopter.Gen {
+func LibraryInfoGenerator() *rapid.Generator[LibraryInfo] {
 	if libraryInfoGenerator != nil {
 		return libraryInfoGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLibraryInfo(generators)
-	libraryInfoGenerator = gen.Struct(reflect.TypeOf(LibraryInfo{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	libraryInfoGenerator = rapid.Custom(func(t *rapid.T) LibraryInfo {
+		var result LibraryInfo
+		result.ContainerName = ptrString.Draw(t, "ContainerName")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Path = ptrString.Draw(t, "Path")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return libraryInfoGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLibraryInfo is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLibraryInfo(gens map[string]gopter.Gen) {
-	gens["ContainerName"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Path"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_LibraryInfo_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of LibraryInfo_STATUS can be assigned to storage and back losslessly
 func Test_LibraryInfo_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -828,44 +705,34 @@ func Test_LibraryInfo_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from LibraryInfo_STATUS to LibraryInfo_STATUS via AssignProperties_To_LibraryInfo_STATUS & AssignProperties_From_LibraryInfo_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLibraryInfo_STATUS, LibraryInfo_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := LibraryInfo_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForLibraryInfo_STATUS tests if a specific instance of LibraryInfo_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForLibraryInfo_STATUS(subject LibraryInfo_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.LibraryInfo_STATUS
+		err := copied.AssignProperties_To_LibraryInfo_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LibraryInfo_STATUS
-	err := copied.AssignProperties_To_LibraryInfo_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual LibraryInfo_STATUS
+		err = actual.AssignProperties_From_LibraryInfo_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual LibraryInfo_STATUS
-	err = actual.AssignProperties_From_LibraryInfo_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_LibraryInfo_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -875,29 +742,23 @@ func Test_LibraryInfo_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LibraryInfo_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLibraryInfo_STATUS, LibraryInfo_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLibraryInfo_STATUS)
 }
 
 // RunJSONSerializationTestForLibraryInfo_STATUS runs a test to see if a specific instance of LibraryInfo_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForLibraryInfo_STATUS(subject LibraryInfo_STATUS) string {
+func RunJSONSerializationTestForLibraryInfo_STATUS(t *rapid.T) {
+	subject := LibraryInfo_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LibraryInfo_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -906,39 +767,37 @@ func RunJSONSerializationTestForLibraryInfo_STATUS(subject LibraryInfo_STATUS) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LibraryInfo_STATUS instances for property testing - lazily instantiated by LibraryInfo_STATUSGenerator()
-var libraryInfo_STATUSGenerator gopter.Gen
+var libraryInfo_STATUSGenerator *rapid.Generator[LibraryInfo_STATUS]
 
 // LibraryInfo_STATUSGenerator returns a generator of LibraryInfo_STATUS instances for property testing.
-func LibraryInfo_STATUSGenerator() gopter.Gen {
+func LibraryInfo_STATUSGenerator() *rapid.Generator[LibraryInfo_STATUS] {
 	if libraryInfo_STATUSGenerator != nil {
 		return libraryInfo_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLibraryInfo_STATUS(generators)
-	libraryInfo_STATUSGenerator = gen.Struct(reflect.TypeOf(LibraryInfo_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	libraryInfo_STATUSGenerator = rapid.Custom(func(t *rapid.T) LibraryInfo_STATUS {
+		var result LibraryInfo_STATUS
+		result.ContainerName = ptrString.Draw(t, "ContainerName")
+		result.CreatorId = ptrString.Draw(t, "CreatorId")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Path = ptrString.Draw(t, "Path")
+		result.ProvisioningStatus = ptrString.Draw(t, "ProvisioningStatus")
+		result.Type = ptrString.Draw(t, "Type")
+		result.UploadedTimestamp = ptrString.Draw(t, "UploadedTimestamp")
+		return result
+	})
 
 	return libraryInfo_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLibraryInfo_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLibraryInfo_STATUS(gens map[string]gopter.Gen) {
-	gens["ContainerName"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatorId"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Path"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["UploadedTimestamp"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_LibraryRequirements_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of LibraryRequirements can be assigned to storage and back losslessly
 func Test_LibraryRequirements_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -946,44 +805,34 @@ func Test_LibraryRequirements_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from LibraryRequirements to LibraryRequirements via AssignProperties_To_LibraryRequirements & AssignProperties_From_LibraryRequirements returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLibraryRequirements, LibraryRequirementsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := LibraryRequirementsGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForLibraryRequirements tests if a specific instance of LibraryRequirements can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForLibraryRequirements(subject LibraryRequirements) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.LibraryRequirements
+		err := copied.AssignProperties_To_LibraryRequirements(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LibraryRequirements
-	err := copied.AssignProperties_To_LibraryRequirements(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual LibraryRequirements
+		err = actual.AssignProperties_From_LibraryRequirements(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual LibraryRequirements
-	err = actual.AssignProperties_From_LibraryRequirements(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_LibraryRequirements_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -993,29 +842,23 @@ func Test_LibraryRequirements_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LibraryRequirements via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLibraryRequirements, LibraryRequirementsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLibraryRequirements)
 }
 
 // RunJSONSerializationTestForLibraryRequirements runs a test to see if a specific instance of LibraryRequirements round trips to JSON and back losslessly
-func RunJSONSerializationTestForLibraryRequirements(subject LibraryRequirements) string {
+func RunJSONSerializationTestForLibraryRequirements(t *rapid.T) {
+	subject := LibraryRequirementsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LibraryRequirements
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1024,35 +867,33 @@ func RunJSONSerializationTestForLibraryRequirements(subject LibraryRequirements)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LibraryRequirements instances for property testing - lazily instantiated by
 // LibraryRequirementsGenerator()
-var libraryRequirementsGenerator gopter.Gen
+var libraryRequirementsGenerator *rapid.Generator[LibraryRequirements]
 
 // LibraryRequirementsGenerator returns a generator of LibraryRequirements instances for property testing.
-func LibraryRequirementsGenerator() gopter.Gen {
+func LibraryRequirementsGenerator() *rapid.Generator[LibraryRequirements] {
 	if libraryRequirementsGenerator != nil {
 		return libraryRequirementsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLibraryRequirements(generators)
-	libraryRequirementsGenerator = gen.Struct(reflect.TypeOf(LibraryRequirements{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	libraryRequirementsGenerator = rapid.Custom(func(t *rapid.T) LibraryRequirements {
+		var result LibraryRequirements
+		result.Content = ptrString.Draw(t, "Content")
+		result.Filename = ptrString.Draw(t, "Filename")
+		return result
+	})
 
 	return libraryRequirementsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLibraryRequirements is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLibraryRequirements(gens map[string]gopter.Gen) {
-	gens["Content"] = gen.PtrOf(gen.AlphaString())
-	gens["Filename"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_LibraryRequirements_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of LibraryRequirements_STATUS can be assigned to storage and back losslessly
 func Test_LibraryRequirements_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1060,44 +901,34 @@ func Test_LibraryRequirements_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from LibraryRequirements_STATUS to LibraryRequirements_STATUS via AssignProperties_To_LibraryRequirements_STATUS & AssignProperties_From_LibraryRequirements_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLibraryRequirements_STATUS, LibraryRequirements_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := LibraryRequirements_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForLibraryRequirements_STATUS tests if a specific instance of LibraryRequirements_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForLibraryRequirements_STATUS(subject LibraryRequirements_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.LibraryRequirements_STATUS
+		err := copied.AssignProperties_To_LibraryRequirements_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LibraryRequirements_STATUS
-	err := copied.AssignProperties_To_LibraryRequirements_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual LibraryRequirements_STATUS
+		err = actual.AssignProperties_From_LibraryRequirements_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual LibraryRequirements_STATUS
-	err = actual.AssignProperties_From_LibraryRequirements_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_LibraryRequirements_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1107,29 +938,23 @@ func Test_LibraryRequirements_STATUS_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LibraryRequirements_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLibraryRequirements_STATUS, LibraryRequirements_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLibraryRequirements_STATUS)
 }
 
 // RunJSONSerializationTestForLibraryRequirements_STATUS runs a test to see if a specific instance of LibraryRequirements_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForLibraryRequirements_STATUS(subject LibraryRequirements_STATUS) string {
+func RunJSONSerializationTestForLibraryRequirements_STATUS(t *rapid.T) {
+	subject := LibraryRequirements_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LibraryRequirements_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1138,36 +963,34 @@ func RunJSONSerializationTestForLibraryRequirements_STATUS(subject LibraryRequir
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LibraryRequirements_STATUS instances for property testing - lazily instantiated by
 // LibraryRequirements_STATUSGenerator()
-var libraryRequirements_STATUSGenerator gopter.Gen
+var libraryRequirements_STATUSGenerator *rapid.Generator[LibraryRequirements_STATUS]
 
 // LibraryRequirements_STATUSGenerator returns a generator of LibraryRequirements_STATUS instances for property testing.
-func LibraryRequirements_STATUSGenerator() gopter.Gen {
+func LibraryRequirements_STATUSGenerator() *rapid.Generator[LibraryRequirements_STATUS] {
 	if libraryRequirements_STATUSGenerator != nil {
 		return libraryRequirements_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLibraryRequirements_STATUS(generators)
-	libraryRequirements_STATUSGenerator = gen.Struct(reflect.TypeOf(LibraryRequirements_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	libraryRequirements_STATUSGenerator = rapid.Custom(func(t *rapid.T) LibraryRequirements_STATUS {
+		var result LibraryRequirements_STATUS
+		result.Content = ptrString.Draw(t, "Content")
+		result.Filename = ptrString.Draw(t, "Filename")
+		result.Time = ptrString.Draw(t, "Time")
+		return result
+	})
 
 	return libraryRequirements_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLibraryRequirements_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLibraryRequirements_STATUS(gens map[string]gopter.Gen) {
-	gens["Content"] = gen.PtrOf(gen.AlphaString())
-	gens["Filename"] = gen.PtrOf(gen.AlphaString())
-	gens["Time"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_SparkConfigProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SparkConfigProperties can be assigned to storage and back losslessly
 func Test_SparkConfigProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1175,44 +998,34 @@ func Test_SparkConfigProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SparkConfigProperties to SparkConfigProperties via AssignProperties_To_SparkConfigProperties & AssignProperties_From_SparkConfigProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSparkConfigProperties, SparkConfigPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SparkConfigPropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSparkConfigProperties tests if a specific instance of SparkConfigProperties can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSparkConfigProperties(subject SparkConfigProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SparkConfigProperties
+		err := copied.AssignProperties_To_SparkConfigProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SparkConfigProperties
-	err := copied.AssignProperties_To_SparkConfigProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SparkConfigProperties
+		err = actual.AssignProperties_From_SparkConfigProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SparkConfigProperties
-	err = actual.AssignProperties_From_SparkConfigProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SparkConfigProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1222,29 +1035,23 @@ func Test_SparkConfigProperties_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SparkConfigProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSparkConfigProperties, SparkConfigPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSparkConfigProperties)
 }
 
 // RunJSONSerializationTestForSparkConfigProperties runs a test to see if a specific instance of SparkConfigProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForSparkConfigProperties(subject SparkConfigProperties) string {
+func RunJSONSerializationTestForSparkConfigProperties(t *rapid.T) {
+	subject := SparkConfigPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SparkConfigProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1253,36 +1060,35 @@ func RunJSONSerializationTestForSparkConfigProperties(subject SparkConfigPropert
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SparkConfigProperties instances for property testing - lazily instantiated by
 // SparkConfigPropertiesGenerator()
-var sparkConfigPropertiesGenerator gopter.Gen
+var sparkConfigPropertiesGenerator *rapid.Generator[SparkConfigProperties]
 
 // SparkConfigPropertiesGenerator returns a generator of SparkConfigProperties instances for property testing.
-func SparkConfigPropertiesGenerator() gopter.Gen {
+func SparkConfigPropertiesGenerator() *rapid.Generator[SparkConfigProperties] {
 	if sparkConfigPropertiesGenerator != nil {
 		return sparkConfigPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSparkConfigProperties(generators)
-	sparkConfigPropertiesGenerator = gen.Struct(reflect.TypeOf(SparkConfigProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	configurationType := rapid.Ptr(rapid.SampledFrom([]SparkConfigProperties_ConfigurationType{SparkConfigProperties_ConfigurationType_Artifact, SparkConfigProperties_ConfigurationType_File}), true)
+
+	sparkConfigPropertiesGenerator = rapid.Custom(func(t *rapid.T) SparkConfigProperties {
+		var result SparkConfigProperties
+		result.ConfigurationType = configurationType.Draw(t, "ConfigurationType")
+		result.Content = ptrString.Draw(t, "Content")
+		result.Filename = ptrString.Draw(t, "Filename")
+		return result
+	})
 
 	return sparkConfigPropertiesGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSparkConfigProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSparkConfigProperties(gens map[string]gopter.Gen) {
-	gens["ConfigurationType"] = gen.PtrOf(gen.OneConstOf(SparkConfigProperties_ConfigurationType_Artifact, SparkConfigProperties_ConfigurationType_File))
-	gens["Content"] = gen.PtrOf(gen.AlphaString())
-	gens["Filename"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_SparkConfigProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SparkConfigProperties_STATUS can be assigned to storage and back losslessly
 func Test_SparkConfigProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1290,44 +1096,34 @@ func Test_SparkConfigProperties_STATUS_WhenPropertiesConverted_RoundTripsWithout
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SparkConfigProperties_STATUS to SparkConfigProperties_STATUS via AssignProperties_To_SparkConfigProperties_STATUS & AssignProperties_From_SparkConfigProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSparkConfigProperties_STATUS, SparkConfigProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SparkConfigProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSparkConfigProperties_STATUS tests if a specific instance of SparkConfigProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSparkConfigProperties_STATUS(subject SparkConfigProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SparkConfigProperties_STATUS
+		err := copied.AssignProperties_To_SparkConfigProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SparkConfigProperties_STATUS
-	err := copied.AssignProperties_To_SparkConfigProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SparkConfigProperties_STATUS
+		err = actual.AssignProperties_From_SparkConfigProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SparkConfigProperties_STATUS
-	err = actual.AssignProperties_From_SparkConfigProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SparkConfigProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1337,29 +1133,23 @@ func Test_SparkConfigProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SparkConfigProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSparkConfigProperties_STATUS, SparkConfigProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSparkConfigProperties_STATUS)
 }
 
 // RunJSONSerializationTestForSparkConfigProperties_STATUS runs a test to see if a specific instance of SparkConfigProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSparkConfigProperties_STATUS(subject SparkConfigProperties_STATUS) string {
+func RunJSONSerializationTestForSparkConfigProperties_STATUS(t *rapid.T) {
+	subject := SparkConfigProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SparkConfigProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1368,37 +1158,36 @@ func RunJSONSerializationTestForSparkConfigProperties_STATUS(subject SparkConfig
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SparkConfigProperties_STATUS instances for property testing - lazily instantiated by
 // SparkConfigProperties_STATUSGenerator()
-var sparkConfigProperties_STATUSGenerator gopter.Gen
+var sparkConfigProperties_STATUSGenerator *rapid.Generator[SparkConfigProperties_STATUS]
 
 // SparkConfigProperties_STATUSGenerator returns a generator of SparkConfigProperties_STATUS instances for property testing.
-func SparkConfigProperties_STATUSGenerator() gopter.Gen {
+func SparkConfigProperties_STATUSGenerator() *rapid.Generator[SparkConfigProperties_STATUS] {
 	if sparkConfigProperties_STATUSGenerator != nil {
 		return sparkConfigProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSparkConfigProperties_STATUS(generators)
-	sparkConfigProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(SparkConfigProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	configurationType := rapid.Ptr(rapid.SampledFrom([]SparkConfigProperties_ConfigurationType_STATUS{SparkConfigProperties_ConfigurationType_STATUS_Artifact, SparkConfigProperties_ConfigurationType_STATUS_File}), true)
+
+	sparkConfigProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) SparkConfigProperties_STATUS {
+		var result SparkConfigProperties_STATUS
+		result.ConfigurationType = configurationType.Draw(t, "ConfigurationType")
+		result.Content = ptrString.Draw(t, "Content")
+		result.Filename = ptrString.Draw(t, "Filename")
+		result.Time = ptrString.Draw(t, "Time")
+		return result
+	})
 
 	return sparkConfigProperties_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSparkConfigProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSparkConfigProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["ConfigurationType"] = gen.PtrOf(gen.OneConstOf(SparkConfigProperties_ConfigurationType_STATUS_Artifact, SparkConfigProperties_ConfigurationType_STATUS_File))
-	gens["Content"] = gen.PtrOf(gen.AlphaString())
-	gens["Filename"] = gen.PtrOf(gen.AlphaString())
-	gens["Time"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_WorkspacesBigDataPool_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of WorkspacesBigDataPool round trips to the hub storage version and back losslessly
 func Test_WorkspacesBigDataPool_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1406,47 +1195,37 @@ func Test_WorkspacesBigDataPool_WhenConvertedToHub_RoundTripsWithoutLoss(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from WorkspacesBigDataPool to hub returns original",
-		prop.ForAll(RunResourceConversionTestForWorkspacesBigDataPool, WorkspacesBigDataPoolGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := WorkspacesBigDataPoolGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.WorkspacesBigDataPool
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual WorkspacesBigDataPool
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForWorkspacesBigDataPool tests if a specific instance of WorkspacesBigDataPool round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForWorkspacesBigDataPool(subject WorkspacesBigDataPool) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.WorkspacesBigDataPool
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual WorkspacesBigDataPool
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_WorkspacesBigDataPool_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of WorkspacesBigDataPool can be assigned to storage and back losslessly
 func Test_WorkspacesBigDataPool_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1454,44 +1233,34 @@ func Test_WorkspacesBigDataPool_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from WorkspacesBigDataPool to WorkspacesBigDataPool via AssignProperties_To_WorkspacesBigDataPool & AssignProperties_From_WorkspacesBigDataPool returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWorkspacesBigDataPool, WorkspacesBigDataPoolGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := WorkspacesBigDataPoolGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForWorkspacesBigDataPool tests if a specific instance of WorkspacesBigDataPool can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForWorkspacesBigDataPool(subject WorkspacesBigDataPool) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.WorkspacesBigDataPool
+		err := copied.AssignProperties_To_WorkspacesBigDataPool(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WorkspacesBigDataPool
-	err := copied.AssignProperties_To_WorkspacesBigDataPool(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual WorkspacesBigDataPool
+		err = actual.AssignProperties_From_WorkspacesBigDataPool(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WorkspacesBigDataPool
-	err = actual.AssignProperties_From_WorkspacesBigDataPool(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_WorkspacesBigDataPool_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1501,29 +1270,23 @@ func Test_WorkspacesBigDataPool_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WorkspacesBigDataPool via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspacesBigDataPool, WorkspacesBigDataPoolGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForWorkspacesBigDataPool)
 }
 
 // RunJSONSerializationTestForWorkspacesBigDataPool runs a test to see if a specific instance of WorkspacesBigDataPool round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspacesBigDataPool(subject WorkspacesBigDataPool) string {
+func RunJSONSerializationTestForWorkspacesBigDataPool(t *rapid.T) {
+	subject := WorkspacesBigDataPoolGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual WorkspacesBigDataPool
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1532,35 +1295,34 @@ func RunJSONSerializationTestForWorkspacesBigDataPool(subject WorkspacesBigDataP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of WorkspacesBigDataPool instances for property testing - lazily instantiated by
 // WorkspacesBigDataPoolGenerator()
-var workspacesBigDataPoolGenerator gopter.Gen
+var workspacesBigDataPoolGenerator *rapid.Generator[WorkspacesBigDataPool]
 
 // WorkspacesBigDataPoolGenerator returns a generator of WorkspacesBigDataPool instances for property testing.
-func WorkspacesBigDataPoolGenerator() gopter.Gen {
+func WorkspacesBigDataPoolGenerator() *rapid.Generator[WorkspacesBigDataPool] {
 	if workspacesBigDataPoolGenerator != nil {
 		return workspacesBigDataPoolGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForWorkspacesBigDataPool(generators)
-	workspacesBigDataPoolGenerator = gen.Struct(reflect.TypeOf(WorkspacesBigDataPool{}), generators)
+	spec := WorkspacesBigDataPool_SpecGenerator()
+	status := WorkspacesBigDataPool_STATUSGenerator()
+
+	workspacesBigDataPoolGenerator = rapid.Custom(func(t *rapid.T) WorkspacesBigDataPool {
+		var result WorkspacesBigDataPool
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return workspacesBigDataPoolGenerator
 }
 
-// AddRelatedPropertyGeneratorsForWorkspacesBigDataPool is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWorkspacesBigDataPool(gens map[string]gopter.Gen) {
-	gens["Spec"] = WorkspacesBigDataPool_SpecGenerator()
-	gens["Status"] = WorkspacesBigDataPool_STATUSGenerator()
-}
-
+// Test_WorkspacesBigDataPoolOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of WorkspacesBigDataPoolOperatorSpec can be assigned to storage and back losslessly
 func Test_WorkspacesBigDataPoolOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1568,44 +1330,34 @@ func Test_WorkspacesBigDataPoolOperatorSpec_WhenPropertiesConverted_RoundTripsWi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from WorkspacesBigDataPoolOperatorSpec to WorkspacesBigDataPoolOperatorSpec via AssignProperties_To_WorkspacesBigDataPoolOperatorSpec & AssignProperties_From_WorkspacesBigDataPoolOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWorkspacesBigDataPoolOperatorSpec, WorkspacesBigDataPoolOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := WorkspacesBigDataPoolOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForWorkspacesBigDataPoolOperatorSpec tests if a specific instance of WorkspacesBigDataPoolOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForWorkspacesBigDataPoolOperatorSpec(subject WorkspacesBigDataPoolOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.WorkspacesBigDataPoolOperatorSpec
+		err := copied.AssignProperties_To_WorkspacesBigDataPoolOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WorkspacesBigDataPoolOperatorSpec
-	err := copied.AssignProperties_To_WorkspacesBigDataPoolOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual WorkspacesBigDataPoolOperatorSpec
+		err = actual.AssignProperties_From_WorkspacesBigDataPoolOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WorkspacesBigDataPoolOperatorSpec
-	err = actual.AssignProperties_From_WorkspacesBigDataPoolOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_WorkspacesBigDataPoolOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1615,29 +1367,23 @@ func Test_WorkspacesBigDataPoolOperatorSpec_WhenSerializedToJson_DeserializesAsE
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WorkspacesBigDataPoolOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspacesBigDataPoolOperatorSpec, WorkspacesBigDataPoolOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForWorkspacesBigDataPoolOperatorSpec)
 }
 
 // RunJSONSerializationTestForWorkspacesBigDataPoolOperatorSpec runs a test to see if a specific instance of WorkspacesBigDataPoolOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspacesBigDataPoolOperatorSpec(subject WorkspacesBigDataPoolOperatorSpec) string {
+func RunJSONSerializationTestForWorkspacesBigDataPoolOperatorSpec(t *rapid.T) {
+	subject := WorkspacesBigDataPoolOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual WorkspacesBigDataPoolOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1646,28 +1392,26 @@ func RunJSONSerializationTestForWorkspacesBigDataPoolOperatorSpec(subject Worksp
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of WorkspacesBigDataPoolOperatorSpec instances for property testing - lazily instantiated by
 // WorkspacesBigDataPoolOperatorSpecGenerator()
-var workspacesBigDataPoolOperatorSpecGenerator gopter.Gen
+var workspacesBigDataPoolOperatorSpecGenerator *rapid.Generator[WorkspacesBigDataPoolOperatorSpec]
 
 // WorkspacesBigDataPoolOperatorSpecGenerator returns a generator of WorkspacesBigDataPoolOperatorSpec instances for property testing.
-func WorkspacesBigDataPoolOperatorSpecGenerator() gopter.Gen {
+func WorkspacesBigDataPoolOperatorSpecGenerator() *rapid.Generator[WorkspacesBigDataPoolOperatorSpec] {
 	if workspacesBigDataPoolOperatorSpecGenerator != nil {
 		return workspacesBigDataPoolOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	workspacesBigDataPoolOperatorSpecGenerator = gen.Struct(reflect.TypeOf(WorkspacesBigDataPoolOperatorSpec{}), generators)
+	workspacesBigDataPoolOperatorSpecGenerator = rapid.Just(WorkspacesBigDataPoolOperatorSpec{})
 
 	return workspacesBigDataPoolOperatorSpecGenerator
 }
 
+// Test_WorkspacesBigDataPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of WorkspacesBigDataPool_STATUS can be assigned to storage and back losslessly
 func Test_WorkspacesBigDataPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1675,44 +1419,34 @@ func Test_WorkspacesBigDataPool_STATUS_WhenPropertiesConverted_RoundTripsWithout
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from WorkspacesBigDataPool_STATUS to WorkspacesBigDataPool_STATUS via AssignProperties_To_WorkspacesBigDataPool_STATUS & AssignProperties_From_WorkspacesBigDataPool_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWorkspacesBigDataPool_STATUS, WorkspacesBigDataPool_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := WorkspacesBigDataPool_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForWorkspacesBigDataPool_STATUS tests if a specific instance of WorkspacesBigDataPool_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForWorkspacesBigDataPool_STATUS(subject WorkspacesBigDataPool_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.WorkspacesBigDataPool_STATUS
+		err := copied.AssignProperties_To_WorkspacesBigDataPool_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WorkspacesBigDataPool_STATUS
-	err := copied.AssignProperties_To_WorkspacesBigDataPool_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual WorkspacesBigDataPool_STATUS
+		err = actual.AssignProperties_From_WorkspacesBigDataPool_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WorkspacesBigDataPool_STATUS
-	err = actual.AssignProperties_From_WorkspacesBigDataPool_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_WorkspacesBigDataPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1722,29 +1456,23 @@ func Test_WorkspacesBigDataPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WorkspacesBigDataPool_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspacesBigDataPool_STATUS, WorkspacesBigDataPool_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForWorkspacesBigDataPool_STATUS)
 }
 
 // RunJSONSerializationTestForWorkspacesBigDataPool_STATUS runs a test to see if a specific instance of WorkspacesBigDataPool_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspacesBigDataPool_STATUS(subject WorkspacesBigDataPool_STATUS) string {
+func RunJSONSerializationTestForWorkspacesBigDataPool_STATUS(t *rapid.T) {
+	subject := WorkspacesBigDataPool_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual WorkspacesBigDataPool_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1753,83 +1481,68 @@ func RunJSONSerializationTestForWorkspacesBigDataPool_STATUS(subject WorkspacesB
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of WorkspacesBigDataPool_STATUS instances for property testing - lazily instantiated by
 // WorkspacesBigDataPool_STATUSGenerator()
-var workspacesBigDataPool_STATUSGenerator gopter.Gen
+var workspacesBigDataPool_STATUSGenerator *rapid.Generator[WorkspacesBigDataPool_STATUS]
 
 // WorkspacesBigDataPool_STATUSGenerator returns a generator of WorkspacesBigDataPool_STATUS instances for property testing.
-// We first initialize workspacesBigDataPool_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func WorkspacesBigDataPool_STATUSGenerator() gopter.Gen {
+func WorkspacesBigDataPool_STATUSGenerator() *rapid.Generator[WorkspacesBigDataPool_STATUS] {
 	if workspacesBigDataPool_STATUSGenerator != nil {
 		return workspacesBigDataPool_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_STATUS(generators)
-	workspacesBigDataPool_STATUSGenerator = gen.Struct(reflect.TypeOf(WorkspacesBigDataPool_STATUS{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	autoPause := rapid.Ptr(AutoPauseProperties_STATUSGenerator(), true)
+	autoScale := rapid.Ptr(AutoScaleProperties_STATUSGenerator(), true)
+	customLibraries := rapid.SliceOf(LibraryInfo_STATUSGenerator())
+	dynamicExecutorAllocation := rapid.Ptr(DynamicExecutorAllocation_STATUSGenerator(), true)
+	libraryRequirements := rapid.Ptr(LibraryRequirements_STATUSGenerator(), true)
+	nodeSize := rapid.Ptr(rapid.SampledFrom([]BigDataPoolResourceProperties_NodeSize_STATUS{BigDataPoolResourceProperties_NodeSize_STATUS_Large, BigDataPoolResourceProperties_NodeSize_STATUS_Medium, BigDataPoolResourceProperties_NodeSize_STATUS_None, BigDataPoolResourceProperties_NodeSize_STATUS_Small, BigDataPoolResourceProperties_NodeSize_STATUS_XLarge, BigDataPoolResourceProperties_NodeSize_STATUS_XXLarge, BigDataPoolResourceProperties_NodeSize_STATUS_XXXLarge}), true)
+	nodeSizeFamily := rapid.Ptr(rapid.SampledFrom([]BigDataPoolResourceProperties_NodeSizeFamily_STATUS{BigDataPoolResourceProperties_NodeSizeFamily_STATUS_HardwareAcceleratedFPGA, BigDataPoolResourceProperties_NodeSizeFamily_STATUS_HardwareAcceleratedGPU, BigDataPoolResourceProperties_NodeSizeFamily_STATUS_MemoryOptimized, BigDataPoolResourceProperties_NodeSizeFamily_STATUS_None}), true)
+	sparkConfigProperties := rapid.Ptr(SparkConfigProperties_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_STATUS(generators)
-	AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_STATUS(generators)
-	workspacesBigDataPool_STATUSGenerator = gen.Struct(reflect.TypeOf(WorkspacesBigDataPool_STATUS{}), generators)
+	workspacesBigDataPool_STATUSGenerator = rapid.Custom(func(t *rapid.T) WorkspacesBigDataPool_STATUS {
+		var result WorkspacesBigDataPool_STATUS
+		result.AutoPause = autoPause.Draw(t, "AutoPause")
+		result.AutoScale = autoScale.Draw(t, "AutoScale")
+		result.CacheSize = ptrInt.Draw(t, "CacheSize")
+		result.CreationDate = ptrString.Draw(t, "CreationDate")
+		result.CustomLibraries = customLibraries.Draw(t, "CustomLibraries")
+		result.DefaultSparkLogFolder = ptrString.Draw(t, "DefaultSparkLogFolder")
+		result.DynamicExecutorAllocation = dynamicExecutorAllocation.Draw(t, "DynamicExecutorAllocation")
+		result.Id = ptrString.Draw(t, "Id")
+		result.IsAutotuneEnabled = ptrBool.Draw(t, "IsAutotuneEnabled")
+		result.IsComputeIsolationEnabled = ptrBool.Draw(t, "IsComputeIsolationEnabled")
+		result.LastSucceededTimestamp = ptrString.Draw(t, "LastSucceededTimestamp")
+		result.LibraryRequirements = libraryRequirements.Draw(t, "LibraryRequirements")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
+		result.NodeCount = ptrInt.Draw(t, "NodeCount")
+		result.NodeSize = nodeSize.Draw(t, "NodeSize")
+		result.NodeSizeFamily = nodeSizeFamily.Draw(t, "NodeSizeFamily")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.SessionLevelPackagesEnabled = ptrBool.Draw(t, "SessionLevelPackagesEnabled")
+		result.SparkConfigProperties = sparkConfigProperties.Draw(t, "SparkConfigProperties")
+		result.SparkEventsFolder = ptrString.Draw(t, "SparkEventsFolder")
+		result.SparkVersion = ptrString.Draw(t, "SparkVersion")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return workspacesBigDataPool_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_STATUS(gens map[string]gopter.Gen) {
-	gens["CacheSize"] = gen.PtrOf(gen.Int())
-	gens["CreationDate"] = gen.PtrOf(gen.AlphaString())
-	gens["DefaultSparkLogFolder"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["IsAutotuneEnabled"] = gen.PtrOf(gen.Bool())
-	gens["IsComputeIsolationEnabled"] = gen.PtrOf(gen.Bool())
-	gens["LastSucceededTimestamp"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["NodeCount"] = gen.PtrOf(gen.Int())
-	gens["NodeSize"] = gen.PtrOf(gen.OneConstOf(
-		BigDataPoolResourceProperties_NodeSize_STATUS_Large,
-		BigDataPoolResourceProperties_NodeSize_STATUS_Medium,
-		BigDataPoolResourceProperties_NodeSize_STATUS_None,
-		BigDataPoolResourceProperties_NodeSize_STATUS_Small,
-		BigDataPoolResourceProperties_NodeSize_STATUS_XLarge,
-		BigDataPoolResourceProperties_NodeSize_STATUS_XXLarge,
-		BigDataPoolResourceProperties_NodeSize_STATUS_XXXLarge))
-	gens["NodeSizeFamily"] = gen.PtrOf(gen.OneConstOf(
-		BigDataPoolResourceProperties_NodeSizeFamily_STATUS_HardwareAcceleratedFPGA,
-		BigDataPoolResourceProperties_NodeSizeFamily_STATUS_HardwareAcceleratedGPU,
-		BigDataPoolResourceProperties_NodeSizeFamily_STATUS_MemoryOptimized,
-		BigDataPoolResourceProperties_NodeSizeFamily_STATUS_None))
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["SessionLevelPackagesEnabled"] = gen.PtrOf(gen.Bool())
-	gens["SparkEventsFolder"] = gen.PtrOf(gen.AlphaString())
-	gens["SparkVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_STATUS(gens map[string]gopter.Gen) {
-	gens["AutoPause"] = gen.PtrOf(AutoPauseProperties_STATUSGenerator())
-	gens["AutoScale"] = gen.PtrOf(AutoScaleProperties_STATUSGenerator())
-	gens["CustomLibraries"] = gen.SliceOf(LibraryInfo_STATUSGenerator())
-	gens["DynamicExecutorAllocation"] = gen.PtrOf(DynamicExecutorAllocation_STATUSGenerator())
-	gens["LibraryRequirements"] = gen.PtrOf(LibraryRequirements_STATUSGenerator())
-	gens["SparkConfigProperties"] = gen.PtrOf(SparkConfigProperties_STATUSGenerator())
-}
-
+// Test_WorkspacesBigDataPool_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of WorkspacesBigDataPool_Spec can be assigned to storage and back losslessly
 func Test_WorkspacesBigDataPool_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1837,44 +1550,34 @@ func Test_WorkspacesBigDataPool_Spec_WhenPropertiesConverted_RoundTripsWithoutLo
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from WorkspacesBigDataPool_Spec to WorkspacesBigDataPool_Spec via AssignProperties_To_WorkspacesBigDataPool_Spec & AssignProperties_From_WorkspacesBigDataPool_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWorkspacesBigDataPool_Spec, WorkspacesBigDataPool_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := WorkspacesBigDataPool_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForWorkspacesBigDataPool_Spec tests if a specific instance of WorkspacesBigDataPool_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForWorkspacesBigDataPool_Spec(subject WorkspacesBigDataPool_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.WorkspacesBigDataPool_Spec
+		err := copied.AssignProperties_To_WorkspacesBigDataPool_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WorkspacesBigDataPool_Spec
-	err := copied.AssignProperties_To_WorkspacesBigDataPool_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual WorkspacesBigDataPool_Spec
+		err = actual.AssignProperties_From_WorkspacesBigDataPool_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WorkspacesBigDataPool_Spec
-	err = actual.AssignProperties_From_WorkspacesBigDataPool_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_WorkspacesBigDataPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1884,29 +1587,23 @@ func Test_WorkspacesBigDataPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WorkspacesBigDataPool_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspacesBigDataPool_Spec, WorkspacesBigDataPool_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForWorkspacesBigDataPool_Spec)
 }
 
 // RunJSONSerializationTestForWorkspacesBigDataPool_Spec runs a test to see if a specific instance of WorkspacesBigDataPool_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspacesBigDataPool_Spec(subject WorkspacesBigDataPool_Spec) string {
+func RunJSONSerializationTestForWorkspacesBigDataPool_Spec(t *rapid.T) {
+	subject := WorkspacesBigDataPool_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual WorkspacesBigDataPool_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1915,76 +1612,62 @@ func RunJSONSerializationTestForWorkspacesBigDataPool_Spec(subject WorkspacesBig
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of WorkspacesBigDataPool_Spec instances for property testing - lazily instantiated by
 // WorkspacesBigDataPool_SpecGenerator()
-var workspacesBigDataPool_SpecGenerator gopter.Gen
+var workspacesBigDataPool_SpecGenerator *rapid.Generator[WorkspacesBigDataPool_Spec]
 
 // WorkspacesBigDataPool_SpecGenerator returns a generator of WorkspacesBigDataPool_Spec instances for property testing.
-// We first initialize workspacesBigDataPool_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func WorkspacesBigDataPool_SpecGenerator() gopter.Gen {
+func WorkspacesBigDataPool_SpecGenerator() *rapid.Generator[WorkspacesBigDataPool_Spec] {
 	if workspacesBigDataPool_SpecGenerator != nil {
 		return workspacesBigDataPool_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_Spec(generators)
-	workspacesBigDataPool_SpecGenerator = gen.Struct(reflect.TypeOf(WorkspacesBigDataPool_Spec{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	autoPause := rapid.Ptr(AutoPausePropertiesGenerator(), true)
+	autoScale := rapid.Ptr(AutoScalePropertiesGenerator(), true)
+	azureName := rapid.String()
+	customLibraries := rapid.SliceOf(LibraryInfoGenerator())
+	dynamicExecutorAllocation := rapid.Ptr(DynamicExecutorAllocationGenerator(), true)
+	libraryRequirements := rapid.Ptr(LibraryRequirementsGenerator(), true)
+	nodeSize := rapid.Ptr(rapid.SampledFrom([]BigDataPoolResourceProperties_NodeSize{BigDataPoolResourceProperties_NodeSize_Large, BigDataPoolResourceProperties_NodeSize_Medium, BigDataPoolResourceProperties_NodeSize_None, BigDataPoolResourceProperties_NodeSize_Small, BigDataPoolResourceProperties_NodeSize_XLarge, BigDataPoolResourceProperties_NodeSize_XXLarge, BigDataPoolResourceProperties_NodeSize_XXXLarge}), true)
+	nodeSizeFamily := rapid.Ptr(rapid.SampledFrom([]BigDataPoolResourceProperties_NodeSizeFamily{BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedFPGA, BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedGPU, BigDataPoolResourceProperties_NodeSizeFamily_MemoryOptimized, BigDataPoolResourceProperties_NodeSizeFamily_None}), true)
+	operatorSpec := rapid.Ptr(WorkspacesBigDataPoolOperatorSpecGenerator(), true)
+	sparkConfigProperties := rapid.Ptr(SparkConfigPropertiesGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_Spec(generators)
-	AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_Spec(generators)
-	workspacesBigDataPool_SpecGenerator = gen.Struct(reflect.TypeOf(WorkspacesBigDataPool_Spec{}), generators)
+	workspacesBigDataPool_SpecGenerator = rapid.Custom(func(t *rapid.T) WorkspacesBigDataPool_Spec {
+		var result WorkspacesBigDataPool_Spec
+		result.AutoPause = autoPause.Draw(t, "AutoPause")
+		result.AutoScale = autoScale.Draw(t, "AutoScale")
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.CacheSize = ptrInt.Draw(t, "CacheSize")
+		result.CustomLibraries = customLibraries.Draw(t, "CustomLibraries")
+		result.DefaultSparkLogFolder = ptrString.Draw(t, "DefaultSparkLogFolder")
+		result.DynamicExecutorAllocation = dynamicExecutorAllocation.Draw(t, "DynamicExecutorAllocation")
+		result.IsAutotuneEnabled = ptrBool.Draw(t, "IsAutotuneEnabled")
+		result.IsComputeIsolationEnabled = ptrBool.Draw(t, "IsComputeIsolationEnabled")
+		result.LibraryRequirements = libraryRequirements.Draw(t, "LibraryRequirements")
+		result.Location = ptrString.Draw(t, "Location")
+		result.NodeCount = ptrInt.Draw(t, "NodeCount")
+		result.NodeSize = nodeSize.Draw(t, "NodeSize")
+		result.NodeSizeFamily = nodeSizeFamily.Draw(t, "NodeSizeFamily")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.SessionLevelPackagesEnabled = ptrBool.Draw(t, "SessionLevelPackagesEnabled")
+		result.SparkConfigProperties = sparkConfigProperties.Draw(t, "SparkConfigProperties")
+		result.SparkEventsFolder = ptrString.Draw(t, "SparkEventsFolder")
+		result.SparkVersion = ptrString.Draw(t, "SparkVersion")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return workspacesBigDataPool_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["CacheSize"] = gen.PtrOf(gen.Int())
-	gens["DefaultSparkLogFolder"] = gen.PtrOf(gen.AlphaString())
-	gens["IsAutotuneEnabled"] = gen.PtrOf(gen.Bool())
-	gens["IsComputeIsolationEnabled"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["NodeCount"] = gen.PtrOf(gen.Int())
-	gens["NodeSize"] = gen.PtrOf(gen.OneConstOf(
-		BigDataPoolResourceProperties_NodeSize_Large,
-		BigDataPoolResourceProperties_NodeSize_Medium,
-		BigDataPoolResourceProperties_NodeSize_None,
-		BigDataPoolResourceProperties_NodeSize_Small,
-		BigDataPoolResourceProperties_NodeSize_XLarge,
-		BigDataPoolResourceProperties_NodeSize_XXLarge,
-		BigDataPoolResourceProperties_NodeSize_XXXLarge))
-	gens["NodeSizeFamily"] = gen.PtrOf(gen.OneConstOf(
-		BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedFPGA,
-		BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedGPU,
-		BigDataPoolResourceProperties_NodeSizeFamily_MemoryOptimized,
-		BigDataPoolResourceProperties_NodeSizeFamily_None))
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["SessionLevelPackagesEnabled"] = gen.PtrOf(gen.Bool())
-	gens["SparkEventsFolder"] = gen.PtrOf(gen.AlphaString())
-	gens["SparkVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_Spec(gens map[string]gopter.Gen) {
-	gens["AutoPause"] = gen.PtrOf(AutoPausePropertiesGenerator())
-	gens["AutoScale"] = gen.PtrOf(AutoScalePropertiesGenerator())
-	gens["CustomLibraries"] = gen.SliceOf(LibraryInfoGenerator())
-	gens["DynamicExecutorAllocation"] = gen.PtrOf(DynamicExecutorAllocationGenerator())
-	gens["LibraryRequirements"] = gen.PtrOf(LibraryRequirementsGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(WorkspacesBigDataPoolOperatorSpecGenerator())
-	gens["SparkConfigProperties"] = gen.PtrOf(SparkConfigPropertiesGenerator())
 }

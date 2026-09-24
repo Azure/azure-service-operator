@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_DeploymentCapacitySettings_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeploymentCapacitySettings via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeploymentCapacitySettings, DeploymentCapacitySettingsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeploymentCapacitySettings)
 }
 
 // RunJSONSerializationTestForDeploymentCapacitySettings runs a test to see if a specific instance of DeploymentCapacitySettings round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeploymentCapacitySettings(subject DeploymentCapacitySettings) string {
+func RunJSONSerializationTestForDeploymentCapacitySettings(t *rapid.T) {
+	subject := DeploymentCapacitySettingsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeploymentCapacitySettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,33 +45,30 @@ func RunJSONSerializationTestForDeploymentCapacitySettings(subject DeploymentCap
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeploymentCapacitySettings instances for property testing - lazily instantiated by
 // DeploymentCapacitySettingsGenerator()
-var deploymentCapacitySettingsGenerator gopter.Gen
+var deploymentCapacitySettingsGenerator *rapid.Generator[DeploymentCapacitySettings]
 
 // DeploymentCapacitySettingsGenerator returns a generator of DeploymentCapacitySettings instances for property testing.
-func DeploymentCapacitySettingsGenerator() gopter.Gen {
+func DeploymentCapacitySettingsGenerator() *rapid.Generator[DeploymentCapacitySettings] {
 	if deploymentCapacitySettingsGenerator != nil {
 		return deploymentCapacitySettingsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeploymentCapacitySettings(generators)
-	deploymentCapacitySettingsGenerator = gen.Struct(reflect.TypeOf(DeploymentCapacitySettings{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+
+	deploymentCapacitySettingsGenerator = rapid.Custom(func(t *rapid.T) DeploymentCapacitySettings {
+		var result DeploymentCapacitySettings
+		result.DesignatedCapacity = ptrInt.Draw(t, "DesignatedCapacity")
+		result.Priority = ptrInt.Draw(t, "Priority")
+		return result
+	})
 
 	return deploymentCapacitySettingsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDeploymentCapacitySettings is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeploymentCapacitySettings(gens map[string]gopter.Gen) {
-	gens["DesignatedCapacity"] = gen.PtrOf(gen.Int())
-	gens["Priority"] = gen.PtrOf(gen.Int())
 }
 
 func Test_DeploymentModel_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -91,29 +78,23 @@ func Test_DeploymentModel_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeploymentModel via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeploymentModel, DeploymentModelGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeploymentModel)
 }
 
 // RunJSONSerializationTestForDeploymentModel runs a test to see if a specific instance of DeploymentModel round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeploymentModel(subject DeploymentModel) string {
+func RunJSONSerializationTestForDeploymentModel(t *rapid.T) {
+	subject := DeploymentModelGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeploymentModel
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -122,36 +103,33 @@ func RunJSONSerializationTestForDeploymentModel(subject DeploymentModel) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeploymentModel instances for property testing - lazily instantiated by DeploymentModelGenerator()
-var deploymentModelGenerator gopter.Gen
+var deploymentModelGenerator *rapid.Generator[DeploymentModel]
 
 // DeploymentModelGenerator returns a generator of DeploymentModel instances for property testing.
-func DeploymentModelGenerator() gopter.Gen {
+func DeploymentModelGenerator() *rapid.Generator[DeploymentModel] {
 	if deploymentModelGenerator != nil {
 		return deploymentModelGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeploymentModel(generators)
-	deploymentModelGenerator = gen.Struct(reflect.TypeOf(DeploymentModel{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	deploymentModelGenerator = rapid.Custom(func(t *rapid.T) DeploymentModel {
+		var result DeploymentModel
+		result.Format = ptrString.Draw(t, "Format")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Publisher = ptrString.Draw(t, "Publisher")
+		result.Source = ptrString.Draw(t, "Source")
+		result.SourceAccount = ptrString.Draw(t, "SourceAccount")
+		result.Version = ptrString.Draw(t, "Version")
+		return result
+	})
 
 	return deploymentModelGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDeploymentModel is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeploymentModel(gens map[string]gopter.Gen) {
-	gens["Format"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
-	gens["Source"] = gen.PtrOf(gen.AlphaString())
-	gens["SourceAccount"] = gen.PtrOf(gen.AlphaString())
-	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_DeploymentProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -161,29 +139,23 @@ func Test_DeploymentProperties_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeploymentProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeploymentProperties, DeploymentPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeploymentProperties)
 }
 
 // RunJSONSerializationTestForDeploymentProperties runs a test to see if a specific instance of DeploymentProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeploymentProperties(subject DeploymentProperties) string {
+func RunJSONSerializationTestForDeploymentProperties(t *rapid.T) {
+	subject := DeploymentPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeploymentProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -192,51 +164,39 @@ func RunJSONSerializationTestForDeploymentProperties(subject DeploymentPropertie
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeploymentProperties instances for property testing - lazily instantiated by
 // DeploymentPropertiesGenerator()
-var deploymentPropertiesGenerator gopter.Gen
+var deploymentPropertiesGenerator *rapid.Generator[DeploymentProperties]
 
 // DeploymentPropertiesGenerator returns a generator of DeploymentProperties instances for property testing.
-// We first initialize deploymentPropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeploymentPropertiesGenerator() gopter.Gen {
+func DeploymentPropertiesGenerator() *rapid.Generator[DeploymentProperties] {
 	if deploymentPropertiesGenerator != nil {
 		return deploymentPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeploymentProperties(generators)
-	deploymentPropertiesGenerator = gen.Struct(reflect.TypeOf(DeploymentProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	capacitySettings := rapid.Ptr(DeploymentCapacitySettingsGenerator(), true)
+	model := rapid.Ptr(DeploymentModelGenerator(), true)
+	scaleSettings := rapid.Ptr(DeploymentScaleSettingsGenerator(), true)
+	versionUpgradeOption := rapid.Ptr(rapid.SampledFrom([]DeploymentProperties_VersionUpgradeOption{DeploymentProperties_VersionUpgradeOption_NoAutoUpgrade, DeploymentProperties_VersionUpgradeOption_OnceCurrentVersionExpired, DeploymentProperties_VersionUpgradeOption_OnceNewDefaultVersionAvailable}), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeploymentProperties(generators)
-	AddRelatedPropertyGeneratorsForDeploymentProperties(generators)
-	deploymentPropertiesGenerator = gen.Struct(reflect.TypeOf(DeploymentProperties{}), generators)
+	deploymentPropertiesGenerator = rapid.Custom(func(t *rapid.T) DeploymentProperties {
+		var result DeploymentProperties
+		result.CapacitySettings = capacitySettings.Draw(t, "CapacitySettings")
+		result.Model = model.Draw(t, "Model")
+		result.ParentDeploymentName = ptrString.Draw(t, "ParentDeploymentName")
+		result.RaiPolicyName = ptrString.Draw(t, "RaiPolicyName")
+		result.ScaleSettings = scaleSettings.Draw(t, "ScaleSettings")
+		result.SpilloverDeploymentName = ptrString.Draw(t, "SpilloverDeploymentName")
+		result.VersionUpgradeOption = versionUpgradeOption.Draw(t, "VersionUpgradeOption")
+		return result
+	})
 
 	return deploymentPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDeploymentProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeploymentProperties(gens map[string]gopter.Gen) {
-	gens["ParentDeploymentName"] = gen.PtrOf(gen.AlphaString())
-	gens["RaiPolicyName"] = gen.PtrOf(gen.AlphaString())
-	gens["SpilloverDeploymentName"] = gen.PtrOf(gen.AlphaString())
-	gens["VersionUpgradeOption"] = gen.PtrOf(gen.OneConstOf(DeploymentProperties_VersionUpgradeOption_NoAutoUpgrade, DeploymentProperties_VersionUpgradeOption_OnceCurrentVersionExpired, DeploymentProperties_VersionUpgradeOption_OnceNewDefaultVersionAvailable))
-}
-
-// AddRelatedPropertyGeneratorsForDeploymentProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeploymentProperties(gens map[string]gopter.Gen) {
-	gens["CapacitySettings"] = gen.PtrOf(DeploymentCapacitySettingsGenerator())
-	gens["Model"] = gen.PtrOf(DeploymentModelGenerator())
-	gens["ScaleSettings"] = gen.PtrOf(DeploymentScaleSettingsGenerator())
 }
 
 func Test_DeploymentScaleSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -246,29 +206,23 @@ func Test_DeploymentScaleSettings_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeploymentScaleSettings via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeploymentScaleSettings, DeploymentScaleSettingsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeploymentScaleSettings)
 }
 
 // RunJSONSerializationTestForDeploymentScaleSettings runs a test to see if a specific instance of DeploymentScaleSettings round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeploymentScaleSettings(subject DeploymentScaleSettings) string {
+func RunJSONSerializationTestForDeploymentScaleSettings(t *rapid.T) {
+	subject := DeploymentScaleSettingsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeploymentScaleSettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -277,33 +231,31 @@ func RunJSONSerializationTestForDeploymentScaleSettings(subject DeploymentScaleS
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeploymentScaleSettings instances for property testing - lazily instantiated by
 // DeploymentScaleSettingsGenerator()
-var deploymentScaleSettingsGenerator gopter.Gen
+var deploymentScaleSettingsGenerator *rapid.Generator[DeploymentScaleSettings]
 
 // DeploymentScaleSettingsGenerator returns a generator of DeploymentScaleSettings instances for property testing.
-func DeploymentScaleSettingsGenerator() gopter.Gen {
+func DeploymentScaleSettingsGenerator() *rapid.Generator[DeploymentScaleSettings] {
 	if deploymentScaleSettingsGenerator != nil {
 		return deploymentScaleSettingsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeploymentScaleSettings(generators)
-	deploymentScaleSettingsGenerator = gen.Struct(reflect.TypeOf(DeploymentScaleSettings{}), generators)
+	capacity := rapid.Ptr(rapid.Int(), true)
+	scaleType := rapid.Ptr(rapid.SampledFrom([]DeploymentScaleSettings_ScaleType{DeploymentScaleSettings_ScaleType_Manual, DeploymentScaleSettings_ScaleType_Standard}), true)
+
+	deploymentScaleSettingsGenerator = rapid.Custom(func(t *rapid.T) DeploymentScaleSettings {
+		var result DeploymentScaleSettings
+		result.Capacity = capacity.Draw(t, "Capacity")
+		result.ScaleType = scaleType.Draw(t, "ScaleType")
+		return result
+	})
 
 	return deploymentScaleSettingsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDeploymentScaleSettings is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeploymentScaleSettings(gens map[string]gopter.Gen) {
-	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["ScaleType"] = gen.PtrOf(gen.OneConstOf(DeploymentScaleSettings_ScaleType_Manual, DeploymentScaleSettings_ScaleType_Standard))
 }
 
 func Test_Deployment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -313,29 +265,23 @@ func Test_Deployment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Deployment_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeployment_Spec, Deployment_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeployment_Spec)
 }
 
 // RunJSONSerializationTestForDeployment_Spec runs a test to see if a specific instance of Deployment_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeployment_Spec(subject Deployment_Spec) string {
+func RunJSONSerializationTestForDeployment_Spec(t *rapid.T) {
+	subject := Deployment_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Deployment_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -344,47 +290,34 @@ func RunJSONSerializationTestForDeployment_Spec(subject Deployment_Spec) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Deployment_Spec instances for property testing - lazily instantiated by Deployment_SpecGenerator()
-var deployment_SpecGenerator gopter.Gen
+var deployment_SpecGenerator *rapid.Generator[Deployment_Spec]
 
 // Deployment_SpecGenerator returns a generator of Deployment_Spec instances for property testing.
-// We first initialize deployment_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Deployment_SpecGenerator() gopter.Gen {
+func Deployment_SpecGenerator() *rapid.Generator[Deployment_Spec] {
 	if deployment_SpecGenerator != nil {
 		return deployment_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeployment_Spec(generators)
-	deployment_SpecGenerator = gen.Struct(reflect.TypeOf(Deployment_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(DeploymentPropertiesGenerator(), true)
+	sku := rapid.Ptr(SkuGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeployment_Spec(generators)
-	AddRelatedPropertyGeneratorsForDeployment_Spec(generators)
-	deployment_SpecGenerator = gen.Struct(reflect.TypeOf(Deployment_Spec{}), generators)
+	deployment_SpecGenerator = rapid.Custom(func(t *rapid.T) Deployment_Spec {
+		var result Deployment_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Sku = sku.Draw(t, "Sku")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return deployment_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDeployment_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeployment_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeployment_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeployment_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(DeploymentPropertiesGenerator())
-	gens["Sku"] = gen.PtrOf(SkuGenerator())
 }
