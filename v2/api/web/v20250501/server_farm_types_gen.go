@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServerFarm{}
 
 // ConvertFrom populates our ServerFarm from the provided hub ServerFarm
 func (farm *ServerFarm) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServerFarm)
-	if !ok {
-		return fmt.Errorf("expected web/v20250501/storage/ServerFarm but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServerFarm
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return farm.AssignProperties_From_ServerFarm(source)
+	err = farm.AssignProperties_From_ServerFarm(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to farm")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServerFarm from our ServerFarm
 func (farm *ServerFarm) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServerFarm)
-	if !ok {
-		return fmt.Errorf("expected web/v20250501/storage/ServerFarm but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServerFarm
+	err := farm.AssignProperties_To_ServerFarm(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from farm")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return farm.AssignProperties_To_ServerFarm(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServerFarm{}
@@ -87,17 +101,6 @@ func (farm *ServerFarm) SecretDestinationExpressions() []*core.DestinationExpres
 		return nil
 	}
 	return farm.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServerFarm{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (farm *ServerFarm) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServerFarm_STATUS); ok {
-		return farm.Spec.Initialize_From_ServerFarm_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServerFarm_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServerFarm{}
@@ -1490,252 +1493,6 @@ func (farm *ServerFarm_Spec) AssignProperties_To_ServerFarm_Spec(destination *st
 	return nil
 }
 
-// Initialize_From_ServerFarm_STATUS populates our ServerFarm_Spec from the provided source ServerFarm_STATUS
-func (farm *ServerFarm_Spec) Initialize_From_ServerFarm_STATUS(source *ServerFarm_STATUS) error {
-
-	// AsyncScalingEnabled
-	if source.AsyncScalingEnabled != nil {
-		asyncScalingEnabled := *source.AsyncScalingEnabled
-		farm.AsyncScalingEnabled = &asyncScalingEnabled
-	} else {
-		farm.AsyncScalingEnabled = nil
-	}
-
-	// ElasticScaleEnabled
-	if source.ElasticScaleEnabled != nil {
-		elasticScaleEnabled := *source.ElasticScaleEnabled
-		farm.ElasticScaleEnabled = &elasticScaleEnabled
-	} else {
-		farm.ElasticScaleEnabled = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		farm.ExtendedLocation = &extendedLocation
-	} else {
-		farm.ExtendedLocation = nil
-	}
-
-	// FreeOfferExpirationTime
-	farm.FreeOfferExpirationTime = genruntime.ClonePointerToString(source.FreeOfferExpirationTime)
-
-	// HostingEnvironmentProfile
-	if source.HostingEnvironmentProfile != nil {
-		var hostingEnvironmentProfile HostingEnvironmentProfile
-		err := hostingEnvironmentProfile.Initialize_From_HostingEnvironmentProfile_STATUS(source.HostingEnvironmentProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
-		}
-		farm.HostingEnvironmentProfile = &hostingEnvironmentProfile
-	} else {
-		farm.HostingEnvironmentProfile = nil
-	}
-
-	// HyperV
-	if source.HyperV != nil {
-		hyperV := *source.HyperV
-		farm.HyperV = &hyperV
-	} else {
-		farm.HyperV = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
-		}
-		farm.Identity = &identity
-	} else {
-		farm.Identity = nil
-	}
-
-	// InstallScripts
-	if source.InstallScripts != nil {
-		installScriptList := make([]InstallScript, len(source.InstallScripts))
-		for installScriptIndex, installScriptItem := range source.InstallScripts {
-			var installScript InstallScript
-			err := installScript.Initialize_From_InstallScript_STATUS(&installScriptItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_InstallScript_STATUS() to populate field InstallScripts")
-			}
-			installScriptList[installScriptIndex] = installScript
-		}
-		farm.InstallScripts = installScriptList
-	} else {
-		farm.InstallScripts = nil
-	}
-
-	// IsCustomMode
-	if source.IsCustomMode != nil {
-		isCustomMode := *source.IsCustomMode
-		farm.IsCustomMode = &isCustomMode
-	} else {
-		farm.IsCustomMode = nil
-	}
-
-	// IsSpot
-	if source.IsSpot != nil {
-		isSpot := *source.IsSpot
-		farm.IsSpot = &isSpot
-	} else {
-		farm.IsSpot = nil
-	}
-
-	// IsXenon
-	if source.IsXenon != nil {
-		isXenon := *source.IsXenon
-		farm.IsXenon = &isXenon
-	} else {
-		farm.IsXenon = nil
-	}
-
-	// Kind
-	farm.Kind = genruntime.ClonePointerToString(source.Kind)
-
-	// KubeEnvironmentProfile
-	if source.KubeEnvironmentProfile != nil {
-		var kubeEnvironmentProfile KubeEnvironmentProfile
-		err := kubeEnvironmentProfile.Initialize_From_KubeEnvironmentProfile_STATUS(source.KubeEnvironmentProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
-		}
-		farm.KubeEnvironmentProfile = &kubeEnvironmentProfile
-	} else {
-		farm.KubeEnvironmentProfile = nil
-	}
-
-	// Location
-	farm.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MaximumElasticWorkerCount
-	farm.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(source.MaximumElasticWorkerCount)
-
-	// Network
-	if source.Network != nil {
-		var network ServerFarmNetworkSettings
-		err := network.Initialize_From_ServerFarmNetworkSettings_STATUS(source.Network)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ServerFarmNetworkSettings_STATUS() to populate field Network")
-		}
-		farm.Network = &network
-	} else {
-		farm.Network = nil
-	}
-
-	// PerSiteScaling
-	if source.PerSiteScaling != nil {
-		perSiteScaling := *source.PerSiteScaling
-		farm.PerSiteScaling = &perSiteScaling
-	} else {
-		farm.PerSiteScaling = nil
-	}
-
-	// PlanDefaultIdentity
-	if source.PlanDefaultIdentity != nil {
-		var planDefaultIdentity DefaultIdentity
-		err := planDefaultIdentity.Initialize_From_DefaultIdentity_STATUS(source.PlanDefaultIdentity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DefaultIdentity_STATUS() to populate field PlanDefaultIdentity")
-		}
-		farm.PlanDefaultIdentity = &planDefaultIdentity
-	} else {
-		farm.PlanDefaultIdentity = nil
-	}
-
-	// RdpEnabled
-	if source.RdpEnabled != nil {
-		rdpEnabled := *source.RdpEnabled
-		farm.RdpEnabled = &rdpEnabled
-	} else {
-		farm.RdpEnabled = nil
-	}
-
-	// RegistryAdapters
-	if source.RegistryAdapters != nil {
-		registryAdapterList := make([]RegistryAdapter, len(source.RegistryAdapters))
-		for registryAdapterIndex, registryAdapterItem := range source.RegistryAdapters {
-			var registryAdapter RegistryAdapter
-			err := registryAdapter.Initialize_From_RegistryAdapter_STATUS(&registryAdapterItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_RegistryAdapter_STATUS() to populate field RegistryAdapters")
-			}
-			registryAdapterList[registryAdapterIndex] = registryAdapter
-		}
-		farm.RegistryAdapters = registryAdapterList
-	} else {
-		farm.RegistryAdapters = nil
-	}
-
-	// Reserved
-	if source.Reserved != nil {
-		reserved := *source.Reserved
-		farm.Reserved = &reserved
-	} else {
-		farm.Reserved = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku SkuDescription
-		err := sku.Initialize_From_SkuDescription_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SkuDescription_STATUS() to populate field Sku")
-		}
-		farm.Sku = &sku
-	} else {
-		farm.Sku = nil
-	}
-
-	// SpotExpirationTime
-	farm.SpotExpirationTime = genruntime.ClonePointerToString(source.SpotExpirationTime)
-
-	// StorageMounts
-	if source.StorageMounts != nil {
-		storageMountList := make([]StorageMount, len(source.StorageMounts))
-		for storageMountIndex, storageMountItem := range source.StorageMounts {
-			var storageMount StorageMount
-			err := storageMount.Initialize_From_StorageMount_STATUS(&storageMountItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_StorageMount_STATUS() to populate field StorageMounts")
-			}
-			storageMountList[storageMountIndex] = storageMount
-		}
-		farm.StorageMounts = storageMountList
-	} else {
-		farm.StorageMounts = nil
-	}
-
-	// Tags
-	farm.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// TargetWorkerCount
-	farm.TargetWorkerCount = genruntime.ClonePointerToInt(source.TargetWorkerCount)
-
-	// TargetWorkerSizeId
-	farm.TargetWorkerSizeId = genruntime.ClonePointerToInt(source.TargetWorkerSizeId)
-
-	// WorkerTierName
-	farm.WorkerTierName = genruntime.ClonePointerToString(source.WorkerTierName)
-
-	// ZoneRedundant
-	if source.ZoneRedundant != nil {
-		zoneRedundant := *source.ZoneRedundant
-		farm.ZoneRedundant = &zoneRedundant
-	} else {
-		farm.ZoneRedundant = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (farm *ServerFarm_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -3084,29 +2841,6 @@ func (identity *DefaultIdentity) AssignProperties_To_DefaultIdentity(destination
 	return nil
 }
 
-// Initialize_From_DefaultIdentity_STATUS populates our DefaultIdentity from the provided source DefaultIdentity_STATUS
-func (identity *DefaultIdentity) Initialize_From_DefaultIdentity_STATUS(source *DefaultIdentity_STATUS) error {
-
-	// IdentityType
-	if source.IdentityType != nil {
-		identityType := genruntime.ToEnum(string(*source.IdentityType), managedServiceIdentityType_Values)
-		identity.IdentityType = &identityType
-	} else {
-		identity.IdentityType = nil
-	}
-
-	// UserAssignedIdentityResourceReference
-	if source.UserAssignedIdentityResourceId != nil {
-		userAssignedIdentityResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.UserAssignedIdentityResourceId)
-		identity.UserAssignedIdentityResourceReference = &userAssignedIdentityResourceReference
-	} else {
-		identity.UserAssignedIdentityResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 type DefaultIdentity_STATUS struct {
 	// IdentityType: Type of managed service identity.
 	IdentityType                   *ManagedServiceIdentityType_STATUS `json:"identityType,omitempty"`
@@ -3265,16 +2999,6 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
-// Initialize_From_ExtendedLocation_STATUS populates our ExtendedLocation from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source *ExtendedLocation_STATUS) error {
-
-	// Name
-	location.Name = genruntime.ClonePointerToString(source.Name)
-
-	// No error
-	return nil
-}
-
 // Extended Location.
 type ExtendedLocation_STATUS struct {
 	// Name: Name of extended location.
@@ -3427,21 +3151,6 @@ func (profile *HostingEnvironmentProfile) AssignProperties_To_HostingEnvironment
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_HostingEnvironmentProfile_STATUS populates our HostingEnvironmentProfile from the provided source HostingEnvironmentProfile_STATUS
-func (profile *HostingEnvironmentProfile) Initialize_From_HostingEnvironmentProfile_STATUS(source *HostingEnvironmentProfile_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		profile.Reference = &reference
-	} else {
-		profile.Reference = nil
 	}
 
 	// No error
@@ -3659,28 +3368,6 @@ func (script *InstallScript) AssignProperties_To_InstallScript(destination *stor
 	return nil
 }
 
-// Initialize_From_InstallScript_STATUS populates our InstallScript from the provided source InstallScript_STATUS
-func (script *InstallScript) Initialize_From_InstallScript_STATUS(source *InstallScript_STATUS) error {
-
-	// Name
-	script.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Source
-	if source.Source != nil {
-		var sourceLocal InstallScriptSource
-		err := sourceLocal.Initialize_From_InstallScriptSource_STATUS(source.Source)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_InstallScriptSource_STATUS() to populate field Source")
-		}
-		script.Source = &sourceLocal
-	} else {
-		script.Source = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Server farm install script configuration.
 type InstallScript_STATUS struct {
 	// Name: Name of the install script.
@@ -3856,21 +3543,6 @@ func (profile *KubeEnvironmentProfile) AssignProperties_To_KubeEnvironmentProfil
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_KubeEnvironmentProfile_STATUS populates our KubeEnvironmentProfile from the provided source KubeEnvironmentProfile_STATUS
-func (profile *KubeEnvironmentProfile) Initialize_From_KubeEnvironmentProfile_STATUS(source *KubeEnvironmentProfile_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		profile.Reference = &reference
-	} else {
-		profile.Reference = nil
 	}
 
 	// No error
@@ -4099,33 +3771,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedServiceIdentity_STATUS populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity_STATUS
-func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_STATUS(source *ManagedServiceIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), managedServiceIdentityType_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -4462,36 +4107,6 @@ func (adapter *RegistryAdapter) AssignProperties_To_RegistryAdapter(destination 
 	return nil
 }
 
-// Initialize_From_RegistryAdapter_STATUS populates our RegistryAdapter from the provided source RegistryAdapter_STATUS
-func (adapter *RegistryAdapter) Initialize_From_RegistryAdapter_STATUS(source *RegistryAdapter_STATUS) error {
-
-	// KeyVaultSecretReference
-	if source.KeyVaultSecretReference != nil {
-		var keyVaultSecretReference KeyVaultReferenceWithStatus
-		err := keyVaultSecretReference.Initialize_From_KeyVaultReferenceWithStatus_STATUS(source.KeyVaultSecretReference)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_KeyVaultReferenceWithStatus_STATUS() to populate field KeyVaultSecretReference")
-		}
-		adapter.KeyVaultSecretReference = &keyVaultSecretReference
-	} else {
-		adapter.KeyVaultSecretReference = nil
-	}
-
-	// RegistryKey
-	adapter.RegistryKey = genruntime.ClonePointerToString(source.RegistryKey)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), registryAdapterType_Values)
-		adapter.Type = &typeVar
-	} else {
-		adapter.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Server farm registry adapter configuration.
 type RegistryAdapter_STATUS struct {
 	// KeyVaultSecretReference: Key vault reference to the value that will be placed in the registry location
@@ -4697,21 +4312,6 @@ func (settings *ServerFarmNetworkSettings) AssignProperties_To_ServerFarmNetwork
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServerFarmNetworkSettings_STATUS populates our ServerFarmNetworkSettings from the provided source ServerFarmNetworkSettings_STATUS
-func (settings *ServerFarmNetworkSettings) Initialize_From_ServerFarmNetworkSettings_STATUS(source *ServerFarmNetworkSettings_STATUS) error {
-
-	// VirtualNetworkSubnetReference
-	if source.VirtualNetworkSubnetId != nil {
-		virtualNetworkSubnetReference := genruntime.CreateResourceReferenceFromARMID(*source.VirtualNetworkSubnetId)
-		settings.VirtualNetworkSubnetReference = &virtualNetworkSubnetReference
-	} else {
-		settings.VirtualNetworkSubnetReference = nil
 	}
 
 	// No error
@@ -5154,59 +4754,6 @@ func (description *SkuDescription) AssignProperties_To_SkuDescription(destinatio
 	return nil
 }
 
-// Initialize_From_SkuDescription_STATUS populates our SkuDescription from the provided source SkuDescription_STATUS
-func (description *SkuDescription) Initialize_From_SkuDescription_STATUS(source *SkuDescription_STATUS) error {
-
-	// Capabilities
-	if source.Capabilities != nil {
-		capabilityList := make([]Capability, len(source.Capabilities))
-		for capabilityIndex, capabilityItem := range source.Capabilities {
-			var capability Capability
-			err := capability.Initialize_From_Capability_STATUS(&capabilityItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_Capability_STATUS() to populate field Capabilities")
-			}
-			capabilityList[capabilityIndex] = capability
-		}
-		description.Capabilities = capabilityList
-	} else {
-		description.Capabilities = nil
-	}
-
-	// Capacity
-	description.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// Family
-	description.Family = genruntime.ClonePointerToString(source.Family)
-
-	// Locations
-	description.Locations = genruntime.CloneSliceOfString(source.Locations)
-
-	// Name
-	description.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Size
-	description.Size = genruntime.ClonePointerToString(source.Size)
-
-	// SkuCapacity
-	if source.SkuCapacity != nil {
-		var skuCapacity SkuCapacity
-		err := skuCapacity.Initialize_From_SkuCapacity_STATUS(source.SkuCapacity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SkuCapacity_STATUS() to populate field SkuCapacity")
-		}
-		description.SkuCapacity = &skuCapacity
-	} else {
-		description.SkuCapacity = nil
-	}
-
-	// Tier
-	description.Tier = genruntime.ClonePointerToString(source.Tier)
-
-	// No error
-	return nil
-}
-
 // Description of a SKU for a scalable resource.
 type SkuDescription_STATUS struct {
 	// Capabilities: Capabilities of the SKU, e.g., is traffic manager enabled?
@@ -5633,42 +5180,6 @@ func (mount *StorageMount) AssignProperties_To_StorageMount(destination *storage
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_StorageMount_STATUS populates our StorageMount from the provided source StorageMount_STATUS
-func (mount *StorageMount) Initialize_From_StorageMount_STATUS(source *StorageMount_STATUS) error {
-
-	// CredentialsKeyVaultReference
-	if source.CredentialsKeyVaultReference != nil {
-		var credentialsKeyVaultReference KeyVaultReferenceWithStatus
-		err := credentialsKeyVaultReference.Initialize_From_KeyVaultReferenceWithStatus_STATUS(source.CredentialsKeyVaultReference)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_KeyVaultReferenceWithStatus_STATUS() to populate field CredentialsKeyVaultReference")
-		}
-		mount.CredentialsKeyVaultReference = &credentialsKeyVaultReference
-	} else {
-		mount.CredentialsKeyVaultReference = nil
-	}
-
-	// DestinationPath
-	mount.DestinationPath = genruntime.ClonePointerToString(source.DestinationPath)
-
-	// Name
-	mount.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Source
-	mount.Source = genruntime.ClonePointerToString(source.Source)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), storageMountType_Values)
-		mount.Type = &typeVar
-	} else {
-		mount.Type = nil
 	}
 
 	// No error
@@ -6106,22 +5617,6 @@ func (capability *Capability) AssignProperties_To_Capability(destination *storag
 	return nil
 }
 
-// Initialize_From_Capability_STATUS populates our Capability from the provided source Capability_STATUS
-func (capability *Capability) Initialize_From_Capability_STATUS(source *Capability_STATUS) error {
-
-	// Name
-	capability.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Reason
-	capability.Reason = genruntime.ClonePointerToString(source.Reason)
-
-	// Value
-	capability.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
 // Describes the capabilities/features allowed for a specific SKU.
 type Capability_STATUS struct {
 	// Name: Name of the SKU capability.
@@ -6321,24 +5816,6 @@ func (source *InstallScriptSource) AssignProperties_To_InstallScriptSource(desti
 	return nil
 }
 
-// Initialize_From_InstallScriptSource_STATUS populates our InstallScriptSource from the provided source InstallScriptSource_STATUS
-func (source *InstallScriptSource) Initialize_From_InstallScriptSource_STATUS(origin *InstallScriptSource_STATUS) error {
-
-	// SourceUri
-	source.SourceUri = genruntime.ClonePointerToString(origin.SourceUri)
-
-	// Type
-	if origin.Type != nil {
-		typeVar := genruntime.ToEnum(string(*origin.Type), installScriptType_Values)
-		source.Type = &typeVar
-	} else {
-		source.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Object to hold install script reference.
 type InstallScriptSource_STATUS struct {
 	// SourceUri: Install script source URI where the install script file will be fetched from.
@@ -6516,19 +5993,6 @@ func (status *KeyVaultReferenceWithStatus) AssignProperties_To_KeyVaultReference
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_KeyVaultReferenceWithStatus_STATUS populates our KeyVaultReferenceWithStatus from the provided source KeyVaultReferenceWithStatus_STATUS
-func (status *KeyVaultReferenceWithStatus) Initialize_From_KeyVaultReferenceWithStatus_STATUS(source *KeyVaultReferenceWithStatus_STATUS) error {
-
-	// ReferenceStatus
-	status.ReferenceStatus = genruntime.ClonePointerToString(source.ReferenceStatus)
-
-	// SecretUri
-	status.SecretUri = genruntime.ClonePointerToString(source.SecretUri)
 
 	// No error
 	return nil
@@ -6843,28 +6307,6 @@ func (capacity *SkuCapacity) AssignProperties_To_SkuCapacity(destination *storag
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SkuCapacity_STATUS populates our SkuCapacity from the provided source SkuCapacity_STATUS
-func (capacity *SkuCapacity) Initialize_From_SkuCapacity_STATUS(source *SkuCapacity_STATUS) error {
-
-	// Default
-	capacity.Default = genruntime.ClonePointerToInt(source.Default)
-
-	// ElasticMaximum
-	capacity.ElasticMaximum = genruntime.ClonePointerToInt(source.ElasticMaximum)
-
-	// Maximum
-	capacity.Maximum = genruntime.ClonePointerToInt(source.Maximum)
-
-	// Minimum
-	capacity.Minimum = genruntime.ClonePointerToInt(source.Minimum)
-
-	// ScaleType
-	capacity.ScaleType = genruntime.ClonePointerToString(source.ScaleType)
 
 	// No error
 	return nil

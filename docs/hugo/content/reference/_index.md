@@ -915,6 +915,16 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `web.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                           | ARM Version | CRD Version | Supported From | Sample                                                                                                                       |
+|------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
+| [ServerFarm]({{< relref "/reference/web/v20260715#ServerFarm" >}})                 | 2026-07-15  | v20260715   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20260715/v20260715_serverfarm.yaml)         |
+| [Site]({{< relref "/reference/web/v20260715#Site" >}})                             | 2026-07-15  | v20260715   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20260715/v20260715_site.yaml)               |
+| [SitesSourcecontrol]({{< relref "/reference/web/v20260715#SitesSourcecontrol" >}}) | 2026-07-15  | v20260715   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20260715/v20260715_sitessourcecontrol.yaml) |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
