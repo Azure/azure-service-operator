@@ -2,6 +2,12 @@
 
 The following resources have newer versions available in the Azure REST API specifications. Resources with a 💡 have a recommended or overdue update.
 
+## apimanagement
+
+|      | Resource | Available Stable | Supported Stable | Available Preview      | Supported Preview  |
+|------|----------|------------------|------------------|------------------------|--------------------|
+| 💡    | Service  |                  | 2024-05-01       | **2025-03-01-preview** | 2023-05-01-preview |
+
 ## app
 
 |  | Resource           | Available Stable | Supported Stable | Available Preview | Supported Preview |
