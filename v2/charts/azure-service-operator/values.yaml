@@ -308,6 +308,10 @@ affinity: {}
 # MaxConcurrentReconciles applies to every registered resource type being watched/managed by ASO.
 maxConcurrentReconciles: 4
 
+# defaultReconcilePolicy determines the reconcile policy used when a resource does not specify the
+# serviceoperator.azure.com/reconcile-policy annotation. Valid values are manage, skip, and detach-on-delete.
+# defaultReconcilePolicy: manage
+
 rateLimit:
   # mode configures the internal rate-limiting mode.
   # Valid values are [disabled, bucket]
