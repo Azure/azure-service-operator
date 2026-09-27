@@ -24,7 +24,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
 	<meta itemprop="description" content="Application Application is an Entra Application.
 Used by: ApplicationList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpecOptional status ApplicationStatusOptional ApplicationSpec Property Description Type description The description of the application. stringOptional displayName The display name of the application. stringRequired groupMembershipClaims Configures the groups claim issued in a user or OAuth 2.0 access token. stringOptional identifierUris The URIs that identify the application within its Azure AD tenant, or within a verified custom domain. string[]Optional isFallbackPublicClient Specifies the fallback application type as public client. boolOptional operatorSpec The operator specific configuration for the resource. ApplicationOperatorSpecOptional publicClient Public client (desktop/mobile) platform configuration. PublicClientApplicationOptional signInAudience Specifies the Microsoft accounts that are supported for the application. SignInAudienceOptional spa Single-page application platform configuration. SpaApplicationOptional tags Custom strings for categorizing and identifying the application. string[]Optional web Web platform configuration for the application. WebApplicationOptional ApplicationStatus Property Description Type appId The application ID assigned by Entra. stringOptional conditions The observed state of the resource conditions.Condition[]Optional description The description of the application. stringOptional displayName The display name of the application. stringOptional entraID The GUID identifying the resource in Entra stringOptional groupMembershipClaims Configures the groups claim issued in a user or OAuth 2.0 access token. stringOptional identifierUris The URIs that identify the application within its Azure AD tenant, or within a verified custom domain. string[]Optional isFallbackPublicClient Specifies the fallback application type as public client. boolOptional publicClient Public client (desktop/mobile) platform configuration. PublicClientApplicationOptional signInAudience Specifies the Microsoft accounts that are supported for the application. SignInAudienceOptional spa Single-page application platform configuration. SpaApplicationOptional tags Custom strings for categorizing and identifying the application. string[]Optional web Web platform configuration for the application. WebApplicationOptional ApplicationList Property Description Type metav1.TypeMeta metav1.ListMeta items Application[]Optional SecurityGroup SecurityGroup is an Entra Security Group.">
-	<meta itemprop="wordCount" content="1130">
+	<meta itemprop="wordCount" content="1432">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="entra.azure.com/">
 	<meta name="twitter:description" content="Application Application is an Entra Application.
@@ -85,7 +85,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.f53ac4b81680f98ae3b24d92c96b712c.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.e446be9e5f536257fce9a4a14e765dd9.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -111,7 +111,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.f53ac4b81680f98ae3b24d92c96b712c.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.e446be9e5f536257fce9a4a14e765dd9.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -621,6 +621,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122-li">
     <a href="/azure-service-operator/reference/redhatopenshift/v1api20231122/" title="redhatopenshift.azure.com/v1api20231122" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122"><span class="">v1api20231122</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceredhatopenshiftv20260901preview-li">
+    <a href="/azure-service-operator/reference/redhatopenshift/v20260901preview/" title="redhatopenshift.azure.com/v20260901preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceredhatopenshiftv20260901preview"><span class="">v20260901preview</span></a>
   </li>
     </ul>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
@@ -650,6 +652,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
     <a href="/azure-service-operator/reference/servicebus/v1api20221001preview/" title="servicebus.azure.com/v1api20221001preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20221001preview"><span class="">v1api20221001preview</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20240101-li">
     <a href="/azure-service-operator/reference/servicebus/v1api20240101/" title="servicebus.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20240101"><span class="">v1api20240101</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv20210101preview-li">
+    <a href="/azure-service-operator/reference/servicebus/v20210101preview/" title="servicebus.azure.com/v20210101preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv20210101preview"><span class="">v20210101preview</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv20211101-li">
+    <a href="/azure-service-operator/reference/servicebus/v20211101/" title="servicebus.azure.com/v20211101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv20211101"><span class="">v20211101</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv20221001preview-li">
+    <a href="/azure-service-operator/reference/servicebus/v20221001preview/" title="servicebus.azure.com/v20221001preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv20221001preview"><span class="">v20221001preview</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv20240101-li">
+    <a href="/azure-service-operator/reference/servicebus/v20240101/" title="servicebus.azure.com/v20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv20240101"><span class="">v20240101</span></a>
   </li>
     </ul>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
@@ -761,6 +771,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
     <li><a href="#SecurityGroupStatus">SecurityGroupStatus</a></li>
     <li><a href="#ApplicationOperatorSpec">ApplicationOperatorSpec</a></li>
     <li><a href="#PublicClientApplication">PublicClientApplication</a></li>
+    <li><a href="#SecurityGroupMemberReference">SecurityGroupMemberReference</a></li>
     <li><a href="#SecurityGroupMembershipType">SecurityGroupMembershipType</a></li>
     <li><a href="#SecurityGroupOperatorSpec">SecurityGroupOperatorSpec</a></li>
     <li><a href="#SignInAudience">SignInAudience</a></li>
@@ -1066,6 +1077,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
 					<td>string<br/><small>Required</small></td>
 			</tr>
 			<tr>
+					<td>members</td>
+					<td>Directory objects (users, service principals, groups) to assign as members of the security group. Applied during the initial POST to Microsoft Graph via <code>members@odata.bind</code> and then used as desired member state for later reconciliation.</td>
+					<td><a href="#SecurityGroupMemberReference">SecurityGroupMemberReference[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
 					<td>membershipType</td>
 					<td>The membership type of the group.</td>
 					<td><a href="#SecurityGroupMembershipType">SecurityGroupMembershipType</a><br/><small>Optional</small></td>
@@ -1074,6 +1090,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
 					<td>operatorSpec</td>
 					<td>The operator specific configuration for the resource.</td>
 					<td><a href="#SecurityGroupOperatorSpec">SecurityGroupOperatorSpec</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>owners</td>
+					<td>Directory objects (users, service principals) to assign as owners of the security group. Applied during the initial POST to Microsoft Graph via <code>owners@odata.bind</code> and then used as desired owner state for later reconciliation. Required when ASO authenticates with an app-only token and the calling principal lacks Group.ReadWrite.All — otherwise the created group has no owners and is unmanageable.</td>
+					<td><a href="#SecurityGroupMemberReference">SecurityGroupMemberReference[]</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
@@ -1111,6 +1132,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
 					<td>groupEmailAddress</td>
 					<td>The email address of the group.</td>
 					<td>string<br/><small>Required</small></td>
+			</tr>
+			<tr>
+					<td>members</td>
+					<td>Directory objects (users, service principals, groups) assigned as members of the security group.</td>
+					<td>string[]<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>owners</td>
+					<td>Directory objects (users, service principals, groups) assigned as owners of the security group</td>
+					<td>string[]<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
@@ -1319,6 +1350,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
 					<td>string<br/><small>Required</small></td>
 			</tr>
 			<tr>
+					<td>members</td>
+					<td>Directory objects (users, service principals, groups) to assign as members of the security group. Applied during the initial POST to Microsoft Graph via <code>members@odata.bind</code> and then used as desired member state for later reconciliation.</td>
+					<td><a href="#SecurityGroupMemberReference">SecurityGroupMemberReference[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
 					<td>membershipType</td>
 					<td>The membership type of the group.</td>
 					<td><a href="#SecurityGroupMembershipType">SecurityGroupMembershipType</a><br/><small>Optional</small></td>
@@ -1327,6 +1363,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
 					<td>operatorSpec</td>
 					<td>The operator specific configuration for the resource.</td>
 					<td><a href="#SecurityGroupOperatorSpec">SecurityGroupOperatorSpec</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>owners</td>
+					<td>Directory objects (users, service principals) to assign as owners of the security group. Applied during the initial POST to Microsoft Graph via <code>owners@odata.bind</code> and then used as desired owner state for later reconciliation. Required when ASO authenticates with an app-only token and the calling principal lacks Group.ReadWrite.All — otherwise the created group has no owners and is unmanageable.</td>
+					<td><a href="#SecurityGroupMemberReference">SecurityGroupMemberReference[]</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
@@ -1365,6 +1406,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
 					<td>groupEmailAddress</td>
 					<td>The email address of the group.</td>
 					<td>string<br/><small>Required</small></td>
+			</tr>
+			<tr>
+					<td>members</td>
+					<td>Directory objects (users, service principals, groups) assigned as members of the security group.</td>
+					<td>string[]<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>owners</td>
+					<td>Directory objects (users, service principals, groups) assigned as owners of the security group</td>
+					<td>string[]<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
@@ -1407,6 +1458,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
 					<td>redirectUris</td>
 					<td>Redirect URIs for public client applications.</td>
 					<td>string[]<br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="SecurityGroupMemberReference">SecurityGroupMemberReference</h2>
+<p>SecurityGroupMemberReference is a reference to a directory object (user, service principal, or group) by its Entra Object ID.</p>
+<p>Used by: <a href="#SecurityGroupSpec">SecurityGroupSpec</a>, and <a href="#SecurityGroupSpec">SecurityGroupSpec</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>objectID</td>
+					<td>The Entra Object ID (GUID) of the directory object.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>objectIDFromConfig</td>
+					<td>Reference to a configmap value containing the Entra Object ID.</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>

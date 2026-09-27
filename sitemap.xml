@@ -663,6 +663,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v20210101/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v20210101preview/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/v20210401/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20210401/</loc>
@@ -683,6 +685,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/subscription/v20211001/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v20211101/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/sql/v20211101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20220101/</loc>
@@ -702,6 +706,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/v20220801/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20220901/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v20221001preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v20221201/</loc>
   </url><url>
@@ -730,6 +736,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/dataprotection/v20231101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20231230/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v20240101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/app/v20240301/</loc>
   </url><url>
@@ -788,6 +796,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/v20260315/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v20260501/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/redhatopenshift/v20260901preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/web/</loc>
   </url><url>
