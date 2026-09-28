@@ -29,6 +29,14 @@ See [Azure Workload Identity](https://github.com/Azure/azure-workload-identity) 
 
 **Managed Identity (via workload identity) is the recommended authentication mode for production use-cases**.
 
+> **Advanced: customizing the projected token path.** By default ASO reads the projected
+> service account token from `/var/run/secrets/tokens/azure-identity`. If your environment
+> projects the token to a different path, set the standard
+> [`AZURE_FEDERATED_TOKEN_FILE`](https://azure.github.io/azure-workload-identity/docs/topics/service-account-labels-and-annotations.html)
+> environment variable on the ASO controller container and ASO will read the token from
+> that path instead. This is useful in environments such as [vcluster](https://github.com/loft-sh/vcluster),
+> where the default path may hold a token that isn't valid for Azure AD federation.
+
 ### Prerequisites
 
 1. An existing Azure Service Principal or Managed Identity. The setup is the same regardless of which you choose.

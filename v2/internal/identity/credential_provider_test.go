@@ -336,6 +336,62 @@ func TestCredentialProvider_WorkloadIdentityCredential_IsConfiguredCorrectly(t *
 	g.Expect(res.fakeTokenCredentialProvider.TokenFilePath).To(Equal(FederatedTokenFilePath))
 }
 
+func TestCredentialProvider_WorkloadIdentityCredential_HonoursFederatedTokenFileEnvVar(t *testing.T) {
+	// Cannot use t.Parallel() here because t.Setenv is incompatible with parallel tests.
+	g := NewGomegaWithT(t)
+	ctx := t.Context()
+
+	const customTokenPath = "/var/run/secrets/azure/tokens/azure-identity-token" // #nosec G101 -- file path, not a credential
+	t.Setenv(FederatedTokenFileEnvVar, customTokenPath)
+
+	res, err := testCredentialProviderSetup(nil)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	clientID := uuid.New().String()
+	tenantID := uuid.New().String()
+
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Namespace: "test-namespace",
+			Name:      NamespacedSecretName,
+		},
+		Data: map[string][]byte{
+			config.AzureSubscriptionID: []byte(testSubscriptionID),
+			config.AzureClientID:       []byte(clientID),
+			config.AzureTenantID:       []byte(tenantID),
+		},
+	}
+
+	err = res.kubeClient.Create(ctx, secret)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	rg := newResourceGroup("test-namespace")
+	err = res.kubeClient.Create(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	cred, err := res.Provider.GetCredential(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	g.Expect(cred.SubscriptionID()).To(BeEquivalentTo(testSubscriptionID))
+	g.Expect(res.fakeTokenCredentialProvider.ClientID).To(Equal(clientID))
+	g.Expect(res.fakeTokenCredentialProvider.TenantID).To(Equal(tenantID))
+	g.Expect(res.fakeTokenCredentialProvider.TokenFilePath).To(Equal(customTokenPath))
+}
+
+func TestResolveFederatedTokenFilePath_HonoursEnvVarThenFallsBackToDefault(t *testing.T) {
+	// Cannot use t.Parallel() here because t.Setenv is incompatible with parallel tests.
+	g := NewGomegaWithT(t)
+
+	// Unset (or empty) -> default hardcoded path.
+	t.Setenv(FederatedTokenFileEnvVar, "")
+	g.Expect(ResolveFederatedTokenFilePath()).To(Equal(FederatedTokenFilePath))
+
+	// Set -> the env value takes precedence (whitespace-trimmed).
+	const customTokenPath = "/var/run/secrets/azure/tokens/azure-identity-token" // #nosec G101 -- file path, not a credential
+	t.Setenv(FederatedTokenFileEnvVar, "  "+customTokenPath+"  ")
+	g.Expect(ResolveFederatedTokenFilePath()).To(Equal(customTokenPath))
+}
+
 func TestCredentialProvider_AdditionalTenants_AreConfiguredCorrectly(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)

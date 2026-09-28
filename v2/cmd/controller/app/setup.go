@@ -329,7 +329,7 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 				},
 				ClientID:                   cfg.ClientID,
 				TenantID:                   cfg.TenantID,
-				TokenFilePath:              identity.FederatedTokenFilePath,
+				TokenFilePath:              identity.ResolveFederatedTokenFilePath(),
 				AdditionallyAllowedTenants: cfg.AdditionalTenants,
 			},
 		)
