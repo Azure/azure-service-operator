@@ -20,6 +20,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -27,6 +28,7 @@ import (
 )
 
 const samplesPath = "../../samples"
+const redactedEntraID = "11111111-1111-1111-1111-111111111111"
 
 // randomNameExclusions slice contains groups for which we don't want to use random names
 var randomNameExclusions = []string{
@@ -108,8 +110,23 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 
 	// Create all the resources
 	tc.CreateResourcesAndWait(resources...)
+	addStatusEntraIDLiteralRedactions(resources, tc.WithLiteralRedaction)
 
 	tc.DeleteResourceAndWait(rg)
+}
+
+func addStatusEntraIDLiteralRedactions(
+	resources []client.Object,
+	addLiteralRedaction func(value string, replacement string),
+) {
+	for _, resource := range resources {
+		servicePrincipal, ok := resource.(*asoentra.ServicePrincipal)
+		if !ok || servicePrincipal.Status.EntraID == nil || *servicePrincipal.Status.EntraID == "" {
+			continue
+		}
+
+		addLiteralRedaction(*servicePrincipal.Status.EntraID, redactedEntraID)
+	}
 }
 
 func processSamples(samples map[string]client.Object) []client.Object {
@@ -235,4 +252,48 @@ func TestGetTestName(t *testing.T) {
 			g.Expect(getTestName(c.group, c.version)).To(Equal(c.expected))
 		})
 	}
+}
+
+func TestAddStatusEntraIDLiteralRedactions(t *testing.T) {
+	t.Parallel()
+
+	t.Run("registers service principal entra IDs", func(t *testing.T) {
+		t.Parallel()
+
+		g := NewGomegaWithT(t)
+		actual := map[string]string{}
+		entraID := "22222222-2222-2222-2222-222222222222"
+		resources := []client.Object{
+			&asoentra.ServicePrincipal{
+				Status: asoentra.ServicePrincipalStatus{
+					EntraID: &entraID,
+				},
+			},
+		}
+
+		addStatusEntraIDLiteralRedactions(resources, func(value string, replacement string) {
+			actual[value] = replacement
+		})
+
+		g.Expect(actual).To(Equal(map[string]string{
+			entraID: redactedEntraID,
+		}))
+	})
+
+	t.Run("ignores resources without an entra ID", func(t *testing.T) {
+		t.Parallel()
+
+		g := NewGomegaWithT(t)
+		actual := map[string]string{}
+		resources := []client.Object{
+			&asoentra.ServicePrincipal{},
+			&v1.Secret{},
+		}
+
+		addStatusEntraIDLiteralRedactions(resources, func(value string, replacement string) {
+			actual[value] = replacement
+		})
+
+		g.Expect(actual).To(BeEmpty())
+	})
 }
