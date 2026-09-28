@@ -14,5 +14,5 @@ spec:
       resourceReference:
         group: storage.azure.com
         kind: StorageAccount
-        name: samplekubestoragebeta
+        name: samplekubestorageeg25
       queueName: samplequeuebeta
