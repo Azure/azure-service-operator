@@ -5468,12 +5468,20 @@ func (status *ResourceStatus_STATUS) NewEmptyARMValue() genruntime.ARMResourceSt
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (status *ResourceStatus_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(arm.ResourceStatus_STATUS)
+	typedInput, ok := armInput.(arm.ResourceStatus_STATUS)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ResourceStatus_STATUS, got %T", armInput)
 	}
 
-	// no assignment for property "Conditions"
+	// Set property "Conditions":
+	for _, item := range typedInput.Conditions {
+		var item1 Condition_STATUS
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		status.Conditions = append(status.Conditions, item1)
+	}
 
 	// No error
 	return nil
