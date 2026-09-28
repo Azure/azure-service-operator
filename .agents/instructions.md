@@ -2,4 +2,5 @@
 
 ## Shell
 
-Before running builds or tests, start the development shell with `./dev.sh` and let dependency installation finish. Installed dependencies are skipped on later runs.
+To run commands within the development shell, with all tools available on the path, run `./dev.sh -c <your command>`.
+First run installs all required dependencies; later runs are fast.
