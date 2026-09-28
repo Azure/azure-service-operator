@@ -45,10 +45,28 @@ func TestServicePrincipalSpec_AssignToServicePrincipal(t *testing.T) {
 
 func TestServicePrincipalCreationModes(t *testing.T) {
 	t.Parallel()
-	g := NewWithT(t)
-	g.Expect((&ServicePrincipalOperatorSpec{}).CreationAllowed()).To(BeTrue())
-	g.Expect((&ServicePrincipalOperatorSpec{}).AdoptionAllowed()).To(BeTrue())
-	spec := &ServicePrincipalOperatorSpec{CreationMode: to.Ptr(AdoptOnly)}
-	g.Expect(spec.CreationAllowed()).To(BeFalse())
-	g.Expect(spec.AdoptionAllowed()).To(BeTrue())
+	cases := map[string]struct {
+		spec            ServicePrincipalOperatorSpec
+		creationAllowed bool
+		adoptionAllowed bool
+	}{
+		"default AdoptOrCreate": {
+			creationAllowed: true,
+			adoptionAllowed: true,
+		},
+		"AdoptOnly": {
+			spec:            ServicePrincipalOperatorSpec{CreationMode: to.Ptr(AdoptOnly)},
+			creationAllowed: false,
+			adoptionAllowed: true,
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewWithT(t)
+			g.Expect(tc.spec.CreationAllowed()).To(Equal(tc.creationAllowed))
+			g.Expect(tc.spec.AdoptionAllowed()).To(Equal(tc.adoptionAllowed))
+		})
+	}
 }
