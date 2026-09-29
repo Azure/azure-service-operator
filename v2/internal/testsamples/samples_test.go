@@ -108,11 +108,33 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 	// For secrets we need to look across refs and samples:
 	findRefsAndCreateSecrets(tc, resources)
 
-	// Create all the resources
-	tc.CreateResourcesAndWait(resources...)
-	addStatusEntraIDLiteralRedactions(resources, tc.WithLiteralRedaction)
+	preRedactionResources, remainingResources := splitResourcesForEntraIDRedaction(resources)
+	if len(preRedactionResources) > 0 {
+		tc.CreateResourcesAndWait(preRedactionResources...)
+		addStatusEntraIDLiteralRedactions(preRedactionResources, tc.WithLiteralRedaction)
+	}
+
+	// Create the remaining resources once any runtime Entra ID redactions are registered.
+	tc.CreateResourcesAndWait(remainingResources...)
+	addStatusEntraIDLiteralRedactions(remainingResources, tc.WithLiteralRedaction)
 
 	tc.DeleteResourceAndWait(rg)
+}
+
+func splitResourcesForEntraIDRedaction(resources []client.Object) ([]client.Object, []client.Object) {
+	preRedaction := make([]client.Object, 0)
+	remaining := make([]client.Object, 0, len(resources))
+
+	for _, resource := range resources {
+		if _, ok := resource.(*asoentra.ServicePrincipal); ok {
+			preRedaction = append(preRedaction, resource)
+			continue
+		}
+
+		remaining = append(remaining, resource)
+	}
+
+	return preRedaction, remaining
 }
 
 func addStatusEntraIDLiteralRedactions(
@@ -295,5 +317,35 @@ func TestAddStatusEntraIDLiteralRedactions(t *testing.T) {
 		})
 
 		g.Expect(actual).To(BeEmpty())
+	})
+}
+
+func TestSplitResourcesForEntraIDRedaction(t *testing.T) {
+	t.Parallel()
+
+	t.Run("separates service principals from remaining resources", func(t *testing.T) {
+		t.Parallel()
+
+		g := NewGomegaWithT(t)
+		servicePrincipal := &asoentra.ServicePrincipal{}
+		secret := &v1.Secret{}
+		preRedaction, remaining := splitResourcesForEntraIDRedaction([]client.Object{
+			secret,
+			servicePrincipal,
+		})
+
+		g.Expect(preRedaction).To(Equal([]client.Object{servicePrincipal}))
+		g.Expect(remaining).To(Equal([]client.Object{secret}))
+	})
+
+	t.Run("leaves resources unchanged when there is no service principal", func(t *testing.T) {
+		t.Parallel()
+
+		g := NewGomegaWithT(t)
+		secret := &v1.Secret{}
+		preRedaction, remaining := splitResourcesForEntraIDRedaction([]client.Object{secret})
+
+		g.Expect(preRedaction).To(BeEmpty())
+		g.Expect(remaining).To(Equal([]client.Object{secret}))
 	})
 }
