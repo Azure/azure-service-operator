@@ -13,36 +13,35 @@ import (
 	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701"
 	vaultkey "github.com/Azure/azure-service-operator/v2/api/keyvault/v20230701"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-// Test_KeyVault_VaultKey_20230701_CRUD exercises the full VaultKey lifecycle end-to-end via
-// envtest: creating an RSA key owned by a Vault, confirming Ready, updating a mutable property
-// (applied through the Key Vault data plane by the VaultKeyExtension), deleting the resource with
-// deleteMode=delete (soft-deleting the key via the data plane), and finally the default detach
-// behaviour, where deleting the CR leaves the key untouched in Azure.
+// Test_KeyVault_VaultKey_20230701_CRUD exercises the VaultKey lifecycle: creating an RSA key owned
+// by a Vault, applying a mutable-property change through the Key Vault data plane, soft-deleting the
+// key on resource deletion with deleteMode=delete, and the default detach behaviour, where deleting
+// the resource leaves the key in Azure.
 //
-// NOTE: this test requires a recorded HTTP cassette
-// (v2/internal/controllers/recordings/Test_KeyVault_VaultKey_20230701_CRUD.yaml) to run in
-// record/replay mode. The cassette must capture BOTH planes: the ARM interactions (including the
-// CreateIfNotExist polling sequence) and the Key Vault data-plane traffic the VaultKeyExtension
-// issues (GetKey/UpdateKey/DeleteKey, including the 401 challenge handshake the azkeys client
-// performs). That cassette does not exist yet and this sandbox has no live Azure credentials to
-// record one. Fabricating a synthetic cassette by hand would risk misrepresenting the true shape
-// of the service's responses, so rather than do that, this test is left in place - fully written
-// to the same structure/conventions as other tests in this file - and skipped with a clear TODO.
-//
-// TODO: record a real cassette for this test (requires a live Azure subscription) and remove the
-// t.Skip below.
+// The recording must capture both planes: the ARM interactions and the Key Vault data-plane traffic
+// the VaultKeyExtension issues (including the azkeys 401 challenge handshake).
 func Test_KeyVault_VaultKey_20230701_CRUD(t *testing.T) {
 	t.Parallel()
-	t.Skip("no recorded HTTP cassette available for this test in this environment (no live Azure " +
-		"credentials to record one) - see comment on this test for details")
+
+	// TODO: remove once the recording has been added. Live runs (-live) are unaffected; to record, run
+	// `go test ./internal/controllers -run Test_KeyVault_VaultKey_20230701_CRUD -args -live` with Azure
+	// credentials and RECORD_REPLAY unset.
+	if !*isLive {
+		exists, err := vcr.CassetteFileExists("recordings/" + t.Name())
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !exists {
+			t.Skip("VaultKey recording pending: see the TODO above for how to record it")
+		}
+	}
 
 	tc := globalTestContext.ForTest(t)
 
-	// Use a resource group scoped to this test only, so everything it contains can be torn down
-	// via RG cascade-delete regardless of how the individual key deletions behave.
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	vault := &keyvault.Vault{
@@ -64,14 +63,13 @@ func Test_KeyVault_VaultKey_20230701_CRUD(t *testing.T) {
 	}
 	tc.CreateResourceAndWait(vault)
 
-	// --- Create: ARM generates the key material ---
+	// Create: ARM generates the key material
 	key := &vaultkey.VaultKey{
 		ObjectMeta: tc.MakeObjectMeta("rsakey"),
 		Spec: vaultkey.VaultKey_Spec{
 			Owner: testcommon.AsOwner(vault),
 			OperatorSpec: &vaultkey.VaultKeyOperatorSpec{
-				// Soft-delete the key in Azure when this resource is deleted, so this test
-				// also covers the data-plane Deleter path.
+				// Soft-delete the key in Azure when this resource is deleted, covering the data-plane Deleter path
 				DeleteMode: to.Ptr("delete"),
 			},
 			Properties: &vaultkey.KeyProperties{
@@ -81,27 +79,54 @@ func Test_KeyVault_VaultKey_20230701_CRUD(t *testing.T) {
 					Enabled:    to.Ptr(true),
 					Exportable: to.Ptr(false),
 				},
+				RotationPolicy: &vaultkey.RotationPolicy{
+					Attributes: &vaultkey.KeyRotationPolicyAttributes{ExpiryTime: to.Ptr("P2Y")},
+					LifetimeActions: []vaultkey.LifetimeAction{
+						{
+							Action:  &vaultkey.Action{Type: to.Ptr(vaultkey.Action_Type_Rotate)},
+							Trigger: &vaultkey.Trigger{TimeAfterCreate: to.Ptr("P90D")},
+						},
+						{
+							// A non-default notify trigger, so the recording shows the service keeps it
+							Action:  &vaultkey.Action{Type: to.Ptr(vaultkey.Action_Type_Notify)},
+							Trigger: &vaultkey.Trigger{TimeBeforeExpiry: to.Ptr("P60D")},
+						},
+					},
+				},
 			},
 		},
 	}
 
 	tc.CreateResourceAndWaitWithoutCleanup(key)
 	tc.Expect(key.Status.Id).ToNot(BeNil())
+	armID := *key.Status.Id
 
-	// --- Update: mutable properties are applied through the data plane ---
-	//
-	// Disabling the key is a data-plane UpdateKey performed by the VaultKeyExtension's
-	// PostReconcileCheck; the resource reaches Ready at the new generation once the update has
-	// been applied. (The refreshed attribute value becomes visible in status one reconcile
-	// later, so this test does not assert on status here.)
+	// Update: a mutable property is applied through the data plane by the VaultKeyExtension's
+	// PostReconcileCheck before the resource reaches Ready at the new generation
 	old := key.DeepCopy()
 	key.Spec.Properties.Attributes.Enabled = to.Ptr(false)
 	tc.PatchResourceAndWait(old, key)
 
-	// --- Delete with deleteMode=delete: the key is soft-deleted via the data plane ---
+	var live struct {
+		Properties struct {
+			Attributes struct {
+				Enabled *bool `json:"enabled"`
+			} `json:"attributes"`
+		} `json:"properties"`
+	}
+	_, err := tc.AzureClient.GetByID(tc.Ctx, armID, string(vaultkey.APIVersion_Value), &live)
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(live.Properties.Attributes.Enabled).To(HaveValue(BeFalse()))
+
+	// Delete with deleteMode=delete: the key is soft-deleted via the data plane, so ARM no longer
+	// finds it (the recording will confirm ARM answers 404 for a soft-deleted key)
 	tc.DeleteResourceAndWait(key)
 
-	// --- Default detach behaviour: deleting the CR leaves the key untouched in Azure ---
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armID, string(vaultkey.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeFalse())
+
+	// Default detach behaviour: deleting the resource leaves the key in Azure
 	ecKey := &vaultkey.VaultKey{
 		ObjectMeta: tc.MakeObjectMeta("eckey"),
 		Spec: vaultkey.VaultKey_Spec{
@@ -114,12 +139,15 @@ func Test_KeyVault_VaultKey_20230701_CRUD(t *testing.T) {
 	}
 
 	tc.CreateResourceAndWaitWithoutCleanup(ecKey)
-	tc.DeleteResourceAndWait(ecKey)
-	// The CR is gone; with no deleteMode set the key itself remains live in the vault (detach is
-	// the default and touches nothing in Azure). Azure-side state can't be asserted here without
-	// an extra data-plane call; the RG teardown below cleans the key up.
+	tc.Expect(ecKey.Status.Id).ToNot(BeNil())
+	ecArmID := *ecKey.Status.Id
 
-	// Teardown: delete the Resource Group, cascade-deleting the Vault and any keys still in it
-	// (including the detached EC key above).
+	tc.DeleteResourceAndWait(ecKey)
+
+	exists, _, err = tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, ecArmID, string(vaultkey.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeTrue())
+
+	// Teardown: delete the Resource Group, cascade-deleting the Vault and the detached key
 	tc.DeleteResourceAndWait(rg)
 }
