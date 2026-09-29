@@ -97,14 +97,16 @@ func (vaultKey *VaultKey) validateNoImportKeyOp(_ context.Context, obj *v2023070
 // release_policy, rotationPolicy and tags) are mutable: the VaultKeyExtension applies them through
 // the Key Vault data plane after each reconcile, so they are deliberately not validated here.
 //
+// The gate closes once status has been populated from Azure, which happens on the first reconcile
+// that finds a key with this name, whether ASO created it or it already existed. Until then (for
+// example while the owning vault is still being created) the spec can still be corrected.
+//
 // Note: spec.azureName and spec.owner are similarly write-once and are already validated by
 // genruntime.ValidateWriteOnceProperties, which every generated webhook runs - we don't duplicate
 // that here.
 func (vaultKey *VaultKey) validateIntrinsicallyImmutable(_ context.Context, oldObj *v20230701.VaultKey, newObj *v20230701.VaultKey) (admission.Warnings, error) {
-	if !genruntime.IsResourceCreatedSuccessfully(oldObj) {
-		// No ARM resource ID stamped yet - no immutability concerns apply. (The ID is stamped when
-		// the operator first claims the resource, before the initial PUT to Azure, so this gate
-		// closes at claim time, not on confirmed successful creation.)
+	if oldObj.Status.Id == nil || *oldObj.Status.Id == "" {
+		// Nothing has been observed in Azure yet, so no key material is fixed
 		return nil, nil
 	}
 
@@ -125,9 +127,7 @@ func (vaultKey *VaultKey) validateIntrinsicallyImmutable(_ context.Context, oldO
 		return nil, eris.Errorf(
 			"spec.properties.kty, keySize and curveName are immutable for %s : %s - they are fixed at "+
 				"key generation time, so changing them describes a different key rather than a modification "+
-				"of this one; delete and recreate the resource to change them (if the resource never "+
-				"successfully created in Azure, deletion is not blocked - delete and re-apply the corrected "+
-				"spec)",
+				"of this one; delete and recreate the resource to change them",
 			newObj.GetObjectKind().GroupVersionKind(),
 			newObj.GetName(),
 		)

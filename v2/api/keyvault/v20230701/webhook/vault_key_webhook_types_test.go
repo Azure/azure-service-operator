@@ -37,18 +37,30 @@ func newTestVaultKeyObj() *v20230701.VaultKey {
 	}
 }
 
+const testKeyARMID = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myrg/providers/Microsoft.KeyVault/vaults/myvault/keys/mykey"
+
+// markClaimed stamps the ARM ID the operator assigns when it claims the resource, before anything
+// exists in Azure.
+func markClaimed(obj *v20230701.VaultKey) *v20230701.VaultKey {
+	genruntime.SetResourceID(obj, testKeyARMID)
+	return obj
+}
+
+// markCreated additionally populates status from Azure, as happens once the key exists there.
 func markCreated(obj *v20230701.VaultKey) *v20230701.VaultKey {
-	genruntime.SetResourceID(obj, "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myrg/providers/Microsoft.KeyVault/vaults/myvault/keys/mykey")
+	markClaimed(obj)
+	obj.Status.Id = to.Ptr(testKeyARMID)
 	return obj
 }
 
 func Test_VaultKey_ValidateNotExportable(t *testing.T) {
 	t.Parallel()
-	g := NewGomegaWithT(t)
-
 	webhook := &VaultKey{}
 
 	t.Run("create with exportable=true is rejected", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		obj := newTestVaultKeyObj()
 		obj.Spec.Properties.Attributes.Exportable = to.Ptr(true)
 
@@ -58,6 +70,9 @@ func Test_VaultKey_ValidateNotExportable(t *testing.T) {
 	})
 
 	t.Run("create with exportable=false is allowed", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		obj := newTestVaultKeyObj()
 		obj.Spec.Properties.Attributes.Exportable = to.Ptr(false)
 
@@ -66,6 +81,9 @@ func Test_VaultKey_ValidateNotExportable(t *testing.T) {
 	})
 
 	t.Run("create with exportable unset is allowed", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		obj := newTestVaultKeyObj()
 
 		_, err := webhook.validateNotExportable(context.Background(), obj)
@@ -73,6 +91,9 @@ func Test_VaultKey_ValidateNotExportable(t *testing.T) {
 	})
 
 	t.Run("update to exportable=true is rejected", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		newObj := markCreated(newTestVaultKeyObj())
 		newObj.Spec.Properties.Attributes.Exportable = to.Ptr(true)
 
@@ -84,11 +105,12 @@ func Test_VaultKey_ValidateNotExportable(t *testing.T) {
 
 func Test_VaultKey_ValidateNoImportKeyOp(t *testing.T) {
 	t.Parallel()
-	g := NewGomegaWithT(t)
-
 	webhook := &VaultKey{}
 
 	t.Run("create with keyOps including import is rejected", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		obj := newTestVaultKeyObj()
 		obj.Spec.Properties.KeyOps = []v20230701.KeyProperties_KeyOps{
 			v20230701.KeyProperties_KeyOps_Sign,
@@ -101,6 +123,9 @@ func Test_VaultKey_ValidateNoImportKeyOp(t *testing.T) {
 	})
 
 	t.Run("create with keyOps without import is allowed", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		obj := newTestVaultKeyObj()
 		obj.Spec.Properties.KeyOps = []v20230701.KeyProperties_KeyOps{
 			v20230701.KeyProperties_KeyOps_Sign,
@@ -112,6 +137,9 @@ func Test_VaultKey_ValidateNoImportKeyOp(t *testing.T) {
 	})
 
 	t.Run("create with keyOps unset is allowed", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		obj := newTestVaultKeyObj()
 
 		_, err := webhook.validateNoImportKeyOp(context.Background(), obj)
@@ -119,6 +147,9 @@ func Test_VaultKey_ValidateNoImportKeyOp(t *testing.T) {
 	})
 
 	t.Run("update adding import to keyOps is rejected", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		newObj := markCreated(newTestVaultKeyObj())
 		newObj.Spec.Properties.KeyOps = []v20230701.KeyProperties_KeyOps{
 			v20230701.KeyProperties_KeyOps_Import,
@@ -132,11 +163,12 @@ func Test_VaultKey_ValidateNoImportKeyOp(t *testing.T) {
 
 func Test_VaultKey_ValidateIntrinsicallyImmutable(t *testing.T) {
 	t.Parallel()
-	g := NewGomegaWithT(t)
-
 	webhook := &VaultKey{}
 
 	t.Run("not yet created - any change allowed", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		oldObj := newTestVaultKeyObj()
 		newObj := newTestVaultKeyObj()
 		newObj.Spec.Properties.KeySize = to.Ptr(4096)
@@ -145,7 +177,24 @@ func Test_VaultKey_ValidateIntrinsicallyImmutable(t *testing.T) {
 		g.Expect(err).ToNot(HaveOccurred())
 	})
 
+	t.Run("claimed but not yet in Azure - the spec can still be corrected", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
+		oldObj := markClaimed(newTestVaultKeyObj())
+		newObj := markClaimed(newTestVaultKeyObj())
+		ec := v20230701.KeyProperties_Kty_EC
+		newObj.Spec.Properties.Kty = &ec
+		newObj.Spec.Properties.KeySize = nil
+
+		_, err := webhook.validateIntrinsicallyImmutable(context.Background(), oldObj, newObj)
+		g.Expect(err).ToNot(HaveOccurred())
+	})
+
 	t.Run("created - changing keySize is rejected", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		oldObj := markCreated(newTestVaultKeyObj())
 		newObj := markCreated(newTestVaultKeyObj())
 		newObj.Spec.Properties.KeySize = to.Ptr(4096)
@@ -156,6 +205,9 @@ func Test_VaultKey_ValidateIntrinsicallyImmutable(t *testing.T) {
 	})
 
 	t.Run("created - changing kty is rejected", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		oldObj := markCreated(newTestVaultKeyObj())
 		newObj := markCreated(newTestVaultKeyObj())
 		ec := v20230701.KeyProperties_Kty_EC
@@ -167,6 +219,9 @@ func Test_VaultKey_ValidateIntrinsicallyImmutable(t *testing.T) {
 	})
 
 	t.Run("created - changing attributes is NOT this validator's concern", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		oldObj := markCreated(newTestVaultKeyObj())
 		newObj := markCreated(newTestVaultKeyObj())
 		newObj.Spec.Properties.Attributes.Enabled = to.Ptr(false)
@@ -176,6 +231,9 @@ func Test_VaultKey_ValidateIntrinsicallyImmutable(t *testing.T) {
 	})
 
 	t.Run("created - true no-op update is allowed", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		oldObj := markCreated(newTestVaultKeyObj())
 		newObj := markCreated(newTestVaultKeyObj())
 
@@ -199,11 +257,12 @@ func runUpdateValidations(webhook *VaultKey, oldObj *v20230701.VaultKey, newObj 
 // each reconcile, so the webhook must let those edits through.
 func Test_VaultKey_UpdateValidations_AllowMutablePropertyChanges(t *testing.T) {
 	t.Parallel()
-	g := NewGomegaWithT(t)
-
 	webhook := &VaultKey{}
 
 	t.Run("created - changing attributes is allowed", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		oldObj := markCreated(newTestVaultKeyObj())
 		newObj := markCreated(newTestVaultKeyObj())
 		newObj.Spec.Properties.Attributes.Enabled = to.Ptr(false)
@@ -212,6 +271,9 @@ func Test_VaultKey_UpdateValidations_AllowMutablePropertyChanges(t *testing.T) {
 	})
 
 	t.Run("created - changing keyOps is allowed", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		oldObj := markCreated(newTestVaultKeyObj())
 		newObj := markCreated(newTestVaultKeyObj())
 		newObj.Spec.Properties.KeyOps = []v20230701.KeyProperties_KeyOps{v20230701.KeyProperties_KeyOps_Sign}
@@ -220,6 +282,9 @@ func Test_VaultKey_UpdateValidations_AllowMutablePropertyChanges(t *testing.T) {
 	})
 
 	t.Run("created - changing tags is allowed", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		oldObj := markCreated(newTestVaultKeyObj())
 		newObj := markCreated(newTestVaultKeyObj())
 		newObj.Spec.Tags = map[string]string{"foo": "bar"}
@@ -228,6 +293,9 @@ func Test_VaultKey_UpdateValidations_AllowMutablePropertyChanges(t *testing.T) {
 	})
 
 	t.Run("created - changing kty is still rejected end to end", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		oldObj := markCreated(newTestVaultKeyObj())
 		newObj := markCreated(newTestVaultKeyObj())
 		ec := v20230701.KeyProperties_Kty_EC
@@ -239,6 +307,9 @@ func Test_VaultKey_UpdateValidations_AllowMutablePropertyChanges(t *testing.T) {
 	})
 
 	t.Run("created - adding import to keyOps is still rejected end to end", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		oldObj := markCreated(newTestVaultKeyObj())
 		newObj := markCreated(newTestVaultKeyObj())
 		newObj.Spec.Properties.KeyOps = []v20230701.KeyProperties_KeyOps{v20230701.KeyProperties_KeyOps_Import}
@@ -249,6 +320,9 @@ func Test_VaultKey_UpdateValidations_AllowMutablePropertyChanges(t *testing.T) {
 	})
 
 	t.Run("created - enabling exportable is still rejected end to end", func(t *testing.T) {
+		t.Parallel()
+		g := NewGomegaWithT(t)
+
 		oldObj := markCreated(newTestVaultKeyObj())
 		newObj := markCreated(newTestVaultKeyObj())
 		newObj.Spec.Properties.Attributes.Exportable = to.Ptr(true)
