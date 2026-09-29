@@ -20,6 +20,8 @@ import (
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	asorole "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401"
+	asodocumentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v20260315"
 	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -29,6 +31,13 @@ import (
 
 const samplesPath = "../../samples"
 const redactedEntraID = "11111111-1111-1111-1111-111111111111"
+
+type servicePrincipalRedactionPlan struct {
+	bootstrapResources []client.Object
+	servicePrincipals  []client.Object
+	delayedResources   []client.Object
+	finalWaitResources []client.Object
+}
 
 // randomNameExclusions slice contains groups for which we don't want to use random names
 var randomNameExclusions = []string{
@@ -107,34 +116,134 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 
 	// For secrets we need to look across refs and samples:
 	findRefsAndCreateSecrets(tc, resources)
-
-	preRedactionResources, remainingResources := splitResourcesForEntraIDRedaction(resources)
-	if len(preRedactionResources) > 0 {
-		tc.CreateResourcesAndWait(preRedactionResources...)
-		addStatusEntraIDLiteralRedactions(preRedactionResources, tc.WithLiteralRedaction)
-	}
-
-	// Create the remaining resources once any runtime Entra ID redactions are registered.
-	tc.CreateResourcesAndWait(remainingResources...)
-	addStatusEntraIDLiteralRedactions(remainingResources, tc.WithLiteralRedaction)
+	err = createResourcesForServicePrincipalRedaction(
+		resources,
+		tc.CreateResource,
+		func(resources ...client.Object) {
+			waitForProvisionedResources(tc, resources...)
+		},
+		func(resources []client.Object) {
+			addStatusEntraIDLiteralRedactions(resources, tc.WithLiteralRedaction)
+		},
+	)
+	tc.Expect(err).To(BeNil())
 
 	tc.DeleteResourceAndWait(rg)
 }
 
-func splitResourcesForEntraIDRedaction(resources []client.Object) ([]client.Object, []client.Object) {
-	preRedaction := make([]client.Object, 0)
-	remaining := make([]client.Object, 0, len(resources))
+func createResourcesForServicePrincipalRedaction(
+	resources []client.Object,
+	create func(client.Object),
+	wait func(...client.Object),
+	addRedactions func([]client.Object),
+) error {
+	plan, err := planResourcesForServicePrincipalRedaction(resources)
+	if err != nil {
+		return err
+	}
 
+	for _, resource := range plan.bootstrapResources {
+		create(resource)
+	}
+
+	if len(plan.servicePrincipals) > 0 {
+		wait(plan.servicePrincipals...)
+		addRedactions(plan.servicePrincipals)
+	}
+
+	for _, resource := range plan.delayedResources {
+		create(resource)
+	}
+
+	if len(plan.finalWaitResources) > 0 {
+		wait(plan.finalWaitResources...)
+	}
+
+	return nil
+}
+
+func planResourcesForServicePrincipalRedaction(resources []client.Object) (servicePrincipalRedactionPlan, error) {
+	plan := servicePrincipalRedactionPlan{
+		bootstrapResources: make([]client.Object, 0, len(resources)),
+		servicePrincipals:  make([]client.Object, 0),
+		delayedResources:   make([]client.Object, 0),
+		finalWaitResources: make([]client.Object, 0, len(resources)),
+	}
+
+	exportedConfigMaps := set.Make[string]()
 	for _, resource := range resources {
-		if _, ok := resource.(*asoentra.ServicePrincipal); ok {
-			preRedaction = append(preRedaction, resource)
+		servicePrincipal, ok := resource.(*asoentra.ServicePrincipal)
+		if !ok {
 			continue
 		}
 
-		remaining = append(remaining, resource)
+		plan.servicePrincipals = append(plan.servicePrincipals, servicePrincipal)
+
+		destinations, err := reflecthelpers.Find[genruntime.ConfigMapDestination](servicePrincipal)
+		if err != nil {
+			return servicePrincipalRedactionPlan{}, err
+		}
+
+		for _, destination := range destinations {
+			exportedConfigMaps.Add(configMapKey(destination.Name, destination.Key))
+		}
 	}
 
-	return preRedaction, remaining
+	for _, resource := range resources {
+		if _, ok := resource.(*asoentra.ServicePrincipal); ok {
+			plan.bootstrapResources = append(plan.bootstrapResources, resource)
+			continue
+		}
+
+		isDelayedConsumer, err := consumesExportedServicePrincipalConfigMap(resource, exportedConfigMaps)
+		if err != nil {
+			return servicePrincipalRedactionPlan{}, err
+		}
+
+		if isDelayedConsumer {
+			plan.delayedResources = append(plan.delayedResources, resource)
+			continue
+		}
+
+		plan.bootstrapResources = append(plan.bootstrapResources, resource)
+		plan.finalWaitResources = append(plan.finalWaitResources, resource)
+	}
+
+	plan.finalWaitResources = append(plan.finalWaitResources, plan.delayedResources...)
+	return plan, nil
+}
+
+func consumesExportedServicePrincipalConfigMap(resource client.Object, exportedConfigMaps set.Set[string]) (bool, error) {
+	if len(exportedConfigMaps) == 0 {
+		return false, nil
+	}
+
+	references, err := reflecthelpers.FindConfigMapReferences(resource)
+	if err != nil {
+		return false, err
+	}
+
+	for _, ref := range references {
+		if exportedConfigMaps.Contains(configMapKey(ref.Name, ref.Key)) {
+			return true, nil
+		}
+	}
+
+	return false, nil
+}
+
+func configMapKey(name string, key string) string {
+	return fmt.Sprintf("%s/%s", name, key)
+}
+
+func waitForProvisionedResources(tc *testcommon.KubePerTestContext, resources ...client.Object) {
+	for _, resource := range resources {
+		if _, ok := resource.(genruntime.MetaObject); !ok {
+			continue
+		}
+
+		tc.Eventually(resource).Should(tc.Match.BeProvisioned(0))
+	}
 }
 
 func addStatusEntraIDLiteralRedactions(
@@ -320,32 +429,115 @@ func TestAddStatusEntraIDLiteralRedactions(t *testing.T) {
 	})
 }
 
-func TestSplitResourcesForEntraIDRedaction(t *testing.T) {
+func TestPlanResourcesForServicePrincipalRedaction(t *testing.T) {
 	t.Parallel()
 
-	t.Run("separates service principals from remaining resources", func(t *testing.T) {
+	t.Run("delays configmap consumers until after service principal redaction", func(t *testing.T) {
 		t.Parallel()
 
 		g := NewGomegaWithT(t)
-		servicePrincipal := &asoentra.ServicePrincipal{}
-		secret := &v1.Secret{}
-		preRedaction, remaining := splitResourcesForEntraIDRedaction([]client.Object{
-			secret,
+		servicePrincipal := makeTestServicePrincipal()
+		cluster := &asodocumentdb.CassandraCluster{}
+		roleAssignment := makeTestRoleAssignment("cassandra-service-principal", "objectId")
+
+		plan, err := planResourcesForServicePrincipalRedaction([]client.Object{
+			roleAssignment,
 			servicePrincipal,
+			cluster,
 		})
 
-		g.Expect(preRedaction).To(Equal([]client.Object{servicePrincipal}))
-		g.Expect(remaining).To(Equal([]client.Object{secret}))
+		g.Expect(err).ToNot(HaveOccurred())
+		g.Expect(plan.bootstrapResources).To(Equal([]client.Object{servicePrincipal, cluster}))
+		g.Expect(plan.servicePrincipals).To(Equal([]client.Object{servicePrincipal}))
+		g.Expect(plan.delayedResources).To(Equal([]client.Object{roleAssignment}))
+		g.Expect(plan.finalWaitResources).To(Equal([]client.Object{cluster, roleAssignment}))
 	})
 
-	t.Run("leaves resources unchanged when there is no service principal", func(t *testing.T) {
+	t.Run("keeps non-consuming resources in the bootstrap phase", func(t *testing.T) {
 		t.Parallel()
 
 		g := NewGomegaWithT(t)
-		secret := &v1.Secret{}
-		preRedaction, remaining := splitResourcesForEntraIDRedaction([]client.Object{secret})
+		servicePrincipal := makeTestServicePrincipal()
+		cluster := &asodocumentdb.CassandraCluster{}
 
-		g.Expect(preRedaction).To(BeEmpty())
-		g.Expect(remaining).To(Equal([]client.Object{secret}))
+		plan, err := planResourcesForServicePrincipalRedaction([]client.Object{cluster, servicePrincipal})
+
+		g.Expect(err).ToNot(HaveOccurred())
+		g.Expect(plan.bootstrapResources).To(Equal([]client.Object{cluster, servicePrincipal}))
+		g.Expect(plan.servicePrincipals).To(Equal([]client.Object{servicePrincipal}))
+		g.Expect(plan.delayedResources).To(BeEmpty())
+		g.Expect(plan.finalWaitResources).To(Equal([]client.Object{cluster}))
 	})
+}
+
+func TestCreateResourcesForServicePrincipalRedaction(t *testing.T) {
+	t.Parallel()
+
+	t.Run("creates bootstrap resources before waiting for service principal readiness and delays configmap consumers until after redaction", func(t *testing.T) {
+		t.Parallel()
+
+		g := NewGomegaWithT(t)
+		servicePrincipal := makeTestServicePrincipal()
+		cluster := &asodocumentdb.CassandraCluster{}
+		roleAssignment := makeTestRoleAssignment("cassandra-service-principal", "objectId")
+		operations := make([]string, 0)
+
+		err := createResourcesForServicePrincipalRedaction(
+			[]client.Object{servicePrincipal, roleAssignment, cluster},
+			func(resource client.Object) {
+				operations = append(operations, fmt.Sprintf("create:%T", resource))
+			},
+			func(resources ...client.Object) {
+				operations = append(operations, fmt.Sprintf("wait:%s", resourceTypes(resources)))
+			},
+			func(resources []client.Object) {
+				operations = append(operations, fmt.Sprintf("redact:%s", resourceTypes(resources)))
+			},
+		)
+
+		g.Expect(err).ToNot(HaveOccurred())
+		g.Expect(operations).To(Equal([]string{
+			"create:*v1.ServicePrincipal",
+			"create:*v20260315.CassandraCluster",
+			"wait:*v1.ServicePrincipal",
+			"redact:*v1.ServicePrincipal",
+			"create:*v20220401.RoleAssignment",
+			"wait:*v20260315.CassandraCluster,*v20220401.RoleAssignment",
+		}))
+	})
+}
+
+func makeTestServicePrincipal() *asoentra.ServicePrincipal {
+	return &asoentra.ServicePrincipal{
+		Spec: asoentra.ServicePrincipalSpec{
+			OperatorSpec: &asoentra.ServicePrincipalOperatorSpec{
+				ConfigMaps: &asoentra.ServicePrincipalOperatorConfigMaps{
+					EntraID: &genruntime.ConfigMapDestination{
+						Name: "cassandra-service-principal",
+						Key:  "objectId",
+					},
+				},
+			},
+		},
+	}
+}
+
+func makeTestRoleAssignment(name string, key string) *asorole.RoleAssignment {
+	return &asorole.RoleAssignment{
+		Spec: asorole.RoleAssignment_Spec{
+			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
+				Name: name,
+				Key:  key,
+			},
+		},
+	}
+}
+
+func resourceTypes(resources []client.Object) string {
+	result := make([]string, 0, len(resources))
+	for _, resource := range resources {
+		result = append(result, fmt.Sprintf("%T", resource))
+	}
+
+	return strings.Join(result, ",")
 }
