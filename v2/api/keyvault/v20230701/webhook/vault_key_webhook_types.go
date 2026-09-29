@@ -65,11 +65,11 @@ func (vaultKey *VaultKey) validateNotExportable(_ context.Context, obj *v2023070
 }
 
 // validateNoImportKeyOp rejects any VaultKey whose properties.keyOps includes "import", on both
-// create and update. The documented contract for this resource is that it is generation-only and
-// cannot be used to import key material; the "import" keyOp is a data-plane permission that would
-// allow new key material to be imported into the key (as a new key version), so permitting it would
-// leave the guarantee documented but not enforced. This mirrors the existing hard rejection of
-// attributes.exportable.
+// create and update. A key whose only operation is "import" is a Key Exchange Key: its sole purpose
+// is to wrap other key material during a bring-your-own-key (BYOK) transfer into the vault, a flow
+// this resource does not support. Rejecting the operation keeps VaultKey to the generation-only
+// scope its documentation describes. (Importing material is gated by the identity's import
+// permission, not by this key operation, so this is a scope decision rather than a security control.)
 func (vaultKey *VaultKey) validateNoImportKeyOp(_ context.Context, obj *v20230701.VaultKey) (admission.Warnings, error) {
 	if obj.Spec.Properties == nil {
 		return nil, nil
@@ -78,9 +78,9 @@ func (vaultKey *VaultKey) validateNoImportKeyOp(_ context.Context, obj *v2023070
 	for _, op := range obj.Spec.Properties.KeyOps {
 		if op == v20230701.KeyProperties_KeyOps_Import {
 			return nil, eris.Errorf(
-				"spec.properties.keyOps must not include \"import\" for %s : %s; this resource is "+
-					"generation-only and cannot be used to import key material, so granting the import "+
-					"operation on the key is not supported",
+				"spec.properties.keyOps must not include \"import\" for %s : %s; a key with the import "+
+					"operation is a BYOK key exchange key, which is outside the generation-only scope of "+
+					"this resource",
 				obj.GetObjectKind().GroupVersionKind(),
 				obj.GetName(),
 			)
