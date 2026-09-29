@@ -38,7 +38,7 @@ tasks:
     summary: |
       Run tests of samples with envtest, deliberately skipping dependencies that may result in a long setup time. 
       This is intended to be used in the CI pipeline, and not for local development.
-    dir: "{{.CONTROLLER_ROOT}}"
+    dir: "{{.CONTROLLER_ROOT}}/samples"
     deps: 
       - setup
       - run-kustomize-for-envtest
@@ -48,7 +48,7 @@ tasks:
           vars:
             INPUT_FILE: '{{.TEST_OUTPUT}}'
             OUTPUT_FILE: '{{.TEST_REPORT}}'
-      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./samples/sampletesting -json > {{.TEST_OUTPUT}}
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./sampletesting -json > {{.TEST_OUTPUT}}
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi

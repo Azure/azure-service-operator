@@ -616,12 +616,12 @@ tasks:
 
   controller:test-samples:
     desc: Run tests of samples with envtest using record/replay.
-    dir: "{{.CONTROLLER_ROOT}}"
+    dir: "{{.CONTROLLER_ROOT}}/samples"
     deps: 
       - setup
       - controller:run-kustomize-for-envtest
     cmds:
-      - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./samples/sampletesting | tee '{{.TEST_OUT}}/test-samples.log'
+      - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./sampletesting | tee '{{.TEST_OUT}}/test-samples.log'
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ]; then echo "-v"; fi
