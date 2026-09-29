@@ -1,30 +1,8 @@
-# VaultKey manages an RSA cryptographic key inside an existing Key Vault
-# (Microsoft.KeyVault/vaults/keys).
-#
-# IMPORTANT - please read before using this resource:
-#
-# 1. Generation-only: Azure Key Vault generates the key material itself when this
-#    resource is created. There is no field on this resource (and none in the underlying
-#    ARM API) through which key material can be supplied - this resource cannot be used to
-#    import an existing key. Private key material never transits the Kubernetes cluster,
-#    this CR, or any Secret.
-#
-# 2. Generation-time properties are immutable: kty, keySize and curveName are fixed when the
-#    key material is generated, and a validating webhook rejects any attempt to change them.
-#    The remaining properties (keyOps, attributes, release_policy, rotationPolicy) and
-#    spec.tags are mutable: ASO applies changes to them through the Key Vault data plane.
-#    Properties the spec leaves unset are not managed and keep their value in Azure.
-#
-# 3. Deletion behaviour is chosen via spec.operatorSpec.deleteMode: 'detach' (the default)
-#    leaves the key untouched in the vault, 'disable' sets enabled=false and leaves it,
-#    'delete' soft-deletes it via the data plane (recoverable for the vault's retention
-#    period; ASO never purges a key on deletion). A reconcile-policy of detach-on-delete or
-#    skip (object, namespace, or operator-wide) takes precedence over deleteMode.
-#
-# 4. Existing keys are adopted by name, provided kty/keySize/curveName match the real key;
-#    spec.operatorSpec.createMode ('default', 'recover', 'createOrRecover',
-#    'purgeThenCreate') controls goal-seeking around soft-deleted name collisions, exactly
-#    like Vault's createMode.
+# VaultKey manages an RSA key inside an existing Key Vault (Microsoft.KeyVault/vaults/keys).
+# Key Vault generates the material; kty, keySize and curveName are fixed once created, while the
+# other properties are applied through the Key Vault data plane. operatorSpec.createMode and
+# deleteMode choose how soft-deleted name collisions and resource deletion are handled.
+# See docs/hugo/content/guide/keyvaults.md for the details.
 apiVersion: keyvault.azure.com/v20230701
 kind: VaultKey
 metadata:
@@ -34,10 +12,8 @@ spec:
   owner:
     name: samplevault
   operatorSpec:
-    # Recover a soft-deleted key with this name if one exists, otherwise create a new key.
-    createMode: createOrRecover
-    # Leave the key in the vault when this resource is deleted (this is the default).
-    deleteMode: detach
+    createMode: createOrRecover # recover a soft-deleted key of this name, otherwise create
+    deleteMode: detach # leave the key in the vault when this resource is deleted (the default)
   properties:
     kty: RSA
     keySize: 2048
@@ -48,10 +24,12 @@ spec:
       - unwrapKey
     attributes:
       enabled: true
-      # exportable must be false (or omitted) - true is unconditionally rejected by the
-      # validating webhook for this resource.
-      exportable: false
+      exportable: false # true is rejected by the validating webhook
     rotationPolicy:
+      attributes:
+        # New key versions expire after two years; the notify and rotate triggers below are
+        # relative to that expiry and to the creation date.
+        expiryTime: P2Y
       lifetimeActions:
         - action:
             type: notify

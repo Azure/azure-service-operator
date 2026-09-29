@@ -15,34 +15,8 @@ spec:
     sku:
       family: A
       name: standard
-    accessPolicies:
-      - applicationIdFromConfig:
-          name: identity-settings
-          key: clientId
-        objectIdFromConfig:
-          name: identity-settings
-          key: principalId
-        tenantIdFromConfig:
-          name: identity-settings
-          key: tenantId
-        permissions:
-          certificates:
-            - "get"
-          keys:
-            - "get"
-          secrets:
-            - "get"
-          storage:
-            - "get"
-      - applicationId: "1C793267-c310-d4ae-7BD5-5Af5BEF875D3"
-        objectId: "1C793267-c310-d4ae-7BD5-5Af5BEF875D3"
-        tenantId: "00000000-0000-0000-0000-000000000000"
-        permissions:
-          certificates:
-            - "get"
-          keys:
-            - "get"
-          secrets:
-            - "get"
-          storage:
-            - "get"
+    # VaultKey drives the Key Vault data plane (adopt, update, delete keys), so the identity that
+    # runs the operator needs data-plane key permissions on this vault. With Azure RBAC those can be
+    # granted at subscription scope to whoever records the samples test (for example a custom role
+    # equivalent to Key Vault Crypto Officer); access policies would have to name that principal.
+    enableRbacAuthorization: true
