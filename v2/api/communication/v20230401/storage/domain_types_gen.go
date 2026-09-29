@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20230401.Domain
 // Generator information:
-// - Generated from: /communication/resource-manager/Microsoft.Communication/stable/2023-04-01/Domains.json
+// - Generated from: /communication/resource-manager/Microsoft.Communication/Communication/stable/2023-04-01/Domains.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}
 type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (domain *Domain) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v20230401.Domain
 // Generator information:
-// - Generated from: /communication/resource-manager/Microsoft.Communication/stable/2023-04-01/Domains.json
+// - Generated from: /communication/resource-manager/Microsoft.Communication/Communication/stable/2023-04-01/Domains.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}
 type DomainList struct {
 	metav1.TypeMeta `json:",inline"`
