@@ -621,7 +621,7 @@ tasks:
       - setup
       - controller:run-kustomize-for-envtest
     cmds:
-      - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/testsamples | tee '{{.TEST_OUT}}/test-samples.log'
+      - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./samples/sampletesting | tee '{{.TEST_OUT}}/test-samples.log'
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ]; then echo "-v"; fi
@@ -640,7 +640,7 @@ tasks:
     desc: Tidy the go-vcr recordings for the sample tests. This may be run after updating recordings of samples.
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-      - "go-vcr-tidy --clean-all ./internal/testsamples/recordings/Test_Samples_CreationAndDeletion/*.yaml"
+      - "go-vcr-tidy --clean-all ./samples/sampletesting/recordings/Test_Samples_CreationAndDeletion/*.yaml"
 
   controller:test-genruntime:
     desc: Run integration tests with envtest using record/replay.
