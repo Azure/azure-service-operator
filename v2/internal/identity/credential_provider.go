@@ -7,7 +7,6 @@ package identity
 
 import (
 	"context"
-	"os"
 	"reflect"
 	"strings"
 
@@ -36,23 +35,15 @@ const (
 	NamespacedSecretName = "aso-credential"
 	// #nosec
 	FederatedTokenFilePath = "/var/run/secrets/tokens/azure-identity"
-	// FederatedTokenFileEnvVar is the standard Azure Workload Identity environment variable
-	// used to communicate the projected service account token path to a workload. When it is
-	// set (and non-empty) it takes precedence over the default FederatedTokenFilePath. This
-	// mirrors the behaviour of the upstream azure-workload-identity mutating webhook and other
-	// Azure controllers (for example cluster-api-provider-azure), and lets ASO run in
-	// environments — such as vcluster — where the token is projected to a non-default path.
-	// #nosec
-	FederatedTokenFileEnvVar = "AZURE_FEDERATED_TOKEN_FILE"
 )
 
 // ResolveFederatedTokenFilePath returns the path to the projected federated token file used
-// for Workload Identity authentication. It honours the standard AZURE_FEDERATED_TOKEN_FILE
-// environment variable when set (and non-empty), falling back to the default
-// FederatedTokenFilePath otherwise. It is used both here (per-credential Workload Identity)
-// and by the global credential setup, so both honour the same standard env contract.
-func ResolveFederatedTokenFilePath() string {
-	if path := strings.TrimSpace(os.Getenv(FederatedTokenFileEnvVar)); path != "" {
+// for Workload Identity authentication. It honours override when non-empty (whitespace-trimmed),
+// falling back to the default FederatedTokenFilePath otherwise. override is expected to come from
+// config.Values.FederatedTokenFilePath (read once, from AZURE_FEDERATED_TOKEN_FILE, alongside the
+// rest of the operator's configuration).
+func ResolveFederatedTokenFilePath(override string) string {
+	if path := strings.TrimSpace(override); path != "" {
 		return path
 	}
 	return FederatedTokenFilePath
@@ -120,6 +111,10 @@ type CredentialProviderOptions struct {
 	TokenProvider           TokenCredentialProvider
 	Cloud                   *cloud.Configuration
 	AllowMultiEnvManagement bool
+	// FederatedTokenFilePath overrides the default projected token file path used for per-credential
+	// Workload Identity authentication (see ResolveFederatedTokenFilePath). Typically sourced from
+	// config.Values.FederatedTokenFilePath.
+	FederatedTokenFilePath string
 }
 
 type credentialProvider struct {
@@ -128,6 +123,7 @@ type credentialProvider struct {
 	tokenCredentialProvider TokenCredentialProvider
 	cloud                   cloud.Configuration
 	allowMultiEnvManagement bool
+	federatedTokenFilePath  string
 }
 
 func NewCredentialProvider(
@@ -156,6 +152,7 @@ func NewCredentialProvider(
 		tokenCredentialProvider: opts.TokenProvider,
 		cloud:                   cloud,
 		allowMultiEnvManagement: opts.AllowMultiEnvManagement,
+		federatedTokenFilePath:  ResolveFederatedTokenFilePath(opts.FederatedTokenFilePath),
 	}
 }
 
@@ -436,7 +433,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 	}
 
 	// Default to Workload Identity
-	tokenFilePath := ResolveFederatedTokenFilePath()
+	tokenFilePath := c.federatedTokenFilePath
 	tokenCredential, err := c.tokenCredentialProvider.NewWorkloadIdentityCredential(
 		&azidentity.WorkloadIdentityCredentialOptions{
 			ClientOptions: azcore.ClientOptions{
