@@ -2085,7 +2085,7 @@ type KeyReleasePolicy struct {
 	// ContentType: Content type and version of key release policy
 	ContentType *string `json:"contentType,omitempty"`
 
-	// +kubebuilder:validation:Pattern="^[-A-Za-z0-9_]$"
+	// +kubebuilder:validation:Pattern="^[-A-Za-z0-9_]*={0,2}$"
 	// Data: Blob encoding the policy rules under which the key can be released.
 	Data *string `json:"data,omitempty"`
 }

@@ -44,7 +44,7 @@ VaultKey: Resource
 │   │   ├── Release_Policy: *Object (2 properties)
 │   │   │   ├── ContentType: *string
 │   │   │   └── Data: Validated<*string> (1 rule)
-│   │   │       └── Rule 0: Pattern: "^[-A-Za-z0-9_]$"
+│   │   │       └── Rule 0: Pattern: "^[-A-Za-z0-9_]*={0,2}$"
 │   │   └── RotationPolicy: *Object (2 properties)
 │   │       ├── Attributes: *Object (1 property)
 │   │       │   └── ExpiryTime: *string
