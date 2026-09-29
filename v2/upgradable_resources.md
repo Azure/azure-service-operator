@@ -194,12 +194,6 @@ The following resources have newer versions available in the Azure REST API spec
 |------|-----------|------------------|------------------|-------------------|--------------------|
 | 💡    | Namespace | **2026-01-01**   | 2024-01-01       |                   | 2022-10-01-preview |
 
-## storage
-
-|  | Resource       | Available Stable | Supported Stable | Available Preview | Supported Preview |
-|--|----------------|------------------|------------------|-------------------|-------------------|
-|  | StorageAccount | 2026-06-01       | 2025-06-01       | -                 | -                 |
-
 ## web
 
 |      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |

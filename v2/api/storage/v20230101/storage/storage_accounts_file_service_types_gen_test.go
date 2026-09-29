@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
+	v20250601s "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
+	v20260601s "github.com/Azure/azure-service-operator/v2/api/storage/v20260601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -40,7 +41,7 @@ func RunPropertyAssignmentTestForMultichannel(subject Multichannel) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Multichannel
+	var other v20250601s.Multichannel
 	err := copied.AssignProperties_To_Multichannel(&other)
 	if err != nil {
 		return err.Error()
@@ -152,7 +153,7 @@ func RunPropertyAssignmentTestForMultichannel_STATUS(subject Multichannel_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Multichannel_STATUS
+	var other v20250601s.Multichannel_STATUS
 	err := copied.AssignProperties_To_Multichannel_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -265,7 +266,7 @@ func RunPropertyAssignmentTestForProtocolSettings(subject ProtocolSettings) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ProtocolSettings
+	var other v20250601s.ProtocolSettings
 	err := copied.AssignProperties_To_ProtocolSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -377,7 +378,7 @@ func RunPropertyAssignmentTestForProtocolSettings_STATUS(subject ProtocolSetting
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ProtocolSettings_STATUS
+	var other v20250601s.ProtocolSettings_STATUS
 	err := copied.AssignProperties_To_ProtocolSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -490,7 +491,7 @@ func RunPropertyAssignmentTestForSmbSetting(subject SmbSetting) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SmbSetting
+	var other v20250601s.SmbSetting
 	err := copied.AssignProperties_To_SmbSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -619,7 +620,7 @@ func RunPropertyAssignmentTestForSmbSetting_STATUS(subject SmbSetting_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SmbSetting_STATUS
+	var other v20250601s.SmbSetting_STATUS
 	err := copied.AssignProperties_To_SmbSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -749,7 +750,7 @@ func RunResourceConversionTestForStorageAccountsFileService(subject StorageAccou
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.StorageAccountsFileService
+	var hub v20260601s.StorageAccountsFileService
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -796,7 +797,7 @@ func RunPropertyAssignmentTestForStorageAccountsFileService(subject StorageAccou
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsFileService
+	var other v20250601s.StorageAccountsFileService
 	err := copied.AssignProperties_To_StorageAccountsFileService(&other)
 	if err != nil {
 		return err.Error()
@@ -910,7 +911,7 @@ func RunPropertyAssignmentTestForStorageAccountsFileServiceOperatorSpec(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsFileServiceOperatorSpec
+	var other v20250601s.StorageAccountsFileServiceOperatorSpec
 	err := copied.AssignProperties_To_StorageAccountsFileServiceOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -1017,7 +1018,7 @@ func RunPropertyAssignmentTestForStorageAccountsFileService_STATUS(subject Stora
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsFileService_STATUS
+	var other v20250601s.StorageAccountsFileService_STATUS
 	err := copied.AssignProperties_To_StorageAccountsFileService_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1149,7 +1150,7 @@ func RunPropertyAssignmentTestForStorageAccountsFileService_Spec(subject Storage
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsFileService_Spec
+	var other v20250601s.StorageAccountsFileService_Spec
 	err := copied.AssignProperties_To_StorageAccountsFileService_Spec(&other)
 	if err != nil {
 		return err.Error()

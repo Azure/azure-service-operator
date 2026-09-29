@@ -51,22 +51,36 @@ var _ conversion.Convertible = &StorageAccountsFileService{}
 
 // ConvertFrom populates our StorageAccountsFileService from the provided hub StorageAccountsFileService
 func (service *StorageAccountsFileService) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.StorageAccountsFileService)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccountsFileService but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.StorageAccountsFileService
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return service.AssignProperties_From_StorageAccountsFileService(source)
+	err = service.AssignProperties_From_StorageAccountsFileService(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to service")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsFileService from our StorageAccountsFileService
 func (service *StorageAccountsFileService) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.StorageAccountsFileService)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccountsFileService but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.StorageAccountsFileService
+	err := service.AssignProperties_To_StorageAccountsFileService(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from service")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return service.AssignProperties_To_StorageAccountsFileService(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &StorageAccountsFileService{}
@@ -87,17 +101,6 @@ func (service *StorageAccountsFileService) SecretDestinationExpressions() []*cor
 		return nil
 	}
 	return service.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &StorageAccountsFileService{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (service *StorageAccountsFileService) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*StorageAccountsFileService_STATUS); ok {
-		return service.Spec.Initialize_From_StorageAccountsFileService_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type StorageAccountsFileService_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsFileService{}
@@ -561,49 +564,6 @@ func (service *StorageAccountsFileService_Spec) AssignProperties_To_StorageAccou
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_StorageAccountsFileService_STATUS populates our StorageAccountsFileService_Spec from the provided source StorageAccountsFileService_STATUS
-func (service *StorageAccountsFileService_Spec) Initialize_From_StorageAccountsFileService_STATUS(source *StorageAccountsFileService_STATUS) error {
-
-	// Cors
-	if source.Cors != nil {
-		var cor CorsRules
-		err := cor.Initialize_From_CorsRules_STATUS(source.Cors)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CorsRules_STATUS() to populate field Cors")
-		}
-		service.Cors = &cor
-	} else {
-		service.Cors = nil
-	}
-
-	// ProtocolSettings
-	if source.ProtocolSettings != nil {
-		var protocolSetting ProtocolSettings
-		err := protocolSetting.Initialize_From_ProtocolSettings_STATUS(source.ProtocolSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ProtocolSettings_STATUS() to populate field ProtocolSettings")
-		}
-		service.ProtocolSettings = &protocolSetting
-	} else {
-		service.ProtocolSettings = nil
-	}
-
-	// ShareDeleteRetentionPolicy
-	if source.ShareDeleteRetentionPolicy != nil {
-		var shareDeleteRetentionPolicy DeleteRetentionPolicy
-		err := shareDeleteRetentionPolicy.Initialize_From_DeleteRetentionPolicy_STATUS(source.ShareDeleteRetentionPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeleteRetentionPolicy_STATUS() to populate field ShareDeleteRetentionPolicy")
-		}
-		service.ShareDeleteRetentionPolicy = &shareDeleteRetentionPolicy
-	} else {
-		service.ShareDeleteRetentionPolicy = nil
 	}
 
 	// No error
@@ -1115,37 +1075,6 @@ func (settings *ProtocolSettings) AssignProperties_To_ProtocolSettings(destinati
 	return nil
 }
 
-// Initialize_From_ProtocolSettings_STATUS populates our ProtocolSettings from the provided source ProtocolSettings_STATUS
-func (settings *ProtocolSettings) Initialize_From_ProtocolSettings_STATUS(source *ProtocolSettings_STATUS) error {
-
-	// Nfs
-	if source.Nfs != nil {
-		var nf NfsSetting
-		err := nf.Initialize_From_NfsSetting_STATUS(source.Nfs)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_NfsSetting_STATUS() to populate field Nfs")
-		}
-		settings.Nfs = &nf
-	} else {
-		settings.Nfs = nil
-	}
-
-	// Smb
-	if source.Smb != nil {
-		var smb SmbSetting
-		err := smb.Initialize_From_SmbSetting_STATUS(source.Smb)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SmbSetting_STATUS() to populate field Smb")
-		}
-		settings.Smb = &smb
-	} else {
-		settings.Smb = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Protocol settings for file service
 type ProtocolSettings_STATUS struct {
 	// Nfs: Setting for NFS protocol
@@ -1457,25 +1386,6 @@ func (setting *NfsSetting) AssignProperties_To_NfsSetting(destination *storage.N
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NfsSetting_STATUS populates our NfsSetting from the provided source NfsSetting_STATUS
-func (setting *NfsSetting) Initialize_From_NfsSetting_STATUS(source *NfsSetting_STATUS) error {
-
-	// EncryptionInTransit
-	if source.EncryptionInTransit != nil {
-		var encryptionInTransit EncryptionInTransit
-		err := encryptionInTransit.Initialize_From_EncryptionInTransit_STATUS(source.EncryptionInTransit)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_EncryptionInTransit_STATUS() to populate field EncryptionInTransit")
-		}
-		setting.EncryptionInTransit = &encryptionInTransit
-	} else {
-		setting.EncryptionInTransit = nil
 	}
 
 	// No error
@@ -1801,49 +1711,6 @@ func (setting *SmbSetting) AssignProperties_To_SmbSetting(destination *storage.S
 	return nil
 }
 
-// Initialize_From_SmbSetting_STATUS populates our SmbSetting from the provided source SmbSetting_STATUS
-func (setting *SmbSetting) Initialize_From_SmbSetting_STATUS(source *SmbSetting_STATUS) error {
-
-	// AuthenticationMethods
-	setting.AuthenticationMethods = genruntime.ClonePointerToString(source.AuthenticationMethods)
-
-	// ChannelEncryption
-	setting.ChannelEncryption = genruntime.ClonePointerToString(source.ChannelEncryption)
-
-	// EncryptionInTransit
-	if source.EncryptionInTransit != nil {
-		var encryptionInTransit EncryptionInTransit
-		err := encryptionInTransit.Initialize_From_EncryptionInTransit_STATUS(source.EncryptionInTransit)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_EncryptionInTransit_STATUS() to populate field EncryptionInTransit")
-		}
-		setting.EncryptionInTransit = &encryptionInTransit
-	} else {
-		setting.EncryptionInTransit = nil
-	}
-
-	// KerberosTicketEncryption
-	setting.KerberosTicketEncryption = genruntime.ClonePointerToString(source.KerberosTicketEncryption)
-
-	// Multichannel
-	if source.Multichannel != nil {
-		var multichannel Multichannel
-		err := multichannel.Initialize_From_Multichannel_STATUS(source.Multichannel)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Multichannel_STATUS() to populate field Multichannel")
-		}
-		setting.Multichannel = &multichannel
-	} else {
-		setting.Multichannel = nil
-	}
-
-	// Versions
-	setting.Versions = genruntime.ClonePointerToString(source.Versions)
-
-	// No error
-	return nil
-}
-
 // Setting for SMB protocol
 type SmbSetting_STATUS struct {
 	// AuthenticationMethods: SMB authentication methods supported by server. Valid values are NTLMv2, Kerberos. Should be
@@ -2112,21 +1979,6 @@ func (transit *EncryptionInTransit) AssignProperties_To_EncryptionInTransit(dest
 	return nil
 }
 
-// Initialize_From_EncryptionInTransit_STATUS populates our EncryptionInTransit from the provided source EncryptionInTransit_STATUS
-func (transit *EncryptionInTransit) Initialize_From_EncryptionInTransit_STATUS(source *EncryptionInTransit_STATUS) error {
-
-	// Required
-	if source.Required != nil {
-		required := *source.Required
-		transit.Required = &required
-	} else {
-		transit.Required = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Encryption in transit setting.
 type EncryptionInTransit_STATUS struct {
 	// Required: Indicates whether encryption in transit is required
@@ -2274,21 +2126,6 @@ func (multichannel *Multichannel) AssignProperties_To_Multichannel(destination *
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Multichannel_STATUS populates our Multichannel from the provided source Multichannel_STATUS
-func (multichannel *Multichannel) Initialize_From_Multichannel_STATUS(source *Multichannel_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		multichannel.Enabled = &enabled
-	} else {
-		multichannel.Enabled = nil
 	}
 
 	// No error
