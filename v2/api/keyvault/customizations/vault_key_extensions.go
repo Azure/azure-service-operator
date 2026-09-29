@@ -9,25 +9,32 @@ import (
 	"bytes"
 	"context"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
+	"net/http"
 	"net/url"
+	"reflect"
 	"strings"
 	"time"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
 	"github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azkeys"
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/storage"
 	keys "github.com/Azure/azure-service-operator/v2/api/keyvault/v20230701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
@@ -37,6 +44,10 @@ const (
 	DeleteMode_Disable = "disable"
 )
 
+// serviceDefaultNotifyBeforeExpiry is the trigger of the notify action Key Vault adds to any rotation
+// policy that doesn't declare one (see the azkeys.KeyRotationPolicy.LifetimeActions documentation).
+const serviceDefaultNotifyBeforeExpiry = "P30D"
+
 var _ extensions.Deleter = &VaultKeyExtension{}
 
 // Delete implements extensions.Deleter. VaultKey deliberately exposes no ARM DELETE operation
@@ -45,17 +56,23 @@ var _ extensions.Deleter = &VaultKeyExtension{}
 // The operatorSpec.deleteMode value selects what happens to the key in Azure:
 //
 //   - detach (default): leave the key untouched; only the Kubernetes resource goes away.
-//   - disable: set the key's enabled attribute to false via the data plane, then let the
-//     Kubernetes resource go. The key remains in the vault.
+//   - disable: set the enabled attribute of the key's current version to false via the data
+//     plane, then let the Kubernetes resource go. The key remains in the vault.
 //   - delete: soft-delete the key via the data plane; it remains recoverable for the vault's
 //     soft-delete retention period.
+//
+// A key that has already gone from Azure counts as done, and so does a key this resource never
+// adopted (its generation-time properties differ from the spec, or it backs a certificate): that key
+// is left untouched whatever deleteMode says. A data-plane 403 blocks deletion with a condition
+// naming the permission the mode needs; switching deleteMode to detach (or applying the
+// detach-on-delete reconcile policy) releases the resource without touching the key.
 //
 // next is never called on a successful path: the default behaviour for a resource without ARM
 // delete is an error instructing the user to detach, and this extension replaces that outcome.
 func (ex *VaultKeyExtension) Delete(
 	ctx context.Context,
 	log logr.Logger,
-	reslv *resolver.Resolver,
+	_ *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	obj genruntime.ARMMetaObject,
 	_ extensions.DeleteFunc,
@@ -72,18 +89,19 @@ func (ex *VaultKeyExtension) Delete(
 	// the hub type has been changed but this extension has not been updated to match
 	var _ conversion.Hub = key
 
+	name := key.AzureName()
 	mode := vaultKeyDeleteMode(key)
 	switch mode {
 	case DeleteMode_Detach:
-		log.Info(
+		log.V(Debug).Info(
 			"deleteMode is detach; leaving key in place in Azure",
-			"key", key.AzureName(),
+			"key", name,
 		)
 		return extensions.DeleteCompleted(), nil
 	case DeleteMode_Disable, DeleteMode_Delete:
 		// Handled below, after we have a data-plane client
 	default:
-		// The webhook enum validation should make this unreachable
+		// The CRD enum validation should make this unreachable
 		return extensions.DeleteResult{}, eris.Errorf(
 			"unexpected operatorSpec.deleteMode %q for VaultKey %s",
 			mode,
@@ -91,14 +109,46 @@ func (ex *VaultKeyExtension) Delete(
 		)
 	}
 
-	keyClient, err := newKeyClient(ctx, key, reslv, armClient)
+	keyClient, err := newKeyClient(ctx, key, armClient)
 	if err != nil {
 		return extensions.DeleteResult{}, err
 	}
 
-	name := key.AzureName()
+	// Only a key this resource managed may be touched: one whose adoption was blocked is somebody
+	// else's, whatever deleteMode says
+	liveKey, err := keyClient.GetKey(ctx, name, "" /* latest version */, nil)
+	if err != nil {
+		if genericarmclient.IsNotFoundError(err) {
+			log.V(Status).Info(
+				"Key no longer exists in Azure; nothing left to do",
+				"key", name,
+				"deleteMode", mode,
+			)
+			return extensions.DeleteCompleted(), nil
+		}
+
+		if isHTTPStatus(err, http.StatusForbidden) {
+			return blockDeleteForPermission(err, "read", name, mode, "Microsoft.KeyVault/vaults/keys/read (access policy: get)"), nil
+		}
+
+		return extensions.DeleteResult{}, eris.Wrapf(err, "failed to read key %s before applying deleteMode %s", name, mode)
+	}
+
+	if reason := adoptionBlocker(key, liveKey.KeyBundle); reason != "" {
+		log.V(Status).Info(
+			"Leaving key untouched in Azure: this resource never managed it",
+			"key", name,
+			"deleteMode", mode,
+			"reason", reason,
+		)
+		return extensions.DeleteCompleted(), nil
+	}
+
+	var action, permission string
 	switch mode {
 	case DeleteMode_Disable:
+		action = "disable"
+		permission = "Microsoft.KeyVault/vaults/keys/update/action (access policy: update)"
 		_, err = keyClient.UpdateKey(
 			ctx,
 			name,
@@ -110,25 +160,34 @@ func (ex *VaultKeyExtension) Delete(
 			},
 			nil,
 		)
-		if err != nil && !genericarmclient.IsNotFoundError(err) {
-			return extensions.DeleteResult{}, eris.Wrapf(err, "failed to disable key %s", name)
-		}
-
-		log.Info(
-			"deleteMode is disable; disabled key and left it in Azure",
-			"key", name,
-		)
 	case DeleteMode_Delete:
+		action = "soft-delete"
+		permission = "Microsoft.KeyVault/vaults/keys/delete (access policy: delete)"
 		_, err = keyClient.DeleteKey(ctx, name, nil)
-		if err != nil && !genericarmclient.IsNotFoundError(err) {
-			return extensions.DeleteResult{}, eris.Wrapf(err, "failed to delete key %s", name)
+	}
+
+	if err != nil {
+		if genericarmclient.IsNotFoundError(err) {
+			log.V(Status).Info(
+				"Key no longer exists in Azure; nothing left to do",
+				"key", name,
+				"deleteMode", mode,
+			)
+			return extensions.DeleteCompleted(), nil
 		}
 
-		log.Info(
-			"deleteMode is delete; soft-deleted key in Azure",
-			"key", name,
-		)
+		if isHTTPStatus(err, http.StatusForbidden) {
+			return blockDeleteForPermission(err, action, name, mode, permission), nil
+		}
+
+		return extensions.DeleteResult{}, eris.Wrapf(err, "failed to %s key %s", action, name)
 	}
+
+	log.V(Status).Info(
+		"Applied deleteMode to key in Azure",
+		"key", name,
+		"deleteMode", mode,
+	)
 
 	return extensions.DeleteCompleted(), nil
 }
@@ -139,9 +198,14 @@ var _ extensions.PreReconciliationChecker = &VaultKeyExtension{}
 // goal-seeking behaviour Vault's createMode has, and gates adoption of pre-existing keys:
 //
 //   - If a live key already holds the requested name, it is adopted - but only when the
-//     generation-time properties in the spec (kty, keySize, curveName) match the real key.
-//     ARM's only write operation is create-if-not-exist, so proceeding with a mismatched spec
-//     would report Ready for a key that differs from what the spec describes.
+//     generation-time properties in the spec (kty, keySize, curveName) match the real key, and
+//     only when the key isn't managed by Key Vault itself (keys backing certificates reject
+//     data-plane updates). ARM's only write operation is create-if-not-exist, so proceeding with
+//     a mismatched spec would report Ready for a key that differs from what the spec describes.
+//     Both block the reconcile with a warning that is retried. The reconciler has already
+//     populated status from the existing key by then, which locks the generation-time
+//     properties in the webhook, so the remedies are to delete and recreate the resource or to
+//     remove the key in Azure; the messages say so.
 //   - If no live key exists but a soft-deleted one holds the name, operatorSpec.createMode
 //     decides: recover it ('recover'/'createOrRecover'), purge it ('purgeThenCreate'), or let
 //     ARM surface the conflict ('default').
@@ -167,7 +231,7 @@ func (ex *VaultKeyExtension) PreReconcileCheck(
 
 	name := key.AzureName()
 
-	keyClient, err := newKeyClient(ctx, key, resourceResolver, armClient)
+	keyClient, err := newKeyClient(ctx, key, armClient)
 	if err != nil {
 		if genericarmclient.IsNotFoundError(err) {
 			// The owning vault doesn't exist in Azure yet; nothing to check until it does
@@ -181,20 +245,15 @@ func (ex *VaultKeyExtension) PreReconcileCheck(
 
 	liveKey, err := keyClient.GetKey(ctx, name, "" /* latest version */, nil)
 	if err == nil {
-		// A live key already holds this name; adopt it if the generation-time properties match
-		if mismatch := intrinsicMismatch(key, liveKey.Key); mismatch != "" {
-			return extensions.BlockReconcile(fmt.Sprintf(
-				"cannot adopt existing key %s: %s; the generation-time properties of a key cannot "+
-					"be changed, so align the spec with the existing key or remove the key in Azure",
-				name,
-				mismatch,
-			)), nil
+		// A live key already holds this name; adopt it if we can
+		if reason := adoptionBlocker(key, liveKey.KeyBundle); reason != "" {
+			return extensions.BlockReconcile(reason), nil
 		}
 
 		return next(ctx, obj, resourceResolver, armClient, log)
 	}
 	if !genericarmclient.IsNotFoundError(err) {
-		return extensions.PreReconcileCheckResult{}, eris.Wrapf(err, "failed to check for existing key %s", name)
+		return extensions.PreReconcileCheckResult{}, dataPlaneError(err, "failed to check for existing key %s", name)
 	}
 
 	mode := vaultKeyCreateMode(key)
@@ -217,7 +276,7 @@ func (ex *VaultKeyExtension) PreReconcileCheck(
 			return next(ctx, obj, resourceResolver, armClient, log)
 		}
 
-		return extensions.PreReconcileCheckResult{}, eris.Wrapf(err, "failed to check for soft-deleted key %s", name)
+		return extensions.PreReconcileCheckResult{}, dataPlaneError(err, "failed to check for soft-deleted key %s", name)
 	}
 
 	switch mode {
@@ -225,17 +284,27 @@ func (ex *VaultKeyExtension) PreReconcileCheck(
 		// Refuse to recover a key the spec doesn't describe: recovery would resurrect key
 		// material with different generation-time properties than requested
 		if mismatch := intrinsicMismatch(key, deleted.Key); mismatch != "" {
+			// No live key was found, so status is still empty and the spec can be corrected in place
 			return extensions.BlockReconcile(fmt.Sprintf(
-				"cannot recover soft-deleted key %s: %s", name, mismatch,
+				"cannot recover soft-deleted key %s: %s; correct the spec, purge the soft-deleted key "+
+					"in Azure, or use createMode purgeThenCreate",
+				name, mismatch,
 			)), nil
 		}
 
 		_, err = keyClient.RecoverDeletedKey(ctx, name, nil)
 		if err != nil {
-			return extensions.PreReconcileCheckResult{}, eris.Wrapf(err, "failed to recover soft-deleted key %s", name)
+			if isHTTPStatus(err, http.StatusConflict) {
+				// A recovery started on an earlier pass is still in progress
+				return extensions.BlockReconcile(fmt.Sprintf(
+					"recovery of soft-deleted key %s is in progress; waiting for it to complete", name,
+				)), nil
+			}
+
+			return extensions.PreReconcileCheckResult{}, dataPlaneError(err, "failed to recover soft-deleted key %s", name)
 		}
 
-		log.Info(
+		log.V(Status).Info(
 			"Recovered soft-deleted key",
 			"key", name,
 			"createMode", mode,
@@ -249,17 +318,19 @@ func (ex *VaultKeyExtension) PreReconcileCheck(
 	case CreateMode_PurgeThenCreate:
 		_, err = keyClient.PurgeDeletedKey(ctx, name, nil)
 		if err != nil {
-			return extensions.PreReconcileCheckResult{}, eris.Wrapf(err, "failed to purge soft-deleted key %s", name)
+			return extensions.PreReconcileCheckResult{}, dataPlaneError(
+				err, "failed to purge soft-deleted key %s (a vault with purge protection refuses purges)", name,
+			)
 		}
 
-		log.Info(
+		log.V(Status).Info(
 			"Purged soft-deleted key",
 			"key", name,
 		)
 
 		return next(ctx, obj, resourceResolver, armClient, log)
 	default:
-		// The webhook enum validation should make this unreachable
+		// The CRD enum validation should make this unreachable
 		return extensions.PreReconcileCheckResult{}, eris.Errorf(
 			"unexpected operatorSpec.createMode %q for VaultKey %s",
 			mode,
@@ -277,7 +348,8 @@ var _ extensions.PostReconciliationChecker = &VaultKeyExtension{}
 // release_policy and rotationPolicy) through the data plane's UpdateKey and
 // UpdateKeyRotationPolicy operations. The generation-time properties are gated separately by
 // PreReconcileCheck and the validating webhook. Properties the spec leaves unset are not managed
-// and keep whatever value they have in Azure.
+// and keep whatever value they have in Azure. Nothing is written when the effective reconcile
+// policy forbids modifying Azure.
 func (ex *VaultKeyExtension) PostReconcileCheck(
 	ctx context.Context,
 	obj genruntime.MetaObject,
@@ -300,7 +372,13 @@ func (ex *VaultKeyExtension) PostReconcileCheck(
 	// the hub type has been changed but this extension has not been updated to match
 	var _ conversion.Hub = key
 
-	keyClient, err := newKeyClient(ctx, key, resourceResolver, armClient)
+	// This check also runs when the policy forbids modification (the reconciler refreshes status
+	// under skip); the key must then be left exactly as it is
+	if !reconcilePolicies.Effective.AllowsModify() {
+		return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
+	}
+
+	keyClient, err := newKeyClient(ctx, key, armClient)
 	if err != nil {
 		return extensions.PostReconcileCheckResult{}, err
 	}
@@ -308,7 +386,7 @@ func (ex *VaultKeyExtension) PostReconcileCheck(
 	name := key.AzureName()
 	liveKey, err := keyClient.GetKey(ctx, name, "" /* latest version */, nil)
 	if err != nil {
-		return extensions.PostReconcileCheckResult{}, eris.Wrapf(err, "failed to read key %s to check for pending updates", name)
+		return extensions.PostReconcileCheckResult{}, dataPlaneError(err, "failed to read key %s to check for pending updates", name)
 	}
 
 	params, changed, err := keyUpdatesNeeded(key, liveKey.KeyBundle)
@@ -319,10 +397,10 @@ func (ex *VaultKeyExtension) PostReconcileCheck(
 	if changed {
 		_, err = keyClient.UpdateKey(ctx, name, "" /* latest version */, params, nil)
 		if err != nil {
-			return extensions.PostReconcileCheckResult{}, eris.Wrapf(err, "failed to update key %s", name)
+			return extensions.PostReconcileCheckResult{}, dataPlaneError(err, "failed to update key %s", name)
 		}
 
-		log.Info(
+		log.V(Status).Info(
 			"Updated key properties via data plane",
 			"key", name,
 		)
@@ -331,17 +409,17 @@ func (ex *VaultKeyExtension) PostReconcileCheck(
 	if key.Spec.Properties != nil && key.Spec.Properties.RotationPolicy != nil {
 		current, err := keyClient.GetKeyRotationPolicy(ctx, name, nil)
 		if err != nil {
-			return extensions.PostReconcileCheckResult{}, eris.Wrapf(err, "failed to read rotation policy of key %s", name)
+			return extensions.PostReconcileCheckResult{}, dataPlaneError(err, "failed to read rotation policy of key %s", name)
 		}
 
 		desired, changed := rotationPolicyUpdateNeeded(key.Spec.Properties.RotationPolicy, current.KeyRotationPolicy)
 		if changed {
 			_, err = keyClient.UpdateKeyRotationPolicy(ctx, name, desired, nil)
 			if err != nil {
-				return extensions.PostReconcileCheckResult{}, eris.Wrapf(err, "failed to update rotation policy of key %s", name)
+				return extensions.PostReconcileCheckResult{}, dataPlaneError(err, "failed to update rotation policy of key %s", name)
 			}
 
-			log.Info(
+			log.V(Status).Info(
 				"Updated key rotation policy via data plane",
 				"key", name,
 			)
@@ -351,17 +429,66 @@ func (ex *VaultKeyExtension) PostReconcileCheck(
 	return next(ctx, obj, owner, resourceResolver, armClient, log, reconcilePolicies)
 }
 
+// blockDeleteForPermission turns a data-plane 403 during deletion into a blocking condition that
+// names the permission the operation needs and the escape hatch.
+func blockDeleteForPermission(err error, action string, name string, mode string, permission string) extensions.DeleteResult {
+	return extensions.BlockDelete(
+		fmt.Sprintf(
+			"cannot %s key %s: Key Vault refused the request (%s); ASO's identity needs the data-plane "+
+				"permission %s for deleteMode %s, and the vault's firewall or private endpoint must admit "+
+				"ASO's network; grant access, or set deleteMode to detach to release this resource without "+
+				"touching the key",
+			action,
+			name,
+			responseErrorCode(err),
+			permission,
+			mode,
+		),
+		conditions.ReasonFailed,
+	)
+}
+
+// adoptionBlocker explains why the live key already holding the requested name cannot be managed
+// by this resource, or returns "" when it can. A key that backs a certificate is managed by Key
+// Vault itself and rejects data-plane updates, and a key whose generation-time properties differ
+// from the spec is a different key. The remedy may be on either side (recreate the resource, or
+// remove the key in Azure), so the caller blocks and retries rather than failing permanently.
+func adoptionBlocker(key *keys.VaultKey, live azkeys.KeyBundle) string {
+	name := key.AzureName()
+
+	if live.Managed != nil && *live.Managed {
+		return fmt.Sprintf(
+			"cannot adopt existing key %s: it backs a certificate and is managed by Key Vault, so it "+
+				"cannot be managed by a VaultKey; remove the certificate that owns it in Azure, or delete "+
+				"this resource and recreate it with a different azureName",
+			name,
+		)
+	}
+
+	if mismatch := intrinsicMismatch(key, live.Key); mismatch != "" {
+		return fmt.Sprintf(
+			"cannot adopt existing key %s: %s; the generation-time properties of a key cannot be "+
+				"changed, so delete this resource and recreate it with matching properties (deleting it "+
+				"leaves a key it never adopted untouched, whatever deleteMode says), or remove the key in Azure",
+			name,
+			mismatch,
+		)
+	}
+
+	return ""
+}
+
 // keyUpdatesNeeded diffs the spec-managed mutable properties against the actual key and returns
 // the UpdateKey parameters needed to converge, with changed reporting whether any update is
-// required. Unset spec properties are not managed. UpdateKey has patch semantics, so only the
-// properties that need changing are included.
+// required. Unset spec properties are not managed, and an empty keyOps list or tags map counts as
+// unset. UpdateKey has patch semantics, so only the properties that need changing are included.
 func keyUpdatesNeeded(key *keys.VaultKey, actual azkeys.KeyBundle) (azkeys.UpdateKeyParameters, bool, error) {
 	params := azkeys.UpdateKeyParameters{}
 	changed := false
 
 	props := key.Spec.Properties
 
-	if props != nil && props.KeyOps != nil && !stringSetsEqual(props.KeyOps, actualKeyOps(actual.Key)) {
+	if props != nil && len(props.KeyOps) > 0 && !stringSetsEqual(props.KeyOps, actualKeyOps(actual.Key)) {
 		ops := make([]*azkeys.KeyOperation, 0, len(props.KeyOps))
 		for _, op := range props.KeyOps {
 			ops = append(ops, to.Ptr(azkeys.KeyOperation(op)))
@@ -408,8 +535,8 @@ func keyUpdatesNeeded(key *keys.VaultKey, actual azkeys.KeyBundle) (azkeys.Updat
 		}
 	}
 
-	// Tags are managed as a whole set, but only when the spec declares them
-	if key.Spec.Tags != nil && !tagsEqual(key.Spec.Tags, actual.Tags) {
+	// Tags are managed as a whole set, but only when the spec declares some
+	if len(key.Spec.Tags) > 0 && !tagsEqual(key.Spec.Tags, actual.Tags) {
 		tags := make(map[string]*string, len(key.Spec.Tags))
 		for k, v := range key.Spec.Tags {
 			tags[k] = to.Ptr(v)
@@ -426,6 +553,15 @@ func keyUpdatesNeeded(key *keys.VaultKey, actual azkeys.KeyBundle) (azkeys.Updat
 		}
 
 		if policyChanged {
+			if actual.ReleasePolicy != nil && actual.ReleasePolicy.Immutable != nil && *actual.ReleasePolicy.Immutable {
+				// The service will reject every attempt; retrying is pointless until the spec changes
+				return azkeys.UpdateKeyParameters{}, false, fatalError(eris.Errorf(
+					"cannot update release policy of key %s: the policy in Azure is immutable, so align "+
+						"spec.properties.release_policy with it",
+					key.AzureName(),
+				))
+			}
+
 			params.ReleasePolicy = desired
 			changed = true
 		}
@@ -436,7 +572,11 @@ func keyUpdatesNeeded(key *keys.VaultKey, actual azkeys.KeyBundle) (azkeys.Updat
 
 // releasePolicyUpdateNeeded compares the spec's release policy with the actual one. The spec
 // carries the policy blob base64url-encoded (as ARM defines it), while the data plane works with
-// the raw bytes, so the spec side is decoded for the comparison.
+// the raw bytes, so the spec side is decoded for the comparison, which is by JSON content rather
+// than bytes so that formatting differences introduced by the service don't register as drift.
+// The update always carries the policy blob, because the service won't accept a content type on
+// its own: when the spec sets only contentType the key's current blob is sent along, and if the
+// key has no policy at all there is nothing a content type alone could change.
 func releasePolicyUpdateNeeded(
 	spec *keys.KeyReleasePolicy,
 	actual *azkeys.KeyReleasePolicy,
@@ -445,22 +585,23 @@ func releasePolicyUpdateNeeded(
 		ContentType: spec.ContentType,
 	}
 
+	changed := false
 	if spec.Data != nil {
 		data, err := decodeBase64URL(*spec.Data)
 		if err != nil {
-			return nil, false, eris.Wrap(err, "spec.properties.release_policy.data is not valid base64url")
+			// A malformed spec can only be fixed by editing it
+			return nil, false, fatalError(eris.Wrap(err, "spec.properties.release_policy.data is not valid base64url"))
 		}
 
 		desired.EncodedPolicy = data
+		if actual == nil || !policiesEquivalent(desired.EncodedPolicy, actual.EncodedPolicy) {
+			changed = true
+		}
+	} else if actual != nil {
+		desired.EncodedPolicy = actual.EncodedPolicy
 	}
 
-	changed := false
-	if desired.EncodedPolicy != nil &&
-		(actual == nil || !bytes.Equal(desired.EncodedPolicy, actual.EncodedPolicy)) {
-		changed = true
-	}
-
-	if spec.ContentType != nil &&
+	if spec.ContentType != nil && desired.EncodedPolicy != nil &&
 		(actual == nil || actual.ContentType == nil || *actual.ContentType != *spec.ContentType) {
 		changed = true
 	}
@@ -469,11 +610,12 @@ func releasePolicyUpdateNeeded(
 }
 
 // rotationPolicyUpdateNeeded compares the spec's rotation policy against the actual one and
-// returns the full desired policy to apply when they diverge. UpdateKeyRotationPolicy replaces
-// the whole policy, and the service adds a default notify action of its own, so the comparison
-// requires every spec-declared action (and expiryTime, when set) to be present in the actual
-// policy while tolerating extra service-added actions - otherwise every reconcile would see a
-// diff and update forever.
+// returns the full desired policy to apply when they diverge. UpdateKeyRotationPolicy replaces the
+// whole policy, so the lifetime actions are managed as a whole: every action the spec declares must
+// be present in Azure, and every action Azure has must be declared by the spec. The one exception
+// is the notify action the service adds to any policy that declares none; tolerating that is what
+// stops every reconcile from re-applying the policy forever. An expiry time the spec leaves unset is
+// not managed and is carried over unchanged when the policy is replaced.
 func rotationPolicyUpdateNeeded(
 	spec *keys.RotationPolicy,
 	actual azkeys.KeyRotationPolicy,
@@ -495,10 +637,40 @@ func rotationPolicyUpdateNeeded(
 		}
 	}
 
+	specHasNotify := false
+	for _, action := range spec.LifetimeActions {
+		if action.Action != nil && action.Action.Type != nil &&
+			strings.EqualFold(*action.Action.Type, string(azkeys.KeyRotationPolicyActionNotify)) {
+			specHasNotify = true
+			break
+		}
+	}
+
+	for _, candidate := range actual.LifetimeActions {
+		if candidate == nil {
+			continue
+		}
+
+		if isServiceDefaultNotify(candidate) && !specHasNotify {
+			continue
+		}
+
+		if !rotationActionDeclared(candidate, spec.LifetimeActions) {
+			changed = true
+			break
+		}
+	}
+
 	desired := azkeys.KeyRotationPolicy{}
-	if spec.Attributes != nil && spec.Attributes.ExpiryTime != nil {
+	switch {
+	case spec.Attributes != nil && spec.Attributes.ExpiryTime != nil:
 		desired.Attributes = &azkeys.KeyRotationPolicyAttributes{
 			ExpiryTime: spec.Attributes.ExpiryTime,
+		}
+	case actual.Attributes != nil && actual.Attributes.ExpiryTime != nil:
+		// The replacement must not erase an expiry time the spec doesn't manage
+		desired.Attributes = &azkeys.KeyRotationPolicyAttributes{
+			ExpiryTime: actual.Attributes.ExpiryTime,
 		}
 	}
 
@@ -523,12 +695,47 @@ func rotationPolicyUpdateNeeded(
 	return desired, changed
 }
 
-// rotationActionPresent reports whether an equivalent lifetime action (same type, compared
-// case-insensitively as the service documents, and same trigger) exists in the actual policy.
+// rotationActionPresent reports whether an equivalent lifetime action exists in the actual policy.
 func rotationActionPresent(spec keys.LifetimeAction, actual []*azkeys.LifetimeAction) bool {
+	for _, candidate := range actual {
+		if lifetimeActionsEquivalent(spec, candidate) {
+			return true
+		}
+	}
+
+	return false
+}
+
+// rotationActionDeclared reports whether the spec declares an action equivalent to the actual one.
+func rotationActionDeclared(actual *azkeys.LifetimeAction, spec []keys.LifetimeAction) bool {
+	for _, candidate := range spec {
+		if lifetimeActionsEquivalent(candidate, actual) {
+			return true
+		}
+	}
+
+	return false
+}
+
+// lifetimeActionsEquivalent reports whether a spec action and an actual action have the same type
+// (compared case-insensitively, as the service documents) and the same trigger.
+func lifetimeActionsEquivalent(spec keys.LifetimeAction, actual *azkeys.LifetimeAction) bool {
+	if actual == nil {
+		return false
+	}
+
 	specType := ""
 	if spec.Action != nil && spec.Action.Type != nil {
 		specType = *spec.Action.Type
+	}
+
+	actualType := ""
+	if actual.Action != nil && actual.Action.Type != nil {
+		actualType = string(*actual.Action.Type)
+	}
+
+	if !strings.EqualFold(specType, actualType) {
+		return false
 	}
 
 	var specAfterCreate, specBeforeExpiry *string
@@ -537,33 +744,32 @@ func rotationActionPresent(spec keys.LifetimeAction, actual []*azkeys.LifetimeAc
 		specBeforeExpiry = spec.Trigger.TimeBeforeExpiry
 	}
 
-	for _, candidate := range actual {
-		if candidate == nil {
-			continue
-		}
-
-		candidateType := ""
-		if candidate.Action != nil && candidate.Action.Type != nil {
-			candidateType = string(*candidate.Action.Type)
-		}
-
-		if !strings.EqualFold(specType, candidateType) {
-			continue
-		}
-
-		var candidateAfterCreate, candidateBeforeExpiry *string
-		if candidate.Trigger != nil {
-			candidateAfterCreate = candidate.Trigger.TimeAfterCreate
-			candidateBeforeExpiry = candidate.Trigger.TimeBeforeExpiry
-		}
-
-		if stringPtrsEqual(specAfterCreate, candidateAfterCreate) &&
-			stringPtrsEqual(specBeforeExpiry, candidateBeforeExpiry) {
-			return true
-		}
+	var actualAfterCreate, actualBeforeExpiry *string
+	if actual.Trigger != nil {
+		actualAfterCreate = actual.Trigger.TimeAfterCreate
+		actualBeforeExpiry = actual.Trigger.TimeBeforeExpiry
 	}
 
-	return false
+	return stringPtrsEqual(specAfterCreate, actualAfterCreate) &&
+		stringPtrsEqual(specBeforeExpiry, actualBeforeExpiry)
+}
+
+// isServiceDefaultNotify reports whether an action is the notify action Key Vault adds by itself to
+// a rotation policy that declares none.
+func isServiceDefaultNotify(action *azkeys.LifetimeAction) bool {
+	if action == nil || action.Action == nil || action.Action.Type == nil {
+		return false
+	}
+
+	if !strings.EqualFold(string(*action.Action.Type), string(azkeys.KeyRotationPolicyActionNotify)) {
+		return false
+	}
+
+	if action.Trigger == nil || action.Trigger.TimeAfterCreate != nil || action.Trigger.TimeBeforeExpiry == nil {
+		return false
+	}
+
+	return *action.Trigger.TimeBeforeExpiry == serviceDefaultNotifyBeforeExpiry
 }
 
 // canonicalRotationAction maps a spec action type to the data plane's canonical casing; the
@@ -644,6 +850,17 @@ func stringPtrsEqual(left *string, right *string) bool {
 	return *left == *right
 }
 
+// policiesEquivalent compares two release policy blobs by JSON content, falling back to a byte
+// comparison when either isn't JSON.
+func policiesEquivalent(desired []byte, actual []byte) bool {
+	var desiredValue, actualValue any
+	if json.Unmarshal(desired, &desiredValue) == nil && json.Unmarshal(actual, &actualValue) == nil {
+		return reflect.DeepEqual(desiredValue, actualValue)
+	}
+
+	return bytes.Equal(desired, actual)
+}
+
 // decodeBase64URL decodes base64url content with or without padding, since ARM only specifies
 // "base64 URL encoded" without pinning down the padding convention.
 func decodeBase64URL(s string) ([]byte, error) {
@@ -719,23 +936,75 @@ func vaultKeyDeleteMode(key *keys.VaultKey) string {
 	return DeleteMode_Detach
 }
 
-// newKeyClient creates a Key Vault data-plane keys client for the vault holding this key,
-// sharing the ARM client's credentials and HTTP pipeline options (so recorded tests capture
-// data-plane traffic the same way they capture ARM traffic).
+// fatalError marks an error as one that retrying can't fix; the resource's Ready condition reports
+// it with severity Error until the spec changes.
+func fatalError(err error) error {
+	return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonFailed)
+}
+
+// isHTTPStatus reports whether err is an Azure response error with the given status code.
+func isHTTPStatus(err error, status int) bool {
+	var responseErr *azcore.ResponseError
+	return eris.As(err, &responseErr) && responseErr.StatusCode == status
+}
+
+// dataPlaneError wraps a failed Key Vault data-plane call. A 403 usually means ASO's identity is
+// missing the data-plane permission for the operation, or that the vault's network rules exclude
+// ASO, which are the common setup mistakes, so the message says so instead of leaving the user to
+// decode the response.
+func dataPlaneError(err error, format string, args ...any) error {
+	msg := fmt.Sprintf(format, args...)
+	if isHTTPStatus(err, http.StatusForbidden) {
+		msg += fmt.Sprintf(
+			": Key Vault refused the request (%s), usually because ASO's identity lacks the data-plane "+
+				"permission for this operation (see the VaultKey documentation for the permissions each "+
+				"operation needs) or because the vault's firewall or private endpoint blocks ASO's network",
+			responseErrorCode(err),
+		)
+	}
+
+	return eris.Wrap(err, msg)
+}
+
+// responseErrorCode returns the service's error code for a failed request, or the HTTP status when
+// the response carried none.
+func responseErrorCode(err error) string {
+	var responseErr *azcore.ResponseError
+	if !eris.As(err, &responseErr) {
+		return "unknown error"
+	}
+
+	if responseErr.ErrorCode != "" {
+		return responseErr.ErrorCode
+	}
+
+	return fmt.Sprintf("HTTP %d", responseErr.StatusCode)
+}
+
+// newKeyClient creates a Key Vault data-plane keys client for the vault holding this key.
 func newKeyClient(
 	ctx context.Context,
 	key *keys.VaultKey,
-	reslv *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 ) (*azkeys.Client, error) {
-	vaultURL, err := getVaultURL(ctx, key, reslv, armClient)
+	vaultURL, err := getVaultURL(ctx, key, armClient)
 	if err != nil {
 		return nil, err
 	}
 
+	// Using armClient.ClientOptions() here ensures we share the same HTTP connection (and, in
+	// recorded tests, the same recorder), so this is not opening a new connection each time through.
+	// The per-call policies are left out: they are ARM-specific (resource-provider registration and
+	// ARM-path metrics) and log errors when they see data-plane URLs.
 	options := &azkeys.ClientOptions{}
 	if armOptions := armClient.ClientOptions(); armOptions != nil {
-		options.ClientOptions = armOptions.ClientOptions
+		options.ClientOptions = policy.ClientOptions{
+			Cloud:     armOptions.Cloud,
+			Logging:   armOptions.Logging,
+			Retry:     armOptions.Retry,
+			Telemetry: armOptions.Telemetry,
+			Transport: armOptions.Transport,
+		}
 	}
 
 	keyClient, err := azkeys.NewClient(vaultURL, armClient.Creds(), options)
@@ -748,24 +1017,24 @@ func newKeyClient(
 
 // getVaultURL determines the data-plane URL of the vault holding this key. The key's own status
 // carries the full key URI once the key has been created; before that (or if the status was never
-// populated) we fall back to reading vaultUri from the owning vault via ARM, which works whether
-// the owner is an ASO-managed Vault or a plain ARM ID reference, and in every cloud (no hardcoded
-// DNS suffix).
+// populated) we fall back to reading vaultUri from the owning vault via ARM, which works in every
+// cloud (no hardcoded DNS suffix).
 func getVaultURL(
 	ctx context.Context,
 	key *keys.VaultKey,
-	reslv *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 ) (string, error) {
 	if key.Status.KeyUri != nil && *key.Status.KeyUri != "" {
 		return vaultURLFromKeyURI(*key.Status.KeyUri)
 	}
 
-	vaultID, err := getVaultID(ctx, key, reslv)
+	vaultID, err := getVaultID(key)
 	if err != nil {
 		return "", err
 	}
 
+	// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is
+	// not opening a new connection each time through
 	vc, err := armkeyvault.NewVaultsClient(vaultID.SubscriptionID, armClient.Creds(), armClient.ClientOptions())
 	if err != nil {
 		return "", eris.Wrap(err, "failed to create new VaultsClient")
@@ -798,42 +1067,18 @@ func vaultURLFromKeyURI(keyURI string) (string, error) {
 	return u.Scheme + "://" + u.Host, nil
 }
 
-// getVaultID resolves the ARM ID of the vault owning this key.
-func getVaultID(
-	ctx context.Context,
-	key *keys.VaultKey,
-	reslv *resolver.Resolver,
-) (*arm.ResourceID, error) {
-	owner, err := reslv.ResolveOwner(ctx, key)
+// getVaultID returns the ARM ID of the vault holding this key. The key's own ARM ID is stamped on
+// the resource when it is claimed, before any extension runs, and its parent is the vault; taking
+// it from there means Delete still works after the owning Vault resource is gone from Kubernetes.
+func getVaultID(key *keys.VaultKey) (*arm.ResourceID, error) {
+	id, err := genruntime.GetAndParseResourceID(key)
 	if err != nil {
-		return nil, eris.Wrapf(err, "unable to resolve owner of VaultKey %s", key.Name)
+		return nil, eris.Wrapf(err, "failed to get the ARM resource ID of VaultKey %s", key.Name)
 	}
 
-	switch owner.Result {
-	case resolver.OwnerFoundKubernetes:
-		vault, ok := owner.Owner.(*keyvault.Vault)
-		if !ok {
-			return nil, eris.Errorf("expected owner of VaultKey %s to be a Vault", key.Name)
-		}
-
-		// Type assert that the Vault is the hub type. This will fail to compile if
-		// the hub type has been changed but this extension has not been updated to match
-		var _ conversion.Hub = vault
-
-		id, err := genruntime.GetAndParseResourceID(vault)
-		if err != nil {
-			return nil, eris.Wrap(err, "failed to get and parse resource ID from VaultKey owner")
-		}
-
-		return id, nil
-	case resolver.OwnerFoundARM:
-		id, err := arm.ParseResourceID(owner.ARMID)
-		if err != nil {
-			return nil, eris.Wrap(err, "failed to parse resource ID from VaultKey owner")
-		}
-
-		return id, nil
-	default:
-		return nil, eris.Errorf("unexpected owner type of VaultKey, type: %s", owner.Result)
+	if id.Parent == nil {
+		return nil, eris.Errorf("VaultKey %s has no parent vault in its ARM ID %s", key.Name, id.String())
 	}
+
+	return id.Parent, nil
 }
