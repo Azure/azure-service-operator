@@ -1,6 +1,6 @@
 module github.com/Azure/azure-service-operator/v2/samples
 
-go 1.26.6
+go 1.26.0
 
 replace github.com/Azure/azure-service-operator/v2 => ../
 
