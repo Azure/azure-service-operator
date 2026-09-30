@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package testsamples
+package sampletesting
 
 import (
 	"log"
