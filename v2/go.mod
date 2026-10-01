@@ -57,7 +57,7 @@ require (
 	golang.org/x/crypto v0.57.0
 	golang.org/x/exp v0.0.0-20260410095643-746e56fc9e2f
 	golang.org/x/sync v0.23.0
-	golang.org/x/text v0.42.0
+	golang.org/x/text v0.42.0 // indirect
 	golang.org/x/time v0.16.0
 	google.golang.org/protobuf v1.36.12-0.20260120151049-f2248ac996af // indirect
 	gopkg.in/dnaeon/go-vcr.v4 v4.0.7
