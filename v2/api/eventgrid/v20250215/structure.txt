@@ -1018,6 +1018,267 @@ EventSubscription: Resource
     ├── Topic: *string
     └── Type: *string
 
+Namespace: Resource
+├── Owner: resources/v1apiv20191001.ResourceGroup
+├── Spec: Object (12 properties)
+│   ├── AzureName: Validated<string> (3 rules)
+│   │   ├── Rule 0: MaxLength: 50
+│   │   ├── Rule 1: MinLength: 3
+│   │   └── Rule 2: Pattern: "^[a-zA-Z0-9-]*$"
+│   ├── Identity: *Object (2 properties)
+│   │   ├── Type: *Enum (4 values)
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: Object (1 property)[]
+│   │       └── Reference: genruntime.ResourceReference
+│   ├── InboundIpRules: Object (2 properties)[]
+│   │   ├── Action: *Enum (1 value)
+│   │   │   └── "Allow"
+│   │   └── IpMask: *string
+│   ├── IsZoneRedundant: *bool
+│   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
+│   │   └── Secrets: *Object (2 properties)
+│   │       ├── Key1: *genruntime.SecretDestination
+│   │       └── Key2: *genruntime.SecretDestination
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PublicNetworkAccess: *Enum (2 values)
+│   │   ├── "Disabled"
+│   │   └── "Enabled"
+│   ├── Sku: *Object (2 properties)
+│   │   ├── Capacity: *int
+│   │   └── Name: *Enum (1 value)
+│   │       └── "Standard"
+│   ├── Tags: map[string]string
+│   ├── TopicSpacesConfiguration: *Object (7 properties)
+│   │   ├── CustomDomains: Object (6 properties)[]
+│   │   │   ├── CertificateUrl: *string
+│   │   │   ├── ExpectedTxtRecordName: *string
+│   │   │   ├── ExpectedTxtRecordValue: *string
+│   │   │   ├── FullyQualifiedDomainName: *string
+│   │   │   ├── Identity: *Object (2 properties)
+│   │   │   │   ├── Type: *Enum (2 values)
+│   │   │   │   │   ├── "SystemAssigned"
+│   │   │   │   │   └── "UserAssigned"
+│   │   │   │   └── UserAssignedIdentity: *string
+│   │   │   └── ValidationState: *Enum (3 values)
+│   │   │       ├── "Approved"
+│   │   │       ├── "ErrorRetrievingDnsRecord"
+│   │   │       └── "Pending"
+│   │   ├── MaximumClientSessionsPerAuthenticationName: *int
+│   │   ├── MaximumSessionExpiryInHours: *int
+│   │   ├── RouteTopicResourceReference: *genruntime.ResourceReference
+│   │   ├── RoutingEnrichments: *Object (2 properties)
+│   │   │   ├── Dynamic: Object (2 properties)[]
+│   │   │   │   ├── Key: *string
+│   │   │   │   └── Value: *string
+│   │   │   └── Static: Object (1 property)[]
+│   │   │       └── String: *Object (3 properties)
+│   │   │           ├── Key: *string
+│   │   │           ├── Value: *string
+│   │   │           └── ValueType: *Enum (1 value)
+│   │   │               └── "String"
+│   │   ├── RoutingIdentityInfo: *Object (2 properties)
+│   │   │   ├── Type: *Enum (3 values)
+│   │   │   │   ├── "None"
+│   │   │   │   ├── "SystemAssigned"
+│   │   │   │   └── "UserAssigned"
+│   │   │   └── UserAssignedIdentity: *string
+│   │   └── State: *Enum (2 values)
+│   │       ├── "Disabled"
+│   │       └── "Enabled"
+│   └── TopicsConfiguration: *Object (1 property)
+│       └── CustomDomains: Object (6 properties)[]
+│           ├── CertificateUrl: *string
+│           ├── ExpectedTxtRecordName: *string
+│           ├── ExpectedTxtRecordValue: *string
+│           ├── FullyQualifiedDomainName: *string
+│           ├── Identity: *Object (2 properties)
+│           │   ├── Type: *Enum (2 values)
+│           │   │   ├── "SystemAssigned"
+│           │   │   └── "UserAssigned"
+│           │   └── UserAssignedIdentity: *string
+│           └── ValidationState: *Enum (3 values)
+│               ├── "Approved"
+│               ├── "ErrorRetrievingDnsRecord"
+│               └── "Pending"
+└── Status: Object (17 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Identity: *Object (4 properties)
+    │   ├── PrincipalId: *string
+    │   ├── TenantId: *string
+    │   ├── Type: *Enum (4 values)
+    │   │   ├── "None"
+    │   │   ├── "SystemAssigned"
+    │   │   ├── "SystemAssigned, UserAssigned"
+    │   │   └── "UserAssigned"
+    │   └── UserAssignedIdentities: map[string]Object (2 properties)
+    │       ├── ClientId: *string
+    │       └── PrincipalId: *string
+    ├── InboundIpRules: Object (2 properties)[]
+    │   ├── Action: *Enum (1 value)
+    │   │   └── "Allow"
+    │   └── IpMask: *string
+    ├── IsZoneRedundant: *bool
+    ├── Location: *string
+    ├── MinimumTlsVersionAllowed: *Enum (3 values)
+    │   ├── "1.0"
+    │   ├── "1.1"
+    │   └── "1.2"
+    ├── Name: *string
+    ├── PrivateEndpointConnections: Object (1 property)[]
+    │   └── Id: *string
+    ├── ProvisioningState: *Enum (10 values)
+    │   ├── "Canceled"
+    │   ├── "CreateFailed"
+    │   ├── "Creating"
+    │   ├── "DeleteFailed"
+    │   ├── "Deleted"
+    │   ├── "Deleting"
+    │   ├── "Failed"
+    │   ├── "Succeeded"
+    │   ├── "UpdatedFailed"
+    │   └── "Updating"
+    ├── PublicNetworkAccess: *Enum (2 values)
+    │   ├── "Disabled"
+    │   └── "Enabled"
+    ├── Sku: *Object (2 properties)
+    │   ├── Capacity: *int
+    │   └── Name: *Enum (1 value)
+    │       └── "Standard"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    ├── Tags: map[string]string
+    ├── TopicSpacesConfiguration: *Object (8 properties)
+    │   ├── CustomDomains: Object (6 properties)[]
+    │   │   ├── CertificateUrl: *string
+    │   │   ├── ExpectedTxtRecordName: *string
+    │   │   ├── ExpectedTxtRecordValue: *string
+    │   │   ├── FullyQualifiedDomainName: *string
+    │   │   ├── Identity: *Object (2 properties)
+    │   │   │   ├── Type: *Enum (2 values)
+    │   │   │   │   ├── "SystemAssigned"
+    │   │   │   │   └── "UserAssigned"
+    │   │   │   └── UserAssignedIdentity: *string
+    │   │   └── ValidationState: *Enum (3 values)
+    │   │       ├── "Approved"
+    │   │       ├── "ErrorRetrievingDnsRecord"
+    │   │       └── "Pending"
+    │   ├── Hostname: *string
+    │   ├── MaximumClientSessionsPerAuthenticationName: *int
+    │   ├── MaximumSessionExpiryInHours: *int
+    │   ├── RouteTopicResourceId: *string
+    │   ├── RoutingEnrichments: *Object (2 properties)
+    │   │   ├── Dynamic: Object (2 properties)[]
+    │   │   │   ├── Key: *string
+    │   │   │   └── Value: *string
+    │   │   └── Static: Object (1 property)[]
+    │   │       └── String: *Object (3 properties)
+    │   │           ├── Key: *string
+    │   │           ├── Value: *string
+    │   │           └── ValueType: *Enum (1 value)
+    │   │               └── "String"
+    │   ├── RoutingIdentityInfo: *Object (2 properties)
+    │   │   ├── Type: *Enum (3 values)
+    │   │   │   ├── "None"
+    │   │   │   ├── "SystemAssigned"
+    │   │   │   └── "UserAssigned"
+    │   │   └── UserAssignedIdentity: *string
+    │   └── State: *Enum (2 values)
+    │       ├── "Disabled"
+    │       └── "Enabled"
+    ├── TopicsConfiguration: *Object (2 properties)
+    │   ├── CustomDomains: Object (6 properties)[]
+    │   │   ├── CertificateUrl: *string
+    │   │   ├── ExpectedTxtRecordName: *string
+    │   │   ├── ExpectedTxtRecordValue: *string
+    │   │   ├── FullyQualifiedDomainName: *string
+    │   │   ├── Identity: *Object (2 properties)
+    │   │   │   ├── Type: *Enum (2 values)
+    │   │   │   │   ├── "SystemAssigned"
+    │   │   │   │   └── "UserAssigned"
+    │   │   │   └── UserAssignedIdentity: *string
+    │   │   └── ValidationState: *Enum (3 values)
+    │   │       ├── "Approved"
+    │   │       ├── "ErrorRetrievingDnsRecord"
+    │   │       └── "Pending"
+    │   └── Hostname: *string
+    └── Type: *string
+
+NamespaceTopic: Resource
+├── Owner: Namespace
+├── Spec: Object (6 properties)
+│   ├── AzureName: Validated<string> (3 rules)
+│   │   ├── Rule 0: MaxLength: 50
+│   │   ├── Rule 1: MinLength: 3
+│   │   └── Rule 2: Pattern: "^[a-zA-Z0-9-]*$"
+│   ├── EventRetentionInDays: *int
+│   ├── InputSchema: *Enum (1 value)
+│   │   └── "CloudEventSchemaV1_0"
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
+│   │   └── Secrets: *Object (2 properties)
+│   │       ├── Key1: *genruntime.SecretDestination
+│   │       └── Key2: *genruntime.SecretDestination
+│   ├── Owner: *genruntime.KnownResourceReference
+│   └── PublisherType: *Enum (1 value)
+│       └── "Custom"
+└── Status: Object (9 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── EventRetentionInDays: *int
+    ├── Id: *string
+    ├── InputSchema: *Enum (1 value)
+    │   └── "CloudEventSchemaV1_0"
+    ├── Name: *string
+    ├── ProvisioningState: *Enum (10 values)
+    │   ├── "Canceled"
+    │   ├── "CreateFailed"
+    │   ├── "Creating"
+    │   ├── "DeleteFailed"
+    │   ├── "Deleted"
+    │   ├── "Deleting"
+    │   ├── "Failed"
+    │   ├── "Succeeded"
+    │   ├── "UpdatedFailed"
+    │   └── "Updating"
+    ├── PublisherType: *Enum (1 value)
+    │   └── "Custom"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    └── Type: *string
+
 Topic: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (14 properties)

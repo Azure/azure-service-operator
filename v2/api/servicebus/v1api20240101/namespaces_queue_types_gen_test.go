@@ -5,7 +5,8 @@ package v1api20240101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -40,7 +41,7 @@ func RunPropertyAssignmentTestForMessageCountDetails_STATUS(subject MessageCount
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MessageCountDetails_STATUS
+	var other servicebus_v1api20240101s.MessageCountDetails_STATUS
 	err := copied.AssignProperties_To_MessageCountDetails_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -158,7 +159,7 @@ func RunResourceConversionTestForNamespacesQueue(subject NamespacesQueue) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.NamespacesQueue
+	var hub servicebus_v20240101s.NamespacesQueue
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -205,7 +206,7 @@ func RunPropertyAssignmentTestForNamespacesQueue(subject NamespacesQueue) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesQueue
+	var other servicebus_v1api20240101s.NamespacesQueue
 	err := copied.AssignProperties_To_NamespacesQueue(&other)
 	if err != nil {
 		return err.Error()
@@ -318,7 +319,7 @@ func RunPropertyAssignmentTestForNamespacesQueueOperatorSpec(subject NamespacesQ
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesQueueOperatorSpec
+	var other servicebus_v1api20240101s.NamespacesQueueOperatorSpec
 	err := copied.AssignProperties_To_NamespacesQueueOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -425,7 +426,7 @@ func RunPropertyAssignmentTestForNamespacesQueue_STATUS(subject NamespacesQueue_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesQueue_STATUS
+	var other servicebus_v1api20240101s.NamespacesQueue_STATUS
 	err := copied.AssignProperties_To_NamespacesQueue_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -586,7 +587,7 @@ func RunPropertyAssignmentTestForNamespacesQueue_Spec(subject NamespacesQueue_Sp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesQueue_Spec
+	var other servicebus_v1api20240101s.NamespacesQueue_Spec
 	err := copied.AssignProperties_To_NamespacesQueue_Spec(&other)
 	if err != nil {
 		return err.Error()

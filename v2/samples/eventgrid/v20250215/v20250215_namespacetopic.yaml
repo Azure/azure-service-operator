@@ -1,0 +1,8 @@
+apiVersion: eventgrid.azure.com/v20250215
+kind: NamespaceTopic
+metadata:
+  name: sample-namespace-topic
+  namespace: default
+spec:
+  owner:
+    name: sample-namespace

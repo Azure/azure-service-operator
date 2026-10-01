@@ -13,6 +13,14 @@
 | BoolEqualsAdvancedFilter_OperatorType                                         | v1api20200601 | v20200601 | v20250215 |
 | BoolEqualsAdvancedFilter_OperatorType_STATUS                                  | v1api20200601 | v20200601 | v20250215 |
 | BoolEqualsAdvancedFilter_STATUS                                               | v1api20200601 | v20200601 | v20250215 |
+| CustomDomainConfiguration                                                     |               |           | v20250215 |
+| CustomDomainConfiguration_STATUS                                              |               |           | v20250215 |
+| CustomDomainConfiguration_ValidationState                                     |               |           | v20250215 |
+| CustomDomainConfiguration_ValidationState_STATUS                              |               |           | v20250215 |
+| CustomDomainIdentity                                                          |               |           | v20250215 |
+| CustomDomainIdentity_STATUS                                                   |               |           | v20250215 |
+| CustomDomainIdentity_Type                                                     |               |           | v20250215 |
+| CustomDomainIdentity_Type_STATUS                                              |               |           | v20250215 |
 | DeadLetterDestination                                                         | v1api20200601 | v20200601 | v20250215 |
 | DeadLetterDestination_STATUS                                                  | v1api20200601 | v20200601 | v20250215 |
 | DeadLetterWithResourceIdentity                                                |               |           | v20250215 |
@@ -46,6 +54,8 @@
 | DynamicDeliveryAttributeMapping_STATUS                                        |               |           | v20250215 |
 | DynamicDeliveryAttributeMapping_Type                                          |               |           | v20250215 |
 | DynamicDeliveryAttributeMapping_Type_STATUS                                   |               |           | v20250215 |
+| DynamicRoutingEnrichment                                                      |               |           | v20250215 |
+| DynamicRoutingEnrichment_STATUS                                               |               |           | v20250215 |
 | EventHubEventSubscriptionDestination                                          | v1api20200601 | v20200601 | v20250215 |
 | EventHubEventSubscriptionDestinationProperties                                | v1api20200601 | v20200601 | v20250215 |
 | EventHubEventSubscriptionDestinationProperties_STATUS                         | v1api20200601 | v20200601 | v20250215 |
@@ -116,12 +126,35 @@
 | MonitorAlertEventSubscriptionDestination_EndpointType                         |               |           | v20250215 |
 | MonitorAlertEventSubscriptionDestination_EndpointType_STATUS                  |               |           | v20250215 |
 | MonitorAlertEventSubscriptionDestination_STATUS                               |               |           | v20250215 |
+| Namespace                                                                     |               |           | v20250215 |
+| NamespaceProperties                                                           |               |           | v20250215 |
+| NamespaceProperties_MinimumTlsVersionAllowed_STATUS                           |               |           | v20250215 |
+| NamespaceProperties_ProvisioningState_STATUS                                  |               |           | v20250215 |
+| NamespaceProperties_PublicNetworkAccess                                       |               |           | v20250215 |
+| NamespaceProperties_PublicNetworkAccess_STATUS                                |               |           | v20250215 |
+| NamespaceProperties_STATUS                                                    |               |           | v20250215 |
+| NamespaceSku                                                                  |               |           | v20250215 |
+| NamespaceSku_Name                                                             |               |           | v20250215 |
+| NamespaceSku_Name_STATUS                                                      |               |           | v20250215 |
+| NamespaceSku_STATUS                                                           |               |           | v20250215 |
+| NamespaceTopic                                                                |               |           | v20250215 |
 | NamespaceTopicEventSubscriptionDestination                                    |               |           | v20250215 |
 | NamespaceTopicEventSubscriptionDestinationProperties                          |               |           | v20250215 |
 | NamespaceTopicEventSubscriptionDestinationProperties_STATUS                   |               |           | v20250215 |
 | NamespaceTopicEventSubscriptionDestination_EndpointType                       |               |           | v20250215 |
 | NamespaceTopicEventSubscriptionDestination_EndpointType_STATUS                |               |           | v20250215 |
 | NamespaceTopicEventSubscriptionDestination_STATUS                             |               |           | v20250215 |
+| NamespaceTopicProperties                                                      |               |           | v20250215 |
+| NamespaceTopicProperties_InputSchema                                          |               |           | v20250215 |
+| NamespaceTopicProperties_InputSchema_STATUS                                   |               |           | v20250215 |
+| NamespaceTopicProperties_ProvisioningState_STATUS                             |               |           | v20250215 |
+| NamespaceTopicProperties_PublisherType                                        |               |           | v20250215 |
+| NamespaceTopicProperties_PublisherType_STATUS                                 |               |           | v20250215 |
+| NamespaceTopicProperties_STATUS                                               |               |           | v20250215 |
+| NamespaceTopic_STATUS                                                         |               |           | v20250215 |
+| NamespaceTopic_Spec                                                           |               |           | v20250215 |
+| Namespace_STATUS                                                              |               |           | v20250215 |
+| Namespace_Spec                                                                |               |           | v20250215 |
 | NumberGreaterThanAdvancedFilter                                               | v1api20200601 | v20200601 | v20250215 |
 | NumberGreaterThanAdvancedFilter_OperatorType                                  | v1api20200601 | v20200601 | v20250215 |
 | NumberGreaterThanAdvancedFilter_OperatorType_STATUS                           | v1api20200601 | v20200601 | v20250215 |
@@ -155,9 +188,16 @@
 | NumberNotInRangeAdvancedFilter_OperatorType_STATUS                            |               |           | v20250215 |
 | NumberNotInRangeAdvancedFilter_STATUS                                         |               |           | v20250215 |
 | PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded                   | v1api20200601 | v20200601 | v20250215 |
+| PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded                |               |           | v20250215 |
 | PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded                    | v1api20200601 | v20200601 | v20250215 |
 | RetryPolicy                                                                   | v1api20200601 | v20200601 | v20250215 |
 | RetryPolicy_STATUS                                                            | v1api20200601 | v20200601 | v20250215 |
+| RoutingEnrichments                                                            |               |           | v20250215 |
+| RoutingEnrichments_STATUS                                                     |               |           | v20250215 |
+| RoutingIdentityInfo                                                           |               |           | v20250215 |
+| RoutingIdentityInfo_STATUS                                                    |               |           | v20250215 |
+| RoutingIdentityInfo_Type                                                      |               |           | v20250215 |
+| RoutingIdentityInfo_Type_STATUS                                               |               |           | v20250215 |
 | ServiceBusQueueEventSubscriptionDestination                                   | v1api20200601 | v20200601 | v20250215 |
 | ServiceBusQueueEventSubscriptionDestinationProperties                         | v1api20200601 | v20200601 | v20250215 |
 | ServiceBusQueueEventSubscriptionDestinationProperties_STATUS                  | v1api20200601 | v20200601 | v20250215 |
@@ -176,6 +216,12 @@
 | StaticDeliveryAttributeMapping_STATUS                                         |               |           | v20250215 |
 | StaticDeliveryAttributeMapping_Type                                           |               |           | v20250215 |
 | StaticDeliveryAttributeMapping_Type_STATUS                                    |               |           | v20250215 |
+| StaticRoutingEnrichment                                                       |               |           | v20250215 |
+| StaticRoutingEnrichment_STATUS                                                |               |           | v20250215 |
+| StaticStringRoutingEnrichment                                                 |               |           | v20250215 |
+| StaticStringRoutingEnrichment_STATUS                                          |               |           | v20250215 |
+| StaticStringRoutingEnrichment_ValueType                                       |               |           | v20250215 |
+| StaticStringRoutingEnrichment_ValueType_STATUS                                |               |           | v20250215 |
 | StorageBlobDeadLetterDestination                                              | v1api20200601 | v20200601 | v20250215 |
 | StorageBlobDeadLetterDestinationProperties                                    | v1api20200601 | v20200601 | v20250215 |
 | StorageBlobDeadLetterDestinationProperties_STATUS                             | v1api20200601 | v20200601 | v20250215 |
@@ -235,8 +281,14 @@
 | TopicProperties_PublicNetworkAccess                                           | v1api20200601 | v20200601 | v20250215 |
 | TopicProperties_PublicNetworkAccess_STATUS                                    | v1api20200601 | v20200601 | v20250215 |
 | TopicProperties_STATUS                                                        | v1api20200601 | v20200601 | v20250215 |
+| TopicSpacesConfiguration                                                      |               |           | v20250215 |
+| TopicSpacesConfiguration_STATUS                                               |               |           | v20250215 |
+| TopicSpacesConfiguration_State                                                |               |           | v20250215 |
+| TopicSpacesConfiguration_State_STATUS                                         |               |           | v20250215 |
 | Topic_STATUS                                                                  | v1api20200601 | v20200601 | v20250215 |
 | Topic_Spec                                                                    | v1api20200601 | v20200601 | v20250215 |
+| TopicsConfiguration                                                           |               |           | v20250215 |
+| TopicsConfiguration_STATUS                                                    |               |           | v20250215 |
 | UserAssignedIdentityDetails                                                   |               |           | v20250215 |
 | UserIdentityProperties_STATUS                                                 |               |           | v20250215 |
 | WebHookEventSubscriptionDestination                                           | v1api20200601 | v20200601 | v20250215 |

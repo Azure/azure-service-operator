@@ -392,10 +392,20 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 // after each reconcile and so does not need to be preserved.
 func (builder *convertFromARMBuilder) conditionsPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
-	_ *astmodel.ObjectType,
+	fromType *astmodel.ObjectType,
 ) (propertyConversionHandlerResult, error) {
 	isPropConditions := toProp.PropertyName() == builder.idFactory.CreatePropertyName(astmodel.ConditionsProperty, astmodel.Exported)
 	if !isPropConditions || builder.typeKind != TypeKindStatus {
+		return notHandled, nil
+	}
+
+	// Conditions are normally injected into Kubernetes status types by the
+	// generator and are maintained by the controller. However, a nested ARM
+	// status object can also legitimately contain a property named
+	// "conditions" (for example HCP cluster properties.status.conditions).
+	// Preserve those ARM conditions instead of treating them as ASO's generic
+	// top-level conditions.
+	if fromType.Properties().ContainsProperty(toProp.PropertyName()) {
 		return notHandled, nil
 	}
 

@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=servicebus.azure.com,resources=topicauthorizationrules,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=servicebus.azure.com,resources={topicauthorizationrules/status,topicauthorizationrules/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,servicebus}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (rule *TopicAuthorizationRule) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (rule *TopicAuthorizationRule) SetConditions(conditions conditions.Conditions) {
 	rule.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &TopicAuthorizationRule{}
+
+// ConvertFrom populates our TopicAuthorizationRule from the provided hub TopicAuthorizationRule
+func (rule *TopicAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.TopicAuthorizationRule)
+	if !ok {
+		return fmt.Errorf("expected servicebus/v20240101/storage/TopicAuthorizationRule but received %T instead", hub)
+	}
+
+	return rule.AssignProperties_From_TopicAuthorizationRule(source)
+}
+
+// ConvertTo populates the provided hub TopicAuthorizationRule from our TopicAuthorizationRule
+func (rule *TopicAuthorizationRule) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.TopicAuthorizationRule)
+	if !ok {
+		return fmt.Errorf("expected servicebus/v20240101/storage/TopicAuthorizationRule but received %T instead", hub)
+	}
+
+	return rule.AssignProperties_To_TopicAuthorizationRule(destination)
 }
 
 var _ configmaps.Exporter = &TopicAuthorizationRule{}
@@ -143,8 +164,75 @@ func (rule *TopicAuthorizationRule) SetStatus(status genruntime.ConvertibleStatu
 	return nil
 }
 
-// Hub marks that this TopicAuthorizationRule is the hub type for conversion
-func (rule *TopicAuthorizationRule) Hub() {}
+// AssignProperties_From_TopicAuthorizationRule populates our TopicAuthorizationRule from the provided source TopicAuthorizationRule
+func (rule *TopicAuthorizationRule) AssignProperties_From_TopicAuthorizationRule(source *storage.TopicAuthorizationRule) error {
+
+	// ObjectMeta
+	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec TopicAuthorizationRule_Spec
+	err := spec.AssignProperties_From_TopicAuthorizationRule_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_TopicAuthorizationRule_Spec() to populate field Spec")
+	}
+	rule.Spec = spec
+
+	// Status
+	var status TopicAuthorizationRule_STATUS
+	err = status.AssignProperties_From_TopicAuthorizationRule_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_TopicAuthorizationRule_STATUS() to populate field Status")
+	}
+	rule.Status = status
+
+	// Invoke the augmentConversionForTopicAuthorizationRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForTopicAuthorizationRule); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TopicAuthorizationRule populates the provided destination TopicAuthorizationRule from our TopicAuthorizationRule
+func (rule *TopicAuthorizationRule) AssignProperties_To_TopicAuthorizationRule(destination *storage.TopicAuthorizationRule) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.TopicAuthorizationRule_Spec
+	err := rule.Spec.AssignProperties_To_TopicAuthorizationRule_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_TopicAuthorizationRule_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.TopicAuthorizationRule_STATUS
+	err = rule.Status.AssignProperties_To_TopicAuthorizationRule_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_TopicAuthorizationRule_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForTopicAuthorizationRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForTopicAuthorizationRule); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (rule *TopicAuthorizationRule) OriginalGVK() *schema.GroupVersionKind {
@@ -164,6 +252,11 @@ type TopicAuthorizationRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []TopicAuthorizationRule `json:"items"`
+}
+
+type augmentConversionForTopicAuthorizationRule interface {
+	AssignPropertiesFrom(src *storage.TopicAuthorizationRule) error
+	AssignPropertiesTo(dst *storage.TopicAuthorizationRule) error
 }
 
 // Storage version of v1api20240101.TopicAuthorizationRule_Spec
@@ -187,20 +280,158 @@ var _ genruntime.ConvertibleSpec = &TopicAuthorizationRule_Spec{}
 
 // ConvertSpecFrom populates our TopicAuthorizationRule_Spec from the provided source
 func (rule *TopicAuthorizationRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.TopicAuthorizationRule_Spec)
+	if ok {
+		// Populate our instance from source
+		return rule.AssignProperties_From_TopicAuthorizationRule_Spec(src)
 	}
 
-	return source.ConvertSpecTo(rule)
+	// Convert to an intermediate form
+	src = &storage.TopicAuthorizationRule_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = rule.AssignProperties_From_TopicAuthorizationRule_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our TopicAuthorizationRule_Spec
 func (rule *TopicAuthorizationRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.TopicAuthorizationRule_Spec)
+	if ok {
+		// Populate destination from our instance
+		return rule.AssignProperties_To_TopicAuthorizationRule_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(rule)
+	// Convert to an intermediate form
+	dst = &storage.TopicAuthorizationRule_Spec{}
+	err := rule.AssignProperties_To_TopicAuthorizationRule_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_TopicAuthorizationRule_Spec populates our TopicAuthorizationRule_Spec from the provided source TopicAuthorizationRule_Spec
+func (rule *TopicAuthorizationRule_Spec) AssignProperties_From_TopicAuthorizationRule_Spec(source *storage.TopicAuthorizationRule_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	rule.AzureName = source.AzureName
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec TopicAuthorizationRuleOperatorSpec
+		err := operatorSpec.AssignProperties_From_TopicAuthorizationRuleOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_TopicAuthorizationRuleOperatorSpec() to populate field OperatorSpec")
+		}
+		rule.OperatorSpec = &operatorSpec
+	} else {
+		rule.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	rule.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		rule.Owner = &owner
+	} else {
+		rule.Owner = nil
+	}
+
+	// Rights
+	rule.Rights = genruntime.CloneSliceOfString(source.Rights)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopicAuthorizationRule_Spec interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForTopicAuthorizationRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TopicAuthorizationRule_Spec populates the provided destination TopicAuthorizationRule_Spec from our TopicAuthorizationRule_Spec
+func (rule *TopicAuthorizationRule_Spec) AssignProperties_To_TopicAuthorizationRule_Spec(destination *storage.TopicAuthorizationRule_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// AzureName
+	destination.AzureName = rule.AzureName
+
+	// OperatorSpec
+	if rule.OperatorSpec != nil {
+		var operatorSpec storage.TopicAuthorizationRuleOperatorSpec
+		err := rule.OperatorSpec.AssignProperties_To_TopicAuthorizationRuleOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_TopicAuthorizationRuleOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = rule.OriginalVersion
+
+	// Owner
+	if rule.Owner != nil {
+		owner := rule.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Rights
+	destination.Rights = genruntime.CloneSliceOfString(rule.Rights)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopicAuthorizationRule_Spec interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForTopicAuthorizationRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20240101.TopicAuthorizationRule_STATUS
@@ -219,20 +450,170 @@ var _ genruntime.ConvertibleStatus = &TopicAuthorizationRule_STATUS{}
 
 // ConvertStatusFrom populates our TopicAuthorizationRule_STATUS from the provided source
 func (rule *TopicAuthorizationRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.TopicAuthorizationRule_STATUS)
+	if ok {
+		// Populate our instance from source
+		return rule.AssignProperties_From_TopicAuthorizationRule_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(rule)
+	// Convert to an intermediate form
+	src = &storage.TopicAuthorizationRule_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = rule.AssignProperties_From_TopicAuthorizationRule_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our TopicAuthorizationRule_STATUS
 func (rule *TopicAuthorizationRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.TopicAuthorizationRule_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return rule.AssignProperties_To_TopicAuthorizationRule_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(rule)
+	// Convert to an intermediate form
+	dst = &storage.TopicAuthorizationRule_STATUS{}
+	err := rule.AssignProperties_To_TopicAuthorizationRule_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_TopicAuthorizationRule_STATUS populates our TopicAuthorizationRule_STATUS from the provided source TopicAuthorizationRule_STATUS
+func (rule *TopicAuthorizationRule_STATUS) AssignProperties_From_TopicAuthorizationRule_STATUS(source *storage.TopicAuthorizationRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	rule.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	rule.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	rule.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Rights
+	rule.Rights = genruntime.CloneSliceOfString(source.Rights)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		rule.SystemData = &systemDatum
+	} else {
+		rule.SystemData = nil
+	}
+
+	// Type
+	rule.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopicAuthorizationRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForTopicAuthorizationRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TopicAuthorizationRule_STATUS populates the provided destination TopicAuthorizationRule_STATUS from our TopicAuthorizationRule_STATUS
+func (rule *TopicAuthorizationRule_STATUS) AssignProperties_To_TopicAuthorizationRule_STATUS(destination *storage.TopicAuthorizationRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(rule.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(rule.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(rule.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// Rights
+	destination.Rights = genruntime.CloneSliceOfString(rule.Rights)
+
+	// SystemData
+	if rule.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := rule.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(rule.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopicAuthorizationRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForTopicAuthorizationRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForTopicAuthorizationRule_Spec interface {
+	AssignPropertiesFrom(src *storage.TopicAuthorizationRule_Spec) error
+	AssignPropertiesTo(dst *storage.TopicAuthorizationRule_Spec) error
+}
+
+type augmentConversionForTopicAuthorizationRule_STATUS interface {
+	AssignPropertiesFrom(src *storage.TopicAuthorizationRule_STATUS) error
+	AssignPropertiesTo(dst *storage.TopicAuthorizationRule_STATUS) error
 }
 
 // Storage version of v1api20240101.TopicAuthorizationRuleOperatorSpec
@@ -244,6 +625,149 @@ type TopicAuthorizationRuleOperatorSpec struct {
 	Secrets              *TopicAuthorizationRuleOperatorSecrets `json:"secrets,omitempty"`
 }
 
+// AssignProperties_From_TopicAuthorizationRuleOperatorSpec populates our TopicAuthorizationRuleOperatorSpec from the provided source TopicAuthorizationRuleOperatorSpec
+func (operator *TopicAuthorizationRuleOperatorSpec) AssignProperties_From_TopicAuthorizationRuleOperatorSpec(source *storage.TopicAuthorizationRuleOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret TopicAuthorizationRuleOperatorSecrets
+		err := secret.AssignProperties_From_TopicAuthorizationRuleOperatorSecrets(source.Secrets)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_TopicAuthorizationRuleOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopicAuthorizationRuleOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForTopicAuthorizationRuleOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TopicAuthorizationRuleOperatorSpec populates the provided destination TopicAuthorizationRuleOperatorSpec from our TopicAuthorizationRuleOperatorSpec
+func (operator *TopicAuthorizationRuleOperatorSpec) AssignProperties_To_TopicAuthorizationRuleOperatorSpec(destination *storage.TopicAuthorizationRuleOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret storage.TopicAuthorizationRuleOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_TopicAuthorizationRuleOperatorSecrets(&secret)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_TopicAuthorizationRuleOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopicAuthorizationRuleOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForTopicAuthorizationRuleOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForTopicAuthorizationRuleOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.TopicAuthorizationRuleOperatorSpec) error
+	AssignPropertiesTo(dst *storage.TopicAuthorizationRuleOperatorSpec) error
+}
+
 // Storage version of v1api20240101.TopicAuthorizationRuleOperatorSecrets
 type TopicAuthorizationRuleOperatorSecrets struct {
 	PrimaryConnectionString   *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
@@ -251,6 +775,125 @@ type TopicAuthorizationRuleOperatorSecrets struct {
 	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecondaryConnectionString *genruntime.SecretDestination `json:"secondaryConnectionString,omitempty"`
 	SecondaryKey              *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
+}
+
+// AssignProperties_From_TopicAuthorizationRuleOperatorSecrets populates our TopicAuthorizationRuleOperatorSecrets from the provided source TopicAuthorizationRuleOperatorSecrets
+func (secrets *TopicAuthorizationRuleOperatorSecrets) AssignProperties_From_TopicAuthorizationRuleOperatorSecrets(source *storage.TopicAuthorizationRuleOperatorSecrets) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// PrimaryConnectionString
+	if source.PrimaryConnectionString != nil {
+		primaryConnectionString := *source.PrimaryConnectionString.DeepCopy()
+		secrets.PrimaryConnectionString = &primaryConnectionString
+	} else {
+		secrets.PrimaryConnectionString = nil
+	}
+
+	// PrimaryKey
+	if source.PrimaryKey != nil {
+		primaryKey := *source.PrimaryKey.DeepCopy()
+		secrets.PrimaryKey = &primaryKey
+	} else {
+		secrets.PrimaryKey = nil
+	}
+
+	// SecondaryConnectionString
+	if source.SecondaryConnectionString != nil {
+		secondaryConnectionString := *source.SecondaryConnectionString.DeepCopy()
+		secrets.SecondaryConnectionString = &secondaryConnectionString
+	} else {
+		secrets.SecondaryConnectionString = nil
+	}
+
+	// SecondaryKey
+	if source.SecondaryKey != nil {
+		secondaryKey := *source.SecondaryKey.DeepCopy()
+		secrets.SecondaryKey = &secondaryKey
+	} else {
+		secrets.SecondaryKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		secrets.PropertyBag = propertyBag
+	} else {
+		secrets.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopicAuthorizationRuleOperatorSecrets interface (if implemented) to customize the conversion
+	var secretsAsAny any = secrets
+	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForTopicAuthorizationRuleOperatorSecrets); ok {
+		err := augmentedSecrets.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TopicAuthorizationRuleOperatorSecrets populates the provided destination TopicAuthorizationRuleOperatorSecrets from our TopicAuthorizationRuleOperatorSecrets
+func (secrets *TopicAuthorizationRuleOperatorSecrets) AssignProperties_To_TopicAuthorizationRuleOperatorSecrets(destination *storage.TopicAuthorizationRuleOperatorSecrets) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(secrets.PropertyBag)
+
+	// PrimaryConnectionString
+	if secrets.PrimaryConnectionString != nil {
+		primaryConnectionString := *secrets.PrimaryConnectionString.DeepCopy()
+		destination.PrimaryConnectionString = &primaryConnectionString
+	} else {
+		destination.PrimaryConnectionString = nil
+	}
+
+	// PrimaryKey
+	if secrets.PrimaryKey != nil {
+		primaryKey := *secrets.PrimaryKey.DeepCopy()
+		destination.PrimaryKey = &primaryKey
+	} else {
+		destination.PrimaryKey = nil
+	}
+
+	// SecondaryConnectionString
+	if secrets.SecondaryConnectionString != nil {
+		secondaryConnectionString := *secrets.SecondaryConnectionString.DeepCopy()
+		destination.SecondaryConnectionString = &secondaryConnectionString
+	} else {
+		destination.SecondaryConnectionString = nil
+	}
+
+	// SecondaryKey
+	if secrets.SecondaryKey != nil {
+		secondaryKey := *secrets.SecondaryKey.DeepCopy()
+		destination.SecondaryKey = &secondaryKey
+	} else {
+		destination.SecondaryKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopicAuthorizationRuleOperatorSecrets interface (if implemented) to customize the conversion
+	var secretsAsAny any = secrets
+	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForTopicAuthorizationRuleOperatorSecrets); ok {
+		err := augmentedSecrets.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForTopicAuthorizationRuleOperatorSecrets interface {
+	AssignPropertiesFrom(src *storage.TopicAuthorizationRuleOperatorSecrets) error
+	AssignPropertiesTo(dst *storage.TopicAuthorizationRuleOperatorSecrets) error
 }
 
 func init() {

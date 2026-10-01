@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v20221001preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -403,17 +403,7 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *st
 	namespace.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MinimumTlsVersion
-	if propertyBag.Contains("MinimumTlsVersion") {
-		var minimumTlsVersion string
-		err := propertyBag.Pull("MinimumTlsVersion", &minimumTlsVersion)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'MinimumTlsVersion' from propertyBag")
-		}
-
-		namespace.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		namespace.MinimumTlsVersion = nil
-	}
+	namespace.MinimumTlsVersion = genruntime.ClonePointerToString(source.MinimumTlsVersion)
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
@@ -439,30 +429,10 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *st
 	}
 
 	// PremiumMessagingPartitions
-	if propertyBag.Contains("PremiumMessagingPartitions") {
-		var premiumMessagingPartition int
-		err := propertyBag.Pull("PremiumMessagingPartitions", &premiumMessagingPartition)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PremiumMessagingPartitions' from propertyBag")
-		}
-
-		namespace.PremiumMessagingPartitions = &premiumMessagingPartition
-	} else {
-		namespace.PremiumMessagingPartitions = nil
-	}
+	namespace.PremiumMessagingPartitions = genruntime.ClonePointerToInt(source.PremiumMessagingPartitions)
 
 	// PublicNetworkAccess
-	if propertyBag.Contains("PublicNetworkAccess") {
-		var publicNetworkAccess string
-		err := propertyBag.Pull("PublicNetworkAccess", &publicNetworkAccess)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
-		}
-
-		namespace.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		namespace.PublicNetworkAccess = nil
-	}
+	namespace.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
 	// Sku
 	if source.Sku != nil {
@@ -554,11 +524,7 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 	destination.Location = genruntime.ClonePointerToString(namespace.Location)
 
 	// MinimumTlsVersion
-	if namespace.MinimumTlsVersion != nil {
-		propertyBag.Add("MinimumTlsVersion", *namespace.MinimumTlsVersion)
-	} else {
-		propertyBag.Remove("MinimumTlsVersion")
-	}
+	destination.MinimumTlsVersion = genruntime.ClonePointerToString(namespace.MinimumTlsVersion)
 
 	// OperatorSpec
 	if namespace.OperatorSpec != nil {
@@ -584,18 +550,10 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 	}
 
 	// PremiumMessagingPartitions
-	if namespace.PremiumMessagingPartitions != nil {
-		propertyBag.Add("PremiumMessagingPartitions", *namespace.PremiumMessagingPartitions)
-	} else {
-		propertyBag.Remove("PremiumMessagingPartitions")
-	}
+	destination.PremiumMessagingPartitions = genruntime.ClonePointerToInt(namespace.PremiumMessagingPartitions)
 
 	// PublicNetworkAccess
-	if namespace.PublicNetworkAccess != nil {
-		propertyBag.Add("PublicNetworkAccess", *namespace.PublicNetworkAccess)
-	} else {
-		propertyBag.Remove("PublicNetworkAccess")
-	}
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(namespace.PublicNetworkAccess)
 
 	// Sku
 	if namespace.Sku != nil {
@@ -774,33 +732,13 @@ func (namespace *Namespace_STATUS) AssignProperties_From_Namespace_STATUS(source
 	namespace.MetricId = genruntime.ClonePointerToString(source.MetricId)
 
 	// MinimumTlsVersion
-	if propertyBag.Contains("MinimumTlsVersion") {
-		var minimumTlsVersion string
-		err := propertyBag.Pull("MinimumTlsVersion", &minimumTlsVersion)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'MinimumTlsVersion' from propertyBag")
-		}
-
-		namespace.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		namespace.MinimumTlsVersion = nil
-	}
+	namespace.MinimumTlsVersion = genruntime.ClonePointerToString(source.MinimumTlsVersion)
 
 	// Name
 	namespace.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PremiumMessagingPartitions
-	if propertyBag.Contains("PremiumMessagingPartitions") {
-		var premiumMessagingPartition int
-		err := propertyBag.Pull("PremiumMessagingPartitions", &premiumMessagingPartition)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PremiumMessagingPartitions' from propertyBag")
-		}
-
-		namespace.PremiumMessagingPartitions = &premiumMessagingPartition
-	} else {
-		namespace.PremiumMessagingPartitions = nil
-	}
+	namespace.PremiumMessagingPartitions = genruntime.ClonePointerToInt(source.PremiumMessagingPartitions)
 
 	// PrivateEndpointConnections
 	if source.PrivateEndpointConnections != nil {
@@ -822,17 +760,7 @@ func (namespace *Namespace_STATUS) AssignProperties_From_Namespace_STATUS(source
 	namespace.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccess
-	if propertyBag.Contains("PublicNetworkAccess") {
-		var publicNetworkAccess string
-		err := propertyBag.Pull("PublicNetworkAccess", &publicNetworkAccess)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
-		}
-
-		namespace.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		namespace.PublicNetworkAccess = nil
-	}
+	namespace.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
 	// ServiceBusEndpoint
 	namespace.ServiceBusEndpoint = genruntime.ClonePointerToString(source.ServiceBusEndpoint)
@@ -957,21 +885,13 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 	destination.MetricId = genruntime.ClonePointerToString(namespace.MetricId)
 
 	// MinimumTlsVersion
-	if namespace.MinimumTlsVersion != nil {
-		propertyBag.Add("MinimumTlsVersion", *namespace.MinimumTlsVersion)
-	} else {
-		propertyBag.Remove("MinimumTlsVersion")
-	}
+	destination.MinimumTlsVersion = genruntime.ClonePointerToString(namespace.MinimumTlsVersion)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(namespace.Name)
 
 	// PremiumMessagingPartitions
-	if namespace.PremiumMessagingPartitions != nil {
-		propertyBag.Add("PremiumMessagingPartitions", *namespace.PremiumMessagingPartitions)
-	} else {
-		propertyBag.Remove("PremiumMessagingPartitions")
-	}
+	destination.PremiumMessagingPartitions = genruntime.ClonePointerToInt(namespace.PremiumMessagingPartitions)
 
 	// PrivateEndpointConnections
 	if namespace.PrivateEndpointConnections != nil {
@@ -993,11 +913,7 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 	destination.ProvisioningState = genruntime.ClonePointerToString(namespace.ProvisioningState)
 
 	// PublicNetworkAccess
-	if namespace.PublicNetworkAccess != nil {
-		propertyBag.Add("PublicNetworkAccess", *namespace.PublicNetworkAccess)
-	} else {
-		propertyBag.Remove("PublicNetworkAccess")
-	}
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(namespace.PublicNetworkAccess)
 
 	// ServiceBusEndpoint
 	destination.ServiceBusEndpoint = genruntime.ClonePointerToString(namespace.ServiceBusEndpoint)

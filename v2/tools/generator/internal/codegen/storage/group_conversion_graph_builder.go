@@ -111,19 +111,19 @@ func (b *GroupConversionGraphBuilder) apiReferencesConvertToStorage(refs []astmo
 
 // compatibilityReferencesConvertToOriginalPackage links any compatibility references to the original if present
 func (b *GroupConversionGraphBuilder) compatibilityReferencesConvertToOriginalPackage(refs []astmodel.InternalPackageReference) {
-	for i, ref := range refs {
-		// Last package can't be linked forward
-		if i+1 >= len(refs) {
-			break
-		}
+	allRefs := make(map[string]astmodel.InternalPackageReference, len(refs))
+	for _, ref := range refs {
+		allRefs[ref.String()] = ref
+	}
 
-		if !isCompatibilityPackage(ref) {
+	for _, ref := range refs {
+		original, ok := asNewStylePackageReference(ref)
+		if !ok {
 			continue
 		}
 
-		next := refs[i+1]
-		if next.HasAPIVersion(ref.APIVersion()) {
-			b.links[ref] = next
+		if _, exists := allRefs[original.String()]; exists {
+			b.links[ref] = original
 		}
 	}
 }

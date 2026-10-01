@@ -5,6 +5,10 @@ typeTransformers:
     property: PrincipalId;TenantId
     remove: true
     because: These properties are populated by Azure and should only appear in status, not spec
+  - name: NamespaceProperties
+    property: MinimumTlsVersionAllowed
+    remove: true
+    because: This is a read-only property in Azure and cannot be set on create or update, despite not being marked readOnly in the Swagger
 
 groupModelConfiguration:
   2020-06-01:
@@ -44,6 +48,21 @@ groupModelConfiguration:
     EventSubscription:
       $exportAs: EventSubscription
       $supportedFrom: v2.21.0
+    Namespace:
+      $exportAs: Namespace
+      $supportedFrom: v2.22.0
+      $azureGeneratedSecrets:
+        - Key1
+        - Key2
+    Namespaces_Topic:
+      $exportAs: NamespaceTopic
+      $supportedFrom: v2.22.0
+      $azureGeneratedSecrets:
+        - Key1
+        - Key2
+    TopicSpacesConfiguration:
+      RouteTopicResourceId:
+        $referenceType: arm
     StorageQueueEventSubscriptionDestinationProperties:
       QueueName:
         $importConfigMapMode: optional

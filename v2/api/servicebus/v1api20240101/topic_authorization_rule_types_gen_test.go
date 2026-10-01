@@ -5,7 +5,8 @@ package v1api20240101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForTopicAuthorizationRule(subject TopicAuthorizati
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.TopicAuthorizationRule
+	var hub servicebus_v20240101s.TopicAuthorizationRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForTopicAuthorizationRule(subject TopicAuthorizati
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TopicAuthorizationRule
+	var other servicebus_v1api20240101s.TopicAuthorizationRule
 	err := copied.AssignProperties_To_TopicAuthorizationRule(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +203,7 @@ func RunPropertyAssignmentTestForTopicAuthorizationRuleOperatorSecrets(subject T
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TopicAuthorizationRuleOperatorSecrets
+	var other servicebus_v1api20240101s.TopicAuthorizationRuleOperatorSecrets
 	err := copied.AssignProperties_To_TopicAuthorizationRuleOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForTopicAuthorizationRuleOperatorSpec(subject Topi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TopicAuthorizationRuleOperatorSpec
+	var other servicebus_v1api20240101s.TopicAuthorizationRuleOperatorSpec
 	err := copied.AssignProperties_To_TopicAuthorizationRuleOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -422,7 +423,7 @@ func RunPropertyAssignmentTestForTopicAuthorizationRule_STATUS(subject TopicAuth
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TopicAuthorizationRule_STATUS
+	var other servicebus_v1api20240101s.TopicAuthorizationRule_STATUS
 	err := copied.AssignProperties_To_TopicAuthorizationRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -553,7 +554,7 @@ func RunPropertyAssignmentTestForTopicAuthorizationRule_Spec(subject TopicAuthor
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TopicAuthorizationRule_Spec
+	var other servicebus_v1api20240101s.TopicAuthorizationRule_Spec
 	err := copied.AssignProperties_To_TopicAuthorizationRule_Spec(&other)
 	if err != nil {
 		return err.Error()
