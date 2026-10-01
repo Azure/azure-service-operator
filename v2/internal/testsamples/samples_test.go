@@ -29,8 +29,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-const samplesPath = "../../samples"
-const redactedEntraID = "11111111-1111-1111-1111-111111111111"
+const (
+	samplesPath     = "../../samples"
+	redactedEntraID = "11111111-1111-1111-1111-111111111111"
+)
 
 type servicePrincipalRedactionPlan struct {
 	bootstrapResources []client.Object

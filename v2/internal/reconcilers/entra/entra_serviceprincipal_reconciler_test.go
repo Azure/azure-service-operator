@@ -122,7 +122,7 @@ func TestServicePrincipalTryAdoptByAppId(t *testing.T) {
 				EntraClientFactory: servicePrincipalTestFactory(adapter),
 			}
 			obj := &asoentra.ServicePrincipal{
-				Spec: asoentra.ServicePrincipalSpec{AppId: stringPtr(appID)},
+				Spec: asoentra.ServicePrincipalSpec{AppId: new(appID)},
 			}
 
 			id, err := reconciler.tryAdopt(context.Background(), obj, logr.Discard())
@@ -181,21 +181,21 @@ func TestServicePrincipalTryAdoptByDisplayName(t *testing.T) {
 		},
 		{
 			name:        "GUID match takes priority regardless of name",
-			appID:       stringPtr(appID),
+			appID:       new(appID),
 			appMatches:  []msgraphmodels.ServicePrincipalable{testServicePrincipal(objectID, appID)},
 			wantFilters: []string{"appId eq '" + appID + "'"},
 			wantID:      objectID,
 		},
 		{
 			name:        "name fallback matches GUID",
-			appID:       stringPtr(appID),
+			appID:       new(appID),
 			nameMatches: []msgraphmodels.ServicePrincipalable{testServicePrincipal(objectID, appID)},
 			wantFilters: []string{"appId eq '" + appID + "'", "displayName eq 'Azure''s Cassandra Service'"},
 			wantID:      objectID,
 		},
 		{
 			name:        "name fallback conflicts with GUID",
-			appID:       stringPtr(appID),
+			appID:       new(appID),
 			nameMatches: []msgraphmodels.ServicePrincipalable{testServicePrincipal(objectID, otherAppID)},
 			wantFilters: []string{"appId eq '" + appID + "'", "displayName eq 'Azure''s Cassandra Service'"},
 			wantErr:     "expected \"" + appID + "\"",
@@ -224,7 +224,7 @@ func TestServicePrincipalTryAdoptByDisplayName(t *testing.T) {
 					page.SetValue(tc.appMatches)
 				} else if tc.paginated {
 					page.SetValue(tc.nameMatches[:1])
-					page.SetOdataNextLink(stringPtr("https://graph.microsoft.com/beta/servicePrincipals?$skiptoken=next"))
+					page.SetOdataNextLink(new("https://graph.microsoft.com/beta/servicePrincipals?$skiptoken=next"))
 				} else {
 					page.SetValue(tc.nameMatches)
 				}
@@ -236,7 +236,7 @@ func TestServicePrincipalTryAdoptByDisplayName(t *testing.T) {
 			obj := &asoentra.ServicePrincipal{
 				Spec: asoentra.ServicePrincipalSpec{
 					AppId:       tc.appID,
-					DisplayName: stringPtr(name),
+					DisplayName: new(name),
 				},
 			}
 
@@ -266,7 +266,7 @@ func TestServicePrincipalNameOnlyAdoptsExisting(t *testing.T) {
 		uri, err := request.GetUri()
 		g.Expect(err).NotTo(gomega.HaveOccurred())
 		principal := testServicePrincipal(objectID, appID)
-		principal.SetDisplayName(stringPtr(name))
+		principal.SetDisplayName(new(name))
 		if uri.Path == "/beta/servicePrincipals" {
 			g.Expect(uri.Query().Get("$filter")).To(gomega.Equal("displayName eq '" + name + "'"))
 			page := msgraphmodels.NewServicePrincipalCollectionResponse()
@@ -278,14 +278,14 @@ func TestServicePrincipalNameOnlyAdoptsExisting(t *testing.T) {
 	}
 	reconciler := &EntraServicePrincipalReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
 	obj := &asoentra.ServicePrincipal{
-		Spec: asoentra.ServicePrincipalSpec{DisplayName: stringPtr(name)},
+		Spec: asoentra.ServicePrincipalSpec{DisplayName: new(name)},
 	}
 
 	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 	g.Expect(err).NotTo(gomega.HaveOccurred())
 	g.Expect(calls).To(gomega.Equal(2))
-	g.Expect(obj.Status.EntraID).To(gomega.Equal(stringPtr(objectID)))
-	g.Expect(obj.Status.AppId).To(gomega.Equal(stringPtr(appID)))
+	g.Expect(obj.Status.EntraID).To(gomega.Equal(new(objectID)))
+	g.Expect(obj.Status.AppId).To(gomega.Equal(new(appID)))
 	g.Expect(obj.Annotations[servicePrincipalCreatedAnnotation]).To(gomega.Equal("false"))
 }
 
@@ -306,7 +306,7 @@ func TestServicePrincipalNameOnlyMissingDoesNotCreate(t *testing.T) {
 	}
 	reconciler := &EntraServicePrincipalReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
 	obj := &asoentra.ServicePrincipal{
-		Spec: asoentra.ServicePrincipalSpec{DisplayName: stringPtr("new principal")},
+		Spec: asoentra.ServicePrincipalSpec{DisplayName: new("new principal")},
 	}
 
 	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
@@ -315,34 +315,42 @@ func TestServicePrincipalNameOnlyMissingDoesNotCreate(t *testing.T) {
 
 func TestServicePrincipalCreationModes(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
-	reconciler := &EntraServicePrincipalReconciler{}
-	obj := &asoentra.ServicePrincipal{}
 
-	g.Expect(reconciler.canAdopt(obj)).To(gomega.BeTrue())
-	g.Expect(reconciler.canCreate(obj)).To(gomega.BeTrue())
-	obj.Spec.OperatorSpec = &asoentra.ServicePrincipalOperatorSpec{}
-	g.Expect(reconciler.canAdopt(obj)).To(gomega.BeTrue())
-	g.Expect(reconciler.canCreate(obj)).To(gomega.BeTrue())
-
-	for _, tc := range []struct {
+	cases := map[string]struct {
 		mode      asoentra.CreationMode
 		canAdopt  bool
 		canCreate bool
 	}{
-		{mode: asoentra.AdoptOnly, canAdopt: true, canCreate: false},
-		{mode: asoentra.AdoptOrCreate, canAdopt: true, canCreate: true},
-		{mode: asoentra.AlwaysCreate, canAdopt: false, canCreate: true},
-	} {
-		t.Run(string(tc.mode), func(t *testing.T) {
+		"AdoptOnly": {
+			mode:      asoentra.AdoptOnly,
+			canAdopt:  true,
+			canCreate: false,
+		},
+		"AdoptOrCreate": {
+			mode:      asoentra.AdoptOrCreate,
+			canAdopt:  true,
+			canCreate: true,
+		},
+		"AlwaysCreate": {
+			mode:      asoentra.AlwaysCreate,
+			canAdopt:  false,
+			canCreate: true,
+		},
+	}
+
+	reconciler := &EntraServicePrincipalReconciler{}
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
 			g := gomega.NewWithT(t)
+
 			typedObj := &asoentra.ServicePrincipal{
 				Spec: asoentra.ServicePrincipalSpec{
-					OperatorSpec: &asoentra.ServicePrincipalOperatorSpec{CreationMode: &tc.mode},
+					OperatorSpec: &asoentra.ServicePrincipalOperatorSpec{CreationMode: &c.mode},
 				},
 			}
-			g.Expect(reconciler.canAdopt(typedObj)).To(gomega.Equal(tc.canAdopt))
-			g.Expect(reconciler.canCreate(typedObj)).To(gomega.Equal(tc.canCreate))
+			g.Expect(reconciler.canAdopt(typedObj)).To(gomega.Equal(c.canAdopt))
+			g.Expect(reconciler.canCreate(typedObj)).To(gomega.Equal(c.canCreate))
 		})
 	}
 }
@@ -371,8 +379,8 @@ func TestServicePrincipalCreateResolvesTenantObjectID(t *testing.T) {
 			g.Expect(json.Unmarshal(request.Content, &body)).To(gomega.Succeed())
 			g.Expect(body.AppID).To(gomega.Equal(appID))
 			principal := msgraphmodels.NewServicePrincipal()
-			principal.SetId(stringPtr(objectID))
-			principal.SetAppId(stringPtr(appID))
+			principal.SetId(new(objectID))
+			principal.SetAppId(new(appID))
 			return principal, nil
 		default:
 			t.Fatalf("unexpected Graph request method %s", request.Method)
@@ -383,7 +391,7 @@ func TestServicePrincipalCreateResolvesTenantObjectID(t *testing.T) {
 		EntraClientFactory: servicePrincipalTestFactory(adapter),
 	}
 	obj := &asoentra.ServicePrincipal{
-		Spec: asoentra.ServicePrincipalSpec{AppId: stringPtr(appID)},
+		Spec: asoentra.ServicePrincipalSpec{AppId: new(appID)},
 	}
 
 	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
@@ -392,8 +400,8 @@ func TestServicePrincipalCreateResolvesTenantObjectID(t *testing.T) {
 	id, ok := getEntraID(obj)
 	g.Expect(ok).To(gomega.BeTrue())
 	g.Expect(id).To(gomega.Equal(objectID))
-	g.Expect(obj.Status.EntraID).To(gomega.Equal(stringPtr(objectID)))
-	g.Expect(obj.Status.AppId).To(gomega.Equal(stringPtr(appID)))
+	g.Expect(obj.Status.EntraID).To(gomega.Equal(new(objectID)))
+	g.Expect(obj.Status.AppId).To(gomega.Equal(new(appID)))
 	g.Expect(obj.Annotations[servicePrincipalCreatedAnnotation]).To(gomega.Equal("true"))
 }
 
@@ -411,8 +419,8 @@ func TestServicePrincipalAdoptResolvesTenantObjectID(t *testing.T) {
 		calls++
 
 		principal := msgraphmodels.NewServicePrincipal()
-		principal.SetId(stringPtr(objectID))
-		principal.SetAppId(stringPtr(appID))
+		principal.SetId(new(objectID))
+		principal.SetAppId(new(appID))
 		if uri.Path == "/beta/servicePrincipals" {
 			g.Expect(uri.Query().Get("$filter")).To(gomega.Equal(fmt.Sprintf("appId eq '%s'", appID)))
 			page := msgraphmodels.NewServicePrincipalCollectionResponse()
@@ -427,8 +435,8 @@ func TestServicePrincipalAdoptResolvesTenantObjectID(t *testing.T) {
 	}
 	obj := &asoentra.ServicePrincipal{
 		Spec: asoentra.ServicePrincipalSpec{
-			AppId:       stringPtr(appID),
-			DisplayName: stringPtr("do not PATCH an adopted principal"),
+			AppId:       new(appID),
+			DisplayName: new("do not PATCH an adopted principal"),
 		},
 	}
 
@@ -438,8 +446,8 @@ func TestServicePrincipalAdoptResolvesTenantObjectID(t *testing.T) {
 	id, ok := getEntraID(obj)
 	g.Expect(ok).To(gomega.BeTrue())
 	g.Expect(id).To(gomega.Equal(objectID))
-	g.Expect(obj.Status.EntraID).To(gomega.Equal(stringPtr(objectID)))
-	g.Expect(obj.Status.AppId).To(gomega.Equal(stringPtr(appID)))
+	g.Expect(obj.Status.EntraID).To(gomega.Equal(new(objectID)))
+	g.Expect(obj.Status.AppId).To(gomega.Equal(new(appID)))
 	g.Expect(obj.Annotations[servicePrincipalCreatedAnnotation]).To(gomega.Equal("false"))
 
 	_, err = reconciler.Delete(context.Background(), logr.Discard(), nil, obj)
@@ -450,15 +458,22 @@ func TestServicePrincipalAdoptResolvesTenantObjectID(t *testing.T) {
 func TestServicePrincipalMissingAdoptionTargetDoesNotCreate(t *testing.T) {
 	t.Parallel()
 	const appID = "a232010e-820c-4083-83bb-3ace5fc29d0b"
-	mode := asoentra.AdoptOnly
-	for _, tc := range []struct {
-		name         string
+
+	cases := map[string]struct {
 		operatorSpec *asoentra.ServicePrincipalOperatorSpec
 	}{
-		{name: "explicit AdoptOnly", operatorSpec: &asoentra.ServicePrincipalOperatorSpec{CreationMode: &mode}},
-	} {
-		t.Run(tc.name, func(t *testing.T) {
+		"explicit AdoptOnly": {
+			operatorSpec: &asoentra.ServicePrincipalOperatorSpec{
+				CreationMode: new(asoentra.AdoptOnly),
+			},
+		},
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
 			g := gomega.NewWithT(t)
+
 			adapter := &servicePrincipalTestAdapter{}
 			adapter.get = func(request *abstractions.RequestInformation) (serialization.Parsable, error) {
 				g.Expect(request.Method).To(gomega.Equal(abstractions.GET))
@@ -468,7 +483,7 @@ func TestServicePrincipalMissingAdoptionTargetDoesNotCreate(t *testing.T) {
 				EntraClientFactory: servicePrincipalTestFactory(adapter),
 			}
 			obj := &asoentra.ServicePrincipal{
-				Spec: asoentra.ServicePrincipalSpec{AppId: stringPtr(appID), OperatorSpec: tc.operatorSpec},
+				Spec: asoentra.ServicePrincipalSpec{AppId: new(appID), OperatorSpec: c.operatorSpec},
 			}
 
 			_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
@@ -492,8 +507,8 @@ func TestServicePrincipalAdoptOnlyDoesNotMutateAnnotatedPrincipal(t *testing.T) 
 		g.Expect(request.Method).To(gomega.Equal(abstractions.GET))
 		calls++
 		principal := msgraphmodels.NewServicePrincipal()
-		principal.SetId(stringPtr(objectID))
-		principal.SetAppId(stringPtr(appID))
+		principal.SetId(new(objectID))
+		principal.SetAppId(new(appID))
 		return principal, nil
 	}
 	reconciler := &EntraServicePrincipalReconciler{
@@ -502,8 +517,8 @@ func TestServicePrincipalAdoptOnlyDoesNotMutateAnnotatedPrincipal(t *testing.T) 
 	mode := asoentra.AdoptOnly
 	obj := &asoentra.ServicePrincipal{
 		Spec: asoentra.ServicePrincipalSpec{
-			AppId:       stringPtr(appID),
-			DisplayName: stringPtr("never update in AdoptOnly mode"),
+			AppId:       new(appID),
+			DisplayName: new("never update in AdoptOnly mode"),
 			OperatorSpec: &asoentra.ServicePrincipalOperatorSpec{
 				CreationMode: &mode,
 			},
@@ -546,18 +561,30 @@ func TestServicePrincipalDisplayNameIsPatchedOnlyWhenSpecified(t *testing.T) {
 	t.Parallel()
 	const appID = "a232010e-820c-4083-83bb-3ace5fc29d0b"
 	const objectID = "58f30b77-0736-4ef3-8d0c-51e78c1d42b7"
-	for _, tc := range []struct {
-		name          string
+
+	cases := map[string]struct {
 		displayName   *string
 		created       bool
 		expectPatches int
 	}{
-		{name: "created without display name", created: true},
-		{name: "adopted with display name", displayName: stringPtr("requested name")},
-		{name: "created with display name", displayName: stringPtr("requested name"), created: true, expectPatches: 1},
-	} {
-		t.Run(tc.name, func(t *testing.T) {
+		"created without display name": {
+			created: true,
+		},
+		"adopted with display name": {
+			displayName: new("requested name"),
+		},
+		"created with display name": {
+			displayName:   new("requested name"),
+			created:       true,
+			expectPatches: 1,
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
 			g := gomega.NewWithT(t)
+
 			patches := 0
 			adapter := &servicePrincipalTestAdapter{}
 			adapter.get = func(request *abstractions.RequestInformation) (serialization.Parsable, error) {
@@ -574,15 +601,15 @@ func TestServicePrincipalDisplayNameIsPatchedOnlyWhenSpecified(t *testing.T) {
 					g.Expect(request.Method).To(gomega.Equal(abstractions.GET))
 				}
 				principal := msgraphmodels.NewServicePrincipal()
-				principal.SetId(stringPtr(objectID))
-				principal.SetAppId(stringPtr(appID))
+				principal.SetId(new(objectID))
+				principal.SetAppId(new(appID))
 				return principal, nil
 			}
 			reconciler := &EntraServicePrincipalReconciler{
 				EntraClientFactory: servicePrincipalTestFactory(adapter),
 			}
 			obj := &asoentra.ServicePrincipal{
-				Spec: asoentra.ServicePrincipalSpec{AppId: stringPtr(appID), DisplayName: tc.displayName},
+				Spec: asoentra.ServicePrincipalSpec{AppId: new(appID), DisplayName: tc.displayName},
 			}
 			setEntraID(obj, objectID)
 			if tc.created {

@@ -6,8 +6,9 @@ package v1
 import (
 	"testing"
 
-	"github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 	. "github.com/onsi/gomega"
+
+	"github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )

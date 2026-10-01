@@ -37,7 +37,7 @@ func TestApplicationAdoptOnlyMissingReturnsError(t *testing.T) {
 	obj := &asoentra.Application{
 		ObjectMeta: metav1.ObjectMeta{Name: "missing-application"},
 		Spec: asoentra.ApplicationSpec{
-			DisplayName:  stringPtr("missing application"),
+			DisplayName:  new("missing application"),
 			OperatorSpec: &asoentra.ApplicationOperatorSpec{CreationMode: &mode},
 		},
 	}
@@ -64,8 +64,8 @@ func TestSecurityGroupAdoptOnlyMissingReturnsError(t *testing.T) {
 	obj := &asoentra.SecurityGroup{
 		ObjectMeta: metav1.ObjectMeta{Name: "missing-group"},
 		Spec: asoentra.SecurityGroupSpec{
-			DisplayName:  stringPtr("missing group"),
-			MailNickname: stringPtr("missing-group"),
+			DisplayName:  new("missing group"),
+			MailNickname: new("missing-group"),
 			OperatorSpec: &asoentra.SecurityGroupOperatorSpec{CreationMode: &mode},
 		},
 	}
@@ -84,14 +84,14 @@ func TestApplicationAdoptOnlyDoesNotModifyOrDelete(t *testing.T) {
 		calls++
 		g.Expect(request.Method).To(gomega.Equal(abstractions.GET))
 		result := msgraphmodels.NewApplication()
-		result.SetId(stringPtr(id))
+		result.SetId(new(id))
 		return result, nil
 	}
 	reconciler := &EntraApplicationReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
 	mode := asoentra.AdoptOnly
 	obj := &asoentra.Application{
 		Spec: asoentra.ApplicationSpec{
-			DisplayName:  stringPtr("unchanged"),
+			DisplayName:  new("unchanged"),
 			OperatorSpec: &asoentra.ApplicationOperatorSpec{CreationMode: &mode},
 		},
 	}
@@ -118,15 +118,15 @@ func TestSecurityGroupAdoptOnlyDoesNotModifyOrDelete(t *testing.T) {
 			return msgraphmodels.NewDirectoryObjectCollectionResponse(), nil
 		}
 		result := msgraphmodels.NewGroup()
-		result.SetId(stringPtr(id))
+		result.SetId(new(id))
 		return result, nil
 	}
 	reconciler := &EntraSecurityGroupReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
 	mode := asoentra.AdoptOnly
 	obj := &asoentra.SecurityGroup{
 		Spec: asoentra.SecurityGroupSpec{
-			DisplayName:  stringPtr("unchanged"),
-			MailNickname: stringPtr("unchanged"),
+			DisplayName:  new("unchanged"),
+			MailNickname: new("unchanged"),
 			OperatorSpec: &asoentra.SecurityGroupOperatorSpec{CreationMode: &mode},
 		},
 	}
