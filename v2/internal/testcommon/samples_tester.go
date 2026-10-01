@@ -47,6 +47,10 @@ var wholeSampleExclusions = []*regexp.Regexp{
 	regexp.MustCompile(`/redhatopenshift/v20260901preview(?:/|$)`),
 	regexp.MustCompile(`/documentdb/sqldatabase/v1api20210515`), // This is blocked by corp policy (can't set DisableLocalAuth)
 	regexp.MustCompile(`/compute/v20250401`),                    // Quota restrictions mean we can't rerecord capacity reservation
+	// TODO: remove once Test_Keyvault_v20230701_CreationAndDeletion.yaml has been recorded. The VaultKey
+	// samples need a recording that captures both ARM and the Key Vault data plane (the VaultKeyExtension
+	// adopts, updates and deletes keys via azkeys), and without one the test needs live credentials.
+	regexp.MustCompile(`/keyvault/v20230701(?:/|$)`),
 }
 
 var exclusions = []*regexp.Regexp{
