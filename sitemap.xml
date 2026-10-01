@@ -731,6 +731,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerregistry/v20230701/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/keyvault/v20230701/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/v20230801/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dataprotection/v20231101/</loc>
