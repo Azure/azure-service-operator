@@ -9,6 +9,7 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
+	"sync"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -39,9 +40,12 @@ func Test_DataPlaneClientOptions(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			var seen []*http.Request
+			var mu sync.Mutex
+			var userAgents []string
 			server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				seen = append(seen, r)
+				mu.Lock()
+				userAgents = append(userAgents, r.Header.Get("User-Agent"))
+				mu.Unlock()
 				w.WriteHeader(http.StatusOK)
 			}))
 			defer server.Close()
@@ -68,7 +72,8 @@ func Test_DataPlaneClientOptions(t *testing.T) {
 			// registration, ARM metrics) don't apply to data-plane URLs
 			g.Expect(opts.PerCallPolicies).To(HaveLen(1))
 			g.Expect(opts.Cloud).To(Equal(cfg))
-			g.Expect(opts.Retry).To(Equal(client.ClientOptions().Retry))
+			// The operator relies on the SDK not retrying by itself; its reconcile loop is the retry
+			g.Expect(opts.Retry.MaxRetries).To(Equal(int32(-1)))
 
 			// A pipeline built from the options, as any data-plane SDK client would build one,
 			// reaches the server through the shared transport and carries the user agent
@@ -80,9 +85,40 @@ func Test_DataPlaneClientOptions(t *testing.T) {
 			g.Expect(resp.Body.Close()).To(Succeed())
 			g.Expect(resp.StatusCode).To(Equal(http.StatusOK))
 
-			g.Expect(seen).To(HaveLen(1))
-			g.Expect(seen[0].Header.Get("User-Agent")).To(ContainSubstring(c.expectUserAgent))
-			g.Expect(seen[0].Header.Get("User-Agent")).To(ContainSubstring("azsdk-go-dataplane-test/"), "the SDK's own user agent must be preserved")
+			mu.Lock()
+			defer mu.Unlock()
+			g.Expect(userAgents).To(HaveLen(1))
+			g.Expect(userAgents[0]).To(ContainSubstring(c.expectUserAgent))
+			g.Expect(userAgents[0]).To(ContainSubstring("azsdk-go-dataplane-test/"), "the SDK's own user agent must be preserved")
 		})
 	}
+}
+
+// Settings the ARM client is given must reach the data-plane client too, not just the ones ASO sets
+// today; ClientOptions() hands out the live options, so adjusting them stands in for a differently
+// configured ARM client.
+func Test_DataPlaneClientOptions_CarriesLoggingAndTelemetry(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	cfg := cloud.Configuration{
+		Services: map[cloud.ServiceName]cloud.ServiceConfiguration{
+			cloud.ResourceManager: {
+				Endpoint: "https://management.example.invalid",
+				Audience: cloud.AzurePublic.Services[cloud.ResourceManager].Audience,
+			},
+		},
+	}
+
+	client, err := genericarmclient.NewGenericClient(cfg, creds.MockTokenCredential{}, nil)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	client.ClientOptions().Logging.IncludeBody = true
+	client.ClientOptions().Logging.AllowedHeaders = []string{"x-ms-request-id"}
+	client.ClientOptions().Telemetry.ApplicationID = "aso-test"
+
+	opts := client.DataPlaneClientOptions()
+	g.Expect(opts.Logging.IncludeBody).To(BeTrue())
+	g.Expect(opts.Logging.AllowedHeaders).To(ConsistOf("x-ms-request-id"))
+	g.Expect(opts.Telemetry.ApplicationID).To(Equal("aso-test"))
 }

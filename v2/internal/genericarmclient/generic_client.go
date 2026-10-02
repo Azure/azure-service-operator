@@ -138,9 +138,12 @@ func (client *GenericClient) ClientOptions() *arm.ClientOptions {
 
 // DataPlaneClientOptions returns options for an Azure data-plane SDK client (Key Vault, storage,
 // and so on) that should behave like this client: the same transport (so recorded tests capture the
-// data-plane traffic too), cloud configuration, retry and logging settings, and the same user agent,
-// so that the requests are attributable to ASO. The ARM-specific per-call policies (resource provider
-// registration and ARM metrics) are left out, as they don't apply to data-plane URLs.
+// data-plane traffic too), cloud configuration, retry, logging and telemetry settings, and the same
+// user agent, so that the requests are attributable to ASO. The ARM-specific per-call policies are
+// left out: resource provider registration only makes sense against ARM, and the metrics policy logs
+// an error for every URL that isn't an ARM resource ID. The transport is shared with this client and
+// must not be modified by the caller. Logging settings are shared as well: enabling request or
+// response body logging on the ARM client would also log data-plane traffic.
 func (client *GenericClient) DataPlaneClientOptions() policy.ClientOptions {
 	return policy.ClientOptions{
 		Cloud:     client.opts.Cloud,
