@@ -329,7 +329,7 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 				},
 				ClientID:                   cfg.ClientID,
 				TenantID:                   cfg.TenantID,
-				TokenFilePath:              identity.FederatedTokenFilePath,
+				TokenFilePath:              identity.ResolveFederatedTokenFilePath(cfg.FederatedTokenFilePath),
 				AdditionallyAllowedTenants: cfg.AdditionalTenants,
 			},
 		)
@@ -471,6 +471,7 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 		&identity.CredentialProviderOptions{
 			Cloud:                   to.Ptr(cfg.Cloud()),
 			AllowMultiEnvManagement: cfg.AllowMultiEnvManagement,
+			FederatedTokenFilePath:  cfg.FederatedTokenFilePath,
 		},
 	)
 
