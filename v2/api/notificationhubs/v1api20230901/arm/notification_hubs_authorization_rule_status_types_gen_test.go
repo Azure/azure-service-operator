@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_NotificationHubsAuthorizationRule_STATUS_WhenSerializedToJson_Deserial
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NotificationHubsAuthorizationRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNotificationHubsAuthorizationRule_STATUS, NotificationHubsAuthorizationRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNotificationHubsAuthorizationRule_STATUS)
 }
 
 // RunJSONSerializationTestForNotificationHubsAuthorizationRule_STATUS runs a test to see if a specific instance of NotificationHubsAuthorizationRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForNotificationHubsAuthorizationRule_STATUS(subject NotificationHubsAuthorizationRule_STATUS) string {
+func RunJSONSerializationTestForNotificationHubsAuthorizationRule_STATUS(t *rapid.T) {
+	subject := NotificationHubsAuthorizationRule_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NotificationHubsAuthorizationRule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,51 +45,38 @@ func RunJSONSerializationTestForNotificationHubsAuthorizationRule_STATUS(subject
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NotificationHubsAuthorizationRule_STATUS instances for property testing - lazily instantiated by
 // NotificationHubsAuthorizationRule_STATUSGenerator()
-var notificationHubsAuthorizationRule_STATUSGenerator gopter.Gen
+var notificationHubsAuthorizationRule_STATUSGenerator *rapid.Generator[NotificationHubsAuthorizationRule_STATUS]
 
 // NotificationHubsAuthorizationRule_STATUSGenerator returns a generator of NotificationHubsAuthorizationRule_STATUS instances for property testing.
-// We first initialize notificationHubsAuthorizationRule_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NotificationHubsAuthorizationRule_STATUSGenerator() gopter.Gen {
+func NotificationHubsAuthorizationRule_STATUSGenerator() *rapid.Generator[NotificationHubsAuthorizationRule_STATUS] {
 	if notificationHubsAuthorizationRule_STATUSGenerator != nil {
 		return notificationHubsAuthorizationRule_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNotificationHubsAuthorizationRule_STATUS(generators)
-	notificationHubsAuthorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(NotificationHubsAuthorizationRule_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(SharedAccessAuthorizationRuleProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNotificationHubsAuthorizationRule_STATUS(generators)
-	AddRelatedPropertyGeneratorsForNotificationHubsAuthorizationRule_STATUS(generators)
-	notificationHubsAuthorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(NotificationHubsAuthorizationRule_STATUS{}), generators)
+	notificationHubsAuthorizationRule_STATUSGenerator = rapid.Custom(func(t *rapid.T) NotificationHubsAuthorizationRule_STATUS {
+		var result NotificationHubsAuthorizationRule_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return notificationHubsAuthorizationRule_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNotificationHubsAuthorizationRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNotificationHubsAuthorizationRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNotificationHubsAuthorizationRule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNotificationHubsAuthorizationRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SharedAccessAuthorizationRuleProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

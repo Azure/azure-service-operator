@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_RegistryCacheRule_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of RegistryCacheRule round trips to the hub storage version and back losslessly
 func Test_RegistryCacheRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,47 +22,37 @@ func Test_RegistryCacheRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RegistryCacheRule to hub returns original",
-		prop.ForAll(RunResourceConversionTestForRegistryCacheRule, RegistryCacheRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RegistryCacheRuleGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.RegistryCacheRule
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual RegistryCacheRule
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForRegistryCacheRule tests if a specific instance of RegistryCacheRule round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForRegistryCacheRule(subject RegistryCacheRule) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.RegistryCacheRule
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual RegistryCacheRule
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_RegistryCacheRule_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RegistryCacheRule can be assigned to storage and back losslessly
 func Test_RegistryCacheRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -73,44 +60,34 @@ func Test_RegistryCacheRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RegistryCacheRule to RegistryCacheRule via AssignProperties_To_RegistryCacheRule & AssignProperties_From_RegistryCacheRule returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRegistryCacheRule, RegistryCacheRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RegistryCacheRuleGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRegistryCacheRule tests if a specific instance of RegistryCacheRule can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRegistryCacheRule(subject RegistryCacheRule) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RegistryCacheRule
+		err := copied.AssignProperties_To_RegistryCacheRule(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RegistryCacheRule
-	err := copied.AssignProperties_To_RegistryCacheRule(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RegistryCacheRule
+		err = actual.AssignProperties_From_RegistryCacheRule(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RegistryCacheRule
-	err = actual.AssignProperties_From_RegistryCacheRule(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RegistryCacheRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -120,29 +97,23 @@ func Test_RegistryCacheRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RegistryCacheRule via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRegistryCacheRule, RegistryCacheRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRegistryCacheRule)
 }
 
 // RunJSONSerializationTestForRegistryCacheRule runs a test to see if a specific instance of RegistryCacheRule round trips to JSON and back losslessly
-func RunJSONSerializationTestForRegistryCacheRule(subject RegistryCacheRule) string {
+func RunJSONSerializationTestForRegistryCacheRule(t *rapid.T) {
+	subject := RegistryCacheRuleGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RegistryCacheRule
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -151,34 +122,33 @@ func RunJSONSerializationTestForRegistryCacheRule(subject RegistryCacheRule) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RegistryCacheRule instances for property testing - lazily instantiated by RegistryCacheRuleGenerator()
-var registryCacheRuleGenerator gopter.Gen
+var registryCacheRuleGenerator *rapid.Generator[RegistryCacheRule]
 
 // RegistryCacheRuleGenerator returns a generator of RegistryCacheRule instances for property testing.
-func RegistryCacheRuleGenerator() gopter.Gen {
+func RegistryCacheRuleGenerator() *rapid.Generator[RegistryCacheRule] {
 	if registryCacheRuleGenerator != nil {
 		return registryCacheRuleGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForRegistryCacheRule(generators)
-	registryCacheRuleGenerator = gen.Struct(reflect.TypeOf(RegistryCacheRule{}), generators)
+	spec := RegistryCacheRule_SpecGenerator()
+	status := RegistryCacheRule_STATUSGenerator()
+
+	registryCacheRuleGenerator = rapid.Custom(func(t *rapid.T) RegistryCacheRule {
+		var result RegistryCacheRule
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return registryCacheRuleGenerator
 }
 
-// AddRelatedPropertyGeneratorsForRegistryCacheRule is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRegistryCacheRule(gens map[string]gopter.Gen) {
-	gens["Spec"] = RegistryCacheRule_SpecGenerator()
-	gens["Status"] = RegistryCacheRule_STATUSGenerator()
-}
-
+// Test_RegistryCacheRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RegistryCacheRuleOperatorSpec can be assigned to storage and back losslessly
 func Test_RegistryCacheRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -186,44 +156,34 @@ func Test_RegistryCacheRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RegistryCacheRuleOperatorSpec to RegistryCacheRuleOperatorSpec via AssignProperties_To_RegistryCacheRuleOperatorSpec & AssignProperties_From_RegistryCacheRuleOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRegistryCacheRuleOperatorSpec, RegistryCacheRuleOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RegistryCacheRuleOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRegistryCacheRuleOperatorSpec tests if a specific instance of RegistryCacheRuleOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRegistryCacheRuleOperatorSpec(subject RegistryCacheRuleOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RegistryCacheRuleOperatorSpec
+		err := copied.AssignProperties_To_RegistryCacheRuleOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RegistryCacheRuleOperatorSpec
-	err := copied.AssignProperties_To_RegistryCacheRuleOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RegistryCacheRuleOperatorSpec
+		err = actual.AssignProperties_From_RegistryCacheRuleOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RegistryCacheRuleOperatorSpec
-	err = actual.AssignProperties_From_RegistryCacheRuleOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RegistryCacheRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -233,29 +193,23 @@ func Test_RegistryCacheRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RegistryCacheRuleOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRegistryCacheRuleOperatorSpec, RegistryCacheRuleOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRegistryCacheRuleOperatorSpec)
 }
 
 // RunJSONSerializationTestForRegistryCacheRuleOperatorSpec runs a test to see if a specific instance of RegistryCacheRuleOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRegistryCacheRuleOperatorSpec(subject RegistryCacheRuleOperatorSpec) string {
+func RunJSONSerializationTestForRegistryCacheRuleOperatorSpec(t *rapid.T) {
+	subject := RegistryCacheRuleOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RegistryCacheRuleOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -264,28 +218,26 @@ func RunJSONSerializationTestForRegistryCacheRuleOperatorSpec(subject RegistryCa
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RegistryCacheRuleOperatorSpec instances for property testing - lazily instantiated by
 // RegistryCacheRuleOperatorSpecGenerator()
-var registryCacheRuleOperatorSpecGenerator gopter.Gen
+var registryCacheRuleOperatorSpecGenerator *rapid.Generator[RegistryCacheRuleOperatorSpec]
 
 // RegistryCacheRuleOperatorSpecGenerator returns a generator of RegistryCacheRuleOperatorSpec instances for property testing.
-func RegistryCacheRuleOperatorSpecGenerator() gopter.Gen {
+func RegistryCacheRuleOperatorSpecGenerator() *rapid.Generator[RegistryCacheRuleOperatorSpec] {
 	if registryCacheRuleOperatorSpecGenerator != nil {
 		return registryCacheRuleOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	registryCacheRuleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RegistryCacheRuleOperatorSpec{}), generators)
+	registryCacheRuleOperatorSpecGenerator = rapid.Just(RegistryCacheRuleOperatorSpec{})
 
 	return registryCacheRuleOperatorSpecGenerator
 }
 
+// Test_RegistryCacheRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RegistryCacheRule_STATUS can be assigned to storage and back losslessly
 func Test_RegistryCacheRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -293,44 +245,34 @@ func Test_RegistryCacheRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RegistryCacheRule_STATUS to RegistryCacheRule_STATUS via AssignProperties_To_RegistryCacheRule_STATUS & AssignProperties_From_RegistryCacheRule_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRegistryCacheRule_STATUS, RegistryCacheRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RegistryCacheRule_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRegistryCacheRule_STATUS tests if a specific instance of RegistryCacheRule_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRegistryCacheRule_STATUS(subject RegistryCacheRule_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RegistryCacheRule_STATUS
+		err := copied.AssignProperties_To_RegistryCacheRule_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RegistryCacheRule_STATUS
-	err := copied.AssignProperties_To_RegistryCacheRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RegistryCacheRule_STATUS
+		err = actual.AssignProperties_From_RegistryCacheRule_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RegistryCacheRule_STATUS
-	err = actual.AssignProperties_From_RegistryCacheRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RegistryCacheRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -340,29 +282,23 @@ func Test_RegistryCacheRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RegistryCacheRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRegistryCacheRule_STATUS, RegistryCacheRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRegistryCacheRule_STATUS)
 }
 
 // RunJSONSerializationTestForRegistryCacheRule_STATUS runs a test to see if a specific instance of RegistryCacheRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRegistryCacheRule_STATUS(subject RegistryCacheRule_STATUS) string {
+func RunJSONSerializationTestForRegistryCacheRule_STATUS(t *rapid.T) {
+	subject := RegistryCacheRule_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RegistryCacheRule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -371,61 +307,42 @@ func RunJSONSerializationTestForRegistryCacheRule_STATUS(subject RegistryCacheRu
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RegistryCacheRule_STATUS instances for property testing - lazily instantiated by
 // RegistryCacheRule_STATUSGenerator()
-var registryCacheRule_STATUSGenerator gopter.Gen
+var registryCacheRule_STATUSGenerator *rapid.Generator[RegistryCacheRule_STATUS]
 
 // RegistryCacheRule_STATUSGenerator returns a generator of RegistryCacheRule_STATUS instances for property testing.
-// We first initialize registryCacheRule_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RegistryCacheRule_STATUSGenerator() gopter.Gen {
+func RegistryCacheRule_STATUSGenerator() *rapid.Generator[RegistryCacheRule_STATUS] {
 	if registryCacheRule_STATUSGenerator != nil {
 		return registryCacheRule_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRegistryCacheRule_STATUS(generators)
-	registryCacheRule_STATUSGenerator = gen.Struct(reflect.TypeOf(RegistryCacheRule_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]ProvisioningState_STATUS{ProvisioningState_STATUS_Canceled, ProvisioningState_STATUS_Creating, ProvisioningState_STATUS_Deleting, ProvisioningState_STATUS_Failed, ProvisioningState_STATUS_Succeeded, ProvisioningState_STATUS_Updating}), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRegistryCacheRule_STATUS(generators)
-	AddRelatedPropertyGeneratorsForRegistryCacheRule_STATUS(generators)
-	registryCacheRule_STATUSGenerator = gen.Struct(reflect.TypeOf(RegistryCacheRule_STATUS{}), generators)
+	registryCacheRule_STATUSGenerator = rapid.Custom(func(t *rapid.T) RegistryCacheRule_STATUS {
+		var result RegistryCacheRule_STATUS
+		result.CreationDate = ptrString.Draw(t, "CreationDate")
+		result.CredentialSetResourceId = ptrString.Draw(t, "CredentialSetResourceId")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		result.SourceRepository = ptrString.Draw(t, "SourceRepository")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.TargetRepository = ptrString.Draw(t, "TargetRepository")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return registryCacheRule_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRegistryCacheRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRegistryCacheRule_STATUS(gens map[string]gopter.Gen) {
-	gens["CreationDate"] = gen.PtrOf(gen.AlphaString())
-	gens["CredentialSetResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Canceled,
-		ProvisioningState_STATUS_Creating,
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
-	gens["SourceRepository"] = gen.PtrOf(gen.AlphaString())
-	gens["TargetRepository"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRegistryCacheRule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRegistryCacheRule_STATUS(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
+// Test_RegistryCacheRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RegistryCacheRule_Spec can be assigned to storage and back losslessly
 func Test_RegistryCacheRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -433,44 +350,34 @@ func Test_RegistryCacheRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RegistryCacheRule_Spec to RegistryCacheRule_Spec via AssignProperties_To_RegistryCacheRule_Spec & AssignProperties_From_RegistryCacheRule_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRegistryCacheRule_Spec, RegistryCacheRule_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RegistryCacheRule_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRegistryCacheRule_Spec tests if a specific instance of RegistryCacheRule_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRegistryCacheRule_Spec(subject RegistryCacheRule_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RegistryCacheRule_Spec
+		err := copied.AssignProperties_To_RegistryCacheRule_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RegistryCacheRule_Spec
-	err := copied.AssignProperties_To_RegistryCacheRule_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RegistryCacheRule_Spec
+		err = actual.AssignProperties_From_RegistryCacheRule_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RegistryCacheRule_Spec
-	err = actual.AssignProperties_From_RegistryCacheRule_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RegistryCacheRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -480,29 +387,23 @@ func Test_RegistryCacheRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RegistryCacheRule_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRegistryCacheRule_Spec, RegistryCacheRule_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRegistryCacheRule_Spec)
 }
 
 // RunJSONSerializationTestForRegistryCacheRule_Spec runs a test to see if a specific instance of RegistryCacheRule_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRegistryCacheRule_Spec(subject RegistryCacheRule_Spec) string {
+func RunJSONSerializationTestForRegistryCacheRule_Spec(t *rapid.T) {
+	subject := RegistryCacheRule_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RegistryCacheRule_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -511,50 +412,37 @@ func RunJSONSerializationTestForRegistryCacheRule_Spec(subject RegistryCacheRule
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RegistryCacheRule_Spec instances for property testing - lazily instantiated by
 // RegistryCacheRule_SpecGenerator()
-var registryCacheRule_SpecGenerator gopter.Gen
+var registryCacheRule_SpecGenerator *rapid.Generator[RegistryCacheRule_Spec]
 
 // RegistryCacheRule_SpecGenerator returns a generator of RegistryCacheRule_Spec instances for property testing.
-// We first initialize registryCacheRule_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RegistryCacheRule_SpecGenerator() gopter.Gen {
+func RegistryCacheRule_SpecGenerator() *rapid.Generator[RegistryCacheRule_Spec] {
 	if registryCacheRule_SpecGenerator != nil {
 		return registryCacheRule_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRegistryCacheRule_Spec(generators)
-	registryCacheRule_SpecGenerator = gen.Struct(reflect.TypeOf(RegistryCacheRule_Spec{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	azureName := rapid.String()
+	operatorSpec := rapid.Ptr(RegistryCacheRuleOperatorSpecGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRegistryCacheRule_Spec(generators)
-	AddRelatedPropertyGeneratorsForRegistryCacheRule_Spec(generators)
-	registryCacheRule_SpecGenerator = gen.Struct(reflect.TypeOf(RegistryCacheRule_Spec{}), generators)
+	registryCacheRule_SpecGenerator = rapid.Custom(func(t *rapid.T) RegistryCacheRule_Spec {
+		var result RegistryCacheRule_Spec
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.SourceRepository = ptrString.Draw(t, "SourceRepository")
+		result.TargetRepository = ptrString.Draw(t, "TargetRepository")
+		return result
+	})
 
 	return registryCacheRule_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRegistryCacheRule_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRegistryCacheRule_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["SourceRepository"] = gen.PtrOf(gen.AlphaString())
-	gens["TargetRepository"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRegistryCacheRule_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRegistryCacheRule_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(RegistryCacheRuleOperatorSpecGenerator())
-}
-
+// Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -562,44 +450,34 @@ func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SystemData_STATUS to SystemData_STATUS via AssignProperties_To_SystemData_STATUS & AssignProperties_From_SystemData_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSystemData_STATUS, SystemData_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SystemData_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SystemData_STATUS
+		err := copied.AssignProperties_To_SystemData_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
-	err := copied.AssignProperties_To_SystemData_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SystemData_STATUS
+		err = actual.AssignProperties_From_SystemData_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SystemData_STATUS
-	err = actual.AssignProperties_From_SystemData_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -609,29 +487,23 @@ func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemData_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS, SystemData_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSystemData_STATUS)
 }
 
 // RunJSONSerializationTestForSystemData_STATUS runs a test to see if a specific instance of SystemData_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) string {
+func RunJSONSerializationTestForSystemData_STATUS(t *rapid.T) {
+	subject := SystemData_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SystemData_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -640,42 +512,33 @@ func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SystemData_STATUS instances for property testing - lazily instantiated by SystemData_STATUSGenerator()
-var systemData_STATUSGenerator gopter.Gen
+var systemData_STATUSGenerator *rapid.Generator[SystemData_STATUS]
 
 // SystemData_STATUSGenerator returns a generator of SystemData_STATUS instances for property testing.
-func SystemData_STATUSGenerator() gopter.Gen {
+func SystemData_STATUSGenerator() *rapid.Generator[SystemData_STATUS] {
 	if systemData_STATUSGenerator != nil {
 		return systemData_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData_STATUS(generators)
-	systemData_STATUSGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	createdByType := rapid.Ptr(rapid.SampledFrom([]SystemData_CreatedByType_STATUS{SystemData_CreatedByType_STATUS_Application, SystemData_CreatedByType_STATUS_Key, SystemData_CreatedByType_STATUS_ManagedIdentity, SystemData_CreatedByType_STATUS_User}), true)
+	lastModifiedByType := rapid.Ptr(rapid.SampledFrom([]SystemData_LastModifiedByType_STATUS{SystemData_LastModifiedByType_STATUS_Application, SystemData_LastModifiedByType_STATUS_Key, SystemData_LastModifiedByType_STATUS_ManagedIdentity, SystemData_LastModifiedByType_STATUS_User}), true)
+
+	systemData_STATUSGenerator = rapid.Custom(func(t *rapid.T) SystemData_STATUS {
+		var result SystemData_STATUS
+		result.CreatedAt = ptrString.Draw(t, "CreatedAt")
+		result.CreatedBy = ptrString.Draw(t, "CreatedBy")
+		result.CreatedByType = createdByType.Draw(t, "CreatedByType")
+		result.LastModifiedAt = ptrString.Draw(t, "LastModifiedAt")
+		result.LastModifiedBy = ptrString.Draw(t, "LastModifiedBy")
+		result.LastModifiedByType = lastModifiedByType.Draw(t, "LastModifiedByType")
+		return result
+	})
 
 	return systemData_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSystemData_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
 }

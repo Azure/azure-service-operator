@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ProjectProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProjectProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProjectProperties_STATUS, ProjectProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProjectProperties_STATUS)
 }
 
 // RunJSONSerializationTestForProjectProperties_STATUS runs a test to see if a specific instance of ProjectProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForProjectProperties_STATUS(subject ProjectProperties_STATUS) string {
+func RunJSONSerializationTestForProjectProperties_STATUS(t *rapid.T) {
+	subject := ProjectProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProjectProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,46 +45,38 @@ func RunJSONSerializationTestForProjectProperties_STATUS(subject ProjectProperti
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProjectProperties_STATUS instances for property testing - lazily instantiated by
 // ProjectProperties_STATUSGenerator()
-var projectProperties_STATUSGenerator gopter.Gen
+var projectProperties_STATUSGenerator *rapid.Generator[ProjectProperties_STATUS]
 
 // ProjectProperties_STATUSGenerator returns a generator of ProjectProperties_STATUS instances for property testing.
-func ProjectProperties_STATUSGenerator() gopter.Gen {
+func ProjectProperties_STATUSGenerator() *rapid.Generator[ProjectProperties_STATUS] {
 	if projectProperties_STATUSGenerator != nil {
 		return projectProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProjectProperties_STATUS(generators)
-	projectProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(ProjectProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	endpoints := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+	isDefault := rapid.Ptr(rapid.Bool(), true)
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]ProjectProperties_ProvisioningState_STATUS{ProjectProperties_ProvisioningState_STATUS_Accepted, ProjectProperties_ProvisioningState_STATUS_Canceled, ProjectProperties_ProvisioningState_STATUS_Creating, ProjectProperties_ProvisioningState_STATUS_Deleting, ProjectProperties_ProvisioningState_STATUS_Failed, ProjectProperties_ProvisioningState_STATUS_Moving, ProjectProperties_ProvisioningState_STATUS_ResolvingDNS, ProjectProperties_ProvisioningState_STATUS_Succeeded}), true)
+
+	projectProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) ProjectProperties_STATUS {
+		var result ProjectProperties_STATUS
+		result.Description = ptrString.Draw(t, "Description")
+		result.DisplayName = ptrString.Draw(t, "DisplayName")
+		result.Endpoints = endpoints.Draw(t, "Endpoints")
+		result.IsDefault = isDefault.Draw(t, "IsDefault")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		return result
+	})
 
 	return projectProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProjectProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProjectProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["Endpoints"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["IsDefault"] = gen.PtrOf(gen.Bool())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProjectProperties_ProvisioningState_STATUS_Accepted,
-		ProjectProperties_ProvisioningState_STATUS_Canceled,
-		ProjectProperties_ProvisioningState_STATUS_Creating,
-		ProjectProperties_ProvisioningState_STATUS_Deleting,
-		ProjectProperties_ProvisioningState_STATUS_Failed,
-		ProjectProperties_ProvisioningState_STATUS_Moving,
-		ProjectProperties_ProvisioningState_STATUS_ResolvingDNS,
-		ProjectProperties_ProvisioningState_STATUS_Succeeded))
 }
 
 func Test_Project_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -104,29 +86,23 @@ func Test_Project_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Project_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProject_STATUS, Project_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProject_STATUS)
 }
 
 // RunJSONSerializationTestForProject_STATUS runs a test to see if a specific instance of Project_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForProject_STATUS(subject Project_STATUS) string {
+func RunJSONSerializationTestForProject_STATUS(t *rapid.T) {
+	subject := Project_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Project_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -135,52 +111,40 @@ func RunJSONSerializationTestForProject_STATUS(subject Project_STATUS) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Project_STATUS instances for property testing - lazily instantiated by Project_STATUSGenerator()
-var project_STATUSGenerator gopter.Gen
+var project_STATUSGenerator *rapid.Generator[Project_STATUS]
 
 // Project_STATUSGenerator returns a generator of Project_STATUS instances for property testing.
-// We first initialize project_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Project_STATUSGenerator() gopter.Gen {
+func Project_STATUSGenerator() *rapid.Generator[Project_STATUS] {
 	if project_STATUSGenerator != nil {
 		return project_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProject_STATUS(generators)
-	project_STATUSGenerator = gen.Struct(reflect.TypeOf(Project_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	identity := rapid.Ptr(Identity_STATUSGenerator(), true)
+	properties := rapid.Ptr(ProjectProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProject_STATUS(generators)
-	AddRelatedPropertyGeneratorsForProject_STATUS(generators)
-	project_STATUSGenerator = gen.Struct(reflect.TypeOf(Project_STATUS{}), generators)
+	project_STATUSGenerator = rapid.Custom(func(t *rapid.T) Project_STATUS {
+		var result Project_STATUS
+		result.Etag = ptrString.Draw(t, "Etag")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Identity = identity.Draw(t, "Identity")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return project_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProject_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProject_STATUS(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForProject_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProject_STATUS(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(Identity_STATUSGenerator())
-	gens["Properties"] = gen.PtrOf(ProjectProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

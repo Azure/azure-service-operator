@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_Replica_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Replica_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForReplica_Spec, Replica_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForReplica_Spec)
 }
 
 // RunJSONSerializationTestForReplica_Spec runs a test to see if a specific instance of Replica_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForReplica_Spec(subject Replica_Spec) string {
+func RunJSONSerializationTestForReplica_Spec(t *rapid.T) {
+	subject := Replica_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Replica_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,30 +45,28 @@ func RunJSONSerializationTestForReplica_Spec(subject Replica_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Replica_Spec instances for property testing - lazily instantiated by Replica_SpecGenerator()
-var replica_SpecGenerator gopter.Gen
+var replica_SpecGenerator *rapid.Generator[Replica_Spec]
 
 // Replica_SpecGenerator returns a generator of Replica_Spec instances for property testing.
-func Replica_SpecGenerator() gopter.Gen {
+func Replica_SpecGenerator() *rapid.Generator[Replica_Spec] {
 	if replica_SpecGenerator != nil {
 		return replica_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForReplica_Spec(generators)
-	replica_SpecGenerator = gen.Struct(reflect.TypeOf(Replica_Spec{}), generators)
+	location := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+
+	replica_SpecGenerator = rapid.Custom(func(t *rapid.T) Replica_Spec {
+		var result Replica_Spec
+		result.Location = location.Draw(t, "Location")
+		result.Name = name.Draw(t, "Name")
+		return result
+	})
 
 	return replica_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForReplica_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForReplica_Spec(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
 }
