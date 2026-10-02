@@ -830,6 +830,23 @@ tasks:
       # CI fast
       - go test -timeout 15m -v -run '{{default ".*" .TEST_FILTER}}' ./test/multitenant
 
+  controller:test-secure-workload-identity-integration-kind-ci:
+    desc: Run secure Workload Identity integration tests in kind and delete the cluster afterward.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps:
+      - controller:kind-create-helm-secure-workload-identity
+    cmds:
+      - defer: { task: controller:kind-delete }
+      - SERVICE_ACCOUNT_ISSUER=$(cat out/kind-identity/azure/saissuer.txt) go test -timeout 30m -v ./test/secureworkloadidentity
+
+  controller:test-secure-workload-identity-integration-kind:
+    desc: Run secure Workload Identity integration tests in kind without deleting the cluster.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps:
+      - controller:kind-create-helm-secure-workload-identity
+    cmds:
+      - SERVICE_ACCOUNT_ISSUER=$(cat out/kind-identity/azure/saissuer.txt) go test -timeout 30m -v ./test/secureworkloadidentity
+
   controller:test-integration-ci:
     desc: Run integration tests for CI
     dir: "{{.CONTROLLER_ROOT}}"
@@ -993,6 +1010,7 @@ tasks:
       --set azureTenantID=$AZURE_TENANT_ID \
       --set azureClientID={{.AZURE_MI_CLIENT_ID}} \
       --set useWorkloadIdentityAuth=true \
+      --set workloadIdentityAuthMode={{default \"relaxed\" .WORKLOAD_IDENTITY_AUTH_MODE}} \
       {{.IMAGE_REPOSITORY_CMD}} \
       --set crdPattern=* \
       aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
@@ -1069,7 +1087,7 @@ tasks:
       - "kind get clusters | grep \"^asov2-wi$\""
     preconditions:
       # If we're running in a container, we need HOSTROOT to be defined
-      - sh: '[ -f /.dockerenv ] || [ -n "${HOSTROOT-}" ]'
+      - sh: '[ ! -f /.dockerenv ] || [ -n "${HOSTROOT-}" ]'
         msg: "When running in a container (detected by presence of /.dockerenv) you must set HOSTROOT to the host's root path so that files can be mounted into kind clusters correctly."
     env:
       SERVICE_ACCOUNT_KEY_FILE:
@@ -1307,6 +1325,21 @@ tasks:
       - "cmctl check api --wait=2m"
       - task: controller:install-helm-wi
         vars:
+          AZURE_MI_CLIENT_ID:
+            sh: "cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/miclientid.txt"
+
+  controller:kind-create-helm-secure-workload-identity:
+    desc: Creates a local kind cluster with ASO configured for strict scoped Workload Identity authentication.
+    cmds:
+      - task: controller:kind-create-wi
+      - task: controller:create-mi-for-workload-identity
+      - task: controller:install-cert-manager
+      - task: controller:docker-push-local
+      - task: controller:package-helm-manifest
+      - "cmctl check api --wait=2m"
+      - task: controller:install-helm-wi
+        vars:
+          WORKLOAD_IDENTITY_AUTH_MODE: strict
           AZURE_MI_CLIENT_ID:
             sh: "cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/miclientid.txt"
 

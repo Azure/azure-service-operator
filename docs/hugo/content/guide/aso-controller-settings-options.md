@@ -146,7 +146,7 @@ Spaces after `,`'s and at the start and end of the string are ignored.
 
 ### USE_WORKLOAD_IDENTITY_AUTH
 
-USE_WORKLOAD_IDENTITY_AUTH boolean is used to determine if we're using Workload Identity authentication for global credential.
+USE_WORKLOAD_IDENTITY_AUTH boolean is used to determine if we're using Workload Identity authentication for the global credential.
 
 **Format:** `true|false`
 
@@ -155,6 +155,44 @@ USE_WORKLOAD_IDENTITY_AUTH boolean is used to determine if we're using Workload 
 **Required**: False
 
 **[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
+
+### AZURE_WORKLOAD_IDENTITY_AUTH_MODE
+
+AZURE_WORKLOAD_IDENTITY_AUTH_MODE controls how namespace-scoped and per-resource Workload Identity credentials obtain
+their client assertion.
+
+- `relaxed`: ASO uses a single Federated Identity Credential (FIC) for all authentication to Azure, via the ASO controller service account. This is simple to set up but is less secure.
+  See https://github.com/Azure/azure-service-operator/issues/4810 for more details about why this is less secure.
+- `strict`: ASO uses separate Federated Identity Credentials (FICs) via separate service accounts for each authentication to Azure. This is more secure but requires more setup.
+	The secret may select the ServiceAccount with `AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT`; when omitted, ASO uses `aso-workload`.
+
+Strict mode does not change the global credential or credentials that use a client secret, client certificate, pod identity,
+or user-assigned identity credentials.
+
+**Format:** `relaxed|strict`
+
+**Default:** `relaxed`
+
+**Required**: False
+
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
+
+### AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT
+
+AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT selects the Kubernetes ServiceAccount used to obtain the client assertion for a
+namespace-scoped or per-resource Workload Identity credential when `AZURE_WORKLOAD_IDENTITY_AUTH_MODE=strict`. The ServiceAccount
+must be in the credential secret's namespace. When this field is absent, ASO uses `aso-workload`.
+
+The value must be a valid Kubernetes DNS subdomain name. The field has no effect for other authentication types or in `relaxed`
+mode.
+
+**Format:** `string`
+
+**Example:** `custom-aso-workload`
+
+**Required**: False
+
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Namespace and Resource
 
 ### AZURE_AUTHORITY_HOST
 
