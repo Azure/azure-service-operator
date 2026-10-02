@@ -27,7 +27,7 @@ AZURE_SUBSCRIPTION_ID AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_
 Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
 Allowed credential fields These fields are common across all credential scopes.
 AZURE_SUBSCRIPTION_ID AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_CLIENT_CERTIFICATE AZURE_CLIENT_CERTIFICATE_PASSWORD AZURE_ADDITIONAL_TENANTS ENTRA_APP_ID Note that the global credential scope has fields that can be set in addition to the fields documented above.">
-	<meta itemprop="wordCount" content="2803">
+	<meta itemprop="wordCount" content="2874">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Credential Format">
 	<meta name="twitter:description" content="Azure Service Operator supports four different styles of authentication today.
@@ -89,7 +89,7 @@ AZURE_SUBSCRIPTION_ID AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.b25bd1daf824ed429faa641ca4cce80a.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.8757944dedb4a661ed26003c056f211b.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -115,7 +115,7 @@ AZURE_SUBSCRIPTION_ID AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.b25bd1daf824ed429faa641ca4cce80a.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.8757944dedb4a661ed26003c056f211b.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -356,6 +356,15 @@ use it at the different <a href="/azure-service-operator/guide/authentication/cr
 <h2 id="managed-identity-via-workload-identity">Managed Identity (via workload identity)</h2>
 <p>See <a href="https://github.com/Azure/azure-workload-identity">Azure Workload Identity</a> for details about the workload identity project.</p>
 <p><strong>Managed Identity (via workload identity) is the recommended authentication mode for production use-cases</strong>.</p>
+<blockquote>
+<p><strong>Advanced: customizing the projected token path.</strong> By default ASO reads the projected
+service account token from <code>/var/run/secrets/tokens/azure-identity</code>. If your environment
+projects the token to a different path, set the standard
+<a href="https://azure.github.io/azure-workload-identity/docs/topics/service-account-labels-and-annotations.html"><code>AZURE_FEDERATED_TOKEN_FILE</code></a>
+environment variable on the ASO controller container and ASO will read the token from
+that path instead. This is useful in environments such as <a href="https://github.com/loft-sh/vcluster">vcluster</a>,
+where the default path may hold a token that isn&rsquo;t valid for Azure AD federation.</p>
+</blockquote>
 <h3 id="prerequisites">Prerequisites</h3>
 <ol>
 <li>An existing Azure Service Principal or Managed Identity. The setup is the same regardless of which you choose.</li>
