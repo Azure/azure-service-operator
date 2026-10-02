@@ -9,6 +9,7 @@ import (
 	"context"
 	"reflect"
 	"strings"
+	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
@@ -19,7 +20,9 @@ import (
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"k8s.io/apimachinery/pkg/util/validation"
 
+	internalconfig "github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	asocloud "github.com/Azure/azure-service-operator/v2/pkg/common/cloud"
@@ -34,7 +37,10 @@ const (
 	// #nosec
 	NamespacedSecretName = "aso-credential"
 	// #nosec
-	FederatedTokenFilePath = "/var/run/secrets/tokens/azure-identity"
+	FederatedTokenFilePath                = "/var/run/secrets/tokens/azure-identity"
+	DefaultWorkloadIdentityServiceAccount = "aso-workload"
+	workloadIdentityAudience              = "api://AzureADTokenExchange"
+	workloadIdentityTokenLifetime         = time.Hour
 )
 
 // ResolveFederatedTokenFilePath returns the path to the projected federated token file used
@@ -110,6 +116,7 @@ type CredentialProvider interface {
 type CredentialProviderOptions struct {
 	TokenProvider               TokenCredentialProvider
 	ServiceAccountTokenProvider ServiceAccountTokenProvider
+	WorkloadIdentityAuthMode    internalconfig.WorkloadIdentityAuthMode
 	Cloud                       *cloud.Configuration
 	AllowMultiEnvManagement     bool
 	// FederatedTokenFilePath overrides the default projected token file path used for per-credential
@@ -123,6 +130,7 @@ type credentialProvider struct {
 	kubeClient                  kubeclient.Client
 	tokenCredentialProvider     TokenCredentialProvider
 	serviceAccountTokenProvider ServiceAccountTokenProvider
+	workloadIdentityAuthMode    internalconfig.WorkloadIdentityAuthMode
 	cloud                       cloud.Configuration
 	allowMultiEnvManagement     bool
 	federatedTokenFilePath      string
@@ -153,6 +161,7 @@ func NewCredentialProvider(
 		globalCredential:            globalCredential,
 		tokenCredentialProvider:     opts.TokenProvider,
 		serviceAccountTokenProvider: opts.ServiceAccountTokenProvider,
+		workloadIdentityAuthMode:    opts.WorkloadIdentityAuthMode,
 		cloud:                       cloud,
 		allowMultiEnvManagement:     opts.AllowMultiEnvManagement,
 		federatedTokenFilePath:      ResolveFederatedTokenFilePath(opts.FederatedTokenFilePath),
@@ -433,6 +442,60 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 				secretData:      secret.Data,
 			}, nil
 		}
+	}
+
+	// If we're in strict workload identity authentication mode, create a client assertion via the linked service account
+	if c.workloadIdentityAuthMode == internalconfig.WorkloadIdentityAuthModeStrict {
+		if c.serviceAccountTokenProvider == nil {
+			return nil, eris.New("strict workload identity authentication requires a ServiceAccount token provider")
+		}
+
+		serviceAccountName := DefaultWorkloadIdentityServiceAccount
+		if value, ok := secret.Data[config.WorkloadIdentityServiceAccount]; ok {
+			serviceAccountName = string(value)
+			if validationErrors := validation.IsDNS1123Subdomain(serviceAccountName); len(validationErrors) > 0 {
+				return nil, eris.Errorf(
+					"credential secret %q contains invalid %s %q: %s",
+					nsName,
+					config.WorkloadIdentityServiceAccount,
+					serviceAccountName,
+					strings.Join(validationErrors, "; "),
+				)
+			}
+		}
+
+		getAssertion := func(ctx context.Context) (string, error) {
+			return c.serviceAccountTokenProvider.GetAssertion(
+				ctx,
+				nsName.Namespace,
+				serviceAccountName,
+				workloadIdentityAudience,
+				workloadIdentityTokenLifetime,
+			)
+		}
+		tokenCredential, err := c.tokenCredentialProvider.NewClientAssertionCredential(
+			tenantID,
+			clientID,
+			getAssertion,
+			&azidentity.ClientAssertionCredentialOptions{
+				ClientOptions: azcore.ClientOptions{
+					Cloud: cloudConfig,
+				},
+				AdditionallyAllowedTenants: additionalTenants,
+			},
+		)
+		if err != nil {
+			return nil, eris.Wrapf(err, "creating client assertion credential from secret %q", nsName)
+		}
+
+		return &Credential{
+			tokenCredential:   tokenCredential,
+			subscriptionID:    subscriptionID,
+			credentialFrom:    nsName,
+			additionalTenants: additionalTenants,
+			cloudConfig:       &cloudConfig,
+			secretData:        secret.Data,
+		}, nil
 	}
 
 	// Default to Workload Identity
