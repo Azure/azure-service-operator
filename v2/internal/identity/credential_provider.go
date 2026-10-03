@@ -109,6 +109,7 @@ type CredentialProvider interface {
 
 type CredentialProviderOptions struct {
 	TokenProvider           TokenCredentialProvider
+	ServiceAccountTokenProvider ServiceAccountTokenProvider
 	Cloud                   *cloud.Configuration
 	AllowMultiEnvManagement bool
 	// FederatedTokenFilePath overrides the default projected token file path used for per-credential
@@ -121,6 +122,7 @@ type credentialProvider struct {
 	globalCredential        *Credential
 	kubeClient              kubeclient.Client
 	tokenCredentialProvider TokenCredentialProvider
+	serviceAccountTokenProvider ServiceAccountTokenProvider
 	cloud                   cloud.Configuration
 	allowMultiEnvManagement bool
 	federatedTokenFilePath  string
@@ -147,12 +149,13 @@ func NewCredentialProvider(
 	}
 
 	return &credentialProvider{
-		kubeClient:              kubeClient,
-		globalCredential:        globalCredential,
-		tokenCredentialProvider: opts.TokenProvider,
-		cloud:                   cloud,
-		allowMultiEnvManagement: opts.AllowMultiEnvManagement,
-		federatedTokenFilePath:  ResolveFederatedTokenFilePath(opts.FederatedTokenFilePath),
+		kubeClient:                  kubeClient,
+		globalCredential:            globalCredential,
+		tokenCredentialProvider:     opts.TokenProvider,
+		serviceAccountTokenProvider: opts.ServiceAccountTokenProvider,
+		cloud:                       cloud,
+		allowMultiEnvManagement:     opts.AllowMultiEnvManagement,
+		federatedTokenFilePath:      ResolveFederatedTokenFilePath(opts.FederatedTokenFilePath),
 	}
 }
 
