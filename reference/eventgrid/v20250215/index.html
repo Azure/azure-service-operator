@@ -24,7 +24,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 	<meta itemprop="description" content="APIVersion Value Description “2025-02-15” Domain Generator information:
 Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/EventGrid/stable/2025-02-15/EventGrid.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventGrid/​domains/​{domainName} Used by: DomainList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOptional status Domain_STATUSOptional Domain_Spec Property Description Type autoCreateTopicWithFirstSubscription This Boolean is used to specify the creation mechanism for all the Event Grid Domain Topics associated with this Event Grid Domain resource. In this context, creation of domain topic can be auto-managed (when true) or self-managed (when false). The default value for this property is true. When this property is null or set to true, Event Grid is responsible of automatically creating the domain topic when the first event subscription is created at the scope of the domain topic. If this property is set to false, then creating the first event subscription will require creating a domain topic by the user. The self-management mode can be used if the user wants full control of when the domain topic is created, while auto-managed mode provides the flexibility to perform less operations and manage fewer resources by the user. Also, note that in auto-managed creation mode, user is allowed to create the domain topic on demand if needed. boolOptional autoDeleteTopicWithLastSubscription This Boolean is used to specify the deletion mechanism for all the Event Grid Domain Topics associated with this Event Grid Domain resource. In this context, deletion of domain topic can be auto-managed (when true) or self-managed (when false). The default value for this property is true. When this property is set to true, Event Grid is responsible of automatically deleting the domain topic when the last event subscription at the scope of the domain topic is deleted. If this property is set to false, then the user needs to manually delete the domain topic when it is no longer needed (e.g., when last event subscription is deleted and the resource needs to be cleaned up). The self-management mode can be used if the user wants full control of when the domain topic needs to be deleted, while auto-managed mode provides the flexibility to perform less operations and manage fewer resources by the user. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional dataResidencyBoundary Data Residency Boundary of the resource. DomainProperties_DataResidencyBoundaryOptional disableLocalAuth This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the domain. boolOptional eventTypeInfo Event Type Information for the domain. This information is provided by the publisher and can be used by the subscriber to view different types of events that are published. EventTypeInfoOptional identity Identity information for the Event Grid Domain resource. IdentityInfoOptional inboundIpRules This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. InboundIpRule[]Optional inputSchema This determines the format that Event Grid should expect for incoming events published to the Event Grid Domain Resource. DomainProperties_InputSchemaOptional inputSchemaMapping Information about the InputSchemaMapping which specified the info about mapping event payload. InputSchemaMappingOptional location Location of the resource. stringRequired minimumTlsVersionAllowed Minimum TLS version of the publisher allowed to publish to this domain DomainProperties_MinimumTlsVersionAllowedOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DomainOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring DomainProperties_PublicNetworkAccessOptional tags Tags of the resource. map[string]stringOptional Domain_STATUS Property Description Type autoCreateTopicWithFirstSubscription This Boolean is used to specify the creation mechanism for all the Event Grid Domain Topics associated with this Event Grid Domain resource. In this context, creation of domain topic can be auto-managed (when true) or self-managed (when false). The default value for this property is true. When this property is null or set to true, Event Grid is responsible of automatically creating the domain topic when the first event subscription is created at the scope of the domain topic. If this property is set to false, then creating the first event subscription will require creating a domain topic by the user. The self-management mode can be used if the user wants full control of when the domain topic is created, while auto-managed mode provides the flexibility to perform less operations and manage fewer resources by the user. Also, note that in auto-managed creation mode, user is allowed to create the domain topic on demand if needed. boolOptional autoDeleteTopicWithLastSubscription This Boolean is used to specify the deletion mechanism for all the Event Grid Domain Topics associated with this Event Grid Domain resource. In this context, deletion of domain topic can be auto-managed (when true) or self-managed (when false). The default value for this property is true. When this property is set to true, Event Grid is responsible of automatically deleting the domain topic when the last event subscription at the scope of the domain topic is deleted. If this property is set to false, then the user needs to manually delete the domain topic when it is no longer needed (e.g., when last event subscription is deleted and the resource needs to be cleaned up). The self-management mode can be used if the user wants full control of when the domain topic needs to be deleted, while auto-managed mode provides the flexibility to perform less operations and manage fewer resources by the user. boolOptional conditions The observed state of the resource conditions.Condition[]Optional dataResidencyBoundary Data Residency Boundary of the resource. DomainProperties_DataResidencyBoundary_STATUSOptional disableLocalAuth This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the domain. boolOptional endpoint Endpoint for the Event Grid Domain Resource which is used for publishing the events. stringOptional eventTypeInfo Event Type Information for the domain. This information is provided by the publisher and can be used by the subscriber to view different types of events that are published. EventTypeInfo_STATUSOptional id Fully qualified identifier of the resource. stringOptional identity Identity information for the Event Grid Domain resource. IdentityInfo_STATUSOptional inboundIpRules This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. InboundIpRule_STATUS[]Optional inputSchema This determines the format that Event Grid should expect for incoming events published to the Event Grid Domain Resource. DomainProperties_InputSchema_STATUSOptional inputSchemaMapping Information about the InputSchemaMapping which specified the info about mapping event payload. InputSchemaMapping_STATUSOptional location Location of the resource. stringOptional metricResourceId Metric resource id for the Event Grid Domain Resource. stringOptional minimumTlsVersionAllowed Minimum TLS version of the publisher allowed to publish to this domain DomainProperties_MinimumTlsVersionAllowed_STATUSOptional name Name of the resource. stringOptional privateEndpointConnections List of private endpoint connections. PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded[]Optional provisioningState Provisioning state of the Event Grid Domain Resource. DomainProperties_ProvisioningState_STATUSOptional publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring DomainProperties_PublicNetworkAccess_STATUSOptional systemData The system metadata relating to the Event Grid resource. SystemData_STATUSOptional tags Tags of the resource. map[string]stringOptional type Type of the resource. stringOptional DomainList Generator information:">
-	<meta itemprop="wordCount" content="12039">
+	<meta itemprop="wordCount" content="15408">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="eventgrid.azure.com/v20250215">
 	<meta name="twitter:description" content="APIVersion Value Description “2025-02-15” Domain Generator information:
@@ -85,7 +85,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.8757944dedb4a661ed26003c056f211b.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.928b39cea1cdc515673255c38a2c7ff8.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -111,7 +111,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.8757944dedb4a661ed26003c056f211b.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.928b39cea1cdc515673255c38a2c7ff8.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -775,6 +775,20 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
       </ul>
     </li>
     <li><a href="#EventSubscriptionList">EventSubscriptionList</a></li>
+    <li><a href="#Namespace">Namespace</a>
+      <ul>
+        <li><a href="#Namespace_Spec">Namespace_Spec</a></li>
+        <li><a href="#Namespace_STATUS">Namespace_STATUS</a></li>
+      </ul>
+    </li>
+    <li><a href="#NamespaceList">NamespaceList</a></li>
+    <li><a href="#NamespaceTopic">NamespaceTopic</a>
+      <ul>
+        <li><a href="#NamespaceTopic_Spec">NamespaceTopic_Spec</a></li>
+        <li><a href="#NamespaceTopic_STATUS">NamespaceTopic_STATUS</a></li>
+      </ul>
+    </li>
+    <li><a href="#NamespaceTopicList">NamespaceTopicList</a></li>
     <li><a href="#Topic">Topic</a>
       <ul>
         <li><a href="#Topic_Spec">Topic_Spec</a></li>
@@ -788,6 +802,10 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
     <li><a href="#DomainsTopic_STATUS">DomainsTopic_STATUS</a></li>
     <li><a href="#EventSubscription_Spec">EventSubscription_Spec</a></li>
     <li><a href="#EventSubscription_STATUS">EventSubscription_STATUS</a></li>
+    <li><a href="#Namespace_Spec">Namespace_Spec</a></li>
+    <li><a href="#Namespace_STATUS">Namespace_STATUS</a></li>
+    <li><a href="#NamespaceTopic_Spec">NamespaceTopic_Spec</a></li>
+    <li><a href="#NamespaceTopic_STATUS">NamespaceTopic_STATUS</a></li>
     <li><a href="#Topic_Spec">Topic_Spec</a></li>
     <li><a href="#Topic_STATUS">Topic_STATUS</a></li>
     <li><a href="#DeadLetterDestination">DeadLetterDestination</a></li>
@@ -824,7 +842,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
     <li><a href="#InboundIpRule_STATUS">InboundIpRule_STATUS</a></li>
     <li><a href="#InputSchemaMapping">InputSchemaMapping</a></li>
     <li><a href="#InputSchemaMapping_STATUS">InputSchemaMapping_STATUS</a></li>
+    <li><a href="#NamespaceOperatorSpec">NamespaceOperatorSpec</a></li>
+    <li><a href="#NamespaceProperties_MinimumTlsVersionAllowed_STATUS">NamespaceProperties_MinimumTlsVersionAllowed_STATUS</a></li>
+    <li><a href="#NamespaceProperties_ProvisioningState_STATUS">NamespaceProperties_ProvisioningState_STATUS</a></li>
+    <li><a href="#NamespaceProperties_PublicNetworkAccess">NamespaceProperties_PublicNetworkAccess</a></li>
+    <li><a href="#NamespaceProperties_PublicNetworkAccess_STATUS">NamespaceProperties_PublicNetworkAccess_STATUS</a></li>
+    <li><a href="#NamespaceSku">NamespaceSku</a></li>
+    <li><a href="#NamespaceSku_STATUS">NamespaceSku_STATUS</a></li>
+    <li><a href="#NamespaceTopicOperatorSpec">NamespaceTopicOperatorSpec</a></li>
+    <li><a href="#NamespaceTopicProperties_InputSchema">NamespaceTopicProperties_InputSchema</a></li>
+    <li><a href="#NamespaceTopicProperties_InputSchema_STATUS">NamespaceTopicProperties_InputSchema_STATUS</a></li>
+    <li><a href="#NamespaceTopicProperties_ProvisioningState_STATUS">NamespaceTopicProperties_ProvisioningState_STATUS</a></li>
+    <li><a href="#NamespaceTopicProperties_PublisherType">NamespaceTopicProperties_PublisherType</a></li>
+    <li><a href="#NamespaceTopicProperties_PublisherType_STATUS">NamespaceTopicProperties_PublisherType_STATUS</a></li>
     <li><a href="#PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded">PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded</a></li>
+    <li><a href="#PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded">PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded</a></li>
     <li><a href="#PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded">PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded</a></li>
     <li><a href="#RetryPolicy">RetryPolicy</a></li>
     <li><a href="#RetryPolicy_STATUS">RetryPolicy_STATUS</a></li>
@@ -839,10 +871,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
     <li><a href="#TopicProperties_ProvisioningState_STATUS">TopicProperties_ProvisioningState_STATUS</a></li>
     <li><a href="#TopicProperties_PublicNetworkAccess">TopicProperties_PublicNetworkAccess</a></li>
     <li><a href="#TopicProperties_PublicNetworkAccess_STATUS">TopicProperties_PublicNetworkAccess_STATUS</a></li>
+    <li><a href="#TopicsConfiguration">TopicsConfiguration</a></li>
+    <li><a href="#TopicsConfiguration_STATUS">TopicsConfiguration_STATUS</a></li>
+    <li><a href="#TopicSpacesConfiguration">TopicSpacesConfiguration</a></li>
+    <li><a href="#TopicSpacesConfiguration_STATUS">TopicSpacesConfiguration_STATUS</a></li>
     <li><a href="#AdvancedFilter">AdvancedFilter</a></li>
     <li><a href="#AdvancedFilter_STATUS">AdvancedFilter_STATUS</a></li>
     <li><a href="#AzureFunctionEventSubscriptionDestination">AzureFunctionEventSubscriptionDestination</a></li>
     <li><a href="#AzureFunctionEventSubscriptionDestination_STATUS">AzureFunctionEventSubscriptionDestination_STATUS</a></li>
+    <li><a href="#CustomDomainConfiguration">CustomDomainConfiguration</a></li>
+    <li><a href="#CustomDomainConfiguration_STATUS">CustomDomainConfiguration_STATUS</a></li>
     <li><a href="#EventHubEventSubscriptionDestination">EventHubEventSubscriptionDestination</a></li>
     <li><a href="#EventHubEventSubscriptionDestination_STATUS">EventHubEventSubscriptionDestination_STATUS</a></li>
     <li><a href="#EventSubscriptionIdentity">EventSubscriptionIdentity</a></li>
@@ -861,8 +899,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
     <li><a href="#JsonInputSchemaMapping_STATUS">JsonInputSchemaMapping_STATUS</a></li>
     <li><a href="#MonitorAlertEventSubscriptionDestination">MonitorAlertEventSubscriptionDestination</a></li>
     <li><a href="#MonitorAlertEventSubscriptionDestination_STATUS">MonitorAlertEventSubscriptionDestination_STATUS</a></li>
+    <li><a href="#NamespaceOperatorSecrets">NamespaceOperatorSecrets</a></li>
+    <li><a href="#NamespaceSku_Name">NamespaceSku_Name</a></li>
+    <li><a href="#NamespaceSku_Name_STATUS">NamespaceSku_Name_STATUS</a></li>
     <li><a href="#NamespaceTopicEventSubscriptionDestination">NamespaceTopicEventSubscriptionDestination</a></li>
     <li><a href="#NamespaceTopicEventSubscriptionDestination_STATUS">NamespaceTopicEventSubscriptionDestination_STATUS</a></li>
+    <li><a href="#NamespaceTopicOperatorSecrets">NamespaceTopicOperatorSecrets</a></li>
+    <li><a href="#RoutingEnrichments">RoutingEnrichments</a></li>
+    <li><a href="#RoutingEnrichments_STATUS">RoutingEnrichments_STATUS</a></li>
+    <li><a href="#RoutingIdentityInfo">RoutingIdentityInfo</a></li>
+    <li><a href="#RoutingIdentityInfo_STATUS">RoutingIdentityInfo_STATUS</a></li>
     <li><a href="#ServiceBusQueueEventSubscriptionDestination">ServiceBusQueueEventSubscriptionDestination</a></li>
     <li><a href="#ServiceBusQueueEventSubscriptionDestination_STATUS">ServiceBusQueueEventSubscriptionDestination_STATUS</a></li>
     <li><a href="#ServiceBusTopicEventSubscriptionDestination">ServiceBusTopicEventSubscriptionDestination</a></li>
@@ -875,6 +921,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
     <li><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a></li>
     <li><a href="#TopicOperatorConfigMaps">TopicOperatorConfigMaps</a></li>
     <li><a href="#TopicOperatorSecrets">TopicOperatorSecrets</a></li>
+    <li><a href="#TopicSpacesConfiguration_State">TopicSpacesConfiguration_State</a></li>
+    <li><a href="#TopicSpacesConfiguration_State_STATUS">TopicSpacesConfiguration_State_STATUS</a></li>
     <li><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails</a></li>
     <li><a href="#UserIdentityProperties_STATUS">UserIdentityProperties_STATUS</a></li>
     <li><a href="#WebHookEventSubscriptionDestination">WebHookEventSubscriptionDestination</a></li>
@@ -883,8 +931,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
     <li><a href="#AzureFunctionEventSubscriptionDestination_EndpointType_STATUS">AzureFunctionEventSubscriptionDestination_EndpointType_STATUS</a></li>
     <li><a href="#BoolEqualsAdvancedFilter">BoolEqualsAdvancedFilter</a></li>
     <li><a href="#BoolEqualsAdvancedFilter_STATUS">BoolEqualsAdvancedFilter_STATUS</a></li>
+    <li><a href="#CustomDomainConfiguration_ValidationState">CustomDomainConfiguration_ValidationState</a></li>
+    <li><a href="#CustomDomainConfiguration_ValidationState_STATUS">CustomDomainConfiguration_ValidationState_STATUS</a></li>
+    <li><a href="#CustomDomainIdentity">CustomDomainIdentity</a></li>
+    <li><a href="#CustomDomainIdentity_STATUS">CustomDomainIdentity_STATUS</a></li>
     <li><a href="#DeliveryAttributeMapping">DeliveryAttributeMapping</a></li>
     <li><a href="#DeliveryAttributeMapping_STATUS">DeliveryAttributeMapping_STATUS</a></li>
+    <li><a href="#DynamicRoutingEnrichment">DynamicRoutingEnrichment</a></li>
+    <li><a href="#DynamicRoutingEnrichment_STATUS">DynamicRoutingEnrichment_STATUS</a></li>
     <li><a href="#EventHubEventSubscriptionDestination_EndpointType">EventHubEventSubscriptionDestination_EndpointType</a></li>
     <li><a href="#EventHubEventSubscriptionDestination_EndpointType_STATUS">EventHubEventSubscriptionDestination_EndpointType_STATUS</a></li>
     <li><a href="#EventSubscriptionIdentity_Type">EventSubscriptionIdentity_Type</a></li>
@@ -923,10 +977,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
     <li><a href="#NumberNotInAdvancedFilter_STATUS">NumberNotInAdvancedFilter_STATUS</a></li>
     <li><a href="#NumberNotInRangeAdvancedFilter">NumberNotInRangeAdvancedFilter</a></li>
     <li><a href="#NumberNotInRangeAdvancedFilter_STATUS">NumberNotInRangeAdvancedFilter_STATUS</a></li>
+    <li><a href="#RoutingIdentityInfo_Type">RoutingIdentityInfo_Type</a></li>
+    <li><a href="#RoutingIdentityInfo_Type_STATUS">RoutingIdentityInfo_Type_STATUS</a></li>
     <li><a href="#ServiceBusQueueEventSubscriptionDestination_EndpointType">ServiceBusQueueEventSubscriptionDestination_EndpointType</a></li>
     <li><a href="#ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS">ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS</a></li>
     <li><a href="#ServiceBusTopicEventSubscriptionDestination_EndpointType">ServiceBusTopicEventSubscriptionDestination_EndpointType</a></li>
     <li><a href="#ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS">ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS</a></li>
+    <li><a href="#StaticRoutingEnrichment">StaticRoutingEnrichment</a></li>
+    <li><a href="#StaticRoutingEnrichment_STATUS">StaticRoutingEnrichment_STATUS</a></li>
     <li><a href="#StorageBlobDeadLetterDestination_EndpointType">StorageBlobDeadLetterDestination_EndpointType</a></li>
     <li><a href="#StorageBlobDeadLetterDestination_EndpointType_STATUS">StorageBlobDeadLetterDestination_EndpointType_STATUS</a></li>
     <li><a href="#StorageQueueEventSubscriptionDestination_EndpointType">StorageQueueEventSubscriptionDestination_EndpointType</a></li>
@@ -953,6 +1011,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
     <li><a href="#WebHookEventSubscriptionDestinationProperties_MinimumTlsVersionAllowed_STATUS">WebHookEventSubscriptionDestinationProperties_MinimumTlsVersionAllowed_STATUS</a></li>
     <li><a href="#BoolEqualsAdvancedFilter_OperatorType">BoolEqualsAdvancedFilter_OperatorType</a></li>
     <li><a href="#BoolEqualsAdvancedFilter_OperatorType_STATUS">BoolEqualsAdvancedFilter_OperatorType_STATUS</a></li>
+    <li><a href="#CustomDomainIdentity_Type">CustomDomainIdentity_Type</a></li>
+    <li><a href="#CustomDomainIdentity_Type_STATUS">CustomDomainIdentity_Type_STATUS</a></li>
     <li><a href="#DynamicDeliveryAttributeMapping">DynamicDeliveryAttributeMapping</a></li>
     <li><a href="#DynamicDeliveryAttributeMapping_STATUS">DynamicDeliveryAttributeMapping_STATUS</a></li>
     <li><a href="#IsNotNullAdvancedFilter_OperatorType">IsNotNullAdvancedFilter_OperatorType</a></li>
@@ -977,6 +1037,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
     <li><a href="#NumberNotInRangeAdvancedFilter_OperatorType_STATUS">NumberNotInRangeAdvancedFilter_OperatorType_STATUS</a></li>
     <li><a href="#StaticDeliveryAttributeMapping">StaticDeliveryAttributeMapping</a></li>
     <li><a href="#StaticDeliveryAttributeMapping_STATUS">StaticDeliveryAttributeMapping_STATUS</a></li>
+    <li><a href="#StaticStringRoutingEnrichment">StaticStringRoutingEnrichment</a></li>
+    <li><a href="#StaticStringRoutingEnrichment_STATUS">StaticStringRoutingEnrichment_STATUS</a></li>
     <li><a href="#StringBeginsWithAdvancedFilter_OperatorType">StringBeginsWithAdvancedFilter_OperatorType</a></li>
     <li><a href="#StringBeginsWithAdvancedFilter_OperatorType_STATUS">StringBeginsWithAdvancedFilter_OperatorType_STATUS</a></li>
     <li><a href="#StringContainsAdvancedFilter_OperatorType">StringContainsAdvancedFilter_OperatorType</a></li>
@@ -997,6 +1059,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
     <li><a href="#DynamicDeliveryAttributeMapping_Type_STATUS">DynamicDeliveryAttributeMapping_Type_STATUS</a></li>
     <li><a href="#StaticDeliveryAttributeMapping_Type">StaticDeliveryAttributeMapping_Type</a></li>
     <li><a href="#StaticDeliveryAttributeMapping_Type_STATUS">StaticDeliveryAttributeMapping_Type_STATUS</a></li>
+    <li><a href="#StaticStringRoutingEnrichment_ValueType">StaticStringRoutingEnrichment_ValueType</a></li>
+    <li><a href="#StaticStringRoutingEnrichment_ValueType_STATUS">StaticStringRoutingEnrichment_ValueType_STATUS</a></li>
   </ul>
 </nav>
   </div>
@@ -1692,6 +1756,414 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 					<td>items</td>
 					<td></td>
 					<td><a href="#EventSubscription">EventSubscription[]</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="Namespace">Namespace</h2>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/EventGrid/stable/2025-02-15/EventGrid.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventGrid/​namespaces/​{namespaceName}</li>
+</ul>
+<p>Used by: <a href="#NamespaceList">NamespaceList</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>spec</td>
+					<td></td>
+					<td><a href="#Namespace_Spec">Namespace_Spec</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>status</td>
+					<td></td>
+					<td><a href="#Namespace_STATUS">Namespace_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="Namespace_Spec">Namespace_Spec</h3>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>azureName</td>
+					<td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>identity</td>
+					<td>Identity information for the Namespace resource.</td>
+					<td><a href="#IdentityInfo">IdentityInfo</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>inboundIpRules</td>
+					<td>This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.</td>
+					<td><a href="#InboundIpRule">InboundIpRule[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>isZoneRedundant</td>
+					<td>This is an optional property and it allows the user to specify if the namespace resource supports zone-redundancy capability or not. If this property is not specified explicitly by the user, its default value depends on the following conditions: a. For Availability Zones enabled regions - The default property value would be true. b. For non-Availability Zones enabled regions - The default property value would be false. Once specified, this property cannot be updated.</td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>location</td>
+					<td>Location of the resource.</td>
+					<td>string<br/><small>Required</small></td>
+			</tr>
+			<tr>
+					<td>operatorSpec</td>
+					<td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+					<td><a href="#NamespaceOperatorSpec">NamespaceOperatorSpec</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>owner</td>
+					<td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+			</tr>
+			<tr>
+					<td>publicNetworkAccess</td>
+					<td>This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceProperties.InboundIpRules" /></td>
+					<td><a href="#NamespaceProperties_PublicNetworkAccess">NamespaceProperties_PublicNetworkAccess</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>sku</td>
+					<td>Represents available Sku pricing tiers.</td>
+					<td><a href="#NamespaceSku">NamespaceSku</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>tags</td>
+					<td>Tags of the resource.</td>
+					<td>map[string]string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>topicsConfiguration</td>
+					<td>Topics configuration information for the namespace resource</td>
+					<td><a href="#TopicsConfiguration">TopicsConfiguration</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>topicSpacesConfiguration</td>
+					<td>Topic spaces configuration information for the namespace resource</td>
+					<td><a href="#TopicSpacesConfiguration">TopicSpacesConfiguration</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="Namespace_STATUS">Namespace_STATUS</h3>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>conditions</td>
+					<td>The observed state of the resource</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>id</td>
+					<td>Fully qualified identifier of the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>identity</td>
+					<td>Identity information for the Namespace resource.</td>
+					<td><a href="#IdentityInfo_STATUS">IdentityInfo_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>inboundIpRules</td>
+					<td>This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.</td>
+					<td><a href="#InboundIpRule_STATUS">InboundIpRule_STATUS[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>isZoneRedundant</td>
+					<td>This is an optional property and it allows the user to specify if the namespace resource supports zone-redundancy capability or not. If this property is not specified explicitly by the user, its default value depends on the following conditions: a. For Availability Zones enabled regions - The default property value would be true. b. For non-Availability Zones enabled regions - The default property value would be false. Once specified, this property cannot be updated.</td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>location</td>
+					<td>Location of the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>minimumTlsVersionAllowed</td>
+					<td>Minimum TLS version of the publisher allowed to publish to this namespace. Only TLS version 1.2 is supported.</td>
+					<td><a href="#NamespaceProperties_MinimumTlsVersionAllowed_STATUS">NamespaceProperties_MinimumTlsVersionAllowed_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>name</td>
+					<td>Name of the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>privateEndpointConnections</td>
+					<td>List of private endpoint connections.</td>
+					<td><a href="#PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded">PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>provisioningState</td>
+					<td>Provisioning state of the namespace resource.</td>
+					<td><a href="#NamespaceProperties_ProvisioningState_STATUS">NamespaceProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>publicNetworkAccess</td>
+					<td>This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceProperties.InboundIpRules" /></td>
+					<td><a href="#NamespaceProperties_PublicNetworkAccess_STATUS">NamespaceProperties_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>sku</td>
+					<td>Represents available Sku pricing tiers.</td>
+					<td><a href="#NamespaceSku_STATUS">NamespaceSku_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>systemData</td>
+					<td>The system metadata relating to the Event Grid resource.</td>
+					<td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>tags</td>
+					<td>Tags of the resource.</td>
+					<td>map[string]string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>topicsConfiguration</td>
+					<td>Topics configuration information for the namespace resource</td>
+					<td><a href="#TopicsConfiguration_STATUS">TopicsConfiguration_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>topicSpacesConfiguration</td>
+					<td>Topic spaces configuration information for the namespace resource</td>
+					<td><a href="#TopicSpacesConfiguration_STATUS">TopicSpacesConfiguration_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>type</td>
+					<td>Type of the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceList">NamespaceList</h2>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/EventGrid/stable/2025-02-15/EventGrid.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventGrid/​namespaces/​{namespaceName}</li>
+</ul>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>items</td>
+					<td></td>
+					<td><a href="#Namespace">Namespace[]</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceTopic">NamespaceTopic</h2>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/EventGrid/stable/2025-02-15/EventGrid.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventGrid/​namespaces/​{namespaceName}/​topics/​{topicName}</li>
+</ul>
+<p>Used by: <a href="#NamespaceTopicList">NamespaceTopicList</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>spec</td>
+					<td></td>
+					<td><a href="#NamespaceTopic_Spec">NamespaceTopic_Spec</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>status</td>
+					<td></td>
+					<td><a href="#NamespaceTopic_STATUS">NamespaceTopic_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="NamespaceTopic_Spec">NamespaceTopic_Spec</h3>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>azureName</td>
+					<td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>eventRetentionInDays</td>
+					<td>Event retention for the namespace topic expressed in days. The property default value is 1 day. Min event retention duration value is 1 day and max event retention duration value is 1 day.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>inputSchema</td>
+					<td>This determines the format that is expected for incoming events published to the topic.</td>
+					<td><a href="#NamespaceTopicProperties_InputSchema">NamespaceTopicProperties_InputSchema</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>operatorSpec</td>
+					<td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+					<td><a href="#NamespaceTopicOperatorSpec">NamespaceTopicOperatorSpec</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>owner</td>
+					<td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a eventgrid.azure.com/Namespace resource</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+			</tr>
+			<tr>
+					<td>publisherType</td>
+					<td>Publisher type of the namespace topic.</td>
+					<td><a href="#NamespaceTopicProperties_PublisherType">NamespaceTopicProperties_PublisherType</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="NamespaceTopic_STATUS">NamespaceTopic_STATUS</h3>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>conditions</td>
+					<td>The observed state of the resource</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>eventRetentionInDays</td>
+					<td>Event retention for the namespace topic expressed in days. The property default value is 1 day. Min event retention duration value is 1 day and max event retention duration value is 1 day.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>id</td>
+					<td>Fully qualified identifier of the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>inputSchema</td>
+					<td>This determines the format that is expected for incoming events published to the topic.</td>
+					<td><a href="#NamespaceTopicProperties_InputSchema_STATUS">NamespaceTopicProperties_InputSchema_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>name</td>
+					<td>Name of the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>provisioningState</td>
+					<td>Provisioning state of the namespace topic.</td>
+					<td><a href="#NamespaceTopicProperties_ProvisioningState_STATUS">NamespaceTopicProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>publisherType</td>
+					<td>Publisher type of the namespace topic.</td>
+					<td><a href="#NamespaceTopicProperties_PublisherType_STATUS">NamespaceTopicProperties_PublisherType_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>systemData</td>
+					<td>The system metadata relating to the Event Grid resource.</td>
+					<td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>type</td>
+					<td>Type of the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceTopicList">NamespaceTopicList</h2>
+<p>Generator information:</p>
+<ul>
+<li>Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/EventGrid/stable/2025-02-15/EventGrid.json</li>
+<li>ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventGrid/​namespaces/​{namespaceName}/​topics/​{topicName}</li>
+</ul>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>items</td>
+					<td></td>
+					<td><a href="#NamespaceTopic">NamespaceTopic[]</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
@@ -2406,6 +2878,279 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 					<td>topic</td>
 					<td>Name of the topic of the event subscription.</td>
 					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>type</td>
+					<td>Type of the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="Namespace_Spec">Namespace_Spec</h2>
+<p>Used by: <a href="#Namespace">Namespace</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>azureName</td>
+					<td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>identity</td>
+					<td>Identity information for the Namespace resource.</td>
+					<td><a href="#IdentityInfo">IdentityInfo</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>inboundIpRules</td>
+					<td>This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.</td>
+					<td><a href="#InboundIpRule">InboundIpRule[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>isZoneRedundant</td>
+					<td>This is an optional property and it allows the user to specify if the namespace resource supports zone-redundancy capability or not. If this property is not specified explicitly by the user, its default value depends on the following conditions: a. For Availability Zones enabled regions - The default property value would be true. b. For non-Availability Zones enabled regions - The default property value would be false. Once specified, this property cannot be updated.</td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>location</td>
+					<td>Location of the resource.</td>
+					<td>string<br/><small>Required</small></td>
+			</tr>
+			<tr>
+					<td>operatorSpec</td>
+					<td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+					<td><a href="#NamespaceOperatorSpec">NamespaceOperatorSpec</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>owner</td>
+					<td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+			</tr>
+			<tr>
+					<td>publicNetworkAccess</td>
+					<td>This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceProperties.InboundIpRules" /></td>
+					<td><a href="#NamespaceProperties_PublicNetworkAccess">NamespaceProperties_PublicNetworkAccess</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>sku</td>
+					<td>Represents available Sku pricing tiers.</td>
+					<td><a href="#NamespaceSku">NamespaceSku</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>tags</td>
+					<td>Tags of the resource.</td>
+					<td>map[string]string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>topicsConfiguration</td>
+					<td>Topics configuration information for the namespace resource</td>
+					<td><a href="#TopicsConfiguration">TopicsConfiguration</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>topicSpacesConfiguration</td>
+					<td>Topic spaces configuration information for the namespace resource</td>
+					<td><a href="#TopicSpacesConfiguration">TopicSpacesConfiguration</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="Namespace_STATUS">Namespace_STATUS</h2>
+<p>Namespace resource.</p>
+<p>Used by: <a href="#Namespace">Namespace</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>conditions</td>
+					<td>The observed state of the resource</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>id</td>
+					<td>Fully qualified identifier of the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>identity</td>
+					<td>Identity information for the Namespace resource.</td>
+					<td><a href="#IdentityInfo_STATUS">IdentityInfo_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>inboundIpRules</td>
+					<td>This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.</td>
+					<td><a href="#InboundIpRule_STATUS">InboundIpRule_STATUS[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>isZoneRedundant</td>
+					<td>This is an optional property and it allows the user to specify if the namespace resource supports zone-redundancy capability or not. If this property is not specified explicitly by the user, its default value depends on the following conditions: a. For Availability Zones enabled regions - The default property value would be true. b. For non-Availability Zones enabled regions - The default property value would be false. Once specified, this property cannot be updated.</td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>location</td>
+					<td>Location of the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>minimumTlsVersionAllowed</td>
+					<td>Minimum TLS version of the publisher allowed to publish to this namespace. Only TLS version 1.2 is supported.</td>
+					<td><a href="#NamespaceProperties_MinimumTlsVersionAllowed_STATUS">NamespaceProperties_MinimumTlsVersionAllowed_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>name</td>
+					<td>Name of the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>privateEndpointConnections</td>
+					<td>List of private endpoint connections.</td>
+					<td><a href="#PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded">PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>provisioningState</td>
+					<td>Provisioning state of the namespace resource.</td>
+					<td><a href="#NamespaceProperties_ProvisioningState_STATUS">NamespaceProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>publicNetworkAccess</td>
+					<td>This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceProperties.InboundIpRules" /></td>
+					<td><a href="#NamespaceProperties_PublicNetworkAccess_STATUS">NamespaceProperties_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>sku</td>
+					<td>Represents available Sku pricing tiers.</td>
+					<td><a href="#NamespaceSku_STATUS">NamespaceSku_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>systemData</td>
+					<td>The system metadata relating to the Event Grid resource.</td>
+					<td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>tags</td>
+					<td>Tags of the resource.</td>
+					<td>map[string]string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>topicsConfiguration</td>
+					<td>Topics configuration information for the namespace resource</td>
+					<td><a href="#TopicsConfiguration_STATUS">TopicsConfiguration_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>topicSpacesConfiguration</td>
+					<td>Topic spaces configuration information for the namespace resource</td>
+					<td><a href="#TopicSpacesConfiguration_STATUS">TopicSpacesConfiguration_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>type</td>
+					<td>Type of the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceTopic_Spec">NamespaceTopic_Spec</h2>
+<p>Used by: <a href="#NamespaceTopic">NamespaceTopic</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>azureName</td>
+					<td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>eventRetentionInDays</td>
+					<td>Event retention for the namespace topic expressed in days. The property default value is 1 day. Min event retention duration value is 1 day and max event retention duration value is 1 day.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>inputSchema</td>
+					<td>This determines the format that is expected for incoming events published to the topic.</td>
+					<td><a href="#NamespaceTopicProperties_InputSchema">NamespaceTopicProperties_InputSchema</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>operatorSpec</td>
+					<td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+					<td><a href="#NamespaceTopicOperatorSpec">NamespaceTopicOperatorSpec</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>owner</td>
+					<td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a eventgrid.azure.com/Namespace resource</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+			</tr>
+			<tr>
+					<td>publisherType</td>
+					<td>Publisher type of the namespace topic.</td>
+					<td><a href="#NamespaceTopicProperties_PublisherType">NamespaceTopicProperties_PublisherType</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceTopic_STATUS">NamespaceTopic_STATUS</h2>
+<p>Used by: <a href="#NamespaceTopic">NamespaceTopic</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>conditions</td>
+					<td>The observed state of the resource</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>eventRetentionInDays</td>
+					<td>Event retention for the namespace topic expressed in days. The property default value is 1 day. Min event retention duration value is 1 day and max event retention duration value is 1 day.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>id</td>
+					<td>Fully qualified identifier of the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>inputSchema</td>
+					<td>This determines the format that is expected for incoming events published to the topic.</td>
+					<td><a href="#NamespaceTopicProperties_InputSchema_STATUS">NamespaceTopicProperties_InputSchema_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>name</td>
+					<td>Name of the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>provisioningState</td>
+					<td>Provisioning state of the namespace topic.</td>
+					<td><a href="#NamespaceTopicProperties_ProvisioningState_STATUS">NamespaceTopicProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>publisherType</td>
+					<td>Publisher type of the namespace topic.</td>
+					<td><a href="#NamespaceTopicProperties_PublisherType_STATUS">NamespaceTopicProperties_PublisherType_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>systemData</td>
+					<td>The system metadata relating to the Event Grid resource.</td>
+					<td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>type</td>
@@ -3405,7 +4150,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 </table>
 <h2 id="IdentityInfo">IdentityInfo</h2>
 <p>The identity information for the resource.</p>
-<p>Used by: <a href="#Domain_Spec">Domain_Spec</a>, and <a href="#Topic_Spec">Topic_Spec</a>.</p>
+<p>Used by: <a href="#Domain_Spec">Domain_Spec</a>, <a href="#Namespace_Spec">Namespace_Spec</a>, and <a href="#Topic_Spec">Topic_Spec</a>.</p>
 <table>
 	<thead>
 			<tr>
@@ -3429,7 +4174,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 </table>
 <h2 id="IdentityInfo_STATUS">IdentityInfo_STATUS</h2>
 <p>The identity information for the resource.</p>
-<p>Used by: <a href="#Domain_STATUS">Domain_STATUS</a>, and <a href="#Topic_STATUS">Topic_STATUS</a>.</p>
+<p>Used by: <a href="#Domain_STATUS">Domain_STATUS</a>, <a href="#Namespace_STATUS">Namespace_STATUS</a>, and <a href="#Topic_STATUS">Topic_STATUS</a>.</p>
 <table>
 	<thead>
 			<tr>
@@ -3462,7 +4207,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 	</tbody>
 </table>
 <h2 id="InboundIpRule">InboundIpRule</h2>
-<p>Used by: <a href="#Domain_Spec">Domain_Spec</a>, and <a href="#Topic_Spec">Topic_Spec</a>.</p>
+<p>Used by: <a href="#Domain_Spec">Domain_Spec</a>, <a href="#Namespace_Spec">Namespace_Spec</a>, and <a href="#Topic_Spec">Topic_Spec</a>.</p>
 <table>
 	<thead>
 			<tr>
@@ -3485,7 +4230,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 	</tbody>
 </table>
 <h2 id="InboundIpRule_STATUS">InboundIpRule_STATUS</h2>
-<p>Used by: <a href="#Domain_STATUS">Domain_STATUS</a>, and <a href="#Topic_STATUS">Topic_STATUS</a>.</p>
+<p>Used by: <a href="#Domain_STATUS">Domain_STATUS</a>, <a href="#Namespace_STATUS">Namespace_STATUS</a>, and <a href="#Topic_STATUS">Topic_STATUS</a>.</p>
 <table>
 	<thead>
 			<tr>
@@ -3543,8 +4288,364 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 			</tr>
 	</tbody>
 </table>
+<h2 id="NamespaceOperatorSpec">NamespaceOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#Namespace_Spec">Namespace_Spec</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>configMapExpressions</td>
+					<td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>secretExpressions</td>
+					<td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>secrets</td>
+					<td>configures where to place Azure generated secrets.</td>
+					<td><a href="#NamespaceOperatorSecrets">NamespaceOperatorSecrets</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceProperties_MinimumTlsVersionAllowed_STATUS">NamespaceProperties_MinimumTlsVersionAllowed_STATUS</h2>
+<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;1.0&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;1.1&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;1.2&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceProperties_ProvisioningState_STATUS">NamespaceProperties_ProvisioningState_STATUS</h2>
+<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;Canceled&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;CreateFailed&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Creating&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;DeleteFailed&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Deleted&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Deleting&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Failed&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Succeeded&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;UpdatedFailed&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Updating&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceProperties_PublicNetworkAccess">NamespaceProperties_PublicNetworkAccess</h2>
+<p>Used by: <a href="#Namespace_Spec">Namespace_Spec</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;Disabled&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Enabled&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceProperties_PublicNetworkAccess_STATUS">NamespaceProperties_PublicNetworkAccess_STATUS</h2>
+<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;Disabled&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Enabled&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceSku">NamespaceSku</h2>
+<p>Represents available Sku pricing tiers.</p>
+<p>Used by: <a href="#Namespace_Spec">Namespace_Spec</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>capacity</td>
+					<td>Specifies the number of Throughput Units that defines the capacity for the namespace. The property default value is 1 which signifies 1 Throughput Unit = 1MB/s ingress and 2MB/s egress per namespace. Min capacity is 1 and max allowed capacity is 20.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>name</td>
+					<td>The name of the SKU.</td>
+					<td><a href="#NamespaceSku_Name">NamespaceSku_Name</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceSku_STATUS">NamespaceSku_STATUS</h2>
+<p>Represents available Sku pricing tiers.</p>
+<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>capacity</td>
+					<td>Specifies the number of Throughput Units that defines the capacity for the namespace. The property default value is 1 which signifies 1 Throughput Unit = 1MB/s ingress and 2MB/s egress per namespace. Min capacity is 1 and max allowed capacity is 20.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>name</td>
+					<td>The name of the SKU.</td>
+					<td><a href="#NamespaceSku_Name_STATUS">NamespaceSku_Name_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceTopicOperatorSpec">NamespaceTopicOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#NamespaceTopic_Spec">NamespaceTopic_Spec</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>configMapExpressions</td>
+					<td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>secretExpressions</td>
+					<td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>secrets</td>
+					<td>configures where to place Azure generated secrets.</td>
+					<td><a href="#NamespaceTopicOperatorSecrets">NamespaceTopicOperatorSecrets</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceTopicProperties_InputSchema">NamespaceTopicProperties_InputSchema</h2>
+<p>Used by: <a href="#NamespaceTopic_Spec">NamespaceTopic_Spec</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;CloudEventSchemaV1_0&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceTopicProperties_InputSchema_STATUS">NamespaceTopicProperties_InputSchema_STATUS</h2>
+<p>Used by: <a href="#NamespaceTopic_STATUS">NamespaceTopic_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;CloudEventSchemaV1_0&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceTopicProperties_ProvisioningState_STATUS">NamespaceTopicProperties_ProvisioningState_STATUS</h2>
+<p>Used by: <a href="#NamespaceTopic_STATUS">NamespaceTopic_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;Canceled&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;CreateFailed&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Creating&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;DeleteFailed&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Deleted&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Deleting&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Failed&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Succeeded&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;UpdatedFailed&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Updating&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceTopicProperties_PublisherType">NamespaceTopicProperties_PublisherType</h2>
+<p>Used by: <a href="#NamespaceTopic_Spec">NamespaceTopic_Spec</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;Custom&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceTopicProperties_PublisherType_STATUS">NamespaceTopicProperties_PublisherType_STATUS</h2>
+<p>Used by: <a href="#NamespaceTopic_STATUS">NamespaceTopic_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;Custom&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
 <h2 id="PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded">PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded</h2>
 <p>Used by: <a href="#Domain_STATUS">Domain_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>id</td>
+					<td>Fully qualified identifier of the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded">PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded</h2>
+<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>.</p>
 <table>
 	<thead>
 			<tr>
@@ -3629,7 +4730,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 </table>
 <h2 id="SystemData_STATUS">SystemData_STATUS</h2>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
-<p>Used by: <a href="#Domain_STATUS">Domain_STATUS</a>, <a href="#DomainsTopic_STATUS">DomainsTopic_STATUS</a>, <a href="#EventSubscription_STATUS">EventSubscription_STATUS</a>, and <a href="#Topic_STATUS">Topic_STATUS</a>.</p>
+<p>Used by: <a href="#Domain_STATUS">Domain_STATUS</a>, <a href="#DomainsTopic_STATUS">DomainsTopic_STATUS</a>, <a href="#EventSubscription_STATUS">EventSubscription_STATUS</a>, <a href="#Namespace_STATUS">Namespace_STATUS</a>, <a href="#NamespaceTopic_STATUS">NamespaceTopic_STATUS</a>, and <a href="#Topic_STATUS">Topic_STATUS</a>.</p>
 <table>
 	<thead>
 			<tr>
@@ -3914,6 +5015,152 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 			<tr>
 					<td>&ldquo;Enabled&rdquo;</td>
 					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="TopicsConfiguration">TopicsConfiguration</h2>
+<p>Properties of the Topics Configuration.</p>
+<p>Used by: <a href="#Namespace_Spec">Namespace_Spec</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>customDomains</td>
+					<td>List of custom domain configurations for the namespace.</td>
+					<td><a href="#CustomDomainConfiguration">CustomDomainConfiguration[]</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="TopicsConfiguration_STATUS">TopicsConfiguration_STATUS</h2>
+<p>Properties of the Topics Configuration.</p>
+<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>customDomains</td>
+					<td>List of custom domain configurations for the namespace.</td>
+					<td><a href="#CustomDomainConfiguration_STATUS">CustomDomainConfiguration_STATUS[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>hostname</td>
+					<td>The hostname for the topics configuration. This is a read-only property.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="TopicSpacesConfiguration">TopicSpacesConfiguration</h2>
+<p>Properties of the Topic Spaces Configuration.</p>
+<p>Used by: <a href="#Namespace_Spec">Namespace_Spec</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>customDomains</td>
+					<td>List of custom domain configurations for the namespace.</td>
+					<td><a href="#CustomDomainConfiguration">CustomDomainConfiguration[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>maximumClientSessionsPerAuthenticationName</td>
+					<td>The maximum number of sessions per authentication name. The property default value is 1. Min allowed value is 1 and max allowed value is 100.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>maximumSessionExpiryInHours</td>
+					<td>The maximum session expiry in hours. The property default value is 1 hour. Min allowed value is 1 hour and max allowed value is 8 hours.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>routeTopicResourceReference</td>
+					<td>Fully qualified Azure Resource Id for the Event Grid Topic to which events will be routed to from TopicSpaces under a namespace. This property should be in the following format &lsquo;/​subscriptions/​{subId}/​resourcegroups/​{resourceGroupName}/​providers/​microsoft.EventGrid/​topics/​{topicName}&rsquo;. This topic should reside in the same region where namespace is located.</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>routingEnrichments</td>
+					<td>Routing enrichments for topic spaces configuration</td>
+					<td><a href="#RoutingEnrichments">RoutingEnrichments</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>routingIdentityInfo</td>
+					<td>Routing identity info for topic spaces configuration.</td>
+					<td><a href="#RoutingIdentityInfo">RoutingIdentityInfo</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>state</td>
+					<td>Indicate if Topic Spaces Configuration is enabled for the namespace. Default is Disabled.</td>
+					<td><a href="#TopicSpacesConfiguration_State">TopicSpacesConfiguration_State</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="TopicSpacesConfiguration_STATUS">TopicSpacesConfiguration_STATUS</h2>
+<p>Properties of the Topic Spaces Configuration.</p>
+<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>customDomains</td>
+					<td>List of custom domain configurations for the namespace.</td>
+					<td><a href="#CustomDomainConfiguration_STATUS">CustomDomainConfiguration_STATUS[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>hostname</td>
+					<td>The endpoint for the topic spaces configuration. This is a read-only property.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>maximumClientSessionsPerAuthenticationName</td>
+					<td>The maximum number of sessions per authentication name. The property default value is 1. Min allowed value is 1 and max allowed value is 100.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>maximumSessionExpiryInHours</td>
+					<td>The maximum session expiry in hours. The property default value is 1 hour. Min allowed value is 1 hour and max allowed value is 8 hours.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>routeTopicResourceId</td>
+					<td>Fully qualified Azure Resource Id for the Event Grid Topic to which events will be routed to from TopicSpaces under a namespace. This property should be in the following format &lsquo;/​subscriptions/​{subId}/​resourcegroups/​{resourceGroupName}/​providers/​microsoft.EventGrid/​topics/​{topicName}&rsquo;. This topic should reside in the same region where namespace is located.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>routingEnrichments</td>
+					<td>Routing enrichments for topic spaces configuration</td>
+					<td><a href="#RoutingEnrichments_STATUS">RoutingEnrichments_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>routingIdentityInfo</td>
+					<td>Routing identity info for topic spaces configuration.</td>
+					<td><a href="#RoutingIdentityInfo_STATUS">RoutingIdentityInfo_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>state</td>
+					<td>Indicate if Topic Spaces Configuration is enabled for the namespace. Default is Disabled.</td>
+					<td><a href="#TopicSpacesConfiguration_State_STATUS">TopicSpacesConfiguration_State_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
@@ -4206,6 +5453,94 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 					<td>resourceId</td>
 					<td>The Azure Resource Id that represents the endpoint of the Azure Function destination of an event subscription.</td>
 					<td>string<br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="CustomDomainConfiguration">CustomDomainConfiguration</h2>
+<p>A custom domain configuration that allows users to publish to their own domain name.</p>
+<p>Used by: <a href="#TopicsConfiguration">TopicsConfiguration</a>, and <a href="#TopicSpacesConfiguration">TopicSpacesConfiguration</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>certificateUrl</td>
+					<td>The URL for the certificate that is used for publishing to the custom domain. We currently support certificates stored in Azure Key Vault only. While certificate URL can be either versioned URL of the following format https://{key-vault-name}.vault.azure.net/certificates/{certificate-name}/{version-id}, or unversioned URL of the following format (e.g., <a href="https://contosovault.vault.azure.net/certificates/contosocert">https://contosovault.vault.azure.net/certificates/contosocert</a>, we support unversioned certificate URL only (e.g., <a href="https://contosovault.vault.azure.net/certificates/contosocert">https://contosovault.vault.azure.net/certificates/contosocert</a>)</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>expectedTxtRecordName</td>
+					<td>Expected DNS TXT record name. Event Grid will check for a TXT record with this name in the DNS record set of the custom domain name to prove ownership over the domain. The values under this TXT record must contain the expected TXT record value.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>expectedTxtRecordValue</td>
+					<td>Expected DNS TXT record value. Event Grid will check for a TXT record with this value in the DNS record set of the custom domain name to prove ownership over the domain.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>fullyQualifiedDomainName</td>
+					<td>Fully Qualified Domain Name (FQDN) for the custom domain.</td>
+					<td>string<br/><small>Required</small></td>
+			</tr>
+			<tr>
+					<td>identity</td>
+					<td>Identity info for accessing the certificate for the custom domain. This identity info must match an identity that has been set on the namespace.</td>
+					<td><a href="#CustomDomainIdentity">CustomDomainIdentity</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>validationState</td>
+					<td>Validation state for the custom domain. This is a read only property and is initially set to <code>Pending</code> and will be updated to <code>Approved</code> by Event Grid only after ownership of the domain name has been successfully validated.</td>
+					<td><a href="#CustomDomainConfiguration_ValidationState">CustomDomainConfiguration_ValidationState</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="CustomDomainConfiguration_STATUS">CustomDomainConfiguration_STATUS</h2>
+<p>A custom domain configuration that allows users to publish to their own domain name.</p>
+<p>Used by: <a href="#TopicsConfiguration_STATUS">TopicsConfiguration_STATUS</a>, and <a href="#TopicSpacesConfiguration_STATUS">TopicSpacesConfiguration_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>certificateUrl</td>
+					<td>The URL for the certificate that is used for publishing to the custom domain. We currently support certificates stored in Azure Key Vault only. While certificate URL can be either versioned URL of the following format https://{key-vault-name}.vault.azure.net/certificates/{certificate-name}/{version-id}, or unversioned URL of the following format (e.g., <a href="https://contosovault.vault.azure.net/certificates/contosocert">https://contosovault.vault.azure.net/certificates/contosocert</a>, we support unversioned certificate URL only (e.g., <a href="https://contosovault.vault.azure.net/certificates/contosocert">https://contosovault.vault.azure.net/certificates/contosocert</a>)</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>expectedTxtRecordName</td>
+					<td>Expected DNS TXT record name. Event Grid will check for a TXT record with this name in the DNS record set of the custom domain name to prove ownership over the domain. The values under this TXT record must contain the expected TXT record value.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>expectedTxtRecordValue</td>
+					<td>Expected DNS TXT record value. Event Grid will check for a TXT record with this value in the DNS record set of the custom domain name to prove ownership over the domain.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>fullyQualifiedDomainName</td>
+					<td>Fully Qualified Domain Name (FQDN) for the custom domain.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>identity</td>
+					<td>Identity info for accessing the certificate for the custom domain. This identity info must match an identity that has been set on the namespace.</td>
+					<td><a href="#CustomDomainIdentity_STATUS">CustomDomainIdentity_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>validationState</td>
+					<td>Validation state for the custom domain. This is a read only property and is initially set to <code>Pending</code> and will be updated to <code>Approved</code> by Event Grid only after ownership of the domain name has been successfully validated.</td>
+					<td><a href="#CustomDomainConfiguration_ValidationState_STATUS">CustomDomainConfiguration_ValidationState_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
@@ -4719,6 +6054,61 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 			</tr>
 	</tbody>
 </table>
+<h2 id="NamespaceOperatorSecrets">NamespaceOperatorSecrets</h2>
+<p>Used by: <a href="#NamespaceOperatorSpec">NamespaceOperatorSpec</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>key1</td>
+					<td>indicates where the Key1 secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>key2</td>
+					<td>indicates where the Key2 secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceSku_Name">NamespaceSku_Name</h2>
+<p>Used by: <a href="#NamespaceSku">NamespaceSku</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;Standard&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceSku_Name_STATUS">NamespaceSku_Name_STATUS</h2>
+<p>Used by: <a href="#NamespaceSku_STATUS">NamespaceSku_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;Standard&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
 <h2 id="NamespaceTopicEventSubscriptionDestination">NamespaceTopicEventSubscriptionDestination</h2>
 <p>Used by: <a href="#EventSubscriptionDestination">EventSubscriptionDestination</a>.</p>
 <table>
@@ -4761,6 +6151,123 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 			<tr>
 					<td>resourceId</td>
 					<td>The Azure resource Id that represents the endpoint of the Event Grid Namespace Topic destination of an event subscription. This field is required and the Namespace Topic resource listed must already exist. The resource ARM Id should follow this pattern: /​subscriptions/​{AzureSubscriptionId}/​resourceGroups/​{ResourceGroupName}/​providers/​Microsoft.EventGrid/​namespaces/​{NamespaceName}/​topics/​{TopicName}.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="NamespaceTopicOperatorSecrets">NamespaceTopicOperatorSecrets</h2>
+<p>Used by: <a href="#NamespaceTopicOperatorSpec">NamespaceTopicOperatorSpec</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>key1</td>
+					<td>indicates where the Key1 secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>key2</td>
+					<td>indicates where the Key2 secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="RoutingEnrichments">RoutingEnrichments</h2>
+<p>Used by: <a href="#TopicSpacesConfiguration">TopicSpacesConfiguration</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>dynamic</td>
+					<td></td>
+					<td><a href="#DynamicRoutingEnrichment">DynamicRoutingEnrichment[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>static</td>
+					<td></td>
+					<td><a href="#StaticRoutingEnrichment">StaticRoutingEnrichment[]</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="RoutingEnrichments_STATUS">RoutingEnrichments_STATUS</h2>
+<p>Used by: <a href="#TopicSpacesConfiguration_STATUS">TopicSpacesConfiguration_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>dynamic</td>
+					<td></td>
+					<td><a href="#DynamicRoutingEnrichment_STATUS">DynamicRoutingEnrichment_STATUS[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>static</td>
+					<td></td>
+					<td><a href="#StaticRoutingEnrichment_STATUS">StaticRoutingEnrichment_STATUS[]</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="RoutingIdentityInfo">RoutingIdentityInfo</h2>
+<p>Routing identity info for topic spaces configuration.</p>
+<p>Used by: <a href="#TopicSpacesConfiguration">TopicSpacesConfiguration</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>type</td>
+					<td>Routing identity type for topic spaces configuration.</td>
+					<td><a href="#RoutingIdentityInfo_Type">RoutingIdentityInfo_Type</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>userAssignedIdentity</td>
+					<td></td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="RoutingIdentityInfo_STATUS">RoutingIdentityInfo_STATUS</h2>
+<p>Routing identity info for topic spaces configuration.</p>
+<p>Used by: <a href="#TopicSpacesConfiguration_STATUS">TopicSpacesConfiguration_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>type</td>
+					<td>Routing identity type for topic spaces configuration.</td>
+					<td><a href="#RoutingIdentityInfo_Type_STATUS">RoutingIdentityInfo_Type_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>userAssignedIdentity</td>
+					<td></td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
@@ -5101,6 +6608,46 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 			</tr>
 	</tbody>
 </table>
+<h2 id="TopicSpacesConfiguration_State">TopicSpacesConfiguration_State</h2>
+<p>Used by: <a href="#TopicSpacesConfiguration">TopicSpacesConfiguration</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;Disabled&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Enabled&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="TopicSpacesConfiguration_State_STATUS">TopicSpacesConfiguration_State_STATUS</h2>
+<p>Used by: <a href="#TopicSpacesConfiguration_STATUS">TopicSpacesConfiguration_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;Disabled&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Enabled&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
 <h2 id="UserAssignedIdentityDetails">UserAssignedIdentityDetails</h2>
 <p>Information about the user assigned identity for the resource</p>
 <p>Used by: <a href="#IdentityInfo">IdentityInfo</a>.</p>
@@ -5343,6 +6890,102 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 			</tr>
 	</tbody>
 </table>
+<h2 id="CustomDomainConfiguration_ValidationState">CustomDomainConfiguration_ValidationState</h2>
+<p>Used by: <a href="#CustomDomainConfiguration">CustomDomainConfiguration</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;Approved&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;ErrorRetrievingDnsRecord&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Pending&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="CustomDomainConfiguration_ValidationState_STATUS">CustomDomainConfiguration_ValidationState_STATUS</h2>
+<p>Used by: <a href="#CustomDomainConfiguration_STATUS">CustomDomainConfiguration_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;Approved&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;ErrorRetrievingDnsRecord&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;Pending&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="CustomDomainIdentity">CustomDomainIdentity</h2>
+<p>The identity information for retrieving the certificate for the custom domain.</p>
+<p>Used by: <a href="#CustomDomainConfiguration">CustomDomainConfiguration</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>type</td>
+					<td>The type of managed identity used. Can be either <code>SystemAssigned</code> or <code>UserAssigned</code>.</td>
+					<td><a href="#CustomDomainIdentity_Type">CustomDomainIdentity_Type</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>userAssignedIdentity</td>
+					<td>The user identity associated with the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="CustomDomainIdentity_STATUS">CustomDomainIdentity_STATUS</h2>
+<p>The identity information for retrieving the certificate for the custom domain.</p>
+<p>Used by: <a href="#CustomDomainConfiguration_STATUS">CustomDomainConfiguration_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>type</td>
+					<td>The type of managed identity used. Can be either <code>SystemAssigned</code> or <code>UserAssigned</code>.</td>
+					<td><a href="#CustomDomainIdentity_Type_STATUS">CustomDomainIdentity_Type_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>userAssignedIdentity</td>
+					<td>The user identity associated with the resource.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
 <h2 id="DeliveryAttributeMapping">DeliveryAttributeMapping</h2>
 <p>Used by: <a href="#AzureFunctionEventSubscriptionDestination">AzureFunctionEventSubscriptionDestination</a>, <a href="#EventHubEventSubscriptionDestination">EventHubEventSubscriptionDestination</a>, <a href="#HybridConnectionEventSubscriptionDestination">HybridConnectionEventSubscriptionDestination</a>, <a href="#ServiceBusQueueEventSubscriptionDestination">ServiceBusQueueEventSubscriptionDestination</a>, <a href="#ServiceBusTopicEventSubscriptionDestination">ServiceBusTopicEventSubscriptionDestination</a>, and <a href="#WebHookEventSubscriptionDestination">WebHookEventSubscriptionDestination</a>.</p>
 <table>
@@ -5386,6 +7029,52 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 					<td>static</td>
 					<td>Mutually exclusive with all other properties</td>
 					<td><a href="#StaticDeliveryAttributeMapping_STATUS">StaticDeliveryAttributeMapping_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="DynamicRoutingEnrichment">DynamicRoutingEnrichment</h2>
+<p>Used by: <a href="#RoutingEnrichments">RoutingEnrichments</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>key</td>
+					<td>Dynamic routing enrichment key.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>value</td>
+					<td>Dynamic routing enrichment value.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="DynamicRoutingEnrichment_STATUS">DynamicRoutingEnrichment_STATUS</h2>
+<p>Used by: <a href="#RoutingEnrichments_STATUS">RoutingEnrichments_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>key</td>
+					<td>Dynamic routing enrichment key.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>value</td>
+					<td>Dynamic routing enrichment value.</td>
+					<td>string<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
@@ -6279,6 +7968,54 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 			</tr>
 	</tbody>
 </table>
+<h2 id="RoutingIdentityInfo_Type">RoutingIdentityInfo_Type</h2>
+<p>Used by: <a href="#RoutingIdentityInfo">RoutingIdentityInfo</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;None&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;SystemAssigned&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;UserAssigned&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="RoutingIdentityInfo_Type_STATUS">RoutingIdentityInfo_Type_STATUS</h2>
+<p>Used by: <a href="#RoutingIdentityInfo_STATUS">RoutingIdentityInfo_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;None&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;SystemAssigned&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;UserAssigned&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
 <h2 id="ServiceBusQueueEventSubscriptionDestination_EndpointType">ServiceBusQueueEventSubscriptionDestination_EndpointType</h2>
 <p>Used by: <a href="#ServiceBusQueueEventSubscriptionDestination">ServiceBusQueueEventSubscriptionDestination</a>.</p>
 <table>
@@ -6340,6 +8077,42 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 			<tr>
 					<td>&ldquo;ServiceBusTopic&rdquo;</td>
 					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="StaticRoutingEnrichment">StaticRoutingEnrichment</h2>
+<p>Used by: <a href="#RoutingEnrichments">RoutingEnrichments</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>string</td>
+					<td>Mutually exclusive with all other properties</td>
+					<td><a href="#StaticStringRoutingEnrichment">StaticStringRoutingEnrichment</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="StaticRoutingEnrichment_STATUS">StaticRoutingEnrichment_STATUS</h2>
+<p>Used by: <a href="#RoutingEnrichments_STATUS">RoutingEnrichments_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>string</td>
+					<td>Mutually exclusive with all other properties</td>
+					<td><a href="#StaticStringRoutingEnrichment_STATUS">StaticStringRoutingEnrichment_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
@@ -6967,6 +8740,46 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 			</tr>
 	</tbody>
 </table>
+<h2 id="CustomDomainIdentity_Type">CustomDomainIdentity_Type</h2>
+<p>Used by: <a href="#CustomDomainIdentity">CustomDomainIdentity</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;SystemAssigned&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;UserAssigned&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="CustomDomainIdentity_Type_STATUS">CustomDomainIdentity_Type_STATUS</h2>
+<p>Used by: <a href="#CustomDomainIdentity_STATUS">CustomDomainIdentity_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;SystemAssigned&rdquo;</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>&ldquo;UserAssigned&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
 <h2 id="DynamicDeliveryAttributeMapping">DynamicDeliveryAttributeMapping</h2>
 <p>Used by: <a href="#DeliveryAttributeMapping">DeliveryAttributeMapping</a>.</p>
 <table>
@@ -7409,6 +9222,62 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 			</tr>
 	</tbody>
 </table>
+<h2 id="StaticStringRoutingEnrichment">StaticStringRoutingEnrichment</h2>
+<p>Used by: <a href="#StaticRoutingEnrichment">StaticRoutingEnrichment</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>key</td>
+					<td>Static routing enrichment key.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>value</td>
+					<td>String type routing enrichment value.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>valueType</td>
+					<td>Static routing enrichment value type. For e.g. this property value can be <code>String</code>.</td>
+					<td><a href="#StaticStringRoutingEnrichment_ValueType">StaticStringRoutingEnrichment_ValueType</a><br/><small>Required</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="StaticStringRoutingEnrichment_STATUS">StaticStringRoutingEnrichment_STATUS</h2>
+<p>Used by: <a href="#StaticRoutingEnrichment_STATUS">StaticRoutingEnrichment_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>key</td>
+					<td>Static routing enrichment key.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>value</td>
+					<td>String type routing enrichment value.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>valueType</td>
+					<td>Static routing enrichment value type. For e.g. this property value can be <code>String</code>.</td>
+					<td><a href="#StaticStringRoutingEnrichment_ValueType_STATUS">StaticStringRoutingEnrichment_ValueType_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
 <h2 id="StringBeginsWithAdvancedFilter_OperatorType">StringBeginsWithAdvancedFilter_OperatorType</h2>
 <p>Used by: <a href="#StringBeginsWithAdvancedFilter">StringBeginsWithAdvancedFilter</a>.</p>
 <table>
@@ -7725,6 +9594,38 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Domain_SpecOpti
 	<tbody>
 			<tr>
 					<td>&ldquo;Static&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="StaticStringRoutingEnrichment_ValueType">StaticStringRoutingEnrichment_ValueType</h2>
+<p>Used by: <a href="#StaticStringRoutingEnrichment">StaticStringRoutingEnrichment</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;String&rdquo;</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="StaticStringRoutingEnrichment_ValueType_STATUS">StaticStringRoutingEnrichment_ValueType_STATUS</h2>
+<p>Used by: <a href="#StaticStringRoutingEnrichment_STATUS">StaticStringRoutingEnrichment_STATUS</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Value</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&ldquo;String&rdquo;</td>
 					<td></td>
 			</tr>
 	</tbody>
