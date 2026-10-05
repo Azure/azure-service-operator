@@ -37,8 +37,6 @@ type EntraServicePrincipalReconciler struct {
 
 var _ genruntime.Reconciler = &EntraServicePrincipalReconciler{}
 
-const servicePrincipalCreatedAnnotation = "serviceoperator.azure.com/service-principal-created"
-
 func NewEntraServicePrincipalReconciler(
 	kubeClient kubeclient.Client,
 	entraClientFactory EntraConnectionFactory,
@@ -68,6 +66,7 @@ func (r *EntraServicePrincipalReconciler) CreateOrUpdate(
 	if err != nil {
 		return ctrl.Result{}, err
 	}
+
 	if (sp.Spec.AppId == nil || *sp.Spec.AppId == "") &&
 		(sp.Spec.DisplayName == nil || *sp.Spec.DisplayName == "") {
 		return ctrl.Result{}, eris.Errorf("service principal %s requires appId or displayName", sp.Name)
@@ -82,9 +81,10 @@ func (r *EntraServicePrincipalReconciler) CreateOrUpdate(
 		if err != nil {
 			return ctrl.Result{}, eris.Wrapf(err, "trying to adopt service principal %s", sp.Name)
 		}
+
 		if id != "" {
 			setEntraID(sp, id)
-			genruntime.AddAnnotation(sp, servicePrincipalCreatedAnnotation, "false")
+
 			return r.update(ctx, id, sp, log)
 		}
 	}
@@ -93,8 +93,10 @@ func (r *EntraServicePrincipalReconciler) CreateOrUpdate(
 		if sp.Spec.AppId == nil || *sp.Spec.AppId == "" {
 			return ctrl.Result{}, eris.Errorf("cannot create service principal %s without an appId; no principal with displayName %q was found", sp.Name, *sp.Spec.DisplayName)
 		}
+
 		return r.create(ctx, sp, log)
 	}
+
 	return ctrl.Result{}, eris.Errorf("service principal %s not found for adoption", sp.Name)
 }
 
@@ -108,21 +110,26 @@ func (r *EntraServicePrincipalReconciler) Delete(
 	if err != nil {
 		return ctrl.Result{}, err
 	}
-	if !r.canCreate(sp) || sp.GetAnnotations()[servicePrincipalCreatedAnnotation] != "true" {
+
+	if !r.canCreate(sp) {
 		return ctrl.Result{}, nil
 	}
+
 	id, ok := getEntraID(obj)
 	if !ok {
 		return ctrl.Result{}, nil
 	}
+
 	connection, err := r.EntraClientFactory(ctx, obj)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrap(err, "creating entra client")
 	}
+
 	err = connection.Client().ServicePrincipals().ByServicePrincipalId(id).Delete(ctx, nil)
 	if err != nil && !isNotFound(err) {
 		return ctrl.Result{}, eris.Wrapf(err, "deleting service principal %s", id)
 	}
+
 	return ctrl.Result{}, nil
 }
 
@@ -145,49 +152,54 @@ func (r *EntraServicePrincipalReconciler) update(
 	if err != nil {
 		return ctrl.Result{}, eris.Wrap(err, "creating entra client prior to update")
 	}
+
 	current, err := r.loadServicePrincipalByID(ctx, id, connection.Client())
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "getting service principal by ID %s", id)
 	}
+
 	if current == nil {
 		setEntraID(sp, "")
-		genruntime.AddAnnotation(sp, servicePrincipalCreatedAnnotation, "false")
 		return ctrl.Result{Requeue: true}, nil
 	}
+
 	if sp.Spec.AppId != nil && (current.GetAppId() == nil || !strings.EqualFold(*current.GetAppId(), *sp.Spec.AppId)) {
 		return ctrl.Result{}, eris.Errorf("service principal %s has appId %q, expected %q", id, valueOrEmpty(current.GetAppId()), *sp.Spec.AppId)
 	}
+
 	if sp.Spec.AppId == nil && (current.GetDisplayName() == nil || *current.GetDisplayName() != *sp.Spec.DisplayName) {
 		return ctrl.Result{}, eris.Errorf("service principal %s has displayName %q, expected %q", id, valueOrEmpty(current.GetDisplayName()), *sp.Spec.DisplayName)
 	}
 
 	// Only principals created by ASO may be modified; appId is immutable in Graph.
-	if sp.Spec.DisplayName != nil &&
-		r.canCreate(sp) &&
-		sp.GetAnnotations()[servicePrincipalCreatedAnnotation] == "true" {
+	if sp.Spec.DisplayName != nil && r.canCreate(sp) {
 		patch := msgraphmodels.NewServicePrincipal()
 		patch.SetDisplayName(sp.Spec.DisplayName)
 		updated, err := connection.Client().ServicePrincipals().ByServicePrincipalId(id).Patch(ctx, patch, nil)
 		if err != nil {
 			return ctrl.Result{}, eris.Wrapf(err, "updating service principal %s", id)
 		}
+
 		if updated == nil || updated.GetId() == nil || updated.GetAppId() == nil {
 			updated, err = r.loadServicePrincipalByID(ctx, id, connection.Client())
 			if err != nil {
 				return ctrl.Result{}, eris.Wrapf(err, "reloading service principal %s after update", id)
 			}
+
 			if updated == nil {
 				setEntraID(sp, "")
-				genruntime.AddAnnotation(sp, servicePrincipalCreatedAnnotation, "false")
 				return ctrl.Result{Requeue: true}, nil
 			}
 		}
+
 		current = updated
 	}
+
 	sp.Status.AssignFromServicePrincipal(current)
 	if err := r.saveAssociatedKubernetesResources(ctx, sp, log); err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "saving associated Kubernetes resources for service principal %s", sp.Name)
 	}
+
 	return ctrl.Result{}, nil
 }
 
@@ -295,21 +307,24 @@ func (r *EntraServicePrincipalReconciler) create(
 	if err != nil {
 		return ctrl.Result{}, eris.Wrap(err, "creating entra client prior to creation")
 	}
+
 	body := msgraphmodels.NewServicePrincipal()
 	sp.Spec.AssignToServicePrincipal(body)
 	result, err := connection.Client().ServicePrincipals().Post(ctx, body, nil)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "creating service principal %s", sp.Name)
 	}
+
 	if result == nil || result.GetId() == nil || *result.GetId() == "" {
 		return ctrl.Result{}, eris.Errorf("creating service principal %s: no object ID returned", sp.Name)
 	}
+
 	sp.Status.AssignFromServicePrincipal(result)
 	setEntraID(sp, *result.GetId())
-	genruntime.AddAnnotation(sp, servicePrincipalCreatedAnnotation, "true")
 	if err := r.saveAssociatedKubernetesResources(ctx, sp, log); err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "saving associated Kubernetes resources for service principal %s", sp.Name)
 	}
+
 	return ctrl.Result{}, nil
 }
 
