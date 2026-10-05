@@ -4,6 +4,7 @@ metadata:
   name: aso-sample-namespace
   namespace: default
 spec:
+  disableLocalAuth: true
   location: westcentralus
   owner:
     name: aso-sample-rg

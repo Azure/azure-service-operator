@@ -81,6 +81,7 @@ var versionMigrationHybridReleases = map[string]string{
 	"dbformysql":        "v2.19.0",
 	"dbforpostgresql":   "v2.22.0",
 	"eventgrid":         "v2.20.0",
+	"eventhub":          "v2.22.0",
 	"servicebus":        "v2.22.0",
 	"sql":               "v2.21.0",
 	"storage":           "v2.18.0",
@@ -121,7 +122,7 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 
 	"eventgrid": VersionMigrationModeHybrid,
 
-	"eventhub":                VersionMigrationModeLegacy,
+	"eventhub":                VersionMigrationModeHybrid,
 	"insights":                VersionMigrationModeLegacy,
 	"keyvault":                VersionMigrationModeLegacy,
 	"kubernetesconfiguration": VersionMigrationModeLegacy,

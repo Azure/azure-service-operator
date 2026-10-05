@@ -5,7 +5,8 @@ package v1api20240101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
+	eventhub_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
+	eventhub_v20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v20240101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForNamespacesEventhubsConsumerGroup(subject Namesp
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.NamespacesEventhubsConsumerGroup
+	var hub eventhub_v20240101s.NamespacesEventhubsConsumerGroup
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubsConsumerGroup(subject Namesp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesEventhubsConsumerGroup
+	var other eventhub_v1api20240101s.NamespacesEventhubsConsumerGroup
 	err := copied.AssignProperties_To_NamespacesEventhubsConsumerGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +203,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubsConsumerGroupOperatorSpec(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesEventhubsConsumerGroupOperatorSpec
+	var other eventhub_v1api20240101s.NamespacesEventhubsConsumerGroupOperatorSpec
 	err := copied.AssignProperties_To_NamespacesEventhubsConsumerGroupOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubsConsumerGroup_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesEventhubsConsumerGroup_STATUS
+	var other eventhub_v1api20240101s.NamespacesEventhubsConsumerGroup_STATUS
 	err := copied.AssignProperties_To_NamespacesEventhubsConsumerGroup_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -442,7 +443,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubsConsumerGroup_Spec(subject N
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesEventhubsConsumerGroup_Spec
+	var other eventhub_v1api20240101s.NamespacesEventhubsConsumerGroup_Spec
 	err := copied.AssignProperties_To_NamespacesEventhubsConsumerGroup_Spec(&other)
 	if err != nil {
 		return err.Error()

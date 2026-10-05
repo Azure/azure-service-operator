@@ -11,7 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	eventhub "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
+	eventhub "github.com/Azure/azure-service-operator/v2/api/eventhub/v20240101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
 )
