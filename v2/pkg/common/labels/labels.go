@@ -71,7 +71,8 @@ func truncateLabelValue(value string) (string, bool) {
 			value[:content.LabelValueMaxLength],
 			func(r rune) bool {
 				return !isASCIIAlphaNumeric(r)
-			}),
+			},
+		),
 		true
 }
 
