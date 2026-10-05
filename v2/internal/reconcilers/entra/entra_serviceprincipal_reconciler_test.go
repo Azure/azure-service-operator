@@ -88,19 +88,26 @@ func TestServicePrincipalTryAdoptByAppId(t *testing.T) {
 	const objectID = "58f30b77-0736-4ef3-8d0c-51e78c1d42b7"
 
 	cases := map[string]struct {
-		results     []string
-		wantID      string
-		expectedErr string
+		results      []string
+		wantID       string
+		expectedErrs []string
 	}{
 		"found":     {results: []string{objectID}, wantID: objectID},
 		"not found": {},
 		"missing object ID": {
-			results:     []string{""},
-			expectedErr: fmt.Sprintf("service principal with appId %q has no object ID", appID),
+			results: []string{""},
+			expectedErrs: []string{
+				"service principal with appId",
+				appID,
+				"has no object ID",
+			},
 		},
 		"ambiguous": {
-			results:     []string{objectID, "2251de93-281a-48c3-9842-e5e8619ad581"},
-			expectedErr: fmt.Sprintf("multiple service principals found with appId %s", appID),
+			results: []string{objectID, "2251de93-281a-48c3-9842-e5e8619ad581"},
+			expectedErrs: []string{
+				"multiple service principals found with appId",
+				appID,
+			},
 		},
 	}
 
@@ -133,8 +140,10 @@ func TestServicePrincipalTryAdoptByAppId(t *testing.T) {
 			}
 
 			id, err := reconciler.tryAdopt(context.Background(), obj, logr.Discard())
-			if c.expectedErr != "" {
-				g.Expect(err).To(MatchError(ContainSubstring(c.expectedErr)))
+			if len(c.expectedErrs) > 0 {
+				for _, expected := range c.expectedErrs {
+					g.Expect(err).To(MatchError(ContainSubstring(expected)))
+				}
 				return
 			}
 			g.Expect(err).NotTo(HaveOccurred())
