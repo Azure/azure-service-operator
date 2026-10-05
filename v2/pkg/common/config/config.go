@@ -111,7 +111,7 @@ const (
 	// NOTE: This is required when using Entra authentication, but optional otherwise.
 	EntraAppID = "ENTRA_APP_ID"
 	// TLSMinVersion is the minimum TLS version used by the webhook and metrics servers.
-	// If not specified, the default is "VersionTLS12". Valid values are "VersionTLS12" and "VersionTLS13".
+	// If not specified, the default is "VersionTLS13". Valid values are "VersionTLS12" and "VersionTLS13".
 	TLSMinVersion = "TLS_MIN_VERSION"
 	// AzureFederatedTokenFile is the standard Azure Workload Identity environment variable used to
 	// communicate the projected service account token path to a workload. When set (and non-empty)
