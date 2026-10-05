@@ -23,7 +23,7 @@ const (
 	DefaultSyncIntervalString = "1h"
 
 	// DefaultTLSMinVersion is the minimum TLS version used when TLS_MIN_VERSION is not set.
-	DefaultTLSMinVersion = "VersionTLS12"
+	DefaultTLSMinVersion = "VersionTLS13"
 )
 
 // tlsVersionMap maps the supported TLS_MIN_VERSION string values to their crypto/tls constants.

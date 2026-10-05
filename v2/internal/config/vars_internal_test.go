@@ -4,6 +4,7 @@
 package config
 
 import (
+	"crypto/tls"
 	"testing"
 	"time"
 
@@ -11,6 +12,24 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
 )
+
+func Test_TLSMinVersion_DefaultsToTLS13(t *testing.T) {
+	g := NewGomegaWithT(t)
+	t.Setenv(config.TLSMinVersion, "")
+
+	cfg, err := ReadFromEnvironment()
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(cfg.TLSMinVersion).To(Equal(uint16(tls.VersionTLS13)))
+}
+
+func Test_TLSMinVersion_AllowsTLS12(t *testing.T) {
+	g := NewGomegaWithT(t)
+	t.Setenv(config.TLSMinVersion, "VersionTLS12")
+
+	cfg, err := ReadFromEnvironment()
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(cfg.TLSMinVersion).To(Equal(uint16(tls.VersionTLS12)))
+}
 
 func Test_ParseSyncPeriod_ReturnsNever(t *testing.T) {
 	g := NewGomegaWithT(t)
