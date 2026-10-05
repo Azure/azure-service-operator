@@ -53,6 +53,4 @@ spec:
     creationMode: AdoptOnly
 ```
 
-`spec.displayName` can update a principal created by ASO,
-but adopted principals are never modified, even when a display name is
-specified.
+`spec.displayName` can update a principal, but only if creationMode is AdoptOrCreate; under creationMode AdoptOnly, updates are never applied (ASO is purely read/only).
