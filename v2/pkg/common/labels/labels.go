@@ -66,8 +66,19 @@ func truncateLabelValue(value string) (string, bool) {
 		return value, false
 	}
 
-	// A simple truncation can leave trailing punctuation, which is invalid for Kubernetes label values. See #5734.
-	return strings.TrimRight(value[:content.LabelValueMaxLength], "-_."), true
+	// A simple truncation can leave trailing non-alphanumeric characters, which are invalid for Kubernetes label values. See #5734.
+	return strings.TrimRightFunc(
+			value[:content.LabelValueMaxLength],
+			func(r rune) bool {
+				return !isASCIIAlphaNumeric(r)
+			}),
+		true
+}
+
+func isASCIIAlphaNumeric(r rune) bool {
+	return r >= 'a' && r <= 'z' ||
+		r >= 'A' && r <= 'Z' ||
+		r >= '0' && r <= '9'
 }
 
 // SetOwnerUIDLabel sets the owner UID label on the given object if the owner reference is found in the object's owner references.

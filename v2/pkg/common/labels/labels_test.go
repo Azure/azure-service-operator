@@ -71,11 +71,11 @@ func TestSetOwnerNameLabel(t *testing.T) {
 				},
 				Spec: containerservice.ManagedCluster_Spec{
 					Owner: &genruntime.KnownResourceReference{
-						Name: strings.Repeat("a", 62) + "-owner",
+						Name: strings.Repeat("a", 60) + "-_.owner",
 					},
 				},
 			},
-			expected: strings.Repeat("a", 62),
+			expected: strings.Repeat("a", 60),
 		},
 		{
 			name: "ARM id owner name is not saved",
