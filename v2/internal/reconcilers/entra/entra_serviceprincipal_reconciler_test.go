@@ -87,18 +87,25 @@ func TestServicePrincipalTryAdoptByAppId(t *testing.T) {
 	const appID = "a232010e-820c-4083-83bb-3ace5fc29d0b"
 	const objectID = "58f30b77-0736-4ef3-8d0c-51e78c1d42b7"
 
-	for _, tc := range []struct {
-		name    string
-		results []string
-		wantID  string
-		wantErr bool
+	cases := map[string]struct {
+		results     []string
+		wantID      string
+		expectedErr string
 	}{
-		{name: "found", results: []string{objectID}, wantID: objectID},
-		{name: "not found"},
-		{name: "missing object ID", results: []string{""}, wantErr: true},
-		{name: "ambiguous", results: []string{objectID, "2251de93-281a-48c3-9842-e5e8619ad581"}, wantErr: true},
-	} {
-		t.Run(tc.name, func(t *testing.T) {
+		"found":     {results: []string{objectID}, wantID: objectID},
+		"not found": {},
+		"missing object ID": {
+			results:     []string{""},
+			expectedErr: fmt.Sprintf("service principal with appId %q has no object ID", appID),
+		},
+		"ambiguous": {
+			results:     []string{objectID, "2251de93-281a-48c3-9842-e5e8619ad581"},
+			expectedErr: fmt.Sprintf("multiple service principals found with appId %s", appID),
+		},
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := gomega.NewWithT(t)
 			adapter := &servicePrincipalTestAdapter{}
@@ -109,8 +116,8 @@ func TestServicePrincipalTryAdoptByAppId(t *testing.T) {
 				g.Expect(uri.Query().Get("$filter")).To(gomega.Equal(fmt.Sprintf("appId eq '%s'", appID)))
 
 				page := msgraphmodels.NewServicePrincipalCollectionResponse()
-				principals := make([]msgraphmodels.ServicePrincipalable, 0, len(tc.results))
-				for _, id := range tc.results {
+				principals := make([]msgraphmodels.ServicePrincipalable, 0, len(c.results))
+				for _, id := range c.results {
 					principal := msgraphmodels.NewServicePrincipal()
 					principal.SetId(&id)
 					principals = append(principals, principal)
@@ -126,12 +133,12 @@ func TestServicePrincipalTryAdoptByAppId(t *testing.T) {
 			}
 
 			id, err := reconciler.tryAdopt(context.Background(), obj, logr.Discard())
-			if tc.wantErr {
-				g.Expect(err).To(gomega.HaveOccurred())
+			if c.expectedErr != "" {
+				g.Expect(err).To(gomega.MatchError(gomega.ContainSubstring(c.expectedErr)))
 				return
 			}
 			g.Expect(err).NotTo(gomega.HaveOccurred())
-			g.Expect(id).To(gomega.Equal(tc.wantID))
+			g.Expect(id).To(gomega.Equal(c.wantID))
 		})
 	}
 }
