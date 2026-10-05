@@ -171,7 +171,6 @@ func (r *EntraServicePrincipalReconciler) update(
 		return ctrl.Result{}, eris.Errorf("service principal %s has displayName %q, expected %q", id, valueOrEmpty(current.GetDisplayName()), *sp.Spec.DisplayName)
 	}
 
-	// Only principals created by ASO may be modified; appId is immutable in Graph.
 	if sp.Spec.DisplayName != nil && r.canCreate(sp) {
 		patch := msgraphmodels.NewServicePrincipal()
 		patch.SetDisplayName(sp.Spec.DisplayName)

@@ -263,28 +263,34 @@ func TestServicePrincipalTryAdoptByDisplayName(t *testing.T) {
 	}
 }
 
-func TestServicePrincipalNameOnlyAdoptsExisting(t *testing.T) {
+func TestServicePrincipalNameOnlyAdoptsAndUpdatesExisting(t *testing.T) {
 	t.Parallel()
 	g := NewWithT(t)
 	const name = "existing principal"
 	const appID = "a232010e-820c-4083-83bb-3ace5fc29d0b"
 	const objectID = "58f30b77-0736-4ef3-8d0c-51e78c1d42b7"
 	calls := 0
+	patches := 0
 	adapter := &servicePrincipalTestAdapter{}
 	adapter.get = func(request *abstractions.RequestInformation) (serialization.Parsable, error) {
 		calls++
-		g.Expect(request.Method).To(Equal(abstractions.GET))
 		uri, err := request.GetUri()
 		g.Expect(err).NotTo(HaveOccurred())
 		principal := testServicePrincipal(objectID, appID)
 		principal.SetDisplayName(new(name))
 		if uri.Path == "/beta/servicePrincipals" {
+			g.Expect(request.Method).To(Equal(abstractions.GET))
 			g.Expect(uri.Query().Get("$filter")).To(Equal("displayName eq '" + name + "'"))
 			page := msgraphmodels.NewServicePrincipalCollectionResponse()
 			page.SetValue([]msgraphmodels.ServicePrincipalable{principal})
 			return page, nil
 		}
 		g.Expect(uri.Path).To(Equal("/beta/servicePrincipals/" + objectID))
+		if request.Method == abstractions.PATCH {
+			patches++
+		} else {
+			g.Expect(request.Method).To(Equal(abstractions.GET))
+		}
 		return principal, nil
 	}
 	reconciler := &EntraServicePrincipalReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
@@ -294,10 +300,10 @@ func TestServicePrincipalNameOnlyAdoptsExisting(t *testing.T) {
 
 	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 	g.Expect(err).NotTo(HaveOccurred())
-	g.Expect(calls).To(Equal(2))
+	g.Expect(calls).To(Equal(3))
+	g.Expect(patches).To(Equal(1))
 	g.Expect(obj.Status.EntraID).To(Equal(new(objectID)))
 	g.Expect(obj.Status.AppId).To(Equal(new(appID)))
-	g.Expect(obj.Annotations[servicePrincipalCreatedAnnotation]).To(Equal("false"))
 }
 
 func testServicePrincipal(objectID, appID string) msgraphmodels.ServicePrincipalable {
@@ -413,33 +419,45 @@ func TestServicePrincipalCreateResolvesTenantObjectID(t *testing.T) {
 	g.Expect(id).To(Equal(objectID))
 	g.Expect(obj.Status.EntraID).To(Equal(new(objectID)))
 	g.Expect(obj.Status.AppId).To(Equal(new(appID)))
-	g.Expect(obj.Annotations[servicePrincipalCreatedAnnotation]).To(Equal("true"))
 }
 
-func TestServicePrincipalAdoptResolvesTenantObjectID(t *testing.T) {
+func TestServicePrincipalAdoptOrCreateMutatesAndDeletesAdoptedPrincipal(t *testing.T) {
 	t.Parallel()
 	g := NewWithT(t)
 	const appID = "a232010e-820c-4083-83bb-3ace5fc29d0b"
 	const objectID = "58f30b77-0736-4ef3-8d0c-51e78c1d42b7"
-	calls := 0
+	patches := 0
+	deletes := 0
 	adapter := &servicePrincipalTestAdapter{}
 	adapter.get = func(request *abstractions.RequestInformation) (serialization.Parsable, error) {
 		uri, err := request.GetUri()
 		g.Expect(err).NotTo(HaveOccurred())
-		g.Expect(request.Method).To(Equal(abstractions.GET))
-		calls++
 
 		principal := msgraphmodels.NewServicePrincipal()
 		principal.SetId(new(objectID))
 		principal.SetAppId(new(appID))
 		if uri.Path == "/beta/servicePrincipals" {
+			g.Expect(request.Method).To(Equal(abstractions.GET))
 			g.Expect(uri.Query().Get("$filter")).To(Equal(fmt.Sprintf("appId eq '%s'", appID)))
 			page := msgraphmodels.NewServicePrincipalCollectionResponse()
 			page.SetValue([]msgraphmodels.ServicePrincipalable{principal})
 			return page, nil
 		}
 		g.Expect(uri.Path).To(Equal("/beta/servicePrincipals/" + objectID))
+		if request.Method == abstractions.PATCH {
+			patches++
+		} else {
+			g.Expect(request.Method).To(Equal(abstractions.GET))
+		}
 		return principal, nil
+	}
+	adapter.delete = func(request *abstractions.RequestInformation) error {
+		uri, err := request.GetUri()
+		g.Expect(err).NotTo(HaveOccurred())
+		g.Expect(request.Method).To(Equal(abstractions.DELETE))
+		g.Expect(uri.Path).To(Equal("/beta/servicePrincipals/" + objectID))
+		deletes++
+		return nil
 	}
 	reconciler := &EntraServicePrincipalReconciler{
 		EntraClientFactory: servicePrincipalTestFactory(adapter),
@@ -447,23 +465,22 @@ func TestServicePrincipalAdoptResolvesTenantObjectID(t *testing.T) {
 	obj := &asoentra.ServicePrincipal{
 		Spec: asoentra.ServicePrincipalSpec{
 			AppId:       new(appID),
-			DisplayName: new("do not PATCH an adopted principal"),
+			DisplayName: new("update an adopted principal"),
 		},
 	}
 
 	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 	g.Expect(err).NotTo(HaveOccurred())
-	g.Expect(calls).To(Equal(2))
+	g.Expect(patches).To(Equal(1))
 	id, ok := getEntraID(obj)
 	g.Expect(ok).To(BeTrue())
 	g.Expect(id).To(Equal(objectID))
 	g.Expect(obj.Status.EntraID).To(Equal(new(objectID)))
 	g.Expect(obj.Status.AppId).To(Equal(new(appID)))
-	g.Expect(obj.Annotations[servicePrincipalCreatedAnnotation]).To(Equal("false"))
 
 	_, err = reconciler.Delete(context.Background(), logr.Discard(), nil, obj)
 	g.Expect(err).NotTo(HaveOccurred())
-	g.Expect(calls).To(Equal(2))
+	g.Expect(deletes).To(Equal(1))
 }
 
 func TestServicePrincipalMissingAdoptionTargetDoesNotCreate(t *testing.T) {
@@ -536,7 +553,6 @@ func TestServicePrincipalAdoptOnlyDoesNotMutateAnnotatedPrincipal(t *testing.T) 
 		},
 	}
 	setEntraID(obj, objectID)
-	obj.Annotations[servicePrincipalCreatedAnnotation] = "true"
 
 	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 	g.Expect(err).NotTo(HaveOccurred())
@@ -548,45 +564,42 @@ func TestServicePrincipalAdoptOnlyDoesNotMutateAnnotatedPrincipal(t *testing.T) 
 func TestServicePrincipalDeleteAdoptedByDefault(t *testing.T) {
 	t.Parallel()
 	g := NewWithT(t)
-	obj := &asoentra.ServicePrincipal{}
 	const objectID = "58f30b77-0736-4ef3-8d0c-51e78c1d42b7"
+	deletes := 0
+	adapter := &servicePrincipalTestAdapter{}
+	adapter.delete = func(request *abstractions.RequestInformation) error {
+		uri, err := request.GetUri()
+		g.Expect(err).NotTo(HaveOccurred())
+		g.Expect(request.Method).To(Equal(abstractions.DELETE))
+		g.Expect(uri.Path).To(Equal("/beta/servicePrincipals/" + objectID))
+		deletes++
+		return nil
+	}
+	reconciler := &EntraServicePrincipalReconciler{
+		EntraClientFactory: servicePrincipalTestFactory(adapter),
+	}
+	obj := &asoentra.ServicePrincipal{}
 	setEntraID(obj, objectID)
-	obj.Annotations[servicePrincipalCreatedAnnotation] = "false"
 
-	persisted, err := json.Marshal(obj)
+	_, err := reconciler.Delete(context.Background(), logr.Discard(), nil, obj)
 	g.Expect(err).NotTo(HaveOccurred())
-	reloaded := &asoentra.ServicePrincipal{}
-	g.Expect(json.Unmarshal(persisted, reloaded)).To(Succeed())
-	id, ok := getEntraID(reloaded)
-	g.Expect(ok).To(BeTrue())
-	g.Expect(id).To(Equal(objectID))
-	g.Expect(reloaded.Annotations[servicePrincipalCreatedAnnotation]).To(Equal("false"))
-
-	// A fresh reconciler has no in-memory adoption state; deletion must still be safe.
-	reconciler := &EntraServicePrincipalReconciler{}
-	_, err = reconciler.Delete(context.Background(), logr.Discard(), nil, reloaded)
-	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(deletes).To(Equal(1))
 }
 
-func TestServicePrincipalDisplayNameIsPatchedOnlyWhenSpecified(t *testing.T) {
+func TestServicePrincipalDisplayNameIsPatchedWhenSpecified(t *testing.T) {
 	t.Parallel()
 	const appID = "a232010e-820c-4083-83bb-3ace5fc29d0b"
 	const objectID = "58f30b77-0736-4ef3-8d0c-51e78c1d42b7"
 
 	cases := map[string]struct {
 		displayName   *string
-		created       bool
 		expectPatches int
 	}{
-		"created without display name": {
-			created: true,
+		"without display name": {
+			expectPatches: 0,
 		},
-		"adopted with display name": {
-			displayName: new("requested name"),
-		},
-		"created with display name": {
+		"with display name": {
 			displayName:   new("requested name"),
-			created:       true,
 			expectPatches: 1,
 		},
 	}
@@ -623,9 +636,6 @@ func TestServicePrincipalDisplayNameIsPatchedOnlyWhenSpecified(t *testing.T) {
 				Spec: asoentra.ServicePrincipalSpec{AppId: new(appID), DisplayName: tc.displayName},
 			}
 			setEntraID(obj, objectID)
-			if tc.created {
-				obj.Annotations[servicePrincipalCreatedAnnotation] = "true"
-			}
 			_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 			g.Expect(err).NotTo(HaveOccurred())
 			g.Expect(patches).To(Equal(tc.expectPatches))
@@ -652,7 +662,6 @@ func TestServicePrincipalDeleteCreated(t *testing.T) {
 	}
 	obj := &asoentra.ServicePrincipal{}
 	setEntraID(obj, objectID)
-	obj.Annotations[servicePrincipalCreatedAnnotation] = "true"
 	mode := asoentra.AdoptOrCreate
 	obj.Spec.OperatorSpec = &asoentra.ServicePrincipalOperatorSpec{CreationMode: &mode}
 
