@@ -19,6 +19,12 @@ source <(echo $ENVTEST)
 
 export PATH="$KUBEBUILDER_ASSETS:$TOOL_DEST:$PATH"
 
+# Allow users to run a command within the shell, with auto-exit when complete
+if [[ ${1:-} == "-c" ]]; then
+    "$SHELL" "$@"
+    exit
+fi
+
 echo "Entering $SHELL with expanded PATH (use 'exit' to quit)."
 echo "Try running 'task -l' to see possible commands."
 $SHELL
