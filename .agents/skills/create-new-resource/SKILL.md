@@ -27,7 +27,6 @@ Verify all of these **before** starting. Missing any one of them will stall the 
    - `ls v2/specs/azure-rest-api-specs/specification` shows content. If empty, run `git submodule init && git submodule update`. The generator will not run without the submodule.
 4. **Next release identified.** Check the project's [GitHub milestones](https://github.com/Azure/azure-service-operator/milestones) for the next unreleased ASO version (e.g. `v2.21.0`). You need this for the `$supportedFrom:` directive.
 5. **Task tool on PATH.** `which task` succeeds. If not, your environment is not set up — stop and ask the user to fix it. Never fall back to `./hack/tools/task`.
-6. **Azure credentials (only needed for recording).** For **Step 6** (recording the CRUD test) and **Step 7** (recording the sample), `AZURE_SUBSCRIPTION_ID`, `AZURE_TENANT_ID`, and often `ENTRA_APP_ID` must be set (typically via a `test.env` file). If missing when you reach those steps, stop and ask the user — do not attempt to record without them.
 
 ## Workflow
 
@@ -105,7 +104,7 @@ Every new resource needs a hand-written CRUD test — even new versions of exist
 The test must:
 
 - Create the resource (plus any required dependencies) and wait for `Ready`.
-- Verify at least one round-trip property was set as expected.
+- Verify the resource's properties after creation. Ensure you are testing a representative set of properties.
 - Delete the resource and confirm cleanup.
 - Use `CreateResourcesAndWait` (plural) to create dependent resources **together**, not one-by-one. Sequential creation hides ordering bugs the operator has to handle in a real cluster.
 - Prefer parallel subtests (`RunParallelSubtests`) for complex independent scenarios — the operator is concurrent in production, so tests should be too. **Do not use a subtest for simple CRUD scenario**; it adds unnecessary complexity, slows the test, and forces sequential creation of resources.
@@ -116,7 +115,9 @@ The test must:
 
 ### Step 6: Record the CRUD test
 
-**REQUIRED SUB-SKILL:** Use `testing-aso-recordings` to run the test and produce a recording; use `diagnosing-vcr-failures` if the recording fails.
+**REQUIRED PREREQUISITE**: Azure credentials set in your environment (`AZURE_SUBSCRIPTION_ID`, `AZURE_TENANT_ID`, and often `ENTRA_APP_ID`). Typically done via a `test.env` file. If missing, stop and ask the user — do not attempt to record without them.
+
+**REQUIRED SUB-SKILL:** Use `testing-aso-recordings` to run the test and produce a recording; use `diagnosing-vcr-failures` if the recording fails. Tests replay automatically if the recording exists; delete the recording file to force a re-record.
 
 Run (substituting your test's actual `Test_...` function name):
 
