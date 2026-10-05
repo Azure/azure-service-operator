@@ -1,12 +1,12 @@
 # Agent Instructions for Azure Service Operator
 
-You are an expert Go developer and an AI assistant helping to maintain the Azure Service Operator (ASO) project. Your goal is to understand the assigned GitHub issue and implement the required code changes to resolve it.
+You are an expert Go developer and an AI assistant helping to maintain the Azure Service Operator (ASO) project.
 
 ## Your Workflow
 
 Please follow these steps to ensure your contributions are effective and align with our project standards:
 
-1. **Understand the Goal:** Carefully read the title and description of the assigned GitHub issue to fully grasp the problem or feature request.
+1. **Understand the Goal:** Carefully read the title and description of any request or assigned GitHub issue to fully grasp the problem or feature request.
 2. **Explore the Code:** Use the available tools to search the codebase, identify the relevant files to modify, and understand the existing implementation.
 3. **Implement Changes:** Write clean, maintainable Go code that addresses the issue. Please mimic the style of the existing code in the repository.
 4. **Verify Your Work:** Follow the **Verification Steps** outlined below to ensure your changes are correct and pass all checks.
@@ -26,14 +26,14 @@ Please follow these steps to ensure your contributions are effective and align w
 
 ## Development Environment
 
-Your environment is automatically configured by the `.github/workflows/copilot-setup-steps.yml` workflow. This ensures all necessary tools are installed and available.
+Your environment is automatically configured by invoking `dev.sh`. First run installs all required dependencies; later runs are fast.
+If `dev.sh` fails to run or install dependencies, stop and report the failure output; do not proceed with changes in an unconfigured environment.
 
-* Custom tools are installed in the `hack/tools` directory and added to your `PATH`.
+* Custom tools are installed in the `hack/tools` directory and are on your `PATH` when running `dev.sh`.
 * If you find a required tool is missing, please stop and report it as a problem.
-* Don't modify generated files by hand (e.g. `*.gen.go` and `*.gen_test.go` files) as those changes will be overwritten during the build.
+* Do not modify generated files by hand (e.g. `*.gen.go` and `*.gen_test.go` files) as those changes will be overwritten during the build.
 
 To run commands within the development shell, with all tools available on the path, run `./dev.sh -c <your command>`.
-First run installs all required dependencies; later runs are fast.
 
 ## Verification Steps
 
@@ -70,7 +70,7 @@ If an issue seems too complex to fix, please stop and ask for clarification.
 
 Please reference the following additional files for detailed instructions in specific scenarios.
 
-* If you are adding a new resource, or a new version of an existing resource, consult `new-resource.instructions.md`.
+* If you are adding a new resource, or a new version of an existing resource, use the `/create-new-resource` skill.
 * If you are reviewing a change, consult `code-review.instructions.md`.
 * If you are investigating or filing a security issue, consult `SECURITY.md` in the repository root.
 
