@@ -16,7 +16,7 @@ import (
 	jsonserialization "github.com/microsoft/kiota-serialization-json-go"
 	msgraphsdk "github.com/microsoftgraph/msgraph-beta-sdk-go"
 	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
-	"github.com/onsi/gomega"
+	. "github.com/onsi/gomega"
 	"k8s.io/apimachinery/pkg/types"
 
 	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
@@ -107,13 +107,13 @@ func TestServicePrincipalTryAdoptByAppId(t *testing.T) {
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
-			g := gomega.NewWithT(t)
+			g := NewWithT(t)
 			adapter := &servicePrincipalTestAdapter{}
 			adapter.get = func(request *abstractions.RequestInformation) (serialization.Parsable, error) {
 				uri, err := request.GetUri()
-				g.Expect(err).NotTo(gomega.HaveOccurred())
-				g.Expect(uri.Path).To(gomega.Equal("/beta/servicePrincipals"))
-				g.Expect(uri.Query().Get("$filter")).To(gomega.Equal(fmt.Sprintf("appId eq '%s'", appID)))
+				g.Expect(err).NotTo(HaveOccurred())
+				g.Expect(uri.Path).To(Equal("/beta/servicePrincipals"))
+				g.Expect(uri.Query().Get("$filter")).To(Equal(fmt.Sprintf("appId eq '%s'", appID)))
 
 				page := msgraphmodels.NewServicePrincipalCollectionResponse()
 				principals := make([]msgraphmodels.ServicePrincipalable, 0, len(c.results))
@@ -134,11 +134,11 @@ func TestServicePrincipalTryAdoptByAppId(t *testing.T) {
 
 			id, err := reconciler.tryAdopt(context.Background(), obj, logr.Discard())
 			if c.expectedErr != "" {
-				g.Expect(err).To(gomega.MatchError(gomega.ContainSubstring(c.expectedErr)))
+				g.Expect(err).To(MatchError(ContainSubstring(c.expectedErr)))
 				return
 			}
-			g.Expect(err).NotTo(gomega.HaveOccurred())
-			g.Expect(id).To(gomega.Equal(c.wantID))
+			g.Expect(err).NotTo(HaveOccurred())
+			g.Expect(id).To(Equal(c.wantID))
 		})
 	}
 }
@@ -214,14 +214,14 @@ func TestServicePrincipalTryAdoptByDisplayName(t *testing.T) {
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
-			g := gomega.NewWithT(t)
+			g := NewWithT(t)
 			filters := make([]string, 0, len(tc.wantFilters))
 			adapter := &servicePrincipalTestAdapter{}
 			adapter.get = func(request *abstractions.RequestInformation) (serialization.Parsable, error) {
-				g.Expect(request.Method).To(gomega.Equal(abstractions.GET))
+				g.Expect(request.Method).To(Equal(abstractions.GET))
 				uri, err := request.GetUri()
-				g.Expect(err).NotTo(gomega.HaveOccurred())
-				g.Expect(uri.Path).To(gomega.Equal("/beta/servicePrincipals"))
+				g.Expect(err).NotTo(HaveOccurred())
+				g.Expect(uri.Path).To(Equal("/beta/servicePrincipals"))
 				filter := uri.Query().Get("$filter")
 				filters = append(filters, filter)
 				page := msgraphmodels.NewServicePrincipalCollectionResponse()
@@ -248,12 +248,12 @@ func TestServicePrincipalTryAdoptByDisplayName(t *testing.T) {
 			}
 
 			id, err := reconciler.tryAdopt(context.Background(), obj, logr.Discard())
-			g.Expect(filters).To(gomega.Equal(tc.wantFilters))
+			g.Expect(filters).To(Equal(tc.wantFilters))
 			if tc.wantErr != "" {
-				g.Expect(err).To(gomega.MatchError(gomega.ContainSubstring(tc.wantErr)))
+				g.Expect(err).To(MatchError(ContainSubstring(tc.wantErr)))
 			} else {
-				g.Expect(err).NotTo(gomega.HaveOccurred())
-				g.Expect(id).To(gomega.Equal(tc.wantID))
+				g.Expect(err).NotTo(HaveOccurred())
+				g.Expect(id).To(Equal(tc.wantID))
 			}
 		})
 	}
@@ -261,7 +261,7 @@ func TestServicePrincipalTryAdoptByDisplayName(t *testing.T) {
 
 func TestServicePrincipalNameOnlyAdoptsExisting(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 	const name = "existing principal"
 	const appID = "a232010e-820c-4083-83bb-3ace5fc29d0b"
 	const objectID = "58f30b77-0736-4ef3-8d0c-51e78c1d42b7"
@@ -269,18 +269,18 @@ func TestServicePrincipalNameOnlyAdoptsExisting(t *testing.T) {
 	adapter := &servicePrincipalTestAdapter{}
 	adapter.get = func(request *abstractions.RequestInformation) (serialization.Parsable, error) {
 		calls++
-		g.Expect(request.Method).To(gomega.Equal(abstractions.GET))
+		g.Expect(request.Method).To(Equal(abstractions.GET))
 		uri, err := request.GetUri()
-		g.Expect(err).NotTo(gomega.HaveOccurred())
+		g.Expect(err).NotTo(HaveOccurred())
 		principal := testServicePrincipal(objectID, appID)
 		principal.SetDisplayName(new(name))
 		if uri.Path == "/beta/servicePrincipals" {
-			g.Expect(uri.Query().Get("$filter")).To(gomega.Equal("displayName eq '" + name + "'"))
+			g.Expect(uri.Query().Get("$filter")).To(Equal("displayName eq '" + name + "'"))
 			page := msgraphmodels.NewServicePrincipalCollectionResponse()
 			page.SetValue([]msgraphmodels.ServicePrincipalable{principal})
 			return page, nil
 		}
-		g.Expect(uri.Path).To(gomega.Equal("/beta/servicePrincipals/" + objectID))
+		g.Expect(uri.Path).To(Equal("/beta/servicePrincipals/" + objectID))
 		return principal, nil
 	}
 	reconciler := &EntraServicePrincipalReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
@@ -289,11 +289,11 @@ func TestServicePrincipalNameOnlyAdoptsExisting(t *testing.T) {
 	}
 
 	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
-	g.Expect(err).NotTo(gomega.HaveOccurred())
-	g.Expect(calls).To(gomega.Equal(2))
-	g.Expect(obj.Status.EntraID).To(gomega.Equal(new(objectID)))
-	g.Expect(obj.Status.AppId).To(gomega.Equal(new(appID)))
-	g.Expect(obj.Annotations[servicePrincipalCreatedAnnotation]).To(gomega.Equal("false"))
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(calls).To(Equal(2))
+	g.Expect(obj.Status.EntraID).To(Equal(new(objectID)))
+	g.Expect(obj.Status.AppId).To(Equal(new(appID)))
+	g.Expect(obj.Annotations[servicePrincipalCreatedAnnotation]).To(Equal("false"))
 }
 
 func testServicePrincipal(objectID, appID string) msgraphmodels.ServicePrincipalable {
@@ -305,10 +305,10 @@ func testServicePrincipal(objectID, appID string) msgraphmodels.ServicePrincipal
 
 func TestServicePrincipalNameOnlyMissingDoesNotCreate(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 	adapter := &servicePrincipalTestAdapter{}
 	adapter.get = func(request *abstractions.RequestInformation) (serialization.Parsable, error) {
-		g.Expect(request.Method).To(gomega.Equal(abstractions.GET))
+		g.Expect(request.Method).To(Equal(abstractions.GET))
 		return msgraphmodels.NewServicePrincipalCollectionResponse(), nil
 	}
 	reconciler := &EntraServicePrincipalReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
@@ -317,7 +317,7 @@ func TestServicePrincipalNameOnlyMissingDoesNotCreate(t *testing.T) {
 	}
 
 	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
-	g.Expect(err).To(gomega.MatchError(gomega.ContainSubstring("cannot create service principal")))
+	g.Expect(err).To(MatchError(ContainSubstring("cannot create service principal")))
 }
 
 func TestServicePrincipalCreationModes(t *testing.T) {
@@ -349,42 +349,42 @@ func TestServicePrincipalCreationModes(t *testing.T) {
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
-			g := gomega.NewWithT(t)
+			g := NewWithT(t)
 
 			typedObj := &asoentra.ServicePrincipal{
 				Spec: asoentra.ServicePrincipalSpec{
 					OperatorSpec: &asoentra.ServicePrincipalOperatorSpec{CreationMode: &c.mode},
 				},
 			}
-			g.Expect(reconciler.canAdopt(typedObj)).To(gomega.Equal(c.canAdopt))
-			g.Expect(reconciler.canCreate(typedObj)).To(gomega.Equal(c.canCreate))
+			g.Expect(reconciler.canAdopt(typedObj)).To(Equal(c.canAdopt))
+			g.Expect(reconciler.canCreate(typedObj)).To(Equal(c.canCreate))
 		})
 	}
 }
 
 func TestServicePrincipalCreateResolvesTenantObjectID(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 	const appID = "a232010e-820c-4083-83bb-3ace5fc29d0b"
 	const objectID = "58f30b77-0736-4ef3-8d0c-51e78c1d42b7"
 	calls := 0
 	adapter := &servicePrincipalTestAdapter{}
 	adapter.get = func(request *abstractions.RequestInformation) (serialization.Parsable, error) {
 		uri, err := request.GetUri()
-		g.Expect(err).NotTo(gomega.HaveOccurred())
-		g.Expect(uri.Path).To(gomega.Equal("/beta/servicePrincipals"))
+		g.Expect(err).NotTo(HaveOccurred())
+		g.Expect(uri.Path).To(Equal("/beta/servicePrincipals"))
 		calls++
 
 		switch request.Method {
 		case abstractions.GET:
-			g.Expect(uri.Query().Get("$filter")).To(gomega.Equal(fmt.Sprintf("appId eq '%s'", appID)))
+			g.Expect(uri.Query().Get("$filter")).To(Equal(fmt.Sprintf("appId eq '%s'", appID)))
 			return msgraphmodels.NewServicePrincipalCollectionResponse(), nil
 		case abstractions.POST:
 			var body struct {
 				AppID string `json:"appId"`
 			}
-			g.Expect(json.Unmarshal(request.Content, &body)).To(gomega.Succeed())
-			g.Expect(body.AppID).To(gomega.Equal(appID))
+			g.Expect(json.Unmarshal(request.Content, &body)).To(Succeed())
+			g.Expect(body.AppID).To(Equal(appID))
 			principal := msgraphmodels.NewServicePrincipal()
 			principal.SetId(new(objectID))
 			principal.SetAppId(new(appID))
@@ -402,39 +402,39 @@ func TestServicePrincipalCreateResolvesTenantObjectID(t *testing.T) {
 	}
 
 	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
-	g.Expect(err).NotTo(gomega.HaveOccurred())
-	g.Expect(calls).To(gomega.Equal(2))
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(calls).To(Equal(2))
 	id, ok := getEntraID(obj)
-	g.Expect(ok).To(gomega.BeTrue())
-	g.Expect(id).To(gomega.Equal(objectID))
-	g.Expect(obj.Status.EntraID).To(gomega.Equal(new(objectID)))
-	g.Expect(obj.Status.AppId).To(gomega.Equal(new(appID)))
-	g.Expect(obj.Annotations[servicePrincipalCreatedAnnotation]).To(gomega.Equal("true"))
+	g.Expect(ok).To(BeTrue())
+	g.Expect(id).To(Equal(objectID))
+	g.Expect(obj.Status.EntraID).To(Equal(new(objectID)))
+	g.Expect(obj.Status.AppId).To(Equal(new(appID)))
+	g.Expect(obj.Annotations[servicePrincipalCreatedAnnotation]).To(Equal("true"))
 }
 
 func TestServicePrincipalAdoptResolvesTenantObjectID(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 	const appID = "a232010e-820c-4083-83bb-3ace5fc29d0b"
 	const objectID = "58f30b77-0736-4ef3-8d0c-51e78c1d42b7"
 	calls := 0
 	adapter := &servicePrincipalTestAdapter{}
 	adapter.get = func(request *abstractions.RequestInformation) (serialization.Parsable, error) {
 		uri, err := request.GetUri()
-		g.Expect(err).NotTo(gomega.HaveOccurred())
-		g.Expect(request.Method).To(gomega.Equal(abstractions.GET))
+		g.Expect(err).NotTo(HaveOccurred())
+		g.Expect(request.Method).To(Equal(abstractions.GET))
 		calls++
 
 		principal := msgraphmodels.NewServicePrincipal()
 		principal.SetId(new(objectID))
 		principal.SetAppId(new(appID))
 		if uri.Path == "/beta/servicePrincipals" {
-			g.Expect(uri.Query().Get("$filter")).To(gomega.Equal(fmt.Sprintf("appId eq '%s'", appID)))
+			g.Expect(uri.Query().Get("$filter")).To(Equal(fmt.Sprintf("appId eq '%s'", appID)))
 			page := msgraphmodels.NewServicePrincipalCollectionResponse()
 			page.SetValue([]msgraphmodels.ServicePrincipalable{principal})
 			return page, nil
 		}
-		g.Expect(uri.Path).To(gomega.Equal("/beta/servicePrincipals/" + objectID))
+		g.Expect(uri.Path).To(Equal("/beta/servicePrincipals/" + objectID))
 		return principal, nil
 	}
 	reconciler := &EntraServicePrincipalReconciler{
@@ -448,18 +448,18 @@ func TestServicePrincipalAdoptResolvesTenantObjectID(t *testing.T) {
 	}
 
 	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
-	g.Expect(err).NotTo(gomega.HaveOccurred())
-	g.Expect(calls).To(gomega.Equal(2))
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(calls).To(Equal(2))
 	id, ok := getEntraID(obj)
-	g.Expect(ok).To(gomega.BeTrue())
-	g.Expect(id).To(gomega.Equal(objectID))
-	g.Expect(obj.Status.EntraID).To(gomega.Equal(new(objectID)))
-	g.Expect(obj.Status.AppId).To(gomega.Equal(new(appID)))
-	g.Expect(obj.Annotations[servicePrincipalCreatedAnnotation]).To(gomega.Equal("false"))
+	g.Expect(ok).To(BeTrue())
+	g.Expect(id).To(Equal(objectID))
+	g.Expect(obj.Status.EntraID).To(Equal(new(objectID)))
+	g.Expect(obj.Status.AppId).To(Equal(new(appID)))
+	g.Expect(obj.Annotations[servicePrincipalCreatedAnnotation]).To(Equal("false"))
 
 	_, err = reconciler.Delete(context.Background(), logr.Discard(), nil, obj)
-	g.Expect(err).NotTo(gomega.HaveOccurred())
-	g.Expect(calls).To(gomega.Equal(2))
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(calls).To(Equal(2))
 }
 
 func TestServicePrincipalMissingAdoptionTargetDoesNotCreate(t *testing.T) {
@@ -479,11 +479,11 @@ func TestServicePrincipalMissingAdoptionTargetDoesNotCreate(t *testing.T) {
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
-			g := gomega.NewWithT(t)
+			g := NewWithT(t)
 
 			adapter := &servicePrincipalTestAdapter{}
 			adapter.get = func(request *abstractions.RequestInformation) (serialization.Parsable, error) {
-				g.Expect(request.Method).To(gomega.Equal(abstractions.GET))
+				g.Expect(request.Method).To(Equal(abstractions.GET))
 				return msgraphmodels.NewServicePrincipalCollectionResponse(), nil
 			}
 			reconciler := &EntraServicePrincipalReconciler{
@@ -494,24 +494,24 @@ func TestServicePrincipalMissingAdoptionTargetDoesNotCreate(t *testing.T) {
 			}
 
 			_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
-			g.Expect(err).To(gomega.HaveOccurred())
-			g.Expect(err.Error()).To(gomega.ContainSubstring("not found for adoption"))
+			g.Expect(err).To(HaveOccurred())
+			g.Expect(err.Error()).To(ContainSubstring("not found for adoption"))
 		})
 	}
 }
 
 func TestServicePrincipalAdoptOnlyDoesNotMutateAnnotatedPrincipal(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 	const appID = "a232010e-820c-4083-83bb-3ace5fc29d0b"
 	const objectID = "58f30b77-0736-4ef3-8d0c-51e78c1d42b7"
 	calls := 0
 	adapter := &servicePrincipalTestAdapter{}
 	adapter.get = func(request *abstractions.RequestInformation) (serialization.Parsable, error) {
 		uri, err := request.GetUri()
-		g.Expect(err).NotTo(gomega.HaveOccurred())
-		g.Expect(uri.Path).To(gomega.Equal("/beta/servicePrincipals/" + objectID))
-		g.Expect(request.Method).To(gomega.Equal(abstractions.GET))
+		g.Expect(err).NotTo(HaveOccurred())
+		g.Expect(uri.Path).To(Equal("/beta/servicePrincipals/" + objectID))
+		g.Expect(request.Method).To(Equal(abstractions.GET))
 		calls++
 		principal := msgraphmodels.NewServicePrincipal()
 		principal.SetId(new(objectID))
@@ -535,33 +535,33 @@ func TestServicePrincipalAdoptOnlyDoesNotMutateAnnotatedPrincipal(t *testing.T) 
 	obj.Annotations[servicePrincipalCreatedAnnotation] = "true"
 
 	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
-	g.Expect(err).NotTo(gomega.HaveOccurred())
+	g.Expect(err).NotTo(HaveOccurred())
 	_, err = reconciler.Delete(context.Background(), logr.Discard(), nil, obj)
-	g.Expect(err).NotTo(gomega.HaveOccurred())
-	g.Expect(calls).To(gomega.Equal(1))
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(calls).To(Equal(1))
 }
 
 func TestServicePrincipalDeleteAdoptedByDefault(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 	obj := &asoentra.ServicePrincipal{}
 	const objectID = "58f30b77-0736-4ef3-8d0c-51e78c1d42b7"
 	setEntraID(obj, objectID)
 	obj.Annotations[servicePrincipalCreatedAnnotation] = "false"
 
 	persisted, err := json.Marshal(obj)
-	g.Expect(err).NotTo(gomega.HaveOccurred())
+	g.Expect(err).NotTo(HaveOccurred())
 	reloaded := &asoentra.ServicePrincipal{}
-	g.Expect(json.Unmarshal(persisted, reloaded)).To(gomega.Succeed())
+	g.Expect(json.Unmarshal(persisted, reloaded)).To(Succeed())
 	id, ok := getEntraID(reloaded)
-	g.Expect(ok).To(gomega.BeTrue())
-	g.Expect(id).To(gomega.Equal(objectID))
-	g.Expect(reloaded.Annotations[servicePrincipalCreatedAnnotation]).To(gomega.Equal("false"))
+	g.Expect(ok).To(BeTrue())
+	g.Expect(id).To(Equal(objectID))
+	g.Expect(reloaded.Annotations[servicePrincipalCreatedAnnotation]).To(Equal("false"))
 
 	// A fresh reconciler has no in-memory adoption state; deletion must still be safe.
 	reconciler := &EntraServicePrincipalReconciler{}
 	_, err = reconciler.Delete(context.Background(), logr.Discard(), nil, reloaded)
-	g.Expect(err).NotTo(gomega.HaveOccurred())
+	g.Expect(err).NotTo(HaveOccurred())
 }
 
 func TestServicePrincipalDisplayNameIsPatchedOnlyWhenSpecified(t *testing.T) {
@@ -590,22 +590,22 @@ func TestServicePrincipalDisplayNameIsPatchedOnlyWhenSpecified(t *testing.T) {
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
-			g := gomega.NewWithT(t)
+			g := NewWithT(t)
 
 			patches := 0
 			adapter := &servicePrincipalTestAdapter{}
 			adapter.get = func(request *abstractions.RequestInformation) (serialization.Parsable, error) {
 				uri, err := request.GetUri()
-				g.Expect(err).NotTo(gomega.HaveOccurred())
-				g.Expect(uri.Path).To(gomega.Equal("/beta/servicePrincipals/" + objectID))
+				g.Expect(err).NotTo(HaveOccurred())
+				g.Expect(uri.Path).To(Equal("/beta/servicePrincipals/" + objectID))
 				if request.Method == abstractions.PATCH {
 					patches++
 					var body map[string]any
-					g.Expect(json.Unmarshal(request.Content, &body)).To(gomega.Succeed())
-					g.Expect(body).To(gomega.HaveKeyWithValue("displayName", "requested name"))
-					g.Expect(body).NotTo(gomega.HaveKey("appId"))
+					g.Expect(json.Unmarshal(request.Content, &body)).To(Succeed())
+					g.Expect(body).To(HaveKeyWithValue("displayName", "requested name"))
+					g.Expect(body).NotTo(HaveKey("appId"))
 				} else {
-					g.Expect(request.Method).To(gomega.Equal(abstractions.GET))
+					g.Expect(request.Method).To(Equal(abstractions.GET))
 				}
 				principal := msgraphmodels.NewServicePrincipal()
 				principal.SetId(new(objectID))
@@ -623,23 +623,23 @@ func TestServicePrincipalDisplayNameIsPatchedOnlyWhenSpecified(t *testing.T) {
 				obj.Annotations[servicePrincipalCreatedAnnotation] = "true"
 			}
 			_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
-			g.Expect(err).NotTo(gomega.HaveOccurred())
-			g.Expect(patches).To(gomega.Equal(tc.expectPatches))
+			g.Expect(err).NotTo(HaveOccurred())
+			g.Expect(patches).To(Equal(tc.expectPatches))
 		})
 	}
 }
 
 func TestServicePrincipalDeleteCreated(t *testing.T) {
 	t.Parallel()
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 	const objectID = "58f30b77-0736-4ef3-8d0c-51e78c1d42b7"
 	calls := 0
 	adapter := &servicePrincipalTestAdapter{}
 	adapter.delete = func(request *abstractions.RequestInformation) error {
 		uri, err := request.GetUri()
-		g.Expect(err).NotTo(gomega.HaveOccurred())
-		g.Expect(request.Method).To(gomega.Equal(abstractions.DELETE))
-		g.Expect(uri.Path).To(gomega.Equal("/beta/servicePrincipals/" + objectID))
+		g.Expect(err).NotTo(HaveOccurred())
+		g.Expect(request.Method).To(Equal(abstractions.DELETE))
+		g.Expect(uri.Path).To(Equal("/beta/servicePrincipals/" + objectID))
 		calls++
 		return nil
 	}
@@ -653,6 +653,6 @@ func TestServicePrincipalDeleteCreated(t *testing.T) {
 	obj.Spec.OperatorSpec = &asoentra.ServicePrincipalOperatorSpec{CreationMode: &mode}
 
 	_, err := reconciler.Delete(context.Background(), logr.Discard(), nil, obj)
-	g.Expect(err).NotTo(gomega.HaveOccurred())
-	g.Expect(calls).To(gomega.Equal(1))
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(calls).To(Equal(1))
 }
