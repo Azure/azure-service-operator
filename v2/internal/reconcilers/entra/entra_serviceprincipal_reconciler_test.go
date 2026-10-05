@@ -158,10 +158,10 @@ func TestServicePrincipalTryAdoptByDisplayName(t *testing.T) {
 	const appID = "a232010e-820c-4083-83bb-3ace5fc29d0b"
 	const otherAppID = "00000003-0000-0000-c000-000000000000"
 	const objectID = "58f30b77-0736-4ef3-8d0c-51e78c1d42b7"
-	const name = "Azure's Cassandra Service"
+	const servicePrincipalName = "Azure's Cassandra Service"
+	const displayNameFilter = "displayName eq 'Azure''s Cassandra Service'"
 
-	for _, tc := range []struct {
-		name        string
+	cases := map[string]struct {
 		appID       *string
 		appMatches  []msgraphmodels.ServicePrincipalable
 		nameMatches []msgraphmodels.ServicePrincipalable
@@ -170,61 +170,56 @@ func TestServicePrincipalTryAdoptByDisplayName(t *testing.T) {
 		wantID      string
 		wantErr     string
 	}{
-		{
-			name:        "name-only adoption",
+		"name-only adoption": {
 			nameMatches: []msgraphmodels.ServicePrincipalable{testServicePrincipal(objectID, appID)},
-			wantFilters: []string{"displayName eq 'Azure''s Cassandra Service'"},
+			wantFilters: []string{displayNameFilter},
 			wantID:      objectID,
 		},
-		{
-			name: "ambiguous name prevents creation",
+		"ambiguous name prevents creation": {
 			nameMatches: []msgraphmodels.ServicePrincipalable{
 				testServicePrincipal(objectID, appID),
 				testServicePrincipal("2251de93-281a-48c3-9842-e5e8619ad581", otherAppID),
 			},
-			wantFilters: []string{"displayName eq 'Azure''s Cassandra Service'"},
+			wantFilters: []string{displayNameFilter},
 			wantErr:     "multiple existing Entra service principals",
 		},
-		{
-			name: "ambiguous name across pages prevents creation",
+		"ambiguous name across pages prevents creation": {
 			nameMatches: []msgraphmodels.ServicePrincipalable{
 				testServicePrincipal(objectID, appID),
 				testServicePrincipal("2251de93-281a-48c3-9842-e5e8619ad581", otherAppID),
 			},
 			paginated:   true,
-			wantFilters: []string{"displayName eq 'Azure''s Cassandra Service'", ""},
+			wantFilters: []string{displayNameFilter, ""},
 			wantErr:     "multiple existing Entra service principals",
 		},
-		{
-			name:        "GUID match takes priority regardless of name",
+		"GUID match takes priority regardless of name": {
 			appID:       new(appID),
 			appMatches:  []msgraphmodels.ServicePrincipalable{testServicePrincipal(objectID, appID)},
 			wantFilters: []string{"appId eq '" + appID + "'"},
 			wantID:      objectID,
 		},
-		{
-			name:        "name fallback matches GUID",
+		"name fallback matches GUID": {
 			appID:       new(appID),
 			nameMatches: []msgraphmodels.ServicePrincipalable{testServicePrincipal(objectID, appID)},
-			wantFilters: []string{"appId eq '" + appID + "'", "displayName eq 'Azure''s Cassandra Service'"},
+			wantFilters: []string{"appId eq '" + appID + "'", displayNameFilter},
 			wantID:      objectID,
 		},
-		{
-			name:        "name fallback conflicts with GUID",
+		"name fallback conflicts with GUID": {
 			appID:       new(appID),
 			nameMatches: []msgraphmodels.ServicePrincipalable{testServicePrincipal(objectID, otherAppID)},
-			wantFilters: []string{"appId eq '" + appID + "'", "displayName eq 'Azure''s Cassandra Service'"},
+			wantFilters: []string{"appId eq '" + appID + "'", displayNameFilter},
 			wantErr:     "expected \"" + appID + "\"",
 		},
-		{
-			name:        "no name match",
-			wantFilters: []string{"displayName eq 'Azure''s Cassandra Service'"},
+		"no name match": {
+			wantFilters: []string{displayNameFilter},
 		},
-	} {
-		t.Run(tc.name, func(t *testing.T) {
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewWithT(t)
-			filters := make([]string, 0, len(tc.wantFilters))
+			filters := make([]string, 0, len(c.wantFilters))
 			adapter := &servicePrincipalTestAdapter{}
 			adapter.get = func(request *abstractions.RequestInformation) (serialization.Parsable, error) {
 				g.Expect(request.Method).To(Equal(abstractions.GET))
@@ -234,15 +229,15 @@ func TestServicePrincipalTryAdoptByDisplayName(t *testing.T) {
 				filter := uri.Query().Get("$filter")
 				filters = append(filters, filter)
 				page := msgraphmodels.NewServicePrincipalCollectionResponse()
-				if tc.paginated && uri.Query().Get("$skiptoken") == "next" {
-					page.SetValue(tc.nameMatches[1:])
-				} else if tc.appID != nil && filter == "appId eq '"+*tc.appID+"'" {
-					page.SetValue(tc.appMatches)
-				} else if tc.paginated {
-					page.SetValue(tc.nameMatches[:1])
+				if c.paginated && uri.Query().Get("$skiptoken") == "next" {
+					page.SetValue(c.nameMatches[1:])
+				} else if c.appID != nil && filter == "appId eq '"+*c.appID+"'" {
+					page.SetValue(c.appMatches)
+				} else if c.paginated {
+					page.SetValue(c.nameMatches[:1])
 					page.SetOdataNextLink(new("https://graph.microsoft.com/beta/servicePrincipals?$skiptoken=next"))
 				} else {
-					page.SetValue(tc.nameMatches)
+					page.SetValue(c.nameMatches)
 				}
 				return page, nil
 			}
@@ -251,18 +246,18 @@ func TestServicePrincipalTryAdoptByDisplayName(t *testing.T) {
 			}
 			obj := &asoentra.ServicePrincipal{
 				Spec: asoentra.ServicePrincipalSpec{
-					AppId:       tc.appID,
-					DisplayName: new(name),
+					AppId:       c.appID,
+					DisplayName: new(servicePrincipalName),
 				},
 			}
 
 			id, err := reconciler.tryAdopt(context.Background(), obj, logr.Discard())
-			g.Expect(filters).To(Equal(tc.wantFilters))
-			if tc.wantErr != "" {
-				g.Expect(err).To(MatchError(ContainSubstring(tc.wantErr)))
+			g.Expect(filters).To(Equal(c.wantFilters))
+			if c.wantErr != "" {
+				g.Expect(err).To(MatchError(ContainSubstring(c.wantErr)))
 			} else {
 				g.Expect(err).NotTo(HaveOccurred())
-				g.Expect(id).To(Equal(tc.wantID))
+				g.Expect(id).To(Equal(c.wantID))
 			}
 		})
 	}
