@@ -19,6 +19,7 @@ import (
 )
 
 // Recording requires a tenant where the Cassandra resource provider service principal exists.
+// This demos how to read the tenant local ObjectID for the Azure Cosmos DB service principal.
 func Test_Entra_ServicePrincipal_v1_Adopt(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
@@ -26,6 +27,7 @@ func Test_Entra_ServicePrincipal_v1_Adopt(t *testing.T) {
 	sp := &entra.ServicePrincipal{
 		ObjectMeta: tc.MakeObjectMeta("cassandra-service-principal"),
 		Spec: entra.ServicePrincipalSpec{
+			// This is the Principal ID for  Azure Cosmos DB
 			AppId: to.Ptr("a232010e-820c-4083-83bb-3ace5fc29d0b"),
 			OperatorSpec: &entra.ServicePrincipalOperatorSpec{
 				CreationMode: to.Ptr(entra.AdoptOnly),
