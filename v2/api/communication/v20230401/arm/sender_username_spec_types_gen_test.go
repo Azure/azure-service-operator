@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_SenderUsernameProperties_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SenderUsernameProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSenderUsernameProperties, SenderUsernamePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSenderUsernameProperties)
 }
 
 // RunJSONSerializationTestForSenderUsernameProperties runs a test to see if a specific instance of SenderUsernameProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForSenderUsernameProperties(subject SenderUsernameProperties) string {
+func RunJSONSerializationTestForSenderUsernameProperties(t *rapid.T) {
+	subject := SenderUsernamePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SenderUsernameProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,33 +45,30 @@ func RunJSONSerializationTestForSenderUsernameProperties(subject SenderUsernameP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SenderUsernameProperties instances for property testing - lazily instantiated by
 // SenderUsernamePropertiesGenerator()
-var senderUsernamePropertiesGenerator gopter.Gen
+var senderUsernamePropertiesGenerator *rapid.Generator[SenderUsernameProperties]
 
 // SenderUsernamePropertiesGenerator returns a generator of SenderUsernameProperties instances for property testing.
-func SenderUsernamePropertiesGenerator() gopter.Gen {
+func SenderUsernamePropertiesGenerator() *rapid.Generator[SenderUsernameProperties] {
 	if senderUsernamePropertiesGenerator != nil {
 		return senderUsernamePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSenderUsernameProperties(generators)
-	senderUsernamePropertiesGenerator = gen.Struct(reflect.TypeOf(SenderUsernameProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	senderUsernamePropertiesGenerator = rapid.Custom(func(t *rapid.T) SenderUsernameProperties {
+		var result SenderUsernameProperties
+		result.DisplayName = ptrString.Draw(t, "DisplayName")
+		result.Username = ptrString.Draw(t, "Username")
+		return result
+	})
 
 	return senderUsernamePropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSenderUsernameProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSenderUsernameProperties(gens map[string]gopter.Gen) {
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["Username"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SenderUsername_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -91,29 +78,23 @@ func Test_SenderUsername_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SenderUsername_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSenderUsername_Spec, SenderUsername_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSenderUsername_Spec)
 }
 
 // RunJSONSerializationTestForSenderUsername_Spec runs a test to see if a specific instance of SenderUsername_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSenderUsername_Spec(subject SenderUsername_Spec) string {
+func RunJSONSerializationTestForSenderUsername_Spec(t *rapid.T) {
+	subject := SenderUsername_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SenderUsername_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -122,44 +103,29 @@ func RunJSONSerializationTestForSenderUsername_Spec(subject SenderUsername_Spec)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SenderUsername_Spec instances for property testing - lazily instantiated by
 // SenderUsername_SpecGenerator()
-var senderUsername_SpecGenerator gopter.Gen
+var senderUsername_SpecGenerator *rapid.Generator[SenderUsername_Spec]
 
 // SenderUsername_SpecGenerator returns a generator of SenderUsername_Spec instances for property testing.
-// We first initialize senderUsername_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SenderUsername_SpecGenerator() gopter.Gen {
+func SenderUsername_SpecGenerator() *rapid.Generator[SenderUsername_Spec] {
 	if senderUsername_SpecGenerator != nil {
 		return senderUsername_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSenderUsername_Spec(generators)
-	senderUsername_SpecGenerator = gen.Struct(reflect.TypeOf(SenderUsername_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(SenderUsernamePropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSenderUsername_Spec(generators)
-	AddRelatedPropertyGeneratorsForSenderUsername_Spec(generators)
-	senderUsername_SpecGenerator = gen.Struct(reflect.TypeOf(SenderUsername_Spec{}), generators)
+	senderUsername_SpecGenerator = rapid.Custom(func(t *rapid.T) SenderUsername_Spec {
+		var result SenderUsername_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return senderUsername_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSenderUsername_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSenderUsername_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForSenderUsername_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSenderUsername_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SenderUsernamePropertiesGenerator())
 }

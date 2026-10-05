@@ -785,6 +785,20 @@ func shouldSkipDir(filePath string) bool {
 	return false
 }
 
+// shouldSkipFile returns true if a legacy *_API.json file should be skipped because a
+// TypeSpec-generated openapi.json exists in the same directory and supersedes it.
+func shouldSkipFile(filePath string) bool {
+	base := filepath.Base(filePath)
+	if strings.HasSuffix(base, "_API.json") {
+		openapiPath := filepath.Join(filepath.Dir(filePath), "openapi.json")
+		if _, err := os.Stat(openapiPath); err == nil {
+			return true
+		}
+	}
+
+	return false
+}
+
 // loadAllSchemas walks all .json files in the given rootPath in directories
 // of the form "Microsoft.GroupName/…/2000-01-01/…" (excluding those matching
 // shouldSkipDir), and returns those files in a map of path→swagger spec.
@@ -821,6 +835,10 @@ func loadAllSchemas(
 
 		if !fileInfo.IsDir() &&
 			filepath.Ext(filePath) == ".json" {
+
+			if shouldSkipFile(filePath) {
+				return nil
+			}
 
 			group := groupFromPath(filePath, rootPath, overrides)
 			version := versionFromPath(filePath, rootPath)

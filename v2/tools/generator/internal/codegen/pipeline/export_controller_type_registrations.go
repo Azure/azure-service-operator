@@ -175,10 +175,15 @@ func tryResolvePropertyPathCollision(chains []*propertyChain) bool {
 		return false
 	}
 
-	// Check for parents with different names
+	// Check for parents with different names. A parent with a nil prop is the root of the chain (the resource
+	// or object itself, with nothing above it); use the empty string as its name. This can't collide with a
+	// real property name, so it's always treated as distinct from any named parent.
 	names := set.Make[string]()
 	for _, parent := range parents.Values() {
-		name := string(parent.prop.PropertyName())
+		name := ""
+		if parent.prop != nil {
+			name = string(parent.prop.PropertyName())
+		}
 		names.Add(name)
 	}
 
@@ -346,7 +351,9 @@ func (chain *propertyChain) indexPropertyPath() string {
 		result = chain.root.indexPropertyPath()
 	}
 
-	if chain.requiredForPropertyPath {
+	// chain.prop is nil for the root of the chain (the resource or object itself); there's nothing to add to the
+	// path in that case.
+	if chain.requiredForPropertyPath && chain.prop != nil {
 		result += chain.prop.PropertyName().String()
 	}
 

@@ -199,6 +199,27 @@ func Unwrap(aType Type) Type {
 	return aType
 }
 
+// UnwrapAndResolve fully unwraps a type by removing both MetaType wrappers and resolving type name
+// indirections via the provided definitions set, returning the underlying concrete type.
+func UnwrapAndResolve(definitions TypeDefinitionSet, aType Type) (Type, error) {
+	aType = Unwrap(aType)
+
+	// If not a type name, nothing more to resolve
+	if _, ok := aType.(InternalTypeName); !ok {
+		return aType, nil
+	}
+
+	// Chase type name indirections using FullyResolve (which handles cycles)
+	resolved, err := definitions.FullyResolve(aType)
+	if err != nil {
+		return nil, err
+	}
+
+	// The resolved type may itself have MetaType wrappers containing further type names,
+	// so recurse to fully unwrap
+	return UnwrapAndResolve(definitions, resolved)
+}
+
 // ExtractTypeName extracts a TypeName from the specified type if possible. This includes unwrapping
 // MetaType's like ValidatedType as well as checking the element type of types such as ArrayType and MapType.
 func ExtractTypeName(aType Type) (InternalTypeName, bool) {

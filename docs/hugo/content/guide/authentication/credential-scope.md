@@ -11,14 +11,14 @@ _resource scope_ takes precedence over _namespace scope_ which takes precedence 
 {{% alert title="Warning" color="warning" %}}
 Be careful when using the global scope credential. A user in any namespace in your cluster will have the ability
 to do everything that the global credential can do. For security best practice we recommend using namespace scoped
-or resource scoped credentials. See [security best practices]({{< relref "/guide/best-practices/security" >}}) for more details.
+or resource scoped credentials. See [security best practices]({{< relref "security" >}}) for more details.
 {{% /alert %}}
 
-The global credential resides in the `aso-controller-settings` secret deployed as part of operator deployment in 
+The global credential resides in the `aso-controller-settings` secret deployed as part of operator deployment in
 operator's namespace.
 This is the scope configured when configuring credentials via the Helm chart installation.
 
-When updating the `aso-controller-settings` secret, you must restart the operator pod for the updated secret to 
+When updating the `aso-controller-settings` secret, you must restart the operator pod for the updated secret to
 take effect.
 
 > **Note**: The `aso-controller-settings` secret must exist, but the actual global credential portion of the secret
@@ -33,7 +33,7 @@ overriding the global credential. This credential can be in a different tenant o
 ## Resource scope
 
 A secret with any name can be referenced by the `serviceoperator.azure.com/credential-from` annotation.
-Create this annotation on each resource to configure the credential used for that resource. 
+Create this annotation on each resource to configure the credential used for that resource.
 The secret containing the credential must be in the same Kubernetes namespace as the resource but may be in a different
 tenant or subscription than both the global credential and per-namespace credential.
 

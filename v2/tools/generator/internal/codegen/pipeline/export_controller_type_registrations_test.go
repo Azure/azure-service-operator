@@ -78,6 +78,13 @@ func TestEnsureIndexPropertyPathsUnique_ResolvesConflicts(t *testing.T) {
 				{"obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password", "VirtualMachinePassword"},
 			},
 		},
+		{
+			"Root level property conflicts with nested property of the same name",
+			[]tc{
+				{"Destination", "Destination"},
+				{"DeliveryWithResourceIdentity.Destination", "DeliveryWithResourceIdentityDestination"},
+			},
+		},
 	}
 
 	for _, c := range cases {

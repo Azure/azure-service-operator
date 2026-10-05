@@ -3,6 +3,8 @@ github.com/Azure/azure-service-operator/v2/api/kusto/customizations
 -------------------------------------------------------------------
 ClusterExtension: Object (0 properties)
 
+ClusterPrincipalAssignmentExtension: Object (0 properties)
+
 DataConnectionExtension: Object (0 properties)
 
 DatabaseExtension: Object (0 properties)

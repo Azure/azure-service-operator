@@ -196,10 +196,13 @@ func (v *ValidatorBuilder) validateCreate(
 	receiver astmodel.TypeName,
 	methodName string,
 ) (*dst.FuncDecl, error) {
-	resourceIdent := "resource"
 	contextIdent := "ctx"
 
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
+	knownLocals := astmodel.NewKnownLocalsSet(k.idFactory)
+	knownLocals.Add(receiverIdent)
+
+	resourceIdent := knownLocals.CreateLocal("resource", "", "Obj")
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating receiver type expression")
@@ -312,10 +315,13 @@ func (v *ValidatorBuilder) validateDelete(
 	receiver astmodel.TypeName,
 	methodName string,
 ) (*dst.FuncDecl, error) {
-	resourceIdent := "resource"
 	contextIdent := "ctx"
 
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
+	knownLocals := astmodel.NewKnownLocalsSet(k.idFactory)
+	knownLocals.Add(receiverIdent)
+
+	resourceIdent := knownLocals.CreateLocal("resource", "", "Obj")
 	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating receiver type expression")

@@ -55,22 +55,36 @@ var _ conversion.Convertible = &Server{}
 
 // ConvertFrom populates our Server from the provided hub Server
 func (server *Server) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Server)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/Server but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Server
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return server.AssignProperties_From_Server(source)
+	err = server.AssignProperties_From_Server(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to server")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Server from our Server
 func (server *Server) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Server)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/Server but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Server
+	err := server.AssignProperties_To_Server(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from server")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return server.AssignProperties_To_Server(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Server{}
@@ -91,17 +105,6 @@ func (server *Server) SecretDestinationExpressions() []*core.DestinationExpressi
 		return nil
 	}
 	return server.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Server{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (server *Server) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Server_STATUS); ok {
-		return server.Spec.Initialize_From_Server_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Server_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesConfigExporter = &Server{}
@@ -854,82 +857,6 @@ func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *storage.
 	return nil
 }
 
-// Initialize_From_Server_STATUS populates our Server_Spec from the provided source Server_STATUS
-func (server *Server_Spec) Initialize_From_Server_STATUS(source *Server_STATUS) error {
-
-	// AdministratorLogin
-	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
-
-	// Administrators
-	if source.Administrators != nil {
-		var administrator ServerExternalAdministrator
-		err := administrator.Initialize_From_ServerExternalAdministrator_STATUS(source.Administrators)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ServerExternalAdministrator_STATUS() to populate field Administrators")
-		}
-		server.Administrators = &administrator
-	} else {
-		server.Administrators = nil
-	}
-
-	// FederatedClientId
-	server.FederatedClientId = genruntime.ClonePointerToString(source.FederatedClientId)
-
-	// Identity
-	if source.Identity != nil {
-		var identity ResourceIdentity
-		err := identity.Initialize_From_ResourceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceIdentity_STATUS() to populate field Identity")
-		}
-		server.Identity = &identity
-	} else {
-		server.Identity = nil
-	}
-
-	// KeyId
-	server.KeyId = genruntime.ClonePointerToString(source.KeyId)
-
-	// Location
-	server.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MinimalTlsVersion
-	server.MinimalTlsVersion = genruntime.ClonePointerToString(source.MinimalTlsVersion)
-
-	// PrimaryUserAssignedIdentityReference
-	if source.PrimaryUserAssignedIdentityId != nil {
-		primaryUserAssignedIdentityReference := genruntime.CreateResourceReferenceFromARMID(*source.PrimaryUserAssignedIdentityId)
-		server.PrimaryUserAssignedIdentityReference = &primaryUserAssignedIdentityReference
-	} else {
-		server.PrimaryUserAssignedIdentityReference = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), serverProperties_PublicNetworkAccess_Values)
-		server.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		server.PublicNetworkAccess = nil
-	}
-
-	// RestrictOutboundNetworkAccess
-	if source.RestrictOutboundNetworkAccess != nil {
-		restrictOutboundNetworkAccess := genruntime.ToEnum(string(*source.RestrictOutboundNetworkAccess), serverProperties_RestrictOutboundNetworkAccess_Values)
-		server.RestrictOutboundNetworkAccess = &restrictOutboundNetworkAccess
-	} else {
-		server.RestrictOutboundNetworkAccess = nil
-	}
-
-	// Tags
-	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Version
-	server.Version = genruntime.ClonePointerToString(source.Version)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (server *Server_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1639,33 +1566,6 @@ func (identity *ResourceIdentity) AssignProperties_To_ResourceIdentity(destinati
 	return nil
 }
 
-// Initialize_From_ResourceIdentity_STATUS populates our ResourceIdentity from the provided source ResourceIdentity_STATUS
-func (identity *ResourceIdentity) Initialize_From_ResourceIdentity_STATUS(source *ResourceIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), resourceIdentity_Type_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Azure Active Directory identity configuration for a resource.
 type ResourceIdentity_STATUS struct {
 	// PrincipalId: The Azure Active Directory principal id.
@@ -2120,46 +2020,6 @@ func (administrator *ServerExternalAdministrator) AssignProperties_To_ServerExte
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServerExternalAdministrator_STATUS populates our ServerExternalAdministrator from the provided source ServerExternalAdministrator_STATUS
-func (administrator *ServerExternalAdministrator) Initialize_From_ServerExternalAdministrator_STATUS(source *ServerExternalAdministrator_STATUS) error {
-
-	// AdministratorType
-	if source.AdministratorType != nil {
-		administratorType := genruntime.ToEnum(string(*source.AdministratorType), serverExternalAdministrator_AdministratorType_Values)
-		administrator.AdministratorType = &administratorType
-	} else {
-		administrator.AdministratorType = nil
-	}
-
-	// AzureADOnlyAuthentication
-	if source.AzureADOnlyAuthentication != nil {
-		azureADOnlyAuthentication := *source.AzureADOnlyAuthentication
-		administrator.AzureADOnlyAuthentication = &azureADOnlyAuthentication
-	} else {
-		administrator.AzureADOnlyAuthentication = nil
-	}
-
-	// Login
-	administrator.Login = genruntime.ClonePointerToString(source.Login)
-
-	// PrincipalType
-	if source.PrincipalType != nil {
-		principalType := genruntime.ToEnum(string(*source.PrincipalType), serverExternalAdministrator_PrincipalType_Values)
-		administrator.PrincipalType = &principalType
-	} else {
-		administrator.PrincipalType = nil
-	}
-
-	// Sid
-	administrator.Sid = genruntime.ClonePointerToString(source.Sid)
-
-	// TenantId
-	administrator.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// No error
 	return nil

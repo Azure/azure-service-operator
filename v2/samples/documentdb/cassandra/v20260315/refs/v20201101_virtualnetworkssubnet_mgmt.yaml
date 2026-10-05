@@ -1,0 +1,12 @@
+apiVersion: network.azure.com/v1api20240301
+kind: VirtualNetworksSubnet
+metadata:
+  name: cassandra-mgmt-subnet
+  namespace: default
+spec:
+  owner:
+    name: cassandra-vnet
+  addressPrefix: 10.0.0.0/24
+  delegations:
+    - name: cassandraClustersDelegation
+      serviceName: Microsoft.DocumentDB/cassandraClusters

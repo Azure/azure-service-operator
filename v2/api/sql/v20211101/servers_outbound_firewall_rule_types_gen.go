@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersOutboundFirewallRule{}
 
 // ConvertFrom populates our ServersOutboundFirewallRule from the provided hub ServersOutboundFirewallRule
 func (rule *ServersOutboundFirewallRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersOutboundFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersOutboundFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersOutboundFirewallRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_ServersOutboundFirewallRule(source)
+	err = rule.AssignProperties_From_ServersOutboundFirewallRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersOutboundFirewallRule from our ServersOutboundFirewallRule
 func (rule *ServersOutboundFirewallRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersOutboundFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersOutboundFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersOutboundFirewallRule
+	err := rule.AssignProperties_To_ServersOutboundFirewallRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_ServersOutboundFirewallRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersOutboundFirewallRule{}
@@ -87,17 +101,6 @@ func (rule *ServersOutboundFirewallRule) SecretDestinationExpressions() []*core.
 		return nil
 	}
 	return rule.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersOutboundFirewallRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *ServersOutboundFirewallRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersOutboundFirewallRule_STATUS); ok {
-		return rule.Spec.Initialize_From_ServersOutboundFirewallRule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersOutboundFirewallRule_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersOutboundFirewallRule{}
@@ -420,13 +423,6 @@ func (rule *ServersOutboundFirewallRule_Spec) AssignProperties_To_ServersOutboun
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersOutboundFirewallRule_STATUS populates our ServersOutboundFirewallRule_Spec from the provided source ServersOutboundFirewallRule_STATUS
-func (rule *ServersOutboundFirewallRule_Spec) Initialize_From_ServersOutboundFirewallRule_STATUS(source *ServersOutboundFirewallRule_STATUS) error {
 
 	// No error
 	return nil

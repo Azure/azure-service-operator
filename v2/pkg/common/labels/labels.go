@@ -20,6 +20,21 @@ const (
 	LastReconciledVersionLabel = "serviceoperator.azure.com/last-reconciled-version"
 )
 
+// ServiceOperatorLabelPrefix is the label domain reserved for ASO's own use.
+const ServiceOperatorLabelPrefix = "serviceoperator.azure.com/"
+
+// Labels applied to the CRDs ASO manages. These values must match the values injected by config/crd/labels.yaml.
+const (
+	// ServiceOperatorVersionLabelOld is the legacy label the CRDs have on them containing the ASO version.
+	ServiceOperatorVersionLabelOld = ServiceOperatorLabelPrefix + "version"
+	// ServiceOperatorVersionLabel is the label the CRDs have on them containing the ASO version.
+	ServiceOperatorVersionLabel = "app.kubernetes.io/version"
+	// ServiceOperatorAppLabel is the label used to identify the CRDs managed by ASO.
+	ServiceOperatorAppLabel = "app.kubernetes.io/name"
+	// ServiceOperatorAppValue is the value of ServiceOperatorAppLabel on CRDs managed by ASO.
+	ServiceOperatorAppValue = "azure-service-operator"
+)
+
 // SetOwnerNameLabel sets the owner name label on the given object, or truncates it to 63 characters if it exceeds the character limit.
 func SetOwnerNameLabel(logger logr.Logger, obj genruntime.ARMMetaObject) {
 	if obj.Owner() != nil && obj.Owner().Name != "" {

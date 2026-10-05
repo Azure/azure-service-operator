@@ -270,11 +270,13 @@ type CapacityReservation_Spec struct {
 	// reference to a compute.azure.com/CapacityReservationGroup resource
 	Owner *genruntime.KnownResourceReference `group:"compute.azure.com" json:"owner,omitempty" kind:"CapacityReservationGroup"`
 
-	// ScheduleProfile: Defines the schedule for Block-type capacity reservations. Specifies the schedule during which capacity
-	// reservation is active and VM or VMSS resource can be allocated using reservation. This property is required and only
-	// supported when the capacity reservation group type is 'Block'. The scheduleProfile, start, and end fields are immutable
-	// after creation. Minimum API version: 2025-04-01. Please refer to https://aka.ms/blockcapacityreservation for more
-	// details.
+	// ScheduleProfile: Defines the schedule for Block and Future capacity reservations. Specifies the schedule during which
+	// capacity reservation is active and VM or VMSS resource can be allocated using reservation. For Block capacity
+	// reservations, the scheduleProfile, start, and end fields are immutable after creation. Please refer to
+	// https://aka.ms/blockcapacityreservation for more details. Minimum API version for Block capacity reservations:
+	// 2025-04-01. Future capacity reservations must use this property with only a start time, which can be changed until the
+	// ‘modifiableUntil’ time. Please refer to https://aka.ms/futurecapacityreservation for more details. Minimum API
+	// version for Future capacity reservations: 2026-04-01.
 	ScheduleProfile *ScheduleProfile `json:"scheduleProfile,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -690,11 +692,13 @@ type CapacityReservation_STATUS struct {
 	// throughout the lifetime of the resource.
 	ReservationId *string `json:"reservationId,omitempty"`
 
-	// ScheduleProfile: Defines the schedule for Block-type capacity reservations. Specifies the schedule during which capacity
-	// reservation is active and VM or VMSS resource can be allocated using reservation. This property is required and only
-	// supported when the capacity reservation group type is 'Block'. The scheduleProfile, start, and end fields are immutable
-	// after creation. Minimum API version: 2025-04-01. Please refer to https://aka.ms/blockcapacityreservation for more
-	// details.
+	// ScheduleProfile: Defines the schedule for Block and Future capacity reservations. Specifies the schedule during which
+	// capacity reservation is active and VM or VMSS resource can be allocated using reservation. For Block capacity
+	// reservations, the scheduleProfile, start, and end fields are immutable after creation. Please refer to
+	// https://aka.ms/blockcapacityreservation for more details. Minimum API version for Block capacity reservations:
+	// 2025-04-01. Future capacity reservations must use this property with only a start time, which can be changed until the
+	// ‘modifiableUntil’ time. Please refer to https://aka.ms/futurecapacityreservation for more details. Minimum API
+	// version for Future capacity reservations: 2026-04-01.
 	ScheduleProfile *ScheduleProfile_STATUS `json:"scheduleProfile,omitempty"`
 
 	// Sku: SKU of the resource for which capacity needs be reserved. The SKU name and capacity is required to be set.  For
@@ -1386,17 +1390,22 @@ func (operator *CapacityReservationOperatorSpec) AssignProperties_To_CapacityRes
 	return nil
 }
 
-// Defines the schedule for Block-type capacity reservations. Specifies the schedule during which capacity reservation is
-// active and VM or VMSS resource can be allocated using reservation. This property is required and only supported when the
-// capacity reservation group type is 'Block'. The scheduleProfile, start, and end fields are immutable after creation.
-// Minimum API version: 2025-04-01. Please refer to https://aka.ms/blockcapacityreservation for more details.
+// Defines the schedule for Block and Future capacity reservations. Specifies the schedule during which capacity
+// reservation is active and VM or VMSS resource can be allocated using reservation. For Block capacity reservations, the
+// scheduleProfile, start, and end fields are immutable after creation. Please refer to
+// https://aka.ms/blockcapacityreservation for more details. Minimum API version for Block capacity reservations:
+// 2025-04-01. Future capacity reservations must use this property with only a start time, which can be changed until the
+// ‘modifiableUntil’ time. Please refer to https://aka.ms/futurecapacityreservation for more details. Minimum API
+// version for Future capacity reservations: 2026-04-01.
 type ScheduleProfile struct {
-	// End: The required end date for block capacity reservations. Must be after the start date, with a duration of either
+	// End: The required end date for Block capacity reservations. Must be after the start date, with a duration of either
 	// 1–14 whole days or 3–26 whole weeks. Example: 2025-06-28.
 	End *string `json:"end,omitempty"`
 
-	// Start: The required start date for block capacity reservations. Must be today or within 56 days in the future. For
-	// same-day scheduling, requests must be submitted before 11:30 AM UTC. Example: 2025-06-27.
+	// Start: The required start date for Block or Future capacity reservations. Block capacity reservations: Must be today or
+	// within 56 days in the future. For same-day scheduling, requests must be submitted before 11:30 AM UTC. Future capacity
+	// reservations: Must be at least 7 days in the future, and maximum 6 months in the future. Minimum API version for Future
+	// capacity reservations: 2026-04-01. Example: 2025-06-27, applicable for both Block and Future capacity reservations.
 	Start *string `json:"start,omitempty"`
 }
 
@@ -1499,17 +1508,22 @@ func (profile *ScheduleProfile) Initialize_From_ScheduleProfile_STATUS(source *S
 	return nil
 }
 
-// Defines the schedule for Block-type capacity reservations. Specifies the schedule during which capacity reservation is
-// active and VM or VMSS resource can be allocated using reservation. This property is required and only supported when the
-// capacity reservation group type is 'Block'. The scheduleProfile, start, and end fields are immutable after creation.
-// Minimum API version: 2025-04-01. Please refer to https://aka.ms/blockcapacityreservation for more details.
+// Defines the schedule for Block and Future capacity reservations. Specifies the schedule during which capacity
+// reservation is active and VM or VMSS resource can be allocated using reservation. For Block capacity reservations, the
+// scheduleProfile, start, and end fields are immutable after creation. Please refer to
+// https://aka.ms/blockcapacityreservation for more details. Minimum API version for Block capacity reservations:
+// 2025-04-01. Future capacity reservations must use this property with only a start time, which can be changed until the
+// ‘modifiableUntil’ time. Please refer to https://aka.ms/futurecapacityreservation for more details. Minimum API
+// version for Future capacity reservations: 2026-04-01.
 type ScheduleProfile_STATUS struct {
-	// End: The required end date for block capacity reservations. Must be after the start date, with a duration of either
+	// End: The required end date for Block capacity reservations. Must be after the start date, with a duration of either
 	// 1–14 whole days or 3–26 whole weeks. Example: 2025-06-28.
 	End *string `json:"end,omitempty"`
 
-	// Start: The required start date for block capacity reservations. Must be today or within 56 days in the future. For
-	// same-day scheduling, requests must be submitted before 11:30 AM UTC. Example: 2025-06-27.
+	// Start: The required start date for Block or Future capacity reservations. Block capacity reservations: Must be today or
+	// within 56 days in the future. For same-day scheduling, requests must be submitted before 11:30 AM UTC. Future capacity
+	// reservations: Must be at least 7 days in the future, and maximum 6 months in the future. Minimum API version for Future
+	// capacity reservations: 2026-04-01. Example: 2025-06-27, applicable for both Block and Future capacity reservations.
 	Start *string `json:"start,omitempty"`
 }
 

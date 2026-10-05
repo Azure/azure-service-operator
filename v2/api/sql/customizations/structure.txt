@@ -31,11 +31,15 @@ ServersDatabasesVulnerabilityAssessmentExtension: Object (0 properties)
 
 ServersElasticPoolExtension: Object (0 properties)
 
+ServersEncryptionProtectorExtension: Object (0 properties)
+
 ServersFailoverGroupExtension: Object (0 properties)
 
 ServersFirewallRuleExtension: Object (0 properties)
 
 ServersIPV6FirewallRuleExtension: Object (0 properties)
+
+ServersKeyExtension: Object (0 properties)
 
 ServersOutboundFirewallRuleExtension: Object (0 properties)
 

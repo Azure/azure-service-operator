@@ -1,0 +1,10 @@
+apiVersion: containerregistry.azure.com/v20251101
+kind: RegistryCacheRule
+metadata:
+  name: sample-cache-rule
+  namespace: default
+spec:
+  owner:
+    name: sampleregistry
+  sourceRepository: mcr.microsoft.com/azuredocs/aci-helloworld
+  targetRepository: cached-mcr/aci-helloworld

@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	kusto "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413"
+	kustov20240413 "github.com/Azure/azure-service-operator/v2/api/kusto/v20240413"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
@@ -74,6 +75,10 @@ func Test_Kusto_Cluster_20240413_CRUD(t *testing.T) {
 			Name: "Kusto PrincipalAssignment CRUD",
 			Test: KustoPrincipalAssignmentCRUD(db, principalId, tenantId),
 		},
+		testcommon.Subtest{
+			Name: "Kusto ClusterPrincipalAssignment CRUD",
+			Test: KustoClusterPrincipalAssignmentCRUD(cluster, principalId, tenantId),
+		},
 	)
 
 	tc.DeleteResourceAndWait(cluster)
@@ -99,6 +104,37 @@ func KustoDatabaseUpdate(db *kusto.Database) func(tc *testcommon.KubePerTestCont
 		tc.PatchResourceAndWait(old, db)
 		tc.Expect(db.Status.ReadWrite).ToNot(BeNil())
 		tc.Expect(db.Status.ReadWrite.SoftDeletePeriod).To(Equal(to.Ptr("P3D")))
+	}
+}
+
+func KustoClusterPrincipalAssignmentCRUD(cluster *kusto.Cluster, principalID string, tenantID *string) func(tc *testcommon.KubePerTestContext) {
+	return func(tc *testcommon.KubePerTestContext) {
+		pa := &kustov20240413.ClusterPrincipalAssignment{
+			ObjectMeta: tc.MakeObjectMeta("clusterpriass"),
+			Spec: kustov20240413.ClusterPrincipalAssignment_Spec{
+				Owner:         testcommon.AsOwner(cluster),
+				PrincipalId:   to.Ptr(principalID),
+				PrincipalType: to.Ptr(kustov20240413.ClusterPrincipalProperties_PrincipalType_App),
+				Role:          to.Ptr(kustov20240413.ClusterPrincipalProperties_Role_AllDatabasesViewer),
+				TenantId:      tenantID,
+			},
+		}
+
+		tc.CreateResourcesAndWait(pa)
+		tc.Expect(pa.Status.Id).ToNot(BeNil())
+
+		old := pa.DeepCopy()
+		pa.Spec.Role = to.Ptr(kustov20240413.ClusterPrincipalProperties_Role_AllDatabasesMonitor)
+		tc.PatchResourceAndWait(old, pa)
+		tc.Expect(pa.Status.Role).ToNot(BeNil())
+		tc.Expect(string(*pa.Status.Role)).To(Equal("AllDatabasesMonitor"))
+
+		armID := *pa.Status.Id
+		tc.DeleteResourceAndWait(pa)
+		exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armID, string(kustov20240413.APIVersion_Value))
+		tc.Expect(err).ToNot(HaveOccurred())
+		tc.Expect(retryAfter).To(BeZero())
+		tc.Expect(exists).To(BeFalse())
 	}
 }
 

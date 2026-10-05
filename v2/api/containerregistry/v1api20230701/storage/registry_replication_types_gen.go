@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20230701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=containerregistry.azure.com,resources=registryreplications,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=containerregistry.azure.com,resources={registryreplications/status,registryreplications/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,containerregistry}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (replication *RegistryReplication) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (replication *RegistryReplication) SetConditions(conditions conditions.Conditions) {
 	replication.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &RegistryReplication{}
+
+// ConvertFrom populates our RegistryReplication from the provided hub RegistryReplication
+func (replication *RegistryReplication) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.RegistryReplication)
+	if !ok {
+		return fmt.Errorf("expected containerregistry/v20230701/storage/RegistryReplication but received %T instead", hub)
+	}
+
+	return replication.AssignProperties_From_RegistryReplication(source)
+}
+
+// ConvertTo populates the provided hub RegistryReplication from our RegistryReplication
+func (replication *RegistryReplication) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.RegistryReplication)
+	if !ok {
+		return fmt.Errorf("expected containerregistry/v20230701/storage/RegistryReplication but received %T instead", hub)
+	}
+
+	return replication.AssignProperties_To_RegistryReplication(destination)
 }
 
 var _ configmaps.Exporter = &RegistryReplication{}
@@ -143,8 +164,75 @@ func (replication *RegistryReplication) SetStatus(status genruntime.ConvertibleS
 	return nil
 }
 
-// Hub marks that this RegistryReplication is the hub type for conversion
-func (replication *RegistryReplication) Hub() {}
+// AssignProperties_From_RegistryReplication populates our RegistryReplication from the provided source RegistryReplication
+func (replication *RegistryReplication) AssignProperties_From_RegistryReplication(source *storage.RegistryReplication) error {
+
+	// ObjectMeta
+	replication.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec RegistryReplication_Spec
+	err := spec.AssignProperties_From_RegistryReplication_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_RegistryReplication_Spec() to populate field Spec")
+	}
+	replication.Spec = spec
+
+	// Status
+	var status RegistryReplication_STATUS
+	err = status.AssignProperties_From_RegistryReplication_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_RegistryReplication_STATUS() to populate field Status")
+	}
+	replication.Status = status
+
+	// Invoke the augmentConversionForRegistryReplication interface (if implemented) to customize the conversion
+	var replicationAsAny any = replication
+	if augmentedReplication, ok := replicationAsAny.(augmentConversionForRegistryReplication); ok {
+		err := augmentedReplication.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RegistryReplication populates the provided destination RegistryReplication from our RegistryReplication
+func (replication *RegistryReplication) AssignProperties_To_RegistryReplication(destination *storage.RegistryReplication) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *replication.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.RegistryReplication_Spec
+	err := replication.Spec.AssignProperties_To_RegistryReplication_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_RegistryReplication_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.RegistryReplication_STATUS
+	err = replication.Status.AssignProperties_To_RegistryReplication_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_RegistryReplication_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForRegistryReplication interface (if implemented) to customize the conversion
+	var replicationAsAny any = replication
+	if augmentedReplication, ok := replicationAsAny.(augmentConversionForRegistryReplication); ok {
+		err := augmentedReplication.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (replication *RegistryReplication) OriginalGVK() *schema.GroupVersionKind {
@@ -164,6 +252,11 @@ type RegistryReplicationList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RegistryReplication `json:"items"`
+}
+
+type augmentConversionForRegistryReplication interface {
+	AssignPropertiesFrom(src *storage.RegistryReplication) error
+	AssignPropertiesTo(dst *storage.RegistryReplication) error
 }
 
 // Storage version of v1api20230701.RegistryReplication_Spec
@@ -190,20 +283,186 @@ var _ genruntime.ConvertibleSpec = &RegistryReplication_Spec{}
 
 // ConvertSpecFrom populates our RegistryReplication_Spec from the provided source
 func (replication *RegistryReplication_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == replication {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.RegistryReplication_Spec)
+	if ok {
+		// Populate our instance from source
+		return replication.AssignProperties_From_RegistryReplication_Spec(src)
 	}
 
-	return source.ConvertSpecTo(replication)
+	// Convert to an intermediate form
+	src = &storage.RegistryReplication_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = replication.AssignProperties_From_RegistryReplication_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our RegistryReplication_Spec
 func (replication *RegistryReplication_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == replication {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.RegistryReplication_Spec)
+	if ok {
+		// Populate destination from our instance
+		return replication.AssignProperties_To_RegistryReplication_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(replication)
+	// Convert to an intermediate form
+	dst = &storage.RegistryReplication_Spec{}
+	err := replication.AssignProperties_To_RegistryReplication_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_RegistryReplication_Spec populates our RegistryReplication_Spec from the provided source RegistryReplication_Spec
+func (replication *RegistryReplication_Spec) AssignProperties_From_RegistryReplication_Spec(source *storage.RegistryReplication_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	replication.AzureName = source.AzureName
+
+	// Location
+	replication.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RegistryReplicationOperatorSpec
+		err := operatorSpec.AssignProperties_From_RegistryReplicationOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_RegistryReplicationOperatorSpec() to populate field OperatorSpec")
+		}
+		replication.OperatorSpec = &operatorSpec
+	} else {
+		replication.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	replication.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		replication.Owner = &owner
+	} else {
+		replication.Owner = nil
+	}
+
+	// RegionEndpointEnabled
+	if source.RegionEndpointEnabled != nil {
+		regionEndpointEnabled := *source.RegionEndpointEnabled
+		replication.RegionEndpointEnabled = &regionEndpointEnabled
+	} else {
+		replication.RegionEndpointEnabled = nil
+	}
+
+	// Tags
+	replication.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// ZoneRedundancy
+	replication.ZoneRedundancy = genruntime.ClonePointerToString(source.ZoneRedundancy)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		replication.PropertyBag = propertyBag
+	} else {
+		replication.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRegistryReplication_Spec interface (if implemented) to customize the conversion
+	var replicationAsAny any = replication
+	if augmentedReplication, ok := replicationAsAny.(augmentConversionForRegistryReplication_Spec); ok {
+		err := augmentedReplication.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RegistryReplication_Spec populates the provided destination RegistryReplication_Spec from our RegistryReplication_Spec
+func (replication *RegistryReplication_Spec) AssignProperties_To_RegistryReplication_Spec(destination *storage.RegistryReplication_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(replication.PropertyBag)
+
+	// AzureName
+	destination.AzureName = replication.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(replication.Location)
+
+	// OperatorSpec
+	if replication.OperatorSpec != nil {
+		var operatorSpec storage.RegistryReplicationOperatorSpec
+		err := replication.OperatorSpec.AssignProperties_To_RegistryReplicationOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_RegistryReplicationOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = replication.OriginalVersion
+
+	// Owner
+	if replication.Owner != nil {
+		owner := replication.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// RegionEndpointEnabled
+	if replication.RegionEndpointEnabled != nil {
+		regionEndpointEnabled := *replication.RegionEndpointEnabled
+		destination.RegionEndpointEnabled = &regionEndpointEnabled
+	} else {
+		destination.RegionEndpointEnabled = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(replication.Tags)
+
+	// ZoneRedundancy
+	destination.ZoneRedundancy = genruntime.ClonePointerToString(replication.ZoneRedundancy)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRegistryReplication_Spec interface (if implemented) to customize the conversion
+	var replicationAsAny any = replication
+	if augmentedReplication, ok := replicationAsAny.(augmentConversionForRegistryReplication_Spec); ok {
+		err := augmentedReplication.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230701.RegistryReplication_STATUS
@@ -226,20 +485,222 @@ var _ genruntime.ConvertibleStatus = &RegistryReplication_STATUS{}
 
 // ConvertStatusFrom populates our RegistryReplication_STATUS from the provided source
 func (replication *RegistryReplication_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == replication {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.RegistryReplication_STATUS)
+	if ok {
+		// Populate our instance from source
+		return replication.AssignProperties_From_RegistryReplication_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(replication)
+	// Convert to an intermediate form
+	src = &storage.RegistryReplication_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = replication.AssignProperties_From_RegistryReplication_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our RegistryReplication_STATUS
 func (replication *RegistryReplication_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == replication {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.RegistryReplication_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return replication.AssignProperties_To_RegistryReplication_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(replication)
+	// Convert to an intermediate form
+	dst = &storage.RegistryReplication_STATUS{}
+	err := replication.AssignProperties_To_RegistryReplication_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_RegistryReplication_STATUS populates our RegistryReplication_STATUS from the provided source RegistryReplication_STATUS
+func (replication *RegistryReplication_STATUS) AssignProperties_From_RegistryReplication_STATUS(source *storage.RegistryReplication_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	replication.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	replication.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	replication.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	replication.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProvisioningState
+	replication.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// RegionEndpointEnabled
+	if source.RegionEndpointEnabled != nil {
+		regionEndpointEnabled := *source.RegionEndpointEnabled
+		replication.RegionEndpointEnabled = &regionEndpointEnabled
+	} else {
+		replication.RegionEndpointEnabled = nil
+	}
+
+	// Status
+	if source.Status != nil {
+		var status Status_STATUS
+		err := status.AssignProperties_From_Status_STATUS(source.Status)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_Status_STATUS() to populate field Status")
+		}
+		replication.Status = &status
+	} else {
+		replication.Status = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		replication.SystemData = &systemDatum
+	} else {
+		replication.SystemData = nil
+	}
+
+	// Tags
+	replication.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	replication.Type = genruntime.ClonePointerToString(source.Type)
+
+	// ZoneRedundancy
+	replication.ZoneRedundancy = genruntime.ClonePointerToString(source.ZoneRedundancy)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		replication.PropertyBag = propertyBag
+	} else {
+		replication.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRegistryReplication_STATUS interface (if implemented) to customize the conversion
+	var replicationAsAny any = replication
+	if augmentedReplication, ok := replicationAsAny.(augmentConversionForRegistryReplication_STATUS); ok {
+		err := augmentedReplication.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RegistryReplication_STATUS populates the provided destination RegistryReplication_STATUS from our RegistryReplication_STATUS
+func (replication *RegistryReplication_STATUS) AssignProperties_To_RegistryReplication_STATUS(destination *storage.RegistryReplication_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(replication.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(replication.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(replication.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(replication.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(replication.Name)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(replication.ProvisioningState)
+
+	// RegionEndpointEnabled
+	if replication.RegionEndpointEnabled != nil {
+		regionEndpointEnabled := *replication.RegionEndpointEnabled
+		destination.RegionEndpointEnabled = &regionEndpointEnabled
+	} else {
+		destination.RegionEndpointEnabled = nil
+	}
+
+	// Status
+	if replication.Status != nil {
+		var status storage.Status_STATUS
+		err := replication.Status.AssignProperties_To_Status_STATUS(&status)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_Status_STATUS() to populate field Status")
+		}
+		destination.Status = &status
+	} else {
+		destination.Status = nil
+	}
+
+	// SystemData
+	if replication.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := replication.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(replication.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(replication.Type)
+
+	// ZoneRedundancy
+	destination.ZoneRedundancy = genruntime.ClonePointerToString(replication.ZoneRedundancy)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRegistryReplication_STATUS interface (if implemented) to customize the conversion
+	var replicationAsAny any = replication
+	if augmentedReplication, ok := replicationAsAny.(augmentConversionForRegistryReplication_STATUS); ok {
+		err := augmentedReplication.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForRegistryReplication_Spec interface {
+	AssignPropertiesFrom(src *storage.RegistryReplication_Spec) error
+	AssignPropertiesTo(dst *storage.RegistryReplication_Spec) error
+}
+
+type augmentConversionForRegistryReplication_STATUS interface {
+	AssignPropertiesFrom(src *storage.RegistryReplication_STATUS) error
+	AssignPropertiesTo(dst *storage.RegistryReplication_STATUS) error
 }
 
 // Storage version of v1api20230701.RegistryReplicationOperatorSpec
@@ -248,6 +709,125 @@ type RegistryReplicationOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_RegistryReplicationOperatorSpec populates our RegistryReplicationOperatorSpec from the provided source RegistryReplicationOperatorSpec
+func (operator *RegistryReplicationOperatorSpec) AssignProperties_From_RegistryReplicationOperatorSpec(source *storage.RegistryReplicationOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRegistryReplicationOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRegistryReplicationOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RegistryReplicationOperatorSpec populates the provided destination RegistryReplicationOperatorSpec from our RegistryReplicationOperatorSpec
+func (operator *RegistryReplicationOperatorSpec) AssignProperties_To_RegistryReplicationOperatorSpec(destination *storage.RegistryReplicationOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRegistryReplicationOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRegistryReplicationOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForRegistryReplicationOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.RegistryReplicationOperatorSpec) error
+	AssignPropertiesTo(dst *storage.RegistryReplicationOperatorSpec) error
 }
 
 func init() {

@@ -24,6 +24,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	asolabels "github.com/Azure/azure-service-operator/v2/pkg/common/labels"
 )
 
 /*
@@ -97,77 +98,117 @@ func Test_LoadCRDs_FixesNamespace(t *testing.T) {
 }
 
 /*
- * FindMatchingCRDs tests
+ * CompareCRDs tests
  */
 
-func Test_FindMatchingCRDs_EqualCRDsCompareAsEqual(t *testing.T) {
+func Test_CompareCRDs(t *testing.T) {
 	t.Parallel()
-	g := NewGomegaWithT(t)
 
-	existingCRD := makeBasicCRD("test")
-	goalCRD := makeBasicCRD("test")
-	existing := []apiextensions.CustomResourceDefinition{existingCRD}
-	goal := []apiextensions.CustomResourceDefinition{goalCRD}
+	versionComparator := crdmanagement.CRDComparator{
+		Compare:          crdmanagement.VersionEqual,
+		DifferenceReason: crdmanagement.VersionDifferent,
+	}
+	metadataComparator := crdmanagement.CRDComparator{
+		Compare:          crdmanagement.DesiredMetadataEqual,
+		DifferenceReason: crdmanagement.MetadataDifferent,
+	}
+	groupComparator := crdmanagement.CRDComparator{
+		Compare: func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool {
+			return a.Spec.Group == b.Spec.Group
+		},
+		DifferenceReason: "GroupDifferent",
+	}
 
-	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil, nil)
+	cases := []struct {
+		name        string
+		existing    []apiextensions.CustomResourceDefinition
+		goal        []apiextensions.CustomResourceDefinition
+		comparators []crdmanagement.CRDComparator
+		expected    map[string][]crdmanagement.CRDComparisonResult
+	}{
+		{
+			name:        "Equal CRDs report no difference once",
+			existing:    []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test", "v1.0.0")},
+			goal:        []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test", "v1.0.0")},
+			comparators: []crdmanagement.CRDComparator{versionComparator, metadataComparator, groupComparator},
+			expected: map[string][]crdmanagement.CRDComparisonResult{
+				"test.testrp.azure.com": {
+					{DifferenceResult: crdmanagement.NoDifference},
+				},
+			},
+		},
+		{
+			name:        "Missing CRD has a version difference",
+			goal:        []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test", "v1.0.0")},
+			comparators: []crdmanagement.CRDComparator{versionComparator},
+			expected: map[string][]crdmanagement.CRDComparisonResult{
+				"test.testrp.azure.com": {
+					{DifferenceResult: crdmanagement.VersionDifferent},
+				},
+			},
+		},
+		{
+			name: "Metadata difference omits matching version result",
+			existing: []apiextensions.CustomResourceDefinition{
+				makeBasicCRDWithVersion("test", "v1.0.0"),
+			},
+			goal: func() []apiextensions.CustomResourceDefinition {
+				crd := makeBasicCRDWithVersion("test", "v1.0.0")
+				crd.Labels["cluster.x-k8s.io/provider"] = "infrastructure-azure"
+				return []apiextensions.CustomResourceDefinition{crd}
+			}(),
+			comparators: []crdmanagement.CRDComparator{versionComparator, metadataComparator},
+			expected: map[string][]crdmanagement.CRDComparisonResult{
+				"test.testrp.azure.com": {
+					{DifferenceResult: crdmanagement.MetadataDifferent},
+				},
+			},
+		},
+		{
+			name: "All failed comparators are reported in order",
+			existing: func() []apiextensions.CustomResourceDefinition {
+				crd := makeBasicCRDWithVersion("test", "v1.0.0")
+				crd.Spec.Group = "other.azure.com"
+				return []apiextensions.CustomResourceDefinition{crd}
+			}(),
+			goal:        []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test", "v2.0.0")},
+			comparators: []crdmanagement.CRDComparator{versionComparator, groupComparator},
+			expected: map[string][]crdmanagement.CRDComparisonResult{
+				"test.testrp.azure.com": {
+					{DifferenceResult: crdmanagement.VersionDifferent},
+					{DifferenceResult: "GroupDifferent"},
+				},
+			},
+		},
+		{
+			name: "A later comparator can fail after an earlier comparator succeeds",
+			existing: func() []apiextensions.CustomResourceDefinition {
+				crd := makeBasicCRDWithVersion("test", "v1.0.0")
+				crd.Spec.Group = "other.azure.com"
+				return []apiextensions.CustomResourceDefinition{crd}
+			}(),
+			goal:        []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test", "v1.0.0")},
+			comparators: []crdmanagement.CRDComparator{versionComparator, groupComparator},
+			expected: map[string][]crdmanagement.CRDComparisonResult{
+				"test.testrp.azure.com": {
+					{DifferenceResult: "GroupDifferent"},
+				},
+			},
+		},
+	}
 
-	matching := crdManager.FindMatchingCRDs(existing, goal, crdmanagement.VersionEqual)
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			logger := testcommon.NewTestLogger(t)
+			crdManager := crdmanagement.NewManager(logger, nil, nil)
 
-	g.Expect(matching).To(HaveLen(1))
-}
+			results := crdManager.CompareCRDs(tc.existing, tc.goal, tc.comparators...)
 
-func Test_FindMatchingCRDs_MissingCRD(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	goalCRD := makeBasicCRDWithVersion("test", "v1.0.0")
-	var existing []apiextensions.CustomResourceDefinition
-	goal := []apiextensions.CustomResourceDefinition{goalCRD}
-
-	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil, nil)
-
-	matching := crdManager.FindMatchingCRDs(existing, goal, crdmanagement.VersionEqual)
-
-	g.Expect(matching).To(BeEmpty())
-}
-
-/*
- * FindNonMatchingCRDs tests
- */
-
-func Test_FindNonMatchingCRDs_EqualCRDsCompareAsEqual(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	existingCRD := makeBasicCRD("test")
-	goalCRD := makeBasicCRD("test")
-	existing := []apiextensions.CustomResourceDefinition{existingCRD}
-	goal := []apiextensions.CustomResourceDefinition{goalCRD}
-
-	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil, nil)
-
-	nonMatching := crdManager.FindNonMatchingCRDs(existing, goal, crdmanagement.VersionEqual)
-
-	g.Expect(nonMatching).To(BeEmpty())
-}
-
-func Test_FindNonMatchingCRDs_MissingCRD(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	goalCRD := makeBasicCRDWithVersion("test", "v1.0.0")
-	var existing []apiextensions.CustomResourceDefinition
-	goal := []apiextensions.CustomResourceDefinition{goalCRD}
-
-	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil, nil)
-
-	nonMatching := crdManager.FindNonMatchingCRDs(existing, goal, crdmanagement.VersionEqual)
-
-	g.Expect(nonMatching).To(HaveLen(1))
+			g.Expect(results).To(Equal(tc.expected))
+		})
+	}
 }
 
 /*
@@ -254,6 +295,95 @@ func Test_DetermineCRDsToInstallOrUpgrade(t *testing.T) {
 			},
 		},
 		{
+			name: "Applies CRD when a desired label is missing",
+			goal: func() []apiextensions.CustomResourceDefinition {
+				crd := makeBasicCRDWithVersion("test", "v1.0.0")
+				crd.Labels["cluster.x-k8s.io/provider"] = "infrastructure-azure"
+				return []apiextensions.CustomResourceDefinition{crd}
+			}(),
+			existing: []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test", "v1.0.0")},
+			patterns: "testrp.azure.com/*",
+			validate: func(g *WithT, instructions []*crdmanagement.CRDInstallationInstruction) {
+				g.Expect(instructions).To(HaveLen(1))
+				g.Expect(instructions[0].DiffResult).To(Equal(crdmanagement.MetadataDifferent))
+				apply, _ := instructions[0].ShouldApply()
+				g.Expect(apply).To(BeTrue())
+			},
+		},
+		{
+			name: "Applies CRD when the cert-manager annotation namespace has drifted",
+			goal: []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test", "v1.0.0")},
+			existing: func() []apiextensions.CustomResourceDefinition {
+				crd := makeBasicCRDWithVersion("test", "v1.0.0")
+				// Simulates the operator having previously been deployed into a different namespace.
+				crd.Annotations["cert-manager.io/inject-ca-from"] = "old-namespace/azureserviceoperator-serving-cert"
+				return []apiextensions.CustomResourceDefinition{crd}
+			}(),
+			patterns: "testrp.azure.com/*",
+			validate: func(g *WithT, instructions []*crdmanagement.CRDInstallationInstruction) {
+				g.Expect(instructions).To(HaveLen(1))
+				g.Expect(instructions[0].DiffResult).To(Equal(crdmanagement.MetadataDifferent))
+				apply, _ := instructions[0].ShouldApply()
+				g.Expect(apply).To(BeTrue())
+			},
+		},
+		{
+			name: "Applies CRD when a desired label has a different value",
+			goal: func() []apiextensions.CustomResourceDefinition {
+				crd := makeBasicCRDWithVersion("test", "v1.0.0")
+				crd.Labels["cluster.x-k8s.io/provider"] = "infrastructure-azure"
+				return []apiextensions.CustomResourceDefinition{crd}
+			}(),
+			existing: func() []apiextensions.CustomResourceDefinition {
+				crd := makeBasicCRDWithVersion("test", "v1.0.0")
+				crd.Labels["cluster.x-k8s.io/provider"] = "stale-value"
+				return []apiextensions.CustomResourceDefinition{crd}
+			}(),
+			patterns: "testrp.azure.com/*",
+			validate: func(g *WithT, instructions []*crdmanagement.CRDInstallationInstruction) {
+				g.Expect(instructions).To(HaveLen(1))
+				g.Expect(instructions[0].DiffResult).To(Equal(crdmanagement.MetadataDifferent))
+				apply, _ := instructions[0].ShouldApply()
+				g.Expect(apply).To(BeTrue())
+			},
+		},
+		{
+			name: "Does not apply CRD when the desired label is already present",
+			goal: func() []apiextensions.CustomResourceDefinition {
+				crd := makeBasicCRDWithVersion("test", "v1.0.0")
+				crd.Labels["cluster.x-k8s.io/provider"] = "infrastructure-azure"
+				return []apiextensions.CustomResourceDefinition{crd}
+			}(),
+			existing: func() []apiextensions.CustomResourceDefinition {
+				crd := makeBasicCRDWithVersion("test", "v1.0.0")
+				crd.Labels["cluster.x-k8s.io/provider"] = "infrastructure-azure"
+				return []apiextensions.CustomResourceDefinition{crd}
+			}(),
+			patterns: "testrp.azure.com/*",
+			validate: func(g *WithT, instructions []*crdmanagement.CRDInstallationInstruction) {
+				g.Expect(instructions).To(HaveLen(1))
+				g.Expect(instructions[0].DiffResult).To(Equal(crdmanagement.NoDifference))
+				apply, _ := instructions[0].ShouldApply()
+				g.Expect(apply).To(BeFalse())
+			},
+		},
+		{
+			name: "Does not apply CRD when an extra label exists only on the existing CRD",
+			goal: []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test", "v1.0.0")},
+			existing: func() []apiextensions.CustomResourceDefinition {
+				crd := makeBasicCRDWithVersion("test", "v1.0.0")
+				crd.Labels["externally-applied"] = "preserved"
+				return []apiextensions.CustomResourceDefinition{crd}
+			}(),
+			patterns: "testrp.azure.com/*",
+			validate: func(g *WithT, instructions []*crdmanagement.CRDInstallationInstruction) {
+				g.Expect(instructions).To(HaveLen(1))
+				g.Expect(instructions[0].DiffResult).To(Equal(crdmanagement.NoDifference))
+				apply, _ := instructions[0].ShouldApply()
+				g.Expect(apply).To(BeFalse())
+			},
+		},
+		{
 			name:     "Pattern matches subset of CRDs from group, only that subset is installed",
 			goal:     []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test1", "v1.0.0"), makeBasicCRDWithVersion("test2", "v1.0.0")},
 			existing: nil,
@@ -308,8 +438,8 @@ func Test_ListCRDs_ListsOnlyCRDsMatchingLabel(t *testing.T) {
 	crd3 := makeBasicCRD("test3")
 
 	crd3.Labels = map[string]string{
-		crdmanagement.ServiceOperatorVersionLabel: "123",
-		crdmanagement.ServiceOperatorAppLabel:     crdmanagement.ServiceOperatorAppValue,
+		asolabels.ServiceOperatorVersionLabel: "123",
+		asolabels.ServiceOperatorAppLabel:     asolabels.ServiceOperatorAppValue,
 	}
 
 	g.Expect(kubeClient.Create(ctx, &crd1)).To(Succeed())
@@ -529,9 +659,38 @@ func makeBasicCRD(name string) apiextensions.CustomResourceDefinition {
 func makeBasicCRDWithVersion(name string, version string) apiextensions.CustomResourceDefinition {
 	crd := makeBasicCRD(name)
 	crd.Labels = map[string]string{
-		crdmanagement.ServiceOperatorVersionLabel: version,
-		crdmanagement.ServiceOperatorAppLabel:     crdmanagement.ServiceOperatorAppValue,
+		asolabels.ServiceOperatorVersionLabel: version,
+		asolabels.ServiceOperatorAppLabel:     asolabels.ServiceOperatorAppValue,
 	}
 
 	return crd
+}
+
+func TestIsReservedLabel(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		key      string
+		expected bool
+	}{
+		"app label":                    {key: asolabels.ServiceOperatorAppLabel, expected: true},
+		"version label":                {key: asolabels.ServiceOperatorVersionLabel, expected: true},
+		"old version label":            {key: asolabels.ServiceOperatorVersionLabelOld, expected: true},
+		"reserved prefix":              {key: asolabels.ServiceOperatorLabelPrefix + "anything", expected: true},
+		"leading whitespace":           {key: " " + asolabels.ServiceOperatorAppLabel, expected: true},
+		"trailing whitespace":          {key: asolabels.ServiceOperatorVersionLabel + " ", expected: true},
+		"surrounding whitespace":       {key: "\t" + asolabels.ServiceOperatorLabelPrefix + "anything\n", expected: true},
+		"unreserved app.kubernetes.io": {key: "app.kubernetes.io/part-of", expected: false},
+		"unreserved prefixed":          {key: "example.com/owner", expected: false},
+		"unreserved bare":              {key: "environment", expected: false},
+		"differing case is distinct":   {key: "app.kubernetes.io/Version", expected: false},
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewWithT(t)
+			g.Expect(crdmanagement.IsReservedLabel(c.key)).To(Equal(c.expected))
+		})
+	}
 }

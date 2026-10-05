@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &BackupVaultsBackupPolicy{}
 
 // ConvertFrom populates our BackupVaultsBackupPolicy from the provided hub BackupVaultsBackupPolicy
 func (policy *BackupVaultsBackupPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.BackupVaultsBackupPolicy)
-	if !ok {
-		return fmt.Errorf("expected dataprotection/v1api20231101/storage/BackupVaultsBackupPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.BackupVaultsBackupPolicy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return policy.AssignProperties_From_BackupVaultsBackupPolicy(source)
+	err = policy.AssignProperties_From_BackupVaultsBackupPolicy(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to policy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub BackupVaultsBackupPolicy from our BackupVaultsBackupPolicy
 func (policy *BackupVaultsBackupPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.BackupVaultsBackupPolicy)
-	if !ok {
-		return fmt.Errorf("expected dataprotection/v1api20231101/storage/BackupVaultsBackupPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.BackupVaultsBackupPolicy
+	err := policy.AssignProperties_To_BackupVaultsBackupPolicy(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from policy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return policy.AssignProperties_To_BackupVaultsBackupPolicy(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &BackupVaultsBackupPolicy{}

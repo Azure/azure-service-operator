@@ -40,11 +40,19 @@ func AddConfigMaps(config *config.Configuration) *Stage {
 	return stage
 }
 
-func transformPropertyToConfigMapReference(prop *astmodel.PropertyDefinition, newType astmodel.Type) (*astmodel.PropertyDefinition, error) {
+func transformPropertyToConfigMapReference(
+	prop *astmodel.PropertyDefinition,
+	newType astmodel.Type,
+	definitions astmodel.TypeDefinitionSet,
+) (*astmodel.PropertyDefinition, error) {
 	// The expectation is that this is a string
 	propType := prop.PropertyType()
-	if !astmodel.Unwrap(propType).Equals(astmodel.StringType, astmodel.EqualityOverrides{}) {
-		return nil, eris.Errorf("expected property %q to be a string, but was: %T", prop.PropertyName(), propType)
+	resolved, err := astmodel.UnwrapAndResolve(definitions, propType)
+	if err != nil {
+		return nil, eris.Wrapf(err, "resolving type of property %q", prop.PropertyName())
+	}
+	if !resolved.Equals(astmodel.StringType, astmodel.EqualityOverrides{}) {
+		return nil, eris.Errorf("expected property %q to be a string, but was: %s", prop.PropertyName(), astmodel.DebugDescription(propType))
 	}
 
 	// check if it's optional
@@ -60,10 +68,15 @@ func transformPropertyToConfigMapReference(prop *astmodel.PropertyDefinition, ne
 func createNewConfigMapReference(
 	prop *astmodel.PropertyDefinition,
 	newType astmodel.Type,
+	definitions astmodel.TypeDefinitionSet,
 ) (*astmodel.PropertyDefinition, *astmodel.PropertyDefinition, error) {
 	// The expectation is that this is a string
 	propType := prop.PropertyType()
-	if !astmodel.TypeEquals(astmodel.Unwrap(propType), astmodel.StringType) {
+	resolved, err := astmodel.UnwrapAndResolve(definitions, propType)
+	if err != nil {
+		return nil, nil, eris.Wrapf(err, "resolving type of property %q", prop.PropertyName())
+	}
+	if !astmodel.TypeEquals(resolved, astmodel.StringType) {
 		return nil, nil, eris.Errorf("expected property %q to be a string, but was: %s", prop.PropertyName(), astmodel.DebugDescription(propType))
 	}
 
@@ -105,13 +118,13 @@ func transformConfigMaps(cfg *config.Configuration, definitions astmodel.TypeDef
 
 			switch mode {
 			case config.ImportConfigMapModeRequired:
-				newProp, err := transformPropertyToConfigMapReference(prop, astmodel.ConfigMapReferenceType)
+				newProp, err := transformPropertyToConfigMapReference(prop, astmodel.ConfigMapReferenceType, definitions)
 				if err != nil {
 					return nil, eris.Wrapf(err, "failed to transform property to configmap on type %s", ctx)
 				}
 				it = it.WithProperty(newProp)
 			case config.ImportConfigMapModeOptional:
-				updatedProp, newProp, err := createNewConfigMapReference(prop, astmodel.ConfigMapReferenceType)
+				updatedProp, newProp, err := createNewConfigMapReference(prop, astmodel.ConfigMapReferenceType, definitions)
 				if err != nil {
 					return nil, eris.Wrapf(err, "failed to transform property to optional configmap on type %s", ctx)
 				}

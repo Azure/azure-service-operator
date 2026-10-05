@@ -51,22 +51,36 @@ var _ conversion.Convertible = &Deployment{}
 
 // ConvertFrom populates our Deployment from the provided hub Deployment
 func (deployment *Deployment) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Deployment)
-	if !ok {
-		return fmt.Errorf("expected cognitiveservices/v1api20250601/storage/Deployment but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Deployment
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return deployment.AssignProperties_From_Deployment(source)
+	err = deployment.AssignProperties_From_Deployment(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to deployment")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Deployment from our Deployment
 func (deployment *Deployment) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Deployment)
-	if !ok {
-		return fmt.Errorf("expected cognitiveservices/v1api20250601/storage/Deployment but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Deployment
+	err := deployment.AssignProperties_To_Deployment(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from deployment")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return deployment.AssignProperties_To_Deployment(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Deployment{}
@@ -87,17 +101,6 @@ func (deployment *Deployment) SecretDestinationExpressions() []*core.Destination
 		return nil
 	}
 	return deployment.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Deployment{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (deployment *Deployment) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Deployment_STATUS); ok {
-		return deployment.Spec.Initialize_From_Deployment_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Deployment_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Deployment{}
@@ -541,40 +544,6 @@ func (deployment *Deployment_Spec) AssignProperties_To_Deployment_Spec(destinati
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Deployment_STATUS populates our Deployment_Spec from the provided source Deployment_STATUS
-func (deployment *Deployment_Spec) Initialize_From_Deployment_STATUS(source *Deployment_STATUS) error {
-
-	// Properties
-	if source.Properties != nil {
-		var property DeploymentProperties
-		err := property.Initialize_From_DeploymentProperties_STATUS(source.Properties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeploymentProperties_STATUS() to populate field Properties")
-		}
-		deployment.Properties = &property
-	} else {
-		deployment.Properties = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		deployment.Sku = &sku
-	} else {
-		deployment.Sku = nil
-	}
-
-	// Tags
-	deployment.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1278,66 +1247,6 @@ func (properties *DeploymentProperties) AssignProperties_To_DeploymentProperties
 	return nil
 }
 
-// Initialize_From_DeploymentProperties_STATUS populates our DeploymentProperties from the provided source DeploymentProperties_STATUS
-func (properties *DeploymentProperties) Initialize_From_DeploymentProperties_STATUS(source *DeploymentProperties_STATUS) error {
-
-	// CapacitySettings
-	if source.CapacitySettings != nil {
-		var capacitySetting DeploymentCapacitySettings
-		err := capacitySetting.Initialize_From_DeploymentCapacitySettings_STATUS(source.CapacitySettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeploymentCapacitySettings_STATUS() to populate field CapacitySettings")
-		}
-		properties.CapacitySettings = &capacitySetting
-	} else {
-		properties.CapacitySettings = nil
-	}
-
-	// Model
-	if source.Model != nil {
-		var model DeploymentModel
-		err := model.Initialize_From_DeploymentModel_STATUS(source.Model)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeploymentModel_STATUS() to populate field Model")
-		}
-		properties.Model = &model
-	} else {
-		properties.Model = nil
-	}
-
-	// ParentDeploymentName
-	properties.ParentDeploymentName = genruntime.ClonePointerToString(source.ParentDeploymentName)
-
-	// RaiPolicyName
-	properties.RaiPolicyName = genruntime.ClonePointerToString(source.RaiPolicyName)
-
-	// ScaleSettings
-	if source.ScaleSettings != nil {
-		var scaleSetting DeploymentScaleSettings
-		err := scaleSetting.Initialize_From_DeploymentScaleSettings_STATUS(source.ScaleSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeploymentScaleSettings_STATUS() to populate field ScaleSettings")
-		}
-		properties.ScaleSettings = &scaleSetting
-	} else {
-		properties.ScaleSettings = nil
-	}
-
-	// SpilloverDeploymentName
-	properties.SpilloverDeploymentName = genruntime.ClonePointerToString(source.SpilloverDeploymentName)
-
-	// VersionUpgradeOption
-	if source.VersionUpgradeOption != nil {
-		versionUpgradeOption := genruntime.ToEnum(string(*source.VersionUpgradeOption), deploymentProperties_VersionUpgradeOption_Values)
-		properties.VersionUpgradeOption = &versionUpgradeOption
-	} else {
-		properties.VersionUpgradeOption = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Properties of Cognitive Services account deployment.
 type DeploymentProperties_STATUS struct {
 	// CallRateLimit: The call rate limit Cognitive Services account.
@@ -1834,19 +1743,6 @@ func (settings *DeploymentCapacitySettings) AssignProperties_To_DeploymentCapaci
 	return nil
 }
 
-// Initialize_From_DeploymentCapacitySettings_STATUS populates our DeploymentCapacitySettings from the provided source DeploymentCapacitySettings_STATUS
-func (settings *DeploymentCapacitySettings) Initialize_From_DeploymentCapacitySettings_STATUS(source *DeploymentCapacitySettings_STATUS) error {
-
-	// DesignatedCapacity
-	settings.DesignatedCapacity = genruntime.ClonePointerToInt(source.DesignatedCapacity)
-
-	// Priority
-	settings.Priority = genruntime.ClonePointerToInt(source.Priority)
-
-	// No error
-	return nil
-}
-
 // Internal use only.
 type DeploymentCapacitySettings_STATUS struct {
 	// DesignatedCapacity: The designated capacity.
@@ -2240,25 +2136,6 @@ func (model *DeploymentModel) AssignProperties_To_DeploymentModel(destination *s
 	return nil
 }
 
-// Initialize_From_DeploymentModel_STATUS populates our DeploymentModel from the provided source DeploymentModel_STATUS
-func (model *DeploymentModel) Initialize_From_DeploymentModel_STATUS(source *DeploymentModel_STATUS) error {
-
-	// Format
-	model.Format = genruntime.ClonePointerToString(source.Format)
-
-	// Name
-	model.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Publisher
-	model.Publisher = genruntime.ClonePointerToString(source.Publisher)
-
-	// Version
-	model.Version = genruntime.ClonePointerToString(source.Version)
-
-	// No error
-	return nil
-}
-
 // Properties of Cognitive Services account deployment model.
 type DeploymentModel_STATUS struct {
 	// CallRateLimit: The call rate limit Cognitive Services account.
@@ -2593,24 +2470,6 @@ func (settings *DeploymentScaleSettings) AssignProperties_To_DeploymentScaleSett
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeploymentScaleSettings_STATUS populates our DeploymentScaleSettings from the provided source DeploymentScaleSettings_STATUS
-func (settings *DeploymentScaleSettings) Initialize_From_DeploymentScaleSettings_STATUS(source *DeploymentScaleSettings_STATUS) error {
-
-	// Capacity
-	settings.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// ScaleType
-	if source.ScaleType != nil {
-		scaleType := genruntime.ToEnum(string(*source.ScaleType), deploymentScaleSettings_ScaleType_Values)
-		settings.ScaleType = &scaleType
-	} else {
-		settings.ScaleType = nil
 	}
 
 	// No error

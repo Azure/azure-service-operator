@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ServersAdministrator{}
 
 // ConvertFrom populates our ServersAdministrator from the provided hub ServersAdministrator
 func (administrator *ServersAdministrator) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersAdministrator)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersAdministrator but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersAdministrator
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return administrator.AssignProperties_From_ServersAdministrator(source)
+	err = administrator.AssignProperties_From_ServersAdministrator(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to administrator")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersAdministrator from our ServersAdministrator
 func (administrator *ServersAdministrator) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersAdministrator)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersAdministrator but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersAdministrator
+	err := administrator.AssignProperties_To_ServersAdministrator(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from administrator")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return administrator.AssignProperties_To_ServersAdministrator(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersAdministrator{}

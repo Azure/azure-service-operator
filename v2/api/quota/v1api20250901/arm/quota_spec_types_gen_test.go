@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_LimitJsonObject_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LimitJsonObject via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLimitJsonObject, LimitJsonObjectGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLimitJsonObject)
 }
 
 // RunJSONSerializationTestForLimitJsonObject runs a test to see if a specific instance of LimitJsonObject round trips to JSON and back losslessly
-func RunJSONSerializationTestForLimitJsonObject(subject LimitJsonObject) string {
+func RunJSONSerializationTestForLimitJsonObject(t *rapid.T) {
+	subject := LimitJsonObjectGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LimitJsonObject
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,40 +45,32 @@ func RunJSONSerializationTestForLimitJsonObject(subject LimitJsonObject) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LimitJsonObject instances for property testing - lazily instantiated by LimitJsonObjectGenerator()
-var limitJsonObjectGenerator gopter.Gen
+var limitJsonObjectGenerator *rapid.Generator[LimitJsonObject]
 
 // LimitJsonObjectGenerator returns a generator of LimitJsonObject instances for property testing.
-func LimitJsonObjectGenerator() gopter.Gen {
+func LimitJsonObjectGenerator() *rapid.Generator[LimitJsonObject] {
 	if limitJsonObjectGenerator != nil {
 		return limitJsonObjectGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForLimitJsonObject(generators)
-
 	// handle OneOf by choosing only one field to instantiate
-	var gens []gopter.Gen
-	for propName, propGen := range generators {
-		props := map[string]gopter.Gen{propName: propGen}
-		gens = append(gens, gen.Struct(reflect.TypeOf(LimitJsonObject{}), props))
-	}
-	limitJsonObjectGenerator = gen.OneGenOf(gens...)
+	var gens []*rapid.Generator[LimitJsonObject]
+	gens = append(gens, rapid.Custom(func(t *rapid.T) LimitJsonObject {
+		var result LimitJsonObject
+		result.LimitValue = rapid.Map(LimitObjectGenerator(), func(it LimitObject) *LimitObject {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "LimitValue")
+		return result
+	}))
+	limitJsonObjectGenerator = rapid.OneOf(gens...)
 
 	return limitJsonObjectGenerator
-}
-
-// AddRelatedPropertyGeneratorsForLimitJsonObject is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLimitJsonObject(gens map[string]gopter.Gen) {
-	gens["LimitValue"] = LimitObjectGenerator().Map(func(it LimitObject) *LimitObject {
-		return &it
-	}) // generate one case for OneOf type
 }
 
 func Test_LimitObject_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -98,29 +80,23 @@ func Test_LimitObject_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LimitObject via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLimitObject, LimitObjectGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLimitObject)
 }
 
 // RunJSONSerializationTestForLimitObject runs a test to see if a specific instance of LimitObject round trips to JSON and back losslessly
-func RunJSONSerializationTestForLimitObject(subject LimitObject) string {
+func RunJSONSerializationTestForLimitObject(t *rapid.T) {
+	subject := LimitObjectGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LimitObject
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -129,33 +105,32 @@ func RunJSONSerializationTestForLimitObject(subject LimitObject) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LimitObject instances for property testing - lazily instantiated by LimitObjectGenerator()
-var limitObjectGenerator gopter.Gen
+var limitObjectGenerator *rapid.Generator[LimitObject]
 
 // LimitObjectGenerator returns a generator of LimitObject instances for property testing.
-func LimitObjectGenerator() gopter.Gen {
+func LimitObjectGenerator() *rapid.Generator[LimitObject] {
 	if limitObjectGenerator != nil {
 		return limitObjectGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLimitObject(generators)
-	limitObjectGenerator = gen.Struct(reflect.TypeOf(LimitObject{}), generators)
+	limitObjectType := rapid.SampledFrom([]LimitType{LimitType_LimitValue})
+	limitType := rapid.Ptr(rapid.SampledFrom([]QuotaLimitTypes{QuotaLimitTypes_Independent, QuotaLimitTypes_Shared}), true)
+	value := rapid.Ptr(rapid.Int(), true)
+
+	limitObjectGenerator = rapid.Custom(func(t *rapid.T) LimitObject {
+		var result LimitObject
+		result.LimitObjectType = limitObjectType.Draw(t, "LimitObjectType")
+		result.LimitType = limitType.Draw(t, "LimitType")
+		result.Value = value.Draw(t, "Value")
+		return result
+	})
 
 	return limitObjectGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLimitObject is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLimitObject(gens map[string]gopter.Gen) {
-	gens["LimitObjectType"] = gen.OneConstOf(LimitType_LimitValue)
-	gens["LimitType"] = gen.PtrOf(gen.OneConstOf(QuotaLimitTypes_Independent, QuotaLimitTypes_Shared))
-	gens["Value"] = gen.PtrOf(gen.Int())
 }
 
 func Test_QuotaProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -165,29 +140,23 @@ func Test_QuotaProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of QuotaProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForQuotaProperties, QuotaPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForQuotaProperties)
 }
 
 // RunJSONSerializationTestForQuotaProperties runs a test to see if a specific instance of QuotaProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForQuotaProperties(subject QuotaProperties) string {
+func RunJSONSerializationTestForQuotaProperties(t *rapid.T) {
+	subject := QuotaPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual QuotaProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -196,46 +165,32 @@ func RunJSONSerializationTestForQuotaProperties(subject QuotaProperties) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of QuotaProperties instances for property testing - lazily instantiated by QuotaPropertiesGenerator()
-var quotaPropertiesGenerator gopter.Gen
+var quotaPropertiesGenerator *rapid.Generator[QuotaProperties]
 
 // QuotaPropertiesGenerator returns a generator of QuotaProperties instances for property testing.
-// We first initialize quotaPropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func QuotaPropertiesGenerator() gopter.Gen {
+func QuotaPropertiesGenerator() *rapid.Generator[QuotaProperties] {
 	if quotaPropertiesGenerator != nil {
 		return quotaPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForQuotaProperties(generators)
-	quotaPropertiesGenerator = gen.Struct(reflect.TypeOf(QuotaProperties{}), generators)
+	limit := rapid.Ptr(LimitJsonObjectGenerator(), true)
+	name := rapid.Ptr(ResourceNameGenerator(), true)
+	resourceType := rapid.Ptr(rapid.String(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForQuotaProperties(generators)
-	AddRelatedPropertyGeneratorsForQuotaProperties(generators)
-	quotaPropertiesGenerator = gen.Struct(reflect.TypeOf(QuotaProperties{}), generators)
+	quotaPropertiesGenerator = rapid.Custom(func(t *rapid.T) QuotaProperties {
+		var result QuotaProperties
+		result.Limit = limit.Draw(t, "Limit")
+		result.Name = name.Draw(t, "Name")
+		result.ResourceType = resourceType.Draw(t, "ResourceType")
+		return result
+	})
 
 	return quotaPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForQuotaProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForQuotaProperties(gens map[string]gopter.Gen) {
-	gens["ResourceType"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForQuotaProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForQuotaProperties(gens map[string]gopter.Gen) {
-	gens["Limit"] = gen.PtrOf(LimitJsonObjectGenerator())
-	gens["Name"] = gen.PtrOf(ResourceNameGenerator())
 }
 
 func Test_Quota_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -245,29 +200,23 @@ func Test_Quota_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Quota_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForQuota_Spec, Quota_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForQuota_Spec)
 }
 
 // RunJSONSerializationTestForQuota_Spec runs a test to see if a specific instance of Quota_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForQuota_Spec(subject Quota_Spec) string {
+func RunJSONSerializationTestForQuota_Spec(t *rapid.T) {
+	subject := Quota_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Quota_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -276,45 +225,30 @@ func RunJSONSerializationTestForQuota_Spec(subject Quota_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Quota_Spec instances for property testing - lazily instantiated by Quota_SpecGenerator()
-var quota_SpecGenerator gopter.Gen
+var quota_SpecGenerator *rapid.Generator[Quota_Spec]
 
 // Quota_SpecGenerator returns a generator of Quota_Spec instances for property testing.
-// We first initialize quota_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Quota_SpecGenerator() gopter.Gen {
+func Quota_SpecGenerator() *rapid.Generator[Quota_Spec] {
 	if quota_SpecGenerator != nil {
 		return quota_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForQuota_Spec(generators)
-	quota_SpecGenerator = gen.Struct(reflect.TypeOf(Quota_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(QuotaPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForQuota_Spec(generators)
-	AddRelatedPropertyGeneratorsForQuota_Spec(generators)
-	quota_SpecGenerator = gen.Struct(reflect.TypeOf(Quota_Spec{}), generators)
+	quota_SpecGenerator = rapid.Custom(func(t *rapid.T) Quota_Spec {
+		var result Quota_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return quota_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForQuota_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForQuota_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForQuota_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForQuota_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(QuotaPropertiesGenerator())
 }
 
 func Test_ResourceName_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -324,29 +258,23 @@ func Test_ResourceName_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ResourceName via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceName, ResourceNameGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForResourceName)
 }
 
 // RunJSONSerializationTestForResourceName runs a test to see if a specific instance of ResourceName round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceName(subject ResourceName) string {
+func RunJSONSerializationTestForResourceName(t *rapid.T) {
+	subject := ResourceNameGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ResourceName
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -355,29 +283,26 @@ func RunJSONSerializationTestForResourceName(subject ResourceName) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ResourceName instances for property testing - lazily instantiated by ResourceNameGenerator()
-var resourceNameGenerator gopter.Gen
+var resourceNameGenerator *rapid.Generator[ResourceName]
 
 // ResourceNameGenerator returns a generator of ResourceName instances for property testing.
-func ResourceNameGenerator() gopter.Gen {
+func ResourceNameGenerator() *rapid.Generator[ResourceName] {
 	if resourceNameGenerator != nil {
 		return resourceNameGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceName(generators)
-	resourceNameGenerator = gen.Struct(reflect.TypeOf(ResourceName{}), generators)
+	value := rapid.Ptr(rapid.String(), true)
+
+	resourceNameGenerator = rapid.Custom(func(t *rapid.T) ResourceName {
+		var result ResourceName
+		result.Value = value.Draw(t, "Value")
+		return result
+	})
 
 	return resourceNameGenerator
-}
-
-// AddIndependentPropertyGeneratorsForResourceName is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceName(gens map[string]gopter.Gen) {
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }

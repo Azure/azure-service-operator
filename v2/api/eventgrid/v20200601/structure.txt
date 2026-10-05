@@ -176,13 +176,15 @@ EventSubscription: Resource
 │   │   │   ├── EndpointType: *Enum (1 value)
 │   │   │   │   └── "ServiceBusTopic"
 │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   ├── StorageQueue: *Object (3 properties)
+│   │   ├── StorageQueue: *Object (4 properties)
 │   │   │   ├── EndpointType: *Enum (1 value)
 │   │   │   │   └── "StorageQueue"
 │   │   │   ├── QueueName: *string
+│   │   │   ├── QueueNameFromConfig: *genruntime.ConfigMapReference
 │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   └── WebHook: *Object (6 properties)
+│   │   └── WebHook: *Object (7 properties)
 │   │       ├── AzureActiveDirectoryApplicationIdOrUri: *string
+│   │       ├── AzureActiveDirectoryApplicationIdOrUriFromConfig: *genruntime.ConfigMapReference
 │   │       ├── AzureActiveDirectoryTenantId: *string
 │   │       ├── EndpointType: *Enum (1 value)
 │   │       │   └── "WebHook"

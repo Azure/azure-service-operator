@@ -98,7 +98,7 @@ webhook:
 # corresponding CRD yaml in the cart (and so no CRD in the k8s
 # repository).
 image:
-  tag: v2.20.0
+  tag: v2.21.1
   repositoryBase: mcr.microsoft.com/k8s/azureserviceoperator
   repository: "{{ .Values.image.repositoryBase }}:{{ .Values.image.tag }}"
   pullSecrets: []
@@ -149,6 +149,32 @@ installCRDs: true
 # See https://azure.github.io/azure-service-operator/guide/crd-management for more details.
 crdPattern: ""
 
+# leaderElection configures the timings of the leader election lease. Operators watching a large number of
+# resources may need larger values than the defaults: the initial informer sync competes with lease renewal,
+# and a renewal missed during startup restarts the pod, which can leave the operator flapping across replicas.
+# leaseDuration must be greater than renewDeadline, and renewDeadline greater than retryPeriod.
+leaderElection:
+  leaseDuration: 15s
+  renewDeadline: 10s
+  retryPeriod: 2s
+
+# crdLabels is a comma-delimited (or semicolon-delimited) string, or a list of key=value strings, containing
+# additional labels to apply to all CRDs managed by ASO.
+# Setting this has no effect if installCRDs is false.
+# Existing labels not managed by ASO are preserved when CRDs are upgraded. Note that removing a label from this
+# list does not remove it from CRDs already in the cluster.
+# Labels reserved by ASO itself (app.kubernetes.io/name, app.kubernetes.io/version and any label prefixed with
+# serviceoperator.azure.com/) cannot be set here and will be rejected at startup.
+# Example: "cluster.x-k8s.io/provider=infrastructure-azure"
+# Example: "cluster.x-k8s.io/provider=infrastructure-azure,environment=production" would apply both labels.
+# Example: "cluster.x-k8s.io/provider=infrastructure-azure;environment=production" is equivalent, using the
+# semicolon delimiter also accepted by crdPattern.
+# Example as a list:
+#   crdLabels:
+#     - cluster.x-k8s.io/provider=infrastructure-azure
+#     - environment=production
+crdLabels: ""
+
 useJSONLogging: false
 
 # deploymentAnnotations contain the deployment annotations for Azure Service Operator
@@ -189,6 +215,9 @@ podAnnotations: {}
 podDisruptionBudget:
   enabled: true
   minAvailable: 50%
+  # Policy for evicting unhealthy pods, either IfHealthyBudget or AlwaysAllow
+  # Defaults to IfHealthyBudget if unset
+  unhealthyPodEvictionPolicy: ""
 
 # Labels to be added to the pod
 podLabels: {}
@@ -215,6 +244,26 @@ resources:
 
 go:
   memLimit: 400MiB # This should be set to ~80-90% of the hard memory limit set above in resources
+
+# probes configures the timings of the operator's liveness, readiness and startup probes.
+# The startup probe is the one most likely to need adjusting. The operator applies its CRDs and starts a
+# controller per installed CRD before it serves /healthz, so on a cluster with a large number of CRDs the default
+# budget of periodSeconds x failureThreshold can expire while it is still working, and the kubelet restarts it
+# mid-apply. Raise failureThreshold in that case.
+# The probe paths and ports are not configurable; only the timings are.
+probes:
+  startup:
+    periodSeconds: 10
+    failureThreshold: 12
+    timeoutSeconds: 1
+  liveness:
+    periodSeconds: 10
+    failureThreshold: 3
+    timeoutSeconds: 1
+  readiness:
+    periodSeconds: 10
+    failureThreshold: 3
+    timeoutSeconds: 1
 
 # Number of old history to retain to allow rollback
 # Default Kubernetes value is set to 10

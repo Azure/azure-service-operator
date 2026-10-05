@@ -4,10 +4,12 @@
 package customizations
 
 import (
-	v20240801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
-	v20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
-	v20250801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801"
-	v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
+	dbforpostgresql_v1api20240801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
+	dbforpostgresql_v1api20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	dbforpostgresql_v20240801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20240801"
+	dbforpostgresql_v20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20240801/storage"
+	dbforpostgresql_v20250801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801"
+	dbforpostgresql_v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +19,10 @@ type FlexibleServersAdvancedThreatProtectionSettingsExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *FlexibleServersAdvancedThreatProtectionSettingsExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20240801.FlexibleServersAdvancedThreatProtectionSettings{},
-		&v20240801s.FlexibleServersAdvancedThreatProtectionSettings{},
-		&v20250801.FlexibleServersAdvancedThreatProtectionSettings{},
-		&v20250801s.FlexibleServersAdvancedThreatProtectionSettings{}}
+		&dbforpostgresql_v1api20240801.FlexibleServersAdvancedThreatProtectionSettings{},
+		&dbforpostgresql_v1api20240801s.FlexibleServersAdvancedThreatProtectionSettings{},
+		&dbforpostgresql_v20240801.FlexibleServersAdvancedThreatProtectionSettings{},
+		&dbforpostgresql_v20240801s.FlexibleServersAdvancedThreatProtectionSettings{},
+		&dbforpostgresql_v20250801.FlexibleServersAdvancedThreatProtectionSettings{},
+		&dbforpostgresql_v20250801s.FlexibleServersAdvancedThreatProtectionSettings{}}
 }

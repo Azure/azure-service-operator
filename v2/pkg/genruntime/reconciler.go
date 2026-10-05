@@ -11,6 +11,8 @@ import (
 	"github.com/go-logr/logr"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
+
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 )
 
 // Reconciler performs create/delete actions against a particular kind of resource.
@@ -22,7 +24,8 @@ type Reconciler interface {
 		ctx context.Context,
 		log logr.Logger,
 		eventRecorder record.EventRecorder,
-		obj MetaObject) (ctrl.Result, error)
+		obj MetaObject,
+		reconcilePolicies annotations.ResolvedReconcilePolicies) (ctrl.Result, error)
 
 	// Delete performs deletion of the resource. This must be idempotent. Removal of the common finalizer is performed elsewhere.
 	// Delete should concern itself with issuing and tracking the resource deletion.
@@ -49,5 +52,6 @@ type Reconciler interface {
 		ctx context.Context,
 		log logr.Logger,
 		eventRecorder record.EventRecorder,
-		obj MetaObject) error
+		obj MetaObject,
+		reconcilePolicies annotations.ResolvedReconcilePolicies) error
 }

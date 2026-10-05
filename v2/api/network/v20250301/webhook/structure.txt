@@ -5,6 +5,8 @@ AzureFirewall: Object (0 properties)
 
 BastionHost: Object (0 properties)
 
+DdosProtectionPlan: Object (0 properties)
+
 FirewallPoliciesRuleCollectionGroup: Object (0 properties)
 
 FirewallPolicy: Object (0 properties)

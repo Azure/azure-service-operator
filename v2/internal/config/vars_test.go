@@ -4,6 +4,7 @@
 package config_test
 
 import (
+	"crypto/tls"
 	"reflect"
 	"testing"
 
@@ -79,6 +80,41 @@ func Test_Cloud_ResourceManagerAudienceSet(t *testing.T) {
 	g.Expect(cld.Services).To(HaveLen(1))
 	g.Expect(cld.Services[cloud.ResourceManager].Endpoint).To(Equal(cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint))
 	g.Expect(cld.Services[cloud.ResourceManager].Audience).To(Equal(cfg.ResourceManagerAudience))
+}
+
+func Test_ParseTLSMinVersion(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name        string
+		input       string
+		expected    uint16
+		expectError bool
+	}{
+		{name: "TLS12 is valid", input: "VersionTLS12", expected: tls.VersionTLS12},
+		{name: "TLS13 is valid", input: "VersionTLS13", expected: tls.VersionTLS13},
+		{name: "matches the default", input: config.DefaultTLSMinVersion, expected: tls.VersionTLS12},
+		{name: "unsupported version is rejected", input: "TLSabcd", expectError: true},
+		{name: "TLS11 is rejected", input: "VersionTLS11", expectError: true},
+		{name: "empty value is rejected", input: "", expectError: true},
+	}
+
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			v, err := config.ParseTLSMinVersion(c.input)
+			if c.expectError {
+				g.Expect(err).To(HaveOccurred())
+				g.Expect(err).To(MatchError(ContainSubstring(c.input)))
+				return
+			}
+
+			g.Expect(err).NotTo(HaveOccurred())
+			g.Expect(v).To(Equal(c.expected))
+		})
+	}
 }
 
 func TestValidate(t *testing.T) {

@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_Permission_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Permission_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPermission_STATUS, Permission_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPermission_STATUS)
 }
 
 // RunJSONSerializationTestForPermission_STATUS runs a test to see if a specific instance of Permission_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPermission_STATUS(subject Permission_STATUS) string {
+func RunJSONSerializationTestForPermission_STATUS(t *rapid.T) {
+	subject := Permission_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Permission_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,34 +45,31 @@ func RunJSONSerializationTestForPermission_STATUS(subject Permission_STATUS) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Permission_STATUS instances for property testing - lazily instantiated by Permission_STATUSGenerator()
-var permission_STATUSGenerator gopter.Gen
+var permission_STATUSGenerator *rapid.Generator[Permission_STATUS]
 
 // Permission_STATUSGenerator returns a generator of Permission_STATUS instances for property testing.
-func Permission_STATUSGenerator() gopter.Gen {
+func Permission_STATUSGenerator() *rapid.Generator[Permission_STATUS] {
 	if permission_STATUSGenerator != nil {
 		return permission_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPermission_STATUS(generators)
-	permission_STATUSGenerator = gen.Struct(reflect.TypeOf(Permission_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+
+	permission_STATUSGenerator = rapid.Custom(func(t *rapid.T) Permission_STATUS {
+		var result Permission_STATUS
+		result.Actions = sliceOfString.Draw(t, "Actions")
+		result.DataActions = sliceOfString.Draw(t, "DataActions")
+		result.NotActions = sliceOfString.Draw(t, "NotActions")
+		result.NotDataActions = sliceOfString.Draw(t, "NotDataActions")
+		return result
+	})
 
 	return permission_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPermission_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPermission_STATUS(gens map[string]gopter.Gen) {
-	gens["Actions"] = gen.SliceOf(gen.AlphaString())
-	gens["DataActions"] = gen.SliceOf(gen.AlphaString())
-	gens["NotActions"] = gen.SliceOf(gen.AlphaString())
-	gens["NotDataActions"] = gen.SliceOf(gen.AlphaString())
 }
 
 func Test_RoleDefinitionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -92,29 +79,23 @@ func Test_RoleDefinitionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RoleDefinitionProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleDefinitionProperties_STATUS, RoleDefinitionProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRoleDefinitionProperties_STATUS)
 }
 
 // RunJSONSerializationTestForRoleDefinitionProperties_STATUS runs a test to see if a specific instance of RoleDefinitionProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleDefinitionProperties_STATUS(subject RoleDefinitionProperties_STATUS) string {
+func RunJSONSerializationTestForRoleDefinitionProperties_STATUS(t *rapid.T) {
+	subject := RoleDefinitionProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RoleDefinitionProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -123,53 +104,39 @@ func RunJSONSerializationTestForRoleDefinitionProperties_STATUS(subject RoleDefi
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RoleDefinitionProperties_STATUS instances for property testing - lazily instantiated by
 // RoleDefinitionProperties_STATUSGenerator()
-var roleDefinitionProperties_STATUSGenerator gopter.Gen
+var roleDefinitionProperties_STATUSGenerator *rapid.Generator[RoleDefinitionProperties_STATUS]
 
 // RoleDefinitionProperties_STATUSGenerator returns a generator of RoleDefinitionProperties_STATUS instances for property testing.
-// We first initialize roleDefinitionProperties_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RoleDefinitionProperties_STATUSGenerator() gopter.Gen {
+func RoleDefinitionProperties_STATUSGenerator() *rapid.Generator[RoleDefinitionProperties_STATUS] {
 	if roleDefinitionProperties_STATUSGenerator != nil {
 		return roleDefinitionProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleDefinitionProperties_STATUS(generators)
-	roleDefinitionProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(RoleDefinitionProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	assignableScopes := rapid.SliceOf(rapid.String())
+	permissions := rapid.SliceOf(Permission_STATUSGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleDefinitionProperties_STATUS(generators)
-	AddRelatedPropertyGeneratorsForRoleDefinitionProperties_STATUS(generators)
-	roleDefinitionProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(RoleDefinitionProperties_STATUS{}), generators)
+	roleDefinitionProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) RoleDefinitionProperties_STATUS {
+		var result RoleDefinitionProperties_STATUS
+		result.AssignableScopes = assignableScopes.Draw(t, "AssignableScopes")
+		result.CreatedBy = ptrString.Draw(t, "CreatedBy")
+		result.CreatedOn = ptrString.Draw(t, "CreatedOn")
+		result.Description = ptrString.Draw(t, "Description")
+		result.Permissions = permissions.Draw(t, "Permissions")
+		result.RoleName = ptrString.Draw(t, "RoleName")
+		result.Type = ptrString.Draw(t, "Type")
+		result.UpdatedBy = ptrString.Draw(t, "UpdatedBy")
+		result.UpdatedOn = ptrString.Draw(t, "UpdatedOn")
+		return result
+	})
 
 	return roleDefinitionProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRoleDefinitionProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleDefinitionProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["AssignableScopes"] = gen.SliceOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["RoleName"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedOn"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRoleDefinitionProperties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRoleDefinitionProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["Permissions"] = gen.SliceOf(Permission_STATUSGenerator())
 }
 
 func Test_RoleDefinition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -179,29 +146,23 @@ func Test_RoleDefinition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RoleDefinition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleDefinition_STATUS, RoleDefinition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRoleDefinition_STATUS)
 }
 
 // RunJSONSerializationTestForRoleDefinition_STATUS runs a test to see if a specific instance of RoleDefinition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleDefinition_STATUS(subject RoleDefinition_STATUS) string {
+func RunJSONSerializationTestForRoleDefinition_STATUS(t *rapid.T) {
+	subject := RoleDefinition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RoleDefinition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -210,46 +171,31 @@ func RunJSONSerializationTestForRoleDefinition_STATUS(subject RoleDefinition_STA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RoleDefinition_STATUS instances for property testing - lazily instantiated by
 // RoleDefinition_STATUSGenerator()
-var roleDefinition_STATUSGenerator gopter.Gen
+var roleDefinition_STATUSGenerator *rapid.Generator[RoleDefinition_STATUS]
 
 // RoleDefinition_STATUSGenerator returns a generator of RoleDefinition_STATUS instances for property testing.
-// We first initialize roleDefinition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RoleDefinition_STATUSGenerator() gopter.Gen {
+func RoleDefinition_STATUSGenerator() *rapid.Generator[RoleDefinition_STATUS] {
 	if roleDefinition_STATUSGenerator != nil {
 		return roleDefinition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleDefinition_STATUS(generators)
-	roleDefinition_STATUSGenerator = gen.Struct(reflect.TypeOf(RoleDefinition_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(RoleDefinitionProperties_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleDefinition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForRoleDefinition_STATUS(generators)
-	roleDefinition_STATUSGenerator = gen.Struct(reflect.TypeOf(RoleDefinition_STATUS{}), generators)
+	roleDefinition_STATUSGenerator = rapid.Custom(func(t *rapid.T) RoleDefinition_STATUS {
+		var result RoleDefinition_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return roleDefinition_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRoleDefinition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleDefinition_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRoleDefinition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRoleDefinition_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(RoleDefinitionProperties_STATUSGenerator())
 }

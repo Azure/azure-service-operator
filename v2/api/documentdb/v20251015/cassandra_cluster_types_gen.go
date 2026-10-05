@@ -51,22 +51,36 @@ var _ conversion.Convertible = &CassandraCluster{}
 
 // ConvertFrom populates our CassandraCluster from the provided hub CassandraCluster
 func (cluster *CassandraCluster) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.CassandraCluster)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v20251015/storage/CassandraCluster but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.CassandraCluster
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return cluster.AssignProperties_From_CassandraCluster(source)
+	err = cluster.AssignProperties_From_CassandraCluster(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to cluster")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub CassandraCluster from our CassandraCluster
 func (cluster *CassandraCluster) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.CassandraCluster)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v20251015/storage/CassandraCluster but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.CassandraCluster
+	err := cluster.AssignProperties_To_CassandraCluster(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from cluster")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return cluster.AssignProperties_To_CassandraCluster(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &CassandraCluster{}
@@ -87,17 +101,6 @@ func (cluster *CassandraCluster) SecretDestinationExpressions() []*core.Destinat
 		return nil
 	}
 	return cluster.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &CassandraCluster{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (cluster *CassandraCluster) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*CassandraCluster_STATUS); ok {
-		return cluster.Spec.Initialize_From_CassandraCluster_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type CassandraCluster_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &CassandraCluster{}
@@ -568,43 +571,6 @@ func (cluster *CassandraCluster_Spec) AssignProperties_To_CassandraCluster_Spec(
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CassandraCluster_STATUS populates our CassandraCluster_Spec from the provided source CassandraCluster_STATUS
-func (cluster *CassandraCluster_Spec) Initialize_From_CassandraCluster_STATUS(source *CassandraCluster_STATUS) error {
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedCassandraManagedServiceIdentity
-		err := identity.Initialize_From_ManagedCassandraManagedServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedCassandraManagedServiceIdentity_STATUS() to populate field Identity")
-		}
-		cluster.Identity = &identity
-	} else {
-		cluster.Identity = nil
-	}
-
-	// Location
-	cluster.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Properties
-	if source.Properties != nil {
-		var property CassandraCluster_Properties_Spec
-		err := property.Initialize_From_CassandraCluster_Properties_STATUS(source.Properties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CassandraCluster_Properties_STATUS() to populate field Properties")
-		}
-		cluster.Properties = &property
-	} else {
-		cluster.Properties = nil
-	}
-
-	// Tags
-	cluster.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1442,130 +1408,6 @@ func (properties *CassandraCluster_Properties_Spec) AssignProperties_To_Cassandr
 	return nil
 }
 
-// Initialize_From_CassandraCluster_Properties_STATUS populates our CassandraCluster_Properties_Spec from the provided source CassandraCluster_Properties_STATUS
-func (properties *CassandraCluster_Properties_Spec) Initialize_From_CassandraCluster_Properties_STATUS(source *CassandraCluster_Properties_STATUS) error {
-
-	// AuthenticationMethod
-	if source.AuthenticationMethod != nil {
-		authenticationMethod := genruntime.ToEnum(string(*source.AuthenticationMethod), cassandraCluster_Properties_AuthenticationMethod_Spec_Values)
-		properties.AuthenticationMethod = &authenticationMethod
-	} else {
-		properties.AuthenticationMethod = nil
-	}
-
-	// AzureConnectionMethod
-	if source.AzureConnectionMethod != nil {
-		azureConnectionMethod := genruntime.ToEnum(string(*source.AzureConnectionMethod), cassandraCluster_Properties_AzureConnectionMethod_Spec_Values)
-		properties.AzureConnectionMethod = &azureConnectionMethod
-	} else {
-		properties.AzureConnectionMethod = nil
-	}
-
-	// CassandraAuditLoggingEnabled
-	if source.CassandraAuditLoggingEnabled != nil {
-		cassandraAuditLoggingEnabled := *source.CassandraAuditLoggingEnabled
-		properties.CassandraAuditLoggingEnabled = &cassandraAuditLoggingEnabled
-	} else {
-		properties.CassandraAuditLoggingEnabled = nil
-	}
-
-	// CassandraVersion
-	properties.CassandraVersion = genruntime.ClonePointerToString(source.CassandraVersion)
-
-	// ClientCertificates
-	if source.ClientCertificates != nil {
-		clientCertificateList := make([]Certificate, len(source.ClientCertificates))
-		for clientCertificateIndex, clientCertificateItem := range source.ClientCertificates {
-			var clientCertificate Certificate
-			err := clientCertificate.Initialize_From_Certificate_STATUS(&clientCertificateItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_Certificate_STATUS() to populate field ClientCertificates")
-			}
-			clientCertificateList[clientCertificateIndex] = clientCertificate
-		}
-		properties.ClientCertificates = clientCertificateList
-	} else {
-		properties.ClientCertificates = nil
-	}
-
-	// ClusterNameOverride
-	properties.ClusterNameOverride = genruntime.ClonePointerToString(source.ClusterNameOverride)
-
-	// DelegatedManagementSubnetReference
-	if source.DelegatedManagementSubnetId != nil {
-		delegatedManagementSubnetReference := genruntime.CreateResourceReferenceFromARMID(*source.DelegatedManagementSubnetId)
-		properties.DelegatedManagementSubnetReference = &delegatedManagementSubnetReference
-	} else {
-		properties.DelegatedManagementSubnetReference = nil
-	}
-
-	// ExternalGossipCertificates
-	if source.ExternalGossipCertificates != nil {
-		externalGossipCertificateList := make([]Certificate, len(source.ExternalGossipCertificates))
-		for externalGossipCertificateIndex, externalGossipCertificateItem := range source.ExternalGossipCertificates {
-			var externalGossipCertificate Certificate
-			err := externalGossipCertificate.Initialize_From_Certificate_STATUS(&externalGossipCertificateItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_Certificate_STATUS() to populate field ExternalGossipCertificates")
-			}
-			externalGossipCertificateList[externalGossipCertificateIndex] = externalGossipCertificate
-		}
-		properties.ExternalGossipCertificates = externalGossipCertificateList
-	} else {
-		properties.ExternalGossipCertificates = nil
-	}
-
-	// ExternalSeedNodes
-	if source.ExternalSeedNodes != nil {
-		externalSeedNodeList := make([]SeedNode, len(source.ExternalSeedNodes))
-		for externalSeedNodeIndex, externalSeedNodeItem := range source.ExternalSeedNodes {
-			var externalSeedNode SeedNode
-			err := externalSeedNode.Initialize_From_SeedNode_STATUS(&externalSeedNodeItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_SeedNode_STATUS() to populate field ExternalSeedNodes")
-			}
-			externalSeedNodeList[externalSeedNodeIndex] = externalSeedNode
-		}
-		properties.ExternalSeedNodes = externalSeedNodeList
-	} else {
-		properties.ExternalSeedNodes = nil
-	}
-
-	// HoursBetweenBackups
-	properties.HoursBetweenBackups = genruntime.ClonePointerToInt(source.HoursBetweenBackups)
-
-	// PrometheusEndpoint
-	if source.PrometheusEndpoint != nil {
-		var prometheusEndpoint SeedNode
-		err := prometheusEndpoint.Initialize_From_SeedNode_STATUS(source.PrometheusEndpoint)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SeedNode_STATUS() to populate field PrometheusEndpoint")
-		}
-		properties.PrometheusEndpoint = &prometheusEndpoint
-	} else {
-		properties.PrometheusEndpoint = nil
-	}
-
-	// RepairEnabled
-	if source.RepairEnabled != nil {
-		repairEnabled := *source.RepairEnabled
-		properties.RepairEnabled = &repairEnabled
-	} else {
-		properties.RepairEnabled = nil
-	}
-
-	// RestoreFromBackupReference
-	if source.RestoreFromBackupId != nil {
-		restoreFromBackupReference := genruntime.CreateResourceReferenceFromARMID(*source.RestoreFromBackupId)
-		properties.RestoreFromBackupReference = &restoreFromBackupReference
-	} else {
-		properties.RestoreFromBackupReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 type CassandraCluster_Properties_STATUS struct {
 	// AuthenticationMethod: Which authentication method Cassandra should use to authenticate clients. 'None' turns off
 	// authentication, so should not be used except in emergencies. 'Cassandra' is the default password based authentication.
@@ -2363,21 +2205,6 @@ func (identity *ManagedCassandraManagedServiceIdentity) AssignProperties_To_Mana
 	return nil
 }
 
-// Initialize_From_ManagedCassandraManagedServiceIdentity_STATUS populates our ManagedCassandraManagedServiceIdentity from the provided source ManagedCassandraManagedServiceIdentity_STATUS
-func (identity *ManagedCassandraManagedServiceIdentity) Initialize_From_ManagedCassandraManagedServiceIdentity_STATUS(source *ManagedCassandraManagedServiceIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), managedCassandraManagedServiceIdentity_Type_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Identity for the resource.
 type ManagedCassandraManagedServiceIdentity_STATUS struct {
 	// PrincipalId: The object id of the identity resource.
@@ -2724,13 +2551,6 @@ func (certificate *Certificate) AssignProperties_To_Certificate(destination *sto
 	return nil
 }
 
-// Initialize_From_Certificate_STATUS populates our Certificate from the provided source Certificate_STATUS
-func (certificate *Certificate) Initialize_From_Certificate_STATUS(source *Certificate_STATUS) error {
-
-	// No error
-	return nil
-}
-
 type Certificate_STATUS struct {
 }
 
@@ -2921,16 +2741,6 @@ func (node *SeedNode) AssignProperties_To_SeedNode(destination *storage.SeedNode
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SeedNode_STATUS populates our SeedNode from the provided source SeedNode_STATUS
-func (node *SeedNode) Initialize_From_SeedNode_STATUS(source *SeedNode_STATUS) error {
-
-	// IpAddress
-	node.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
 
 	// No error
 	return nil

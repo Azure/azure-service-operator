@@ -8,6 +8,8 @@ import (
 	web_v1api20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/storage"
 	web_v20220301 "github.com/Azure/azure-service-operator/v2/api/web/v20220301"
 	web_v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v20220301/storage"
+	web_v20250501 "github.com/Azure/azure-service-operator/v2/api/web/v20250501"
+	web_v20250501s "github.com/Azure/azure-service-operator/v2/api/web/v20250501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -20,5 +22,7 @@ func (extension *SiteExtension) GetExtendedResources() []genruntime.KubernetesRe
 		&web_v1api20220301.Site{},
 		&web_v1api20220301s.Site{},
 		&web_v20220301.Site{},
-		&web_v20220301s.Site{}}
+		&web_v20220301s.Site{},
+		&web_v20250501.Site{},
+		&web_v20250501s.Site{}}
 }

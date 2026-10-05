@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20221201s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
+	v20230601ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20230601preview/storage"
 	v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -89,7 +89,7 @@ func RunPropertyAssignmentTestForFlexibleServersConfiguration(subject FlexibleSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221201s.FlexibleServersConfiguration
+	var other v20230601ps.FlexibleServersConfiguration
 	err := copied.AssignProperties_To_FlexibleServersConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -203,7 +203,7 @@ func RunPropertyAssignmentTestForFlexibleServersConfigurationOperatorSpec(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221201s.FlexibleServersConfigurationOperatorSpec
+	var other v20230601ps.FlexibleServersConfigurationOperatorSpec
 	err := copied.AssignProperties_To_FlexibleServersConfigurationOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -310,7 +310,7 @@ func RunPropertyAssignmentTestForFlexibleServersConfiguration_STATUS(subject Fle
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221201s.FlexibleServersConfiguration_STATUS
+	var other v20230601ps.FlexibleServersConfiguration_STATUS
 	err := copied.AssignProperties_To_FlexibleServersConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -450,7 +450,7 @@ func RunPropertyAssignmentTestForFlexibleServersConfiguration_Spec(subject Flexi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20221201s.FlexibleServersConfiguration_Spec
+	var other v20230601ps.FlexibleServersConfiguration_Spec
 	err := copied.AssignProperties_To_FlexibleServersConfiguration_Spec(&other)
 	if err != nil {
 		return err.Error()

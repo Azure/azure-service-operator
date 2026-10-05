@@ -5,7 +5,8 @@ package v20211101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20250101s "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForServersDatabasesTransparentDataEncryption(subje
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ServersDatabasesTransparentDataEncryption
+	var hub v20250101s.ServersDatabasesTransparentDataEncryption
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesTransparentDataEncryption
+	var other v20211101s.ServersDatabasesTransparentDataEncryption
 	err := copied.AssignProperties_To_ServersDatabasesTransparentDataEncryption(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +203,7 @@ func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryptionOperat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesTransparentDataEncryptionOperatorSpec
+	var other v20211101s.ServersDatabasesTransparentDataEncryptionOperatorSpec
 	err := copied.AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption_STATU
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesTransparentDataEncryption_STATUS
+	var other v20211101s.ServersDatabasesTransparentDataEncryption_STATUS
 	err := copied.AssignProperties_To_ServersDatabasesTransparentDataEncryption_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -425,7 +426,7 @@ func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption_Spec(
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesTransparentDataEncryption_Spec
+	var other v20211101s.ServersDatabasesTransparentDataEncryption_Spec
 	err := copied.AssignProperties_To_ServersDatabasesTransparentDataEncryption_Spec(&other)
 	if err != nil {
 		return err.Error()

@@ -199,6 +199,24 @@ func GetKnownStorageTypes(
 		},
 	)
 
+	knownStorageTypes = append(
+		knownStorageTypes,
+		&registration.StorageType{
+			Obj:  &entrav1.Application{},
+			Name: "entra_application",
+			Reconciler: entrareconciler.NewEntraApplicationReconciler(
+				clients.KubeClient,
+				clients.EntraConnectionFactory,
+				resourceResolver,
+				positiveConditions,
+				options.Config,
+			),
+			Predicate: makeStandardPredicate(),
+			Indexes:   []registration.Index{},
+			Watches:   []registration.Watch{},
+		},
+	)
+
 	return knownStorageTypes, nil
 }
 
@@ -352,6 +370,15 @@ func GetKnownTypes() []*registration.KnownType {
 			Obj:       &entrav1.SecurityGroup{},
 			Defaulter: &entrav1webhook.SecurityGroup_Webhook{},
 			Validator: &entrav1webhook.SecurityGroup_Webhook{},
+		},
+	)
+
+	knownTypes = append(
+		knownTypes,
+		&registration.KnownType{
+			Obj:       &entrav1.Application{},
+			Defaulter: &entrav1webhook.Application_Webhook{},
+			Validator: &entrav1webhook.Application_Webhook{},
 		},
 	)
 

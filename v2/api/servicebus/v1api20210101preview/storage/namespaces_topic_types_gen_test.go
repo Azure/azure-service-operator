@@ -5,8 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
-	v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v20210101preview/storage"
+	v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -89,7 +89,7 @@ func RunPropertyAssignmentTestForNamespacesTopic(subject NamespacesTopic) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.NamespacesTopic
+	var other v20210101ps.NamespacesTopic
 	err := copied.AssignProperties_To_NamespacesTopic(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +202,7 @@ func RunPropertyAssignmentTestForNamespacesTopicOperatorSpec(subject NamespacesT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.NamespacesTopicOperatorSpec
+	var other v20210101ps.NamespacesTopicOperatorSpec
 	err := copied.AssignProperties_To_NamespacesTopicOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +309,7 @@ func RunPropertyAssignmentTestForNamespacesTopic_STATUS(subject NamespacesTopic_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.NamespacesTopic_STATUS
+	var other v20210101ps.NamespacesTopic_STATUS
 	err := copied.AssignProperties_To_NamespacesTopic_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -454,7 +454,7 @@ func RunPropertyAssignmentTestForNamespacesTopic_Spec(subject NamespacesTopic_Sp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.NamespacesTopic_Spec
+	var other v20210101ps.NamespacesTopic_Spec
 	err := copied.AssignProperties_To_NamespacesTopic_Spec(&other)
 	if err != nil {
 		return err.Error()

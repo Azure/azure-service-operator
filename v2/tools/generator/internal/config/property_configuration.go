@@ -68,7 +68,6 @@ const (
 	descriptionTag                    = "$description"                    // String overriding the properties default description
 	exportAsConfigMapPropertyNameTag  = "$exportAsConfigMapPropertyName"  // String specifying the name of the property set to export this property as a config map.
 	importConfigMapModeTag            = "$importConfigMapMode"            // string specifying the ImportConfigMapMode mode
-	isSecretTag                       = "$isSecret"                       // Deprecated: use secretTag instead. Kept for backward compatibility during migration.
 	secretTag                         = "$importSecretMode"               // String specifying the secrecy classification of a property (required, optional, or never)
 	referenceTypeTag                  = "$referenceType"                  // String specifying what kind of reference we have
 	renamePropertyToTag               = "$renameTo"                       // String specifying the name this property should be renamed to
@@ -138,23 +137,6 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				pc.Secrecy.Set(astmodel.ImportSecretModeOptional)
 			default:
 				return eris.Errorf("unknown %s value: %s.", secretTag, c.Value)
-			}
-
-			continue
-		}
-
-		// $isSecret: <bool> (legacy, for backward compatibility during migration)
-		if strings.EqualFold(lastID, isSecretTag) && c.Kind == yaml.ScalarNode {
-			var isSecret bool
-			err := c.Decode(&isSecret)
-			if err != nil {
-				return eris.Wrapf(err, "decoding %s", isSecretTag)
-			}
-
-			if isSecret {
-				pc.Secrecy.Set(astmodel.ImportSecretModeRequired)
-			} else {
-				pc.Secrecy.Set(astmodel.ImportSecretModeNever)
 			}
 
 			continue

@@ -5,7 +5,9 @@ package customizations
 
 import (
 	v20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v20250401"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/storage"
+	v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/storage"
+	v20250701 "github.com/Azure/azure-service-operator/v2/api/cache/v20250701"
+	v20250701s "github.com/Azure/azure-service-operator/v2/api/cache/v20250701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -16,5 +18,7 @@ type RedisEnterpriseDatabaseAccessPolicyAssignmentExtension struct {
 func (extension *RedisEnterpriseDatabaseAccessPolicyAssignmentExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20250401.RedisEnterpriseDatabaseAccessPolicyAssignment{},
-		&storage.RedisEnterpriseDatabaseAccessPolicyAssignment{}}
+		&v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment{},
+		&v20250701.RedisEnterpriseDatabaseAccessPolicyAssignment{},
+		&v20250701s.RedisEnterpriseDatabaseAccessPolicyAssignment{}}
 }

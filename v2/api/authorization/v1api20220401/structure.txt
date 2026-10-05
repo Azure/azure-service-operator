@@ -18,7 +18,9 @@ RoleAssignment: Resource
 │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   ├── PrincipalId: *string
 │   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
-│   ├── PrincipalType: *Enum (5 values)
+│   ├── PrincipalType: *Enum (7 values)
+│   │   ├── "AgentServicePrincipal"
+│   │   ├── "AgentUser"
 │   │   ├── "Device"
 │   │   ├── "ForeignGroup"
 │   │   ├── "Group"
@@ -36,7 +38,9 @@ RoleAssignment: Resource
     ├── Id: *string
     ├── Name: *string
     ├── PrincipalId: *string
-    ├── PrincipalType: *Enum (5 values)
+    ├── PrincipalType: *Enum (7 values)
+    │   ├── "AgentServicePrincipal"
+    │   ├── "AgentUser"
     │   ├── "Device"
     │   ├── "ForeignGroup"
     │   ├── "Group"

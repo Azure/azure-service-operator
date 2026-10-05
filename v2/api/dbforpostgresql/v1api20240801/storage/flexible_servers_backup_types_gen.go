@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20240801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &FlexibleServersBackup{}
 
 // ConvertFrom populates our FlexibleServersBackup from the provided hub FlexibleServersBackup
 func (backup *FlexibleServersBackup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FlexibleServersBackup)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v20250801/storage/FlexibleServersBackup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FlexibleServersBackup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return backup.AssignProperties_From_FlexibleServersBackup(source)
+	err = backup.AssignProperties_From_FlexibleServersBackup(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to backup")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersBackup from our FlexibleServersBackup
 func (backup *FlexibleServersBackup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FlexibleServersBackup)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v20250801/storage/FlexibleServersBackup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FlexibleServersBackup
+	err := backup.AssignProperties_To_FlexibleServersBackup(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from backup")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return backup.AssignProperties_To_FlexibleServersBackup(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FlexibleServersBackup{}

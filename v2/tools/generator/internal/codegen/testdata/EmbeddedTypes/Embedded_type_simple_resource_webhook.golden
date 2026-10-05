@@ -25,17 +25,17 @@ var _ webhook.CustomDefaulter = &FakeResource{}
 
 // Default applies defaults to the FakeResource resource
 func (resource *FakeResource) Default(ctx context.Context, obj runtime.Object) error {
-	resource, ok := obj.(*v20200101.FakeResource)
+	resourceObj, ok := obj.(*v20200101.FakeResource)
 	if !ok {
 		return fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/FakeResource, but got %T", obj)
 	}
-	err := resource.defaultImpl(ctx, resource)
+	err := resource.defaultImpl(ctx, resourceObj)
 	if err != nil {
 		return err
 	}
 	var temp any = resource
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		err = runtimeDefaulter.CustomDefault(ctx, resource)
+		err = runtimeDefaulter.CustomDefault(ctx, resourceObj)
 		if err != nil {
 			return err
 		}
@@ -65,10 +65,10 @@ func (resource *FakeResource) defaultImpl(ctx context.Context, obj *v20200101.Fa
 var _ webhook.CustomValidator = &FakeResource{}
 
 // ValidateCreate validates the creation of the resource
-func (resource *FakeResource) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
-	obj, ok := resource.(*v20200101.FakeResource)
+func (resource *FakeResource) ValidateCreate(ctx context.Context, resourceObj runtime.Object) (admission.Warnings, error) {
+	obj, ok := resourceObj.(*v20200101.FakeResource)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/FakeResource, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/FakeResource, but got %T", resourceObj)
 	}
 	validations := resource.createValidations()
 	var temp any = resource
@@ -79,10 +79,10 @@ func (resource *FakeResource) ValidateCreate(ctx context.Context, resource runti
 }
 
 // ValidateDelete validates the deletion of the resource
-func (resource *FakeResource) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
-	obj, ok := resource.(*v20200101.FakeResource)
+func (resource *FakeResource) ValidateDelete(ctx context.Context, resourceObj runtime.Object) (admission.Warnings, error) {
+	obj, ok := resourceObj.(*v20200101.FakeResource)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/FakeResource, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/FakeResource, but got %T", resourceObj)
 	}
 	validations := resource.deleteValidations()
 	var temp any = resource

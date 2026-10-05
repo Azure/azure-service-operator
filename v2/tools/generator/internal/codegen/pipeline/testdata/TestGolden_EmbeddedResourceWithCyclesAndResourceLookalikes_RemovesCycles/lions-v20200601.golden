@@ -98,14 +98,14 @@ type LionPrideProperties struct {
 	Right Right_SubResourceEmbedded_1 `json:"right,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={Microsoft.Lions/lionPride}
+// +kubebuilder:validation:Enum={"Microsoft.Lions/lionPride"}
 type LionPrideType string
 
-const LionPrideType_type = LionPrideType(Microsoft.Lions/lionPride)
+const LionPrideType_type = LionPrideType("Microsoft.Lions/lionPride")
 
 // Mapping from string to LionPrideType
 var lionPrideType_Values = map[string]LionPrideType{
-	microsoft.lions/lionpride: LionPrideType_type,
+	"microsoft.lions/lionpride": LionPrideType_type,
 }
 
 type LionProperties struct {
@@ -113,14 +113,14 @@ type LionProperties struct {
 	Right Right `json:"right,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={Microsoft.Lions/lion}
+// +kubebuilder:validation:Enum={"Microsoft.Lions/lion"}
 type LionType string
 
-const LionType_type = LionType(Microsoft.Lions/lion)
+const LionType_type = LionType("Microsoft.Lions/lion")
 
 // Mapping from string to LionType
 var lionType_Values = map[string]LionType{
-	microsoft.lions/lion: LionType_type,
+	"microsoft.lions/lion": LionType_type,
 }
 
 type Left struct {

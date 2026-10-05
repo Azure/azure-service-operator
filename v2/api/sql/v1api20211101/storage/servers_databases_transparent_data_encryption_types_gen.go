@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ServersDatabasesTransparentDataEncryption{}
 
 // ConvertFrom populates our ServersDatabasesTransparentDataEncryption from the provided hub ServersDatabasesTransparentDataEncryption
 func (encryption *ServersDatabasesTransparentDataEncryption) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersDatabasesTransparentDataEncryption)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersDatabasesTransparentDataEncryption but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersDatabasesTransparentDataEncryption
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return encryption.AssignProperties_From_ServersDatabasesTransparentDataEncryption(source)
+	err = encryption.AssignProperties_From_ServersDatabasesTransparentDataEncryption(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to encryption")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersDatabasesTransparentDataEncryption from our ServersDatabasesTransparentDataEncryption
 func (encryption *ServersDatabasesTransparentDataEncryption) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersDatabasesTransparentDataEncryption)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersDatabasesTransparentDataEncryption but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersDatabasesTransparentDataEncryption
+	err := encryption.AssignProperties_To_ServersDatabasesTransparentDataEncryption(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from encryption")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return encryption.AssignProperties_To_ServersDatabasesTransparentDataEncryption(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersDatabasesTransparentDataEncryption{}

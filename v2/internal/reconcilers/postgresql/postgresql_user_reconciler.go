@@ -24,6 +24,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	postgresqlutil "github.com/Azure/azure-service-operator/v2/internal/util/postgresql"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
@@ -65,7 +66,13 @@ func (r *PostgreSQLUserReconciler) asUser(obj genruntime.MetaObject) (*asopostgr
 	return typedObj, nil
 }
 
-func (r *PostgreSQLUserReconciler) CreateOrUpdate(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (ctrl.Result, error) {
+func (r *PostgreSQLUserReconciler) CreateOrUpdate(
+	ctx context.Context,
+	log logr.Logger,
+	eventRecorder record.EventRecorder,
+	obj genruntime.MetaObject,
+	_ annotations.ResolvedReconcilePolicies,
+) (ctrl.Result, error) {
 	user, err := r.asUser(obj)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -192,7 +199,13 @@ func (r *PostgreSQLUserReconciler) Claim(ctx context.Context, log logr.Logger, e
 	return nil
 }
 
-func (r *PostgreSQLUserReconciler) UpdateStatus(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) error {
+func (r *PostgreSQLUserReconciler) UpdateStatus(
+	ctx context.Context,
+	log logr.Logger,
+	eventRecorder record.EventRecorder,
+	obj genruntime.MetaObject,
+	_ annotations.ResolvedReconcilePolicies,
+) error {
 	user, err := r.asUser(obj)
 	if err != nil {
 		return err

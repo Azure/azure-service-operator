@@ -41,7 +41,7 @@ func Test_ApiManagement_20240501_CRUD(t *testing.T) {
 	// Create an APIM instance. APIM has a soft delete feature; if you find that you
 	// hit this problem add the `restore` back in to resurrect it
 	service := apim.Service{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("apimanagementv3")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("apimanagementv4")),
 		Spec: apim.Service_Spec{
 			Location:       to.Ptr("eastus"), // Not supported in West US 2
 			Owner:          testcommon.AsOwner(rg),
@@ -881,7 +881,7 @@ func APIM_Logger20240501_CRUD(tc *testcommon.KubePerTestContext, rg *resources.R
 	tc.Expect(logger.Status).ToNot(BeNil())
 	tc.Expect(logger.Status.Id).ToNot(BeNil())
 
-	// Run ApiDiagnostic subtest now that the logger exists
+	// Run ApiDiagnostic and Diagnostic subtests now that the logger exists
 	tc.RunSubtests(
 		testcommon.Subtest{
 			Name: "APIM Api Diagnostic CRUD",
@@ -889,9 +889,44 @@ func APIM_Logger20240501_CRUD(tc *testcommon.KubePerTestContext, rg *resources.R
 				APIM_ApiDiagnostic20240501_CRUD(tc, service, &logger)
 			},
 		},
+		testcommon.Subtest{
+			Name: "APIM Service Diagnostic CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_Diagnostic20240501_CRUD(tc, service, &logger)
+			},
+		},
 	)
 
 	tc.T.Log("cleaning up logger")
+}
+
+func APIM_Diagnostic20240501_CRUD(tc *testcommon.KubePerTestContext, service client.Object, logger *apim.Logger) {
+	// Create the service-level Diagnostic referencing the logger
+	diagnostic := apim.Diagnostic{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("diag")),
+		Spec: apim.Diagnostic_Spec{
+			AzureName: "applicationinsights",
+			Owner:     testcommon.AsOwner(service),
+			LoggerReference: &genruntime.ResourceReference{
+				ARMID: *logger.Status.Id,
+			},
+			Sampling: &apim.SamplingSettings{
+				Percentage:   to.Ptr(100),
+				SamplingType: to.Ptr(apim.SamplingSettings_SamplingType_Fixed),
+			},
+			Verbosity: to.Ptr(apim.DiagnosticContractProperties_Verbosity_Information),
+		},
+	}
+
+	tc.T.Log("creating apim service diagnostic")
+	tc.CreateResourceAndWait(&diagnostic)
+
+	tc.Expect(diagnostic.Status).ToNot(BeNil())
+	tc.Expect(diagnostic.Status.Id).ToNot(BeNil())
+
+	defer tc.DeleteResourceAndWait(&diagnostic)
+
+	tc.T.Log("cleaning up service diagnostic")
 }
 
 func APIM_ApiDiagnostic20240501_CRUD(tc *testcommon.KubePerTestContext, service client.Object, logger *apim.Logger) {

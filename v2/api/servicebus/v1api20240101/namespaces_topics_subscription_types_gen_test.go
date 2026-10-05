@@ -5,7 +5,8 @@ package v1api20240101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForNamespacesTopicsSubscription(subject Namespaces
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.NamespacesTopicsSubscription
+	var hub servicebus_v20240101s.NamespacesTopicsSubscription
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForNamespacesTopicsSubscription(subject Namespaces
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesTopicsSubscription
+	var other servicebus_v1api20240101s.NamespacesTopicsSubscription
 	err := copied.AssignProperties_To_NamespacesTopicsSubscription(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +203,7 @@ func RunPropertyAssignmentTestForNamespacesTopicsSubscriptionOperatorSpec(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesTopicsSubscriptionOperatorSpec
+	var other servicebus_v1api20240101s.NamespacesTopicsSubscriptionOperatorSpec
 	err := copied.AssignProperties_To_NamespacesTopicsSubscriptionOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForNamespacesTopicsSubscription_STATUS(subject Nam
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesTopicsSubscription_STATUS
+	var other servicebus_v1api20240101s.NamespacesTopicsSubscription_STATUS
 	err := copied.AssignProperties_To_NamespacesTopicsSubscription_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -467,7 +468,7 @@ func RunPropertyAssignmentTestForNamespacesTopicsSubscription_Spec(subject Names
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamespacesTopicsSubscription_Spec
+	var other servicebus_v1api20240101s.NamespacesTopicsSubscription_Spec
 	err := copied.AssignProperties_To_NamespacesTopicsSubscription_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -607,7 +608,7 @@ func RunPropertyAssignmentTestForSBClientAffineProperties(subject SBClientAffine
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SBClientAffineProperties
+	var other servicebus_v1api20240101s.SBClientAffineProperties
 	err := copied.AssignProperties_To_SBClientAffineProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -722,7 +723,7 @@ func RunPropertyAssignmentTestForSBClientAffineProperties_STATUS(subject SBClien
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SBClientAffineProperties_STATUS
+	var other servicebus_v1api20240101s.SBClientAffineProperties_STATUS
 	err := copied.AssignProperties_To_SBClientAffineProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()

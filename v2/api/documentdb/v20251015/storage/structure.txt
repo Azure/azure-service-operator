@@ -174,3 +174,45 @@ CassandraDataCenter: Resource
     ├── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
+augmentConversionForAuthenticationMethodLdapProperties: Interface
+
+augmentConversionForAuthenticationMethodLdapProperties_STATUS: Interface
+
+augmentConversionForCassandraCluster: Interface
+
+augmentConversionForCassandraClusterOperatorSpec: Interface
+
+augmentConversionForCassandraCluster_Properties_STATUS: Interface
+
+augmentConversionForCassandraCluster_Properties_Spec: Interface
+
+augmentConversionForCassandraCluster_STATUS: Interface
+
+augmentConversionForCassandraCluster_Spec: Interface
+
+augmentConversionForCassandraClusters_DataCenter_Properties_STATUS: Interface
+
+augmentConversionForCassandraClusters_DataCenter_Properties_Spec: Interface
+
+augmentConversionForCassandraDataCenter: Interface
+
+augmentConversionForCassandraDataCenterOperatorSpec: Interface
+
+augmentConversionForCassandraDataCenter_STATUS: Interface
+
+augmentConversionForCassandraDataCenter_Spec: Interface
+
+augmentConversionForCassandraError_STATUS: Interface
+
+augmentConversionForCertificate: Interface
+
+augmentConversionForCertificate_STATUS: Interface
+
+augmentConversionForManagedCassandraManagedServiceIdentity: Interface
+
+augmentConversionForManagedCassandraManagedServiceIdentity_STATUS: Interface
+
+augmentConversionForSeedNode: Interface
+
+augmentConversionForSeedNode_STATUS: Interface
+

@@ -16,3 +16,10 @@ groupModelConfiguration:
     Registries_Replication:
       $exportAs: RegistryReplication
       $supportedFrom: v2.12.0
+  2025-11-01:
+    CacheRuleProperties:
+      CredentialSetResourceId:
+        $referenceType: arm
+    Registries_CacheRule:
+      $exportAs: RegistryCacheRule
+      $supportedFrom: v2.21.0

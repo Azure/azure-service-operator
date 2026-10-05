@@ -399,3 +399,125 @@ ContainerGroup: Resource
     │   └── Secret: map[string]string
     └── Zones: string[]
 
+augmentConversionForAzureFileVolume: Interface
+
+augmentConversionForAzureFileVolume_STATUS: Interface
+
+augmentConversionForContainer: Interface
+
+augmentConversionForContainerExec: Interface
+
+augmentConversionForContainerExec_STATUS: Interface
+
+augmentConversionForContainerGroup: Interface
+
+augmentConversionForContainerGroupDiagnostics: Interface
+
+augmentConversionForContainerGroupDiagnostics_STATUS: Interface
+
+augmentConversionForContainerGroupIdentity: Interface
+
+augmentConversionForContainerGroupIdentity_STATUS: Interface
+
+augmentConversionForContainerGroupOperatorSpec: Interface
+
+augmentConversionForContainerGroupSubnetId: Interface
+
+augmentConversionForContainerGroupSubnetId_STATUS: Interface
+
+augmentConversionForContainerGroup_Properties_InstanceView_STATUS: Interface
+
+augmentConversionForContainerGroup_STATUS: Interface
+
+augmentConversionForContainerGroup_Spec: Interface
+
+augmentConversionForContainerHttpGet: Interface
+
+augmentConversionForContainerHttpGet_STATUS: Interface
+
+augmentConversionForContainerPort: Interface
+
+augmentConversionForContainerPort_STATUS: Interface
+
+augmentConversionForContainerProbe: Interface
+
+augmentConversionForContainerProbe_STATUS: Interface
+
+augmentConversionForContainerProperties_InstanceView_STATUS: Interface
+
+augmentConversionForContainerState_STATUS: Interface
+
+augmentConversionForContainer_STATUS: Interface
+
+augmentConversionForDnsConfiguration: Interface
+
+augmentConversionForDnsConfiguration_STATUS: Interface
+
+augmentConversionForEncryptionProperties: Interface
+
+augmentConversionForEncryptionProperties_STATUS: Interface
+
+augmentConversionForEnvironmentVariable: Interface
+
+augmentConversionForEnvironmentVariable_STATUS: Interface
+
+augmentConversionForEvent_STATUS: Interface
+
+augmentConversionForGitRepoVolume: Interface
+
+augmentConversionForGitRepoVolume_STATUS: Interface
+
+augmentConversionForGpuResource: Interface
+
+augmentConversionForGpuResource_STATUS: Interface
+
+augmentConversionForHttpHeader: Interface
+
+augmentConversionForHttpHeader_STATUS: Interface
+
+augmentConversionForImageRegistryCredential: Interface
+
+augmentConversionForImageRegistryCredential_STATUS: Interface
+
+augmentConversionForInitContainerDefinition: Interface
+
+augmentConversionForInitContainerDefinition_STATUS: Interface
+
+augmentConversionForInitContainerPropertiesDefinition_InstanceView_STATUS: Interface
+
+augmentConversionForIpAddress: Interface
+
+augmentConversionForIpAddress_STATUS: Interface
+
+augmentConversionForLogAnalytics: Interface
+
+augmentConversionForLogAnalytics_STATUS: Interface
+
+augmentConversionForPort: Interface
+
+augmentConversionForPort_STATUS: Interface
+
+augmentConversionForResourceLimits: Interface
+
+augmentConversionForResourceLimits_STATUS: Interface
+
+augmentConversionForResourceRequests: Interface
+
+augmentConversionForResourceRequests_STATUS: Interface
+
+augmentConversionForResourceRequirements: Interface
+
+augmentConversionForResourceRequirements_STATUS: Interface
+
+augmentConversionForUserAssignedIdentities_STATUS: Interface
+
+augmentConversionForUserAssignedIdentityDetails: Interface
+
+augmentConversionForVolume: Interface
+
+augmentConversionForVolumeMount: Interface
+
+augmentConversionForVolumeMount_STATUS: Interface
+
+augmentConversionForVolume_STATUS: Interface
+

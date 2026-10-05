@@ -705,6 +705,9 @@ groupModelConfiguration:
         $referenceType: simple
     BastionHostIPConfiguration:
       $resourceEmbeddedInParent: BastionHost
+    DdosProtectionPlan:
+      $exportAs: DdosProtectionPlan
+      $supportedFrom: v2.21.0
     NatGateway:
       $exportAs: NatGateway
       $supportedFrom: v2.19.0

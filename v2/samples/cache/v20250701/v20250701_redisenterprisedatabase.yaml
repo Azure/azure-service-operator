@@ -1,0 +1,16 @@
+# This sample demonstrates how to create a Redis Enterprise Database using the v20250701 API version.
+apiVersion: cache.azure.com/v20250701
+kind: RedisEnterpriseDatabase
+metadata:
+  name: default
+  namespace: default
+spec:
+  owner:
+    name: sampleredisent
+  clientProtocol: Encrypted
+  clusteringPolicy: OSSCluster
+  evictionPolicy: AllKeysLRU
+  # Access keys authentication is disabled so that access can be granted through a database access policy
+  # assignment instead. Note that in this API version, this field is Disabled by default, so if you want/need access keys
+  # you will need to explicitly set it to Enabled.
+  accessKeysAuthentication: Disabled

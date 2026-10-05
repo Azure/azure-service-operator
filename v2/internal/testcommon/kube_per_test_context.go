@@ -36,6 +36,7 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/matchers"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -123,7 +124,17 @@ func (tc *KubePerTestContext) NewTestResourceGroup() *resources.ResourceGroup {
 }
 
 func CreateTestResourceGroupDefaultTags() map[string]string {
-	return map[string]string{"CreatedAt": time.Now().UTC().Format(time.RFC3339)}
+	tags := map[string]string{"CreatedAt": time.Now().UTC().Format(time.RFC3339)}
+
+	// Some tenants require tags of their own on every resource group. Recordings redact these again, so
+	// adding them doesn't tie a recording to the tenant it was made in. In record mode, a malformed setting
+	// is reported when the credentials are read, before any test runs.
+	policyTags, _ := creds.ResourceGroupTagsFromEnvironment()
+	for key, value := range policyTags {
+		tags[key] = value
+	}
+
+	return tags
 }
 
 func (ctx KubeGlobalContext) ForTest(t *testing.T) *KubePerTestContext {

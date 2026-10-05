@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersElasticPool{}
 
 // ConvertFrom populates our ServersElasticPool from the provided hub ServersElasticPool
 func (pool *ServersElasticPool) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersElasticPool)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersElasticPool but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersElasticPool
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return pool.AssignProperties_From_ServersElasticPool(source)
+	err = pool.AssignProperties_From_ServersElasticPool(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to pool")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersElasticPool from our ServersElasticPool
 func (pool *ServersElasticPool) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersElasticPool)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersElasticPool but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersElasticPool
+	err := pool.AssignProperties_To_ServersElasticPool(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from pool")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return pool.AssignProperties_To_ServersElasticPool(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersElasticPool{}
@@ -87,17 +101,6 @@ func (pool *ServersElasticPool) SecretDestinationExpressions() []*core.Destinati
 		return nil
 	}
 	return pool.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersElasticPool{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (pool *ServersElasticPool) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersElasticPool_STATUS); ok {
-		return pool.Spec.Initialize_From_ServersElasticPool_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersElasticPool_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersElasticPool{}
@@ -756,76 +759,6 @@ func (pool *ServersElasticPool_Spec) AssignProperties_To_ServersElasticPool_Spec
 	return nil
 }
 
-// Initialize_From_ServersElasticPool_STATUS populates our ServersElasticPool_Spec from the provided source ServersElasticPool_STATUS
-func (pool *ServersElasticPool_Spec) Initialize_From_ServersElasticPool_STATUS(source *ServersElasticPool_STATUS) error {
-
-	// HighAvailabilityReplicaCount
-	pool.HighAvailabilityReplicaCount = genruntime.ClonePointerToInt(source.HighAvailabilityReplicaCount)
-
-	// LicenseType
-	if source.LicenseType != nil {
-		licenseType := genruntime.ToEnum(string(*source.LicenseType), elasticPoolProperties_LicenseType_Values)
-		pool.LicenseType = &licenseType
-	} else {
-		pool.LicenseType = nil
-	}
-
-	// Location
-	pool.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MaintenanceConfigurationId
-	pool.MaintenanceConfigurationId = genruntime.ClonePointerToString(source.MaintenanceConfigurationId)
-
-	// MaxSizeBytes
-	pool.MaxSizeBytes = genruntime.ClonePointerToInt(source.MaxSizeBytes)
-
-	// MinCapacity
-	if source.MinCapacity != nil {
-		minCapacity := *source.MinCapacity
-		pool.MinCapacity = &minCapacity
-	} else {
-		pool.MinCapacity = nil
-	}
-
-	// PerDatabaseSettings
-	if source.PerDatabaseSettings != nil {
-		var perDatabaseSetting ElasticPoolPerDatabaseSettings
-		err := perDatabaseSetting.Initialize_From_ElasticPoolPerDatabaseSettings_STATUS(source.PerDatabaseSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ElasticPoolPerDatabaseSettings_STATUS() to populate field PerDatabaseSettings")
-		}
-		pool.PerDatabaseSettings = &perDatabaseSetting
-	} else {
-		pool.PerDatabaseSettings = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		pool.Sku = &sku
-	} else {
-		pool.Sku = nil
-	}
-
-	// Tags
-	pool.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// ZoneRedundant
-	if source.ZoneRedundant != nil {
-		zoneRedundant := *source.ZoneRedundant
-		pool.ZoneRedundant = &zoneRedundant
-	} else {
-		pool.ZoneRedundant = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (pool *ServersElasticPool_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1417,29 +1350,6 @@ func (settings *ElasticPoolPerDatabaseSettings) AssignProperties_To_ElasticPoolP
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ElasticPoolPerDatabaseSettings_STATUS populates our ElasticPoolPerDatabaseSettings from the provided source ElasticPoolPerDatabaseSettings_STATUS
-func (settings *ElasticPoolPerDatabaseSettings) Initialize_From_ElasticPoolPerDatabaseSettings_STATUS(source *ElasticPoolPerDatabaseSettings_STATUS) error {
-
-	// MaxCapacity
-	if source.MaxCapacity != nil {
-		maxCapacity := *source.MaxCapacity
-		settings.MaxCapacity = &maxCapacity
-	} else {
-		settings.MaxCapacity = nil
-	}
-
-	// MinCapacity
-	if source.MinCapacity != nil {
-		minCapacity := *source.MinCapacity
-		settings.MinCapacity = &minCapacity
-	} else {
-		settings.MinCapacity = nil
 	}
 
 	// No error

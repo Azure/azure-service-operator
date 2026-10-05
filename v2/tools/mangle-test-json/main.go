@@ -347,8 +347,7 @@ func logError(
 	line string,
 ) {
 	// If syntax error, log it and return
-	var syntaxError *json.SyntaxError
-	if errors.As(err, &syntaxError) {
+	if syntaxError, ok := errors.AsType[*json.SyntaxError](err); ok {
 		log.Error(
 			err,
 			"Syntax error parsing JSON",
@@ -361,8 +360,7 @@ func logError(
 	}
 
 	// If unmarshal type error, log it and return
-	var unmarshalError *json.UnmarshalTypeError
-	if errors.As(err, &unmarshalError) {
+	if unmarshalError, ok := errors.AsType[*json.UnmarshalTypeError](err); ok {
 		log.Error(
 			err,
 			"Unmarshal type error parsing JSON",

@@ -33,10 +33,10 @@ vars:
 
   VERSION:
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
-    sh: "{{.SCRIPTS_ROOT}}/build_version.py v2"
+    sh: 'if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then {{.SCRIPTS_ROOT}}/build_version.py v2; else echo dev; fi'
 
   LATEST_VERSION_TAG:
-    sh: git describe --tags $(git rev-list --tags='v2*' --max-count=1) --match 'v2*'
+    sh: 'if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then git describe --tags $(git rev-list --tags=''v2*'' --max-count=1) --match ''v2*''; else echo dev; fi'
 
   VERSION_FLAGS: '"-X {{.PACKAGE}}/internal/version.BuildVersion={{.VERSION}}"'
   LDFLAGS: -ldflags {{.VERSION_FLAGS}}
@@ -322,7 +322,9 @@ tasks:
     desc: Generate the {{.GENERATOR_APP}} binary.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
-      - go build {{.LDFLAGS}} -o ../../bin/{{.GENERATOR_APP}} .
+      # Not passing LDFLAGS here as embedding the version in the generator causes frequent rebuilds during local development
+      # that are unnecessary
+      - go build -o ../../bin/{{.GENERATOR_APP}} .
 
   # Stub retained until migration of workflows complete
   generator:diagrams:
@@ -614,12 +616,12 @@ tasks:
 
   controller:test-samples:
     desc: Run tests of samples with envtest using record/replay.
-    dir: "{{.CONTROLLER_ROOT}}"
+    dir: "{{.CONTROLLER_ROOT}}/samples"
     deps: 
       - setup
       - controller:run-kustomize-for-envtest
     cmds:
-      - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/testsamples | tee '{{.TEST_OUT}}/test-samples.log'
+      - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./sampletesting | tee '{{.TEST_OUT}}/test-samples.log'
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ]; then echo "-v"; fi
@@ -638,7 +640,7 @@ tasks:
     desc: Tidy the go-vcr recordings for the sample tests. This may be run after updating recordings of samples.
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-      - "go-vcr-tidy --clean-all ./internal/testsamples/recordings/Test_Samples_CreationAndDeletion/*.yaml"
+      - "go-vcr-tidy --clean-all ./samples/sampletesting/recordings/Test_Samples_CreationAndDeletion/*.yaml"
 
   controller:test-genruntime:
     desc: Run integration tests with envtest using record/replay.
@@ -743,16 +745,24 @@ tasks:
     env:
       RECORD_REPLAY: 0
 
+  controller:test-integration:
+    desc: Run live integration tests against the current cluster.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps:
+      - setup
+    cmds:
+      # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
+      # to keep CI fast
+      - go test -timeout 40m -v -run '{{default ".*" .TEST_FILTER}}' ./test | tee '{{.TEST_OUT}}/test-integration.log'
+
   controller:test-integration-kind-ci:
     desc: Run live integration tests in kind and deletes the kind cluster afterwards.
     dir: "{{.CONTROLLER_ROOT}}"
     deps:  
       - controller:kind-create-helm-workload-identity
     cmds:
-      # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
-      # to keep CI fast
       - defer: { task: controller:kind-delete }
-      - go test -timeout 40m -run '{{default ".*" .TEST_FILTER}}' ./test
+      - task: controller:test-integration
 
   # Note that this target isn't used in CI and is intended for use when running locally on a kind cluster
   # that you don't want to delete (in contrast to test-integration-kind-ci which will delete the kind cluster
@@ -763,9 +773,7 @@ tasks:
     deps: 
       - controller:kind-create-helm-workload-identity
     cmds:
-      # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
-      # to keep CI fast
-      - go test -timeout 40m -v -run '{{default ".*" .TEST_FILTER}}' ./test
+      - task: controller:test-integration
 
   # To control as many variables as possible and get repeatable runs, it's recommended to 
   # run this test against a real AKS cluster rather than a local kind cluster
@@ -1396,11 +1404,9 @@ tasks:
     deps:
       - doc:frontmatter-check
     cmds:
+      - npm ci --ignore-scripts
       - hugo
       - htmltest
-    env:
-      NODE_PATH:
-        sh: npm root -g
 
   doc:render-diagrams:
     desc: Render all GraphViz diagrams

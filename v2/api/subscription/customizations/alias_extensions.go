@@ -9,7 +9,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription"
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
-	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	storage "github.com/Azure/azure-service-operator/v2/api/subscription/v20211001/storage"
@@ -28,11 +27,11 @@ func (extension *AliasExtension) Delete(
 	armClient *genericarmclient.GenericClient,
 	obj genruntime.ARMMetaObject,
 	next extensions.DeleteFunc,
-) (ctrl.Result, error) {
+) (extensions.DeleteResult, error) {
 	// First cancel the subscription, then delete the alias
 	typedObj, ok := obj.(*storage.Alias)
 	if !ok {
-		return ctrl.Result{}, eris.Errorf("cannot run on unknown resource type %T, expected *subscription.Alias", obj)
+		return extensions.DeleteResult{}, eris.Errorf("cannot run on unknown resource type %T, expected *subscription.Alias", obj)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if
@@ -50,7 +49,7 @@ func (extension *AliasExtension) Delete(
 	// connection each time through
 	subscriptionClient, err := armsubscription.NewClient(armClient.Creds(), armClient.ClientOptions())
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "failed to create new workspaceClient")
+		return extensions.DeleteResult{}, eris.Wrapf(err, "failed to create new subscriptionClient")
 	}
 
 	// Don't need to do anything with the response here so just ignore it.
@@ -58,7 +57,7 @@ func (extension *AliasExtension) Delete(
 	_, err = subscriptionClient.Cancel(ctx, subscriptionID, nil)
 	if err != nil {
 		// TODO: May need to set condition error here
-		return ctrl.Result{}, eris.Wrapf(err, "failed to cancel subscription %q", subscriptionID)
+		return extensions.DeleteResult{}, eris.Wrapf(err, "failed to cancel subscription %q", subscriptionID)
 	}
 
 	return next(ctx, log, resolver, armClient, obj)

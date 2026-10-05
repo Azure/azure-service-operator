@@ -55,22 +55,36 @@ var _ conversion.Convertible = &BackupVault{}
 
 // ConvertFrom populates our BackupVault from the provided hub BackupVault
 func (vault *BackupVault) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.BackupVault)
-	if !ok {
-		return fmt.Errorf("expected dataprotection/v1api20231101/storage/BackupVault but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.BackupVault
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return vault.AssignProperties_From_BackupVault(source)
+	err = vault.AssignProperties_From_BackupVault(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to vault")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub BackupVault from our BackupVault
 func (vault *BackupVault) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.BackupVault)
-	if !ok {
-		return fmt.Errorf("expected dataprotection/v1api20231101/storage/BackupVault but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.BackupVault
+	err := vault.AssignProperties_To_BackupVault(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from vault")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return vault.AssignProperties_To_BackupVault(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &BackupVault{}
@@ -91,17 +105,6 @@ func (vault *BackupVault) SecretDestinationExpressions() []*core.DestinationExpr
 		return nil
 	}
 	return vault.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &BackupVault{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (vault *BackupVault) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*BackupVaultResource_STATUS); ok {
-		return vault.Spec.Initialize_From_BackupVaultResource_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type BackupVaultResource_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesConfigExporter = &BackupVault{}
@@ -591,43 +594,6 @@ func (vault *BackupVault_Spec) AssignProperties_To_BackupVault_Spec(destination 
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BackupVaultResource_STATUS populates our BackupVault_Spec from the provided source BackupVaultResource_STATUS
-func (vault *BackupVault_Spec) Initialize_From_BackupVaultResource_STATUS(source *BackupVaultResource_STATUS) error {
-
-	// Identity
-	if source.Identity != nil {
-		var identity DppIdentityDetails
-		err := identity.Initialize_From_DppIdentityDetails_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DppIdentityDetails_STATUS() to populate field Identity")
-		}
-		vault.Identity = &identity
-	} else {
-		vault.Identity = nil
-	}
-
-	// Location
-	vault.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Properties
-	if source.Properties != nil {
-		var property BackupVaultSpec
-		err := property.Initialize_From_BackupVault_STATUS(source.Properties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_BackupVault_STATUS() to populate field Properties")
-		}
-		vault.Properties = &property
-	} else {
-		vault.Properties = nil
-	}
-
-	// Tags
-	vault.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1710,68 +1676,6 @@ func (vault *BackupVaultSpec) AssignProperties_To_BackupVaultSpec(destination *s
 	return nil
 }
 
-// Initialize_From_BackupVault_STATUS populates our BackupVaultSpec from the provided source BackupVault_STATUS
-func (vault *BackupVaultSpec) Initialize_From_BackupVault_STATUS(source *BackupVault_STATUS) error {
-
-	// FeatureSettings
-	if source.FeatureSettings != nil {
-		var featureSetting FeatureSettings
-		err := featureSetting.Initialize_From_FeatureSettings_STATUS(source.FeatureSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FeatureSettings_STATUS() to populate field FeatureSettings")
-		}
-		vault.FeatureSettings = &featureSetting
-	} else {
-		vault.FeatureSettings = nil
-	}
-
-	// MonitoringSettings
-	if source.MonitoringSettings != nil {
-		var monitoringSetting MonitoringSettings
-		err := monitoringSetting.Initialize_From_MonitoringSettings_STATUS(source.MonitoringSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_MonitoringSettings_STATUS() to populate field MonitoringSettings")
-		}
-		vault.MonitoringSettings = &monitoringSetting
-	} else {
-		vault.MonitoringSettings = nil
-	}
-
-	// ReplicatedRegions
-	vault.ReplicatedRegions = genruntime.CloneSliceOfString(source.ReplicatedRegions)
-
-	// SecuritySettings
-	if source.SecuritySettings != nil {
-		var securitySetting SecuritySettings
-		err := securitySetting.Initialize_From_SecuritySettings_STATUS(source.SecuritySettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SecuritySettings_STATUS() to populate field SecuritySettings")
-		}
-		vault.SecuritySettings = &securitySetting
-	} else {
-		vault.SecuritySettings = nil
-	}
-
-	// StorageSettings
-	if source.StorageSettings != nil {
-		storageSettingList := make([]StorageSetting, len(source.StorageSettings))
-		for storageSettingIndex, storageSettingItem := range source.StorageSettings {
-			var storageSetting StorageSetting
-			err := storageSetting.Initialize_From_StorageSetting_STATUS(&storageSettingItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_StorageSetting_STATUS() to populate field StorageSettings")
-			}
-			storageSettingList[storageSettingIndex] = storageSetting
-		}
-		vault.StorageSettings = storageSettingList
-	} else {
-		vault.StorageSettings = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Identity details
 type DppIdentityDetails struct {
 	// Type: The identityType which can be either SystemAssigned, UserAssigned, 'SystemAssigned,UserAssigned' or None
@@ -1888,28 +1792,6 @@ func (details *DppIdentityDetails) AssignProperties_To_DppIdentityDetails(destin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DppIdentityDetails_STATUS populates our DppIdentityDetails from the provided source DppIdentityDetails_STATUS
-func (details *DppIdentityDetails) Initialize_From_DppIdentityDetails_STATUS(source *DppIdentityDetails_STATUS) error {
-
-	// Type
-	details.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		details.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		details.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -2473,37 +2355,6 @@ func (settings *FeatureSettings) AssignProperties_To_FeatureSettings(destination
 	return nil
 }
 
-// Initialize_From_FeatureSettings_STATUS populates our FeatureSettings from the provided source FeatureSettings_STATUS
-func (settings *FeatureSettings) Initialize_From_FeatureSettings_STATUS(source *FeatureSettings_STATUS) error {
-
-	// CrossRegionRestoreSettings
-	if source.CrossRegionRestoreSettings != nil {
-		var crossRegionRestoreSetting CrossRegionRestoreSettings
-		err := crossRegionRestoreSetting.Initialize_From_CrossRegionRestoreSettings_STATUS(source.CrossRegionRestoreSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CrossRegionRestoreSettings_STATUS() to populate field CrossRegionRestoreSettings")
-		}
-		settings.CrossRegionRestoreSettings = &crossRegionRestoreSetting
-	} else {
-		settings.CrossRegionRestoreSettings = nil
-	}
-
-	// CrossSubscriptionRestoreSettings
-	if source.CrossSubscriptionRestoreSettings != nil {
-		var crossSubscriptionRestoreSetting CrossSubscriptionRestoreSettings
-		err := crossSubscriptionRestoreSetting.Initialize_From_CrossSubscriptionRestoreSettings_STATUS(source.CrossSubscriptionRestoreSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CrossSubscriptionRestoreSettings_STATUS() to populate field CrossSubscriptionRestoreSettings")
-		}
-		settings.CrossSubscriptionRestoreSettings = &crossSubscriptionRestoreSetting
-	} else {
-		settings.CrossSubscriptionRestoreSettings = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Class containing feature settings of vault
 type FeatureSettings_STATUS struct {
 	CrossRegionRestoreSettings *CrossRegionRestoreSettings_STATUS `json:"crossRegionRestoreSettings,omitempty"`
@@ -2718,25 +2569,6 @@ func (settings *MonitoringSettings) AssignProperties_To_MonitoringSettings(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_MonitoringSettings_STATUS populates our MonitoringSettings from the provided source MonitoringSettings_STATUS
-func (settings *MonitoringSettings) Initialize_From_MonitoringSettings_STATUS(source *MonitoringSettings_STATUS) error {
-
-	// AzureMonitorAlertSettings
-	if source.AzureMonitorAlertSettings != nil {
-		var azureMonitorAlertSetting AzureMonitorAlertSettings
-		err := azureMonitorAlertSetting.Initialize_From_AzureMonitorAlertSettings_STATUS(source.AzureMonitorAlertSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AzureMonitorAlertSettings_STATUS() to populate field AzureMonitorAlertSettings")
-		}
-		settings.AzureMonitorAlertSettings = &azureMonitorAlertSetting
-	} else {
-		settings.AzureMonitorAlertSettings = nil
 	}
 
 	// No error
@@ -3093,37 +2925,6 @@ func (settings *SecuritySettings) AssignProperties_To_SecuritySettings(destinati
 	return nil
 }
 
-// Initialize_From_SecuritySettings_STATUS populates our SecuritySettings from the provided source SecuritySettings_STATUS
-func (settings *SecuritySettings) Initialize_From_SecuritySettings_STATUS(source *SecuritySettings_STATUS) error {
-
-	// ImmutabilitySettings
-	if source.ImmutabilitySettings != nil {
-		var immutabilitySetting ImmutabilitySettings
-		err := immutabilitySetting.Initialize_From_ImmutabilitySettings_STATUS(source.ImmutabilitySettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ImmutabilitySettings_STATUS() to populate field ImmutabilitySettings")
-		}
-		settings.ImmutabilitySettings = &immutabilitySetting
-	} else {
-		settings.ImmutabilitySettings = nil
-	}
-
-	// SoftDeleteSettings
-	if source.SoftDeleteSettings != nil {
-		var softDeleteSetting SoftDeleteSettings
-		err := softDeleteSetting.Initialize_From_SoftDeleteSettings_STATUS(source.SoftDeleteSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SoftDeleteSettings_STATUS() to populate field SoftDeleteSettings")
-		}
-		settings.SoftDeleteSettings = &softDeleteSetting
-	} else {
-		settings.SoftDeleteSettings = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Class containing security settings of vault
 type SecuritySettings_STATUS struct {
 	// ImmutabilitySettings: Immutability Settings at vault level
@@ -3363,29 +3164,6 @@ func (setting *StorageSetting) AssignProperties_To_StorageSetting(destination *s
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_StorageSetting_STATUS populates our StorageSetting from the provided source StorageSetting_STATUS
-func (setting *StorageSetting) Initialize_From_StorageSetting_STATUS(source *StorageSetting_STATUS) error {
-
-	// DatastoreType
-	if source.DatastoreType != nil {
-		datastoreType := genruntime.ToEnum(string(*source.DatastoreType), storageSetting_DatastoreType_Values)
-		setting.DatastoreType = &datastoreType
-	} else {
-		setting.DatastoreType = nil
-	}
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), storageSetting_Type_Values)
-		setting.Type = &typeVar
-	} else {
-		setting.Type = nil
 	}
 
 	// No error
@@ -3722,21 +3500,6 @@ func (settings *AzureMonitorAlertSettings) AssignProperties_To_AzureMonitorAlert
 	return nil
 }
 
-// Initialize_From_AzureMonitorAlertSettings_STATUS populates our AzureMonitorAlertSettings from the provided source AzureMonitorAlertSettings_STATUS
-func (settings *AzureMonitorAlertSettings) Initialize_From_AzureMonitorAlertSettings_STATUS(source *AzureMonitorAlertSettings_STATUS) error {
-
-	// AlertsForAllJobFailures
-	if source.AlertsForAllJobFailures != nil {
-		alertsForAllJobFailure := genruntime.ToEnum(string(*source.AlertsForAllJobFailures), azureMonitorAlertSettings_AlertsForAllJobFailures_Values)
-		settings.AlertsForAllJobFailures = &alertsForAllJobFailure
-	} else {
-		settings.AlertsForAllJobFailures = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Settings for Azure Monitor based alerts
 type AzureMonitorAlertSettings_STATUS struct {
 	AlertsForAllJobFailures *AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS `json:"alertsForAllJobFailures,omitempty"`
@@ -3890,21 +3653,6 @@ func (settings *CrossRegionRestoreSettings) AssignProperties_To_CrossRegionResto
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CrossRegionRestoreSettings_STATUS populates our CrossRegionRestoreSettings from the provided source CrossRegionRestoreSettings_STATUS
-func (settings *CrossRegionRestoreSettings) Initialize_From_CrossRegionRestoreSettings_STATUS(source *CrossRegionRestoreSettings_STATUS) error {
-
-	// State
-	if source.State != nil {
-		state := genruntime.ToEnum(string(*source.State), crossRegionRestoreSettings_State_Values)
-		settings.State = &state
-	} else {
-		settings.State = nil
 	}
 
 	// No error
@@ -4071,21 +3819,6 @@ func (settings *CrossSubscriptionRestoreSettings) AssignProperties_To_CrossSubsc
 	return nil
 }
 
-// Initialize_From_CrossSubscriptionRestoreSettings_STATUS populates our CrossSubscriptionRestoreSettings from the provided source CrossSubscriptionRestoreSettings_STATUS
-func (settings *CrossSubscriptionRestoreSettings) Initialize_From_CrossSubscriptionRestoreSettings_STATUS(source *CrossSubscriptionRestoreSettings_STATUS) error {
-
-	// State
-	if source.State != nil {
-		state := genruntime.ToEnum(string(*source.State), crossSubscriptionRestoreSettings_State_Values)
-		settings.State = &state
-	} else {
-		settings.State = nil
-	}
-
-	// No error
-	return nil
-}
-
 // CrossSubscriptionRestore Settings
 type CrossSubscriptionRestoreSettings_STATUS struct {
 	// State: CrossSubscriptionRestore state
@@ -4241,21 +3974,6 @@ func (settings *ImmutabilitySettings) AssignProperties_To_ImmutabilitySettings(d
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ImmutabilitySettings_STATUS populates our ImmutabilitySettings from the provided source ImmutabilitySettings_STATUS
-func (settings *ImmutabilitySettings) Initialize_From_ImmutabilitySettings_STATUS(source *ImmutabilitySettings_STATUS) error {
-
-	// State
-	if source.State != nil {
-		state := genruntime.ToEnum(string(*source.State), immutabilitySettings_State_Values)
-		settings.State = &state
-	} else {
-		settings.State = nil
 	}
 
 	// No error
@@ -4448,29 +4166,6 @@ func (settings *SoftDeleteSettings) AssignProperties_To_SoftDeleteSettings(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SoftDeleteSettings_STATUS populates our SoftDeleteSettings from the provided source SoftDeleteSettings_STATUS
-func (settings *SoftDeleteSettings) Initialize_From_SoftDeleteSettings_STATUS(source *SoftDeleteSettings_STATUS) error {
-
-	// RetentionDurationInDays
-	if source.RetentionDurationInDays != nil {
-		retentionDurationInDay := *source.RetentionDurationInDays
-		settings.RetentionDurationInDays = &retentionDurationInDay
-	} else {
-		settings.RetentionDurationInDays = nil
-	}
-
-	// State
-	if source.State != nil {
-		state := genruntime.ToEnum(string(*source.State), softDeleteSettings_State_Values)
-		settings.State = &state
-	} else {
-		settings.State = nil
 	}
 
 	// No error

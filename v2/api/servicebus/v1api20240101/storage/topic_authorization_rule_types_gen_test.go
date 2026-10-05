@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,101 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_TopicAuthorizationRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TopicAuthorizationRule to hub returns original",
+		prop.ForAll(RunResourceConversionTestForTopicAuthorizationRule, TopicAuthorizationRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForTopicAuthorizationRule tests if a specific instance of TopicAuthorizationRule round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForTopicAuthorizationRule(subject TopicAuthorizationRule) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.TopicAuthorizationRule
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual TopicAuthorizationRule
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_TopicAuthorizationRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TopicAuthorizationRule to TopicAuthorizationRule via AssignProperties_To_TopicAuthorizationRule & AssignProperties_From_TopicAuthorizationRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTopicAuthorizationRule, TopicAuthorizationRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTopicAuthorizationRule tests if a specific instance of TopicAuthorizationRule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTopicAuthorizationRule(subject TopicAuthorizationRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.TopicAuthorizationRule
+	err := copied.AssignProperties_To_TopicAuthorizationRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TopicAuthorizationRule
+	err = actual.AssignProperties_From_TopicAuthorizationRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_TopicAuthorizationRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -84,6 +180,53 @@ func AddRelatedPropertyGeneratorsForTopicAuthorizationRule(gens map[string]gopte
 	gens["Status"] = TopicAuthorizationRule_STATUSGenerator()
 }
 
+func Test_TopicAuthorizationRuleOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TopicAuthorizationRuleOperatorSecrets to TopicAuthorizationRuleOperatorSecrets via AssignProperties_To_TopicAuthorizationRuleOperatorSecrets & AssignProperties_From_TopicAuthorizationRuleOperatorSecrets returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTopicAuthorizationRuleOperatorSecrets, TopicAuthorizationRuleOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTopicAuthorizationRuleOperatorSecrets tests if a specific instance of TopicAuthorizationRuleOperatorSecrets can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTopicAuthorizationRuleOperatorSecrets(subject TopicAuthorizationRuleOperatorSecrets) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.TopicAuthorizationRuleOperatorSecrets
+	err := copied.AssignProperties_To_TopicAuthorizationRuleOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TopicAuthorizationRuleOperatorSecrets
+	err = actual.AssignProperties_From_TopicAuthorizationRuleOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_TopicAuthorizationRuleOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -142,6 +285,53 @@ func TopicAuthorizationRuleOperatorSecretsGenerator() gopter.Gen {
 	topicAuthorizationRuleOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(TopicAuthorizationRuleOperatorSecrets{}), generators)
 
 	return topicAuthorizationRuleOperatorSecretsGenerator
+}
+
+func Test_TopicAuthorizationRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TopicAuthorizationRuleOperatorSpec to TopicAuthorizationRuleOperatorSpec via AssignProperties_To_TopicAuthorizationRuleOperatorSpec & AssignProperties_From_TopicAuthorizationRuleOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTopicAuthorizationRuleOperatorSpec, TopicAuthorizationRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTopicAuthorizationRuleOperatorSpec tests if a specific instance of TopicAuthorizationRuleOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTopicAuthorizationRuleOperatorSpec(subject TopicAuthorizationRuleOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.TopicAuthorizationRuleOperatorSpec
+	err := copied.AssignProperties_To_TopicAuthorizationRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TopicAuthorizationRuleOperatorSpec
+	err = actual.AssignProperties_From_TopicAuthorizationRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_TopicAuthorizationRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -208,6 +398,53 @@ func TopicAuthorizationRuleOperatorSpecGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForTopicAuthorizationRuleOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTopicAuthorizationRuleOperatorSpec(gens map[string]gopter.Gen) {
 	gens["Secrets"] = gen.PtrOf(TopicAuthorizationRuleOperatorSecretsGenerator())
+}
+
+func Test_TopicAuthorizationRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TopicAuthorizationRule_STATUS to TopicAuthorizationRule_STATUS via AssignProperties_To_TopicAuthorizationRule_STATUS & AssignProperties_From_TopicAuthorizationRule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTopicAuthorizationRule_STATUS, TopicAuthorizationRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTopicAuthorizationRule_STATUS tests if a specific instance of TopicAuthorizationRule_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTopicAuthorizationRule_STATUS(subject TopicAuthorizationRule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.TopicAuthorizationRule_STATUS
+	err := copied.AssignProperties_To_TopicAuthorizationRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TopicAuthorizationRule_STATUS
+	err = actual.AssignProperties_From_TopicAuthorizationRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_TopicAuthorizationRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -292,6 +529,53 @@ func AddIndependentPropertyGeneratorsForTopicAuthorizationRule_STATUS(gens map[s
 // AddRelatedPropertyGeneratorsForTopicAuthorizationRule_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTopicAuthorizationRule_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_TopicAuthorizationRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TopicAuthorizationRule_Spec to TopicAuthorizationRule_Spec via AssignProperties_To_TopicAuthorizationRule_Spec & AssignProperties_From_TopicAuthorizationRule_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTopicAuthorizationRule_Spec, TopicAuthorizationRule_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTopicAuthorizationRule_Spec tests if a specific instance of TopicAuthorizationRule_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTopicAuthorizationRule_Spec(subject TopicAuthorizationRule_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.TopicAuthorizationRule_Spec
+	err := copied.AssignProperties_To_TopicAuthorizationRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TopicAuthorizationRule_Spec
+	err = actual.AssignProperties_From_TopicAuthorizationRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_TopicAuthorizationRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

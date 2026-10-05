@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/web/v20220301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &Site{}
 
 // ConvertFrom populates our Site from the provided hub Site
 func (site *Site) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Site)
-	if !ok {
-		return fmt.Errorf("expected web/v20220301/storage/Site but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Site
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return site.AssignProperties_From_Site(source)
+	err = site.AssignProperties_From_Site(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to site")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Site from our Site
 func (site *Site) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Site)
-	if !ok {
-		return fmt.Errorf("expected web/v20220301/storage/Site but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Site
+	err := site.AssignProperties_To_Site(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from site")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return site.AssignProperties_To_Site(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Site{}

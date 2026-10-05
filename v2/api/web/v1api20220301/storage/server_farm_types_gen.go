@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/web/v20220301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ServerFarm{}
 
 // ConvertFrom populates our ServerFarm from the provided hub ServerFarm
 func (farm *ServerFarm) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServerFarm)
-	if !ok {
-		return fmt.Errorf("expected web/v20220301/storage/ServerFarm but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServerFarm
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return farm.AssignProperties_From_ServerFarm(source)
+	err = farm.AssignProperties_From_ServerFarm(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to farm")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServerFarm from our ServerFarm
 func (farm *ServerFarm) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServerFarm)
-	if !ok {
-		return fmt.Errorf("expected web/v20220301/storage/ServerFarm but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServerFarm
+	err := farm.AssignProperties_To_ServerFarm(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from farm")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return farm.AssignProperties_To_ServerFarm(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServerFarm{}

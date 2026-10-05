@@ -43,7 +43,7 @@ Do **not** use `PostReconciliationChecker` when:
 - ❌ ARM success means the resource is ready
 - ❌ The check should happen before reconciliation (use PreReconciliationChecker)
 - ❌ You're validating the spec (do that in webhooks)
-- ❌ You're modifying the resource (use other extensions)
+- ❌ You're changing what gets sent to Azure (use `ARMResourceModifier`)
 
 ## Example: Private Endpoint Approval Check
 
@@ -71,6 +71,7 @@ func (ex *ResourceExtension) PostReconcileCheck(
     resourceResolver *resolver.Resolver,
     armClient *genericarmclient.GenericClient,
     log logr.Logger,
+    reconcilePolicies annotations.ResolvedReconcilePolicies,
     next extensions.PostReconcileCheckFunc,
 ) (extensions.PostReconcileCheckResult, error) {
     resource := obj.(*myservice.MyResource)
@@ -101,6 +102,7 @@ func (ex *ResourceExtension) PostReconcileCheck(
     resourceResolver *resolver.Resolver,
     armClient *genericarmclient.GenericClient,
     log logr.Logger,
+    reconcilePolicies annotations.ResolvedReconcilePolicies,
     next extensions.PostReconcileCheckFunc,
 ) (extensions.PostReconcileCheckResult, error) {
     resource := obj.(*myservice.MyResource)
@@ -138,6 +140,7 @@ func (ex *ResourceExtension) PostReconcileCheck(
     resourceResolver *resolver.Resolver,
     armClient *genericarmclient.GenericClient,
     log logr.Logger,
+    reconcilePolicies annotations.ResolvedReconcilePolicies,
     next extensions.PostReconcileCheckFunc,
 ) (extensions.PostReconcileCheckResult, error) {
     resource := obj.(*myservice.MyResource)
@@ -229,11 +232,28 @@ When testing `PostReconciliationChecker` extensions:
 
 ## Important Notes
 
-- **Call `next()` if appropriate**: Allows for check chaining (rarely needed)
-- **Don't modify the resource**: This is for validation only
+- **Call `next()` if appropriate**: Allows for check chaining (rarely needed). Pass `reconcilePolicies` through when you do
+- **Don't change the spec**: The resource has already been sent to Azure, so a spec change won't reach it
+- **Annotations are the exception**: The resource is written back after the check, so an extension that
+  invokes an ARM action can keep the poller resume token in one and pick the operation up on a later
+  reconcile. Only the resource being reconciled is written back, never its owner, so an action invoked on
+  another resource still keeps its token here
+- **Respect the reconcile policy**: This check runs even when the policy forbids modification, since the
+  skip path still updates status. Before acting on Azure, inspect the explicit `reconcilePolicies`
+  parameter, which contains policies already resolved by the reconciler. Use
+  `reconcilePolicies.Effective` for the resource being reconciled. To act on another resource in the same
+  namespace, use `reconcilePolicies.ForResource(resource)` and handle the returned error. The method checks
+  that the resource belongs to the namespace for which the policies were resolved. `reconcilePolicies.NamespacePolicy`
+  is the policy resolved from that namespace's annotation or the global policy, while
+  `reconcilePolicies.Global` is resolved from operator configuration or the built-in default
+- **Check it's the same operator**: A matching namespace is not a matching operator. Operators sharing a
+  cluster have their own policies and credentials, and none of that is visible from here. Compare
+  `reconcilers.OperatorNamespaceAnnotation` on both resources and refuse when they differ, before resolving
+  anything that depends on this operator's configuration
 - **Be patient**: Checks may run many times before succeeding
 - **Use factory methods**: Always uses the factory methods for `PostReconcileCheckResult` to ensure consistency
-- **Provide clear reasons**: Failure messages shown to users
+- **Provide clear reasons**: Failure messages shown to users. A message is discarded when returned with a
+  non-`nil` error, which becomes the condition instead, so put the explanation in the error
 - **Log appropriately**: Help debugging without noise
 - **Handle nil values**: Status fields may not be populated yet
 - **Consider performance**: This runs on every reconciliation

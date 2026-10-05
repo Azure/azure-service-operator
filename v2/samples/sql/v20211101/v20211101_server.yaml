@@ -21,4 +21,3 @@ spec:
       name: sql-admin-mi-config
       key: tenantId
   version: "12.0"
-

@@ -33,23 +33,6 @@ type Project_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-// Identity for the resource.
-type Identity_STATUS struct {
-	// PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The identity type.
-	Type *Identity_Type_STATUS `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user assigned identities associated with the resource. The user identity dictionary
-	// key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}
-	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
-}
-
 // Properties of Cognitive Services Project'.
 type ProjectProperties_STATUS struct {
 	// Description: The description of the Cognitive Services Project.
@@ -66,44 +49,6 @@ type ProjectProperties_STATUS struct {
 
 	// ProvisioningState: Gets the status of the cognitive services project at the time the operation was called.
 	ProvisioningState *ProjectProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-}
-
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData_STATUS struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
-}
-
-type Identity_Type_STATUS string
-
-const (
-	Identity_Type_STATUS_None                       = Identity_Type_STATUS("None")
-	Identity_Type_STATUS_SystemAssigned             = Identity_Type_STATUS("SystemAssigned")
-	Identity_Type_STATUS_SystemAssignedUserAssigned = Identity_Type_STATUS("SystemAssigned, UserAssigned")
-	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
-)
-
-// Mapping from string to Identity_Type_STATUS
-var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
-	"none":                         Identity_Type_STATUS_None,
-	"systemassigned":               Identity_Type_STATUS_SystemAssigned,
-	"systemassigned, userassigned": Identity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 Identity_Type_STATUS_UserAssigned,
 }
 
 type ProjectProperties_ProvisioningState_STATUS string
@@ -129,47 +74,4 @@ var projectProperties_ProvisioningState_STATUS_Values = map[string]ProjectProper
 	"moving":       ProjectProperties_ProvisioningState_STATUS_Moving,
 	"resolvingdns": ProjectProperties_ProvisioningState_STATUS_ResolvingDNS,
 	"succeeded":    ProjectProperties_ProvisioningState_STATUS_Succeeded,
-}
-
-type SystemData_CreatedByType_STATUS string
-
-const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
-)
-
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
-}
-
-type SystemData_LastModifiedByType_STATUS string
-
-const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
-)
-
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
-}
-
-// User-assigned managed identity.
-type UserAssignedIdentity_STATUS struct {
-	// ClientId: Client App Id associated with this identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: Azure Active Directory principal ID associated with this Identity.
-	PrincipalId *string `json:"principalId,omitempty"`
 }

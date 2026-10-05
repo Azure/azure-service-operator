@@ -56,6 +56,21 @@ func Test_Redactor_givenInput_returnsExpectedResult(t *testing.T) {
 			input:    `primary;AccessKey=SECRET1;Version=1.0; secondary;accesskey=SECRET2`,
 			expected: `primary;AccessKey={KEY};Version=1.0; secondary;accesskey={KEY}`,
 		},
+		//
+		// Test cases for the identity of whoever recorded the test
+		//
+		"Recording identity": {
+			input:    `{"createdBy":"someone@example.org","createdByType":"User","lastModifiedBy":"someone@example.org"}`,
+			expected: `{"createdBy":"redacted@example.com","createdByType":"User","lastModifiedBy":"redacted@example.com"}`,
+		},
+		"Recording identity of a service principal is left alone": {
+			input:    `{"createdBy":"00000000-1111-2222-3333-444444444444","createdByType":"Application"}`,
+			expected: `{"createdBy":"00000000-1111-2222-3333-444444444444","createdByType":"Application"}`,
+		},
+		"Caller object ID": {
+			input:    `operationId=1a2b3c4d,objectId=80e349d8-21c2-4322-907d-c1dbac5915dd`,
+			expected: `operationId=1a2b3c4d,objectId=00000000-0000-0000-0000-000000000000`,
+		},
 	}
 
 	ids := creds.AzureIDs{}

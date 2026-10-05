@@ -154,23 +154,6 @@ func (b *ResourceConversionGraphBuilder) withoutLinkedNames(
 	return result
 }
 
-func isCompatibilityPackage(ref astmodel.PackageReference) bool {
-	switch r := ref.(type) {
-	case astmodel.ExternalPackageReference:
-		return false
-	case astmodel.LocalPackageReference:
-		return r.HasVersionPrefix("v1api")
-	case astmodel.SubPackageReference:
-		return isCompatibilityPackage(r.Parent())
-	default:
-		msg := fmt.Sprintf(
-			"unexpected PackageReference implementation %T",
-			ref,
-		)
-		panic(msg)
-	}
-}
-
 // asNewStylePackageReference returns the new-style package reference for the supplied reference, if it is a legacy
 // reference, or false if it isn't.
 // Correctly handles nested package references, returning a new nested reference with the new-style reference at the

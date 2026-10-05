@@ -1,0 +1,228 @@
+{
+  "cluster": {
+    "location": "${location}",
+    "identity": {
+      "type": "UserAssigned",
+      "userAssignedIdentities": [
+        {
+          "reference": {
+            "armId": "${cp-cloud-controller-manager}"
+          }
+        },
+        {
+          "reference": {
+            "armId": "${cp-cloud-network-config}"
+          }
+        },
+        {
+          "reference": {
+            "armId": "${cp-cluster-api-azure}"
+          }
+        },
+        {
+          "reference": {
+            "armId": "${cp-control-plane}"
+          }
+        },
+        {
+          "reference": {
+            "armId": "${cp-disk-csi-driver}"
+          }
+        },
+        {
+          "reference": {
+            "armId": "${cp-file-csi-driver}"
+          }
+        },
+        {
+          "reference": {
+            "armId": "${cp-image-registry}"
+          }
+        },
+        {
+          "reference": {
+            "armId": "${cp-ingress}"
+          }
+        },
+        {
+          "reference": {
+            "armId": "${cp-kms}"
+          }
+        },
+        {
+          "reference": {
+            "armId": "${serviceIdentity}"
+          }
+        }
+      ]
+    },
+    "properties": {
+      "platform": {
+        "networkSecurityGroupReference": {
+          "armId": "${networkSecurityGroup}"
+        },
+        "operatorsAuthentication": {
+          "userAssignedIdentities": {
+            "controlPlaneOperatorsReferences": {
+              "cloud-controller-manager": {
+                "armId": "${cp-cloud-controller-manager}"
+              },
+              "cloud-network-config": {
+                "armId": "${cp-cloud-network-config}"
+              },
+              "cluster-api-azure": {
+                "armId": "${cp-cluster-api-azure}"
+              },
+              "control-plane": {
+                "armId": "${cp-control-plane}"
+              },
+              "disk-csi-driver": {
+                "armId": "${cp-disk-csi-driver}"
+              },
+              "file-csi-driver": {
+                "armId": "${cp-file-csi-driver}"
+              },
+              "image-registry": {
+                "armId": "${cp-image-registry}"
+              },
+              "ingress": {
+                "armId": "${cp-ingress}"
+              },
+              "kms": {
+                "armId": "${cp-kms}"
+              }
+            },
+            "dataPlaneOperatorsReferences": {
+              "disk-csi-driver": {
+                "armId": "${dp-disk-csi-driver}"
+              },
+              "file-csi-driver": {
+                "armId": "${dp-file-csi-driver}"
+              },
+              "image-registry": {
+                "armId": "${dp-image-registry}"
+              }
+            },
+            "serviceManagedIdentityReference": {
+              "armId": "${serviceIdentity}"
+            }
+          }
+        },
+        "subnetReference": {
+          "armId": "${subnet}"
+        },
+        "outboundType": "LoadBalancer",
+        "vnetIntegrationSubnetReference": {
+          "armId": "${vnetIntegrationSubnet}"
+        }
+      },
+      "cryptoRestrictions": "None",
+      "ingress": {
+        "type": "Public"
+      },
+      "clusterImageRegistry": {
+        "state": "Enabled"
+      },
+      "etcd": {
+        "dataEncryption": {
+          "keyManagementMode": "CustomerManaged",
+          "customerManaged": {
+            "encryptionType": "KMS",
+            "kms": {
+              "vaultName": "${vaultName}",
+              "activeKey": {
+                "name": "${keyName}",
+                "version": "${keyVersion}"
+              },
+              "visibility": "Public"
+            }
+          }
+        }
+      },
+      "network": {
+        "hostPrefix": 23,
+        "networkType": "OVNKubernetes",
+        "machineCidr": "10.0.0.0/16",
+        "podCidr": "10.128.0.0/14",
+        "serviceCidr": "172.30.0.0/16"
+      },
+      "version": {
+        "channelGroup": "stable",
+        "id": "${clusterVersion}"
+      },
+      "api": {
+        "visibility": "Public"
+      }
+    },
+    "tags": {
+      "aro-hcp.experimental.cluster.single-replica": "SingleReplica",
+      "aro-hcp.experimental.cluster.size-override": "Minimal"
+    }
+  },
+  "nodePool": {
+    "location": "${location}",
+    "properties": {
+      "autoRepair": true,
+      "labels": [
+        {
+          "key": "region",
+          "value": "uksouth"
+        }
+      ],
+      "platform": {
+        "osDisk": {
+          "diskStorageAccountType": "Standard_LRS",
+          "sizeGiB": 128
+        },
+        "subnetReference": {
+          "armId": "${subnet}"
+        },
+        "vmSize": "Standard_D4s_v3"
+      },
+      "version": {
+        "channelGroup": "stable",
+        "id": "${nodePoolVersion}"
+      },
+      "replicas": 2
+    },
+    "tags": {
+      "aro-hcp.experimental.cluster.single-replica": "SingleReplica",
+      "aro-hcp.experimental.cluster.size-override": "Minimal"
+    }
+  },
+  "externalAuth": {
+    "properties": {
+      "issuer": {
+        "url": "${issuerURL}",
+        "audiences": [
+          "${clientID}"
+        ]
+      },
+      "claim": {
+        "mappings": {
+          "username": {
+            "claim": "oid",
+            "prefixPolicy": "NoPrefix"
+          },
+          "groups": {
+            "claim": "groups"
+          }
+        }
+      },
+      "clients": [
+        {
+          "clientId": "${clientID}",
+          "component": {
+            "name": "console",
+            "authClientNamespace": "openshift-console"
+          },
+          "type": "Confidential",
+          "extraScopes": [
+            "openid",
+            "profile"
+          ]
+        }
+      ]
+    }
+  }
+}

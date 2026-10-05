@@ -5,8 +5,8 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
-	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	v20250101s "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -42,7 +42,7 @@ func RunResourceConversionTestForServersDatabasesSecurityAlertPolicy(subject Ser
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub sql_v20211101s.ServersDatabasesSecurityAlertPolicy
+	var hub v20250101s.ServersDatabasesSecurityAlertPolicy
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -89,7 +89,7 @@ func RunPropertyAssignmentTestForServersDatabasesSecurityAlertPolicy(subject Ser
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersDatabasesSecurityAlertPolicy
+	var other v20211101s.ServersDatabasesSecurityAlertPolicy
 	err := copied.AssignProperties_To_ServersDatabasesSecurityAlertPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -203,7 +203,7 @@ func RunPropertyAssignmentTestForServersDatabasesSecurityAlertPolicyOperatorSpec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersDatabasesSecurityAlertPolicyOperatorSpec
+	var other v20211101s.ServersDatabasesSecurityAlertPolicyOperatorSpec
 	err := copied.AssignProperties_To_ServersDatabasesSecurityAlertPolicyOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -310,7 +310,7 @@ func RunPropertyAssignmentTestForServersDatabasesSecurityAlertPolicy_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersDatabasesSecurityAlertPolicy_STATUS
+	var other v20211101s.ServersDatabasesSecurityAlertPolicy_STATUS
 	err := copied.AssignProperties_To_ServersDatabasesSecurityAlertPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -446,7 +446,7 @@ func RunPropertyAssignmentTestForServersDatabasesSecurityAlertPolicy_Spec(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersDatabasesSecurityAlertPolicy_Spec
+	var other v20211101s.ServersDatabasesSecurityAlertPolicy_Spec
 	err := copied.AssignProperties_To_ServersDatabasesSecurityAlertPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()

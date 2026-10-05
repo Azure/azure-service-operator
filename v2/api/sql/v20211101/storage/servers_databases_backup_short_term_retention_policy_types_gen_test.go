@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,101 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_ServersDatabasesBackupShortTermRetentionPolicy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesBackupShortTermRetentionPolicy to hub returns original",
+		prop.ForAll(RunResourceConversionTestForServersDatabasesBackupShortTermRetentionPolicy, ServersDatabasesBackupShortTermRetentionPolicyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForServersDatabasesBackupShortTermRetentionPolicy tests if a specific instance of ServersDatabasesBackupShortTermRetentionPolicy round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForServersDatabasesBackupShortTermRetentionPolicy(subject ServersDatabasesBackupShortTermRetentionPolicy) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.ServersDatabasesBackupShortTermRetentionPolicy
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ServersDatabasesBackupShortTermRetentionPolicy
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServersDatabasesBackupShortTermRetentionPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesBackupShortTermRetentionPolicy to ServersDatabasesBackupShortTermRetentionPolicy via AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy & AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicy, ServersDatabasesBackupShortTermRetentionPolicyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicy tests if a specific instance of ServersDatabasesBackupShortTermRetentionPolicy can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicy(subject ServersDatabasesBackupShortTermRetentionPolicy) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersDatabasesBackupShortTermRetentionPolicy
+	err := copied.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersDatabasesBackupShortTermRetentionPolicy
+	err = actual.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_ServersDatabasesBackupShortTermRetentionPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -84,6 +180,53 @@ func AddRelatedPropertyGeneratorsForServersDatabasesBackupShortTermRetentionPoli
 	gens["Status"] = ServersDatabasesBackupShortTermRetentionPolicy_STATUSGenerator()
 }
 
+func Test_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec to ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec via AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec & AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicyOperatorSpec, ServersDatabasesBackupShortTermRetentionPolicyOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicyOperatorSpec tests if a specific instance of ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicyOperatorSpec(subject ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec
+	err := copied.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec
+	err = actual.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -142,6 +285,53 @@ func ServersDatabasesBackupShortTermRetentionPolicyOperatorSpecGenerator() gopte
 	serversDatabasesBackupShortTermRetentionPolicyOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec{}), generators)
 
 	return serversDatabasesBackupShortTermRetentionPolicyOperatorSpecGenerator
+}
+
+func Test_ServersDatabasesBackupShortTermRetentionPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesBackupShortTermRetentionPolicy_STATUS to ServersDatabasesBackupShortTermRetentionPolicy_STATUS via AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS & AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicy_STATUS, ServersDatabasesBackupShortTermRetentionPolicy_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicy_STATUS tests if a specific instance of ServersDatabasesBackupShortTermRetentionPolicy_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicy_STATUS(subject ServersDatabasesBackupShortTermRetentionPolicy_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS
+	err := copied.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersDatabasesBackupShortTermRetentionPolicy_STATUS
+	err = actual.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersDatabasesBackupShortTermRetentionPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -212,6 +402,53 @@ func AddIndependentPropertyGeneratorsForServersDatabasesBackupShortTermRetention
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["RetentionDays"] = gen.PtrOf(gen.Int())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ServersDatabasesBackupShortTermRetentionPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesBackupShortTermRetentionPolicy_Spec to ServersDatabasesBackupShortTermRetentionPolicy_Spec via AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec & AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicy_Spec, ServersDatabasesBackupShortTermRetentionPolicy_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicy_Spec tests if a specific instance of ServersDatabasesBackupShortTermRetentionPolicy_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicy_Spec(subject ServersDatabasesBackupShortTermRetentionPolicy_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec
+	err := copied.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersDatabasesBackupShortTermRetentionPolicy_Spec
+	err = actual.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersDatabasesBackupShortTermRetentionPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

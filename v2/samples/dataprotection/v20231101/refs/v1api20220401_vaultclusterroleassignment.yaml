@@ -1,0 +1,16 @@
+apiVersion: authorization.azure.com/v1api20220401
+kind: RoleAssignment
+metadata:
+  name: aso-sample-vaultcluster
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-aks
+    group: containerservice.azure.com
+    kind: ManagedCluster
+  principalIdFromConfig:
+    name: backupvault-configmap
+    key: principalId
+  roleDefinitionReference:
+    # This ARM ID represents "Reader"
+    armId: /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7

@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ServersVirtualNetworkRule{}
 
 // ConvertFrom populates our ServersVirtualNetworkRule from the provided hub ServersVirtualNetworkRule
 func (rule *ServersVirtualNetworkRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersVirtualNetworkRule)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersVirtualNetworkRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersVirtualNetworkRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_ServersVirtualNetworkRule(source)
+	err = rule.AssignProperties_From_ServersVirtualNetworkRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersVirtualNetworkRule from our ServersVirtualNetworkRule
 func (rule *ServersVirtualNetworkRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersVirtualNetworkRule)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersVirtualNetworkRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersVirtualNetworkRule
+	err := rule.AssignProperties_To_ServersVirtualNetworkRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_ServersVirtualNetworkRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersVirtualNetworkRule{}

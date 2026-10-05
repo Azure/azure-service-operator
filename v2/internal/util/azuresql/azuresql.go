@@ -93,22 +93,18 @@ func CreateOrUpdateUser(ctx context.Context, db *sql.DB, username string, passwo
 	if err := findBadChars(username); err != nil {
 		return eris.Wrap(err, "problem found with username")
 	}
-	if err := findBadChars(password); err != nil {
-		// Don't wrap the original error as it contains the raw password string
-		return fmt.Errorf("problem found with password: potentially dangerous character sequence found")
-	}
 
-	tsql := `
-IF NOT EXISTS (SELECT name FROM sysusers WHERE name='%[1]s')
+	//nolint:gosec // SQL identifiers cannot be parameterized; values are escaped for their SQL contexts.
+	tsql := fmt.Sprintf(`
+IF NOT EXISTS (SELECT name FROM sysusers WHERE name=%[1]s)
 	BEGIN
-		CREATE USER "%[1]s" WITH PASSWORD='%[2]s';
+		CREATE USER %[2]s WITH PASSWORD=%[3]s;
 	END
 ELSE
 	BEGIN
-		ALTER USER "%[1]s" WITH PASSWORD='%[2]s';
+		ALTER USER %[2]s WITH PASSWORD=%[3]s;
 	END;
-`
-	tsql = fmt.Sprintf(tsql, username, password)
+`, escapeStringLiteral(username), escapeBracketIdentifier(username), escapeStringLiteral(password))
 	_, err := db.ExecContext(ctx, tsql)
 	if err != nil {
 		return err
@@ -134,14 +130,13 @@ func CreateOrUpdateAADUser(ctx context.Context, db *sql.DB, username string) err
 	}
 
 	// TODO: There doesn't seem to be a need to update (and the FROM EXTERNAL PROVIDER syntax isn't valid for ALTER anyway).
-	tsql := `
-IF NOT EXISTS (SELECT name FROM sysusers WHERE name='%[1]s')
+	//nolint:gosec // SQL identifiers cannot be parameterized; values are escaped for their SQL contexts.
+	tsql := fmt.Sprintf(`
+IF NOT EXISTS (SELECT name FROM sysusers WHERE name=%[1]s)
 	BEGIN
-		CREATE USER [%[1]s] FROM EXTERNAL PROVIDER;
+		CREATE USER %[2]s FROM EXTERNAL PROVIDER;
 	END
-`
-
-	tsql = fmt.Sprintf(tsql, username)
+`, escapeStringLiteral(username), escapeBracketIdentifier(username))
 	_, err := db.ExecContext(ctx, tsql)
 	if err != nil {
 		return err
@@ -169,9 +164,23 @@ func DropUser(ctx context.Context, db *sql.DB, username string) error {
 	if err := findBadChars(username); err != nil {
 		return eris.Wrap(err, "Problem found with username")
 	}
-	tsql := fmt.Sprintf("DROP USER [%s]", username)
+	// SQL identifiers cannot be parameterized; the value is escaped via escapeBracketIdentifier
+	tsql := fmt.Sprintf("DROP USER %s", escapeBracketIdentifier(username))
 	_, err := db.ExecContext(ctx, tsql)
 	return err
+}
+
+// escapeStringLiteral escapes and wraps a value for use as a SQL string literal.
+func escapeStringLiteral(value string) string {
+	escaped := strings.ReplaceAll(value, "'", "''")
+	return "'" + escaped + "'"
+}
+
+// escapeBracketIdentifier escapes and wraps a value for use as a bracket-delimited T-SQL identifier.
+// This is the standard quoting style for Azure SQL identifiers like AAD usernames.
+func escapeBracketIdentifier(value string) string {
+	escaped := strings.ReplaceAll(value, "]", "]]")
+	return "[" + escaped + "]"
 }
 
 func findBadChars(str string) error {

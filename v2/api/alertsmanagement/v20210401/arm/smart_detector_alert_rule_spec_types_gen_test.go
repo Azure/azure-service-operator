@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ActionGroupsInformation_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ActionGroupsInformation via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForActionGroupsInformation, ActionGroupsInformationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForActionGroupsInformation)
 }
 
 // RunJSONSerializationTestForActionGroupsInformation runs a test to see if a specific instance of ActionGroupsInformation round trips to JSON and back losslessly
-func RunJSONSerializationTestForActionGroupsInformation(subject ActionGroupsInformation) string {
+func RunJSONSerializationTestForActionGroupsInformation(t *rapid.T) {
+	subject := ActionGroupsInformationGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ActionGroupsInformation
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,34 +45,32 @@ func RunJSONSerializationTestForActionGroupsInformation(subject ActionGroupsInfo
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ActionGroupsInformation instances for property testing - lazily instantiated by
 // ActionGroupsInformationGenerator()
-var actionGroupsInformationGenerator gopter.Gen
+var actionGroupsInformationGenerator *rapid.Generator[ActionGroupsInformation]
 
 // ActionGroupsInformationGenerator returns a generator of ActionGroupsInformation instances for property testing.
-func ActionGroupsInformationGenerator() gopter.Gen {
+func ActionGroupsInformationGenerator() *rapid.Generator[ActionGroupsInformation] {
 	if actionGroupsInformationGenerator != nil {
 		return actionGroupsInformationGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForActionGroupsInformation(generators)
-	actionGroupsInformationGenerator = gen.Struct(reflect.TypeOf(ActionGroupsInformation{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	groupIds := rapid.SliceOf(rapid.String())
+
+	actionGroupsInformationGenerator = rapid.Custom(func(t *rapid.T) ActionGroupsInformation {
+		var result ActionGroupsInformation
+		result.CustomEmailSubject = ptrString.Draw(t, "CustomEmailSubject")
+		result.CustomWebhookPayload = ptrString.Draw(t, "CustomWebhookPayload")
+		result.GroupIds = groupIds.Draw(t, "GroupIds")
+		return result
+	})
 
 	return actionGroupsInformationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForActionGroupsInformation is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForActionGroupsInformation(gens map[string]gopter.Gen) {
-	gens["CustomEmailSubject"] = gen.PtrOf(gen.AlphaString())
-	gens["CustomWebhookPayload"] = gen.PtrOf(gen.AlphaString())
-	gens["GroupIds"] = gen.SliceOf(gen.AlphaString())
 }
 
 func Test_AlertRuleProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -92,29 +80,23 @@ func Test_AlertRuleProperties_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AlertRuleProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAlertRuleProperties, AlertRulePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAlertRuleProperties)
 }
 
 // RunJSONSerializationTestForAlertRuleProperties runs a test to see if a specific instance of AlertRuleProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForAlertRuleProperties(subject AlertRuleProperties) string {
+func RunJSONSerializationTestForAlertRuleProperties(t *rapid.T) {
+	subject := AlertRulePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AlertRuleProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -123,57 +105,42 @@ func RunJSONSerializationTestForAlertRuleProperties(subject AlertRuleProperties)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AlertRuleProperties instances for property testing - lazily instantiated by
 // AlertRulePropertiesGenerator()
-var alertRulePropertiesGenerator gopter.Gen
+var alertRulePropertiesGenerator *rapid.Generator[AlertRuleProperties]
 
 // AlertRulePropertiesGenerator returns a generator of AlertRuleProperties instances for property testing.
-// We first initialize alertRulePropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AlertRulePropertiesGenerator() gopter.Gen {
+func AlertRulePropertiesGenerator() *rapid.Generator[AlertRuleProperties] {
 	if alertRulePropertiesGenerator != nil {
 		return alertRulePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAlertRuleProperties(generators)
-	alertRulePropertiesGenerator = gen.Struct(reflect.TypeOf(AlertRuleProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	actionGroups := rapid.Ptr(ActionGroupsInformationGenerator(), true)
+	detector := rapid.Ptr(DetectorGenerator(), true)
+	scope := rapid.SliceOf(rapid.String())
+	severity := rapid.Ptr(rapid.SampledFrom([]AlertRuleProperties_Severity{AlertRuleProperties_Severity_Sev0, AlertRuleProperties_Severity_Sev1, AlertRuleProperties_Severity_Sev2, AlertRuleProperties_Severity_Sev3, AlertRuleProperties_Severity_Sev4}), true)
+	state := rapid.Ptr(rapid.SampledFrom([]AlertRuleProperties_State{AlertRuleProperties_State_Disabled, AlertRuleProperties_State_Enabled}), true)
+	throttling := rapid.Ptr(ThrottlingInformationGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAlertRuleProperties(generators)
-	AddRelatedPropertyGeneratorsForAlertRuleProperties(generators)
-	alertRulePropertiesGenerator = gen.Struct(reflect.TypeOf(AlertRuleProperties{}), generators)
+	alertRulePropertiesGenerator = rapid.Custom(func(t *rapid.T) AlertRuleProperties {
+		var result AlertRuleProperties
+		result.ActionGroups = actionGroups.Draw(t, "ActionGroups")
+		result.Description = ptrString.Draw(t, "Description")
+		result.Detector = detector.Draw(t, "Detector")
+		result.Frequency = ptrString.Draw(t, "Frequency")
+		result.Scope = scope.Draw(t, "Scope")
+		result.Severity = severity.Draw(t, "Severity")
+		result.State = state.Draw(t, "State")
+		result.Throttling = throttling.Draw(t, "Throttling")
+		return result
+	})
 
 	return alertRulePropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAlertRuleProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAlertRuleProperties(gens map[string]gopter.Gen) {
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Frequency"] = gen.PtrOf(gen.AlphaString())
-	gens["Scope"] = gen.SliceOf(gen.AlphaString())
-	gens["Severity"] = gen.PtrOf(gen.OneConstOf(
-		AlertRuleProperties_Severity_Sev0,
-		AlertRuleProperties_Severity_Sev1,
-		AlertRuleProperties_Severity_Sev2,
-		AlertRuleProperties_Severity_Sev3,
-		AlertRuleProperties_Severity_Sev4))
-	gens["State"] = gen.PtrOf(gen.OneConstOf(AlertRuleProperties_State_Disabled, AlertRuleProperties_State_Enabled))
-}
-
-// AddRelatedPropertyGeneratorsForAlertRuleProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAlertRuleProperties(gens map[string]gopter.Gen) {
-	gens["ActionGroups"] = gen.PtrOf(ActionGroupsInformationGenerator())
-	gens["Detector"] = gen.PtrOf(DetectorGenerator())
-	gens["Throttling"] = gen.PtrOf(ThrottlingInformationGenerator())
 }
 
 func Test_Detector_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -183,29 +150,23 @@ func Test_Detector_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Detector via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDetector, DetectorGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDetector)
 }
 
 // RunJSONSerializationTestForDetector runs a test to see if a specific instance of Detector round trips to JSON and back losslessly
-func RunJSONSerializationTestForDetector(subject Detector) string {
+func RunJSONSerializationTestForDetector(t *rapid.T) {
+	subject := DetectorGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Detector
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -214,31 +175,28 @@ func RunJSONSerializationTestForDetector(subject Detector) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Detector instances for property testing - lazily instantiated by DetectorGenerator()
-var detectorGenerator gopter.Gen
+var detectorGenerator *rapid.Generator[Detector]
 
 // DetectorGenerator returns a generator of Detector instances for property testing.
-func DetectorGenerator() gopter.Gen {
+func DetectorGenerator() *rapid.Generator[Detector] {
 	if detectorGenerator != nil {
 		return detectorGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDetector(generators)
-	detectorGenerator = gen.Struct(reflect.TypeOf(Detector{}), generators)
+	id := rapid.Ptr(rapid.String(), true)
+
+	detectorGenerator = rapid.Custom(func(t *rapid.T) Detector {
+		var result Detector
+		result.Id = id.Draw(t, "Id")
+		return result
+	})
 
 	return detectorGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDetector is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDetector(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SmartDetectorAlertRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -248,29 +206,23 @@ func Test_SmartDetectorAlertRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SmartDetectorAlertRule_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSmartDetectorAlertRule_Spec, SmartDetectorAlertRule_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSmartDetectorAlertRule_Spec)
 }
 
 // RunJSONSerializationTestForSmartDetectorAlertRule_Spec runs a test to see if a specific instance of SmartDetectorAlertRule_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSmartDetectorAlertRule_Spec(subject SmartDetectorAlertRule_Spec) string {
+func RunJSONSerializationTestForSmartDetectorAlertRule_Spec(t *rapid.T) {
+	subject := SmartDetectorAlertRule_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SmartDetectorAlertRule_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -279,50 +231,37 @@ func RunJSONSerializationTestForSmartDetectorAlertRule_Spec(subject SmartDetecto
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SmartDetectorAlertRule_Spec instances for property testing - lazily instantiated by
 // SmartDetectorAlertRule_SpecGenerator()
-var smartDetectorAlertRule_SpecGenerator gopter.Gen
+var smartDetectorAlertRule_SpecGenerator *rapid.Generator[SmartDetectorAlertRule_Spec]
 
 // SmartDetectorAlertRule_SpecGenerator returns a generator of SmartDetectorAlertRule_Spec instances for property testing.
-// We first initialize smartDetectorAlertRule_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SmartDetectorAlertRule_SpecGenerator() gopter.Gen {
+func SmartDetectorAlertRule_SpecGenerator() *rapid.Generator[SmartDetectorAlertRule_Spec] {
 	if smartDetectorAlertRule_SpecGenerator != nil {
 		return smartDetectorAlertRule_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSmartDetectorAlertRule_Spec(generators)
-	smartDetectorAlertRule_SpecGenerator = gen.Struct(reflect.TypeOf(SmartDetectorAlertRule_Spec{}), generators)
+	location := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+	properties := rapid.Ptr(AlertRulePropertiesGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSmartDetectorAlertRule_Spec(generators)
-	AddRelatedPropertyGeneratorsForSmartDetectorAlertRule_Spec(generators)
-	smartDetectorAlertRule_SpecGenerator = gen.Struct(reflect.TypeOf(SmartDetectorAlertRule_Spec{}), generators)
+	smartDetectorAlertRule_SpecGenerator = rapid.Custom(func(t *rapid.T) SmartDetectorAlertRule_Spec {
+		var result SmartDetectorAlertRule_Spec
+		result.Location = location.Draw(t, "Location")
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return smartDetectorAlertRule_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSmartDetectorAlertRule_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSmartDetectorAlertRule_Spec(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSmartDetectorAlertRule_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSmartDetectorAlertRule_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AlertRulePropertiesGenerator())
 }
 
 func Test_ThrottlingInformation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -332,29 +271,23 @@ func Test_ThrottlingInformation_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ThrottlingInformation via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForThrottlingInformation, ThrottlingInformationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForThrottlingInformation)
 }
 
 // RunJSONSerializationTestForThrottlingInformation runs a test to see if a specific instance of ThrottlingInformation round trips to JSON and back losslessly
-func RunJSONSerializationTestForThrottlingInformation(subject ThrottlingInformation) string {
+func RunJSONSerializationTestForThrottlingInformation(t *rapid.T) {
+	subject := ThrottlingInformationGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ThrottlingInformation
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -363,30 +296,27 @@ func RunJSONSerializationTestForThrottlingInformation(subject ThrottlingInformat
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ThrottlingInformation instances for property testing - lazily instantiated by
 // ThrottlingInformationGenerator()
-var throttlingInformationGenerator gopter.Gen
+var throttlingInformationGenerator *rapid.Generator[ThrottlingInformation]
 
 // ThrottlingInformationGenerator returns a generator of ThrottlingInformation instances for property testing.
-func ThrottlingInformationGenerator() gopter.Gen {
+func ThrottlingInformationGenerator() *rapid.Generator[ThrottlingInformation] {
 	if throttlingInformationGenerator != nil {
 		return throttlingInformationGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForThrottlingInformation(generators)
-	throttlingInformationGenerator = gen.Struct(reflect.TypeOf(ThrottlingInformation{}), generators)
+	duration := rapid.Ptr(rapid.String(), true)
+
+	throttlingInformationGenerator = rapid.Custom(func(t *rapid.T) ThrottlingInformation {
+		var result ThrottlingInformation
+		result.Duration = duration.Draw(t, "Duration")
+		return result
+	})
 
 	return throttlingInformationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForThrottlingInformation is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForThrottlingInformation(gens map[string]gopter.Gen) {
-	gens["Duration"] = gen.PtrOf(gen.AlphaString())
 }

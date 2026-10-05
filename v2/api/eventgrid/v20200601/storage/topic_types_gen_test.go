@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,53 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded to PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded via AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded & AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded, PrivateEndpointConnection_STATUS_Topic_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded tests if a specific instance of PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(subject PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
+	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
+	err = actual.AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -81,6 +129,101 @@ func PrivateEndpointConnection_STATUS_Topic_SubResourceEmbeddedGenerator() gopte
 // AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Topic_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Topic to hub returns original",
+		prop.ForAll(RunResourceConversionTestForTopic, TopicGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForTopic tests if a specific instance of Topic round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForTopic(subject Topic) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.Topic
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual Topic
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Topic_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Topic to Topic via AssignProperties_To_Topic & AssignProperties_From_Topic returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTopic, TopicGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTopic tests if a specific instance of Topic can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTopic(subject Topic) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Topic
+	err := copied.AssignProperties_To_Topic(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Topic
+	err = actual.AssignProperties_From_Topic(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Topic_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -149,6 +292,53 @@ func AddRelatedPropertyGeneratorsForTopic(gens map[string]gopter.Gen) {
 	gens["Status"] = Topic_STATUSGenerator()
 }
 
+func Test_TopicOperatorConfigMaps_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TopicOperatorConfigMaps to TopicOperatorConfigMaps via AssignProperties_To_TopicOperatorConfigMaps & AssignProperties_From_TopicOperatorConfigMaps returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTopicOperatorConfigMaps, TopicOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTopicOperatorConfigMaps tests if a specific instance of TopicOperatorConfigMaps can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTopicOperatorConfigMaps(subject TopicOperatorConfigMaps) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.TopicOperatorConfigMaps
+	err := copied.AssignProperties_To_TopicOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TopicOperatorConfigMaps
+	err = actual.AssignProperties_From_TopicOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_TopicOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -209,6 +399,53 @@ func TopicOperatorConfigMapsGenerator() gopter.Gen {
 	return topicOperatorConfigMapsGenerator
 }
 
+func Test_TopicOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TopicOperatorSecrets to TopicOperatorSecrets via AssignProperties_To_TopicOperatorSecrets & AssignProperties_From_TopicOperatorSecrets returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTopicOperatorSecrets, TopicOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTopicOperatorSecrets tests if a specific instance of TopicOperatorSecrets can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTopicOperatorSecrets(subject TopicOperatorSecrets) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.TopicOperatorSecrets
+	err := copied.AssignProperties_To_TopicOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TopicOperatorSecrets
+	err = actual.AssignProperties_From_TopicOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_TopicOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -267,6 +504,53 @@ func TopicOperatorSecretsGenerator() gopter.Gen {
 	topicOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(TopicOperatorSecrets{}), generators)
 
 	return topicOperatorSecretsGenerator
+}
+
+func Test_TopicOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TopicOperatorSpec to TopicOperatorSpec via AssignProperties_To_TopicOperatorSpec & AssignProperties_From_TopicOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTopicOperatorSpec, TopicOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTopicOperatorSpec tests if a specific instance of TopicOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTopicOperatorSpec(subject TopicOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.TopicOperatorSpec
+	err := copied.AssignProperties_To_TopicOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TopicOperatorSpec
+	err = actual.AssignProperties_From_TopicOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_TopicOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -333,6 +617,53 @@ func TopicOperatorSpecGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForTopicOperatorSpec(gens map[string]gopter.Gen) {
 	gens["ConfigMaps"] = gen.PtrOf(TopicOperatorConfigMapsGenerator())
 	gens["Secrets"] = gen.PtrOf(TopicOperatorSecretsGenerator())
+}
+
+func Test_Topic_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Topic_STATUS to Topic_STATUS via AssignProperties_To_Topic_STATUS & AssignProperties_From_Topic_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTopic_STATUS, Topic_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTopic_STATUS tests if a specific instance of Topic_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTopic_STATUS(subject Topic_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Topic_STATUS
+	err := copied.AssignProperties_To_Topic_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Topic_STATUS
+	err = actual.AssignProperties_From_Topic_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Topic_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -426,6 +757,53 @@ func AddRelatedPropertyGeneratorsForTopic_STATUS(gens map[string]gopter.Gen) {
 	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMapping_STATUSGenerator())
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUS_Topic_SubResourceEmbeddedGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_Topic_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Topic_Spec to Topic_Spec via AssignProperties_To_Topic_Spec & AssignProperties_From_Topic_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTopic_Spec, Topic_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTopic_Spec tests if a specific instance of Topic_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTopic_Spec(subject Topic_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Topic_Spec
+	err := copied.AssignProperties_To_Topic_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Topic_Spec
+	err = actual.AssignProperties_From_Topic_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Topic_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

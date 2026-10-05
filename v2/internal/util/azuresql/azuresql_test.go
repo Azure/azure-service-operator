@@ -66,3 +66,97 @@ func TestFindBadChars(t *testing.T) {
 		})
 	}
 }
+
+func TestEscapeStringLiteral(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{
+			name:     "no special chars",
+			input:    "simplepassword",
+			expected: "'simplepassword'",
+		},
+		{
+			name:     "single quote is doubled",
+			input:    "pass'word",
+			expected: "'pass''word'",
+		},
+		{
+			name:     "semicolons are preserved",
+			input:    "pass;word",
+			expected: "'pass;word'",
+		},
+		{
+			name:     "double dashes are preserved",
+			input:    "pass--word",
+			expected: "'pass--word'",
+		},
+		{
+			name:     "complex special chars",
+			input:    "p@ss;w'rd--/*test",
+			expected: "'p@ss;w''rd--/*test'",
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			result := escapeStringLiteral(c.input)
+			g.Expect(result).To(Equal(c.expected))
+		})
+	}
+}
+
+func TestEscapeBracketIdentifier(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{
+			name:     "no special chars",
+			input:    "username",
+			expected: "[username]",
+		},
+		{
+			name:     "closing bracket is doubled",
+			input:    "user]name",
+			expected: "[user]]name]",
+		},
+		{
+			name:     "multiple closing brackets",
+			input:    "user]]name]x",
+			expected: "[user]]]]name]]x]",
+		},
+		{
+			name:     "AAD username with at sign",
+			input:    "bob@contoso.com",
+			expected: "[bob@contoso.com]",
+		},
+		{
+			name:     "other special chars are preserved",
+			input:    "user;name--test",
+			expected: "[user;name--test]",
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			result := escapeBracketIdentifier(c.input)
+			g.Expect(result).To(Equal(c.expected))
+		})
+	}
+}

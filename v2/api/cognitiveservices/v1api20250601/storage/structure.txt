@@ -412,13 +412,121 @@ Deployment: Resource
     ├── Tags: map[string]string
     └── Type: *string
 
+augmentConversionForAbusePenalty_STATUS: Interface
+
+augmentConversionForAccount: Interface
+
+augmentConversionForAccountOperatorSecrets: Interface
+
+augmentConversionForAccountOperatorSpec: Interface
+
+augmentConversionForAccountProperties: Interface
+
+augmentConversionForAccountProperties_STATUS: Interface
+
+augmentConversionForAccount_STATUS: Interface
+
+augmentConversionForAccount_Spec: Interface
+
+augmentConversionForApiProperties: Interface
+
+augmentConversionForApiProperties_STATUS: Interface
+
+augmentConversionForCallRateLimit_STATUS: Interface
+
+augmentConversionForCommitmentPlanAssociation_STATUS: Interface
+
+augmentConversionForDeployment: Interface
+
+augmentConversionForDeploymentCapacitySettings: Interface
+
+augmentConversionForDeploymentCapacitySettings_STATUS: Interface
+
+augmentConversionForDeploymentModel: Interface
+
+augmentConversionForDeploymentModel_STATUS: Interface
+
+augmentConversionForDeploymentOperatorSpec: Interface
+
+augmentConversionForDeploymentProperties: Interface
+
+augmentConversionForDeploymentProperties_STATUS: Interface
+
+augmentConversionForDeploymentScaleSettings: Interface
+
+augmentConversionForDeploymentScaleSettings_STATUS: Interface
+
+augmentConversionForDeployment_STATUS: Interface
+
+augmentConversionForDeployment_Spec: Interface
+
+augmentConversionForEncryption: Interface
+
+augmentConversionForEncryption_STATUS: Interface
+
 augmentConversionForIdentity: Interface
 
 augmentConversionForIdentity_STATUS: Interface
 
+augmentConversionForIpRule: Interface
+
+augmentConversionForIpRule_STATUS: Interface
+
+augmentConversionForKeyVaultProperties: Interface
+
+augmentConversionForKeyVaultProperties_STATUS: Interface
+
+augmentConversionForMultiRegionSettings: Interface
+
+augmentConversionForMultiRegionSettings_STATUS: Interface
+
+augmentConversionForNetworkInjection: Interface
+
+augmentConversionForNetworkInjection_STATUS: Interface
+
+augmentConversionForNetworkRuleSet: Interface
+
+augmentConversionForNetworkRuleSet_STATUS: Interface
+
+augmentConversionForPrivateEndpointConnection_STATUS: Interface
+
+augmentConversionForQuotaLimit_STATUS: Interface
+
+augmentConversionForRaiMonitorConfig: Interface
+
+augmentConversionForRaiMonitorConfig_STATUS: Interface
+
+augmentConversionForRegionSetting: Interface
+
+augmentConversionForRegionSetting_STATUS: Interface
+
+augmentConversionForRequestMatchPattern_STATUS: Interface
+
+augmentConversionForSku: Interface
+
+augmentConversionForSkuCapability_STATUS: Interface
+
+augmentConversionForSkuChangeInfo_STATUS: Interface
+
+augmentConversionForSku_STATUS: Interface
+
 augmentConversionForSystemData_STATUS: Interface
+
+augmentConversionForThrottlingRule_STATUS: Interface
 
 augmentConversionForUserAssignedIdentityDetails: Interface
 
 augmentConversionForUserAssignedIdentity_STATUS: Interface
+
+augmentConversionForUserOwnedAmlWorkspace: Interface
+
+augmentConversionForUserOwnedAmlWorkspace_STATUS: Interface
+
+augmentConversionForUserOwnedStorage: Interface
+
+augmentConversionForUserOwnedStorage_STATUS: Interface
+
+augmentConversionForVirtualNetworkRule: Interface
+
+augmentConversionForVirtualNetworkRule_STATUS: Interface
 

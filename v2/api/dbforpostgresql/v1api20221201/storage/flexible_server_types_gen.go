@@ -5,7 +5,7 @@ package storage
 
 import (
 	"context"
-	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20221201/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -526,13 +526,6 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 	// PointInTimeUTC
 	server.PointInTimeUTC = genruntime.ClonePointerToString(source.PointInTimeUTC)
 
-	// Replica
-	if source.Replica != nil {
-		propertyBag.Add("Replica", *source.Replica)
-	} else {
-		propertyBag.Remove("Replica")
-	}
-
 	// ReplicationRole
 	server.ReplicationRole = genruntime.ClonePointerToString(source.ReplicationRole)
 
@@ -731,19 +724,6 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 
 	// PointInTimeUTC
 	destination.PointInTimeUTC = genruntime.ClonePointerToString(server.PointInTimeUTC)
-
-	// Replica
-	if propertyBag.Contains("Replica") {
-		var replica storage.Replica
-		err := propertyBag.Pull("Replica", &replica)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Replica' from propertyBag")
-		}
-
-		destination.Replica = &replica
-	} else {
-		destination.Replica = nil
-	}
 
 	// ReplicationRole
 	destination.ReplicationRole = genruntime.ClonePointerToString(server.ReplicationRole)
@@ -1007,20 +987,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 	// PointInTimeUTC
 	server.PointInTimeUTC = genruntime.ClonePointerToString(source.PointInTimeUTC)
 
-	// PrivateEndpointConnections
-	if len(source.PrivateEndpointConnections) > 0 {
-		propertyBag.Add("PrivateEndpointConnections", source.PrivateEndpointConnections)
-	} else {
-		propertyBag.Remove("PrivateEndpointConnections")
-	}
-
-	// Replica
-	if source.Replica != nil {
-		propertyBag.Add("Replica", *source.Replica)
-	} else {
-		propertyBag.Remove("Replica")
-	}
-
 	// ReplicaCapacity
 	server.ReplicaCapacity = genruntime.ClonePointerToInt(source.ReplicaCapacity)
 
@@ -1216,32 +1182,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// PointInTimeUTC
 	destination.PointInTimeUTC = genruntime.ClonePointerToString(server.PointInTimeUTC)
-
-	// PrivateEndpointConnections
-	if propertyBag.Contains("PrivateEndpointConnections") {
-		var privateEndpointConnection []storage.PrivateEndpointConnection_STATUS
-		err := propertyBag.Pull("PrivateEndpointConnections", &privateEndpointConnection)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PrivateEndpointConnections' from propertyBag")
-		}
-
-		destination.PrivateEndpointConnections = privateEndpointConnection
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
-	// Replica
-	if propertyBag.Contains("Replica") {
-		var replica storage.Replica_STATUS
-		err := propertyBag.Pull("Replica", &replica)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Replica' from propertyBag")
-		}
-
-		destination.Replica = &replica
-	} else {
-		destination.Replica = nil
-	}
 
 	// ReplicaCapacity
 	destination.ReplicaCapacity = genruntime.ClonePointerToInt(server.ReplicaCapacity)
@@ -1649,41 +1589,6 @@ func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *s
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// GeoBackupEncryptionKeyStatus
-	if source.GeoBackupEncryptionKeyStatus != nil {
-		propertyBag.Add("GeoBackupEncryptionKeyStatus", *source.GeoBackupEncryptionKeyStatus)
-	} else {
-		propertyBag.Remove("GeoBackupEncryptionKeyStatus")
-	}
-
-	// GeoBackupKeyURI
-	if source.GeoBackupKeyURI != nil {
-		propertyBag.Add("GeoBackupKeyURI", *source.GeoBackupKeyURI)
-	} else {
-		propertyBag.Remove("GeoBackupKeyURI")
-	}
-
-	// GeoBackupKeyURIFromConfig
-	if source.GeoBackupKeyURIFromConfig != nil {
-		propertyBag.Add("GeoBackupKeyURIFromConfig", *source.GeoBackupKeyURIFromConfig)
-	} else {
-		propertyBag.Remove("GeoBackupKeyURIFromConfig")
-	}
-
-	// GeoBackupUserAssignedIdentityReference
-	if source.GeoBackupUserAssignedIdentityReference != nil {
-		propertyBag.Add("GeoBackupUserAssignedIdentityReference", *source.GeoBackupUserAssignedIdentityReference)
-	} else {
-		propertyBag.Remove("GeoBackupUserAssignedIdentityReference")
-	}
-
-	// PrimaryEncryptionKeyStatus
-	if source.PrimaryEncryptionKeyStatus != nil {
-		propertyBag.Add("PrimaryEncryptionKeyStatus", *source.PrimaryEncryptionKeyStatus)
-	} else {
-		propertyBag.Remove("PrimaryEncryptionKeyStatus")
-	}
-
 	// PrimaryKeyURI
 	encryption.PrimaryKeyURI = genruntime.ClonePointerToString(source.PrimaryKeyURI)
 
@@ -1730,71 +1635,6 @@ func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *s
 func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination *storage.DataEncryption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(encryption.PropertyBag)
-
-	// GeoBackupEncryptionKeyStatus
-	if propertyBag.Contains("GeoBackupEncryptionKeyStatus") {
-		var geoBackupEncryptionKeyStatus string
-		err := propertyBag.Pull("GeoBackupEncryptionKeyStatus", &geoBackupEncryptionKeyStatus)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'GeoBackupEncryptionKeyStatus' from propertyBag")
-		}
-
-		destination.GeoBackupEncryptionKeyStatus = &geoBackupEncryptionKeyStatus
-	} else {
-		destination.GeoBackupEncryptionKeyStatus = nil
-	}
-
-	// GeoBackupKeyURI
-	if propertyBag.Contains("GeoBackupKeyURI") {
-		var geoBackupKeyURI string
-		err := propertyBag.Pull("GeoBackupKeyURI", &geoBackupKeyURI)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'GeoBackupKeyURI' from propertyBag")
-		}
-
-		destination.GeoBackupKeyURI = &geoBackupKeyURI
-	} else {
-		destination.GeoBackupKeyURI = nil
-	}
-
-	// GeoBackupKeyURIFromConfig
-	if propertyBag.Contains("GeoBackupKeyURIFromConfig") {
-		var geoBackupKeyURIFromConfig genruntime.ConfigMapReference
-		err := propertyBag.Pull("GeoBackupKeyURIFromConfig", &geoBackupKeyURIFromConfig)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'GeoBackupKeyURIFromConfig' from propertyBag")
-		}
-
-		destination.GeoBackupKeyURIFromConfig = &geoBackupKeyURIFromConfig
-	} else {
-		destination.GeoBackupKeyURIFromConfig = nil
-	}
-
-	// GeoBackupUserAssignedIdentityReference
-	if propertyBag.Contains("GeoBackupUserAssignedIdentityReference") {
-		var geoBackupUserAssignedIdentityReference genruntime.ResourceReference
-		err := propertyBag.Pull("GeoBackupUserAssignedIdentityReference", &geoBackupUserAssignedIdentityReference)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'GeoBackupUserAssignedIdentityReference' from propertyBag")
-		}
-
-		destination.GeoBackupUserAssignedIdentityReference = &geoBackupUserAssignedIdentityReference
-	} else {
-		destination.GeoBackupUserAssignedIdentityReference = nil
-	}
-
-	// PrimaryEncryptionKeyStatus
-	if propertyBag.Contains("PrimaryEncryptionKeyStatus") {
-		var primaryEncryptionKeyStatus string
-		err := propertyBag.Pull("PrimaryEncryptionKeyStatus", &primaryEncryptionKeyStatus)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PrimaryEncryptionKeyStatus' from propertyBag")
-		}
-
-		destination.PrimaryEncryptionKeyStatus = &primaryEncryptionKeyStatus
-	} else {
-		destination.PrimaryEncryptionKeyStatus = nil
-	}
 
 	// PrimaryKeyURI
 	destination.PrimaryKeyURI = genruntime.ClonePointerToString(encryption.PrimaryKeyURI)
@@ -1852,34 +1692,6 @@ func (encryption *DataEncryption_STATUS) AssignProperties_From_DataEncryption_ST
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// GeoBackupEncryptionKeyStatus
-	if source.GeoBackupEncryptionKeyStatus != nil {
-		propertyBag.Add("GeoBackupEncryptionKeyStatus", *source.GeoBackupEncryptionKeyStatus)
-	} else {
-		propertyBag.Remove("GeoBackupEncryptionKeyStatus")
-	}
-
-	// GeoBackupKeyURI
-	if source.GeoBackupKeyURI != nil {
-		propertyBag.Add("GeoBackupKeyURI", *source.GeoBackupKeyURI)
-	} else {
-		propertyBag.Remove("GeoBackupKeyURI")
-	}
-
-	// GeoBackupUserAssignedIdentityId
-	if source.GeoBackupUserAssignedIdentityId != nil {
-		propertyBag.Add("GeoBackupUserAssignedIdentityId", *source.GeoBackupUserAssignedIdentityId)
-	} else {
-		propertyBag.Remove("GeoBackupUserAssignedIdentityId")
-	}
-
-	// PrimaryEncryptionKeyStatus
-	if source.PrimaryEncryptionKeyStatus != nil {
-		propertyBag.Add("PrimaryEncryptionKeyStatus", *source.PrimaryEncryptionKeyStatus)
-	} else {
-		propertyBag.Remove("PrimaryEncryptionKeyStatus")
-	}
-
 	// PrimaryKeyURI
 	encryption.PrimaryKeyURI = genruntime.ClonePointerToString(source.PrimaryKeyURI)
 
@@ -1913,58 +1725,6 @@ func (encryption *DataEncryption_STATUS) AssignProperties_From_DataEncryption_ST
 func (encryption *DataEncryption_STATUS) AssignProperties_To_DataEncryption_STATUS(destination *storage.DataEncryption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(encryption.PropertyBag)
-
-	// GeoBackupEncryptionKeyStatus
-	if propertyBag.Contains("GeoBackupEncryptionKeyStatus") {
-		var geoBackupEncryptionKeyStatus string
-		err := propertyBag.Pull("GeoBackupEncryptionKeyStatus", &geoBackupEncryptionKeyStatus)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'GeoBackupEncryptionKeyStatus' from propertyBag")
-		}
-
-		destination.GeoBackupEncryptionKeyStatus = &geoBackupEncryptionKeyStatus
-	} else {
-		destination.GeoBackupEncryptionKeyStatus = nil
-	}
-
-	// GeoBackupKeyURI
-	if propertyBag.Contains("GeoBackupKeyURI") {
-		var geoBackupKeyURI string
-		err := propertyBag.Pull("GeoBackupKeyURI", &geoBackupKeyURI)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'GeoBackupKeyURI' from propertyBag")
-		}
-
-		destination.GeoBackupKeyURI = &geoBackupKeyURI
-	} else {
-		destination.GeoBackupKeyURI = nil
-	}
-
-	// GeoBackupUserAssignedIdentityId
-	if propertyBag.Contains("GeoBackupUserAssignedIdentityId") {
-		var geoBackupUserAssignedIdentityId string
-		err := propertyBag.Pull("GeoBackupUserAssignedIdentityId", &geoBackupUserAssignedIdentityId)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'GeoBackupUserAssignedIdentityId' from propertyBag")
-		}
-
-		destination.GeoBackupUserAssignedIdentityId = &geoBackupUserAssignedIdentityId
-	} else {
-		destination.GeoBackupUserAssignedIdentityId = nil
-	}
-
-	// PrimaryEncryptionKeyStatus
-	if propertyBag.Contains("PrimaryEncryptionKeyStatus") {
-		var primaryEncryptionKeyStatus string
-		err := propertyBag.Pull("PrimaryEncryptionKeyStatus", &primaryEncryptionKeyStatus)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PrimaryEncryptionKeyStatus' from propertyBag")
-		}
-
-		destination.PrimaryEncryptionKeyStatus = &primaryEncryptionKeyStatus
-	} else {
-		destination.PrimaryEncryptionKeyStatus = nil
-	}
 
 	// PrimaryKeyURI
 	destination.PrimaryKeyURI = genruntime.ClonePointerToString(encryption.PrimaryKeyURI)
@@ -2518,13 +2278,6 @@ func (network *Network) AssignProperties_From_Network(source *storage.Network) e
 		network.PrivateDnsZoneArmResourceReference = nil
 	}
 
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		propertyBag.Add("PublicNetworkAccess", *source.PublicNetworkAccess)
-	} else {
-		propertyBag.Remove("PublicNetworkAccess")
-	}
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		network.PropertyBag = propertyBag
@@ -2564,19 +2317,6 @@ func (network *Network) AssignProperties_To_Network(destination *storage.Network
 		destination.PrivateDnsZoneArmResourceReference = &privateDnsZoneArmResourceReference
 	} else {
 		destination.PrivateDnsZoneArmResourceReference = nil
-	}
-
-	// PublicNetworkAccess
-	if propertyBag.Contains("PublicNetworkAccess") {
-		var publicNetworkAccess string
-		err := propertyBag.Pull("PublicNetworkAccess", &publicNetworkAccess)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
-		}
-
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
 	}
 
 	// Update the property bag
@@ -2828,43 +2568,8 @@ func (storage *Storage) AssignProperties_From_Storage(source *storage.Storage) e
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AutoGrow
-	if source.AutoGrow != nil {
-		propertyBag.Add("AutoGrow", *source.AutoGrow)
-	} else {
-		propertyBag.Remove("AutoGrow")
-	}
-
-	// Iops
-	if source.Iops != nil {
-		propertyBag.Add("Iops", *source.Iops)
-	} else {
-		propertyBag.Remove("Iops")
-	}
-
 	// StorageSizeGB
 	storage.StorageSizeGB = genruntime.ClonePointerToInt(source.StorageSizeGB)
-
-	// Throughput
-	if source.Throughput != nil {
-		propertyBag.Add("Throughput", *source.Throughput)
-	} else {
-		propertyBag.Remove("Throughput")
-	}
-
-	// Tier
-	if source.Tier != nil {
-		propertyBag.Add("Tier", *source.Tier)
-	} else {
-		propertyBag.Remove("Tier")
-	}
-
-	// Type
-	if source.Type != nil {
-		propertyBag.Add("Type", *source.Type)
-	} else {
-		propertyBag.Remove("Type")
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2891,73 +2596,8 @@ func (storage *Storage) AssignProperties_To_Storage(destination *storage.Storage
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(storage.PropertyBag)
 
-	// AutoGrow
-	if propertyBag.Contains("AutoGrow") {
-		var autoGrow string
-		err := propertyBag.Pull("AutoGrow", &autoGrow)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AutoGrow' from propertyBag")
-		}
-
-		destination.AutoGrow = &autoGrow
-	} else {
-		destination.AutoGrow = nil
-	}
-
-	// Iops
-	if propertyBag.Contains("Iops") {
-		var iop int
-		err := propertyBag.Pull("Iops", &iop)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Iops' from propertyBag")
-		}
-
-		destination.Iops = &iop
-	} else {
-		destination.Iops = nil
-	}
-
 	// StorageSizeGB
 	destination.StorageSizeGB = genruntime.ClonePointerToInt(storage.StorageSizeGB)
-
-	// Throughput
-	if propertyBag.Contains("Throughput") {
-		var throughput int
-		err := propertyBag.Pull("Throughput", &throughput)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Throughput' from propertyBag")
-		}
-
-		destination.Throughput = &throughput
-	} else {
-		destination.Throughput = nil
-	}
-
-	// Tier
-	if propertyBag.Contains("Tier") {
-		var tier string
-		err := propertyBag.Pull("Tier", &tier)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Tier' from propertyBag")
-		}
-
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
-	}
-
-	// Type
-	if propertyBag.Contains("Type") {
-		var typeVar string
-		err := propertyBag.Pull("Type", &typeVar)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Type' from propertyBag")
-		}
-
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2991,43 +2631,8 @@ func (storage *Storage_STATUS) AssignProperties_From_Storage_STATUS(source *stor
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AutoGrow
-	if source.AutoGrow != nil {
-		propertyBag.Add("AutoGrow", *source.AutoGrow)
-	} else {
-		propertyBag.Remove("AutoGrow")
-	}
-
-	// Iops
-	if source.Iops != nil {
-		propertyBag.Add("Iops", *source.Iops)
-	} else {
-		propertyBag.Remove("Iops")
-	}
-
 	// StorageSizeGB
 	storage.StorageSizeGB = genruntime.ClonePointerToInt(source.StorageSizeGB)
-
-	// Throughput
-	if source.Throughput != nil {
-		propertyBag.Add("Throughput", *source.Throughput)
-	} else {
-		propertyBag.Remove("Throughput")
-	}
-
-	// Tier
-	if source.Tier != nil {
-		propertyBag.Add("Tier", *source.Tier)
-	} else {
-		propertyBag.Remove("Tier")
-	}
-
-	// Type
-	if source.Type != nil {
-		propertyBag.Add("Type", *source.Type)
-	} else {
-		propertyBag.Remove("Type")
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3054,73 +2659,8 @@ func (storage *Storage_STATUS) AssignProperties_To_Storage_STATUS(destination *s
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(storage.PropertyBag)
 
-	// AutoGrow
-	if propertyBag.Contains("AutoGrow") {
-		var autoGrow string
-		err := propertyBag.Pull("AutoGrow", &autoGrow)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AutoGrow' from propertyBag")
-		}
-
-		destination.AutoGrow = &autoGrow
-	} else {
-		destination.AutoGrow = nil
-	}
-
-	// Iops
-	if propertyBag.Contains("Iops") {
-		var iop int
-		err := propertyBag.Pull("Iops", &iop)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Iops' from propertyBag")
-		}
-
-		destination.Iops = &iop
-	} else {
-		destination.Iops = nil
-	}
-
 	// StorageSizeGB
 	destination.StorageSizeGB = genruntime.ClonePointerToInt(storage.StorageSizeGB)
-
-	// Throughput
-	if propertyBag.Contains("Throughput") {
-		var throughput int
-		err := propertyBag.Pull("Throughput", &throughput)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Throughput' from propertyBag")
-		}
-
-		destination.Throughput = &throughput
-	} else {
-		destination.Throughput = nil
-	}
-
-	// Tier
-	if propertyBag.Contains("Tier") {
-		var tier string
-		err := propertyBag.Pull("Tier", &tier)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Tier' from propertyBag")
-		}
-
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
-	}
-
-	// Type
-	if propertyBag.Contains("Type") {
-		var typeVar string
-		err := propertyBag.Pull("Type", &typeVar)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Type' from propertyBag")
-		}
-
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3253,13 +2793,6 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// PrincipalId
-	if source.PrincipalId != nil {
-		propertyBag.Add("PrincipalId", *source.PrincipalId)
-	} else {
-		propertyBag.Remove("PrincipalId")
-	}
-
 	// Type
 	identity.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -3303,19 +2836,6 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(destination *storage.UserAssignedIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
-
-	// PrincipalId
-	if propertyBag.Contains("PrincipalId") {
-		var principalId string
-		err := propertyBag.Pull("PrincipalId", &principalId)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PrincipalId' from propertyBag")
-		}
-
-		destination.PrincipalId = &principalId
-	} else {
-		destination.PrincipalId = nil
-	}
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(identity.Type)
@@ -3370,13 +2890,6 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// PrincipalId
-	if source.PrincipalId != nil {
-		propertyBag.Add("PrincipalId", *source.PrincipalId)
-	} else {
-		propertyBag.Remove("PrincipalId")
-	}
-
 	// TenantId
 	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
@@ -3423,19 +2936,6 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *storage.UserAssignedIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
-
-	// PrincipalId
-	if propertyBag.Contains("PrincipalId") {
-		var principalId string
-		err := propertyBag.Pull("PrincipalId", &principalId)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PrincipalId' from propertyBag")
-		}
-
-		destination.PrincipalId = &principalId
-	} else {
-		destination.PrincipalId = nil
-	}
 
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)

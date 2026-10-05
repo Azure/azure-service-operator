@@ -19,6 +19,8 @@ Backend: Object (0 properties)
 
 Certificate: Object (0 properties)
 
+Diagnostic: Object (0 properties)
+
 Group: Object (0 properties)
 
 Logger: Object (0 properties)

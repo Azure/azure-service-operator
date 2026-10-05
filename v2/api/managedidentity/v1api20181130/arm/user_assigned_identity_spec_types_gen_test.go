@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_UserAssignedIdentity_Spec_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UserAssignedIdentity_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentity_Spec, UserAssignedIdentity_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUserAssignedIdentity_Spec)
 }
 
 // RunJSONSerializationTestForUserAssignedIdentity_Spec runs a test to see if a specific instance of UserAssignedIdentity_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserAssignedIdentity_Spec(subject UserAssignedIdentity_Spec) string {
+func RunJSONSerializationTestForUserAssignedIdentity_Spec(t *rapid.T) {
+	subject := UserAssignedIdentity_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UserAssignedIdentity_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,34 +45,33 @@ func RunJSONSerializationTestForUserAssignedIdentity_Spec(subject UserAssignedId
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UserAssignedIdentity_Spec instances for property testing - lazily instantiated by
 // UserAssignedIdentity_SpecGenerator()
-var userAssignedIdentity_SpecGenerator gopter.Gen
+var userAssignedIdentity_SpecGenerator *rapid.Generator[UserAssignedIdentity_Spec]
 
 // UserAssignedIdentity_SpecGenerator returns a generator of UserAssignedIdentity_Spec instances for property testing.
-func UserAssignedIdentity_SpecGenerator() gopter.Gen {
+func UserAssignedIdentity_SpecGenerator() *rapid.Generator[UserAssignedIdentity_Spec] {
 	if userAssignedIdentity_SpecGenerator != nil {
 		return userAssignedIdentity_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserAssignedIdentity_Spec(generators)
-	userAssignedIdentity_SpecGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentity_Spec{}), generators)
+	location := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+
+	userAssignedIdentity_SpecGenerator = rapid.Custom(func(t *rapid.T) UserAssignedIdentity_Spec {
+		var result UserAssignedIdentity_Spec
+		result.Location = location.Draw(t, "Location")
+		result.Name = name.Draw(t, "Name")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return userAssignedIdentity_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForUserAssignedIdentity_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserAssignedIdentity_Spec(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
 }

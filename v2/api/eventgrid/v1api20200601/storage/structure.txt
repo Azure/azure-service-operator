@@ -165,13 +165,15 @@ EventSubscription: Resource
 │   │   │   ├── EndpointType: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   ├── StorageQueue: *Object (4 properties)
+│   │   ├── StorageQueue: *Object (5 properties)
 │   │   │   ├── EndpointType: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── QueueName: *string
+│   │   │   ├── QueueNameFromConfig: *genruntime.ConfigMapReference
 │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   └── WebHook: *Object (7 properties)
+│   │   └── WebHook: *Object (8 properties)
 │   │       ├── AzureActiveDirectoryApplicationIdOrUri: *string
+│   │       ├── AzureActiveDirectoryApplicationIdOrUriFromConfig: *genruntime.ConfigMapReference
 │   │       ├── AzureActiveDirectoryTenantId: *string
 │   │       ├── EndpointType: *string
 │   │       ├── EndpointUrl: *genruntime.SecretReference

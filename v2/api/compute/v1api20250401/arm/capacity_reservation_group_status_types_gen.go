@@ -43,8 +43,13 @@ type CapacityReservationGroupProperties_STATUS struct {
 	InstanceView *CapacityReservationGroupInstanceView_STATUS `json:"instanceView,omitempty"`
 
 	// ReservationType: Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations
-	// and 'Targeted' for reservations that enable a VM to consume a specific capacity reservation when a capacity reservation
-	// group is provided. The reservation type is immutable and cannot be changed after it is assigned.
+	// that enable a VM to consume capacity only from this capacity block when it is associated using a capacity reservation
+	// group, 'Targeted' for reservations that enable a VM to consume capacity from an explicitly associated capacity
+	// reservation group and fall back to the publicly available capacity if the reservation is full, and 'Open' for
+	// reservations that a VM consumes when it is eligible from an implicitly associated capacity reservation group with the
+	// matching VM size and zone without associating that capacity reservation group and fall back to the publicly available
+	// capacity if the reservation is full. The reservation type is immutable and cannot be changed after the capacity
+	// reservation group is created.
 	ReservationType *ReservationType_STATUS `json:"reservationType,omitempty"`
 
 	// SharingProfile: Specifies the settings to enable sharing across subscriptions for the capacity reservation group
@@ -88,9 +93,14 @@ type CapacityReservationGroupInstanceView_STATUS struct {
 	SharedSubscriptionIds []SubResourceReadOnly_STATUS `json:"sharedSubscriptionIds,omitempty"`
 }
 
-// Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations and 'Targeted'
-// for reservations that enable a VM to consume a specific capacity reservation when a capacity reservation group is
-// provided. The reservation type is immutable and cannot be changed after it is assigned.
+// Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations that enable a VM
+// to consume capacity only from this capacity block when it is associated using a capacity reservation group, 'Targeted'
+// for reservations that enable a VM to consume capacity from an explicitly associated capacity reservation group and fall
+// back to the publicly available capacity if the reservation is full, and 'Open' for reservations that a VM consumes when
+// it is eligible from an implicitly associated capacity reservation group with the matching VM size and zone without
+// associating that capacity reservation group and fall back to the publicly available capacity if the reservation is full.
+// Future capacity reservations can be created in 'Targeted' or 'Open' capacity reservation groups. The reservation type is
+// immutable and cannot be changed after the capacity reservation group is created.
 type ReservationType_STATUS string
 
 const (

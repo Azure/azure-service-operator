@@ -36,7 +36,7 @@ var emptyObject = astmodel.NewObjectType()
 func defineEnum(strings ...string) astmodel.Type {
 	values := make([]astmodel.EnumValue, 0, len(strings))
 	for _, value := range strings {
-		values = append(values, astmodel.MakeEnumValue(value, value))
+		values = append(values, astmodel.MakeEnumValue(value, `"`+value+`"`))
 	}
 
 	return astmodel.NewEnumType(
@@ -662,8 +662,8 @@ func Test_ConversionWithNestedAllOfs_ReturnsExpectedResult(t *testing.T) {
 				astmodel.NewPropertyDefinition(
 					"Kind", "kind", astmodel.NewOptionalType(astmodel.NewEnumType(
 						astmodel.StringType,
-						astmodel.MakeEnumValue("MultiStep", "multistep"),
-						astmodel.MakeEnumValue("Ping", "ping"),
+						astmodel.MakeEnumValue("MultiStep", `"multistep"`),
+						astmodel.MakeEnumValue("Ping", `"ping"`),
 					)),
 				),
 				astmodel.NewPropertyDefinition("Properties", "properties", webTestProperties.Name()),
@@ -783,7 +783,7 @@ func TestConversionOfAllOf_WhenContainingOneOf_ReturnsExpectedResult(t *testing.
 				astmodel.NewPropertyDefinition(
 					"Kind",
 					"kind",
-					astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("ReadWriteDatabase", "ReadWriteDatabase")),
+					astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("ReadWriteDatabase", `"ReadWriteDatabase"`)),
 				),
 				astmodel.NewPropertyDefinition(
 					"Location",
@@ -810,7 +810,7 @@ func TestConversionOfAllOf_WhenContainingOneOf_ReturnsExpectedResult(t *testing.
 				astmodel.NewPropertyDefinition(
 					"Kind",
 					"kind",
-					astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("ReadOnlyFollowingDatabase", "ReadOnlyFollowingDatabase")),
+					astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("ReadOnlyFollowingDatabase", `"ReadOnlyFollowingDatabase"`)),
 				),
 				astmodel.NewPropertyDefinition(
 					"Location",

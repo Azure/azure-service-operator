@@ -26,6 +26,7 @@ import (
 const (
 	CreatePollerID = "GenericClient.CreateOrUpdateByID"
 	DeletePollerID = "GenericClient.DeleteByID"
+	ActionPollerID = "GenericClient.PostActionByID"
 )
 
 // NOTE: All of these methods (and types) were adapted from
@@ -204,6 +205,97 @@ func (client *GenericClient) createOrUpdateByIDCreateRequest(
 	req.Raw().URL.RawQuery = reqQP.Encode()
 	req.Raw().Header.Set("Accept", "application/json")
 	return req, runtime.MarshalAsJSON(req, resource)
+}
+
+// BeginPostActionByID invokes an action, such as start or stop, on the resource with the given ID.
+// Actions aren't properties of a resource, so they can't be expressed in a spec and are instead invoked by
+// resource extensions. Whether one succeeded is reported by the operation it returns rather than by the
+// resource, so the caller is given a poller to follow.
+// If the operation fails it returns the *CloudError error type.
+func (client *GenericClient) BeginPostActionByID(
+	ctx context.Context,
+	resourceID string,
+	action string,
+	apiVersion string,
+) (*PollerResponse[GenericActionResponse], error) {
+	// The linter doesn't realize that the response is closed by the runtime.Drain call below.
+	// Suppressing it as it is a false positive.
+	//nolint:bodyclose
+	resp, err := client.postActionByID(ctx, resourceID, action, apiVersion)
+	if err != nil {
+		return nil, err
+	}
+
+	result := PollerResponse[GenericActionResponse]{
+		RawResponse:  resp,
+		ID:           ActionPollerID,
+		ErrorHandler: client.handleError,
+	}
+
+	// ARM answers an action with the resource it acted on, whose provisioningState describes the resource
+	// and not the action, so an action only just accepted looks finished. Dropping the body leaves the
+	// poller to follow the operation's own status URL. Drain it first so the connection can be reused.
+	runtime.Drain(resp)
+	resp.Body = http.NoBody
+	resp.ContentLength = 0
+
+	pt, err := runtime.NewPoller[GenericActionResponse](resp, client.pl, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	result.Poller = pt
+	return &result, nil
+}
+
+func (client *GenericClient) postActionByID(
+	ctx context.Context,
+	resourceID string,
+	action string,
+	apiVersion string,
+) (*http.Response, error) {
+	req, err := client.postActionByIDCreateRequest(ctx, resourceID, action, apiVersion)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := client.pl.Do(req)
+	if err != nil {
+		return resp, err
+	}
+
+	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusAccepted, http.StatusNoContent) {
+		return nil, client.handleError(resp)
+	}
+
+	return resp, nil
+}
+
+// postActionByIDCreateRequest creates the PostActionByID request.
+func (client *GenericClient) postActionByIDCreateRequest(
+	ctx context.Context,
+	resourceID string,
+	action string,
+	apiVersion string,
+) (*policy.Request, error) {
+	if resourceID == "" {
+		return nil, eris.New("parameter resourceID cannot be empty")
+	}
+
+	if action == "" {
+		return nil, eris.New("parameter action cannot be empty")
+	}
+
+	req, err := runtime.NewRequest(ctx, http.MethodPost, runtime.JoinPaths(client.endpoint, resourceID, action))
+	if err != nil {
+		return nil, err
+	}
+
+	reqQP := req.Raw().URL.Query()
+	reqQP.Set("api-version", apiVersion)
+	req.Raw().URL.RawQuery = reqQP.Encode()
+	req.Raw().Header.Set("Accept", "application/json")
+	return req, nil
 }
 
 // handleError handles the CreateOrUpdateByID error response.
@@ -539,4 +631,8 @@ func (client *GenericClient) ResumeDeletePoller(id string) *PollerResponse[Gener
 
 func (client *GenericClient) ResumeCreatePoller(id string) *PollerResponse[GenericResource] {
 	return &PollerResponse[GenericResource]{ID: id, ErrorHandler: client.handleError}
+}
+
+func (client *GenericClient) ResumeActionPoller(id string) *PollerResponse[GenericActionResponse] {
+	return &PollerResponse[GenericActionResponse]{ID: id, ErrorHandler: client.handleError}
 }

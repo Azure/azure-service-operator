@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=sql.azure.com,resources=serversdatabasesadvancedthreatprotectionsettings,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=sql.azure.com,resources={serversdatabasesadvancedthreatprotectionsettings/status,serversdatabasesadvancedthreatprotectionsettings/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,sql}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting) GetConditions() 
 // SetConditions sets the conditions on the resource status
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting) SetConditions(conditions conditions.Conditions) {
 	setting.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ServersDatabasesAdvancedThreatProtectionSetting{}
+
+// ConvertFrom populates our ServersDatabasesAdvancedThreatProtectionSetting from the provided hub ServersDatabasesAdvancedThreatProtectionSetting
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.ServersDatabasesAdvancedThreatProtectionSetting)
+	if !ok {
+		return fmt.Errorf("expected sql/v20250101/storage/ServersDatabasesAdvancedThreatProtectionSetting but received %T instead", hub)
+	}
+
+	return setting.AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting(source)
+}
+
+// ConvertTo populates the provided hub ServersDatabasesAdvancedThreatProtectionSetting from our ServersDatabasesAdvancedThreatProtectionSetting
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.ServersDatabasesAdvancedThreatProtectionSetting)
+	if !ok {
+		return fmt.Errorf("expected sql/v20250101/storage/ServersDatabasesAdvancedThreatProtectionSetting but received %T instead", hub)
+	}
+
+	return setting.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting(destination)
 }
 
 var _ configmaps.Exporter = &ServersDatabasesAdvancedThreatProtectionSetting{}
@@ -142,8 +163,75 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting) SetStatus(status
 	return nil
 }
 
-// Hub marks that this ServersDatabasesAdvancedThreatProtectionSetting is the hub type for conversion
-func (setting *ServersDatabasesAdvancedThreatProtectionSetting) Hub() {}
+// AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting populates our ServersDatabasesAdvancedThreatProtectionSetting from the provided source ServersDatabasesAdvancedThreatProtectionSetting
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting) AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting(source *storage.ServersDatabasesAdvancedThreatProtectionSetting) error {
+
+	// ObjectMeta
+	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ServersDatabasesAdvancedThreatProtectionSetting_Spec
+	err := spec.AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting_Spec() to populate field Spec")
+	}
+	setting.Spec = spec
+
+	// Status
+	var status ServersDatabasesAdvancedThreatProtectionSetting_STATUS
+	err = status.AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting_STATUS() to populate field Status")
+	}
+	setting.Status = status
+
+	// Invoke the augmentConversionForServersDatabasesAdvancedThreatProtectionSetting interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForServersDatabasesAdvancedThreatProtectionSetting); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting populates the provided destination ServersDatabasesAdvancedThreatProtectionSetting from our ServersDatabasesAdvancedThreatProtectionSetting
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting) AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting(destination *storage.ServersDatabasesAdvancedThreatProtectionSetting) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.ServersDatabasesAdvancedThreatProtectionSetting_Spec
+	err := setting.Spec.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.ServersDatabasesAdvancedThreatProtectionSetting_STATUS
+	err = setting.Status.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForServersDatabasesAdvancedThreatProtectionSetting interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForServersDatabasesAdvancedThreatProtectionSetting); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting) OriginalGVK() *schema.GroupVersionKind {
@@ -165,6 +253,11 @@ type ServersDatabasesAdvancedThreatProtectionSettingList struct {
 	Items           []ServersDatabasesAdvancedThreatProtectionSetting `json:"items"`
 }
 
+type augmentConversionForServersDatabasesAdvancedThreatProtectionSetting interface {
+	AssignPropertiesFrom(src *storage.ServersDatabasesAdvancedThreatProtectionSetting) error
+	AssignPropertiesTo(dst *storage.ServersDatabasesAdvancedThreatProtectionSetting) error
+}
+
 // Storage version of v20211101.ServersDatabasesAdvancedThreatProtectionSetting_Spec
 type ServersDatabasesAdvancedThreatProtectionSetting_Spec struct {
 	OperatorSpec    *ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec `json:"operatorSpec,omitempty"`
@@ -183,20 +276,152 @@ var _ genruntime.ConvertibleSpec = &ServersDatabasesAdvancedThreatProtectionSett
 
 // ConvertSpecFrom populates our ServersDatabasesAdvancedThreatProtectionSetting_Spec from the provided source
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == setting {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.ServersDatabasesAdvancedThreatProtectionSetting_Spec)
+	if ok {
+		// Populate our instance from source
+		return setting.AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting_Spec(src)
 	}
 
-	return source.ConvertSpecTo(setting)
+	// Convert to an intermediate form
+	src = &storage.ServersDatabasesAdvancedThreatProtectionSetting_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = setting.AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our ServersDatabasesAdvancedThreatProtectionSetting_Spec
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == setting {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.ServersDatabasesAdvancedThreatProtectionSetting_Spec)
+	if ok {
+		// Populate destination from our instance
+		return setting.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(setting)
+	// Convert to an intermediate form
+	dst = &storage.ServersDatabasesAdvancedThreatProtectionSetting_Spec{}
+	err := setting.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting_Spec populates our ServersDatabasesAdvancedThreatProtectionSetting_Spec from the provided source ServersDatabasesAdvancedThreatProtectionSetting_Spec
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting_Spec(source *storage.ServersDatabasesAdvancedThreatProtectionSetting_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec() to populate field OperatorSpec")
+		}
+		setting.OperatorSpec = &operatorSpec
+	} else {
+		setting.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	setting.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		setting.Owner = &owner
+	} else {
+		setting.Owner = nil
+	}
+
+	// State
+	setting.State = genruntime.ClonePointerToString(source.State)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		setting.PropertyBag = propertyBag
+	} else {
+		setting.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesAdvancedThreatProtectionSetting_Spec interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForServersDatabasesAdvancedThreatProtectionSetting_Spec); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting_Spec populates the provided destination ServersDatabasesAdvancedThreatProtectionSetting_Spec from our ServersDatabasesAdvancedThreatProtectionSetting_Spec
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting_Spec(destination *storage.ServersDatabasesAdvancedThreatProtectionSetting_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
+
+	// OperatorSpec
+	if setting.OperatorSpec != nil {
+		var operatorSpec storage.ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec
+		err := setting.OperatorSpec.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = setting.OriginalVersion
+
+	// Owner
+	if setting.Owner != nil {
+		owner := setting.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// State
+	destination.State = genruntime.ClonePointerToString(setting.State)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesAdvancedThreatProtectionSetting_Spec interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForServersDatabasesAdvancedThreatProtectionSetting_Spec); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20211101.ServersDatabasesAdvancedThreatProtectionSetting_STATUS
@@ -215,20 +440,170 @@ var _ genruntime.ConvertibleStatus = &ServersDatabasesAdvancedThreatProtectionSe
 
 // ConvertStatusFrom populates our ServersDatabasesAdvancedThreatProtectionSetting_STATUS from the provided source
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == setting {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.ServersDatabasesAdvancedThreatProtectionSetting_STATUS)
+	if ok {
+		// Populate our instance from source
+		return setting.AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(setting)
+	// Convert to an intermediate form
+	src = &storage.ServersDatabasesAdvancedThreatProtectionSetting_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = setting.AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our ServersDatabasesAdvancedThreatProtectionSetting_STATUS
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == setting {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.ServersDatabasesAdvancedThreatProtectionSetting_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return setting.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(setting)
+	// Convert to an intermediate form
+	dst = &storage.ServersDatabasesAdvancedThreatProtectionSetting_STATUS{}
+	err := setting.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting_STATUS populates our ServersDatabasesAdvancedThreatProtectionSetting_STATUS from the provided source ServersDatabasesAdvancedThreatProtectionSetting_STATUS
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting_STATUS) AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting_STATUS(source *storage.ServersDatabasesAdvancedThreatProtectionSetting_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	setting.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// CreationTime
+	setting.CreationTime = genruntime.ClonePointerToString(source.CreationTime)
+
+	// Id
+	setting.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	setting.Name = genruntime.ClonePointerToString(source.Name)
+
+	// State
+	setting.State = genruntime.ClonePointerToString(source.State)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		setting.SystemData = &systemDatum
+	} else {
+		setting.SystemData = nil
+	}
+
+	// Type
+	setting.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		setting.PropertyBag = propertyBag
+	} else {
+		setting.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesAdvancedThreatProtectionSetting_STATUS interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForServersDatabasesAdvancedThreatProtectionSetting_STATUS); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting_STATUS populates the provided destination ServersDatabasesAdvancedThreatProtectionSetting_STATUS from our ServersDatabasesAdvancedThreatProtectionSetting_STATUS
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting_STATUS) AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting_STATUS(destination *storage.ServersDatabasesAdvancedThreatProtectionSetting_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(setting.Conditions)
+
+	// CreationTime
+	destination.CreationTime = genruntime.ClonePointerToString(setting.CreationTime)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(setting.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(setting.Name)
+
+	// State
+	destination.State = genruntime.ClonePointerToString(setting.State)
+
+	// SystemData
+	if setting.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := setting.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(setting.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesAdvancedThreatProtectionSetting_STATUS interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForServersDatabasesAdvancedThreatProtectionSetting_STATUS); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersDatabasesAdvancedThreatProtectionSetting_Spec interface {
+	AssignPropertiesFrom(src *storage.ServersDatabasesAdvancedThreatProtectionSetting_Spec) error
+	AssignPropertiesTo(dst *storage.ServersDatabasesAdvancedThreatProtectionSetting_Spec) error
+}
+
+type augmentConversionForServersDatabasesAdvancedThreatProtectionSetting_STATUS interface {
+	AssignPropertiesFrom(src *storage.ServersDatabasesAdvancedThreatProtectionSetting_STATUS) error
+	AssignPropertiesTo(dst *storage.ServersDatabasesAdvancedThreatProtectionSetting_STATUS) error
 }
 
 // Storage version of v20211101.ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec
@@ -237,6 +612,125 @@ type ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec populates our ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec from the provided source ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec
+func (operator *ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec) AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec(source *storage.ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesAdvancedThreatProtectionSettingOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersDatabasesAdvancedThreatProtectionSettingOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec populates the provided destination ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec from our ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec
+func (operator *ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec) AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec(destination *storage.ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesAdvancedThreatProtectionSettingOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersDatabasesAdvancedThreatProtectionSettingOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersDatabasesAdvancedThreatProtectionSettingOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec) error
+	AssignPropertiesTo(dst *storage.ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec) error
 }
 
 func init() {

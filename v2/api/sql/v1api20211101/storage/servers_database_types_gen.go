@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ServersDatabase{}
 
 // ConvertFrom populates our ServersDatabase from the provided hub ServersDatabase
 func (database *ServersDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersDatabase)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersDatabase
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignProperties_From_ServersDatabase(source)
+	err = database.AssignProperties_From_ServersDatabase(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersDatabase from our ServersDatabase
 func (database *ServersDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersDatabase)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersDatabase
+	err := database.AssignProperties_To_ServersDatabase(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignProperties_To_ServersDatabase(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersDatabase{}

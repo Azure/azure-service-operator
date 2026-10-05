@@ -1074,10 +1074,13 @@ func (operator *CapacityReservationOperatorSpec) AssignProperties_To_CapacityRes
 }
 
 // Storage version of v1api20250401.ScheduleProfile
-// Defines the schedule for Block-type capacity reservations. Specifies the schedule during which capacity reservation is
-// active and VM or VMSS resource can be allocated using reservation. This property is required and only supported when the
-// capacity reservation group type is 'Block'. The scheduleProfile, start, and end fields are immutable after creation.
-// Minimum API version: 2025-04-01. Please refer to https://aka.ms/blockcapacityreservation for more details.
+// Defines the schedule for Block and Future capacity reservations. Specifies the schedule during which capacity
+// reservation is active and VM or VMSS resource can be allocated using reservation. For Block capacity reservations, the
+// scheduleProfile, start, and end fields are immutable after creation. Please refer to
+// https://aka.ms/blockcapacityreservation for more details. Minimum API version for Block capacity reservations:
+// 2025-04-01. Future capacity reservations must use this property with only a start time, which can be changed until the
+// ‘modifiableUntil’ time. Please refer to https://aka.ms/futurecapacityreservation for more details. Minimum API
+// version for Future capacity reservations: 2026-04-01.
 type ScheduleProfile struct {
 	End         *string                `json:"end,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1147,10 +1150,13 @@ func (profile *ScheduleProfile) AssignProperties_To_ScheduleProfile(destination 
 }
 
 // Storage version of v1api20250401.ScheduleProfile_STATUS
-// Defines the schedule for Block-type capacity reservations. Specifies the schedule during which capacity reservation is
-// active and VM or VMSS resource can be allocated using reservation. This property is required and only supported when the
-// capacity reservation group type is 'Block'. The scheduleProfile, start, and end fields are immutable after creation.
-// Minimum API version: 2025-04-01. Please refer to https://aka.ms/blockcapacityreservation for more details.
+// Defines the schedule for Block and Future capacity reservations. Specifies the schedule during which capacity
+// reservation is active and VM or VMSS resource can be allocated using reservation. For Block capacity reservations, the
+// scheduleProfile, start, and end fields are immutable after creation. Please refer to
+// https://aka.ms/blockcapacityreservation for more details. Minimum API version for Block capacity reservations:
+// 2025-04-01. Future capacity reservations must use this property with only a start time, which can be changed until the
+// ‘modifiableUntil’ time. Please refer to https://aka.ms/futurecapacityreservation for more details. Minimum API
+// version for Future capacity reservations: 2026-04-01.
 type ScheduleProfile_STATUS struct {
 	End         *string                `json:"end,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

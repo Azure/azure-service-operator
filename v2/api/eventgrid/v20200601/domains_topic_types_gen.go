@@ -51,22 +51,36 @@ var _ conversion.Convertible = &DomainsTopic{}
 
 // ConvertFrom populates our DomainsTopic from the provided hub DomainsTopic
 func (topic *DomainsTopic) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.DomainsTopic)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v20200601/storage/DomainsTopic but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.DomainsTopic
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return topic.AssignProperties_From_DomainsTopic(source)
+	err = topic.AssignProperties_From_DomainsTopic(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to topic")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub DomainsTopic from our DomainsTopic
 func (topic *DomainsTopic) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.DomainsTopic)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v20200601/storage/DomainsTopic but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.DomainsTopic
+	err := topic.AssignProperties_To_DomainsTopic(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from topic")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return topic.AssignProperties_To_DomainsTopic(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &DomainsTopic{}
@@ -87,17 +101,6 @@ func (topic *DomainsTopic) SecretDestinationExpressions() []*core.DestinationExp
 		return nil
 	}
 	return topic.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &DomainsTopic{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (topic *DomainsTopic) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DomainsTopic_STATUS); ok {
-		return topic.Spec.Initialize_From_DomainsTopic_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type DomainsTopic_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &DomainsTopic{}
@@ -420,13 +423,6 @@ func (topic *DomainsTopic_Spec) AssignProperties_To_DomainsTopic_Spec(destinatio
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DomainsTopic_STATUS populates our DomainsTopic_Spec from the provided source DomainsTopic_STATUS
-func (topic *DomainsTopic_Spec) Initialize_From_DomainsTopic_STATUS(source *DomainsTopic_STATUS) error {
 
 	// No error
 	return nil

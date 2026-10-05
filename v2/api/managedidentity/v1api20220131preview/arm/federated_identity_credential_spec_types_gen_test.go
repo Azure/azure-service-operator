@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_FederatedIdentityCredentialProperties_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FederatedIdentityCredentialProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFederatedIdentityCredentialProperties, FederatedIdentityCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFederatedIdentityCredentialProperties)
 }
 
 // RunJSONSerializationTestForFederatedIdentityCredentialProperties runs a test to see if a specific instance of FederatedIdentityCredentialProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForFederatedIdentityCredentialProperties(subject FederatedIdentityCredentialProperties) string {
+func RunJSONSerializationTestForFederatedIdentityCredentialProperties(t *rapid.T) {
+	subject := FederatedIdentityCredentialPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FederatedIdentityCredentialProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,34 +45,32 @@ func RunJSONSerializationTestForFederatedIdentityCredentialProperties(subject Fe
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FederatedIdentityCredentialProperties instances for property testing - lazily instantiated by
 // FederatedIdentityCredentialPropertiesGenerator()
-var federatedIdentityCredentialPropertiesGenerator gopter.Gen
+var federatedIdentityCredentialPropertiesGenerator *rapid.Generator[FederatedIdentityCredentialProperties]
 
 // FederatedIdentityCredentialPropertiesGenerator returns a generator of FederatedIdentityCredentialProperties instances for property testing.
-func FederatedIdentityCredentialPropertiesGenerator() gopter.Gen {
+func FederatedIdentityCredentialPropertiesGenerator() *rapid.Generator[FederatedIdentityCredentialProperties] {
 	if federatedIdentityCredentialPropertiesGenerator != nil {
 		return federatedIdentityCredentialPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFederatedIdentityCredentialProperties(generators)
-	federatedIdentityCredentialPropertiesGenerator = gen.Struct(reflect.TypeOf(FederatedIdentityCredentialProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	audiences := rapid.SliceOf(rapid.String())
+
+	federatedIdentityCredentialPropertiesGenerator = rapid.Custom(func(t *rapid.T) FederatedIdentityCredentialProperties {
+		var result FederatedIdentityCredentialProperties
+		result.Audiences = audiences.Draw(t, "Audiences")
+		result.Issuer = ptrString.Draw(t, "Issuer")
+		result.Subject = ptrString.Draw(t, "Subject")
+		return result
+	})
 
 	return federatedIdentityCredentialPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFederatedIdentityCredentialProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFederatedIdentityCredentialProperties(gens map[string]gopter.Gen) {
-	gens["Audiences"] = gen.SliceOf(gen.AlphaString())
-	gens["Issuer"] = gen.PtrOf(gen.AlphaString())
-	gens["Subject"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_FederatedIdentityCredential_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -92,29 +80,23 @@ func Test_FederatedIdentityCredential_Spec_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FederatedIdentityCredential_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFederatedIdentityCredential_Spec, FederatedIdentityCredential_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFederatedIdentityCredential_Spec)
 }
 
 // RunJSONSerializationTestForFederatedIdentityCredential_Spec runs a test to see if a specific instance of FederatedIdentityCredential_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFederatedIdentityCredential_Spec(subject FederatedIdentityCredential_Spec) string {
+func RunJSONSerializationTestForFederatedIdentityCredential_Spec(t *rapid.T) {
+	subject := FederatedIdentityCredential_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FederatedIdentityCredential_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -123,44 +105,29 @@ func RunJSONSerializationTestForFederatedIdentityCredential_Spec(subject Federat
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FederatedIdentityCredential_Spec instances for property testing - lazily instantiated by
 // FederatedIdentityCredential_SpecGenerator()
-var federatedIdentityCredential_SpecGenerator gopter.Gen
+var federatedIdentityCredential_SpecGenerator *rapid.Generator[FederatedIdentityCredential_Spec]
 
 // FederatedIdentityCredential_SpecGenerator returns a generator of FederatedIdentityCredential_Spec instances for property testing.
-// We first initialize federatedIdentityCredential_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FederatedIdentityCredential_SpecGenerator() gopter.Gen {
+func FederatedIdentityCredential_SpecGenerator() *rapid.Generator[FederatedIdentityCredential_Spec] {
 	if federatedIdentityCredential_SpecGenerator != nil {
 		return federatedIdentityCredential_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFederatedIdentityCredential_Spec(generators)
-	federatedIdentityCredential_SpecGenerator = gen.Struct(reflect.TypeOf(FederatedIdentityCredential_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(FederatedIdentityCredentialPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFederatedIdentityCredential_Spec(generators)
-	AddRelatedPropertyGeneratorsForFederatedIdentityCredential_Spec(generators)
-	federatedIdentityCredential_SpecGenerator = gen.Struct(reflect.TypeOf(FederatedIdentityCredential_Spec{}), generators)
+	federatedIdentityCredential_SpecGenerator = rapid.Custom(func(t *rapid.T) FederatedIdentityCredential_Spec {
+		var result FederatedIdentityCredential_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return federatedIdentityCredential_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFederatedIdentityCredential_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFederatedIdentityCredential_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForFederatedIdentityCredential_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFederatedIdentityCredential_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(FederatedIdentityCredentialPropertiesGenerator())
 }

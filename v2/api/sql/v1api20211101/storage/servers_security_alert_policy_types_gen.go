@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ServersSecurityAlertPolicy{}
 
 // ConvertFrom populates our ServersSecurityAlertPolicy from the provided hub ServersSecurityAlertPolicy
 func (policy *ServersSecurityAlertPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersSecurityAlertPolicy)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersSecurityAlertPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersSecurityAlertPolicy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return policy.AssignProperties_From_ServersSecurityAlertPolicy(source)
+	err = policy.AssignProperties_From_ServersSecurityAlertPolicy(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to policy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersSecurityAlertPolicy from our ServersSecurityAlertPolicy
 func (policy *ServersSecurityAlertPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersSecurityAlertPolicy)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersSecurityAlertPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersSecurityAlertPolicy
+	err := policy.AssignProperties_To_ServersSecurityAlertPolicy(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from policy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return policy.AssignProperties_To_ServersSecurityAlertPolicy(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersSecurityAlertPolicy{}

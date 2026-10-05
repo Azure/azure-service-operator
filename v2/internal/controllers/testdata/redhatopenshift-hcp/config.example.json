@@ -1,0 +1,7 @@
+{
+  "location": "uksouth",
+  "clusterVersion": "4.20",
+  "nodePoolVersion": "4.20.17",
+  "issuerURL": "https://login.microsoftonline.com/00000000-0000-0000-0000-000000000000/v2.0",
+  "clientID": "00000000-0000-0000-0000-000000000000"
+}

@@ -19,6 +19,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
 type ResourceWithReferences struct {
@@ -104,6 +106,12 @@ type ResourceWithReferencesSpec struct {
 	SecretProperty           *string                     `optionalSecretPair:"SecretProperty" json:"secretProperty,omitempty"`
 	SecretPropertyFromSecret *genruntime.SecretReference `optionalSecretPair:"SecretProperty" json:"secretPropertyFromSecret,omitempty"`
 
+	NamedStringConfigMapProp           *MyCustomString                `optionalConfigMapPair:"NamedStringConfigMapProp" json:"namedStringConfigMapProp,omitempty"`
+	NamedStringConfigMapPropFromConfig *genruntime.ConfigMapReference `optionalConfigMapPair:"NamedStringConfigMapProp" json:"namedStringConfigMapPropFromConfig,omitempty"`
+
+	NamedStringSecretProp           *MyCustomString             `optionalSecretPair:"NamedStringSecretProp" json:"namedStringSecretProp,omitempty"`
+	NamedStringSecretPropFromSecret *genruntime.SecretReference `optionalSecretPair:"NamedStringSecretProp" json:"namedStringSecretPropFromSecret,omitempty"`
+
 	Location string `json:"location,omitempty"`
 }
 
@@ -130,6 +138,8 @@ type ResourceReference struct {
 }
 
 type ProvisioningState string
+
+type MyCustomString string
 
 const (
 	ProvisioningStateSucceeded ProvisioningState = "Succeeded"
@@ -246,7 +256,7 @@ func Test_FindPropertiesWithTag(t *testing.T) {
 
 	results, err := reflecthelpers.FindPropertiesWithTag(res, "optionalConfigMapPair")
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(results).To(HaveLen(2))
+	g.Expect(results).To(HaveLen(4))
 	g.Expect(results).To(HaveKey("Spec.PropertyWithTag"))
 	g.Expect(results["Spec.PropertyWithTag"]).To(Equal([]any{to.Ptr("hello")}))
 	g.Expect(results).To(HaveKey("Spec.PropertyWithTagFromConfig"))
@@ -257,7 +267,7 @@ func Test_FindPropertiesWithTag(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	// This is the number of properties and child properties on this object. It's fragile to structural changes
 	// in the object so may need to be changed in the future
-	g.Expect(results).To(HaveLen(26))
+	g.Expect(results).To(HaveLen(30))
 }
 
 func Test_FindOptionalConfigMapReferences(t *testing.T) {
@@ -298,11 +308,39 @@ func Test_FindOptionalConfigMapReferences(t *testing.T) {
 
 	results, err := reflecthelpers.FindOptionalConfigMapReferences(res)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(results).To(HaveLen(1))
-	g.Expect(results[0].Name).To(Equal("Spec.PropertyWithTag"))
-	g.Expect(results[0].Value).To(Equal(to.Ptr("hello")))
-	g.Expect(results[0].RefName).To(Equal("Spec.PropertyWithTagFromConfig"))
-	g.Expect(results[0].Ref).To(Equal((*genruntime.ConfigMapReference)(nil)))
+	g.Expect(results).To(HaveLen(2))
+
+	result, err := findConfigMapResultByName(results, "Spec.PropertyWithTag")
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.Value).To(Equal(to.Ptr("hello")))
+	g.Expect(result.RefName).To(Equal("Spec.PropertyWithTagFromConfig"))
+	g.Expect(result.Ref).To(Equal((*genruntime.ConfigMapReference)(nil)))
+}
+
+func Test_FindOptionalConfigMapReferences_NamedStringType(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	namedVal := MyCustomString("named-configmap-value")
+	res := ResourceWithReferences{
+		Spec: ResourceWithReferencesSpec{
+			AzureName:                "azureName",
+			NamedStringConfigMapProp: &namedVal,
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "test-group",
+			Namespace: "test-namespace",
+		},
+	}
+
+	results, err := reflecthelpers.FindOptionalConfigMapReferences(res)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	result, err := findConfigMapResultByName(results, "Spec.NamedStringConfigMapProp")
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.Value).To(Equal(to.Ptr("named-configmap-value")))
+	g.Expect(result.RefName).To(Equal("Spec.NamedStringConfigMapPropFromConfig"))
+	g.Expect(result.Ref).To(BeNil())
 }
 
 func Test_FindOptionalSecretReferences_OnlyStringSet(t *testing.T) {
@@ -322,11 +360,13 @@ func Test_FindOptionalSecretReferences_OnlyStringSet(t *testing.T) {
 
 	results, err := reflecthelpers.FindOptionalSecretReferences(res)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(results).To(HaveLen(1))
-	g.Expect(results[0].Name).To(Equal("Spec.SecretProperty"))
-	g.Expect(results[0].Value).To(Equal(to.Ptr("myvalue")))
-	g.Expect(results[0].RefName).To(Equal("Spec.SecretPropertyFromSecret"))
-	g.Expect(results[0].Ref).To(BeNil())
+	g.Expect(results).To(HaveLen(2))
+
+	result, err := findSecretResultByName(results, "Spec.SecretProperty")
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.Value).To(Equal(to.Ptr("myvalue")))
+	g.Expect(result.RefName).To(Equal("Spec.SecretPropertyFromSecret"))
+	g.Expect(result.Ref).To(BeNil())
 }
 
 func Test_FindOptionalSecretReferences_OnlyRefSet(t *testing.T) {
@@ -348,11 +388,13 @@ func Test_FindOptionalSecretReferences_OnlyRefSet(t *testing.T) {
 
 	results, err := reflecthelpers.FindOptionalSecretReferences(res)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(results).To(HaveLen(1))
-	g.Expect(results[0].Name).To(Equal("Spec.SecretProperty"))
-	g.Expect(results[0].Value).To(BeNil())
-	g.Expect(results[0].RefName).To(Equal("Spec.SecretPropertyFromSecret"))
-	g.Expect(results[0].Ref).To(Equal(secretRef))
+	g.Expect(results).To(HaveLen(2))
+
+	result, err := findSecretResultByName(results, "Spec.SecretProperty")
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.Value).To(BeNil())
+	g.Expect(result.RefName).To(Equal("Spec.SecretPropertyFromSecret"))
+	g.Expect(result.Ref).To(Equal(secretRef))
 }
 
 func Test_FindOptionalSecretReferences_BothSet(t *testing.T) {
@@ -375,11 +417,13 @@ func Test_FindOptionalSecretReferences_BothSet(t *testing.T) {
 
 	results, err := reflecthelpers.FindOptionalSecretReferences(res)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(results).To(HaveLen(1))
-	g.Expect(results[0].Name).To(Equal("Spec.SecretProperty"))
-	g.Expect(results[0].Value).To(Equal(to.Ptr("myvalue")))
-	g.Expect(results[0].RefName).To(Equal("Spec.SecretPropertyFromSecret"))
-	g.Expect(results[0].Ref).To(Equal(secretRef))
+	g.Expect(results).To(HaveLen(2))
+
+	result, err := findSecretResultByName(results, "Spec.SecretProperty")
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.Value).To(Equal(to.Ptr("myvalue")))
+	g.Expect(result.RefName).To(Equal("Spec.SecretPropertyFromSecret"))
+	g.Expect(result.Ref).To(Equal(secretRef))
 }
 
 func Test_FindOptionalSecretReferences_NeitherSet(t *testing.T) {
@@ -398,11 +442,65 @@ func Test_FindOptionalSecretReferences_NeitherSet(t *testing.T) {
 
 	results, err := reflecthelpers.FindOptionalSecretReferences(res)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(results).To(HaveLen(1))
-	g.Expect(results[0].Name).To(Equal("Spec.SecretProperty"))
-	g.Expect(results[0].Value).To(BeNil())
-	g.Expect(results[0].RefName).To(Equal("Spec.SecretPropertyFromSecret"))
-	g.Expect(results[0].Ref).To(BeNil())
+	g.Expect(results).To(HaveLen(2))
+
+	result, err := findSecretResultByName(results, "Spec.SecretProperty")
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.Value).To(BeNil())
+	g.Expect(result.RefName).To(Equal("Spec.SecretPropertyFromSecret"))
+	g.Expect(result.Ref).To(BeNil())
+}
+
+func Test_FindOptionalSecretReferences_NamedStringType(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	namedVal := MyCustomString("named-secret-value")
+	res := ResourceWithReferences{
+		Spec: ResourceWithReferencesSpec{
+			AzureName:             "azureName",
+			NamedStringSecretProp: &namedVal,
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "test-group",
+			Namespace: "test-namespace",
+		},
+	}
+
+	results, err := reflecthelpers.FindOptionalSecretReferences(res)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	result, err := findSecretResultByName(results, "Spec.NamedStringSecretProp")
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result.Value).To(Equal(to.Ptr("named-secret-value")))
+	g.Expect(result.RefName).To(Equal("Spec.NamedStringSecretPropFromSecret"))
+	g.Expect(result.Ref).To(BeNil())
+}
+
+func findConfigMapResultByName(
+	results []*configmaps.OptionalReferencePair,
+	name string,
+) (*configmaps.OptionalReferencePair, error) {
+	for _, r := range results {
+		if r.Name == name {
+			return r, nil
+		}
+	}
+
+	return nil, eris.Errorf("no configmap result with name %q found", name)
+}
+
+func findSecretResultByName(
+	results []*secrets.OptionalReferencePair,
+	name string,
+) (*secrets.OptionalReferencePair, error) {
+	for _, r := range results {
+		if r.Name == name {
+			return r, nil
+		}
+	}
+
+	return nil, eris.Errorf("no secret result with name %q found", name)
 }
 
 // defaultResourceReferencesName exists to showcase an example where ReflectVisitor is used to modify the object in question

@@ -5,7 +5,8 @@ package v20200601
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/storage"
+	v20250215s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForDomainsTopic(subject DomainsTopic) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.DomainsTopic
+	var hub v20250215s.DomainsTopic
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForDomainsTopic(subject DomainsTopic) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DomainsTopic
+	var other v20200601s.DomainsTopic
 	err := copied.AssignProperties_To_DomainsTopic(&other)
 	if err != nil {
 		return err.Error()
@@ -201,7 +202,7 @@ func RunPropertyAssignmentTestForDomainsTopicOperatorSpec(subject DomainsTopicOp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DomainsTopicOperatorSpec
+	var other v20200601s.DomainsTopicOperatorSpec
 	err := copied.AssignProperties_To_DomainsTopicOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -308,7 +309,7 @@ func RunPropertyAssignmentTestForDomainsTopic_STATUS(subject DomainsTopic_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DomainsTopic_STATUS
+	var other v20200601s.DomainsTopic_STATUS
 	err := copied.AssignProperties_To_DomainsTopic_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -444,7 +445,7 @@ func RunPropertyAssignmentTestForDomainsTopic_Spec(subject DomainsTopic_Spec) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DomainsTopic_Spec
+	var other v20200601s.DomainsTopic_Spec
 	err := copied.AssignProperties_To_DomainsTopic_Spec(&other)
 	if err != nil {
 		return err.Error()

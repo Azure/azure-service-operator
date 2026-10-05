@@ -5,7 +5,6 @@ package storage
 
 import (
 	"encoding/json"
-	v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v20210301/storage"
 	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v20230401/storage"
 	v20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v20241101/storage"
 	"github.com/google/go-cmp/cmp"
@@ -42,7 +41,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject Privat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210301s.PrivateEndpointConnection_STATUS
+	var other v20230401s.PrivateEndpointConnection_STATUS
 	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1320,7 +1319,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210301s.Sku
+	var other v20230401s.Sku
 	err := copied.AssignProperties_To_Sku(&other)
 	if err != nil {
 		return err.Error()
@@ -1434,7 +1433,7 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210301s.Sku_STATUS
+	var other v20230401s.Sku_STATUS
 	err := copied.AssignProperties_To_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()

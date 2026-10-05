@@ -3,7 +3,7 @@ module github.com/Azure/azure-service-operator/v2/tools/mangle-test-json
 go 1.26
 
 require (
-	github.com/go-logr/logr v1.4.3
+	github.com/go-logr/logr v1.4.4
 	github.com/go-logr/zerologr v1.2.3
 	github.com/rs/zerolog v1.35.1
 )

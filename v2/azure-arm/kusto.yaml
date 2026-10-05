@@ -22,6 +22,15 @@ groupModelConfiguration:
     KeyVaultProperties:
       UserIdentity:
         $referenceType: arm
+    Clusters_PrincipalAssignment:
+      # PrincipalAssignment is already the database scoped assignment, so this one keeps its scope in its name
+      $exportAs: ClusterPrincipalAssignment
+      $supportedFrom: v2.21.0
+    ClusterPrincipalProperties:
+      PrincipalId:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
     Clusters_Database:
       $exportAs: Database
       $supportedFrom: v2.15.0

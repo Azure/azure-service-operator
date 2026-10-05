@@ -1,0 +1,13 @@
+apiVersion: cache.azure.com/v20250701
+kind: RedisEnterpriseDatabaseAccessPolicyAssignment
+metadata:
+  name: sampleaccesspolicyassignment
+  namespace: default
+spec:
+  owner:
+    name: default
+  accessPolicyName: default
+  user:
+    objectIdFromConfig:
+      name: identity-settings
+      key: principalId

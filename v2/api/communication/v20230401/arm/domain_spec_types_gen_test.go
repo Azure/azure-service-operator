@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_DomainProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DomainProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomainProperties, DomainPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDomainProperties)
 }
 
 // RunJSONSerializationTestForDomainProperties runs a test to see if a specific instance of DomainProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomainProperties(subject DomainProperties) string {
+func RunJSONSerializationTestForDomainProperties(t *rapid.T) {
+	subject := DomainPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DomainProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,32 +45,30 @@ func RunJSONSerializationTestForDomainProperties(subject DomainProperties) strin
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DomainProperties instances for property testing - lazily instantiated by DomainPropertiesGenerator()
-var domainPropertiesGenerator gopter.Gen
+var domainPropertiesGenerator *rapid.Generator[DomainProperties]
 
 // DomainPropertiesGenerator returns a generator of DomainProperties instances for property testing.
-func DomainPropertiesGenerator() gopter.Gen {
+func DomainPropertiesGenerator() *rapid.Generator[DomainProperties] {
 	if domainPropertiesGenerator != nil {
 		return domainPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomainProperties(generators)
-	domainPropertiesGenerator = gen.Struct(reflect.TypeOf(DomainProperties{}), generators)
+	domainManagement := rapid.Ptr(rapid.SampledFrom([]DomainManagement{DomainManagement_AzureManaged, DomainManagement_CustomerManaged, DomainManagement_CustomerManagedInExchangeOnline}), true)
+	userEngagementTracking := rapid.Ptr(rapid.SampledFrom([]UserEngagementTracking{UserEngagementTracking_Disabled, UserEngagementTracking_Enabled}), true)
+
+	domainPropertiesGenerator = rapid.Custom(func(t *rapid.T) DomainProperties {
+		var result DomainProperties
+		result.DomainManagement = domainManagement.Draw(t, "DomainManagement")
+		result.UserEngagementTracking = userEngagementTracking.Draw(t, "UserEngagementTracking")
+		return result
+	})
 
 	return domainPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDomainProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDomainProperties(gens map[string]gopter.Gen) {
-	gens["DomainManagement"] = gen.PtrOf(gen.OneConstOf(DomainManagement_AzureManaged, DomainManagement_CustomerManaged, DomainManagement_CustomerManagedInExchangeOnline))
-	gens["UserEngagementTracking"] = gen.PtrOf(gen.OneConstOf(UserEngagementTracking_Disabled, UserEngagementTracking_Enabled))
 }
 
 func Test_Domain_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -90,29 +78,23 @@ func Test_Domain_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Domain_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomain_Spec, Domain_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDomain_Spec)
 }
 
 // RunJSONSerializationTestForDomain_Spec runs a test to see if a specific instance of Domain_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomain_Spec(subject Domain_Spec) string {
+func RunJSONSerializationTestForDomain_Spec(t *rapid.T) {
+	subject := Domain_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Domain_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -121,47 +103,34 @@ func RunJSONSerializationTestForDomain_Spec(subject Domain_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Domain_Spec instances for property testing - lazily instantiated by Domain_SpecGenerator()
-var domain_SpecGenerator gopter.Gen
+var domain_SpecGenerator *rapid.Generator[Domain_Spec]
 
 // Domain_SpecGenerator returns a generator of Domain_Spec instances for property testing.
-// We first initialize domain_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Domain_SpecGenerator() gopter.Gen {
+func Domain_SpecGenerator() *rapid.Generator[Domain_Spec] {
 	if domain_SpecGenerator != nil {
 		return domain_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomain_Spec(generators)
-	domain_SpecGenerator = gen.Struct(reflect.TypeOf(Domain_Spec{}), generators)
+	location := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+	properties := rapid.Ptr(DomainPropertiesGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomain_Spec(generators)
-	AddRelatedPropertyGeneratorsForDomain_Spec(generators)
-	domain_SpecGenerator = gen.Struct(reflect.TypeOf(Domain_Spec{}), generators)
+	domain_SpecGenerator = rapid.Custom(func(t *rapid.T) Domain_Spec {
+		var result Domain_Spec
+		result.Location = location.Draw(t, "Location")
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return domain_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDomain_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDomain_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(DomainPropertiesGenerator())
 }

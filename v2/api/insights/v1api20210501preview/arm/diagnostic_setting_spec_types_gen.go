@@ -43,14 +43,14 @@ type DiagnosticSettings struct {
 	LogAnalyticsDestinationType *string `json:"logAnalyticsDestinationType,omitempty"`
 
 	// Logs: The list of logs settings.
-	Logs []LogSettings `json:"logs,omitempty"`
+	Logs []DiagnosticsLogSettings `json:"logs,omitempty"`
 
 	// MarketplacePartnerId: The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic
 	// Logs.
 	MarketplacePartnerId *string `json:"marketplacePartnerId,omitempty"`
 
 	// Metrics: The list of metric settings.
-	Metrics []MetricSettings `json:"metrics,omitempty"`
+	Metrics []DiagnosticsMetricSettings `json:"metrics,omitempty"`
 
 	// ServiceBusRuleId: The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.
 	ServiceBusRuleId *string `json:"serviceBusRuleId,omitempty"`
@@ -65,7 +65,7 @@ type DiagnosticSettings struct {
 }
 
 // Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.
-type LogSettings struct {
+type DiagnosticsLogSettings struct {
 	// Category: Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of
 	// Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.
 	Category *string `json:"category,omitempty"`
@@ -78,11 +78,11 @@ type LogSettings struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// RetentionPolicy: the retention policy for this log.
-	RetentionPolicy *RetentionPolicy `json:"retentionPolicy,omitempty"`
+	RetentionPolicy *MicrosoftCommonRetentionPolicy `json:"retentionPolicy,omitempty"`
 }
 
 // Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric.
-type MetricSettings struct {
+type DiagnosticsMetricSettings struct {
 	// Category: Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of
 	// Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.
 	Category *string `json:"category,omitempty"`
@@ -91,14 +91,14 @@ type MetricSettings struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// RetentionPolicy: the retention policy for this category.
-	RetentionPolicy *RetentionPolicy `json:"retentionPolicy,omitempty"`
+	RetentionPolicy *MicrosoftCommonRetentionPolicy `json:"retentionPolicy,omitempty"`
 
 	// TimeGrain: the timegrain of the metric in ISO8601 format.
 	TimeGrain *string `json:"timeGrain,omitempty"`
 }
 
 // Specifies the retention policy for the log.
-type RetentionPolicy struct {
+type MicrosoftCommonRetentionPolicy struct {
 	// Days: the number of days for the retention in days. A value of 0 will retain the events indefinitely.
 	Days *int `json:"days,omitempty"`
 

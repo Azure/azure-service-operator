@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_AccessPolicyEntry_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AccessPolicyEntry can be assigned to storage and back losslessly
 func Test_AccessPolicyEntry_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,44 +22,34 @@ func Test_AccessPolicyEntry_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AccessPolicyEntry to AccessPolicyEntry via AssignProperties_To_AccessPolicyEntry & AssignProperties_From_AccessPolicyEntry returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAccessPolicyEntry, AccessPolicyEntryGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AccessPolicyEntryGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAccessPolicyEntry tests if a specific instance of AccessPolicyEntry can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAccessPolicyEntry(subject AccessPolicyEntry) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AccessPolicyEntry
+		err := copied.AssignProperties_To_AccessPolicyEntry(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AccessPolicyEntry
-	err := copied.AssignProperties_To_AccessPolicyEntry(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AccessPolicyEntry
+		err = actual.AssignProperties_From_AccessPolicyEntry(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AccessPolicyEntry
-	err = actual.AssignProperties_From_AccessPolicyEntry(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AccessPolicyEntry_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -72,29 +59,23 @@ func Test_AccessPolicyEntry_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AccessPolicyEntry via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAccessPolicyEntry, AccessPolicyEntryGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAccessPolicyEntry)
 }
 
 // RunJSONSerializationTestForAccessPolicyEntry runs a test to see if a specific instance of AccessPolicyEntry round trips to JSON and back losslessly
-func RunJSONSerializationTestForAccessPolicyEntry(subject AccessPolicyEntry) string {
+func RunJSONSerializationTestForAccessPolicyEntry(t *rapid.T) {
+	subject := AccessPolicyEntryGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AccessPolicyEntry
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -103,49 +84,35 @@ func RunJSONSerializationTestForAccessPolicyEntry(subject AccessPolicyEntry) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AccessPolicyEntry instances for property testing - lazily instantiated by AccessPolicyEntryGenerator()
-var accessPolicyEntryGenerator gopter.Gen
+var accessPolicyEntryGenerator *rapid.Generator[AccessPolicyEntry]
 
 // AccessPolicyEntryGenerator returns a generator of AccessPolicyEntry instances for property testing.
-// We first initialize accessPolicyEntryGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AccessPolicyEntryGenerator() gopter.Gen {
+func AccessPolicyEntryGenerator() *rapid.Generator[AccessPolicyEntry] {
 	if accessPolicyEntryGenerator != nil {
 		return accessPolicyEntryGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAccessPolicyEntry(generators)
-	accessPolicyEntryGenerator = gen.Struct(reflect.TypeOf(AccessPolicyEntry{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	permissions := rapid.Ptr(PermissionsGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAccessPolicyEntry(generators)
-	AddRelatedPropertyGeneratorsForAccessPolicyEntry(generators)
-	accessPolicyEntryGenerator = gen.Struct(reflect.TypeOf(AccessPolicyEntry{}), generators)
+	accessPolicyEntryGenerator = rapid.Custom(func(t *rapid.T) AccessPolicyEntry {
+		var result AccessPolicyEntry
+		result.ApplicationId = ptrString.Draw(t, "ApplicationId")
+		result.ObjectId = ptrString.Draw(t, "ObjectId")
+		result.Permissions = permissions.Draw(t, "Permissions")
+		result.TenantId = ptrString.Draw(t, "TenantId")
+		return result
+	})
 
 	return accessPolicyEntryGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAccessPolicyEntry is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAccessPolicyEntry(gens map[string]gopter.Gen) {
-	gens["ApplicationId"] = gen.PtrOf(gen.AlphaString())
-	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAccessPolicyEntry is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAccessPolicyEntry(gens map[string]gopter.Gen) {
-	gens["Permissions"] = gen.PtrOf(PermissionsGenerator())
-}
-
+// Test_AccessPolicyEntry_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AccessPolicyEntry_STATUS can be assigned to storage and back losslessly
 func Test_AccessPolicyEntry_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -153,44 +120,34 @@ func Test_AccessPolicyEntry_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AccessPolicyEntry_STATUS to AccessPolicyEntry_STATUS via AssignProperties_To_AccessPolicyEntry_STATUS & AssignProperties_From_AccessPolicyEntry_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAccessPolicyEntry_STATUS, AccessPolicyEntry_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AccessPolicyEntry_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAccessPolicyEntry_STATUS tests if a specific instance of AccessPolicyEntry_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAccessPolicyEntry_STATUS(subject AccessPolicyEntry_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AccessPolicyEntry_STATUS
+		err := copied.AssignProperties_To_AccessPolicyEntry_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AccessPolicyEntry_STATUS
-	err := copied.AssignProperties_To_AccessPolicyEntry_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AccessPolicyEntry_STATUS
+		err = actual.AssignProperties_From_AccessPolicyEntry_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AccessPolicyEntry_STATUS
-	err = actual.AssignProperties_From_AccessPolicyEntry_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AccessPolicyEntry_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -200,29 +157,23 @@ func Test_AccessPolicyEntry_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AccessPolicyEntry_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAccessPolicyEntry_STATUS, AccessPolicyEntry_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAccessPolicyEntry_STATUS)
 }
 
 // RunJSONSerializationTestForAccessPolicyEntry_STATUS runs a test to see if a specific instance of AccessPolicyEntry_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAccessPolicyEntry_STATUS(subject AccessPolicyEntry_STATUS) string {
+func RunJSONSerializationTestForAccessPolicyEntry_STATUS(t *rapid.T) {
+	subject := AccessPolicyEntry_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AccessPolicyEntry_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -231,50 +182,36 @@ func RunJSONSerializationTestForAccessPolicyEntry_STATUS(subject AccessPolicyEnt
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AccessPolicyEntry_STATUS instances for property testing - lazily instantiated by
 // AccessPolicyEntry_STATUSGenerator()
-var accessPolicyEntry_STATUSGenerator gopter.Gen
+var accessPolicyEntry_STATUSGenerator *rapid.Generator[AccessPolicyEntry_STATUS]
 
 // AccessPolicyEntry_STATUSGenerator returns a generator of AccessPolicyEntry_STATUS instances for property testing.
-// We first initialize accessPolicyEntry_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AccessPolicyEntry_STATUSGenerator() gopter.Gen {
+func AccessPolicyEntry_STATUSGenerator() *rapid.Generator[AccessPolicyEntry_STATUS] {
 	if accessPolicyEntry_STATUSGenerator != nil {
 		return accessPolicyEntry_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAccessPolicyEntry_STATUS(generators)
-	accessPolicyEntry_STATUSGenerator = gen.Struct(reflect.TypeOf(AccessPolicyEntry_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	permissions := rapid.Ptr(Permissions_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAccessPolicyEntry_STATUS(generators)
-	AddRelatedPropertyGeneratorsForAccessPolicyEntry_STATUS(generators)
-	accessPolicyEntry_STATUSGenerator = gen.Struct(reflect.TypeOf(AccessPolicyEntry_STATUS{}), generators)
+	accessPolicyEntry_STATUSGenerator = rapid.Custom(func(t *rapid.T) AccessPolicyEntry_STATUS {
+		var result AccessPolicyEntry_STATUS
+		result.ApplicationId = ptrString.Draw(t, "ApplicationId")
+		result.ObjectId = ptrString.Draw(t, "ObjectId")
+		result.Permissions = permissions.Draw(t, "Permissions")
+		result.TenantId = ptrString.Draw(t, "TenantId")
+		return result
+	})
 
 	return accessPolicyEntry_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAccessPolicyEntry_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAccessPolicyEntry_STATUS(gens map[string]gopter.Gen) {
-	gens["ApplicationId"] = gen.PtrOf(gen.AlphaString())
-	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAccessPolicyEntry_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAccessPolicyEntry_STATUS(gens map[string]gopter.Gen) {
-	gens["Permissions"] = gen.PtrOf(Permissions_STATUSGenerator())
-}
-
+// Test_IPRule_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of IPRule can be assigned to storage and back losslessly
 func Test_IPRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -282,44 +219,34 @@ func Test_IPRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from IPRule to IPRule via AssignProperties_To_IPRule & AssignProperties_From_IPRule returns original",
-		prop.ForAll(RunPropertyAssignmentTestForIPRule, IPRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := IPRuleGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForIPRule tests if a specific instance of IPRule can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForIPRule(subject IPRule) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.IPRule
+		err := copied.AssignProperties_To_IPRule(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IPRule
-	err := copied.AssignProperties_To_IPRule(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual IPRule
+		err = actual.AssignProperties_From_IPRule(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual IPRule
-	err = actual.AssignProperties_From_IPRule(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_IPRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -329,29 +256,23 @@ func Test_IPRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of IPRule via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIPRule, IPRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForIPRule)
 }
 
 // RunJSONSerializationTestForIPRule runs a test to see if a specific instance of IPRule round trips to JSON and back losslessly
-func RunJSONSerializationTestForIPRule(subject IPRule) string {
+func RunJSONSerializationTestForIPRule(t *rapid.T) {
+	subject := IPRuleGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual IPRule
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -360,33 +281,31 @@ func RunJSONSerializationTestForIPRule(subject IPRule) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of IPRule instances for property testing - lazily instantiated by IPRuleGenerator()
-var ipRuleGenerator gopter.Gen
+var ipRuleGenerator *rapid.Generator[IPRule]
 
 // IPRuleGenerator returns a generator of IPRule instances for property testing.
-func IPRuleGenerator() gopter.Gen {
+func IPRuleGenerator() *rapid.Generator[IPRule] {
 	if ipRuleGenerator != nil {
 		return ipRuleGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIPRule(generators)
-	ipRuleGenerator = gen.Struct(reflect.TypeOf(IPRule{}), generators)
+	value := rapid.Ptr(rapid.String(), true)
+
+	ipRuleGenerator = rapid.Custom(func(t *rapid.T) IPRule {
+		var result IPRule
+		result.Value = value.Draw(t, "Value")
+		return result
+	})
 
 	return ipRuleGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIPRule is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIPRule(gens map[string]gopter.Gen) {
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_IPRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of IPRule_STATUS can be assigned to storage and back losslessly
 func Test_IPRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -394,44 +313,34 @@ func Test_IPRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from IPRule_STATUS to IPRule_STATUS via AssignProperties_To_IPRule_STATUS & AssignProperties_From_IPRule_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForIPRule_STATUS, IPRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := IPRule_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForIPRule_STATUS tests if a specific instance of IPRule_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForIPRule_STATUS(subject IPRule_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.IPRule_STATUS
+		err := copied.AssignProperties_To_IPRule_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IPRule_STATUS
-	err := copied.AssignProperties_To_IPRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual IPRule_STATUS
+		err = actual.AssignProperties_From_IPRule_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual IPRule_STATUS
-	err = actual.AssignProperties_From_IPRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_IPRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -441,29 +350,23 @@ func Test_IPRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of IPRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIPRule_STATUS, IPRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForIPRule_STATUS)
 }
 
 // RunJSONSerializationTestForIPRule_STATUS runs a test to see if a specific instance of IPRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForIPRule_STATUS(subject IPRule_STATUS) string {
+func RunJSONSerializationTestForIPRule_STATUS(t *rapid.T) {
+	subject := IPRule_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual IPRule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -472,33 +375,31 @@ func RunJSONSerializationTestForIPRule_STATUS(subject IPRule_STATUS) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of IPRule_STATUS instances for property testing - lazily instantiated by IPRule_STATUSGenerator()
-var ipRule_STATUSGenerator gopter.Gen
+var ipRule_STATUSGenerator *rapid.Generator[IPRule_STATUS]
 
 // IPRule_STATUSGenerator returns a generator of IPRule_STATUS instances for property testing.
-func IPRule_STATUSGenerator() gopter.Gen {
+func IPRule_STATUSGenerator() *rapid.Generator[IPRule_STATUS] {
 	if ipRule_STATUSGenerator != nil {
 		return ipRule_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIPRule_STATUS(generators)
-	ipRule_STATUSGenerator = gen.Struct(reflect.TypeOf(IPRule_STATUS{}), generators)
+	value := rapid.Ptr(rapid.String(), true)
+
+	ipRule_STATUSGenerator = rapid.Custom(func(t *rapid.T) IPRule_STATUS {
+		var result IPRule_STATUS
+		result.Value = value.Draw(t, "Value")
+		return result
+	})
 
 	return ipRule_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIPRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIPRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_NetworkRuleSet_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NetworkRuleSet can be assigned to storage and back losslessly
 func Test_NetworkRuleSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -506,44 +407,34 @@ func Test_NetworkRuleSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NetworkRuleSet to NetworkRuleSet via AssignProperties_To_NetworkRuleSet & AssignProperties_From_NetworkRuleSet returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNetworkRuleSet, NetworkRuleSetGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NetworkRuleSetGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForNetworkRuleSet tests if a specific instance of NetworkRuleSet can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForNetworkRuleSet(subject NetworkRuleSet) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NetworkRuleSet
+		err := copied.AssignProperties_To_NetworkRuleSet(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkRuleSet
-	err := copied.AssignProperties_To_NetworkRuleSet(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NetworkRuleSet
+		err = actual.AssignProperties_From_NetworkRuleSet(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NetworkRuleSet
-	err = actual.AssignProperties_From_NetworkRuleSet(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NetworkRuleSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -553,29 +444,23 @@ func Test_NetworkRuleSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NetworkRuleSet via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNetworkRuleSet, NetworkRuleSetGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNetworkRuleSet)
 }
 
 // RunJSONSerializationTestForNetworkRuleSet runs a test to see if a specific instance of NetworkRuleSet round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkRuleSet(subject NetworkRuleSet) string {
+func RunJSONSerializationTestForNetworkRuleSet(t *rapid.T) {
+	subject := NetworkRuleSetGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NetworkRuleSet
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -584,49 +469,36 @@ func RunJSONSerializationTestForNetworkRuleSet(subject NetworkRuleSet) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NetworkRuleSet instances for property testing - lazily instantiated by NetworkRuleSetGenerator()
-var networkRuleSetGenerator gopter.Gen
+var networkRuleSetGenerator *rapid.Generator[NetworkRuleSet]
 
 // NetworkRuleSetGenerator returns a generator of NetworkRuleSet instances for property testing.
-// We first initialize networkRuleSetGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NetworkRuleSetGenerator() gopter.Gen {
+func NetworkRuleSetGenerator() *rapid.Generator[NetworkRuleSet] {
 	if networkRuleSetGenerator != nil {
 		return networkRuleSetGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkRuleSet(generators)
-	networkRuleSetGenerator = gen.Struct(reflect.TypeOf(NetworkRuleSet{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ipRules := rapid.SliceOf(IPRuleGenerator())
+	virtualNetworkRules := rapid.SliceOf(VirtualNetworkRuleGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkRuleSet(generators)
-	AddRelatedPropertyGeneratorsForNetworkRuleSet(generators)
-	networkRuleSetGenerator = gen.Struct(reflect.TypeOf(NetworkRuleSet{}), generators)
+	networkRuleSetGenerator = rapid.Custom(func(t *rapid.T) NetworkRuleSet {
+		var result NetworkRuleSet
+		result.Bypass = ptrString.Draw(t, "Bypass")
+		result.DefaultAction = ptrString.Draw(t, "DefaultAction")
+		result.IpRules = ipRules.Draw(t, "IpRules")
+		result.VirtualNetworkRules = virtualNetworkRules.Draw(t, "VirtualNetworkRules")
+		return result
+	})
 
 	return networkRuleSetGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNetworkRuleSet is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkRuleSet(gens map[string]gopter.Gen) {
-	gens["Bypass"] = gen.PtrOf(gen.AlphaString())
-	gens["DefaultAction"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNetworkRuleSet is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNetworkRuleSet(gens map[string]gopter.Gen) {
-	gens["IpRules"] = gen.SliceOf(IPRuleGenerator())
-	gens["VirtualNetworkRules"] = gen.SliceOf(VirtualNetworkRuleGenerator())
-}
-
+// Test_NetworkRuleSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NetworkRuleSet_STATUS can be assigned to storage and back losslessly
 func Test_NetworkRuleSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -634,44 +506,34 @@ func Test_NetworkRuleSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NetworkRuleSet_STATUS to NetworkRuleSet_STATUS via AssignProperties_To_NetworkRuleSet_STATUS & AssignProperties_From_NetworkRuleSet_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNetworkRuleSet_STATUS, NetworkRuleSet_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NetworkRuleSet_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForNetworkRuleSet_STATUS tests if a specific instance of NetworkRuleSet_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForNetworkRuleSet_STATUS(subject NetworkRuleSet_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NetworkRuleSet_STATUS
+		err := copied.AssignProperties_To_NetworkRuleSet_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkRuleSet_STATUS
-	err := copied.AssignProperties_To_NetworkRuleSet_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NetworkRuleSet_STATUS
+		err = actual.AssignProperties_From_NetworkRuleSet_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NetworkRuleSet_STATUS
-	err = actual.AssignProperties_From_NetworkRuleSet_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NetworkRuleSet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -681,29 +543,23 @@ func Test_NetworkRuleSet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NetworkRuleSet_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNetworkRuleSet_STATUS, NetworkRuleSet_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNetworkRuleSet_STATUS)
 }
 
 // RunJSONSerializationTestForNetworkRuleSet_STATUS runs a test to see if a specific instance of NetworkRuleSet_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkRuleSet_STATUS(subject NetworkRuleSet_STATUS) string {
+func RunJSONSerializationTestForNetworkRuleSet_STATUS(t *rapid.T) {
+	subject := NetworkRuleSet_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NetworkRuleSet_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -712,50 +568,37 @@ func RunJSONSerializationTestForNetworkRuleSet_STATUS(subject NetworkRuleSet_STA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NetworkRuleSet_STATUS instances for property testing - lazily instantiated by
 // NetworkRuleSet_STATUSGenerator()
-var networkRuleSet_STATUSGenerator gopter.Gen
+var networkRuleSet_STATUSGenerator *rapid.Generator[NetworkRuleSet_STATUS]
 
 // NetworkRuleSet_STATUSGenerator returns a generator of NetworkRuleSet_STATUS instances for property testing.
-// We first initialize networkRuleSet_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NetworkRuleSet_STATUSGenerator() gopter.Gen {
+func NetworkRuleSet_STATUSGenerator() *rapid.Generator[NetworkRuleSet_STATUS] {
 	if networkRuleSet_STATUSGenerator != nil {
 		return networkRuleSet_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkRuleSet_STATUS(generators)
-	networkRuleSet_STATUSGenerator = gen.Struct(reflect.TypeOf(NetworkRuleSet_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ipRules := rapid.SliceOf(IPRule_STATUSGenerator())
+	virtualNetworkRules := rapid.SliceOf(VirtualNetworkRule_STATUSGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkRuleSet_STATUS(generators)
-	AddRelatedPropertyGeneratorsForNetworkRuleSet_STATUS(generators)
-	networkRuleSet_STATUSGenerator = gen.Struct(reflect.TypeOf(NetworkRuleSet_STATUS{}), generators)
+	networkRuleSet_STATUSGenerator = rapid.Custom(func(t *rapid.T) NetworkRuleSet_STATUS {
+		var result NetworkRuleSet_STATUS
+		result.Bypass = ptrString.Draw(t, "Bypass")
+		result.DefaultAction = ptrString.Draw(t, "DefaultAction")
+		result.IpRules = ipRules.Draw(t, "IpRules")
+		result.VirtualNetworkRules = virtualNetworkRules.Draw(t, "VirtualNetworkRules")
+		return result
+	})
 
 	return networkRuleSet_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNetworkRuleSet_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkRuleSet_STATUS(gens map[string]gopter.Gen) {
-	gens["Bypass"] = gen.PtrOf(gen.AlphaString())
-	gens["DefaultAction"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNetworkRuleSet_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNetworkRuleSet_STATUS(gens map[string]gopter.Gen) {
-	gens["IpRules"] = gen.SliceOf(IPRule_STATUSGenerator())
-	gens["VirtualNetworkRules"] = gen.SliceOf(VirtualNetworkRule_STATUSGenerator())
-}
-
+// Test_Permissions_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Permissions can be assigned to storage and back losslessly
 func Test_Permissions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -763,44 +606,34 @@ func Test_Permissions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Permissions to Permissions via AssignProperties_To_Permissions & AssignProperties_From_Permissions returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPermissions, PermissionsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := PermissionsGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForPermissions tests if a specific instance of Permissions can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPermissions(subject Permissions) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Permissions
+		err := copied.AssignProperties_To_Permissions(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Permissions
-	err := copied.AssignProperties_To_Permissions(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Permissions
+		err = actual.AssignProperties_From_Permissions(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Permissions
-	err = actual.AssignProperties_From_Permissions(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Permissions_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -810,29 +643,23 @@ func Test_Permissions_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Permissions via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPermissions, PermissionsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPermissions)
 }
 
 // RunJSONSerializationTestForPermissions runs a test to see if a specific instance of Permissions round trips to JSON and back losslessly
-func RunJSONSerializationTestForPermissions(subject Permissions) string {
+func RunJSONSerializationTestForPermissions(t *rapid.T) {
+	subject := PermissionsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Permissions
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -841,36 +668,34 @@ func RunJSONSerializationTestForPermissions(subject Permissions) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Permissions instances for property testing - lazily instantiated by PermissionsGenerator()
-var permissionsGenerator gopter.Gen
+var permissionsGenerator *rapid.Generator[Permissions]
 
 // PermissionsGenerator returns a generator of Permissions instances for property testing.
-func PermissionsGenerator() gopter.Gen {
+func PermissionsGenerator() *rapid.Generator[Permissions] {
 	if permissionsGenerator != nil {
 		return permissionsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPermissions(generators)
-	permissionsGenerator = gen.Struct(reflect.TypeOf(Permissions{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+
+	permissionsGenerator = rapid.Custom(func(t *rapid.T) Permissions {
+		var result Permissions
+		result.Certificates = sliceOfString.Draw(t, "Certificates")
+		result.Keys = sliceOfString.Draw(t, "Keys")
+		result.Secrets = sliceOfString.Draw(t, "Secrets")
+		result.Storage = sliceOfString.Draw(t, "Storage")
+		return result
+	})
 
 	return permissionsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPermissions is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPermissions(gens map[string]gopter.Gen) {
-	gens["Certificates"] = gen.SliceOf(gen.AlphaString())
-	gens["Keys"] = gen.SliceOf(gen.AlphaString())
-	gens["Secrets"] = gen.SliceOf(gen.AlphaString())
-	gens["Storage"] = gen.SliceOf(gen.AlphaString())
-}
-
+// Test_Permissions_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Permissions_STATUS can be assigned to storage and back losslessly
 func Test_Permissions_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -878,44 +703,34 @@ func Test_Permissions_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Permissions_STATUS to Permissions_STATUS via AssignProperties_To_Permissions_STATUS & AssignProperties_From_Permissions_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPermissions_STATUS, Permissions_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Permissions_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForPermissions_STATUS tests if a specific instance of Permissions_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPermissions_STATUS(subject Permissions_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Permissions_STATUS
+		err := copied.AssignProperties_To_Permissions_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Permissions_STATUS
-	err := copied.AssignProperties_To_Permissions_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Permissions_STATUS
+		err = actual.AssignProperties_From_Permissions_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Permissions_STATUS
-	err = actual.AssignProperties_From_Permissions_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Permissions_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -925,29 +740,23 @@ func Test_Permissions_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Permissions_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPermissions_STATUS, Permissions_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPermissions_STATUS)
 }
 
 // RunJSONSerializationTestForPermissions_STATUS runs a test to see if a specific instance of Permissions_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPermissions_STATUS(subject Permissions_STATUS) string {
+func RunJSONSerializationTestForPermissions_STATUS(t *rapid.T) {
+	subject := Permissions_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Permissions_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -956,36 +765,34 @@ func RunJSONSerializationTestForPermissions_STATUS(subject Permissions_STATUS) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Permissions_STATUS instances for property testing - lazily instantiated by Permissions_STATUSGenerator()
-var permissions_STATUSGenerator gopter.Gen
+var permissions_STATUSGenerator *rapid.Generator[Permissions_STATUS]
 
 // Permissions_STATUSGenerator returns a generator of Permissions_STATUS instances for property testing.
-func Permissions_STATUSGenerator() gopter.Gen {
+func Permissions_STATUSGenerator() *rapid.Generator[Permissions_STATUS] {
 	if permissions_STATUSGenerator != nil {
 		return permissions_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPermissions_STATUS(generators)
-	permissions_STATUSGenerator = gen.Struct(reflect.TypeOf(Permissions_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+
+	permissions_STATUSGenerator = rapid.Custom(func(t *rapid.T) Permissions_STATUS {
+		var result Permissions_STATUS
+		result.Certificates = sliceOfString.Draw(t, "Certificates")
+		result.Keys = sliceOfString.Draw(t, "Keys")
+		result.Secrets = sliceOfString.Draw(t, "Secrets")
+		result.Storage = sliceOfString.Draw(t, "Storage")
+		return result
+	})
 
 	return permissions_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPermissions_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPermissions_STATUS(gens map[string]gopter.Gen) {
-	gens["Certificates"] = gen.SliceOf(gen.AlphaString())
-	gens["Keys"] = gen.SliceOf(gen.AlphaString())
-	gens["Secrets"] = gen.SliceOf(gen.AlphaString())
-	gens["Storage"] = gen.SliceOf(gen.AlphaString())
-}
-
+// Test_PrivateEndpointConnectionItem_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of PrivateEndpointConnectionItem_STATUS can be assigned to storage and back losslessly
 func Test_PrivateEndpointConnectionItem_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -993,44 +800,34 @@ func Test_PrivateEndpointConnectionItem_STATUS_WhenPropertiesConverted_RoundTrip
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrivateEndpointConnectionItem_STATUS to PrivateEndpointConnectionItem_STATUS via AssignProperties_To_PrivateEndpointConnectionItem_STATUS & AssignProperties_From_PrivateEndpointConnectionItem_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointConnectionItem_STATUS, PrivateEndpointConnectionItem_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := PrivateEndpointConnectionItem_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForPrivateEndpointConnectionItem_STATUS tests if a specific instance of PrivateEndpointConnectionItem_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrivateEndpointConnectionItem_STATUS(subject PrivateEndpointConnectionItem_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.PrivateEndpointConnectionItem_STATUS
+		err := copied.AssignProperties_To_PrivateEndpointConnectionItem_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpointConnectionItem_STATUS
-	err := copied.AssignProperties_To_PrivateEndpointConnectionItem_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual PrivateEndpointConnectionItem_STATUS
+		err = actual.AssignProperties_From_PrivateEndpointConnectionItem_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrivateEndpointConnectionItem_STATUS
-	err = actual.AssignProperties_From_PrivateEndpointConnectionItem_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_PrivateEndpointConnectionItem_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1040,29 +837,23 @@ func Test_PrivateEndpointConnectionItem_STATUS_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateEndpointConnectionItem_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnectionItem_STATUS, PrivateEndpointConnectionItem_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrivateEndpointConnectionItem_STATUS)
 }
 
 // RunJSONSerializationTestForPrivateEndpointConnectionItem_STATUS runs a test to see if a specific instance of PrivateEndpointConnectionItem_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnectionItem_STATUS(subject PrivateEndpointConnectionItem_STATUS) string {
+func RunJSONSerializationTestForPrivateEndpointConnectionItem_STATUS(t *rapid.T) {
+	subject := PrivateEndpointConnectionItem_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrivateEndpointConnectionItem_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1071,51 +862,38 @@ func RunJSONSerializationTestForPrivateEndpointConnectionItem_STATUS(subject Pri
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrivateEndpointConnectionItem_STATUS instances for property testing - lazily instantiated by
 // PrivateEndpointConnectionItem_STATUSGenerator()
-var privateEndpointConnectionItem_STATUSGenerator gopter.Gen
+var privateEndpointConnectionItem_STATUSGenerator *rapid.Generator[PrivateEndpointConnectionItem_STATUS]
 
 // PrivateEndpointConnectionItem_STATUSGenerator returns a generator of PrivateEndpointConnectionItem_STATUS instances for property testing.
-// We first initialize privateEndpointConnectionItem_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrivateEndpointConnectionItem_STATUSGenerator() gopter.Gen {
+func PrivateEndpointConnectionItem_STATUSGenerator() *rapid.Generator[PrivateEndpointConnectionItem_STATUS] {
 	if privateEndpointConnectionItem_STATUSGenerator != nil {
 		return privateEndpointConnectionItem_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnectionItem_STATUS(generators)
-	privateEndpointConnectionItem_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnectionItem_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	privateEndpoint := rapid.Ptr(PrivateEndpoint_STATUSGenerator(), true)
+	privateLinkServiceConnectionState := rapid.Ptr(PrivateLinkServiceConnectionState_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnectionItem_STATUS(generators)
-	AddRelatedPropertyGeneratorsForPrivateEndpointConnectionItem_STATUS(generators)
-	privateEndpointConnectionItem_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnectionItem_STATUS{}), generators)
+	privateEndpointConnectionItem_STATUSGenerator = rapid.Custom(func(t *rapid.T) PrivateEndpointConnectionItem_STATUS {
+		var result PrivateEndpointConnectionItem_STATUS
+		result.Etag = ptrString.Draw(t, "Etag")
+		result.Id = ptrString.Draw(t, "Id")
+		result.PrivateEndpoint = privateEndpoint.Draw(t, "PrivateEndpoint")
+		result.PrivateLinkServiceConnectionState = privateLinkServiceConnectionState.Draw(t, "PrivateLinkServiceConnectionState")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		return result
+	})
 
 	return privateEndpointConnectionItem_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateEndpointConnectionItem_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointConnectionItem_STATUS(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrivateEndpointConnectionItem_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpointConnectionItem_STATUS(gens map[string]gopter.Gen) {
-	gens["PrivateEndpoint"] = gen.PtrOf(PrivateEndpoint_STATUSGenerator())
-	gens["PrivateLinkServiceConnectionState"] = gen.PtrOf(PrivateLinkServiceConnectionState_STATUSGenerator())
-}
-
+// Test_PrivateEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of PrivateEndpoint_STATUS can be assigned to storage and back losslessly
 func Test_PrivateEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1123,44 +901,34 @@ func Test_PrivateEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrivateEndpoint_STATUS to PrivateEndpoint_STATUS via AssignProperties_To_PrivateEndpoint_STATUS & AssignProperties_From_PrivateEndpoint_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpoint_STATUS, PrivateEndpoint_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := PrivateEndpoint_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForPrivateEndpoint_STATUS tests if a specific instance of PrivateEndpoint_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrivateEndpoint_STATUS(subject PrivateEndpoint_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.PrivateEndpoint_STATUS
+		err := copied.AssignProperties_To_PrivateEndpoint_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpoint_STATUS
-	err := copied.AssignProperties_To_PrivateEndpoint_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual PrivateEndpoint_STATUS
+		err = actual.AssignProperties_From_PrivateEndpoint_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrivateEndpoint_STATUS
-	err = actual.AssignProperties_From_PrivateEndpoint_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_PrivateEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1170,29 +938,23 @@ func Test_PrivateEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateEndpoint_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpoint_STATUS, PrivateEndpoint_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrivateEndpoint_STATUS)
 }
 
 // RunJSONSerializationTestForPrivateEndpoint_STATUS runs a test to see if a specific instance of PrivateEndpoint_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpoint_STATUS(subject PrivateEndpoint_STATUS) string {
+func RunJSONSerializationTestForPrivateEndpoint_STATUS(t *rapid.T) {
+	subject := PrivateEndpoint_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrivateEndpoint_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1201,34 +963,32 @@ func RunJSONSerializationTestForPrivateEndpoint_STATUS(subject PrivateEndpoint_S
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrivateEndpoint_STATUS instances for property testing - lazily instantiated by
 // PrivateEndpoint_STATUSGenerator()
-var privateEndpoint_STATUSGenerator gopter.Gen
+var privateEndpoint_STATUSGenerator *rapid.Generator[PrivateEndpoint_STATUS]
 
 // PrivateEndpoint_STATUSGenerator returns a generator of PrivateEndpoint_STATUS instances for property testing.
-func PrivateEndpoint_STATUSGenerator() gopter.Gen {
+func PrivateEndpoint_STATUSGenerator() *rapid.Generator[PrivateEndpoint_STATUS] {
 	if privateEndpoint_STATUSGenerator != nil {
 		return privateEndpoint_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS(generators)
-	privateEndpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_STATUS{}), generators)
+	id := rapid.Ptr(rapid.String(), true)
+
+	privateEndpoint_STATUSGenerator = rapid.Custom(func(t *rapid.T) PrivateEndpoint_STATUS {
+		var result PrivateEndpoint_STATUS
+		result.Id = id.Draw(t, "Id")
+		return result
+	})
 
 	return privateEndpoint_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_PrivateLinkServiceConnectionState_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of PrivateLinkServiceConnectionState_STATUS can be assigned to storage and back losslessly
 func Test_PrivateLinkServiceConnectionState_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1236,44 +996,34 @@ func Test_PrivateLinkServiceConnectionState_STATUS_WhenPropertiesConverted_Round
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrivateLinkServiceConnectionState_STATUS to PrivateLinkServiceConnectionState_STATUS via AssignProperties_To_PrivateLinkServiceConnectionState_STATUS & AssignProperties_From_PrivateLinkServiceConnectionState_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateLinkServiceConnectionState_STATUS, PrivateLinkServiceConnectionState_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := PrivateLinkServiceConnectionState_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForPrivateLinkServiceConnectionState_STATUS tests if a specific instance of PrivateLinkServiceConnectionState_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrivateLinkServiceConnectionState_STATUS(subject PrivateLinkServiceConnectionState_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.PrivateLinkServiceConnectionState_STATUS
+		err := copied.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateLinkServiceConnectionState_STATUS
-	err := copied.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual PrivateLinkServiceConnectionState_STATUS
+		err = actual.AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrivateLinkServiceConnectionState_STATUS
-	err = actual.AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_PrivateLinkServiceConnectionState_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1283,29 +1033,23 @@ func Test_PrivateLinkServiceConnectionState_STATUS_WhenSerializedToJson_Deserial
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateLinkServiceConnectionState_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkServiceConnectionState_STATUS, PrivateLinkServiceConnectionState_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrivateLinkServiceConnectionState_STATUS)
 }
 
 // RunJSONSerializationTestForPrivateLinkServiceConnectionState_STATUS runs a test to see if a specific instance of PrivateLinkServiceConnectionState_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkServiceConnectionState_STATUS(subject PrivateLinkServiceConnectionState_STATUS) string {
+func RunJSONSerializationTestForPrivateLinkServiceConnectionState_STATUS(t *rapid.T) {
+	subject := PrivateLinkServiceConnectionState_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrivateLinkServiceConnectionState_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1314,36 +1058,34 @@ func RunJSONSerializationTestForPrivateLinkServiceConnectionState_STATUS(subject
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrivateLinkServiceConnectionState_STATUS instances for property testing - lazily instantiated by
 // PrivateLinkServiceConnectionState_STATUSGenerator()
-var privateLinkServiceConnectionState_STATUSGenerator gopter.Gen
+var privateLinkServiceConnectionState_STATUSGenerator *rapid.Generator[PrivateLinkServiceConnectionState_STATUS]
 
 // PrivateLinkServiceConnectionState_STATUSGenerator returns a generator of PrivateLinkServiceConnectionState_STATUS instances for property testing.
-func PrivateLinkServiceConnectionState_STATUSGenerator() gopter.Gen {
+func PrivateLinkServiceConnectionState_STATUSGenerator() *rapid.Generator[PrivateLinkServiceConnectionState_STATUS] {
 	if privateLinkServiceConnectionState_STATUSGenerator != nil {
 		return privateLinkServiceConnectionState_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUS(generators)
-	privateLinkServiceConnectionState_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateLinkServiceConnectionState_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	privateLinkServiceConnectionState_STATUSGenerator = rapid.Custom(func(t *rapid.T) PrivateLinkServiceConnectionState_STATUS {
+		var result PrivateLinkServiceConnectionState_STATUS
+		result.ActionsRequired = ptrString.Draw(t, "ActionsRequired")
+		result.Description = ptrString.Draw(t, "Description")
+		result.Status = ptrString.Draw(t, "Status")
+		return result
+	})
 
 	return privateLinkServiceConnectionState_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUS(gens map[string]gopter.Gen) {
-	gens["ActionsRequired"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Sku can be assigned to storage and back losslessly
 func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1351,44 +1093,34 @@ func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Sku to Sku via AssignProperties_To_Sku & AssignProperties_From_Sku returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSku, SkuGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SkuGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSku tests if a specific instance of Sku can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSku(subject Sku) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Sku
+		err := copied.AssignProperties_To_Sku(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Sku
-	err := copied.AssignProperties_To_Sku(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Sku
+		err = actual.AssignProperties_From_Sku(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Sku
-	err = actual.AssignProperties_From_Sku(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Sku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1398,29 +1130,23 @@ func Test_Sku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Sku via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSku, SkuGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSku)
 }
 
 // RunJSONSerializationTestForSku runs a test to see if a specific instance of Sku round trips to JSON and back losslessly
-func RunJSONSerializationTestForSku(subject Sku) string {
+func RunJSONSerializationTestForSku(t *rapid.T) {
+	subject := SkuGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Sku
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1429,34 +1155,32 @@ func RunJSONSerializationTestForSku(subject Sku) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Sku instances for property testing - lazily instantiated by SkuGenerator()
-var skuGenerator gopter.Gen
+var skuGenerator *rapid.Generator[Sku]
 
 // SkuGenerator returns a generator of Sku instances for property testing.
-func SkuGenerator() gopter.Gen {
+func SkuGenerator() *rapid.Generator[Sku] {
 	if skuGenerator != nil {
 		return skuGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSku(generators)
-	skuGenerator = gen.Struct(reflect.TypeOf(Sku{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	skuGenerator = rapid.Custom(func(t *rapid.T) Sku {
+		var result Sku
+		result.Family = ptrString.Draw(t, "Family")
+		result.Name = ptrString.Draw(t, "Name")
+		return result
+	})
 
 	return skuGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSku is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
-	gens["Family"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Sku_STATUS can be assigned to storage and back losslessly
 func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1464,44 +1188,34 @@ func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Sku_STATUS to Sku_STATUS via AssignProperties_To_Sku_STATUS & AssignProperties_From_Sku_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSku_STATUS, Sku_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Sku_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSku_STATUS tests if a specific instance of Sku_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Sku_STATUS
+		err := copied.AssignProperties_To_Sku_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Sku_STATUS
-	err := copied.AssignProperties_To_Sku_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Sku_STATUS
+		err = actual.AssignProperties_From_Sku_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Sku_STATUS
-	err = actual.AssignProperties_From_Sku_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Sku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1511,29 +1225,23 @@ func Test_Sku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Sku_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSku_STATUS, Sku_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSku_STATUS)
 }
 
 // RunJSONSerializationTestForSku_STATUS runs a test to see if a specific instance of Sku_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSku_STATUS(subject Sku_STATUS) string {
+func RunJSONSerializationTestForSku_STATUS(t *rapid.T) {
+	subject := Sku_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Sku_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1542,34 +1250,32 @@ func RunJSONSerializationTestForSku_STATUS(subject Sku_STATUS) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Sku_STATUS instances for property testing - lazily instantiated by Sku_STATUSGenerator()
-var sku_STATUSGenerator gopter.Gen
+var sku_STATUSGenerator *rapid.Generator[Sku_STATUS]
 
 // Sku_STATUSGenerator returns a generator of Sku_STATUS instances for property testing.
-func Sku_STATUSGenerator() gopter.Gen {
+func Sku_STATUSGenerator() *rapid.Generator[Sku_STATUS] {
 	if sku_STATUSGenerator != nil {
 		return sku_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSku_STATUS(generators)
-	sku_STATUSGenerator = gen.Struct(reflect.TypeOf(Sku_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	sku_STATUSGenerator = rapid.Custom(func(t *rapid.T) Sku_STATUS {
+		var result Sku_STATUS
+		result.Family = ptrString.Draw(t, "Family")
+		result.Name = ptrString.Draw(t, "Name")
+		return result
+	})
 
 	return sku_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSku_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSku_STATUS(gens map[string]gopter.Gen) {
-	gens["Family"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1577,44 +1283,34 @@ func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SystemData_STATUS to SystemData_STATUS via AssignProperties_To_SystemData_STATUS & AssignProperties_From_SystemData_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSystemData_STATUS, SystemData_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SystemData_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SystemData_STATUS
+		err := copied.AssignProperties_To_SystemData_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
-	err := copied.AssignProperties_To_SystemData_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SystemData_STATUS
+		err = actual.AssignProperties_From_SystemData_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SystemData_STATUS
-	err = actual.AssignProperties_From_SystemData_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1624,29 +1320,23 @@ func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemData_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS, SystemData_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSystemData_STATUS)
 }
 
 // RunJSONSerializationTestForSystemData_STATUS runs a test to see if a specific instance of SystemData_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) string {
+func RunJSONSerializationTestForSystemData_STATUS(t *rapid.T) {
+	subject := SystemData_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SystemData_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1655,38 +1345,36 @@ func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SystemData_STATUS instances for property testing - lazily instantiated by SystemData_STATUSGenerator()
-var systemData_STATUSGenerator gopter.Gen
+var systemData_STATUSGenerator *rapid.Generator[SystemData_STATUS]
 
 // SystemData_STATUSGenerator returns a generator of SystemData_STATUS instances for property testing.
-func SystemData_STATUSGenerator() gopter.Gen {
+func SystemData_STATUSGenerator() *rapid.Generator[SystemData_STATUS] {
 	if systemData_STATUSGenerator != nil {
 		return systemData_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData_STATUS(generators)
-	systemData_STATUSGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	systemData_STATUSGenerator = rapid.Custom(func(t *rapid.T) SystemData_STATUS {
+		var result SystemData_STATUS
+		result.CreatedAt = ptrString.Draw(t, "CreatedAt")
+		result.CreatedBy = ptrString.Draw(t, "CreatedBy")
+		result.CreatedByType = ptrString.Draw(t, "CreatedByType")
+		result.LastModifiedAt = ptrString.Draw(t, "LastModifiedAt")
+		result.LastModifiedBy = ptrString.Draw(t, "LastModifiedBy")
+		result.LastModifiedByType = ptrString.Draw(t, "LastModifiedByType")
+		return result
+	})
 
 	return systemData_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSystemData_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_Vault_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of Vault round trips to the hub storage version and back losslessly
 func Test_Vault_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1694,47 +1382,37 @@ func Test_Vault_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Vault to hub returns original",
-		prop.ForAll(RunResourceConversionTestForVault, VaultGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := VaultGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.Vault
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual Vault
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForVault tests if a specific instance of Vault round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForVault(subject Vault) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.Vault
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual Vault
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_Vault_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Vault can be assigned to storage and back losslessly
 func Test_Vault_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1742,44 +1420,34 @@ func Test_Vault_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Vault to Vault via AssignProperties_To_Vault & AssignProperties_From_Vault returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVault, VaultGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := VaultGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForVault tests if a specific instance of Vault can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForVault(subject Vault) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Vault
+		err := copied.AssignProperties_To_Vault(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Vault
-	err := copied.AssignProperties_To_Vault(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Vault
+		err = actual.AssignProperties_From_Vault(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Vault
-	err = actual.AssignProperties_From_Vault(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Vault_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1789,29 +1457,23 @@ func Test_Vault_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Vault via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVault, VaultGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVault)
 }
 
 // RunJSONSerializationTestForVault runs a test to see if a specific instance of Vault round trips to JSON and back losslessly
-func RunJSONSerializationTestForVault(subject Vault) string {
+func RunJSONSerializationTestForVault(t *rapid.T) {
+	subject := VaultGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Vault
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1820,34 +1482,33 @@ func RunJSONSerializationTestForVault(subject Vault) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Vault instances for property testing - lazily instantiated by VaultGenerator()
-var vaultGenerator gopter.Gen
+var vaultGenerator *rapid.Generator[Vault]
 
 // VaultGenerator returns a generator of Vault instances for property testing.
-func VaultGenerator() gopter.Gen {
+func VaultGenerator() *rapid.Generator[Vault] {
 	if vaultGenerator != nil {
 		return vaultGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForVault(generators)
-	vaultGenerator = gen.Struct(reflect.TypeOf(Vault{}), generators)
+	spec := Vault_SpecGenerator()
+	status := Vault_STATUSGenerator()
+
+	vaultGenerator = rapid.Custom(func(t *rapid.T) Vault {
+		var result Vault
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return vaultGenerator
 }
 
-// AddRelatedPropertyGeneratorsForVault is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVault(gens map[string]gopter.Gen) {
-	gens["Spec"] = Vault_SpecGenerator()
-	gens["Status"] = Vault_STATUSGenerator()
-}
-
+// Test_VaultOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of VaultOperatorSpec can be assigned to storage and back losslessly
 func Test_VaultOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1855,44 +1516,34 @@ func Test_VaultOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VaultOperatorSpec to VaultOperatorSpec via AssignProperties_To_VaultOperatorSpec & AssignProperties_From_VaultOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVaultOperatorSpec, VaultOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := VaultOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForVaultOperatorSpec tests if a specific instance of VaultOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForVaultOperatorSpec(subject VaultOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.VaultOperatorSpec
+		err := copied.AssignProperties_To_VaultOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VaultOperatorSpec
-	err := copied.AssignProperties_To_VaultOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual VaultOperatorSpec
+		err = actual.AssignProperties_From_VaultOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VaultOperatorSpec
-	err = actual.AssignProperties_From_VaultOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_VaultOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1902,29 +1553,23 @@ func Test_VaultOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VaultOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVaultOperatorSpec, VaultOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVaultOperatorSpec)
 }
 
 // RunJSONSerializationTestForVaultOperatorSpec runs a test to see if a specific instance of VaultOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForVaultOperatorSpec(subject VaultOperatorSpec) string {
+func RunJSONSerializationTestForVaultOperatorSpec(t *rapid.T) {
+	subject := VaultOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual VaultOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1933,27 +1578,25 @@ func RunJSONSerializationTestForVaultOperatorSpec(subject VaultOperatorSpec) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of VaultOperatorSpec instances for property testing - lazily instantiated by VaultOperatorSpecGenerator()
-var vaultOperatorSpecGenerator gopter.Gen
+var vaultOperatorSpecGenerator *rapid.Generator[VaultOperatorSpec]
 
 // VaultOperatorSpecGenerator returns a generator of VaultOperatorSpec instances for property testing.
-func VaultOperatorSpecGenerator() gopter.Gen {
+func VaultOperatorSpecGenerator() *rapid.Generator[VaultOperatorSpec] {
 	if vaultOperatorSpecGenerator != nil {
 		return vaultOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	vaultOperatorSpecGenerator = gen.Struct(reflect.TypeOf(VaultOperatorSpec{}), generators)
+	vaultOperatorSpecGenerator = rapid.Just(VaultOperatorSpec{})
 
 	return vaultOperatorSpecGenerator
 }
 
+// Test_VaultProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of VaultProperties can be assigned to storage and back losslessly
 func Test_VaultProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1961,44 +1604,34 @@ func Test_VaultProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VaultProperties to VaultProperties via AssignProperties_To_VaultProperties & AssignProperties_From_VaultProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVaultProperties, VaultPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := VaultPropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForVaultProperties tests if a specific instance of VaultProperties can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForVaultProperties(subject VaultProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.VaultProperties
+		err := copied.AssignProperties_To_VaultProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VaultProperties
-	err := copied.AssignProperties_To_VaultProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual VaultProperties
+		err = actual.AssignProperties_From_VaultProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VaultProperties
-	err = actual.AssignProperties_From_VaultProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_VaultProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2008,29 +1641,23 @@ func Test_VaultProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VaultProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVaultProperties, VaultPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVaultProperties)
 }
 
 // RunJSONSerializationTestForVaultProperties runs a test to see if a specific instance of VaultProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForVaultProperties(subject VaultProperties) string {
+func RunJSONSerializationTestForVaultProperties(t *rapid.T) {
+	subject := VaultPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual VaultProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2039,59 +1666,49 @@ func RunJSONSerializationTestForVaultProperties(subject VaultProperties) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of VaultProperties instances for property testing - lazily instantiated by VaultPropertiesGenerator()
-var vaultPropertiesGenerator gopter.Gen
+var vaultPropertiesGenerator *rapid.Generator[VaultProperties]
 
 // VaultPropertiesGenerator returns a generator of VaultProperties instances for property testing.
-// We first initialize vaultPropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VaultPropertiesGenerator() gopter.Gen {
+func VaultPropertiesGenerator() *rapid.Generator[VaultProperties] {
 	if vaultPropertiesGenerator != nil {
 		return vaultPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVaultProperties(generators)
-	vaultPropertiesGenerator = gen.Struct(reflect.TypeOf(VaultProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	accessPolicies := rapid.SliceOf(AccessPolicyEntryGenerator())
+	networkAcls := rapid.Ptr(NetworkRuleSetGenerator(), true)
+	sku := rapid.Ptr(SkuGenerator(), true)
+	softDeleteRetentionInDays := rapid.Ptr(rapid.Int(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVaultProperties(generators)
-	AddRelatedPropertyGeneratorsForVaultProperties(generators)
-	vaultPropertiesGenerator = gen.Struct(reflect.TypeOf(VaultProperties{}), generators)
+	vaultPropertiesGenerator = rapid.Custom(func(t *rapid.T) VaultProperties {
+		var result VaultProperties
+		result.AccessPolicies = accessPolicies.Draw(t, "AccessPolicies")
+		result.CreateMode = ptrString.Draw(t, "CreateMode")
+		result.EnablePurgeProtection = ptrBool.Draw(t, "EnablePurgeProtection")
+		result.EnableRbacAuthorization = ptrBool.Draw(t, "EnableRbacAuthorization")
+		result.EnableSoftDelete = ptrBool.Draw(t, "EnableSoftDelete")
+		result.EnabledForDeployment = ptrBool.Draw(t, "EnabledForDeployment")
+		result.EnabledForDiskEncryption = ptrBool.Draw(t, "EnabledForDiskEncryption")
+		result.EnabledForTemplateDeployment = ptrBool.Draw(t, "EnabledForTemplateDeployment")
+		result.NetworkAcls = networkAcls.Draw(t, "NetworkAcls")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.Sku = sku.Draw(t, "Sku")
+		result.SoftDeleteRetentionInDays = softDeleteRetentionInDays.Draw(t, "SoftDeleteRetentionInDays")
+		result.TenantId = ptrString.Draw(t, "TenantId")
+		result.VaultUri = ptrString.Draw(t, "VaultUri")
+		return result
+	})
 
 	return vaultPropertiesGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVaultProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVaultProperties(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.AlphaString())
-	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
-	gens["EnableRbacAuthorization"] = gen.PtrOf(gen.Bool())
-	gens["EnableSoftDelete"] = gen.PtrOf(gen.Bool())
-	gens["EnabledForDeployment"] = gen.PtrOf(gen.Bool())
-	gens["EnabledForDiskEncryption"] = gen.PtrOf(gen.Bool())
-	gens["EnabledForTemplateDeployment"] = gen.PtrOf(gen.Bool())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["VaultUri"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVaultProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVaultProperties(gens map[string]gopter.Gen) {
-	gens["AccessPolicies"] = gen.SliceOf(AccessPolicyEntryGenerator())
-	gens["NetworkAcls"] = gen.PtrOf(NetworkRuleSetGenerator())
-	gens["Sku"] = gen.PtrOf(SkuGenerator())
-}
-
+// Test_VaultProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of VaultProperties_STATUS can be assigned to storage and back losslessly
 func Test_VaultProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2099,44 +1716,34 @@ func Test_VaultProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VaultProperties_STATUS to VaultProperties_STATUS via AssignProperties_To_VaultProperties_STATUS & AssignProperties_From_VaultProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVaultProperties_STATUS, VaultProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := VaultProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForVaultProperties_STATUS tests if a specific instance of VaultProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForVaultProperties_STATUS(subject VaultProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.VaultProperties_STATUS
+		err := copied.AssignProperties_To_VaultProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VaultProperties_STATUS
-	err := copied.AssignProperties_To_VaultProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual VaultProperties_STATUS
+		err = actual.AssignProperties_From_VaultProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VaultProperties_STATUS
-	err = actual.AssignProperties_From_VaultProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_VaultProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2146,29 +1753,23 @@ func Test_VaultProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VaultProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVaultProperties_STATUS, VaultProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVaultProperties_STATUS)
 }
 
 // RunJSONSerializationTestForVaultProperties_STATUS runs a test to see if a specific instance of VaultProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVaultProperties_STATUS(subject VaultProperties_STATUS) string {
+func RunJSONSerializationTestForVaultProperties_STATUS(t *rapid.T) {
+	subject := VaultProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual VaultProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2177,62 +1778,53 @@ func RunJSONSerializationTestForVaultProperties_STATUS(subject VaultProperties_S
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of VaultProperties_STATUS instances for property testing - lazily instantiated by
 // VaultProperties_STATUSGenerator()
-var vaultProperties_STATUSGenerator gopter.Gen
+var vaultProperties_STATUSGenerator *rapid.Generator[VaultProperties_STATUS]
 
 // VaultProperties_STATUSGenerator returns a generator of VaultProperties_STATUS instances for property testing.
-// We first initialize vaultProperties_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VaultProperties_STATUSGenerator() gopter.Gen {
+func VaultProperties_STATUSGenerator() *rapid.Generator[VaultProperties_STATUS] {
 	if vaultProperties_STATUSGenerator != nil {
 		return vaultProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVaultProperties_STATUS(generators)
-	vaultProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(VaultProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	accessPolicies := rapid.SliceOf(AccessPolicyEntry_STATUSGenerator())
+	networkAcls := rapid.Ptr(NetworkRuleSet_STATUSGenerator(), true)
+	privateEndpointConnections := rapid.SliceOf(PrivateEndpointConnectionItem_STATUSGenerator())
+	sku := rapid.Ptr(Sku_STATUSGenerator(), true)
+	softDeleteRetentionInDays := rapid.Ptr(rapid.Int(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVaultProperties_STATUS(generators)
-	AddRelatedPropertyGeneratorsForVaultProperties_STATUS(generators)
-	vaultProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(VaultProperties_STATUS{}), generators)
+	vaultProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) VaultProperties_STATUS {
+		var result VaultProperties_STATUS
+		result.AccessPolicies = accessPolicies.Draw(t, "AccessPolicies")
+		result.CreateMode = ptrString.Draw(t, "CreateMode")
+		result.EnablePurgeProtection = ptrBool.Draw(t, "EnablePurgeProtection")
+		result.EnableRbacAuthorization = ptrBool.Draw(t, "EnableRbacAuthorization")
+		result.EnableSoftDelete = ptrBool.Draw(t, "EnableSoftDelete")
+		result.EnabledForDeployment = ptrBool.Draw(t, "EnabledForDeployment")
+		result.EnabledForDiskEncryption = ptrBool.Draw(t, "EnabledForDiskEncryption")
+		result.EnabledForTemplateDeployment = ptrBool.Draw(t, "EnabledForTemplateDeployment")
+		result.HsmPoolResourceId = ptrString.Draw(t, "HsmPoolResourceId")
+		result.NetworkAcls = networkAcls.Draw(t, "NetworkAcls")
+		result.PrivateEndpointConnections = privateEndpointConnections.Draw(t, "PrivateEndpointConnections")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.Sku = sku.Draw(t, "Sku")
+		result.SoftDeleteRetentionInDays = softDeleteRetentionInDays.Draw(t, "SoftDeleteRetentionInDays")
+		result.TenantId = ptrString.Draw(t, "TenantId")
+		result.VaultUri = ptrString.Draw(t, "VaultUri")
+		return result
+	})
 
 	return vaultProperties_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVaultProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVaultProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.AlphaString())
-	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
-	gens["EnableRbacAuthorization"] = gen.PtrOf(gen.Bool())
-	gens["EnableSoftDelete"] = gen.PtrOf(gen.Bool())
-	gens["EnabledForDeployment"] = gen.PtrOf(gen.Bool())
-	gens["EnabledForDiskEncryption"] = gen.PtrOf(gen.Bool())
-	gens["EnabledForTemplateDeployment"] = gen.PtrOf(gen.Bool())
-	gens["HsmPoolResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["VaultUri"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVaultProperties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVaultProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["AccessPolicies"] = gen.SliceOf(AccessPolicyEntry_STATUSGenerator())
-	gens["NetworkAcls"] = gen.PtrOf(NetworkRuleSet_STATUSGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnectionItem_STATUSGenerator())
-	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
-}
-
+// Test_Vault_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Vault_STATUS can be assigned to storage and back losslessly
 func Test_Vault_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2240,44 +1832,34 @@ func Test_Vault_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Vault_STATUS to Vault_STATUS via AssignProperties_To_Vault_STATUS & AssignProperties_From_Vault_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVault_STATUS, Vault_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Vault_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForVault_STATUS tests if a specific instance of Vault_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForVault_STATUS(subject Vault_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Vault_STATUS
+		err := copied.AssignProperties_To_Vault_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Vault_STATUS
-	err := copied.AssignProperties_To_Vault_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Vault_STATUS
+		err = actual.AssignProperties_From_Vault_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Vault_STATUS
-	err = actual.AssignProperties_From_Vault_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Vault_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2287,29 +1869,23 @@ func Test_Vault_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Vault_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVault_STATUS, Vault_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVault_STATUS)
 }
 
 // RunJSONSerializationTestForVault_STATUS runs a test to see if a specific instance of Vault_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVault_STATUS(subject Vault_STATUS) string {
+func RunJSONSerializationTestForVault_STATUS(t *rapid.T) {
+	subject := Vault_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Vault_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2318,54 +1894,42 @@ func RunJSONSerializationTestForVault_STATUS(subject Vault_STATUS) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Vault_STATUS instances for property testing - lazily instantiated by Vault_STATUSGenerator()
-var vault_STATUSGenerator gopter.Gen
+var vault_STATUSGenerator *rapid.Generator[Vault_STATUS]
 
 // Vault_STATUSGenerator returns a generator of Vault_STATUS instances for property testing.
-// We first initialize vault_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Vault_STATUSGenerator() gopter.Gen {
+func Vault_STATUSGenerator() *rapid.Generator[Vault_STATUS] {
 	if vault_STATUSGenerator != nil {
 		return vault_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVault_STATUS(generators)
-	vault_STATUSGenerator = gen.Struct(reflect.TypeOf(Vault_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(VaultProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVault_STATUS(generators)
-	AddRelatedPropertyGeneratorsForVault_STATUS(generators)
-	vault_STATUSGenerator = gen.Struct(reflect.TypeOf(Vault_STATUS{}), generators)
+	vault_STATUSGenerator = rapid.Custom(func(t *rapid.T) Vault_STATUS {
+		var result Vault_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return vault_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVault_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVault_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVault_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVault_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(VaultProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
+// Test_Vault_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Vault_Spec can be assigned to storage and back losslessly
 func Test_Vault_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2373,44 +1937,34 @@ func Test_Vault_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Vault_Spec to Vault_Spec via AssignProperties_To_Vault_Spec & AssignProperties_From_Vault_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVault_Spec, Vault_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Vault_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForVault_Spec tests if a specific instance of Vault_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForVault_Spec(subject Vault_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Vault_Spec
+		err := copied.AssignProperties_To_Vault_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Vault_Spec
-	err := copied.AssignProperties_To_Vault_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Vault_Spec
+		err = actual.AssignProperties_From_Vault_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Vault_Spec
-	err = actual.AssignProperties_From_Vault_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Vault_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2420,29 +1974,23 @@ func Test_Vault_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Vault_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVault_Spec, Vault_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVault_Spec)
 }
 
 // RunJSONSerializationTestForVault_Spec runs a test to see if a specific instance of Vault_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForVault_Spec(subject Vault_Spec) string {
+func RunJSONSerializationTestForVault_Spec(t *rapid.T) {
+	subject := Vault_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Vault_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2451,53 +1999,42 @@ func RunJSONSerializationTestForVault_Spec(subject Vault_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Vault_Spec instances for property testing - lazily instantiated by Vault_SpecGenerator()
-var vault_SpecGenerator gopter.Gen
+var vault_SpecGenerator *rapid.Generator[Vault_Spec]
 
 // Vault_SpecGenerator returns a generator of Vault_Spec instances for property testing.
-// We first initialize vault_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Vault_SpecGenerator() gopter.Gen {
+func Vault_SpecGenerator() *rapid.Generator[Vault_Spec] {
 	if vault_SpecGenerator != nil {
 		return vault_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVault_Spec(generators)
-	vault_SpecGenerator = gen.Struct(reflect.TypeOf(Vault_Spec{}), generators)
+	genString := rapid.String()
+	location := rapid.Ptr(rapid.String(), true)
+	operatorSpec := rapid.Ptr(VaultOperatorSpecGenerator(), true)
+	properties := rapid.Ptr(VaultPropertiesGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVault_Spec(generators)
-	AddRelatedPropertyGeneratorsForVault_Spec(generators)
-	vault_SpecGenerator = gen.Struct(reflect.TypeOf(Vault_Spec{}), generators)
+	vault_SpecGenerator = rapid.Custom(func(t *rapid.T) Vault_Spec {
+		var result Vault_Spec
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.Location = location.Draw(t, "Location")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return vault_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVault_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVault_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVault_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVault_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(VaultOperatorSpecGenerator())
-	gens["Properties"] = gen.PtrOf(VaultPropertiesGenerator())
-}
-
+// Test_VirtualNetworkRule_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of VirtualNetworkRule can be assigned to storage and back losslessly
 func Test_VirtualNetworkRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2505,44 +2042,34 @@ func Test_VirtualNetworkRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualNetworkRule to VirtualNetworkRule via AssignProperties_To_VirtualNetworkRule & AssignProperties_From_VirtualNetworkRule returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkRule, VirtualNetworkRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := VirtualNetworkRuleGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForVirtualNetworkRule tests if a specific instance of VirtualNetworkRule can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForVirtualNetworkRule(subject VirtualNetworkRule) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.VirtualNetworkRule
+		err := copied.AssignProperties_To_VirtualNetworkRule(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworkRule
-	err := copied.AssignProperties_To_VirtualNetworkRule(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual VirtualNetworkRule
+		err = actual.AssignProperties_From_VirtualNetworkRule(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualNetworkRule
-	err = actual.AssignProperties_From_VirtualNetworkRule(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_VirtualNetworkRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2552,29 +2079,23 @@ func Test_VirtualNetworkRule_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualNetworkRule via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkRule, VirtualNetworkRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVirtualNetworkRule)
 }
 
 // RunJSONSerializationTestForVirtualNetworkRule runs a test to see if a specific instance of VirtualNetworkRule round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkRule(subject VirtualNetworkRule) string {
+func RunJSONSerializationTestForVirtualNetworkRule(t *rapid.T) {
+	subject := VirtualNetworkRuleGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual VirtualNetworkRule
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2583,33 +2104,31 @@ func RunJSONSerializationTestForVirtualNetworkRule(subject VirtualNetworkRule) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of VirtualNetworkRule instances for property testing - lazily instantiated by VirtualNetworkRuleGenerator()
-var virtualNetworkRuleGenerator gopter.Gen
+var virtualNetworkRuleGenerator *rapid.Generator[VirtualNetworkRule]
 
 // VirtualNetworkRuleGenerator returns a generator of VirtualNetworkRule instances for property testing.
-func VirtualNetworkRuleGenerator() gopter.Gen {
+func VirtualNetworkRuleGenerator() *rapid.Generator[VirtualNetworkRule] {
 	if virtualNetworkRuleGenerator != nil {
 		return virtualNetworkRuleGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkRule(generators)
-	virtualNetworkRuleGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkRule{}), generators)
+	ignoreMissingVnetServiceEndpoint := rapid.Ptr(rapid.Bool(), true)
+
+	virtualNetworkRuleGenerator = rapid.Custom(func(t *rapid.T) VirtualNetworkRule {
+		var result VirtualNetworkRule
+		result.IgnoreMissingVnetServiceEndpoint = ignoreMissingVnetServiceEndpoint.Draw(t, "IgnoreMissingVnetServiceEndpoint")
+		return result
+	})
 
 	return virtualNetworkRuleGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkRule is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkRule(gens map[string]gopter.Gen) {
-	gens["IgnoreMissingVnetServiceEndpoint"] = gen.PtrOf(gen.Bool())
-}
-
+// Test_VirtualNetworkRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of VirtualNetworkRule_STATUS can be assigned to storage and back losslessly
 func Test_VirtualNetworkRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2617,44 +2136,34 @@ func Test_VirtualNetworkRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualNetworkRule_STATUS to VirtualNetworkRule_STATUS via AssignProperties_To_VirtualNetworkRule_STATUS & AssignProperties_From_VirtualNetworkRule_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkRule_STATUS, VirtualNetworkRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := VirtualNetworkRule_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForVirtualNetworkRule_STATUS tests if a specific instance of VirtualNetworkRule_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForVirtualNetworkRule_STATUS(subject VirtualNetworkRule_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.VirtualNetworkRule_STATUS
+		err := copied.AssignProperties_To_VirtualNetworkRule_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworkRule_STATUS
-	err := copied.AssignProperties_To_VirtualNetworkRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual VirtualNetworkRule_STATUS
+		err = actual.AssignProperties_From_VirtualNetworkRule_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualNetworkRule_STATUS
-	err = actual.AssignProperties_From_VirtualNetworkRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_VirtualNetworkRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2664,29 +2173,23 @@ func Test_VirtualNetworkRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualNetworkRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkRule_STATUS, VirtualNetworkRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVirtualNetworkRule_STATUS)
 }
 
 // RunJSONSerializationTestForVirtualNetworkRule_STATUS runs a test to see if a specific instance of VirtualNetworkRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkRule_STATUS(subject VirtualNetworkRule_STATUS) string {
+func RunJSONSerializationTestForVirtualNetworkRule_STATUS(t *rapid.T) {
+	subject := VirtualNetworkRule_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual VirtualNetworkRule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2695,31 +2198,29 @@ func RunJSONSerializationTestForVirtualNetworkRule_STATUS(subject VirtualNetwork
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of VirtualNetworkRule_STATUS instances for property testing - lazily instantiated by
 // VirtualNetworkRule_STATUSGenerator()
-var virtualNetworkRule_STATUSGenerator gopter.Gen
+var virtualNetworkRule_STATUSGenerator *rapid.Generator[VirtualNetworkRule_STATUS]
 
 // VirtualNetworkRule_STATUSGenerator returns a generator of VirtualNetworkRule_STATUS instances for property testing.
-func VirtualNetworkRule_STATUSGenerator() gopter.Gen {
+func VirtualNetworkRule_STATUSGenerator() *rapid.Generator[VirtualNetworkRule_STATUS] {
 	if virtualNetworkRule_STATUSGenerator != nil {
 		return virtualNetworkRule_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkRule_STATUS(generators)
-	virtualNetworkRule_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkRule_STATUS{}), generators)
+	id := rapid.Ptr(rapid.String(), true)
+	ignoreMissingVnetServiceEndpoint := rapid.Ptr(rapid.Bool(), true)
+
+	virtualNetworkRule_STATUSGenerator = rapid.Custom(func(t *rapid.T) VirtualNetworkRule_STATUS {
+		var result VirtualNetworkRule_STATUS
+		result.Id = id.Draw(t, "Id")
+		result.IgnoreMissingVnetServiceEndpoint = ignoreMissingVnetServiceEndpoint.Draw(t, "IgnoreMissingVnetServiceEndpoint")
+		return result
+	})
 
 	return virtualNetworkRule_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualNetworkRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["IgnoreMissingVnetServiceEndpoint"] = gen.PtrOf(gen.Bool())
 }

@@ -12,6 +12,7 @@ import (
 	network "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
@@ -29,6 +30,7 @@ func (extension *VirtualNetworksSubnetExtension) PostReconcileCheck(
 	_ *resolver.Resolver,
 	_ *genericarmclient.GenericClient,
 	_ logr.Logger,
+	_ annotations.ResolvedReconcilePolicies,
 	_ extensions.PostReconcileCheckFunc,
 ) (extensions.PostReconcileCheckResult, error) {
 	subnet, ok := obj.(*network.VirtualNetworksSubnet)

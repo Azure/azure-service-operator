@@ -7,6 +7,7 @@ package app
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"math/rand"
 	"net/http"
@@ -93,6 +94,12 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		}
 	}
 
+	tlsOpts := []func(*tls.Config){
+		func(tlsCfg *tls.Config) {
+			tlsCfg.MinVersion = cfg.TLSMinVersion
+		},
+	}
+
 	k8sConfig := ctrl.GetConfigOrDie()
 	ctrlOptions := ctrl.Options{
 		Scheme: scheme,
@@ -106,21 +113,21 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		},
 		LeaderElection:   flgs.EnableLeaderElection,
 		LeaderElectionID: "controllers-leader-election-azinfra-generated",
-		// Manually set lease duration (to default) so that we can use it for our leader elector too.
-		// See https://github.com/kubernetes-sigs/controller-runtime/blob/main/pkg/manager/internal.go#L52
-		LeaseDuration:           to.Ptr(15 * time.Second),
-		RenewDeadline:           to.Ptr(10 * time.Second),
-		RetryPeriod:             to.Ptr(2 * time.Second),
+		// Set explicitly rather than left to controller-runtime's defaults so that our CRD leader elector reuses them.
+		LeaseDuration:           to.Ptr(flgs.LeaseDuration),
+		RenewDeadline:           to.Ptr(flgs.RenewDeadline),
+		RetryPeriod:             to.Ptr(flgs.RetryPeriod),
 		GracefulShutdownTimeout: to.Ptr(30 * time.Second),
 		// It's only safe to set LeaderElectionReleaseOnCancel to true if the manager binary ends
 		// when the manager exits. This is the case with us today, so we set this to true whenever
 		// flgs.EnableLeaderElection is true.
 		LeaderElectionReleaseOnCancel: flgs.EnableLeaderElection,
 		HealthProbeBindAddress:        flgs.HealthAddr,
-		Metrics:                       getMetricsOpts(flgs),
+		Metrics:                       getMetricsOpts(flgs, tlsOpts),
 		WebhookServer: webhook.NewServer(webhook.Options{
 			Port:    flgs.WebhookPort,
 			CertDir: flgs.WebhookCertDir,
+			TLSOpts: tlsOpts,
 		}),
 	}
 	mgr, err := ctrl.NewManager(k8sConfig, ctrlOptions)
@@ -158,6 +165,14 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		os.Exit(1)
 	}
 
+	// Parse the configured CRD labels regardless of CRD management mode, so that a misconfiguration
+	// fails fast rather than only when this pod is later switched into webhooks mode.
+	crdLabels, err := parseCRDLabels(flgs.CRDLabels)
+	if err != nil {
+		setupLog.Error(err, "failed to parse CRD labels")
+		os.Exit(1)
+	}
+
 	switch flgs.CRDManagementMode {
 	case "auto":
 		// We only apply CRDs if we're in webhooks mode. No other mode will have CRD CRUD permissions
@@ -165,6 +180,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 			// Note that this step will restart the pod when it succeeds
 			err = crdManager.Install(ctx, crdmanagement.Options{
 				CRDPatterns:  flgs.CRDPatterns,
+				CRDLabels:    crdLabels,
 				ExistingCRDs: &existingCRDs,
 				Path:         crdmanagement.CRDLocation,
 				Namespace:    cfg.PodNamespace,
@@ -251,7 +267,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 	}
 }
 
-func getMetricsOpts(flags *Flags) server.Options {
+func getMetricsOpts(flags *Flags, tlsOpts []func(*tls.Config)) server.Options {
 	var metricsOptions server.Options
 
 	if flags.SecureMetrics {
@@ -260,6 +276,7 @@ func getMetricsOpts(flags *Flags) server.Options {
 			SecureServing:  true,
 			FilterProvider: filters.WithAuthenticationAndAuthorization,
 			CertDir:        flags.MetricsCertDir,
+			TLSOpts:        tlsOpts,
 		}
 		// Note that pprof endpoints are meant to be sensitive and shouldn't be exposed publicly.
 		if flags.ProfilingMetrics {
@@ -312,7 +329,7 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 				},
 				ClientID:                   cfg.ClientID,
 				TenantID:                   cfg.TenantID,
-				TokenFilePath:              identity.FederatedTokenFilePath,
+				TokenFilePath:              identity.ResolveFederatedTokenFilePath(cfg.FederatedTokenFilePath),
 				AdditionallyAllowedTenants: cfg.AdditionalTenants,
 			},
 		)
@@ -454,6 +471,7 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 		&identity.CredentialProviderOptions{
 			Cloud:                   to.Ptr(cfg.Cloud()),
 			AllowMultiEnvManagement: cfg.AllowMultiEnvManagement,
+			FederatedTokenFilePath:  cfg.FederatedTokenFilePath,
 		},
 	)
 

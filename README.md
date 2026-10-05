@@ -1,5 +1,5 @@
 # Azure Service Operator (for Kubernetes)
-[![Go Report Card](https://goreportcard.com/badge/github.com/Azure/azure-service-operator)](https://goreportcard.com/report/github.com/Azure/azure-service-operator)
+
 [![Generate CRD docs](https://github.com/Azure/azure-service-operator/actions/workflows/api-docs-repo.yaml/badge.svg)](https://github.com/Azure/azure-service-operator/actions/workflows/api-docs-repo.yaml)
 [![Publish docs site](https://github.com/Azure/azure-service-operator/actions/workflows/deploy-site.yml/badge.svg)](https://github.com/Azure/azure-service-operator/actions/workflows/deploy-site.yml)
 [![Scan controller image](https://github.com/Azure/azure-service-operator/actions/workflows/scan-controller-image.yaml/badge.svg)](https://github.com/Azure/azure-service-operator/actions/workflows/scan-controller-image.yaml)
@@ -8,6 +8,7 @@
 <!-- ![v2 Status](https://github.com/azure/azure-service-operator/actions/workflows/live-validation.yml/badge.svg?branch=main) -->
 
 ## What is it?
+
 **Azure Service Operator** (ASO) helps you provision Azure resources and connect your applications to them from within Kubernetes.
 
 If you want to use Azure resources but would prefer to manage those resources using Kubernetes tooling and primitives (for example `kubectl apply`), then Azure Service Operator might be for you.
@@ -20,6 +21,7 @@ The Azure Service Operator consists of:
 - The Kubernetes controller that manages the Azure resources represented by the user specified Custom Resources. The controller attempts to synchronize the desired state in the user specified Custom Resource with the actual state of that resource in Azure, creating it if it doesn't exist, updating it if it has been changed, or deleting it.
 
 ## Versions of Azure Service Operator
+
 There are two major versions of Azure Service Operator: v1 and v2. Consult the below table and descriptions to learn more about which you should use.
 
 > Note: ASO v1 and v2 are two totally independent operators. Each has its own unique set of CRDs and controllers. They can be deployed side by side in the same cluster.
@@ -30,13 +32,14 @@ There are two major versions of Azure Service Operator: v1 and v2. Consult the b
 | v1          | Deprecated      | Halted                    | [Helm chart](/charts), [OperatorHub](https://operatorhub.io/operator/azure-service-operator) or [GitHub release 1.x](https://github.com/Azure/azure-service-operator/releases)                          |
 
 ### ASO v2
+
 Azure Service Operator v2 was built based on the lessons learned from ASO v1, with the following improvements:
 
-* Supports code-generated CRDs based on [Azure OpenAPI specifications](https://github.com/Azure/azure-rest-api-specs). This enables us to quickly add new resources as they are requested.
-* More powerful `Status`. You can view the actual state of the resource in Azure through ASO v2, which enables you to see server-side applied defaults and more easily debug issues.
-* Dedicated storage versions. This enables faster (and less error prone) support for new Azure API versions, even if there were significant changes in resource shape.
-* Uniformity. ASO v2 resources are very uniform due to their code-generated nature.
-* Clearer resource states. The state a resource is in is exposed via a [Ready condition](https://azure.github.io/azure-service-operator/design/resource-states/).
+- Supports code-generated CRDs based on [Azure OpenAPI specifications](https://github.com/Azure/azure-rest-api-specs). This enables us to quickly add new resources as they are requested.
+- More powerful `Status`. You can view the actual state of the resource in Azure through ASO v2, which enables you to see server-side applied defaults and more easily debug issues.
+- Dedicated storage versions. This enables faster (and less error prone) support for new Azure API versions, even if there were significant changes in resource shape.
+- Uniformity. ASO v2 resources are very uniform due to their code-generated nature.
+- Clearer resource states. The state a resource is in is exposed via a [Ready condition](https://azure.github.io/azure-service-operator/design/resource-states/).
 
 [Learn more about Azure Service Operator v2](https://azure.github.io/azure-service-operator/)
 

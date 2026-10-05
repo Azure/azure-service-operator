@@ -121,8 +121,9 @@ func addRoles(ctx context.Context, db *sql.DB, user SQLUser, roles set.Set[strin
 			return eris.Wrap(err, fmt.Sprintf("Role %q does not exists", role))
 		}
 	}
-	toAdd := strings.Join(roles.Values(), ",")
-	_, err := db.ExecContext(ctx, fmt.Sprintf("GRANT %q TO %q", toAdd, user.Name))
+	toAdd := escapeRoleList(roles)
+	// SQL identifiers cannot be parameterized; values are escaped via escapeIdentifier.
+	_, err := db.ExecContext(ctx, fmt.Sprintf("GRANT %s TO %s", toAdd, escapeIdentifier(user.Name)))
 	if err != nil {
 		errorStrings = append(errorStrings, err.Error())
 	}
@@ -138,8 +139,18 @@ func deleteRoles(ctx context.Context, db *sql.DB, user SQLUser, roles set.Set[st
 		return nil
 	}
 
-	toDelete := strings.Join(roles.Values(), ",")
-	_, err := db.ExecContext(ctx, fmt.Sprintf("REVOKE %q FROM %q", toDelete, user.Name))
+	toDelete := escapeRoleList(roles)
+	// SQL identifiers cannot be parameterized; values are escaped via escapeIdentifier.
+	_, err := db.ExecContext(ctx, fmt.Sprintf("REVOKE %s FROM %s", toDelete, escapeIdentifier(user.Name)))
 
 	return err
+}
+
+func escapeRoleList(roles set.Set[string]) string {
+	escapedRoles := make([]string, 0, len(roles))
+	for _, role := range roles.Values() {
+		escapedRoles = append(escapedRoles, escapeIdentifier(role))
+	}
+
+	return strings.Join(escapedRoles, ",")
 }

@@ -1,0 +1,26 @@
+apiVersion: databasewatcher.azure.com/v20241001preview
+kind: Watcher
+metadata:
+  name: aso-sample-watcher
+  namespace: default
+spec:
+  # Database Watcher is not available in every region
+  location: eastus
+  owner:
+    name: aso-sample-rg
+  identity:
+    type: SystemAssigned
+  # Where the watcher writes what it collects. A watcher only runs once started, and Azure refuses to
+  # start one that has no data store, so point this at your own Kusto cluster: the one named here does
+  # not exist, and a watcher writing to a cluster that isn't there collects nothing.
+  datastore:
+    kustoOfferingType: adx
+    adxClusterResourceReference:
+      armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Kusto/clusters/aso-sample-cluster
+    # Optional in the ARM schema, but Azure rejects a data store without one for the adx and free
+    # offerings
+    kustoClusterDisplayName: aso-sample-cluster
+    kustoClusterUri: https://aso-sample-cluster.eastus.kusto.windows.net
+    kustoDataIngestionUri: https://ingest-aso-sample-cluster.eastus.kusto.windows.net
+    kustoDatabaseName: aso-sample-db
+    kustoManagementUrl: https://portal.azure.com/

@@ -39,11 +39,18 @@ var subRegex = regexp.MustCompile(`/([0]+-?)+`)
 var emptyGUID = uuid.Nil.String()
 
 var wholeSampleExclusions = []*regexp.Regexp{
-	regexp.MustCompile(`/cache/`),                               // Cache has issues with linked caches being able to delete
-	regexp.MustCompile(`/subscription/`),                        // Can't easily be run/recorded in our standard subscription
-	regexp.MustCompile(`/redhatopenshift/`),                     // This requires SP creation
+	regexp.MustCompile(`/cache/`),                       // Cache has issues with linked caches being able to delete
+	regexp.MustCompile(`/subscription/`),                // Can't easily be run/recorded in our standard subscription
+	regexp.MustCompile(`/redhatopenshift/v1api(?:/|$)`), // This requires SP creation
+	// HCP samples reference external prerequisites (VNet, NSG, managed identities, Key Vault) that
+	// aren't yet self-contained in the sample directory; see v2/internal/controllers/testdata/redhatopenshift-hcp/README.md.
+	regexp.MustCompile(`/redhatopenshift/v20260901preview(?:/|$)`),
 	regexp.MustCompile(`/documentdb/sqldatabase/v1api20210515`), // This is blocked by corp policy (can't set DisableLocalAuth)
 	regexp.MustCompile(`/compute/v20250401`),                    // Quota restrictions mean we can't rerecord capacity reservation
+	// TODO: remove once Test_Keyvault_v20230701_CreationAndDeletion.yaml has been recorded. The VaultKey
+	// samples need a recording that captures both ARM and the Key Vault data plane (the VaultKeyExtension
+	// adopts, updates and deletes keys via azkeys), and without one the test needs live credentials.
+	regexp.MustCompile(`/keyvault/v20230701(?:/|$)`),
 }
 
 var exclusions = []*regexp.Regexp{
@@ -57,11 +64,23 @@ var exclusions = []*regexp.Regexp{
 	// file present so scripts/v2/check_samples.py is satisfied, but skip it in the samples test.
 	regexp.MustCompile(`cdn/v.*20210601/.*_profilesendpoint.yaml`),
 
+	// The containerservice TrustedAccessRoleBinding sample needs a Microsoft.MachineLearningServices
+	// workspace as its source resource, and AML now rejects the workspace payload our sample refs
+	// produce with "ValidationError: Missing dependent resources in workspace json" (it wants
+	// additional dependencies such as Application Insights). Older containerservice versions only
+	// still pass because their recordings predate that service-side change. Keep the sample file
+	// present so scripts/v2/check_samples.py is satisfied, but skip it in the samples test.
+	regexp.MustCompile(`containerservice/v20260501/.*_trustedaccessrolebinding.yaml`),
+
 	// db users aren't ARM resources
 	regexp.MustCompile(`sql/.*_user.yaml`),
 	regexp.MustCompile(`dbformysql/.*_user.yaml`),
 	regexp.MustCompile(`dbformysql/.*_user_aad.yaml`),
 	regexp.MustCompile(`dbforpostgresql/.*_user.yaml`),
+
+	// PostgreSQL virtual endpoints require multiple servers with an established replication link.
+	// Older versions only pass because their recordings predate this service-side validation.
+	regexp.MustCompile(`dbforpostgresql/.*_flexibleserversvirtualendpoint.yaml`),
 
 	// Excluding sql serversadministrator and serversazureadonlyauthentication as they both require AAD auth
 	// which the samples recordings aren't using.
@@ -70,6 +89,11 @@ var exclusions = []*regexp.Regexp{
 
 	// Requires creating multiple linked SQL servers which is hard to do in the samples
 	regexp.MustCompile(`sql/.*_serversfailovergroup.yaml`),
+
+	// Excluding sql serverskey and serversencryptionprotector as they require a keyvault key URI
+	// which can't be created via ASO (no Keyvault/Keys resource support)
+	regexp.MustCompile(`sql/.*_serverskey.yaml`),
+	regexp.MustCompile(`sql/.*_serversencryptionprotector.yaml`),
 
 	// TODO: Unable to test diskencryptionsets sample since it requires keyvault/key URI.
 	// TODO: we don't support Keyvault/Keys to automate the process
@@ -122,6 +146,10 @@ var exclusions = []*regexp.Regexp{
 
 	// Excluding quota as Azure Quota API does not support deletion - quotas are read-only system resources
 	regexp.MustCompile(`quota/.*_quota.yaml`),
+
+	// Excluding databasewatcher sharedprivatelink as its managed private endpoint must be torn
+	// down before the server it points at
+	regexp.MustCompile(`databasewatcher/.*_sharedprivatelink.yaml`),
 }
 
 // referenceKey identifies a resource by its Kind and Name for rename tracking.
@@ -380,9 +408,10 @@ func PathContains(path string, matches []string) bool {
 }
 
 func IsSampleFolderExcluded(path string) bool {
-	// Allow the cache v20250401 sample test to run while keeping all other
+	// Allow the cache v20250401 and v20250701 sample tests to run while keeping all other
 	// cache sample folders excluded (linked-cache deletion issues).
-	if strings.Contains(path, "/cache/v20250401") {
+	if strings.Contains(path, "/cache/v20250401") ||
+		strings.Contains(path, "/cache/v20250701") {
 		return false
 	}
 

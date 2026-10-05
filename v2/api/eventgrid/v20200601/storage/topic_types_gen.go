@@ -5,6 +5,8 @@ package storage
 
 import (
 	"context"
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -16,15 +18,12 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=eventgrid.azure.com,resources=topics,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=eventgrid.azure.com,resources={topics/status,topics/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,eventgrid}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -50,6 +49,28 @@ func (topic *Topic) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (topic *Topic) SetConditions(conditions conditions.Conditions) {
 	topic.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &Topic{}
+
+// ConvertFrom populates our Topic from the provided hub Topic
+func (topic *Topic) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.Topic)
+	if !ok {
+		return fmt.Errorf("expected eventgrid/v20250215/storage/Topic but received %T instead", hub)
+	}
+
+	return topic.AssignProperties_From_Topic(source)
+}
+
+// ConvertTo populates the provided hub Topic from our Topic
+func (topic *Topic) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.Topic)
+	if !ok {
+		return fmt.Errorf("expected eventgrid/v20250215/storage/Topic but received %T instead", hub)
+	}
+
+	return topic.AssignProperties_To_Topic(destination)
 }
 
 var _ configmaps.Exporter = &Topic{}
@@ -164,8 +185,75 @@ func (topic *Topic) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// Hub marks that this Topic is the hub type for conversion
-func (topic *Topic) Hub() {}
+// AssignProperties_From_Topic populates our Topic from the provided source Topic
+func (topic *Topic) AssignProperties_From_Topic(source *storage.Topic) error {
+
+	// ObjectMeta
+	topic.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec Topic_Spec
+	err := spec.AssignProperties_From_Topic_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_Topic_Spec() to populate field Spec")
+	}
+	topic.Spec = spec
+
+	// Status
+	var status Topic_STATUS
+	err = status.AssignProperties_From_Topic_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_Topic_STATUS() to populate field Status")
+	}
+	topic.Status = status
+
+	// Invoke the augmentConversionForTopic interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic); ok {
+		err := augmentedTopic.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Topic populates the provided destination Topic from our Topic
+func (topic *Topic) AssignProperties_To_Topic(destination *storage.Topic) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *topic.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.Topic_Spec
+	err := topic.Spec.AssignProperties_To_Topic_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_Topic_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.Topic_STATUS
+	err = topic.Status.AssignProperties_To_Topic_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_Topic_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForTopic interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic); ok {
+		err := augmentedTopic.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (topic *Topic) OriginalGVK() *schema.GroupVersionKind {
@@ -185,6 +273,11 @@ type TopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Topic `json:"items"`
+}
+
+type augmentConversionForTopic interface {
+	AssignPropertiesFrom(src *storage.Topic) error
+	AssignPropertiesTo(dst *storage.Topic) error
 }
 
 // Storage version of v20200601.Topic_Spec
@@ -213,20 +306,332 @@ var _ genruntime.ConvertibleSpec = &Topic_Spec{}
 
 // ConvertSpecFrom populates our Topic_Spec from the provided source
 func (topic *Topic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == topic {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.Topic_Spec)
+	if ok {
+		// Populate our instance from source
+		return topic.AssignProperties_From_Topic_Spec(src)
 	}
 
-	return source.ConvertSpecTo(topic)
+	// Convert to an intermediate form
+	src = &storage.Topic_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = topic.AssignProperties_From_Topic_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our Topic_Spec
 func (topic *Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == topic {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.Topic_Spec)
+	if ok {
+		// Populate destination from our instance
+		return topic.AssignProperties_To_Topic_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(topic)
+	// Convert to an intermediate form
+	dst = &storage.Topic_Spec{}
+	err := topic.AssignProperties_To_Topic_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Topic_Spec populates our Topic_Spec from the provided source Topic_Spec
+func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *storage.Topic_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	topic.AzureName = source.AzureName
+
+	// DataResidencyBoundary
+	if source.DataResidencyBoundary != nil {
+		propertyBag.Add("DataResidencyBoundary", *source.DataResidencyBoundary)
+	} else {
+		propertyBag.Remove("DataResidencyBoundary")
+	}
+
+	// DisableLocalAuth
+	if source.DisableLocalAuth != nil {
+		propertyBag.Add("DisableLocalAuth", *source.DisableLocalAuth)
+	} else {
+		propertyBag.Remove("DisableLocalAuth")
+	}
+
+	// EventTypeInfo
+	if source.EventTypeInfo != nil {
+		propertyBag.Add("EventTypeInfo", *source.EventTypeInfo)
+	} else {
+		propertyBag.Remove("EventTypeInfo")
+	}
+
+	// Identity
+	if source.Identity != nil {
+		propertyBag.Add("Identity", *source.Identity)
+	} else {
+		propertyBag.Remove("Identity")
+	}
+
+	// InboundIpRules
+	if source.InboundIpRules != nil {
+		inboundIpRuleList := make([]InboundIpRule, len(source.InboundIpRules))
+		for inboundIpRuleIndex, inboundIpRuleItem := range source.InboundIpRules {
+			var inboundIpRule InboundIpRule
+			err := inboundIpRule.AssignProperties_From_InboundIpRule(&inboundIpRuleItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_InboundIpRule() to populate field InboundIpRules")
+			}
+			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
+		}
+		topic.InboundIpRules = inboundIpRuleList
+	} else {
+		topic.InboundIpRules = nil
+	}
+
+	// InputSchema
+	topic.InputSchema = genruntime.ClonePointerToString(source.InputSchema)
+
+	// InputSchemaMapping
+	if source.InputSchemaMapping != nil {
+		var inputSchemaMapping InputSchemaMapping
+		err := inputSchemaMapping.AssignProperties_From_InputSchemaMapping(source.InputSchemaMapping)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_InputSchemaMapping() to populate field InputSchemaMapping")
+		}
+		topic.InputSchemaMapping = &inputSchemaMapping
+	} else {
+		topic.InputSchemaMapping = nil
+	}
+
+	// Location
+	topic.Location = genruntime.ClonePointerToString(source.Location)
+
+	// MinimumTlsVersionAllowed
+	if source.MinimumTlsVersionAllowed != nil {
+		propertyBag.Add("MinimumTlsVersionAllowed", *source.MinimumTlsVersionAllowed)
+	} else {
+		propertyBag.Remove("MinimumTlsVersionAllowed")
+	}
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec TopicOperatorSpec
+		err := operatorSpec.AssignProperties_From_TopicOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_TopicOperatorSpec() to populate field OperatorSpec")
+		}
+		topic.OperatorSpec = &operatorSpec
+	} else {
+		topic.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	topic.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		topic.Owner = &owner
+	} else {
+		topic.Owner = nil
+	}
+
+	// PublicNetworkAccess
+	topic.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
+
+	// Tags
+	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		topic.PropertyBag = propertyBag
+	} else {
+		topic.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopic_Spec interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic_Spec); ok {
+		err := augmentedTopic.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Topic_Spec populates the provided destination Topic_Spec from our Topic_Spec
+func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *storage.Topic_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(topic.PropertyBag)
+
+	// AzureName
+	destination.AzureName = topic.AzureName
+
+	// DataResidencyBoundary
+	if propertyBag.Contains("DataResidencyBoundary") {
+		var dataResidencyBoundary string
+		err := propertyBag.Pull("DataResidencyBoundary", &dataResidencyBoundary)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'DataResidencyBoundary' from propertyBag")
+		}
+
+		destination.DataResidencyBoundary = &dataResidencyBoundary
+	} else {
+		destination.DataResidencyBoundary = nil
+	}
+
+	// DisableLocalAuth
+	if propertyBag.Contains("DisableLocalAuth") {
+		var disableLocalAuth bool
+		err := propertyBag.Pull("DisableLocalAuth", &disableLocalAuth)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'DisableLocalAuth' from propertyBag")
+		}
+
+		destination.DisableLocalAuth = &disableLocalAuth
+	} else {
+		destination.DisableLocalAuth = nil
+	}
+
+	// EventTypeInfo
+	if propertyBag.Contains("EventTypeInfo") {
+		var eventTypeInfo storage.EventTypeInfo
+		err := propertyBag.Pull("EventTypeInfo", &eventTypeInfo)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'EventTypeInfo' from propertyBag")
+		}
+
+		destination.EventTypeInfo = &eventTypeInfo
+	} else {
+		destination.EventTypeInfo = nil
+	}
+
+	// Identity
+	if propertyBag.Contains("Identity") {
+		var identity storage.IdentityInfo
+		err := propertyBag.Pull("Identity", &identity)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
+		}
+
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// InboundIpRules
+	if topic.InboundIpRules != nil {
+		inboundIpRuleList := make([]storage.InboundIpRule, len(topic.InboundIpRules))
+		for inboundIpRuleIndex, inboundIpRuleItem := range topic.InboundIpRules {
+			var inboundIpRule storage.InboundIpRule
+			err := inboundIpRuleItem.AssignProperties_To_InboundIpRule(&inboundIpRule)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_InboundIpRule() to populate field InboundIpRules")
+			}
+			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
+		}
+		destination.InboundIpRules = inboundIpRuleList
+	} else {
+		destination.InboundIpRules = nil
+	}
+
+	// InputSchema
+	destination.InputSchema = genruntime.ClonePointerToString(topic.InputSchema)
+
+	// InputSchemaMapping
+	if topic.InputSchemaMapping != nil {
+		var inputSchemaMapping storage.InputSchemaMapping
+		err := topic.InputSchemaMapping.AssignProperties_To_InputSchemaMapping(&inputSchemaMapping)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_InputSchemaMapping() to populate field InputSchemaMapping")
+		}
+		destination.InputSchemaMapping = &inputSchemaMapping
+	} else {
+		destination.InputSchemaMapping = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(topic.Location)
+
+	// MinimumTlsVersionAllowed
+	if propertyBag.Contains("MinimumTlsVersionAllowed") {
+		var minimumTlsVersionAllowed string
+		err := propertyBag.Pull("MinimumTlsVersionAllowed", &minimumTlsVersionAllowed)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'MinimumTlsVersionAllowed' from propertyBag")
+		}
+
+		destination.MinimumTlsVersionAllowed = &minimumTlsVersionAllowed
+	} else {
+		destination.MinimumTlsVersionAllowed = nil
+	}
+
+	// OperatorSpec
+	if topic.OperatorSpec != nil {
+		var operatorSpec storage.TopicOperatorSpec
+		err := topic.OperatorSpec.AssignProperties_To_TopicOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_TopicOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = topic.OriginalVersion
+
+	// Owner
+	if topic.Owner != nil {
+		owner := topic.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PublicNetworkAccess
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(topic.PublicNetworkAccess)
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(topic.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopic_Spec interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic_Spec); ok {
+		err := augmentedTopic.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20200601.Topic_STATUS
@@ -254,26 +659,450 @@ var _ genruntime.ConvertibleStatus = &Topic_STATUS{}
 
 // ConvertStatusFrom populates our Topic_STATUS from the provided source
 func (topic *Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == topic {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.Topic_STATUS)
+	if ok {
+		// Populate our instance from source
+		return topic.AssignProperties_From_Topic_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(topic)
+	// Convert to an intermediate form
+	src = &storage.Topic_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = topic.AssignProperties_From_Topic_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our Topic_STATUS
 func (topic *Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == topic {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.Topic_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return topic.AssignProperties_To_Topic_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(topic)
+	// Convert to an intermediate form
+	dst = &storage.Topic_STATUS{}
+	err := topic.AssignProperties_To_Topic_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Topic_STATUS populates our Topic_STATUS from the provided source Topic_STATUS
+func (topic *Topic_STATUS) AssignProperties_From_Topic_STATUS(source *storage.Topic_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	topic.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// DataResidencyBoundary
+	if source.DataResidencyBoundary != nil {
+		propertyBag.Add("DataResidencyBoundary", *source.DataResidencyBoundary)
+	} else {
+		propertyBag.Remove("DataResidencyBoundary")
+	}
+
+	// DisableLocalAuth
+	if source.DisableLocalAuth != nil {
+		propertyBag.Add("DisableLocalAuth", *source.DisableLocalAuth)
+	} else {
+		propertyBag.Remove("DisableLocalAuth")
+	}
+
+	// Endpoint
+	topic.Endpoint = genruntime.ClonePointerToString(source.Endpoint)
+
+	// EventTypeInfo
+	if source.EventTypeInfo != nil {
+		propertyBag.Add("EventTypeInfo", *source.EventTypeInfo)
+	} else {
+		propertyBag.Remove("EventTypeInfo")
+	}
+
+	// Id
+	topic.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Identity
+	if source.Identity != nil {
+		propertyBag.Add("Identity", *source.Identity)
+	} else {
+		propertyBag.Remove("Identity")
+	}
+
+	// InboundIpRules
+	if source.InboundIpRules != nil {
+		inboundIpRuleList := make([]InboundIpRule_STATUS, len(source.InboundIpRules))
+		for inboundIpRuleIndex, inboundIpRuleItem := range source.InboundIpRules {
+			var inboundIpRule InboundIpRule_STATUS
+			err := inboundIpRule.AssignProperties_From_InboundIpRule_STATUS(&inboundIpRuleItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_InboundIpRule_STATUS() to populate field InboundIpRules")
+			}
+			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
+		}
+		topic.InboundIpRules = inboundIpRuleList
+	} else {
+		topic.InboundIpRules = nil
+	}
+
+	// InputSchema
+	topic.InputSchema = genruntime.ClonePointerToString(source.InputSchema)
+
+	// InputSchemaMapping
+	if source.InputSchemaMapping != nil {
+		var inputSchemaMapping InputSchemaMapping_STATUS
+		err := inputSchemaMapping.AssignProperties_From_InputSchemaMapping_STATUS(source.InputSchemaMapping)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
+		}
+		topic.InputSchemaMapping = &inputSchemaMapping
+	} else {
+		topic.InputSchemaMapping = nil
+	}
+
+	// Location
+	topic.Location = genruntime.ClonePointerToString(source.Location)
+
+	// MetricResourceId
+	topic.MetricResourceId = genruntime.ClonePointerToString(source.MetricResourceId)
+
+	// MinimumTlsVersionAllowed
+	if source.MinimumTlsVersionAllowed != nil {
+		propertyBag.Add("MinimumTlsVersionAllowed", *source.MinimumTlsVersionAllowed)
+	} else {
+		propertyBag.Remove("MinimumTlsVersionAllowed")
+	}
+
+	// Name
+	topic.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PrivateEndpointConnections
+	if source.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			var privateEndpointConnection PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
+			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&privateEndpointConnectionItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		topic.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		topic.PrivateEndpointConnections = nil
+	}
+
+	// ProvisioningState
+	topic.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// PublicNetworkAccess
+	topic.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		topic.SystemData = &systemDatum
+	} else {
+		topic.SystemData = nil
+	}
+
+	// Tags
+	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	topic.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		topic.PropertyBag = propertyBag
+	} else {
+		topic.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopic_STATUS interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic_STATUS); ok {
+		err := augmentedTopic.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Topic_STATUS populates the provided destination Topic_STATUS from our Topic_STATUS
+func (topic *Topic_STATUS) AssignProperties_To_Topic_STATUS(destination *storage.Topic_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(topic.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(topic.Conditions)
+
+	// DataResidencyBoundary
+	if propertyBag.Contains("DataResidencyBoundary") {
+		var dataResidencyBoundary string
+		err := propertyBag.Pull("DataResidencyBoundary", &dataResidencyBoundary)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'DataResidencyBoundary' from propertyBag")
+		}
+
+		destination.DataResidencyBoundary = &dataResidencyBoundary
+	} else {
+		destination.DataResidencyBoundary = nil
+	}
+
+	// DisableLocalAuth
+	if propertyBag.Contains("DisableLocalAuth") {
+		var disableLocalAuth bool
+		err := propertyBag.Pull("DisableLocalAuth", &disableLocalAuth)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'DisableLocalAuth' from propertyBag")
+		}
+
+		destination.DisableLocalAuth = &disableLocalAuth
+	} else {
+		destination.DisableLocalAuth = nil
+	}
+
+	// Endpoint
+	destination.Endpoint = genruntime.ClonePointerToString(topic.Endpoint)
+
+	// EventTypeInfo
+	if propertyBag.Contains("EventTypeInfo") {
+		var eventTypeInfo storage.EventTypeInfo_STATUS
+		err := propertyBag.Pull("EventTypeInfo", &eventTypeInfo)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'EventTypeInfo' from propertyBag")
+		}
+
+		destination.EventTypeInfo = &eventTypeInfo
+	} else {
+		destination.EventTypeInfo = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(topic.Id)
+
+	// Identity
+	if propertyBag.Contains("Identity") {
+		var identity storage.IdentityInfo_STATUS
+		err := propertyBag.Pull("Identity", &identity)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
+		}
+
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// InboundIpRules
+	if topic.InboundIpRules != nil {
+		inboundIpRuleList := make([]storage.InboundIpRule_STATUS, len(topic.InboundIpRules))
+		for inboundIpRuleIndex, inboundIpRuleItem := range topic.InboundIpRules {
+			var inboundIpRule storage.InboundIpRule_STATUS
+			err := inboundIpRuleItem.AssignProperties_To_InboundIpRule_STATUS(&inboundIpRule)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_InboundIpRule_STATUS() to populate field InboundIpRules")
+			}
+			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
+		}
+		destination.InboundIpRules = inboundIpRuleList
+	} else {
+		destination.InboundIpRules = nil
+	}
+
+	// InputSchema
+	destination.InputSchema = genruntime.ClonePointerToString(topic.InputSchema)
+
+	// InputSchemaMapping
+	if topic.InputSchemaMapping != nil {
+		var inputSchemaMapping storage.InputSchemaMapping_STATUS
+		err := topic.InputSchemaMapping.AssignProperties_To_InputSchemaMapping_STATUS(&inputSchemaMapping)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
+		}
+		destination.InputSchemaMapping = &inputSchemaMapping
+	} else {
+		destination.InputSchemaMapping = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(topic.Location)
+
+	// MetricResourceId
+	destination.MetricResourceId = genruntime.ClonePointerToString(topic.MetricResourceId)
+
+	// MinimumTlsVersionAllowed
+	if propertyBag.Contains("MinimumTlsVersionAllowed") {
+		var minimumTlsVersionAllowed string
+		err := propertyBag.Pull("MinimumTlsVersionAllowed", &minimumTlsVersionAllowed)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'MinimumTlsVersionAllowed' from propertyBag")
+		}
+
+		destination.MinimumTlsVersionAllowed = &minimumTlsVersionAllowed
+	} else {
+		destination.MinimumTlsVersionAllowed = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(topic.Name)
+
+	// PrivateEndpointConnections
+	if topic.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]storage.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded, len(topic.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range topic.PrivateEndpointConnections {
+			var privateEndpointConnection storage.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
+			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&privateEndpointConnection)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		destination.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		destination.PrivateEndpointConnections = nil
+	}
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(topic.ProvisioningState)
+
+	// PublicNetworkAccess
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(topic.PublicNetworkAccess)
+
+	// SystemData
+	if topic.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := topic.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(topic.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(topic.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopic_STATUS interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic_STATUS); ok {
+		err := augmentedTopic.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForTopic_Spec interface {
+	AssignPropertiesFrom(src *storage.Topic_Spec) error
+	AssignPropertiesTo(dst *storage.Topic_Spec) error
+}
+
+type augmentConversionForTopic_STATUS interface {
+	AssignPropertiesFrom(src *storage.Topic_STATUS) error
+	AssignPropertiesTo(dst *storage.Topic_STATUS) error
 }
 
 // Storage version of v20200601.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
 type PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded populates our PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(source *storage.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		embedded.PropertyBag = propertyBag
+	} else {
+		embedded.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(destination *storage.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20200601.TopicOperatorSpec
@@ -286,10 +1115,248 @@ type TopicOperatorSpec struct {
 	Secrets              *TopicOperatorSecrets         `json:"secrets,omitempty"`
 }
 
+// AssignProperties_From_TopicOperatorSpec populates our TopicOperatorSpec from the provided source TopicOperatorSpec
+func (operator *TopicOperatorSpec) AssignProperties_From_TopicOperatorSpec(source *storage.TopicOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap TopicOperatorConfigMaps
+		err := configMap.AssignProperties_From_TopicOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_TopicOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret TopicOperatorSecrets
+		err := secret.AssignProperties_From_TopicOperatorSecrets(source.Secrets)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_TopicOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopicOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForTopicOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TopicOperatorSpec populates the provided destination TopicOperatorSpec from our TopicOperatorSpec
+func (operator *TopicOperatorSpec) AssignProperties_To_TopicOperatorSpec(destination *storage.TopicOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap storage.TopicOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_TopicOperatorConfigMaps(&configMap)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_TopicOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret storage.TopicOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_TopicOperatorSecrets(&secret)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_TopicOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopicOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForTopicOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *storage.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *storage.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) error
+}
+
+type augmentConversionForTopicOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.TopicOperatorSpec) error
+	AssignPropertiesTo(dst *storage.TopicOperatorSpec) error
+}
+
 // Storage version of v20200601.TopicOperatorConfigMaps
 type TopicOperatorConfigMaps struct {
 	Endpoint    *genruntime.ConfigMapDestination `json:"endpoint,omitempty"`
 	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_TopicOperatorConfigMaps populates our TopicOperatorConfigMaps from the provided source TopicOperatorConfigMaps
+func (maps *TopicOperatorConfigMaps) AssignProperties_From_TopicOperatorConfigMaps(source *storage.TopicOperatorConfigMaps) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Endpoint
+	if source.Endpoint != nil {
+		endpoint := *source.Endpoint.DeepCopy()
+		maps.Endpoint = &endpoint
+	} else {
+		maps.Endpoint = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		maps.PropertyBag = propertyBag
+	} else {
+		maps.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopicOperatorConfigMaps interface (if implemented) to customize the conversion
+	var mapsAsAny any = maps
+	if augmentedMaps, ok := mapsAsAny.(augmentConversionForTopicOperatorConfigMaps); ok {
+		err := augmentedMaps.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TopicOperatorConfigMaps populates the provided destination TopicOperatorConfigMaps from our TopicOperatorConfigMaps
+func (maps *TopicOperatorConfigMaps) AssignProperties_To_TopicOperatorConfigMaps(destination *storage.TopicOperatorConfigMaps) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(maps.PropertyBag)
+
+	// Endpoint
+	if maps.Endpoint != nil {
+		endpoint := *maps.Endpoint.DeepCopy()
+		destination.Endpoint = &endpoint
+	} else {
+		destination.Endpoint = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopicOperatorConfigMaps interface (if implemented) to customize the conversion
+	var mapsAsAny any = maps
+	if augmentedMaps, ok := mapsAsAny.(augmentConversionForTopicOperatorConfigMaps); ok {
+		err := augmentedMaps.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20200601.TopicOperatorSecrets
@@ -297,6 +1364,98 @@ type TopicOperatorSecrets struct {
 	Key1        *genruntime.SecretDestination `json:"key1,omitempty"`
 	Key2        *genruntime.SecretDestination `json:"key2,omitempty"`
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_TopicOperatorSecrets populates our TopicOperatorSecrets from the provided source TopicOperatorSecrets
+func (secrets *TopicOperatorSecrets) AssignProperties_From_TopicOperatorSecrets(source *storage.TopicOperatorSecrets) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key1
+	if source.Key1 != nil {
+		key1 := *source.Key1.DeepCopy()
+		secrets.Key1 = &key1
+	} else {
+		secrets.Key1 = nil
+	}
+
+	// Key2
+	if source.Key2 != nil {
+		key2 := *source.Key2.DeepCopy()
+		secrets.Key2 = &key2
+	} else {
+		secrets.Key2 = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		secrets.PropertyBag = propertyBag
+	} else {
+		secrets.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopicOperatorSecrets interface (if implemented) to customize the conversion
+	var secretsAsAny any = secrets
+	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForTopicOperatorSecrets); ok {
+		err := augmentedSecrets.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TopicOperatorSecrets populates the provided destination TopicOperatorSecrets from our TopicOperatorSecrets
+func (secrets *TopicOperatorSecrets) AssignProperties_To_TopicOperatorSecrets(destination *storage.TopicOperatorSecrets) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(secrets.PropertyBag)
+
+	// Key1
+	if secrets.Key1 != nil {
+		key1 := *secrets.Key1.DeepCopy()
+		destination.Key1 = &key1
+	} else {
+		destination.Key1 = nil
+	}
+
+	// Key2
+	if secrets.Key2 != nil {
+		key2 := *secrets.Key2.DeepCopy()
+		destination.Key2 = &key2
+	} else {
+		destination.Key2 = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopicOperatorSecrets interface (if implemented) to customize the conversion
+	var secretsAsAny any = secrets
+	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForTopicOperatorSecrets); ok {
+		err := augmentedSecrets.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForTopicOperatorConfigMaps interface {
+	AssignPropertiesFrom(src *storage.TopicOperatorConfigMaps) error
+	AssignPropertiesTo(dst *storage.TopicOperatorConfigMaps) error
+}
+
+type augmentConversionForTopicOperatorSecrets interface {
+	AssignPropertiesFrom(src *storage.TopicOperatorSecrets) error
+	AssignPropertiesTo(dst *storage.TopicOperatorSecrets) error
 }
 
 func init() {

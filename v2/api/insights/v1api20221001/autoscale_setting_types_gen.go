@@ -841,8 +841,8 @@ type Autoscalesetting_STATUS struct {
 	// Enabled: the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is 'false'.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Location: The geo-location where the resource lives

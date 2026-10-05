@@ -8,6 +8,8 @@ import (
 	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	sql_v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v20211101"
 	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	sql_v20250101 "github.com/Azure/azure-service-operator/v2/api/sql/v20250101"
+	sql_v20250101s "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -20,5 +22,7 @@ func (extension *ServersDatabasesAuditingSettingExtension) GetExtendedResources(
 		&sql_v1api20211101.ServersDatabasesAuditingSetting{},
 		&sql_v1api20211101s.ServersDatabasesAuditingSetting{},
 		&sql_v20211101.ServersDatabasesAuditingSetting{},
-		&sql_v20211101s.ServersDatabasesAuditingSetting{}}
+		&sql_v20211101s.ServersDatabasesAuditingSetting{},
+		&sql_v20250101.ServersDatabasesAuditingSetting{},
+		&sql_v20250101s.ServersDatabasesAuditingSetting{}}
 }

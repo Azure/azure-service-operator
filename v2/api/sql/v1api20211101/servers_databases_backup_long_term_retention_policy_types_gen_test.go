@@ -5,8 +5,8 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
-	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	v20250101s "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -42,7 +42,7 @@ func RunResourceConversionTestForServersDatabasesBackupLongTermRetentionPolicy(s
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub sql_v20211101s.ServersDatabasesBackupLongTermRetentionPolicy
+	var hub v20250101s.ServersDatabasesBackupLongTermRetentionPolicy
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -89,7 +89,7 @@ func RunPropertyAssignmentTestForServersDatabasesBackupLongTermRetentionPolicy(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersDatabasesBackupLongTermRetentionPolicy
+	var other v20211101s.ServersDatabasesBackupLongTermRetentionPolicy
 	err := copied.AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -203,7 +203,7 @@ func RunPropertyAssignmentTestForServersDatabasesBackupLongTermRetentionPolicyOp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec
+	var other v20211101s.ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec
 	err := copied.AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -310,7 +310,7 @@ func RunPropertyAssignmentTestForServersDatabasesBackupLongTermRetentionPolicy_S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersDatabasesBackupLongTermRetentionPolicy_STATUS
+	var other v20211101s.ServersDatabasesBackupLongTermRetentionPolicy_STATUS
 	err := copied.AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -429,7 +429,7 @@ func RunPropertyAssignmentTestForServersDatabasesBackupLongTermRetentionPolicy_S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersDatabasesBackupLongTermRetentionPolicy_Spec
+	var other v20211101s.ServersDatabasesBackupLongTermRetentionPolicy_Spec
 	err := copied.AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()

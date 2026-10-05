@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersDatabase{}
 
 // ConvertFrom populates our ServersDatabase from the provided hub ServersDatabase
 func (database *ServersDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersDatabase)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersDatabase
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignProperties_From_ServersDatabase(source)
+	err = database.AssignProperties_From_ServersDatabase(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersDatabase from our ServersDatabase
 func (database *ServersDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersDatabase)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersDatabase
+	err := database.AssignProperties_To_ServersDatabase(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignProperties_To_ServersDatabase(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersDatabase{}
@@ -87,17 +101,6 @@ func (database *ServersDatabase) SecretDestinationExpressions() []*core.Destinat
 		return nil
 	}
 	return database.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersDatabase{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (database *ServersDatabase) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersDatabase_STATUS); ok {
-		return database.Spec.Initialize_From_ServersDatabase_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersDatabase_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersDatabase{}
@@ -1377,203 +1380,6 @@ func (database *ServersDatabase_Spec) AssignProperties_To_ServersDatabase_Spec(d
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersDatabase_STATUS populates our ServersDatabase_Spec from the provided source ServersDatabase_STATUS
-func (database *ServersDatabase_Spec) Initialize_From_ServersDatabase_STATUS(source *ServersDatabase_STATUS) error {
-
-	// AutoPauseDelay
-	database.AutoPauseDelay = genruntime.ClonePointerToInt(source.AutoPauseDelay)
-
-	// CatalogCollation
-	if source.CatalogCollation != nil {
-		catalogCollation := genruntime.ToEnum(string(*source.CatalogCollation), databaseProperties_CatalogCollation_Values)
-		database.CatalogCollation = &catalogCollation
-	} else {
-		database.CatalogCollation = nil
-	}
-
-	// Collation
-	database.Collation = genruntime.ClonePointerToString(source.Collation)
-
-	// CreateMode
-	if source.CreateMode != nil {
-		createMode := genruntime.ToEnum(string(*source.CreateMode), databaseProperties_CreateMode_Values)
-		database.CreateMode = &createMode
-	} else {
-		database.CreateMode = nil
-	}
-
-	// ElasticPoolReference
-	if source.ElasticPoolId != nil {
-		elasticPoolReference := genruntime.CreateResourceReferenceFromARMID(*source.ElasticPoolId)
-		database.ElasticPoolReference = &elasticPoolReference
-	} else {
-		database.ElasticPoolReference = nil
-	}
-
-	// FederatedClientId
-	database.FederatedClientId = genruntime.ClonePointerToString(source.FederatedClientId)
-
-	// HighAvailabilityReplicaCount
-	database.HighAvailabilityReplicaCount = genruntime.ClonePointerToInt(source.HighAvailabilityReplicaCount)
-
-	// Identity
-	if source.Identity != nil {
-		var identity DatabaseIdentity
-		err := identity.Initialize_From_DatabaseIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DatabaseIdentity_STATUS() to populate field Identity")
-		}
-		database.Identity = &identity
-	} else {
-		database.Identity = nil
-	}
-
-	// IsLedgerOn
-	if source.IsLedgerOn != nil {
-		isLedgerOn := *source.IsLedgerOn
-		database.IsLedgerOn = &isLedgerOn
-	} else {
-		database.IsLedgerOn = nil
-	}
-
-	// LicenseType
-	if source.LicenseType != nil {
-		licenseType := genruntime.ToEnum(string(*source.LicenseType), databaseProperties_LicenseType_Values)
-		database.LicenseType = &licenseType
-	} else {
-		database.LicenseType = nil
-	}
-
-	// Location
-	database.Location = genruntime.ClonePointerToString(source.Location)
-
-	// LongTermRetentionBackupResourceReference
-	if source.LongTermRetentionBackupResourceId != nil {
-		longTermRetentionBackupResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.LongTermRetentionBackupResourceId)
-		database.LongTermRetentionBackupResourceReference = &longTermRetentionBackupResourceReference
-	} else {
-		database.LongTermRetentionBackupResourceReference = nil
-	}
-
-	// MaintenanceConfigurationId
-	database.MaintenanceConfigurationId = genruntime.ClonePointerToString(source.MaintenanceConfigurationId)
-
-	// MaxSizeBytes
-	database.MaxSizeBytes = genruntime.ClonePointerToInt(source.MaxSizeBytes)
-
-	// MinCapacity
-	if source.MinCapacity != nil {
-		minCapacity := *source.MinCapacity
-		database.MinCapacity = &minCapacity
-	} else {
-		database.MinCapacity = nil
-	}
-
-	// ReadScale
-	if source.ReadScale != nil {
-		readScale := genruntime.ToEnum(string(*source.ReadScale), databaseProperties_ReadScale_Values)
-		database.ReadScale = &readScale
-	} else {
-		database.ReadScale = nil
-	}
-
-	// RecoverableDatabaseReference
-	if source.RecoverableDatabaseId != nil {
-		recoverableDatabaseReference := genruntime.CreateResourceReferenceFromARMID(*source.RecoverableDatabaseId)
-		database.RecoverableDatabaseReference = &recoverableDatabaseReference
-	} else {
-		database.RecoverableDatabaseReference = nil
-	}
-
-	// RecoveryServicesRecoveryPointReference
-	if source.RecoveryServicesRecoveryPointId != nil {
-		recoveryServicesRecoveryPointReference := genruntime.CreateResourceReferenceFromARMID(*source.RecoveryServicesRecoveryPointId)
-		database.RecoveryServicesRecoveryPointReference = &recoveryServicesRecoveryPointReference
-	} else {
-		database.RecoveryServicesRecoveryPointReference = nil
-	}
-
-	// RequestedBackupStorageRedundancy
-	if source.RequestedBackupStorageRedundancy != nil {
-		requestedBackupStorageRedundancy := genruntime.ToEnum(string(*source.RequestedBackupStorageRedundancy), databaseProperties_RequestedBackupStorageRedundancy_Values)
-		database.RequestedBackupStorageRedundancy = &requestedBackupStorageRedundancy
-	} else {
-		database.RequestedBackupStorageRedundancy = nil
-	}
-
-	// RestorableDroppedDatabaseReference
-	if source.RestorableDroppedDatabaseId != nil {
-		restorableDroppedDatabaseReference := genruntime.CreateResourceReferenceFromARMID(*source.RestorableDroppedDatabaseId)
-		database.RestorableDroppedDatabaseReference = &restorableDroppedDatabaseReference
-	} else {
-		database.RestorableDroppedDatabaseReference = nil
-	}
-
-	// RestorePointInTime
-	database.RestorePointInTime = genruntime.ClonePointerToString(source.RestorePointInTime)
-
-	// SampleName
-	if source.SampleName != nil {
-		sampleName := genruntime.ToEnum(string(*source.SampleName), databaseProperties_SampleName_Values)
-		database.SampleName = &sampleName
-	} else {
-		database.SampleName = nil
-	}
-
-	// SecondaryType
-	if source.SecondaryType != nil {
-		secondaryType := genruntime.ToEnum(string(*source.SecondaryType), databaseProperties_SecondaryType_Values)
-		database.SecondaryType = &secondaryType
-	} else {
-		database.SecondaryType = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		database.Sku = &sku
-	} else {
-		database.Sku = nil
-	}
-
-	// SourceDatabaseDeletionDate
-	database.SourceDatabaseDeletionDate = genruntime.ClonePointerToString(source.SourceDatabaseDeletionDate)
-
-	// SourceDatabaseReference
-	if source.SourceDatabaseId != nil {
-		sourceDatabaseReference := genruntime.CreateResourceReferenceFromARMID(*source.SourceDatabaseId)
-		database.SourceDatabaseReference = &sourceDatabaseReference
-	} else {
-		database.SourceDatabaseReference = nil
-	}
-
-	// SourceResourceReference
-	if source.SourceResourceId != nil {
-		sourceResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.SourceResourceId)
-		database.SourceResourceReference = &sourceResourceReference
-	} else {
-		database.SourceResourceReference = nil
-	}
-
-	// Tags
-	database.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// ZoneRedundant
-	if source.ZoneRedundant != nil {
-		zoneRedundant := *source.ZoneRedundant
-		database.ZoneRedundant = &zoneRedundant
-	} else {
-		database.ZoneRedundant = nil
 	}
 
 	// No error
@@ -2947,33 +2753,6 @@ func (identity *DatabaseIdentity) AssignProperties_To_DatabaseIdentity(destinati
 	return nil
 }
 
-// Initialize_From_DatabaseIdentity_STATUS populates our DatabaseIdentity from the provided source DatabaseIdentity_STATUS
-func (identity *DatabaseIdentity) Initialize_From_DatabaseIdentity_STATUS(source *DatabaseIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), databaseIdentity_Type_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Azure Active Directory identity configuration for a resource.
 type DatabaseIdentity_STATUS struct {
 	// TenantId: The Azure Active Directory tenant id.
@@ -3666,28 +3445,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Capacity
-	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// Family
-	sku.Family = genruntime.ClonePointerToString(source.Family)
-
-	// Name
-	sku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Size
-	sku.Size = genruntime.ClonePointerToString(source.Size)
-
-	// Tier
-	sku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil

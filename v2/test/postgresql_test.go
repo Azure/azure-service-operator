@@ -283,7 +283,7 @@ func PostgreSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *postgresql.
 	tc.Expect(conn.Close()).To(Succeed())
 
 	// Update the secret
-	newPassword := tc.Namer.GeneratePassword()
+	newPassword := tc.Namer.GeneratePassword() + ";" // append trailing semicolon as a previously restricted character to ensure password now works
 	newSecret := &v1.Secret{
 		ObjectMeta: userSecret.ObjectMeta,
 		StringData: map[string]string{

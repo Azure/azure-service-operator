@@ -5,8 +5,8 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
-	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	v20250101s "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +41,7 @@ func RunPropertyAssignmentTestForDatabaseIdentity(subject DatabaseIdentity) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.DatabaseIdentity
+	var other v20211101s.DatabaseIdentity
 	err := copied.AssignProperties_To_DatabaseIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -167,7 +167,7 @@ func RunPropertyAssignmentTestForDatabaseIdentity_STATUS(subject DatabaseIdentit
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.DatabaseIdentity_STATUS
+	var other v20211101s.DatabaseIdentity_STATUS
 	err := copied.AssignProperties_To_DatabaseIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -297,7 +297,7 @@ func RunPropertyAssignmentTestForDatabaseUserIdentity_STATUS(subject DatabaseUse
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.DatabaseUserIdentity_STATUS
+	var other v20211101s.DatabaseUserIdentity_STATUS
 	err := copied.AssignProperties_To_DatabaseUserIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -412,7 +412,7 @@ func RunResourceConversionTestForServersDatabase(subject ServersDatabase) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub sql_v20211101s.ServersDatabase
+	var hub v20250101s.ServersDatabase
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -459,7 +459,7 @@ func RunPropertyAssignmentTestForServersDatabase(subject ServersDatabase) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersDatabase
+	var other v20211101s.ServersDatabase
 	err := copied.AssignProperties_To_ServersDatabase(&other)
 	if err != nil {
 		return err.Error()
@@ -572,7 +572,7 @@ func RunPropertyAssignmentTestForServersDatabaseOperatorSpec(subject ServersData
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersDatabaseOperatorSpec
+	var other v20211101s.ServersDatabaseOperatorSpec
 	err := copied.AssignProperties_To_ServersDatabaseOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -679,7 +679,7 @@ func RunPropertyAssignmentTestForServersDatabase_STATUS(subject ServersDatabase_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersDatabase_STATUS
+	var other v20211101s.ServersDatabase_STATUS
 	err := copied.AssignProperties_To_ServersDatabase_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -896,7 +896,7 @@ func RunPropertyAssignmentTestForServersDatabase_Spec(subject ServersDatabase_Sp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersDatabase_Spec
+	var other v20211101s.ServersDatabase_Spec
 	err := copied.AssignProperties_To_ServersDatabase_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1061,7 +1061,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.Sku
+	var other v20211101s.Sku
 	err := copied.AssignProperties_To_Sku(&other)
 	if err != nil {
 		return err.Error()
@@ -1177,7 +1177,7 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.Sku_STATUS
+	var other v20211101s.Sku_STATUS
 	err := copied.AssignProperties_To_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()
