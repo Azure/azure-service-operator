@@ -1,0 +1,7 @@
+{
+  "name": "aso-docs",
+  "private": true,
+  "workspaces": [
+    "packages/hugoautogen"
+  ]
+}

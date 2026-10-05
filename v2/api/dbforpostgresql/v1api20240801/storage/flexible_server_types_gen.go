@@ -5,8 +5,7 @@ package storage
 
 import (
 	"context"
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20240801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -55,22 +54,36 @@ var _ conversion.Convertible = &FlexibleServer{}
 
 // ConvertFrom populates our FlexibleServer from the provided hub FlexibleServer
 func (server *FlexibleServer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FlexibleServer)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v20250801/storage/FlexibleServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FlexibleServer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return server.AssignProperties_From_FlexibleServer(source)
+	err = server.AssignProperties_From_FlexibleServer(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to server")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServer from our FlexibleServer
 func (server *FlexibleServer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FlexibleServer)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v20250801/storage/FlexibleServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FlexibleServer
+	err := server.AssignProperties_To_FlexibleServer(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from server")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return server.AssignProperties_To_FlexibleServer(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FlexibleServer{}
@@ -423,13 +436,6 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 		server.Backup = nil
 	}
 
-	// Cluster
-	if source.Cluster != nil {
-		propertyBag.Add("Cluster", *source.Cluster)
-	} else {
-		propertyBag.Remove("Cluster")
-	}
-
 	// CreateMode
 	server.CreateMode = genruntime.ClonePointerToString(source.CreateMode)
 
@@ -639,19 +645,6 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 		destination.Backup = &backup
 	} else {
 		destination.Backup = nil
-	}
-
-	// Cluster
-	if propertyBag.Contains("Cluster") {
-		var cluster storage.Cluster
-		err := propertyBag.Pull("Cluster", &cluster)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Cluster' from propertyBag")
-		}
-
-		destination.Cluster = &cluster
-	} else {
-		destination.Cluster = nil
 	}
 
 	// CreateMode
@@ -938,13 +931,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 		server.Backup = nil
 	}
 
-	// Cluster
-	if source.Cluster != nil {
-		propertyBag.Add("Cluster", *source.Cluster)
-	} else {
-		propertyBag.Remove("Cluster")
-	}
-
 	// Conditions
 	server.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
@@ -1169,19 +1155,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 		destination.Backup = nil
 	}
 
-	// Cluster
-	if propertyBag.Contains("Cluster") {
-		var cluster storage.Cluster_STATUS
-		err := propertyBag.Pull("Cluster", &cluster)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Cluster' from propertyBag")
-		}
-
-		destination.Cluster = &cluster
-	} else {
-		destination.Cluster = nil
-	}
-
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(server.Conditions)
 
@@ -1404,13 +1377,6 @@ func (config *AuthConfig) AssignProperties_From_AuthConfig(source *storage.AuthC
 	// TenantId
 	config.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
-	// TenantIdFromConfig
-	if source.TenantIdFromConfig != nil {
-		propertyBag.Add("TenantIdFromConfig", *source.TenantIdFromConfig)
-	} else {
-		propertyBag.Remove("TenantIdFromConfig")
-	}
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		config.PropertyBag = propertyBag
@@ -1444,19 +1410,6 @@ func (config *AuthConfig) AssignProperties_To_AuthConfig(destination *storage.Au
 
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(config.TenantId)
-
-	// TenantIdFromConfig
-	if propertyBag.Contains("TenantIdFromConfig") {
-		var tenantIdFromConfig genruntime.ConfigMapReference
-		err := propertyBag.Pull("TenantIdFromConfig", &tenantIdFromConfig)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'TenantIdFromConfig' from propertyBag")
-		}
-
-		destination.TenantIdFromConfig = &tenantIdFromConfig
-	} else {
-		destination.TenantIdFromConfig = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1730,17 +1683,7 @@ func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *s
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// GeoBackupEncryptionKeyStatus
-	if propertyBag.Contains("GeoBackupEncryptionKeyStatus") {
-		var geoBackupEncryptionKeyStatus string
-		err := propertyBag.Pull("GeoBackupEncryptionKeyStatus", &geoBackupEncryptionKeyStatus)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'GeoBackupEncryptionKeyStatus' from propertyBag")
-		}
-
-		encryption.GeoBackupEncryptionKeyStatus = &geoBackupEncryptionKeyStatus
-	} else {
-		encryption.GeoBackupEncryptionKeyStatus = nil
-	}
+	encryption.GeoBackupEncryptionKeyStatus = genruntime.ClonePointerToString(source.GeoBackupEncryptionKeyStatus)
 
 	// GeoBackupKeyURI
 	encryption.GeoBackupKeyURI = genruntime.ClonePointerToString(source.GeoBackupKeyURI)
@@ -1762,17 +1705,7 @@ func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *s
 	}
 
 	// PrimaryEncryptionKeyStatus
-	if propertyBag.Contains("PrimaryEncryptionKeyStatus") {
-		var primaryEncryptionKeyStatus string
-		err := propertyBag.Pull("PrimaryEncryptionKeyStatus", &primaryEncryptionKeyStatus)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PrimaryEncryptionKeyStatus' from propertyBag")
-		}
-
-		encryption.PrimaryEncryptionKeyStatus = &primaryEncryptionKeyStatus
-	} else {
-		encryption.PrimaryEncryptionKeyStatus = nil
-	}
+	encryption.PrimaryEncryptionKeyStatus = genruntime.ClonePointerToString(source.PrimaryEncryptionKeyStatus)
 
 	// PrimaryKeyURI
 	encryption.PrimaryKeyURI = genruntime.ClonePointerToString(source.PrimaryKeyURI)
@@ -1822,11 +1755,7 @@ func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination
 	propertyBag := genruntime.NewPropertyBag(encryption.PropertyBag)
 
 	// GeoBackupEncryptionKeyStatus
-	if encryption.GeoBackupEncryptionKeyStatus != nil {
-		propertyBag.Add("GeoBackupEncryptionKeyStatus", *encryption.GeoBackupEncryptionKeyStatus)
-	} else {
-		propertyBag.Remove("GeoBackupEncryptionKeyStatus")
-	}
+	destination.GeoBackupEncryptionKeyStatus = genruntime.ClonePointerToString(encryption.GeoBackupEncryptionKeyStatus)
 
 	// GeoBackupKeyURI
 	destination.GeoBackupKeyURI = genruntime.ClonePointerToString(encryption.GeoBackupKeyURI)
@@ -1848,11 +1777,7 @@ func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination
 	}
 
 	// PrimaryEncryptionKeyStatus
-	if encryption.PrimaryEncryptionKeyStatus != nil {
-		propertyBag.Add("PrimaryEncryptionKeyStatus", *encryption.PrimaryEncryptionKeyStatus)
-	} else {
-		propertyBag.Remove("PrimaryEncryptionKeyStatus")
-	}
+	destination.PrimaryEncryptionKeyStatus = genruntime.ClonePointerToString(encryption.PrimaryEncryptionKeyStatus)
 
 	// PrimaryKeyURI
 	destination.PrimaryKeyURI = genruntime.ClonePointerToString(encryption.PrimaryKeyURI)

@@ -7,5 +7,9 @@ DomainsTopic: Object (0 properties)
 
 EventSubscription: Object (0 properties)
 
+Namespace: Object (0 properties)
+
+NamespaceTopic: Object (0 properties)
+
 Topic: Object (0 properties)
 

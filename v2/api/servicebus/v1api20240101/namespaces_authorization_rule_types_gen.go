@@ -51,22 +51,36 @@ var _ conversion.Convertible = &NamespacesAuthorizationRule{}
 
 // ConvertFrom populates our NamespacesAuthorizationRule from the provided hub NamespacesAuthorizationRule
 func (rule *NamespacesAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NamespacesAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20240101/storage/NamespacesAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NamespacesAuthorizationRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_NamespacesAuthorizationRule(source)
+	err = rule.AssignProperties_From_NamespacesAuthorizationRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesAuthorizationRule from our NamespacesAuthorizationRule
 func (rule *NamespacesAuthorizationRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NamespacesAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20240101/storage/NamespacesAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NamespacesAuthorizationRule
+	err := rule.AssignProperties_To_NamespacesAuthorizationRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_NamespacesAuthorizationRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &NamespacesAuthorizationRule{}
@@ -87,17 +101,6 @@ func (rule *NamespacesAuthorizationRule) SecretDestinationExpressions() []*core.
 		return nil
 	}
 	return rule.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &NamespacesAuthorizationRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *NamespacesAuthorizationRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*NamespacesAuthorizationRule_STATUS); ok {
-		return rule.Spec.Initialize_From_NamespacesAuthorizationRule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type NamespacesAuthorizationRule_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &NamespacesAuthorizationRule{}
@@ -467,25 +470,6 @@ func (rule *NamespacesAuthorizationRule_Spec) AssignProperties_To_NamespacesAuth
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NamespacesAuthorizationRule_STATUS populates our NamespacesAuthorizationRule_Spec from the provided source NamespacesAuthorizationRule_STATUS
-func (rule *NamespacesAuthorizationRule_Spec) Initialize_From_NamespacesAuthorizationRule_STATUS(source *NamespacesAuthorizationRule_STATUS) error {
-
-	// Rights
-	if source.Rights != nil {
-		rightList := make([]Namespaces_AuthorizationRule_Properties_Rights_Spec, len(source.Rights))
-		for rightIndex, rightItem := range source.Rights {
-			right := genruntime.ToEnum(string(rightItem), namespaces_AuthorizationRule_Properties_Rights_Spec_Values)
-			rightList[rightIndex] = right
-		}
-		rule.Rights = rightList
-	} else {
-		rule.Rights = nil
 	}
 
 	// No error

@@ -149,6 +149,15 @@ installCRDs: true
 # See https://azure.github.io/azure-service-operator/guide/crd-management for more details.
 crdPattern: ""
 
+# leaderElection configures the timings of the leader election lease. Operators watching a large number of
+# resources may need larger values than the defaults: the initial informer sync competes with lease renewal,
+# and a renewal missed during startup restarts the pod, which can leave the operator flapping across replicas.
+# leaseDuration must be greater than renewDeadline, and renewDeadline greater than retryPeriod.
+leaderElection:
+  leaseDuration: 15s
+  renewDeadline: 10s
+  retryPeriod: 2s
+
 # crdLabels is a comma-delimited (or semicolon-delimited) string, or a list of key=value strings, containing
 # additional labels to apply to all CRDs managed by ASO.
 # Setting this has no effect if installCRDs is false.
@@ -235,6 +244,26 @@ resources:
 
 go:
   memLimit: 400MiB # This should be set to ~80-90% of the hard memory limit set above in resources
+
+# probes configures the timings of the operator's liveness, readiness and startup probes.
+# The startup probe is the one most likely to need adjusting. The operator applies its CRDs and starts a
+# controller per installed CRD before it serves /healthz, so on a cluster with a large number of CRDs the default
+# budget of periodSeconds x failureThreshold can expire while it is still working, and the kubelet restarts it
+# mid-apply. Raise failureThreshold in that case.
+# The probe paths and ports are not configurable; only the timings are.
+probes:
+  startup:
+    periodSeconds: 10
+    failureThreshold: 12
+    timeoutSeconds: 1
+  liveness:
+    periodSeconds: 10
+    failureThreshold: 3
+    timeoutSeconds: 1
+  readiness:
+    periodSeconds: 10
+    failureThreshold: 3
+    timeoutSeconds: 1
 
 # Number of old history to retain to allow rollback
 # Default Kubernetes value is set to 10

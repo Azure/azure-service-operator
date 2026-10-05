@@ -6,9 +6,59 @@ package app
 import (
 	"flag"
 	"testing"
+	"time"
 
 	. "github.com/onsi/gomega"
 )
+
+func TestLeaderElectionFlags(t *testing.T) {
+	t.Parallel()
+	g := NewWithT(t)
+	flagSet := flag.NewFlagSet("test", flag.ContinueOnError)
+	flags := InitFlags(flagSet)
+
+	g.Expect(flags.Validate()).To(Succeed())
+
+	g.Expect(flagSet.Parse([]string{"--leader-lease-duration=2m", "--leader-renew-deadline=100s", "--leader-retry-period=20s"})).To(Succeed())
+	g.Expect(flags.LeaseDuration).To(Equal(2 * time.Minute))
+	g.Expect(flags.RenewDeadline).To(Equal(100 * time.Second))
+	g.Expect(flags.RetryPeriod).To(Equal(20 * time.Second))
+	g.Expect(flags.Validate()).To(Succeed())
+}
+
+func TestLeaderElectionFlagsValidation(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		args          []string
+		expectedError string
+	}{
+		"renew deadline at lease duration": {
+			args:          []string{"--leader-lease-duration=10s", "--leader-renew-deadline=10s"},
+			expectedError: "leader-lease-duration (10s) must be greater than leader-renew-deadline (10s)",
+		},
+		"renew deadline beyond lease duration": {
+			args:          []string{"--leader-lease-duration=10s", "--leader-renew-deadline=20s"},
+			expectedError: "leader-lease-duration (10s) must be greater than leader-renew-deadline (20s)",
+		},
+		"retry period at renew deadline": {
+			args:          []string{"--leader-renew-deadline=2s"},
+			expectedError: "leader-renew-deadline (2s) must be greater than leader-retry-period (2s)",
+		},
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewWithT(t)
+			flagSet := flag.NewFlagSet("test", flag.ContinueOnError)
+			flags := InitFlags(flagSet)
+
+			g.Expect(flagSet.Parse(c.args)).To(Succeed())
+			g.Expect(flags.Validate()).To(MatchError(ContainSubstring(c.expectedError)))
+		})
+	}
+}
 
 func TestCRDLabelsFlag(t *testing.T) {
 	t.Parallel()

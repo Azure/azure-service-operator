@@ -1884,6 +1884,11 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_To_ManagedServic
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type WatcherOperatorSpec struct {
+	// AutoStart: Whether the operator starts this watcher once it has a target. ARM creates every watcher stopped and the
+	// operator starts it by default; set this to false to leave starting and stopping it to you, so that a watcher stopped
+	// deliberately is not started again.
+	AutoStart *bool `json:"autoStart,omitempty"`
+
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 
@@ -1893,6 +1898,14 @@ type WatcherOperatorSpec struct {
 
 // AssignProperties_From_WatcherOperatorSpec populates our WatcherOperatorSpec from the provided source WatcherOperatorSpec
 func (operator *WatcherOperatorSpec) AssignProperties_From_WatcherOperatorSpec(source *storage.WatcherOperatorSpec) error {
+
+	// AutoStart
+	if source.AutoStart != nil {
+		autoStart := *source.AutoStart
+		operator.AutoStart = &autoStart
+	} else {
+		operator.AutoStart = nil
+	}
 
 	// ConfigMapExpressions
 	if source.ConfigMapExpressions != nil {
@@ -1934,6 +1947,14 @@ func (operator *WatcherOperatorSpec) AssignProperties_From_WatcherOperatorSpec(s
 func (operator *WatcherOperatorSpec) AssignProperties_To_WatcherOperatorSpec(destination *storage.WatcherOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// AutoStart
+	if operator.AutoStart != nil {
+		autoStart := *operator.AutoStart
+		destination.AutoStart = &autoStart
+	} else {
+		destination.AutoStart = nil
+	}
 
 	// ConfigMapExpressions
 	if operator.ConfigMapExpressions != nil {

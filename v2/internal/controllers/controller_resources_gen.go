@@ -197,12 +197,18 @@ import (
 	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v20211001/storage"
 	containerinstance_v20211001w "github.com/Azure/azure-service-operator/v2/api/containerinstance/v20211001/webhook"
 	containerregistry_customizations "github.com/Azure/azure-service-operator/v2/api/containerregistry/customizations"
-	containerregistry_v20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901"
-	containerregistry_v20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901/storage"
-	containerregistry_v20210901w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901/webhook"
-	containerregistry_v20230701 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701"
-	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
-	containerregistry_v20230701w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/webhook"
+	containerregistry_v1api20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901"
+	containerregistry_v1api20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901/storage"
+	containerregistry_v1api20210901w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901/webhook"
+	containerregistry_v1api20230701 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701"
+	containerregistry_v1api20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
+	containerregistry_v1api20230701w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/webhook"
+	containerregistry_v20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20210901"
+	containerregistry_v20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20210901/storage"
+	containerregistry_v20210901w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20210901/webhook"
+	containerregistry_v20230701 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20230701"
+	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20230701/storage"
+	containerregistry_v20230701w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20230701/webhook"
 	containerregistry_v20251101 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101"
 	containerregistry_v20251101s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/storage"
 	containerregistry_v20251101w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/webhook"
@@ -219,6 +225,9 @@ import (
 	containerservice_v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
 	containerservice_v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
 	containerservice_v20251002pw "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/webhook"
+	containerservice_v20260501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501"
+	containerservice_v20260501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501/storage"
+	containerservice_v20260501w "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501/webhook"
 	databasewatcher_customizations "github.com/Azure/azure-service-operator/v2/api/databasewatcher/customizations"
 	databasewatcher_v20241001p "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview"
 	databasewatcher_v20241001ps "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview/storage"
@@ -275,21 +284,36 @@ import (
 	dbformysql_v20250601ps "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20250601preview/storage"
 	dbformysql_v20250601pw "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20250601preview/webhook"
 	dbforpostgresql_customizations "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/customizations"
-	dbforpostgresql_v20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
-	dbforpostgresql_v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
-	dbforpostgresql_v20210601w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/webhook"
-	dbforpostgresql_v20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview"
-	dbforpostgresql_v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/storage"
-	dbforpostgresql_v20220120pw "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/webhook"
-	dbforpostgresql_v20221201 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201"
-	dbforpostgresql_v20221201s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
-	dbforpostgresql_v20221201w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/webhook"
-	dbforpostgresql_v20230601p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview"
-	dbforpostgresql_v20230601ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/storage"
-	dbforpostgresql_v20230601pw "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/webhook"
-	dbforpostgresql_v20240801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
-	dbforpostgresql_v20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
-	dbforpostgresql_v20240801w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/webhook"
+	dbforpostgresql_v1api20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
+	dbforpostgresql_v1api20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
+	dbforpostgresql_v1api20210601w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/webhook"
+	dbforpostgresql_v1api20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview"
+	dbforpostgresql_v1api20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/storage"
+	dbforpostgresql_v1api20220120pw "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/webhook"
+	dbforpostgresql_v1api20221201 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201"
+	dbforpostgresql_v1api20221201s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
+	dbforpostgresql_v1api20221201w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/webhook"
+	dbforpostgresql_v1api20230601p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview"
+	dbforpostgresql_v1api20230601ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/storage"
+	dbforpostgresql_v1api20230601pw "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/webhook"
+	dbforpostgresql_v1api20240801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801"
+	dbforpostgresql_v1api20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/storage"
+	dbforpostgresql_v1api20240801w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20240801/webhook"
+	dbforpostgresql_v20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20210601"
+	dbforpostgresql_v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20210601/storage"
+	dbforpostgresql_v20210601w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20210601/webhook"
+	dbforpostgresql_v20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20220120preview"
+	dbforpostgresql_v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20220120preview/storage"
+	dbforpostgresql_v20220120pw "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20220120preview/webhook"
+	dbforpostgresql_v20221201 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20221201"
+	dbforpostgresql_v20221201s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20221201/storage"
+	dbforpostgresql_v20221201w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20221201/webhook"
+	dbforpostgresql_v20230601p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20230601preview"
+	dbforpostgresql_v20230601ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20230601preview/storage"
+	dbforpostgresql_v20230601pw "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20230601preview/webhook"
+	dbforpostgresql_v20240801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20240801"
+	dbforpostgresql_v20240801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20240801/storage"
+	dbforpostgresql_v20240801w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20240801/webhook"
 	dbforpostgresql_v20250801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801"
 	dbforpostgresql_v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	dbforpostgresql_v20250801w "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/webhook"
@@ -377,12 +401,15 @@ import (
 	insights_v20250101ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20250101preview/storage"
 	insights_v20250101pw "github.com/Azure/azure-service-operator/v2/api/insights/v1api20250101preview/webhook"
 	keyvault_customizations "github.com/Azure/azure-service-operator/v2/api/keyvault/customizations"
-	keyvault_v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
-	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/storage"
-	keyvault_v20210401pw "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/webhook"
-	keyvault_v20230701 "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701"
-	keyvault_v20230701s "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/storage"
-	keyvault_v20230701w "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/webhook"
+	keyvault_v1api20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
+	keyvault_v1api20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/storage"
+	keyvault_v1api20210401pw "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/webhook"
+	keyvault_v1api20230701 "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701"
+	keyvault_v1api20230701s "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/storage"
+	keyvault_v1api20230701w "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/webhook"
+	keyvault_v20230701 "github.com/Azure/azure-service-operator/v2/api/keyvault/v20230701"
+	keyvault_v20230701s "github.com/Azure/azure-service-operator/v2/api/keyvault/v20230701/storage"
+	keyvault_v20230701w "github.com/Azure/azure-service-operator/v2/api/keyvault/v20230701/webhook"
 	kubernetesconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/customizations"
 	kubernetesconfiguration_v20230501 "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
 	kubernetesconfiguration_v20230501s "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501/storage"
@@ -478,6 +505,9 @@ import (
 	redhatopenshift_v20231122 "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122"
 	redhatopenshift_v20231122s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/storage"
 	redhatopenshift_v20231122w "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/webhook"
+	redhatopenshift_v20260901p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview"
+	redhatopenshift_v20260901ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/storage"
+	redhatopenshift_v20260901pw "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/webhook"
 	resources_customizations "github.com/Azure/azure-service-operator/v2/api/resources/customizations"
 	resources_v20200601 "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	resources_v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
@@ -490,18 +520,30 @@ import (
 	search_v20231101s "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/storage"
 	search_v20231101w "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/webhook"
 	servicebus_customizations "github.com/Azure/azure-service-operator/v2/api/servicebus/customizations"
-	servicebus_v20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
-	servicebus_v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
-	servicebus_v20210101pw "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/webhook"
-	servicebus_v20211101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101"
-	servicebus_v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
-	servicebus_v20211101w "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/webhook"
-	servicebus_v20221001p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview"
-	servicebus_v20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/storage"
-	servicebus_v20221001pw "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/webhook"
-	servicebus_v20240101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101"
-	servicebus_v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
-	servicebus_v20240101w "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/webhook"
+	servicebus_v1api20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
+	servicebus_v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
+	servicebus_v1api20210101pw "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/webhook"
+	servicebus_v1api20211101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101"
+	servicebus_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
+	servicebus_v1api20211101w "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/webhook"
+	servicebus_v1api20221001p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview"
+	servicebus_v1api20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/storage"
+	servicebus_v1api20221001pw "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/webhook"
+	servicebus_v1api20240101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101"
+	servicebus_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v1api20240101w "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/webhook"
+	servicebus_v20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v20210101preview"
+	servicebus_v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v20210101preview/storage"
+	servicebus_v20210101pw "github.com/Azure/azure-service-operator/v2/api/servicebus/v20210101preview/webhook"
+	servicebus_v20211101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v20211101"
+	servicebus_v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v20211101/storage"
+	servicebus_v20211101w "github.com/Azure/azure-service-operator/v2/api/servicebus/v20211101/webhook"
+	servicebus_v20221001p "github.com/Azure/azure-service-operator/v2/api/servicebus/v20221001preview"
+	servicebus_v20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v20221001preview/storage"
+	servicebus_v20221001pw "github.com/Azure/azure-service-operator/v2/api/servicebus/v20221001preview/webhook"
+	servicebus_v20240101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101"
+	servicebus_v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/storage"
+	servicebus_v20240101w "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/webhook"
 	signalrservice_customizations "github.com/Azure/azure-service-operator/v2/api/signalrservice/customizations"
 	signalrservice_v20211001 "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001"
 	signalrservice_v20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/storage"
@@ -1327,21 +1369,22 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsMember)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsUpdateRun)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsUpdateStrategy)})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.MaintenanceConfiguration)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20260501s.IdentityBinding)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20260501s.MaintenanceConfiguration)})
 	result = append(result, &registration.StorageType{
-		Obj: new(containerservice_v20250801s.ManagedCluster),
+		Obj: new(containerservice_v20260501s.ManagedCluster),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.windowsProfile.adminPassword",
 				Func: indexContainerserviceManagedClusterAdminPassword,
 			},
 			{
-				Key:  ".spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig",
-				Func: indexContainerserviceManagedClusterIdentityClientIdFromConfig,
+				Key:  ".spec.securityProfile.defender.securityGating.identities.identity.clientIdFromConfig",
+				Func: indexContainerserviceManagedClusterIdentitiesIdentityClientIdFromConfig,
 			},
 			{
-				Key:  ".spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig",
-				Func: indexContainerserviceManagedClusterIdentityObjectIdFromConfig,
+				Key:  ".spec.securityProfile.defender.securityGating.identities.identity.objectIdFromConfig",
+				Func: indexContainerserviceManagedClusterIdentitiesIdentityObjectIdFromConfig,
 			},
 			{
 				Key:  ".spec.identityProfile.clientIdFromConfig",
@@ -1359,6 +1402,14 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.aadProfile.serverAppSecret",
 				Func: indexContainerserviceManagedClusterServerAppSecret,
 			},
+			{
+				Key:  ".spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig",
+				Func: indexContainerserviceManagedClusterUserAssignedIdentitiesIdentityClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig",
+				Func: indexContainerserviceManagedClusterUserAssignedIdentitiesIdentityObjectIdFromConfig,
+			},
 		},
 		Watches: []registration.Watch{
 			{
@@ -1369,7 +1420,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.servicePrincipalProfile.secret",
 						".spec.windowsProfile.adminPassword",
 					},
-					&containerservice_v20250801s.ManagedClusterList{}),
+					&containerservice_v20260501s.ManagedClusterList{}),
 			},
 			{
 				Type: &v1.ConfigMap{},
@@ -1379,13 +1430,15 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.identityProfile.objectIdFromConfig",
 						".spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig",
 						".spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig",
+						".spec.securityProfile.defender.securityGating.identities.identity.clientIdFromConfig",
+						".spec.securityProfile.defender.securityGating.identities.identity.objectIdFromConfig",
 					},
-					&containerservice_v20250801s.ManagedClusterList{}),
+					&containerservice_v20260501s.ManagedClusterList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.ManagedClustersAgentPool)})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.TrustedAccessRoleBinding)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20260501s.ManagedClustersAgentPool)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20260501s.TrustedAccessRoleBinding)})
 	result = append(result, &registration.StorageType{Obj: new(databasewatcher_v20241001ps.SharedPrivateLink)})
 	result = append(result, &registration.StorageType{
 		Obj: new(databasewatcher_v20241001ps.Target),
@@ -1831,6 +1884,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20250215s.Namespace)})
+	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20250215s.NamespaceTopic)})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20250215s.Topic)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.Namespace)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.NamespacesAuthorizationRule)})
@@ -1851,7 +1906,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(insights_v20240311s.DataCollectionRule)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20240311s.DataCollectionRuleAssociation)})
 	result = append(result, &registration.StorageType{
-		Obj: new(keyvault_v20230701s.Vault),
+		Obj: new(keyvault_v1api20230701s.Vault),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.accessPolicies.applicationIdFromConfig",
@@ -1880,10 +1935,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.accessPolicies.tenantIdFromConfig",
 						".spec.properties.tenantIdFromConfig",
 					},
-					&keyvault_v20230701s.VaultList{}),
+					&keyvault_v1api20230701s.VaultList{}),
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(keyvault_v20230701s.VaultKey)})
 	result = append(result, &registration.StorageType{
 		Obj: new(kubernetesconfiguration_v20241101s.Extension),
 		Indexes: []registration.Index{
@@ -2971,6 +3027,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20260901ps.HcpOpenShiftCluster)})
+	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20260901ps.HcpOpenShiftClustersExternalAuth)})
+	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20260901ps.HcpOpenShiftClustersNodePool)})
 	result = append(result, &registration.StorageType{Obj: new(resources_v20200601s.ResourceGroup)})
 	result = append(result, &registration.StorageType{Obj: new(search_v20231101s.SearchService)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.Namespace)})
@@ -4967,6 +5026,22 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(containerinstance_v20211001s.ContainerGroup)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(containerregistry_v1api20210901.Registry),
+		Defaulter: &containerregistry_v1api20210901w.Registry{},
+		Validator: &containerregistry_v1api20210901w.Registry{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(containerregistry_v1api20210901s.Registry)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(containerregistry_v1api20230701.Registry),
+		Defaulter: &containerregistry_v1api20230701w.Registry{},
+		Validator: &containerregistry_v1api20230701w.Registry{},
+	}, &registration.KnownType{
+		Obj:       new(containerregistry_v1api20230701.RegistryReplication),
+		Defaulter: &containerregistry_v1api20230701w.RegistryReplication{},
+		Validator: &containerregistry_v1api20230701w.RegistryReplication{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(containerregistry_v1api20230701s.Registry)}, &registration.KnownType{Obj: new(containerregistry_v1api20230701s.RegistryReplication)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(containerregistry_v20210901.Registry),
 		Defaulter: &containerregistry_v20210901w.Registry{},
 		Validator: &containerregistry_v20210901w.Registry{},
@@ -5106,6 +5181,40 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedCluster)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedClustersAgentPool)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.TrustedAccessRoleBinding)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(containerservice_v20260501.IdentityBinding),
+			Defaulter: &containerservice_v20260501w.IdentityBinding{},
+			Validator: &containerservice_v20260501w.IdentityBinding{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v20260501.MaintenanceConfiguration),
+			Defaulter: &containerservice_v20260501w.MaintenanceConfiguration{},
+			Validator: &containerservice_v20260501w.MaintenanceConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v20260501.ManagedCluster),
+			Defaulter: &containerservice_v20260501w.ManagedCluster{},
+			Validator: &containerservice_v20260501w.ManagedCluster{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v20260501.ManagedClustersAgentPool),
+			Defaulter: &containerservice_v20260501w.ManagedClustersAgentPool{},
+			Validator: &containerservice_v20260501w.ManagedClustersAgentPool{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerservice_v20260501.TrustedAccessRoleBinding),
+			Defaulter: &containerservice_v20260501w.TrustedAccessRoleBinding{},
+			Validator: &containerservice_v20260501w.TrustedAccessRoleBinding{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(containerservice_v20260501s.IdentityBinding)},
+		&registration.KnownType{Obj: new(containerservice_v20260501s.MaintenanceConfiguration)},
+		&registration.KnownType{Obj: new(containerservice_v20260501s.ManagedCluster)},
+		&registration.KnownType{Obj: new(containerservice_v20260501s.ManagedClustersAgentPool)},
+		&registration.KnownType{Obj: new(containerservice_v20260501s.TrustedAccessRoleBinding)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -5472,6 +5581,164 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(dbformysql_v20250601ps.FlexibleServersConfiguration)},
 		&registration.KnownType{Obj: new(dbformysql_v20250601ps.FlexibleServersDatabase)},
 		&registration.KnownType{Obj: new(dbformysql_v20250601ps.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20210601.FlexibleServer),
+			Defaulter: &dbforpostgresql_v1api20210601w.FlexibleServer{},
+			Validator: &dbforpostgresql_v1api20210601w.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20210601.FlexibleServersConfiguration),
+			Defaulter: &dbforpostgresql_v1api20210601w.FlexibleServersConfiguration{},
+			Validator: &dbforpostgresql_v1api20210601w.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20210601.FlexibleServersDatabase),
+			Defaulter: &dbforpostgresql_v1api20210601w.FlexibleServersDatabase{},
+			Validator: &dbforpostgresql_v1api20210601w.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20210601.FlexibleServersFirewallRule),
+			Defaulter: &dbforpostgresql_v1api20210601w.FlexibleServersFirewallRule{},
+			Validator: &dbforpostgresql_v1api20210601w.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20210601s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20210601s.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20210601s.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20210601s.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20220120p.FlexibleServer),
+			Defaulter: &dbforpostgresql_v1api20220120pw.FlexibleServer{},
+			Validator: &dbforpostgresql_v1api20220120pw.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20220120p.FlexibleServersConfiguration),
+			Defaulter: &dbforpostgresql_v1api20220120pw.FlexibleServersConfiguration{},
+			Validator: &dbforpostgresql_v1api20220120pw.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20220120p.FlexibleServersDatabase),
+			Defaulter: &dbforpostgresql_v1api20220120pw.FlexibleServersDatabase{},
+			Validator: &dbforpostgresql_v1api20220120pw.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20220120p.FlexibleServersFirewallRule),
+			Defaulter: &dbforpostgresql_v1api20220120pw.FlexibleServersFirewallRule{},
+			Validator: &dbforpostgresql_v1api20220120pw.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20220120ps.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20220120ps.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20220120ps.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20220120ps.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20221201.FlexibleServer),
+			Defaulter: &dbforpostgresql_v1api20221201w.FlexibleServer{},
+			Validator: &dbforpostgresql_v1api20221201w.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20221201.FlexibleServersConfiguration),
+			Defaulter: &dbforpostgresql_v1api20221201w.FlexibleServersConfiguration{},
+			Validator: &dbforpostgresql_v1api20221201w.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20221201.FlexibleServersDatabase),
+			Defaulter: &dbforpostgresql_v1api20221201w.FlexibleServersDatabase{},
+			Validator: &dbforpostgresql_v1api20221201w.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20221201.FlexibleServersFirewallRule),
+			Defaulter: &dbforpostgresql_v1api20221201w.FlexibleServersFirewallRule{},
+			Validator: &dbforpostgresql_v1api20221201w.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20221201s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20221201s.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20221201s.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20221201s.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20230601p.FlexibleServer),
+			Defaulter: &dbforpostgresql_v1api20230601pw.FlexibleServer{},
+			Validator: &dbforpostgresql_v1api20230601pw.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20230601p.FlexibleServersConfiguration),
+			Defaulter: &dbforpostgresql_v1api20230601pw.FlexibleServersConfiguration{},
+			Validator: &dbforpostgresql_v1api20230601pw.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20230601p.FlexibleServersDatabase),
+			Defaulter: &dbforpostgresql_v1api20230601pw.FlexibleServersDatabase{},
+			Validator: &dbforpostgresql_v1api20230601pw.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20230601p.FlexibleServersFirewallRule),
+			Defaulter: &dbforpostgresql_v1api20230601pw.FlexibleServersFirewallRule{},
+			Validator: &dbforpostgresql_v1api20230601pw.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20230601ps.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20230601ps.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20230601ps.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20230601ps.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20240801.FlexibleServer),
+			Defaulter: &dbforpostgresql_v1api20240801w.FlexibleServer{},
+			Validator: &dbforpostgresql_v1api20240801w.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20240801.FlexibleServersAdvancedThreatProtectionSettings),
+			Defaulter: &dbforpostgresql_v1api20240801w.FlexibleServersAdvancedThreatProtectionSettings{},
+			Validator: &dbforpostgresql_v1api20240801w.FlexibleServersAdvancedThreatProtectionSettings{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20240801.FlexibleServersBackup),
+			Defaulter: &dbforpostgresql_v1api20240801w.FlexibleServersBackup{},
+			Validator: &dbforpostgresql_v1api20240801w.FlexibleServersBackup{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20240801.FlexibleServersConfiguration),
+			Defaulter: &dbforpostgresql_v1api20240801w.FlexibleServersConfiguration{},
+			Validator: &dbforpostgresql_v1api20240801w.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20240801.FlexibleServersDatabase),
+			Defaulter: &dbforpostgresql_v1api20240801w.FlexibleServersDatabase{},
+			Validator: &dbforpostgresql_v1api20240801w.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20240801.FlexibleServersFirewallRule),
+			Defaulter: &dbforpostgresql_v1api20240801w.FlexibleServersFirewallRule{},
+			Validator: &dbforpostgresql_v1api20240801w.FlexibleServersFirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbforpostgresql_v1api20240801.FlexibleServersVirtualEndpoint),
+			Defaulter: &dbforpostgresql_v1api20240801w.FlexibleServersVirtualEndpoint{},
+			Validator: &dbforpostgresql_v1api20240801w.FlexibleServersVirtualEndpoint{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20240801s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20240801s.FlexibleServersAdvancedThreatProtectionSettings)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20240801s.FlexibleServersBackup)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20240801s.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20240801s.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20240801s.FlexibleServersFirewallRule)},
+		&registration.KnownType{Obj: new(dbforpostgresql_v1api20240801s.FlexibleServersVirtualEndpoint)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -6056,6 +6323,16 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &eventgrid_v20250215w.EventSubscription{},
 		},
 		&registration.KnownType{
+			Obj:       new(eventgrid_v20250215.Namespace),
+			Defaulter: &eventgrid_v20250215w.Namespace{},
+			Validator: &eventgrid_v20250215w.Namespace{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v20250215.NamespaceTopic),
+			Defaulter: &eventgrid_v20250215w.NamespaceTopic{},
+			Validator: &eventgrid_v20250215w.NamespaceTopic{},
+		},
+		&registration.KnownType{
 			Obj:       new(eventgrid_v20250215.Topic),
 			Defaulter: &eventgrid_v20250215w.Topic{},
 			Validator: &eventgrid_v20250215w.Topic{},
@@ -6065,6 +6342,8 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(eventgrid_v20250215s.Domain)},
 		&registration.KnownType{Obj: new(eventgrid_v20250215s.DomainsTopic)},
 		&registration.KnownType{Obj: new(eventgrid_v20250215s.EventSubscription)},
+		&registration.KnownType{Obj: new(eventgrid_v20250215s.Namespace)},
+		&registration.KnownType{Obj: new(eventgrid_v20250215s.NamespaceTopic)},
 		&registration.KnownType{Obj: new(eventgrid_v20250215s.Topic)})
 	result = append(
 		result,
@@ -6249,17 +6528,23 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(insights_v20250101ps.ScheduledQueryRule)})
 	result = append(result, &registration.KnownType{
-		Obj:       new(keyvault_v20210401p.Vault),
-		Defaulter: &keyvault_v20210401pw.Vault{},
-		Validator: &keyvault_v20210401pw.Vault{},
+		Obj:       new(keyvault_v1api20210401p.Vault),
+		Defaulter: &keyvault_v1api20210401pw.Vault{},
+		Validator: &keyvault_v1api20210401pw.Vault{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(keyvault_v20210401ps.Vault)})
+	result = append(result, &registration.KnownType{Obj: new(keyvault_v1api20210401ps.Vault)})
 	result = append(result, &registration.KnownType{
-		Obj:       new(keyvault_v20230701.Vault),
-		Defaulter: &keyvault_v20230701w.Vault{},
-		Validator: &keyvault_v20230701w.Vault{},
+		Obj:       new(keyvault_v1api20230701.Vault),
+		Defaulter: &keyvault_v1api20230701w.Vault{},
+		Validator: &keyvault_v1api20230701w.Vault{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(keyvault_v20230701s.Vault)})
+	result = append(result, &registration.KnownType{Obj: new(keyvault_v1api20230701s.Vault)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(keyvault_v20230701.VaultKey),
+		Defaulter: &keyvault_v20230701w.VaultKey{},
+		Validator: &keyvault_v20230701w.VaultKey{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(keyvault_v20230701s.VaultKey)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(kubernetesconfiguration_v20230501.Extension),
 		Defaulter: &kubernetesconfiguration_v20230501w.Extension{},
@@ -7124,6 +7409,28 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &redhatopenshift_v20231122w.OpenShiftCluster{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(redhatopenshift_v20231122s.OpenShiftCluster)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(redhatopenshift_v20260901p.HcpOpenShiftCluster),
+			Defaulter: &redhatopenshift_v20260901pw.HcpOpenShiftCluster{},
+			Validator: &redhatopenshift_v20260901pw.HcpOpenShiftCluster{},
+		},
+		&registration.KnownType{
+			Obj:       new(redhatopenshift_v20260901p.HcpOpenShiftClustersExternalAuth),
+			Defaulter: &redhatopenshift_v20260901pw.HcpOpenShiftClustersExternalAuth{},
+			Validator: &redhatopenshift_v20260901pw.HcpOpenShiftClustersExternalAuth{},
+		},
+		&registration.KnownType{
+			Obj:       new(redhatopenshift_v20260901p.HcpOpenShiftClustersNodePool),
+			Defaulter: &redhatopenshift_v20260901pw.HcpOpenShiftClustersNodePool{},
+			Validator: &redhatopenshift_v20260901pw.HcpOpenShiftClustersNodePool{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(redhatopenshift_v20260901ps.HcpOpenShiftCluster)},
+		&registration.KnownType{Obj: new(redhatopenshift_v20260901ps.HcpOpenShiftClustersExternalAuth)},
+		&registration.KnownType{Obj: new(redhatopenshift_v20260901ps.HcpOpenShiftClustersNodePool)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(resources_v20200601.ResourceGroup),
 		Defaulter: &resources_v20200601w.ResourceGroup{},
@@ -7142,6 +7449,172 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &search_v20231101w.SearchService{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(search_v20231101s.SearchService)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20210101p.Namespace),
+			Defaulter: &servicebus_v1api20210101pw.Namespace{},
+			Validator: &servicebus_v1api20210101pw.Namespace{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20210101p.NamespacesAuthorizationRule),
+			Defaulter: &servicebus_v1api20210101pw.NamespacesAuthorizationRule{},
+			Validator: &servicebus_v1api20210101pw.NamespacesAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20210101p.NamespacesQueue),
+			Defaulter: &servicebus_v1api20210101pw.NamespacesQueue{},
+			Validator: &servicebus_v1api20210101pw.NamespacesQueue{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20210101p.NamespacesTopic),
+			Defaulter: &servicebus_v1api20210101pw.NamespacesTopic{},
+			Validator: &servicebus_v1api20210101pw.NamespacesTopic{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20210101p.NamespacesTopicsSubscription),
+			Defaulter: &servicebus_v1api20210101pw.NamespacesTopicsSubscription{},
+			Validator: &servicebus_v1api20210101pw.NamespacesTopicsSubscription{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20210101p.NamespacesTopicsSubscriptionsRule),
+			Defaulter: &servicebus_v1api20210101pw.NamespacesTopicsSubscriptionsRule{},
+			Validator: &servicebus_v1api20210101pw.NamespacesTopicsSubscriptionsRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(servicebus_v1api20210101ps.Namespace)},
+		&registration.KnownType{Obj: new(servicebus_v1api20210101ps.NamespacesAuthorizationRule)},
+		&registration.KnownType{Obj: new(servicebus_v1api20210101ps.NamespacesQueue)},
+		&registration.KnownType{Obj: new(servicebus_v1api20210101ps.NamespacesTopic)},
+		&registration.KnownType{Obj: new(servicebus_v1api20210101ps.NamespacesTopicsSubscription)},
+		&registration.KnownType{Obj: new(servicebus_v1api20210101ps.NamespacesTopicsSubscriptionsRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20211101.Namespace),
+			Defaulter: &servicebus_v1api20211101w.Namespace{},
+			Validator: &servicebus_v1api20211101w.Namespace{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20211101.NamespacesAuthorizationRule),
+			Defaulter: &servicebus_v1api20211101w.NamespacesAuthorizationRule{},
+			Validator: &servicebus_v1api20211101w.NamespacesAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20211101.NamespacesQueue),
+			Defaulter: &servicebus_v1api20211101w.NamespacesQueue{},
+			Validator: &servicebus_v1api20211101w.NamespacesQueue{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20211101.NamespacesTopic),
+			Defaulter: &servicebus_v1api20211101w.NamespacesTopic{},
+			Validator: &servicebus_v1api20211101w.NamespacesTopic{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20211101.NamespacesTopicsSubscription),
+			Defaulter: &servicebus_v1api20211101w.NamespacesTopicsSubscription{},
+			Validator: &servicebus_v1api20211101w.NamespacesTopicsSubscription{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20211101.NamespacesTopicsSubscriptionsRule),
+			Defaulter: &servicebus_v1api20211101w.NamespacesTopicsSubscriptionsRule{},
+			Validator: &servicebus_v1api20211101w.NamespacesTopicsSubscriptionsRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(servicebus_v1api20211101s.Namespace)},
+		&registration.KnownType{Obj: new(servicebus_v1api20211101s.NamespacesAuthorizationRule)},
+		&registration.KnownType{Obj: new(servicebus_v1api20211101s.NamespacesQueue)},
+		&registration.KnownType{Obj: new(servicebus_v1api20211101s.NamespacesTopic)},
+		&registration.KnownType{Obj: new(servicebus_v1api20211101s.NamespacesTopicsSubscription)},
+		&registration.KnownType{Obj: new(servicebus_v1api20211101s.NamespacesTopicsSubscriptionsRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20221001p.Namespace),
+			Defaulter: &servicebus_v1api20221001pw.Namespace{},
+			Validator: &servicebus_v1api20221001pw.Namespace{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20221001p.NamespacesAuthorizationRule),
+			Defaulter: &servicebus_v1api20221001pw.NamespacesAuthorizationRule{},
+			Validator: &servicebus_v1api20221001pw.NamespacesAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20221001p.NamespacesQueue),
+			Defaulter: &servicebus_v1api20221001pw.NamespacesQueue{},
+			Validator: &servicebus_v1api20221001pw.NamespacesQueue{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20221001p.NamespacesTopic),
+			Defaulter: &servicebus_v1api20221001pw.NamespacesTopic{},
+			Validator: &servicebus_v1api20221001pw.NamespacesTopic{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20221001p.NamespacesTopicsSubscription),
+			Defaulter: &servicebus_v1api20221001pw.NamespacesTopicsSubscription{},
+			Validator: &servicebus_v1api20221001pw.NamespacesTopicsSubscription{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20221001p.NamespacesTopicsSubscriptionsRule),
+			Defaulter: &servicebus_v1api20221001pw.NamespacesTopicsSubscriptionsRule{},
+			Validator: &servicebus_v1api20221001pw.NamespacesTopicsSubscriptionsRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(servicebus_v1api20221001ps.Namespace)},
+		&registration.KnownType{Obj: new(servicebus_v1api20221001ps.NamespacesAuthorizationRule)},
+		&registration.KnownType{Obj: new(servicebus_v1api20221001ps.NamespacesQueue)},
+		&registration.KnownType{Obj: new(servicebus_v1api20221001ps.NamespacesTopic)},
+		&registration.KnownType{Obj: new(servicebus_v1api20221001ps.NamespacesTopicsSubscription)},
+		&registration.KnownType{Obj: new(servicebus_v1api20221001ps.NamespacesTopicsSubscriptionsRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20240101.Namespace),
+			Defaulter: &servicebus_v1api20240101w.Namespace{},
+			Validator: &servicebus_v1api20240101w.Namespace{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20240101.NamespacesAuthorizationRule),
+			Defaulter: &servicebus_v1api20240101w.NamespacesAuthorizationRule{},
+			Validator: &servicebus_v1api20240101w.NamespacesAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20240101.NamespacesQueue),
+			Defaulter: &servicebus_v1api20240101w.NamespacesQueue{},
+			Validator: &servicebus_v1api20240101w.NamespacesQueue{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20240101.NamespacesTopic),
+			Defaulter: &servicebus_v1api20240101w.NamespacesTopic{},
+			Validator: &servicebus_v1api20240101w.NamespacesTopic{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20240101.NamespacesTopicsSubscription),
+			Defaulter: &servicebus_v1api20240101w.NamespacesTopicsSubscription{},
+			Validator: &servicebus_v1api20240101w.NamespacesTopicsSubscription{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20240101.NamespacesTopicsSubscriptionsRule),
+			Defaulter: &servicebus_v1api20240101w.NamespacesTopicsSubscriptionsRule{},
+			Validator: &servicebus_v1api20240101w.NamespacesTopicsSubscriptionsRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(servicebus_v1api20240101.TopicAuthorizationRule),
+			Defaulter: &servicebus_v1api20240101w.TopicAuthorizationRule{},
+			Validator: &servicebus_v1api20240101w.TopicAuthorizationRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(servicebus_v1api20240101s.Namespace)},
+		&registration.KnownType{Obj: new(servicebus_v1api20240101s.NamespacesAuthorizationRule)},
+		&registration.KnownType{Obj: new(servicebus_v1api20240101s.NamespacesQueue)},
+		&registration.KnownType{Obj: new(servicebus_v1api20240101s.NamespacesTopic)},
+		&registration.KnownType{Obj: new(servicebus_v1api20240101s.NamespacesTopicsSubscription)},
+		&registration.KnownType{Obj: new(servicebus_v1api20240101s.NamespacesTopicsSubscriptionsRule)},
+		&registration.KnownType{Obj: new(servicebus_v1api20240101s.TopicAuthorizationRule)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -8399,6 +8872,10 @@ func createScheme() *runtime.Scheme {
 	_ = containerinstance_v1api20211001s.AddToScheme(scheme)
 	_ = containerinstance_v20211001.AddToScheme(scheme)
 	_ = containerinstance_v20211001s.AddToScheme(scheme)
+	_ = containerregistry_v1api20210901.AddToScheme(scheme)
+	_ = containerregistry_v1api20210901s.AddToScheme(scheme)
+	_ = containerregistry_v1api20230701.AddToScheme(scheme)
+	_ = containerregistry_v1api20230701s.AddToScheme(scheme)
 	_ = containerregistry_v20210901.AddToScheme(scheme)
 	_ = containerregistry_v20210901s.AddToScheme(scheme)
 	_ = containerregistry_v20230701.AddToScheme(scheme)
@@ -8413,6 +8890,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20250801s.AddToScheme(scheme)
 	_ = containerservice_v20251002p.AddToScheme(scheme)
 	_ = containerservice_v20251002ps.AddToScheme(scheme)
+	_ = containerservice_v20260501.AddToScheme(scheme)
+	_ = containerservice_v20260501s.AddToScheme(scheme)
 	_ = databasewatcher_v20241001p.AddToScheme(scheme)
 	_ = databasewatcher_v20241001ps.AddToScheme(scheme)
 	_ = datafactory_v1api20180601.AddToScheme(scheme)
@@ -8447,6 +8926,16 @@ func createScheme() *runtime.Scheme {
 	_ = dbformysql_v20241230s.AddToScheme(scheme)
 	_ = dbformysql_v20250601p.AddToScheme(scheme)
 	_ = dbformysql_v20250601ps.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20210601.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20210601s.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20220120p.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20220120ps.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20221201.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20221201s.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20230601p.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20230601ps.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20240801.AddToScheme(scheme)
+	_ = dbforpostgresql_v1api20240801s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20210601.AddToScheme(scheme)
 	_ = dbforpostgresql_v20210601s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20220120p.AddToScheme(scheme)
@@ -8511,8 +9000,10 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20240311s.AddToScheme(scheme)
 	_ = insights_v20250101p.AddToScheme(scheme)
 	_ = insights_v20250101ps.AddToScheme(scheme)
-	_ = keyvault_v20210401p.AddToScheme(scheme)
-	_ = keyvault_v20210401ps.AddToScheme(scheme)
+	_ = keyvault_v1api20210401p.AddToScheme(scheme)
+	_ = keyvault_v1api20210401ps.AddToScheme(scheme)
+	_ = keyvault_v1api20230701.AddToScheme(scheme)
+	_ = keyvault_v1api20230701s.AddToScheme(scheme)
 	_ = keyvault_v20230701.AddToScheme(scheme)
 	_ = keyvault_v20230701s.AddToScheme(scheme)
 	_ = kubernetesconfiguration_v20230501.AddToScheme(scheme)
@@ -8571,12 +9062,22 @@ func createScheme() *runtime.Scheme {
 	_ = quota_v20250901s.AddToScheme(scheme)
 	_ = redhatopenshift_v20231122.AddToScheme(scheme)
 	_ = redhatopenshift_v20231122s.AddToScheme(scheme)
+	_ = redhatopenshift_v20260901p.AddToScheme(scheme)
+	_ = redhatopenshift_v20260901ps.AddToScheme(scheme)
 	_ = resources_v20200601.AddToScheme(scheme)
 	_ = resources_v20200601s.AddToScheme(scheme)
 	_ = search_v20220901.AddToScheme(scheme)
 	_ = search_v20220901s.AddToScheme(scheme)
 	_ = search_v20231101.AddToScheme(scheme)
 	_ = search_v20231101s.AddToScheme(scheme)
+	_ = servicebus_v1api20210101p.AddToScheme(scheme)
+	_ = servicebus_v1api20210101ps.AddToScheme(scheme)
+	_ = servicebus_v1api20211101.AddToScheme(scheme)
+	_ = servicebus_v1api20211101s.AddToScheme(scheme)
+	_ = servicebus_v1api20221001p.AddToScheme(scheme)
+	_ = servicebus_v1api20221001ps.AddToScheme(scheme)
+	_ = servicebus_v1api20240101.AddToScheme(scheme)
+	_ = servicebus_v1api20240101s.AddToScheme(scheme)
 	_ = servicebus_v20210101p.AddToScheme(scheme)
 	_ = servicebus_v20210101ps.AddToScheme(scheme)
 	_ = servicebus_v20211101.AddToScheme(scheme)
@@ -8716,6 +9217,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &containerservice_customizations.FleetsMemberExtension{})
 	result = append(result, &containerservice_customizations.FleetsUpdateRunExtension{})
 	result = append(result, &containerservice_customizations.FleetsUpdateStrategyExtension{})
+	result = append(result, &containerservice_customizations.IdentityBindingExtension{})
 	result = append(result, &containerservice_customizations.MaintenanceConfigurationExtension{})
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
@@ -8763,6 +9265,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &eventgrid_customizations.DomainExtension{})
 	result = append(result, &eventgrid_customizations.DomainsTopicExtension{})
 	result = append(result, &eventgrid_customizations.EventSubscriptionExtension{})
+	result = append(result, &eventgrid_customizations.NamespaceExtension{})
+	result = append(result, &eventgrid_customizations.NamespaceTopicExtension{})
 	result = append(result, &eventgrid_customizations.TopicExtension{})
 	result = append(result, &eventhub_customizations.NamespaceExtension{})
 	result = append(result, &eventhub_customizations.NamespacesAuthorizationRuleExtension{})
@@ -8783,6 +9287,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &insights_customizations.WebtestExtension{})
 	result = append(result, &insights_customizations.WorkbookExtension{})
 	result = append(result, &keyvault_customizations.VaultExtension{})
+	result = append(result, &keyvault_customizations.VaultKeyExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.ExtensionExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.FluxConfigurationExtension{})
 	result = append(result, &kusto_customizations.ClusterExtension{})
@@ -8860,6 +9365,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &notificationhubs_customizations.NotificationHubsAuthorizationRuleExtension{})
 	result = append(result, &operationalinsights_customizations.WorkspaceExtension{})
 	result = append(result, &quota_customizations.QuotaExtension{})
+	result = append(result, &redhatopenshift_customizations.HcpOpenShiftClusterExtension{})
+	result = append(result, &redhatopenshift_customizations.HcpOpenShiftClustersExternalAuthExtension{})
+	result = append(result, &redhatopenshift_customizations.HcpOpenShiftClustersNodePoolExtension{})
 	result = append(result, &redhatopenshift_customizations.OpenShiftClusterExtension{})
 	result = append(result, &resources_customizations.ResourceGroupExtension{})
 	result = append(result, &search_customizations.SearchServiceExtension{})
@@ -9884,9 +10392,9 @@ func indexContainerregistryRegistryIdentityFromConfig(rawObj client.Object) []st
 	return obj.Spec.Encryption.KeyVaultProperties.IdentityFromConfig.Index()
 }
 
-// indexContainerserviceManagedClusterAdminPassword an index function for containerservice_v20250801s.ManagedCluster .spec.windowsProfile.adminPassword
+// indexContainerserviceManagedClusterAdminPassword an index function for containerservice_v20260501s.ManagedCluster .spec.windowsProfile.adminPassword
 func indexContainerserviceManagedClusterAdminPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
 	if !ok {
 		return nil
 	}
@@ -9899,9 +10407,127 @@ func indexContainerserviceManagedClusterAdminPassword(rawObj client.Object) []st
 	return obj.Spec.WindowsProfile.AdminPassword.Index()
 }
 
-// indexContainerserviceManagedClusterIdentityClientIdFromConfig an index function for containerservice_v20250801s.ManagedCluster .spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig
-func indexContainerserviceManagedClusterIdentityClientIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
+// indexContainerserviceManagedClusterIdentitiesIdentityClientIdFromConfig an index function for containerservice_v20260501s.ManagedCluster .spec.securityProfile.defender.securityGating.identities.identity.clientIdFromConfig
+func indexContainerserviceManagedClusterIdentitiesIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.SecurityProfile == nil {
+		return nil
+	}
+	if obj.Spec.SecurityProfile.Defender == nil {
+		return nil
+	}
+	if obj.Spec.SecurityProfile.Defender.SecurityGating == nil {
+		return nil
+	}
+	for _, identityItem := range obj.Spec.SecurityProfile.Defender.SecurityGating.Identities {
+		if identityItem.Identity == nil {
+			continue
+		}
+		if identityItem.Identity.ClientIdFromConfig == nil {
+			continue
+		}
+		result = append(result, identityItem.Identity.ClientIdFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexContainerserviceManagedClusterIdentitiesIdentityObjectIdFromConfig an index function for containerservice_v20260501s.ManagedCluster .spec.securityProfile.defender.securityGating.identities.identity.objectIdFromConfig
+func indexContainerserviceManagedClusterIdentitiesIdentityObjectIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.SecurityProfile == nil {
+		return nil
+	}
+	if obj.Spec.SecurityProfile.Defender == nil {
+		return nil
+	}
+	if obj.Spec.SecurityProfile.Defender.SecurityGating == nil {
+		return nil
+	}
+	for _, identityItem := range obj.Spec.SecurityProfile.Defender.SecurityGating.Identities {
+		if identityItem.Identity == nil {
+			continue
+		}
+		if identityItem.Identity.ObjectIdFromConfig == nil {
+			continue
+		}
+		result = append(result, identityItem.Identity.ObjectIdFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexContainerserviceManagedClusterIdentityProfileClientIdFromConfig an index function for containerservice_v20260501s.ManagedCluster .spec.identityProfile.clientIdFromConfig
+func indexContainerserviceManagedClusterIdentityProfileClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, value := range obj.Spec.IdentityProfile {
+		if value.ClientIdFromConfig == nil {
+			continue
+		}
+		result = append(result, value.ClientIdFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexContainerserviceManagedClusterIdentityProfileObjectIdFromConfig an index function for containerservice_v20260501s.ManagedCluster .spec.identityProfile.objectIdFromConfig
+func indexContainerserviceManagedClusterIdentityProfileObjectIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, value := range obj.Spec.IdentityProfile {
+		if value.ObjectIdFromConfig == nil {
+			continue
+		}
+		result = append(result, value.ObjectIdFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexContainerserviceManagedClusterSecret an index function for containerservice_v20260501s.ManagedCluster .spec.servicePrincipalProfile.secret
+func indexContainerserviceManagedClusterSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ServicePrincipalProfile == nil {
+		return nil
+	}
+	if obj.Spec.ServicePrincipalProfile.Secret == nil {
+		return nil
+	}
+	return obj.Spec.ServicePrincipalProfile.Secret.Index()
+}
+
+// indexContainerserviceManagedClusterServerAppSecret an index function for containerservice_v20260501s.ManagedCluster .spec.aadProfile.serverAppSecret
+func indexContainerserviceManagedClusterServerAppSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AadProfile == nil {
+		return nil
+	}
+	if obj.Spec.AadProfile.ServerAppSecret == nil {
+		return nil
+	}
+	return obj.Spec.AadProfile.ServerAppSecret.Index()
+}
+
+// indexContainerserviceManagedClusterUserAssignedIdentitiesIdentityClientIdFromConfig an index function for containerservice_v20260501s.ManagedCluster .spec.podIdentityProfile.userAssignedIdentities.identity.clientIdFromConfig
+func indexContainerserviceManagedClusterUserAssignedIdentitiesIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
 	if !ok {
 		return nil
 	}
@@ -9921,9 +10547,9 @@ func indexContainerserviceManagedClusterIdentityClientIdFromConfig(rawObj client
 	return result
 }
 
-// indexContainerserviceManagedClusterIdentityObjectIdFromConfig an index function for containerservice_v20250801s.ManagedCluster .spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig
-func indexContainerserviceManagedClusterIdentityObjectIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
+// indexContainerserviceManagedClusterUserAssignedIdentitiesIdentityObjectIdFromConfig an index function for containerservice_v20260501s.ManagedCluster .spec.podIdentityProfile.userAssignedIdentities.identity.objectIdFromConfig
+func indexContainerserviceManagedClusterUserAssignedIdentitiesIdentityObjectIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20260501s.ManagedCluster)
 	if !ok {
 		return nil
 	}
@@ -9941,68 +10567,6 @@ func indexContainerserviceManagedClusterIdentityObjectIdFromConfig(rawObj client
 		result = append(result, userAssignedIdentityItem.Identity.ObjectIdFromConfig.Index()...)
 	}
 	return result
-}
-
-// indexContainerserviceManagedClusterIdentityProfileClientIdFromConfig an index function for containerservice_v20250801s.ManagedCluster .spec.identityProfile.clientIdFromConfig
-func indexContainerserviceManagedClusterIdentityProfileClientIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
-	if !ok {
-		return nil
-	}
-	var result []string
-	for _, value := range obj.Spec.IdentityProfile {
-		if value.ClientIdFromConfig == nil {
-			continue
-		}
-		result = append(result, value.ClientIdFromConfig.Index()...)
-	}
-	return result
-}
-
-// indexContainerserviceManagedClusterIdentityProfileObjectIdFromConfig an index function for containerservice_v20250801s.ManagedCluster .spec.identityProfile.objectIdFromConfig
-func indexContainerserviceManagedClusterIdentityProfileObjectIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
-	if !ok {
-		return nil
-	}
-	var result []string
-	for _, value := range obj.Spec.IdentityProfile {
-		if value.ObjectIdFromConfig == nil {
-			continue
-		}
-		result = append(result, value.ObjectIdFromConfig.Index()...)
-	}
-	return result
-}
-
-// indexContainerserviceManagedClusterSecret an index function for containerservice_v20250801s.ManagedCluster .spec.servicePrincipalProfile.secret
-func indexContainerserviceManagedClusterSecret(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.ServicePrincipalProfile == nil {
-		return nil
-	}
-	if obj.Spec.ServicePrincipalProfile.Secret == nil {
-		return nil
-	}
-	return obj.Spec.ServicePrincipalProfile.Secret.Index()
-}
-
-// indexContainerserviceManagedClusterServerAppSecret an index function for containerservice_v20250801s.ManagedCluster .spec.aadProfile.serverAppSecret
-func indexContainerserviceManagedClusterServerAppSecret(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.AadProfile == nil {
-		return nil
-	}
-	if obj.Spec.AadProfile.ServerAppSecret == nil {
-		return nil
-	}
-	return obj.Spec.AadProfile.ServerAppSecret.Index()
 }
 
 // indexDatabasewatcherTargetSqlDbConnectionServerNameFromConfig an index function for databasewatcher_v20241001ps.Target .spec.properties.sqlDb.connectionServerNameFromConfig
@@ -10704,9 +11268,9 @@ func indexEventgridEventSubscriptionQueueNameFromConfig(rawObj client.Object) []
 	return obj.Spec.Destination.StorageQueue.QueueNameFromConfig.Index()
 }
 
-// indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.accessPolicies.applicationIdFromConfig
+// indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig an index function for keyvault_v1api20230701s.Vault .spec.properties.accessPolicies.applicationIdFromConfig
 func indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
+	obj, ok := rawObj.(*keyvault_v1api20230701s.Vault)
 	if !ok {
 		return nil
 	}
@@ -10723,9 +11287,9 @@ func indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig(rawObj cl
 	return result
 }
 
-// indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.accessPolicies.objectIdFromConfig
+// indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig an index function for keyvault_v1api20230701s.Vault .spec.properties.accessPolicies.objectIdFromConfig
 func indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
+	obj, ok := rawObj.(*keyvault_v1api20230701s.Vault)
 	if !ok {
 		return nil
 	}
@@ -10742,9 +11306,9 @@ func indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig(rawObj client.
 	return result
 }
 
-// indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.accessPolicies.tenantIdFromConfig
+// indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig an index function for keyvault_v1api20230701s.Vault .spec.properties.accessPolicies.tenantIdFromConfig
 func indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
+	obj, ok := rawObj.(*keyvault_v1api20230701s.Vault)
 	if !ok {
 		return nil
 	}
@@ -10761,9 +11325,9 @@ func indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig(rawObj client.
 	return result
 }
 
-// indexKeyvaultVaultPropertiesTenantIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.tenantIdFromConfig
+// indexKeyvaultVaultPropertiesTenantIdFromConfig an index function for keyvault_v1api20230701s.Vault .spec.properties.tenantIdFromConfig
 func indexKeyvaultVaultPropertiesTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
+	obj, ok := rawObj.(*keyvault_v1api20230701s.Vault)
 	if !ok {
 		return nil
 	}
