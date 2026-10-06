@@ -94,9 +94,11 @@ type UserSpec struct {
 	// db_ddladmin, db_datawriter, db_datareader, db_denydatawriter, and db_denydatareader.
 	Roles []string `json:"roles,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// LocalUser contains details for creating a standard (non-aad) Azure SQL User
 	LocalUser *LocalUserSpec `json:"localUser,omitempty"`
+
+	// AADUser contains details for creating an AAD user.
+	AADUser *AADUserSpec `json:"aadUser,omitempty"`
 }
 
 // OriginalVersion returns the original API version used to create the resource.
@@ -142,6 +144,27 @@ type LocalUserSpec struct {
 	// +kubebuilder:validation:Required
 	// Password is the password to use for the user
 	Password *genruntime.SecretReference `json:"password,omitempty"`
+}
+
+// AADUserSpec defines the specification for an Azure AD user.
+// When creating an AAD user, the AzureName must match the identity name in Azure AD:
+//   - For managed identity: "my-managed-identity-name"
+//   - For service principal: "my-app-name"
+//   - For standard AAD user: "user@domain.onmicrosoft.com"
+//   - For AAD group: "my-group-name"
+type AADUserSpec struct {
+	// Alias overrides AzureName for the database user name.
+	// Use when AzureName exceeds 128 characters (Azure SQL Server limit).
+	// +kubebuilder:validation:MaxLength=128
+	Alias string `json:"alias,omitempty"`
+
+	// ServerAdminUsername is the username of the Server administrator. If your server admin was configured with
+	// Azure Service Operator, this should match the value of the Administrator's $.spec.login field. If the
+	// administrator is a group, the ServerAdminUsername should be the group name, not the actual username of the
+	// identity to log in with. For example if the administrator group is "admin-group" and identity "my-identity" is
+	// a member of that group, the ServerAdminUsername should be "admin-group".
+	// +kubebuilder:validation:Required
+	ServerAdminUsername string `json:"serverAdminUsername,omitempty"`
 }
 
 type UserStatus struct {
