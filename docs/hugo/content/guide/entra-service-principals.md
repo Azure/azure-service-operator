@@ -53,4 +53,4 @@ spec:
     creationMode: AdoptOnly
 ```
 
-`spec.displayName` can update a principal, but only if creationMode is AdoptOrCreate; under creationMode AdoptOnly, updates are never applied (ASO is purely read/only).
+`spec.displayName` can update a principal, but only if creationMode is AdoptOrCreate; under creationMode AdoptOnly, updates are never applied (ASO is purely read-only).
