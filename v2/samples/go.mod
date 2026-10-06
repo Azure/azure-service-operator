@@ -15,7 +15,7 @@ require (
 require (
 	cel.dev/expr v0.25.2 // indirect
 	filippo.io/edwards25519 v1.2.0 // indirect
-	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.23.1 // indirect
+	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.23.2 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.14.1 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/internal v1.12.0 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement/v2 v2.1.0 // indirect
@@ -61,7 +61,7 @@ require (
 	github.com/fxamacker/cbor/v2 v2.9.1 // indirect
 	github.com/go-logr/logr v1.4.4 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
-	github.com/go-openapi/jsonpointer v1.0.1 // indirect
+	github.com/go-openapi/jsonpointer v1.0.2 // indirect
 	github.com/go-openapi/jsonreference v1.0.0 // indirect
 	github.com/go-openapi/swag v0.27.1 // indirect
 	github.com/go-openapi/swag/cmdutils v0.27.1 // indirect
@@ -92,8 +92,8 @@ require (
 	github.com/jellydator/ttlcache/v3 v3.4.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect
-	github.com/microsoft/go-mssqldb v1.11.0 // indirect
-	github.com/microsoft/kiota-abstractions-go v1.11.0 // indirect
+	github.com/microsoft/go-mssqldb v1.11.2 // indirect
+	github.com/microsoft/kiota-abstractions-go v1.11.1 // indirect
 	github.com/microsoft/kiota-authentication-azure-go v1.3.1 // indirect
 	github.com/microsoft/kiota-http-go v1.5.6 // indirect
 	github.com/microsoft/kiota-serialization-form-go v1.1.3 // indirect
