@@ -28,6 +28,22 @@ type sampleResource struct {
 
 var _ genruntime.ARMMetaObject = &sampleResource{}
 
+func Test_IsSampleFileExcluded_SQLAADOnly(t *testing.T) {
+	t.Parallel()
+
+	for _, version := range []string{"v1api20211101", "v20211101", "v20250101"} {
+		for _, resource := range []string{"serversadministrator", "serversazureadonlyauthentication"} {
+			t.Run(version+"/"+resource, func(t *testing.T) {
+				t.Parallel()
+				g := NewGomegaWithT(t)
+				file := version + "_" + resource + ".yaml"
+				g.Expect(IsSampleFileExcluded("../../samples/sql/" + version + "/" + file)).To(BeTrue())
+				g.Expect(IsSampleFileExcluded("../../samples/sql/aadonly/" + version + "/" + file)).To(BeFalse())
+			})
+		}
+	}
+}
+
 func Test_SamplesTester_UpdatesFieldsForTest(t *testing.T) {
 	t.Parallel()
 

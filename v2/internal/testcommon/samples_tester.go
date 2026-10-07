@@ -82,10 +82,10 @@ var exclusions = []*regexp.Regexp{
 	// Older versions only pass because their recordings predate this service-side validation.
 	regexp.MustCompile(`dbforpostgresql/.*_flexibleserversvirtualendpoint.yaml`),
 
-	// Excluding sql serversadministrator and serversazureadonlyauthentication as they both require AAD auth
-	// which the samples recordings aren't using.
-	regexp.MustCompile(`sql/.*_serversadministrator.yaml`),
-	regexp.MustCompile(`sql/.*_serversazureadonlyauthentication.yaml`),
+	// The general SQL samples don't configure these separate AAD resources.
+	// Dedicated scenarios such as sql/aadonly do test them.
+	regexp.MustCompile(`sql/v[^/]+/.*_serversadministrator.yaml`),
+	regexp.MustCompile(`sql/v[^/]+/.*_serversazureadonlyauthentication.yaml`),
 
 	// Requires creating multiple linked SQL servers which is hard to do in the samples
 	regexp.MustCompile(`sql/.*_serversfailovergroup.yaml`),
