@@ -2,13 +2,13 @@
 
 ## Resources
 
-| v1api20210901/storage | v20210901/storage |  Status   | Notes |
-|:----------------------|:------------------|:---------:|:------|
-| Registry              | Registry          | Identical |       |
+| v20210901/storage | v20230701/storage |  Status   | Notes |
+|:------------------|:------------------|:---------:|:------|
+| Registry          | Registry          | Identical |       |
 
 ## Objects
 
-| v1api20210901/storage            | v20210901/storage                |  Status   | Notes |
+| v20210901/storage                | v20230701/storage                |  Status   | Notes |
 |:---------------------------------|:---------------------------------|:---------:|:------|
 | EncryptionProperty               | EncryptionProperty               | Identical |       |
 | EncryptionProperty_STATUS        | EncryptionProperty_STATUS        | Identical |       |
@@ -16,9 +16,9 @@
 | ExportPolicy_STATUS              | ExportPolicy_STATUS              | Identical |       |
 | IPRule                           | IPRule                           | Identical |       |
 | IPRule_STATUS                    | IPRule_STATUS                    | Identical |       |
-| IdentityProperties               | IdentityProperties               | Identical |       |
+| IdentityProperties               | IdentityProperties               | Modified  |       |
 | IdentityProperties_STATUS        | IdentityProperties_STATUS        | Identical |       |
-| KeyVaultProperties               | KeyVaultProperties               | Identical |       |
+| KeyVaultProperties               | KeyVaultProperties               | Extended  |       |
 | KeyVaultProperties_STATUS        | KeyVaultProperties_STATUS        | Identical |       |
 | NetworkRuleSet                   | NetworkRuleSet                   | Identical |       |
 | NetworkRuleSet_STATUS            | NetworkRuleSet_STATUS            | Identical |       |
@@ -49,3 +49,26 @@
 * **Renamed**: A configured rename links the old and new names.
 * **Extended**: The newer type only adds properties.
 * **Modified**: Properties were retired, renamed, or changed type.
+
+### IdentityProperties
+
+3 x Identical, 2 x Retired
+
+| v20210901/storage      |                               | v20230701/storage      |                               |  Status   | Notes |
+|:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
+| PrincipalId            | *string                       |                        |                               |  Retired  |       |
+| PropertyBag            | genruntime.PropertyBag        | PropertyBag            | genruntime.PropertyBag        | Identical |       |
+| TenantId               | *string                       |                        |                               |  Retired  |       |
+| Type                   | *string                       | Type                   | *string                       | Identical |       |
+| UserAssignedIdentities | UserAssignedIdentityDetails[] | UserAssignedIdentities | UserAssignedIdentityDetails[] | Identical |       |
+
+### KeyVaultProperties
+
+3 x Identical, 1 x New
+
+| v20210901/storage |                        | v20230701/storage  |                                |  Status   | Notes |
+|:------------------|:-----------------------|:-------------------|:-------------------------------|:---------:|:------|
+| Identity          | *string                | Identity           | *string                        | Identical |       |
+|                   |                        | IdentityFromConfig | *genruntime.ConfigMapReference |    New    |       |
+| KeyIdentifier     | *string                | KeyIdentifier      | *string                        | Identical |       |
+| PropertyBag       | genruntime.PropertyBag | PropertyBag        | genruntime.PropertyBag         | Identical |       |

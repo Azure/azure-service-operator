@@ -394,10 +394,11 @@
 
 ### WatcherOperatorSpec
 
-2 x Identical, 1 x New
+3 x Identical, 1 x New
 
 | v20241001preview     |                               | v20241001preview/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
+| AutoStart            | *bool                         | AutoStart                | *bool                         | Identical |       |
 | ConfigMapExpressions | *core.DestinationExpression[] | ConfigMapExpressions     | *core.DestinationExpression[] | Identical |       |
 |                      |                               | PropertyBag              | genruntime.PropertyBag        |    New    |       |
 | SecretExpressions    | *core.DestinationExpression[] | SecretExpressions        | *core.DestinationExpression[] | Identical |       |

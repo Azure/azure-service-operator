@@ -2,7 +2,7 @@
 
 ## Resources
 
-| v1api20211101/storage             | v20211101/storage                 |  Status   | Notes |
+| v1api20240101/storage             | v20240101/storage                 |  Status   | Notes |
 |:----------------------------------|:----------------------------------|:---------:|:------|
 | Namespace                         | Namespace                         | Identical |       |
 | NamespacesAuthorizationRule       | NamespacesAuthorizationRule       | Identical |       |
@@ -10,10 +10,11 @@
 | NamespacesTopic                   | NamespacesTopic                   | Identical |       |
 | NamespacesTopicsSubscription      | NamespacesTopicsSubscription      | Identical |       |
 | NamespacesTopicsSubscriptionsRule | NamespacesTopicsSubscriptionsRule | Identical |       |
+| TopicAuthorizationRule            | TopicAuthorizationRule            | Identical |       |
 
 ## Objects
 
-| v1api20211101/storage                         | v20211101/storage                             |  Status   | Notes |
+| v1api20240101/storage                         | v20240101/storage                             |  Status   | Notes |
 |:----------------------------------------------|:----------------------------------------------|:---------:|:------|
 | Action                                        | Action                                        | Identical |       |
 | Action_STATUS                                 | Action_STATUS                                 | Identical |       |
@@ -54,6 +55,10 @@
 | SqlFilter                                     | SqlFilter                                     | Identical |       |
 | SqlFilter_STATUS                              | SqlFilter_STATUS                              | Identical |       |
 | SystemData_STATUS                             | SystemData_STATUS                             | Identical |       |
+| TopicAuthorizationRuleOperatorSecrets         | TopicAuthorizationRuleOperatorSecrets         | Identical |       |
+| TopicAuthorizationRuleOperatorSpec            | TopicAuthorizationRuleOperatorSpec            | Identical |       |
+| TopicAuthorizationRule_STATUS                 | TopicAuthorizationRule_STATUS                 | Identical |       |
+| TopicAuthorizationRule_Spec                   | TopicAuthorizationRule_Spec                   | Identical |       |
 | UserAssignedIdentityDetails                   | UserAssignedIdentityDetails                   | Identical |       |
 | UserAssignedIdentityProperties                | UserAssignedIdentityProperties                | Identical |       |
 | UserAssignedIdentityProperties_STATUS         | UserAssignedIdentityProperties_STATUS         | Identical |       |

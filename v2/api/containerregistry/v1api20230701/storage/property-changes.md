@@ -2,13 +2,14 @@
 
 ## Resources
 
-| v1api20210901/storage | v20210901/storage |  Status   | Notes |
-|:----------------------|:------------------|:---------:|:------|
-| Registry              | Registry          | Identical |       |
+| v1api20230701/storage | v20230701/storage   |  Status   | Notes |
+|:----------------------|:--------------------|:---------:|:------|
+| Registry              | Registry            | Identical |       |
+| RegistryReplication   | RegistryReplication | Identical |       |
 
 ## Objects
 
-| v1api20210901/storage            | v20210901/storage                |  Status   | Notes |
+| v1api20230701/storage            | v20230701/storage                |  Status   | Notes |
 |:---------------------------------|:---------------------------------|:---------:|:------|
 | EncryptionProperty               | EncryptionProperty               | Identical |       |
 | EncryptionProperty_STATUS        | EncryptionProperty_STATUS        | Identical |       |
@@ -28,6 +29,9 @@
 | QuarantinePolicy                 | QuarantinePolicy                 | Identical |       |
 | QuarantinePolicy_STATUS          | QuarantinePolicy_STATUS          | Identical |       |
 | RegistryOperatorSpec             | RegistryOperatorSpec             | Identical |       |
+| RegistryReplicationOperatorSpec  | RegistryReplicationOperatorSpec  | Identical |       |
+| RegistryReplication_STATUS       | RegistryReplication_STATUS       | Identical |       |
+| RegistryReplication_Spec         | RegistryReplication_Spec         | Identical |       |
 | Registry_STATUS                  | Registry_STATUS                  | Identical |       |
 | Registry_Spec                    | Registry_Spec                    | Identical |       |
 | RetentionPolicy                  | RetentionPolicy                  | Identical |       |

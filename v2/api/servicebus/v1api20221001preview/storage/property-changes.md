@@ -2,7 +2,7 @@
 
 ## Resources
 
-| v1api20221001preview/storage      | v1api20211101/storage             |  Status   | Notes |
+| v1api20221001preview/storage      | v20221001preview/storage          |  Status   | Notes |
 |:----------------------------------|:----------------------------------|:---------:|:------|
 | Namespace                         | Namespace                         | Identical |       |
 | NamespacesAuthorizationRule       | NamespacesAuthorizationRule       | Identical |       |
@@ -13,7 +13,7 @@
 
 ## Objects
 
-| v1api20221001preview/storage                  | v1api20211101/storage                         |  Status   | Notes |
+| v1api20221001preview/storage                  | v20221001preview/storage                      |  Status   | Notes |
 |:----------------------------------------------|:----------------------------------------------|:---------:|:------|
 | Action                                        | Action                                        | Identical |       |
 | Action_STATUS                                 | Action_STATUS                                 | Identical |       |
@@ -28,8 +28,8 @@
 | MessageCountDetails_STATUS                    | MessageCountDetails_STATUS                    | Identical |       |
 | NamespaceOperatorSecrets                      | NamespaceOperatorSecrets                      | Identical |       |
 | NamespaceOperatorSpec                         | NamespaceOperatorSpec                         | Identical |       |
-| Namespace_STATUS                              | Namespace_STATUS                              | Modified  |       |
-| Namespace_Spec                                | Namespace_Spec                                | Modified  |       |
+| Namespace_STATUS                              | Namespace_STATUS                              | Identical |       |
+| Namespace_Spec                                | Namespace_Spec                                | Identical |       |
 | NamespacesAuthorizationRuleOperatorSecrets    | NamespacesAuthorizationRuleOperatorSecrets    | Identical |       |
 | NamespacesAuthorizationRuleOperatorSpec       | NamespacesAuthorizationRuleOperatorSpec       | Identical |       |
 | NamespacesAuthorizationRule_STATUS            | NamespacesAuthorizationRule_STATUS            | Identical |       |
@@ -67,57 +67,3 @@
 * **Renamed**: A configured rename links the old and new names.
 * **Extended**: The newer type only adds properties.
 * **Modified**: Properties were retired, renamed, or changed type.
-
-### Namespace_STATUS
-
-21 x Identical, 3 x Retired
-
-| v1api20221001preview/storage |                                    | v1api20211101/storage      |                                    |  Status   | Notes |
-|:-----------------------------|:-----------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
-| AlternateName                | *string                            | AlternateName              | *string                            | Identical |       |
-| Conditions                   | conditions.Condition[]             | Conditions                 | conditions.Condition[]             | Identical |       |
-| CreatedAt                    | *string                            | CreatedAt                  | *string                            | Identical |       |
-| DisableLocalAuth             | *bool                              | DisableLocalAuth           | *bool                              | Identical |       |
-| Encryption                   | *Encryption_STATUS                 | Encryption                 | *Encryption_STATUS                 | Identical |       |
-| Id                           | *string                            | Id                         | *string                            | Identical |       |
-| Identity                     | *Identity_STATUS                   | Identity                   | *Identity_STATUS                   | Identical |       |
-| Location                     | *string                            | Location                   | *string                            | Identical |       |
-| MetricId                     | *string                            | MetricId                   | *string                            | Identical |       |
-| MinimumTlsVersion            | *string                            |                            |                                    |  Retired  |       |
-| Name                         | *string                            | Name                       | *string                            | Identical |       |
-| PremiumMessagingPartitions   | *int                               |                            |                                    |  Retired  |       |
-| PrivateEndpointConnections   | PrivateEndpointConnection_STATUS[] | PrivateEndpointConnections | PrivateEndpointConnection_STATUS[] | Identical |       |
-| PropertyBag                  | genruntime.PropertyBag             | PropertyBag                | genruntime.PropertyBag             | Identical |       |
-| ProvisioningState            | *string                            | ProvisioningState          | *string                            | Identical |       |
-| PublicNetworkAccess          | *string                            |                            |                                    |  Retired  |       |
-| ServiceBusEndpoint           | *string                            | ServiceBusEndpoint         | *string                            | Identical |       |
-| Sku                          | *SBSku_STATUS                      | Sku                        | *SBSku_STATUS                      | Identical |       |
-| Status                       | *string                            | Status                     | *string                            | Identical |       |
-| SystemData                   | *SystemData_STATUS                 | SystemData                 | *SystemData_STATUS                 | Identical |       |
-| Tags                         | map[string]string                  | Tags                       | map[string]string                  | Identical |       |
-| Type                         | *string                            | Type                       | *string                            | Identical |       |
-| UpdatedAt                    | *string                            | UpdatedAt                  | *string                            | Identical |       |
-| ZoneRedundant                | *bool                              | ZoneRedundant              | *bool                              | Identical |       |
-
-### Namespace_Spec
-
-13 x Identical, 3 x Retired
-
-| v1api20221001preview/storage |                                    | v1api20211101/storage |                                    |  Status   | Notes |
-|:-----------------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
-| AlternateName                | *string                            | AlternateName         | *string                            | Identical |       |
-| AzureName                    | string                             | AzureName             | string                             | Identical |       |
-| DisableLocalAuth             | *bool                              | DisableLocalAuth      | *bool                              | Identical |       |
-| Encryption                   | *Encryption                        | Encryption            | *Encryption                        | Identical |       |
-| Identity                     | *Identity                          | Identity              | *Identity                          | Identical |       |
-| Location                     | *string                            | Location              | *string                            | Identical |       |
-| MinimumTlsVersion            | *string                            |                       |                                    |  Retired  |       |
-| OperatorSpec                 | *NamespaceOperatorSpec             | OperatorSpec          | *NamespaceOperatorSpec             | Identical |       |
-| OriginalVersion              | string                             | OriginalVersion       | string                             | Identical |       |
-| Owner                        | *genruntime.KnownResourceReference | Owner                 | *genruntime.KnownResourceReference | Identical |       |
-| PremiumMessagingPartitions   | *int                               |                       |                                    |  Retired  |       |
-| PropertyBag                  | genruntime.PropertyBag             | PropertyBag           | genruntime.PropertyBag             | Identical |       |
-| PublicNetworkAccess          | *string                            |                       |                                    |  Retired  |       |
-| Sku                          | *SBSku                             | Sku                   | *SBSku                             | Identical |       |
-| Tags                         | map[string]string                  | Tags                  | map[string]string                  | Identical |       |
-| ZoneRedundant                | *bool                              | ZoneRedundant         | *bool                              | Identical |       |

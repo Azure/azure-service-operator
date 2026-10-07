@@ -2,7 +2,7 @@
 
 ## Resources
 
-| v1api20220120preview/storage | v20220120preview/storage     |  Status   | Notes |
+| v20220120preview/storage     | v20210601/storage            |  Status   | Notes |
 |:-----------------------------|:-----------------------------|:---------:|:------|
 | FlexibleServer               | FlexibleServer               | Identical |       |
 | FlexibleServersConfiguration | FlexibleServersConfiguration | Identical |       |
@@ -11,13 +11,13 @@
 
 ## Objects
 
-| v1api20220120preview/storage             | v20220120preview/storage                 |  Status   | Notes |
+| v20220120preview/storage                 | v20210601/storage                        |  Status   | Notes |
 |:-----------------------------------------|:-----------------------------------------|:---------:|:------|
 | Backup                                   | Backup                                   | Identical |       |
 | Backup_STATUS                            | Backup_STATUS                            | Identical |       |
-| FlexibleServerOperatorConfigMaps         | FlexibleServerOperatorConfigMaps         | Identical |       |
+| FlexibleServerOperatorConfigMaps         |                                          |  Retired  |       |
 | FlexibleServerOperatorSecrets            | FlexibleServerOperatorSecrets            | Identical |       |
-| FlexibleServerOperatorSpec               | FlexibleServerOperatorSpec               | Identical |       |
+| FlexibleServerOperatorSpec               | FlexibleServerOperatorSpec               | Modified  |       |
 | FlexibleServer_STATUS                    | FlexibleServer_STATUS                    | Identical |       |
 | FlexibleServer_Spec                      | FlexibleServer_Spec                      | Identical |       |
 | FlexibleServersConfigurationOperatorSpec | FlexibleServersConfigurationOperatorSpec | Identical |       |
@@ -49,3 +49,15 @@
 * **Renamed**: A configured rename links the old and new names.
 * **Extended**: The newer type only adds properties.
 * **Modified**: Properties were retired, renamed, or changed type.
+
+### FlexibleServerOperatorSpec
+
+4 x Identical, 1 x Retired
+
+| v20220120preview/storage |                                   | v20210601/storage    |                                |  Status   | Notes |
+|:-------------------------|:----------------------------------|:---------------------|:-------------------------------|:---------:|:------|
+| ConfigMapExpressions     | *core.DestinationExpression[]     | ConfigMapExpressions | *core.DestinationExpression[]  | Identical |       |
+| ConfigMaps               | *FlexibleServerOperatorConfigMaps |                      |                                |  Retired  |       |
+| PropertyBag              | genruntime.PropertyBag            | PropertyBag          | genruntime.PropertyBag         | Identical |       |
+| SecretExpressions        | *core.DestinationExpression[]     | SecretExpressions    | *core.DestinationExpression[]  | Identical |       |
+| Secrets                  | *FlexibleServerOperatorSecrets    | Secrets              | *FlexibleServerOperatorSecrets | Identical |       |

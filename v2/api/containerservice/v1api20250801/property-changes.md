@@ -1382,7 +1382,7 @@
 
 ### ManagedClusterIdentity_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+3 x Identical, 1 x New, 2 x Modified
 
 | v1api20250801          |                                                                 | v1api20250801/storage  |                                                                 |  Status   | Notes |
 |:-----------------------|:----------------------------------------------------------------|:-----------------------|:----------------------------------------------------------------|:---------:|:------|
@@ -1391,7 +1391,7 @@
 |                        |                                                                 | PropertyBag            | genruntime.PropertyBag                                          |    New    |       |
 | TenantId               | *string                                                         | TenantId               | *string                                                         | Identical |       |
 | Type                   | *ManagedClusterIdentity_Type_STATUS                             | Type                   | *string                                                         | Modified  |       |
-| UserAssignedIdentities | map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS | UserAssignedIdentities | map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS | Identical |       |
+| UserAssignedIdentities | map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS | UserAssignedIdentities | map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS | Modified  |       |
 
 ### ManagedClusterIdentity_UserAssignedIdentities_STATUS
 
@@ -1464,7 +1464,7 @@
 
 ### ManagedClusterLoadBalancerProfile
 
-4 x Identical, 1 x New, 3 x Modified
+1 x Identical, 1 x New, 6 x Modified
 
 | v1api20250801                       |                                                       | v1api20250801/storage               |                                                       |  Status   | Notes |
 |:------------------------------------|:------------------------------------------------------|:------------------------------------|:------------------------------------------------------|:---------:|:------|
@@ -1472,9 +1472,9 @@
 | BackendPoolType                     | *ManagedClusterLoadBalancerProfile_BackendPoolType    | BackendPoolType                     | *string                                               | Modified  |       |
 | EnableMultipleStandardLoadBalancers | *bool                                                 | EnableMultipleStandardLoadBalancers | *bool                                                 | Identical |       |
 | IdleTimeoutInMinutes                | Validated<*int> (2 rules)                             | IdleTimeoutInMinutes                | *int                                                  | Modified  |       |
-| ManagedOutboundIPs                  | *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs | ManagedOutboundIPs                  | *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs | Identical |       |
-| OutboundIPPrefixes                  | *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes | OutboundIPPrefixes                  | *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes | Identical |       |
-| OutboundIPs                         | *ManagedClusterLoadBalancerProfile_OutboundIPs        | OutboundIPs                         | *ManagedClusterLoadBalancerProfile_OutboundIPs        | Identical |       |
+| ManagedOutboundIPs                  | *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs | ManagedOutboundIPs                  | *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs | Modified  |       |
+| OutboundIPPrefixes                  | *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes | OutboundIPPrefixes                  | *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes | Modified  |       |
+| OutboundIPs                         | *ManagedClusterLoadBalancerProfile_OutboundIPs        | OutboundIPs                         | *ManagedClusterLoadBalancerProfile_OutboundIPs        | Modified  |       |
 |                                     |                                                       | PropertyBag                         | genruntime.PropertyBag                                |    New    |       |
 
 ### ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
@@ -1535,7 +1535,7 @@
 
 ### ManagedClusterLoadBalancerProfile_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+4 x Identical, 1 x New, 4 x Modified
 
 | v1api20250801                       |                                                              | v1api20250801/storage               |                                                              |  Status   | Notes |
 |:------------------------------------|:-------------------------------------------------------------|:------------------------------------|:-------------------------------------------------------------|:---------:|:------|
@@ -1544,9 +1544,9 @@
 | EffectiveOutboundIPs                | ResourceReference_STATUS[]                                   | EffectiveOutboundIPs                | ResourceReference_STATUS[]                                   | Identical |       |
 | EnableMultipleStandardLoadBalancers | *bool                                                        | EnableMultipleStandardLoadBalancers | *bool                                                        | Identical |       |
 | IdleTimeoutInMinutes                | *int                                                         | IdleTimeoutInMinutes                | *int                                                         | Identical |       |
-| ManagedOutboundIPs                  | *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS | ManagedOutboundIPs                  | *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS | Identical |       |
-| OutboundIPPrefixes                  | *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS | OutboundIPPrefixes                  | *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS | Identical |       |
-| OutboundIPs                         | *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS        | OutboundIPs                         | *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS        | Identical |       |
+| ManagedOutboundIPs                  | *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS | ManagedOutboundIPs                  | *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS | Modified  |       |
+| OutboundIPPrefixes                  | *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS | OutboundIPPrefixes                  | *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS | Modified  |       |
+| OutboundIPs                         | *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS        | OutboundIPs                         | *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS        | Modified  |       |
 |                                     |                                                              | PropertyBag                         | genruntime.PropertyBag                                       |    New    |       |
 
 ### ManagedClusterManagedOutboundIPProfile
@@ -1796,7 +1796,7 @@
 
 ### ManagedClusterPodIdentity_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+4 x Identical, 1 x New, 2 x Modified
 
 | v1api20250801     |                                                     | v1api20250801/storage |                                                    |  Status   | Notes |
 |:------------------|:----------------------------------------------------|:----------------------|:---------------------------------------------------|:---------:|:------|
@@ -1805,7 +1805,7 @@
 | Name              | *string                                             | Name                  | *string                                            | Identical |       |
 | Namespace         | *string                                             | Namespace             | *string                                            | Identical |       |
 |                   |                                                     | PropertyBag           | genruntime.PropertyBag                             |    New    |       |
-| ProvisioningInfo  | *ManagedClusterPodIdentity_ProvisioningInfo_STATUS  | ProvisioningInfo      | *ManagedClusterPodIdentity_ProvisioningInfo_STATUS | Identical |       |
+| ProvisioningInfo  | *ManagedClusterPodIdentity_ProvisioningInfo_STATUS  | ProvisioningInfo      | *ManagedClusterPodIdentity_ProvisioningInfo_STATUS | Modified  |       |
 | ProvisioningState | *ManagedClusterPodIdentity_ProvisioningState_STATUS | ProvisioningState     | *string                                            | Modified  |       |
 
 ### ManagedClusterProperties_AutoScalerProfile
@@ -2211,7 +2211,7 @@
 
 ### ManagedCluster_STATUS
 
-55 x Identical, 1 x New, 2 x Modified
+54 x Identical, 1 x New, 3 x Modified
 
 | v1api20250801              |                                                      | v1api20250801/storage      |                                                    |  Status   | Notes |
 |:---------------------------|:-----------------------------------------------------|:---------------------------|:---------------------------------------------------|:---------:|:------|
@@ -2220,7 +2220,7 @@
 | AgentPoolProfiles          | ManagedClusterAgentPoolProfile_STATUS[]              | AgentPoolProfiles          | ManagedClusterAgentPoolProfile_STATUS[]            | Identical |       |
 | AiToolchainOperatorProfile | *ManagedClusterAIToolchainOperatorProfile_STATUS     | AiToolchainOperatorProfile | *ManagedClusterAIToolchainOperatorProfile_STATUS   | Identical |       |
 | ApiServerAccessProfile     | *ManagedClusterAPIServerAccessProfile_STATUS         | ApiServerAccessProfile     | *ManagedClusterAPIServerAccessProfile_STATUS       | Identical |       |
-| AutoScalerProfile          | *ManagedClusterProperties_AutoScalerProfile_STATUS   | AutoScalerProfile          | *ManagedClusterProperties_AutoScalerProfile_STATUS | Identical |       |
+| AutoScalerProfile          | *ManagedClusterProperties_AutoScalerProfile_STATUS   | AutoScalerProfile          | *ManagedClusterProperties_AutoScalerProfile_STATUS | Modified  |       |
 | AutoUpgradeProfile         | *ManagedClusterAutoUpgradeProfile_STATUS             | AutoUpgradeProfile         | *ManagedClusterAutoUpgradeProfile_STATUS           | Identical |       |
 | AzureMonitorProfile        | *ManagedClusterAzureMonitorProfile_STATUS            | AzureMonitorProfile        | *ManagedClusterAzureMonitorProfile_STATUS          | Identical |       |
 | AzurePortalFQDN            | *string                                              | AzurePortalFQDN            | *string                                            | Identical |       |
@@ -2276,7 +2276,7 @@
 
 ### ManagedCluster_Spec
 
-42 x Identical, 2 x New, 3 x Modified
+41 x Identical, 2 x New, 4 x Modified
 
 | v1api20250801              |                                               | v1api20250801/storage      |                                             |  Status   | Notes |
 |:---------------------------|:----------------------------------------------|:---------------------------|:--------------------------------------------|:---------:|:------|
@@ -2285,7 +2285,7 @@
 | AgentPoolProfiles          | ManagedClusterAgentPoolProfile[]              | AgentPoolProfiles          | ManagedClusterAgentPoolProfile[]            | Identical |       |
 | AiToolchainOperatorProfile | *ManagedClusterAIToolchainOperatorProfile     | AiToolchainOperatorProfile | *ManagedClusterAIToolchainOperatorProfile   | Identical |       |
 | ApiServerAccessProfile     | *ManagedClusterAPIServerAccessProfile         | ApiServerAccessProfile     | *ManagedClusterAPIServerAccessProfile       | Identical |       |
-| AutoScalerProfile          | *ManagedClusterProperties_AutoScalerProfile   | AutoScalerProfile          | *ManagedClusterProperties_AutoScalerProfile | Identical |       |
+| AutoScalerProfile          | *ManagedClusterProperties_AutoScalerProfile   | AutoScalerProfile          | *ManagedClusterProperties_AutoScalerProfile | Modified  |       |
 | AutoUpgradeProfile         | *ManagedClusterAutoUpgradeProfile             | AutoUpgradeProfile         | *ManagedClusterAutoUpgradeProfile           | Identical |       |
 | AzureMonitorProfile        | *ManagedClusterAzureMonitorProfile            | AzureMonitorProfile        | *ManagedClusterAzureMonitorProfile          | Identical |       |
 | AzureName                  | Validated<string> (3 rules)                   | AzureName                  | string                                      | Modified  |       |

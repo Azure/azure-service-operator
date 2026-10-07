@@ -191,10 +191,10 @@
 | ManagedClusterSKU_STATUS                                                  | ManagedClusterSKU_STATUS                                                  | Modified |       |
 | ManagedClusterSecurityProfile                                             | ManagedClusterSecurityProfile                                             | Modified |       |
 | ManagedClusterSecurityProfileDefender                                     | ManagedClusterSecurityProfileDefender                                     | Extended |       |
-| ManagedClusterSecurityProfileDefenderSecurityGating                       | ManagedClusterSecurityProfileDefenderSecurityGating                       | Extended |       |
+| ManagedClusterSecurityProfileDefenderSecurityGating                       | ManagedClusterSecurityProfileDefenderSecurityGating                       | Modified |       |
 | ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem         | ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem         | Extended |       |
 | ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS  | ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS  | Extended |       |
-| ManagedClusterSecurityProfileDefenderSecurityGating_STATUS                | ManagedClusterSecurityProfileDefenderSecurityGating_STATUS                | Extended |       |
+| ManagedClusterSecurityProfileDefenderSecurityGating_STATUS                | ManagedClusterSecurityProfileDefenderSecurityGating_STATUS                | Modified |       |
 | ManagedClusterSecurityProfileDefenderSecurityMonitoring                   | ManagedClusterSecurityProfileDefenderSecurityMonitoring                   | Extended |       |
 | ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS            | ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS            | Extended |       |
 | ManagedClusterSecurityProfileDefender_STATUS                              | ManagedClusterSecurityProfileDefender_STATUS                              | Extended |       |
@@ -2405,13 +2405,13 @@
 
 ### ManagedClusterSecurityProfileDefenderSecurityGating
 
-3 x Identical, 1 x New
+2 x Identical, 1 x New, 1 x Modified
 
 | v20251002preview  |                                                                     | v20251002preview/storage |                                                                     |  Status   | Notes |
 |:------------------|:--------------------------------------------------------------------|:-------------------------|:--------------------------------------------------------------------|:---------:|:------|
 | AllowSecretAccess | *bool                                                               | AllowSecretAccess        | *bool                                                               | Identical |       |
 | Enabled           | *bool                                                               | Enabled                  | *bool                                                               | Identical |       |
-| Identities        | ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem[] | Identities               | ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem[] | Identical |       |
+| Identities        | ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem[] | Identities               | ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem[] | Modified  |       |
 |                   |                                                                     | PropertyBag              | genruntime.PropertyBag                                              |    New    |       |
 
 ### ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem
@@ -2436,13 +2436,13 @@
 
 ### ManagedClusterSecurityProfileDefenderSecurityGating_STATUS
 
-3 x Identical, 1 x New
+2 x Identical, 1 x New, 1 x Modified
 
 | v20251002preview  |                                                                            | v20251002preview/storage |                                                                            |  Status   | Notes |
 |:------------------|:---------------------------------------------------------------------------|:-------------------------|:---------------------------------------------------------------------------|:---------:|:------|
 | AllowSecretAccess | *bool                                                                      | AllowSecretAccess        | *bool                                                                      | Identical |       |
 | Enabled           | *bool                                                                      | Enabled                  | *bool                                                                      | Identical |       |
-| Identities        | ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS[] | Identities               | ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS[] | Identical |       |
+| Identities        | ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS[] | Identities               | ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS[] | Modified  |       |
 |                   |                                                                            | PropertyBag              | genruntime.PropertyBag                                                     |    New    |       |
 
 ### ManagedClusterSecurityProfileDefenderSecurityMonitoring

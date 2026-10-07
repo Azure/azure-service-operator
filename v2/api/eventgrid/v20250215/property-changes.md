@@ -7,127 +7,158 @@
 | Domain            | Domain            | Identical |       |
 | DomainsTopic      | DomainsTopic      | Identical |       |
 | EventSubscription | EventSubscription | Identical |       |
+| Namespace         | Namespace         | Identical |       |
+| NamespaceTopic    | NamespaceTopic    | Identical |       |
 | Topic             | Topic             | Identical |       |
 
 ## Objects
 
-| v20250215                                                   | v20250215/storage                                           |  Status  | Notes |
-|:------------------------------------------------------------|:------------------------------------------------------------|:--------:|:------|
-| AdvancedFilter                                              | AdvancedFilter                                              | Extended |       |
-| AdvancedFilter_STATUS                                       | AdvancedFilter_STATUS                                       | Extended |       |
-| AzureFunctionEventSubscriptionDestination                   | AzureFunctionEventSubscriptionDestination                   | Modified |       |
-| AzureFunctionEventSubscriptionDestination_STATUS            | AzureFunctionEventSubscriptionDestination_STATUS            | Modified |       |
-| BoolEqualsAdvancedFilter                                    | BoolEqualsAdvancedFilter                                    | Modified |       |
-| BoolEqualsAdvancedFilter_STATUS                             | BoolEqualsAdvancedFilter_STATUS                             | Modified |       |
-| DeadLetterDestination                                       | DeadLetterDestination                                       | Extended |       |
-| DeadLetterDestination_STATUS                                | DeadLetterDestination_STATUS                                | Extended |       |
-| DeadLetterWithResourceIdentity                              | DeadLetterWithResourceIdentity                              | Extended |       |
-| DeadLetterWithResourceIdentity_STATUS                       | DeadLetterWithResourceIdentity_STATUS                       | Extended |       |
-| DeliveryAttributeMapping                                    | DeliveryAttributeMapping                                    | Extended |       |
-| DeliveryAttributeMapping_STATUS                             | DeliveryAttributeMapping_STATUS                             | Extended |       |
-| DeliveryWithResourceIdentity                                | DeliveryWithResourceIdentity                                | Extended |       |
-| DeliveryWithResourceIdentity_STATUS                         | DeliveryWithResourceIdentity_STATUS                         | Extended |       |
-| DomainOperatorSpec                                          | DomainOperatorSpec                                          | Extended |       |
-| Domain_STATUS                                               | Domain_STATUS                                               | Modified |       |
-| Domain_Spec                                                 | Domain_Spec                                                 | Modified |       |
-| DomainsTopicOperatorSpec                                    | DomainsTopicOperatorSpec                                    | Extended |       |
-| DomainsTopic_STATUS                                         | DomainsTopic_STATUS                                         | Modified |       |
-| DomainsTopic_Spec                                           | DomainsTopic_Spec                                           | Extended |       |
-| DynamicDeliveryAttributeMapping                             | DynamicDeliveryAttributeMapping                             | Modified |       |
-| DynamicDeliveryAttributeMapping_STATUS                      | DynamicDeliveryAttributeMapping_STATUS                      | Modified |       |
-| EventHubEventSubscriptionDestination                        | EventHubEventSubscriptionDestination                        | Modified |       |
-| EventHubEventSubscriptionDestination_STATUS                 | EventHubEventSubscriptionDestination_STATUS                 | Modified |       |
-| EventSubscriptionDestination                                | EventSubscriptionDestination                                | Extended |       |
-| EventSubscriptionDestination_STATUS                         | EventSubscriptionDestination_STATUS                         | Extended |       |
-| EventSubscriptionFilter                                     | EventSubscriptionFilter                                     | Extended |       |
-| EventSubscriptionFilter_STATUS                              | EventSubscriptionFilter_STATUS                              | Extended |       |
-| EventSubscriptionIdentity                                   | EventSubscriptionIdentity                                   | Modified |       |
-| EventSubscriptionIdentity_STATUS                            | EventSubscriptionIdentity_STATUS                            | Modified |       |
-| EventSubscriptionOperatorSpec                               | EventSubscriptionOperatorSpec                               | Extended |       |
-| EventSubscription_STATUS                                    | EventSubscription_STATUS                                    | Modified |       |
-| EventSubscription_Spec                                      | EventSubscription_Spec                                      | Modified |       |
-| EventTypeInfo                                               | EventTypeInfo                                               | Modified |       |
-| EventTypeInfo_STATUS                                        | EventTypeInfo_STATUS                                        | Modified |       |
-| HybridConnectionEventSubscriptionDestination                | HybridConnectionEventSubscriptionDestination                | Modified |       |
-| HybridConnectionEventSubscriptionDestination_STATUS         | HybridConnectionEventSubscriptionDestination_STATUS         | Modified |       |
-| IdentityInfo                                                | IdentityInfo                                                | Modified |       |
-| IdentityInfo_STATUS                                         | IdentityInfo_STATUS                                         | Modified |       |
-| InboundIpRule                                               | InboundIpRule                                               | Modified |       |
-| InboundIpRule_STATUS                                        | InboundIpRule_STATUS                                        | Modified |       |
-| InlineEventProperties                                       | InlineEventProperties                                       | Extended |       |
-| InlineEventProperties_STATUS                                | InlineEventProperties_STATUS                                | Extended |       |
-| InputSchemaMapping                                          | InputSchemaMapping                                          | Extended |       |
-| InputSchemaMapping_STATUS                                   | InputSchemaMapping_STATUS                                   | Extended |       |
-| IsNotNullAdvancedFilter                                     | IsNotNullAdvancedFilter                                     | Modified |       |
-| IsNotNullAdvancedFilter_STATUS                              | IsNotNullAdvancedFilter_STATUS                              | Modified |       |
-| IsNullOrUndefinedAdvancedFilter                             | IsNullOrUndefinedAdvancedFilter                             | Modified |       |
-| IsNullOrUndefinedAdvancedFilter_STATUS                      | IsNullOrUndefinedAdvancedFilter_STATUS                      | Modified |       |
-| JsonField                                                   | JsonField                                                   | Extended |       |
-| JsonFieldWithDefault                                        | JsonFieldWithDefault                                        | Extended |       |
-| JsonFieldWithDefault_STATUS                                 | JsonFieldWithDefault_STATUS                                 | Extended |       |
-| JsonField_STATUS                                            | JsonField_STATUS                                            | Extended |       |
-| JsonInputSchemaMapping                                      | JsonInputSchemaMapping                                      | Modified |       |
-| JsonInputSchemaMapping_STATUS                               | JsonInputSchemaMapping_STATUS                               | Modified |       |
-| MonitorAlertEventSubscriptionDestination                    | MonitorAlertEventSubscriptionDestination                    | Modified |       |
-| MonitorAlertEventSubscriptionDestination_STATUS             | MonitorAlertEventSubscriptionDestination_STATUS             | Modified |       |
-| NamespaceTopicEventSubscriptionDestination                  | NamespaceTopicEventSubscriptionDestination                  | Modified |       |
-| NamespaceTopicEventSubscriptionDestination_STATUS           | NamespaceTopicEventSubscriptionDestination_STATUS           | Modified |       |
-| NumberGreaterThanAdvancedFilter                             | NumberGreaterThanAdvancedFilter                             | Modified |       |
-| NumberGreaterThanAdvancedFilter_STATUS                      | NumberGreaterThanAdvancedFilter_STATUS                      | Modified |       |
-| NumberGreaterThanOrEqualsAdvancedFilter                     | NumberGreaterThanOrEqualsAdvancedFilter                     | Modified |       |
-| NumberGreaterThanOrEqualsAdvancedFilter_STATUS              | NumberGreaterThanOrEqualsAdvancedFilter_STATUS              | Modified |       |
-| NumberInAdvancedFilter                                      | NumberInAdvancedFilter                                      | Modified |       |
-| NumberInAdvancedFilter_STATUS                               | NumberInAdvancedFilter_STATUS                               | Modified |       |
-| NumberInRangeAdvancedFilter                                 | NumberInRangeAdvancedFilter                                 | Modified |       |
-| NumberInRangeAdvancedFilter_STATUS                          | NumberInRangeAdvancedFilter_STATUS                          | Modified |       |
-| NumberLessThanAdvancedFilter                                | NumberLessThanAdvancedFilter                                | Modified |       |
-| NumberLessThanAdvancedFilter_STATUS                         | NumberLessThanAdvancedFilter_STATUS                         | Modified |       |
-| NumberLessThanOrEqualsAdvancedFilter                        | NumberLessThanOrEqualsAdvancedFilter                        | Modified |       |
-| NumberLessThanOrEqualsAdvancedFilter_STATUS                 | NumberLessThanOrEqualsAdvancedFilter_STATUS                 | Modified |       |
-| NumberNotInAdvancedFilter                                   | NumberNotInAdvancedFilter                                   | Modified |       |
-| NumberNotInAdvancedFilter_STATUS                            | NumberNotInAdvancedFilter_STATUS                            | Modified |       |
-| NumberNotInRangeAdvancedFilter                              | NumberNotInRangeAdvancedFilter                              | Modified |       |
-| NumberNotInRangeAdvancedFilter_STATUS                       | NumberNotInRangeAdvancedFilter_STATUS                       | Modified |       |
-| PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded | PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded | Extended |       |
-| PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded  | PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded  | Extended |       |
-| RetryPolicy                                                 | RetryPolicy                                                 | Extended |       |
-| RetryPolicy_STATUS                                          | RetryPolicy_STATUS                                          | Extended |       |
-| ServiceBusQueueEventSubscriptionDestination                 | ServiceBusQueueEventSubscriptionDestination                 | Modified |       |
-| ServiceBusQueueEventSubscriptionDestination_STATUS          | ServiceBusQueueEventSubscriptionDestination_STATUS          | Modified |       |
-| ServiceBusTopicEventSubscriptionDestination                 | ServiceBusTopicEventSubscriptionDestination                 | Modified |       |
-| ServiceBusTopicEventSubscriptionDestination_STATUS          | ServiceBusTopicEventSubscriptionDestination_STATUS          | Modified |       |
-| StaticDeliveryAttributeMapping                              | StaticDeliveryAttributeMapping                              | Modified |       |
-| StaticDeliveryAttributeMapping_STATUS                       | StaticDeliveryAttributeMapping_STATUS                       | Modified |       |
-| StorageBlobDeadLetterDestination                            | StorageBlobDeadLetterDestination                            | Modified |       |
-| StorageBlobDeadLetterDestination_STATUS                     | StorageBlobDeadLetterDestination_STATUS                     | Modified |       |
-| StorageQueueEventSubscriptionDestination                    | StorageQueueEventSubscriptionDestination                    | Modified |       |
-| StorageQueueEventSubscriptionDestination_STATUS             | StorageQueueEventSubscriptionDestination_STATUS             | Modified |       |
-| StringBeginsWithAdvancedFilter                              | StringBeginsWithAdvancedFilter                              | Modified |       |
-| StringBeginsWithAdvancedFilter_STATUS                       | StringBeginsWithAdvancedFilter_STATUS                       | Modified |       |
-| StringContainsAdvancedFilter                                | StringContainsAdvancedFilter                                | Modified |       |
-| StringContainsAdvancedFilter_STATUS                         | StringContainsAdvancedFilter_STATUS                         | Modified |       |
-| StringEndsWithAdvancedFilter                                | StringEndsWithAdvancedFilter                                | Modified |       |
-| StringEndsWithAdvancedFilter_STATUS                         | StringEndsWithAdvancedFilter_STATUS                         | Modified |       |
-| StringInAdvancedFilter                                      | StringInAdvancedFilter                                      | Modified |       |
-| StringInAdvancedFilter_STATUS                               | StringInAdvancedFilter_STATUS                               | Modified |       |
-| StringNotBeginsWithAdvancedFilter                           | StringNotBeginsWithAdvancedFilter                           | Modified |       |
-| StringNotBeginsWithAdvancedFilter_STATUS                    | StringNotBeginsWithAdvancedFilter_STATUS                    | Modified |       |
-| StringNotContainsAdvancedFilter                             | StringNotContainsAdvancedFilter                             | Modified |       |
-| StringNotContainsAdvancedFilter_STATUS                      | StringNotContainsAdvancedFilter_STATUS                      | Modified |       |
-| StringNotEndsWithAdvancedFilter                             | StringNotEndsWithAdvancedFilter                             | Modified |       |
-| StringNotEndsWithAdvancedFilter_STATUS                      | StringNotEndsWithAdvancedFilter_STATUS                      | Modified |       |
-| StringNotInAdvancedFilter                                   | StringNotInAdvancedFilter                                   | Modified |       |
-| StringNotInAdvancedFilter_STATUS                            | StringNotInAdvancedFilter_STATUS                            | Modified |       |
-| SystemData_STATUS                                           | SystemData_STATUS                                           | Modified |       |
-| TopicOperatorConfigMaps                                     | TopicOperatorConfigMaps                                     | Extended |       |
-| TopicOperatorSecrets                                        | TopicOperatorSecrets                                        | Extended |       |
-| TopicOperatorSpec                                           | TopicOperatorSpec                                           | Extended |       |
-| Topic_STATUS                                                | Topic_STATUS                                                | Modified |       |
-| Topic_Spec                                                  | Topic_Spec                                                  | Modified |       |
-| UserAssignedIdentityDetails                                 | UserAssignedIdentityDetails                                 | Extended |       |
-| UserIdentityProperties_STATUS                               | UserIdentityProperties_STATUS                               | Extended |       |
-| WebHookEventSubscriptionDestination                         | WebHookEventSubscriptionDestination                         | Modified |       |
-| WebHookEventSubscriptionDestination_STATUS                  | WebHookEventSubscriptionDestination_STATUS                  | Modified |       |
+| v20250215                                                      | v20250215/storage                                              |  Status  | Notes |
+|:---------------------------------------------------------------|:---------------------------------------------------------------|:--------:|:------|
+| AdvancedFilter                                                 | AdvancedFilter                                                 | Extended |       |
+| AdvancedFilter_STATUS                                          | AdvancedFilter_STATUS                                          | Extended |       |
+| AzureFunctionEventSubscriptionDestination                      | AzureFunctionEventSubscriptionDestination                      | Modified |       |
+| AzureFunctionEventSubscriptionDestination_STATUS               | AzureFunctionEventSubscriptionDestination_STATUS               | Modified |       |
+| BoolEqualsAdvancedFilter                                       | BoolEqualsAdvancedFilter                                       | Modified |       |
+| BoolEqualsAdvancedFilter_STATUS                                | BoolEqualsAdvancedFilter_STATUS                                | Modified |       |
+| CustomDomainConfiguration                                      | CustomDomainConfiguration                                      | Modified |       |
+| CustomDomainConfiguration_STATUS                               | CustomDomainConfiguration_STATUS                               | Modified |       |
+| CustomDomainIdentity                                           | CustomDomainIdentity                                           | Modified |       |
+| CustomDomainIdentity_STATUS                                    | CustomDomainIdentity_STATUS                                    | Modified |       |
+| DeadLetterDestination                                          | DeadLetterDestination                                          | Extended |       |
+| DeadLetterDestination_STATUS                                   | DeadLetterDestination_STATUS                                   | Extended |       |
+| DeadLetterWithResourceIdentity                                 | DeadLetterWithResourceIdentity                                 | Extended |       |
+| DeadLetterWithResourceIdentity_STATUS                          | DeadLetterWithResourceIdentity_STATUS                          | Extended |       |
+| DeliveryAttributeMapping                                       | DeliveryAttributeMapping                                       | Extended |       |
+| DeliveryAttributeMapping_STATUS                                | DeliveryAttributeMapping_STATUS                                | Extended |       |
+| DeliveryWithResourceIdentity                                   | DeliveryWithResourceIdentity                                   | Extended |       |
+| DeliveryWithResourceIdentity_STATUS                            | DeliveryWithResourceIdentity_STATUS                            | Extended |       |
+| DomainOperatorSpec                                             | DomainOperatorSpec                                             | Extended |       |
+| Domain_STATUS                                                  | Domain_STATUS                                                  | Modified |       |
+| Domain_Spec                                                    | Domain_Spec                                                    | Modified |       |
+| DomainsTopicOperatorSpec                                       | DomainsTopicOperatorSpec                                       | Extended |       |
+| DomainsTopic_STATUS                                            | DomainsTopic_STATUS                                            | Modified |       |
+| DomainsTopic_Spec                                              | DomainsTopic_Spec                                              | Extended |       |
+| DynamicDeliveryAttributeMapping                                | DynamicDeliveryAttributeMapping                                | Modified |       |
+| DynamicDeliveryAttributeMapping_STATUS                         | DynamicDeliveryAttributeMapping_STATUS                         | Modified |       |
+| DynamicRoutingEnrichment                                       | DynamicRoutingEnrichment                                       | Extended |       |
+| DynamicRoutingEnrichment_STATUS                                | DynamicRoutingEnrichment_STATUS                                | Extended |       |
+| EventHubEventSubscriptionDestination                           | EventHubEventSubscriptionDestination                           | Modified |       |
+| EventHubEventSubscriptionDestination_STATUS                    | EventHubEventSubscriptionDestination_STATUS                    | Modified |       |
+| EventSubscriptionDestination                                   | EventSubscriptionDestination                                   | Extended |       |
+| EventSubscriptionDestination_STATUS                            | EventSubscriptionDestination_STATUS                            | Extended |       |
+| EventSubscriptionFilter                                        | EventSubscriptionFilter                                        | Extended |       |
+| EventSubscriptionFilter_STATUS                                 | EventSubscriptionFilter_STATUS                                 | Extended |       |
+| EventSubscriptionIdentity                                      | EventSubscriptionIdentity                                      | Modified |       |
+| EventSubscriptionIdentity_STATUS                               | EventSubscriptionIdentity_STATUS                               | Modified |       |
+| EventSubscriptionOperatorSpec                                  | EventSubscriptionOperatorSpec                                  | Extended |       |
+| EventSubscription_STATUS                                       | EventSubscription_STATUS                                       | Modified |       |
+| EventSubscription_Spec                                         | EventSubscription_Spec                                         | Modified |       |
+| EventTypeInfo                                                  | EventTypeInfo                                                  | Modified |       |
+| EventTypeInfo_STATUS                                           | EventTypeInfo_STATUS                                           | Modified |       |
+| HybridConnectionEventSubscriptionDestination                   | HybridConnectionEventSubscriptionDestination                   | Modified |       |
+| HybridConnectionEventSubscriptionDestination_STATUS            | HybridConnectionEventSubscriptionDestination_STATUS            | Modified |       |
+| IdentityInfo                                                   | IdentityInfo                                                   | Modified |       |
+| IdentityInfo_STATUS                                            | IdentityInfo_STATUS                                            | Modified |       |
+| InboundIpRule                                                  | InboundIpRule                                                  | Modified |       |
+| InboundIpRule_STATUS                                           | InboundIpRule_STATUS                                           | Modified |       |
+| InlineEventProperties                                          | InlineEventProperties                                          | Extended |       |
+| InlineEventProperties_STATUS                                   | InlineEventProperties_STATUS                                   | Extended |       |
+| InputSchemaMapping                                             | InputSchemaMapping                                             | Extended |       |
+| InputSchemaMapping_STATUS                                      | InputSchemaMapping_STATUS                                      | Extended |       |
+| IsNotNullAdvancedFilter                                        | IsNotNullAdvancedFilter                                        | Modified |       |
+| IsNotNullAdvancedFilter_STATUS                                 | IsNotNullAdvancedFilter_STATUS                                 | Modified |       |
+| IsNullOrUndefinedAdvancedFilter                                | IsNullOrUndefinedAdvancedFilter                                | Modified |       |
+| IsNullOrUndefinedAdvancedFilter_STATUS                         | IsNullOrUndefinedAdvancedFilter_STATUS                         | Modified |       |
+| JsonField                                                      | JsonField                                                      | Extended |       |
+| JsonFieldWithDefault                                           | JsonFieldWithDefault                                           | Extended |       |
+| JsonFieldWithDefault_STATUS                                    | JsonFieldWithDefault_STATUS                                    | Extended |       |
+| JsonField_STATUS                                               | JsonField_STATUS                                               | Extended |       |
+| JsonInputSchemaMapping                                         | JsonInputSchemaMapping                                         | Modified |       |
+| JsonInputSchemaMapping_STATUS                                  | JsonInputSchemaMapping_STATUS                                  | Modified |       |
+| MonitorAlertEventSubscriptionDestination                       | MonitorAlertEventSubscriptionDestination                       | Modified |       |
+| MonitorAlertEventSubscriptionDestination_STATUS                | MonitorAlertEventSubscriptionDestination_STATUS                | Modified |       |
+| NamespaceOperatorSecrets                                       | NamespaceOperatorSecrets                                       | Extended |       |
+| NamespaceOperatorSpec                                          | NamespaceOperatorSpec                                          | Extended |       |
+| NamespaceSku                                                   | NamespaceSku                                                   | Modified |       |
+| NamespaceSku_STATUS                                            | NamespaceSku_STATUS                                            | Modified |       |
+| NamespaceTopicEventSubscriptionDestination                     | NamespaceTopicEventSubscriptionDestination                     | Modified |       |
+| NamespaceTopicEventSubscriptionDestination_STATUS              | NamespaceTopicEventSubscriptionDestination_STATUS              | Modified |       |
+| NamespaceTopicOperatorSecrets                                  | NamespaceTopicOperatorSecrets                                  | Extended |       |
+| NamespaceTopicOperatorSpec                                     | NamespaceTopicOperatorSpec                                     | Extended |       |
+| NamespaceTopic_STATUS                                          | NamespaceTopic_STATUS                                          | Modified |       |
+| NamespaceTopic_Spec                                            | NamespaceTopic_Spec                                            | Modified |       |
+| Namespace_STATUS                                               | Namespace_STATUS                                               | Modified |       |
+| Namespace_Spec                                                 | Namespace_Spec                                                 | Modified |       |
+| NumberGreaterThanAdvancedFilter                                | NumberGreaterThanAdvancedFilter                                | Modified |       |
+| NumberGreaterThanAdvancedFilter_STATUS                         | NumberGreaterThanAdvancedFilter_STATUS                         | Modified |       |
+| NumberGreaterThanOrEqualsAdvancedFilter                        | NumberGreaterThanOrEqualsAdvancedFilter                        | Modified |       |
+| NumberGreaterThanOrEqualsAdvancedFilter_STATUS                 | NumberGreaterThanOrEqualsAdvancedFilter_STATUS                 | Modified |       |
+| NumberInAdvancedFilter                                         | NumberInAdvancedFilter                                         | Modified |       |
+| NumberInAdvancedFilter_STATUS                                  | NumberInAdvancedFilter_STATUS                                  | Modified |       |
+| NumberInRangeAdvancedFilter                                    | NumberInRangeAdvancedFilter                                    | Modified |       |
+| NumberInRangeAdvancedFilter_STATUS                             | NumberInRangeAdvancedFilter_STATUS                             | Modified |       |
+| NumberLessThanAdvancedFilter                                   | NumberLessThanAdvancedFilter                                   | Modified |       |
+| NumberLessThanAdvancedFilter_STATUS                            | NumberLessThanAdvancedFilter_STATUS                            | Modified |       |
+| NumberLessThanOrEqualsAdvancedFilter                           | NumberLessThanOrEqualsAdvancedFilter                           | Modified |       |
+| NumberLessThanOrEqualsAdvancedFilter_STATUS                    | NumberLessThanOrEqualsAdvancedFilter_STATUS                    | Modified |       |
+| NumberNotInAdvancedFilter                                      | NumberNotInAdvancedFilter                                      | Modified |       |
+| NumberNotInAdvancedFilter_STATUS                               | NumberNotInAdvancedFilter_STATUS                               | Modified |       |
+| NumberNotInRangeAdvancedFilter                                 | NumberNotInRangeAdvancedFilter                                 | Modified |       |
+| NumberNotInRangeAdvancedFilter_STATUS                          | NumberNotInRangeAdvancedFilter_STATUS                          | Modified |       |
+| PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded    | PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded    | Extended |       |
+| PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded | PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded | Extended |       |
+| PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded     | PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded     | Extended |       |
+| RetryPolicy                                                    | RetryPolicy                                                    | Extended |       |
+| RetryPolicy_STATUS                                             | RetryPolicy_STATUS                                             | Extended |       |
+| RoutingEnrichments                                             | RoutingEnrichments                                             | Extended |       |
+| RoutingEnrichments_STATUS                                      | RoutingEnrichments_STATUS                                      | Extended |       |
+| RoutingIdentityInfo                                            | RoutingIdentityInfo                                            | Modified |       |
+| RoutingIdentityInfo_STATUS                                     | RoutingIdentityInfo_STATUS                                     | Modified |       |
+| ServiceBusQueueEventSubscriptionDestination                    | ServiceBusQueueEventSubscriptionDestination                    | Modified |       |
+| ServiceBusQueueEventSubscriptionDestination_STATUS             | ServiceBusQueueEventSubscriptionDestination_STATUS             | Modified |       |
+| ServiceBusTopicEventSubscriptionDestination                    | ServiceBusTopicEventSubscriptionDestination                    | Modified |       |
+| ServiceBusTopicEventSubscriptionDestination_STATUS             | ServiceBusTopicEventSubscriptionDestination_STATUS             | Modified |       |
+| StaticDeliveryAttributeMapping                                 | StaticDeliveryAttributeMapping                                 | Modified |       |
+| StaticDeliveryAttributeMapping_STATUS                          | StaticDeliveryAttributeMapping_STATUS                          | Modified |       |
+| StaticRoutingEnrichment                                        | StaticRoutingEnrichment                                        | Extended |       |
+| StaticRoutingEnrichment_STATUS                                 | StaticRoutingEnrichment_STATUS                                 | Extended |       |
+| StaticStringRoutingEnrichment                                  | StaticStringRoutingEnrichment                                  | Modified |       |
+| StaticStringRoutingEnrichment_STATUS                           | StaticStringRoutingEnrichment_STATUS                           | Modified |       |
+| StorageBlobDeadLetterDestination                               | StorageBlobDeadLetterDestination                               | Modified |       |
+| StorageBlobDeadLetterDestination_STATUS                        | StorageBlobDeadLetterDestination_STATUS                        | Modified |       |
+| StorageQueueEventSubscriptionDestination                       | StorageQueueEventSubscriptionDestination                       | Modified |       |
+| StorageQueueEventSubscriptionDestination_STATUS                | StorageQueueEventSubscriptionDestination_STATUS                | Modified |       |
+| StringBeginsWithAdvancedFilter                                 | StringBeginsWithAdvancedFilter                                 | Modified |       |
+| StringBeginsWithAdvancedFilter_STATUS                          | StringBeginsWithAdvancedFilter_STATUS                          | Modified |       |
+| StringContainsAdvancedFilter                                   | StringContainsAdvancedFilter                                   | Modified |       |
+| StringContainsAdvancedFilter_STATUS                            | StringContainsAdvancedFilter_STATUS                            | Modified |       |
+| StringEndsWithAdvancedFilter                                   | StringEndsWithAdvancedFilter                                   | Modified |       |
+| StringEndsWithAdvancedFilter_STATUS                            | StringEndsWithAdvancedFilter_STATUS                            | Modified |       |
+| StringInAdvancedFilter                                         | StringInAdvancedFilter                                         | Modified |       |
+| StringInAdvancedFilter_STATUS                                  | StringInAdvancedFilter_STATUS                                  | Modified |       |
+| StringNotBeginsWithAdvancedFilter                              | StringNotBeginsWithAdvancedFilter                              | Modified |       |
+| StringNotBeginsWithAdvancedFilter_STATUS                       | StringNotBeginsWithAdvancedFilter_STATUS                       | Modified |       |
+| StringNotContainsAdvancedFilter                                | StringNotContainsAdvancedFilter                                | Modified |       |
+| StringNotContainsAdvancedFilter_STATUS                         | StringNotContainsAdvancedFilter_STATUS                         | Modified |       |
+| StringNotEndsWithAdvancedFilter                                | StringNotEndsWithAdvancedFilter                                | Modified |       |
+| StringNotEndsWithAdvancedFilter_STATUS                         | StringNotEndsWithAdvancedFilter_STATUS                         | Modified |       |
+| StringNotInAdvancedFilter                                      | StringNotInAdvancedFilter                                      | Modified |       |
+| StringNotInAdvancedFilter_STATUS                               | StringNotInAdvancedFilter_STATUS                               | Modified |       |
+| SystemData_STATUS                                              | SystemData_STATUS                                              | Modified |       |
+| TopicOperatorConfigMaps                                        | TopicOperatorConfigMaps                                        | Extended |       |
+| TopicOperatorSecrets                                           | TopicOperatorSecrets                                           | Extended |       |
+| TopicOperatorSpec                                              | TopicOperatorSpec                                              | Extended |       |
+| TopicSpacesConfiguration                                       | TopicSpacesConfiguration                                       | Modified |       |
+| TopicSpacesConfiguration_STATUS                                | TopicSpacesConfiguration_STATUS                                | Modified |       |
+| Topic_STATUS                                                   | Topic_STATUS                                                   | Modified |       |
+| Topic_Spec                                                     | Topic_Spec                                                     | Modified |       |
+| TopicsConfiguration                                            | TopicsConfiguration                                            | Extended |       |
+| TopicsConfiguration_STATUS                                     | TopicsConfiguration_STATUS                                     | Extended |       |
+| UserAssignedIdentityDetails                                    | UserAssignedIdentityDetails                                    | Extended |       |
+| UserIdentityProperties_STATUS                                  | UserIdentityProperties_STATUS                                  | Extended |       |
+| WebHookEventSubscriptionDestination                            | WebHookEventSubscriptionDestination                            | Modified |       |
+| WebHookEventSubscriptionDestination_STATUS                     | WebHookEventSubscriptionDestination_STATUS                     | Modified |       |
 
 ## Legend
 
@@ -239,6 +270,54 @@
 | OperatorType | *BoolEqualsAdvancedFilter_OperatorType_STATUS | OperatorType      | *string                | Modified  |       |
 |              |                                               | PropertyBag       | genruntime.PropertyBag |    New    |       |
 | Value        | *bool                                         | Value             | *bool                  | Identical |       |
+
+### CustomDomainConfiguration
+
+5 x Identical, 1 x New, 1 x Modified
+
+| v20250215                |                                            | v20250215/storage        |                        |  Status   | Notes |
+|:-------------------------|:-------------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
+| CertificateUrl           | *string                                    | CertificateUrl           | *string                | Identical |       |
+| ExpectedTxtRecordName    | *string                                    | ExpectedTxtRecordName    | *string                | Identical |       |
+| ExpectedTxtRecordValue   | *string                                    | ExpectedTxtRecordValue   | *string                | Identical |       |
+| FullyQualifiedDomainName | *string                                    | FullyQualifiedDomainName | *string                | Identical |       |
+| Identity                 | *CustomDomainIdentity                      | Identity                 | *CustomDomainIdentity  | Identical |       |
+|                          |                                            | PropertyBag              | genruntime.PropertyBag |    New    |       |
+| ValidationState          | *CustomDomainConfiguration_ValidationState | ValidationState          | *string                | Modified  |       |
+
+### CustomDomainConfiguration_STATUS
+
+5 x Identical, 1 x New, 1 x Modified
+
+| v20250215                |                                                   | v20250215/storage        |                              |  Status   | Notes |
+|:-------------------------|:--------------------------------------------------|:-------------------------|:-----------------------------|:---------:|:------|
+| CertificateUrl           | *string                                           | CertificateUrl           | *string                      | Identical |       |
+| ExpectedTxtRecordName    | *string                                           | ExpectedTxtRecordName    | *string                      | Identical |       |
+| ExpectedTxtRecordValue   | *string                                           | ExpectedTxtRecordValue   | *string                      | Identical |       |
+| FullyQualifiedDomainName | *string                                           | FullyQualifiedDomainName | *string                      | Identical |       |
+| Identity                 | *CustomDomainIdentity_STATUS                      | Identity                 | *CustomDomainIdentity_STATUS | Identical |       |
+|                          |                                                   | PropertyBag              | genruntime.PropertyBag       |    New    |       |
+| ValidationState          | *CustomDomainConfiguration_ValidationState_STATUS | ValidationState          | *string                      | Modified  |       |
+
+### CustomDomainIdentity
+
+1 x Identical, 1 x New, 1 x Modified
+
+| v20250215            |                            | v20250215/storage    |                        |  Status   | Notes |
+|:---------------------|:---------------------------|:---------------------|:-----------------------|:---------:|:------|
+|                      |                            | PropertyBag          | genruntime.PropertyBag |    New    |       |
+| Type                 | *CustomDomainIdentity_Type | Type                 | *string                | Modified  |       |
+| UserAssignedIdentity | *string                    | UserAssignedIdentity | *string                | Identical |       |
+
+### CustomDomainIdentity_STATUS
+
+1 x Identical, 1 x New, 1 x Modified
+
+| v20250215            |                                   | v20250215/storage    |                        |  Status   | Notes |
+|:---------------------|:----------------------------------|:---------------------|:-----------------------|:---------:|:------|
+|                      |                                   | PropertyBag          | genruntime.PropertyBag |    New    |       |
+| Type                 | *CustomDomainIdentity_Type_STATUS | Type                 | *string                | Modified  |       |
+| UserAssignedIdentity | *string                           | UserAssignedIdentity | *string                | Identical |       |
 
 ### DeadLetterDestination
 
@@ -440,6 +519,26 @@
 |             |                                              | PropertyBag       | genruntime.PropertyBag |    New    |       |
 | SourceField | *string                                      | SourceField       | *string                | Identical |       |
 | Type        | *DynamicDeliveryAttributeMapping_Type_STATUS | Type              | *string                | Modified  |       |
+
+### DynamicRoutingEnrichment
+
+2 x Identical, 1 x New
+
+| v20250215 |         | v20250215/storage |                        |  Status   | Notes |
+|:----------|:--------|:------------------|:-----------------------|:---------:|:------|
+| Key       | *string | Key               | *string                | Identical |       |
+|           |         | PropertyBag       | genruntime.PropertyBag |    New    |       |
+| Value     | *string | Value             | *string                | Identical |       |
+
+### DynamicRoutingEnrichment_STATUS
+
+2 x Identical, 1 x New
+
+| v20250215 |         | v20250215/storage |                        |  Status   | Notes |
+|:----------|:--------|:------------------|:-----------------------|:---------:|:------|
+| Key       | *string | Key               | *string                | Identical |       |
+|           |         | PropertyBag       | genruntime.PropertyBag |    New    |       |
+| Value     | *string | Value             | *string                | Identical |       |
 
 ### EventHubEventSubscriptionDestination
 
@@ -858,6 +957,47 @@
 |              |                                                                     | PropertyBag       | genruntime.PropertyBag |    New    |       |
 | Severity     | *MonitorAlertEventSubscriptionDestinationProperties_Severity_STATUS | Severity          | *string                | Modified  |       |
 
+### NamespaceOperatorSecrets
+
+2 x Identical, 1 x New
+
+| v20250215 |                               | v20250215/storage |                               |  Status   | Notes |
+|:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
+| Key1      | *genruntime.SecretDestination | Key1              | *genruntime.SecretDestination | Identical |       |
+| Key2      | *genruntime.SecretDestination | Key2              | *genruntime.SecretDestination | Identical |       |
+|           |                               | PropertyBag       | genruntime.PropertyBag        |    New    |       |
+
+### NamespaceOperatorSpec
+
+3 x Identical, 1 x New
+
+| v20250215            |                               | v20250215/storage    |                               |  Status   | Notes |
+|:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
+| ConfigMapExpressions | *core.DestinationExpression[] | ConfigMapExpressions | *core.DestinationExpression[] | Identical |       |
+|                      |                               | PropertyBag          | genruntime.PropertyBag        |    New    |       |
+| SecretExpressions    | *core.DestinationExpression[] | SecretExpressions    | *core.DestinationExpression[] | Identical |       |
+| Secrets              | *NamespaceOperatorSecrets     | Secrets              | *NamespaceOperatorSecrets     | Identical |       |
+
+### NamespaceSku
+
+1 x Identical, 1 x New, 1 x Modified
+
+| v20250215 |                    | v20250215/storage |                        |  Status   | Notes |
+|:----------|:-------------------|:------------------|:-----------------------|:---------:|:------|
+| Capacity  | *int               | Capacity          | *int                   | Identical |       |
+| Name      | *NamespaceSku_Name | Name              | *string                | Modified  |       |
+|           |                    | PropertyBag       | genruntime.PropertyBag |    New    |       |
+
+### NamespaceSku_STATUS
+
+1 x Identical, 1 x New, 1 x Modified
+
+| v20250215 |                           | v20250215/storage |                        |  Status   | Notes |
+|:----------|:--------------------------|:------------------|:-----------------------|:---------:|:------|
+| Capacity  | *int                      | Capacity          | *int                   | Identical |       |
+| Name      | *NamespaceSku_Name_STATUS | Name              | *string                | Modified  |       |
+|           |                           | PropertyBag       | genruntime.PropertyBag |    New    |       |
+
 ### NamespaceTopicEventSubscriptionDestination
 
 1 x Identical, 1 x New, 1 x Modified
@@ -877,6 +1017,105 @@
 | EndpointType | *NamespaceTopicEventSubscriptionDestination_EndpointType_STATUS | EndpointType      | *string                | Modified  |       |
 |              |                                                                 | PropertyBag       | genruntime.PropertyBag |    New    |       |
 | ResourceId   | *string                                                         | ResourceId        | *string                | Identical |       |
+
+### NamespaceTopicOperatorSecrets
+
+2 x Identical, 1 x New
+
+| v20250215 |                               | v20250215/storage |                               |  Status   | Notes |
+|:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
+| Key1      | *genruntime.SecretDestination | Key1              | *genruntime.SecretDestination | Identical |       |
+| Key2      | *genruntime.SecretDestination | Key2              | *genruntime.SecretDestination | Identical |       |
+|           |                               | PropertyBag       | genruntime.PropertyBag        |    New    |       |
+
+### NamespaceTopicOperatorSpec
+
+3 x Identical, 1 x New
+
+| v20250215            |                                | v20250215/storage    |                                |  Status   | Notes |
+|:---------------------|:-------------------------------|:---------------------|:-------------------------------|:---------:|:------|
+| ConfigMapExpressions | *core.DestinationExpression[]  | ConfigMapExpressions | *core.DestinationExpression[]  | Identical |       |
+|                      |                                | PropertyBag          | genruntime.PropertyBag         |    New    |       |
+| SecretExpressions    | *core.DestinationExpression[]  | SecretExpressions    | *core.DestinationExpression[]  | Identical |       |
+| Secrets              | *NamespaceTopicOperatorSecrets | Secrets              | *NamespaceTopicOperatorSecrets | Identical |       |
+
+### NamespaceTopic_STATUS
+
+6 x Identical, 1 x New, 3 x Modified
+
+| v20250215            |                                                    | v20250215/storage    |                        |  Status   | Notes |
+|:---------------------|:---------------------------------------------------|:---------------------|:-----------------------|:---------:|:------|
+| Conditions           | conditions.Condition[]                             | Conditions           | conditions.Condition[] | Identical |       |
+| EventRetentionInDays | *int                                               | EventRetentionInDays | *int                   | Identical |       |
+| Id                   | *string                                            | Id                   | *string                | Identical |       |
+| InputSchema          | *NamespaceTopicProperties_InputSchema_STATUS       | InputSchema          | *string                | Modified  |       |
+| Name                 | *string                                            | Name                 | *string                | Identical |       |
+|                      |                                                    | PropertyBag          | genruntime.PropertyBag |    New    |       |
+| ProvisioningState    | *NamespaceTopicProperties_ProvisioningState_STATUS | ProvisioningState    | *string                | Modified  |       |
+| PublisherType        | *NamespaceTopicProperties_PublisherType_STATUS     | PublisherType        | *string                | Modified  |       |
+| SystemData           | *SystemData_STATUS                                 | SystemData           | *SystemData_STATUS     | Identical |       |
+| Type                 | *string                                            | Type                 | *string                | Identical |       |
+
+### NamespaceTopic_Spec
+
+3 x Identical, 2 x New, 3 x Modified
+
+| v20250215            |                                         | v20250215/storage    |                                    |  Status   | Notes |
+|:---------------------|:----------------------------------------|:---------------------|:-----------------------------------|:---------:|:------|
+| AzureName            | Validated<string> (3 rules)             | AzureName            | string                             | Modified  |       |
+| EventRetentionInDays | *int                                    | EventRetentionInDays | *int                               | Identical |       |
+| InputSchema          | *NamespaceTopicProperties_InputSchema   | InputSchema          | *string                            | Modified  |       |
+| OperatorSpec         | *NamespaceTopicOperatorSpec             | OperatorSpec         | *NamespaceTopicOperatorSpec        | Identical |       |
+|                      |                                         | OriginalVersion      | string                             |    New    |       |
+| Owner                | *genruntime.KnownResourceReference      | Owner                | *genruntime.KnownResourceReference | Identical |       |
+|                      |                                         | PropertyBag          | genruntime.PropertyBag             |    New    |       |
+| PublisherType        | *NamespaceTopicProperties_PublisherType | PublisherType        | *string                            | Modified  |       |
+
+### Namespace_STATUS
+
+14 x Identical, 1 x New, 3 x Modified
+
+| v20250215                  |                                                                  | v20250215/storage          |                                                                  |  Status   | Notes |
+|:---------------------------|:-----------------------------------------------------------------|:---------------------------|:-----------------------------------------------------------------|:---------:|:------|
+| Conditions                 | conditions.Condition[]                                           | Conditions                 | conditions.Condition[]                                           | Identical |       |
+| Id                         | *string                                                          | Id                         | *string                                                          | Identical |       |
+| Identity                   | *IdentityInfo_STATUS                                             | Identity                   | *IdentityInfo_STATUS                                             | Identical |       |
+| InboundIpRules             | InboundIpRule_STATUS[]                                           | InboundIpRules             | InboundIpRule_STATUS[]                                           | Identical |       |
+| IsZoneRedundant            | *bool                                                            | IsZoneRedundant            | *bool                                                            | Identical |       |
+| Location                   | *string                                                          | Location                   | *string                                                          | Identical |       |
+| MinimumTlsVersionAllowed   | *NamespaceProperties_MinimumTlsVersionAllowed_STATUS             | MinimumTlsVersionAllowed   | *string                                                          | Modified  |       |
+| Name                       | *string                                                          | Name                       | *string                                                          | Identical |       |
+| PrivateEndpointConnections | PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded[] | PrivateEndpointConnections | PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded[] | Identical |       |
+|                            |                                                                  | PropertyBag                | genruntime.PropertyBag                                           |    New    |       |
+| ProvisioningState          | *NamespaceProperties_ProvisioningState_STATUS                    | ProvisioningState          | *string                                                          | Modified  |       |
+| PublicNetworkAccess        | *NamespaceProperties_PublicNetworkAccess_STATUS                  | PublicNetworkAccess        | *string                                                          | Modified  |       |
+| Sku                        | *NamespaceSku_STATUS                                             | Sku                        | *NamespaceSku_STATUS                                             | Identical |       |
+| SystemData                 | *SystemData_STATUS                                               | SystemData                 | *SystemData_STATUS                                               | Identical |       |
+| Tags                       | map[string]string                                                | Tags                       | map[string]string                                                | Identical |       |
+| TopicSpacesConfiguration   | *TopicSpacesConfiguration_STATUS                                 | TopicSpacesConfiguration   | *TopicSpacesConfiguration_STATUS                                 | Identical |       |
+| TopicsConfiguration        | *TopicsConfiguration_STATUS                                      | TopicsConfiguration        | *TopicsConfiguration_STATUS                                      | Identical |       |
+| Type                       | *string                                                          | Type                       | *string                                                          | Identical |       |
+
+### Namespace_Spec
+
+10 x Identical, 2 x New, 2 x Modified
+
+| v20250215                |                                          | v20250215/storage        |                                    |  Status   | Notes |
+|:-------------------------|:-----------------------------------------|:-------------------------|:-----------------------------------|:---------:|:------|
+| AzureName                | Validated<string> (3 rules)              | AzureName                | string                             | Modified  |       |
+| Identity                 | *IdentityInfo                            | Identity                 | *IdentityInfo                      | Identical |       |
+| InboundIpRules           | InboundIpRule[]                          | InboundIpRules           | InboundIpRule[]                    | Identical |       |
+| IsZoneRedundant          | *bool                                    | IsZoneRedundant          | *bool                              | Identical |       |
+| Location                 | *string                                  | Location                 | *string                            | Identical |       |
+| OperatorSpec             | *NamespaceOperatorSpec                   | OperatorSpec             | *NamespaceOperatorSpec             | Identical |       |
+|                          |                                          | OriginalVersion          | string                             |    New    |       |
+| Owner                    | *genruntime.KnownResourceReference       | Owner                    | *genruntime.KnownResourceReference | Identical |       |
+|                          |                                          | PropertyBag              | genruntime.PropertyBag             |    New    |       |
+| PublicNetworkAccess      | *NamespaceProperties_PublicNetworkAccess | PublicNetworkAccess      | *string                            | Modified  |       |
+| Sku                      | *NamespaceSku                            | Sku                      | *NamespaceSku                      | Identical |       |
+| Tags                     | map[string]string                        | Tags                     | map[string]string                  | Identical |       |
+| TopicSpacesConfiguration | *TopicSpacesConfiguration                | TopicSpacesConfiguration | *TopicSpacesConfiguration          | Identical |       |
+| TopicsConfiguration      | *TopicsConfiguration                     | TopicsConfiguration      | *TopicsConfiguration               | Identical |       |
 
 ### NumberGreaterThanAdvancedFilter
 
@@ -1063,6 +1302,15 @@
 | Id        | *string | Id                | *string                | Identical |       |
 |           |         | PropertyBag       | genruntime.PropertyBag |    New    |       |
 
+### PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded
+
+1 x Identical, 1 x New
+
+| v20250215 |         | v20250215/storage |                        |  Status   | Notes |
+|:----------|:--------|:------------------|:-----------------------|:---------:|:------|
+| Id        | *string | Id                | *string                | Identical |       |
+|           |         | PropertyBag       | genruntime.PropertyBag |    New    |       |
+
 ### PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
 
 1 x Identical, 1 x New
@@ -1091,6 +1339,46 @@
 | EventTimeToLiveInMinutes | *int | EventTimeToLiveInMinutes | *int                   | Identical |       |
 | MaxDeliveryAttempts      | *int | MaxDeliveryAttempts      | *int                   | Identical |       |
 |                          |      | PropertyBag              | genruntime.PropertyBag |    New    |       |
+
+### RoutingEnrichments
+
+2 x Identical, 1 x New
+
+| v20250215 |                            | v20250215/storage |                            |  Status   | Notes |
+|:----------|:---------------------------|:------------------|:---------------------------|:---------:|:------|
+| Dynamic   | DynamicRoutingEnrichment[] | Dynamic           | DynamicRoutingEnrichment[] | Identical |       |
+|           |                            | PropertyBag       | genruntime.PropertyBag     |    New    |       |
+| Static    | StaticRoutingEnrichment[]  | Static            | StaticRoutingEnrichment[]  | Identical |       |
+
+### RoutingEnrichments_STATUS
+
+2 x Identical, 1 x New
+
+| v20250215 |                                   | v20250215/storage |                                   |  Status   | Notes |
+|:----------|:----------------------------------|:------------------|:----------------------------------|:---------:|:------|
+| Dynamic   | DynamicRoutingEnrichment_STATUS[] | Dynamic           | DynamicRoutingEnrichment_STATUS[] | Identical |       |
+|           |                                   | PropertyBag       | genruntime.PropertyBag            |    New    |       |
+| Static    | StaticRoutingEnrichment_STATUS[]  | Static            | StaticRoutingEnrichment_STATUS[]  | Identical |       |
+
+### RoutingIdentityInfo
+
+1 x Identical, 1 x New, 1 x Modified
+
+| v20250215            |                           | v20250215/storage    |                        |  Status   | Notes |
+|:---------------------|:--------------------------|:---------------------|:-----------------------|:---------:|:------|
+|                      |                           | PropertyBag          | genruntime.PropertyBag |    New    |       |
+| Type                 | *RoutingIdentityInfo_Type | Type                 | *string                | Modified  |       |
+| UserAssignedIdentity | *string                   | UserAssignedIdentity | *string                | Identical |       |
+
+### RoutingIdentityInfo_STATUS
+
+1 x Identical, 1 x New, 1 x Modified
+
+| v20250215            |                                  | v20250215/storage    |                        |  Status   | Notes |
+|:---------------------|:---------------------------------|:---------------------|:-----------------------|:---------:|:------|
+|                      |                                  | PropertyBag          | genruntime.PropertyBag |    New    |       |
+| Type                 | *RoutingIdentityInfo_Type_STATUS | Type                 | *string                | Modified  |       |
+| UserAssignedIdentity | *string                          | UserAssignedIdentity | *string                | Identical |       |
 
 ### ServiceBusQueueEventSubscriptionDestination
 
@@ -1159,6 +1447,46 @@
 |           |                                             | PropertyBag       | genruntime.PropertyBag |    New    |       |
 | Type      | *StaticDeliveryAttributeMapping_Type_STATUS | Type              | *string                | Modified  |       |
 | Value     | *string                                     | Value             | *string                | Identical |       |
+
+### StaticRoutingEnrichment
+
+1 x Identical, 1 x New
+
+| v20250215 |                                | v20250215/storage |                                |  Status   | Notes |
+|:----------|:-------------------------------|:------------------|:-------------------------------|:---------:|:------|
+|           |                                | PropertyBag       | genruntime.PropertyBag         |    New    |       |
+| String    | *StaticStringRoutingEnrichment | String            | *StaticStringRoutingEnrichment | Identical |       |
+
+### StaticRoutingEnrichment_STATUS
+
+1 x Identical, 1 x New
+
+| v20250215 |                                       | v20250215/storage |                                       |  Status   | Notes |
+|:----------|:--------------------------------------|:------------------|:--------------------------------------|:---------:|:------|
+|           |                                       | PropertyBag       | genruntime.PropertyBag                |    New    |       |
+| String    | *StaticStringRoutingEnrichment_STATUS | String            | *StaticStringRoutingEnrichment_STATUS | Identical |       |
+
+### StaticStringRoutingEnrichment
+
+2 x Identical, 1 x New, 1 x Modified
+
+| v20250215 |                                          | v20250215/storage |                        |  Status   | Notes |
+|:----------|:-----------------------------------------|:------------------|:-----------------------|:---------:|:------|
+| Key       | *string                                  | Key               | *string                | Identical |       |
+|           |                                          | PropertyBag       | genruntime.PropertyBag |    New    |       |
+| Value     | *string                                  | Value             | *string                | Identical |       |
+| ValueType | *StaticStringRoutingEnrichment_ValueType | ValueType         | *string                | Modified  |       |
+
+### StaticStringRoutingEnrichment_STATUS
+
+2 x Identical, 1 x New, 1 x Modified
+
+| v20250215 |                                                 | v20250215/storage |                        |  Status   | Notes |
+|:----------|:------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
+| Key       | *string                                         | Key               | *string                | Identical |       |
+|           |                                                 | PropertyBag       | genruntime.PropertyBag |    New    |       |
+| Value     | *string                                         | Value             | *string                | Identical |       |
+| ValueType | *StaticStringRoutingEnrichment_ValueType_STATUS | ValueType         | *string                | Modified  |       |
 
 ### StorageBlobDeadLetterDestination
 
@@ -1428,6 +1756,37 @@
 | SecretExpressions    | *core.DestinationExpression[] | SecretExpressions    | *core.DestinationExpression[] | Identical |       |
 | Secrets              | *TopicOperatorSecrets         | Secrets              | *TopicOperatorSecrets         | Identical |       |
 
+### TopicSpacesConfiguration
+
+6 x Identical, 1 x New, 1 x Modified
+
+| v20250215                                  |                                 | v20250215/storage                          |                               |  Status   | Notes |
+|:-------------------------------------------|:--------------------------------|:-------------------------------------------|:------------------------------|:---------:|:------|
+| CustomDomains                              | CustomDomainConfiguration[]     | CustomDomains                              | CustomDomainConfiguration[]   | Identical |       |
+| MaximumClientSessionsPerAuthenticationName | *int                            | MaximumClientSessionsPerAuthenticationName | *int                          | Identical |       |
+| MaximumSessionExpiryInHours                | *int                            | MaximumSessionExpiryInHours                | *int                          | Identical |       |
+|                                            |                                 | PropertyBag                                | genruntime.PropertyBag        |    New    |       |
+| RouteTopicResourceReference                | *genruntime.ResourceReference   | RouteTopicResourceReference                | *genruntime.ResourceReference | Identical |       |
+| RoutingEnrichments                         | *RoutingEnrichments             | RoutingEnrichments                         | *RoutingEnrichments           | Identical |       |
+| RoutingIdentityInfo                        | *RoutingIdentityInfo            | RoutingIdentityInfo                        | *RoutingIdentityInfo          | Identical |       |
+| State                                      | *TopicSpacesConfiguration_State | State                                      | *string                       | Modified  |       |
+
+### TopicSpacesConfiguration_STATUS
+
+7 x Identical, 1 x New, 1 x Modified
+
+| v20250215                                  |                                        | v20250215/storage                          |                                    |  Status   | Notes |
+|:-------------------------------------------|:---------------------------------------|:-------------------------------------------|:-----------------------------------|:---------:|:------|
+| CustomDomains                              | CustomDomainConfiguration_STATUS[]     | CustomDomains                              | CustomDomainConfiguration_STATUS[] | Identical |       |
+| Hostname                                   | *string                                | Hostname                                   | *string                            | Identical |       |
+| MaximumClientSessionsPerAuthenticationName | *int                                   | MaximumClientSessionsPerAuthenticationName | *int                               | Identical |       |
+| MaximumSessionExpiryInHours                | *int                                   | MaximumSessionExpiryInHours                | *int                               | Identical |       |
+|                                            |                                        | PropertyBag                                | genruntime.PropertyBag             |    New    |       |
+| RouteTopicResourceId                       | *string                                | RouteTopicResourceId                       | *string                            | Identical |       |
+| RoutingEnrichments                         | *RoutingEnrichments_STATUS             | RoutingEnrichments                         | *RoutingEnrichments_STATUS         | Identical |       |
+| RoutingIdentityInfo                        | *RoutingIdentityInfo_STATUS            | RoutingIdentityInfo                        | *RoutingIdentityInfo_STATUS        | Identical |       |
+| State                                      | *TopicSpacesConfiguration_State_STATUS | State                                      | *string                            | Modified  |       |
+
 ### Topic_STATUS
 
 15 x Identical, 1 x New, 5 x Modified
@@ -1478,6 +1837,25 @@
 |                          |                                           | PropertyBag              | genruntime.PropertyBag             |    New    |       |
 | PublicNetworkAccess      | *TopicProperties_PublicNetworkAccess      | PublicNetworkAccess      | *string                            | Modified  |       |
 | Tags                     | map[string]string                         | Tags                     | map[string]string                  | Identical |       |
+
+### TopicsConfiguration
+
+1 x Identical, 1 x New
+
+| v20250215     |                             | v20250215/storage |                             |  Status   | Notes |
+|:--------------|:----------------------------|:------------------|:----------------------------|:---------:|:------|
+| CustomDomains | CustomDomainConfiguration[] | CustomDomains     | CustomDomainConfiguration[] | Identical |       |
+|               |                             | PropertyBag       | genruntime.PropertyBag      |    New    |       |
+
+### TopicsConfiguration_STATUS
+
+2 x Identical, 1 x New
+
+| v20250215     |                                    | v20250215/storage |                                    |  Status   | Notes |
+|:--------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
+| CustomDomains | CustomDomainConfiguration_STATUS[] | CustomDomains     | CustomDomainConfiguration_STATUS[] | Identical |       |
+| Hostname      | *string                            | Hostname          | *string                            | Identical |       |
+|               |                                    | PropertyBag       | genruntime.PropertyBag             |    New    |       |
 
 ### UserAssignedIdentityDetails
 

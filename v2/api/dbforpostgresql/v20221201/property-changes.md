@@ -2,7 +2,7 @@
 
 ## Resources
 
-| v20210601                    | v20210601/storage            |  Status   | Notes |
+| v20221201                    | v20221201/storage            |  Status   | Notes |
 |:-----------------------------|:-----------------------------|:---------:|:------|
 | FlexibleServer               | FlexibleServer               | Identical |       |
 | FlexibleServersConfiguration | FlexibleServersConfiguration | Identical |       |
@@ -11,20 +11,25 @@
 
 ## Objects
 
-| v20210601                                | v20210601/storage                        |  Status  | Notes |
+| v20221201                                | v20221201/storage                        |  Status  | Notes |
 |:-----------------------------------------|:-----------------------------------------|:--------:|:------|
+| AuthConfig                               | AuthConfig                               | Modified |       |
+| AuthConfig_STATUS                        | AuthConfig_STATUS                        | Modified |       |
 | Backup                                   | Backup                                   | Modified |       |
 | Backup_STATUS                            | Backup_STATUS                            | Modified |       |
+| DataEncryption                           | DataEncryption                           | Modified |       |
+| DataEncryption_STATUS                    | DataEncryption_STATUS                    | Modified |       |
+| FlexibleServerOperatorConfigMaps         | FlexibleServerOperatorConfigMaps         | Extended |       |
 | FlexibleServerOperatorSecrets            | FlexibleServerOperatorSecrets            | Extended |       |
 | FlexibleServerOperatorSpec               | FlexibleServerOperatorSpec               | Extended |       |
 | FlexibleServer_STATUS                    | FlexibleServer_STATUS                    | Modified |       |
 | FlexibleServer_Spec                      | FlexibleServer_Spec                      | Modified |       |
 | FlexibleServersConfigurationOperatorSpec | FlexibleServersConfigurationOperatorSpec | Extended |       |
 | FlexibleServersConfiguration_STATUS      | FlexibleServersConfiguration_STATUS      | Modified |       |
-| FlexibleServersConfiguration_Spec        | FlexibleServersConfiguration_Spec        | Extended |       |
+| FlexibleServersConfiguration_Spec        | FlexibleServersConfiguration_Spec        | Modified |       |
 | FlexibleServersDatabaseOperatorSpec      | FlexibleServersDatabaseOperatorSpec      | Extended |       |
 | FlexibleServersDatabase_STATUS           | FlexibleServersDatabase_STATUS           | Extended |       |
-| FlexibleServersDatabase_Spec             | FlexibleServersDatabase_Spec             | Extended |       |
+| FlexibleServersDatabase_Spec             | FlexibleServersDatabase_Spec             | Modified |       |
 | FlexibleServersFirewallRuleOperatorSpec  | FlexibleServersFirewallRuleOperatorSpec  | Extended |       |
 | FlexibleServersFirewallRule_STATUS       | FlexibleServersFirewallRule_STATUS       | Extended |       |
 | FlexibleServersFirewallRule_Spec         | FlexibleServersFirewallRule_Spec         | Modified |       |
@@ -39,6 +44,10 @@
 | Storage                                  | Storage                                  | Extended |       |
 | Storage_STATUS                           | Storage_STATUS                           | Extended |       |
 | SystemData_STATUS                        | SystemData_STATUS                        | Modified |       |
+| UserAssignedIdentity                     | UserAssignedIdentity                     | Modified |       |
+| UserAssignedIdentityDetails              | UserAssignedIdentityDetails              | Extended |       |
+| UserAssignedIdentity_STATUS              | UserAssignedIdentity_STATUS              | Modified |       |
+| UserIdentity_STATUS                      | UserIdentity_STATUS                      | Extended |       |
 
 ## Legend
 
@@ -49,11 +58,33 @@
 * **Extended**: The newer type only adds properties.
 * **Modified**: Properties were retired, renamed, or changed type.
 
+### AuthConfig
+
+1 x Identical, 1 x New, 2 x Modified
+
+| v20221201           |                                 | v20221201/storage   |                        |  Status   | Notes |
+|:--------------------|:--------------------------------|:--------------------|:-----------------------|:---------:|:------|
+| ActiveDirectoryAuth | *AuthConfig_ActiveDirectoryAuth | ActiveDirectoryAuth | *string                | Modified  |       |
+| PasswordAuth        | *AuthConfig_PasswordAuth        | PasswordAuth        | *string                | Modified  |       |
+|                     |                                 | PropertyBag         | genruntime.PropertyBag |    New    |       |
+| TenantId            | *string                         | TenantId            | *string                | Identical |       |
+
+### AuthConfig_STATUS
+
+1 x Identical, 1 x New, 2 x Modified
+
+| v20221201           |                                        | v20221201/storage   |                        |  Status   | Notes |
+|:--------------------|:---------------------------------------|:--------------------|:-----------------------|:---------:|:------|
+| ActiveDirectoryAuth | *AuthConfig_ActiveDirectoryAuth_STATUS | ActiveDirectoryAuth | *string                | Modified  |       |
+| PasswordAuth        | *AuthConfig_PasswordAuth_STATUS        | PasswordAuth        | *string                | Modified  |       |
+|                     |                                        | PropertyBag         | genruntime.PropertyBag |    New    |       |
+| TenantId            | *string                                | TenantId            | *string                | Identical |       |
+
 ### Backup
 
 1 x Identical, 1 x New, 1 x Modified
 
-| v20210601           |                            | v20210601/storage   |                        |  Status   | Notes |
+| v20221201           |                            | v20221201/storage   |                        |  Status   | Notes |
 |:--------------------|:---------------------------|:--------------------|:-----------------------|:---------:|:------|
 | BackupRetentionDays | *int                       | BackupRetentionDays | *int                   | Identical |       |
 | GeoRedundantBackup  | *Backup_GeoRedundantBackup | GeoRedundantBackup  | *string                | Modified  |       |
@@ -63,76 +94,117 @@
 
 2 x Identical, 1 x New, 1 x Modified
 
-| v20210601           |                                   | v20210601/storage   |                        |  Status   | Notes |
+| v20221201           |                                   | v20221201/storage   |                        |  Status   | Notes |
 |:--------------------|:----------------------------------|:--------------------|:-----------------------|:---------:|:------|
 | BackupRetentionDays | *int                              | BackupRetentionDays | *int                   | Identical |       |
 | EarliestRestoreDate | *string                           | EarliestRestoreDate | *string                | Identical |       |
 | GeoRedundantBackup  | *Backup_GeoRedundantBackup_STATUS | GeoRedundantBackup  | *string                | Modified  |       |
 |                     |                                   | PropertyBag         | genruntime.PropertyBag |    New    |       |
 
+### DataEncryption
+
+3 x Identical, 1 x New, 1 x Modified
+
+| v20221201                            |                                | v20221201/storage                    |                                |  Status   | Notes |
+|:-------------------------------------|:-------------------------------|:-------------------------------------|:-------------------------------|:---------:|:------|
+| PrimaryKeyURI                        | *string                        | PrimaryKeyURI                        | *string                        | Identical |       |
+| PrimaryKeyURIFromConfig              | *genruntime.ConfigMapReference | PrimaryKeyURIFromConfig              | *genruntime.ConfigMapReference | Identical |       |
+| PrimaryUserAssignedIdentityReference | *genruntime.ResourceReference  | PrimaryUserAssignedIdentityReference | *genruntime.ResourceReference  | Identical |       |
+|                                      |                                | PropertyBag                          | genruntime.PropertyBag         |    New    |       |
+| Type                                 | *DataEncryption_Type           | Type                                 | *string                        | Modified  |       |
+
+### DataEncryption_STATUS
+
+2 x Identical, 1 x New, 1 x Modified
+
+| v20221201                     |                             | v20221201/storage             |                        |  Status   | Notes |
+|:------------------------------|:----------------------------|:------------------------------|:-----------------------|:---------:|:------|
+| PrimaryKeyURI                 | *string                     | PrimaryKeyURI                 | *string                | Identical |       |
+| PrimaryUserAssignedIdentityId | *string                     | PrimaryUserAssignedIdentityId | *string                | Identical |       |
+|                               |                             | PropertyBag                   | genruntime.PropertyBag |    New    |       |
+| Type                          | *DataEncryption_Type_STATUS | Type                          | *string                | Modified  |       |
+
+### FlexibleServerOperatorConfigMaps
+
+1 x Identical, 1 x New
+
+| v20221201                |                                  | v20221201/storage        |                                  |  Status   | Notes |
+|:-------------------------|:---------------------------------|:-------------------------|:---------------------------------|:---------:|:------|
+| FullyQualifiedDomainName | *genruntime.ConfigMapDestination | FullyQualifiedDomainName | *genruntime.ConfigMapDestination | Identical |       |
+|                          |                                  | PropertyBag              | genruntime.PropertyBag           |    New    |       |
+
 ### FlexibleServerOperatorSecrets
 
 1 x Identical, 1 x New
 
-| v20210601                |                               | v20210601/storage        |                               |  Status   | Notes |
+| v20221201                |                               | v20221201/storage        |                               |  Status   | Notes |
 |:-------------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
 | FullyQualifiedDomainName | *genruntime.SecretDestination | FullyQualifiedDomainName | *genruntime.SecretDestination | Identical |       |
 |                          |                               | PropertyBag              | genruntime.PropertyBag        |    New    |       |
 
 ### FlexibleServerOperatorSpec
 
-3 x Identical, 1 x New
+4 x Identical, 1 x New
 
-| v20210601            |                                | v20210601/storage    |                                |  Status   | Notes |
-|:---------------------|:-------------------------------|:---------------------|:-------------------------------|:---------:|:------|
-| ConfigMapExpressions | *core.DestinationExpression[]  | ConfigMapExpressions | *core.DestinationExpression[]  | Identical |       |
-|                      |                                | PropertyBag          | genruntime.PropertyBag         |    New    |       |
-| SecretExpressions    | *core.DestinationExpression[]  | SecretExpressions    | *core.DestinationExpression[]  | Identical |       |
-| Secrets              | *FlexibleServerOperatorSecrets | Secrets              | *FlexibleServerOperatorSecrets | Identical |       |
+| v20221201            |                                   | v20221201/storage    |                                   |  Status   | Notes |
+|:---------------------|:----------------------------------|:---------------------|:----------------------------------|:---------:|:------|
+| ConfigMapExpressions | *core.DestinationExpression[]     | ConfigMapExpressions | *core.DestinationExpression[]     | Identical |       |
+| ConfigMaps           | *FlexibleServerOperatorConfigMaps | ConfigMaps           | *FlexibleServerOperatorConfigMaps | Identical |       |
+|                      |                                   | PropertyBag          | genruntime.PropertyBag            |    New    |       |
+| SecretExpressions    | *core.DestinationExpression[]     | SecretExpressions    | *core.DestinationExpression[]     | Identical |       |
+| Secrets              | *FlexibleServerOperatorSecrets    | Secrets              | *FlexibleServerOperatorSecrets    | Identical |       |
 
 ### FlexibleServer_STATUS
 
-19 x Identical, 1 x New, 3 x Modified
+23 x Identical, 1 x New, 4 x Modified
 
-| v20210601                |                                     | v20210601/storage        |                           |  Status   | Notes |
-|:-------------------------|:------------------------------------|:-------------------------|:--------------------------|:---------:|:------|
-| AdministratorLogin       | *string                             | AdministratorLogin       | *string                   | Identical |       |
-| AvailabilityZone         | *string                             | AvailabilityZone         | *string                   | Identical |       |
-| Backup                   | *Backup_STATUS                      | Backup                   | *Backup_STATUS            | Identical |       |
-| Conditions               | conditions.Condition[]              | Conditions               | conditions.Condition[]    | Identical |       |
-| CreateMode               | *ServerProperties_CreateMode_STATUS | CreateMode               | *string                   | Modified  |       |
-| FullyQualifiedDomainName | *string                             | FullyQualifiedDomainName | *string                   | Identical |       |
-| HighAvailability         | *HighAvailability_STATUS            | HighAvailability         | *HighAvailability_STATUS  | Identical |       |
-| Id                       | *string                             | Id                       | *string                   | Identical |       |
-| Location                 | *string                             | Location                 | *string                   | Identical |       |
-| MaintenanceWindow        | *MaintenanceWindow_STATUS           | MaintenanceWindow        | *MaintenanceWindow_STATUS | Identical |       |
-| MinorVersion             | *string                             | MinorVersion             | *string                   | Identical |       |
-| Name                     | *string                             | Name                     | *string                   | Identical |       |
-| Network                  | *Network_STATUS                     | Network                  | *Network_STATUS           | Identical |       |
-| PointInTimeUTC           | *string                             | PointInTimeUTC           | *string                   | Identical |       |
-|                          |                                     | PropertyBag              | genruntime.PropertyBag    |    New    |       |
-| Sku                      | *Sku_STATUS                         | Sku                      | *Sku_STATUS               | Identical |       |
-| SourceServerResourceId   | *string                             | SourceServerResourceId   | *string                   | Identical |       |
-| State                    | *ServerProperties_State_STATUS      | State                    | *string                   | Modified  |       |
-| Storage                  | *Storage_STATUS                     | Storage                  | *Storage_STATUS           | Identical |       |
-| SystemData               | *SystemData_STATUS                  | SystemData               | *SystemData_STATUS        | Identical |       |
-| Tags                     | map[string]string                   | Tags                     | map[string]string         | Identical |       |
-| Type                     | *string                             | Type                     | *string                   | Identical |       |
-| Version                  | *ServerVersion_STATUS               | Version                  | *string                   | Modified  |       |
+| v20221201                |                                     | v20221201/storage        |                              |  Status   | Notes |
+|:-------------------------|:------------------------------------|:-------------------------|:-----------------------------|:---------:|:------|
+| AdministratorLogin       | *string                             | AdministratorLogin       | *string                      | Identical |       |
+| AuthConfig               | *AuthConfig_STATUS                  | AuthConfig               | *AuthConfig_STATUS           | Identical |       |
+| AvailabilityZone         | *string                             | AvailabilityZone         | *string                      | Identical |       |
+| Backup                   | *Backup_STATUS                      | Backup                   | *Backup_STATUS               | Identical |       |
+| Conditions               | conditions.Condition[]              | Conditions               | conditions.Condition[]       | Identical |       |
+| CreateMode               | *ServerProperties_CreateMode_STATUS | CreateMode               | *string                      | Modified  |       |
+| DataEncryption           | *DataEncryption_STATUS              | DataEncryption           | *DataEncryption_STATUS       | Identical |       |
+| FullyQualifiedDomainName | *string                             | FullyQualifiedDomainName | *string                      | Identical |       |
+| HighAvailability         | *HighAvailability_STATUS            | HighAvailability         | *HighAvailability_STATUS     | Identical |       |
+| Id                       | *string                             | Id                       | *string                      | Identical |       |
+| Identity                 | *UserAssignedIdentity_STATUS        | Identity                 | *UserAssignedIdentity_STATUS | Identical |       |
+| Location                 | *string                             | Location                 | *string                      | Identical |       |
+| MaintenanceWindow        | *MaintenanceWindow_STATUS           | MaintenanceWindow        | *MaintenanceWindow_STATUS    | Identical |       |
+| MinorVersion             | *string                             | MinorVersion             | *string                      | Identical |       |
+| Name                     | *string                             | Name                     | *string                      | Identical |       |
+| Network                  | *Network_STATUS                     | Network                  | *Network_STATUS              | Identical |       |
+| PointInTimeUTC           | *string                             | PointInTimeUTC           | *string                      | Identical |       |
+|                          |                                     | PropertyBag              | genruntime.PropertyBag       |    New    |       |
+| ReplicaCapacity          | *int                                | ReplicaCapacity          | *int                         | Identical |       |
+| ReplicationRole          | *ReplicationRole_STATUS             | ReplicationRole          | *string                      | Modified  |       |
+| Sku                      | *Sku_STATUS                         | Sku                      | *Sku_STATUS                  | Identical |       |
+| SourceServerResourceId   | *string                             | SourceServerResourceId   | *string                      | Identical |       |
+| State                    | *ServerProperties_State_STATUS      | State                    | *string                      | Modified  |       |
+| Storage                  | *Storage_STATUS                     | Storage                  | *Storage_STATUS              | Identical |       |
+| SystemData               | *SystemData_STATUS                  | SystemData               | *SystemData_STATUS           | Identical |       |
+| Tags                     | map[string]string                   | Tags                     | map[string]string            | Identical |       |
+| Type                     | *string                             | Type                     | *string                      | Identical |       |
+| Version                  | *ServerVersion_STATUS               | Version                  | *string                      | Modified  |       |
 
 ### FlexibleServer_Spec
 
-16 x Identical, 2 x New, 2 x Modified
+18 x Identical, 2 x New, 4 x Modified
 
-| v20210601                     |                                    | v20210601/storage             |                                    |  Status   | Notes |
+| v20221201                     |                                    | v20221201/storage             |                                    |  Status   | Notes |
 |:------------------------------|:-----------------------------------|:------------------------------|:-----------------------------------|:---------:|:------|
 | AdministratorLogin            | *string                            | AdministratorLogin            | *string                            | Identical |       |
 | AdministratorLoginPassword    | *genruntime.SecretReference        | AdministratorLoginPassword    | *genruntime.SecretReference        | Identical |       |
+| AuthConfig                    | *AuthConfig                        | AuthConfig                    | *AuthConfig                        | Identical |       |
 | AvailabilityZone              | *string                            | AvailabilityZone              | *string                            | Identical |       |
-| AzureName                     | string                             | AzureName                     | string                             | Identical |       |
+| AzureName                     | Validated<string> (3 rules)        | AzureName                     | string                             | Modified  |       |
 | Backup                        | *Backup                            | Backup                        | *Backup                            | Identical |       |
 | CreateMode                    | *ServerProperties_CreateMode       | CreateMode                    | *string                            | Modified  |       |
+| DataEncryption                | *DataEncryption                    | DataEncryption                | *DataEncryption                    | Identical |       |
 | HighAvailability              | *HighAvailability                  | HighAvailability              | *HighAvailability                  | Identical |       |
+| Identity                      | *UserAssignedIdentity              | Identity                      | *UserAssignedIdentity              | Identical |       |
 | Location                      | *string                            | Location                      | *string                            | Identical |       |
 | MaintenanceWindow             | *MaintenanceWindow                 | MaintenanceWindow             | *MaintenanceWindow                 | Identical |       |
 | Network                       | *Network                           | Network                       | *Network                           | Identical |       |
@@ -141,6 +213,7 @@
 | Owner                         | *genruntime.KnownResourceReference | Owner                         | *genruntime.KnownResourceReference | Identical |       |
 | PointInTimeUTC                | *string                            | PointInTimeUTC                | *string                            | Identical |       |
 |                               |                                    | PropertyBag                   | genruntime.PropertyBag             |    New    |       |
+| ReplicationRole               | *ReplicationRole                   | ReplicationRole               | *string                            | Modified  |       |
 | Sku                           | *Sku                               | Sku                           | *Sku                               | Identical |       |
 | SourceServerResourceReference | *genruntime.ResourceReference      | SourceServerResourceReference | *genruntime.ResourceReference      | Identical |       |
 | Storage                       | *Storage                           | Storage                       | *Storage                           | Identical |       |
@@ -151,7 +224,7 @@
 
 2 x Identical, 1 x New
 
-| v20210601            |                               | v20210601/storage    |                               |  Status   | Notes |
+| v20221201            |                               | v20221201/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
 | ConfigMapExpressions | *core.DestinationExpression[] | ConfigMapExpressions | *core.DestinationExpression[] | Identical |       |
 |                      |                               | PropertyBag          | genruntime.PropertyBag        |    New    |       |
@@ -161,7 +234,7 @@
 
 15 x Identical, 1 x New, 1 x Modified
 
-| v20210601              |                                          | v20210601/storage      |                        |  Status   | Notes |
+| v20221201              |                                          | v20221201/storage      |                        |  Status   | Notes |
 |:-----------------------|:-----------------------------------------|:-----------------------|:-----------------------|:---------:|:------|
 | AllowedValues          | *string                                  | AllowedValues          | *string                | Identical |       |
 | Conditions             | conditions.Condition[]                   | Conditions             | conditions.Condition[] | Identical |       |
@@ -183,11 +256,11 @@
 
 ### FlexibleServersConfiguration_Spec
 
-5 x Identical, 2 x New
+4 x Identical, 2 x New, 1 x Modified
 
-| v20210601    |                                           | v20210601/storage |                                           |  Status   | Notes |
+| v20221201    |                                           | v20221201/storage |                                           |  Status   | Notes |
 |:-------------|:------------------------------------------|:------------------|:------------------------------------------|:---------:|:------|
-| AzureName    | string                                    | AzureName         | string                                    | Identical |       |
+| AzureName    | Validated<string> (2 rules)               | AzureName         | string                                    | Modified  |       |
 | OperatorSpec | *FlexibleServersConfigurationOperatorSpec | OperatorSpec      | *FlexibleServersConfigurationOperatorSpec | Identical |       |
 |              |                                           | OriginalVersion   | string                                    |    New    |       |
 | Owner        | *genruntime.KnownResourceReference        | Owner             | *genruntime.KnownResourceReference        | Identical |       |
@@ -199,7 +272,7 @@
 
 2 x Identical, 1 x New
 
-| v20210601            |                               | v20210601/storage    |                               |  Status   | Notes |
+| v20221201            |                               | v20221201/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
 | ConfigMapExpressions | *core.DestinationExpression[] | ConfigMapExpressions | *core.DestinationExpression[] | Identical |       |
 |                      |                               | PropertyBag          | genruntime.PropertyBag        |    New    |       |
@@ -209,7 +282,7 @@
 
 7 x Identical, 1 x New
 
-| v20210601  |                        | v20210601/storage |                        |  Status   | Notes |
+| v20221201  |                        | v20221201/storage |                        |  Status   | Notes |
 |:-----------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
 | Charset    | *string                | Charset           | *string                | Identical |       |
 | Collation  | *string                | Collation         | *string                | Identical |       |
@@ -222,13 +295,13 @@
 
 ### FlexibleServersDatabase_Spec
 
-5 x Identical, 2 x New
+2 x Identical, 2 x New, 3 x Modified
 
-| v20210601    |                                      | v20210601/storage |                                      |  Status   | Notes |
+| v20221201    |                                      | v20221201/storage |                                      |  Status   | Notes |
 |:-------------|:-------------------------------------|:------------------|:-------------------------------------|:---------:|:------|
-| AzureName    | string                               | AzureName         | string                               | Identical |       |
-| Charset      | *string                              | Charset           | *string                              | Identical |       |
-| Collation    | *string                              | Collation         | *string                              | Identical |       |
+| AzureName    | Validated<string> (2 rules)          | AzureName         | string                               | Modified  |       |
+| Charset      | Validated<*string> (1 rule)          | Charset           | *string                              | Modified  |       |
+| Collation    | Validated<*string> (1 rule)          | Collation         | *string                              | Modified  |       |
 | OperatorSpec | *FlexibleServersDatabaseOperatorSpec | OperatorSpec      | *FlexibleServersDatabaseOperatorSpec | Identical |       |
 |              |                                      | OriginalVersion   | string                               |    New    |       |
 | Owner        | *genruntime.KnownResourceReference   | Owner             | *genruntime.KnownResourceReference   | Identical |       |
@@ -238,7 +311,7 @@
 
 2 x Identical, 1 x New
 
-| v20210601            |                               | v20210601/storage    |                               |  Status   | Notes |
+| v20221201            |                               | v20221201/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
 | ConfigMapExpressions | *core.DestinationExpression[] | ConfigMapExpressions | *core.DestinationExpression[] | Identical |       |
 |                      |                               | PropertyBag          | genruntime.PropertyBag        |    New    |       |
@@ -248,7 +321,7 @@
 
 7 x Identical, 1 x New
 
-| v20210601      |                        | v20210601/storage |                        |  Status   | Notes |
+| v20221201      |                        | v20221201/storage |                        |  Status   | Notes |
 |:---------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
 | Conditions     | conditions.Condition[] | Conditions        | conditions.Condition[] | Identical |       |
 | EndIpAddress   | *string                | EndIpAddress      | *string                | Identical |       |
@@ -261,11 +334,11 @@
 
 ### FlexibleServersFirewallRule_Spec
 
-3 x Identical, 2 x New, 2 x Modified
+2 x Identical, 2 x New, 3 x Modified
 
-| v20210601      |                                          | v20210601/storage |                                          |  Status   | Notes |
+| v20221201      |                                          | v20221201/storage |                                          |  Status   | Notes |
 |:---------------|:-----------------------------------------|:------------------|:-----------------------------------------|:---------:|:------|
-| AzureName      | string                                   | AzureName         | string                                   | Identical |       |
+| AzureName      | Validated<string> (2 rules)              | AzureName         | string                                   | Modified  |       |
 | EndIpAddress   | Validated<*string> (1 rule)              | EndIpAddress      | *string                                  | Modified  |       |
 | OperatorSpec   | *FlexibleServersFirewallRuleOperatorSpec | OperatorSpec      | *FlexibleServersFirewallRuleOperatorSpec | Identical |       |
 |                |                                          | OriginalVersion   | string                                   |    New    |       |
@@ -277,7 +350,7 @@
 
 1 x Identical, 1 x New, 1 x Modified
 
-| v20210601               |                        | v20210601/storage       |                        |  Status   | Notes |
+| v20221201               |                        | v20221201/storage       |                        |  Status   | Notes |
 |:------------------------|:-----------------------|:------------------------|:-----------------------|:---------:|:------|
 | Mode                    | *HighAvailability_Mode | Mode                    | *string                | Modified  |       |
 |                         |                        | PropertyBag             | genruntime.PropertyBag |    New    |       |
@@ -287,7 +360,7 @@
 
 1 x Identical, 1 x New, 2 x Modified
 
-| v20210601               |                                | v20210601/storage       |                        |  Status   | Notes |
+| v20221201               |                                | v20221201/storage       |                        |  Status   | Notes |
 |:------------------------|:-------------------------------|:------------------------|:-----------------------|:---------:|:------|
 | Mode                    | *HighAvailability_Mode_STATUS  | Mode                    | *string                | Modified  |       |
 |                         |                                | PropertyBag             | genruntime.PropertyBag |    New    |       |
@@ -298,7 +371,7 @@
 
 4 x Identical, 1 x New
 
-| v20210601    |         | v20210601/storage |                        |  Status   | Notes |
+| v20221201    |         | v20221201/storage |                        |  Status   | Notes |
 |:-------------|:--------|:------------------|:-----------------------|:---------:|:------|
 | CustomWindow | *string | CustomWindow      | *string                | Identical |       |
 | DayOfWeek    | *int    | DayOfWeek         | *int                   | Identical |       |
@@ -310,7 +383,7 @@
 
 4 x Identical, 1 x New
 
-| v20210601    |         | v20210601/storage |                        |  Status   | Notes |
+| v20221201    |         | v20221201/storage |                        |  Status   | Notes |
 |:-------------|:--------|:------------------|:-----------------------|:---------:|:------|
 | CustomWindow | *string | CustomWindow      | *string                | Identical |       |
 | DayOfWeek    | *int    | DayOfWeek         | *int                   | Identical |       |
@@ -322,7 +395,7 @@
 
 2 x Identical, 1 x New
 
-| v20210601                          |                               | v20210601/storage                  |                               |  Status   | Notes |
+| v20221201                          |                               | v20221201/storage                  |                               |  Status   | Notes |
 |:-----------------------------------|:------------------------------|:-----------------------------------|:------------------------------|:---------:|:------|
 | DelegatedSubnetResourceReference   | *genruntime.ResourceReference | DelegatedSubnetResourceReference   | *genruntime.ResourceReference | Identical |       |
 | PrivateDnsZoneArmResourceReference | *genruntime.ResourceReference | PrivateDnsZoneArmResourceReference | *genruntime.ResourceReference | Identical |       |
@@ -332,7 +405,7 @@
 
 2 x Identical, 1 x New, 1 x Modified
 
-| v20210601                   |                                     | v20210601/storage           |                        |  Status   | Notes |
+| v20221201                   |                                     | v20221201/storage           |                        |  Status   | Notes |
 |:----------------------------|:------------------------------------|:----------------------------|:-----------------------|:---------:|:------|
 | DelegatedSubnetResourceId   | *string                             | DelegatedSubnetResourceId   | *string                | Identical |       |
 | PrivateDnsZoneArmResourceId | *string                             | PrivateDnsZoneArmResourceId | *string                | Identical |       |
@@ -343,7 +416,7 @@
 
 1 x Identical, 1 x New, 1 x Modified
 
-| v20210601 |           | v20210601/storage |                        |  Status   | Notes |
+| v20221201 |           | v20221201/storage |                        |  Status   | Notes |
 |:----------|:----------|:------------------|:-----------------------|:---------:|:------|
 | Name      | *string   | Name              | *string                | Identical |       |
 |           |           | PropertyBag       | genruntime.PropertyBag |    New    |       |
@@ -353,7 +426,7 @@
 
 1 x Identical, 1 x New, 1 x Modified
 
-| v20210601 |                  | v20210601/storage |                        |  Status   | Notes |
+| v20221201 |                  | v20221201/storage |                        |  Status   | Notes |
 |:----------|:-----------------|:------------------|:-----------------------|:---------:|:------|
 | Name      | *string          | Name              | *string                | Identical |       |
 |           |                  | PropertyBag       | genruntime.PropertyBag |    New    |       |
@@ -363,7 +436,7 @@
 
 1 x Identical, 1 x New
 
-| v20210601     |      | v20210601/storage |                        |  Status   | Notes |
+| v20221201     |      | v20221201/storage |                        |  Status   | Notes |
 |:--------------|:-----|:------------------|:-----------------------|:---------:|:------|
 |               |      | PropertyBag       | genruntime.PropertyBag |    New    |       |
 | StorageSizeGB | *int | StorageSizeGB     | *int                   | Identical |       |
@@ -372,7 +445,7 @@
 
 1 x Identical, 1 x New
 
-| v20210601     |      | v20210601/storage |                        |  Status   | Notes |
+| v20221201     |      | v20221201/storage |                        |  Status   | Notes |
 |:--------------|:-----|:------------------|:-----------------------|:---------:|:------|
 |               |      | PropertyBag       | genruntime.PropertyBag |    New    |       |
 | StorageSizeGB | *int | StorageSizeGB     | *int                   | Identical |       |
@@ -381,7 +454,7 @@
 
 4 x Identical, 1 x New, 2 x Modified
 
-| v20210601          |                                       | v20210601/storage  |                        |  Status   | Notes |
+| v20221201          |                                       | v20221201/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------|:-----------------------|:---------:|:------|
 | CreatedAt          | *string                               | CreatedAt          | *string                | Identical |       |
 | CreatedBy          | *string                               | CreatedBy          | *string                | Identical |       |
@@ -390,3 +463,43 @@
 | LastModifiedBy     | *string                               | LastModifiedBy     | *string                | Identical |       |
 | LastModifiedByType | *SystemData_LastModifiedByType_STATUS | LastModifiedByType | *string                | Modified  |       |
 |                    |                                       | PropertyBag        | genruntime.PropertyBag |    New    |       |
+
+### UserAssignedIdentity
+
+1 x Identical, 1 x New, 1 x Modified
+
+| v20221201              |                               | v20221201/storage      |                               |  Status   | Notes |
+|:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
+|                        |                               | PropertyBag            | genruntime.PropertyBag        |    New    |       |
+| Type                   | *UserAssignedIdentity_Type    | Type                   | *string                       | Modified  |       |
+| UserAssignedIdentities | UserAssignedIdentityDetails[] | UserAssignedIdentities | UserAssignedIdentityDetails[] | Identical |       |
+
+### UserAssignedIdentityDetails
+
+1 x Identical, 1 x New
+
+| v20221201 |                              | v20221201/storage |                              |  Status   | Notes |
+|:----------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
+|           |                              | PropertyBag       | genruntime.PropertyBag       |    New    |       |
+| Reference | genruntime.ResourceReference | Reference         | genruntime.ResourceReference | Identical |       |
+
+### UserAssignedIdentity_STATUS
+
+2 x Identical, 1 x New, 1 x Modified
+
+| v20221201              |                                   | v20221201/storage      |                                |  Status   | Notes |
+|:-----------------------|:----------------------------------|:-----------------------|:-------------------------------|:---------:|:------|
+|                        |                                   | PropertyBag            | genruntime.PropertyBag         |    New    |       |
+| TenantId               | *string                           | TenantId               | *string                        | Identical |       |
+| Type                   | *UserAssignedIdentity_Type_STATUS | Type                   | *string                        | Modified  |       |
+| UserAssignedIdentities | map[string]UserIdentity_STATUS    | UserAssignedIdentities | map[string]UserIdentity_STATUS | Identical |       |
+
+### UserIdentity_STATUS
+
+2 x Identical, 1 x New
+
+| v20221201   |         | v20221201/storage |                        |  Status   | Notes |
+|:------------|:--------|:------------------|:-----------------------|:---------:|:------|
+| ClientId    | *string | ClientId          | *string                | Identical |       |
+| PrincipalId | *string | PrincipalId       | *string                | Identical |       |
+|             |         | PropertyBag       | genruntime.PropertyBag |    New    |       |
