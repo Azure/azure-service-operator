@@ -1,0 +1,17 @@
+apiVersion: managedidentity.azure.com/v1api20230131
+kind: UserAssignedIdentity
+metadata:
+  name: aso-sample-sql-aadonly-admin-mi
+  namespace: default
+spec:
+  location: australiaeast
+  owner:
+    name: aso-sample-rg
+  operatorSpec:
+    configMaps:
+      principalId:
+        name: sql-aadonly-admin-config
+        key: principalId
+      tenantId:
+        name: sql-aadonly-admin-config
+        key: tenantId
