@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_PrincipalAssignment_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrincipalAssignment via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrincipalAssignment, PrincipalAssignmentGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrincipalAssignment)
 }
 
 // RunJSONSerializationTestForPrincipalAssignment runs a test to see if a specific instance of PrincipalAssignment round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrincipalAssignment(subject PrincipalAssignment) string {
+func RunJSONSerializationTestForPrincipalAssignment(t *rapid.T) {
+	subject := PrincipalAssignmentGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrincipalAssignment
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,33 +45,31 @@ func RunJSONSerializationTestForPrincipalAssignment(subject PrincipalAssignment)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrincipalAssignment instances for property testing - lazily instantiated by
 // PrincipalAssignmentGenerator()
-var principalAssignmentGenerator gopter.Gen
+var principalAssignmentGenerator *rapid.Generator[PrincipalAssignment]
 
 // PrincipalAssignmentGenerator returns a generator of PrincipalAssignment instances for property testing.
-func PrincipalAssignmentGenerator() gopter.Gen {
+func PrincipalAssignmentGenerator() *rapid.Generator[PrincipalAssignment] {
 	if principalAssignmentGenerator != nil {
 		return principalAssignmentGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForPrincipalAssignment(generators)
-	principalAssignmentGenerator = gen.Struct(reflect.TypeOf(PrincipalAssignment{}), generators)
+	spec := PrincipalAssignment_SpecGenerator()
+	status := PrincipalAssignment_STATUSGenerator()
+
+	principalAssignmentGenerator = rapid.Custom(func(t *rapid.T) PrincipalAssignment {
+		var result PrincipalAssignment
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return principalAssignmentGenerator
-}
-
-// AddRelatedPropertyGeneratorsForPrincipalAssignment is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrincipalAssignment(gens map[string]gopter.Gen) {
-	gens["Spec"] = PrincipalAssignment_SpecGenerator()
-	gens["Status"] = PrincipalAssignment_STATUSGenerator()
 }
 
 func Test_PrincipalAssignmentOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -91,29 +79,23 @@ func Test_PrincipalAssignmentOperatorSpec_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrincipalAssignmentOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrincipalAssignmentOperatorSpec, PrincipalAssignmentOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrincipalAssignmentOperatorSpec)
 }
 
 // RunJSONSerializationTestForPrincipalAssignmentOperatorSpec runs a test to see if a specific instance of PrincipalAssignmentOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrincipalAssignmentOperatorSpec(subject PrincipalAssignmentOperatorSpec) string {
+func RunJSONSerializationTestForPrincipalAssignmentOperatorSpec(t *rapid.T) {
+	subject := PrincipalAssignmentOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrincipalAssignmentOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -122,24 +104,21 @@ func RunJSONSerializationTestForPrincipalAssignmentOperatorSpec(subject Principa
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrincipalAssignmentOperatorSpec instances for property testing - lazily instantiated by
 // PrincipalAssignmentOperatorSpecGenerator()
-var principalAssignmentOperatorSpecGenerator gopter.Gen
+var principalAssignmentOperatorSpecGenerator *rapid.Generator[PrincipalAssignmentOperatorSpec]
 
 // PrincipalAssignmentOperatorSpecGenerator returns a generator of PrincipalAssignmentOperatorSpec instances for property testing.
-func PrincipalAssignmentOperatorSpecGenerator() gopter.Gen {
+func PrincipalAssignmentOperatorSpecGenerator() *rapid.Generator[PrincipalAssignmentOperatorSpec] {
 	if principalAssignmentOperatorSpecGenerator != nil {
 		return principalAssignmentOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	principalAssignmentOperatorSpecGenerator = gen.Struct(reflect.TypeOf(PrincipalAssignmentOperatorSpec{}), generators)
+	principalAssignmentOperatorSpecGenerator = rapid.Just(PrincipalAssignmentOperatorSpec{})
 
 	return principalAssignmentOperatorSpecGenerator
 }
@@ -151,29 +130,23 @@ func Test_PrincipalAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrincipalAssignment_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrincipalAssignment_STATUS, PrincipalAssignment_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrincipalAssignment_STATUS)
 }
 
 // RunJSONSerializationTestForPrincipalAssignment_STATUS runs a test to see if a specific instance of PrincipalAssignment_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrincipalAssignment_STATUS(subject PrincipalAssignment_STATUS) string {
+func RunJSONSerializationTestForPrincipalAssignment_STATUS(t *rapid.T) {
+	subject := PrincipalAssignment_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrincipalAssignment_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -182,42 +155,39 @@ func RunJSONSerializationTestForPrincipalAssignment_STATUS(subject PrincipalAssi
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrincipalAssignment_STATUS instances for property testing - lazily instantiated by
 // PrincipalAssignment_STATUSGenerator()
-var principalAssignment_STATUSGenerator gopter.Gen
+var principalAssignment_STATUSGenerator *rapid.Generator[PrincipalAssignment_STATUS]
 
 // PrincipalAssignment_STATUSGenerator returns a generator of PrincipalAssignment_STATUS instances for property testing.
-func PrincipalAssignment_STATUSGenerator() gopter.Gen {
+func PrincipalAssignment_STATUSGenerator() *rapid.Generator[PrincipalAssignment_STATUS] {
 	if principalAssignment_STATUSGenerator != nil {
 		return principalAssignment_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrincipalAssignment_STATUS(generators)
-	principalAssignment_STATUSGenerator = gen.Struct(reflect.TypeOf(PrincipalAssignment_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	principalAssignment_STATUSGenerator = rapid.Custom(func(t *rapid.T) PrincipalAssignment_STATUS {
+		var result PrincipalAssignment_STATUS
+		result.AadObjectId = ptrString.Draw(t, "AadObjectId")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.PrincipalId = ptrString.Draw(t, "PrincipalId")
+		result.PrincipalName = ptrString.Draw(t, "PrincipalName")
+		result.PrincipalType = ptrString.Draw(t, "PrincipalType")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.Role = ptrString.Draw(t, "Role")
+		result.TenantId = ptrString.Draw(t, "TenantId")
+		result.TenantName = ptrString.Draw(t, "TenantName")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return principalAssignment_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrincipalAssignment_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrincipalAssignment_STATUS(gens map[string]gopter.Gen) {
-	gens["AadObjectId"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalName"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalType"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["Role"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantName"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PrincipalAssignment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -227,29 +197,23 @@ func Test_PrincipalAssignment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrincipalAssignment_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrincipalAssignment_Spec, PrincipalAssignment_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrincipalAssignment_Spec)
 }
 
 // RunJSONSerializationTestForPrincipalAssignment_Spec runs a test to see if a specific instance of PrincipalAssignment_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrincipalAssignment_Spec(subject PrincipalAssignment_Spec) string {
+func RunJSONSerializationTestForPrincipalAssignment_Spec(t *rapid.T) {
+	subject := PrincipalAssignment_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrincipalAssignment_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -258,49 +222,35 @@ func RunJSONSerializationTestForPrincipalAssignment_Spec(subject PrincipalAssign
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrincipalAssignment_Spec instances for property testing - lazily instantiated by
 // PrincipalAssignment_SpecGenerator()
-var principalAssignment_SpecGenerator gopter.Gen
+var principalAssignment_SpecGenerator *rapid.Generator[PrincipalAssignment_Spec]
 
 // PrincipalAssignment_SpecGenerator returns a generator of PrincipalAssignment_Spec instances for property testing.
-// We first initialize principalAssignment_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrincipalAssignment_SpecGenerator() gopter.Gen {
+func PrincipalAssignment_SpecGenerator() *rapid.Generator[PrincipalAssignment_Spec] {
 	if principalAssignment_SpecGenerator != nil {
 		return principalAssignment_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrincipalAssignment_Spec(generators)
-	principalAssignment_SpecGenerator = gen.Struct(reflect.TypeOf(PrincipalAssignment_Spec{}), generators)
+	genString := rapid.String()
+	ptrString := rapid.Ptr(rapid.String(), true)
+	operatorSpec := rapid.Ptr(PrincipalAssignmentOperatorSpecGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrincipalAssignment_Spec(generators)
-	AddRelatedPropertyGeneratorsForPrincipalAssignment_Spec(generators)
-	principalAssignment_SpecGenerator = gen.Struct(reflect.TypeOf(PrincipalAssignment_Spec{}), generators)
+	principalAssignment_SpecGenerator = rapid.Custom(func(t *rapid.T) PrincipalAssignment_Spec {
+		var result PrincipalAssignment_Spec
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		result.PrincipalId = ptrString.Draw(t, "PrincipalId")
+		result.PrincipalType = ptrString.Draw(t, "PrincipalType")
+		result.Role = ptrString.Draw(t, "Role")
+		result.TenantId = ptrString.Draw(t, "TenantId")
+		return result
+	})
 
 	return principalAssignment_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrincipalAssignment_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrincipalAssignment_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalType"] = gen.PtrOf(gen.AlphaString())
-	gens["Role"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrincipalAssignment_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrincipalAssignment_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(PrincipalAssignmentOperatorSpecGenerator())
 }
