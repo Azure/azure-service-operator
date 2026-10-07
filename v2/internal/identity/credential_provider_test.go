@@ -7,14 +7,18 @@ package identity
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"testing"
+	"time"
 
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/benbjohnson/clock"
 	"github.com/google/uuid"
+	authenticationv1 "k8s.io/api/authentication/v1"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -22,6 +26,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	internalconfig "github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -43,12 +48,8 @@ type testCredentialProviderResources struct {
 }
 
 func testCredentialProviderSetup(cloud *cloud.Configuration) (*testCredentialProviderResources, error) {
-	return testCredentialProviderSetupWithMultiEnv(cloud, false)
-}
-
-func testCredentialProviderSetupWithMultiEnv(cloud *cloud.Configuration, allowMultiEnvManagement bool) (*testCredentialProviderResources, error) {
 	return testCredentialProviderSetupWithOptions(cloud, &CredentialProviderOptions{
-		AllowMultiEnvManagement: allowMultiEnvManagement,
+		WorkloadIdentityAuthMode: internalconfig.WorkloadIdentityAuthModeRelaxed,
 	})
 }
 
@@ -314,17 +315,8 @@ func TestCredentialProvider_WorkloadIdentityCredential_IsConfiguredCorrectly(t *
 	clientID := uuid.New().String()
 	tenantID := uuid.New().String()
 
-	secret := &v1.Secret{
-		ObjectMeta: metav1.ObjectMeta{
-			Namespace: "test-namespace",
-			Name:      NamespacedSecretName,
-		},
-		Data: map[string][]byte{
-			config.AzureSubscriptionID: []byte(testSubscriptionID),
-			config.AzureClientID:       []byte(clientID),
-			config.AzureTenantID:       []byte(tenantID),
-		},
-	}
+	secret := newWorkloadIdentitySecret(clientID, tenantID)
+	secret.Data[config.WorkloadIdentityServiceAccount] = []byte("ignored-in-relaxed-mode")
 
 	err = res.kubeClient.Create(ctx, secret)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -340,6 +332,166 @@ func TestCredentialProvider_WorkloadIdentityCredential_IsConfiguredCorrectly(t *
 	g.Expect(res.fakeTokenCredentialProvider.ClientID).To(Equal(clientID))
 	g.Expect(res.fakeTokenCredentialProvider.TenantID).To(Equal(tenantID))
 	g.Expect(res.fakeTokenCredentialProvider.TokenFilePath).To(Equal(FederatedTokenFilePath))
+	g.Expect(res.fakeTokenCredentialProvider.GetAssertion).To(BeNil())
+}
+
+func TestCredentialProvider_StrictWorkloadIdentityCredential_UsesDefaultServiceAccount(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.Background()
+	testClock := clock.NewMock()
+
+	assertionProvider := newTestServiceAccountTokenProvider(
+		t,
+		testClock,
+		func(
+			_ context.Context,
+			serviceAccount *v1.ServiceAccount,
+			tokenRequest *authenticationv1.TokenRequest,
+		) error {
+			g.Expect(serviceAccount.Namespace).To(Equal("test-namespace"))
+			g.Expect(serviceAccount.Name).To(Equal(DefaultWorkloadIdentityServiceAccount))
+			g.Expect(tokenRequest.Spec.Audiences).To(Equal([]string{workloadIdentityAudience}))
+			g.Expect(tokenRequest.Spec.ExpirationSeconds).NotTo(BeNil())
+			g.Expect(*tokenRequest.Spec.ExpirationSeconds).To(Equal(int64(workloadIdentityTokenLifetime / time.Second)))
+			setTokenRequestStatus(tokenRequest, "strict-assertion", testClock.Now().Add(time.Hour))
+			return nil
+		},
+	)
+	res, err := testCredentialProviderSetupWithOptions(nil, &CredentialProviderOptions{
+		ServiceAccountTokenProvider: assertionProvider,
+		WorkloadIdentityAuthMode:    internalconfig.WorkloadIdentityAuthModeStrict,
+	})
+	g.Expect(err).ToNot(HaveOccurred())
+
+	clientID := uuid.New().String()
+	tenantID := uuid.New().String()
+	secret := newWorkloadIdentitySecret(clientID, tenantID)
+	g.Expect(res.kubeClient.Create(ctx, secret)).To(Succeed())
+
+	_, err = res.Provider.GetCredential(ctx, newResourceGroup("test-namespace"))
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(res.fakeTokenCredentialProvider.ClientID).To(Equal(clientID))
+	g.Expect(res.fakeTokenCredentialProvider.TenantID).To(Equal(tenantID))
+	g.Expect(res.fakeTokenCredentialProvider.TokenFilePath).To(BeEmpty())
+	g.Expect(res.fakeTokenCredentialProvider.GetAssertion).NotTo(BeNil())
+
+	assertion, err := res.fakeTokenCredentialProvider.GetAssertion(ctx)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(assertion).To(Equal("strict-assertion"))
+}
+
+func TestCredentialProvider_StrictWorkloadIdentityCredential_UsesConfiguredServiceAccountAndOptions(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.Background()
+	testClock := clock.NewMock()
+	customCloud := asocloud.Configuration{
+		AzureAuthorityHost:      "https://login.example.com/",
+		ResourceManagerEndpoint: "https://management.example.com/",
+		ResourceManagerAudience: "https://management.example.com/",
+	}.Cloud()
+
+	assertionProvider := newTestServiceAccountTokenProvider(
+		t,
+		testClock,
+		func(
+			_ context.Context,
+			serviceAccount *v1.ServiceAccount,
+			tokenRequest *authenticationv1.TokenRequest,
+		) error {
+			g.Expect(serviceAccount.Name).To(Equal("custom-workload"))
+			setTokenRequestStatus(tokenRequest, "custom-assertion", testClock.Now().Add(time.Hour))
+			return nil
+		},
+	)
+	res, err := testCredentialProviderSetupWithOptions(&customCloud, &CredentialProviderOptions{
+		ServiceAccountTokenProvider: assertionProvider,
+		WorkloadIdentityAuthMode:    internalconfig.WorkloadIdentityAuthModeStrict,
+	})
+	g.Expect(err).ToNot(HaveOccurred())
+
+	additionalTenants := []string{uuid.New().String(), uuid.New().String()}
+	secret := newWorkloadIdentitySecret(uuid.New().String(), uuid.New().String())
+	secret.Data[config.WorkloadIdentityServiceAccount] = []byte("custom-workload")
+	secret.Data[config.AzureAdditionalTenants] = []byte(strings.Join(additionalTenants, ","))
+	g.Expect(res.kubeClient.Create(ctx, secret)).To(Succeed())
+
+	_, err = res.Provider.GetCredential(ctx, newResourceGroup("test-namespace"))
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(res.fakeTokenCredentialProvider.AdditionalTenants).To(Equal(additionalTenants))
+	g.Expect(res.fakeTokenCredentialProvider.Cloud).To(Equal(customCloud))
+
+	assertion, err := res.fakeTokenCredentialProvider.GetAssertion(ctx)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(assertion).To(Equal("custom-assertion"))
+}
+
+func TestCredentialProvider_StrictWorkloadIdentityCredential_RejectsInvalidServiceAccount(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name  string
+		value string
+	}{
+		{name: "empty", value: ""},
+		{name: "invalid DNS name", value: "Not_A_ServiceAccount"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			res, err := testCredentialProviderSetupWithOptions(nil, &CredentialProviderOptions{
+				WorkloadIdentityAuthMode: internalconfig.WorkloadIdentityAuthModeStrict,
+				ServiceAccountTokenProvider: newTestServiceAccountTokenProvider(
+					t,
+					clock.NewMock(),
+					func(
+						_ context.Context,
+						_ *v1.ServiceAccount,
+						_ *authenticationv1.TokenRequest,
+					) error {
+						return nil
+					},
+				),
+			})
+			g.Expect(err).ToNot(HaveOccurred())
+
+			secret := newWorkloadIdentitySecret(uuid.New().String(), uuid.New().String())
+			secret.Data[config.WorkloadIdentityServiceAccount] = []byte(test.value)
+			g.Expect(res.kubeClient.Create(context.Background(), secret)).To(Succeed())
+
+			_, err = res.Provider.GetCredential(context.Background(), newResourceGroup("test-namespace"))
+			expectedError := fmt.Sprintf(
+				`credential secret "test-namespace/aso-credential" contains invalid %s %q`,
+				config.WorkloadIdentityServiceAccount,
+				test.value,
+			)
+			g.Expect(err).To(MatchError(ContainSubstring(expectedError)))
+			g.Expect(res.fakeTokenCredentialProvider.GetAssertion).To(BeNil())
+		})
+	}
+}
+
+func TestCredentialProvider_StrictMode_DoesNotAffectClientSecretCredential(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.Background()
+	res, err := testCredentialProviderSetupWithOptions(nil, &CredentialProviderOptions{
+		WorkloadIdentityAuthMode: internalconfig.WorkloadIdentityAuthModeStrict,
+	})
+	g.Expect(err).ToNot(HaveOccurred())
+
+	secret := newWorkloadIdentitySecret(uuid.New().String(), uuid.New().String())
+	secret.Data[config.AzureClientSecret] = []byte("client-secret")
+	secret.Data[config.WorkloadIdentityServiceAccount] = []byte("")
+	g.Expect(res.kubeClient.Create(ctx, secret)).To(Succeed())
+
+	_, err = res.Provider.GetCredential(ctx, newResourceGroup("test-namespace"))
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(res.fakeTokenCredentialProvider.ClientSecret).To(Equal("client-secret"))
+	g.Expect(res.fakeTokenCredentialProvider.GetAssertion).To(BeNil())
 }
 
 func TestCredentialProvider_WorkloadIdentityCredential_HonoursFederatedTokenFilePathOption(t *testing.T) {
@@ -589,7 +741,9 @@ func TestCredentialProvider_AllowMultiEnvManagement_Disabled_RejectsCloudConfigI
 	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
-	res, err := testCredentialProviderSetupWithMultiEnv(nil, false)
+	res, err := testCredentialProviderSetupWithOptions(nil, &CredentialProviderOptions{
+		WorkloadIdentityAuthMode: internalconfig.WorkloadIdentityAuthModeRelaxed,
+	})
 	g.Expect(err).ToNot(HaveOccurred())
 
 	clientID := uuid.New().String()
@@ -628,7 +782,10 @@ func TestCredentialProvider_AllowMultiEnvManagement_Enabled_PartialCloudConfigRe
 	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
-	res, err := testCredentialProviderSetupWithMultiEnv(nil, true)
+	res, err := testCredentialProviderSetupWithOptions(nil, &CredentialProviderOptions{
+		AllowMultiEnvManagement:  true,
+		WorkloadIdentityAuthMode: internalconfig.WorkloadIdentityAuthModeRelaxed,
+	})
 	g.Expect(err).ToNot(HaveOccurred())
 
 	clientID := uuid.New().String()
@@ -666,7 +823,10 @@ func TestCredentialProvider_AllowMultiEnvManagement_Enabled_UsesCloudConfigFromS
 	g := NewGomegaWithT(t)
 	ctx := context.TODO()
 
-	res, err := testCredentialProviderSetupWithMultiEnv(nil, true)
+	res, err := testCredentialProviderSetupWithOptions(nil, &CredentialProviderOptions{
+		AllowMultiEnvManagement:  true,
+		WorkloadIdentityAuthMode: internalconfig.WorkloadIdentityAuthModeRelaxed,
+	})
 	g.Expect(err).ToNot(HaveOccurred())
 
 	clientID := uuid.New().String()
@@ -745,6 +905,20 @@ func newSecret(namespacedName types.NamespacedName) *v1.Secret {
 			Namespace: namespacedName.Namespace,
 		},
 		Data: secretData,
+	}
+}
+
+func newWorkloadIdentitySecret(clientID string, tenantID string) *v1.Secret {
+	return &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Namespace: "test-namespace",
+			Name:      NamespacedSecretName,
+		},
+		Data: map[string][]byte{
+			config.AzureSubscriptionID: []byte(testSubscriptionID),
+			config.AzureClientID:       []byte(clientID),
+			config.AzureTenantID:       []byte(tenantID),
+		},
 	}
 }
 

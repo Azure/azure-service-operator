@@ -144,6 +144,12 @@ spec:
                   key: ALLOW_MULTI_ENV_MANAGEMENT
                   name: aso-controller-settings
                   optional: true
+            - name: AZURE_WORKLOAD_IDENTITY_AUTH_MODE
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_WORKLOAD_IDENTITY_AUTH_MODE
+                  name: aso-controller-settings
+                  optional: true
             # Used for setting the operator-namespace annotation (and
             # for aad-pod-identity once we support it).
             - name: POD_NAMESPACE

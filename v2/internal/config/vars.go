@@ -123,6 +123,14 @@ type Values struct {
 	// UseWorkloadIdentityAuth boolean is used to determine if we're using Workload Identity authentication for global credential
 	UseWorkloadIdentityAuth bool
 
+	// WorkloadIdentityAuthMode controls how namespace and per-resource Workload Identity credentials obtain assertions.
+	// Allowed values are `relaxed` and `strict`. If not specified, the default is `relaxed`.
+	// relaxed: ASO uses a single Federated Identity Credential (FIC) for all authentication to Azure, via the ASO controller service account. This is simple to set up but is less secure. See
+	// https://github.com/Azure/azure-service-operator/issues/4810 for more details about why this is less secure.
+	// strict: ASO uses separate Federated Identity Credentials (FICs) via separate service accounts for each authentication to Azure. This is more secure but requires more setup.
+	// The secret may select the ServiceAccount with `AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT`; when omitted, ASO uses `aso-workload`.
+	WorkloadIdentityAuthMode WorkloadIdentityAuthMode
+
 	// UserAgentSuffix is appended to the default User-Agent for Azure HTTP clients.
 	UserAgentSuffix string
 
@@ -205,6 +213,24 @@ type RateLimit struct {
 	BucketSize int
 }
 
+type WorkloadIdentityAuthMode string
+
+const (
+	WorkloadIdentityAuthModeRelaxed = WorkloadIdentityAuthMode("relaxed")
+	WorkloadIdentityAuthModeStrict  = WorkloadIdentityAuthMode("strict")
+)
+
+func ParseWorkloadIdentityAuthMode(s string) (WorkloadIdentityAuthMode, error) {
+	switch s {
+	case string(WorkloadIdentityAuthModeRelaxed):
+		return WorkloadIdentityAuthModeRelaxed, nil
+	case string(WorkloadIdentityAuthModeStrict):
+		return WorkloadIdentityAuthModeStrict, nil
+	default:
+		return "", eris.Errorf("invalid workload identity auth mode %q", s)
+	}
+}
+
 func (r RateLimit) String() string {
 	var builder strings.Builder
 
@@ -236,6 +262,7 @@ func (v Values) String() string {
 	builder.WriteString(fmt.Sprintf("ResourceManagerAudience:%s/", v.ResourceManagerAudience))
 	builder.WriteString(fmt.Sprintf("AzureAuthorityHost:%s/", v.AzureAuthorityHost))
 	builder.WriteString(fmt.Sprintf("UseWorkloadIdentityAuth:%t/", v.UseWorkloadIdentityAuth))
+	builder.WriteString(fmt.Sprintf("WorkloadIdentityAuthMode:%s/", v.WorkloadIdentityAuthMode))
 	builder.WriteString(fmt.Sprintf("UserAgentSuffix:%s/", v.UserAgentSuffix))
 	builder.WriteString(fmt.Sprintf("MaxConcurrentReconciles:%d/", v.MaxConcurrentReconciles))
 	builder.WriteString(fmt.Sprintf("RateLimit:[%s]/", v.RateLimit.String()))
@@ -296,6 +323,12 @@ func ReadFromEnvironment() (Values, error) {
 
 	// Ignoring error here, as any other value or empty value means we should default to false
 	result.UseWorkloadIdentityAuth, _ = strconv.ParseBool(os.Getenv(config.UseWorkloadIdentityAuth))
+	result.WorkloadIdentityAuthMode, err = ParseWorkloadIdentityAuthMode(
+		envOrDefault(config.AzureWorkloadIdentityAuthMode, string(WorkloadIdentityAuthModeRelaxed)),
+	)
+	if err != nil {
+		return result, err
+	}
 	result.UserAgentSuffix = os.Getenv(config.UserAgentSuffix)
 	result.RateLimit.Mode, err = ParseRateLimitMode(envOrDefault(config.RateLimitMode, string(RateLimitModeDisabled)))
 	if err != nil {
