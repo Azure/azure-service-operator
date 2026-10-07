@@ -1,0 +1,14 @@
+apiVersion: managedidentity.azure.com/v1api20230131
+kind: UserAssignedIdentity
+metadata:
+  name: aso-sample-flex-identity
+  namespace: default
+spec:
+  location: northeurope
+  owner:
+    name: aso-sample-rg
+  operatorSpec:
+    configMaps:
+      principalId:
+        name: aso-sample-flex-identity-settings
+        key: principalId
