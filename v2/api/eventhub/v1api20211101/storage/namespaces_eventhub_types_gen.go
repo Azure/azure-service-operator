@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/eventhub/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &NamespacesEventhub{}
 
 // ConvertFrom populates our NamespacesEventhub from the provided hub NamespacesEventhub
 func (eventhub *NamespacesEventhub) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NamespacesEventhub)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20240101/storage/NamespacesEventhub but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NamespacesEventhub
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return eventhub.AssignProperties_From_NamespacesEventhub(source)
+	err = eventhub.AssignProperties_From_NamespacesEventhub(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to eventhub")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesEventhub from our NamespacesEventhub
 func (eventhub *NamespacesEventhub) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NamespacesEventhub)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20240101/storage/NamespacesEventhub but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NamespacesEventhub
+	err := eventhub.AssignProperties_To_NamespacesEventhub(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from eventhub")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return eventhub.AssignProperties_To_NamespacesEventhub(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &NamespacesEventhub{}
@@ -377,20 +390,6 @@ func (eventhub *NamespacesEventhub_Spec) AssignProperties_From_NamespacesEventhu
 	// PartitionCount
 	eventhub.PartitionCount = genruntime.ClonePointerToInt(source.PartitionCount)
 
-	// RetentionDescription
-	if source.RetentionDescription != nil {
-		propertyBag.Add("RetentionDescription", *source.RetentionDescription)
-	} else {
-		propertyBag.Remove("RetentionDescription")
-	}
-
-	// UserMetadata
-	if source.UserMetadata != nil {
-		propertyBag.Add("UserMetadata", *source.UserMetadata)
-	} else {
-		propertyBag.Remove("UserMetadata")
-	}
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		eventhub.PropertyBag = propertyBag
@@ -459,32 +458,6 @@ func (eventhub *NamespacesEventhub_Spec) AssignProperties_To_NamespacesEventhub_
 
 	// PartitionCount
 	destination.PartitionCount = genruntime.ClonePointerToInt(eventhub.PartitionCount)
-
-	// RetentionDescription
-	if propertyBag.Contains("RetentionDescription") {
-		var retentionDescription storage.RetentionDescription
-		err := propertyBag.Pull("RetentionDescription", &retentionDescription)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'RetentionDescription' from propertyBag")
-		}
-
-		destination.RetentionDescription = &retentionDescription
-	} else {
-		destination.RetentionDescription = nil
-	}
-
-	// UserMetadata
-	if propertyBag.Contains("UserMetadata") {
-		var userMetadatum string
-		err := propertyBag.Pull("UserMetadata", &userMetadatum)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'UserMetadata' from propertyBag")
-		}
-
-		destination.UserMetadata = &userMetadatum
-	} else {
-		destination.UserMetadata = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -615,13 +588,6 @@ func (eventhub *NamespacesEventhub_STATUS) AssignProperties_From_NamespacesEvent
 	// PartitionIds
 	eventhub.PartitionIds = genruntime.CloneSliceOfString(source.PartitionIds)
 
-	// RetentionDescription
-	if source.RetentionDescription != nil {
-		propertyBag.Add("RetentionDescription", *source.RetentionDescription)
-	} else {
-		propertyBag.Remove("RetentionDescription")
-	}
-
 	// Status
 	eventhub.Status = genruntime.ClonePointerToString(source.Status)
 
@@ -642,13 +608,6 @@ func (eventhub *NamespacesEventhub_STATUS) AssignProperties_From_NamespacesEvent
 
 	// UpdatedAt
 	eventhub.UpdatedAt = genruntime.ClonePointerToString(source.UpdatedAt)
-
-	// UserMetadata
-	if source.UserMetadata != nil {
-		propertyBag.Add("UserMetadata", *source.UserMetadata)
-	} else {
-		propertyBag.Remove("UserMetadata")
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -711,19 +670,6 @@ func (eventhub *NamespacesEventhub_STATUS) AssignProperties_To_NamespacesEventhu
 	// PartitionIds
 	destination.PartitionIds = genruntime.CloneSliceOfString(eventhub.PartitionIds)
 
-	// RetentionDescription
-	if propertyBag.Contains("RetentionDescription") {
-		var retentionDescription storage.RetentionDescription_STATUS
-		err := propertyBag.Pull("RetentionDescription", &retentionDescription)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'RetentionDescription' from propertyBag")
-		}
-
-		destination.RetentionDescription = &retentionDescription
-	} else {
-		destination.RetentionDescription = nil
-	}
-
 	// Status
 	destination.Status = genruntime.ClonePointerToString(eventhub.Status)
 
@@ -744,19 +690,6 @@ func (eventhub *NamespacesEventhub_STATUS) AssignProperties_To_NamespacesEventhu
 
 	// UpdatedAt
 	destination.UpdatedAt = genruntime.ClonePointerToString(eventhub.UpdatedAt)
-
-	// UserMetadata
-	if propertyBag.Contains("UserMetadata") {
-		var userMetadatum string
-		err := propertyBag.Pull("UserMetadata", &userMetadatum)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'UserMetadata' from propertyBag")
-		}
-
-		destination.UserMetadata = &userMetadatum
-	} else {
-		destination.UserMetadata = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1232,13 +1165,6 @@ func (destination *Destination) AssignProperties_From_Destination(source *storag
 	// DataLakeSubscriptionId
 	destination.DataLakeSubscriptionId = genruntime.ClonePointerToString(source.DataLakeSubscriptionId)
 
-	// Identity
-	if source.Identity != nil {
-		propertyBag.Add("Identity", *source.Identity)
-	} else {
-		propertyBag.Remove("Identity")
-	}
-
 	// Name
 	destination.Name = genruntime.ClonePointerToString(source.Name)
 
@@ -1289,19 +1215,6 @@ func (destination *Destination) AssignProperties_To_Destination(target *storage.
 
 	// DataLakeSubscriptionId
 	target.DataLakeSubscriptionId = genruntime.ClonePointerToString(destination.DataLakeSubscriptionId)
-
-	// Identity
-	if propertyBag.Contains("Identity") {
-		var identity storage.CaptureIdentity
-		err := propertyBag.Pull("Identity", &identity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
-		}
-
-		target.Identity = &identity
-	} else {
-		target.Identity = nil
-	}
 
 	// Name
 	target.Name = genruntime.ClonePointerToString(destination.Name)
@@ -1367,13 +1280,6 @@ func (destination *Destination_STATUS) AssignProperties_From_Destination_STATUS(
 	// DataLakeSubscriptionId
 	destination.DataLakeSubscriptionId = genruntime.ClonePointerToString(source.DataLakeSubscriptionId)
 
-	// Identity
-	if source.Identity != nil {
-		propertyBag.Add("Identity", *source.Identity)
-	} else {
-		propertyBag.Remove("Identity")
-	}
-
 	// Name
 	destination.Name = genruntime.ClonePointerToString(source.Name)
 
@@ -1419,19 +1325,6 @@ func (destination *Destination_STATUS) AssignProperties_To_Destination_STATUS(ta
 
 	// DataLakeSubscriptionId
 	target.DataLakeSubscriptionId = genruntime.ClonePointerToString(destination.DataLakeSubscriptionId)
-
-	// Identity
-	if propertyBag.Contains("Identity") {
-		var identity storage.CaptureIdentity_STATUS
-		err := propertyBag.Pull("Identity", &identity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
-		}
-
-		target.Identity = &identity
-	} else {
-		target.Identity = nil
-	}
 
 	// Name
 	target.Name = genruntime.ClonePointerToString(destination.Name)

@@ -502,6 +502,23 @@ These resource(s) are the latest versions available for use in the current relea
 
 To install the CRDs for these resources, your ASO configuration must include `eventhub.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                                                                    | ARM Version | CRD Version | Supported From | Sample                                                                                                                                              |
+|-----------------------------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Namespace]({{< relref "/reference/eventhub/v20240101#Namespace" >}})                                                       | 2024-01-01  | v20240101   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20240101/v20240101_namespace.yaml)                            |
+| [Namespace]({{< relref "/reference/eventhub/v20211101#Namespace" >}})                                                       | 2021-11-01  | v20211101   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20211101/v20211101_namespace.yaml)                            |
+| [NamespacesAuthorizationRule]({{< relref "/reference/eventhub/v20240101#NamespacesAuthorizationRule" >}})                   | 2024-01-01  | v20240101   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20240101/v20240101_namespacesauthorizationrule.yaml)          |
+| [NamespacesAuthorizationRule]({{< relref "/reference/eventhub/v20211101#NamespacesAuthorizationRule" >}})                   | 2021-11-01  | v20211101   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20211101/v20211101_namespacesauthorizationrule.yaml)          |
+| [NamespacesEventhub]({{< relref "/reference/eventhub/v20240101#NamespacesEventhub" >}})                                     | 2024-01-01  | v20240101   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20240101/v20240101_namespaceseventhub.yaml)                   |
+| [NamespacesEventhub]({{< relref "/reference/eventhub/v20211101#NamespacesEventhub" >}})                                     | 2021-11-01  | v20211101   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20211101/v20211101_namespaceseventhub.yaml)                   |
+| [NamespacesEventhubsAuthorizationRule]({{< relref "/reference/eventhub/v20240101#NamespacesEventhubsAuthorizationRule" >}}) | 2024-01-01  | v20240101   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20240101/v20240101_namespaceseventhubsauthorizationrule.yaml) |
+| [NamespacesEventhubsAuthorizationRule]({{< relref "/reference/eventhub/v20211101#NamespacesEventhubsAuthorizationRule" >}}) | 2021-11-01  | v20211101   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20211101/v20211101_namespaceseventhubsauthorizationrule.yaml) |
+| [NamespacesEventhubsConsumerGroup]({{< relref "/reference/eventhub/v20240101#NamespacesEventhubsConsumerGroup" >}})         | 2024-01-01  | v20240101   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20240101/v20240101_namespaceseventhubsconsumergroup.yaml)     |
+| [NamespacesEventhubsConsumerGroup]({{< relref "/reference/eventhub/v20211101#NamespacesEventhubsConsumerGroup" >}})         | 2021-11-01  | v20211101   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20211101/v20211101_namespaceseventhubsconsumergroup.yaml)     |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.

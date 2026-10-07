@@ -351,12 +351,18 @@ import (
 	eventgrid_v20250215s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215/storage"
 	eventgrid_v20250215w "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215/webhook"
 	eventhub_customizations "github.com/Azure/azure-service-operator/v2/api/eventhub/customizations"
-	eventhub_v20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
-	eventhub_v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
-	eventhub_v20211101w "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/webhook"
-	eventhub_v20240101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101"
-	eventhub_v20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
-	eventhub_v20240101w "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/webhook"
+	eventhub_v1api20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
+	eventhub_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
+	eventhub_v1api20211101w "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/webhook"
+	eventhub_v1api20240101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101"
+	eventhub_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
+	eventhub_v1api20240101w "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/webhook"
+	eventhub_v20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v20211101"
+	eventhub_v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v20211101/storage"
+	eventhub_v20211101w "github.com/Azure/azure-service-operator/v2/api/eventhub/v20211101/webhook"
+	eventhub_v20240101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v20240101"
+	eventhub_v20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v20240101/storage"
+	eventhub_v20240101w "github.com/Azure/azure-service-operator/v2/api/eventhub/v20240101/webhook"
 	insights_customizations "github.com/Azure/azure-service-operator/v2/api/insights/customizations"
 	insights_v20171001 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20171001"
 	insights_v20171001s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20171001/storage"
@@ -6340,6 +6346,74 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(eventhub_v1api20211101.Namespace),
+			Defaulter: &eventhub_v1api20211101w.Namespace{},
+			Validator: &eventhub_v1api20211101w.Namespace{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20211101.NamespacesAuthorizationRule),
+			Defaulter: &eventhub_v1api20211101w.NamespacesAuthorizationRule{},
+			Validator: &eventhub_v1api20211101w.NamespacesAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20211101.NamespacesEventhub),
+			Defaulter: &eventhub_v1api20211101w.NamespacesEventhub{},
+			Validator: &eventhub_v1api20211101w.NamespacesEventhub{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20211101.NamespacesEventhubsAuthorizationRule),
+			Defaulter: &eventhub_v1api20211101w.NamespacesEventhubsAuthorizationRule{},
+			Validator: &eventhub_v1api20211101w.NamespacesEventhubsAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20211101.NamespacesEventhubsConsumerGroup),
+			Defaulter: &eventhub_v1api20211101w.NamespacesEventhubsConsumerGroup{},
+			Validator: &eventhub_v1api20211101w.NamespacesEventhubsConsumerGroup{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(eventhub_v1api20211101s.Namespace)},
+		&registration.KnownType{Obj: new(eventhub_v1api20211101s.NamespacesAuthorizationRule)},
+		&registration.KnownType{Obj: new(eventhub_v1api20211101s.NamespacesEventhub)},
+		&registration.KnownType{Obj: new(eventhub_v1api20211101s.NamespacesEventhubsAuthorizationRule)},
+		&registration.KnownType{Obj: new(eventhub_v1api20211101s.NamespacesEventhubsConsumerGroup)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20240101.Namespace),
+			Defaulter: &eventhub_v1api20240101w.Namespace{},
+			Validator: &eventhub_v1api20240101w.Namespace{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20240101.NamespacesAuthorizationRule),
+			Defaulter: &eventhub_v1api20240101w.NamespacesAuthorizationRule{},
+			Validator: &eventhub_v1api20240101w.NamespacesAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20240101.NamespacesEventhub),
+			Defaulter: &eventhub_v1api20240101w.NamespacesEventhub{},
+			Validator: &eventhub_v1api20240101w.NamespacesEventhub{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20240101.NamespacesEventhubsAuthorizationRule),
+			Defaulter: &eventhub_v1api20240101w.NamespacesEventhubsAuthorizationRule{},
+			Validator: &eventhub_v1api20240101w.NamespacesEventhubsAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20240101.NamespacesEventhubsConsumerGroup),
+			Defaulter: &eventhub_v1api20240101w.NamespacesEventhubsConsumerGroup{},
+			Validator: &eventhub_v1api20240101w.NamespacesEventhubsConsumerGroup{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(eventhub_v1api20240101s.Namespace)},
+		&registration.KnownType{Obj: new(eventhub_v1api20240101s.NamespacesAuthorizationRule)},
+		&registration.KnownType{Obj: new(eventhub_v1api20240101s.NamespacesEventhub)},
+		&registration.KnownType{Obj: new(eventhub_v1api20240101s.NamespacesEventhubsAuthorizationRule)},
+		&registration.KnownType{Obj: new(eventhub_v1api20240101s.NamespacesEventhubsConsumerGroup)})
+	result = append(
+		result,
+		&registration.KnownType{
 			Obj:       new(eventhub_v20211101.Namespace),
 			Defaulter: &eventhub_v20211101w.Namespace{},
 			Validator: &eventhub_v20211101w.Namespace{},
@@ -8966,6 +9040,10 @@ func createScheme() *runtime.Scheme {
 	_ = eventgrid_v20200601s.AddToScheme(scheme)
 	_ = eventgrid_v20250215.AddToScheme(scheme)
 	_ = eventgrid_v20250215s.AddToScheme(scheme)
+	_ = eventhub_v1api20211101.AddToScheme(scheme)
+	_ = eventhub_v1api20211101s.AddToScheme(scheme)
+	_ = eventhub_v1api20240101.AddToScheme(scheme)
+	_ = eventhub_v1api20240101s.AddToScheme(scheme)
 	_ = eventhub_v20211101.AddToScheme(scheme)
 	_ = eventhub_v20211101s.AddToScheme(scheme)
 	_ = eventhub_v20240101.AddToScheme(scheme)

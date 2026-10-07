@@ -51,22 +51,36 @@ var _ conversion.Convertible = &NamespacesEventhubsConsumerGroup{}
 
 // ConvertFrom populates our NamespacesEventhubsConsumerGroup from the provided hub NamespacesEventhubsConsumerGroup
 func (group *NamespacesEventhubsConsumerGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NamespacesEventhubsConsumerGroup)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20240101/storage/NamespacesEventhubsConsumerGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NamespacesEventhubsConsumerGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignProperties_From_NamespacesEventhubsConsumerGroup(source)
+	err = group.AssignProperties_From_NamespacesEventhubsConsumerGroup(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesEventhubsConsumerGroup from our NamespacesEventhubsConsumerGroup
 func (group *NamespacesEventhubsConsumerGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NamespacesEventhubsConsumerGroup)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20240101/storage/NamespacesEventhubsConsumerGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NamespacesEventhubsConsumerGroup
+	err := group.AssignProperties_To_NamespacesEventhubsConsumerGroup(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignProperties_To_NamespacesEventhubsConsumerGroup(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &NamespacesEventhubsConsumerGroup{}
@@ -87,17 +101,6 @@ func (group *NamespacesEventhubsConsumerGroup) SecretDestinationExpressions() []
 		return nil
 	}
 	return group.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &NamespacesEventhubsConsumerGroup{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (group *NamespacesEventhubsConsumerGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*NamespacesEventhubsConsumerGroup_STATUS); ok {
-		return group.Spec.Initialize_From_NamespacesEventhubsConsumerGroup_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type NamespacesEventhubsConsumerGroup_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &NamespacesEventhubsConsumerGroup{}
@@ -451,16 +454,6 @@ func (group *NamespacesEventhubsConsumerGroup_Spec) AssignProperties_To_Namespac
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NamespacesEventhubsConsumerGroup_STATUS populates our NamespacesEventhubsConsumerGroup_Spec from the provided source NamespacesEventhubsConsumerGroup_STATUS
-func (group *NamespacesEventhubsConsumerGroup_Spec) Initialize_From_NamespacesEventhubsConsumerGroup_STATUS(source *NamespacesEventhubsConsumerGroup_STATUS) error {
-
-	// UserMetadata
-	group.UserMetadata = genruntime.ClonePointerToString(source.UserMetadata)
 
 	// No error
 	return nil
