@@ -128,6 +128,44 @@ func ServiceBus_AuthorizationRule_v20240101_CRUD(tc *testcommon.KubePerTestConte
 	tc.ExpectSecretHasKeys(secretName, "PrimaryKey", "PrimaryConnectionString", "SecondaryKey", "SecondaryConnectionString")
 }
 
+func ServiceBus_NamespacesQueue_AuthorizationRule_v20240101_CRUD(tc *testcommon.KubePerTestContext, sbQueue client.Object) {
+	rule := &servicebus.QueueAuthorizationRule{
+		ObjectMeta: tc.MakeObjectMeta("rule"),
+		Spec: servicebus.QueueAuthorizationRule_Spec{
+			Owner: testcommon.AsOwner(sbQueue),
+			Rights: []servicebus.QueueAuthorizationRuleRights_Spec{
+				servicebus.QueueAuthorizationRuleRights_Spec_Listen,
+				servicebus.QueueAuthorizationRuleRights_Spec_Send,
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(rule)
+	defer tc.DeleteResourceAndWait(rule)
+
+	tc.Expect(rule.Status.Rights).To(HaveLen(2))
+
+	old := rule.DeepCopy()
+	ruleKeysSecret := "queuerulekeyssecret"
+	rule.Spec.OperatorSpec = &servicebus.QueueAuthorizationRuleOperatorSpec{
+		Secrets: &servicebus.QueueAuthorizationRuleOperatorSecrets{
+			PrimaryKey:                &genruntime.SecretDestination{Name: ruleKeysSecret, Key: "primaryKey"},
+			SecondaryKey:              &genruntime.SecretDestination{Name: ruleKeysSecret, Key: "secondaryKey"},
+			PrimaryConnectionString:   &genruntime.SecretDestination{Name: ruleKeysSecret, Key: "primaryConnectionString"},
+			SecondaryConnectionString: &genruntime.SecretDestination{Name: ruleKeysSecret, Key: "secondaryConnectionString"},
+		},
+	}
+	tc.PatchResourceAndWait(old, rule)
+
+	tc.ExpectSecretHasKeys(
+		ruleKeysSecret,
+		"primaryKey",
+		"secondaryKey",
+		"primaryConnectionString",
+		"secondaryConnectionString",
+	)
+}
+
 // Topics can only be created in Standard or Premium SKUs
 func ServiceBus_Topic_v20240101_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	topic := &servicebus.NamespacesTopic{

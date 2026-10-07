@@ -73,6 +73,15 @@ func ServiceBus_NamespacesQueue_v20240101_CRUD(tc *testcommon.KubePerTestContext
 	// a basic assertion on a property
 	tc.Expect(queue.Status.SizeInBytes).ToNot(BeNil())
 	tc.Expect(*queue.Status.SizeInBytes).To(Equal(0))
+
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "AuthorizationRule CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				ServiceBus_NamespacesQueue_AuthorizationRule_v20240101_CRUD(tc, queue)
+			},
+		},
+	)
 }
 
 func ServiceBus_Namespace_Secrets_v20240101(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
