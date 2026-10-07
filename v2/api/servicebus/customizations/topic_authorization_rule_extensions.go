@@ -142,19 +142,16 @@ func topicAuthorizationRuleSecretsToWrite(
 ) ([]*v1.Secret, error) {
 	if rule.Spec.OperatorSpec == nil ||
 		rule.Spec.OperatorSpec.Secrets == nil {
-		return nil, eris.Errorf(
-			"topic authorization rule %q has no secrets specified",
-			rule.Name,
-		)
+		return nil, nil
 	}
 
 	specSecrets := rule.Spec.OperatorSpec.Secrets
 
 	collector := secrets.NewCollector(rule.Namespace)
-	collector.AddValue(specSecrets.PrimaryKey, *response.PrimaryKey)
-	collector.AddValue(specSecrets.PrimaryConnectionString, *response.PrimaryConnectionString)
-	collector.AddValue(specSecrets.SecondaryKey, *response.SecondaryKey)
-	collector.AddValue(specSecrets.SecondaryConnectionString, *response.SecondaryConnectionString)
+	collector.AddValue(specSecrets.PrimaryKey, to.Value(response.PrimaryKey))
+	collector.AddValue(specSecrets.PrimaryConnectionString, to.Value(response.PrimaryConnectionString))
+	collector.AddValue(specSecrets.SecondaryKey, to.Value(response.SecondaryKey))
+	collector.AddValue(specSecrets.SecondaryConnectionString, to.Value(response.SecondaryConnectionString))
 
 	return collector.Values()
 }
