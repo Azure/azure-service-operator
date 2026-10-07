@@ -1,0 +1,17 @@
+apiVersion: apimanagement.azure.com/v20250301preview
+kind: Backend
+metadata:
+  name: samplebackend
+  namespace: default
+spec:
+  azureName: test_backend
+  description: A backend using a custom TLS certificate
+  owner:
+    name: sampleapimservice
+  protocol: http
+  tls:
+    serverCertificateThumbprints:
+      - 1365083bae61ee876fc26850b825d05d3eb2e503
+    validateCertificateChain: true
+    validateCertificateName: true
+  url: https://www.bing.com
