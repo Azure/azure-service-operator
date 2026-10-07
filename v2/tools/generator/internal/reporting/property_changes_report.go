@@ -428,11 +428,14 @@ func (r *PropertyChangesReport) buildRowsForPair(
 
 	diffs := make(map[*typeChangeRow][]propertyChangeRow)
 
-	resourceRow := &typeChangeRow{
+resourceRow := &typeChangeRow{
 		thisPackage: thisResource.InternalPackageReference(),
 		thisName:    thisResource.Name(),
 		nextPackage: nextResource.InternalPackageReference(),
 		nextName:    nextResource.Name(),
+	}
+	if thisResource.Name() != nextResource.Name() {
+		resourceRow.statuses = append(resourceRow.statuses, statusRenamed)
 	}
 
 	thisResourceDef, thisHasResource := r.definitions[thisResource]
