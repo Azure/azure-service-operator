@@ -1,0 +1,9 @@
+apiVersion: sql.azure.com/v20250101
+kind: ManagedInstancesAzureADOnlyAuthentication
+metadata:
+  name: aso-sample-sqlmi-aad-only-auth
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-sqlmi
+  azureADOnlyAuthentication: true

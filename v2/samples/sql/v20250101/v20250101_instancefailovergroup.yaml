@@ -1,0 +1,26 @@
+apiVersion: sql.azure.com/v20250101
+kind: InstanceFailoverGroup
+metadata:
+  name: aso-sample-sqlmi-failovergroup
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-rg
+  # An instance failover group is scoped to a location, so the Azure name takes the form <primary location>/<name>.
+  # The secondary instance must be created with dnsZonePartnerReference pointing at the primary instance.
+  azureName: westeurope/aso-sample-sqlmi-failovergroup
+  secondaryType: Geo
+  partnerRegions:
+    - location: northeurope
+  managedInstancePairs:
+    - primaryManagedInstanceReference:
+        group: sql.azure.com
+        kind: ManagedInstance
+        name: aso-sample-sqlmi
+      partnerManagedInstanceReference:
+        group: sql.azure.com
+        kind: ManagedInstance
+        name: aso-sample-sqlmi-secondary
+  readWriteEndpoint:
+    failoverPolicy: Automatic
+    failoverWithDataLossGracePeriodMinutes: 60
