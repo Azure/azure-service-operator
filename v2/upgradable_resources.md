@@ -55,12 +55,6 @@ The following resources have newer versions available in the Azure REST API spec
 |------|----------------|------------------|------------------|-------------------|-------------------|
 | 💡    | ContainerGroup | **2026-07-01**   | 2021-10-01       | -                 | -                 |
 
-## containerregistry
-
-|      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |
-|------|----------|------------------|------------------|-------------------|-------------------|
-| 💡    | Registry | **2025-11-01**   | 2023-07-01       | -                 | -                 |
-
 ## containerservice
 
 |      | Resource       | Available Stable | Supported Stable | Available Preview      | Supported Preview  |
