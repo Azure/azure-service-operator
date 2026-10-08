@@ -15,6 +15,8 @@
 | AdvancedThreatProtectionState_STATUS                                             |               |           | v20250101 |
 | AlwaysEncryptedEnclaveType                                                       |               |           | v20250101 |
 | AlwaysEncryptedEnclaveType_STATUS                                                |               |           | v20250101 |
+| AuthMetadataLookupModes                                                          |               |           | v20250101 |
+| AuthMetadataLookupModes_STATUS                                                   |               |           | v20250101 |
 | AvailabilityZoneType                                                             |               |           | v20250101 |
 | AvailabilityZoneType_STATUS                                                      |               |           | v20250101 |
 | AzureADOnlyAuthProperties                                                        | v1api20211101 | v20211101 | v20250101 |
@@ -111,18 +113,100 @@
 | FailoverGroupReplicationRole_STATUS                                              |               |           | v20250101 |
 | FreeLimitExhaustionBehavior                                                      |               |           | v20250101 |
 | FreeLimitExhaustionBehavior_STATUS                                               |               |           | v20250101 |
+| HybridSecondaryUsage                                                             |               |           | v20250101 |
+| HybridSecondaryUsageDetected_STATUS                                              |               |           | v20250101 |
+| HybridSecondaryUsage_STATUS                                                      |               |           | v20250101 |
 | IPv6ServerFirewallRuleProperties                                                 | v1api20211101 | v20211101 | v20250101 |
 | IPv6ServerFirewallRuleProperties_STATUS                                          | v1api20211101 | v20211101 | v20250101 |
 | IdentityType                                                                     |               |           | v20250101 |
 | IdentityType_STATUS                                                              |               |           | v20250101 |
+| InaccessibilityReason_STATUS                                                     |               |           | v20250101 |
+| InstanceFailoverGroup                                                            |               |           | v20250101 |
+| InstanceFailoverGroupProperties                                                  |               |           | v20250101 |
+| InstanceFailoverGroupProperties_STATUS                                           |               |           | v20250101 |
+| InstanceFailoverGroupReadOnlyEndpoint                                            |               |           | v20250101 |
+| InstanceFailoverGroupReadOnlyEndpoint_STATUS                                     |               |           | v20250101 |
+| InstanceFailoverGroupReadWriteEndpoint                                           |               |           | v20250101 |
+| InstanceFailoverGroupReadWriteEndpoint_STATUS                                    |               |           | v20250101 |
+| InstanceFailoverGroupReplicationRole_STATUS                                      |               |           | v20250101 |
+| InstanceFailoverGroup_STATUS                                                     |               |           | v20250101 |
+| InstanceFailoverGroup_Spec                                                       |               |           | v20250101 |
 | LongTermRetentionPolicyProperties                                                |               |           | v20250101 |
 | LongTermRetentionPolicyProperties_STATUS                                         |               |           | v20250101 |
+| ManagedDatabaseCreateMode                                                        |               |           | v20250101 |
+| ManagedDatabaseCreateMode_STATUS                                                 |               |           | v20250101 |
+| ManagedDatabaseExtendedAccessibilityInfo_STATUS                                  |               |           | v20250101 |
+| ManagedDatabaseProperties                                                        |               |           | v20250101 |
+| ManagedDatabaseProperties_STATUS                                                 |               |           | v20250101 |
+| ManagedDatabaseStatus_STATUS                                                     |               |           | v20250101 |
+| ManagedInstance                                                                  |               |           | v20250101 |
+| ManagedInstanceAdministratorProperties                                           |               |           | v20250101 |
+| ManagedInstanceAdministratorProperties_STATUS                                    |               |           | v20250101 |
+| ManagedInstanceAdministratorType                                                 |               |           | v20250101 |
+| ManagedInstanceAdministratorType_STATUS                                          |               |           | v20250101 |
+| ManagedInstanceAzureADOnlyAuthProperties                                         |               |           | v20250101 |
+| ManagedInstanceAzureADOnlyAuthProperties_STATUS                                  |               |           | v20250101 |
+| ManagedInstanceDatabaseFormat                                                    |               |           | v20250101 |
+| ManagedInstanceDatabaseFormat_STATUS                                             |               |           | v20250101 |
+| ManagedInstanceExternalAdministrator                                             |               |           | v20250101 |
+| ManagedInstanceExternalAdministrator_STATUS                                      |               |           | v20250101 |
+| ManagedInstanceLicenseType                                                       |               |           | v20250101 |
+| ManagedInstanceLicenseType_STATUS                                                |               |           | v20250101 |
+| ManagedInstancePairInfo                                                          |               |           | v20250101 |
+| ManagedInstancePairInfo_STATUS                                                   |               |           | v20250101 |
+| ManagedInstancePecProperty_STATUS                                                |               |           | v20250101 |
+| ManagedInstancePrivateEndpointConnectionProperties_STATUS                        |               |           | v20250101 |
+| ManagedInstancePrivateEndpointProperty_STATUS                                    |               |           | v20250101 |
+| ManagedInstancePrivateLinkServiceConnectionStateProperty_STATUS                  |               |           | v20250101 |
+| ManagedInstanceProperties                                                        |               |           | v20250101 |
+| ManagedInstanceProperties_STATUS                                                 |               |           | v20250101 |
+| ManagedInstanceProxyOverride                                                     |               |           | v20250101 |
+| ManagedInstanceProxyOverride_STATUS                                              |               |           | v20250101 |
+| ManagedInstanceVulnerabilityAssessmentProperties                                 |               |           | v20250101 |
+| ManagedInstanceVulnerabilityAssessmentProperties_STATUS                          |               |           | v20250101 |
+| ManagedInstance_STATUS                                                           |               |           | v20250101 |
+| ManagedInstance_Spec                                                             |               |           | v20250101 |
+| ManagedInstancesAdministrator                                                    |               |           | v20250101 |
+| ManagedInstancesAdministrator_STATUS                                             |               |           | v20250101 |
+| ManagedInstancesAdministrator_Spec                                               |               |           | v20250101 |
+| ManagedInstancesAzureADOnlyAuthentication                                        |               |           | v20250101 |
+| ManagedInstancesAzureADOnlyAuthentication_STATUS                                 |               |           | v20250101 |
+| ManagedInstancesAzureADOnlyAuthentication_Spec                                   |               |           | v20250101 |
+| ManagedInstancesDatabase                                                         |               |           | v20250101 |
+| ManagedInstancesDatabase_STATUS                                                  |               |           | v20250101 |
+| ManagedInstancesDatabase_Spec                                                    |               |           | v20250101 |
+| ManagedInstancesDatabasesSecurityAlertPolicy                                     |               |           | v20250101 |
+| ManagedInstancesDatabasesSecurityAlertPolicy_STATUS                              |               |           | v20250101 |
+| ManagedInstancesDatabasesSecurityAlertPolicy_Spec                                |               |           | v20250101 |
+| ManagedInstancesDatabasesTransparentDataEncryption                               |               |           | v20250101 |
+| ManagedInstancesDatabasesTransparentDataEncryption_STATUS                        |               |           | v20250101 |
+| ManagedInstancesDatabasesTransparentDataEncryption_Spec                          |               |           | v20250101 |
+| ManagedInstancesDatabasesVulnerabilityAssessment                                 |               |           | v20250101 |
+| ManagedInstancesDatabasesVulnerabilityAssessment_STATUS                          |               |           | v20250101 |
+| ManagedInstancesDatabasesVulnerabilityAssessment_Spec                            |               |           | v20250101 |
+| ManagedInstancesVulnerabilityAssessment                                          |               |           | v20250101 |
+| ManagedInstancesVulnerabilityAssessment_STATUS                                   |               |           | v20250101 |
+| ManagedInstancesVulnerabilityAssessment_Spec                                     |               |           | v20250101 |
+| ManagedInstances_Administrator_Name_Spec                                         |               |           | v20250101 |
+| ManagedInstances_AzureADOnlyAuthentication_Name_Spec                             |               |           | v20250101 |
+| ManagedInstances_Databases_SecurityAlertPolicy_Name_Spec                         |               |           | v20250101 |
+| ManagedInstances_Databases_TransparentDataEncryption_Name_Spec                   |               |           | v20250101 |
+| ManagedInstances_Databases_VulnerabilityAssessment_Name_Spec                     |               |           | v20250101 |
+| ManagedInstances_VulnerabilityAssessment_Name_Spec                               |               |           | v20250101 |
+| ManagedServerCreateMode                                                          |               |           | v20250101 |
+| ManagedServerCreateMode_STATUS                                                   |               |           | v20250101 |
+| ManagedTransparentDataEncryptionProperties                                       |               |           | v20250101 |
+| ManagedTransparentDataEncryptionProperties_STATUS                                |               |           | v20250101 |
 | MinimalTlsVersion                                                                |               |           | v20250101 |
 | MinimalTlsVersion_STATUS                                                         |               |           | v20250101 |
 | OutboundFirewallRuleProperties_STATUS                                            | v1api20211101 | v20211101 | v20250101 |
 | PartnerInfo                                                                      | v1api20211101 | v20211101 | v20250101 |
 | PartnerInfo_ReplicationRole_STATUS                                               | v1api20211101 | v20211101 |           |
 | PartnerInfo_STATUS                                                               | v1api20211101 | v20211101 | v20250101 |
+| PartnerRegionInfo                                                                |               |           | v20250101 |
+| PartnerRegionInfo_STATUS                                                         |               |           | v20250101 |
+| PricingModel                                                                     |               |           | v20250101 |
+| PricingModel_STATUS                                                              |               |           | v20250101 |
 | PrincipalType                                                                    |               |           | v20250101 |
 | PrincipalType_STATUS                                                             |               |           | v20250101 |
 | PrivateEndpointConnectionProperties_ProvisioningState_STATUS                     | v1api20211101 | v20211101 |           |
@@ -134,6 +218,7 @@
 | PrivateLinkServiceConnectionStateProperty_STATUS                                 | v1api20211101 | v20211101 | v20250101 |
 | PrivateLinkServiceConnectionStateProperty_Status_STATUS                          | v1api20211101 | v20211101 |           |
 | PrivateLinkServiceConnectionStateStatus_STATUS                                   |               |           | v20250101 |
+| ProvisioningState_STATUS                                                         |               |           | v20250101 |
 | ReadOnlyEndpointFailoverPolicy                                                   |               |           | v20250101 |
 | ReadOnlyEndpointFailoverPolicy_STATUS                                            |               |           | v20250101 |
 | ReadWriteEndpointFailoverPolicy                                                  |               |           | v20250101 |
@@ -144,8 +229,14 @@
 | ResourceIdentity_Type_STATUS                                                     | v1api20211101 | v20211101 |           |
 | SampleName                                                                       |               |           | v20250101 |
 | SampleName_STATUS                                                                |               |           | v20250101 |
+| SecondaryInstanceType                                                            |               |           | v20250101 |
+| SecondaryInstanceType_STATUS                                                     |               |           | v20250101 |
 | SecondaryType                                                                    |               |           | v20250101 |
 | SecondaryType_STATUS                                                             |               |           | v20250101 |
+| SecurityAlertPolicyProperties                                                    |               |           | v20250101 |
+| SecurityAlertPolicyProperties_STATUS                                             |               |           | v20250101 |
+| SecurityAlertPolicyState                                                         |               |           | v20250101 |
+| SecurityAlertPolicyState_STATUS                                                  |               |           | v20250101 |
 | SecurityAlertsPolicyProperties                                                   |               |           | v20250101 |
 | SecurityAlertsPolicyProperties_STATUS                                            |               |           | v20250101 |
 | SecurityAlertsPolicyState                                                        |               |           | v20250101 |
@@ -282,6 +373,10 @@
 | Servers_EncryptionProtector_Name_Spec                                            |               | v20211101 | v20250101 |
 | Servers_SecurityAlertPolicy_Name_Spec                                            | v1api20211101 | v20211101 | v20250101 |
 | Servers_VulnerabilityAssessment_Name_Spec                                        | v1api20211101 | v20211101 | v20250101 |
+| ServicePrincipal                                                                 |               |           | v20250101 |
+| ServicePrincipalType                                                             |               |           | v20250101 |
+| ServicePrincipalType_STATUS                                                      |               |           | v20250101 |
+| ServicePrincipal_STATUS                                                          |               |           | v20250101 |
 | Sku                                                                              | v1api20211101 | v20211101 | v20250101 |
 | Sku_STATUS                                                                       | v1api20211101 | v20211101 | v20250101 |
 | SystemData_CreatedByType_STATUS                                                  | v1api20211101 | v20211101 | v20250101 |

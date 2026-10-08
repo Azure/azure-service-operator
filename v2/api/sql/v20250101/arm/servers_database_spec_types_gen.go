@@ -215,24 +215,6 @@ type DatabaseProperties struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-// An ARM Resource SKU.
-type Sku struct {
-	// Capacity: Capacity of the particular SKU.
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Family: If the service has different generations of hardware, for the same SKU, then that can be captured here.
-	Family *string `json:"family,omitempty"`
-
-	// Name: The name of the SKU, typically, a letter + Number code, e.g. P3.
-	Name *string `json:"name,omitempty"`
-
-	// Size: Size of the particular SKU
-	Size *string `json:"size,omitempty"`
-
-	// Tier: The tier or edition of the particular SKU, e.g. Basic, Premium.
-	Tier *string `json:"tier,omitempty"`
-}
-
 // Type of enclave requested on the database i.e. Default or VBS enclaves.
 // +kubebuilder:validation:Enum={"Default","VBS"}
 type AlwaysEncryptedEnclaveType string
@@ -246,59 +228,6 @@ const (
 var alwaysEncryptedEnclaveType_Values = map[string]AlwaysEncryptedEnclaveType{
 	"default": AlwaysEncryptedEnclaveType_Default,
 	"vbs":     AlwaysEncryptedEnclaveType_VBS,
-}
-
-// Specifies the availability zone the database is pinned to.
-// +kubebuilder:validation:Enum={"1","2","3","NoPreference"}
-type AvailabilityZoneType string
-
-const (
-	AvailabilityZoneType_1            = AvailabilityZoneType("1")
-	AvailabilityZoneType_2            = AvailabilityZoneType("2")
-	AvailabilityZoneType_3            = AvailabilityZoneType("3")
-	AvailabilityZoneType_NoPreference = AvailabilityZoneType("NoPreference")
-)
-
-// Mapping from string to AvailabilityZoneType
-var availabilityZoneType_Values = map[string]AvailabilityZoneType{
-	"1":            AvailabilityZoneType_1,
-	"2":            AvailabilityZoneType_2,
-	"3":            AvailabilityZoneType_3,
-	"nopreference": AvailabilityZoneType_NoPreference,
-}
-
-// The storage account type used to store backups for this database.
-// +kubebuilder:validation:Enum={"Geo","GeoZone","Local","Zone"}
-type BackupStorageRedundancy string
-
-const (
-	BackupStorageRedundancy_Geo     = BackupStorageRedundancy("Geo")
-	BackupStorageRedundancy_GeoZone = BackupStorageRedundancy("GeoZone")
-	BackupStorageRedundancy_Local   = BackupStorageRedundancy("Local")
-	BackupStorageRedundancy_Zone    = BackupStorageRedundancy("Zone")
-)
-
-// Mapping from string to BackupStorageRedundancy
-var backupStorageRedundancy_Values = map[string]BackupStorageRedundancy{
-	"geo":     BackupStorageRedundancy_Geo,
-	"geozone": BackupStorageRedundancy_GeoZone,
-	"local":   BackupStorageRedundancy_Local,
-	"zone":    BackupStorageRedundancy_Zone,
-}
-
-// Collation of the metadata catalog.
-// +kubebuilder:validation:Enum={"DATABASE_DEFAULT","SQL_Latin1_General_CP1_CI_AS"}
-type CatalogCollationType string
-
-const (
-	CatalogCollationType_DATABASE_DEFAULT             = CatalogCollationType("DATABASE_DEFAULT")
-	CatalogCollationType_SQL_Latin1_General_CP1_CI_AS = CatalogCollationType("SQL_Latin1_General_CP1_CI_AS")
-)
-
-// Mapping from string to CatalogCollationType
-var catalogCollationType_Values = map[string]CatalogCollationType{
-	"database_default":             CatalogCollationType_DATABASE_DEFAULT,
-	"sql_latin1_general_cp1_ci_as": CatalogCollationType_SQL_Latin1_General_CP1_CI_AS,
 }
 
 // Specifies the mode of database creation.

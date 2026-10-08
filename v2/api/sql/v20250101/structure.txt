@@ -4,6 +4,662 @@ github.com/Azure/azure-service-operator/v2/api/sql/v20250101
 APIVersion: Enum (1 value)
 └── "2025-01-01"
 
+InstanceFailoverGroup: Resource
+├── Owner: resources/v1apiv20191001.ResourceGroup
+├── Spec: Object (8 properties)
+│   ├── AzureName: string
+│   ├── ManagedInstancePairs: Object (2 properties)[]
+│   │   ├── PartnerManagedInstanceReference: *genruntime.ResourceReference
+│   │   └── PrimaryManagedInstanceReference: *genruntime.ResourceReference
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PartnerRegions: Object (1 property)[]
+│   │   └── Location: *string
+│   ├── ReadOnlyEndpoint: *Object (1 property)
+│   │   └── FailoverPolicy: *Enum (2 values)
+│   │       ├── "Disabled"
+│   │       └── "Enabled"
+│   ├── ReadWriteEndpoint: *Object (2 properties)
+│   │   ├── FailoverPolicy: *Enum (2 values)
+│   │   │   ├── "Automatic"
+│   │   │   └── "Manual"
+│   │   └── FailoverWithDataLossGracePeriodMinutes: *int
+│   └── SecondaryType: *Enum (2 values)
+│       ├── "Geo"
+│       └── "Standby"
+└── Status: Object (12 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── ManagedInstancePairs: Object (2 properties)[]
+    │   ├── PartnerManagedInstanceId: *string
+    │   └── PrimaryManagedInstanceId: *string
+    ├── Name: *string
+    ├── PartnerRegions: Object (2 properties)[]
+    │   ├── Location: *string
+    │   └── ReplicationRole: *Enum (2 values)
+    │       ├── "Primary"
+    │       └── "Secondary"
+    ├── ReadOnlyEndpoint: *Object (1 property)
+    │   └── FailoverPolicy: *Enum (2 values)
+    │       ├── "Disabled"
+    │       └── "Enabled"
+    ├── ReadWriteEndpoint: *Object (2 properties)
+    │   ├── FailoverPolicy: *Enum (2 values)
+    │   │   ├── "Automatic"
+    │   │   └── "Manual"
+    │   └── FailoverWithDataLossGracePeriodMinutes: *int
+    ├── ReplicationRole: *Enum (2 values)
+    │   ├── "Primary"
+    │   └── "Secondary"
+    ├── ReplicationState: *string
+    ├── SecondaryType: *Enum (2 values)
+    │   ├── "Geo"
+    │   └── "Standby"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    └── Type: *string
+
+ManagedInstance: Resource
+├── Owner: resources/v1apiv20191001.ResourceGroup
+├── Spec: Object (39 properties)
+│   ├── AdministratorLogin: *string
+│   ├── AdministratorLoginPassword: *genruntime.SecretReference
+│   ├── Administrators: *Object (9 properties)
+│   │   ├── AdministratorType: *Enum (1 value)
+│   │   │   └── "ActiveDirectory"
+│   │   ├── AzureADOnlyAuthentication: *bool
+│   │   ├── Login: *string
+│   │   ├── LoginFromConfig: *genruntime.ConfigMapReference
+│   │   ├── PrincipalType: *Enum (3 values)
+│   │   │   ├── "Application"
+│   │   │   ├── "Group"
+│   │   │   └── "User"
+│   │   ├── Sid: *Validated<string> (1 rule)
+│   │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+│   │   ├── SidFromConfig: *genruntime.ConfigMapReference
+│   │   ├── TenantId: *Validated<string> (1 rule)
+│   │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+│   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
+│   ├── AuthenticationMetadata: *Enum (3 values)
+│   │   ├── "AzureAD"
+│   │   ├── "Paired"
+│   │   └── "Windows"
+│   ├── AzureName: string
+│   ├── Collation: *string
+│   ├── DatabaseFormat: *Enum (3 values)
+│   │   ├── "AlwaysUpToDate"
+│   │   ├── "SQLServer2022"
+│   │   └── "SQLServer2025"
+│   ├── DnsZonePartnerReference: *genruntime.ResourceReference
+│   ├── HybridSecondaryUsage: *Enum (2 values)
+│   │   ├── "Active"
+│   │   └── "Passive"
+│   ├── Identity: *Object (2 properties)
+│   │   ├── Type: *Enum (4 values)
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned,UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: Object (1 property)[]
+│   │       └── Reference: genruntime.ResourceReference
+│   ├── InstancePoolReference: *genruntime.ResourceReference
+│   ├── IsGeneralPurposeV2: *bool
+│   ├── KeyId: *string
+│   ├── LicenseType: *Enum (2 values)
+│   │   ├── "BasePrice"
+│   │   └── "LicenseIncluded"
+│   ├── Location: *string
+│   ├── MaintenanceConfigurationId: *string
+│   ├── ManagedInstanceCreateMode: *Enum (2 values)
+│   │   ├── "Default"
+│   │   └── "PointInTimeRestore"
+│   ├── MemorySizeInGB: *int
+│   ├── MinimalTlsVersion: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── ConfigMaps: *Object (1 property)
+│   │   │   └── FullyQualifiedDomainName: *genruntime.ConfigMapDestination
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PricingModel: *Enum (2 values)
+│   │   ├── "Freemium"
+│   │   └── "Regular"
+│   ├── PrimaryUserAssignedIdentityReference: *genruntime.ResourceReference
+│   ├── ProxyOverride: *Enum (3 values)
+│   │   ├── "Default"
+│   │   ├── "Proxy"
+│   │   └── "Redirect"
+│   ├── PublicDataEndpointEnabled: *bool
+│   ├── RequestedBackupStorageRedundancy: *Enum (4 values)
+│   │   ├── "Geo"
+│   │   ├── "GeoZone"
+│   │   ├── "Local"
+│   │   └── "Zone"
+│   ├── RequestedLogicalAvailabilityZone: *Enum (4 values)
+│   │   ├── "1"
+│   │   ├── "2"
+│   │   ├── "3"
+│   │   └── "NoPreference"
+│   ├── RestorePointInTime: *string
+│   ├── ServicePrincipal: *Object (1 property)
+│   │   └── Type: *Enum (2 values)
+│   │       ├── "None"
+│   │       └── "SystemAssigned"
+│   ├── Sku: *Object (5 properties)
+│   │   ├── Capacity: *int
+│   │   ├── Family: *string
+│   │   ├── Name: *string
+│   │   ├── Size: *string
+│   │   └── Tier: *string
+│   ├── SourceManagedInstanceReference: *genruntime.ResourceReference
+│   ├── StorageIOps: *int
+│   ├── StorageSizeInGB: *int
+│   ├── StorageThroughputMBps: *int
+│   ├── SubnetReference: *genruntime.ResourceReference
+│   ├── Tags: map[string]string
+│   ├── TimezoneId: *string
+│   ├── VCores: *int
+│   └── ZoneRedundant: *bool
+└── Status: Object (50 properties)
+    ├── AdministratorLogin: *string
+    ├── Administrators: *Object (6 properties)
+    │   ├── AdministratorType: *Enum (1 value)
+    │   │   └── "ActiveDirectory"
+    │   ├── AzureADOnlyAuthentication: *bool
+    │   ├── Login: *string
+    │   ├── PrincipalType: *Enum (3 values)
+    │   │   ├── "Application"
+    │   │   ├── "Group"
+    │   │   └── "User"
+    │   ├── Sid: *string
+    │   └── TenantId: *string
+    ├── AuthenticationMetadata: *Enum (3 values)
+    │   ├── "AzureAD"
+    │   ├── "Paired"
+    │   └── "Windows"
+    ├── Collation: *string
+    ├── Conditions: conditions.Condition[]
+    ├── CreateTime: *string
+    ├── CurrentBackupStorageRedundancy: *Enum (4 values)
+    │   ├── "Geo"
+    │   ├── "GeoZone"
+    │   ├── "Local"
+    │   └── "Zone"
+    ├── DatabaseFormat: *Enum (3 values)
+    │   ├── "AlwaysUpToDate"
+    │   ├── "SQLServer2022"
+    │   └── "SQLServer2025"
+    ├── DnsZone: *string
+    ├── DnsZonePartner: *string
+    ├── ExternalGovernanceStatus: *Enum (2 values)
+    │   ├── "Disabled"
+    │   └── "Enabled"
+    ├── FullyQualifiedDomainName: *string
+    ├── HybridSecondaryUsage: *Enum (2 values)
+    │   ├── "Active"
+    │   └── "Passive"
+    ├── HybridSecondaryUsageDetected: *Enum (2 values)
+    │   ├── "Active"
+    │   └── "Passive"
+    ├── Id: *string
+    ├── Identity: *Object (4 properties)
+    │   ├── PrincipalId: *string
+    │   ├── TenantId: *string
+    │   ├── Type: *Enum (4 values)
+    │   │   ├── "None"
+    │   │   ├── "SystemAssigned"
+    │   │   ├── "SystemAssigned,UserAssigned"
+    │   │   └── "UserAssigned"
+    │   └── UserAssignedIdentities: map[string]Object (2 properties)
+    │       ├── ClientId: *string
+    │       └── PrincipalId: *string
+    ├── InstancePoolId: *string
+    ├── IsGeneralPurposeV2: *bool
+    ├── KeyId: *string
+    ├── LicenseType: *Enum (2 values)
+    │   ├── "BasePrice"
+    │   └── "LicenseIncluded"
+    ├── Location: *string
+    ├── MaintenanceConfigurationId: *string
+    ├── ManagedInstanceCreateMode: *Enum (2 values)
+    │   ├── "Default"
+    │   └── "PointInTimeRestore"
+    ├── MemorySizeInGB: *int
+    ├── MinimalTlsVersion: *string
+    ├── Name: *string
+    ├── PricingModel: *Enum (2 values)
+    │   ├── "Freemium"
+    │   └── "Regular"
+    ├── PrimaryUserAssignedIdentityId: *string
+    ├── PrivateEndpointConnections: Object (2 properties)[]
+    │   ├── Id: *string
+    │   └── Properties: *Object (3 properties)
+    │       ├── PrivateEndpoint: *Object (1 property)
+    │       │   └── Id: *string
+    │       ├── PrivateLinkServiceConnectionState: *Object (3 properties)
+    │       │   ├── ActionsRequired: *string
+    │       │   ├── Description: *string
+    │       │   └── Status: *string
+    │       └── ProvisioningState: *string
+    ├── ProvisioningState: *Enum (5 values)
+    │   ├── "Canceled"
+    │   ├── "Created"
+    │   ├── "Failed"
+    │   ├── "InProgress"
+    │   └── "Succeeded"
+    ├── ProxyOverride: *Enum (3 values)
+    │   ├── "Default"
+    │   ├── "Proxy"
+    │   └── "Redirect"
+    ├── PublicDataEndpointEnabled: *bool
+    ├── RequestedBackupStorageRedundancy: *Enum (4 values)
+    │   ├── "Geo"
+    │   ├── "GeoZone"
+    │   ├── "Local"
+    │   └── "Zone"
+    ├── RequestedLogicalAvailabilityZone: *Enum (4 values)
+    │   ├── "1"
+    │   ├── "2"
+    │   ├── "3"
+    │   └── "NoPreference"
+    ├── RestorePointInTime: *string
+    ├── ServicePrincipal: *Object (4 properties)
+    │   ├── ClientId: *string
+    │   ├── PrincipalId: *string
+    │   ├── TenantId: *string
+    │   └── Type: *Enum (2 values)
+    │       ├── "None"
+    │       └── "SystemAssigned"
+    ├── Sku: *Object (5 properties)
+    │   ├── Capacity: *int
+    │   ├── Family: *string
+    │   ├── Name: *string
+    │   ├── Size: *string
+    │   └── Tier: *string
+    ├── SourceManagedInstanceId: *string
+    ├── State: *string
+    ├── StorageIOps: *int
+    ├── StorageSizeInGB: *int
+    ├── StorageThroughputMBps: *int
+    ├── SubnetId: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    ├── Tags: map[string]string
+    ├── TimezoneId: *string
+    ├── Type: *string
+    ├── VCores: *int
+    ├── VirtualClusterId: *string
+    └── ZoneRedundant: *bool
+
+ManagedInstancesAdministrator: Resource
+├── Owner: ManagedInstance
+├── Spec: Object (8 properties)
+│   ├── AdministratorType: *Enum (1 value)
+│   │   └── "ActiveDirectory"
+│   ├── Login: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── Sid: *Validated<string> (1 rule)
+│   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+│   ├── SidFromConfig: *genruntime.ConfigMapReference
+│   ├── TenantId: *Validated<string> (1 rule)
+│   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+│   └── TenantIdFromConfig: *genruntime.ConfigMapReference
+└── Status: Object (9 properties)
+    ├── AdministratorType: *Enum (1 value)
+    │   └── "ActiveDirectory"
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Login: *string
+    ├── Name: *string
+    ├── Sid: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    ├── TenantId: *string
+    └── Type: *string
+
+ManagedInstancesAzureADOnlyAuthentication: Resource
+├── Owner: ManagedInstance
+├── Spec: Object (3 properties)
+│   ├── AzureADOnlyAuthentication: *bool
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   └── Owner: *genruntime.KnownResourceReference
+└── Status: Object (6 properties)
+    ├── AzureADOnlyAuthentication: *bool
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Name: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    └── Type: *string
+
+ManagedInstancesDatabase: Resource
+├── Owner: ManagedInstance
+├── Spec: Object (23 properties)
+│   ├── AutoCompleteRestore: *bool
+│   ├── AzureName: string
+│   ├── CatalogCollation: *Enum (2 values)
+│   │   ├── "DATABASE_DEFAULT"
+│   │   └── "SQL_Latin1_General_CP1_CI_AS"
+│   ├── Collation: *string
+│   ├── CreateMode: *Enum (5 values)
+│   │   ├── "Default"
+│   │   ├── "PointInTimeRestore"
+│   │   ├── "Recovery"
+│   │   ├── "RestoreExternalBackup"
+│   │   └── "RestoreLongTermRetentionBackup"
+│   ├── CrossSubscriptionRestorableDroppedDatabaseReference: *genruntime.ResourceReference
+│   ├── CrossSubscriptionSourceDatabaseReference: *genruntime.ResourceReference
+│   ├── CrossSubscriptionTargetManagedInstanceId: *string
+│   ├── IsLedgerOn: *bool
+│   ├── LastBackupName: *string
+│   ├── Location: *string
+│   ├── LongTermRetentionBackupResourceReference: *genruntime.ResourceReference
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── RecoverableDatabaseReference: *genruntime.ResourceReference
+│   ├── RestorableDroppedDatabaseReference: *genruntime.ResourceReference
+│   ├── RestorePointInTime: *string
+│   ├── SourceDatabaseReference: *genruntime.ResourceReference
+│   ├── StorageContainerIdentity: *string
+│   ├── StorageContainerSasToken: *string
+│   ├── StorageContainerSasTokenFromSecret: *genruntime.SecretReference
+│   ├── StorageContainerUri: *string
+│   └── Tags: map[string]string
+└── Status: Object (29 properties)
+    ├── AutoCompleteRestore: *bool
+    ├── CatalogCollation: *Enum (2 values)
+    │   ├── "DATABASE_DEFAULT"
+    │   └── "SQL_Latin1_General_CP1_CI_AS"
+    ├── Collation: *string
+    ├── Conditions: conditions.Condition[]
+    ├── CreateMode: *Enum (5 values)
+    │   ├── "Default"
+    │   ├── "PointInTimeRestore"
+    │   ├── "Recovery"
+    │   ├── "RestoreExternalBackup"
+    │   └── "RestoreLongTermRetentionBackup"
+    ├── CreationDate: *string
+    ├── CrossSubscriptionRestorableDroppedDatabaseId: *string
+    ├── CrossSubscriptionSourceDatabaseId: *string
+    ├── CrossSubscriptionTargetManagedInstanceId: *string
+    ├── DefaultSecondaryLocation: *string
+    ├── EarliestRestorePoint: *string
+    ├── ExtendedAccessibilityInfo: *Object (4 properties)
+    │   ├── InaccessibilityReasonDescription: *string
+    │   ├── InaccessibilityReasonErrorCode: *string
+    │   ├── InaccessibilityReasonKind: *Enum (3 values)
+    │   │   ├── "DatabaseReplication"
+    │   │   ├── "TransparentDataEncryption"
+    │   │   └── "Unknown"
+    │   └── InaccessibilityReasonTdeKeyUri: *string
+    ├── FailoverGroupId: *string
+    ├── Id: *string
+    ├── IsLedgerOn: *bool
+    ├── LastBackupName: *string
+    ├── Location: *string
+    ├── LongTermRetentionBackupResourceId: *string
+    ├── Name: *string
+    ├── RecoverableDatabaseId: *string
+    ├── RestorableDroppedDatabaseId: *string
+    ├── RestorePointInTime: *string
+    ├── SourceDatabaseId: *string
+    ├── Status: *Enum (12 values)
+    │   ├── "Creating"
+    │   ├── "DbCopying"
+    │   ├── "DbMoving"
+    │   ├── "Inaccessible"
+    │   ├── "Offline"
+    │   ├── "Online"
+    │   ├── "Restoring"
+    │   ├── "Shutdown"
+    │   ├── "Starting"
+    │   ├── "Stopped"
+    │   ├── "Stopping"
+    │   └── "Updating"
+    ├── StorageContainerIdentity: *string
+    ├── StorageContainerUri: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    ├── Tags: map[string]string
+    └── Type: *string
+
+ManagedInstancesDatabasesSecurityAlertPolicy: Resource
+├── Owner: ManagedInstancesDatabase
+├── Spec: Object (9 properties)
+│   ├── DisabledAlerts: string[]
+│   ├── EmailAccountAdmins: *bool
+│   ├── EmailAddresses: string[]
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── RetentionDays: *int
+│   ├── State: *Enum (3 values)
+│   │   ├── "Disabled"
+│   │   ├── "Enabled"
+│   │   └── "New"
+│   ├── StorageAccountAccessKey: *genruntime.SecretReference
+│   └── StorageEndpoint: *string
+└── Status: Object (12 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── CreationTime: *string
+    ├── DisabledAlerts: string[]
+    ├── EmailAccountAdmins: *bool
+    ├── EmailAddresses: string[]
+    ├── Id: *string
+    ├── Name: *string
+    ├── RetentionDays: *int
+    ├── State: *Enum (3 values)
+    │   ├── "Disabled"
+    │   ├── "Enabled"
+    │   └── "New"
+    ├── StorageEndpoint: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    └── Type: *string
+
+ManagedInstancesDatabasesTransparentDataEncryption: Resource
+├── Owner: ManagedInstancesDatabase
+├── Spec: Object (3 properties)
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   └── State: *Enum (2 values)
+│       ├── "Disabled"
+│       └── "Enabled"
+└── Status: Object (6 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Name: *string
+    ├── State: *Enum (2 values)
+    │   ├── "Disabled"
+    │   └── "Enabled"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    └── Type: *string
+
+ManagedInstancesDatabasesVulnerabilityAssessment: Resource
+├── Owner: ManagedInstancesDatabase
+├── Spec: Object (7 properties)
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── RecurringScans: *Object (3 properties)
+│   │   ├── EmailSubscriptionAdmins: *bool
+│   │   ├── Emails: string[]
+│   │   └── IsEnabled: *bool
+│   ├── StorageAccountAccessKey: *genruntime.SecretReference
+│   ├── StorageContainerPath: *string
+│   ├── StorageContainerPathFromConfig: *genruntime.ConfigMapReference
+│   └── StorageContainerSasKey: *genruntime.SecretReference
+└── Status: Object (7 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Name: *string
+    ├── RecurringScans: *Object (3 properties)
+    │   ├── EmailSubscriptionAdmins: *bool
+    │   ├── Emails: string[]
+    │   └── IsEnabled: *bool
+    ├── StorageContainerPath: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    └── Type: *string
+
+ManagedInstancesVulnerabilityAssessment: Resource
+├── Owner: ManagedInstance
+├── Spec: Object (6 properties)
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── RecurringScans: *Object (3 properties)
+│   │   ├── EmailSubscriptionAdmins: *bool
+│   │   ├── Emails: string[]
+│   │   └── IsEnabled: *bool
+│   ├── StorageAccountAccessKey: *genruntime.SecretReference
+│   ├── StorageContainerPath: *string
+│   └── StorageContainerSasKey: *genruntime.SecretReference
+└── Status: Object (7 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Name: *string
+    ├── RecurringScans: *Object (3 properties)
+    │   ├── EmailSubscriptionAdmins: *bool
+    │   ├── Emails: string[]
+    │   └── IsEnabled: *bool
+    ├── StorageContainerPath: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    └── Type: *string
+
 Server: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (19 properties)

@@ -4,6 +4,519 @@ github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage
 APIVersion: Enum (1 value)
 └── "2025-01-01"
 
+InstanceFailoverGroup: Resource
+├── Owner: resources/v1apiv20191001.ResourceGroup
+├── Spec: Object (10 properties)
+│   ├── AzureName: string
+│   ├── ManagedInstancePairs: Object (3 properties)[]
+│   │   ├── PartnerManagedInstanceReference: *genruntime.ResourceReference
+│   │   ├── PrimaryManagedInstanceReference: *genruntime.ResourceReference
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PartnerRegions: Object (2 properties)[]
+│   │   ├── Location: *string
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── PropertyBag: genruntime.PropertyBag
+│   ├── ReadOnlyEndpoint: *Object (2 properties)
+│   │   ├── FailoverPolicy: *string
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── ReadWriteEndpoint: *Object (3 properties)
+│   │   ├── FailoverPolicy: *string
+│   │   ├── FailoverWithDataLossGracePeriodMinutes: *int
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   └── SecondaryType: *string
+└── Status: Object (13 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── ManagedInstancePairs: Object (3 properties)[]
+    │   ├── PartnerManagedInstanceId: *string
+    │   ├── PrimaryManagedInstanceId: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── Name: *string
+    ├── PartnerRegions: Object (3 properties)[]
+    │   ├── Location: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   └── ReplicationRole: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── ReadOnlyEndpoint: *Object (2 properties)
+    │   ├── FailoverPolicy: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── ReadWriteEndpoint: *Object (3 properties)
+    │   ├── FailoverPolicy: *string
+    │   ├── FailoverWithDataLossGracePeriodMinutes: *int
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── ReplicationRole: *string
+    ├── ReplicationState: *string
+    ├── SecondaryType: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    └── Type: *string
+
+ManagedInstance: Resource
+├── Owner: resources/v1apiv20191001.ResourceGroup
+├── Spec: Object (41 properties)
+│   ├── AdministratorLogin: *string
+│   ├── AdministratorLoginPassword: *genruntime.SecretReference
+│   ├── Administrators: *Object (10 properties)
+│   │   ├── AdministratorType: *string
+│   │   ├── AzureADOnlyAuthentication: *bool
+│   │   ├── Login: *string
+│   │   ├── LoginFromConfig: *genruntime.ConfigMapReference
+│   │   ├── PrincipalType: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Sid: *string
+│   │   ├── SidFromConfig: *genruntime.ConfigMapReference
+│   │   ├── TenantId: *string
+│   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
+│   ├── AuthenticationMetadata: *string
+│   ├── AzureName: string
+│   ├── Collation: *string
+│   ├── DatabaseFormat: *string
+│   ├── DnsZonePartnerReference: *genruntime.ResourceReference
+│   ├── HybridSecondaryUsage: *string
+│   ├── Identity: *Object (3 properties)
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Type: *string
+│   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │       ├── PropertyBag: genruntime.PropertyBag
+│   │       └── Reference: genruntime.ResourceReference
+│   ├── InstancePoolReference: *genruntime.ResourceReference
+│   ├── IsGeneralPurposeV2: *bool
+│   ├── KeyId: *string
+│   ├── LicenseType: *string
+│   ├── Location: *string
+│   ├── MaintenanceConfigurationId: *string
+│   ├── ManagedInstanceCreateMode: *string
+│   ├── MemorySizeInGB: *int
+│   ├── MinimalTlsVersion: *string
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── ConfigMaps: *Object (2 properties)
+│   │   │   ├── FullyQualifiedDomainName: *genruntime.ConfigMapDestination
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PricingModel: *string
+│   ├── PrimaryUserAssignedIdentityReference: *genruntime.ResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   ├── ProxyOverride: *string
+│   ├── PublicDataEndpointEnabled: *bool
+│   ├── RequestedBackupStorageRedundancy: *string
+│   ├── RequestedLogicalAvailabilityZone: *string
+│   ├── RestorePointInTime: *string
+│   ├── ServicePrincipal: *Object (2 properties)
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Type: *string
+│   ├── Sku: *Object (6 properties)
+│   │   ├── Capacity: *int
+│   │   ├── Family: *string
+│   │   ├── Name: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Size: *string
+│   │   └── Tier: *string
+│   ├── SourceManagedInstanceReference: *genruntime.ResourceReference
+│   ├── StorageIOps: *int
+│   ├── StorageSizeInGB: *int
+│   ├── StorageThroughputMBps: *int
+│   ├── SubnetReference: *genruntime.ResourceReference
+│   ├── Tags: map[string]string
+│   ├── TimezoneId: *string
+│   ├── VCores: *int
+│   └── ZoneRedundant: *bool
+└── Status: Object (51 properties)
+    ├── AdministratorLogin: *string
+    ├── Administrators: *Object (7 properties)
+    │   ├── AdministratorType: *string
+    │   ├── AzureADOnlyAuthentication: *bool
+    │   ├── Login: *string
+    │   ├── PrincipalType: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── Sid: *string
+    │   └── TenantId: *string
+    ├── AuthenticationMetadata: *string
+    ├── Collation: *string
+    ├── Conditions: conditions.Condition[]
+    ├── CreateTime: *string
+    ├── CurrentBackupStorageRedundancy: *string
+    ├── DatabaseFormat: *string
+    ├── DnsZone: *string
+    ├── DnsZonePartner: *string
+    ├── ExternalGovernanceStatus: *string
+    ├── FullyQualifiedDomainName: *string
+    ├── HybridSecondaryUsage: *string
+    ├── HybridSecondaryUsageDetected: *string
+    ├── Id: *string
+    ├── Identity: *Object (5 properties)
+    │   ├── PrincipalId: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── TenantId: *string
+    │   ├── Type: *string
+    │   └── UserAssignedIdentities: map[string]Object (3 properties)
+    │       ├── ClientId: *string
+    │       ├── PrincipalId: *string
+    │       └── PropertyBag: genruntime.PropertyBag
+    ├── InstancePoolId: *string
+    ├── IsGeneralPurposeV2: *bool
+    ├── KeyId: *string
+    ├── LicenseType: *string
+    ├── Location: *string
+    ├── MaintenanceConfigurationId: *string
+    ├── ManagedInstanceCreateMode: *string
+    ├── MemorySizeInGB: *int
+    ├── MinimalTlsVersion: *string
+    ├── Name: *string
+    ├── PricingModel: *string
+    ├── PrimaryUserAssignedIdentityId: *string
+    ├── PrivateEndpointConnections: Object (3 properties)[]
+    │   ├── Id: *string
+    │   ├── Properties: *Object (4 properties)
+    │   │   ├── PrivateEndpoint: *Object (2 properties)
+    │   │   │   ├── Id: *string
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   ├── PrivateLinkServiceConnectionState: *Object (4 properties)
+    │   │   │   ├── ActionsRequired: *string
+    │   │   │   ├── Description: *string
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── Status: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── ProvisioningState: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── ProvisioningState: *string
+    ├── ProxyOverride: *string
+    ├── PublicDataEndpointEnabled: *bool
+    ├── RequestedBackupStorageRedundancy: *string
+    ├── RequestedLogicalAvailabilityZone: *string
+    ├── RestorePointInTime: *string
+    ├── ServicePrincipal: *Object (5 properties)
+    │   ├── ClientId: *string
+    │   ├── PrincipalId: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── TenantId: *string
+    │   └── Type: *string
+    ├── Sku: *Object (6 properties)
+    │   ├── Capacity: *int
+    │   ├── Family: *string
+    │   ├── Name: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── Size: *string
+    │   └── Tier: *string
+    ├── SourceManagedInstanceId: *string
+    ├── State: *string
+    ├── StorageIOps: *int
+    ├── StorageSizeInGB: *int
+    ├── StorageThroughputMBps: *int
+    ├── SubnetId: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── Tags: map[string]string
+    ├── TimezoneId: *string
+    ├── Type: *string
+    ├── VCores: *int
+    ├── VirtualClusterId: *string
+    └── ZoneRedundant: *bool
+
+ManagedInstancesAdministrator: Resource
+├── Owner: sql/v20250101.ManagedInstance
+├── Spec: Object (10 properties)
+│   ├── AdministratorType: *string
+│   ├── Login: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   ├── Sid: *string
+│   ├── SidFromConfig: *genruntime.ConfigMapReference
+│   ├── TenantId: *string
+│   └── TenantIdFromConfig: *genruntime.ConfigMapReference
+└── Status: Object (10 properties)
+    ├── AdministratorType: *string
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Login: *string
+    ├── Name: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── Sid: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── TenantId: *string
+    └── Type: *string
+
+ManagedInstancesAzureADOnlyAuthentication: Resource
+├── Owner: sql/v20250101.ManagedInstance
+├── Spec: Object (5 properties)
+│   ├── AzureADOnlyAuthentication: *bool
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   └── PropertyBag: genruntime.PropertyBag
+└── Status: Object (7 properties)
+    ├── AzureADOnlyAuthentication: *bool
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Name: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    └── Type: *string
+
+ManagedInstancesDatabase: Resource
+├── Owner: sql/v20250101.ManagedInstance
+├── Spec: Object (25 properties)
+│   ├── AutoCompleteRestore: *bool
+│   ├── AzureName: string
+│   ├── CatalogCollation: *string
+│   ├── Collation: *string
+│   ├── CreateMode: *string
+│   ├── CrossSubscriptionRestorableDroppedDatabaseReference: *genruntime.ResourceReference
+│   ├── CrossSubscriptionSourceDatabaseReference: *genruntime.ResourceReference
+│   ├── CrossSubscriptionTargetManagedInstanceId: *string
+│   ├── IsLedgerOn: *bool
+│   ├── LastBackupName: *string
+│   ├── Location: *string
+│   ├── LongTermRetentionBackupResourceReference: *genruntime.ResourceReference
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   ├── RecoverableDatabaseReference: *genruntime.ResourceReference
+│   ├── RestorableDroppedDatabaseReference: *genruntime.ResourceReference
+│   ├── RestorePointInTime: *string
+│   ├── SourceDatabaseReference: *genruntime.ResourceReference
+│   ├── StorageContainerIdentity: *string
+│   ├── StorageContainerSasToken: *string
+│   ├── StorageContainerSasTokenFromSecret: *genruntime.SecretReference
+│   ├── StorageContainerUri: *string
+│   └── Tags: map[string]string
+└── Status: Object (30 properties)
+    ├── AutoCompleteRestore: *bool
+    ├── CatalogCollation: *string
+    ├── Collation: *string
+    ├── Conditions: conditions.Condition[]
+    ├── CreateMode: *string
+    ├── CreationDate: *string
+    ├── CrossSubscriptionRestorableDroppedDatabaseId: *string
+    ├── CrossSubscriptionSourceDatabaseId: *string
+    ├── CrossSubscriptionTargetManagedInstanceId: *string
+    ├── DefaultSecondaryLocation: *string
+    ├── EarliestRestorePoint: *string
+    ├── ExtendedAccessibilityInfo: *Object (5 properties)
+    │   ├── InaccessibilityReasonDescription: *string
+    │   ├── InaccessibilityReasonErrorCode: *string
+    │   ├── InaccessibilityReasonKind: *string
+    │   ├── InaccessibilityReasonTdeKeyUri: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── FailoverGroupId: *string
+    ├── Id: *string
+    ├── IsLedgerOn: *bool
+    ├── LastBackupName: *string
+    ├── Location: *string
+    ├── LongTermRetentionBackupResourceId: *string
+    ├── Name: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── RecoverableDatabaseId: *string
+    ├── RestorableDroppedDatabaseId: *string
+    ├── RestorePointInTime: *string
+    ├── SourceDatabaseId: *string
+    ├── Status: *string
+    ├── StorageContainerIdentity: *string
+    ├── StorageContainerUri: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── Tags: map[string]string
+    └── Type: *string
+
+ManagedInstancesDatabasesSecurityAlertPolicy: Resource
+├── Owner: sql/v20250101.ManagedInstancesDatabase
+├── Spec: Object (11 properties)
+│   ├── DisabledAlerts: string[]
+│   ├── EmailAccountAdmins: *bool
+│   ├── EmailAddresses: string[]
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   ├── RetentionDays: *int
+│   ├── State: *string
+│   ├── StorageAccountAccessKey: *genruntime.SecretReference
+│   └── StorageEndpoint: *string
+└── Status: Object (13 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── CreationTime: *string
+    ├── DisabledAlerts: string[]
+    ├── EmailAccountAdmins: *bool
+    ├── EmailAddresses: string[]
+    ├── Id: *string
+    ├── Name: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── RetentionDays: *int
+    ├── State: *string
+    ├── StorageEndpoint: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    └── Type: *string
+
+ManagedInstancesDatabasesTransparentDataEncryption: Resource
+├── Owner: sql/v20250101.ManagedInstancesDatabase
+├── Spec: Object (5 properties)
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   └── State: *string
+└── Status: Object (7 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Name: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── State: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    └── Type: *string
+
+ManagedInstancesDatabasesVulnerabilityAssessment: Resource
+├── Owner: sql/v20250101.ManagedInstancesDatabase
+├── Spec: Object (9 properties)
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   ├── RecurringScans: *Object (4 properties)
+│   │   ├── EmailSubscriptionAdmins: *bool
+│   │   ├── Emails: string[]
+│   │   ├── IsEnabled: *bool
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── StorageAccountAccessKey: *genruntime.SecretReference
+│   ├── StorageContainerPath: *string
+│   ├── StorageContainerPathFromConfig: *genruntime.ConfigMapReference
+│   └── StorageContainerSasKey: *genruntime.SecretReference
+└── Status: Object (8 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Name: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── RecurringScans: *Object (4 properties)
+    │   ├── EmailSubscriptionAdmins: *bool
+    │   ├── Emails: string[]
+    │   ├── IsEnabled: *bool
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── StorageContainerPath: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    └── Type: *string
+
+ManagedInstancesVulnerabilityAssessment: Resource
+├── Owner: sql/v20250101.ManagedInstance
+├── Spec: Object (8 properties)
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   ├── RecurringScans: *Object (4 properties)
+│   │   ├── EmailSubscriptionAdmins: *bool
+│   │   ├── Emails: string[]
+│   │   ├── IsEnabled: *bool
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── StorageAccountAccessKey: *genruntime.SecretReference
+│   ├── StorageContainerPath: *string
+│   └── StorageContainerSasKey: *genruntime.SecretReference
+└── Status: Object (8 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Name: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── RecurringScans: *Object (4 properties)
+    │   ├── EmailSubscriptionAdmins: *bool
+    │   ├── Emails: string[]
+    │   ├── IsEnabled: *bool
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── StorageContainerPath: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    └── Type: *string
+
 Server: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (21 properties)
