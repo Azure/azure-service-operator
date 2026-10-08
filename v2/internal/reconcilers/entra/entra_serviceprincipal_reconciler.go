@@ -170,7 +170,8 @@ func (r *EntraServicePrincipalReconciler) update(
 			"service principal %s has appId %q, expected %q",
 			id,
 			valueOrEmpty(appId),
-			*sp.Spec.AppId)
+			*sp.Spec.AppId,
+		)
 	}
 
 	if sp.Spec.DisplayName != nil && r.canCreate(sp) {
