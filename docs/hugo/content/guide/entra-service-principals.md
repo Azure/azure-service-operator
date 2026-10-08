@@ -25,10 +25,12 @@ spec:
 `AdoptOnly` reports an error if the service principal is not present; it does
 not create one. The default mode, `AdoptOrCreate`, creates a service principal
 for the specified application ID if none exists. `AlwaysCreate` skips adoption.
+
 The resolved object ID is available in `status.entraID` and, when configured,
 in the specified ConfigMap for use by other resources.
-Deleting a Kubernetes resource that adopted an existing service principal does
-not delete the service principal in Entra.
+
+Deleting a Kubernetes resource that adopted an existing service principal _**will*_ 
+delete that service principle unless you specify `AdoptOnly`.
 
 ASO looks up a principal by `appId` first. If it exists, ASO adopts it
 regardless of its display name. If no principal matches the GUID, ASO looks
@@ -53,4 +55,5 @@ spec:
     creationMode: AdoptOnly
 ```
 
-`spec.displayName` can update a principal, but only if creationMode is AdoptOrCreate; under creationMode AdoptOnly, updates are never applied (ASO is purely read-only).
+`spec.displayName` can update a principal, but only if creationMode is `AdoptOrCreate` or `AlwaysCreate`; 
+under creationMode AdoptOnly, updates are never applied (ASO is purely read-only).
