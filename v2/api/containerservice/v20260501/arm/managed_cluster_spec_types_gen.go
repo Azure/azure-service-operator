@@ -1076,10 +1076,12 @@ type AzureKeyVaultKms struct {
 	// Enabled: Whether to enable Azure Key Vault key management service. The default is false.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	// KeyId: Identifier of Azure Key Vault key. See [key identifier
-	// format](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name)
-	// for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key
-	// identifier. When Azure Key Vault key management service is disabled, leave the field empty.
+	// KeyId: The identifier of the Azure Key Vault key. For more information, see [Azure Key Vault key
+	// identifiers](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name).
+	// This property is required when Azure Key Vault key management service is enabled and must be omitted when the service is
+	// disabled. Starting with API versions 2026-07-01 and 2026-07-02-preview, a versioned key identifier uses the legacy KMS
+	// experience, while an unversioned key identifier uses the new KMS experience. For more information, see [KMS data
+	// encryption concepts](https://learn.microsoft.com/en-us/azure/aks/kms-data-encryption-concepts).
 	KeyId *string `json:"keyId,omitempty"`
 
 	// KeyVaultNetworkAccess: Network access of the key vault. Network access of key vault. The possible values are `Public`

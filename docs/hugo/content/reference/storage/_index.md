@@ -7,6 +7,23 @@ no_list: true
 
 To install the CRDs for these resources, your ASO configuration must include `storage.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                             | ARM Version | CRD Version | Supported From | Sample                                                                                                                                             |
+|--------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| StorageAccount                       | 2026-06-01  | v20260601   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20260601/v20260601_storageaccount.yaml)                       |
+| StorageAccountsBlobService           | 2026-06-01  | v20260601   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20260601/v20260601_storageaccountsblobservice.yaml)           |
+| StorageAccountsBlobServicesContainer | 2026-06-01  | v20260601   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20260601/v20260601_storageaccountsblobservicescontainer.yaml) |
+| StorageAccountsFileService           | 2026-06-01  | v20260601   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20260601/v20260601_storageaccountsfileservice.yaml)           |
+| StorageAccountsFileServicesShare     | 2026-06-01  | v20260601   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20260601/v20260601_storageaccountsfileservicesshare.yaml)     |
+| StorageAccountsManagementPolicy      | 2026-06-01  | v20260601   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20260601/v20260601_storageaccountsmanagementpolicy.yaml)      |
+| StorageAccountsQueueService          | 2026-06-01  | v20260601   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20260601/v20260601_storageaccountsqueueservice.yaml)          |
+| StorageAccountsQueueServicesQueue    | 2026-06-01  | v20260601   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20260601/v20260601_storageaccountsqueueservicesqueue.yaml)    |
+| StorageAccountsTableService          | 2026-06-01  | v20260601   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20260601/v20260601_storageaccountstableservice.yaml)          |
+| StorageAccountsTableServicesTable    | 2026-06-01  | v20260601   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20260601/v20260601_storageaccountstableservicestable.yaml)    |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
