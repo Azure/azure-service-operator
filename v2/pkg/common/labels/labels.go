@@ -9,6 +9,7 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
 	"github.com/go-logr/logr"
+	"k8s.io/apimachinery/pkg/api/validate/content"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -35,31 +36,50 @@ const (
 	ServiceOperatorAppValue = "azure-service-operator"
 )
 
-// SetOwnerNameLabel sets the owner name label on the given object, or truncates it to 63 characters if it exceeds the character limit.
+// SetOwnerNameLabel sets the owner name label on the given object, or truncates it if it exceeds the character limit.
 func SetOwnerNameLabel(logger logr.Logger, obj genruntime.ARMMetaObject) {
 	if obj.Owner() != nil && obj.Owner().Name != "" {
 		ownerName := obj.Owner().Name
-		if len(ownerName) > 63 {
-			// Truncate the owner name to 63 characters if it exceeds the limit
-			ownerName = ownerName[:63]
-			logger.V(Status).Info("WARNING: Owner name label truncated to 63 characters", "ownerName", ownerName)
+		ownerName, truncated := truncateLabelValue(ownerName)
+		if truncated {
+			logger.V(Status).Info("WARNING: Owner name label truncated to fit Kubernetes label limits", "ownerName", ownerName)
 		}
 		genruntime.AddLabel(obj, OwnerNameLabel, ownerName)
 	}
 }
 
-// SetOwnGroupKindLabel sets the owner group kind label on the given object, or truncates it to 63 characters if it exceeds the character limit.
+// SetOwnerGroupKindLabel sets the owner group kind label on the given object, or truncates it if it exceeds the character limit.
 func SetOwnerGroupKindLabel(logger logr.Logger, obj genruntime.ARMMetaObject) {
 	if obj.Owner() != nil && obj.Owner().IsKubernetesReference() {
 		groupKind := obj.Owner().GroupKind().String()
-		if len(groupKind) > 63 {
-			// Truncate the groupKind to 63 characters if it exceeds the limit
-			groupKind = groupKind[:63]
-			logger.V(Status).Info("WARNING: GroupKind name truncated to 63 characters", "groupKind", groupKind)
+		groupKind, truncated := truncateLabelValue(groupKind)
+		if truncated {
+			logger.V(Status).Info("WARNING: GroupKind name truncated to fit Kubernetes label limits", "groupKind", groupKind)
 		}
 
 		genruntime.AddLabel(obj, OwnerGroupKindLabel, groupKind)
 	}
+}
+
+func truncateLabelValue(value string) (string, bool) {
+	if len(value) <= content.LabelValueMaxLength {
+		return value, false
+	}
+
+	// A simple truncation can leave trailing non-alphanumeric characters, which are invalid for Kubernetes label values. See #5734.
+	return strings.TrimRightFunc(
+			value[:content.LabelValueMaxLength],
+			func(r rune) bool {
+				return !isASCIIAlphaNumeric(r)
+			},
+		),
+		true
+}
+
+func isASCIIAlphaNumeric(r rune) bool {
+	return r >= 'a' && r <= 'z' ||
+		r >= 'A' && r <= 'Z' ||
+		r >= '0' && r <= '9'
 }
 
 // SetOwnerUIDLabel sets the owner UID label on the given object if the owner reference is found in the object's owner references.

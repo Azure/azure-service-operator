@@ -24,9 +24,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
-var _ genruntime.KubernetesSecretExporter = &TopicAuthorizationRuleExtension{}
+var _ genruntime.KubernetesSecretExporter = &QueueAuthorizationRuleExtension{}
 
-func (ext *TopicAuthorizationRuleExtension) ExportKubernetesSecrets(
+func (ext *QueueAuthorizationRuleExtension) ExportKubernetesSecrets(
 	ctx context.Context,
 	obj genruntime.MetaObject,
 	additionalSecrets set.Set[string],
@@ -35,10 +35,10 @@ func (ext *TopicAuthorizationRuleExtension) ExportKubernetesSecrets(
 ) (*genruntime.KubernetesSecretExportResult, error) {
 	// Make sure we're working with the current hub version of the resource
 	// This will need to be updated if the hub version changes
-	rule, ok := obj.(*servicebus.TopicAuthorizationRule)
+	rule, ok := obj.(*servicebus.QueueAuthorizationRule)
 	if !ok {
 		return nil, eris.Errorf(
-			"cannot run on unknown resource type %T, expected *servicebus.TopicAuthorizationRule",
+			"cannot run on unknown resource type %T, expected *servicebus.QueueAuthorizationRule",
 			obj,
 		)
 	}
@@ -47,7 +47,7 @@ func (ext *TopicAuthorizationRuleExtension) ExportKubernetesSecrets(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = rule
 
-	primarySecrets := topicAuthorizationRuleSecretsSpecified(rule)
+	primarySecrets := queueAuthorizationRuleSecretsSpecified(rule)
 	requestedSecrets := set.Union(primarySecrets, additionalSecrets)
 	if len(requestedSecrets) == 0 {
 		log.V(Debug).Info("No secrets retrieval to perform as operatorSpec is empty")
@@ -59,9 +59,9 @@ func (ext *TopicAuthorizationRuleExtension) ExportKubernetesSecrets(
 		return nil, err
 	}
 
-	// The parent is the topic, and the grandparent is the namespace
-	topicID := id.Parent
-	namespaceID := topicID.Parent
+	// The parent is the queue, and the grandparent is the namespace
+	queueID := id.Parent
+	namespaceID := queueID.Parent
 	subscription := id.SubscriptionID
 
 	// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
@@ -71,22 +71,22 @@ func (ext *TopicAuthorizationRuleExtension) ExportKubernetesSecrets(
 		return nil, eris.Wrapf(err, "failed to create ARM servicebus client factory")
 	}
 
-	client := clientFactory.NewTopicsClient()
-	options := armservicebus.TopicsClientListKeysOptions{}
-	response, err := client.ListKeys(ctx, id.ResourceGroupName, namespaceID.Name, topicID.Name, id.Name, &options)
+	client := clientFactory.NewQueuesClient()
+	options := armservicebus.QueuesClientListKeysOptions{}
+	response, err := client.ListKeys(ctx, id.ResourceGroupName, namespaceID.Name, queueID.Name, id.Name, &options)
 	if err != nil {
 		return nil, eris.Wrapf(
 			err,
-			"failed to retrieve keys for topic authorization rule %q",
+			"failed to retrieve keys for queue authorization rule %q",
 			rule.Name,
 		)
 	}
 
-	ruleSecrets, err := topicAuthorizationRuleSecretsToWrite(rule, response)
+	ruleSecrets, err := queueAuthorizationRuleSecretsToWrite(rule, response)
 	if err != nil {
 		return nil, eris.Wrapf(
 			err,
-			"failed to create secrets for topic authorization rule %q",
+			"failed to create secrets for queue authorization rule %q",
 			rule.Name,
 		)
 	}
@@ -111,7 +111,7 @@ func (ext *TopicAuthorizationRuleExtension) ExportKubernetesSecrets(
 	}, nil
 }
 
-func topicAuthorizationRuleSecretsSpecified(rule *servicebus.TopicAuthorizationRule) set.Set[string] {
+func queueAuthorizationRuleSecretsSpecified(rule *servicebus.QueueAuthorizationRule) set.Set[string] {
 	if rule.Spec.OperatorSpec == nil ||
 		rule.Spec.OperatorSpec.Secrets == nil {
 		return nil
@@ -136,9 +136,9 @@ func topicAuthorizationRuleSecretsSpecified(rule *servicebus.TopicAuthorizationR
 	return result
 }
 
-func topicAuthorizationRuleSecretsToWrite(
-	rule *servicebus.TopicAuthorizationRule,
-	response armservicebus.TopicsClientListKeysResponse,
+func queueAuthorizationRuleSecretsToWrite(
+	rule *servicebus.QueueAuthorizationRule,
+	response armservicebus.QueuesClientListKeysResponse,
 ) ([]*v1.Secret, error) {
 	if rule.Spec.OperatorSpec == nil ||
 		rule.Spec.OperatorSpec.Secrets == nil {
