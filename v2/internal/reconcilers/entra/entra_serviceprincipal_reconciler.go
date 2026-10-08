@@ -163,12 +163,14 @@ func (r *EntraServicePrincipalReconciler) update(
 		return ctrl.Result{Requeue: true}, nil
 	}
 
-	if sp.Spec.AppId != nil && (current.GetAppId() == nil || !strings.EqualFold(*current.GetAppId(), *sp.Spec.AppId)) {
-		return ctrl.Result{}, eris.Errorf("service principal %s has appId %q, expected %q", id, valueOrEmpty(current.GetAppId()), *sp.Spec.AppId)
-	}
-
-	if sp.Spec.AppId == nil && (current.GetDisplayName() == nil || *current.GetDisplayName() != *sp.Spec.DisplayName) {
-		return ctrl.Result{}, eris.Errorf("service principal %s has displayName %q, expected %q", id, valueOrEmpty(current.GetDisplayName()), *sp.Spec.DisplayName)
+	// If we're expecting a specific AppId, make sure the principal we have matches it
+	appId := current.GetAppId()
+	if sp.Spec.AppId != nil && (appId == nil || !strings.EqualFold(*appId, *sp.Spec.AppId)) {
+		return ctrl.Result{}, eris.Errorf(
+			"service principal %s has appId %q, expected %q",
+			id,
+			valueOrEmpty(appId),
+			*sp.Spec.AppId)
 	}
 
 	if sp.Spec.DisplayName != nil && r.canCreate(sp) {
