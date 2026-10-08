@@ -79,6 +79,7 @@ var versionMigrationHybridReleases = map[string]string{
 	"datafactory":       "v2.20.0",
 	"dataprotection":    "v2.21.0",
 	"dbformysql":        "v2.19.0",
+	"devices":           "v2.22.0",
 	"dbforpostgresql":   "v2.22.0",
 	"eventgrid":         "v2.20.0",
 	"servicebus":        "v2.22.0",
@@ -105,19 +106,18 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"cdn":               VersionMigrationModeHybrid,
 	"cognitiveservices": VersionMigrationModeHybrid,
 	"compute":           VersionMigrationModeHybrid,
-
 	"containerinstance": VersionMigrationModeHybrid,
 	"containerregistry": VersionMigrationModeHybrid,
-	"containerservice":  VersionMigrationModeLegacy,
 
-	"datafactory":    VersionMigrationModeHybrid,
-	"dataprotection": VersionMigrationModeHybrid,
+	"containerservice": VersionMigrationModeLegacy,
 
-	"dbformysql": VersionMigrationModeHybrid,
-
+	"datafactory":     VersionMigrationModeHybrid,
+	"dataprotection":  VersionMigrationModeHybrid,
+	"dbformysql":      VersionMigrationModeHybrid,
 	"dbforpostgresql": VersionMigrationModeHybrid,
-	"devices":         VersionMigrationModeLegacy,
-	"documentdb":      VersionMigrationModeLegacy,
+	"devices":         VersionMigrationModeHybrid,
+
+	"documentdb": VersionMigrationModeLegacy,
 
 	"eventgrid": VersionMigrationModeHybrid,
 
@@ -137,8 +137,10 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"redhatopenshift":         VersionMigrationModeLegacy,
 	"resources":               VersionMigrationModeLegacy,
 	"search":                  VersionMigrationModeLegacy,
-	"servicebus":              VersionMigrationModeHybrid,
-	"signalrservice":          VersionMigrationModeLegacy,
+
+	"servicebus": VersionMigrationModeHybrid,
+
+	"signalrservice": VersionMigrationModeLegacy,
 
 	"sql":          VersionMigrationModeHybrid,
 	"storage":      VersionMigrationModeHybrid,

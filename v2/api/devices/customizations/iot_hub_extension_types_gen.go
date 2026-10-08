@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	v20210702 "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702"
-	storage "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
+	devices_v1api20210702 "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702"
+	devices_v1api20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
+	devices_v20210702 "github.com/Azure/azure-service-operator/v2/api/devices/v20210702"
+	devices_v20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v20210702/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type IotHubExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *IotHubExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20210702.IotHub{},
-		&storage.IotHub{}}
+		&devices_v1api20210702.IotHub{},
+		&devices_v1api20210702s.IotHub{},
+		&devices_v20210702.IotHub{},
+		&devices_v20210702s.IotHub{}}
 }
