@@ -8,6 +8,8 @@ import (
 	containerregistry_v1api20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
 	containerregistry_v20230701 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20230701"
 	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20230701/storage"
+	containerregistry_v20251101 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101"
+	containerregistry_v20251101s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -20,5 +22,7 @@ func (extension *RegistryReplicationExtension) GetExtendedResources() []genrunti
 		&containerregistry_v1api20230701.RegistryReplication{},
 		&containerregistry_v1api20230701s.RegistryReplication{},
 		&containerregistry_v20230701.RegistryReplication{},
-		&containerregistry_v20230701s.RegistryReplication{}}
+		&containerregistry_v20230701s.RegistryReplication{},
+		&containerregistry_v20251101.RegistryReplication{},
+		&containerregistry_v20251101s.RegistryReplication{}}
 }

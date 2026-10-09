@@ -1,13 +1,13 @@
-apiVersion: containerregistry.azure.com/v1api20230701
+apiVersion: containerregistry.azure.com/v20251101
 kind: Registry
 metadata:
   name: sampleregistry
-  namespace: default
 spec:
   location: westus2
   owner:
     name: aso-sample-rg
-  publicNetworkAccess: Enabled
   sku:
     name: Premium
+  adminUserEnabled: false
+  publicNetworkAccess: Enabled
   zoneRedundancy: Disabled

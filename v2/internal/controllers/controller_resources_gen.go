@@ -1341,7 +1341,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(containerregistry_v20230701s.Registry),
+		Obj: new(containerregistry_v20251101s.Registry),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.encryption.keyVaultProperties.identityFromConfig",
@@ -1355,12 +1355,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.encryption.keyVaultProperties.identityFromConfig",
 					},
-					&containerregistry_v20230701s.RegistryList{}),
+					&containerregistry_v20251101s.RegistryList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20230701s.RegistryReplication)})
 	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20251101s.RegistryCacheRule)})
+	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20251101s.RegistryReplication)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.Fleet)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsAutoUpgradeProfile)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsMember)})
@@ -5055,12 +5055,28 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &containerregistry_v20230701w.RegistryReplication{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(containerregistry_v20230701s.Registry)}, &registration.KnownType{Obj: new(containerregistry_v20230701s.RegistryReplication)})
-	result = append(result, &registration.KnownType{
-		Obj:       new(containerregistry_v20251101.RegistryCacheRule),
-		Defaulter: &containerregistry_v20251101w.RegistryCacheRule{},
-		Validator: &containerregistry_v20251101w.RegistryCacheRule{},
-	})
-	result = append(result, &registration.KnownType{Obj: new(containerregistry_v20251101s.RegistryCacheRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(containerregistry_v20251101.Registry),
+			Defaulter: &containerregistry_v20251101w.Registry{},
+			Validator: &containerregistry_v20251101w.Registry{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerregistry_v20251101.RegistryCacheRule),
+			Defaulter: &containerregistry_v20251101w.RegistryCacheRule{},
+			Validator: &containerregistry_v20251101w.RegistryCacheRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(containerregistry_v20251101.RegistryReplication),
+			Defaulter: &containerregistry_v20251101w.RegistryReplication{},
+			Validator: &containerregistry_v20251101w.RegistryReplication{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(containerregistry_v20251101s.Registry)},
+		&registration.KnownType{Obj: new(containerregistry_v20251101s.RegistryCacheRule)},
+		&registration.KnownType{Obj: new(containerregistry_v20251101s.RegistryReplication)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -10371,9 +10387,9 @@ func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []st
 	return obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Index()
 }
 
-// indexContainerregistryRegistryIdentityFromConfig an index function for containerregistry_v20230701s.Registry .spec.encryption.keyVaultProperties.identityFromConfig
+// indexContainerregistryRegistryIdentityFromConfig an index function for containerregistry_v20251101s.Registry .spec.encryption.keyVaultProperties.identityFromConfig
 func indexContainerregistryRegistryIdentityFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*containerregistry_v20230701s.Registry)
+	obj, ok := rawObj.(*containerregistry_v20251101s.Registry)
 	if !ok {
 		return nil
 	}
