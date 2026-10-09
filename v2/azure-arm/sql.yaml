@@ -245,3 +245,75 @@ groupModelConfiguration:
         $importSecretMode: required
       StorageContainerSasKey:
         $importSecretMode: required
+    ManagedInstance:
+      $exportAs: ManagedInstance
+      $supportedFrom: v2.22.0
+      $generatedConfigs:
+        FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+    ManagedInstanceExternalAdministrator:
+      Login:
+        $importConfigMapMode: optional
+      Sid:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
+    ManagedInstanceAdministratorProperties:
+      Sid:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
+    ManagedInstanceProperties:
+      InstancePoolId:
+        $referenceType: arm
+    SecurityAlertPolicyProperties:
+      StorageAccountAccessKey:
+        $importSecretMode: required
+    ManagedInstanceVulnerabilityAssessmentProperties:
+      StorageAccountAccessKey:
+        $importSecretMode: required
+      StorageContainerSasKey:
+        $importSecretMode: required
+    ManagedDatabaseProperties:
+      StorageContainerSasToken:
+        $importSecretMode: optional
+      SourceDatabaseId:
+        $referenceType: arm
+      RestorableDroppedDatabaseId:
+        $referenceType: arm
+      LongTermRetentionBackupResourceId:
+        $referenceType: arm
+      CrossSubscriptionSourceDatabaseId:
+        $referenceType: arm
+      CrossSubscriptionRestorableDroppedDatabaseId:
+        $referenceType: arm
+      RecoverableDatabaseId:
+        $referenceType: arm
+    Locations_InstanceFailoverGroup:
+      $exportAs: InstanceFailoverGroup
+      $supportedFrom: v2.22.0
+    ManagedInstancePairInfo:
+      PrimaryManagedInstanceId:
+        $referenceType: arm
+      PartnerManagedInstanceId:
+        $referenceType: arm
+    ManagedInstances_Administrator:
+      $exportAs: ManagedInstancesAdministrator
+      $supportedFrom: v2.22.0
+    ManagedInstances_AzureADOnlyAuthentication:
+      $exportAs: ManagedInstancesAzureADOnlyAuthentication
+      $supportedFrom: v2.22.0
+    ManagedInstances_Database:
+      $exportAs: ManagedInstancesDatabase
+      $supportedFrom: v2.22.0
+    ManagedInstances_Databases_SecurityAlertPolicy:
+      $exportAs: ManagedInstancesDatabasesSecurityAlertPolicy
+      $supportedFrom: v2.22.0
+    ManagedInstances_Databases_TransparentDataEncryption:
+      $exportAs: ManagedInstancesDatabasesTransparentDataEncryption
+      $supportedFrom: v2.22.0
+    ManagedInstances_Databases_VulnerabilityAssessment:
+      $exportAs: ManagedInstancesDatabasesVulnerabilityAssessment
+      $supportedFrom: v2.22.0
+    ManagedInstances_VulnerabilityAssessment:
+      $exportAs: ManagedInstancesVulnerabilityAssessment
+      $supportedFrom: v2.22.0

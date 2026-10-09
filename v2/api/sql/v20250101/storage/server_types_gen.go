@@ -187,12 +187,6 @@ type ServerList struct {
 	Items           []Server `json:"items"`
 }
 
-// Storage version of v20250101.APIVersion
-// +kubebuilder:validation:Enum={"2025-01-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2025-01-01")
-
 // Storage version of v20250101.Server_Spec
 type Server_Spec struct {
 	AdministratorLogin         *string                      `json:"administratorLogin,omitempty"`
@@ -300,24 +294,6 @@ func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleS
 	return destination.ConvertStatusFrom(server)
 }
 
-// Storage version of v20250101.ResourceIdentity
-// Azure Active Directory identity configuration for a resource.
-type ResourceIdentity struct {
-	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Type                   *string                       `json:"type,omitempty"`
-	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
-}
-
-// Storage version of v20250101.ResourceIdentity_STATUS
-// Azure Active Directory identity configuration for a resource.
-type ResourceIdentity_STATUS struct {
-	PrincipalId            *string                        `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	TenantId               *string                        `json:"tenantId,omitempty"`
-	Type                   *string                        `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
-}
-
 // Storage version of v20250101.ServerExternalAdministrator
 // Properties of a active directory administrator.
 type ServerExternalAdministrator struct {
@@ -362,18 +338,6 @@ type ServerPrivateEndpointConnection_STATUS struct {
 	PropertyBag genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20250101.SystemData_STATUS
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData_STATUS struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v20250101.PrivateEndpointConnectionProperties_STATUS
 // Properties of a private endpoint connection.
 type PrivateEndpointConnectionProperties_STATUS struct {
@@ -388,21 +352,6 @@ type PrivateEndpointConnectionProperties_STATUS struct {
 type ServerOperatorConfigMaps struct {
 	FullyQualifiedDomainName *genruntime.ConfigMapDestination `json:"fullyQualifiedDomainName,omitempty"`
 	PropertyBag              genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v20250101.UserAssignedIdentityDetails
-// Information about the user assigned identity for the resource
-type UserAssignedIdentityDetails struct {
-	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
-}
-
-// Storage version of v20250101.UserIdentity_STATUS
-// Azure Active Directory identity configuration for a resource.
-type UserIdentity_STATUS struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20250101.PrivateEndpointProperty_STATUS

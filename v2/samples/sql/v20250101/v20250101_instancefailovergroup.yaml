@@ -1,0 +1,31 @@
+apiVersion: sql.azure.com/v20250101
+kind: InstanceFailoverGroup
+metadata:
+  name: aso-sample-sqlmi-failovergroup
+  namespace: default
+spec:
+  # An instance failover group has the ARM type Microsoft.Sql/locations/instanceFailoverGroups, so its Azure ID contains
+  # both a location and the group name. The owner is therefore the ARM ID of the location of the PRIMARY instance
+  # (replace the subscription ID, resource group and region), and azureName is just the name of the group.
+  owner:
+    armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Sql/locations/westeurope
+  azureName: aso-sample-sqlmi-failovergroup
+  secondaryType: Geo
+  # The region of the secondary instance, which must be different from the primary's.
+  partnerRegions:
+    - location: germanywestcentral
+  # Both instances must already exist. The secondary must be created in the primary's DNS zone, by setting
+  # dnsZonePartnerReference on it to the primary instance, and its subnet must be connected to the primary's network
+  # (for example with virtual network peering). The secondary instance must contain no user databases.
+  managedInstancePairs:
+    - primaryManagedInstanceReference:
+        group: sql.azure.com
+        kind: ManagedInstance
+        name: aso-sample-sqlmi
+      partnerManagedInstanceReference:
+        group: sql.azure.com
+        kind: ManagedInstance
+        name: aso-sample-sqlmi-secondary
+  readWriteEndpoint:
+    failoverPolicy: Automatic
+    failoverWithDataLossGracePeriodMinutes: 60
