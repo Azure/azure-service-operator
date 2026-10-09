@@ -9,8 +9,10 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"time"
 
-	_ "github.com/jackc/pgx/v5/stdlib" // the pgx lib
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/stdlib"
 	"github.com/rotisserie/eris"
 )
 
@@ -19,29 +21,51 @@ var validPermissionName = regexp.MustCompile(`^[A-Za-z]+$`)
 // PSqlServerPort is the default server port for sql server
 const PSqlServerPort = 5432
 
-// PDriverName is driver name for psqldb connection
-const PDriverName = "pgx"
-
 // DefaultMaintanenceDatabase is the name of the database in a postgresql server
 // where users and roles are stored (and which we can always
 // assume will exist).
 const DefaultMaintanenceDatabase = "postgres"
 
 // ConnectToDB connects to the PostgreSQL db using the given credentials
-func ConnectToDB(ctx context.Context, fullservername string, database string, port int, user string, password string) (*sql.DB, error) {
-	connString := fmt.Sprintf("host=%s user=%s password=%s port=%d dbname=%s sslmode=require connect_timeout=30", fullservername, user, password, port, database)
-
-	db, err := sql.Open(PDriverName, connString)
+func ConnectToDB(ctx context.Context, fullServerName string, database string, port int, user string, password string) (*sql.DB, error) {
+	config, err := newConfig(fullServerName, database, port, user, password)
 	if err != nil {
-		return db, err
+		return nil, err
 	}
 
+	db := stdlib.OpenDB(*config)
 	err = db.PingContext(ctx)
 	if err != nil {
 		return db, err
 	}
 
 	return db, err
+}
+
+func newConfig(fullServerName string, database string, port int, user string, password string) (*pgx.ConnConfig, error) {
+	if port < 1 || port > 65535 {
+		return nil, fmt.Errorf("invalid PostgreSQL port %d", port)
+	}
+
+	// pgx requires ConnConfig values to be created by ParseConfig before they are modified:
+	// https://pkg.go.dev/github.com/jackc/pgx/v5#ParseConfig.
+	// Parse only this trusted baseline so untrusted connection values are never interpreted as DSN fields.
+	config, err := pgx.ParseConfig("host=localhost port=5432 sslmode=verify-full connect_timeout=30")
+	if err != nil {
+		return nil, eris.Wrap(err, "creating PostgreSQL connection configuration")
+	}
+
+	config.Host = fullServerName
+	config.Port = uint16(port)
+	config.Database = database
+	config.User = user
+	config.Password = password
+	config.ConnectTimeout = 30 * time.Second
+	config.Fallbacks = nil
+	config.TLSConfig.ServerName = fullServerName
+	config.TLSConfig.InsecureSkipVerify = false
+
+	return config, nil
 }
 
 func CreateUser(ctx context.Context, db *sql.DB, username string, password string) (*SQLUser, error) {
