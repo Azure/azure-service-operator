@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/rotisserie/eris"
+	"k8s.io/client-go/tools/leaderelection"
 
 	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
 	"github.com/Azure/azure-service-operator/v2/internal/labels"
@@ -52,12 +53,30 @@ func parseCRDLabels(value string) (map[string]string, error) {
 
 // Validate checks the flag combinations that would otherwise only fail once the manager starts.
 func (f Flags) Validate() error {
+	if f.LeaseDuration <= 0 {
+		return eris.Errorf("leader-lease-duration (%s) must be greater than zero", f.LeaseDuration)
+	}
+
+	if f.RenewDeadline <= 0 {
+		return eris.Errorf("leader-renew-deadline (%s) must be greater than zero", f.RenewDeadline)
+	}
+
+	if f.RetryPeriod <= 0 {
+		return eris.Errorf("leader-retry-period (%s) must be greater than zero", f.RetryPeriod)
+	}
+
 	if f.LeaseDuration <= f.RenewDeadline {
 		return eris.Errorf("leader-lease-duration (%s) must be greater than leader-renew-deadline (%s)", f.LeaseDuration, f.RenewDeadline)
 	}
 
-	if f.RenewDeadline <= f.RetryPeriod {
-		return eris.Errorf("leader-renew-deadline (%s) must be greater than leader-retry-period (%s)", f.RenewDeadline, f.RetryPeriod)
+	minimumRenewDeadline := time.Duration(leaderelection.JitterFactor * float64(f.RetryPeriod))
+	if f.RenewDeadline <= minimumRenewDeadline {
+		return eris.Errorf(
+			"leader-renew-deadline (%s) must be greater than leader-retry-period (%s) multiplied by the jitter factor (%g)",
+			f.RenewDeadline,
+			f.RetryPeriod,
+			leaderelection.JitterFactor,
+		)
 	}
 
 	return nil
@@ -98,7 +117,7 @@ func InitFlags(flagSet *flag.FlagSet) *Flags {
 
 	flagSet.DurationVar(&result.LeaseDuration, "leader-lease-duration", 15*time.Second, "How long a leader lease is valid for. Operators watching many resources may need a larger value, as the initial informer sync competes with lease renewal.")
 	flagSet.DurationVar(&result.RenewDeadline, "leader-renew-deadline", 10*time.Second, "How long the leader has to renew its lease before giving it up. Must be less than leader-lease-duration.")
-	flagSet.DurationVar(&result.RetryPeriod, "leader-retry-period", 2*time.Second, "How long clients wait between attempts to acquire or renew the lease. Must be less than leader-renew-deadline.")
+	flagSet.DurationVar(&result.RetryPeriod, "leader-retry-period", 2*time.Second, "How long clients wait between attempts to acquire or renew the lease. leader-renew-deadline must be greater than this value multiplied by the leader-election jitter factor.")
 
 	flagSet.StringVar(&result.CRDManagementMode, "crd-management", "auto",
 		"Instructs the operator on how it should manage the Custom Resource Definitions. One of 'auto', 'none'")
