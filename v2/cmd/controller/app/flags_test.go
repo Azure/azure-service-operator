@@ -43,7 +43,7 @@ func TestLeaderElectionFlagsValidation(t *testing.T) {
 		},
 		"retry period at renew deadline": {
 			args:          []string{"--leader-renew-deadline=2s"},
-			expectedError: "leader-renew-deadline (2s) must be greater than leader-retry-period (2s)",
+			expectedError: "leader-renew-deadline (2s) must be greater than leader-retry-period (2s) multiplied by the jitter factor (1.2)",
 		},
 	}
 
