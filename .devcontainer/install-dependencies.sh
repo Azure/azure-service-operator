@@ -232,13 +232,13 @@ fi
 go-install gofumpt mvdan.cc/gofumpt@v0.10.0
 
 # Install golangci-lint
-#doc# | golangci-lint | 2.13.2 | https://github.com/golangci/golangci-lint |
+#doc# | golangci-lint | 2.14.0 | https://github.com/golangci/golangci-lint |
 write-verbose "Checking for $TOOL_DEST/golangci-lint"
 if should-install "$TOOL_DEST/golangci-lint"; then
     write-info "Installing golangci-lint"
     # golangci-lint is provided by base image if in devcontainer
     # this command copied from there
-    curl -sSfL https://golangci-lint.run/install.sh  | sh -s -- -b "$TOOL_DEST" v2.13.2 2>&1
+    curl -sSfL https://golangci-lint.run/install.sh  | sh -s -- -b "$TOOL_DEST" v2.14.0 2>&1
 fi
 
 # Install Task
@@ -417,4 +417,7 @@ fi
 write-info "Setting up python virtual environment"
 
 # Install python virtualenv
-pip3 install virtualenv --break-system-packages
+# Ignore the apt-managed packaging install because it has no RECORD file for pip to uninstall, which causes pip 
+# to fail when trying to upgrade or uninstall it, which happens due to differences between the apt-managed and 
+# pip-managed installations.
+pip3 install virtualenv --break-system-packages --ignore-installed packaging
