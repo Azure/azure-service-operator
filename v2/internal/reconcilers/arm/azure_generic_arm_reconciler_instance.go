@@ -39,11 +39,12 @@ import (
 
 type azureDeploymentReconcilerInstance struct {
 	reconcilers.ARMOwnedResourceReconcilerCommon
-	Obj           genruntime.ARMMetaObject
-	Log           logr.Logger
-	Recorder      record.EventRecorder
-	Extension     genruntime.ResourceExtension
-	ARMConnection Connection
+	Obj                genruntime.ARMMetaObject
+	Log                logr.Logger
+	Recorder           record.EventRecorder
+	Extension          genruntime.ResourceExtension
+	ARMConnection      Connection
+	pollerResumeTokens *pollerResumeTokenCache
 }
 
 func newAzureDeploymentReconcilerInstance(
@@ -59,6 +60,7 @@ func newAzureDeploymentReconcilerInstance(
 		Recorder:                         recorder,
 		ARMConnection:                    connection,
 		Extension:                        reconciler.Extension,
+		pollerResumeTokens:               reconciler.pollerResumeTokens,
 		ARMOwnedResourceReconcilerCommon: reconciler.ARMOwnedResourceReconcilerCommon,
 	}
 }
@@ -231,7 +233,7 @@ func (r *azureDeploymentReconcilerInstance) executeDeletion(
 			)
 		}
 
-		SetPollerResumeToken(r.Obj, operationId, token)
+		r.setPollerResumeToken(operationId, token)
 
 		// Normally don't need to set both of these fields but because retryAfter can be 0 we do
 		return ctrl.Result{
@@ -250,6 +252,7 @@ func (r *azureDeploymentReconcilerInstance) executeDeletion(
 		return ctrl.Result{}, result.CreateConditionError()
 
 	case result.Completed():
+		r.clearPollerResumeToken()
 		return ctrl.Result{}, nil
 
 	default:
@@ -289,6 +292,7 @@ func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (
 	}
 	if poller.Poller.Done() {
 		// The resource was deleted
+		r.clearPollerResumeToken()
 		return ctrl.Result{}, nil
 	}
 
@@ -432,7 +436,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 			eris.Wrapf(err, "couldn't create PUT resume token for resource %q", armResource.GetID())
 	}
 
-	SetPollerResumeToken(r.Obj, pollerResp.ID, resumeToken)
+	r.setPollerResumeToken(pollerResp.ID, resumeToken)
 	return ctrl.Result{Requeue: true}, nil
 }
 
@@ -627,7 +631,7 @@ func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateFailed(err error
 	)
 
 	err = r.MakeReadyConditionImpactingErrorFromError(err)
-	ClearPollerResumeToken(r.Obj)
+	r.clearPollerResumeToken()
 
 	return err
 }
@@ -646,7 +650,7 @@ func (r *azureDeploymentReconcilerInstance) handleDeleteFailed(err error) error 
 	if readyConditionImpactingErr, ok := conditions.AsReadyConditionImpactingError(err); ok {
 		readyConditionImpactingErr.Severity = conditions.ConditionSeverityWarning
 	}
-	ClearPollerResumeToken(r.Obj)
+	r.clearPollerResumeToken()
 
 	return err
 }
@@ -690,7 +694,7 @@ func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateSuccess(
 			if genericarmclient.IsNotFoundError(err) {
 				// If we're getting NotFound here there must be an RP bug, as poller said success. If that happens we want
 				// to make sure that we don't get stuck, so we clear the poller URL.
-				ClearPollerResumeToken(r.Obj)
+				r.clearPollerResumeToken()
 			}
 			return eris.Wrapf(err, "error updating status")
 		}
@@ -732,7 +736,7 @@ func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateSuccess(
 		return err
 	}
 
-	ClearPollerResumeToken(r.Obj)
+	r.clearPollerResumeToken()
 	return nil
 }
 
@@ -816,6 +820,20 @@ func (r *azureDeploymentReconcilerInstance) resultBasedOnGenerationCount() ctrl.
 		return ctrl.Result{Requeue: true}
 	}
 	return ctrl.Result{}
+}
+
+func (r *azureDeploymentReconcilerInstance) setPollerResumeToken(id string, token string) {
+	SetPollerResumeToken(r.Obj, id, token)
+	if r.pollerResumeTokens != nil {
+		r.pollerResumeTokens.add(r.Obj)
+	}
+}
+
+func (r *azureDeploymentReconcilerInstance) clearPollerResumeToken() {
+	ClearPollerResumeToken(r.Obj)
+	if r.pollerResumeTokens != nil {
+		r.pollerResumeTokens.clear(r.Obj)
+	}
 }
 
 //////////////////////////////////////////
