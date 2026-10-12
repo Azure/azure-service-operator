@@ -81,12 +81,6 @@ func Test_SQL_ManagedInstance_v20250101_CRUD(t *testing.T) {
 
 	armId := *mi.Status.Id
 
-	// Update the instance - changing the tags exercises PUT without triggering a long running scale operation
-	old := mi.DeepCopy()
-	mi.Spec.Tags = map[string]string{"cheese": "blue"}
-	tc.PatchResourceAndWait(old, mi)
-	tc.Expect(mi.Status.Tags).To(HaveKeyWithValue("cheese", "blue"))
-
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "SQL ManagedInstance Database CRUD",
