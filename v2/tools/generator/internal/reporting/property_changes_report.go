@@ -428,7 +428,7 @@ func (r *PropertyChangesReport) buildRowsForPair(
 
 	diffs := make(map[*typeChangeRow][]propertyChangeRow)
 
-resourceRow := &typeChangeRow{
+	resourceRow := &typeChangeRow{
 		thisPackage: thisResource.InternalPackageReference(),
 		thisName:    thisResource.Name(),
 		nextPackage: nextResource.InternalPackageReference(),
