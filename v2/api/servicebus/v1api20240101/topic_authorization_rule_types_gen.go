@@ -51,22 +51,36 @@ var _ conversion.Convertible = &TopicAuthorizationRule{}
 
 // ConvertFrom populates our TopicAuthorizationRule from the provided hub TopicAuthorizationRule
 func (rule *TopicAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.TopicAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20240101/storage/TopicAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.TopicAuthorizationRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_TopicAuthorizationRule(source)
+	err = rule.AssignProperties_From_TopicAuthorizationRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub TopicAuthorizationRule from our TopicAuthorizationRule
 func (rule *TopicAuthorizationRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.TopicAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20240101/storage/TopicAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.TopicAuthorizationRule
+	err := rule.AssignProperties_To_TopicAuthorizationRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_TopicAuthorizationRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &TopicAuthorizationRule{}
@@ -87,17 +101,6 @@ func (rule *TopicAuthorizationRule) SecretDestinationExpressions() []*core.Desti
 		return nil
 	}
 	return rule.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &TopicAuthorizationRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *TopicAuthorizationRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*TopicAuthorizationRule_STATUS); ok {
-		return rule.Spec.Initialize_From_TopicAuthorizationRule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type TopicAuthorizationRule_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &TopicAuthorizationRule{}
@@ -467,25 +470,6 @@ func (rule *TopicAuthorizationRule_Spec) AssignProperties_To_TopicAuthorizationR
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_TopicAuthorizationRule_STATUS populates our TopicAuthorizationRule_Spec from the provided source TopicAuthorizationRule_STATUS
-func (rule *TopicAuthorizationRule_Spec) Initialize_From_TopicAuthorizationRule_STATUS(source *TopicAuthorizationRule_STATUS) error {
-
-	// Rights
-	if source.Rights != nil {
-		rightList := make([]TopicAuthorizationRuleRights_Spec, len(source.Rights))
-		for rightIndex, rightItem := range source.Rights {
-			right := genruntime.ToEnum(string(rightItem), topicAuthorizationRuleRights_Spec_Values)
-			rightList[rightIndex] = right
-		}
-		rule.Rights = rightList
-	} else {
-		rule.Rights = nil
 	}
 
 	// No error

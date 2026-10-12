@@ -81,6 +81,9 @@ hack/tools
 # Private powershell scripts
 .ps
 
+# Python venv state
+scripts/v2/.venv
+
 # goenv condiguration
 .go-version
 v2/controller

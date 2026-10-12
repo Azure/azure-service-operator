@@ -85,3 +85,33 @@ func Test_AllowMultiEnvManagement_IncludedInString(t *testing.T) {
 	s = cfg.String()
 	g.Expect(s).To(ContainSubstring("AllowMultiEnvManagement:false"))
 }
+
+func Test_FederatedTokenFilePath_DefaultsToEmpty(t *testing.T) {
+	g := NewGomegaWithT(t)
+	t.Setenv(config.AzureFederatedTokenFile, "") // Can't run in parallel
+
+	cfg, err := ReadFromEnvironment()
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(cfg.FederatedTokenFilePath).To(BeEmpty())
+}
+
+func Test_FederatedTokenFilePath_ReadsValue(t *testing.T) {
+	g := NewGomegaWithT(t)
+	const customTokenPath = "/var/run/secrets/azure/tokens/azure-identity-token" // #nosec G101 -- file path, not a credential
+	t.Setenv(config.AzureFederatedTokenFile, "  "+customTokenPath+"  ")          // Can't run in parallel
+
+	cfg, err := ReadFromEnvironment()
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(cfg.FederatedTokenFilePath).To(Equal(customTokenPath)) // whitespace-trimmed
+}
+
+func Test_FederatedTokenFilePath_IncludedInString(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	cfg := Values{
+		FederatedTokenFilePath: "/some/path",
+	}
+	s := cfg.String()
+	g.Expect(s).To(ContainSubstring("FederatedTokenFilePath:/some/path"))
+}

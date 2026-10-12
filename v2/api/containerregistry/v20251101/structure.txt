@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2025-11-01"
 
 RegistryCacheRule: Resource
-├── Owner: containerregistry/v1api20251101.Registry
+├── Owner: Registry
 ├── Spec: Object (6 properties)
 │   ├── AzureName: Validated<string> (3 rules)
 │   │   ├── Rule 0: MaxLength: 50

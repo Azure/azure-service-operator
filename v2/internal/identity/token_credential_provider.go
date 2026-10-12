@@ -33,6 +33,13 @@ type TokenCredentialProvider interface {
 
 	NewWorkloadIdentityCredential(options *azidentity.WorkloadIdentityCredentialOptions) (*azidentity.WorkloadIdentityCredential, error)
 	NewUserAssignedIdentityCredentials(ctx context.Context, credentialPath string, opts ...dataplane.Option) (azcore.TokenCredential, error)
+
+	NewClientAssertionCredential(
+		tenantID string,
+		clientID string,
+		getAssertion func(context.Context) (string, error),
+		options *azidentity.ClientAssertionCredentialOptions,
+	) (*azidentity.ClientAssertionCredential, error)
 }
 
 var _ TokenCredentialProvider = &tokenCredentialProvider{}
@@ -68,6 +75,15 @@ func (t *tokenCredentialProvider) NewWorkloadIdentityCredential(options *azident
 
 func (t *tokenCredentialProvider) NewUserAssignedIdentityCredentials(ctx context.Context, credentialPath string, opts ...dataplane.Option) (azcore.TokenCredential, error) {
 	return dataplane.NewUserAssignedIdentityCredential(ctx, credentialPath, opts...)
+}
+
+func (t *tokenCredentialProvider) NewClientAssertionCredential(
+	tenantID string,
+	clientID string,
+	getAssertion func(context.Context) (string, error),
+	options *azidentity.ClientAssertionCredentialOptions,
+) (*azidentity.ClientAssertionCredential, error) {
+	return azidentity.NewClientAssertionCredential(tenantID, clientID, getAssertion, options)
 }
 
 func DefaultTokenCredentialProvider() TokenCredentialProvider {

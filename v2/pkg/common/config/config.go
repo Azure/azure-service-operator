@@ -113,4 +113,12 @@ const (
 	// TLSMinVersion is the minimum TLS version used by the webhook and metrics servers.
 	// If not specified, the default is "VersionTLS12". Valid values are "VersionTLS12" and "VersionTLS13".
 	TLSMinVersion = "TLS_MIN_VERSION"
+	// AzureFederatedTokenFile is the standard Azure Workload Identity environment variable used to
+	// communicate the projected service account token path to a workload. When set (and non-empty)
+	// it overrides the default projected token file path used for Workload Identity authentication.
+	// This mirrors the behaviour of the upstream azure-workload-identity mutating webhook and other
+	// Azure controllers (for example cluster-api-provider-azure), and lets ASO run in environments —
+	// such as vcluster — where the token is projected to a non-default path.
+	// #nosec
+	AzureFederatedTokenFile = "AZURE_FEDERATED_TOKEN_FILE"
 )

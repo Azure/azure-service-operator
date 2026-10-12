@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v20210101preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -519,13 +519,6 @@ func (rule *NamespacesAuthorizationRule_STATUS) AssignProperties_From_Namespaces
 	// Id
 	rule.Id = genruntime.ClonePointerToString(source.Id)
 
-	// Location
-	if source.Location != nil {
-		propertyBag.Add("Location", *source.Location)
-	} else {
-		propertyBag.Remove("Location")
-	}
-
 	// Name
 	rule.Name = genruntime.ClonePointerToString(source.Name)
 
@@ -577,19 +570,6 @@ func (rule *NamespacesAuthorizationRule_STATUS) AssignProperties_To_NamespacesAu
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(rule.Id)
-
-	// Location
-	if propertyBag.Contains("Location") {
-		var location string
-		err := propertyBag.Pull("Location", &location)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Location' from propertyBag")
-		}
-
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(rule.Name)

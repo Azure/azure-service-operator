@@ -983,6 +983,213 @@ EventSubscription: Resource
     ├── Topic: *string
     └── Type: *string
 
+Namespace: Resource
+├── Owner: resources/v1apiv20191001.ResourceGroup
+├── Spec: Object (14 properties)
+│   ├── AzureName: string
+│   ├── Identity: *Object (3 properties)
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Type: *string
+│   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │       ├── PropertyBag: genruntime.PropertyBag
+│   │       └── Reference: genruntime.ResourceReference
+│   ├── InboundIpRules: Object (3 properties)[]
+│   │   ├── Action: *string
+│   │   ├── IpMask: *string
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── IsZoneRedundant: *bool
+│   ├── Location: *string
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
+│   │   └── Secrets: *Object (3 properties)
+│   │       ├── Key1: *genruntime.SecretDestination
+│   │       ├── Key2: *genruntime.SecretDestination
+│   │       └── PropertyBag: genruntime.PropertyBag
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   ├── PublicNetworkAccess: *string
+│   ├── Sku: *Object (3 properties)
+│   │   ├── Capacity: *int
+│   │   ├── Name: *string
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── Tags: map[string]string
+│   ├── TopicSpacesConfiguration: *Object (8 properties)
+│   │   ├── CustomDomains: Object (7 properties)[]
+│   │   │   ├── CertificateUrl: *string
+│   │   │   ├── ExpectedTxtRecordName: *string
+│   │   │   ├── ExpectedTxtRecordValue: *string
+│   │   │   ├── FullyQualifiedDomainName: *string
+│   │   │   ├── Identity: *Object (3 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── Type: *string
+│   │   │   │   └── UserAssignedIdentity: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── ValidationState: *string
+│   │   ├── MaximumClientSessionsPerAuthenticationName: *int
+│   │   ├── MaximumSessionExpiryInHours: *int
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RouteTopicResourceReference: *genruntime.ResourceReference
+│   │   ├── RoutingEnrichments: *Object (3 properties)
+│   │   │   ├── Dynamic: Object (3 properties)[]
+│   │   │   │   ├── Key: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Value: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Static: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── String: *Object (4 properties)
+│   │   │           ├── Key: *string
+│   │   │           ├── PropertyBag: genruntime.PropertyBag
+│   │   │           ├── Value: *string
+│   │   │           └── ValueType: *string
+│   │   ├── RoutingIdentityInfo: *Object (3 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentity: *string
+│   │   └── State: *string
+│   └── TopicsConfiguration: *Object (2 properties)
+│       ├── CustomDomains: Object (7 properties)[]
+│       │   ├── CertificateUrl: *string
+│       │   ├── ExpectedTxtRecordName: *string
+│       │   ├── ExpectedTxtRecordValue: *string
+│       │   ├── FullyQualifiedDomainName: *string
+│       │   ├── Identity: *Object (3 properties)
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Type: *string
+│       │   │   └── UserAssignedIdentity: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── ValidationState: *string
+│       └── PropertyBag: genruntime.PropertyBag
+└── Status: Object (18 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Identity: *Object (5 properties)
+    │   ├── PrincipalId: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── TenantId: *string
+    │   ├── Type: *string
+    │   └── UserAssignedIdentities: map[string]Object (3 properties)
+    │       ├── ClientId: *string
+    │       ├── PrincipalId: *string
+    │       └── PropertyBag: genruntime.PropertyBag
+    ├── InboundIpRules: Object (3 properties)[]
+    │   ├── Action: *string
+    │   ├── IpMask: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── IsZoneRedundant: *bool
+    ├── Location: *string
+    ├── MinimumTlsVersionAllowed: *string
+    ├── Name: *string
+    ├── PrivateEndpointConnections: Object (2 properties)[]
+    │   ├── Id: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── ProvisioningState: *string
+    ├── PublicNetworkAccess: *string
+    ├── Sku: *Object (3 properties)
+    │   ├── Capacity: *int
+    │   ├── Name: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── Tags: map[string]string
+    ├── TopicSpacesConfiguration: *Object (9 properties)
+    │   ├── CustomDomains: Object (7 properties)[]
+    │   │   ├── CertificateUrl: *string
+    │   │   ├── ExpectedTxtRecordName: *string
+    │   │   ├── ExpectedTxtRecordValue: *string
+    │   │   ├── FullyQualifiedDomainName: *string
+    │   │   ├── Identity: *Object (3 properties)
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── Type: *string
+    │   │   │   └── UserAssignedIdentity: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── ValidationState: *string
+    │   ├── Hostname: *string
+    │   ├── MaximumClientSessionsPerAuthenticationName: *int
+    │   ├── MaximumSessionExpiryInHours: *int
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── RouteTopicResourceId: *string
+    │   ├── RoutingEnrichments: *Object (3 properties)
+    │   │   ├── Dynamic: Object (3 properties)[]
+    │   │   │   ├── Key: *string
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── Value: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Static: Object (2 properties)[]
+    │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │       └── String: *Object (4 properties)
+    │   │           ├── Key: *string
+    │   │           ├── PropertyBag: genruntime.PropertyBag
+    │   │           ├── Value: *string
+    │   │           └── ValueType: *string
+    │   ├── RoutingIdentityInfo: *Object (3 properties)
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── Type: *string
+    │   │   └── UserAssignedIdentity: *string
+    │   └── State: *string
+    ├── TopicsConfiguration: *Object (3 properties)
+    │   ├── CustomDomains: Object (7 properties)[]
+    │   │   ├── CertificateUrl: *string
+    │   │   ├── ExpectedTxtRecordName: *string
+    │   │   ├── ExpectedTxtRecordValue: *string
+    │   │   ├── FullyQualifiedDomainName: *string
+    │   │   ├── Identity: *Object (3 properties)
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── Type: *string
+    │   │   │   └── UserAssignedIdentity: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── ValidationState: *string
+    │   ├── Hostname: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    └── Type: *string
+
+NamespaceTopic: Resource
+├── Owner: eventgrid/v20250215.Namespace
+├── Spec: Object (8 properties)
+│   ├── AzureName: string
+│   ├── EventRetentionInDays: *int
+│   ├── InputSchema: *string
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
+│   │   └── Secrets: *Object (3 properties)
+│   │       ├── Key1: *genruntime.SecretDestination
+│   │       ├── Key2: *genruntime.SecretDestination
+│   │       └── PropertyBag: genruntime.PropertyBag
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   └── PublisherType: *string
+└── Status: Object (10 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── EventRetentionInDays: *int
+    ├── Id: *string
+    ├── InputSchema: *string
+    ├── Name: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── ProvisioningState: *string
+    ├── PublisherType: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    └── Type: *string
+
 Topic: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (16 properties)

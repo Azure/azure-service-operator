@@ -16,7 +16,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -140,19 +140,16 @@ func authorizationRuleSecretsToWrite(
 ) ([]*v1.Secret, error) {
 	if rule.Spec.OperatorSpec == nil ||
 		rule.Spec.OperatorSpec.Secrets == nil {
-		return nil, eris.Errorf(
-			"authorization rule %q has no secrets specified",
-			rule.Name,
-		)
+		return nil, nil
 	}
 
 	specSecrets := rule.Spec.OperatorSpec.Secrets
 
 	collector := secrets.NewCollector(rule.Namespace)
-	collector.AddValue(specSecrets.PrimaryKey, *response.PrimaryKey)
-	collector.AddValue(specSecrets.PrimaryConnectionString, *response.PrimaryConnectionString)
-	collector.AddValue(specSecrets.SecondaryKey, *response.SecondaryKey)
-	collector.AddValue(specSecrets.SecondaryConnectionString, *response.SecondaryConnectionString)
+	collector.AddValue(specSecrets.PrimaryKey, to.Value(response.PrimaryKey))
+	collector.AddValue(specSecrets.PrimaryConnectionString, to.Value(response.PrimaryConnectionString))
+	collector.AddValue(specSecrets.SecondaryKey, to.Value(response.SecondaryKey))
+	collector.AddValue(specSecrets.SecondaryConnectionString, to.Value(response.SecondaryConnectionString))
 
 	return collector.Values()
 }

@@ -239,7 +239,7 @@ jobs:
           path: reports/*.json
 
   test-samples:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testsamples-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=sampletesting-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     permissions:
       contents: read
       packages: read

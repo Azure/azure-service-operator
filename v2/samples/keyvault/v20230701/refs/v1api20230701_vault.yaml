@@ -1,0 +1,22 @@
+apiVersion: keyvault.azure.com/v1api20230701
+kind: Vault
+metadata:
+  name: samplevault
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  properties:
+    createMode: createOrRecover
+    tenantIdFromConfig:
+      name: identity-settings
+      key: tenantId
+    sku:
+      family: A
+      name: standard
+    # VaultKey drives the Key Vault data plane (adopt, update, delete keys), so the identity that
+    # runs the operator needs data-plane key permissions on this vault. With Azure RBAC those can be
+    # granted at subscription scope to whoever records the samples test (for example a custom role
+    # equivalent to Key Vault Crypto Officer); access policies would have to name that principal.
+    enableRbacAuthorization: true

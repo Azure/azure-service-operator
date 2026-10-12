@@ -47,6 +47,15 @@ func testCredentialProviderSetup(cloud *cloud.Configuration) (*testCredentialPro
 }
 
 func testCredentialProviderSetupWithMultiEnv(cloud *cloud.Configuration, allowMultiEnvManagement bool) (*testCredentialProviderResources, error) {
+	return testCredentialProviderSetupWithOptions(cloud, &CredentialProviderOptions{
+		AllowMultiEnvManagement: allowMultiEnvManagement,
+	})
+}
+
+// testCredentialProviderSetupWithOptions is like testCredentialProviderSetup but lets the caller
+// override any CredentialProviderOptions field (TokenProvider/Cloud are always overridden with the
+// test fake/default below, regardless of what's passed in).
+func testCredentialProviderSetupWithOptions(cloud *cloud.Configuration, opts *CredentialProviderOptions) (*testCredentialProviderResources, error) {
 	s := createTestScheme()
 
 	if cloud == nil {
@@ -69,16 +78,13 @@ func testCredentialProviderSetupWithMultiEnv(cloud *cloud.Configuration, allowMu
 	client := NewFakeKubeClient(s)
 
 	fakeTokenCredentialProvider := &mockTokenCredentialProvider{}
-	provider := NewCredentialProvider(
-		creds,
-		client,
-		&CredentialProviderOptions{
-			TokenProvider: fakeTokenCredentialProvider,
-			Cloud:         cloud,
-			// Feature under test
-			AllowMultiEnvManagement: allowMultiEnvManagement,
-		},
-	)
+	if opts == nil {
+		opts = &CredentialProviderOptions{}
+	}
+	opts.TokenProvider = fakeTokenCredentialProvider
+	opts.Cloud = cloud
+
+	provider := NewCredentialProvider(creds, client, opts)
 
 	return &testCredentialProviderResources{
 		kubeClient:                  client,
@@ -334,6 +340,64 @@ func TestCredentialProvider_WorkloadIdentityCredential_IsConfiguredCorrectly(t *
 	g.Expect(res.fakeTokenCredentialProvider.ClientID).To(Equal(clientID))
 	g.Expect(res.fakeTokenCredentialProvider.TenantID).To(Equal(tenantID))
 	g.Expect(res.fakeTokenCredentialProvider.TokenFilePath).To(Equal(FederatedTokenFilePath))
+}
+
+func TestCredentialProvider_WorkloadIdentityCredential_HonoursFederatedTokenFilePathOption(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := t.Context()
+
+	const customTokenPath = "/var/run/secrets/azure/tokens/azure-identity-token" // #nosec G101 -- file path, not a credential
+
+	res, err := testCredentialProviderSetupWithOptions(nil, &CredentialProviderOptions{
+		FederatedTokenFilePath: customTokenPath,
+	})
+	g.Expect(err).ToNot(HaveOccurred())
+
+	clientID := uuid.New().String()
+	tenantID := uuid.New().String()
+
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Namespace: "test-namespace",
+			Name:      NamespacedSecretName,
+		},
+		Data: map[string][]byte{
+			config.AzureSubscriptionID: []byte(testSubscriptionID),
+			config.AzureClientID:       []byte(clientID),
+			config.AzureTenantID:       []byte(tenantID),
+		},
+	}
+
+	err = res.kubeClient.Create(ctx, secret)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	rg := newResourceGroup("test-namespace")
+	err = res.kubeClient.Create(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	cred, err := res.Provider.GetCredential(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	g.Expect(cred.SubscriptionID()).To(BeEquivalentTo(testSubscriptionID))
+	g.Expect(res.fakeTokenCredentialProvider.ClientID).To(Equal(clientID))
+	g.Expect(res.fakeTokenCredentialProvider.TenantID).To(Equal(tenantID))
+	g.Expect(res.fakeTokenCredentialProvider.TokenFilePath).To(Equal(customTokenPath))
+}
+
+func TestResolveFederatedTokenFilePath_HonoursOverrideThenFallsBackToDefault(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Empty override -> default hardcoded path.
+	g.Expect(ResolveFederatedTokenFilePath("")).To(Equal(FederatedTokenFilePath))
+
+	// Whitespace-only override -> still treated as unset, default hardcoded path.
+	g.Expect(ResolveFederatedTokenFilePath("   ")).To(Equal(FederatedTokenFilePath))
+
+	// Set -> the override takes precedence (whitespace-trimmed).
+	const customTokenPath = "/var/run/secrets/azure/tokens/azure-identity-token" // #nosec G101 -- file path, not a credential
+	g.Expect(ResolveFederatedTokenFilePath("  " + customTokenPath + "  ")).To(Equal(customTokenPath))
 }
 
 func TestCredentialProvider_AdditionalTenants_AreConfiguredCorrectly(t *testing.T) {

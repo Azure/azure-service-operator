@@ -154,6 +154,11 @@ type Values struct {
 	// TLSMinVersion is the minimum TLS version used by the webhook and metrics servers,
 	// stored as a crypto/tls version constant (for example tls.VersionTLS12).
 	TLSMinVersion uint16
+
+	// FederatedTokenFilePath overrides the default projected token file path used for Workload
+	// Identity authentication, read from AZURE_FEDERATED_TOKEN_FILE. Empty means "not set" — callers
+	// fall back to their own default (identity.FederatedTokenFilePath) in that case.
+	FederatedTokenFilePath string
 }
 
 type RateLimitMode string
@@ -236,7 +241,8 @@ func (v Values) String() string {
 	builder.WriteString(fmt.Sprintf("RateLimit:[%s]/", v.RateLimit.String()))
 	builder.WriteString(fmt.Sprintf("DefaultReconcilePolicy:[%s]/", v.DefaultReconcilePolicy))
 	builder.WriteString(fmt.Sprintf("AllowMultiEnvManagement:%t/", v.AllowMultiEnvManagement))
-	builder.WriteString(fmt.Sprintf("TLSMinVersion:%s", tlsMinVersionName(v.TLSMinVersion)))
+	builder.WriteString(fmt.Sprintf("TLSMinVersion:%s/", tlsMinVersionName(v.TLSMinVersion)))
+	builder.WriteString(fmt.Sprintf("FederatedTokenFilePath:%s", v.FederatedTokenFilePath))
 
 	return builder.String()
 }
@@ -312,6 +318,8 @@ func ReadFromEnvironment() (Values, error) {
 	if err != nil {
 		return result, err
 	}
+
+	result.FederatedTokenFilePath = strings.TrimSpace(os.Getenv(config.AzureFederatedTokenFile))
 
 	// Not calling validate here to support using from tests where we
 	// don't require consistent settings.

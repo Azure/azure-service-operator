@@ -1,7 +1,7 @@
 apiVersion: storage.azure.com/v20250601
 kind: StorageAccount
 metadata:
-  name: samplekubestoragebeta
+  name: samplekubestorageeg25
   namespace: default
 spec:
   location: westcentralus

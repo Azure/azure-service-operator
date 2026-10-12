@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
+	v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20220120preview/storage"
 	v20250801s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -89,7 +89,7 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRule(subject FlexibleSer
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210601s.FlexibleServersFirewallRule
+	var other v20220120ps.FlexibleServersFirewallRule
 	err := copied.AssignProperties_To_FlexibleServersFirewallRule(&other)
 	if err != nil {
 		return err.Error()
@@ -203,7 +203,7 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRuleOperatorSpec(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210601s.FlexibleServersFirewallRuleOperatorSpec
+	var other v20220120ps.FlexibleServersFirewallRuleOperatorSpec
 	err := copied.AssignProperties_To_FlexibleServersFirewallRuleOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -310,7 +310,7 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRule_STATUS(subject Flex
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210601s.FlexibleServersFirewallRule_STATUS
+	var other v20220120ps.FlexibleServersFirewallRule_STATUS
 	err := copied.AssignProperties_To_FlexibleServersFirewallRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -441,7 +441,7 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRule_Spec(subject Flexib
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210601s.FlexibleServersFirewallRule_Spec
+	var other v20220120ps.FlexibleServersFirewallRule_Spec
 	err := copied.AssignProperties_To_FlexibleServersFirewallRule_Spec(&other)
 	if err != nil {
 		return err.Error()

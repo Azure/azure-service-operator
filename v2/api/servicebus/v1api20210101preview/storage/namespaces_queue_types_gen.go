@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v20210101preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -414,13 +414,6 @@ func (queue *NamespacesQueue_Spec) AssignProperties_From_NamespacesQueue_Spec(so
 	// MaxDeliveryCount
 	queue.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
 
-	// MaxMessageSizeInKilobytes
-	if source.MaxMessageSizeInKilobytes != nil {
-		propertyBag.Add("MaxMessageSizeInKilobytes", *source.MaxMessageSizeInKilobytes)
-	} else {
-		propertyBag.Remove("MaxMessageSizeInKilobytes")
-	}
-
 	// MaxSizeInMegabytes
 	queue.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
@@ -543,19 +536,6 @@ func (queue *NamespacesQueue_Spec) AssignProperties_To_NamespacesQueue_Spec(dest
 
 	// MaxDeliveryCount
 	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(queue.MaxDeliveryCount)
-
-	// MaxMessageSizeInKilobytes
-	if propertyBag.Contains("MaxMessageSizeInKilobytes") {
-		var maxMessageSizeInKilobyte int
-		err := propertyBag.Pull("MaxMessageSizeInKilobytes", &maxMessageSizeInKilobyte)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'MaxMessageSizeInKilobytes' from propertyBag")
-		}
-
-		destination.MaxMessageSizeInKilobytes = &maxMessageSizeInKilobyte
-	} else {
-		destination.MaxMessageSizeInKilobytes = nil
-	}
 
 	// MaxSizeInMegabytes
 	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(queue.MaxSizeInMegabytes)
@@ -776,25 +756,11 @@ func (queue *NamespacesQueue_STATUS) AssignProperties_From_NamespacesQueue_STATU
 	// Id
 	queue.Id = genruntime.ClonePointerToString(source.Id)
 
-	// Location
-	if source.Location != nil {
-		propertyBag.Add("Location", *source.Location)
-	} else {
-		propertyBag.Remove("Location")
-	}
-
 	// LockDuration
 	queue.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
 
 	// MaxDeliveryCount
 	queue.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
-
-	// MaxMessageSizeInKilobytes
-	if source.MaxMessageSizeInKilobytes != nil {
-		propertyBag.Add("MaxMessageSizeInKilobytes", *source.MaxMessageSizeInKilobytes)
-	} else {
-		propertyBag.Remove("MaxMessageSizeInKilobytes")
-	}
 
 	// MaxSizeInMegabytes
 	queue.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
@@ -941,37 +907,11 @@ func (queue *NamespacesQueue_STATUS) AssignProperties_To_NamespacesQueue_STATUS(
 	// Id
 	destination.Id = genruntime.ClonePointerToString(queue.Id)
 
-	// Location
-	if propertyBag.Contains("Location") {
-		var location string
-		err := propertyBag.Pull("Location", &location)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Location' from propertyBag")
-		}
-
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
-
 	// LockDuration
 	destination.LockDuration = genruntime.ClonePointerToString(queue.LockDuration)
 
 	// MaxDeliveryCount
 	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(queue.MaxDeliveryCount)
-
-	// MaxMessageSizeInKilobytes
-	if propertyBag.Contains("MaxMessageSizeInKilobytes") {
-		var maxMessageSizeInKilobyte int
-		err := propertyBag.Pull("MaxMessageSizeInKilobytes", &maxMessageSizeInKilobyte)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'MaxMessageSizeInKilobytes' from propertyBag")
-		}
-
-		destination.MaxMessageSizeInKilobytes = &maxMessageSizeInKilobyte
-	} else {
-		destination.MaxMessageSizeInKilobytes = nil
-	}
 
 	// MaxSizeInMegabytes
 	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(queue.MaxSizeInMegabytes)

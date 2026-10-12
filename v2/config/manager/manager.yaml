@@ -45,6 +45,9 @@ spec:
         - --profiling-metrics=false
         - --health-addr=:8081
         - --enable-leader-election
+        - --leader-lease-duration=15s
+        - --leader-renew-deadline=10s
+        - --leader-retry-period=2s
         - --v=2
         - --crd-pattern=
         - --crd-labels=
@@ -61,14 +64,21 @@ spec:
             port: 8081
           periodSeconds: 10
           failureThreshold: 12
+          timeoutSeconds: 1
         livenessProbe:
           httpGet:
             path: /healthz
             port: 8081
+          periodSeconds: 10
+          failureThreshold: 3
+          timeoutSeconds: 1
         readinessProbe:
           httpGet:
             path: /readyz
             port: 8081
+          periodSeconds: 10
+          failureThreshold: 3
+          timeoutSeconds: 1
         image: controller:latest
         name: manager
         resources:

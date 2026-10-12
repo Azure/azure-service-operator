@@ -12,6 +12,7 @@ updates:
       # We don't use wildcard/globbing because it times out w/ our large repo.
       - "/v2"
       - "/v2/cmd/asoctl"
+      - "/v2/samples/"
       - "/v2/tools/generator"
       - "/v2/tools/mangle-test-json"
       - "/hack/crossplane"
