@@ -250,6 +250,13 @@ func Test_SQL_InstanceFailoverGroup_v20250101_CRUD(t *testing.T) {
 	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
+
+	// Delete the peerings and then the instances explicitly, before the test's resource group is cleaned up. If
+	// they are left to the resource group cleanup, ASO deletes the peerings and subnets at the same moment Azure
+	// deletes the resource group, which fails with AnotherOperationInProgress and
+	// SubnetCannotGetUpdatedWhenParentVnetDeletionWasAttemptedEarlier, and the resource group is left behind.
+	tc.DeleteResourcesAndWait(peerings[0], peerings[1])
+	tc.DeleteResourcesAndWait(secondary, primary)
 }
 
 // newManagedInstanceNetwork creates a virtual network and a subnet delegated to SQL Managed Instance, in the test's
