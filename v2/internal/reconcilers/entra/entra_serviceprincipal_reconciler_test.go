@@ -9,6 +9,8 @@ import (
 	"fmt"
 	"testing"
 
+	. "github.com/onsi/gomega"
+
 	"github.com/go-logr/logr"
 	abstractions "github.com/microsoft/kiota-abstractions-go"
 	"github.com/microsoft/kiota-abstractions-go/serialization"
@@ -16,7 +18,6 @@ import (
 	jsonserialization "github.com/microsoft/kiota-serialization-json-go"
 	msgraphsdk "github.com/microsoftgraph/msgraph-beta-sdk-go"
 	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
-	. "github.com/onsi/gomega"
 	"k8s.io/apimachinery/pkg/types"
 
 	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
