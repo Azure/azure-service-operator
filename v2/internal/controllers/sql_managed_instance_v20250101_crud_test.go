@@ -159,8 +159,8 @@ func Test_SQL_InstanceFailoverGroup_v20250101_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	primaryRegion := to.Ptr("westus2")
-	secondaryRegion := to.Ptr("eastus2")
+	primaryRegion := to.Ptr("westeurope")
+	secondaryRegion := to.Ptr("germanywestcentral")
 	tc.AzureRegion = primaryRegion
 
 	secretName := "sqlmisecret"
