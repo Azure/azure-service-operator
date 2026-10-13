@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_RegistryReplication_Spec_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RegistryReplication_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRegistryReplication_Spec, RegistryReplication_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRegistryReplication_Spec)
 }
 
 // RunJSONSerializationTestForRegistryReplication_Spec runs a test to see if a specific instance of RegistryReplication_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRegistryReplication_Spec(subject RegistryReplication_Spec) string {
+func RunJSONSerializationTestForRegistryReplication_Spec(t *rapid.T) {
+	subject := RegistryReplication_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RegistryReplication_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,50 +45,37 @@ func RunJSONSerializationTestForRegistryReplication_Spec(subject RegistryReplica
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RegistryReplication_Spec instances for property testing - lazily instantiated by
 // RegistryReplication_SpecGenerator()
-var registryReplication_SpecGenerator gopter.Gen
+var registryReplication_SpecGenerator *rapid.Generator[RegistryReplication_Spec]
 
 // RegistryReplication_SpecGenerator returns a generator of RegistryReplication_Spec instances for property testing.
-// We first initialize registryReplication_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RegistryReplication_SpecGenerator() gopter.Gen {
+func RegistryReplication_SpecGenerator() *rapid.Generator[RegistryReplication_Spec] {
 	if registryReplication_SpecGenerator != nil {
 		return registryReplication_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRegistryReplication_Spec(generators)
-	registryReplication_SpecGenerator = gen.Struct(reflect.TypeOf(RegistryReplication_Spec{}), generators)
+	location := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+	properties := rapid.Ptr(ReplicationPropertiesGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRegistryReplication_Spec(generators)
-	AddRelatedPropertyGeneratorsForRegistryReplication_Spec(generators)
-	registryReplication_SpecGenerator = gen.Struct(reflect.TypeOf(RegistryReplication_Spec{}), generators)
+	registryReplication_SpecGenerator = rapid.Custom(func(t *rapid.T) RegistryReplication_Spec {
+		var result RegistryReplication_Spec
+		result.Location = location.Draw(t, "Location")
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return registryReplication_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRegistryReplication_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRegistryReplication_Spec(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRegistryReplication_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRegistryReplication_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ReplicationPropertiesGenerator())
 }
 
 func Test_ReplicationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -108,29 +85,23 @@ func Test_ReplicationProperties_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ReplicationProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForReplicationProperties, ReplicationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForReplicationProperties)
 }
 
 // RunJSONSerializationTestForReplicationProperties runs a test to see if a specific instance of ReplicationProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForReplicationProperties(subject ReplicationProperties) string {
+func RunJSONSerializationTestForReplicationProperties(t *rapid.T) {
+	subject := ReplicationPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ReplicationProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -139,31 +110,29 @@ func RunJSONSerializationTestForReplicationProperties(subject ReplicationPropert
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ReplicationProperties instances for property testing - lazily instantiated by
 // ReplicationPropertiesGenerator()
-var replicationPropertiesGenerator gopter.Gen
+var replicationPropertiesGenerator *rapid.Generator[ReplicationProperties]
 
 // ReplicationPropertiesGenerator returns a generator of ReplicationProperties instances for property testing.
-func ReplicationPropertiesGenerator() gopter.Gen {
+func ReplicationPropertiesGenerator() *rapid.Generator[ReplicationProperties] {
 	if replicationPropertiesGenerator != nil {
 		return replicationPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForReplicationProperties(generators)
-	replicationPropertiesGenerator = gen.Struct(reflect.TypeOf(ReplicationProperties{}), generators)
+	regionEndpointEnabled := rapid.Ptr(rapid.Bool(), true)
+	zoneRedundancy := rapid.Ptr(rapid.SampledFrom([]ReplicationProperties_ZoneRedundancy{ReplicationProperties_ZoneRedundancy_Disabled, ReplicationProperties_ZoneRedundancy_Enabled}), true)
+
+	replicationPropertiesGenerator = rapid.Custom(func(t *rapid.T) ReplicationProperties {
+		var result ReplicationProperties
+		result.RegionEndpointEnabled = regionEndpointEnabled.Draw(t, "RegionEndpointEnabled")
+		result.ZoneRedundancy = zoneRedundancy.Draw(t, "ZoneRedundancy")
+		return result
+	})
 
 	return replicationPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForReplicationProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForReplicationProperties(gens map[string]gopter.Gen) {
-	gens["RegionEndpointEnabled"] = gen.PtrOf(gen.Bool())
-	gens["ZoneRedundancy"] = gen.PtrOf(gen.OneConstOf(ReplicationProperties_ZoneRedundancy_Disabled, ReplicationProperties_ZoneRedundancy_Enabled))
 }

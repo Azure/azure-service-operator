@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /communication/resource-manager/Microsoft.Communication/stable/2023-04-01/EmailServices.json
+// - Generated from: /communication/resource-manager/Microsoft.Communication/Communication/stable/2023-04-01/EmailServices.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}
 type EmailService struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (service *EmailService) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /communication/resource-manager/Microsoft.Communication/stable/2023-04-01/EmailServices.json
+// - Generated from: /communication/resource-manager/Microsoft.Communication/Communication/stable/2023-04-01/EmailServices.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}
 type EmailServiceList struct {
 	metav1.TypeMeta `json:",inline"`

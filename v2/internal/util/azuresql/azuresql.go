@@ -13,14 +13,12 @@ import (
 	"time"
 
 	mssql "github.com/microsoft/go-mssqldb"
+	"github.com/microsoft/go-mssqldb/msdsn"
 	"github.com/rotisserie/eris"
 )
 
 // ServerPort is the default server port for sql server
 const ServerPort = 1433
-
-// driverName is driver name for db connection
-const driverName = "sqlserver"
 
 func ConnectToDB(
 	ctx context.Context,
@@ -30,21 +28,12 @@ func ConnectToDB(
 	user string,
 	password string,
 ) (*sql.DB, error) {
-	// Make sure to set connection timeout: https://github.com/denisenkom/go-mssqldb/issues/609
-	connString := fmt.Sprintf(
-		"server=%s;database=%s;user id=%s;password=%s;port=%d;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30",
-		serverAddress,
-		database,
-		user,
-		password,
-		port,
-	)
-
-	db, err := sql.Open(driverName, connString)
+	config, err := newConfig(serverAddress, database, port, user, password)
 	if err != nil {
-		return db, err
+		return nil, err
 	}
 
+	db := sql.OpenDB(mssql.NewConnectorConfig(config))
 	db.SetConnMaxLifetime(1 * time.Minute)
 	db.SetMaxOpenConns(1)
 	db.SetMaxIdleConns(1)
@@ -55,6 +44,36 @@ func ConnectToDB(
 	}
 
 	return db, err
+}
+
+func newConfig(serverAddress string, database string, port int, user string, password string) (msdsn.Config, error) {
+	if port < 1 || port > 65535 {
+		return msdsn.Config{}, fmt.Errorf("invalid Azure SQL port %d", port)
+	}
+
+	// msdsn.Parse initializes the driver defaults and TLS configuration described by Config:
+	// https://pkg.go.dev/github.com/microsoft/go-mssqldb/msdsn#Config.
+	// Parse only this trusted baseline so untrusted connection values are never interpreted as DSN fields.
+	config, err := msdsn.Parse(
+		"server=localhost;port=1433;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30",
+	)
+	if err != nil {
+		return msdsn.Config{}, eris.Wrap(err, "creating Azure SQL connection configuration")
+	}
+
+	config.Host = serverAddress
+	config.Port = uint64(port)
+	config.Database = database
+	config.User = user
+	config.Password = password
+	config.Encryption = msdsn.EncryptionRequired
+	config.TrustServerCertificate = false
+	// Make sure to set connection timeout: https://github.com/denisenkom/go-mssqldb/issues/609
+	config.ConnTimeout = 30 * time.Second
+	config.TLSConfig.ServerName = serverAddress
+	config.TLSConfig.InsecureSkipVerify = false
+
+	return config, nil
 }
 
 // ConnectToDBUsingAAD connects to the Azure SQL database using the specified token provider.
