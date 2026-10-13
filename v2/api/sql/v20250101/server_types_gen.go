@@ -1817,6 +1817,9 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *stor
 	return nil
 }
 
+// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+type AzureCoreUuid string
+
 // Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2', '1.3'
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2","1.3","None"}
 type MinimalTlsVersion string

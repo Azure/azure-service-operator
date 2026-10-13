@@ -3101,112 +3101,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{
-		Obj: new(sql_v20250101s.ManagedInstancesAdministrator),
-		Indexes: []registration.Index{
-			{
-				Key:  ".spec.sidFromConfig",
-				Func: indexSqlManagedInstancesAdministratorSidFromConfig,
-			},
-			{
-				Key:  ".spec.tenantIdFromConfig",
-				Func: indexSqlManagedInstancesAdministratorTenantIdFromConfig,
-			},
-		},
-		Watches: []registration.Watch{
-			{
-				Type: &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory(
-					[]string{
-						".spec.sidFromConfig",
-						".spec.tenantIdFromConfig",
-					},
-					&sql_v20250101s.ManagedInstancesAdministratorList{}),
-			},
-		},
-	})
-	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ManagedInstancesAzureADOnlyAuthentication)})
 	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ManagedInstancesDatabase)})
-	result = append(result, &registration.StorageType{
-		Obj: new(sql_v20250101s.ManagedInstancesDatabasesSecurityAlertPolicy),
-		Indexes: []registration.Index{
-			{
-				Key:  ".spec.storageAccountAccessKey",
-				Func: indexSqlManagedInstancesDatabasesSecurityAlertPolicyStorageAccountAccessKey,
-			},
-		},
-		Watches: []registration.Watch{
-			{
-				Type: &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory(
-					[]string{
-						".spec.storageAccountAccessKey",
-					},
-					&sql_v20250101s.ManagedInstancesDatabasesSecurityAlertPolicyList{}),
-			},
-		},
-	})
 	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ManagedInstancesDatabasesTransparentDataEncryption)})
-	result = append(result, &registration.StorageType{
-		Obj: new(sql_v20250101s.ManagedInstancesDatabasesVulnerabilityAssessment),
-		Indexes: []registration.Index{
-			{
-				Key:  ".spec.storageAccountAccessKey",
-				Func: indexSqlManagedInstancesDatabasesVulnerabilityAssessmentStorageAccountAccessKey,
-			},
-			{
-				Key:  ".spec.storageContainerPathFromConfig",
-				Func: indexSqlManagedInstancesDatabasesVulnerabilityAssessmentStorageContainerPathFromConfig,
-			},
-			{
-				Key:  ".spec.storageContainerSasKey",
-				Func: indexSqlManagedInstancesDatabasesVulnerabilityAssessmentStorageContainerSasKey,
-			},
-		},
-		Watches: []registration.Watch{
-			{
-				Type: &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory(
-					[]string{
-						".spec.storageAccountAccessKey",
-						".spec.storageContainerSasKey",
-					},
-					&sql_v20250101s.ManagedInstancesDatabasesVulnerabilityAssessmentList{}),
-			},
-			{
-				Type: &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory(
-					[]string{
-						".spec.storageContainerPathFromConfig",
-					},
-					&sql_v20250101s.ManagedInstancesDatabasesVulnerabilityAssessmentList{}),
-			},
-		},
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(sql_v20250101s.ManagedInstancesVulnerabilityAssessment),
-		Indexes: []registration.Index{
-			{
-				Key:  ".spec.storageAccountAccessKey",
-				Func: indexSqlManagedInstancesVulnerabilityAssessmentStorageAccountAccessKey,
-			},
-			{
-				Key:  ".spec.storageContainerSasKey",
-				Func: indexSqlManagedInstancesVulnerabilityAssessmentStorageContainerSasKey,
-			},
-		},
-		Watches: []registration.Watch{
-			{
-				Type: &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory(
-					[]string{
-						".spec.storageAccountAccessKey",
-						".spec.storageContainerSasKey",
-					},
-					&sql_v20250101s.ManagedInstancesVulnerabilityAssessmentList{}),
-			},
-		},
-	})
 	result = append(result, &registration.StorageType{
 		Obj: new(sql_v20250101s.Server),
 		Indexes: []registration.Index{
@@ -8258,39 +8154,14 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &sql_v20250101w.ManagedInstance{},
 		},
 		&registration.KnownType{
-			Obj:       new(sql_v20250101.ManagedInstancesAdministrator),
-			Defaulter: &sql_v20250101w.ManagedInstancesAdministrator{},
-			Validator: &sql_v20250101w.ManagedInstancesAdministrator{},
-		},
-		&registration.KnownType{
-			Obj:       new(sql_v20250101.ManagedInstancesAzureADOnlyAuthentication),
-			Defaulter: &sql_v20250101w.ManagedInstancesAzureADOnlyAuthentication{},
-			Validator: &sql_v20250101w.ManagedInstancesAzureADOnlyAuthentication{},
-		},
-		&registration.KnownType{
 			Obj:       new(sql_v20250101.ManagedInstancesDatabase),
 			Defaulter: &sql_v20250101w.ManagedInstancesDatabase{},
 			Validator: &sql_v20250101w.ManagedInstancesDatabase{},
 		},
 		&registration.KnownType{
-			Obj:       new(sql_v20250101.ManagedInstancesDatabasesSecurityAlertPolicy),
-			Defaulter: &sql_v20250101w.ManagedInstancesDatabasesSecurityAlertPolicy{},
-			Validator: &sql_v20250101w.ManagedInstancesDatabasesSecurityAlertPolicy{},
-		},
-		&registration.KnownType{
 			Obj:       new(sql_v20250101.ManagedInstancesDatabasesTransparentDataEncryption),
 			Defaulter: &sql_v20250101w.ManagedInstancesDatabasesTransparentDataEncryption{},
 			Validator: &sql_v20250101w.ManagedInstancesDatabasesTransparentDataEncryption{},
-		},
-		&registration.KnownType{
-			Obj:       new(sql_v20250101.ManagedInstancesDatabasesVulnerabilityAssessment),
-			Defaulter: &sql_v20250101w.ManagedInstancesDatabasesVulnerabilityAssessment{},
-			Validator: &sql_v20250101w.ManagedInstancesDatabasesVulnerabilityAssessment{},
-		},
-		&registration.KnownType{
-			Obj:       new(sql_v20250101.ManagedInstancesVulnerabilityAssessment),
-			Defaulter: &sql_v20250101w.ManagedInstancesVulnerabilityAssessment{},
-			Validator: &sql_v20250101w.ManagedInstancesVulnerabilityAssessment{},
 		},
 		&registration.KnownType{
 			Obj:       new(sql_v20250101.Server),
@@ -8416,13 +8287,8 @@ func getKnownTypes() []*registration.KnownType {
 		result,
 		&registration.KnownType{Obj: new(sql_v20250101s.InstanceFailoverGroup)},
 		&registration.KnownType{Obj: new(sql_v20250101s.ManagedInstance)},
-		&registration.KnownType{Obj: new(sql_v20250101s.ManagedInstancesAdministrator)},
-		&registration.KnownType{Obj: new(sql_v20250101s.ManagedInstancesAzureADOnlyAuthentication)},
 		&registration.KnownType{Obj: new(sql_v20250101s.ManagedInstancesDatabase)},
-		&registration.KnownType{Obj: new(sql_v20250101s.ManagedInstancesDatabasesSecurityAlertPolicy)},
 		&registration.KnownType{Obj: new(sql_v20250101s.ManagedInstancesDatabasesTransparentDataEncryption)},
-		&registration.KnownType{Obj: new(sql_v20250101s.ManagedInstancesDatabasesVulnerabilityAssessment)},
-		&registration.KnownType{Obj: new(sql_v20250101s.ManagedInstancesVulnerabilityAssessment)},
 		&registration.KnownType{Obj: new(sql_v20250101s.Server)},
 		&registration.KnownType{Obj: new(sql_v20250101s.ServersAdministrator)},
 		&registration.KnownType{Obj: new(sql_v20250101s.ServersAdvancedThreatProtectionSetting)},
@@ -9583,13 +9449,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &signalrservice_customizations.SignalRExtension{})
 	result = append(result, &sql_customizations.InstanceFailoverGroupExtension{})
 	result = append(result, &sql_customizations.ManagedInstanceExtension{})
-	result = append(result, &sql_customizations.ManagedInstancesAdministratorExtension{})
-	result = append(result, &sql_customizations.ManagedInstancesAzureADOnlyAuthenticationExtension{})
 	result = append(result, &sql_customizations.ManagedInstancesDatabaseExtension{})
-	result = append(result, &sql_customizations.ManagedInstancesDatabasesSecurityAlertPolicyExtension{})
 	result = append(result, &sql_customizations.ManagedInstancesDatabasesTransparentDataEncryptionExtension{})
-	result = append(result, &sql_customizations.ManagedInstancesDatabasesVulnerabilityAssessmentExtension{})
-	result = append(result, &sql_customizations.ManagedInstancesVulnerabilityAssessmentExtension{})
 	result = append(result, &sql_customizations.ServerExtension{})
 	result = append(result, &sql_customizations.ServersAdministratorExtension{})
 	result = append(result, &sql_customizations.ServersAdvancedThreatProtectionSettingExtension{})
@@ -14405,102 +14266,6 @@ func indexSqlManagedInstanceTenantIdFromConfig(rawObj client.Object) []string {
 		return nil
 	}
 	return obj.Spec.Administrators.TenantIdFromConfig.Index()
-}
-
-// indexSqlManagedInstancesAdministratorSidFromConfig an index function for sql_v20250101s.ManagedInstancesAdministrator .spec.sidFromConfig
-func indexSqlManagedInstancesAdministratorSidFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20250101s.ManagedInstancesAdministrator)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.SidFromConfig == nil {
-		return nil
-	}
-	return obj.Spec.SidFromConfig.Index()
-}
-
-// indexSqlManagedInstancesAdministratorTenantIdFromConfig an index function for sql_v20250101s.ManagedInstancesAdministrator .spec.tenantIdFromConfig
-func indexSqlManagedInstancesAdministratorTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20250101s.ManagedInstancesAdministrator)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.TenantIdFromConfig == nil {
-		return nil
-	}
-	return obj.Spec.TenantIdFromConfig.Index()
-}
-
-// indexSqlManagedInstancesDatabasesSecurityAlertPolicyStorageAccountAccessKey an index function for sql_v20250101s.ManagedInstancesDatabasesSecurityAlertPolicy .spec.storageAccountAccessKey
-func indexSqlManagedInstancesDatabasesSecurityAlertPolicyStorageAccountAccessKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20250101s.ManagedInstancesDatabasesSecurityAlertPolicy)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.StorageAccountAccessKey == nil {
-		return nil
-	}
-	return obj.Spec.StorageAccountAccessKey.Index()
-}
-
-// indexSqlManagedInstancesDatabasesVulnerabilityAssessmentStorageAccountAccessKey an index function for sql_v20250101s.ManagedInstancesDatabasesVulnerabilityAssessment .spec.storageAccountAccessKey
-func indexSqlManagedInstancesDatabasesVulnerabilityAssessmentStorageAccountAccessKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20250101s.ManagedInstancesDatabasesVulnerabilityAssessment)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.StorageAccountAccessKey == nil {
-		return nil
-	}
-	return obj.Spec.StorageAccountAccessKey.Index()
-}
-
-// indexSqlManagedInstancesDatabasesVulnerabilityAssessmentStorageContainerPathFromConfig an index function for sql_v20250101s.ManagedInstancesDatabasesVulnerabilityAssessment .spec.storageContainerPathFromConfig
-func indexSqlManagedInstancesDatabasesVulnerabilityAssessmentStorageContainerPathFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20250101s.ManagedInstancesDatabasesVulnerabilityAssessment)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.StorageContainerPathFromConfig == nil {
-		return nil
-	}
-	return obj.Spec.StorageContainerPathFromConfig.Index()
-}
-
-// indexSqlManagedInstancesDatabasesVulnerabilityAssessmentStorageContainerSasKey an index function for sql_v20250101s.ManagedInstancesDatabasesVulnerabilityAssessment .spec.storageContainerSasKey
-func indexSqlManagedInstancesDatabasesVulnerabilityAssessmentStorageContainerSasKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20250101s.ManagedInstancesDatabasesVulnerabilityAssessment)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.StorageContainerSasKey == nil {
-		return nil
-	}
-	return obj.Spec.StorageContainerSasKey.Index()
-}
-
-// indexSqlManagedInstancesVulnerabilityAssessmentStorageAccountAccessKey an index function for sql_v20250101s.ManagedInstancesVulnerabilityAssessment .spec.storageAccountAccessKey
-func indexSqlManagedInstancesVulnerabilityAssessmentStorageAccountAccessKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20250101s.ManagedInstancesVulnerabilityAssessment)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.StorageAccountAccessKey == nil {
-		return nil
-	}
-	return obj.Spec.StorageAccountAccessKey.Index()
-}
-
-// indexSqlManagedInstancesVulnerabilityAssessmentStorageContainerSasKey an index function for sql_v20250101s.ManagedInstancesVulnerabilityAssessment .spec.storageContainerSasKey
-func indexSqlManagedInstancesVulnerabilityAssessmentStorageContainerSasKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20250101s.ManagedInstancesVulnerabilityAssessment)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.StorageContainerSasKey == nil {
-		return nil
-	}
-	return obj.Spec.StorageContainerSasKey.Index()
 }
 
 // indexSqlServerAdministratorLoginPassword an index function for sql_v20250101s.Server .spec.administratorLoginPassword

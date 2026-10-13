@@ -257,22 +257,9 @@ groupModelConfiguration:
         $importConfigMapMode: optional
       TenantId:
         $importConfigMapMode: optional
-    ManagedInstanceAdministratorProperties:
-      Sid:
-        $importConfigMapMode: optional
-      TenantId:
-        $importConfigMapMode: optional
     ManagedInstanceProperties:
       InstancePoolId:
         $referenceType: arm
-    SecurityAlertPolicyProperties:
-      StorageAccountAccessKey:
-        $importSecretMode: required
-    ManagedInstanceVulnerabilityAssessmentProperties:
-      StorageAccountAccessKey:
-        $importSecretMode: required
-      StorageContainerSasKey:
-        $importSecretMode: required
     ManagedDatabaseProperties:
       StorageContainerSasToken:
         $importSecretMode: optional
@@ -296,24 +283,9 @@ groupModelConfiguration:
         $referenceType: arm
       PartnerManagedInstanceId:
         $referenceType: arm
-    ManagedInstances_Administrator:
-      $exportAs: ManagedInstancesAdministrator
-      $supportedFrom: v2.23.0
-    ManagedInstances_AzureADOnlyAuthentication:
-      $exportAs: ManagedInstancesAzureADOnlyAuthentication
-      $supportedFrom: v2.23.0
     ManagedInstances_Database:
       $exportAs: ManagedInstancesDatabase
       $supportedFrom: v2.23.0
-    ManagedInstances_Databases_SecurityAlertPolicy:
-      $exportAs: ManagedInstancesDatabasesSecurityAlertPolicy
-      $supportedFrom: v2.23.0
     ManagedInstances_Databases_TransparentDataEncryption:
       $exportAs: ManagedInstancesDatabasesTransparentDataEncryption
-      $supportedFrom: v2.23.0
-    ManagedInstances_Databases_VulnerabilityAssessment:
-      $exportAs: ManagedInstancesDatabasesVulnerabilityAssessment
-      $supportedFrom: v2.23.0
-    ManagedInstances_VulnerabilityAssessment:
-      $exportAs: ManagedInstancesVulnerabilityAssessment
       $supportedFrom: v2.23.0

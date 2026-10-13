@@ -5,19 +5,9 @@ InstanceFailoverGroup: Object (0 properties)
 
 ManagedInstance: Object (0 properties)
 
-ManagedInstancesAdministrator: Object (0 properties)
-
-ManagedInstancesAzureADOnlyAuthentication: Object (0 properties)
-
 ManagedInstancesDatabase: Object (0 properties)
 
-ManagedInstancesDatabasesSecurityAlertPolicy: Object (0 properties)
-
 ManagedInstancesDatabasesTransparentDataEncryption: Object (0 properties)
-
-ManagedInstancesDatabasesVulnerabilityAssessment: Object (0 properties)
-
-ManagedInstancesVulnerabilityAssessment: Object (0 properties)
 
 Server: Object (0 properties)
 
