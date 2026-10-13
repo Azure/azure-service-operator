@@ -51,22 +51,36 @@ var _ conversion.Convertible = &StorageAccountsFileServicesShare{}
 
 // ConvertFrom populates our StorageAccountsFileServicesShare from the provided hub StorageAccountsFileServicesShare
 func (share *StorageAccountsFileServicesShare) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.StorageAccountsFileServicesShare)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccountsFileServicesShare but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.StorageAccountsFileServicesShare
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return share.AssignProperties_From_StorageAccountsFileServicesShare(source)
+	err = share.AssignProperties_From_StorageAccountsFileServicesShare(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to share")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsFileServicesShare from our StorageAccountsFileServicesShare
 func (share *StorageAccountsFileServicesShare) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.StorageAccountsFileServicesShare)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccountsFileServicesShare but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.StorageAccountsFileServicesShare
+	err := share.AssignProperties_To_StorageAccountsFileServicesShare(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from share")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return share.AssignProperties_To_StorageAccountsFileServicesShare(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &StorageAccountsFileServicesShare{}
@@ -87,17 +101,6 @@ func (share *StorageAccountsFileServicesShare) SecretDestinationExpressions() []
 		return nil
 	}
 	return share.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &StorageAccountsFileServicesShare{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (share *StorageAccountsFileServicesShare) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*StorageAccountsFileServicesShare_STATUS); ok {
-		return share.Spec.Initialize_From_StorageAccountsFileServicesShare_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type StorageAccountsFileServicesShare_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsFileServicesShare{}
@@ -749,77 +752,6 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_To_StorageA
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_StorageAccountsFileServicesShare_STATUS populates our StorageAccountsFileServicesShare_Spec from the provided source StorageAccountsFileServicesShare_STATUS
-func (share *StorageAccountsFileServicesShare_Spec) Initialize_From_StorageAccountsFileServicesShare_STATUS(source *StorageAccountsFileServicesShare_STATUS) error {
-
-	// AccessTier
-	if source.AccessTier != nil {
-		accessTier := genruntime.ToEnum(string(*source.AccessTier), shareAccessTier_Values)
-		share.AccessTier = &accessTier
-	} else {
-		share.AccessTier = nil
-	}
-
-	// EnabledProtocols
-	if source.EnabledProtocols != nil {
-		enabledProtocol := genruntime.ToEnum(string(*source.EnabledProtocols), enabledProtocols_Values)
-		share.EnabledProtocols = &enabledProtocol
-	} else {
-		share.EnabledProtocols = nil
-	}
-
-	// FileSharePaidBursting
-	if source.FileSharePaidBursting != nil {
-		var fileSharePaidBursting FileSharePropertiesFileSharePaidBursting
-		err := fileSharePaidBursting.Initialize_From_FileSharePropertiesFileSharePaidBursting_STATUS(source.FileSharePaidBursting)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FileSharePropertiesFileSharePaidBursting_STATUS() to populate field FileSharePaidBursting")
-		}
-		share.FileSharePaidBursting = &fileSharePaidBursting
-	} else {
-		share.FileSharePaidBursting = nil
-	}
-
-	// Metadata
-	share.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
-
-	// ProvisionedBandwidthMibps
-	share.ProvisionedBandwidthMibps = genruntime.ClonePointerToInt(source.ProvisionedBandwidthMibps)
-
-	// ProvisionedIops
-	share.ProvisionedIops = genruntime.ClonePointerToInt(source.ProvisionedIops)
-
-	// RootSquash
-	if source.RootSquash != nil {
-		rootSquash := genruntime.ToEnum(string(*source.RootSquash), rootSquashType_Values)
-		share.RootSquash = &rootSquash
-	} else {
-		share.RootSquash = nil
-	}
-
-	// ShareQuota
-	share.ShareQuota = genruntime.ClonePointerToInt(source.ShareQuota)
-
-	// SignedIdentifiers
-	if source.SignedIdentifiers != nil {
-		signedIdentifierList := make([]SignedIdentifier, len(source.SignedIdentifiers))
-		for signedIdentifierIndex, signedIdentifierItem := range source.SignedIdentifiers {
-			var signedIdentifier SignedIdentifier
-			err := signedIdentifier.Initialize_From_SignedIdentifier_STATUS(&signedIdentifierItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_SignedIdentifier_STATUS() to populate field SignedIdentifiers")
-			}
-			signedIdentifierList[signedIdentifierIndex] = signedIdentifier
-		}
-		share.SignedIdentifiers = signedIdentifierList
-	} else {
-		share.SignedIdentifiers = nil
 	}
 
 	// No error
@@ -1823,27 +1755,6 @@ func (bursting *FileSharePropertiesFileSharePaidBursting) AssignProperties_To_Fi
 	return nil
 }
 
-// Initialize_From_FileSharePropertiesFileSharePaidBursting_STATUS populates our FileSharePropertiesFileSharePaidBursting from the provided source FileSharePropertiesFileSharePaidBursting_STATUS
-func (bursting *FileSharePropertiesFileSharePaidBursting) Initialize_From_FileSharePropertiesFileSharePaidBursting_STATUS(source *FileSharePropertiesFileSharePaidBursting_STATUS) error {
-
-	// PaidBurstingEnabled
-	if source.PaidBurstingEnabled != nil {
-		paidBurstingEnabled := *source.PaidBurstingEnabled
-		bursting.PaidBurstingEnabled = &paidBurstingEnabled
-	} else {
-		bursting.PaidBurstingEnabled = nil
-	}
-
-	// PaidBurstingMaxBandwidthMibps
-	bursting.PaidBurstingMaxBandwidthMibps = genruntime.ClonePointerToInt(source.PaidBurstingMaxBandwidthMibps)
-
-	// PaidBurstingMaxIops
-	bursting.PaidBurstingMaxIops = genruntime.ClonePointerToInt(source.PaidBurstingMaxIops)
-
-	// No error
-	return nil
-}
-
 // File Share Paid Bursting properties.
 type FileSharePropertiesFileSharePaidBursting_STATUS struct {
 	// PaidBurstingEnabled: Indicates whether paid bursting is enabled for the share. This property is only for file shares
@@ -2144,33 +2055,6 @@ func (identifier *SignedIdentifier) AssignProperties_To_SignedIdentifier(destina
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SignedIdentifier_STATUS populates our SignedIdentifier from the provided source SignedIdentifier_STATUS
-func (identifier *SignedIdentifier) Initialize_From_SignedIdentifier_STATUS(source *SignedIdentifier_STATUS) error {
-
-	// AccessPolicy
-	if source.AccessPolicy != nil {
-		var accessPolicy AccessPolicy
-		err := accessPolicy.Initialize_From_AccessPolicy_STATUS(source.AccessPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AccessPolicy_STATUS() to populate field AccessPolicy")
-		}
-		identifier.AccessPolicy = &accessPolicy
-	} else {
-		identifier.AccessPolicy = nil
-	}
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		identifier.Reference = &reference
-	} else {
-		identifier.Reference = nil
 	}
 
 	// No error
@@ -2479,22 +2363,6 @@ func (policy *AccessPolicy) AssignProperties_To_AccessPolicy(destination *storag
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AccessPolicy_STATUS populates our AccessPolicy from the provided source AccessPolicy_STATUS
-func (policy *AccessPolicy) Initialize_From_AccessPolicy_STATUS(source *AccessPolicy_STATUS) error {
-
-	// ExpiryTime
-	policy.ExpiryTime = genruntime.ClonePointerToString(source.ExpiryTime)
-
-	// Permission
-	policy.Permission = genruntime.ClonePointerToString(source.Permission)
-
-	// StartTime
-	policy.StartTime = genruntime.ClonePointerToString(source.StartTime)
 
 	// No error
 	return nil
