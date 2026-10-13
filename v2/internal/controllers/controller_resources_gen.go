@@ -3062,6 +3062,50 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(signalrservice_v20240301s.CustomDomain)})
 	result = append(result, &registration.StorageType{Obj: new(signalrservice_v20240301s.Replica)})
 	result = append(result, &registration.StorageType{Obj: new(signalrservice_v20240301s.SignalR)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.InstanceFailoverGroup)})
+	result = append(result, &registration.StorageType{
+		Obj: new(sql_v20250101s.ManagedInstance),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.administratorLoginPassword",
+				Func: indexSqlManagedInstanceAdministratorLoginPassword,
+			},
+			{
+				Key:  ".spec.administrators.loginFromConfig",
+				Func: indexSqlManagedInstanceLoginFromConfig,
+			},
+			{
+				Key:  ".spec.administrators.sidFromConfig",
+				Func: indexSqlManagedInstanceSidFromConfig,
+			},
+			{
+				Key:  ".spec.administrators.tenantIdFromConfig",
+				Func: indexSqlManagedInstanceTenantIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.administratorLoginPassword",
+					},
+					&sql_v20250101s.ManagedInstanceList{}),
+			},
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.administrators.loginFromConfig",
+						".spec.administrators.sidFromConfig",
+						".spec.administrators.tenantIdFromConfig",
+					},
+					&sql_v20250101s.ManagedInstanceList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ManagedInstancesDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ManagedInstancesDatabasesTransparentDataEncryption)})
 	result = append(result, &registration.StorageType{
 		Obj: new(sql_v20250101s.Server),
 		Indexes: []registration.Index{
@@ -8103,6 +8147,26 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(sql_v20250101.InstanceFailoverGroup),
+			Defaulter: &sql_v20250101w.InstanceFailoverGroup{},
+			Validator: &sql_v20250101w.InstanceFailoverGroup{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ManagedInstance),
+			Defaulter: &sql_v20250101w.ManagedInstance{},
+			Validator: &sql_v20250101w.ManagedInstance{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ManagedInstancesDatabase),
+			Defaulter: &sql_v20250101w.ManagedInstancesDatabase{},
+			Validator: &sql_v20250101w.ManagedInstancesDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ManagedInstancesDatabasesTransparentDataEncryption),
+			Defaulter: &sql_v20250101w.ManagedInstancesDatabasesTransparentDataEncryption{},
+			Validator: &sql_v20250101w.ManagedInstancesDatabasesTransparentDataEncryption{},
+		},
+		&registration.KnownType{
 			Obj:       new(sql_v20250101.Server),
 			Defaulter: &sql_v20250101w.Server{},
 			Validator: &sql_v20250101w.Server{},
@@ -8224,6 +8288,10 @@ func getKnownTypes() []*registration.KnownType {
 		})
 	result = append(
 		result,
+		&registration.KnownType{Obj: new(sql_v20250101s.InstanceFailoverGroup)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ManagedInstance)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ManagedInstancesDatabase)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ManagedInstancesDatabasesTransparentDataEncryption)},
 		&registration.KnownType{Obj: new(sql_v20250101s.Server)},
 		&registration.KnownType{Obj: new(sql_v20250101s.ServersAdministrator)},
 		&registration.KnownType{Obj: new(sql_v20250101s.ServersAdvancedThreatProtectionSetting)},
@@ -9448,6 +9516,10 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &signalrservice_customizations.CustomDomainExtension{})
 	result = append(result, &signalrservice_customizations.ReplicaExtension{})
 	result = append(result, &signalrservice_customizations.SignalRExtension{})
+	result = append(result, &sql_customizations.InstanceFailoverGroupExtension{})
+	result = append(result, &sql_customizations.ManagedInstanceExtension{})
+	result = append(result, &sql_customizations.ManagedInstancesDatabaseExtension{})
+	result = append(result, &sql_customizations.ManagedInstancesDatabasesTransparentDataEncryptionExtension{})
 	result = append(result, &sql_customizations.ServerExtension{})
 	result = append(result, &sql_customizations.ServersAdministratorExtension{})
 	result = append(result, &sql_customizations.ServersAdvancedThreatProtectionSettingExtension{})
@@ -14206,6 +14278,63 @@ func indexSignalrserviceCustomCertificateKeyVaultBaseUriFromConfig(rawObj client
 		return nil
 	}
 	return obj.Spec.KeyVaultBaseUriFromConfig.Index()
+}
+
+// indexSqlManagedInstanceAdministratorLoginPassword an index function for sql_v20250101s.ManagedInstance .spec.administratorLoginPassword
+func indexSqlManagedInstanceAdministratorLoginPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*sql_v20250101s.ManagedInstance)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AdministratorLoginPassword == nil {
+		return nil
+	}
+	return obj.Spec.AdministratorLoginPassword.Index()
+}
+
+// indexSqlManagedInstanceLoginFromConfig an index function for sql_v20250101s.ManagedInstance .spec.administrators.loginFromConfig
+func indexSqlManagedInstanceLoginFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*sql_v20250101s.ManagedInstance)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Administrators == nil {
+		return nil
+	}
+	if obj.Spec.Administrators.LoginFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Administrators.LoginFromConfig.Index()
+}
+
+// indexSqlManagedInstanceSidFromConfig an index function for sql_v20250101s.ManagedInstance .spec.administrators.sidFromConfig
+func indexSqlManagedInstanceSidFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*sql_v20250101s.ManagedInstance)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Administrators == nil {
+		return nil
+	}
+	if obj.Spec.Administrators.SidFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Administrators.SidFromConfig.Index()
+}
+
+// indexSqlManagedInstanceTenantIdFromConfig an index function for sql_v20250101s.ManagedInstance .spec.administrators.tenantIdFromConfig
+func indexSqlManagedInstanceTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*sql_v20250101s.ManagedInstance)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Administrators == nil {
+		return nil
+	}
+	if obj.Spec.Administrators.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Administrators.TenantIdFromConfig.Index()
 }
 
 // indexSqlServerAdministratorLoginPassword an index function for sql_v20250101s.Server .spec.administratorLoginPassword
