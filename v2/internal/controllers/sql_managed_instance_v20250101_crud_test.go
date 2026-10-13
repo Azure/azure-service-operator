@@ -251,10 +251,11 @@ func Test_SQL_InstanceFailoverGroup_v20250101_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 
-	// Delete the peerings and then the instances explicitly, before the test's resource group is cleaned up. If
-	// they are left to the resource group cleanup, ASO deletes the peerings and subnets at the same moment Azure
-	// deletes the resource group, which fails with AnotherOperationInProgress and
-	// SubnetCannotGetUpdatedWhenParentVnetDeletionWasAttemptedEarlier, and the resource group is left behind.
+	// Delete the peerings and then the instances explicitly, before the test's resource group is cleaned up. When
+	// they were left to the resource group deletion, Azure's deletion of the group failed part way (its activity log
+	// showed AnotherOperationInProgress on the peering deletes and
+	// SubnetCannotGetUpdatedWhenParentVnetDeletionWasAttemptedEarlier on a managed instance subnet), and the group was
+	// left behind, empty, after the test had already stopped waiting for it.
 	tc.DeleteResourcesAndWait(peerings[0], peerings[1])
 	tc.DeleteResourcesAndWait(secondary, primary)
 }
