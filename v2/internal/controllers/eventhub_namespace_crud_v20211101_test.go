@@ -12,7 +12,7 @@ import (
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	eventhub "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
+	eventhub "github.com/Azure/azure-service-operator/v2/api/eventhub/v20211101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -38,6 +38,7 @@ func Test_EventHub_Namespace_v20211101_CRUD(t *testing.T) {
 			},
 			IsAutoInflateEnabled:   to.Ptr(true),
 			MaximumThroughputUnits: to.Ptr(1),
+			DisableLocalAuth:       to.Ptr(true),
 		},
 	}
 
@@ -45,6 +46,7 @@ func Test_EventHub_Namespace_v20211101_CRUD(t *testing.T) {
 
 	tc.Expect(namespace.Status.Id).ToNot(BeNil())
 	tc.Expect(namespace.Status.MaximumThroughputUnits).To(Equal(to.Ptr(1)))
+	tc.Expect(namespace.Status.DisableLocalAuth).To(Equal(to.Ptr(true)))
 	armId := *namespace.Status.Id
 
 	// Perform a simple patch

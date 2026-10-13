@@ -51,22 +51,36 @@ var _ conversion.Convertible = &NamespacesEventhubsAuthorizationRule{}
 
 // ConvertFrom populates our NamespacesEventhubsAuthorizationRule from the provided hub NamespacesEventhubsAuthorizationRule
 func (rule *NamespacesEventhubsAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NamespacesEventhubsAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20240101/storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NamespacesEventhubsAuthorizationRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_NamespacesEventhubsAuthorizationRule(source)
+	err = rule.AssignProperties_From_NamespacesEventhubsAuthorizationRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesEventhubsAuthorizationRule from our NamespacesEventhubsAuthorizationRule
 func (rule *NamespacesEventhubsAuthorizationRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NamespacesEventhubsAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20240101/storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NamespacesEventhubsAuthorizationRule
+	err := rule.AssignProperties_To_NamespacesEventhubsAuthorizationRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_NamespacesEventhubsAuthorizationRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &NamespacesEventhubsAuthorizationRule{}
@@ -87,17 +101,6 @@ func (rule *NamespacesEventhubsAuthorizationRule) SecretDestinationExpressions()
 		return nil
 	}
 	return rule.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &NamespacesEventhubsAuthorizationRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *NamespacesEventhubsAuthorizationRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*NamespacesEventhubsAuthorizationRule_STATUS); ok {
-		return rule.Spec.Initialize_From_NamespacesEventhubsAuthorizationRule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type NamespacesEventhubsAuthorizationRule_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &NamespacesEventhubsAuthorizationRule{}
@@ -466,25 +469,6 @@ func (rule *NamespacesEventhubsAuthorizationRule_Spec) AssignProperties_To_Names
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NamespacesEventhubsAuthorizationRule_STATUS populates our NamespacesEventhubsAuthorizationRule_Spec from the provided source NamespacesEventhubsAuthorizationRule_STATUS
-func (rule *NamespacesEventhubsAuthorizationRule_Spec) Initialize_From_NamespacesEventhubsAuthorizationRule_STATUS(source *NamespacesEventhubsAuthorizationRule_STATUS) error {
-
-	// Rights
-	if source.Rights != nil {
-		rightList := make([]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec, len(source.Rights))
-		for rightIndex, rightItem := range source.Rights {
-			right := genruntime.ToEnum(string(rightItem), namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_Values)
-			rightList[rightIndex] = right
-		}
-		rule.Rights = rightList
-	} else {
-		rule.Rights = nil
 	}
 
 	// No error

@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/eventhub/v20240101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -12,6 +13,82 @@ import (
 	"pgregory.net/rapid"
 	"testing"
 )
+
+// Test_NamespacesEventhubsConsumerGroup_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of NamespacesEventhubsConsumerGroup round trips to the hub storage version and back losslessly
+func Test_NamespacesEventhubsConsumerGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NamespacesEventhubsConsumerGroupGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.NamespacesEventhubsConsumerGroup
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual NamespacesEventhubsConsumerGroup
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
+// Test_NamespacesEventhubsConsumerGroup_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NamespacesEventhubsConsumerGroup can be assigned to storage and back losslessly
+func Test_NamespacesEventhubsConsumerGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NamespacesEventhubsConsumerGroupGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NamespacesEventhubsConsumerGroup
+		err := copied.AssignProperties_To_NamespacesEventhubsConsumerGroup(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NamespacesEventhubsConsumerGroup
+		err = actual.AssignProperties_From_NamespacesEventhubsConsumerGroup(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
 
 func Test_NamespacesEventhubsConsumerGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -72,6 +149,44 @@ func NamespacesEventhubsConsumerGroupGenerator() *rapid.Generator[NamespacesEven
 	return namespacesEventhubsConsumerGroupGenerator
 }
 
+// Test_NamespacesEventhubsConsumerGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NamespacesEventhubsConsumerGroupOperatorSpec can be assigned to storage and back losslessly
+func Test_NamespacesEventhubsConsumerGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NamespacesEventhubsConsumerGroupOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NamespacesEventhubsConsumerGroupOperatorSpec
+		err := copied.AssignProperties_To_NamespacesEventhubsConsumerGroupOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NamespacesEventhubsConsumerGroupOperatorSpec
+		err = actual.AssignProperties_From_NamespacesEventhubsConsumerGroupOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_NamespacesEventhubsConsumerGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -121,6 +236,44 @@ func NamespacesEventhubsConsumerGroupOperatorSpecGenerator() *rapid.Generator[Na
 	namespacesEventhubsConsumerGroupOperatorSpecGenerator = rapid.Just(NamespacesEventhubsConsumerGroupOperatorSpec{})
 
 	return namespacesEventhubsConsumerGroupOperatorSpecGenerator
+}
+
+// Test_NamespacesEventhubsConsumerGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NamespacesEventhubsConsumerGroup_STATUS can be assigned to storage and back losslessly
+func Test_NamespacesEventhubsConsumerGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NamespacesEventhubsConsumerGroup_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NamespacesEventhubsConsumerGroup_STATUS
+		err := copied.AssignProperties_To_NamespacesEventhubsConsumerGroup_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NamespacesEventhubsConsumerGroup_STATUS
+		err = actual.AssignProperties_From_NamespacesEventhubsConsumerGroup_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NamespacesEventhubsConsumerGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -186,6 +339,44 @@ func NamespacesEventhubsConsumerGroup_STATUSGenerator() *rapid.Generator[Namespa
 	})
 
 	return namespacesEventhubsConsumerGroup_STATUSGenerator
+}
+
+// Test_NamespacesEventhubsConsumerGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NamespacesEventhubsConsumerGroup_Spec can be assigned to storage and back losslessly
+func Test_NamespacesEventhubsConsumerGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NamespacesEventhubsConsumerGroup_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NamespacesEventhubsConsumerGroup_Spec
+		err := copied.AssignProperties_To_NamespacesEventhubsConsumerGroup_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NamespacesEventhubsConsumerGroup_Spec
+		err = actual.AssignProperties_From_NamespacesEventhubsConsumerGroup_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NamespacesEventhubsConsumerGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

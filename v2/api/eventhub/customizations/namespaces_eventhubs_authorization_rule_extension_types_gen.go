@@ -4,10 +4,14 @@
 package customizations
 
 import (
-	v20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
-	v20240101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101"
-	v20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
+	eventhub_v1api20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
+	eventhub_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
+	eventhub_v1api20240101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101"
+	eventhub_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
+	eventhub_v20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v20211101"
+	eventhub_v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v20211101/storage"
+	eventhub_v20240101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v20240101"
+	eventhub_v20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v20240101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +21,12 @@ type NamespacesEventhubsAuthorizationRuleExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *NamespacesEventhubsAuthorizationRuleExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20211101.NamespacesEventhubsAuthorizationRule{},
-		&v20211101s.NamespacesEventhubsAuthorizationRule{},
-		&v20240101.NamespacesEventhubsAuthorizationRule{},
-		&v20240101s.NamespacesEventhubsAuthorizationRule{}}
+		&eventhub_v1api20211101.NamespacesEventhubsAuthorizationRule{},
+		&eventhub_v1api20211101s.NamespacesEventhubsAuthorizationRule{},
+		&eventhub_v1api20240101.NamespacesEventhubsAuthorizationRule{},
+		&eventhub_v1api20240101s.NamespacesEventhubsAuthorizationRule{},
+		&eventhub_v20211101.NamespacesEventhubsAuthorizationRule{},
+		&eventhub_v20211101s.NamespacesEventhubsAuthorizationRule{},
+		&eventhub_v20240101.NamespacesEventhubsAuthorizationRule{},
+		&eventhub_v20240101s.NamespacesEventhubsAuthorizationRule{}}
 }
