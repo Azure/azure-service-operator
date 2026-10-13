@@ -34,10 +34,11 @@ const (
 // which was then moved to here: https://github.com/Azure/azure-sdk-for-go/blob/main/sdk/resourcemanager/resources/armresources/client.go
 
 type GenericClient struct {
-	endpoint string
-	pl       runtime.Pipeline
-	creds    azcore.TokenCredential
-	opts     *arm.ClientOptions
+	endpoint  string
+	pl        runtime.Pipeline
+	creds     azcore.TokenCredential
+	opts      *arm.ClientOptions
+	userAgent string
 }
 
 // TODO: Need to do retryAfter detection in each call?
@@ -115,10 +116,11 @@ func NewGenericClient(
 	}
 
 	return &GenericClient{
-		endpoint: rmConfig.Endpoint,
-		pl:       pipeline,
-		creds:    creds,
-		opts:     opts,
+		endpoint:  rmConfig.Endpoint,
+		pl:        pipeline,
+		creds:     creds,
+		opts:      opts,
+		userAgent: ua,
 	}, nil
 }
 
@@ -132,6 +134,27 @@ func (client *GenericClient) Creds() azcore.TokenCredential {
 // HTTP pipeline.
 func (client *GenericClient) ClientOptions() *arm.ClientOptions {
 	return client.opts
+}
+
+// DataPlaneClientOptions returns options for an Azure data-plane SDK client (Key Vault, storage,
+// and so on) that should behave like this client: the same transport (so recorded tests capture the
+// data-plane traffic too), cloud configuration, retry, logging and telemetry settings, and the same
+// user agent, so that the requests are attributable to ASO. The ARM-specific per-call policies are
+// left out: resource provider registration only makes sense against ARM, and the metrics policy logs
+// an error for every URL that isn't an ARM resource ID. The transport is shared with this client and
+// must not be modified by the caller. Logging settings are shared as well: enabling request or
+// response body logging on the ARM client would also log data-plane traffic.
+func (client *GenericClient) DataPlaneClientOptions() policy.ClientOptions {
+	return policy.ClientOptions{
+		Cloud:     client.opts.Cloud,
+		Logging:   client.opts.Logging,
+		Retry:     client.opts.Retry,
+		Telemetry: client.opts.Telemetry,
+		Transport: client.opts.Transport,
+		PerCallPolicies: []policy.Policy{
+			NewUserAgentPolicy(client.userAgent),
+		},
+	}
 }
 
 func (client *GenericClient) BeginCreateOrUpdateByID(

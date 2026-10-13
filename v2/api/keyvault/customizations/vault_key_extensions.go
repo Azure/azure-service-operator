@@ -21,7 +21,6 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
 	"github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azkeys"
 	"github.com/go-logr/logr"
@@ -992,19 +991,10 @@ func newKeyClient(
 		return nil, err
 	}
 
-	// Using armClient.ClientOptions() here ensures we share the same HTTP connection (and, in
-	// recorded tests, the same recorder), so this is not opening a new connection each time through.
-	// The per-call policies are left out: they are ARM-specific (resource-provider registration and
-	// ARM-path metrics) and log errors when they see data-plane URLs.
-	options := &azkeys.ClientOptions{}
-	if armOptions := armClient.ClientOptions(); armOptions != nil {
-		options.ClientOptions = policy.ClientOptions{
-			Cloud:     armOptions.Cloud,
-			Logging:   armOptions.Logging,
-			Retry:     armOptions.Retry,
-			Telemetry: armOptions.Telemetry,
-			Transport: armOptions.Transport,
-		}
+	// Sharing the ARM client's transport (and, in recorded tests, its recorder) means this is not
+	// opening a new connection each time through, and the requests carry ASO's user agent
+	options := &azkeys.ClientOptions{
+		ClientOptions: armClient.DataPlaneClientOptions(),
 	}
 
 	keyClient, err := azkeys.NewClient(vaultURL, armClient.Creds(), options)

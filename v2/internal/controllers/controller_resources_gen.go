@@ -586,6 +586,9 @@ import (
 	storage_v20250601 "github.com/Azure/azure-service-operator/v2/api/storage/v20250601"
 	storage_v20250601s "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
 	storage_v20250601w "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/webhook"
+	storage_v20260601 "github.com/Azure/azure-service-operator/v2/api/storage/v20260601"
+	storage_v20260601s "github.com/Azure/azure-service-operator/v2/api/storage/v20260601/storage"
+	storage_v20260601w "github.com/Azure/azure-service-operator/v2/api/storage/v20260601/webhook"
 	subscription_customizations "github.com/Azure/azure-service-operator/v2/api/subscription/customizations"
 	subscription_v1api20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
 	subscription_v1api20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
@@ -3041,6 +3044,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesTopic)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscription)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscriptionsRule)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.QueueAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.TopicAuthorizationRule)})
 	result = append(result, &registration.StorageType{
 		Obj: new(signalrservice_v20240301s.CustomCertificate),
@@ -3294,7 +3298,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(storage_v20250601s.StorageAccount),
+		Obj: new(storage_v20260601s.StorageAccount),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.encryption.identity.federatedIdentityClientIdFromConfig",
@@ -3333,19 +3337,19 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.networkAcls.ipRules.valueFromConfig",
 						".spec.networkAcls.ipv6Rules.valueFromConfig",
 					},
-					&storage_v20250601s.StorageAccountList{}),
+					&storage_v20260601s.StorageAccountList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsBlobService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsBlobServicesContainer)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsFileService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsFileServicesShare)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsManagementPolicy)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsQueueService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsQueueServicesQueue)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsTableService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20250601s.StorageAccountsTableServicesTable)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20260601s.StorageAccountsBlobService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20260601s.StorageAccountsBlobServicesContainer)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20260601s.StorageAccountsFileService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20260601s.StorageAccountsFileServicesShare)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20260601s.StorageAccountsManagementPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20260601s.StorageAccountsQueueService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20260601s.StorageAccountsQueueServicesQueue)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20260601s.StorageAccountsTableService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20260601s.StorageAccountsTableServicesTable)})
 	result = append(result, &registration.StorageType{Obj: new(subscription_v20211001s.Alias)})
 	result = append(result, &registration.StorageType{
 		Obj: new(synapse_v20210601s.Workspace),
@@ -7833,6 +7837,11 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &servicebus_v20240101w.NamespacesTopicsSubscriptionsRule{},
 		},
 		&registration.KnownType{
+			Obj:       new(servicebus_v20240101.QueueAuthorizationRule),
+			Defaulter: &servicebus_v20240101w.QueueAuthorizationRule{},
+			Validator: &servicebus_v20240101w.QueueAuthorizationRule{},
+		},
+		&registration.KnownType{
 			Obj:       new(servicebus_v20240101.TopicAuthorizationRule),
 			Defaulter: &servicebus_v20240101w.TopicAuthorizationRule{},
 			Validator: &servicebus_v20240101w.TopicAuthorizationRule{},
@@ -7845,6 +7854,7 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(servicebus_v20240101s.NamespacesTopic)},
 		&registration.KnownType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscription)},
 		&registration.KnownType{Obj: new(servicebus_v20240101s.NamespacesTopicsSubscriptionsRule)},
+		&registration.KnownType{Obj: new(servicebus_v20240101s.QueueAuthorizationRule)},
 		&registration.KnownType{Obj: new(servicebus_v20240101s.TopicAuthorizationRule)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(signalrservice_v20211001.SignalR),
@@ -8712,6 +8722,70 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsQueueServicesQueue)},
 		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsTableService)},
 		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsTableServicesTable)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(storage_v20260601.StorageAccount),
+			Defaulter: &storage_v20260601w.StorageAccount{},
+			Validator: &storage_v20260601w.StorageAccount{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20260601.StorageAccountsBlobService),
+			Defaulter: &storage_v20260601w.StorageAccountsBlobService{},
+			Validator: &storage_v20260601w.StorageAccountsBlobService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20260601.StorageAccountsBlobServicesContainer),
+			Defaulter: &storage_v20260601w.StorageAccountsBlobServicesContainer{},
+			Validator: &storage_v20260601w.StorageAccountsBlobServicesContainer{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20260601.StorageAccountsFileService),
+			Defaulter: &storage_v20260601w.StorageAccountsFileService{},
+			Validator: &storage_v20260601w.StorageAccountsFileService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20260601.StorageAccountsFileServicesShare),
+			Defaulter: &storage_v20260601w.StorageAccountsFileServicesShare{},
+			Validator: &storage_v20260601w.StorageAccountsFileServicesShare{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20260601.StorageAccountsManagementPolicy),
+			Defaulter: &storage_v20260601w.StorageAccountsManagementPolicy{},
+			Validator: &storage_v20260601w.StorageAccountsManagementPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20260601.StorageAccountsQueueService),
+			Defaulter: &storage_v20260601w.StorageAccountsQueueService{},
+			Validator: &storage_v20260601w.StorageAccountsQueueService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20260601.StorageAccountsQueueServicesQueue),
+			Defaulter: &storage_v20260601w.StorageAccountsQueueServicesQueue{},
+			Validator: &storage_v20260601w.StorageAccountsQueueServicesQueue{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20260601.StorageAccountsTableService),
+			Defaulter: &storage_v20260601w.StorageAccountsTableService{},
+			Validator: &storage_v20260601w.StorageAccountsTableService{},
+		},
+		&registration.KnownType{
+			Obj:       new(storage_v20260601.StorageAccountsTableServicesTable),
+			Defaulter: &storage_v20260601w.StorageAccountsTableServicesTable{},
+			Validator: &storage_v20260601w.StorageAccountsTableServicesTable{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(storage_v20260601s.StorageAccount)},
+		&registration.KnownType{Obj: new(storage_v20260601s.StorageAccountsBlobService)},
+		&registration.KnownType{Obj: new(storage_v20260601s.StorageAccountsBlobServicesContainer)},
+		&registration.KnownType{Obj: new(storage_v20260601s.StorageAccountsFileService)},
+		&registration.KnownType{Obj: new(storage_v20260601s.StorageAccountsFileServicesShare)},
+		&registration.KnownType{Obj: new(storage_v20260601s.StorageAccountsManagementPolicy)},
+		&registration.KnownType{Obj: new(storage_v20260601s.StorageAccountsQueueService)},
+		&registration.KnownType{Obj: new(storage_v20260601s.StorageAccountsQueueServicesQueue)},
+		&registration.KnownType{Obj: new(storage_v20260601s.StorageAccountsTableService)},
+		&registration.KnownType{Obj: new(storage_v20260601s.StorageAccountsTableServicesTable)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(subscription_v1api20211001.Alias),
 		Defaulter: &subscription_v1api20211001w.Alias{},
@@ -9177,6 +9251,8 @@ func createScheme() *runtime.Scheme {
 	_ = storage_v20230101s.AddToScheme(scheme)
 	_ = storage_v20250601.AddToScheme(scheme)
 	_ = storage_v20250601s.AddToScheme(scheme)
+	_ = storage_v20260601.AddToScheme(scheme)
+	_ = storage_v20260601s.AddToScheme(scheme)
 	_ = subscription_v1api20211001.AddToScheme(scheme)
 	_ = subscription_v1api20211001s.AddToScheme(scheme)
 	_ = subscription_v20211001.AddToScheme(scheme)
@@ -9444,6 +9520,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &servicebus_customizations.NamespacesTopicExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionsRuleExtension{})
+	result = append(result, &servicebus_customizations.QueueAuthorizationRuleExtension{})
 	result = append(result, &servicebus_customizations.TopicAuthorizationRuleExtension{})
 	result = append(result, &signalrservice_customizations.CustomCertificateExtension{})
 	result = append(result, &signalrservice_customizations.CustomDomainExtension{})
@@ -14410,9 +14487,9 @@ func indexSqlServersVulnerabilityAssessmentStorageContainerSasKey(rawObj client.
 	return obj.Spec.StorageContainerSasKey.Index()
 }
 
-// indexStorageStorageAccountFederatedIdentityClientIdFromConfig an index function for storage_v20250601s.StorageAccount .spec.encryption.identity.federatedIdentityClientIdFromConfig
+// indexStorageStorageAccountFederatedIdentityClientIdFromConfig an index function for storage_v20260601s.StorageAccount .spec.encryption.identity.federatedIdentityClientIdFromConfig
 func indexStorageStorageAccountFederatedIdentityClientIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
+	obj, ok := rawObj.(*storage_v20260601s.StorageAccount)
 	if !ok {
 		return nil
 	}
@@ -14428,9 +14505,9 @@ func indexStorageStorageAccountFederatedIdentityClientIdFromConfig(rawObj client
 	return obj.Spec.Encryption.Identity.FederatedIdentityClientIdFromConfig.Index()
 }
 
-// indexStorageStorageAccountIpRulesValueFromConfig an index function for storage_v20250601s.StorageAccount .spec.networkAcls.ipRules.valueFromConfig
+// indexStorageStorageAccountIpRulesValueFromConfig an index function for storage_v20260601s.StorageAccount .spec.networkAcls.ipRules.valueFromConfig
 func indexStorageStorageAccountIpRulesValueFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
+	obj, ok := rawObj.(*storage_v20260601s.StorageAccount)
 	if !ok {
 		return nil
 	}
@@ -14447,9 +14524,9 @@ func indexStorageStorageAccountIpRulesValueFromConfig(rawObj client.Object) []st
 	return result
 }
 
-// indexStorageStorageAccountIpv6RulesValueFromConfig an index function for storage_v20250601s.StorageAccount .spec.networkAcls.ipv6Rules.valueFromConfig
+// indexStorageStorageAccountIpv6RulesValueFromConfig an index function for storage_v20260601s.StorageAccount .spec.networkAcls.ipv6Rules.valueFromConfig
 func indexStorageStorageAccountIpv6RulesValueFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
+	obj, ok := rawObj.(*storage_v20260601s.StorageAccount)
 	if !ok {
 		return nil
 	}
@@ -14466,9 +14543,9 @@ func indexStorageStorageAccountIpv6RulesValueFromConfig(rawObj client.Object) []
 	return result
 }
 
-// indexStorageStorageAccountKeynameFromConfig an index function for storage_v20250601s.StorageAccount .spec.encryption.keyvaultproperties.keynameFromConfig
+// indexStorageStorageAccountKeynameFromConfig an index function for storage_v20260601s.StorageAccount .spec.encryption.keyvaultproperties.keynameFromConfig
 func indexStorageStorageAccountKeynameFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
+	obj, ok := rawObj.(*storage_v20260601s.StorageAccount)
 	if !ok {
 		return nil
 	}
@@ -14484,9 +14561,9 @@ func indexStorageStorageAccountKeynameFromConfig(rawObj client.Object) []string 
 	return obj.Spec.Encryption.Keyvaultproperties.KeynameFromConfig.Index()
 }
 
-// indexStorageStorageAccountKeyvaulturiFromConfig an index function for storage_v20250601s.StorageAccount .spec.encryption.keyvaultproperties.keyvaulturiFromConfig
+// indexStorageStorageAccountKeyvaulturiFromConfig an index function for storage_v20260601s.StorageAccount .spec.encryption.keyvaultproperties.keyvaulturiFromConfig
 func indexStorageStorageAccountKeyvaulturiFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
+	obj, ok := rawObj.(*storage_v20260601s.StorageAccount)
 	if !ok {
 		return nil
 	}
@@ -14502,9 +14579,9 @@ func indexStorageStorageAccountKeyvaulturiFromConfig(rawObj client.Object) []str
 	return obj.Spec.Encryption.Keyvaultproperties.KeyvaulturiFromConfig.Index()
 }
 
-// indexStorageStorageAccountKeyversionFromConfig an index function for storage_v20250601s.StorageAccount .spec.encryption.keyvaultproperties.keyversionFromConfig
+// indexStorageStorageAccountKeyversionFromConfig an index function for storage_v20260601s.StorageAccount .spec.encryption.keyvaultproperties.keyversionFromConfig
 func indexStorageStorageAccountKeyversionFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*storage_v20250601s.StorageAccount)
+	obj, ok := rawObj.(*storage_v20260601s.StorageAccount)
 	if !ok {
 		return nil
 	}

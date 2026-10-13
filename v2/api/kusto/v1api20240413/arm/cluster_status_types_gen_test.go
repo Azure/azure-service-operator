@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_AcceptedAudiences_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AcceptedAudiences_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAcceptedAudiences_STATUS, AcceptedAudiences_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAcceptedAudiences_STATUS)
 }
 
 // RunJSONSerializationTestForAcceptedAudiences_STATUS runs a test to see if a specific instance of AcceptedAudiences_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAcceptedAudiences_STATUS(subject AcceptedAudiences_STATUS) string {
+func RunJSONSerializationTestForAcceptedAudiences_STATUS(t *rapid.T) {
+	subject := AcceptedAudiences_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AcceptedAudiences_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,32 +45,29 @@ func RunJSONSerializationTestForAcceptedAudiences_STATUS(subject AcceptedAudienc
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AcceptedAudiences_STATUS instances for property testing - lazily instantiated by
 // AcceptedAudiences_STATUSGenerator()
-var acceptedAudiences_STATUSGenerator gopter.Gen
+var acceptedAudiences_STATUSGenerator *rapid.Generator[AcceptedAudiences_STATUS]
 
 // AcceptedAudiences_STATUSGenerator returns a generator of AcceptedAudiences_STATUS instances for property testing.
-func AcceptedAudiences_STATUSGenerator() gopter.Gen {
+func AcceptedAudiences_STATUSGenerator() *rapid.Generator[AcceptedAudiences_STATUS] {
 	if acceptedAudiences_STATUSGenerator != nil {
 		return acceptedAudiences_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAcceptedAudiences_STATUS(generators)
-	acceptedAudiences_STATUSGenerator = gen.Struct(reflect.TypeOf(AcceptedAudiences_STATUS{}), generators)
+	value := rapid.Ptr(rapid.String(), true)
+
+	acceptedAudiences_STATUSGenerator = rapid.Custom(func(t *rapid.T) AcceptedAudiences_STATUS {
+		var result AcceptedAudiences_STATUS
+		result.Value = value.Draw(t, "Value")
+		return result
+	})
 
 	return acceptedAudiences_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAcceptedAudiences_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAcceptedAudiences_STATUS(gens map[string]gopter.Gen) {
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_AzureSku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -90,29 +77,23 @@ func Test_AzureSku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AzureSku_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAzureSku_STATUS, AzureSku_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAzureSku_STATUS)
 }
 
 // RunJSONSerializationTestForAzureSku_STATUS runs a test to see if a specific instance of AzureSku_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAzureSku_STATUS(subject AzureSku_STATUS) string {
+func RunJSONSerializationTestForAzureSku_STATUS(t *rapid.T) {
+	subject := AzureSku_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AzureSku_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -121,97 +102,32 @@ func RunJSONSerializationTestForAzureSku_STATUS(subject AzureSku_STATUS) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AzureSku_STATUS instances for property testing - lazily instantiated by AzureSku_STATUSGenerator()
-var azureSku_STATUSGenerator gopter.Gen
+var azureSku_STATUSGenerator *rapid.Generator[AzureSku_STATUS]
 
 // AzureSku_STATUSGenerator returns a generator of AzureSku_STATUS instances for property testing.
-func AzureSku_STATUSGenerator() gopter.Gen {
+func AzureSku_STATUSGenerator() *rapid.Generator[AzureSku_STATUS] {
 	if azureSku_STATUSGenerator != nil {
 		return azureSku_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAzureSku_STATUS(generators)
-	azureSku_STATUSGenerator = gen.Struct(reflect.TypeOf(AzureSku_STATUS{}), generators)
+	capacity := rapid.Ptr(rapid.Int(), true)
+	name := rapid.Ptr(rapid.SampledFrom([]AzureSku_Name_STATUS{AzureSku_Name_STATUS_DevNoSLA_Standard_D11_V2, AzureSku_Name_STATUS_DevNoSLA_Standard_E2A_V4, AzureSku_Name_STATUS_Standard_D11_V2, AzureSku_Name_STATUS_Standard_D12_V2, AzureSku_Name_STATUS_Standard_D13_V2, AzureSku_Name_STATUS_Standard_D14_V2, AzureSku_Name_STATUS_Standard_D16D_V5, AzureSku_Name_STATUS_Standard_D32D_V4, AzureSku_Name_STATUS_Standard_D32D_V5, AzureSku_Name_STATUS_Standard_DS13_V21TB_PS, AzureSku_Name_STATUS_Standard_DS13_V22TB_PS, AzureSku_Name_STATUS_Standard_DS14_V23TB_PS, AzureSku_Name_STATUS_Standard_DS14_V24TB_PS, AzureSku_Name_STATUS_Standard_E16A_V4, AzureSku_Name_STATUS_Standard_E16Ads_V5, AzureSku_Name_STATUS_Standard_E16As_V43TB_PS, AzureSku_Name_STATUS_Standard_E16As_V44TB_PS, AzureSku_Name_STATUS_Standard_E16As_V53TB_PS, AzureSku_Name_STATUS_Standard_E16As_V54TB_PS, AzureSku_Name_STATUS_Standard_E16D_V4, AzureSku_Name_STATUS_Standard_E16D_V5, AzureSku_Name_STATUS_Standard_E16S_V43TB_PS, AzureSku_Name_STATUS_Standard_E16S_V44TB_PS, AzureSku_Name_STATUS_Standard_E16S_V53TB_PS, AzureSku_Name_STATUS_Standard_E16S_V54TB_PS, AzureSku_Name_STATUS_Standard_E2A_V4, AzureSku_Name_STATUS_Standard_E2Ads_V5, AzureSku_Name_STATUS_Standard_E2D_V4, AzureSku_Name_STATUS_Standard_E2D_V5, AzureSku_Name_STATUS_Standard_E4A_V4, AzureSku_Name_STATUS_Standard_E4Ads_V5, AzureSku_Name_STATUS_Standard_E4D_V4, AzureSku_Name_STATUS_Standard_E4D_V5, AzureSku_Name_STATUS_Standard_E64I_V3, AzureSku_Name_STATUS_Standard_E80Ids_V4, AzureSku_Name_STATUS_Standard_E8A_V4, AzureSku_Name_STATUS_Standard_E8Ads_V5, AzureSku_Name_STATUS_Standard_E8As_V41TB_PS, AzureSku_Name_STATUS_Standard_E8As_V42TB_PS, AzureSku_Name_STATUS_Standard_E8As_V51TB_PS, AzureSku_Name_STATUS_Standard_E8As_V52TB_PS, AzureSku_Name_STATUS_Standard_E8D_V4, AzureSku_Name_STATUS_Standard_E8D_V5, AzureSku_Name_STATUS_Standard_E8S_V41TB_PS, AzureSku_Name_STATUS_Standard_E8S_V42TB_PS, AzureSku_Name_STATUS_Standard_E8S_V51TB_PS, AzureSku_Name_STATUS_Standard_E8S_V52TB_PS, AzureSku_Name_STATUS_Standard_EC16Ads_V5, AzureSku_Name_STATUS_Standard_EC16As_V53TB_PS, AzureSku_Name_STATUS_Standard_EC16As_V54TB_PS, AzureSku_Name_STATUS_Standard_EC8Ads_V5, AzureSku_Name_STATUS_Standard_EC8As_V51TB_PS, AzureSku_Name_STATUS_Standard_EC8As_V52TB_PS, AzureSku_Name_STATUS_Standard_L16As_V3, AzureSku_Name_STATUS_Standard_L16S, AzureSku_Name_STATUS_Standard_L16S_V2, AzureSku_Name_STATUS_Standard_L16S_V3, AzureSku_Name_STATUS_Standard_L32As_V3, AzureSku_Name_STATUS_Standard_L32S_V3, AzureSku_Name_STATUS_Standard_L4S, AzureSku_Name_STATUS_Standard_L8As_V3, AzureSku_Name_STATUS_Standard_L8S, AzureSku_Name_STATUS_Standard_L8S_V2, AzureSku_Name_STATUS_Standard_L8S_V3}), true)
+	tier := rapid.Ptr(rapid.SampledFrom([]AzureSku_Tier_STATUS{AzureSku_Tier_STATUS_Basic, AzureSku_Tier_STATUS_Standard}), true)
+
+	azureSku_STATUSGenerator = rapid.Custom(func(t *rapid.T) AzureSku_STATUS {
+		var result AzureSku_STATUS
+		result.Capacity = capacity.Draw(t, "Capacity")
+		result.Name = name.Draw(t, "Name")
+		result.Tier = tier.Draw(t, "Tier")
+		return result
+	})
 
 	return azureSku_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAzureSku_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAzureSku_STATUS(gens map[string]gopter.Gen) {
-	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		AzureSku_Name_STATUS_DevNoSLA_Standard_D11_V2,
-		AzureSku_Name_STATUS_DevNoSLA_Standard_E2A_V4,
-		AzureSku_Name_STATUS_Standard_D11_V2,
-		AzureSku_Name_STATUS_Standard_D12_V2,
-		AzureSku_Name_STATUS_Standard_D13_V2,
-		AzureSku_Name_STATUS_Standard_D14_V2,
-		AzureSku_Name_STATUS_Standard_D16D_V5,
-		AzureSku_Name_STATUS_Standard_D32D_V4,
-		AzureSku_Name_STATUS_Standard_D32D_V5,
-		AzureSku_Name_STATUS_Standard_DS13_V21TB_PS,
-		AzureSku_Name_STATUS_Standard_DS13_V22TB_PS,
-		AzureSku_Name_STATUS_Standard_DS14_V23TB_PS,
-		AzureSku_Name_STATUS_Standard_DS14_V24TB_PS,
-		AzureSku_Name_STATUS_Standard_E16A_V4,
-		AzureSku_Name_STATUS_Standard_E16Ads_V5,
-		AzureSku_Name_STATUS_Standard_E16As_V43TB_PS,
-		AzureSku_Name_STATUS_Standard_E16As_V44TB_PS,
-		AzureSku_Name_STATUS_Standard_E16As_V53TB_PS,
-		AzureSku_Name_STATUS_Standard_E16As_V54TB_PS,
-		AzureSku_Name_STATUS_Standard_E16D_V4,
-		AzureSku_Name_STATUS_Standard_E16D_V5,
-		AzureSku_Name_STATUS_Standard_E16S_V43TB_PS,
-		AzureSku_Name_STATUS_Standard_E16S_V44TB_PS,
-		AzureSku_Name_STATUS_Standard_E16S_V53TB_PS,
-		AzureSku_Name_STATUS_Standard_E16S_V54TB_PS,
-		AzureSku_Name_STATUS_Standard_E2A_V4,
-		AzureSku_Name_STATUS_Standard_E2Ads_V5,
-		AzureSku_Name_STATUS_Standard_E2D_V4,
-		AzureSku_Name_STATUS_Standard_E2D_V5,
-		AzureSku_Name_STATUS_Standard_E4A_V4,
-		AzureSku_Name_STATUS_Standard_E4Ads_V5,
-		AzureSku_Name_STATUS_Standard_E4D_V4,
-		AzureSku_Name_STATUS_Standard_E4D_V5,
-		AzureSku_Name_STATUS_Standard_E64I_V3,
-		AzureSku_Name_STATUS_Standard_E80Ids_V4,
-		AzureSku_Name_STATUS_Standard_E8A_V4,
-		AzureSku_Name_STATUS_Standard_E8Ads_V5,
-		AzureSku_Name_STATUS_Standard_E8As_V41TB_PS,
-		AzureSku_Name_STATUS_Standard_E8As_V42TB_PS,
-		AzureSku_Name_STATUS_Standard_E8As_V51TB_PS,
-		AzureSku_Name_STATUS_Standard_E8As_V52TB_PS,
-		AzureSku_Name_STATUS_Standard_E8D_V4,
-		AzureSku_Name_STATUS_Standard_E8D_V5,
-		AzureSku_Name_STATUS_Standard_E8S_V41TB_PS,
-		AzureSku_Name_STATUS_Standard_E8S_V42TB_PS,
-		AzureSku_Name_STATUS_Standard_E8S_V51TB_PS,
-		AzureSku_Name_STATUS_Standard_E8S_V52TB_PS,
-		AzureSku_Name_STATUS_Standard_EC16Ads_V5,
-		AzureSku_Name_STATUS_Standard_EC16As_V53TB_PS,
-		AzureSku_Name_STATUS_Standard_EC16As_V54TB_PS,
-		AzureSku_Name_STATUS_Standard_EC8Ads_V5,
-		AzureSku_Name_STATUS_Standard_EC8As_V51TB_PS,
-		AzureSku_Name_STATUS_Standard_EC8As_V52TB_PS,
-		AzureSku_Name_STATUS_Standard_L16As_V3,
-		AzureSku_Name_STATUS_Standard_L16S,
-		AzureSku_Name_STATUS_Standard_L16S_V2,
-		AzureSku_Name_STATUS_Standard_L16S_V3,
-		AzureSku_Name_STATUS_Standard_L32As_V3,
-		AzureSku_Name_STATUS_Standard_L32S_V3,
-		AzureSku_Name_STATUS_Standard_L4S,
-		AzureSku_Name_STATUS_Standard_L8As_V3,
-		AzureSku_Name_STATUS_Standard_L8S,
-		AzureSku_Name_STATUS_Standard_L8S_V2,
-		AzureSku_Name_STATUS_Standard_L8S_V3))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(AzureSku_Tier_STATUS_Basic, AzureSku_Tier_STATUS_Standard))
 }
 
 func Test_CalloutPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -221,29 +137,23 @@ func Test_CalloutPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CalloutPolicy_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCalloutPolicy_STATUS, CalloutPolicy_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCalloutPolicy_STATUS)
 }
 
 // RunJSONSerializationTestForCalloutPolicy_STATUS runs a test to see if a specific instance of CalloutPolicy_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCalloutPolicy_STATUS(subject CalloutPolicy_STATUS) string {
+func RunJSONSerializationTestForCalloutPolicy_STATUS(t *rapid.T) {
+	subject := CalloutPolicy_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CalloutPolicy_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -252,46 +162,34 @@ func RunJSONSerializationTestForCalloutPolicy_STATUS(subject CalloutPolicy_STATU
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CalloutPolicy_STATUS instances for property testing - lazily instantiated by
 // CalloutPolicy_STATUSGenerator()
-var calloutPolicy_STATUSGenerator gopter.Gen
+var calloutPolicy_STATUSGenerator *rapid.Generator[CalloutPolicy_STATUS]
 
 // CalloutPolicy_STATUSGenerator returns a generator of CalloutPolicy_STATUS instances for property testing.
-func CalloutPolicy_STATUSGenerator() gopter.Gen {
+func CalloutPolicy_STATUSGenerator() *rapid.Generator[CalloutPolicy_STATUS] {
 	if calloutPolicy_STATUSGenerator != nil {
 		return calloutPolicy_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCalloutPolicy_STATUS(generators)
-	calloutPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(CalloutPolicy_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	calloutType := rapid.Ptr(rapid.SampledFrom([]CalloutPolicy_CalloutType_STATUS{CalloutPolicy_CalloutType_STATUS_Azure_Digital_Twins, CalloutPolicy_CalloutType_STATUS_Azure_Openai, CalloutPolicy_CalloutType_STATUS_Cosmosdb, CalloutPolicy_CalloutType_STATUS_External_Data, CalloutPolicy_CalloutType_STATUS_Genevametrics, CalloutPolicy_CalloutType_STATUS_Kusto, CalloutPolicy_CalloutType_STATUS_Mysql, CalloutPolicy_CalloutType_STATUS_Postgresql, CalloutPolicy_CalloutType_STATUS_Sandbox_Artifacts, CalloutPolicy_CalloutType_STATUS_Sql, CalloutPolicy_CalloutType_STATUS_Webapi}), true)
+	outboundAccess := rapid.Ptr(rapid.SampledFrom([]CalloutPolicy_OutboundAccess_STATUS{CalloutPolicy_OutboundAccess_STATUS_Allow, CalloutPolicy_OutboundAccess_STATUS_Deny}), true)
+
+	calloutPolicy_STATUSGenerator = rapid.Custom(func(t *rapid.T) CalloutPolicy_STATUS {
+		var result CalloutPolicy_STATUS
+		result.CalloutId = ptrString.Draw(t, "CalloutId")
+		result.CalloutType = calloutType.Draw(t, "CalloutType")
+		result.CalloutUriRegex = ptrString.Draw(t, "CalloutUriRegex")
+		result.OutboundAccess = outboundAccess.Draw(t, "OutboundAccess")
+		return result
+	})
 
 	return calloutPolicy_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCalloutPolicy_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCalloutPolicy_STATUS(gens map[string]gopter.Gen) {
-	gens["CalloutId"] = gen.PtrOf(gen.AlphaString())
-	gens["CalloutType"] = gen.PtrOf(gen.OneConstOf(
-		CalloutPolicy_CalloutType_STATUS_Azure_Digital_Twins,
-		CalloutPolicy_CalloutType_STATUS_Azure_Openai,
-		CalloutPolicy_CalloutType_STATUS_Cosmosdb,
-		CalloutPolicy_CalloutType_STATUS_External_Data,
-		CalloutPolicy_CalloutType_STATUS_Genevametrics,
-		CalloutPolicy_CalloutType_STATUS_Kusto,
-		CalloutPolicy_CalloutType_STATUS_Mysql,
-		CalloutPolicy_CalloutType_STATUS_Postgresql,
-		CalloutPolicy_CalloutType_STATUS_Sandbox_Artifacts,
-		CalloutPolicy_CalloutType_STATUS_Sql,
-		CalloutPolicy_CalloutType_STATUS_Webapi))
-	gens["CalloutUriRegex"] = gen.PtrOf(gen.AlphaString())
-	gens["OutboundAccess"] = gen.PtrOf(gen.OneConstOf(CalloutPolicy_OutboundAccess_STATUS_Allow, CalloutPolicy_OutboundAccess_STATUS_Deny))
 }
 
 func Test_ClusterProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -301,29 +199,23 @@ func Test_ClusterProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ClusterProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForClusterProperties_STATUS, ClusterProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForClusterProperties_STATUS)
 }
 
 // RunJSONSerializationTestForClusterProperties_STATUS runs a test to see if a specific instance of ClusterProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForClusterProperties_STATUS(subject ClusterProperties_STATUS) string {
+func RunJSONSerializationTestForClusterProperties_STATUS(t *rapid.T) {
+	subject := ClusterProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ClusterProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -332,87 +224,72 @@ func RunJSONSerializationTestForClusterProperties_STATUS(subject ClusterProperti
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ClusterProperties_STATUS instances for property testing - lazily instantiated by
 // ClusterProperties_STATUSGenerator()
-var clusterProperties_STATUSGenerator gopter.Gen
+var clusterProperties_STATUSGenerator *rapid.Generator[ClusterProperties_STATUS]
 
 // ClusterProperties_STATUSGenerator returns a generator of ClusterProperties_STATUS instances for property testing.
-// We first initialize clusterProperties_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ClusterProperties_STATUSGenerator() gopter.Gen {
+func ClusterProperties_STATUSGenerator() *rapid.Generator[ClusterProperties_STATUS] {
 	if clusterProperties_STATUSGenerator != nil {
 		return clusterProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterProperties_STATUS(generators)
-	clusterProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(ClusterProperties_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	acceptedAudiences := rapid.SliceOf(AcceptedAudiences_STATUSGenerator())
+	calloutPolicies := rapid.SliceOf(CalloutPolicy_STATUSGenerator())
+	engineType := rapid.Ptr(rapid.SampledFrom([]ClusterProperties_EngineType_STATUS{ClusterProperties_EngineType_STATUS_V2, ClusterProperties_EngineType_STATUS_V3}), true)
+	keyVaultProperties := rapid.Ptr(KeyVaultProperties_STATUSGenerator(), true)
+	languageExtensions := rapid.Ptr(LanguageExtensionsList_STATUSGenerator(), true)
+	migrationCluster := rapid.Ptr(MigrationClusterProperties_STATUSGenerator(), true)
+	optimizedAutoscale := rapid.Ptr(OptimizedAutoscale_STATUSGenerator(), true)
+	privateEndpointConnections := rapid.SliceOf(PrivateEndpointConnection_STATUSGenerator())
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]ProvisioningState_STATUS{ProvisioningState_STATUS_Canceled, ProvisioningState_STATUS_Creating, ProvisioningState_STATUS_Deleting, ProvisioningState_STATUS_Failed, ProvisioningState_STATUS_Moving, ProvisioningState_STATUS_Running, ProvisioningState_STATUS_Succeeded}), true)
+	publicIPType := rapid.Ptr(rapid.SampledFrom([]ClusterProperties_PublicIPType_STATUS{ClusterProperties_PublicIPType_STATUS_DualStack, ClusterProperties_PublicIPType_STATUS_IPv4}), true)
+	publicNetworkAccess := rapid.Ptr(rapid.SampledFrom([]ClusterProperties_PublicNetworkAccess_STATUS{ClusterProperties_PublicNetworkAccess_STATUS_Disabled, ClusterProperties_PublicNetworkAccess_STATUS_Enabled}), true)
+	restrictOutboundNetworkAccess := rapid.Ptr(rapid.SampledFrom([]ClusterProperties_RestrictOutboundNetworkAccess_STATUS{ClusterProperties_RestrictOutboundNetworkAccess_STATUS_Disabled, ClusterProperties_RestrictOutboundNetworkAccess_STATUS_Enabled}), true)
+	state := rapid.Ptr(rapid.SampledFrom([]ClusterProperties_State_STATUS{ClusterProperties_State_STATUS_Creating, ClusterProperties_State_STATUS_Deleted, ClusterProperties_State_STATUS_Deleting, ClusterProperties_State_STATUS_Migrated, ClusterProperties_State_STATUS_Running, ClusterProperties_State_STATUS_Starting, ClusterProperties_State_STATUS_Stopped, ClusterProperties_State_STATUS_Stopping, ClusterProperties_State_STATUS_Unavailable, ClusterProperties_State_STATUS_Updating}), true)
+	trustedExternalTenants := rapid.SliceOf(TrustedExternalTenant_STATUSGenerator())
+	virtualNetworkConfiguration := rapid.Ptr(VirtualNetworkConfiguration_STATUSGenerator(), true)
+	zoneStatus := rapid.Ptr(rapid.SampledFrom([]ClusterProperties_ZoneStatus_STATUS{ClusterProperties_ZoneStatus_STATUS_NonZonal, ClusterProperties_ZoneStatus_STATUS_Zonal, ClusterProperties_ZoneStatus_STATUS_ZonalInconsistency}), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterProperties_STATUS(generators)
-	AddRelatedPropertyGeneratorsForClusterProperties_STATUS(generators)
-	clusterProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(ClusterProperties_STATUS{}), generators)
+	clusterProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) ClusterProperties_STATUS {
+		var result ClusterProperties_STATUS
+		result.AcceptedAudiences = acceptedAudiences.Draw(t, "AcceptedAudiences")
+		result.AllowedFqdnList = sliceOfString.Draw(t, "AllowedFqdnList")
+		result.AllowedIpRangeList = sliceOfString.Draw(t, "AllowedIpRangeList")
+		result.CalloutPolicies = calloutPolicies.Draw(t, "CalloutPolicies")
+		result.DataIngestionUri = ptrString.Draw(t, "DataIngestionUri")
+		result.EnableAutoStop = ptrBool.Draw(t, "EnableAutoStop")
+		result.EnableDiskEncryption = ptrBool.Draw(t, "EnableDiskEncryption")
+		result.EnableDoubleEncryption = ptrBool.Draw(t, "EnableDoubleEncryption")
+		result.EnablePurge = ptrBool.Draw(t, "EnablePurge")
+		result.EnableStreamingIngest = ptrBool.Draw(t, "EnableStreamingIngest")
+		result.EngineType = engineType.Draw(t, "EngineType")
+		result.KeyVaultProperties = keyVaultProperties.Draw(t, "KeyVaultProperties")
+		result.LanguageExtensions = languageExtensions.Draw(t, "LanguageExtensions")
+		result.MigrationCluster = migrationCluster.Draw(t, "MigrationCluster")
+		result.OptimizedAutoscale = optimizedAutoscale.Draw(t, "OptimizedAutoscale")
+		result.PrivateEndpointConnections = privateEndpointConnections.Draw(t, "PrivateEndpointConnections")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		result.PublicIPType = publicIPType.Draw(t, "PublicIPType")
+		result.PublicNetworkAccess = publicNetworkAccess.Draw(t, "PublicNetworkAccess")
+		result.RestrictOutboundNetworkAccess = restrictOutboundNetworkAccess.Draw(t, "RestrictOutboundNetworkAccess")
+		result.State = state.Draw(t, "State")
+		result.StateReason = ptrString.Draw(t, "StateReason")
+		result.TrustedExternalTenants = trustedExternalTenants.Draw(t, "TrustedExternalTenants")
+		result.Uri = ptrString.Draw(t, "Uri")
+		result.VirtualNetworkConfiguration = virtualNetworkConfiguration.Draw(t, "VirtualNetworkConfiguration")
+		result.ZoneStatus = zoneStatus.Draw(t, "ZoneStatus")
+		return result
+	})
 
 	return clusterProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForClusterProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForClusterProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["AllowedFqdnList"] = gen.SliceOf(gen.AlphaString())
-	gens["AllowedIpRangeList"] = gen.SliceOf(gen.AlphaString())
-	gens["DataIngestionUri"] = gen.PtrOf(gen.AlphaString())
-	gens["EnableAutoStop"] = gen.PtrOf(gen.Bool())
-	gens["EnableDiskEncryption"] = gen.PtrOf(gen.Bool())
-	gens["EnableDoubleEncryption"] = gen.PtrOf(gen.Bool())
-	gens["EnablePurge"] = gen.PtrOf(gen.Bool())
-	gens["EnableStreamingIngest"] = gen.PtrOf(gen.Bool())
-	gens["EngineType"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_EngineType_STATUS_V2, ClusterProperties_EngineType_STATUS_V3))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Canceled,
-		ProvisioningState_STATUS_Creating,
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Moving,
-		ProvisioningState_STATUS_Running,
-		ProvisioningState_STATUS_Succeeded))
-	gens["PublicIPType"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_PublicIPType_STATUS_DualStack, ClusterProperties_PublicIPType_STATUS_IPv4))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_PublicNetworkAccess_STATUS_Disabled, ClusterProperties_PublicNetworkAccess_STATUS_Enabled))
-	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_RestrictOutboundNetworkAccess_STATUS_Disabled, ClusterProperties_RestrictOutboundNetworkAccess_STATUS_Enabled))
-	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		ClusterProperties_State_STATUS_Creating,
-		ClusterProperties_State_STATUS_Deleted,
-		ClusterProperties_State_STATUS_Deleting,
-		ClusterProperties_State_STATUS_Migrated,
-		ClusterProperties_State_STATUS_Running,
-		ClusterProperties_State_STATUS_Starting,
-		ClusterProperties_State_STATUS_Stopped,
-		ClusterProperties_State_STATUS_Stopping,
-		ClusterProperties_State_STATUS_Unavailable,
-		ClusterProperties_State_STATUS_Updating))
-	gens["StateReason"] = gen.PtrOf(gen.AlphaString())
-	gens["Uri"] = gen.PtrOf(gen.AlphaString())
-	gens["ZoneStatus"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_ZoneStatus_STATUS_NonZonal, ClusterProperties_ZoneStatus_STATUS_Zonal, ClusterProperties_ZoneStatus_STATUS_ZonalInconsistency))
-}
-
-// AddRelatedPropertyGeneratorsForClusterProperties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForClusterProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["AcceptedAudiences"] = gen.SliceOf(AcceptedAudiences_STATUSGenerator())
-	gens["CalloutPolicies"] = gen.SliceOf(CalloutPolicy_STATUSGenerator())
-	gens["KeyVaultProperties"] = gen.PtrOf(KeyVaultProperties_STATUSGenerator())
-	gens["LanguageExtensions"] = gen.PtrOf(LanguageExtensionsList_STATUSGenerator())
-	gens["MigrationCluster"] = gen.PtrOf(MigrationClusterProperties_STATUSGenerator())
-	gens["OptimizedAutoscale"] = gen.PtrOf(OptimizedAutoscale_STATUSGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSGenerator())
-	gens["TrustedExternalTenants"] = gen.SliceOf(TrustedExternalTenant_STATUSGenerator())
-	gens["VirtualNetworkConfiguration"] = gen.PtrOf(VirtualNetworkConfiguration_STATUSGenerator())
 }
 
 func Test_Cluster_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -422,29 +299,23 @@ func Test_Cluster_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Cluster_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCluster_STATUS, Cluster_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCluster_STATUS)
 }
 
 // RunJSONSerializationTestForCluster_STATUS runs a test to see if a specific instance of Cluster_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCluster_STATUS(subject Cluster_STATUS) string {
+func RunJSONSerializationTestForCluster_STATUS(t *rapid.T) {
+	subject := Cluster_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Cluster_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -453,56 +324,46 @@ func RunJSONSerializationTestForCluster_STATUS(subject Cluster_STATUS) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Cluster_STATUS instances for property testing - lazily instantiated by Cluster_STATUSGenerator()
-var cluster_STATUSGenerator gopter.Gen
+var cluster_STATUSGenerator *rapid.Generator[Cluster_STATUS]
 
 // Cluster_STATUSGenerator returns a generator of Cluster_STATUS instances for property testing.
-// We first initialize cluster_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Cluster_STATUSGenerator() gopter.Gen {
+func Cluster_STATUSGenerator() *rapid.Generator[Cluster_STATUS] {
 	if cluster_STATUSGenerator != nil {
 		return cluster_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCluster_STATUS(generators)
-	cluster_STATUSGenerator = gen.Struct(reflect.TypeOf(Cluster_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	identity := rapid.Ptr(Identity_STATUSGenerator(), true)
+	properties := rapid.Ptr(ClusterProperties_STATUSGenerator(), true)
+	sku := rapid.Ptr(AzureSku_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+	zones := rapid.SliceOf(rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCluster_STATUS(generators)
-	AddRelatedPropertyGeneratorsForCluster_STATUS(generators)
-	cluster_STATUSGenerator = gen.Struct(reflect.TypeOf(Cluster_STATUS{}), generators)
+	cluster_STATUSGenerator = rapid.Custom(func(t *rapid.T) Cluster_STATUS {
+		var result Cluster_STATUS
+		result.Etag = ptrString.Draw(t, "Etag")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Identity = identity.Draw(t, "Identity")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Sku = sku.Draw(t, "Sku")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		result.Zones = zones.Draw(t, "Zones")
+		return result
+	})
 
 	return cluster_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCluster_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCluster_STATUS(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Zones"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForCluster_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCluster_STATUS(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(Identity_STATUSGenerator())
-	gens["Properties"] = gen.PtrOf(ClusterProperties_STATUSGenerator())
-	gens["Sku"] = gen.PtrOf(AzureSku_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_Identity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -512,29 +373,23 @@ func Test_Identity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Identity_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIdentity_STATUS, Identity_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForIdentity_STATUS)
 }
 
 // RunJSONSerializationTestForIdentity_STATUS runs a test to see if a specific instance of Identity_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForIdentity_STATUS(subject Identity_STATUS) string {
+func RunJSONSerializationTestForIdentity_STATUS(t *rapid.T) {
+	subject := Identity_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Identity_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -543,53 +398,35 @@ func RunJSONSerializationTestForIdentity_STATUS(subject Identity_STATUS) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Identity_STATUS instances for property testing - lazily instantiated by Identity_STATUSGenerator()
-var identity_STATUSGenerator gopter.Gen
+var identity_STATUSGenerator *rapid.Generator[Identity_STATUS]
 
 // Identity_STATUSGenerator returns a generator of Identity_STATUS instances for property testing.
-// We first initialize identity_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Identity_STATUSGenerator() gopter.Gen {
+func Identity_STATUSGenerator() *rapid.Generator[Identity_STATUS] {
 	if identity_STATUSGenerator != nil {
 		return identity_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIdentity_STATUS(generators)
-	identity_STATUSGenerator = gen.Struct(reflect.TypeOf(Identity_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	typeVar := rapid.Ptr(rapid.SampledFrom([]Identity_Type_STATUS{Identity_Type_STATUS_None, Identity_Type_STATUS_SystemAssigned, Identity_Type_STATUS_SystemAssignedUserAssigned, Identity_Type_STATUS_UserAssigned}), true)
+	userAssignedIdentities := rapid.MapOf(
+		rapid.String(),
+		Identity_UserAssignedIdentities_STATUSGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIdentity_STATUS(generators)
-	AddRelatedPropertyGeneratorsForIdentity_STATUS(generators)
-	identity_STATUSGenerator = gen.Struct(reflect.TypeOf(Identity_STATUS{}), generators)
+	identity_STATUSGenerator = rapid.Custom(func(t *rapid.T) Identity_STATUS {
+		var result Identity_STATUS
+		result.PrincipalId = ptrString.Draw(t, "PrincipalId")
+		result.TenantId = ptrString.Draw(t, "TenantId")
+		result.Type = typeVar.Draw(t, "Type")
+		result.UserAssignedIdentities = userAssignedIdentities.Draw(t, "UserAssignedIdentities")
+		return result
+	})
 
 	return identity_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForIdentity_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		Identity_Type_STATUS_None,
-		Identity_Type_STATUS_SystemAssigned,
-		Identity_Type_STATUS_SystemAssignedUserAssigned,
-		Identity_Type_STATUS_UserAssigned))
-}
-
-// AddRelatedPropertyGeneratorsForIdentity_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(
-		gen.AlphaString(),
-		Identity_UserAssignedIdentities_STATUSGenerator())
 }
 
 func Test_Identity_UserAssignedIdentities_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -599,29 +436,23 @@ func Test_Identity_UserAssignedIdentities_STATUS_WhenSerializedToJson_Deserializ
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Identity_UserAssignedIdentities_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIdentity_UserAssignedIdentities_STATUS, Identity_UserAssignedIdentities_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForIdentity_UserAssignedIdentities_STATUS)
 }
 
 // RunJSONSerializationTestForIdentity_UserAssignedIdentities_STATUS runs a test to see if a specific instance of Identity_UserAssignedIdentities_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForIdentity_UserAssignedIdentities_STATUS(subject Identity_UserAssignedIdentities_STATUS) string {
+func RunJSONSerializationTestForIdentity_UserAssignedIdentities_STATUS(t *rapid.T) {
+	subject := Identity_UserAssignedIdentities_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Identity_UserAssignedIdentities_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -630,33 +461,30 @@ func RunJSONSerializationTestForIdentity_UserAssignedIdentities_STATUS(subject I
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Identity_UserAssignedIdentities_STATUS instances for property testing - lazily instantiated by
 // Identity_UserAssignedIdentities_STATUSGenerator()
-var identity_UserAssignedIdentities_STATUSGenerator gopter.Gen
+var identity_UserAssignedIdentities_STATUSGenerator *rapid.Generator[Identity_UserAssignedIdentities_STATUS]
 
 // Identity_UserAssignedIdentities_STATUSGenerator returns a generator of Identity_UserAssignedIdentities_STATUS instances for property testing.
-func Identity_UserAssignedIdentities_STATUSGenerator() gopter.Gen {
+func Identity_UserAssignedIdentities_STATUSGenerator() *rapid.Generator[Identity_UserAssignedIdentities_STATUS] {
 	if identity_UserAssignedIdentities_STATUSGenerator != nil {
 		return identity_UserAssignedIdentities_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIdentity_UserAssignedIdentities_STATUS(generators)
-	identity_UserAssignedIdentities_STATUSGenerator = gen.Struct(reflect.TypeOf(Identity_UserAssignedIdentities_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	identity_UserAssignedIdentities_STATUSGenerator = rapid.Custom(func(t *rapid.T) Identity_UserAssignedIdentities_STATUS {
+		var result Identity_UserAssignedIdentities_STATUS
+		result.ClientId = ptrString.Draw(t, "ClientId")
+		result.PrincipalId = ptrString.Draw(t, "PrincipalId")
+		return result
+	})
 
 	return identity_UserAssignedIdentities_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForIdentity_UserAssignedIdentities_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIdentity_UserAssignedIdentities_STATUS(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_KeyVaultProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -666,29 +494,23 @@ func Test_KeyVaultProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of KeyVaultProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyVaultProperties_STATUS, KeyVaultProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForKeyVaultProperties_STATUS)
 }
 
 // RunJSONSerializationTestForKeyVaultProperties_STATUS runs a test to see if a specific instance of KeyVaultProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyVaultProperties_STATUS(subject KeyVaultProperties_STATUS) string {
+func RunJSONSerializationTestForKeyVaultProperties_STATUS(t *rapid.T) {
+	subject := KeyVaultProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual KeyVaultProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -697,35 +519,32 @@ func RunJSONSerializationTestForKeyVaultProperties_STATUS(subject KeyVaultProper
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of KeyVaultProperties_STATUS instances for property testing - lazily instantiated by
 // KeyVaultProperties_STATUSGenerator()
-var keyVaultProperties_STATUSGenerator gopter.Gen
+var keyVaultProperties_STATUSGenerator *rapid.Generator[KeyVaultProperties_STATUS]
 
 // KeyVaultProperties_STATUSGenerator returns a generator of KeyVaultProperties_STATUS instances for property testing.
-func KeyVaultProperties_STATUSGenerator() gopter.Gen {
+func KeyVaultProperties_STATUSGenerator() *rapid.Generator[KeyVaultProperties_STATUS] {
 	if keyVaultProperties_STATUSGenerator != nil {
 		return keyVaultProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS(generators)
-	keyVaultProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(KeyVaultProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	keyVaultProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) KeyVaultProperties_STATUS {
+		var result KeyVaultProperties_STATUS
+		result.KeyName = ptrString.Draw(t, "KeyName")
+		result.KeyVaultUri = ptrString.Draw(t, "KeyVaultUri")
+		result.KeyVersion = ptrString.Draw(t, "KeyVersion")
+		result.UserIdentity = ptrString.Draw(t, "UserIdentity")
+		return result
+	})
 
 	return keyVaultProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["KeyName"] = gen.PtrOf(gen.AlphaString())
-	gens["KeyVaultUri"] = gen.PtrOf(gen.AlphaString())
-	gens["KeyVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["UserIdentity"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_LanguageExtension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -735,29 +554,23 @@ func Test_LanguageExtension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LanguageExtension_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLanguageExtension_STATUS, LanguageExtension_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLanguageExtension_STATUS)
 }
 
 // RunJSONSerializationTestForLanguageExtension_STATUS runs a test to see if a specific instance of LanguageExtension_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForLanguageExtension_STATUS(subject LanguageExtension_STATUS) string {
+func RunJSONSerializationTestForLanguageExtension_STATUS(t *rapid.T) {
+	subject := LanguageExtension_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LanguageExtension_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -766,41 +579,33 @@ func RunJSONSerializationTestForLanguageExtension_STATUS(subject LanguageExtensi
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LanguageExtension_STATUS instances for property testing - lazily instantiated by
 // LanguageExtension_STATUSGenerator()
-var languageExtension_STATUSGenerator gopter.Gen
+var languageExtension_STATUSGenerator *rapid.Generator[LanguageExtension_STATUS]
 
 // LanguageExtension_STATUSGenerator returns a generator of LanguageExtension_STATUS instances for property testing.
-func LanguageExtension_STATUSGenerator() gopter.Gen {
+func LanguageExtension_STATUSGenerator() *rapid.Generator[LanguageExtension_STATUS] {
 	if languageExtension_STATUSGenerator != nil {
 		return languageExtension_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLanguageExtension_STATUS(generators)
-	languageExtension_STATUSGenerator = gen.Struct(reflect.TypeOf(LanguageExtension_STATUS{}), generators)
+	languageExtensionCustomImageName := rapid.Ptr(rapid.String(), true)
+	languageExtensionImageName := rapid.Ptr(rapid.SampledFrom([]LanguageExtensionImageName_STATUS{LanguageExtensionImageName_STATUS_Python3_10_8, LanguageExtensionImageName_STATUS_Python3_10_8_DL, LanguageExtensionImageName_STATUS_Python3_11_7, LanguageExtensionImageName_STATUS_Python3_11_7_DL, LanguageExtensionImageName_STATUS_Python3_6_5, LanguageExtensionImageName_STATUS_PythonCustomImage, LanguageExtensionImageName_STATUS_R}), true)
+	languageExtensionName := rapid.Ptr(rapid.SampledFrom([]LanguageExtensionName_STATUS{LanguageExtensionName_STATUS_PYTHON, LanguageExtensionName_STATUS_R}), true)
+
+	languageExtension_STATUSGenerator = rapid.Custom(func(t *rapid.T) LanguageExtension_STATUS {
+		var result LanguageExtension_STATUS
+		result.LanguageExtensionCustomImageName = languageExtensionCustomImageName.Draw(t, "LanguageExtensionCustomImageName")
+		result.LanguageExtensionImageName = languageExtensionImageName.Draw(t, "LanguageExtensionImageName")
+		result.LanguageExtensionName = languageExtensionName.Draw(t, "LanguageExtensionName")
+		return result
+	})
 
 	return languageExtension_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLanguageExtension_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLanguageExtension_STATUS(gens map[string]gopter.Gen) {
-	gens["LanguageExtensionCustomImageName"] = gen.PtrOf(gen.AlphaString())
-	gens["LanguageExtensionImageName"] = gen.PtrOf(gen.OneConstOf(
-		LanguageExtensionImageName_STATUS_Python3_10_8,
-		LanguageExtensionImageName_STATUS_Python3_10_8_DL,
-		LanguageExtensionImageName_STATUS_Python3_11_7,
-		LanguageExtensionImageName_STATUS_Python3_11_7_DL,
-		LanguageExtensionImageName_STATUS_Python3_6_5,
-		LanguageExtensionImageName_STATUS_PythonCustomImage,
-		LanguageExtensionImageName_STATUS_R))
-	gens["LanguageExtensionName"] = gen.PtrOf(gen.OneConstOf(LanguageExtensionName_STATUS_PYTHON, LanguageExtensionName_STATUS_R))
 }
 
 func Test_LanguageExtensionsList_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -810,29 +615,23 @@ func Test_LanguageExtensionsList_STATUS_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LanguageExtensionsList_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLanguageExtensionsList_STATUS, LanguageExtensionsList_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLanguageExtensionsList_STATUS)
 }
 
 // RunJSONSerializationTestForLanguageExtensionsList_STATUS runs a test to see if a specific instance of LanguageExtensionsList_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForLanguageExtensionsList_STATUS(subject LanguageExtensionsList_STATUS) string {
+func RunJSONSerializationTestForLanguageExtensionsList_STATUS(t *rapid.T) {
+	subject := LanguageExtensionsList_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LanguageExtensionsList_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -841,32 +640,29 @@ func RunJSONSerializationTestForLanguageExtensionsList_STATUS(subject LanguageEx
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LanguageExtensionsList_STATUS instances for property testing - lazily instantiated by
 // LanguageExtensionsList_STATUSGenerator()
-var languageExtensionsList_STATUSGenerator gopter.Gen
+var languageExtensionsList_STATUSGenerator *rapid.Generator[LanguageExtensionsList_STATUS]
 
 // LanguageExtensionsList_STATUSGenerator returns a generator of LanguageExtensionsList_STATUS instances for property testing.
-func LanguageExtensionsList_STATUSGenerator() gopter.Gen {
+func LanguageExtensionsList_STATUSGenerator() *rapid.Generator[LanguageExtensionsList_STATUS] {
 	if languageExtensionsList_STATUSGenerator != nil {
 		return languageExtensionsList_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForLanguageExtensionsList_STATUS(generators)
-	languageExtensionsList_STATUSGenerator = gen.Struct(reflect.TypeOf(LanguageExtensionsList_STATUS{}), generators)
+	value := rapid.SliceOf(LanguageExtension_STATUSGenerator())
+
+	languageExtensionsList_STATUSGenerator = rapid.Custom(func(t *rapid.T) LanguageExtensionsList_STATUS {
+		var result LanguageExtensionsList_STATUS
+		result.Value = value.Draw(t, "Value")
+		return result
+	})
 
 	return languageExtensionsList_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForLanguageExtensionsList_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLanguageExtensionsList_STATUS(gens map[string]gopter.Gen) {
-	gens["Value"] = gen.SliceOf(LanguageExtension_STATUSGenerator())
 }
 
 func Test_MigrationClusterProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -876,29 +672,23 @@ func Test_MigrationClusterProperties_STATUS_WhenSerializedToJson_DeserializesAsE
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MigrationClusterProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMigrationClusterProperties_STATUS, MigrationClusterProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForMigrationClusterProperties_STATUS)
 }
 
 // RunJSONSerializationTestForMigrationClusterProperties_STATUS runs a test to see if a specific instance of MigrationClusterProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForMigrationClusterProperties_STATUS(subject MigrationClusterProperties_STATUS) string {
+func RunJSONSerializationTestForMigrationClusterProperties_STATUS(t *rapid.T) {
+	subject := MigrationClusterProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual MigrationClusterProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -907,35 +697,33 @@ func RunJSONSerializationTestForMigrationClusterProperties_STATUS(subject Migrat
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of MigrationClusterProperties_STATUS instances for property testing - lazily instantiated by
 // MigrationClusterProperties_STATUSGenerator()
-var migrationClusterProperties_STATUSGenerator gopter.Gen
+var migrationClusterProperties_STATUSGenerator *rapid.Generator[MigrationClusterProperties_STATUS]
 
 // MigrationClusterProperties_STATUSGenerator returns a generator of MigrationClusterProperties_STATUS instances for property testing.
-func MigrationClusterProperties_STATUSGenerator() gopter.Gen {
+func MigrationClusterProperties_STATUSGenerator() *rapid.Generator[MigrationClusterProperties_STATUS] {
 	if migrationClusterProperties_STATUSGenerator != nil {
 		return migrationClusterProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMigrationClusterProperties_STATUS(generators)
-	migrationClusterProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(MigrationClusterProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	role := rapid.Ptr(rapid.SampledFrom([]MigrationClusterProperties_Role_STATUS{MigrationClusterProperties_Role_STATUS_Destination, MigrationClusterProperties_Role_STATUS_Source}), true)
+
+	migrationClusterProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) MigrationClusterProperties_STATUS {
+		var result MigrationClusterProperties_STATUS
+		result.DataIngestionUri = ptrString.Draw(t, "DataIngestionUri")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Role = role.Draw(t, "Role")
+		result.Uri = ptrString.Draw(t, "Uri")
+		return result
+	})
 
 	return migrationClusterProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMigrationClusterProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMigrationClusterProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["DataIngestionUri"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Role"] = gen.PtrOf(gen.OneConstOf(MigrationClusterProperties_Role_STATUS_Destination, MigrationClusterProperties_Role_STATUS_Source))
-	gens["Uri"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_OptimizedAutoscale_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -945,29 +733,23 @@ func Test_OptimizedAutoscale_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OptimizedAutoscale_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOptimizedAutoscale_STATUS, OptimizedAutoscale_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForOptimizedAutoscale_STATUS)
 }
 
 // RunJSONSerializationTestForOptimizedAutoscale_STATUS runs a test to see if a specific instance of OptimizedAutoscale_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForOptimizedAutoscale_STATUS(subject OptimizedAutoscale_STATUS) string {
+func RunJSONSerializationTestForOptimizedAutoscale_STATUS(t *rapid.T) {
+	subject := OptimizedAutoscale_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual OptimizedAutoscale_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -976,35 +758,33 @@ func RunJSONSerializationTestForOptimizedAutoscale_STATUS(subject OptimizedAutos
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of OptimizedAutoscale_STATUS instances for property testing - lazily instantiated by
 // OptimizedAutoscale_STATUSGenerator()
-var optimizedAutoscale_STATUSGenerator gopter.Gen
+var optimizedAutoscale_STATUSGenerator *rapid.Generator[OptimizedAutoscale_STATUS]
 
 // OptimizedAutoscale_STATUSGenerator returns a generator of OptimizedAutoscale_STATUS instances for property testing.
-func OptimizedAutoscale_STATUSGenerator() gopter.Gen {
+func OptimizedAutoscale_STATUSGenerator() *rapid.Generator[OptimizedAutoscale_STATUS] {
 	if optimizedAutoscale_STATUSGenerator != nil {
 		return optimizedAutoscale_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOptimizedAutoscale_STATUS(generators)
-	optimizedAutoscale_STATUSGenerator = gen.Struct(reflect.TypeOf(OptimizedAutoscale_STATUS{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	isEnabled := rapid.Ptr(rapid.Bool(), true)
+
+	optimizedAutoscale_STATUSGenerator = rapid.Custom(func(t *rapid.T) OptimizedAutoscale_STATUS {
+		var result OptimizedAutoscale_STATUS
+		result.IsEnabled = isEnabled.Draw(t, "IsEnabled")
+		result.Maximum = ptrInt.Draw(t, "Maximum")
+		result.Minimum = ptrInt.Draw(t, "Minimum")
+		result.Version = ptrInt.Draw(t, "Version")
+		return result
+	})
 
 	return optimizedAutoscale_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForOptimizedAutoscale_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOptimizedAutoscale_STATUS(gens map[string]gopter.Gen) {
-	gens["IsEnabled"] = gen.PtrOf(gen.Bool())
-	gens["Maximum"] = gen.PtrOf(gen.Int())
-	gens["Minimum"] = gen.PtrOf(gen.Int())
-	gens["Version"] = gen.PtrOf(gen.Int())
 }
 
 func Test_PrivateEndpointConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1014,29 +794,23 @@ func Test_PrivateEndpointConnection_STATUS_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateEndpointConnection_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_STATUS, PrivateEndpointConnection_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrivateEndpointConnection_STATUS)
 }
 
 // RunJSONSerializationTestForPrivateEndpointConnection_STATUS runs a test to see if a specific instance of PrivateEndpointConnection_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnection_STATUS(subject PrivateEndpointConnection_STATUS) string {
+func RunJSONSerializationTestForPrivateEndpointConnection_STATUS(t *rapid.T) {
+	subject := PrivateEndpointConnection_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrivateEndpointConnection_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1045,32 +819,29 @@ func RunJSONSerializationTestForPrivateEndpointConnection_STATUS(subject Private
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrivateEndpointConnection_STATUS instances for property testing - lazily instantiated by
 // PrivateEndpointConnection_STATUSGenerator()
-var privateEndpointConnection_STATUSGenerator gopter.Gen
+var privateEndpointConnection_STATUSGenerator *rapid.Generator[PrivateEndpointConnection_STATUS]
 
 // PrivateEndpointConnection_STATUSGenerator returns a generator of PrivateEndpointConnection_STATUS instances for property testing.
-func PrivateEndpointConnection_STATUSGenerator() gopter.Gen {
+func PrivateEndpointConnection_STATUSGenerator() *rapid.Generator[PrivateEndpointConnection_STATUS] {
 	if privateEndpointConnection_STATUSGenerator != nil {
 		return privateEndpointConnection_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS(generators)
-	privateEndpointConnection_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS{}), generators)
+	id := rapid.Ptr(rapid.String(), true)
+
+	privateEndpointConnection_STATUSGenerator = rapid.Custom(func(t *rapid.T) PrivateEndpointConnection_STATUS {
+		var result PrivateEndpointConnection_STATUS
+		result.Id = id.Draw(t, "Id")
+		return result
+	})
 
 	return privateEndpointConnection_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1080,29 +851,23 @@ func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemData_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS, SystemData_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSystemData_STATUS)
 }
 
 // RunJSONSerializationTestForSystemData_STATUS runs a test to see if a specific instance of SystemData_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) string {
+func RunJSONSerializationTestForSystemData_STATUS(t *rapid.T) {
+	subject := SystemData_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SystemData_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1111,44 +876,35 @@ func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SystemData_STATUS instances for property testing - lazily instantiated by SystemData_STATUSGenerator()
-var systemData_STATUSGenerator gopter.Gen
+var systemData_STATUSGenerator *rapid.Generator[SystemData_STATUS]
 
 // SystemData_STATUSGenerator returns a generator of SystemData_STATUS instances for property testing.
-func SystemData_STATUSGenerator() gopter.Gen {
+func SystemData_STATUSGenerator() *rapid.Generator[SystemData_STATUS] {
 	if systemData_STATUSGenerator != nil {
 		return systemData_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData_STATUS(generators)
-	systemData_STATUSGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	createdByType := rapid.Ptr(rapid.SampledFrom([]SystemData_CreatedByType_STATUS{SystemData_CreatedByType_STATUS_Application, SystemData_CreatedByType_STATUS_Key, SystemData_CreatedByType_STATUS_ManagedIdentity, SystemData_CreatedByType_STATUS_User}), true)
+	lastModifiedByType := rapid.Ptr(rapid.SampledFrom([]SystemData_LastModifiedByType_STATUS{SystemData_LastModifiedByType_STATUS_Application, SystemData_LastModifiedByType_STATUS_Key, SystemData_LastModifiedByType_STATUS_ManagedIdentity, SystemData_LastModifiedByType_STATUS_User}), true)
+
+	systemData_STATUSGenerator = rapid.Custom(func(t *rapid.T) SystemData_STATUS {
+		var result SystemData_STATUS
+		result.CreatedAt = ptrString.Draw(t, "CreatedAt")
+		result.CreatedBy = ptrString.Draw(t, "CreatedBy")
+		result.CreatedByType = createdByType.Draw(t, "CreatedByType")
+		result.LastModifiedAt = ptrString.Draw(t, "LastModifiedAt")
+		result.LastModifiedBy = ptrString.Draw(t, "LastModifiedBy")
+		result.LastModifiedByType = lastModifiedByType.Draw(t, "LastModifiedByType")
+		return result
+	})
 
 	return systemData_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSystemData_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
 }
 
 func Test_TrustedExternalTenant_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1158,29 +914,23 @@ func Test_TrustedExternalTenant_STATUS_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of TrustedExternalTenant_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTrustedExternalTenant_STATUS, TrustedExternalTenant_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForTrustedExternalTenant_STATUS)
 }
 
 // RunJSONSerializationTestForTrustedExternalTenant_STATUS runs a test to see if a specific instance of TrustedExternalTenant_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForTrustedExternalTenant_STATUS(subject TrustedExternalTenant_STATUS) string {
+func RunJSONSerializationTestForTrustedExternalTenant_STATUS(t *rapid.T) {
+	subject := TrustedExternalTenant_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual TrustedExternalTenant_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1189,32 +939,29 @@ func RunJSONSerializationTestForTrustedExternalTenant_STATUS(subject TrustedExte
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of TrustedExternalTenant_STATUS instances for property testing - lazily instantiated by
 // TrustedExternalTenant_STATUSGenerator()
-var trustedExternalTenant_STATUSGenerator gopter.Gen
+var trustedExternalTenant_STATUSGenerator *rapid.Generator[TrustedExternalTenant_STATUS]
 
 // TrustedExternalTenant_STATUSGenerator returns a generator of TrustedExternalTenant_STATUS instances for property testing.
-func TrustedExternalTenant_STATUSGenerator() gopter.Gen {
+func TrustedExternalTenant_STATUSGenerator() *rapid.Generator[TrustedExternalTenant_STATUS] {
 	if trustedExternalTenant_STATUSGenerator != nil {
 		return trustedExternalTenant_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTrustedExternalTenant_STATUS(generators)
-	trustedExternalTenant_STATUSGenerator = gen.Struct(reflect.TypeOf(TrustedExternalTenant_STATUS{}), generators)
+	value := rapid.Ptr(rapid.String(), true)
+
+	trustedExternalTenant_STATUSGenerator = rapid.Custom(func(t *rapid.T) TrustedExternalTenant_STATUS {
+		var result TrustedExternalTenant_STATUS
+		result.Value = value.Draw(t, "Value")
+		return result
+	})
 
 	return trustedExternalTenant_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForTrustedExternalTenant_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTrustedExternalTenant_STATUS(gens map[string]gopter.Gen) {
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualNetworkConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1224,29 +971,23 @@ func Test_VirtualNetworkConfiguration_STATUS_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualNetworkConfiguration_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkConfiguration_STATUS, VirtualNetworkConfiguration_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVirtualNetworkConfiguration_STATUS)
 }
 
 // RunJSONSerializationTestForVirtualNetworkConfiguration_STATUS runs a test to see if a specific instance of VirtualNetworkConfiguration_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkConfiguration_STATUS(subject VirtualNetworkConfiguration_STATUS) string {
+func RunJSONSerializationTestForVirtualNetworkConfiguration_STATUS(t *rapid.T) {
+	subject := VirtualNetworkConfiguration_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual VirtualNetworkConfiguration_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1255,33 +996,31 @@ func RunJSONSerializationTestForVirtualNetworkConfiguration_STATUS(subject Virtu
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of VirtualNetworkConfiguration_STATUS instances for property testing - lazily instantiated by
 // VirtualNetworkConfiguration_STATUSGenerator()
-var virtualNetworkConfiguration_STATUSGenerator gopter.Gen
+var virtualNetworkConfiguration_STATUSGenerator *rapid.Generator[VirtualNetworkConfiguration_STATUS]
 
 // VirtualNetworkConfiguration_STATUSGenerator returns a generator of VirtualNetworkConfiguration_STATUS instances for property testing.
-func VirtualNetworkConfiguration_STATUSGenerator() gopter.Gen {
+func VirtualNetworkConfiguration_STATUSGenerator() *rapid.Generator[VirtualNetworkConfiguration_STATUS] {
 	if virtualNetworkConfiguration_STATUSGenerator != nil {
 		return virtualNetworkConfiguration_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkConfiguration_STATUS(generators)
-	virtualNetworkConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkConfiguration_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	state := rapid.Ptr(rapid.SampledFrom([]VirtualNetworkConfiguration_State_STATUS{VirtualNetworkConfiguration_State_STATUS_Disabled, VirtualNetworkConfiguration_State_STATUS_Enabled}), true)
+
+	virtualNetworkConfiguration_STATUSGenerator = rapid.Custom(func(t *rapid.T) VirtualNetworkConfiguration_STATUS {
+		var result VirtualNetworkConfiguration_STATUS
+		result.DataManagementPublicIpId = ptrString.Draw(t, "DataManagementPublicIpId")
+		result.EnginePublicIpId = ptrString.Draw(t, "EnginePublicIpId")
+		result.State = state.Draw(t, "State")
+		result.SubnetId = ptrString.Draw(t, "SubnetId")
+		return result
+	})
 
 	return virtualNetworkConfiguration_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualNetworkConfiguration_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["DataManagementPublicIpId"] = gen.PtrOf(gen.AlphaString())
-	gens["EnginePublicIpId"] = gen.PtrOf(gen.AlphaString())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkConfiguration_State_STATUS_Disabled, VirtualNetworkConfiguration_State_STATUS_Enabled))
-	gens["SubnetId"] = gen.PtrOf(gen.AlphaString())
 }

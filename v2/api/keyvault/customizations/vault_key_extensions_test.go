@@ -61,11 +61,12 @@ type fakeResponse struct {
 }
 
 type fakeKeyVault struct {
-	server *httptest.Server
-	mu     sync.Mutex
-	routes map[string]fakeResponse
-	calls  []string
-	bodies map[string][]string
+	server     *httptest.Server
+	mu         sync.Mutex
+	routes     map[string]fakeResponse
+	calls      []string
+	bodies     map[string][]string
+	userAgents []string
 }
 
 // newFakeKeyVault serves canned responses keyed by "METHOD /path" (query string and any trailing
@@ -98,6 +99,7 @@ func newFakeKeyVault() *fakeKeyVault {
 		f.mu.Lock()
 		f.calls = append(f.calls, key)
 		f.bodies[key] = append(f.bodies[key], string(body))
+		f.userAgents = append(f.userAgents, r.Header.Get("User-Agent"))
 		resp, ok := f.routes[key]
 		f.mu.Unlock()
 
@@ -126,6 +128,13 @@ func (f *fakeKeyVault) Calls() []string {
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	return append([]string(nil), f.calls...)
+}
+
+// UserAgents returns the User-Agent header of every authenticated request, in order.
+func (f *fakeKeyVault) UserAgents() []string {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	return append([]string(nil), f.userAgents...)
 }
 
 // LastBody returns the body of the most recent request to the given "METHOD /path".
@@ -503,6 +512,31 @@ func Test_VaultKeyExtension_Delete_FallsBackToARMForVaultURL(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result.Completed()).To(BeTrue())
 	g.Expect(fake.Calls()).To(Equal([]string{"GET " + testVaultID, "GET " + keyPath, "DELETE " + keyPath}))
+}
+
+// Customers classify requests by user agent in their monitoring, so data-plane requests must be
+// attributable to ASO just like ARM requests are.
+func Test_VaultKeyExtension_DataPlaneRequestsCarryASOUserAgent(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	fake := newFakeKeyVault()
+	defer fake.Close()
+	fake.route(http.MethodGet, keyPath, http.StatusOK, rsaKeyJSON(false, false))
+	fake.route(http.MethodPatch, keyPath, http.StatusOK, rsaKeyJSON(true, false))
+
+	key := testVaultKey(fake, nil)
+	_, err := (&VaultKeyExtension{}).PostReconcileCheck(
+		context.Background(), key, nil, nil, newARMClient(g, fake.server), logr.Discard(), managePolicy(), postNext(new(bool)),
+	)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	userAgents := fake.UserAgents()
+	g.Expect(userAgents).To(HaveLen(2)) // GET then PATCH
+	for _, ua := range userAgents {
+		g.Expect(ua).To(ContainSubstring("aso-controller/"), "data-plane request without ASO's user agent")
+		g.Expect(ua).To(ContainSubstring("azsdk-go-azkeys/"), "the SDK's own user agent must be preserved")
+	}
 }
 
 // ---------------------------------------------------------------------------------------------

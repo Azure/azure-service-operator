@@ -42,9 +42,16 @@
 | Namespaces_AuthorizationRule_Properties_Rights_Spec   | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 | v20210101preview | v20211101 | v20221001preview | v20240101 |
 | Namespaces_AuthorizationRule_Properties_STATUS        | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 | v20210101preview | v20211101 | v20221001preview | v20240101 |
 | Namespaces_AuthorizationRule_Properties_Spec          | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 | v20210101preview | v20211101 | v20221001preview | v20240101 |
+| Namespaces_Queues_AuthorizationRule_Properties_STATUS |                      |               |                      |               |                  |           |                  | v20240101 |
+| Namespaces_Queues_AuthorizationRule_Properties_Spec   |                      |               |                      |               |                  |           |                  | v20240101 |
 | Namespaces_Topics_AuthorizationRule_Properties_STATUS |                      |               |                      | v1api20240101 |                  |           |                  | v20240101 |
 | Namespaces_Topics_AuthorizationRule_Properties_Spec   |                      |               |                      | v1api20240101 |                  |           |                  | v20240101 |
 | PrivateEndpointConnection_STATUS                      | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 | v20210101preview | v20211101 | v20221001preview | v20240101 |
+| QueueAuthorizationRule                                |                      |               |                      |               |                  |           |                  | v20240101 |
+| QueueAuthorizationRuleRights_STATUS                   |                      |               |                      |               |                  |           |                  | v20240101 |
+| QueueAuthorizationRuleRights_Spec                     |                      |               |                      |               |                  |           |                  | v20240101 |
+| QueueAuthorizationRule_STATUS                         |                      |               |                      |               |                  |           |                  | v20240101 |
+| QueueAuthorizationRule_Spec                           |                      |               |                      |               |                  |           |                  | v20240101 |
 | Ruleproperties                                        | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 | v20210101preview | v20211101 | v20221001preview | v20240101 |
 | Ruleproperties_STATUS                                 | v1api20210101preview | v1api20211101 | v1api20221001preview | v1api20240101 | v20210101preview | v20211101 | v20221001preview | v20240101 |
 | SBClientAffineProperties                              |                      | v1api20211101 | v1api20221001preview | v1api20240101 |                  | v20211101 | v20221001preview | v20240101 |

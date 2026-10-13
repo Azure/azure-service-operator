@@ -108,9 +108,10 @@ type CredentialProvider interface {
 }
 
 type CredentialProviderOptions struct {
-	TokenProvider           TokenCredentialProvider
-	Cloud                   *cloud.Configuration
-	AllowMultiEnvManagement bool
+	TokenProvider               TokenCredentialProvider
+	ServiceAccountTokenProvider ServiceAccountTokenProvider
+	Cloud                       *cloud.Configuration
+	AllowMultiEnvManagement     bool
 	// FederatedTokenFilePath overrides the default projected token file path used for per-credential
 	// Workload Identity authentication (see ResolveFederatedTokenFilePath). Typically sourced from
 	// config.Values.FederatedTokenFilePath.
@@ -118,12 +119,13 @@ type CredentialProviderOptions struct {
 }
 
 type credentialProvider struct {
-	globalCredential        *Credential
-	kubeClient              kubeclient.Client
-	tokenCredentialProvider TokenCredentialProvider
-	cloud                   cloud.Configuration
-	allowMultiEnvManagement bool
-	federatedTokenFilePath  string
+	globalCredential            *Credential
+	kubeClient                  kubeclient.Client
+	tokenCredentialProvider     TokenCredentialProvider
+	serviceAccountTokenProvider ServiceAccountTokenProvider
+	cloud                       cloud.Configuration
+	allowMultiEnvManagement     bool
+	federatedTokenFilePath      string
 }
 
 func NewCredentialProvider(
@@ -147,12 +149,13 @@ func NewCredentialProvider(
 	}
 
 	return &credentialProvider{
-		kubeClient:              kubeClient,
-		globalCredential:        globalCredential,
-		tokenCredentialProvider: opts.TokenProvider,
-		cloud:                   cloud,
-		allowMultiEnvManagement: opts.AllowMultiEnvManagement,
-		federatedTokenFilePath:  ResolveFederatedTokenFilePath(opts.FederatedTokenFilePath),
+		kubeClient:                  kubeClient,
+		globalCredential:            globalCredential,
+		tokenCredentialProvider:     opts.TokenProvider,
+		serviceAccountTokenProvider: opts.ServiceAccountTokenProvider,
+		cloud:                       cloud,
+		allowMultiEnvManagement:     opts.AllowMultiEnvManagement,
+		federatedTokenFilePath:      ResolveFederatedTokenFilePath(opts.FederatedTokenFilePath),
 	}
 }
 
