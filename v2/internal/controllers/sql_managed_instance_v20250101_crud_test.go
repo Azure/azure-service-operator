@@ -11,12 +11,13 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	"sigs.k8s.io/controller-runtime/pkg/client"
+
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	sql "github.com/Azure/azure-service-operator/v2/api/sql/v20250101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // SQL Managed Instance requires a delegated subnet (with its own network security group and route table) and takes
@@ -364,9 +365,11 @@ func newManagedInstanceNetworkInRegion(
 		},
 	}
 
-	objs := []client.Object{vnet, routeTable, nsg}
+	rules := managedInstanceNSGRules()
+	objs := make([]client.Object, 0, len(rules)+4)
+	objs = append(objs, vnet, routeTable, nsg)
 	allow := network.SecurityRuleAccess_Allow
-	for _, r := range managedInstanceNSGRules() {
+	for _, r := range rules {
 		objs = append(objs, &network.NetworkSecurityGroupsSecurityRule{
 			ObjectMeta: tc.MakeObjectMeta(name + r.name),
 			Spec: network.NetworkSecurityGroupsSecurityRule_Spec{
