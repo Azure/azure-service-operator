@@ -21,7 +21,7 @@ Global credentials (via the aso-controller-settings secret in the operator names
 	<meta itemprop="name" content="2026-07: Secure Workload Identity for Single-Operator Multitenancy">
 	<meta itemprop="description" content="Context ASO supports single-operator multitenancy via a three-level credential hierarchy:
 Global credentials (via the aso-controller-settings secret in the operator namespace) Per-namespace credentials (via a fixed aso-credential secret in the resource’s namespace) Per-resource credentials (via the serviceoperator.azure.com/credential-from annotation) When using Workload Identity for authentication, each credential secret contains only AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, and AZURE_CLIENT_ID. The operator then uses its own projected ServiceAccount token (system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default) to perform an OAuth2 token exchange with Azure AD, presenting the AZURE_CLIENT_ID from the secret. This works because the Managed Identity has a FederatedIdentityCredential registered for the ASO controller’s ServiceAccount subject.">
-	<meta itemprop="wordCount" content="3876">
+	<meta itemprop="wordCount" content="3889">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="2026-07: Secure Workload Identity for Single-Operator Multitenancy">
 	<meta name="twitter:description" content="Context ASO supports single-operator multitenancy via a three-level credential hierarchy:
@@ -81,7 +81,7 @@ Global credentials (via the aso-controller-settings secret in the operator names
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.0dfa9098a192670b31fcd339cbad58b6.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.e2d3c1a6139f48fd6baf52fa2eec60c0.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -107,7 +107,7 @@ Global credentials (via the aso-controller-settings secret in the operator names
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.0dfa9098a192670b31fcd339cbad58b6.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.e2d3c1a6139f48fd6baf52fa2eec60c0.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -371,11 +371,11 @@ since the FIC is scoped to <code>team-a</code>&rsquo;s Service Account, other na
 <li>ASO would use the <a href="https://kubernetes.io/docs/reference/kubernetes-api/authentication-resources/token-request-v1/">Kubernetes TokenRequest API</a>
 to create a short-lived token for the target namespace&rsquo;s Service Account with the <code>api://AzureADTokenExchange</code> audience.
 It would cache this token and manage refreshing it as-needed.</li>
-<li>The controller needs <code>serviceaccounts/token: create</code> permission for the well-known Service Account name. With the fixed-name
-convention, this is a single <code>ClusterRole</code>/<code>ClusterRoleBinding</code> scoped via <code>resourceNames: [&quot;aso-workload&quot;]</code>,
-shipped as part of the ASO Helm chart.</li>
-<li>In the configurable variant (not chosen), a new field in the credential secret would indicate the Service Account name.
-With the fixed-name convention chosen in this design, no credential secret changes are needed.</li>
+<li>The controller needs <code>serviceaccounts/token: create</code> permission for the selected Service Account name. ASO ships a
+<code>ClusterRole</code>/<code>ClusterRoleBinding</code> scoped via <code>resourceNames: [&quot;aso-workload&quot;]</code> for the default name. Custom names require
+an additional Role/RoleBinding, or an equivalent exact-name ClusterRole, supplied by the cluster administrator.</li>
+<li>The optional <code>AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT</code> field in a credential secret selects a custom Service Account.
+When omitted, ASO uses <code>aso-workload</code>.</li>
 </ul>
 <p><strong>Variant: Fixed vs. configurable Service Account name</strong></p>
 <p>There are two sub-variants for how the Service Account name is determined:</p>
@@ -385,8 +385,9 @@ which Service Account to use. This is the most flexible — different credential
 <li><strong>Fixed convention:</strong> ASO uses a well-known Service Account name (e.g., <code>aso-workload</code>) in every namespace. No configuration
 is needed — if the Service Account exists and the RBAC grant is in place, ASO uses it automatically.</li>
 </ul>
-<p>The fixed-name approach is simpler to administer and requires no changes to the credential secret format. The
-configurable variant could be offered as a future extension if there&rsquo;s demand.</p>
+<p>We choose the configurable variant with <code>aso-workload</code> as the default. This preserves the simple setup for most users while
+allowing multiple credentials in one namespace to use different Service Accounts. The shipped RBAC remains constrained to
+the default exact name; selecting a custom name does not expand ASO&rsquo;s permissions automatically.</p>
 <ul>
 <li>When this mode is enabled, if ASO encounters a namespace without the designated Service Account or without the RBAC grant, it
 refuses to authenticate and sets a clear error condition on the resource.</li>

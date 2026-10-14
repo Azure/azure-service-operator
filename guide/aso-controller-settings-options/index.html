@@ -27,7 +27,7 @@ Warning Not every resource ASO manages operates in the scope of a subscription. 
 The supported options are:
 AZURE_SUBSCRIPTION_ID Azure subscription the operator will use for ARM communication if no more specific credential is specified at the per-resource or per-namespace scope.
 Warning Not every resource ASO manages operates in the scope of a subscription. This field applies to resources that live in a subscription but is ignored for resources that don’t fit in a subscription, such as Entra Security Group and Subscription Alias.">
-	<meta itemprop="wordCount" content="1239">
+	<meta itemprop="wordCount" content="1438">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Configuring ASO">
 	<meta name="twitter:description" content="Configuration of ASO is done primarily through a secret in the azureserviceoperator-system namespace called aso-controller-settings. This secret contains both details about the (optional) global credential as well as other operator pod options.
@@ -89,7 +89,7 @@ Warning Not every resource ASO manages operates in the scope of a subscription. 
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.0dfa9098a192670b31fcd339cbad58b6.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.e2d3c1a6139f48fd6baf52fa2eec60c0.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -115,7 +115,7 @@ Warning Not every resource ASO manages operates in the scope of a subscription. 
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.0dfa9098a192670b31fcd339cbad58b6.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.e2d3c1a6139f48fd6baf52fa2eec60c0.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -292,6 +292,8 @@ Warning Not every resource ASO manages operates in the scope of a subscription. 
         <li><a href="#azure_operator_mode">AZURE_OPERATOR_MODE</a></li>
         <li><a href="#azure_target_namespaces">AZURE_TARGET_NAMESPACES</a></li>
         <li><a href="#use_workload_identity_auth">USE_WORKLOAD_IDENTITY_AUTH</a></li>
+        <li><a href="#azure_workload_identity_auth_mode">AZURE_WORKLOAD_IDENTITY_AUTH_MODE</a></li>
+        <li><a href="#azure_workload_identity_service_account">AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT</a></li>
         <li><a href="#azure_authority_host">AZURE_AUTHORITY_HOST</a></li>
         <li><a href="#azure_resource_manager_endpoint">AZURE_RESOURCE_MANAGER_ENDPOINT</a></li>
         <li><a href="#azure_resource_manager_audience">AZURE_RESOURCE_MANAGER_AUDIENCE</a></li>
@@ -409,11 +411,36 @@ If it&rsquo;s empty the operator will watch all namespaces.</p>
 <p><strong>Required</strong>: False</p>
 <p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
 <h3 id="use_workload_identity_auth">USE_WORKLOAD_IDENTITY_AUTH</h3>
-<p>USE_WORKLOAD_IDENTITY_AUTH boolean is used to determine if we&rsquo;re using Workload Identity authentication for global credential.</p>
+<p>USE_WORKLOAD_IDENTITY_AUTH boolean is used to determine if we&rsquo;re using Workload Identity authentication for the global credential.</p>
 <p><strong>Format:</strong> <code>true|false</code></p>
 <p><strong>Example:</strong> <code>&quot;true&quot;</code> or <code>&quot;false&quot;</code></p>
 <p><strong>Required</strong>: False</p>
 <p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
+<h3 id="azure_workload_identity_auth_mode">AZURE_WORKLOAD_IDENTITY_AUTH_MODE</h3>
+<p>AZURE_WORKLOAD_IDENTITY_AUTH_MODE controls how namespace-scoped and per-resource Workload Identity credentials obtain
+their client assertion.</p>
+<ul>
+<li><code>relaxed</code>: ASO uses a single Federated Identity Credential (FIC) for all authentication to Azure, via the ASO controller service account. This is simple to set up but is less secure.
+See <a href="https://github.com/Azure/azure-service-operator/issues/4810">https://github.com/Azure/azure-service-operator/issues/4810</a> for more details about why this is less secure.</li>
+<li><code>strict</code>: ASO uses separate Federated Identity Credentials (FICs) via separate service accounts for each authentication to Azure. This is more secure but requires more setup.
+The secret may select the ServiceAccount with <code>AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT</code>; when omitted, ASO uses <code>aso-workload</code>.</li>
+</ul>
+<p>Strict mode does not change the global credential or credentials that use a client secret, client certificate, pod identity,
+or user-assigned identity credentials.</p>
+<p><strong>Format:</strong> <code>relaxed|strict</code></p>
+<p><strong>Default:</strong> <code>relaxed</code></p>
+<p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
+<h3 id="azure_workload_identity_service_account">AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT</h3>
+<p>AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT selects the Kubernetes ServiceAccount used to obtain the client assertion for a
+namespace-scoped or per-resource Workload Identity credential when <code>AZURE_WORKLOAD_IDENTITY_AUTH_MODE=strict</code>. The ServiceAccount
+must be in the credential secret&rsquo;s namespace. When this field is absent, ASO uses <code>aso-workload</code>.</p>
+<p>The value must be a valid Kubernetes DNS subdomain name. The field has no effect for other authentication types or in <code>relaxed</code>
+mode.</p>
+<p><strong>Format:</strong> <code>string</code></p>
+<p><strong>Example:</strong> <code>custom-aso-workload</code></p>
+<p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Namespace and Resource</p>
 <h3 id="azure_authority_host">AZURE_AUTHORITY_HOST</h3>
 <p>AZURE_AUTHORITY_HOST is the URL of the AAD authority. If not specified, the default is the AAD URL for the public cloud: <code>https://login.microsoftonline.com/</code>.
 See <a href="https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud">https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud</a></p>
