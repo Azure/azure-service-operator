@@ -465,13 +465,17 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 	}
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient())
+	clk := clock.New()
+	serviceAccountTokenProvider := identity.NewServiceAccountTokenProvider(kubeClient, clk)
 	credentialProvider := identity.NewCredentialProvider(
 		credential,
 		kubeClient,
 		&identity.CredentialProviderOptions{
-			Cloud:                   to.Ptr(cfg.Cloud()),
-			AllowMultiEnvManagement: cfg.AllowMultiEnvManagement,
-			FederatedTokenFilePath:  cfg.FederatedTokenFilePath,
+			ServiceAccountTokenProvider: serviceAccountTokenProvider,
+			WorkloadIdentityAuthMode:    cfg.WorkloadIdentityAuthMode,
+			Cloud:                       to.Ptr(cfg.Cloud()),
+			AllowMultiEnvManagement:     cfg.AllowMultiEnvManagement,
+			FederatedTokenFilePath:      cfg.FederatedTokenFilePath,
 		},
 	)
 
@@ -489,7 +493,7 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 		nil,
 	)
 
-	positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
+	positiveConditions := conditions.NewPositiveConditionBuilder(clk)
 
 	expressionEvaluator, err := asocel.NewExpressionEvaluator(
 		asocel.Metrics(celMetrics),

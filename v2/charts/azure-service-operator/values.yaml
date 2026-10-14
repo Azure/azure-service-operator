@@ -46,6 +46,14 @@ azureSyncPeriod: ""
 # See https://azure.github.io/azure-service-operator/guide/authentication/ for details on setting up Workload Identity with ASO
 useWorkloadIdentityAuth: false
 
+# workloadIdentityAuthMode controls how namespace and per-resource Workload Identity credentials obtain assertions.
+# Allowed values are "relaxed" and "strict". If not specified, the default is "relaxed".
+# relaxed: ASO uses a single Federated Identity Credential (FIC) for all authentication to Azure, via the ASO controller service account. This is simple to set up but is less secure. See
+# https://github.com/Azure/azure-service-operator/issues/4810 for more details about why this is less secure.
+# strict: ASO uses separate Federated Identity Credentials (FICs) via separate service accounts for each authentication to Azure. This is more secure but requires more setup.
+# The secret may select the ServiceAccount with `AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT`; when omitted, ASO uses `aso-workload`.
+workloadIdentityAuthMode: relaxed
+
 # azureUserAgentSuffix is appended to the default User-Agent for Azure HTTP clients.
 azureUserAgentSuffix: ""
 
