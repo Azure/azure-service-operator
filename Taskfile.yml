@@ -1408,6 +1408,14 @@ tasks:
       - hugo
       - htmltest
 
+  doc:serve-site:
+    dir: docs/hugo
+    deps:
+      - doc:frontmatter-check
+    cmds:
+      - npm ci --ignore-scripts
+      - hugo serve
+
   doc:render-diagrams:
     desc: Render all GraphViz diagrams
     dir: "./docs/hugo/content"
