@@ -230,6 +230,7 @@ type FluxConfiguration_STATUS struct {
 	Namespace                      *string                                   `json:"namespace,omitempty"`
 	OciRepository                  *OCIRepositoryDefinition_STATUS           `json:"ociRepository,omitempty"`
 	PropertyBag                    genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
+	ProvisioningState              *string                                   `json:"provisioningState,omitempty"`
 	ReconciliationWaitDuration     *string                                   `json:"reconciliationWaitDuration,omitempty"`
 	RepositoryPublicKey            *string                                   `json:"repositoryPublicKey,omitempty"`
 	Scope                          *string                                   `json:"scope,omitempty"`

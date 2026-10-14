@@ -63,7 +63,7 @@
 | Plan_STATUS                                           | v1api20230501 | v1api20241101 |
 | PostBuildDefinition                                   | v1api20230501 | v1api20241101 |
 | PostBuildDefinition_STATUS                            | v1api20230501 | v1api20241101 |
-| ProvisioningStateDefinition_STATUS                    | v1api20230501 |               |
+| ProvisioningStateDefinition_STATUS                    | v1api20230501 | v1api20241101 |
 | ProvisioningState_STATUS                              |               | v1api20241101 |
 | RepositoryRefDefinition                               | v1api20230501 | v1api20241101 |
 | RepositoryRefDefinition_STATUS                        | v1api20230501 | v1api20241101 |
