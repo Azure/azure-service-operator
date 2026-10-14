@@ -2,6 +2,7 @@ apiVersion: containerregistry.azure.com/v20251101
 kind: Registry
 metadata:
   name: sampleregistry
+  namespace: default
 spec:
   location: westus2
   owner:
