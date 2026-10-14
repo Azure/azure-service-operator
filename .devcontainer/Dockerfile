@@ -26,6 +26,10 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /
 COPY .devcontainer/install-dependencies.sh .
 RUN ./install-dependencies.sh devcontainer && rm install-dependencies.sh
 
+# Force prepend /usr/local/bin to PATH to ensure that tools we install in install-dependencies.sh are 
+# preferred over other versions that may be installed from the base container image
+ENV PATH=/usr/local/bin:${PATH}
+
 # Pre-download Go modules for faster builds
 # Some of these go.mod files have replace directives that point to local directories, so we need to be careful to 
 # maintain the same relative positions as we copy them into the container.
