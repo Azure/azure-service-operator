@@ -685,6 +685,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/subscription/v20211001/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/eventhub/v20211101/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v20211101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/sql/v20211101/</loc>
@@ -738,6 +740,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/dataprotection/v20231101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20231230/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/eventhub/v20240101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v20240101/</loc>
   </url><url>
