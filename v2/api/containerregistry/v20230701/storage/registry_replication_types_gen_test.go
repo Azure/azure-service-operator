@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -12,6 +13,82 @@ import (
 	"pgregory.net/rapid"
 	"testing"
 )
+
+// Test_RegistryReplication_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of RegistryReplication round trips to the hub storage version and back losslessly
+func Test_RegistryReplication_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RegistryReplicationGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.RegistryReplication
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual RegistryReplication
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
+// Test_RegistryReplication_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RegistryReplication can be assigned to storage and back losslessly
+func Test_RegistryReplication_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RegistryReplicationGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RegistryReplication
+		err := copied.AssignProperties_To_RegistryReplication(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RegistryReplication
+		err = actual.AssignProperties_From_RegistryReplication(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
 
 func Test_RegistryReplication_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -72,6 +149,44 @@ func RegistryReplicationGenerator() *rapid.Generator[RegistryReplication] {
 	return registryReplicationGenerator
 }
 
+// Test_RegistryReplicationOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RegistryReplicationOperatorSpec can be assigned to storage and back losslessly
+func Test_RegistryReplicationOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RegistryReplicationOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RegistryReplicationOperatorSpec
+		err := copied.AssignProperties_To_RegistryReplicationOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RegistryReplicationOperatorSpec
+		err = actual.AssignProperties_From_RegistryReplicationOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_RegistryReplicationOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -121,6 +236,44 @@ func RegistryReplicationOperatorSpecGenerator() *rapid.Generator[RegistryReplica
 	registryReplicationOperatorSpecGenerator = rapid.Just(RegistryReplicationOperatorSpec{})
 
 	return registryReplicationOperatorSpecGenerator
+}
+
+// Test_RegistryReplication_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RegistryReplication_STATUS can be assigned to storage and back losslessly
+func Test_RegistryReplication_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RegistryReplication_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RegistryReplication_STATUS
+		err := copied.AssignProperties_To_RegistryReplication_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RegistryReplication_STATUS
+		err = actual.AssignProperties_From_RegistryReplication_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RegistryReplication_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -193,6 +346,44 @@ func RegistryReplication_STATUSGenerator() *rapid.Generator[RegistryReplication_
 	})
 
 	return registryReplication_STATUSGenerator
+}
+
+// Test_RegistryReplication_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RegistryReplication_Spec can be assigned to storage and back losslessly
+func Test_RegistryReplication_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RegistryReplication_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RegistryReplication_Spec
+		err := copied.AssignProperties_To_RegistryReplication_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RegistryReplication_Spec
+		err = actual.AssignProperties_From_RegistryReplication_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RegistryReplication_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

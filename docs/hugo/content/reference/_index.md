@@ -251,8 +251,10 @@ Development of these new resources is complete and they will be available in the
 
 | Resource                                                                                           | ARM Version | CRD Version | Supported From | Sample                                                                                                                                      |
 |----------------------------------------------------------------------------------------------------|-------------|-------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| [Registry]({{< relref "/reference/containerregistry/v20251101#Registry" >}})                       | 2025-11-01  | v20251101   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v20251101/v20251101_registry.yaml)            |
 | [Registry]({{< relref "/reference/containerregistry/v20230701#Registry" >}})                       | 2023-07-01  | v20230701   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v20230701/v20230701_registry.yaml)            |
 | [Registry]({{< relref "/reference/containerregistry/v20210901#Registry" >}})                       | 2021-09-01  | v20210901   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v20210901/v20210901_registry.yaml)            |
+| [RegistryReplication]({{< relref "/reference/containerregistry/v20251101#RegistryReplication" >}}) | 2025-11-01  | v20251101   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v20251101/v20251101_registryreplication.yaml) |
 | [RegistryReplication]({{< relref "/reference/containerregistry/v20230701#RegistryReplication" >}}) | 2023-07-01  | v20230701   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v20230701/v20230701_registryreplication.yaml) |
 
 ### Latest Released Versions

@@ -5,8 +5,8 @@ package v1api20230701
 
 import (
 	"encoding/json"
-	containerregistry_v1api20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
-	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20230701/storage"
+	v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
+	v20251101s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20251101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -29,7 +29,7 @@ func Test_RegistryReplication_WhenConvertedToHub_RoundTripsWithoutLoss(t *testin
 		copied := subject.DeepCopy()
 
 		// Convert to our hub version
-		var hub containerregistry_v20230701s.RegistryReplication
+		var hub v20251101s.RegistryReplication
 		err := copied.ConvertTo(&hub)
 		if err != nil {
 			t.Fatal("ConvertTo: " + err.Error())
@@ -67,7 +67,7 @@ func Test_RegistryReplication_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other containerregistry_v1api20230701s.RegistryReplication
+		var other v20230701s.RegistryReplication
 		err := copied.AssignProperties_To_RegistryReplication(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -164,7 +164,7 @@ func Test_RegistryReplicationOperatorSpec_WhenPropertiesConverted_RoundTripsWith
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other containerregistry_v1api20230701s.RegistryReplicationOperatorSpec
+		var other v20230701s.RegistryReplicationOperatorSpec
 		err := copied.AssignProperties_To_RegistryReplicationOperatorSpec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -253,7 +253,7 @@ func Test_RegistryReplication_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other containerregistry_v1api20230701s.RegistryReplication_STATUS
+		var other v20230701s.RegistryReplication_STATUS
 		err := copied.AssignProperties_To_RegistryReplication_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -365,7 +365,7 @@ func Test_RegistryReplication_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other containerregistry_v1api20230701s.RegistryReplication_Spec
+		var other v20230701s.RegistryReplication_Spec
 		err := copied.AssignProperties_To_RegistryReplication_Spec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())

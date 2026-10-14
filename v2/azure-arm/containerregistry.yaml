@@ -20,6 +20,15 @@ groupModelConfiguration:
     CacheRuleProperties:
       CredentialSetResourceId:
         $referenceType: arm
+    KeyVaultProperties:
+      Identity:
+        $importConfigMapMode: optional
     Registries_CacheRule:
       $exportAs: RegistryCacheRule
       $supportedFrom: v2.21.0
+    Registry:
+      $exportAs: Registry
+      $supportedFrom: v2.22.0
+    Registries_Replication:
+      $exportAs: RegistryReplication
+      $supportedFrom: v2.22.0
