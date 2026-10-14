@@ -162,6 +162,12 @@ spec:
               key: AZURE_SYNC_PERIOD
               name: aso-controller-settings
               optional: true
+        - name: TLS_MIN_VERSION
+          valueFrom:
+            secretKeyRef:
+              key: TLS_MIN_VERSION
+              name: aso-controller-settings
+              optional: true
         - name: USE_WORKLOAD_IDENTITY_AUTH
           valueFrom:
             secretKeyRef:
