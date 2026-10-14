@@ -745,6 +745,7 @@ func FluxConfiguration_STATUSGenerator() *rapid.Generator[FluxConfiguration_STAT
 		rapid.String(),
 		KustomizationDefinition_STATUSGenerator())
 	ociRepository := rapid.Ptr(OCIRepositoryDefinition_STATUSGenerator(), true)
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]ProvisioningStateDefinition_STATUS{ProvisioningStateDefinition_STATUS_Canceled, ProvisioningStateDefinition_STATUS_Creating, ProvisioningStateDefinition_STATUS_Deleting, ProvisioningStateDefinition_STATUS_Failed, ProvisioningStateDefinition_STATUS_Succeeded, ProvisioningStateDefinition_STATUS_Updating}), true)
 	scope := rapid.Ptr(rapid.SampledFrom([]ScopeDefinition_STATUS{ScopeDefinition_STATUS_Cluster, ScopeDefinition_STATUS_Namespace}), true)
 	sourceKind := rapid.Ptr(rapid.SampledFrom([]SourceKindDefinition_STATUS{SourceKindDefinition_STATUS_AzureBlob, SourceKindDefinition_STATUS_Bucket, SourceKindDefinition_STATUS_GitRepository, SourceKindDefinition_STATUS_OCIRepository}), true)
 	statuses := rapid.SliceOf(ObjectStatusDefinition_STATUSGenerator())
@@ -763,6 +764,7 @@ func FluxConfiguration_STATUSGenerator() *rapid.Generator[FluxConfiguration_STAT
 		result.Name = ptrString.Draw(t, "Name")
 		result.Namespace = ptrString.Draw(t, "Namespace")
 		result.OciRepository = ociRepository.Draw(t, "OciRepository")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
 		result.ReconciliationWaitDuration = ptrString.Draw(t, "ReconciliationWaitDuration")
 		result.RepositoryPublicKey = ptrString.Draw(t, "RepositoryPublicKey")
 		result.Scope = scope.Draw(t, "Scope")

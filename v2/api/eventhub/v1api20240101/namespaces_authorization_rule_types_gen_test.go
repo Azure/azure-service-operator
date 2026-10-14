@@ -5,7 +5,8 @@ package v1api20240101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
+	eventhub_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
+	eventhub_v20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v20240101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -28,7 +29,7 @@ func Test_NamespacesAuthorizationRule_WhenConvertedToHub_RoundTripsWithoutLoss(t
 		copied := subject.DeepCopy()
 
 		// Convert to our hub version
-		var hub storage.NamespacesAuthorizationRule
+		var hub eventhub_v20240101s.NamespacesAuthorizationRule
 		err := copied.ConvertTo(&hub)
 		if err != nil {
 			t.Fatal("ConvertTo: " + err.Error())
@@ -66,7 +67,7 @@ func Test_NamespacesAuthorizationRule_WhenPropertiesConverted_RoundTripsWithoutL
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NamespacesAuthorizationRule
+		var other eventhub_v1api20240101s.NamespacesAuthorizationRule
 		err := copied.AssignProperties_To_NamespacesAuthorizationRule(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -163,7 +164,7 @@ func Test_NamespacesAuthorizationRuleOperatorSecrets_WhenPropertiesConverted_Rou
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NamespacesAuthorizationRuleOperatorSecrets
+		var other eventhub_v1api20240101s.NamespacesAuthorizationRuleOperatorSecrets
 		err := copied.AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -252,7 +253,7 @@ func Test_NamespacesAuthorizationRuleOperatorSpec_WhenPropertiesConverted_RoundT
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NamespacesAuthorizationRuleOperatorSpec
+		var other eventhub_v1api20240101s.NamespacesAuthorizationRuleOperatorSpec
 		err := copied.AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -347,7 +348,7 @@ func Test_NamespacesAuthorizationRule_STATUS_WhenPropertiesConverted_RoundTripsW
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NamespacesAuthorizationRule_STATUS
+		var other eventhub_v1api20240101s.NamespacesAuthorizationRule_STATUS
 		err := copied.AssignProperties_To_NamespacesAuthorizationRule_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -449,7 +450,7 @@ func Test_NamespacesAuthorizationRule_Spec_WhenPropertiesConverted_RoundTripsWit
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NamespacesAuthorizationRule_Spec
+		var other eventhub_v1api20240101s.NamespacesAuthorizationRule_Spec
 		err := copied.AssignProperties_To_NamespacesAuthorizationRule_Spec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())

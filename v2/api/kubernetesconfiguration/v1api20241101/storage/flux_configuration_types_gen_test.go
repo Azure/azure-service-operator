@@ -455,6 +455,7 @@ func FluxConfiguration_STATUSGenerator() *rapid.Generator[FluxConfiguration_STAT
 		result.Name = ptrString.Draw(t, "Name")
 		result.Namespace = ptrString.Draw(t, "Namespace")
 		result.OciRepository = ociRepository.Draw(t, "OciRepository")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
 		result.ReconciliationWaitDuration = ptrString.Draw(t, "ReconciliationWaitDuration")
 		result.RepositoryPublicKey = ptrString.Draw(t, "RepositoryPublicKey")
 		result.Scope = ptrString.Draw(t, "Scope")

@@ -351,12 +351,18 @@ import (
 	eventgrid_v20250215s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215/storage"
 	eventgrid_v20250215w "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215/webhook"
 	eventhub_customizations "github.com/Azure/azure-service-operator/v2/api/eventhub/customizations"
-	eventhub_v20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
-	eventhub_v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
-	eventhub_v20211101w "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/webhook"
-	eventhub_v20240101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101"
-	eventhub_v20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
-	eventhub_v20240101w "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/webhook"
+	eventhub_v1api20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
+	eventhub_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
+	eventhub_v1api20211101w "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/webhook"
+	eventhub_v1api20240101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101"
+	eventhub_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
+	eventhub_v1api20240101w "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/webhook"
+	eventhub_v20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v20211101"
+	eventhub_v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v20211101/storage"
+	eventhub_v20211101w "github.com/Azure/azure-service-operator/v2/api/eventhub/v20211101/webhook"
+	eventhub_v20240101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v20240101"
+	eventhub_v20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v20240101/storage"
+	eventhub_v20240101w "github.com/Azure/azure-service-operator/v2/api/eventhub/v20240101/webhook"
 	insights_customizations "github.com/Azure/azure-service-operator/v2/api/insights/customizations"
 	insights_v20171001 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20171001"
 	insights_v20171001s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20171001/storage"
@@ -3062,6 +3068,50 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(signalrservice_v20240301s.CustomDomain)})
 	result = append(result, &registration.StorageType{Obj: new(signalrservice_v20240301s.Replica)})
 	result = append(result, &registration.StorageType{Obj: new(signalrservice_v20240301s.SignalR)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.InstanceFailoverGroup)})
+	result = append(result, &registration.StorageType{
+		Obj: new(sql_v20250101s.ManagedInstance),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.administratorLoginPassword",
+				Func: indexSqlManagedInstanceAdministratorLoginPassword,
+			},
+			{
+				Key:  ".spec.administrators.loginFromConfig",
+				Func: indexSqlManagedInstanceLoginFromConfig,
+			},
+			{
+				Key:  ".spec.administrators.sidFromConfig",
+				Func: indexSqlManagedInstanceSidFromConfig,
+			},
+			{
+				Key:  ".spec.administrators.tenantIdFromConfig",
+				Func: indexSqlManagedInstanceTenantIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.administratorLoginPassword",
+					},
+					&sql_v20250101s.ManagedInstanceList{}),
+			},
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.administrators.loginFromConfig",
+						".spec.administrators.sidFromConfig",
+						".spec.administrators.tenantIdFromConfig",
+					},
+					&sql_v20250101s.ManagedInstanceList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ManagedInstancesDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ManagedInstancesDatabasesTransparentDataEncryption)})
 	result = append(result, &registration.StorageType{
 		Obj: new(sql_v20250101s.Server),
 		Indexes: []registration.Index{
@@ -6359,6 +6409,74 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(eventhub_v1api20211101.Namespace),
+			Defaulter: &eventhub_v1api20211101w.Namespace{},
+			Validator: &eventhub_v1api20211101w.Namespace{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20211101.NamespacesAuthorizationRule),
+			Defaulter: &eventhub_v1api20211101w.NamespacesAuthorizationRule{},
+			Validator: &eventhub_v1api20211101w.NamespacesAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20211101.NamespacesEventhub),
+			Defaulter: &eventhub_v1api20211101w.NamespacesEventhub{},
+			Validator: &eventhub_v1api20211101w.NamespacesEventhub{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20211101.NamespacesEventhubsAuthorizationRule),
+			Defaulter: &eventhub_v1api20211101w.NamespacesEventhubsAuthorizationRule{},
+			Validator: &eventhub_v1api20211101w.NamespacesEventhubsAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20211101.NamespacesEventhubsConsumerGroup),
+			Defaulter: &eventhub_v1api20211101w.NamespacesEventhubsConsumerGroup{},
+			Validator: &eventhub_v1api20211101w.NamespacesEventhubsConsumerGroup{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(eventhub_v1api20211101s.Namespace)},
+		&registration.KnownType{Obj: new(eventhub_v1api20211101s.NamespacesAuthorizationRule)},
+		&registration.KnownType{Obj: new(eventhub_v1api20211101s.NamespacesEventhub)},
+		&registration.KnownType{Obj: new(eventhub_v1api20211101s.NamespacesEventhubsAuthorizationRule)},
+		&registration.KnownType{Obj: new(eventhub_v1api20211101s.NamespacesEventhubsConsumerGroup)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20240101.Namespace),
+			Defaulter: &eventhub_v1api20240101w.Namespace{},
+			Validator: &eventhub_v1api20240101w.Namespace{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20240101.NamespacesAuthorizationRule),
+			Defaulter: &eventhub_v1api20240101w.NamespacesAuthorizationRule{},
+			Validator: &eventhub_v1api20240101w.NamespacesAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20240101.NamespacesEventhub),
+			Defaulter: &eventhub_v1api20240101w.NamespacesEventhub{},
+			Validator: &eventhub_v1api20240101w.NamespacesEventhub{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20240101.NamespacesEventhubsAuthorizationRule),
+			Defaulter: &eventhub_v1api20240101w.NamespacesEventhubsAuthorizationRule{},
+			Validator: &eventhub_v1api20240101w.NamespacesEventhubsAuthorizationRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventhub_v1api20240101.NamespacesEventhubsConsumerGroup),
+			Defaulter: &eventhub_v1api20240101w.NamespacesEventhubsConsumerGroup{},
+			Validator: &eventhub_v1api20240101w.NamespacesEventhubsConsumerGroup{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(eventhub_v1api20240101s.Namespace)},
+		&registration.KnownType{Obj: new(eventhub_v1api20240101s.NamespacesAuthorizationRule)},
+		&registration.KnownType{Obj: new(eventhub_v1api20240101s.NamespacesEventhub)},
+		&registration.KnownType{Obj: new(eventhub_v1api20240101s.NamespacesEventhubsAuthorizationRule)},
+		&registration.KnownType{Obj: new(eventhub_v1api20240101s.NamespacesEventhubsConsumerGroup)})
+	result = append(
+		result,
+		&registration.KnownType{
 			Obj:       new(eventhub_v20211101.Namespace),
 			Defaulter: &eventhub_v20211101w.Namespace{},
 			Validator: &eventhub_v20211101w.Namespace{},
@@ -8119,6 +8237,26 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(sql_v20250101.InstanceFailoverGroup),
+			Defaulter: &sql_v20250101w.InstanceFailoverGroup{},
+			Validator: &sql_v20250101w.InstanceFailoverGroup{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ManagedInstance),
+			Defaulter: &sql_v20250101w.ManagedInstance{},
+			Validator: &sql_v20250101w.ManagedInstance{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ManagedInstancesDatabase),
+			Defaulter: &sql_v20250101w.ManagedInstancesDatabase{},
+			Validator: &sql_v20250101w.ManagedInstancesDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ManagedInstancesDatabasesTransparentDataEncryption),
+			Defaulter: &sql_v20250101w.ManagedInstancesDatabasesTransparentDataEncryption{},
+			Validator: &sql_v20250101w.ManagedInstancesDatabasesTransparentDataEncryption{},
+		},
+		&registration.KnownType{
 			Obj:       new(sql_v20250101.Server),
 			Defaulter: &sql_v20250101w.Server{},
 			Validator: &sql_v20250101w.Server{},
@@ -8240,6 +8378,10 @@ func getKnownTypes() []*registration.KnownType {
 		})
 	result = append(
 		result,
+		&registration.KnownType{Obj: new(sql_v20250101s.InstanceFailoverGroup)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ManagedInstance)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ManagedInstancesDatabase)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ManagedInstancesDatabasesTransparentDataEncryption)},
 		&registration.KnownType{Obj: new(sql_v20250101s.Server)},
 		&registration.KnownType{Obj: new(sql_v20250101s.ServersAdministrator)},
 		&registration.KnownType{Obj: new(sql_v20250101s.ServersAdvancedThreatProtectionSetting)},
@@ -9049,6 +9191,10 @@ func createScheme() *runtime.Scheme {
 	_ = eventgrid_v20200601s.AddToScheme(scheme)
 	_ = eventgrid_v20250215.AddToScheme(scheme)
 	_ = eventgrid_v20250215s.AddToScheme(scheme)
+	_ = eventhub_v1api20211101.AddToScheme(scheme)
+	_ = eventhub_v1api20211101s.AddToScheme(scheme)
+	_ = eventhub_v1api20240101.AddToScheme(scheme)
+	_ = eventhub_v1api20240101s.AddToScheme(scheme)
 	_ = eventhub_v20211101.AddToScheme(scheme)
 	_ = eventhub_v20211101s.AddToScheme(scheme)
 	_ = eventhub_v20240101.AddToScheme(scheme)
@@ -9464,6 +9610,10 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &signalrservice_customizations.CustomDomainExtension{})
 	result = append(result, &signalrservice_customizations.ReplicaExtension{})
 	result = append(result, &signalrservice_customizations.SignalRExtension{})
+	result = append(result, &sql_customizations.InstanceFailoverGroupExtension{})
+	result = append(result, &sql_customizations.ManagedInstanceExtension{})
+	result = append(result, &sql_customizations.ManagedInstancesDatabaseExtension{})
+	result = append(result, &sql_customizations.ManagedInstancesDatabasesTransparentDataEncryptionExtension{})
 	result = append(result, &sql_customizations.ServerExtension{})
 	result = append(result, &sql_customizations.ServersAdministratorExtension{})
 	result = append(result, &sql_customizations.ServersAdvancedThreatProtectionSettingExtension{})
@@ -14222,6 +14372,63 @@ func indexSignalrserviceCustomCertificateKeyVaultBaseUriFromConfig(rawObj client
 		return nil
 	}
 	return obj.Spec.KeyVaultBaseUriFromConfig.Index()
+}
+
+// indexSqlManagedInstanceAdministratorLoginPassword an index function for sql_v20250101s.ManagedInstance .spec.administratorLoginPassword
+func indexSqlManagedInstanceAdministratorLoginPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*sql_v20250101s.ManagedInstance)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AdministratorLoginPassword == nil {
+		return nil
+	}
+	return obj.Spec.AdministratorLoginPassword.Index()
+}
+
+// indexSqlManagedInstanceLoginFromConfig an index function for sql_v20250101s.ManagedInstance .spec.administrators.loginFromConfig
+func indexSqlManagedInstanceLoginFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*sql_v20250101s.ManagedInstance)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Administrators == nil {
+		return nil
+	}
+	if obj.Spec.Administrators.LoginFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Administrators.LoginFromConfig.Index()
+}
+
+// indexSqlManagedInstanceSidFromConfig an index function for sql_v20250101s.ManagedInstance .spec.administrators.sidFromConfig
+func indexSqlManagedInstanceSidFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*sql_v20250101s.ManagedInstance)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Administrators == nil {
+		return nil
+	}
+	if obj.Spec.Administrators.SidFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Administrators.SidFromConfig.Index()
+}
+
+// indexSqlManagedInstanceTenantIdFromConfig an index function for sql_v20250101s.ManagedInstance .spec.administrators.tenantIdFromConfig
+func indexSqlManagedInstanceTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*sql_v20250101s.ManagedInstance)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Administrators == nil {
+		return nil
+	}
+	if obj.Spec.Administrators.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Administrators.TenantIdFromConfig.Index()
 }
 
 // indexSqlServerAdministratorLoginPassword an index function for sql_v20250101s.Server .spec.administratorLoginPassword

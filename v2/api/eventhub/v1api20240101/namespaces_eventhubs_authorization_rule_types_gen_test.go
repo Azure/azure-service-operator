@@ -5,7 +5,8 @@ package v1api20240101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
+	eventhub_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
+	eventhub_v20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v20240101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -28,7 +29,7 @@ func Test_NamespacesEventhubsAuthorizationRule_WhenConvertedToHub_RoundTripsWith
 		copied := subject.DeepCopy()
 
 		// Convert to our hub version
-		var hub storage.NamespacesEventhubsAuthorizationRule
+		var hub eventhub_v20240101s.NamespacesEventhubsAuthorizationRule
 		err := copied.ConvertTo(&hub)
 		if err != nil {
 			t.Fatal("ConvertTo: " + err.Error())
@@ -66,7 +67,7 @@ func Test_NamespacesEventhubsAuthorizationRule_WhenPropertiesConverted_RoundTrip
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NamespacesEventhubsAuthorizationRule
+		var other eventhub_v1api20240101s.NamespacesEventhubsAuthorizationRule
 		err := copied.AssignProperties_To_NamespacesEventhubsAuthorizationRule(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -163,7 +164,7 @@ func Test_NamespacesEventhubsAuthorizationRuleOperatorSecrets_WhenPropertiesConv
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NamespacesEventhubsAuthorizationRuleOperatorSecrets
+		var other eventhub_v1api20240101s.NamespacesEventhubsAuthorizationRuleOperatorSecrets
 		err := copied.AssignProperties_To_NamespacesEventhubsAuthorizationRuleOperatorSecrets(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -252,7 +253,7 @@ func Test_NamespacesEventhubsAuthorizationRuleOperatorSpec_WhenPropertiesConvert
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NamespacesEventhubsAuthorizationRuleOperatorSpec
+		var other eventhub_v1api20240101s.NamespacesEventhubsAuthorizationRuleOperatorSpec
 		err := copied.AssignProperties_To_NamespacesEventhubsAuthorizationRuleOperatorSpec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -347,7 +348,7 @@ func Test_NamespacesEventhubsAuthorizationRule_STATUS_WhenPropertiesConverted_Ro
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NamespacesEventhubsAuthorizationRule_STATUS
+		var other eventhub_v1api20240101s.NamespacesEventhubsAuthorizationRule_STATUS
 		err := copied.AssignProperties_To_NamespacesEventhubsAuthorizationRule_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -449,7 +450,7 @@ func Test_NamespacesEventhubsAuthorizationRule_Spec_WhenPropertiesConverted_Roun
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NamespacesEventhubsAuthorizationRule_Spec
+		var other eventhub_v1api20240101s.NamespacesEventhubsAuthorizationRule_Spec
 		err := copied.AssignProperties_To_NamespacesEventhubsAuthorizationRule_Spec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())

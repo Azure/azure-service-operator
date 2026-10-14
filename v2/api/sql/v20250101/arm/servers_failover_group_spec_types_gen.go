@@ -90,34 +90,3 @@ type PartnerInfo struct {
 	// Id: Resource identifier of the partner server.
 	Id *string `json:"id,omitempty"`
 }
-
-// Failover policy of the read-only endpoint for the failover group.
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type ReadOnlyEndpointFailoverPolicy string
-
-const (
-	ReadOnlyEndpointFailoverPolicy_Disabled = ReadOnlyEndpointFailoverPolicy("Disabled")
-	ReadOnlyEndpointFailoverPolicy_Enabled  = ReadOnlyEndpointFailoverPolicy("Enabled")
-)
-
-// Mapping from string to ReadOnlyEndpointFailoverPolicy
-var readOnlyEndpointFailoverPolicy_Values = map[string]ReadOnlyEndpointFailoverPolicy{
-	"disabled": ReadOnlyEndpointFailoverPolicy_Disabled,
-	"enabled":  ReadOnlyEndpointFailoverPolicy_Enabled,
-}
-
-// Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then
-// failoverWithDataLossGracePeriodMinutes is required.
-// +kubebuilder:validation:Enum={"Automatic","Manual"}
-type ReadWriteEndpointFailoverPolicy string
-
-const (
-	ReadWriteEndpointFailoverPolicy_Automatic = ReadWriteEndpointFailoverPolicy("Automatic")
-	ReadWriteEndpointFailoverPolicy_Manual    = ReadWriteEndpointFailoverPolicy("Manual")
-)
-
-// Mapping from string to ReadWriteEndpointFailoverPolicy
-var readWriteEndpointFailoverPolicy_Values = map[string]ReadWriteEndpointFailoverPolicy{
-	"automatic": ReadWriteEndpointFailoverPolicy_Automatic,
-	"manual":    ReadWriteEndpointFailoverPolicy_Manual,
-}

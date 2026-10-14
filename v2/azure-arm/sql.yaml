@@ -245,3 +245,47 @@ groupModelConfiguration:
         $importSecretMode: required
       StorageContainerSasKey:
         $importSecretMode: required
+    ManagedInstance:
+      $exportAs: ManagedInstance
+      $supportedFrom: v2.23.0
+      $generatedConfigs:
+        FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+    ManagedInstanceExternalAdministrator:
+      Login:
+        $importConfigMapMode: optional
+      Sid:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
+    ManagedInstanceProperties:
+      InstancePoolId:
+        $referenceType: arm
+    ManagedDatabaseProperties:
+      StorageContainerSasToken:
+        $importSecretMode: optional
+      SourceDatabaseId:
+        $referenceType: arm
+      RestorableDroppedDatabaseId:
+        $referenceType: arm
+      LongTermRetentionBackupResourceId:
+        $referenceType: arm
+      CrossSubscriptionSourceDatabaseId:
+        $referenceType: arm
+      CrossSubscriptionRestorableDroppedDatabaseId:
+        $referenceType: arm
+      RecoverableDatabaseId:
+        $referenceType: arm
+    Locations_InstanceFailoverGroup:
+      $exportAs: InstanceFailoverGroup
+      $supportedFrom: v2.23.0
+    ManagedInstancePairInfo:
+      PrimaryManagedInstanceId:
+        $referenceType: arm
+      PartnerManagedInstanceId:
+        $referenceType: arm
+    ManagedInstances_Database:
+      $exportAs: ManagedInstancesDatabase
+      $supportedFrom: v2.23.0
+    ManagedInstances_Databases_TransparentDataEncryption:
+      $exportAs: ManagedInstancesDatabasesTransparentDataEncryption
+      $supportedFrom: v2.23.0
