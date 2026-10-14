@@ -29,33 +29,85 @@ func TestLeaderElectionFlags(t *testing.T) {
 func TestLeaderElectionFlagsValidation(t *testing.T) {
 	t.Parallel()
 
-	cases := map[string]struct {
+	cases := []struct {
+		name          string
 		args          []string
 		expectedError string
 	}{
-		"renew deadline at lease duration": {
+		{
+			name:          "renew deadline at lease duration",
 			args:          []string{"--leader-lease-duration=10s", "--leader-renew-deadline=10s"},
 			expectedError: "leader-lease-duration (10s) must be greater than leader-renew-deadline (10s)",
 		},
-		"renew deadline beyond lease duration": {
+		{
+			name:          "renew deadline beyond lease duration",
 			args:          []string{"--leader-lease-duration=10s", "--leader-renew-deadline=20s"},
 			expectedError: "leader-lease-duration (10s) must be greater than leader-renew-deadline (20s)",
 		},
-		"retry period at renew deadline": {
-			args:          []string{"--leader-renew-deadline=2s"},
-			expectedError: "leader-renew-deadline (2s) must be greater than leader-retry-period (2s) multiplied by the jitter factor (1.2)",
+		{
+			name:          "zero lease duration",
+			args:          []string{"--leader-lease-duration=0s"},
+			expectedError: "leader-lease-duration (0s) must be greater than zero",
+		},
+		{
+			name:          "negative lease duration",
+			args:          []string{"--leader-lease-duration=-1s"},
+			expectedError: "leader-lease-duration (-1s) must be greater than zero",
+		},
+		{
+			name:          "zero renew deadline",
+			args:          []string{"--leader-renew-deadline=0s"},
+			expectedError: "leader-renew-deadline (0s) must be greater than zero",
+		},
+		{
+			name:          "negative renew deadline",
+			args:          []string{"--leader-renew-deadline=-1s"},
+			expectedError: "leader-renew-deadline (-1s) must be greater than zero",
+		},
+		{
+			name:          "zero retry period",
+			args:          []string{"--leader-retry-period=0s"},
+			expectedError: "leader-retry-period (0s) must be greater than zero",
+		},
+		{
+			name:          "negative retry period",
+			args:          []string{"--leader-retry-period=-1s"},
+			expectedError: "leader-retry-period (-1s) must be greater than zero",
+		},
+		{
+			name: "renew deadline at jitter boundary",
+			args: []string{
+				"--leader-lease-duration=15s",
+				"--leader-renew-deadline=10800ms",
+				"--leader-retry-period=9s",
+			},
+			expectedError: "leader-renew-deadline (10.8s) must be greater than leader-retry-period (9s) multiplied by the jitter factor (1.2)",
+		},
+		{
+			name: "renew deadline just above jitter boundary",
+			args: []string{
+				"--leader-lease-duration=15s",
+				"--leader-renew-deadline=10801ms",
+				"--leader-retry-period=9s",
+			},
 		},
 	}
 
-	for name, c := range cases {
-		t.Run(name, func(t *testing.T) {
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewWithT(t)
 			flagSet := flag.NewFlagSet("test", flag.ContinueOnError)
 			flags := InitFlags(flagSet)
 
 			g.Expect(flagSet.Parse(c.args)).To(Succeed())
-			g.Expect(flags.Validate()).To(MatchError(ContainSubstring(c.expectedError)))
+			err := flags.Validate()
+			if c.expectedError == "" {
+				g.Expect(err).To(Succeed())
+				return
+			}
+			g.Expect(err).To(MatchError(ContainSubstring(c.expectedError)))
 		})
 	}
 }
