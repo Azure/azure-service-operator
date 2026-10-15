@@ -53,7 +53,7 @@ func TestProfiler_MemoryOnlyLifecycle(t *testing.T) {
 	deadline := time.Now().Add(200 * time.Millisecond)
 	for time.Now().Before(deadline) {
 		allocations = append(allocations, allocateProfileBytes(1024))
-		if len(allocations) > 1_000 {
+		if len(allocations) > 1000 {
 			allocations = allocations[:0]
 		}
 	}
@@ -87,7 +87,7 @@ func TestProfiler_CreatesProfilesConcurrently(t *testing.T) {
 	for time.Now().Before(deadline) {
 		allocations = append(allocations, allocateProfileBytes(1024))
 		burnCPU(1 * time.Millisecond)
-		if len(allocations) > 1_000 {
+		if len(allocations) > 1000 {
 			allocations = allocations[:0]
 		}
 	}
