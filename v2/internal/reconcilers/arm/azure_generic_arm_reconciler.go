@@ -59,6 +59,7 @@ type AzureDeploymentReconciler struct {
 	PositiveConditions   *conditions.PositiveConditionBuilder
 	Config               config.Values
 	Extension            genruntime.ResourceExtension
+	pollerResumeTokens   *pollerResumeTokenCache
 }
 
 func NewAzureDeploymentReconciler(
@@ -77,6 +78,7 @@ func NewAzureDeploymentReconciler(
 		PositiveConditions:   positiveConditions,
 		Config:               cfg,
 		Extension:            extension,
+		pollerResumeTokens:   newPollerResumeTokenCache(),
 		ARMOwnedResourceReconcilerCommon: reconcilers.ARMOwnedResourceReconcilerCommon{
 			ResourceResolver: resourceResolver,
 			ReconcilerCommon: reconcilers.ReconcilerCommon{
@@ -110,6 +112,10 @@ func (r *AzureDeploymentReconciler) makeInstance(
 
 	// Augment Log with ARM specific stuff
 	log = log.WithValues("azureName", typedObj.AzureName())
+
+	if r.pollerResumeTokens != nil {
+		r.pollerResumeTokens.restore(typedObj)
+	}
 
 	clientDetails, err := r.ARMConnectionFactory(ctx, typedObj)
 	if err != nil {
