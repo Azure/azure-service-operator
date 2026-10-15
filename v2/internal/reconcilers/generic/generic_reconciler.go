@@ -268,6 +268,8 @@ func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaOb
 		return ctrl.Result{}, nil
 	}
 
+	conditions.SetCondition(metaObj, gr.PositiveConditions.Ready.Deleting(metaObj.GetGeneration()))
+
 	result, err := gr.Reconciler.Delete(ctx, log, gr.Recorder, metaObj)
 	// If the Delete call had no error and isn't asking us to requeue, then it succeeded and we can remove
 	// the finalizer
@@ -275,10 +277,6 @@ func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaOb
 		log.V(Info).Info("Delete succeeded, removing finalizer")
 		controllerutil.RemoveFinalizer(metaObj, genruntime.ReconcilerFinalizer)
 	}
-
-	// TODO: can't set this before the delete call right now due to how ARM resources determine if they need to issue a first delete.
-	// TODO: Once I merge a fix to use the async operation for delete polling this can move up to above the Delete call in theory
-	conditions.SetCondition(metaObj, gr.PositiveConditions.Ready.Deleting(metaObj.GetGeneration()))
 
 	return result, err
 }
