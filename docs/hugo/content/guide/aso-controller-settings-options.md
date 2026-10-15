@@ -362,3 +362,23 @@ DEFAULT_RECONCILE_POLICY specifies the reconcile strategy to be used by the oper
 **Required**: False
 
 **[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global
+
+### TLS_MIN_VERSION
+
+TLS_MIN_VERSION configures the minimum TLS version used by the webhook and metrics servers.
+If not specified, the default is `VersionTLS13`. Set it to `VersionTLS12` only when clients that
+connect to these servers do not support TLS 1.3.
+
+For Helm installations, set `tlsMinVersion` in your values file:
+
+```yaml
+tlsMinVersion: VersionTLS12
+```
+
+**Format:** `VersionTLS12|VersionTLS13`
+
+**Example:** `VersionTLS12`
+
+**Required**: False
+
+**[Allowed scopes]( {{< relref "authentication#credential-scope" >}} )**: Global

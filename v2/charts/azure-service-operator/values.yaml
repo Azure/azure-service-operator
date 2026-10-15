@@ -92,6 +92,11 @@ azureTargetNamespaces: []
 # watchers, webhooks or both.
 azureOperatorMode: ""
 
+# tlsMinVersion is the minimum TLS version used by the webhook and secure metrics servers.
+# Supported values are VersionTLS12 and VersionTLS13. If not specified, the controller default of VersionTLS13
+# is used.
+tlsMinVersion: ""
+
 webhook:
   # webhook.port determines the port the webhook endpoint binds to.
   port: 9443
