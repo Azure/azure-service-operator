@@ -14,10 +14,12 @@ import (
 )
 
 type profiler struct {
-	cpuProfilePath    string
-	memoryProfilePath string
-	cpuProfile        *os.File
-	memoryProfile     *os.File
+	cpuProfilePath      string
+	memoryProfilePath   string
+	blockingProfilePath string
+	cpuProfile          *os.File
+	memoryProfile       *os.File
+	blockingProfile     *os.File
 }
 
 func newProfiler() *profiler {
@@ -49,6 +51,17 @@ func (p *profiler) start() error {
 		}
 	}
 
+	if p.blockingProfilePath != "" {
+		p.blockingProfile, err = os.Create(p.blockingProfilePath)
+		if err != nil {
+			return p.cleanupAfterStartFailure(
+				fmt.Errorf("creating blocking profile %q: %w", p.blockingProfilePath, err),
+			)
+		}
+
+		runtime.SetBlockProfileRate(1)
+	}
+
 	return nil
 }
 
@@ -72,6 +85,19 @@ func (p *profiler) stop() error {
 		result = errors.Join(result, p.closeMemoryProfile())
 	}
 
+	if p.blockingProfile != nil {
+		runtime.SetBlockProfileRate(0)
+		profile := pprof.Lookup("block")
+		if profile != nil {
+			err := profile.WriteTo(p.blockingProfile, 0)
+			if err != nil {
+				result = errors.Join(result, fmt.Errorf("writing blocking profile %q: %w", p.blockingProfilePath, err))
+			}
+		}
+
+		result = errors.Join(result, p.closeBlockingProfile())
+	}
+
 	return result
 }
 
@@ -80,6 +106,7 @@ func (p *profiler) cleanupAfterStartFailure(startErr error) error {
 		startErr,
 		p.discardCPUProfile(),
 		p.discardMemoryProfile(),
+		p.discardBlockingProfile(),
 	)
 }
 
@@ -144,6 +171,39 @@ func (p *profiler) removeCPUProfile() error {
 func (p *profiler) removeMemoryProfile() error {
 	if err := os.Remove(p.memoryProfilePath); err != nil && !os.IsNotExist(err) {
 		return fmt.Errorf("removing memory profile %q: %w", p.memoryProfilePath, err)
+	}
+
+	return nil
+}
+
+func (p *profiler) closeBlockingProfile() error {
+	if p.blockingProfile == nil {
+		return nil
+	}
+
+	err := p.blockingProfile.Close()
+	p.blockingProfile = nil
+	if err != nil {
+		return fmt.Errorf("closing blocking profile %q: %w", p.blockingProfilePath, err)
+	}
+
+	return nil
+}
+
+func (p *profiler) discardBlockingProfile() error {
+	if p.blockingProfile == nil {
+		return nil
+	}
+
+	return errors.Join(
+		p.closeBlockingProfile(),
+		p.removeBlockingProfile(),
+	)
+}
+
+func (p *profiler) removeBlockingProfile() error {
+	if err := os.Remove(p.blockingProfilePath); err != nil && !os.IsNotExist(err) {
+		return fmt.Errorf("removing blocking profile %q: %w", p.blockingProfilePath, err)
 	}
 
 	return nil

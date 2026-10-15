@@ -62,6 +62,12 @@ func newRootCommand() (*cobra.Command, *profiler, error) {
 		"",
 		"Write a CPU profile to this file",
 	)
+	rootCmd.PersistentFlags().StringVar(
+		&profiler.blockingProfilePath,
+		"blocking-prof",
+		"",
+		"Write a blocking profile to this file",
+	)
 
 	rootCmd.MarkFlagsMutuallyExclusive("verbose", "quiet", "trace")
 
