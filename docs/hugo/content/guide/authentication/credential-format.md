@@ -875,16 +875,17 @@ If ASO was already installed on your cluster and you are updating the `aso-contr
 
 ## Azure CLI
 
-The global credential chain can use `az login` when the controller runs as a **local process** (the host can execute `az` and has a CLI session). This is the same credential `asoctl` already uses.
+The global credential chain can use `az login` when the controller runs as a **local process** and is started with `--enable-azure-cli-authentication`. This flag is **off by default**, so in-cluster pods do not invoke `az`. `asoctl` already uses Azure CLI without this flag.
 
 {{% alert title="Warning" color="warning" %}}
-Azure CLI authentication is not recommended for the in-cluster operator pod. The CLI token cache cannot be mounted into a pod, and credentials need refresh. Use workload identity or a service principal in production clusters.
+Do not set `--enable-azure-cli-authentication` on the in-cluster operator pod. The CLI token cache cannot be mounted into a pod, and credentials need refresh. Use workload identity or a service principal in production clusters.
 {{% /alert %}}
 
 ### Prerequisites
 
 1. [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed on the host running the controller.
 2. An `az login` session for the subscription ASO should use.
+3. Start the controller with `--enable-azure-cli-authentication`.
 
 ```bash
 az login
@@ -902,4 +903,4 @@ export AZURE_TENANT_ID="00000000-0000-0000-0000-00000000000"       # Set for the
 Do not set `AZURE_CLIENT_ID` or `AZURE_CLIENT_SECRET` when using only Azure CLI. EnvironmentCredential is tried first and will be preferred.
 {{% /alert %}}
 
-If IMDS is not present, managed identity is skipped so token acquisition does not hang, and Azure CLI is used instead.
+If IMDS is not present, managed identity is skipped so token acquisition does not hang. Azure CLI is used only when `--enable-azure-cli-authentication` is set.

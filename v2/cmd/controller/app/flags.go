@@ -31,6 +31,9 @@ type Flags struct {
 	CRDManagementMode    string
 	CRDPatterns          string // This is a ';' delimited string containing a collection of patterns
 	CRDLabels            string // This is a ',' or ';' delimited string containing labels to apply to managed CRDs
+	// EnableAzureCLIAuthentication adds AzureCLICredential to the default chain.
+	// Off by default so in-cluster pods do not invoke az.
+	EnableAzureCLIAuthentication bool
 }
 
 // parseCRDLabels parses the --crd-labels flag, rejecting any label reserved for ASO's own use.
@@ -65,7 +68,7 @@ func (f Flags) Validate() error {
 
 func (f Flags) String() string {
 	return fmt.Sprintf(
-		"MetricsAddr: %s, SecureMetrics: %t, ProfilingMetrics: %t, MetricsCertDir: %s, HealthAddr: %s, WebhookPort: %d, WebhookCertDir: %s, EnableLeaderElection: %t, LeaseDuration: %s, RenewDeadline: %s, RetryPeriod: %s, CRDManagementMode: %s, CRDPatterns: %s, CRDLabels: %s",
+		"MetricsAddr: %s, SecureMetrics: %t, ProfilingMetrics: %t, MetricsCertDir: %s, HealthAddr: %s, WebhookPort: %d, WebhookCertDir: %s, EnableLeaderElection: %t, LeaseDuration: %s, RenewDeadline: %s, RetryPeriod: %s, CRDManagementMode: %s, CRDPatterns: %s, CRDLabels: %s, EnableAzureCLIAuthentication: %t",
 		f.MetricsAddr,
 		f.SecureMetrics,
 		f.ProfilingMetrics,
@@ -80,6 +83,7 @@ func (f Flags) String() string {
 		f.CRDManagementMode,
 		f.CRDPatterns,
 		f.CRDLabels,
+		f.EnableAzureCLIAuthentication,
 	)
 }
 
@@ -104,6 +108,7 @@ func InitFlags(flagSet *flag.FlagSet) *Flags {
 		"Instructs the operator on how it should manage the Custom Resource Definitions. One of 'auto', 'none'")
 	flagSet.StringVar(&result.CRDPatterns, "crd-pattern", "", "Install these CRDs. CRDs already in the cluster will also always be upgraded.")
 	flagSet.StringVar(&result.CRDLabels, "crd-labels", "", "Comma-separated (or semicolon-separated) labels to apply to all managed CRDs (for example, example.com/owner=aso,environment=production). Labels reserved by the operator (app.kubernetes.io/name, app.kubernetes.io/version and the serviceoperator.azure.com/ prefix) cannot be set.")
+	flagSet.BoolVar(&result.EnableAzureCLIAuthentication, "enable-azure-cli-authentication", false, "Enable Azure CLI (az login) on the default credential chain. For a local controller process only; leave unset for in-cluster pods.")
 
 	return result
 }

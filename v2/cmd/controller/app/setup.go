@@ -137,7 +137,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 	}
 
 	//nolint:contextcheck
-	clients, err := initializeClients(ctx, cfg, mgr)
+	clients, err := initializeClients(ctx, cfg, mgr, flgs.EnableAzureCLIAuthentication)
 	if err != nil {
 		setupLog.Error(err, "failed to initialize clients")
 		os.Exit(1)
@@ -297,8 +297,8 @@ func getMetricsOpts(flags *Flags, tlsOpts []func(*tls.Config)) server.Options {
 	return metricsOptions
 }
 
-func getDefaultAzureCredential(ctx context.Context, cfg config.Values, setupLog logr.Logger) (*identity.Credential, error) {
-	tokenCred, err := getDefaultAzureTokenCredential(ctx, cfg, setupLog)
+func getDefaultAzureCredential(ctx context.Context, cfg config.Values, setupLog logr.Logger, enableAzureCLI bool) (*identity.Credential, error) {
+	tokenCred, err := getDefaultAzureTokenCredential(ctx, cfg, setupLog, enableAzureCLI)
 	if err != nil {
 		return nil, err
 	}
@@ -314,7 +314,7 @@ func getDefaultAzureCredential(ctx context.Context, cfg config.Values, setupLog 
 	), nil
 }
 
-func getDefaultAzureTokenCredential(ctx context.Context, cfg config.Values, setupLog logr.Logger) (azcore.TokenCredential, error) {
+func getDefaultAzureTokenCredential(ctx context.Context, cfg config.Values, setupLog logr.Logger, enableAzureCLI bool) (azcore.TokenCredential, error) {
 	// If subscriptionID is not supplied, then set default credential to not be used/nil
 	if cfg.SubscriptionID == "" {
 		setupLog.Info("No global credential configured, continuing without default global credential.")
@@ -377,12 +377,12 @@ func getDefaultAzureTokenCredential(ctx context.Context, cfg config.Values, setu
 		return credential, nil
 	}
 
-	return newChainedCredential(ctx, cfg, setupLog)
+	return newChainedCredential(ctx, cfg, setupLog, enableAzureCLI)
 }
 
 // newChainedCredential creates a ChainedTokenCredential with EnvironmentCredential,
-// ManagedIdentityCredential when IMDS is reachable, and AzureCLICredential.
-func newChainedCredential(ctx context.Context, cfg config.Values, setupLog logr.Logger) (azcore.TokenCredential, error) {
+// ManagedIdentityCredential when IMDS is reachable, and AzureCLICredential when enabled.
+func newChainedCredential(ctx context.Context, cfg config.Values, setupLog logr.Logger, enableAzureCLI bool) (azcore.TokenCredential, error) {
 	creds := make([]azcore.TokenCredential, 0, 3)
 
 	// EnvironmentCredential reads AZURE_ADDITIONALLY_ALLOWED_TENANTS from the environment
@@ -393,44 +393,13 @@ func newChainedCredential(ctx context.Context, cfg config.Values, setupLog logr.
 			},
 		},
 	)
-	if err != nil {
-		setupLog.Error(err, "EnvironmentCredential not available")
-	} else {
-		creds = append(creds, envCred)
-	}
+	creds = appendCredential(creds, envCred, err, setupLog, "EnvironmentCredential")
 
-	if isIMDSAvailable(ctx) {
-		miCredOptions := &azidentity.ManagedIdentityCredentialOptions{
-			ClientOptions: azcore.ClientOptions{
-				Cloud: cfg.Cloud(),
-			},
-		}
-		// If ClientID is set, use it for user-assigned managed identity
-		if cfg.ClientID != "" {
-			miCredOptions.ID = azidentity.ClientID(cfg.ClientID)
-		}
-		miCred, err := azidentity.NewManagedIdentityCredential(miCredOptions)
-		if err != nil {
-			setupLog.Error(err, "ManagedIdentityCredential not available")
-		} else {
-			creds = append(creds, miCred)
-		}
-	} else {
-		setupLog.Info("IMDS not reachable, skipping ManagedIdentityCredential")
-	}
+	miCred, err := tryCreateManagedIdentityCredential(ctx, cfg, setupLog)
+	creds = appendCredential(creds, miCred, err, setupLog, "ManagedIdentityCredential")
 
-	// SubscriptionID is always set here (newChainedCredential is not reached otherwise).
-	// az account get-access-token rejects --tenant and --subscription together, so do not set TenantID.
-	cliOpts := &azidentity.AzureCLICredentialOptions{
-		AdditionallyAllowedTenants: cfg.AdditionalTenants,
-		Subscription:               cfg.SubscriptionID,
-	}
-	cliCred, err := azidentity.NewAzureCLICredential(cliOpts)
-	if err != nil {
-		setupLog.Error(err, "AzureCLICredential not available")
-	} else {
-		creds = append(creds, cliCred)
-	}
+	cliCred, err := tryCreateAzureCLICredential(cfg, enableAzureCLI, setupLog)
+	creds = appendCredential(creds, cliCred, err, setupLog, "AzureCLICredential")
 
 	// We only return an error if there are no possible credentials to use.
 	// If only some credentials failed we suppress errors as it may be expected that
@@ -447,30 +416,49 @@ func newChainedCredential(ctx context.Context, cfg config.Values, setupLog logr.
 	return chainedCred, nil
 }
 
-func isIMDSAvailable(ctx context.Context) bool {
-	probeCtx, cancel := context.WithTimeout(ctx, 1*time.Second)
-	defer cancel()
-
-	req, err := http.NewRequestWithContext(
-		probeCtx,
-		http.MethodGet,
-		"http://169.254.169.254/metadata/identity/oauth2/token",
-		nil,
-	)
+// appendCredential records a construction failure and skips a nil credential.
+// A nil credential with a nil error means that credential is intentionally disabled.
+func appendCredential(creds []azcore.TokenCredential, cred azcore.TokenCredential, err error, setupLog logr.Logger, name string) []azcore.TokenCredential {
 	if err != nil {
-		return false
+		setupLog.Error(err, name+" not available")
+		return creds
 	}
-	req.Header.Set("Metadata", "true")
+	if cred != nil {
+		return append(creds, cred)
+	}
+	return creds
+}
 
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		if resp != nil && resp.Body != nil {
-			_ = resp.Body.Close()
-		}
-		return false
+func tryCreateManagedIdentityCredential(ctx context.Context, cfg config.Values, setupLog logr.Logger) (azcore.TokenCredential, error) {
+	if !identity.IsIMDSAvailable(ctx) {
+		setupLog.Info("IMDS not reachable, skipping ManagedIdentityCredential")
+		return nil, nil
 	}
-	defer resp.Body.Close()
-	return true
+
+	miCredOptions := &azidentity.ManagedIdentityCredentialOptions{
+		ClientOptions: azcore.ClientOptions{
+			Cloud: cfg.Cloud(),
+		},
+	}
+	// If ClientID is set, use it for user-assigned managed identity
+	if cfg.ClientID != "" {
+		miCredOptions.ID = azidentity.ClientID(cfg.ClientID)
+	}
+	return azidentity.NewManagedIdentityCredential(miCredOptions)
+}
+
+func tryCreateAzureCLICredential(cfg config.Values, enable bool, setupLog logr.Logger) (azcore.TokenCredential, error) {
+	if !enable {
+		return nil, nil
+	}
+	setupLog.Info("Azure CLI authentication enabled")
+
+	// SubscriptionID is always set here (newChainedCredential is not reached otherwise).
+	// az account get-access-token rejects --tenant and --subscription together, so do not set TenantID.
+	return azidentity.NewAzureCLICredential(&azidentity.AzureCLICredentialOptions{
+		AdditionallyAllowedTenants: cfg.AdditionalTenants,
+		Subscription:               cfg.SubscriptionID,
+	})
 }
 
 type clients struct {
@@ -496,14 +484,14 @@ func (c *clients) EntraConnectionFactory() entrareconciler.EntraConnectionFactor
 	return c.entraConnectionFactory
 }
 
-func initializeClients(ctx context.Context, cfg config.Values, mgr ctrl.Manager) (*clients, error) {
+func initializeClients(ctx context.Context, cfg config.Values, mgr ctrl.Manager, enableAzureCLI bool) (*clients, error) {
 	armMetrics := asometrics.NewARMClientMetrics()
 	celMetrics := asometrics.NewCEL()
 	asometrics.RegisterMetrics(armMetrics, celMetrics)
 
 	log := ctrl.Log.WithName("controllers")
 
-	credential, err := getDefaultAzureCredential(ctx, cfg, log)
+	credential, err := getDefaultAzureCredential(ctx, cfg, log, enableAzureCLI)
 	if err != nil {
 		return nil, eris.Wrap(err, "error while fetching default global credential")
 	}

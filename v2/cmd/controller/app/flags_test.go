@@ -60,6 +60,17 @@ func TestLeaderElectionFlagsValidation(t *testing.T) {
 	}
 }
 
+func TestEnableAzureCLIAuthenticationFlag(t *testing.T) {
+	t.Parallel()
+	g := NewWithT(t)
+	flagSet := flag.NewFlagSet("test", flag.ContinueOnError)
+	flags := InitFlags(flagSet)
+
+	g.Expect(flags.EnableAzureCLIAuthentication).To(BeFalse())
+	g.Expect(flagSet.Parse([]string{"--enable-azure-cli-authentication"})).To(Succeed())
+	g.Expect(flags.EnableAzureCLIAuthentication).To(BeTrue())
+}
+
 func TestCRDLabelsFlag(t *testing.T) {
 	t.Parallel()
 	g := NewWithT(t)
