@@ -11,7 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	devices "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
+	devices "github.com/Azure/azure-service-operator/v2/api/devices/v20210702/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
 )

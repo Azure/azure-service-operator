@@ -5,7 +5,8 @@ package v1api20210702
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
+	devices_v1api20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
+	devices_v20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v20210702/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -28,7 +29,7 @@ func Test_ArmIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.ArmIdentity
+		var other devices_v1api20210702s.ArmIdentity
 		err := copied.AssignProperties_To_ArmIdentity(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -124,7 +125,7 @@ func Test_ArmIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.ArmIdentity_STATUS
+		var other devices_v1api20210702s.ArmIdentity_STATUS
 		err := copied.AssignProperties_To_ArmIdentity_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -225,7 +226,7 @@ func Test_ArmUserIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.ArmUserIdentity_STATUS
+		var other devices_v1api20210702s.ArmUserIdentity_STATUS
 		err := copied.AssignProperties_To_ArmUserIdentity_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -321,7 +322,7 @@ func Test_CloudToDeviceProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.CloudToDeviceProperties
+		var other devices_v1api20210702s.CloudToDeviceProperties
 		err := copied.AssignProperties_To_CloudToDeviceProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -420,7 +421,7 @@ func Test_CloudToDeviceProperties_STATUS_WhenPropertiesConverted_RoundTripsWitho
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.CloudToDeviceProperties_STATUS
+		var other devices_v1api20210702s.CloudToDeviceProperties_STATUS
 		err := copied.AssignProperties_To_CloudToDeviceProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -519,7 +520,7 @@ func Test_EnrichmentProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.EnrichmentProperties
+		var other devices_v1api20210702s.EnrichmentProperties
 		err := copied.AssignProperties_To_EnrichmentProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -617,7 +618,7 @@ func Test_EnrichmentProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.EnrichmentProperties_STATUS
+		var other devices_v1api20210702s.EnrichmentProperties_STATUS
 		err := copied.AssignProperties_To_EnrichmentProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -715,7 +716,7 @@ func Test_EventHubProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.EventHubProperties
+		var other devices_v1api20210702s.EventHubProperties
 		err := copied.AssignProperties_To_EventHubProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -810,7 +811,7 @@ func Test_EventHubProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.EventHubProperties_STATUS
+		var other devices_v1api20210702s.EventHubProperties_STATUS
 		err := copied.AssignProperties_To_EventHubProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -911,7 +912,7 @@ func Test_FallbackRouteProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.FallbackRouteProperties
+		var other devices_v1api20210702s.FallbackRouteProperties
 		err := copied.AssignProperties_To_FallbackRouteProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1013,7 +1014,7 @@ func Test_FallbackRouteProperties_STATUS_WhenPropertiesConverted_RoundTripsWitho
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.FallbackRouteProperties_STATUS
+		var other devices_v1api20210702s.FallbackRouteProperties_STATUS
 		err := copied.AssignProperties_To_FallbackRouteProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1115,7 +1116,7 @@ func Test_FeedbackProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.FeedbackProperties
+		var other devices_v1api20210702s.FeedbackProperties
 		err := copied.AssignProperties_To_FeedbackProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1212,7 +1213,7 @@ func Test_FeedbackProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.FeedbackProperties_STATUS
+		var other devices_v1api20210702s.FeedbackProperties_STATUS
 		err := copied.AssignProperties_To_FeedbackProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1310,7 +1311,7 @@ func Test_IotHub_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 		copied := subject.DeepCopy()
 
 		// Convert to our hub version
-		var hub storage.IotHub
+		var hub devices_v20210702s.IotHub
 		err := copied.ConvertTo(&hub)
 		if err != nil {
 			t.Fatal("ConvertTo: " + err.Error())
@@ -1348,7 +1349,7 @@ func Test_IotHub_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IotHub
+		var other devices_v1api20210702s.IotHub
 		err := copied.AssignProperties_To_IotHub(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1444,7 +1445,7 @@ func Test_IotHubLocationDescription_STATUS_WhenPropertiesConverted_RoundTripsWit
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IotHubLocationDescription_STATUS
+		var other devices_v1api20210702s.IotHubLocationDescription_STATUS
 		err := copied.AssignProperties_To_IotHubLocationDescription_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1541,7 +1542,7 @@ func Test_IotHubOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IotHubOperatorSecrets
+		var other devices_v1api20210702s.IotHubOperatorSecrets
 		err := copied.AssignProperties_To_IotHubOperatorSecrets(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1630,7 +1631,7 @@ func Test_IotHubOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IotHubOperatorSpec
+		var other devices_v1api20210702s.IotHubOperatorSpec
 		err := copied.AssignProperties_To_IotHubOperatorSpec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1724,7 +1725,7 @@ func Test_IotHubProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IotHubProperties
+		var other devices_v1api20210702s.IotHubProperties
 		err := copied.AssignProperties_To_IotHubProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1854,7 +1855,7 @@ func Test_IotHubProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IotHubProperties_STATUS
+		var other devices_v1api20210702s.IotHubProperties_STATUS
 		err := copied.AssignProperties_To_IotHubProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1992,7 +1993,7 @@ func Test_IotHubSkuInfo_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IotHubSkuInfo
+		var other devices_v1api20210702s.IotHubSkuInfo
 		err := copied.AssignProperties_To_IotHubSkuInfo(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -2088,7 +2089,7 @@ func Test_IotHubSkuInfo_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IotHubSkuInfo_STATUS
+		var other devices_v1api20210702s.IotHubSkuInfo_STATUS
 		err := copied.AssignProperties_To_IotHubSkuInfo_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -2187,7 +2188,7 @@ func Test_IotHub_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IotHub_STATUS
+		var other devices_v1api20210702s.IotHub_STATUS
 		err := copied.AssignProperties_To_IotHub_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -2297,7 +2298,7 @@ func Test_IotHub_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IotHub_Spec
+		var other devices_v1api20210702s.IotHub_Spec
 		err := copied.AssignProperties_To_IotHub_Spec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -2405,7 +2406,7 @@ func Test_IpFilterRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IpFilterRule
+		var other devices_v1api20210702s.IpFilterRule
 		err := copied.AssignProperties_To_IpFilterRule(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -2502,7 +2503,7 @@ func Test_IpFilterRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.IpFilterRule_STATUS
+		var other devices_v1api20210702s.IpFilterRule_STATUS
 		err := copied.AssignProperties_To_IpFilterRule_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -2600,7 +2601,7 @@ func Test_ManagedIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.ManagedIdentity
+		var other devices_v1api20210702s.ManagedIdentity
 		err := copied.AssignProperties_To_ManagedIdentity(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -2694,7 +2695,7 @@ func Test_ManagedIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.ManagedIdentity_STATUS
+		var other devices_v1api20210702s.ManagedIdentity_STATUS
 		err := copied.AssignProperties_To_ManagedIdentity_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -2789,7 +2790,7 @@ func Test_MessagingEndpointProperties_WhenPropertiesConverted_RoundTripsWithoutL
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.MessagingEndpointProperties
+		var other devices_v1api20210702s.MessagingEndpointProperties
 		err := copied.AssignProperties_To_MessagingEndpointProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -2887,7 +2888,7 @@ func Test_MessagingEndpointProperties_STATUS_WhenPropertiesConverted_RoundTripsW
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.MessagingEndpointProperties_STATUS
+		var other devices_v1api20210702s.MessagingEndpointProperties_STATUS
 		err := copied.AssignProperties_To_MessagingEndpointProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -2985,7 +2986,7 @@ func Test_NetworkRuleSetIpRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NetworkRuleSetIpRule
+		var other devices_v1api20210702s.NetworkRuleSetIpRule
 		err := copied.AssignProperties_To_NetworkRuleSetIpRule(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -3083,7 +3084,7 @@ func Test_NetworkRuleSetIpRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NetworkRuleSetIpRule_STATUS
+		var other devices_v1api20210702s.NetworkRuleSetIpRule_STATUS
 		err := copied.AssignProperties_To_NetworkRuleSetIpRule_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -3181,7 +3182,7 @@ func Test_NetworkRuleSetProperties_WhenPropertiesConverted_RoundTripsWithoutLoss
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NetworkRuleSetProperties
+		var other devices_v1api20210702s.NetworkRuleSetProperties
 		err := copied.AssignProperties_To_NetworkRuleSetProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -3280,7 +3281,7 @@ func Test_NetworkRuleSetProperties_STATUS_WhenPropertiesConverted_RoundTripsWith
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NetworkRuleSetProperties_STATUS
+		var other devices_v1api20210702s.NetworkRuleSetProperties_STATUS
 		err := copied.AssignProperties_To_NetworkRuleSetProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -3379,7 +3380,7 @@ func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWit
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.PrivateEndpointConnection_STATUS
+		var other devices_v1api20210702s.PrivateEndpointConnection_STATUS
 		err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -3474,7 +3475,7 @@ func Test_RouteProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RouteProperties
+		var other devices_v1api20210702s.RouteProperties
 		err := copied.AssignProperties_To_RouteProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -3576,7 +3577,7 @@ func Test_RouteProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RouteProperties_STATUS
+		var other devices_v1api20210702s.RouteProperties_STATUS
 		err := copied.AssignProperties_To_RouteProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -3678,7 +3679,7 @@ func Test_RoutingEndpoints_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RoutingEndpoints
+		var other devices_v1api20210702s.RoutingEndpoints
 		err := copied.AssignProperties_To_RoutingEndpoints(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -3778,7 +3779,7 @@ func Test_RoutingEndpoints_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RoutingEndpoints_STATUS
+		var other devices_v1api20210702s.RoutingEndpoints_STATUS
 		err := copied.AssignProperties_To_RoutingEndpoints_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -3879,7 +3880,7 @@ func Test_RoutingEventHubProperties_WhenPropertiesConverted_RoundTripsWithoutLos
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RoutingEventHubProperties
+		var other devices_v1api20210702s.RoutingEventHubProperties
 		err := copied.AssignProperties_To_RoutingEventHubProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -3983,7 +3984,7 @@ func Test_RoutingEventHubProperties_STATUS_WhenPropertiesConverted_RoundTripsWit
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RoutingEventHubProperties_STATUS
+		var other devices_v1api20210702s.RoutingEventHubProperties_STATUS
 		err := copied.AssignProperties_To_RoutingEventHubProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -4087,7 +4088,7 @@ func Test_RoutingProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RoutingProperties
+		var other devices_v1api20210702s.RoutingProperties
 		err := copied.AssignProperties_To_RoutingProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -4187,7 +4188,7 @@ func Test_RoutingProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RoutingProperties_STATUS
+		var other devices_v1api20210702s.RoutingProperties_STATUS
 		err := copied.AssignProperties_To_RoutingProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -4288,7 +4289,7 @@ func Test_RoutingServiceBusQueueEndpointProperties_WhenPropertiesConverted_Round
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RoutingServiceBusQueueEndpointProperties
+		var other devices_v1api20210702s.RoutingServiceBusQueueEndpointProperties
 		err := copied.AssignProperties_To_RoutingServiceBusQueueEndpointProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -4392,7 +4393,7 @@ func Test_RoutingServiceBusQueueEndpointProperties_STATUS_WhenPropertiesConverte
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RoutingServiceBusQueueEndpointProperties_STATUS
+		var other devices_v1api20210702s.RoutingServiceBusQueueEndpointProperties_STATUS
 		err := copied.AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -4496,7 +4497,7 @@ func Test_RoutingServiceBusTopicEndpointProperties_WhenPropertiesConverted_Round
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RoutingServiceBusTopicEndpointProperties
+		var other devices_v1api20210702s.RoutingServiceBusTopicEndpointProperties
 		err := copied.AssignProperties_To_RoutingServiceBusTopicEndpointProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -4600,7 +4601,7 @@ func Test_RoutingServiceBusTopicEndpointProperties_STATUS_WhenPropertiesConverte
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RoutingServiceBusTopicEndpointProperties_STATUS
+		var other devices_v1api20210702s.RoutingServiceBusTopicEndpointProperties_STATUS
 		err := copied.AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -4704,7 +4705,7 @@ func Test_RoutingStorageContainerProperties_WhenPropertiesConverted_RoundTripsWi
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RoutingStorageContainerProperties
+		var other devices_v1api20210702s.RoutingStorageContainerProperties
 		err := copied.AssignProperties_To_RoutingStorageContainerProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -4814,7 +4815,7 @@ func Test_RoutingStorageContainerProperties_STATUS_WhenPropertiesConverted_Round
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.RoutingStorageContainerProperties_STATUS
+		var other devices_v1api20210702s.RoutingStorageContainerProperties_STATUS
 		err := copied.AssignProperties_To_RoutingStorageContainerProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -4924,7 +4925,7 @@ func Test_SharedAccessSignatureAuthorizationRule_WhenPropertiesConverted_RoundTr
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.SharedAccessSignatureAuthorizationRule
+		var other devices_v1api20210702s.SharedAccessSignatureAuthorizationRule
 		err := copied.AssignProperties_To_SharedAccessSignatureAuthorizationRule(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -5021,7 +5022,7 @@ func Test_SharedAccessSignatureAuthorizationRule_STATUS_WhenPropertiesConverted_
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.SharedAccessSignatureAuthorizationRule_STATUS
+		var other devices_v1api20210702s.SharedAccessSignatureAuthorizationRule_STATUS
 		err := copied.AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -5118,7 +5119,7 @@ func Test_StorageEndpointProperties_WhenPropertiesConverted_RoundTripsWithoutLos
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.StorageEndpointProperties
+		var other devices_v1api20210702s.StorageEndpointProperties
 		err := copied.AssignProperties_To_StorageEndpointProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -5218,7 +5219,7 @@ func Test_StorageEndpointProperties_STATUS_WhenPropertiesConverted_RoundTripsWit
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.StorageEndpointProperties_STATUS
+		var other devices_v1api20210702s.StorageEndpointProperties_STATUS
 		err := copied.AssignProperties_To_StorageEndpointProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -5318,7 +5319,7 @@ func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.SystemData_STATUS
+		var other devices_v1api20210702s.SystemData_STATUS
 		err := copied.AssignProperties_To_SystemData_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -5419,7 +5420,7 @@ func Test_UserAssignedIdentityDetails_WhenPropertiesConverted_RoundTripsWithoutL
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.UserAssignedIdentityDetails
+		var other devices_v1api20210702s.UserAssignedIdentityDetails
 		err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
