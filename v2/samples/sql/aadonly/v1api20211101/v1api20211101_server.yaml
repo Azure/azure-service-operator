@@ -1,0 +1,14 @@
+apiVersion: sql.azure.com/v1api20211101
+kind: Server
+metadata:
+  name: aso-sample-sql-aadonly
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-rg
+  location: australiaeast
+  administratorLogin: temporary-admin
+  administratorLoginPassword:
+    name: sql-aadonly-password
+    key: password
+  version: "12.0"
