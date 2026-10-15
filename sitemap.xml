@@ -679,6 +679,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v20210701/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/devices/v20210702/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerregistry/v20210901/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerinstance/v20211001/</loc>

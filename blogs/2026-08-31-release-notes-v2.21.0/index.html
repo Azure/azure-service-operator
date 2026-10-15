@@ -22,7 +22,7 @@
 	<meta itemprop="description" content="Release notes for Azure Service Operator v2.21.0">
 	<meta itemprop="datePublished" content="2026-08-31T00:00:00+00:00">
 	<meta itemprop="dateModified" content="2026-08-31T00:00:00+00:00">
-	<meta itemprop="wordCount" content="420">
+	<meta itemprop="wordCount" content="422">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="ASO v2.21 Release Notes">
 	<meta name="twitter:description" content="Release notes for Azure Service Operator v2.21.0">
@@ -81,7 +81,7 @@
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.02de0cb95808d7495b5142ace7ccf118.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.7ce77d9ad3eda4843dc8ae28d451d28d.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -107,7 +107,7 @@
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.02de0cb95808d7495b5142ace7ccf118.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.7ce77d9ad3eda4843dc8ae28d451d28d.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -214,7 +214,7 @@
 <h2 id="-other-improvements">✨ Other improvements</h2>
 <ul>
 <li>ASO can now <a href="https://github.com/Azure/azure-service-operator/pull/5490">acquire credentials from an ASO-created managed identity</a>.</li>
-<li>A new <a href="https://github.com/Azure/azure-service-operator/pull/5620"><code>--tls-min-version</code> flag</a> configures the minimum TLS version used by the webhook and metrics servers.</li>
+<li>A new <a href="/azure-service-operator/guide/aso-controller-settings-options/#tls_min_version"><code>TLS_MIN_VERSION</code></a> environment variable configures the minimum TLS version used by the webhook and metrics servers.</li>
 <li>CRD comparison is faster, improving operator start-up when many CRDs are installed.</li>
 <li>ASO-managed CRDs can carry additional labels.</li>
 <li>AKS agent pools are requeued while control-plane upgrades are in progress, and Front Door custom-domain route association errors are retried sooner.</li>
@@ -225,7 +225,7 @@
 <li>Added the missing Application Gateway private-link IP configuration model.</li>
 </ul>
 <h2 id="-looking-ahead">🔭 Looking ahead</h2>
-<p>ASO v2.22 will default the webhook and metrics servers to TLS 1.3. You will still be able to enable TLS 1.2 with the <code>--tls-min-version</code> flag when required.</p>
+<p>ASO v2.22 will default the webhook and metrics servers to TLS 1.3. You will still be able to enable TLS 1.2 with the <a href="/azure-service-operator/guide/aso-controller-settings-options/#tls_min_version"><code>TLS_MIN_VERSION</code></a> environment variable when required.</p>
 <h2 id="-thank-you">🙏 Thank You</h2>
 <p>Thank you to all our contributors for making this release possible, including first-time contributors <a href="https://github.com/andreidorin-oprea">andreidorin-oprea</a> and <a href="https://github.com/marek-veber">Marek Veber</a>.</p>
 <p>See the <a href="https://github.com/Azure/azure-service-operator/releases/tag/v2.21.0"><strong>full release notes</strong></a> on GitHub for the complete list of changes.</p>

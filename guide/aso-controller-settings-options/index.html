@@ -27,7 +27,7 @@ Warning Not every resource ASO manages operates in the scope of a subscription. 
 The supported options are:
 AZURE_SUBSCRIPTION_ID Azure subscription the operator will use for ARM communication if no more specific credential is specified at the per-resource or per-namespace scope.
 Warning Not every resource ASO manages operates in the scope of a subscription. This field applies to resources that live in a subscription but is ignored for resources that don’t fit in a subscription, such as Entra Security Group and Subscription Alias.">
-	<meta itemprop="wordCount" content="1438">
+	<meta itemprop="wordCount" content="1496">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Configuring ASO">
 	<meta name="twitter:description" content="Configuration of ASO is done primarily through a secret in the azureserviceoperator-system namespace called aso-controller-settings. This secret contains both details about the (optional) global credential as well as other operator pod options.
@@ -89,7 +89,7 @@ Warning Not every resource ASO manages operates in the scope of a subscription. 
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.02de0cb95808d7495b5142ace7ccf118.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.7ce77d9ad3eda4843dc8ae28d451d28d.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -115,7 +115,7 @@ Warning Not every resource ASO manages operates in the scope of a subscription. 
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.02de0cb95808d7495b5142ace7ccf118.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.7ce77d9ad3eda4843dc8ae28d451d28d.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -305,6 +305,7 @@ Warning Not every resource ASO manages operates in the scope of a subscription. 
         <li><a href="#rate_limit_qps">RATE_LIMIT_QPS</a></li>
         <li><a href="#rate_limit_bucket_size">RATE_LIMIT_BUCKET_SIZE</a></li>
         <li><a href="#default_reconcile_policy">DEFAULT_RECONCILE_POLICY</a></li>
+        <li><a href="#tls_min_version">TLS_MIN_VERSION</a></li>
       </ul>
     </li>
   </ul>
@@ -542,6 +543,16 @@ This value only has an effect if RATE_LIMIT_MODE is &lsquo;bucket&rsquo;.</p>
 <p>DEFAULT_RECONCILE_POLICY specifies the reconcile strategy to be used by the operator. If not specified, it is set to &lsquo;manage&rsquo;.</p>
 <p><strong>Format:</strong> <code>string</code></p>
 <p><strong>Example:</strong> <code>detach-on-delete</code></p>
+<p><strong>Required</strong>: False</p>
+<p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
+<h3 id="tls_min_version">TLS_MIN_VERSION</h3>
+<p>TLS_MIN_VERSION configures the minimum TLS version used by the webhook and metrics servers.
+If not specified, the default is <code>VersionTLS13</code>. Set it to <code>VersionTLS12</code> only when clients that
+connect to these servers do not support TLS 1.3.</p>
+<p>For Helm installations, set <code>tlsMinVersion</code> in your values file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">tlsMinVersion</span>: <span style="color:#ae81ff">VersionTLS12</span>
+</span></span></code></pre></div><p><strong>Format:</strong> <code>VersionTLS12|VersionTLS13</code></p>
+<p><strong>Example:</strong> <code>VersionTLS12</code></p>
 <p><strong>Required</strong>: False</p>
 <p><strong><a href="/azure-service-operator/guide/authentication/#credential-scope">Allowed scopes</a></strong>: Global</p>
 
