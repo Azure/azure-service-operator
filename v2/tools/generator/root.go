@@ -20,7 +20,8 @@ import (
 
 // Execute kicks off the command line
 func Execute() {
-	cmd, profiler, err := newRootCommand()
+	profiler := newProfiler()
+	cmd, err := newRootCommand(profiler)
 	if err != nil {
 		log := CreateLogger()
 		log.Error(err, "failed to create root command")
@@ -35,8 +36,7 @@ func Execute() {
 	}
 }
 
-func newRootCommand() (*cobra.Command, *profiler, error) {
-	profiler := newProfiler()
+func newRootCommand(profiler *profiler) (*cobra.Command, error) {
 	rootCmd := &cobra.Command{
 		Use:              "aso-gen",
 		Short:            "aso-gen provides a cmdline interface for generating Azure Service Operator types from Azure deployment template schema",
@@ -79,7 +79,7 @@ func newRootCommand() (*cobra.Command, *profiler, error) {
 	for _, f := range cmdFuncs {
 		cmd, err := f()
 		if err != nil {
-			return rootCmd, profiler, err
+			return rootCmd, err
 		}
 		rootCmd.AddCommand(cmd)
 	}
@@ -108,7 +108,7 @@ func newRootCommand() (*cobra.Command, *profiler, error) {
 		return profiler.start()
 	}
 
-	return rootCmd, profiler, nil
+	return rootCmd, nil
 }
 
 type profileStopper interface {

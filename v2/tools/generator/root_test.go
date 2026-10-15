@@ -21,7 +21,8 @@ import (
 func TestRootCommand_ExposesProfilingFlags(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	cmd, _, err := newRootCommand()
+	profiler := newProfiler()
+	cmd, err := newRootCommand(profiler)
 	g.Expect(err).NotTo(HaveOccurred())
 	g.Expect(cmd.PersistentFlags().Lookup("cpu-prof")).NotTo(BeNil())
 	g.Expect(cmd.PersistentFlags().Lookup("memory-prof")).NotTo(BeNil())
@@ -32,7 +33,8 @@ func TestRootCommand_FinalizesProfilesAfterCommandFailure(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	memoryPath := filepath.Join(t.TempDir(), "memory.pprof")
-	cmd, profiler, err := newRootCommand()
+	profiler := newProfiler()
+	cmd, err := newRootCommand(profiler)
 	g.Expect(err).NotTo(HaveOccurred())
 
 	commandErr := errors.New("command failed")
@@ -54,7 +56,8 @@ func TestRootCommand_FinalizesProfilesAfterCommandFailure(t *testing.T) {
 func TestRootCommand_InvalidProfilePathPreventsExecution(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	cmd, profiler, err := newRootCommand()
+	profiler := newProfiler()
+	cmd, err := newRootCommand(profiler)
 	g.Expect(err).NotTo(HaveOccurred())
 
 	executed := false
@@ -77,7 +80,8 @@ func TestExecuteRootCommand_InvalidFlagGroupsDoNotCreateProfiles(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	memoryPath := filepath.Join(t.TempDir(), "memory.pprof")
-	cmd, profiler, err := newRootCommand()
+	profiler := newProfiler()
+	cmd, err := newRootCommand(profiler)
 	g.Expect(err).NotTo(HaveOccurred())
 
 	executed := false
@@ -106,7 +110,8 @@ func TestExecuteRootCommand_AcceptsRootProfilingFlagsBeforeSubcommand(t *testing
 	g := NewGomegaWithT(t)
 
 	memoryPath := filepath.Join(t.TempDir(), "memory.pprof")
-	cmd, profiler, err := newRootCommand()
+	profiler := newProfiler()
+	cmd, err := newRootCommand(profiler)
 	g.Expect(err).NotTo(HaveOccurred())
 
 	executed := false
@@ -134,7 +139,8 @@ func TestExecuteRootCommand_InvalidArgumentsDoNotCreateProfiles(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	memoryPath := filepath.Join(t.TempDir(), "memory.pprof")
-	cmd, profiler, err := newRootCommand()
+	profiler := newProfiler()
+	cmd, err := newRootCommand(profiler)
 	g.Expect(err).NotTo(HaveOccurred())
 
 	err = executeRootCommand(
@@ -154,7 +160,8 @@ func TestExecuteRootCommand_MissingRequiredFlagsDoNotCreateProfiles(t *testing.T
 	g := NewGomegaWithT(t)
 
 	memoryPath := filepath.Join(t.TempDir(), "memory.pprof")
-	cmd, profiler, err := newRootCommand()
+	profiler := newProfiler()
+	cmd, err := newRootCommand(profiler)
 	g.Expect(err).NotTo(HaveOccurred())
 
 	executed := false
