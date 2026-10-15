@@ -18,6 +18,10 @@ groupModelConfiguration:
       RoleDefinitionId:
         $description: The role definition ID. This can be the ARM ID of a custom role definition, or the well-known name of a built-in role definition. See https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles for well-known role definition names.
         $referenceType: arm+wellknown
+        # Note that while there are fields TargetRoleEligibilityScheduleId and TargetRoleEligibilityScheduleInstanceId which
+        # are definitely at least sometimes ARM IDs (see the test recordings for this resource), but according to this sample: 
+        # https://github.com/Azure/azure-rest-api-specs/blob/main/specification/authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2020-10-01/examples/PutRoleEligibilityScheduleRequest.json
+        # they are also sometimes UUIDs. Not forcing them to ARM ID at this point due to the above.
   2020-08-01-preview:
     RoleAssignment:
       $exportAs: RoleAssignment

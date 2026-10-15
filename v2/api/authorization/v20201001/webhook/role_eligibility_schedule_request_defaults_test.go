@@ -43,7 +43,7 @@ func TestRoleEligibilityScheduleRequest_DefaultAzureName(t *testing.T) {
 		t.Fatal(err)
 	}
 	if _, err := uuid.Parse(first.AzureName()); err != nil {
-		t.Fatalf("expected a UUID Azure name, got %q: %v", first.AzureName(), err)
+		t.Fatalf("expected a UUID Azure name, got %q: %s", first.AzureName(), err)
 	}
 
 	second := newRequest()

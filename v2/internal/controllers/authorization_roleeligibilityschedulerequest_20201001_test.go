@@ -73,6 +73,7 @@ func Test_Authorization_RoleEligibilityScheduleRequest_20201001_CRUD(t *testing.
 	tc.Expect(request.Status.Id).ToNot(BeNil())
 	tc.Expect(request.Status.TargetRoleEligibilityScheduleId).ToNot(BeNil())
 
+	// Note that with this resource, you cannot delete it to remove the role eligibility schedule directly; you must issue a remove request instead.
 	removeRequest := &authorization.RoleEligibilityScheduleRequest{
 		ObjectMeta: tc.MakeObjectMeta("remove"),
 		Spec: authorization.RoleEligibilityScheduleRequest_Spec{
