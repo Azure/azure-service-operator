@@ -4,3 +4,5 @@ groupModelConfiguration:
       $supportedFrom: v2.21.0
     SecurityGroup:
       $supportedFrom: v2.14.0
+    ServicePrincipal:
+      $supportedFrom: v2.22.0

@@ -1,0 +1,205 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: graph.microsoft.com
+        form:
+            $filter:
+                - appId eq 'a232010e-820c-4083-83bb-3ace5fc29d0b'
+        headers:
+            Accept:
+                - application/json
+        url: https://graph.microsoft.com/beta/servicePrincipals?%24filter=appId%20eq%20%27a232010e-820c-4083-83bb-3ace5fc29d0b%27
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        content_length: -1
+        uncompressed: true
+        body: '{"@odata.context":"https://graph.microsoft.com/beta/$metadata#servicePrincipals","value":[{"id":"891b57ff-7083-4e75-b543-e0f5385eece6","deletedDateTime":null,"accountEnabled":true,"alternativeNames":[],"createdByAppId":"797f4846-ba00-4fd7-ba43-dac1f8f63013","createdDateTime":"2001-02-03T04:05:06Z","deviceManagementAppType":null,"appDescription":null,"appDisplayName":"Azure Cosmos DB","appId":"a232010e-820c-4083-83bb-3ace5fc29d0b","applicationTemplateId":null,"appOwnerOrganizationId":"f8cdef31-a31e-4b4a-93e4-5f571e91255a","appRoleAssignmentRequired":false,"assignmentRequiredForPrincipalTypes":null,"description":null,"disabledByMicrosoftStatus":null,"displayName":"Azure Cosmos DB","errorUrl":null,"homepage":null,"isAuthorizationServiceEnabled":false,"isDisabled":null,"isHardDeleteProtectionEnabled":null,"isManagementRestricted":null,"loginUrl":null,"logoutUrl":null,"notes":null,"notificationEmailAddresses":[],"preferredSingleSignOnMode":null,"preferredTokenSigningKeyEndDateTime":null,"preferredTokenSigningKeyThumbprint":null,"publisherName":"Microsoft Services","replyUrls":[],"samlMetadataUrl":null,"samlSLOBindingType":"httpRedirect","servicePrincipalNames":["a232010e-820c-4083-83bb-3ace5fc29d0b","https://cosmos.azure.com","https://cosmos.windows-ppe.net"],"servicePrincipalType":"Application","signInAudience":"AzureADMultipleOrgs","tags":[],"tokenEncryptionKeyId":null,"certification":null,"samlSingleSignOnSettings":null,"addIns":[],"api":{"resourceSpecificApplicationPermissions":[]},"appRoles":[],"info":{"termsOfServiceUrl":null,"supportUrl":null,"privacyStatementUrl":null,"marketingUrl":null,"logoUrl":null},"keyCredentials":[],"publishedPermissionScopes":[{"adminConsentDescription":"Allow the application to access Azure Cosmos DB on behalf of the signed-in user.","adminConsentDisplayName":"Access Azure Cosmos DB","id":"8741c20d-e8c0-41ff-8adf-b7b9ba168197","isEnabled":true,"type":"User","userConsentDescription":"Allow the application to access Azure Cosmos DB on your behalf.","userConsentDisplayName":"Access Azure Cosmos DB as the Signed-in User","value":"user_impersonation","isPrivate":false}],"passwordCredentials":[],"resourceSpecificApplicationPermissions":[],"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null}}]}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Type:
+                - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+            Deprecation:
+                - Mon, 18 Apr 2022 23:59:59 GMT
+            Link:
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:PermissionRestrictionPolicy&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:PermissionRestrictionPolicy&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:assignmentRequiredForPrincipalTypes&from=2024-08-01&to=2024-09-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:assignmentRequiredForPrincipalTypes&from=2024-08-01&to=2024-09-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:SPCertification&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:HardDeleteProtection&from=2026-06-01&to=2026-07-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationsInAdministrativeUnits&from=2021-05-01&to=2021-06-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:PermissionRestrictionPolicy&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:samlSLOPostBinding&from=2023-04-01&to=2023-05-01>;rel="deprecation";type="text/html"
+            Odata-Version:
+                - "4.0"
+            Strict-Transport-Security:
+                - max-age=31536000
+            Sunset:
+                - Thu, 18 Apr 2024 23:59:59 GMT
+            Vary:
+                - Accept-Encoding
+        status: 200 OK
+        code: 200
+        duration: 746.948725ms
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: graph.microsoft.com
+        headers:
+            Accept:
+                - application/json
+        url: https://graph.microsoft.com/beta/servicePrincipals/891b57ff-7083-4e75-b543-e0f5385eece6
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        content_length: -1
+        uncompressed: true
+        body: '{"@odata.context":"https://graph.microsoft.com/beta/$metadata#servicePrincipals/$entity","id":"891b57ff-7083-4e75-b543-e0f5385eece6","deletedDateTime":null,"accountEnabled":true,"alternativeNames":[],"createdByAppId":"797f4846-ba00-4fd7-ba43-dac1f8f63013","createdDateTime":"2001-02-03T04:05:06Z","deviceManagementAppType":null,"appDescription":null,"appDisplayName":"Azure Cosmos DB","appId":"a232010e-820c-4083-83bb-3ace5fc29d0b","applicationTemplateId":null,"appOwnerOrganizationId":"f8cdef31-a31e-4b4a-93e4-5f571e91255a","appRoleAssignmentRequired":false,"assignmentRequiredForPrincipalTypes":null,"description":null,"disabledByMicrosoftStatus":null,"displayName":"Azure Cosmos DB","errorUrl":null,"homepage":null,"isAuthorizationServiceEnabled":false,"isDisabled":null,"isHardDeleteProtectionEnabled":null,"isManagementRestricted":null,"loginUrl":null,"logoutUrl":null,"notes":null,"notificationEmailAddresses":[],"preferredSingleSignOnMode":null,"preferredTokenSigningKeyEndDateTime":null,"preferredTokenSigningKeyThumbprint":null,"publisherName":"Microsoft Services","replyUrls":[],"samlMetadataUrl":null,"samlSLOBindingType":"httpRedirect","servicePrincipalNames":["a232010e-820c-4083-83bb-3ace5fc29d0b","https://cosmos.azure.com","https://cosmos.windows-ppe.net"],"servicePrincipalType":"Application","signInAudience":"AzureADMultipleOrgs","tags":[],"tokenEncryptionKeyId":null,"certification":null,"samlSingleSignOnSettings":null,"addIns":[],"api":{"resourceSpecificApplicationPermissions":[]},"appRoles":[],"info":{"termsOfServiceUrl":null,"supportUrl":null,"privacyStatementUrl":null,"marketingUrl":null,"logoUrl":null},"keyCredentials":[],"publishedPermissionScopes":[{"adminConsentDescription":"Allow the application to access Azure Cosmos DB on behalf of the signed-in user.","adminConsentDisplayName":"Access Azure Cosmos DB","id":"8741c20d-e8c0-41ff-8adf-b7b9ba168197","isEnabled":true,"type":"User","userConsentDescription":"Allow the application to access Azure Cosmos DB on your behalf.","userConsentDisplayName":"Access Azure Cosmos DB as the Signed-in User","value":"user_impersonation","isPrivate":false}],"passwordCredentials":[],"resourceSpecificApplicationPermissions":[],"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Type:
+                - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+            Deprecation:
+                - Mon, 18 Apr 2022 23:59:59 GMT
+            Link:
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:PermissionRestrictionPolicy&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:PermissionRestrictionPolicy&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:assignmentRequiredForPrincipalTypes&from=2024-08-01&to=2024-09-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:assignmentRequiredForPrincipalTypes&from=2024-08-01&to=2024-09-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:SPCertification&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:HardDeleteProtection&from=2026-06-01&to=2026-07-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationsInAdministrativeUnits&from=2021-05-01&to=2021-06-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:PermissionRestrictionPolicy&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:samlSLOPostBinding&from=2023-04-01&to=2023-05-01>;rel="deprecation";type="text/html"
+            Odata-Version:
+                - "4.0"
+            Strict-Transport-Security:
+                - max-age=31536000
+            Sunset:
+                - Thu, 18 Apr 2024 23:59:59 GMT
+            Vary:
+                - Accept-Encoding
+        status: 200 OK
+        code: 200
+        duration: 93.268104ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: graph.microsoft.com
+        form:
+            $filter:
+                - appId eq 'a232010e-820c-4083-83bb-3ace5fc29d0b'
+        headers:
+            Accept:
+                - application/json
+        url: https://graph.microsoft.com/beta/servicePrincipals?%24filter=appId%20eq%20%27a232010e-820c-4083-83bb-3ace5fc29d0b%27
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        content_length: -1
+        uncompressed: true
+        body: '{"@odata.context":"https://graph.microsoft.com/beta/$metadata#servicePrincipals","value":[{"id":"891b57ff-7083-4e75-b543-e0f5385eece6","deletedDateTime":null,"accountEnabled":true,"alternativeNames":[],"createdByAppId":"797f4846-ba00-4fd7-ba43-dac1f8f63013","createdDateTime":"2001-02-03T04:05:06Z","deviceManagementAppType":null,"appDescription":null,"appDisplayName":"Azure Cosmos DB","appId":"a232010e-820c-4083-83bb-3ace5fc29d0b","applicationTemplateId":null,"appOwnerOrganizationId":"f8cdef31-a31e-4b4a-93e4-5f571e91255a","appRoleAssignmentRequired":false,"assignmentRequiredForPrincipalTypes":null,"description":null,"disabledByMicrosoftStatus":null,"displayName":"Azure Cosmos DB","errorUrl":null,"homepage":null,"isAuthorizationServiceEnabled":false,"isDisabled":null,"isHardDeleteProtectionEnabled":null,"isManagementRestricted":null,"loginUrl":null,"logoutUrl":null,"notes":null,"notificationEmailAddresses":[],"preferredSingleSignOnMode":null,"preferredTokenSigningKeyEndDateTime":null,"preferredTokenSigningKeyThumbprint":null,"publisherName":"Microsoft Services","replyUrls":[],"samlMetadataUrl":null,"samlSLOBindingType":"httpRedirect","servicePrincipalNames":["a232010e-820c-4083-83bb-3ace5fc29d0b","https://cosmos.azure.com","https://cosmos.windows-ppe.net"],"servicePrincipalType":"Application","signInAudience":"AzureADMultipleOrgs","tags":[],"tokenEncryptionKeyId":null,"certification":null,"samlSingleSignOnSettings":null,"addIns":[],"api":{"resourceSpecificApplicationPermissions":[]},"appRoles":[],"info":{"termsOfServiceUrl":null,"supportUrl":null,"privacyStatementUrl":null,"marketingUrl":null,"logoUrl":null},"keyCredentials":[],"publishedPermissionScopes":[{"adminConsentDescription":"Allow the application to access Azure Cosmos DB on behalf of the signed-in user.","adminConsentDisplayName":"Access Azure Cosmos DB","id":"8741c20d-e8c0-41ff-8adf-b7b9ba168197","isEnabled":true,"type":"User","userConsentDescription":"Allow the application to access Azure Cosmos DB on your behalf.","userConsentDisplayName":"Access Azure Cosmos DB as the Signed-in User","value":"user_impersonation","isPrivate":false}],"passwordCredentials":[],"resourceSpecificApplicationPermissions":[],"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null}}]}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Type:
+                - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+            Deprecation:
+                - Mon, 18 Apr 2022 23:59:59 GMT
+            Link:
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:PermissionRestrictionPolicy&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:PermissionRestrictionPolicy&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:assignmentRequiredForPrincipalTypes&from=2024-08-01&to=2024-09-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:assignmentRequiredForPrincipalTypes&from=2024-08-01&to=2024-09-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:SPCertification&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:HardDeleteProtection&from=2026-06-01&to=2026-07-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationsInAdministrativeUnits&from=2021-05-01&to=2021-06-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:PermissionRestrictionPolicy&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:samlSLOPostBinding&from=2023-04-01&to=2023-05-01>;rel="deprecation";type="text/html"
+            Odata-Version:
+                - "4.0"
+            Strict-Transport-Security:
+                - max-age=31536000
+            Sunset:
+                - Thu, 18 Apr 2024 23:59:59 GMT
+            Vary:
+                - Accept-Encoding
+        status: 200 OK
+        code: 200
+        duration: 89.041224ms
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: graph.microsoft.com
+        headers:
+            Accept:
+                - application/json
+        url: https://graph.microsoft.com/beta/servicePrincipals/891b57ff-7083-4e75-b543-e0f5385eece6
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        content_length: -1
+        uncompressed: true
+        body: '{"@odata.context":"https://graph.microsoft.com/beta/$metadata#servicePrincipals/$entity","id":"891b57ff-7083-4e75-b543-e0f5385eece6","deletedDateTime":null,"accountEnabled":true,"alternativeNames":[],"createdByAppId":"797f4846-ba00-4fd7-ba43-dac1f8f63013","createdDateTime":"2001-02-03T04:05:06Z","deviceManagementAppType":null,"appDescription":null,"appDisplayName":"Azure Cosmos DB","appId":"a232010e-820c-4083-83bb-3ace5fc29d0b","applicationTemplateId":null,"appOwnerOrganizationId":"f8cdef31-a31e-4b4a-93e4-5f571e91255a","appRoleAssignmentRequired":false,"assignmentRequiredForPrincipalTypes":null,"description":null,"disabledByMicrosoftStatus":null,"displayName":"Azure Cosmos DB","errorUrl":null,"homepage":null,"isAuthorizationServiceEnabled":false,"isDisabled":null,"isHardDeleteProtectionEnabled":null,"isManagementRestricted":null,"loginUrl":null,"logoutUrl":null,"notes":null,"notificationEmailAddresses":[],"preferredSingleSignOnMode":null,"preferredTokenSigningKeyEndDateTime":null,"preferredTokenSigningKeyThumbprint":null,"publisherName":"Microsoft Services","replyUrls":[],"samlMetadataUrl":null,"samlSLOBindingType":"httpRedirect","servicePrincipalNames":["a232010e-820c-4083-83bb-3ace5fc29d0b","https://cosmos.azure.com","https://cosmos.windows-ppe.net"],"servicePrincipalType":"Application","signInAudience":"AzureADMultipleOrgs","tags":[],"tokenEncryptionKeyId":null,"certification":null,"samlSingleSignOnSettings":null,"addIns":[],"api":{"resourceSpecificApplicationPermissions":[]},"appRoles":[],"info":{"termsOfServiceUrl":null,"supportUrl":null,"privacyStatementUrl":null,"marketingUrl":null,"logoUrl":null},"keyCredentials":[],"publishedPermissionScopes":[{"adminConsentDescription":"Allow the application to access Azure Cosmos DB on behalf of the signed-in user.","adminConsentDisplayName":"Access Azure Cosmos DB","id":"8741c20d-e8c0-41ff-8adf-b7b9ba168197","isEnabled":true,"type":"User","userConsentDescription":"Allow the application to access Azure Cosmos DB on your behalf.","userConsentDisplayName":"Access Azure Cosmos DB as the Signed-in User","value":"user_impersonation","isPrivate":false}],"passwordCredentials":[],"resourceSpecificApplicationPermissions":[],"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Type:
+                - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+            Deprecation:
+                - Mon, 18 Apr 2022 23:59:59 GMT
+            Link:
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:PermissionRestrictionPolicy&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:PermissionRestrictionPolicy&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:assignmentRequiredForPrincipalTypes&from=2024-08-01&to=2024-09-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:assignmentRequiredForPrincipalTypes&from=2024-08-01&to=2024-09-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:SPCertification&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:HardDeleteProtection&from=2026-06-01&to=2026-07-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationsInAdministrativeUnits&from=2021-05-01&to=2021-06-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:PermissionRestrictionPolicy&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
+                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:samlSLOPostBinding&from=2023-04-01&to=2023-05-01>;rel="deprecation";type="text/html"
+            Odata-Version:
+                - "4.0"
+            Strict-Transport-Security:
+                - max-age=31536000
+            Sunset:
+                - Thu, 18 Apr 2024 23:59:59 GMT
+            Vary:
+                - Accept-Encoding
+        status: 200 OK
+        code: 200
+        duration: 93.528145ms
