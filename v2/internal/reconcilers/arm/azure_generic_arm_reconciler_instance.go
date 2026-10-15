@@ -35,6 +35,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/merger"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/retry"
 )
 
 type azureDeploymentReconcilerInstance struct {
@@ -645,6 +646,9 @@ func (r *azureDeploymentReconcilerInstance) handleDeleteFailed(err error) error 
 	// Without this, deletes that hit an intermittent 400 will get stuck forever
 	if readyConditionImpactingErr, ok := conditions.AsReadyConditionImpactingError(err); ok {
 		readyConditionImpactingErr.Severity = conditions.ConditionSeverityWarning
+		if readyConditionImpactingErr.RetryClassification == retry.VerySlow {
+			readyConditionImpactingErr.RetryClassification = retry.Slow
+		}
 	}
 	ClearPollerResumeToken(r.Obj)
 
