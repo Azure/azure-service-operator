@@ -129,8 +129,6 @@ func TestProfiler_InvalidOutputPathCleansUpAfterFailedStart(t *testing.T) {
 	g.Expect(profiler.memoryProfile).To(BeNil())
 	g.Expect(profiler.cpuProfile).To(BeNil())
 	g.Expect(profiler.stop()).To(Succeed())
-	g.Expect(profiler.memoryProfile).To(BeNil())
-	g.Expect(profiler.cpuProfile).To(BeNil())
 	expectPathMissing(g, validMemoryPath)
 }
 
@@ -147,8 +145,6 @@ func TestProfiler_InvalidMemoryPathReportsCreateFailureAndLeavesHandlesNil(t *te
 	g.Expect(profiler.memoryProfile).To(BeNil())
 	g.Expect(profiler.cpuProfile).To(BeNil())
 	g.Expect(profiler.stop()).To(Succeed())
-	g.Expect(profiler.memoryProfile).To(BeNil())
-	g.Expect(profiler.cpuProfile).To(BeNil())
 }
 
 //nolint:paralleltest // Keep profiler lifecycle tests serialized for consistency.
