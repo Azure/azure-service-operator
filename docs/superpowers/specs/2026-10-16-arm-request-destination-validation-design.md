@@ -184,9 +184,10 @@ security details before disclosure clearance.
 
 ## Status
 
-The user approved the design sections and this written spec on 16 October 2026.
-Implementation planning is authorised; execution and disclosure clearance remain
-separate decisions. No implementation is included.
+The user approved the design, written spec, and subagent-driven execution on
+16 October 2026. The ARM implementation and verification are committed locally;
+whole-branch review remains the final implementation gate. Public disclosure is
+not yet cleared.
 
 Prepare six separate changes, each with its own design and implementation plan:
 
@@ -224,8 +225,20 @@ trusted destinations rather than assuming this HTTP helper solves every case.
 
 ## Experience Report
 
-Implementation and runtime experience are not yet available. This document
-records the approved design, not verification results.
+The selected storage-account and KubernetesConfiguration controller recordings,
+and the selected Network and KubernetesConfiguration sample recordings, replayed
+successfully. All 460 controller/sample recording hashes remained unchanged.
+
+Focused non-short race tests exercised the new shared HTTP, ARM/SDK/LRO, recovery,
+and data-plane isolation regressions. The required formatting, generator checks,
+and controller checks passed after task-owned test lint corrections. The existing
+short-mode test harness skips `genericarmclient`, so its focused tests must run
+without `-short`.
+
+The worktree initially lacked its pinned REST API specifications submodule.
+Restoring that dependency allowed normal type/CRD generation and playback; no
+generated files or recordings were edited manually. These are local playback and
+test results, not evidence from a live deployment.
 
 ## References
 
