@@ -53,7 +53,7 @@ func Test_DataPlaneClientOptions(t *testing.T) {
 			cfg := cloud.Configuration{
 				Services: map[cloud.ServiceName]cloud.ServiceConfiguration{
 					cloud.ResourceManager: {
-						Endpoint: server.URL,
+						Endpoint: "https://management.example.invalid",
 						Audience: cloud.AzurePublic.Services[cloud.ResourceManager].Audience,
 					},
 				},
