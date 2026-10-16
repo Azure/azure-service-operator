@@ -16,6 +16,7 @@
 - "Preserve connection pooling, existing HTTP client settings, ordinary retry behaviour, and data-plane client behaviour."
 - "Keep all work local until coordinated disclosure is cleared."
 - "Do not add an additional allowlist setting or an enforcement-disable switch."
+- "Validate URL authority syntax, not DNS-label naming conventions."
 - "Do not use GitHub's new PR-stacking features."
 - Keep the configured Go proxy. Never switch to direct module downloads.
 - Work in this existing feature worktree and branch, not the main checkout.
@@ -162,6 +163,23 @@ func TestOrigin_InvalidEndpoint(t *testing.T) {
 func TestOrigin_CustomPortsAndIPv6(t *testing.T) {
 	t.Parallel()
 	for _, endpoint := range []string{"https://localhost:8443/base", "https://[::1]:8443/base"} {
+		allowed, err := NewOrigin(endpoint)
+		if err != nil {
+			t.Fatal(err)
+		}
+		u, err := url.Parse(endpoint + "/operations/1")
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := allowed.Validate(u); err != nil {
+			t.Fatal(err)
+		}
+	}
+}
+
+func TestOrigin_ConfiguredDNSLabelsAreNotRestricted(t *testing.T) {
+	t.Parallel()
+	for _, endpoint := range []string{"https://-bad.example.invalid", "https://bad..example.invalid"} {
 		allowed, err := NewOrigin(endpoint)
 		if err != nil {
 			t.Fatal(err)

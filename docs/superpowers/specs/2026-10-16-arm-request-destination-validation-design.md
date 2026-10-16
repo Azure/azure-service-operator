@@ -61,12 +61,15 @@ The validator accepts a trusted endpoint at construction and checks parsed reque
 URLs against that endpoint's origin:
 
 - Both the configured endpoint and request destination must be absolute HTTPS
-  URLs with a valid hostname and port.
+  URLs with a syntactically valid authority, a non-empty hostname, and a valid port.
 - Compare hostnames case-insensitively and compare effective ports. An omitted
   HTTPS port and explicit port `443` are equivalent.
 - Reject userinfo, opaque URLs, malformed authorities, and invalid ports.
 - Do not use string-prefix matching, hostname suffix wildcards, DNS resolution,
   or paths and query strings to determine origin equality.
+- Validate URL authority syntax, not DNS-label naming conventions. The configured
+  endpoint is trusted; adding DNS-name restrictions does not strengthen exact
+  origin containment and could unnecessarily constrain custom endpoints.
 - Do not add an additional allowlist setting or an enforcement-disable switch.
 
 The helper returns a shallow copy of the supplied HTTP client. It retains the
