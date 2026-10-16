@@ -3,7 +3,7 @@ title: Credential Format
 linktitle: Credential Format
 ---
 
-Azure Service Operator supports four different styles of authentication today.
+Azure Service Operator supports six different styles of authentication today.
 
 Each section below dives into one of these authentication options, including examples for how to set it up and
 use it at the different [credential scopes]( {{< relref "credential-scope" >}} ).
@@ -977,3 +977,35 @@ If ASO was already installed on your cluster and you are updating the `aso-contr
 
 {{% /tab %}}
 {{< /tabpane >}}
+
+## Azure CLI
+
+The global credential chain can use `az login` when the controller runs as a **local process** and is started with `--enable-azure-cli-authentication`. This flag is **off by default**, so in-cluster pods do not invoke `az`. `asoctl` already uses Azure CLI without this flag.
+
+{{% alert title="Warning" color="warning" %}}
+Do not set `--enable-azure-cli-authentication` on the in-cluster operator pod. The CLI token cache cannot be mounted into a pod, and credentials need refresh. Use workload identity or a service principal in production clusters.
+{{% /alert %}}
+
+### Prerequisites
+
+1. [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed on the host running the controller.
+2. An `az login` session for the subscription ASO should use.
+3. Start the controller with `--enable-azure-cli-authentication`.
+
+```bash
+az login
+az account set --subscription <subscription-id>
+```
+
+```bash
+export AZURE_SUBSCRIPTION_ID="00000000-0000-0000-0000-00000000000" # Required. The CLI credential passes this to az --subscription.
+export AZURE_TENANT_ID="00000000-0000-0000-0000-00000000000"       # Set for the general controller config; not passed to az (az rejects --tenant with --subscription).
+```
+
+`AZURE_SUBSCRIPTION_ID` is required to enable the global credential. The CLI path uses that subscription only; it does not pass `--tenant` to `az`.
+
+{{% alert title="Warning" color="warning" %}}
+Do not set `AZURE_CLIENT_ID` or `AZURE_CLIENT_SECRET` when using only Azure CLI. EnvironmentCredential is tried first and will be preferred.
+{{% /alert %}}
+
+If IMDS is not present, managed identity is skipped so token acquisition does not hang. Azure CLI is used only when `--enable-azure-cli-authentication` is set.
