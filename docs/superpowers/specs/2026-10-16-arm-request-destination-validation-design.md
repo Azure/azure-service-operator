@@ -196,9 +196,9 @@ security details before disclosure clearance.
 ## Status
 
 The user approved the design, written spec, and subagent-driven execution on
-16 October 2026. The ARM implementation and verification are committed locally;
-whole-branch review remains the final implementation gate. Public disclosure is
-not yet cleared.
+16 October 2026. The ARM implementation and verification are committed locally.
+Whole-branch review is complete, including a final re-review that closed the
+Unicode/IDNA finding. Public disclosure is not yet cleared.
 
 Prepare six separate changes, each with its own design and implementation plan:
 

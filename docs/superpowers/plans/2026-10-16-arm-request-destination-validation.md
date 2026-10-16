@@ -16,6 +16,10 @@ Add unit coverage and real-transport, network-blocked resumed-poller regressions
 for China/Government Unicode lookalikes, Unicode/punycode equivalence and trusted
 ASCII custom authorities. The historical code listings below predate this
 correction; the updated spec and implementation define the current behaviour.
+The correction passed focused race tests, selected recording playback and the
+required checks. Final re-review closed the Critical finding with no remaining
+Important/Critical issues. The implementation remains local under the disclosure
+hold.
 
 ## Global Constraints
 
