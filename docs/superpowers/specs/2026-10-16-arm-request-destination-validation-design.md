@@ -62,8 +62,12 @@ URLs against that endpoint's origin:
 
 - Both the configured endpoint and request destination must be absolute HTTPS
   URLs with a syntactically valid authority, a non-empty hostname, and a valid port.
-- Compare hostnames case-insensitively and compare effective ports. An omitted
-  HTTPS port and explicit port `443` are equivalent.
+- Canonicalise non-ASCII hostnames using the IDNA lookup conversion used by Go's
+  HTTP transport, then compare the resulting ASCII hostnames case-insensitively.
+  Preserve the transport's ASCII fast path, without imposing DNS-label naming
+  rules. Reject failed non-ASCII conversions rather than using partial results.
+  Compare effective ports; an omitted HTTPS port and explicit port `443` are
+  equivalent.
 - Reject userinfo, opaque URLs, malformed authorities, and invalid ports.
 - Do not use string-prefix matching, hostname suffix wildcards, DNS resolution,
   or paths and query strings to determine origin equality.
@@ -151,7 +155,7 @@ and transport/server calls rather than merely checking an error string.
 
 | Area | Required evidence |
 | --- | --- |
-| Origin comparison | Equivalent hostname casing and default ports pass; unrelated hosts, deceptive suffixes, changed ports, HTTP, userinfo, opaque URLs, and malformed authorities fail |
+| Origin comparison | Transport-equivalent Unicode/punycode hostnames, ASCII casing, configured ASCII custom authorities and default ports pass; unrelated hosts, Unicode case-folding lookalikes with different IDNA destinations, deceptive suffixes, changed ports, HTTP, userinfo, opaque URLs, malformed authorities and failed non-ASCII conversions fail |
 | Initial requests | An off-origin request is rejected before credential acquisition or transport |
 | Resumed operations | Tampered polling and final-result destinations cannot be sent; include SDK async, Location, Operation-Location, body, and fake-poller forms supported by the pinned dependency |
 | Redirects | A rejected target receives zero requests; cover unrelated hosts, subdomains, changed ports, and HTTPS downgrades |
@@ -164,6 +168,13 @@ and transport/server calls rather than merely checking an error string.
 When a resumed operation has already polled successfully, test the final-result
 request independently: earlier legitimate calls may have acquired a token, but
 the rejected final destination must not reach authentication or transport.
+
+Use a real `net/http.Transport` with a dial callback that records the address and
+always returns a controlled error to verify hostname canonicalisation without
+DNS or external network access. Include China and Government Unicode lookalike
+resume URLs, and positive Unicode/punycode configuration equivalence. The
+lookalikes must produce a typed destination error before authentication, sending,
+or dialing; independent unguarded controls establish Go's actual IDNA addresses.
 
 Use the recordings in `v2/samples/sampletesting/recordings` and
 `v2/internal/controllers/recordings` to check legitimate polling origins and
@@ -234,6 +245,15 @@ and data-plane isolation regressions. The required formatting, generator checks,
 and controller checks passed after task-owned test lint corrections. The existing
 short-mode test harness skips `genericarmclient`, so its focused tests must run
 without `-short`.
+
+Whole-branch review found a Unicode hostname comparison gap that the original
+tests missed. Unicode lowercasing equated a malicious hostname with a trusted ARM
+hostname, while Go's transport selected a different IDNA destination. The
+validator now applies the transport's lookup conversion before ASCII case
+folding. Network-blocked tests reproduce the old authenticated transport escape
+and confirm rejection before authentication with the fix. All four selected
+playback tests, the non-short race regressions, and the required checks passed
+again after this correction; all 460 recording hashes remained unchanged.
 
 The worktree initially lacked its pinned REST API specifications submodule.
 Restoring that dependency allowed normal type/CRD generation and playback; no

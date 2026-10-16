@@ -11,6 +11,9 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"unicode/utf8"
+
+	"golang.org/x/net/idna"
 )
 
 // DestinationError identifies a rejected destination without retaining a full URL.
@@ -73,6 +76,14 @@ func originOf(u *url.URL) (Origin, bool) {
 	}
 	if strings.Contains(host, ":") && net.ParseIP(host) == nil {
 		return Origin{}, false
+	}
+	// Match net/http's IDNA lookup conversion and ASCII fast path, without
+	// folding Unicode characters into a different transport destination.
+	if strings.ContainsFunc(host, func(r rune) bool { return r >= utf8.RuneSelf }) {
+		host, err = idna.Lookup.ToASCII(host)
+		if err != nil {
+			return Origin{}, false
+		}
 	}
 	port := authority.Port()
 	if port == "" {

@@ -46,7 +46,7 @@ func TestOrigin(t *testing.T) {
 			}
 			err := allowed.Validate(u)
 			if (err == nil) != c.ok {
-				t.Fatalf("allowed=%t, error=%s", c.ok, err)
+				t.Fatalf("expected allowed=%t, got allowed=%t", c.ok, err == nil)
 			}
 			if err != nil {
 				var rejected *DestinationError
@@ -109,5 +109,74 @@ func TestOrigin_ConfiguredDNSLabelsAreNotRestricted(t *testing.T) {
 		if err := allowed.Validate(u); err != nil {
 			t.Fatal(err)
 		}
+	}
+}
+
+func TestOrigin_TransportHostname(t *testing.T) {
+	t.Parallel()
+	cases := []struct {
+		name        string
+		endpoint    string
+		destination string
+		ok          bool
+	}{
+		{"China dotted I", "management.chinacloudapi.cn", "management.ch\u0130nacloudapi.cn", false},
+		{"Government dotted I", "management.usgovcloudapi.net", "management.usgovcloudap\u0130.net", false},
+		{"Unicode configured", "bücher.example.invalid", "xn--bcher-kva.example.invalid", true},
+		{"punycode configured", "xn--bcher-kva.example.invalid", "bücher.example.invalid", true},
+		{"Unicode case", "BÜCHER.example.invalid", "bücher.example.invalid", true},
+		{"punycode case", "XN--BCHER-KVA.example.invalid", "bücher.example.invalid", true},
+		{"mapped ASCII", "management.example.invalid", "ｍanagement.example.invalid", true},
+		{"dotted I configured", "management.ch\u0130nacloudapi.cn", "management.xn--chinacloudapi-5nh.cn", true},
+		{"dotted I is not ASCII I", "management.ch\u0130nacloudapi.cn", "management.chinacloudapi.cn", false},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			allowed, err := NewOrigin("https://" + c.endpoint)
+			if err != nil {
+				t.Fatal(err)
+			}
+			u, err := url.Parse("https://" + c.destination + "/poll")
+			if err != nil {
+				t.Fatal(err)
+			}
+			err = allowed.Validate(u)
+			if (err == nil) != c.ok {
+				t.Fatalf("allowed=%t, error=%s", c.ok, err)
+			}
+			if err != nil {
+				var rejected *DestinationError
+				if !errors.As(err, &rejected) {
+					t.Fatalf("unexpected error type: %T", err)
+				}
+			}
+		})
+	}
+}
+
+func TestOrigin_InvalidIDNA(t *testing.T) {
+	t.Parallel()
+	allowed, err := NewOrigin("https://management.example.invalid")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, host := range []string{
+		"bad\u200d.example.invalid",
+		"bad\ufffd.example.invalid",
+		"bad\xff.example.invalid",
+		"-bücher.example.invalid",
+	} {
+		t.Run(host, func(t *testing.T) {
+			t.Parallel()
+			if _, err := NewOrigin("https://" + host); err == nil {
+				t.Fatal("accepted invalid IDNA endpoint")
+			}
+			err := allowed.Validate(&url.URL{Scheme: "https", Host: host})
+			var rejected *DestinationError
+			if !errors.As(err, &rejected) {
+				t.Fatalf("expected DestinationError, got %s", err)
+			}
+		})
 	}
 }

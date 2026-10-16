@@ -8,6 +8,15 @@
 
 **Tech Stack:** Go 1.26.0 as required by `v2/go.mod`, azcore v1.23.3, `net/http`, Gomega, existing ASO task and recording infrastructure. No new dependencies.
 
+**Final-review correction:** Canonicalise non-ASCII hostnames with the existing
+`golang.org/x/net/idna.Lookup` dependency before ASCII case folding, matching Go's
+HTTP transport. Keep its ASCII fast path and reject failed IDNA conversions.
+Promote the already-listed module to direct use without changing its version.
+Add unit coverage and real-transport, network-blocked resumed-poller regressions
+for China/Government Unicode lookalikes, Unicode/punycode equivalence and trusted
+ASCII custom authorities. The historical code listings below predate this
+correction; the updated spec and implementation define the current behaviour.
+
 ## Global Constraints
 
 - "Validate each ARM request against the effective client's Resource Manager origin before bearer authentication."
