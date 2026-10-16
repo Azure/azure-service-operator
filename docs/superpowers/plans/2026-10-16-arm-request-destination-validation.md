@@ -17,6 +17,7 @@
 - "Keep all work local until coordinated disclosure is cleared."
 - "Do not add an additional allowlist setting or an enforcement-disable switch."
 - "Validate URL authority syntax, not DNS-label naming conventions."
+- "Sanitisation is limited to errors raised by our validator."
 - "Do not use GitHub's new PR-stacking features."
 - Keep the configured Go proxy. Never switch to direct module downloads.
 - Work in this existing feature worktree and branch, not the main checkout.
@@ -312,6 +313,11 @@ git commit -m "feat: add shared HTTPS origin validation" -m "Co-authored-by: Cop
 - `Client` satisfies the Azure transport interface structurally, without importing
   azcore. It guards redirects; initial-request validation remains the ARM policy's
   responsibility.
+
+Error sanitisation is limited to `DestinationError` raised by our validator.
+Leave other HTTP/SDK errors unchanged, including malformed `Location` headers
+which Go rejects before invoking `CheckRedirect`. This scope was explicitly
+confirmed by the user during task review.
 
 - [ ] **Step 1: Create `redirects_test.go` with these offline tests.**
 

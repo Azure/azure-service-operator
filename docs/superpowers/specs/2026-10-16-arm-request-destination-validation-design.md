@@ -123,13 +123,18 @@ For an HTTP redirect, `http.Client` resolves the target and invokes the guarded
 callback. A rejected target receives no request, regardless of whether the
 standard library would otherwise forward authentication headers.
 
-An invalid configured endpoint fails client construction. A rejected request or
-redirect returns a recognisable validation error through the existing error
-path. Diagnostics identify the rejected and allowed origins, or a safe malformed
-destination description, without including resume tokens, bearer headers, URL
-userinfo, or query values. Preserve this redaction through HTTP/SDK error
-wrapping; a safe inner error alone is insufficient if an outer error includes a
-full URL.
+An invalid configured endpoint fails client construction. A request or redirect
+rejected by our validator returns a recognisable validation error through the
+existing error path. Its diagnostics identify the rejected and allowed origins,
+or a safe malformed destination description, without including resume tokens,
+bearer headers, URL userinfo, or query values. Preserve this redaction through
+HTTP/SDK wrapping of our validation errors; a safe inner error alone is
+insufficient if an outer error includes a full URL.
+
+Sanitisation is limited to errors raised by our validator. Do not change other
+HTTP or SDK errors, including malformed `Location` headers rejected by Go before
+the redirect callback runs. Those existing errors may retain URL details; this
+change is not a general URL-redaction feature.
 
 Retain existing reconciliation recovery. Generic ARM create/update and delete
 failure handlers clear the saved LRO state, report the failure through existing
