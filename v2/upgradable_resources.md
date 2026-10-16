@@ -194,9 +194,3 @@ The following resources have newer versions available in the Azure REST API spec
 |--|----------------|------------------|------------------|-------------------|-------------------|
 |  | StorageAccount | 2026-09-01       | 2026-06-01       | -                 | -                 |
 
-## web
-
-|      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |
-|------|----------|------------------|------------------|-------------------|-------------------|
-| 💡    | Site     | **2026-07-15**   | 2025-05-01       | -                 | -                 |
-

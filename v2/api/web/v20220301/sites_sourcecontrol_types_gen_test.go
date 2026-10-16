@@ -6,7 +6,7 @@ package v20220301
 import (
 	"encoding/json"
 	v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v20220301/storage"
-	v20250501s "github.com/Azure/azure-service-operator/v2/api/web/v20250501/storage"
+	v20260715s "github.com/Azure/azure-service-operator/v2/api/web/v20260715/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -758,7 +758,7 @@ func RunResourceConversionTestForSitesSourcecontrol(subject SitesSourcecontrol) 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20250501s.SitesSourcecontrol
+	var hub v20260715s.SitesSourcecontrol
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

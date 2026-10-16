@@ -991,3 +991,261 @@ SitesSourcecontrol: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
+augmentConversionForApiDefinitionInfo: Interface
+
+augmentConversionForApiDefinitionInfo_STATUS: Interface
+
+augmentConversionForApiManagementConfig: Interface
+
+augmentConversionForApiManagementConfig_STATUS: Interface
+
+augmentConversionForAutoHealActions: Interface
+
+augmentConversionForAutoHealActions_STATUS: Interface
+
+augmentConversionForAutoHealCustomAction: Interface
+
+augmentConversionForAutoHealCustomAction_STATUS: Interface
+
+augmentConversionForAutoHealRules: Interface
+
+augmentConversionForAutoHealRules_STATUS: Interface
+
+augmentConversionForAutoHealTriggers: Interface
+
+augmentConversionForAutoHealTriggers_STATUS: Interface
+
+augmentConversionForAzureStorageInfoValue: Interface
+
+augmentConversionForAzureStorageInfoValue_STATUS: Interface
+
+augmentConversionForCapability: Interface
+
+augmentConversionForCapability_STATUS: Interface
+
+augmentConversionForCloningInfo: Interface
+
+augmentConversionForCloningInfo_STATUS: Interface
+
+augmentConversionForConnStringInfo: Interface
+
+augmentConversionForConnStringInfo_STATUS: Interface
+
+augmentConversionForCorsSettings: Interface
+
+augmentConversionForCorsSettings_STATUS: Interface
+
+augmentConversionForDaprConfig: Interface
+
+augmentConversionForDaprConfig_STATUS: Interface
+
+augmentConversionForDefaultIdentity: Interface
+
+augmentConversionForDefaultIdentity_STATUS: Interface
+
+augmentConversionForExperiments: Interface
+
+augmentConversionForExperiments_STATUS: Interface
+
+augmentConversionForExtendedLocation: Interface
+
+augmentConversionForExtendedLocation_STATUS: Interface
+
+augmentConversionForFunctionAppConfig: Interface
+
+augmentConversionForFunctionAppConfig_STATUS: Interface
+
+augmentConversionForFunctionsAlwaysReadyConfig: Interface
+
+augmentConversionForFunctionsAlwaysReadyConfig_STATUS: Interface
+
+augmentConversionForFunctionsDeployment: Interface
+
+augmentConversionForFunctionsDeploymentStorage: Interface
+
+augmentConversionForFunctionsDeploymentStorageAuthentication: Interface
+
+augmentConversionForFunctionsDeploymentStorageAuthentication_STATUS: Interface
+
+augmentConversionForFunctionsDeploymentStorage_STATUS: Interface
+
+augmentConversionForFunctionsDeployment_STATUS: Interface
+
+augmentConversionForFunctionsRuntime: Interface
+
+augmentConversionForFunctionsRuntime_STATUS: Interface
+
+augmentConversionForFunctionsScaleAndConcurrency: Interface
+
+augmentConversionForFunctionsScaleAndConcurrencyTriggers: Interface
+
+augmentConversionForFunctionsScaleAndConcurrencyTriggersHttp: Interface
+
+augmentConversionForFunctionsScaleAndConcurrencyTriggersHttp_STATUS: Interface
+
+augmentConversionForFunctionsScaleAndConcurrencyTriggers_STATUS: Interface
+
+augmentConversionForFunctionsScaleAndConcurrency_STATUS: Interface
+
+augmentConversionForFunctionsSiteUpdateStrategy: Interface
+
+augmentConversionForFunctionsSiteUpdateStrategy_STATUS: Interface
+
+augmentConversionForGitHubActionCodeConfiguration: Interface
+
+augmentConversionForGitHubActionCodeConfiguration_STATUS: Interface
+
+augmentConversionForGitHubActionConfiguration: Interface
+
+augmentConversionForGitHubActionConfiguration_STATUS: Interface
+
+augmentConversionForGitHubActionContainerConfiguration: Interface
+
+augmentConversionForGitHubActionContainerConfiguration_STATUS: Interface
+
+augmentConversionForHandlerMapping: Interface
+
+augmentConversionForHandlerMapping_STATUS: Interface
+
+augmentConversionForHostNameSslState: Interface
+
+augmentConversionForHostNameSslState_STATUS: Interface
+
+augmentConversionForHostingEnvironmentProfile: Interface
+
+augmentConversionForHostingEnvironmentProfile_STATUS: Interface
+
+augmentConversionForInstallScript: Interface
+
+augmentConversionForInstallScriptSource: Interface
+
+augmentConversionForInstallScriptSource_STATUS: Interface
+
+augmentConversionForInstallScript_STATUS: Interface
+
+augmentConversionForIpSecurityRestriction: Interface
+
+augmentConversionForIpSecurityRestriction_STATUS: Interface
+
+augmentConversionForKeyVaultReferenceWithStatus: Interface
+
+augmentConversionForKeyVaultReferenceWithStatus_STATUS: Interface
+
+augmentConversionForKubeEnvironmentProfile: Interface
+
+augmentConversionForKubeEnvironmentProfile_STATUS: Interface
+
+augmentConversionForManagedServiceIdentity: Interface
+
+augmentConversionForManagedServiceIdentity_STATUS: Interface
+
+augmentConversionForNameValuePair: Interface
+
+augmentConversionForNameValuePair_STATUS: Interface
+
+augmentConversionForOutboundVnetRouting: Interface
+
+augmentConversionForOutboundVnetRouting_STATUS: Interface
+
+augmentConversionForPushSettings: Interface
+
+augmentConversionForPushSettings_STATUS: Interface
+
+augmentConversionForRampUpRule: Interface
+
+augmentConversionForRampUpRule_STATUS: Interface
+
+augmentConversionForRegistryAdapter: Interface
+
+augmentConversionForRegistryAdapter_STATUS: Interface
+
+augmentConversionForRequestsBasedTrigger: Interface
+
+augmentConversionForRequestsBasedTrigger_STATUS: Interface
+
+augmentConversionForResourceConfig: Interface
+
+augmentConversionForResourceConfig_STATUS: Interface
+
+augmentConversionForServerFarm: Interface
+
+augmentConversionForServerFarmNetworkSettings: Interface
+
+augmentConversionForServerFarmNetworkSettings_STATUS: Interface
+
+augmentConversionForServerFarmOperatorSpec: Interface
+
+augmentConversionForServerFarm_STATUS: Interface
+
+augmentConversionForServerFarm_Spec: Interface
+
+augmentConversionForSite: Interface
+
+augmentConversionForSiteConfig: Interface
+
+augmentConversionForSiteConfig_STATUS: Interface
+
+augmentConversionForSiteDnsConfig: Interface
+
+augmentConversionForSiteDnsConfig_STATUS: Interface
+
+augmentConversionForSiteLimits: Interface
+
+augmentConversionForSiteLimits_STATUS: Interface
+
+augmentConversionForSiteMachineKey_STATUS: Interface
+
+augmentConversionForSiteOperatorSpec: Interface
+
+augmentConversionForSite_STATUS: Interface
+
+augmentConversionForSite_Spec: Interface
+
+augmentConversionForSitesSourcecontrol: Interface
+
+augmentConversionForSitesSourcecontrolOperatorSpec: Interface
+
+augmentConversionForSitesSourcecontrol_STATUS: Interface
+
+augmentConversionForSitesSourcecontrol_Spec: Interface
+
+augmentConversionForSkuCapacity: Interface
+
+augmentConversionForSkuCapacity_STATUS: Interface
+
+augmentConversionForSkuDescription: Interface
+
+augmentConversionForSkuDescription_STATUS: Interface
+
+augmentConversionForSlotSwapStatus_STATUS: Interface
+
+augmentConversionForSlowRequestsBasedTrigger: Interface
+
+augmentConversionForSlowRequestsBasedTrigger_STATUS: Interface
+
+augmentConversionForStatusCodesBasedTrigger: Interface
+
+augmentConversionForStatusCodesBasedTrigger_STATUS: Interface
+
+augmentConversionForStatusCodesRangeBasedTrigger: Interface
+
+augmentConversionForStatusCodesRangeBasedTrigger_STATUS: Interface
+
+augmentConversionForStorageMount: Interface
+
+augmentConversionForStorageMount_STATUS: Interface
+
+augmentConversionForSystemData_STATUS: Interface
+
+augmentConversionForUserAssignedIdentityDetails: Interface
+
+augmentConversionForUserAssignedIdentity_STATUS: Interface
+
+augmentConversionForVirtualApplication: Interface
+
+augmentConversionForVirtualApplication_STATUS: Interface
+
+augmentConversionForVirtualDirectory: Interface
+
+augmentConversionForVirtualDirectory_STATUS: Interface
+
