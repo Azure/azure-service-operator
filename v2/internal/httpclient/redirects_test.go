@@ -63,15 +63,15 @@ func TestRedirects_OriginBoundary(t *testing.T) {
 			}
 			if c.ok {
 				if err != nil || calls != 2 {
-					t.Fatalf("valid redirect failed: calls=%d error=%v", calls, err)
+					t.Fatalf("valid redirect failed: calls=%d error=%s", calls, err)
 				}
 			} else {
 				var rejected *DestinationError
 				if !errors.As(err, &rejected) || calls != 1 {
-					t.Fatalf("redirect not blocked: calls=%d error=%v", calls, err)
+					t.Fatalf("redirect not blocked: calls=%d error=%s", calls, err)
 				}
 				if strings.Contains(err.Error(), "private") || strings.Contains(err.Error(), "?") {
-					t.Fatalf("unsafe outer error: %v", err)
+					t.Fatalf("unsafe outer error: %s", err)
 				}
 			}
 		})
@@ -106,7 +106,7 @@ func TestRedirects_ClientSettingsAndCallbacks(t *testing.T) {
 		t.Fatal(err)
 	}
 	if err := client.client.CheckRedirect(req, nil); err != callbackErr || calls != 1 {
-		t.Fatalf("caller callback lost: %v", err)
+		t.Fatalf("caller callback lost: %s", err)
 	}
 	if err := base.CheckRedirect(req, nil); err != callbackErr || calls != 2 {
 		t.Fatal("base client callback was modified")
@@ -114,7 +114,7 @@ func TestRedirects_ClientSettingsAndCallbacks(t *testing.T) {
 	base.CheckRedirect = func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }
 	client = NewRedirectGuardedClient(base, allowed)
 	if err := client.client.CheckRedirect(req, nil); err != http.ErrUseLastResponse {
-		t.Fatalf("ErrUseLastResponse not preserved: %v", err)
+		t.Fatalf("ErrUseLastResponse not preserved: %s", err)
 	}
 	base.CheckRedirect = func(r *http.Request, _ []*http.Request) error {
 		r.URL.Host = "other.example.invalid"
@@ -150,7 +150,7 @@ func TestRedirects_DefaultLimit(t *testing.T) {
 		_ = resp.Body.Close()
 	}
 	if err == nil || calls != 10 {
-		t.Fatalf("redirect limit changed: calls=%d error=%v", calls, err)
+		t.Fatalf("redirect limit changed: calls=%d error=%s", calls, err)
 	}
 }
 
@@ -171,7 +171,7 @@ func TestRedirects_NilBase(t *testing.T) {
 	}
 	var rejected *DestinationError
 	if err := client.client.CheckRedirect(req, nil); !errors.As(err, &rejected) {
-		t.Fatalf("default client redirect not guarded: %v", err)
+		t.Fatalf("default client redirect not guarded: %s", err)
 	}
 }
 
@@ -206,11 +206,11 @@ func TestRedirects_UseLastResponse(t *testing.T) {
 		defer resp.Body.Close()
 	}
 	if err != nil || resp == nil || calls != 1 || callbackCalls != 1 || resp.StatusCode != http.StatusFound {
-		t.Fatalf("last response not preserved: response=%v calls=%d callbackCalls=%d error=%v", resp, calls, callbackCalls, err)
+		t.Fatalf("last response not preserved: response=%p calls=%d callbackCalls=%d error=%s", resp, calls, callbackCalls, err)
 	}
 	body, err := io.ReadAll(resp.Body)
 	if err != nil || string(body) != "last response" {
-		t.Fatalf("last response body not preserved: body=%q error=%v", body, err)
+		t.Fatalf("last response body not preserved: body=%q error=%s", body, err)
 	}
 }
 
@@ -237,6 +237,6 @@ func TestRedirects_InitialRequestIsNotValidated(t *testing.T) {
 		defer resp.Body.Close()
 	}
 	if err != nil || resp == nil || calls != 1 || resp.StatusCode != http.StatusOK {
-		t.Fatalf("initial request was guarded: response=%v calls=%d error=%v", resp, calls, err)
+		t.Fatalf("initial request was guarded: response=%p calls=%d error=%s", resp, calls, err)
 	}
 }

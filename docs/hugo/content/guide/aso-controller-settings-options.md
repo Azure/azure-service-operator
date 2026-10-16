@@ -213,6 +213,13 @@ AZURE_RESOURCE_MANAGER_ENDPOINT is the Azure Resource Manager endpoint. If not s
 See https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds for details about how to find available resource manager endpoints for your cloud. 
 Note that the resource manager endpoint is referred to as "resourceManager" in the Azure CLI.
 
+The endpoint must use HTTPS. ASO restricts ARM requests and redirects to this
+endpoint's origin: its hostname and effective port. An omitted port is equivalent
+to port 443. Polling and result URLs can use different paths on that origin.
+Requests to another origin are rejected and reported through normal
+reconciliation error handling. When multi-environment management supplies a
+credential-specific endpoint, that endpoint defines the client's boundary.
+
 **Format:** `string`
 
 **Example:** `"https://management.chinacloudapi.cn"`

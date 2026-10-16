@@ -45,7 +45,7 @@ func TestOrigin(t *testing.T) {
 			}
 			err := allowed.Validate(u)
 			if (err == nil) != c.ok {
-				t.Fatalf("allowed=%v, error=%v", c.ok, err)
+				t.Fatalf("allowed=%t, error=%s", c.ok, err)
 			}
 			if err != nil {
 				var rejected *DestinationError
@@ -53,7 +53,7 @@ func TestOrigin(t *testing.T) {
 					t.Fatalf("unexpected error type: %T", err)
 				}
 				if strings.Contains(err.Error(), "private") || strings.Contains(err.Error(), "?") {
-					t.Fatalf("unsafe diagnostic: %v", err)
+					t.Fatalf("unsafe diagnostic: %s", err)
 				}
 			}
 		})
