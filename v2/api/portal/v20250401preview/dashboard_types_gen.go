@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /portal/resource-manager/Microsoft.Portal/preview/2025-04-01-preview/portal.json
+// - Generated from: /portal/resource-manager/Microsoft.Portal/Portal/preview/2025-04-01-preview/portal.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}
 type Dashboard struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -239,7 +239,7 @@ func (dashboard *Dashboard) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /portal/resource-manager/Microsoft.Portal/preview/2025-04-01-preview/portal.json
+// - Generated from: /portal/resource-manager/Microsoft.Portal/Portal/preview/2025-04-01-preview/portal.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}
 type DashboardList struct {
 	metav1.TypeMeta `json:",inline"`
