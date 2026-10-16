@@ -26,9 +26,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v20260401.Dashboard
+// Storage version of v20250401preview.Dashboard
 // Generator information:
-// - Generated from: /portal/resource-manager/Microsoft.Portal/Portal/stable/2026-04-01/portal.json
+// - Generated from: /portal/resource-manager/Microsoft.Portal/preview/2025-04-01-preview/portal.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}
 type Dashboard struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -76,9 +76,9 @@ func (dashboard *Dashboard) AzureName() string {
 	return dashboard.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2026-04-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2025-04-01-preview"
 func (dashboard Dashboard) GetAPIVersion() string {
-	return "2026-04-01"
+	return "2025-04-01-preview"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -157,9 +157,9 @@ func (dashboard *Dashboard) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v20260401.Dashboard
+// Storage version of v20250401preview.Dashboard
 // Generator information:
-// - Generated from: /portal/resource-manager/Microsoft.Portal/Portal/stable/2026-04-01/portal.json
+// - Generated from: /portal/resource-manager/Microsoft.Portal/preview/2025-04-01-preview/portal.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}
 type DashboardList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -167,13 +167,13 @@ type DashboardList struct {
 	Items           []Dashboard `json:"items"`
 }
 
-// Storage version of v20260401.APIVersion
-// +kubebuilder:validation:Enum={"2026-04-01"}
+// Storage version of v20250401preview.APIVersion
+// +kubebuilder:validation:Enum={"2025-04-01-preview"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("2026-04-01")
+const APIVersion_Value = APIVersion("2025-04-01-preview")
 
-// Storage version of v20260401.Dashboard_Spec
+// Storage version of v20250401preview.Dashboard_Spec
 type Dashboard_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -212,7 +212,7 @@ func (dashboard *Dashboard_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	return destination.ConvertSpecFrom(dashboard)
 }
 
-// Storage version of v20260401.Dashboard_STATUS
+// Storage version of v20250401preview.Dashboard_STATUS
 // The shared dashboard resource definition.
 type Dashboard_STATUS struct {
 	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
@@ -246,7 +246,7 @@ func (dashboard *Dashboard_STATUS) ConvertStatusTo(destination genruntime.Conver
 	return destination.ConvertStatusFrom(dashboard)
 }
 
-// Storage version of v20260401.DashboardOperatorSpec
+// Storage version of v20250401preview.DashboardOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type DashboardOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
@@ -254,7 +254,7 @@ type DashboardOperatorSpec struct {
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
-// Storage version of v20260401.DashboardPropertiesWithProvisioningState
+// Storage version of v20250401preview.DashboardPropertiesWithProvisioningState
 // Dashboard Properties with Provisioning state
 type DashboardPropertiesWithProvisioningState struct {
 	Lenses      []DashboardLens        `json:"lenses,omitempty"`
@@ -262,7 +262,7 @@ type DashboardPropertiesWithProvisioningState struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20260401.DashboardPropertiesWithProvisioningState_STATUS
+// Storage version of v20250401preview.DashboardPropertiesWithProvisioningState_STATUS
 // Dashboard Properties with Provisioning state
 type DashboardPropertiesWithProvisioningState_STATUS struct {
 	Lenses            []DashboardLens_STATUS `json:"lenses,omitempty"`
@@ -271,7 +271,7 @@ type DashboardPropertiesWithProvisioningState_STATUS struct {
 	ProvisioningState *string                `json:"provisioningState,omitempty"`
 }
 
-// Storage version of v20260401.SystemData_STATUS
+// Storage version of v20250401preview.SystemData_STATUS
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
@@ -283,7 +283,7 @@ type SystemData_STATUS struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20260401.DashboardLens
+// Storage version of v20250401preview.DashboardLens
 // A dashboard lens.
 type DashboardLens struct {
 	Metadata    map[string]v1.JSON     `json:"metadata,omitempty"`
@@ -292,7 +292,7 @@ type DashboardLens struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20260401.DashboardLens_STATUS
+// Storage version of v20250401preview.DashboardLens_STATUS
 // A dashboard lens.
 type DashboardLens_STATUS struct {
 	Metadata    map[string]v1.JSON      `json:"metadata,omitempty"`
@@ -301,7 +301,7 @@ type DashboardLens_STATUS struct {
 	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20260401.DashboardParts
+// Storage version of v20250401preview.DashboardParts
 // A dashboard part.
 type DashboardParts struct {
 	Metadata    *DashboardPartMetadata  `json:"metadata,omitempty"`
@@ -309,7 +309,7 @@ type DashboardParts struct {
 	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20260401.DashboardParts_STATUS
+// Storage version of v20250401preview.DashboardParts_STATUS
 // A dashboard part.
 type DashboardParts_STATUS struct {
 	Metadata    *DashboardPartMetadata_STATUS  `json:"metadata,omitempty"`
@@ -317,19 +317,19 @@ type DashboardParts_STATUS struct {
 	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20260401.DashboardPartMetadata
+// Storage version of v20250401preview.DashboardPartMetadata
 type DashboardPartMetadata struct {
 	ExtensionHubsExtensionPartTypeMarkdownPart *MarkdownPartMetadata  `json:"extensionHubsExtensionPartTypeMarkdownPart,omitempty"`
 	PropertyBag                                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20260401.DashboardPartMetadata_STATUS
+// Storage version of v20250401preview.DashboardPartMetadata_STATUS
 type DashboardPartMetadata_STATUS struct {
 	ExtensionHubsExtensionPartTypeMarkdownPart *MarkdownPartMetadata_STATUS `json:"extensionHubsExtensionPartTypeMarkdownPart,omitempty"`
 	PropertyBag                                genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20260401.DashboardPartsPosition
+// Storage version of v20250401preview.DashboardPartsPosition
 // The dashboard's part position.
 type DashboardPartsPosition struct {
 	ColSpan     *int                   `json:"colSpan,omitempty"`
@@ -340,7 +340,7 @@ type DashboardPartsPosition struct {
 	Y           *int                   `json:"y,omitempty"`
 }
 
-// Storage version of v20260401.DashboardPartsPosition_STATUS
+// Storage version of v20250401preview.DashboardPartsPosition_STATUS
 // The dashboard's part position.
 type DashboardPartsPosition_STATUS struct {
 	ColSpan     *int                   `json:"colSpan,omitempty"`
@@ -351,7 +351,7 @@ type DashboardPartsPosition_STATUS struct {
 	Y           *int                   `json:"y,omitempty"`
 }
 
-// Storage version of v20260401.MarkdownPartMetadata
+// Storage version of v20250401preview.MarkdownPartMetadata
 type MarkdownPartMetadata struct {
 	Inputs      []map[string]v1.JSON          `json:"inputs,omitempty"`
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
@@ -359,7 +359,7 @@ type MarkdownPartMetadata struct {
 	Type        *string                       `json:"type,omitempty"`
 }
 
-// Storage version of v20260401.MarkdownPartMetadata_STATUS
+// Storage version of v20250401preview.MarkdownPartMetadata_STATUS
 type MarkdownPartMetadata_STATUS struct {
 	Inputs      []map[string]v1.JSON                 `json:"inputs,omitempty"`
 	PropertyBag genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
@@ -367,21 +367,21 @@ type MarkdownPartMetadata_STATUS struct {
 	Type        *string                              `json:"type,omitempty"`
 }
 
-// Storage version of v20260401.MarkdownPartMetadataSettings
+// Storage version of v20250401preview.MarkdownPartMetadataSettings
 // Markdown part settings.
 type MarkdownPartMetadataSettings struct {
 	Content     *MarkdownPartMetadataSettingsContent `json:"content,omitempty"`
 	PropertyBag genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20260401.MarkdownPartMetadataSettings_STATUS
+// Storage version of v20250401preview.MarkdownPartMetadataSettings_STATUS
 // Markdown part settings.
 type MarkdownPartMetadataSettings_STATUS struct {
 	Content     *MarkdownPartMetadataSettingsContent_STATUS `json:"content,omitempty"`
 	PropertyBag genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20260401.MarkdownPartMetadataSettingsContent
+// Storage version of v20250401preview.MarkdownPartMetadataSettingsContent
 // The content of markdown part.
 type MarkdownPartMetadataSettingsContent struct {
 	Content        *string                `json:"content,omitempty"`
@@ -392,7 +392,7 @@ type MarkdownPartMetadataSettingsContent struct {
 	Title          *string                `json:"title,omitempty"`
 }
 
-// Storage version of v20260401.MarkdownPartMetadataSettingsContent_STATUS
+// Storage version of v20250401preview.MarkdownPartMetadataSettingsContent_STATUS
 // The content of markdown part.
 type MarkdownPartMetadataSettingsContent_STATUS struct {
 	Content        *string                `json:"content,omitempty"`

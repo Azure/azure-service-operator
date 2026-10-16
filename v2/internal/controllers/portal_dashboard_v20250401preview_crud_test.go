@@ -10,12 +10,12 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	portal "github.com/Azure/azure-service-operator/v2/api/portal/v20260401"
+	portal "github.com/Azure/azure-service-operator/v2/api/portal/v20250401preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func Test_Portal_Dashboard_v20260401_CRUD(t *testing.T) {
+func Test_Portal_Dashboard_v20250401preview_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)

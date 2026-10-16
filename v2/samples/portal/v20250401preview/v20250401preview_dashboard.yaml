@@ -1,4 +1,4 @@
-apiVersion: portal.azure.com/v20260401
+apiVersion: portal.azure.com/v20250401preview
 kind: Dashboard
 metadata:
   name: aso-sample-dashboard
@@ -13,7 +13,7 @@ spec:
         parts:
           - position:
               x: 0
-              "y": 0
+              y: 0
               rowSpan: 4
               colSpan: 6
             metadata:

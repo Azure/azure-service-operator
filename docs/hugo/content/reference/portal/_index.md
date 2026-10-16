@@ -11,7 +11,7 @@ To install the CRDs for these resources, your ASO configuration must include `po
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                                                            | ARM Version | CRD Version | Supported From | Sample                                                                                                                 |
-|---------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------|
-| [Dashboard]({{< relref "/reference/portal/v20260401#Dashboard" >}}) | 2026-04-01  | v20260401   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/portal/v20260401/v20260401_dashboard.yaml) |
+| Resource  | ARM Version        | CRD Version      | Supported From | Sample                                                                                                                               |
+|-----------|--------------------|------------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| Dashboard | 2025-04-01-preview | v20250401preview | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/portal/v20250401preview/v20250401preview_dashboard.yaml) |
 
