@@ -176,8 +176,9 @@ security details before disclosure clearance.
 
 ## Status
 
-The user approved the design sections on 16 October 2026. This written spec awaits
-user review before implementation planning. No implementation is included.
+The user approved the design sections and this written spec on 16 October 2026.
+Implementation planning is authorised; execution and disclosure clearance remain
+separate decisions. No implementation is included.
 
 Prepare six separate changes, each with its own design and implementation plan:
 
