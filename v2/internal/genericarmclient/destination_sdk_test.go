@@ -75,3 +75,52 @@ func Test_DestinationSDK_CloudBoundariesAreIndependent(t *testing.T) {
 		})
 	}
 }
+
+func Test_DestinationSDK_ClientsRejectEachOthersOrigins(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	const firstEndpoint = "https://management.azure.com"
+	const secondEndpoint = "https://management.chinacloudapi.cn"
+	firstCalls := 0
+	firstClient, firstCred := boundaryClient(t, firstEndpoint, func(r *http.Request) (*http.Response, error) {
+		firstCalls++
+		return boundaryResponse(r, http.StatusOK, nil, "{}"), nil
+	})
+	secondCalls := 0
+	secondClient, secondCred := boundaryClient(t, secondEndpoint, func(r *http.Request) (*http.Response, error) {
+		secondCalls++
+		return boundaryResponse(r, http.StatusOK, nil, "{}"), nil
+	})
+	firstPipeline, err := armruntime.NewPipeline("boundary-test", "v0.0.0", firstCred, runtime.PipelineOptions{}, firstClient.ClientOptions())
+	g.Expect(err).ToNot(HaveOccurred())
+	secondPipeline, err := armruntime.NewPipeline("boundary-test", "v0.0.0", secondCred, runtime.PipelineOptions{}, secondClient.ClientOptions())
+	g.Expect(err).ToNot(HaveOccurred())
+
+	cases := []struct {
+		endpoint      string
+		otherEndpoint string
+		pipeline      runtime.Pipeline
+		calls         *int
+	}{
+		{firstEndpoint, secondEndpoint, firstPipeline, &firstCalls},
+		{secondEndpoint, firstEndpoint, secondPipeline, &secondCalls},
+	}
+	for _, c := range cases {
+		t.Run(c.endpoint, func(t *testing.T) {
+			g := NewGomegaWithT(t)
+			req, err := runtime.NewRequest(context.Background(), http.MethodGet, c.endpoint+"/operations/1")
+			g.Expect(err).ToNot(HaveOccurred())
+			resp, err := c.pipeline.Do(req)
+			g.Expect(err).ToNot(HaveOccurred())
+			g.Expect(resp.Body.Close()).To(Succeed())
+			g.Expect(*c.calls).To(Equal(1))
+
+			other, err := runtime.NewRequest(context.Background(), http.MethodGet, c.otherEndpoint+"/operations/1")
+			g.Expect(err).ToNot(HaveOccurred())
+			_, err = c.pipeline.Do(other)
+			var rejected *httpclient.DestinationError
+			g.Expect(errors.As(err, &rejected)).To(BeTrue())
+			g.Expect(*c.calls).To(Equal(1))
+		})
+	}
+}
