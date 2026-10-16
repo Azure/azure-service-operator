@@ -106,9 +106,15 @@ func (i *calculator) NextInterval(req ctrl.Request, result ctrl.Result, err erro
 	if hasRequeueDelayOverride && isRequeueing {
 		result.RequeueAfter = i.requeueDelayOverride
 	}
+
 	return result, nil
 }
 
+// failureResult computes the requeue interval for an error. If the caller supplies a non-zero
+// result.RequeueAfter (e.g. parsed from an HTTP Retry-After header), the returned interval is the
+// larger of the caller's value and the classification-based exponential backoff — throttling
+// signals from upstream services may slow us down but must never speed us up beyond our own
+// backoff schedule.
 func (i *calculator) failureResult(req ctrl.Request, err error) (ctrl.Result, error) {
 	exp := i.failures[req]
 	i.failures[req] = i.failures[req] + 1
@@ -128,6 +134,7 @@ func (i *calculator) failureResult(req ctrl.Request, err error) (ctrl.Result, er
 			// Since we're ignoring this error and counting it as a success, stop tracking the req
 			delete(i.failures, req)
 		}
+
 		return ctrl.Result{}, err
 	}
 
@@ -143,17 +150,21 @@ func (i *calculator) failureResult(req ctrl.Request, err error) (ctrl.Result, er
 		case retry.VerySlow:
 			// For VerySlow, we don't start at baseDelay and go up via exponential, instead
 			// we jump straight to the slow delay interval w/ jitter
-			delay := i.delayWithJitter(i.errorVerySlowDelay)
+			delay := max(i.delayWithJitter(i.errorVerySlowDelay), readyErr.RetryAfter)
 			return ctrl.Result{RequeueAfter: delay}, nil
+
 		case retry.Slow:
-			delay := i.calculateExponentialDelay(i.errorBaseDelay, exp, i.errorMaxSlowDelay)
+			delay := max(i.calculateExponentialDelay(i.errorBaseDelay, exp, i.errorMaxSlowDelay), readyErr.RetryAfter)
 			return ctrl.Result{RequeueAfter: delay}, nil
+
 		case retry.Fast:
-			delay := i.calculateExponentialDelay(i.errorBaseDelay, exp, i.errorMaxFastDelay)
+			delay := max(i.calculateExponentialDelay(i.errorBaseDelay, exp, i.errorMaxFastDelay), readyErr.RetryAfter)
 			return ctrl.Result{RequeueAfter: delay}, nil
+
 		case retry.None:
 			// This shouldn't happen, return an error
 			return ctrl.Result{}, eris.New("didn't expect RetryNone classification for error")
+
 		default:
 			// This shouldn't happen, return an error
 			return ctrl.Result{}, eris.Errorf("unknown RetryClassification %q", readyErr.RetryClassification)

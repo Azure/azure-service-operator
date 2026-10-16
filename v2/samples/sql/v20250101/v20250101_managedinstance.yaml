@@ -1,0 +1,32 @@
+apiVersion: sql.azure.com/v20250101
+kind: ManagedInstance
+metadata:
+  name: aso-sample-sqlmi
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-rg
+  location: westeurope
+  administratorLogin: miadmin
+  administratorLoginPassword:
+    name: aso-sample-sqlmi-secret
+    key: adminPassword
+  # The subnet must be delegated to Microsoft.Sql/managedInstances and be at least a /27
+  subnetReference:
+    armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/virtualNetworks/aso-sample-vnet/subnets/aso-sample-mi-subnet
+  sku:
+    name: GP_Gen5
+    tier: GeneralPurpose
+  vCores: 4
+  storageSizeInGB: 32
+  licenseType: LicenseIncluded
+  publicDataEndpointEnabled: false
+  # Backups are copied to the Azure paired region (Geo) and spread across zones (Zone) in the primary region.
+  # Valid values are Local, Zone, Geo and GeoZone.
+  requestedBackupStorageRedundancy: GeoZone
+  zoneRedundant: true
+  operatorSpec:
+    configMaps:
+      fullyQualifiedDomainName:
+        name: aso-sample-sqlmi-config
+        key: fqdn

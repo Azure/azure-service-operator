@@ -1084,6 +1084,11 @@ func (in *FluxConfiguration_STATUS) DeepCopyInto(out *FluxConfiguration_STATUS) 
 			(*out)[key] = val
 		}
 	}
+	if in.ProvisioningState != nil {
+		in, out := &in.ProvisioningState, &out.ProvisioningState
+		*out = new(string)
+		**out = **in
+	}
 	if in.ReconciliationWaitDuration != nil {
 		in, out := &in.ReconciliationWaitDuration, &out.ReconciliationWaitDuration
 		*out = new(string)

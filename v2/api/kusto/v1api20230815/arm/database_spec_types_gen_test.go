@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_Database_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Database_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabase_Spec, Database_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDatabase_Spec)
 }
 
 // RunJSONSerializationTestForDatabase_Spec runs a test to see if a specific instance of Database_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabase_Spec(subject Database_Spec) string {
+func RunJSONSerializationTestForDatabase_Spec(t *rapid.T) {
+	subject := Database_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Database_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,45 +45,37 @@ func RunJSONSerializationTestForDatabase_Spec(subject Database_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Database_Spec instances for property testing - lazily instantiated by Database_SpecGenerator()
-var database_SpecGenerator gopter.Gen
+var database_SpecGenerator *rapid.Generator[Database_Spec]
 
 // Database_SpecGenerator returns a generator of Database_Spec instances for property testing.
-func Database_SpecGenerator() gopter.Gen {
+func Database_SpecGenerator() *rapid.Generator[Database_Spec] {
 	if database_SpecGenerator != nil {
 		return database_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDatabase_Spec(generators)
-
 	// handle OneOf by choosing only one field to instantiate
-	var gens []gopter.Gen
-	for propName, propGen := range generators {
-		props := map[string]gopter.Gen{propName: propGen}
-		gens = append(gens, gen.Struct(reflect.TypeOf(Database_Spec{}), props))
-	}
-	database_SpecGenerator = gen.OneGenOf(gens...)
+	var gens []*rapid.Generator[Database_Spec]
+	gens = append(gens, rapid.Custom(func(t *rapid.T) Database_Spec {
+		var result Database_Spec
+		result.Name = rapid.String().Draw(t, "Name")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) Database_Spec {
+		var result Database_Spec
+		result.ReadWrite = rapid.Map(ReadWriteDatabaseGenerator(), func(it ReadWriteDatabase) *ReadWriteDatabase {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "ReadWrite")
+		return result
+	}))
+	database_SpecGenerator = rapid.OneOf(gens...)
 
 	return database_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDatabase_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabase_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForDatabase_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabase_Spec(gens map[string]gopter.Gen) {
-	gens["ReadWrite"] = ReadWriteDatabaseGenerator().Map(func(it ReadWriteDatabase) *ReadWriteDatabase {
-		return &it
-	}) // generate one case for OneOf type
 }
 
 func Test_ReadWriteDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -103,29 +85,23 @@ func Test_ReadWriteDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ReadWriteDatabase via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForReadWriteDatabase, ReadWriteDatabaseGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForReadWriteDatabase)
 }
 
 // RunJSONSerializationTestForReadWriteDatabase runs a test to see if a specific instance of ReadWriteDatabase round trips to JSON and back losslessly
-func RunJSONSerializationTestForReadWriteDatabase(subject ReadWriteDatabase) string {
+func RunJSONSerializationTestForReadWriteDatabase(t *rapid.T) {
+	subject := ReadWriteDatabaseGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ReadWriteDatabase
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -134,47 +110,34 @@ func RunJSONSerializationTestForReadWriteDatabase(subject ReadWriteDatabase) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ReadWriteDatabase instances for property testing - lazily instantiated by ReadWriteDatabaseGenerator()
-var readWriteDatabaseGenerator gopter.Gen
+var readWriteDatabaseGenerator *rapid.Generator[ReadWriteDatabase]
 
 // ReadWriteDatabaseGenerator returns a generator of ReadWriteDatabase instances for property testing.
-// We first initialize readWriteDatabaseGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ReadWriteDatabaseGenerator() gopter.Gen {
+func ReadWriteDatabaseGenerator() *rapid.Generator[ReadWriteDatabase] {
 	if readWriteDatabaseGenerator != nil {
 		return readWriteDatabaseGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForReadWriteDatabase(generators)
-	readWriteDatabaseGenerator = gen.Struct(reflect.TypeOf(ReadWriteDatabase{}), generators)
+	kind := rapid.SampledFrom([]ReadWriteDatabase_Kind{ReadWriteDatabase_Kind_ReadWrite})
+	location := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+	properties := rapid.Ptr(ReadWriteDatabasePropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForReadWriteDatabase(generators)
-	AddRelatedPropertyGeneratorsForReadWriteDatabase(generators)
-	readWriteDatabaseGenerator = gen.Struct(reflect.TypeOf(ReadWriteDatabase{}), generators)
+	readWriteDatabaseGenerator = rapid.Custom(func(t *rapid.T) ReadWriteDatabase {
+		var result ReadWriteDatabase
+		result.Kind = kind.Draw(t, "Kind")
+		result.Location = location.Draw(t, "Location")
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return readWriteDatabaseGenerator
-}
-
-// AddIndependentPropertyGeneratorsForReadWriteDatabase is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForReadWriteDatabase(gens map[string]gopter.Gen) {
-	gens["Kind"] = gen.OneConstOf(ReadWriteDatabase_Kind_ReadWrite)
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForReadWriteDatabase is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForReadWriteDatabase(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ReadWriteDatabasePropertiesGenerator())
 }
 
 func Test_ReadWriteDatabaseProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -184,29 +147,23 @@ func Test_ReadWriteDatabaseProperties_WhenSerializedToJson_DeserializesAsEqual(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ReadWriteDatabaseProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForReadWriteDatabaseProperties, ReadWriteDatabasePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForReadWriteDatabaseProperties)
 }
 
 // RunJSONSerializationTestForReadWriteDatabaseProperties runs a test to see if a specific instance of ReadWriteDatabaseProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForReadWriteDatabaseProperties(subject ReadWriteDatabaseProperties) string {
+func RunJSONSerializationTestForReadWriteDatabaseProperties(t *rapid.T) {
+	subject := ReadWriteDatabasePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ReadWriteDatabaseProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -215,45 +172,30 @@ func RunJSONSerializationTestForReadWriteDatabaseProperties(subject ReadWriteDat
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ReadWriteDatabaseProperties instances for property testing - lazily instantiated by
 // ReadWriteDatabasePropertiesGenerator()
-var readWriteDatabasePropertiesGenerator gopter.Gen
+var readWriteDatabasePropertiesGenerator *rapid.Generator[ReadWriteDatabaseProperties]
 
 // ReadWriteDatabasePropertiesGenerator returns a generator of ReadWriteDatabaseProperties instances for property testing.
-// We first initialize readWriteDatabasePropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ReadWriteDatabasePropertiesGenerator() gopter.Gen {
+func ReadWriteDatabasePropertiesGenerator() *rapid.Generator[ReadWriteDatabaseProperties] {
 	if readWriteDatabasePropertiesGenerator != nil {
 		return readWriteDatabasePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForReadWriteDatabaseProperties(generators)
-	readWriteDatabasePropertiesGenerator = gen.Struct(reflect.TypeOf(ReadWriteDatabaseProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	keyVaultProperties := rapid.Ptr(KeyVaultPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForReadWriteDatabaseProperties(generators)
-	AddRelatedPropertyGeneratorsForReadWriteDatabaseProperties(generators)
-	readWriteDatabasePropertiesGenerator = gen.Struct(reflect.TypeOf(ReadWriteDatabaseProperties{}), generators)
+	readWriteDatabasePropertiesGenerator = rapid.Custom(func(t *rapid.T) ReadWriteDatabaseProperties {
+		var result ReadWriteDatabaseProperties
+		result.HotCachePeriod = ptrString.Draw(t, "HotCachePeriod")
+		result.KeyVaultProperties = keyVaultProperties.Draw(t, "KeyVaultProperties")
+		result.SoftDeletePeriod = ptrString.Draw(t, "SoftDeletePeriod")
+		return result
+	})
 
 	return readWriteDatabasePropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForReadWriteDatabaseProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForReadWriteDatabaseProperties(gens map[string]gopter.Gen) {
-	gens["HotCachePeriod"] = gen.PtrOf(gen.AlphaString())
-	gens["SoftDeletePeriod"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForReadWriteDatabaseProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForReadWriteDatabaseProperties(gens map[string]gopter.Gen) {
-	gens["KeyVaultProperties"] = gen.PtrOf(KeyVaultPropertiesGenerator())
 }

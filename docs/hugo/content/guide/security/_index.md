@@ -29,6 +29,12 @@ credentials. Other supported identity types are called out
 ✅ DO use namespace-scoped ASO credentials, rather than global scope. Note that the global scope credential is _optional_ 
 and may be omitted when installing ASO.
 
+✅ DO enable `AZURE_WORKLOAD_IDENTITY_AUTH_MODE=strict` for single-operator multitenant clusters. Create a namespace-local
+ServiceAccount (default `aso-workload`) and matching FederatedIdentityCredential for each Workload Identity credential.
+
+⛔ DO NOT grant ASO unrestricted `create` access to `serviceaccounts/token`. Restrict `resourceNames` to the ServiceAccount
+names that ASO is expected to use.
+
 ✅ DO follow the [principle of least privilege](https://learn.microsoft.com/entra/identity/role-based-access-control/best-practices#1-apply-principle-of-least-privilege)
 when assigning roles to identities which will be used by ASO. Remember, users with access to the namespace the 
 ASO credential is in can do everything that credential can do via ASO. This means that if users in namespace `a` 

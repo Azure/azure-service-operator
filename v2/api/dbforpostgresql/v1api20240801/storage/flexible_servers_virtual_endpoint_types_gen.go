@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20240801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &FlexibleServersVirtualEndpoint{}
 
 // ConvertFrom populates our FlexibleServersVirtualEndpoint from the provided hub FlexibleServersVirtualEndpoint
 func (endpoint *FlexibleServersVirtualEndpoint) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FlexibleServersVirtualEndpoint)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v20250801/storage/FlexibleServersVirtualEndpoint but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FlexibleServersVirtualEndpoint
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return endpoint.AssignProperties_From_FlexibleServersVirtualEndpoint(source)
+	err = endpoint.AssignProperties_From_FlexibleServersVirtualEndpoint(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to endpoint")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersVirtualEndpoint from our FlexibleServersVirtualEndpoint
 func (endpoint *FlexibleServersVirtualEndpoint) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FlexibleServersVirtualEndpoint)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v20250801/storage/FlexibleServersVirtualEndpoint but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FlexibleServersVirtualEndpoint
+	err := endpoint.AssignProperties_To_FlexibleServersVirtualEndpoint(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from endpoint")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return endpoint.AssignProperties_To_FlexibleServersVirtualEndpoint(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FlexibleServersVirtualEndpoint{}

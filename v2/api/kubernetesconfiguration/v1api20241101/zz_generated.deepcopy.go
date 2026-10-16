@@ -965,6 +965,11 @@ func (in *FluxConfiguration_STATUS) DeepCopyInto(out *FluxConfiguration_STATUS) 
 		*out = new(OCIRepositoryDefinition_STATUS)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.ProvisioningState != nil {
+		in, out := &in.ProvisioningState, &out.ProvisioningState
+		*out = new(ProvisioningStateDefinition_STATUS)
+		**out = **in
+	}
 	if in.ReconciliationWaitDuration != nil {
 		in, out := &in.ReconciliationWaitDuration, &out.ReconciliationWaitDuration
 		*out = new(string)

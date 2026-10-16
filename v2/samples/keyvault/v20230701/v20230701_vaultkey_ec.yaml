@@ -1,0 +1,16 @@
+# VaultKey (EC variant) manages an elliptic-curve key inside an existing Key Vault.
+# See v20230701_vaultkey.yaml and docs/hugo/content/guide/keyvaults.md for the semantics.
+apiVersion: keyvault.azure.com/v20230701
+kind: VaultKey
+metadata:
+  name: samplevaultkey-ec
+  namespace: default
+spec:
+  owner:
+    name: samplevault
+  properties:
+    kty: EC
+    curveName: P-256
+    attributes:
+      enabled: true
+      exportable: false # true is rejected by the validating webhook

@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v20210101preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -355,22 +355,8 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *st
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AlternateName
-	if source.AlternateName != nil {
-		propertyBag.Add("AlternateName", *source.AlternateName)
-	} else {
-		propertyBag.Remove("AlternateName")
-	}
-
 	// AzureName
 	namespace.AzureName = source.AzureName
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		propertyBag.Add("DisableLocalAuth", *source.DisableLocalAuth)
-	} else {
-		propertyBag.Remove("DisableLocalAuth")
-	}
 
 	// Encryption
 	if source.Encryption != nil {
@@ -470,34 +456,8 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(namespace.PropertyBag)
 
-	// AlternateName
-	if propertyBag.Contains("AlternateName") {
-		var alternateName string
-		err := propertyBag.Pull("AlternateName", &alternateName)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AlternateName' from propertyBag")
-		}
-
-		destination.AlternateName = &alternateName
-	} else {
-		destination.AlternateName = nil
-	}
-
 	// AzureName
 	destination.AzureName = namespace.AzureName
-
-	// DisableLocalAuth
-	if propertyBag.Contains("DisableLocalAuth") {
-		var disableLocalAuth bool
-		err := propertyBag.Pull("DisableLocalAuth", &disableLocalAuth)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DisableLocalAuth' from propertyBag")
-		}
-
-		destination.DisableLocalAuth = &disableLocalAuth
-	} else {
-		destination.DisableLocalAuth = nil
-	}
 
 	// Encryption
 	if namespace.Encryption != nil {
@@ -670,25 +630,11 @@ func (namespace *Namespace_STATUS) AssignProperties_From_Namespace_STATUS(source
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AlternateName
-	if source.AlternateName != nil {
-		propertyBag.Add("AlternateName", *source.AlternateName)
-	} else {
-		propertyBag.Remove("AlternateName")
-	}
-
 	// Conditions
 	namespace.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// CreatedAt
 	namespace.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		propertyBag.Add("DisableLocalAuth", *source.DisableLocalAuth)
-	} else {
-		propertyBag.Remove("DisableLocalAuth")
-	}
 
 	// Encryption
 	if source.Encryption != nil {
@@ -817,37 +763,11 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(namespace.PropertyBag)
 
-	// AlternateName
-	if propertyBag.Contains("AlternateName") {
-		var alternateName string
-		err := propertyBag.Pull("AlternateName", &alternateName)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AlternateName' from propertyBag")
-		}
-
-		destination.AlternateName = &alternateName
-	} else {
-		destination.AlternateName = nil
-	}
-
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(namespace.Conditions)
 
 	// CreatedAt
 	destination.CreatedAt = genruntime.ClonePointerToString(namespace.CreatedAt)
-
-	// DisableLocalAuth
-	if propertyBag.Contains("DisableLocalAuth") {
-		var disableLocalAuth bool
-		err := propertyBag.Pull("DisableLocalAuth", &disableLocalAuth)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DisableLocalAuth' from propertyBag")
-		}
-
-		destination.DisableLocalAuth = &disableLocalAuth
-	} else {
-		destination.DisableLocalAuth = nil
-	}
 
 	// Encryption
 	if namespace.Encryption != nil {
@@ -1332,9 +1252,9 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *s
 		userAssignedIdentityMap := make(map[string]DictionaryValue_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
 			var userAssignedIdentity DictionaryValue_STATUS
-			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentityValue)
+			err := userAssignedIdentity.AssignProperties_From_DictionaryValue_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_DictionaryValue_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1379,12 +1299,12 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]storage.UserAssignedIdentity_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]storage.DictionaryValue_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			var userAssignedIdentity storage.UserAssignedIdentity_STATUS
-			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentity)
+			var userAssignedIdentity storage.DictionaryValue_STATUS
+			err := userAssignedIdentityValue.AssignProperties_To_DictionaryValue_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_DictionaryValue_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1928,8 +1848,8 @@ type DictionaryValue_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_UserAssignedIdentity_STATUS populates our DictionaryValue_STATUS from the provided source UserAssignedIdentity_STATUS
-func (value *DictionaryValue_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *storage.UserAssignedIdentity_STATUS) error {
+// AssignProperties_From_DictionaryValue_STATUS populates our DictionaryValue_STATUS from the provided source DictionaryValue_STATUS
+func (value *DictionaryValue_STATUS) AssignProperties_From_DictionaryValue_STATUS(source *storage.DictionaryValue_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1959,8 +1879,8 @@ func (value *DictionaryValue_STATUS) AssignProperties_From_UserAssignedIdentity_
 	return nil
 }
 
-// AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our DictionaryValue_STATUS
-func (value *DictionaryValue_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *storage.UserAssignedIdentity_STATUS) error {
+// AssignProperties_To_DictionaryValue_STATUS populates the provided destination DictionaryValue_STATUS from our DictionaryValue_STATUS
+func (value *DictionaryValue_STATUS) AssignProperties_To_DictionaryValue_STATUS(destination *storage.DictionaryValue_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(value.PropertyBag)
 
@@ -2398,8 +2318,8 @@ func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIden
 }
 
 type augmentConversionForDictionaryValue_STATUS interface {
-	AssignPropertiesFrom(src *storage.UserAssignedIdentity_STATUS) error
-	AssignPropertiesTo(dst *storage.UserAssignedIdentity_STATUS) error
+	AssignPropertiesFrom(src *storage.DictionaryValue_STATUS) error
+	AssignPropertiesTo(dst *storage.DictionaryValue_STATUS) error
 }
 
 type augmentConversionForKeyVaultProperties interface {

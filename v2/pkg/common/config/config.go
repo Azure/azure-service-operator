@@ -64,6 +64,16 @@ const (
 	PodNamespace = "POD_NAMESPACE"
 	// UseWorkloadIdentityAuth boolean is used to determine if we're using Workload Identity authentication for global credential
 	UseWorkloadIdentityAuth = "USE_WORKLOAD_IDENTITY_AUTH"
+	// WorkloadIdentityAuthMode controls how namespace and per-resource Workload Identity credentials obtain assertions.
+	// Allowed values are `relaxed` and `strict`. If not specified, the default is `relaxed`.
+	// relaxed: ASO uses a single Federated Identity Credential (FIC) for all authentication to Azure, via the ASO controller service account. This is simple to set up but is less secure. See
+	// https://github.com/Azure/azure-service-operator/issues/4810 for more details about why this is less secure.
+	// strict: ASO uses separate Federated Identity Credentials (FICs) via separate service accounts for each authentication to Azure. This is more secure but requires more setup.
+	// The secret may select the ServiceAccount with `AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT`; when omitted, ASO uses `aso-workload`.
+	AzureWorkloadIdentityAuthMode = "AZURE_WORKLOAD_IDENTITY_AUTH_MODE"
+	// WorkloadIdentityServiceAccount selects the ServiceAccount used for a scoped Workload Identity credential. If not specified, the default is
+	// "aso-workload".
+	WorkloadIdentityServiceAccount = "AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT"
 	// UserAgentSuffix is appended to the default User-Agent for Azure HTTP clients.
 	UserAgentSuffix = "AZURE_USER_AGENT_SUFFIX"
 	// MaxConcurrentReconciles is the number of threads/goroutines dedicated to reconciling each resource type.
@@ -111,6 +121,14 @@ const (
 	// NOTE: This is required when using Entra authentication, but optional otherwise.
 	EntraAppID = "ENTRA_APP_ID"
 	// TLSMinVersion is the minimum TLS version used by the webhook and metrics servers.
-	// If not specified, the default is "VersionTLS12". Valid values are "VersionTLS12" and "VersionTLS13".
+	// If not specified, the default is "VersionTLS13". Valid values are "VersionTLS12" and "VersionTLS13".
 	TLSMinVersion = "TLS_MIN_VERSION"
+	// AzureFederatedTokenFile is the standard Azure Workload Identity environment variable used to
+	// communicate the projected service account token path to a workload. When set (and non-empty)
+	// it overrides the default projected token file path used for Workload Identity authentication.
+	// This mirrors the behaviour of the upstream azure-workload-identity mutating webhook and other
+	// Azure controllers (for example cluster-api-provider-azure), and lets ASO run in environments —
+	// such as vcluster — where the token is projected to a non-default path.
+	// #nosec
+	AzureFederatedTokenFile = "AZURE_FEDERATED_TOKEN_FILE"
 )

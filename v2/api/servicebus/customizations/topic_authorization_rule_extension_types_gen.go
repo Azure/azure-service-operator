@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	v20240101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101"
-	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v1api20240101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101"
+	servicebus_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v20240101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101"
+	servicebus_v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type TopicAuthorizationRuleExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *TopicAuthorizationRuleExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20240101.TopicAuthorizationRule{},
-		&storage.TopicAuthorizationRule{}}
+		&servicebus_v1api20240101.TopicAuthorizationRule{},
+		&servicebus_v1api20240101s.TopicAuthorizationRule{},
+		&servicebus_v20240101.TopicAuthorizationRule{},
+		&servicebus_v20240101s.TopicAuthorizationRule{}}
 }

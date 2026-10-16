@@ -95,11 +95,11 @@ instead of using its own ServiceAccount token directly.
 - ASO would use the [Kubernetes TokenRequest API](https://kubernetes.io/docs/reference/kubernetes-api/authentication-resources/token-request-v1/)
   to create a short-lived token for the target namespace's Service Account with the `api://AzureADTokenExchange` audience.
   It would cache this token and manage refreshing it as-needed.
-- The controller needs `serviceaccounts/token: create` permission for the well-known Service Account name. With the fixed-name
-  convention, this is a single `ClusterRole`/`ClusterRoleBinding` scoped via `resourceNames: ["aso-workload"]`,
-  shipped as part of the ASO Helm chart.
-- In the configurable variant (not chosen), a new field in the credential secret would indicate the Service Account name.
-  With the fixed-name convention chosen in this design, no credential secret changes are needed.
+- The controller needs `serviceaccounts/token: create` permission for the selected Service Account name. ASO ships a
+  `ClusterRole`/`ClusterRoleBinding` scoped via `resourceNames: ["aso-workload"]` for the default name. Custom names require
+  an additional Role/RoleBinding, or an equivalent exact-name ClusterRole, supplied by the cluster administrator.
+- The optional `AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT` field in a credential secret selects a custom Service Account.
+  When omitted, ASO uses `aso-workload`.
 
 **Variant: Fixed vs. configurable Service Account name**
 
@@ -110,8 +110,9 @@ There are two sub-variants for how the Service Account name is determined:
 - **Fixed convention:** ASO uses a well-known Service Account name (e.g., `aso-workload`) in every namespace. No configuration
   is needed — if the Service Account exists and the RBAC grant is in place, ASO uses it automatically.
 
-The fixed-name approach is simpler to administer and requires no changes to the credential secret format. The
-configurable variant could be offered as a future extension if there's demand.
+We choose the configurable variant with `aso-workload` as the default. This preserves the simple setup for most users while
+allowing multiple credentials in one namespace to use different Service Accounts. The shipped RBAC remains constrained to
+the default exact name; selecting a custom name does not expand ASO's permissions automatically.
 
 - When this mode is enabled, if ASO encounters a namespace without the designated Service Account or without the RBAC grant, it
   refuses to authenticate and sets a clear error condition on the resource.

@@ -9,4 +9,4 @@ metadata:
     serviceoperator.azure.com/reconcile-policy: detach-on-delete
 spec:
   owner:
-    name: samplekubestoragebeta
+    name: samplekubestorageeg25

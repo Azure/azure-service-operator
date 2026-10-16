@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
+	v20250601s "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
+	v20260601s "github.com/Azure/azure-service-operator/v2/api/storage/v20260601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForStorageAccountsTableServicesTable(subject Stora
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.StorageAccountsTableServicesTable
+	var hub v20260601s.StorageAccountsTableServicesTable
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForStorageAccountsTableServicesTable(subject Stora
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsTableServicesTable
+	var other v20250601s.StorageAccountsTableServicesTable
 	err := copied.AssignProperties_To_StorageAccountsTableServicesTable(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +203,7 @@ func RunPropertyAssignmentTestForStorageAccountsTableServicesTableOperatorSpec(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsTableServicesTableOperatorSpec
+	var other v20250601s.StorageAccountsTableServicesTableOperatorSpec
 	err := copied.AssignProperties_To_StorageAccountsTableServicesTableOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForStorageAccountsTableServicesTable_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsTableServicesTable_STATUS
+	var other v20250601s.StorageAccountsTableServicesTable_STATUS
 	err := copied.AssignProperties_To_StorageAccountsTableServicesTable_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -439,7 +440,7 @@ func RunPropertyAssignmentTestForStorageAccountsTableServicesTable_Spec(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsTableServicesTable_Spec
+	var other v20250601s.StorageAccountsTableServicesTable_Spec
 	err := copied.AssignProperties_To_StorageAccountsTableServicesTable_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -568,7 +569,7 @@ func RunPropertyAssignmentTestForTableAccessPolicy(subject TableAccessPolicy) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TableAccessPolicy
+	var other v20250601s.TableAccessPolicy
 	err := copied.AssignProperties_To_TableAccessPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -682,7 +683,7 @@ func RunPropertyAssignmentTestForTableAccessPolicy_STATUS(subject TableAccessPol
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TableAccessPolicy_STATUS
+	var other v20250601s.TableAccessPolicy_STATUS
 	err := copied.AssignProperties_To_TableAccessPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -797,7 +798,7 @@ func RunPropertyAssignmentTestForTableSignedIdentifier(subject TableSignedIdenti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TableSignedIdentifier
+	var other v20250601s.TableSignedIdentifier
 	err := copied.AssignProperties_To_TableSignedIdentifier(&other)
 	if err != nil {
 		return err.Error()
@@ -910,7 +911,7 @@ func RunPropertyAssignmentTestForTableSignedIdentifier_STATUS(subject TableSigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TableSignedIdentifier_STATUS
+	var other v20250601s.TableSignedIdentifier_STATUS
 	err := copied.AssignProperties_To_TableSignedIdentifier_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -10,6 +10,8 @@ import (
 	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
 	v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
+	v20260501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501"
+	v20260501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v20260501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -24,5 +26,7 @@ func (extension *MaintenanceConfigurationExtension) GetExtendedResources() []gen
 		&v20250801.MaintenanceConfiguration{},
 		&v20250801s.MaintenanceConfiguration{},
 		&v20251002p.MaintenanceConfiguration{},
-		&v20251002ps.MaintenanceConfiguration{}}
+		&v20251002ps.MaintenanceConfiguration{},
+		&v20260501.MaintenanceConfiguration{},
+		&v20260501s.MaintenanceConfiguration{}}
 }

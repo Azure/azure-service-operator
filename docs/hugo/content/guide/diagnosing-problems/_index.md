@@ -26,6 +26,31 @@ Events:
   ...
 ```
 
+### Operator pod is restarted before it finishes applying CRDs
+
+On a cluster with a large number of CRDs, the operator can be killed by the kubelet while it is still starting.
+The pod restarts repeatedly and never reports ready, and `kubectl describe pod` shows the startup probe failing:
+
+```
+  Warning  Unhealthy  2m (x12 over 4m)  kubelet  Startup probe failed: Get "http://10.244.0.9:8081/healthz": context deadline exceeded
+```
+
+The operator applies its CRDs and starts a controller for each installed CRD before it serves `/healthz`, so on
+a large cluster that work can outlast the startup probe's budget of `periodSeconds` x `failureThreshold`.
+
+Give it more time by raising `failureThreshold`. In Helm:
+```yaml
+probes:
+  startup:
+    failureThreshold: 60
+```
+
+That allows ten minutes rather than the default two. Raising it costs nothing when the operator starts quickly,
+because the probe stops as soon as it first succeeds.
+
+Installing fewer CRDs also shortens startup, since the operator only applies and watches the CRDs it is asked
+for. See [CRD management]( {{< relref "crd-management" >}} ).
+
 ### Helm installation via Argo missing ClusterRole and other resources
 
 See reference issue [#4184](https://github.com/Azure/azure-service-operator/issues/4184).
@@ -59,6 +84,34 @@ spec:
     targetRevision: v2.8.0
     path: v2/charts/azure-service-operator
 ```
+
+### Operator restarts in a loop with "leader election lost"
+
+This only affects large clusters - ones with many installed CRDs, many ASO resources, or both. Smaller clusters
+start well inside the default lease timings and never hit it.
+
+The error looks like this, shortly after the pod has started its controllers:
+```
+E0916 23:52:08.898297  1 main.go:47] "failed to start manager" err="leader election lost"
+```
+
+The pod exits, the standby replica takes over, reaches the same point and exits too, so the operator never
+finishes starting. The initial informer sync is slower than the lease renewal deadline: the renewal is starved
+while every watched kind is listed for the first time, the lease expires, and the manager stops.
+
+Raise the lease timings so a cold start fits inside them. In Helm:
+```yaml
+leaderElection:
+  leaseDuration: 2m
+  renewDeadline: 100s
+  retryPeriod: 20s
+```
+
+The trade-off is failover time: a leader that is killed rather than shut down gracefully is only replaced after
+`leaseDuration` expires. Graceful restarts are unaffected, because the operator releases its lease on shutdown.
+
+Installing fewer CRDs also helps, as the operator only starts controllers for CRDs that are present in the
+cluster. See [CRD management]( {{< relref "crd-management" >}} ).
 
 ## Problems with resources
 
@@ -115,7 +168,8 @@ The error may look like this:
 This may be caused by ASO pod restarts, which you can check via `kubectl get pods -n azureserviceoperator-system`. If 
 you're seeing the ASO pod restart periodically check its logs to see if something is causing it to exit. A common cause 
 of this is installing too many CRDs on a free tier AKS cluster overloading the API Server. See 
-[CRD management](../crd-management/) for more details. 
+[CRD management](../crd-management/) for more details. Another is the operator losing its leader election lease
+during startup, covered in [operator restarts in a loop](#operator-restarts-in-a-loop-with-leader-election-lost).
 
 ## Getting ASO controller pod logs
 The last stop when investigating most issues is to look at the ASO pod logs. We expect that

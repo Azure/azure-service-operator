@@ -1981,66 +1981,6 @@ func (operator *ServersFailoverGroupOperatorSpec) AssignProperties_To_ServersFai
 	return nil
 }
 
-// Failover policy of the read-only endpoint for the failover group.
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type ReadOnlyEndpointFailoverPolicy string
-
-const (
-	ReadOnlyEndpointFailoverPolicy_Disabled = ReadOnlyEndpointFailoverPolicy("Disabled")
-	ReadOnlyEndpointFailoverPolicy_Enabled  = ReadOnlyEndpointFailoverPolicy("Enabled")
-)
-
-// Mapping from string to ReadOnlyEndpointFailoverPolicy
-var readOnlyEndpointFailoverPolicy_Values = map[string]ReadOnlyEndpointFailoverPolicy{
-	"disabled": ReadOnlyEndpointFailoverPolicy_Disabled,
-	"enabled":  ReadOnlyEndpointFailoverPolicy_Enabled,
-}
-
-// Failover policy of the read-only endpoint for the failover group.
-type ReadOnlyEndpointFailoverPolicy_STATUS string
-
-const (
-	ReadOnlyEndpointFailoverPolicy_STATUS_Disabled = ReadOnlyEndpointFailoverPolicy_STATUS("Disabled")
-	ReadOnlyEndpointFailoverPolicy_STATUS_Enabled  = ReadOnlyEndpointFailoverPolicy_STATUS("Enabled")
-)
-
-// Mapping from string to ReadOnlyEndpointFailoverPolicy_STATUS
-var readOnlyEndpointFailoverPolicy_STATUS_Values = map[string]ReadOnlyEndpointFailoverPolicy_STATUS{
-	"disabled": ReadOnlyEndpointFailoverPolicy_STATUS_Disabled,
-	"enabled":  ReadOnlyEndpointFailoverPolicy_STATUS_Enabled,
-}
-
-// Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then
-// failoverWithDataLossGracePeriodMinutes is required.
-// +kubebuilder:validation:Enum={"Automatic","Manual"}
-type ReadWriteEndpointFailoverPolicy string
-
-const (
-	ReadWriteEndpointFailoverPolicy_Automatic = ReadWriteEndpointFailoverPolicy("Automatic")
-	ReadWriteEndpointFailoverPolicy_Manual    = ReadWriteEndpointFailoverPolicy("Manual")
-)
-
-// Mapping from string to ReadWriteEndpointFailoverPolicy
-var readWriteEndpointFailoverPolicy_Values = map[string]ReadWriteEndpointFailoverPolicy{
-	"automatic": ReadWriteEndpointFailoverPolicy_Automatic,
-	"manual":    ReadWriteEndpointFailoverPolicy_Manual,
-}
-
-// Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then
-// failoverWithDataLossGracePeriodMinutes is required.
-type ReadWriteEndpointFailoverPolicy_STATUS string
-
-const (
-	ReadWriteEndpointFailoverPolicy_STATUS_Automatic = ReadWriteEndpointFailoverPolicy_STATUS("Automatic")
-	ReadWriteEndpointFailoverPolicy_STATUS_Manual    = ReadWriteEndpointFailoverPolicy_STATUS("Manual")
-)
-
-// Mapping from string to ReadWriteEndpointFailoverPolicy_STATUS
-var readWriteEndpointFailoverPolicy_STATUS_Values = map[string]ReadWriteEndpointFailoverPolicy_STATUS{
-	"automatic": ReadWriteEndpointFailoverPolicy_STATUS_Automatic,
-	"manual":    ReadWriteEndpointFailoverPolicy_STATUS_Manual,
-}
-
 func init() {
 	SchemeBuilder.Register(&ServersFailoverGroup{}, &ServersFailoverGroupList{})
 }

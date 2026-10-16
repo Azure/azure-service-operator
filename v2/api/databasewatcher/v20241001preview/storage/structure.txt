@@ -204,7 +204,8 @@ Watcher: Resource
 │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │       └── Reference: genruntime.ResourceReference
 │   ├── Location: *string
-│   ├── OperatorSpec: *Object (3 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── AutoStart: *bool
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── SecretExpressions: *core.DestinationExpression[]

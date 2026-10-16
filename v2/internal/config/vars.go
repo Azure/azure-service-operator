@@ -23,7 +23,7 @@ const (
 	DefaultSyncIntervalString = "1h"
 
 	// DefaultTLSMinVersion is the minimum TLS version used when TLS_MIN_VERSION is not set.
-	DefaultTLSMinVersion = "VersionTLS12"
+	DefaultTLSMinVersion = "VersionTLS13"
 )
 
 // tlsVersionMap maps the supported TLS_MIN_VERSION string values to their crypto/tls constants.
@@ -123,6 +123,14 @@ type Values struct {
 	// UseWorkloadIdentityAuth boolean is used to determine if we're using Workload Identity authentication for global credential
 	UseWorkloadIdentityAuth bool
 
+	// WorkloadIdentityAuthMode controls how namespace and per-resource Workload Identity credentials obtain assertions.
+	// Allowed values are `relaxed` and `strict`. If not specified, the default is `relaxed`.
+	// relaxed: ASO uses a single Federated Identity Credential (FIC) for all authentication to Azure, via the ASO controller service account. This is simple to set up but is less secure. See
+	// https://github.com/Azure/azure-service-operator/issues/4810 for more details about why this is less secure.
+	// strict: ASO uses separate Federated Identity Credentials (FICs) via separate service accounts for each authentication to Azure. This is more secure but requires more setup.
+	// The secret may select the ServiceAccount with `AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT`; when omitted, ASO uses `aso-workload`.
+	WorkloadIdentityAuthMode WorkloadIdentityAuthMode
+
 	// UserAgentSuffix is appended to the default User-Agent for Azure HTTP clients.
 	UserAgentSuffix string
 
@@ -154,6 +162,11 @@ type Values struct {
 	// TLSMinVersion is the minimum TLS version used by the webhook and metrics servers,
 	// stored as a crypto/tls version constant (for example tls.VersionTLS12).
 	TLSMinVersion uint16
+
+	// FederatedTokenFilePath overrides the default projected token file path used for Workload
+	// Identity authentication, read from AZURE_FEDERATED_TOKEN_FILE. Empty means "not set" — callers
+	// fall back to their own default (identity.FederatedTokenFilePath) in that case.
+	FederatedTokenFilePath string
 }
 
 type RateLimitMode string
@@ -200,6 +213,24 @@ type RateLimit struct {
 	BucketSize int
 }
 
+type WorkloadIdentityAuthMode string
+
+const (
+	WorkloadIdentityAuthModeRelaxed = WorkloadIdentityAuthMode("relaxed")
+	WorkloadIdentityAuthModeStrict  = WorkloadIdentityAuthMode("strict")
+)
+
+func ParseWorkloadIdentityAuthMode(s string) (WorkloadIdentityAuthMode, error) {
+	switch s {
+	case string(WorkloadIdentityAuthModeRelaxed):
+		return WorkloadIdentityAuthModeRelaxed, nil
+	case string(WorkloadIdentityAuthModeStrict):
+		return WorkloadIdentityAuthModeStrict, nil
+	default:
+		return "", eris.Errorf("invalid workload identity auth mode %q", s)
+	}
+}
+
 func (r RateLimit) String() string {
 	var builder strings.Builder
 
@@ -231,12 +262,14 @@ func (v Values) String() string {
 	builder.WriteString(fmt.Sprintf("ResourceManagerAudience:%s/", v.ResourceManagerAudience))
 	builder.WriteString(fmt.Sprintf("AzureAuthorityHost:%s/", v.AzureAuthorityHost))
 	builder.WriteString(fmt.Sprintf("UseWorkloadIdentityAuth:%t/", v.UseWorkloadIdentityAuth))
+	builder.WriteString(fmt.Sprintf("WorkloadIdentityAuthMode:%s/", v.WorkloadIdentityAuthMode))
 	builder.WriteString(fmt.Sprintf("UserAgentSuffix:%s/", v.UserAgentSuffix))
 	builder.WriteString(fmt.Sprintf("MaxConcurrentReconciles:%d/", v.MaxConcurrentReconciles))
 	builder.WriteString(fmt.Sprintf("RateLimit:[%s]/", v.RateLimit.String()))
 	builder.WriteString(fmt.Sprintf("DefaultReconcilePolicy:[%s]/", v.DefaultReconcilePolicy))
 	builder.WriteString(fmt.Sprintf("AllowMultiEnvManagement:%t/", v.AllowMultiEnvManagement))
-	builder.WriteString(fmt.Sprintf("TLSMinVersion:%s", tlsMinVersionName(v.TLSMinVersion)))
+	builder.WriteString(fmt.Sprintf("TLSMinVersion:%s/", tlsMinVersionName(v.TLSMinVersion)))
+	builder.WriteString(fmt.Sprintf("FederatedTokenFilePath:%s", v.FederatedTokenFilePath))
 
 	return builder.String()
 }
@@ -290,6 +323,12 @@ func ReadFromEnvironment() (Values, error) {
 
 	// Ignoring error here, as any other value or empty value means we should default to false
 	result.UseWorkloadIdentityAuth, _ = strconv.ParseBool(os.Getenv(config.UseWorkloadIdentityAuth))
+	result.WorkloadIdentityAuthMode, err = ParseWorkloadIdentityAuthMode(
+		envOrDefault(config.AzureWorkloadIdentityAuthMode, string(WorkloadIdentityAuthModeRelaxed)),
+	)
+	if err != nil {
+		return result, err
+	}
 	result.UserAgentSuffix = os.Getenv(config.UserAgentSuffix)
 	result.RateLimit.Mode, err = ParseRateLimitMode(envOrDefault(config.RateLimitMode, string(RateLimitModeDisabled)))
 	if err != nil {
@@ -312,6 +351,8 @@ func ReadFromEnvironment() (Values, error) {
 	if err != nil {
 		return result, err
 	}
+
+	result.FederatedTokenFilePath = strings.TrimSpace(os.Getenv(config.AzureFederatedTokenFile))
 
 	// Not calling validate here to support using from tests where we
 	// don't require consistent settings.

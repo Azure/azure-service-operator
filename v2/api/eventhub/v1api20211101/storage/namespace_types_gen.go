@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/eventhub/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &Namespace{}
 
 // ConvertFrom populates our Namespace from the provided hub Namespace
 func (namespace *Namespace) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Namespace)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20240101/storage/Namespace but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Namespace
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return namespace.AssignProperties_From_Namespace(source)
+	err = namespace.AssignProperties_From_Namespace(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to namespace")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Namespace from our Namespace
 func (namespace *Namespace) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Namespace)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20240101/storage/Namespace but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Namespace
+	err := namespace.AssignProperties_To_Namespace(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from namespace")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return namespace.AssignProperties_To_Namespace(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Namespace{}
@@ -419,13 +432,6 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *st
 	// MaximumThroughputUnits
 	namespace.MaximumThroughputUnits = genruntime.ClonePointerToInt(source.MaximumThroughputUnits)
 
-	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		propertyBag.Add("MinimumTlsVersion", *source.MinimumTlsVersion)
-	} else {
-		propertyBag.Remove("MinimumTlsVersion")
-	}
-
 	// OperatorSpec
 	if source.OperatorSpec != nil {
 		var operatorSpec NamespaceOperatorSpec
@@ -447,13 +453,6 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *st
 		namespace.Owner = &owner
 	} else {
 		namespace.Owner = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		propertyBag.Add("PublicNetworkAccess", *source.PublicNetworkAccess)
-	} else {
-		propertyBag.Remove("PublicNetworkAccess")
 	}
 
 	// Sku
@@ -572,19 +571,6 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 	// MaximumThroughputUnits
 	destination.MaximumThroughputUnits = genruntime.ClonePointerToInt(namespace.MaximumThroughputUnits)
 
-	// MinimumTlsVersion
-	if propertyBag.Contains("MinimumTlsVersion") {
-		var minimumTlsVersion string
-		err := propertyBag.Pull("MinimumTlsVersion", &minimumTlsVersion)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'MinimumTlsVersion' from propertyBag")
-		}
-
-		destination.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		destination.MinimumTlsVersion = nil
-	}
-
 	// OperatorSpec
 	if namespace.OperatorSpec != nil {
 		var operatorSpec storage.NamespaceOperatorSpec
@@ -606,19 +592,6 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// PublicNetworkAccess
-	if propertyBag.Contains("PublicNetworkAccess") {
-		var publicNetworkAccess string
-		err := propertyBag.Pull("PublicNetworkAccess", &publicNetworkAccess)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
-		}
-
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
 	}
 
 	// Sku
@@ -820,13 +793,6 @@ func (namespace *Namespace_STATUS) AssignProperties_From_Namespace_STATUS(source
 	// MetricId
 	namespace.MetricId = genruntime.ClonePointerToString(source.MetricId)
 
-	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		propertyBag.Add("MinimumTlsVersion", *source.MinimumTlsVersion)
-	} else {
-		propertyBag.Remove("MinimumTlsVersion")
-	}
-
 	// Name
 	namespace.Name = genruntime.ClonePointerToString(source.Name)
 
@@ -848,13 +814,6 @@ func (namespace *Namespace_STATUS) AssignProperties_From_Namespace_STATUS(source
 
 	// ProvisioningState
 	namespace.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		propertyBag.Add("PublicNetworkAccess", *source.PublicNetworkAccess)
-	} else {
-		propertyBag.Remove("PublicNetworkAccess")
-	}
 
 	// ServiceBusEndpoint
 	namespace.ServiceBusEndpoint = genruntime.ClonePointerToString(source.ServiceBusEndpoint)
@@ -1000,19 +959,6 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 	// MetricId
 	destination.MetricId = genruntime.ClonePointerToString(namespace.MetricId)
 
-	// MinimumTlsVersion
-	if propertyBag.Contains("MinimumTlsVersion") {
-		var minimumTlsVersion string
-		err := propertyBag.Pull("MinimumTlsVersion", &minimumTlsVersion)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'MinimumTlsVersion' from propertyBag")
-		}
-
-		destination.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		destination.MinimumTlsVersion = nil
-	}
-
 	// Name
 	destination.Name = genruntime.ClonePointerToString(namespace.Name)
 
@@ -1034,19 +980,6 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(namespace.ProvisioningState)
-
-	// PublicNetworkAccess
-	if propertyBag.Contains("PublicNetworkAccess") {
-		var publicNetworkAccess string
-		err := propertyBag.Pull("PublicNetworkAccess", &publicNetworkAccess)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
-		}
-
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
 
 	// ServiceBusEndpoint
 	destination.ServiceBusEndpoint = genruntime.ClonePointerToString(namespace.ServiceBusEndpoint)

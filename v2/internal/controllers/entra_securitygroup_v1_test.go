@@ -14,6 +14,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	entra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -23,12 +25,30 @@ func Test_Entra_SecurityGroup_v1_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	mi := &managedidentity.UserAssignedIdentity{
+		ObjectMeta: tc.MakeObjectMeta("mi"),
+		Spec: managedidentity.UserAssignedIdentity_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			OperatorSpec: &managedidentity.UserAssignedIdentityOperatorSpec{
+				ConfigMaps: &managedidentity.UserAssignedIdentityOperatorConfigMaps{
+					PrincipalId: &genruntime.ConfigMapDestination{
+						Name: "mi-secret",
+						Key:  "principal-id",
+					},
+				},
+			},
+		},
+	}
+
 	securityGroup := &entra.SecurityGroup{
 		ObjectMeta: tc.MakeObjectMeta("securitygroup"),
 		Spec: entra.SecurityGroupSpec{
 			DisplayName:    to.Ptr("ASO Test Security Group"),
 			MailNickname:   to.Ptr("asotest-security-group"),
-			MembershipType: to.Ptr(entra.SecurityGroupMembershipTypeAssignedM365),
+			MembershipType: to.Ptr(entra.SecurityGroupMembershipTypeAssigned),
 			OperatorSpec: &entra.SecurityGroupOperatorSpec{
 				ConfigMaps: &entra.SecurityGroupOperatorConfigMaps{
 					EntraID: &genruntime.ConfigMapDestination{
@@ -37,16 +57,24 @@ func Test_Entra_SecurityGroup_v1_CRUD(t *testing.T) {
 					},
 				},
 			},
+			Owners: []entra.SecurityGroupMemberReference{
+				{
+					ObjectIDFromConfig: &genruntime.ConfigMapReference{
+						Name: "mi-secret",
+						Key:  "principal-id",
+					},
+				},
+			},
 		},
 	}
 
-	// Create the resource and wait for it to be ready
-	tc.CreateResourceAndWait(securityGroup)
+	// Create the resources and wait for them to be ready
+	tc.CreateResourcesAndWait(mi, securityGroup)
 
-	// Make sure the configmap was correctly created
+	// Make sure the configmaps were correctly created
 	configMapList := &v1.ConfigMapList{}
 	tc.ListResources(configMapList, client.InNamespace(tc.Namespace))
-	tc.Expect(configMapList.Items).To(HaveLen(1))
+	tc.Expect(configMapList.Items).To(HaveLen(2))
 	tc.Expect(configMapList.Items[0].Data).To(HaveKeyWithValue("entra-id", *securityGroup.Status.EntraID))
 
 	// Save an update

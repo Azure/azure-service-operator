@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v20210101preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -389,13 +389,6 @@ func (topic *NamespacesTopic_Spec) AssignProperties_From_NamespacesTopic_Spec(so
 		topic.EnablePartitioning = nil
 	}
 
-	// MaxMessageSizeInKilobytes
-	if source.MaxMessageSizeInKilobytes != nil {
-		propertyBag.Add("MaxMessageSizeInKilobytes", *source.MaxMessageSizeInKilobytes)
-	} else {
-		propertyBag.Remove("MaxMessageSizeInKilobytes")
-	}
-
 	// MaxSizeInMegabytes
 	topic.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
@@ -497,19 +490,6 @@ func (topic *NamespacesTopic_Spec) AssignProperties_To_NamespacesTopic_Spec(dest
 		destination.EnablePartitioning = &enablePartitioning
 	} else {
 		destination.EnablePartitioning = nil
-	}
-
-	// MaxMessageSizeInKilobytes
-	if propertyBag.Contains("MaxMessageSizeInKilobytes") {
-		var maxMessageSizeInKilobyte int
-		err := propertyBag.Pull("MaxMessageSizeInKilobytes", &maxMessageSizeInKilobyte)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'MaxMessageSizeInKilobytes' from propertyBag")
-		}
-
-		destination.MaxMessageSizeInKilobytes = &maxMessageSizeInKilobyte
-	} else {
-		destination.MaxMessageSizeInKilobytes = nil
 	}
 
 	// MaxSizeInMegabytes
@@ -712,20 +692,6 @@ func (topic *NamespacesTopic_STATUS) AssignProperties_From_NamespacesTopic_STATU
 	// Id
 	topic.Id = genruntime.ClonePointerToString(source.Id)
 
-	// Location
-	if source.Location != nil {
-		propertyBag.Add("Location", *source.Location)
-	} else {
-		propertyBag.Remove("Location")
-	}
-
-	// MaxMessageSizeInKilobytes
-	if source.MaxMessageSizeInKilobytes != nil {
-		propertyBag.Add("MaxMessageSizeInKilobytes", *source.MaxMessageSizeInKilobytes)
-	} else {
-		propertyBag.Remove("MaxMessageSizeInKilobytes")
-	}
-
 	// MaxSizeInMegabytes
 	topic.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
@@ -856,32 +822,6 @@ func (topic *NamespacesTopic_STATUS) AssignProperties_To_NamespacesTopic_STATUS(
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(topic.Id)
-
-	// Location
-	if propertyBag.Contains("Location") {
-		var location string
-		err := propertyBag.Pull("Location", &location)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Location' from propertyBag")
-		}
-
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
-
-	// MaxMessageSizeInKilobytes
-	if propertyBag.Contains("MaxMessageSizeInKilobytes") {
-		var maxMessageSizeInKilobyte int
-		err := propertyBag.Pull("MaxMessageSizeInKilobytes", &maxMessageSizeInKilobyte)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'MaxMessageSizeInKilobytes' from propertyBag")
-		}
-
-		destination.MaxMessageSizeInKilobytes = &maxMessageSizeInKilobyte
-	} else {
-		destination.MaxMessageSizeInKilobytes = nil
-	}
 
 	// MaxSizeInMegabytes
 	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(topic.MaxSizeInMegabytes)

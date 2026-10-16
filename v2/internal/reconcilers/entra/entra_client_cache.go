@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"sync"
 
-	msgraphsdk "github.com/microsoftgraph/msgraph-sdk-go"
+	msgraphsdk "github.com/microsoftgraph/msgraph-beta-sdk-go"
 	msgraphauth "github.com/microsoftgraph/msgraph-sdk-go-core/authentication"
 
 	"github.com/Azure/azure-service-operator/v2/internal/identity"

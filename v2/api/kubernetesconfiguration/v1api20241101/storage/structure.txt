@@ -240,7 +240,7 @@ FluxConfiguration: Resource
 │   ├── SourceKind: *string
 │   ├── Suspend: *bool
 │   └── WaitForReconciliation: *bool
-└── Status: Object (25 properties)
+└── Status: Object (26 properties)
     ├── AzureBlob: *Object (8 properties)
     │   ├── ContainerName: *string
     │   ├── LocalAuthRef: *string
@@ -334,6 +334,7 @@ FluxConfiguration: Resource
     │       ├── Provider: *string
     │       └── VerificationConfig: map[string]string
     ├── PropertyBag: genruntime.PropertyBag
+    ├── ProvisioningState: *string
     ├── ReconciliationWaitDuration: *string
     ├── RepositoryPublicKey: *string
     ├── Scope: *string

@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v20210101preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -361,13 +361,6 @@ func (subscription *NamespacesTopicsSubscription_Spec) AssignProperties_From_Nam
 	// AzureName
 	subscription.AzureName = source.AzureName
 
-	// ClientAffineProperties
-	if source.ClientAffineProperties != nil {
-		propertyBag.Add("ClientAffineProperties", *source.ClientAffineProperties)
-	} else {
-		propertyBag.Remove("ClientAffineProperties")
-	}
-
 	// DeadLetteringOnFilterEvaluationExceptions
 	if source.DeadLetteringOnFilterEvaluationExceptions != nil {
 		deadLetteringOnFilterEvaluationException := *source.DeadLetteringOnFilterEvaluationExceptions
@@ -403,13 +396,6 @@ func (subscription *NamespacesTopicsSubscription_Spec) AssignProperties_From_Nam
 
 	// ForwardTo
 	subscription.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
-
-	// IsClientAffine
-	if source.IsClientAffine != nil {
-		propertyBag.Add("IsClientAffine", *source.IsClientAffine)
-	} else {
-		propertyBag.Remove("IsClientAffine")
-	}
 
 	// LockDuration
 	subscription.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
@@ -479,19 +465,6 @@ func (subscription *NamespacesTopicsSubscription_Spec) AssignProperties_To_Names
 	// AzureName
 	destination.AzureName = subscription.AzureName
 
-	// ClientAffineProperties
-	if propertyBag.Contains("ClientAffineProperties") {
-		var clientAffineProperty storage.SBClientAffineProperties
-		err := propertyBag.Pull("ClientAffineProperties", &clientAffineProperty)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ClientAffineProperties' from propertyBag")
-		}
-
-		destination.ClientAffineProperties = &clientAffineProperty
-	} else {
-		destination.ClientAffineProperties = nil
-	}
-
 	// DeadLetteringOnFilterEvaluationExceptions
 	if subscription.DeadLetteringOnFilterEvaluationExceptions != nil {
 		deadLetteringOnFilterEvaluationException := *subscription.DeadLetteringOnFilterEvaluationExceptions
@@ -527,19 +500,6 @@ func (subscription *NamespacesTopicsSubscription_Spec) AssignProperties_To_Names
 
 	// ForwardTo
 	destination.ForwardTo = genruntime.ClonePointerToString(subscription.ForwardTo)
-
-	// IsClientAffine
-	if propertyBag.Contains("IsClientAffine") {
-		var isClientAffine bool
-		err := propertyBag.Pull("IsClientAffine", &isClientAffine)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IsClientAffine' from propertyBag")
-		}
-
-		destination.IsClientAffine = &isClientAffine
-	} else {
-		destination.IsClientAffine = nil
-	}
 
 	// LockDuration
 	destination.LockDuration = genruntime.ClonePointerToString(subscription.LockDuration)
@@ -686,13 +646,6 @@ func (subscription *NamespacesTopicsSubscription_STATUS) AssignProperties_From_N
 	// AutoDeleteOnIdle
 	subscription.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
 
-	// ClientAffineProperties
-	if source.ClientAffineProperties != nil {
-		propertyBag.Add("ClientAffineProperties", *source.ClientAffineProperties)
-	} else {
-		propertyBag.Remove("ClientAffineProperties")
-	}
-
 	// Conditions
 	subscription.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
@@ -749,20 +702,6 @@ func (subscription *NamespacesTopicsSubscription_STATUS) AssignProperties_From_N
 
 	// Id
 	subscription.Id = genruntime.ClonePointerToString(source.Id)
-
-	// IsClientAffine
-	if source.IsClientAffine != nil {
-		propertyBag.Add("IsClientAffine", *source.IsClientAffine)
-	} else {
-		propertyBag.Remove("IsClientAffine")
-	}
-
-	// Location
-	if source.Location != nil {
-		propertyBag.Add("Location", *source.Location)
-	} else {
-		propertyBag.Remove("Location")
-	}
 
 	// LockDuration
 	subscription.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
@@ -836,19 +775,6 @@ func (subscription *NamespacesTopicsSubscription_STATUS) AssignProperties_To_Nam
 	// AutoDeleteOnIdle
 	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(subscription.AutoDeleteOnIdle)
 
-	// ClientAffineProperties
-	if propertyBag.Contains("ClientAffineProperties") {
-		var clientAffineProperty storage.SBClientAffineProperties_STATUS
-		err := propertyBag.Pull("ClientAffineProperties", &clientAffineProperty)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ClientAffineProperties' from propertyBag")
-		}
-
-		destination.ClientAffineProperties = &clientAffineProperty
-	} else {
-		destination.ClientAffineProperties = nil
-	}
-
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(subscription.Conditions)
 
@@ -905,32 +831,6 @@ func (subscription *NamespacesTopicsSubscription_STATUS) AssignProperties_To_Nam
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(subscription.Id)
-
-	// IsClientAffine
-	if propertyBag.Contains("IsClientAffine") {
-		var isClientAffine bool
-		err := propertyBag.Pull("IsClientAffine", &isClientAffine)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IsClientAffine' from propertyBag")
-		}
-
-		destination.IsClientAffine = &isClientAffine
-	} else {
-		destination.IsClientAffine = nil
-	}
-
-	// Location
-	if propertyBag.Contains("Location") {
-		var location string
-		err := propertyBag.Pull("Location", &location)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Location' from propertyBag")
-		}
-
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
 
 	// LockDuration
 	destination.LockDuration = genruntime.ClonePointerToString(subscription.LockDuration)

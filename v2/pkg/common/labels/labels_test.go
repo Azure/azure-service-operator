@@ -6,6 +6,7 @@
 package labels_test
 
 import (
+	"strings"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -13,6 +14,7 @@ import (
 	"github.com/go-logr/logr/testr"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/util/validation"
 
 	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/labels"
@@ -62,6 +64,20 @@ func TestSetOwnerNameLabel(t *testing.T) {
 			expected: "this-is-a-long-test-rg-1234567890123456789012345678901234567890",
 		},
 		{
+			name: "truncated label does not end in punctuation",
+			input: &containerservice.ManagedCluster{
+				ObjectMeta: metav1.ObjectMeta{
+					Name: "test-mc",
+				},
+				Spec: containerservice.ManagedCluster_Spec{
+					Owner: &genruntime.KnownResourceReference{
+						Name: strings.Repeat("a", 60) + "-_.owner",
+					},
+				},
+			},
+			expected: strings.Repeat("a", 60),
+		},
+		{
 			name: "ARM id owner name is not saved",
 			input: &containerservice.ManagedCluster{
 				ObjectMeta: metav1.ObjectMeta{
@@ -88,6 +104,7 @@ func TestSetOwnerNameLabel(t *testing.T) {
 				g.Expect(c.input.GetLabels()).NotTo(HaveKey(labels.OwnerNameLabel))
 			} else {
 				g.Expect(c.input.GetLabels()).To(HaveKeyWithValue(labels.OwnerNameLabel, c.expected))
+				g.Expect(validation.IsValidLabelValue(c.expected)).To(BeEmpty())
 			}
 		})
 	}
@@ -212,6 +229,20 @@ func TestSetOwnerGroupKindLabel(t *testing.T) {
 			expected: "MyResource.thisgroupisextremelylonglikesolongitcausesissues.azu",
 		},
 		{
+			name: "truncated label does not end in punctuation",
+			input: &testArbitraryOwnerGVKResource{
+				ObjectMeta: metav1.ObjectMeta{
+					Name: "test-mc",
+				},
+				ownerGK: metav1.GroupKind{
+					Group: strings.Repeat("a", 51) + ".azure.com",
+					Kind:  "MyResource",
+				},
+				ownerName: "myresource",
+			},
+			expected: "MyResource." + strings.Repeat("a", 51),
+		},
+		{
 			name: "ARM id owner GK is not saved",
 			input: &containerservice.ManagedCluster{
 				ObjectMeta: metav1.ObjectMeta{
@@ -238,6 +269,7 @@ func TestSetOwnerGroupKindLabel(t *testing.T) {
 				g.Expect(c.input.GetLabels()).NotTo(HaveKey(labels.OwnerGroupKindLabel))
 			} else {
 				g.Expect(c.input.GetLabels()).To(HaveKeyWithValue(labels.OwnerGroupKindLabel, c.expected))
+				g.Expect(validation.IsValidLabelValue(c.expected)).To(BeEmpty())
 			}
 		})
 	}

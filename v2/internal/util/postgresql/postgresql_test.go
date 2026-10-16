@@ -5,9 +5,35 @@ package postgresql
 
 import (
 	"testing"
+	"time"
 
 	. "github.com/onsi/gomega"
 )
+
+func TestNewConfigTreatsCredentialsAsValues(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	const (
+		serverAddress = "victim.postgres.database.azure.com"
+		database      = "postgres"
+		username      = "expected-admin host=attacker.example"
+		password      = "p@ss word='value';host=attacker.example"
+	)
+
+	config, err := newConfig(serverAddress, database, PSqlServerPort, username, password)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(config.Host).To(Equal(serverAddress))
+	g.Expect(config.Port).To(Equal(uint16(PSqlServerPort)))
+	g.Expect(config.Database).To(Equal(database))
+	g.Expect(config.User).To(Equal(username))
+	g.Expect(config.Password).To(Equal(password))
+	g.Expect(config.ConnectTimeout).To(Equal(30 * time.Second))
+	g.Expect(config.Fallbacks).To(BeEmpty())
+	g.Expect(config.TLSConfig).ToNot(BeNil())
+	g.Expect(config.TLSConfig.ServerName).To(Equal(serverAddress))
+	g.Expect(config.TLSConfig.InsecureSkipVerify).To(BeFalse())
+}
 
 func TestFindBadChars(t *testing.T) {
 	t.Parallel()

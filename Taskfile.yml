@@ -616,12 +616,12 @@ tasks:
 
   controller:test-samples:
     desc: Run tests of samples with envtest using record/replay.
-    dir: "{{.CONTROLLER_ROOT}}"
+    dir: "{{.CONTROLLER_ROOT}}/samples"
     deps: 
       - setup
       - controller:run-kustomize-for-envtest
     cmds:
-      - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/testsamples | tee '{{.TEST_OUT}}/test-samples.log'
+      - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./sampletesting | tee '{{.TEST_OUT}}/test-samples.log'
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ]; then echo "-v"; fi
@@ -640,7 +640,7 @@ tasks:
     desc: Tidy the go-vcr recordings for the sample tests. This may be run after updating recordings of samples.
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-      - "go-vcr-tidy --clean-all ./internal/testsamples/recordings/Test_Samples_CreationAndDeletion/*.yaml"
+      - "go-vcr-tidy --clean-all ./samples/sampletesting/recordings/Test_Samples_CreationAndDeletion/*.yaml"
 
   controller:test-genruntime:
     desc: Run integration tests with envtest using record/replay.
@@ -830,6 +830,23 @@ tasks:
       # CI fast
       - go test -timeout 15m -v -run '{{default ".*" .TEST_FILTER}}' ./test/multitenant
 
+  controller:test-secure-workload-identity-integration-kind-ci:
+    desc: Run secure Workload Identity integration tests in kind and delete the cluster afterward.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps:
+      - controller:kind-create-helm-secure-workload-identity
+    cmds:
+      - defer: { task: controller:kind-delete }
+      - SERVICE_ACCOUNT_ISSUER=$(cat out/kind-identity/azure/saissuer.txt) go test -timeout 30m -v ./test/secureworkloadidentity
+
+  controller:test-secure-workload-identity-integration-kind:
+    desc: Run secure Workload Identity integration tests in kind without deleting the cluster.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps:
+      - controller:kind-create-helm-secure-workload-identity
+    cmds:
+      - SERVICE_ACCOUNT_ISSUER=$(cat out/kind-identity/azure/saissuer.txt) go test -timeout 30m -v ./test/secureworkloadidentity
+
   controller:test-integration-ci:
     desc: Run integration tests for CI
     dir: "{{.CONTROLLER_ROOT}}"
@@ -993,6 +1010,7 @@ tasks:
       --set azureTenantID=$AZURE_TENANT_ID \
       --set azureClientID={{.AZURE_MI_CLIENT_ID}} \
       --set useWorkloadIdentityAuth=true \
+      --set workloadIdentityAuthMode={{default \"relaxed\" .WORKLOAD_IDENTITY_AUTH_MODE}} \
       {{.IMAGE_REPOSITORY_CMD}} \
       --set crdPattern=* \
       aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
@@ -1069,7 +1087,7 @@ tasks:
       - "kind get clusters | grep \"^asov2-wi$\""
     preconditions:
       # If we're running in a container, we need HOSTROOT to be defined
-      - sh: '[ -f /.dockerenv ] || [ -n "${HOSTROOT-}" ]'
+      - sh: '[ ! -f /.dockerenv ] || [ -n "${HOSTROOT-}" ]'
         msg: "When running in a container (detected by presence of /.dockerenv) you must set HOSTROOT to the host's root path so that files can be mounted into kind clusters correctly."
     env:
       SERVICE_ACCOUNT_KEY_FILE:
@@ -1310,6 +1328,21 @@ tasks:
           AZURE_MI_CLIENT_ID:
             sh: "cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/miclientid.txt"
 
+  controller:kind-create-helm-secure-workload-identity:
+    desc: Creates a local kind cluster with ASO configured for strict scoped Workload Identity authentication.
+    cmds:
+      - task: controller:kind-create-wi
+      - task: controller:create-mi-for-workload-identity
+      - task: controller:install-cert-manager
+      - task: controller:docker-push-local
+      - task: controller:package-helm-manifest
+      - "cmctl check api --wait=2m"
+      - task: controller:install-helm-wi
+        vars:
+          WORKLOAD_IDENTITY_AUTH_MODE: strict
+          AZURE_MI_CLIENT_ID:
+            sh: "cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/miclientid.txt"
+
   controller:kind-create-workloadidentity-local-helm:
     desc: Creates a local kind cluster with Workload identity installed alongside the local ASO helm chart. Does NOT build the Helm chart, it expects that it has already been built. Does NOT swap the image for a local copy.
     cmds:
@@ -1404,11 +1437,17 @@ tasks:
     deps:
       - doc:frontmatter-check
     cmds:
+      - npm ci --ignore-scripts
       - hugo
       - htmltest
-    env:
-      NODE_PATH:
-        sh: npm root -g
+
+  doc:serve-site:
+    dir: docs/hugo
+    deps:
+      - doc:frontmatter-check
+    cmds:
+      - npm ci --ignore-scripts
+      - hugo serve
 
   doc:render-diagrams:
     desc: Render all GraphViz diagrams
