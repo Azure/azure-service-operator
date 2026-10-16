@@ -5,3 +5,5 @@ RoleAssignmentExtension: Object (0 properties)
 
 RoleDefinitionExtension: Object (0 properties)
 
+RoleEligibilityScheduleRequestExtension: Object (0 properties)
+
