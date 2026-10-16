@@ -48,6 +48,10 @@ required environment setup; allow it to finish. If setup fails, stop and report
 the failure. The Go version must satisfy `v2/go.mod`. The clone was already
 confirmed non-shallow during design.
 
+`genericarmclient`'s `TestMain` skips the entire package under `-short`. Focused
+commands below intentionally omit that flag and use verbose output to prove
+the selected tests ran. The repository-required task commands stay unchanged.
+
 All new Go files use the repository's Microsoft copyright/MIT header.
 Production snippets below are complete new files or exact replacement blocks;
 existing files outside those blocks stay unchanged.
@@ -704,7 +708,7 @@ settings and the existing user-agent policy.
 - [ ] **Step 2: Run the red integration tests.**
 
 ```bash
-./dev.sh -c 'cd v2 && go test -short -tags=noexit -count=1 ./internal/genericarmclient -run "^Test_(DestinationPolicy|DataPlaneClientOptions)"'
+./dev.sh -c 'cd v2 && go test -v -tags=noexit -count=1 ./internal/genericarmclient -run "^Test_(DestinationPolicy|DataPlaneClientOptions)"'
 ```
 
 Expected: the new boundary assertions fail against the unguarded ARM client.
@@ -814,7 +818,7 @@ operations for registration and metrics remain unchanged.
 - [ ] **Step 4: Run the targeted tests, including existing RP registration and actions.**
 
 ```bash
-./dev.sh -c 'cd v2 && go test -short -tags=noexit -count=1 ./internal/httpclient ./internal/genericarmclient -run "TestOrigin|TestRedirects|Test_(DestinationPolicy|DataPlaneClientOptions|NewResourceGroup_SubscriptionNotRegisteredError|BeginPostActionByID|ResumeActionPoller)"'
+./dev.sh -c 'cd v2 && go test -v -tags=noexit -count=1 ./internal/httpclient ./internal/genericarmclient -run "TestOrigin|TestRedirects|Test_(DestinationPolicy|DataPlaneClientOptions|NewResourceGroup_SubscriptionNotRegisteredError|BeginPostActionByID|ResumeActionPoller)"'
 ```
 
 Expected: PASS, including the existing local TLS server tests. The source
@@ -1124,7 +1128,7 @@ func Test_DestinationFailure_ClearsLROForNormalRecovery(t *testing.T) {
 - [ ] **Step 4: Run the regression suite and require PASS.**
 
 ```bash
-./dev.sh -c 'cd v2 && go test -short -tags=noexit -count=1 ./internal/httpclient ./internal/genericarmclient ./internal/reconcilers/arm -run "TestOrigin|TestRedirects|Test_(Destination|DataPlaneClientOptions|NewResourceGroup_SubscriptionNotRegisteredError|BeginPostActionByID|ResumeActionPoller)"'
+./dev.sh -c 'cd v2 && go test -v -tags=noexit -count=1 ./internal/httpclient ./internal/genericarmclient ./internal/reconcilers/arm -run "TestOrigin|TestRedirects|Test_(Destination|DataPlaneClientOptions|NewResourceGroup_SubscriptionNotRegisteredError|BeginPostActionByID|ResumeActionPoller)"'
 ```
 
 These are coverage tests for Task 3's integration, so they may pass immediately.
