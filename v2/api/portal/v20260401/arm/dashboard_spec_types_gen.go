@@ -23,9 +23,9 @@ type Dashboard_Spec struct {
 
 var _ genruntime.ARMResourceSpec = &Dashboard_Spec{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2025-04-01-preview"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2026-04-01"
 func (dashboard Dashboard_Spec) GetAPIVersion() string {
-	return "2025-04-01-preview"
+	return "2026-04-01"
 }
 
 // GetName returns the Name of the resource

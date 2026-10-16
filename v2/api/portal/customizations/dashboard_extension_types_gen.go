@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	v20250401p "github.com/Azure/azure-service-operator/v2/api/portal/v20250401preview"
-	storage "github.com/Azure/azure-service-operator/v2/api/portal/v20250401preview/storage"
+	v20260401 "github.com/Azure/azure-service-operator/v2/api/portal/v20260401"
+	storage "github.com/Azure/azure-service-operator/v2/api/portal/v20260401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +15,6 @@ type DashboardExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *DashboardExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20250401p.Dashboard{},
+		&v20260401.Dashboard{},
 		&storage.Dashboard{}}
 }
