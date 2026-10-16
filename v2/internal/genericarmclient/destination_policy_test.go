@@ -89,7 +89,10 @@ func Test_DestinationPolicy_RejectsBeforeAuthentication(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	req, err := runtime.NewRequest(context.Background(), http.MethodGet, "https://attacker.example.invalid/path?secret=private")
 	g.Expect(err).ToNot(HaveOccurred())
-	_, err = pl.Do(req)
+	resp, err := pl.Do(req)
+	if resp != nil {
+		g.Expect(resp.Body.Close()).To(Succeed())
+	}
 	var rejected *httpclient.DestinationError
 	g.Expect(errors.As(err, &rejected)).To(BeTrue())
 	g.Expect(cred.calls.Load()).To(BeZero())

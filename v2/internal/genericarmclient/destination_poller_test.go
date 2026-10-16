@@ -29,6 +29,7 @@ func Test_DestinationPoller_RejectsEveryPollingForm(t *testing.T) {
 	}
 	for name, state := range states {
 		t.Run(name, func(t *testing.T) {
+			t.Parallel()
 			g := NewGomegaWithT(t)
 			calls := 0
 			client, cred := boundaryClient(t, "https://management.example.invalid", func(r *http.Request) (*http.Response, error) {
@@ -67,6 +68,7 @@ func Test_DestinationPoller_FinalAndUnusedURLs(t *testing.T) {
 	}
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
 			g := NewGomegaWithT(t)
 			calls := 0
 			client, cred := boundaryClient(t, endpoint, func(r *http.Request) (*http.Response, error) {

@@ -38,6 +38,7 @@ func TestRedirects_OriginBoundary(t *testing.T) {
 		{"https://user:private@management.example.invalid/done", false},
 	} {
 		t.Run(c.target, func(t *testing.T) {
+			t.Parallel()
 			calls := 0
 			base := &http.Client{Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
 				calls++
@@ -53,7 +54,7 @@ func TestRedirects_OriginBoundary(t *testing.T) {
 				}, nil
 			})}
 			client := NewRedirectGuardedClient(base, allowed)
-			req, err := http.NewRequest(http.MethodGet, "https://management.example.invalid/start?secret=private", nil)
+			req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://management.example.invalid/start?secret=private", nil)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -101,19 +102,19 @@ func TestRedirects_ClientSettingsAndCallbacks(t *testing.T) {
 	if client.client == base || client.client.Timeout != base.Timeout || client.client.Transport != base.Transport || client.client.Jar != base.Jar {
 		t.Fatal("client was not copied with settings intact")
 	}
-	req, err := http.NewRequest(http.MethodGet, "https://management.example.invalid/done", nil)
+	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://management.example.invalid/done", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := client.client.CheckRedirect(req, nil); err != callbackErr || calls != 1 {
+	if err := client.client.CheckRedirect(req, nil); !errors.Is(err, callbackErr) || calls != 1 {
 		t.Fatalf("caller callback lost: %s", err)
 	}
-	if err := base.CheckRedirect(req, nil); err != callbackErr || calls != 2 {
+	if err := base.CheckRedirect(req, nil); !errors.Is(err, callbackErr) || calls != 2 {
 		t.Fatal("base client callback was modified")
 	}
 	base.CheckRedirect = func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }
 	client = NewRedirectGuardedClient(base, allowed)
-	if err := client.client.CheckRedirect(req, nil); err != http.ErrUseLastResponse {
+	if err := client.client.CheckRedirect(req, nil); !errors.Is(err, http.ErrUseLastResponse) {
 		t.Fatalf("ErrUseLastResponse not preserved: %s", err)
 	}
 	base.CheckRedirect = func(r *http.Request, _ []*http.Request) error {
@@ -141,7 +142,7 @@ func TestRedirects_DefaultLimit(t *testing.T) {
 			Body:   io.NopCloser(strings.NewReader("")),
 		}, nil
 	})}
-	req, err := http.NewRequest(http.MethodGet, "https://management.example.invalid/loop", nil)
+	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://management.example.invalid/loop", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -165,7 +166,7 @@ func TestRedirects_NilBase(t *testing.T) {
 		client.client.Transport != http.DefaultClient.Transport || client.client.Jar != http.DefaultClient.Jar {
 		t.Fatal("default client was not copied with settings intact")
 	}
-	req, err := http.NewRequest(http.MethodGet, "https://other.example.invalid/done", nil)
+	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://other.example.invalid/done", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -197,7 +198,7 @@ func TestRedirects_UseLastResponse(t *testing.T) {
 			return http.ErrUseLastResponse
 		},
 	}
-	req, err := http.NewRequest(http.MethodGet, "https://management.example.invalid/start", nil)
+	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://management.example.invalid/start", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -228,7 +229,7 @@ func TestRedirects_InitialRequestIsNotValidated(t *testing.T) {
 			Header: make(http.Header), Body: io.NopCloser(strings.NewReader("{}")),
 		}, nil
 	})}
-	req, err := http.NewRequest(http.MethodGet, "https://other.example.invalid/start", nil)
+	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://other.example.invalid/start", nil)
 	if err != nil {
 		t.Fatal(err)
 	}

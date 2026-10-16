@@ -38,7 +38,10 @@ func Test_DestinationSDK_BackupInstanceResume(t *testing.T) {
 		},
 	)
 	g.Expect(err).ToNot(HaveOccurred())
-	_, err = poller.Poll(context.Background())
+	resp, err := poller.Poll(context.Background())
+	if resp != nil {
+		g.Expect(resp.Body.Close()).To(Succeed())
+	}
 	var rejected *httpclient.DestinationError
 	g.Expect(errors.As(err, &rejected)).To(BeTrue())
 	g.Expect(calls).To(BeZero())
@@ -53,6 +56,7 @@ func Test_DestinationSDK_CloudBoundariesAreIndependent(t *testing.T) {
 	}
 	for _, endpoint := range endpoints {
 		t.Run(endpoint, func(t *testing.T) {
+			t.Parallel()
 			g := NewGomegaWithT(t)
 			calls := 0
 			client, cred := boundaryClient(t, endpoint, func(r *http.Request) (*http.Response, error) {
@@ -68,7 +72,10 @@ func Test_DestinationSDK_CloudBoundariesAreIndependent(t *testing.T) {
 			g.Expect(resp.Body.Close()).To(Succeed())
 			other, err := runtime.NewRequest(context.Background(), http.MethodGet, "https://different.example.invalid/operations/1")
 			g.Expect(err).ToNot(HaveOccurred())
-			_, err = pl.Do(other)
+			resp, err = pl.Do(other)
+			if resp != nil {
+				g.Expect(resp.Body.Close()).To(Succeed())
+			}
 			var rejected *httpclient.DestinationError
 			g.Expect(errors.As(err, &rejected)).To(BeTrue())
 			g.Expect(calls).To(Equal(1))
@@ -107,6 +114,7 @@ func Test_DestinationSDK_ClientsRejectEachOthersOrigins(t *testing.T) {
 	}
 	for _, c := range cases {
 		t.Run(c.endpoint, func(t *testing.T) {
+			t.Parallel()
 			g := NewGomegaWithT(t)
 			req, err := runtime.NewRequest(context.Background(), http.MethodGet, c.endpoint+"/operations/1")
 			g.Expect(err).ToNot(HaveOccurred())
@@ -117,7 +125,10 @@ func Test_DestinationSDK_ClientsRejectEachOthersOrigins(t *testing.T) {
 
 			other, err := runtime.NewRequest(context.Background(), http.MethodGet, c.otherEndpoint+"/operations/1")
 			g.Expect(err).ToNot(HaveOccurred())
-			_, err = c.pipeline.Do(other)
+			resp, err = c.pipeline.Do(other)
+			if resp != nil {
+				g.Expect(resp.Body.Close()).To(Succeed())
+			}
 			var rejected *httpclient.DestinationError
 			g.Expect(errors.As(err, &rejected)).To(BeTrue())
 			g.Expect(*c.calls).To(Equal(1))

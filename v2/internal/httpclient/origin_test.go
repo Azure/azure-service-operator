@@ -39,6 +39,7 @@ func TestOrigin(t *testing.T) {
 	}
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
 			u, parseErr := url.Parse(c.raw)
 			if parseErr != nil {
 				t.Fatal(parseErr)

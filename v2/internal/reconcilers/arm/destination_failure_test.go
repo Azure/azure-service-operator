@@ -30,6 +30,7 @@ func Test_DestinationFailure_ClearsLROForNormalRecovery(t *testing.T) {
 			name = "delete"
 		}
 		t.Run(name, func(t *testing.T) {
+			t.Parallel()
 			g := NewGomegaWithT(t)
 			scheme := runtime.NewScheme()
 			g.Expect(resources.AddToScheme(scheme)).To(Succeed())
