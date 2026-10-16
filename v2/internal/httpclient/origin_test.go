@@ -93,3 +93,20 @@ func TestOrigin_CustomPortsAndIPv6(t *testing.T) {
 		}
 	}
 }
+
+func TestOrigin_ConfiguredDNSLabelsAreNotRestricted(t *testing.T) {
+	t.Parallel()
+	for _, endpoint := range []string{"https://-bad.example.invalid", "https://bad..example.invalid"} {
+		allowed, err := NewOrigin(endpoint)
+		if err != nil {
+			t.Fatal(err)
+		}
+		u, err := url.Parse(endpoint + "/operations/1")
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := allowed.Validate(u); err != nil {
+			t.Fatal(err)
+		}
+	}
+}
