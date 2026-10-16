@@ -69,8 +69,17 @@ func (f Flags) Validate() error {
 		return eris.Errorf("leader-lease-duration (%s) must be greater than leader-renew-deadline (%s)", f.LeaseDuration, f.RenewDeadline)
 	}
 
-	minimumRenewDeadline := time.Duration(leaderelection.JitterFactor * float64(f.RetryPeriod))
-	if f.RenewDeadline <= minimumRenewDeadline {
+	if f.RenewDeadline <= f.RetryPeriod {
+		return eris.Errorf(
+			"leader-renew-deadline (%s) must be greater than leader-retry-period (%s)",
+			f.RenewDeadline,
+			f.RetryPeriod,
+		)
+	}
+
+	// Compare as float64 to avoid overflowing time.Duration when applying the jitter factor.
+	minimumRenewDeadline := leaderelection.JitterFactor * float64(f.RetryPeriod)
+	if float64(f.RenewDeadline) <= minimumRenewDeadline {
 		return eris.Errorf(
 			"leader-renew-deadline (%s) must be greater than leader-retry-period (%s) multiplied by the jitter factor (%g)",
 			f.RenewDeadline,
