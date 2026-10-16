@@ -80,6 +80,7 @@ imports:
   network.frontdoor: azure-arm/network.frontdoor.yaml
   notificationhubs: azure-arm/notificationhubs.yaml
   operationalinsights: azure-arm/operationalinsights.yaml
+  portal: azure-arm/portal.yaml
   quota: azure-arm/quota.yaml
   redhatopenshift: azure-arm/redhatopenshift.yaml
   resources: azure-arm/resources.yaml
