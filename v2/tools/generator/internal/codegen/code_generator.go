@@ -267,6 +267,7 @@ func createAllPipelineStages(
 
 		pipeline.ReportResourceVersions(configuration),
 		pipeline.ReportResourceStructure(configuration),
+		pipeline.ReportPropertyChanges(configuration),
 		pipeline.ReportUpgradableResources(configuration),
 	}
 }
