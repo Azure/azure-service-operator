@@ -85,7 +85,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.a43bcd42aeb4669cdeb10431b80a743e.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.b63d46c3ab7c93e20de088543bdbe063.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -111,7 +111,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.a43bcd42aeb4669cdeb10431b80a743e.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.b63d46c3ab7c93e20de088543bdbe063.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -709,6 +709,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
     <a href="/azure-service-operator/reference/storage/v20230101/" title="storage.azure.com/v20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20230101"><span class="">v20230101</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20250601-li">
     <a href="/azure-service-operator/reference/storage/v20250601/" title="storage.azure.com/v20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20250601"><span class="">v20250601</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20260601-li">
+    <a href="/azure-service-operator/reference/storage/v20260601/" title="storage.azure.com/v20260601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20260601"><span class="">v20260601</span></a>
   </li>
     </ul>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
@@ -3249,9 +3251,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
 	</tbody>
 </table>
 <ul>
-<li>Any decimal value greater than zero. Example: 0.01538</li>
+<li>Any decimal value greater than zero. Example: 0.01538 -1 – indicates default price to be up-to on-demand.</li>
 </ul>
-<p>-1 – indicates default price to be up-to on-demand. You can set the maxPrice to -1 to indicate that the Azure Spot VM/VMSS should not be evicted for price reasons. Also, the default max price is -1 if it is not provided by you. Minimum api-version: 2019-03-01.| float64<br/><small>Optional</small>|</p>
+<p>You can set the maxPrice to -1 to indicate that the Azure Spot VM/VMSS should not be evicted for price reasons. Also, the default max price is -1 if it is not provided by you. Minimum api-version: 2019-03-01.| float64<br/><small>Optional</small>|</p>
 <h2 id="BillingProfile_STATUS">BillingProfile_STATUS</h2>
 <p>Specifies the billing related details of a Azure Spot VM or VMSS. Minimum api-version: 2019-03-01.</p>
 <p>Used by: <a href="#VirtualMachine_STATUS">VirtualMachine_STATUS</a>, and <a href="#VirtualMachineScaleSetVMProfile_STATUS">VirtualMachineScaleSetVMProfile_STATUS</a>.</p>
@@ -3272,9 +3274,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec VirtualMachine_
 	</tbody>
 </table>
 <ul>
-<li>Any decimal value greater than zero. Example: 0.01538</li>
+<li>Any decimal value greater than zero. Example: 0.01538 -1 – indicates default price to be up-to on-demand.</li>
 </ul>
-<p>-1 – indicates default price to be up-to on-demand. You can set the maxPrice to -1 to indicate that the Azure Spot VM/VMSS should not be evicted for price reasons. Also, the default max price is -1 if it is not provided by you. Minimum api-version: 2019-03-01.| float64<br/><small>Optional</small>|</p>
+<p>You can set the maxPrice to -1 to indicate that the Azure Spot VM/VMSS should not be evicted for price reasons. Also, the default max price is -1 if it is not provided by you. Minimum api-version: 2019-03-01.| float64<br/><small>Optional</small>|</p>
 <h2 id="DiagnosticsProfile">DiagnosticsProfile</h2>
 <p>Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15.</p>
 <p>Used by: <a href="#VirtualMachine_Spec">VirtualMachine_Spec</a>, and <a href="#VirtualMachineScaleSetVMProfile">VirtualMachineScaleSetVMProfile</a>.</p>

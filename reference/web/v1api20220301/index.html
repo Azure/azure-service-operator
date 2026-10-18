@@ -85,7 +85,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.a43bcd42aeb4669cdeb10431b80a743e.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.b63d46c3ab7c93e20de088543bdbe063.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -111,7 +111,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.a43bcd42aeb4669cdeb10431b80a743e.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.b63d46c3ab7c93e20de088543bdbe063.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -709,6 +709,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
     <a href="/azure-service-operator/reference/storage/v20230101/" title="storage.azure.com/v20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20230101"><span class="">v20230101</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20250601-li">
     <a href="/azure-service-operator/reference/storage/v20250601/" title="storage.azure.com/v20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20250601"><span class="">v20250601</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20260601-li">
+    <a href="/azure-service-operator/reference/storage/v20260601/" title="storage.azure.com/v20260601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20260601"><span class="">v20260601</span></a>
   </li>
     </ul>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
@@ -4491,10 +4493,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
 <ul>
 <li>If the property is null or empty (default), all hosts(or lack of) are allowed.</li>
 <li>A value is compared using ordinal-ignore-case (excluding port number).</li>
-<li>Subdomain wildcards are permitted but don&rsquo;t match the root domain. For example, *.contoso.com matches the subdomain</li>
-</ul>
-<p>foo.contoso.com but not the root domain contoso.com or multi-level foo.bar.contoso.com</p>
-<ul>
+<li>Subdomain wildcards are permitted but don&rsquo;t match the root domain. For example, *.contoso.com matches the subdomain foo.contoso.com but not the root domain contoso.com or multi-level foo.bar.contoso.com</li>
 <li>Unicode host names are allowed but are converted to Punycode for matching.</li>
 </ul>
 <p>X-Forwarded-For (<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples</a>). The matching logic is ..</p>
@@ -4535,10 +4534,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ServerFarm_Spec
 <ul>
 <li>If the property is null or empty (default), all hosts(or lack of) are allowed.</li>
 <li>A value is compared using ordinal-ignore-case (excluding port number).</li>
-<li>Subdomain wildcards are permitted but don&rsquo;t match the root domain. For example, *.contoso.com matches the subdomain</li>
-</ul>
-<p>foo.contoso.com but not the root domain contoso.com or multi-level foo.bar.contoso.com</p>
-<ul>
+<li>Subdomain wildcards are permitted but don&rsquo;t match the root domain. For example, *.contoso.com matches the subdomain foo.contoso.com but not the root domain contoso.com or multi-level foo.bar.contoso.com</li>
 <li>Unicode host names are allowed but are converted to Punycode for matching.</li>
 </ul>
 <p>X-Forwarded-For (<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples</a>). The matching logic is ..</p>

@@ -85,7 +85,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec CustomCertifica
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.a43bcd42aeb4669cdeb10431b80a743e.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.b63d46c3ab7c93e20de088543bdbe063.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -111,7 +111,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec CustomCertifica
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.a43bcd42aeb4669cdeb10431b80a743e.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.b63d46c3ab7c93e20de088543bdbe063.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -709,6 +709,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec CustomCertifica
     <a href="/azure-service-operator/reference/storage/v20230101/" title="storage.azure.com/v20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20230101"><span class="">v20230101</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20250601-li">
     <a href="/azure-service-operator/reference/storage/v20250601/" title="storage.azure.com/v20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20250601"><span class="">v20250601</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20260601-li">
+    <a href="/azure-service-operator/reference/storage/v20260601/" title="storage.azure.com/v20260601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20260601"><span class="">v20260601</span></a>
   </li>
     </ul>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
@@ -2937,15 +2939,15 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec CustomCertifica
 	</tbody>
 </table>
 <ul>
-<li>ServiceMode: Flag for backend server for SignalR service. Values allowed: &ldquo;Default&rdquo;: have your own backend server;</li>
+<li>ServiceMode: Flag for backend server for SignalR service. Values allowed: &ldquo;Default&rdquo;: have your own backend server; &ldquo;Serverless&rdquo;: your application doesn&rsquo;t have a backend server; &ldquo;Classic&rdquo;: for backward compatibility. Support both</li>
 </ul>
-<p>&ldquo;Serverless&rdquo;: your application doesn&rsquo;t have a backend server; &ldquo;Classic&rdquo;: for backward compatibility. Support both Default and Serverless mode but not recommended; &ldquo;PredefinedOnly&rdquo;: for future use.</p>
+<p>Default and Serverless mode but not recommended; &ldquo;PredefinedOnly&rdquo;: for future use.</p>
 <ul>
 <li>EnableConnectivityLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively.</li>
 <li>EnableMessagingLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively.</li>
-<li>EnableLiveTrace: Live Trace allows you to know what&rsquo;s happening inside Azure SignalR service, it will give you live</li>
+<li>EnableLiveTrace: Live Trace allows you to know what&rsquo;s happening inside Azure SignalR service, it will give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.</li>
 </ul>
-<p>traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged. Values allowed: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable live trace feature.| <a href="#FeatureFlags">FeatureFlags</a><br/><small>Required</small>| | properties| Optional properties related to this feature.| map[string]string<br/><small>Optional</small>| | value| Value of the feature flag. See Azure SignalR service document <a href="https://docs.microsoft.com/azure/azure-signalr/">https://docs.microsoft.com/azure/azure-signalr/</a> for allowed values.| string<br/><small>Required</small>|</p>
+<p>Values allowed: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable live trace feature.| <a href="#FeatureFlags">FeatureFlags</a><br/><small>Required</small>| | properties| Optional properties related to this feature.| map[string]string<br/><small>Optional</small>| | value| Value of the feature flag. See Azure SignalR service document <a href="https://docs.microsoft.com/azure/azure-signalr/">https://docs.microsoft.com/azure/azure-signalr/</a> for allowed values.| string<br/><small>Required</small>|</p>
 <h2 id="SignalRFeature_STATUS">SignalRFeature_STATUS</h2>
 <p>Feature of a resource, which controls the runtime behavior.</p>
 <p>Used by: <a href="#SignalR_STATUS">SignalR_STATUS</a>.</p>
@@ -2966,15 +2968,15 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec CustomCertifica
 	</tbody>
 </table>
 <ul>
-<li>ServiceMode: Flag for backend server for SignalR service. Values allowed: &ldquo;Default&rdquo;: have your own backend server;</li>
+<li>ServiceMode: Flag for backend server for SignalR service. Values allowed: &ldquo;Default&rdquo;: have your own backend server; &ldquo;Serverless&rdquo;: your application doesn&rsquo;t have a backend server; &ldquo;Classic&rdquo;: for backward compatibility. Support both</li>
 </ul>
-<p>&ldquo;Serverless&rdquo;: your application doesn&rsquo;t have a backend server; &ldquo;Classic&rdquo;: for backward compatibility. Support both Default and Serverless mode but not recommended; &ldquo;PredefinedOnly&rdquo;: for future use.</p>
+<p>Default and Serverless mode but not recommended; &ldquo;PredefinedOnly&rdquo;: for future use.</p>
 <ul>
 <li>EnableConnectivityLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively.</li>
 <li>EnableMessagingLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively.</li>
-<li>EnableLiveTrace: Live Trace allows you to know what&rsquo;s happening inside Azure SignalR service, it will give you live</li>
+<li>EnableLiveTrace: Live Trace allows you to know what&rsquo;s happening inside Azure SignalR service, it will give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.</li>
 </ul>
-<p>traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged. Values allowed: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable live trace feature.| <a href="#FeatureFlags_STATUS">FeatureFlags_STATUS</a><br/><small>Optional</small>| | properties| Optional properties related to this feature.| map[string]string<br/><small>Optional</small>| | value| Value of the feature flag. See Azure SignalR service document <a href="https://docs.microsoft.com/azure/azure-signalr/">https://docs.microsoft.com/azure/azure-signalr/</a> for allowed values.| string<br/><small>Optional</small>|</p>
+<p>Values allowed: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable live trace feature.| <a href="#FeatureFlags_STATUS">FeatureFlags_STATUS</a><br/><small>Optional</small>| | properties| Optional properties related to this feature.| map[string]string<br/><small>Optional</small>| | value| Value of the feature flag. See Azure SignalR service document <a href="https://docs.microsoft.com/azure/azure-signalr/">https://docs.microsoft.com/azure/azure-signalr/</a> for allowed values.| string<br/><small>Optional</small>|</p>
 <h2 id="SignalRNetworkACLs">SignalRNetworkACLs</h2>
 <p>Network ACLs for the resource</p>
 <p>Used by: <a href="#SignalR_Spec">SignalR_Spec</a>.</p>
@@ -3241,21 +3243,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec CustomCertifica
 <h2 id="FeatureFlags">FeatureFlags</h2>
 <p>FeatureFlags is the supported features of Azure SignalR service.</p>
 <ul>
-<li>ServiceMode: Flag for backend server for SignalR</li>
+<li>ServiceMode: Flag for backend server for SignalR service. Values allowed: &ldquo;Default&rdquo;: have your own backend server; &ldquo;Serverless&rdquo;: your application doesn&rsquo;t have a backend server; &ldquo;Classic&rdquo;: for backward compatibility. Support both Default and Serverless mode but not recommended; &ldquo;PredefinedOnly&rdquo;: for future use.</li>
+<li>EnableConnectivityLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively.</li>
+<li>EnableMessagingLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively.</li>
+<li>EnableLiveTrace: Live Trace allows you to know what&rsquo;s happening inside Azure SignalR service, it will give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.</li>
 </ul>
-<p>service. Values allowed: &ldquo;Default&rdquo;: have your own backend server; &ldquo;Serverless&rdquo;: your application doesn&rsquo;t have a backend server; &ldquo;Classic&rdquo;: for backward compatibility. Support both Default and Serverless mode but not recommended; &ldquo;PredefinedOnly&rdquo;: for future use.</p>
-<ul>
-<li>EnableConnectivityLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log</li>
-</ul>
-<p>category respectively.</p>
-<ul>
-<li>EnableMessagingLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category</li>
-</ul>
-<p>respectively.</p>
-<ul>
-<li>EnableLiveTrace: Live Trace allows you to know what&rsquo;s happening inside Azure SignalR service, it will</li>
-</ul>
-<p>give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged. Values allowed: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable live trace feature.</p>
+<p>Values allowed: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable live trace feature.</p>
 <p>Used by: <a href="#SignalRFeature">SignalRFeature</a>.</p>
 <table>
 	<thead>
@@ -3286,21 +3279,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec CustomCertifica
 <h2 id="FeatureFlags_STATUS">FeatureFlags_STATUS</h2>
 <p>FeatureFlags is the supported features of Azure SignalR service.</p>
 <ul>
-<li>ServiceMode: Flag for backend server for SignalR</li>
+<li>ServiceMode: Flag for backend server for SignalR service. Values allowed: &ldquo;Default&rdquo;: have your own backend server; &ldquo;Serverless&rdquo;: your application doesn&rsquo;t have a backend server; &ldquo;Classic&rdquo;: for backward compatibility. Support both Default and Serverless mode but not recommended; &ldquo;PredefinedOnly&rdquo;: for future use.</li>
+<li>EnableConnectivityLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively.</li>
+<li>EnableMessagingLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively.</li>
+<li>EnableLiveTrace: Live Trace allows you to know what&rsquo;s happening inside Azure SignalR service, it will give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.</li>
 </ul>
-<p>service. Values allowed: &ldquo;Default&rdquo;: have your own backend server; &ldquo;Serverless&rdquo;: your application doesn&rsquo;t have a backend server; &ldquo;Classic&rdquo;: for backward compatibility. Support both Default and Serverless mode but not recommended; &ldquo;PredefinedOnly&rdquo;: for future use.</p>
-<ul>
-<li>EnableConnectivityLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log</li>
-</ul>
-<p>category respectively.</p>
-<ul>
-<li>EnableMessagingLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category</li>
-</ul>
-<p>respectively.</p>
-<ul>
-<li>EnableLiveTrace: Live Trace allows you to know what&rsquo;s happening inside Azure SignalR service, it will</li>
-</ul>
-<p>give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged. Values allowed: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable live trace feature.</p>
+<p>Values allowed: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable live trace feature.</p>
 <p>Used by: <a href="#SignalRFeature_STATUS">SignalRFeature_STATUS</a>.</p>
 <table>
 	<thead>

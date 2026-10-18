@@ -24,7 +24,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec IdentityBinding
 	<meta itemprop="description" content="APIVersion Value Description “2026-05-01” IdentityBinding Generator information:
 Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2026-05-01/managedClusters.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​identityBindings/​{identityBindingName} Used by: IdentityBindingList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec IdentityBinding_SpecOptional status IdentityBinding_STATUSOptional IdentityBinding_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure IdentityBindingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/ManagedCluster resource genruntime.KnownResourceReferenceRequired properties The resource-specific properties for this resource. IdentityBindingPropertiesOptional IdentityBinding_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional eTag If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. stringOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional name The name of the resource stringOptional properties The resource-specific properties for this resource. IdentityBindingProperties_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional IdentityBindingList Generator information:">
-	<meta itemprop="wordCount" content="34530">
+	<meta itemprop="wordCount" content="34584">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="containerservice.azure.com/v20260501">
 	<meta name="twitter:description" content="APIVersion Value Description “2026-05-01” IdentityBinding Generator information:
@@ -85,7 +85,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec IdentityBinding
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.a43bcd42aeb4669cdeb10431b80a743e.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.b63d46c3ab7c93e20de088543bdbe063.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -111,7 +111,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec IdentityBinding
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.a43bcd42aeb4669cdeb10431b80a743e.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.b63d46c3ab7c93e20de088543bdbe063.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -709,6 +709,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec IdentityBinding
     <a href="/azure-service-operator/reference/storage/v20230101/" title="storage.azure.com/v20230101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20230101"><span class="">v20230101</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20250601-li">
     <a href="/azure-service-operator/reference/storage/v20250601/" title="storage.azure.com/v20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20250601"><span class="">v20250601</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev20260601-li">
+    <a href="/azure-service-operator/reference/storage/v20260601/" title="storage.azure.com/v20260601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20260601"><span class="">v20260601</span></a>
   </li>
     </ul>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
@@ -9123,7 +9125,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec IdentityBinding
 			</tr>
 			<tr>
 					<td>keyId</td>
-					<td>Identifier of Azure Key Vault key. See <a href="https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name">key identifier format</a> for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty.</td>
+					<td>The identifier of the Azure Key Vault key. For more information, see <a href="https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name">Azure Key Vault key identifiers</a>. This property is required when Azure Key Vault key management service is enabled and must be omitted when the service is disabled. Starting with API versions 2026-07-01 and 2026-07-02-preview, a versioned key identifier uses the legacy KMS experience, while an unversioned key identifier uses the new KMS experience. For more information, see <a href="https://learn.microsoft.com/en-us/azure/aks/kms-data-encryption-concepts">KMS data encryption concepts</a>.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -9157,7 +9159,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec IdentityBinding
 			</tr>
 			<tr>
 					<td>keyId</td>
-					<td>Identifier of Azure Key Vault key. See <a href="https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name">key identifier format</a> for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty.</td>
+					<td>The identifier of the Azure Key Vault key. For more information, see <a href="https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name">Azure Key Vault key identifiers</a>. This property is required when Azure Key Vault key management service is enabled and must be omitted when the service is disabled. Starting with API versions 2026-07-01 and 2026-07-02-preview, a versioned key identifier uses the legacy KMS experience, while an unversioned key identifier uses the new KMS experience. For more information, see <a href="https://learn.microsoft.com/en-us/azure/aks/kms-data-encryption-concepts">KMS data encryption concepts</a>.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
