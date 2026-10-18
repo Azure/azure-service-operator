@@ -1,0 +1,20 @@
+// Go workspace for the ASO v2 build unit. Dependabot discovers the modules
+// listed under use and keeps every go.mod/go.sum consistent in one PR.
+// Keep comments out of the use block: Dependabot's parser ends the block at
+// the first closing parenthesis. hack/crossplane and docs/hugo are not members.
+go 1.26.0
+
+use (
+	.
+	./cmd/asoctl
+	./samples
+	./tools/generator
+	./tools/mangle-test-json
+)
+
+// Workspace mode resolves imports against the full module graph, unlike module
+// mode's lazy loading. leanovate/gopter's go.mod predates graph pruning, which
+// drags the pre-split google.golang.org/genproto monolith into the graph, where
+// it collides with genproto/googleapis/api and /rpc. Released modules and GOWORK=off
+// builds are unaffected. Pinned to the monolith version already in the graph.
+replace google.golang.org/genproto => google.golang.org/genproto v0.0.0-20260128011058-8636f8732409
