@@ -128,3 +128,38 @@ func Test_DestinationPolicy_RedirectDiagnosticIsSafe(t *testing.T) {
 	g.Expect(err.Error()).ToNot(ContainSubstring("private"))
 	g.Expect(err.Error()).ToNot(ContainSubstring("boundary-test-token"))
 }
+
+func Test_DestinationPolicy_RPRegistrationRedirectIsRejected(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	const resourcePath = "/subscriptions/s/resourceGroups/rg/providers/Microsoft.Fake/resources/r"
+	const registrationPath = "/subscriptions/s/providers/Microsoft.Fake/register"
+	var requests []string
+	redirectedCalls := 0
+	client, _ := boundaryClient(t, "https://management.example.invalid", func(r *http.Request) (*http.Response, error) {
+		requests = append(requests, r.Method+" "+r.URL.Host+r.URL.Path)
+		if r.URL.Host != "management.example.invalid" {
+			redirectedCalls++
+		}
+		switch r.URL.Path {
+		case resourcePath:
+			return boundaryResponse(r, http.StatusConflict, nil, rpNotRegisteredError), nil
+		case registrationPath:
+			return boundaryResponse(r, http.StatusTemporaryRedirect,
+				http.Header{"Location": []string{"https://attacker.example.invalid/redirected?secret=private"}}, ""), nil
+		default:
+			return boundaryResponse(r, http.StatusInternalServerError, nil, "{}"), nil
+		}
+	})
+
+	_, err := client.BeginCreateOrUpdateByID(t.Context(), resourcePath, "2020-01-01", map[string]any{})
+	g.Expect(redirectedCalls).To(BeZero())
+	g.Expect(requests).To(Equal([]string{
+		"PUT management.example.invalid" + resourcePath,
+		"POST management.example.invalid" + registrationPath,
+	}))
+	var rejected *httpclient.DestinationError
+	g.Expect(errors.As(err, &rejected)).To(BeTrue())
+	g.Expect(err.Error()).ToNot(ContainSubstring("private"))
+	g.Expect(err.Error()).ToNot(ContainSubstring("boundary-test-token"))
+}
