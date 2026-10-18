@@ -967,6 +967,7 @@ var (
 	extensionScopePrefixes  = []string{
 		"/{scope}/",
 		"/{resourceUri}/",
+		"/{resourceId}/",
 	}
 )
 
