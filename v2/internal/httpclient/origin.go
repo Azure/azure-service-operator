@@ -81,7 +81,7 @@ func originOf(u *url.URL) (Origin, bool) {
 	// folding Unicode characters into a different transport destination.
 	if strings.ContainsFunc(host, func(r rune) bool { return r >= utf8.RuneSelf }) {
 		host, err = idna.Lookup.ToASCII(host)
-		if err != nil {
+		if err != nil || host == "" {
 			return Origin{}, false
 		}
 	}

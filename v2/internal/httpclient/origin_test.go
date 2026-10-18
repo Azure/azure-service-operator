@@ -127,6 +127,7 @@ func TestOrigin_TransportHostname(t *testing.T) {
 		{"Unicode case", "BÜCHER.example.invalid", "bücher.example.invalid", true},
 		{"punycode case", "XN--BCHER-KVA.example.invalid", "bücher.example.invalid", true},
 		{"mapped ASCII", "management.example.invalid", "ｍanagement.example.invalid", true},
+		{"ignored character in hostname", "management.example.invalid", "manage\u00adment.example.invalid", true},
 		{"dotted I configured", "management.ch\u0130nacloudapi.cn", "management.xn--chinacloudapi-5nh.cn", true},
 		{"dotted I is not ASCII I", "management.ch\u0130nacloudapi.cn", "management.chinacloudapi.cn", false},
 	}
@@ -150,6 +151,30 @@ func TestOrigin_TransportHostname(t *testing.T) {
 				if !errors.As(err, &rejected) {
 					t.Fatalf("unexpected error type: %T", err)
 				}
+			}
+		})
+	}
+}
+
+func TestOrigin_EmptyIDNAHostname(t *testing.T) {
+	t.Parallel()
+	for _, c := range []struct {
+		name      string
+		authority string
+	}{
+		{"soft hyphen", "\u00ad"},
+		{"multiple ignored characters", "\u00ad\u00ad"},
+		{"custom port", "\u00ad:8443"},
+	} {
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			_, err := NewOrigin("https://" + c.authority)
+			if err == nil {
+				t.Fatal("accepted an empty canonical hostname")
+			}
+			var rejected *DestinationError
+			if !errors.As(err, &rejected) {
+				t.Fatalf("unexpected error type: %T", err)
 			}
 		})
 	}
