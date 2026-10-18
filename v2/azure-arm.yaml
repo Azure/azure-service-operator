@@ -84,6 +84,7 @@ imports:
   redhatopenshift: azure-arm/redhatopenshift.yaml
   resources: azure-arm/resources.yaml
   search: azure-arm/search.yaml
+  security: azure-arm/security.yaml
   servicebus: azure-arm/servicebus.yaml
   signalrservice: azure-arm/signalrservice.yaml
   sql: azure-arm/sql.yaml
