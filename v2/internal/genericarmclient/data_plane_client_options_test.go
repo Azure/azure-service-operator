@@ -94,6 +94,58 @@ func Test_DataPlaneClientOptions(t *testing.T) {
 	}
 }
 
+func Test_DataPlaneClientOptions_PreservesRedirects(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	const initialURL = "https://vault.example.invalid/keys/probe"
+	const finalURL = "https://regional.example.invalid/keys/probe"
+	var requests []string
+	callbackCalls := 0
+	httpClient := &http.Client{
+		Transport: boundaryRoundTripper(func(r *http.Request) (*http.Response, error) {
+			requests = append(requests, r.URL.String())
+			switch r.URL.String() {
+			case initialURL:
+				return boundaryResponse(r, http.StatusFound, http.Header{"Location": []string{finalURL}}, ""), nil
+			case finalURL:
+				return boundaryResponse(r, http.StatusOK, nil, "{}"), nil
+			default:
+				return boundaryResponse(r, http.StatusInternalServerError, nil, "{}"), nil
+			}
+		}),
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			callbackCalls++
+			g.Expect(req.URL.String()).To(Equal(finalURL))
+			g.Expect(via).To(HaveLen(1))
+			g.Expect(via[0].URL.String()).To(Equal(initialURL))
+			return nil
+		},
+	}
+	cfg := cloud.Configuration{
+		Services: map[cloud.ServiceName]cloud.ServiceConfiguration{
+			cloud.ResourceManager: {
+				Endpoint: "https://management.example.invalid",
+				Audience: cloud.AzurePublic.Services[cloud.ResourceManager].Audience,
+			},
+		},
+	}
+	client, err := genericarmclient.NewGenericClient(cfg, creds.MockTokenCredential{},
+		&genericarmclient.GenericClientOptions{HTTPClient: httpClient})
+	g.Expect(err).ToNot(HaveOccurred())
+	opts := client.DataPlaneClientOptions()
+	pipeline := runtime.NewPipeline("dataplane-test", "v0.0.0", runtime.PipelineOptions{}, &opts)
+	req, err := runtime.NewRequest(t.Context(), http.MethodGet, initialURL)
+	g.Expect(err).ToNot(HaveOccurred())
+	resp, err := pipeline.Do(req)
+	if resp != nil {
+		g.Expect(resp.Body.Close()).To(Succeed())
+	}
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(resp.StatusCode).To(Equal(http.StatusOK))
+	g.Expect(requests).To(Equal([]string{initialURL, finalURL}))
+	g.Expect(callbackCalls).To(Equal(1))
+}
+
 // Settings the ARM client is given must reach the data-plane client too, not just the ones ASO sets
 // today; ClientOptions() hands out the live options, so adjusting them stands in for a differently
 // configured ARM client.
