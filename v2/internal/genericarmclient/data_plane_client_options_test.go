@@ -31,8 +31,13 @@ func Test_DataPlaneClientOptions(t *testing.T) {
 		userAgent       string
 		expectUserAgent string
 	}{
-		"default user agent":    {expectUserAgent: "aso-controller/"},
-		"configured user agent": {userAgent: "custom-agent/1.2.3", expectUserAgent: "custom-agent/1.2.3"},
+		"default user agent": {
+			expectUserAgent: "aso-controller/",
+		},
+		"configured user agent": {
+			userAgent:       "custom-agent/1.2.3",
+			expectUserAgent: "custom-agent/1.2.3",
+		},
 	}
 
 	for name, c := range cases {
@@ -130,7 +135,9 @@ func Test_DataPlaneClientOptions_PreservesRedirects(t *testing.T) {
 		},
 	}
 	client, err := genericarmclient.NewGenericClient(cfg, creds.MockTokenCredential{},
-		&genericarmclient.GenericClientOptions{HTTPClient: httpClient})
+		&genericarmclient.GenericClientOptions{
+			HTTPClient: httpClient,
+		})
 	g.Expect(err).ToNot(HaveOccurred())
 	opts := client.DataPlaneClientOptions()
 	pipeline := runtime.NewPipeline("dataplane-test", "v0.0.0", runtime.PipelineOptions{}, &opts)

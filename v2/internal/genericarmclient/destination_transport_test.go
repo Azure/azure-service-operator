@@ -73,13 +73,18 @@ func Test_DestinationPoller_TransportHostname(t *testing.T) {
 					destination := "https://" + c.destination + "/poll"
 					if guarded {
 						client, cred := boundaryClient(t, "https://"+c.endpoint, send)
-						state := map[string]any{"asyncURL": destination, "state": "InProgress"}
+						state := map[string]any{
+							"asyncURL": destination,
+							"state":    "InProgress",
+						}
 						resumed := client.ResumeCreatePoller(genericarmclient.CreatePollerID)
 						err = resumed.Resume(t.Context(), client, boundaryToken(t, "GenericResource", state))
 						tokenCalls = cred.calls.Load()
 					} else {
 						// Independently observe Go's destination, without the origin validator or SDK.
-						client := &http.Client{Transport: boundaryRoundTripper(send)}
+						client := &http.Client{
+							Transport: boundaryRoundTripper(send),
+						}
 						req, requestErr := http.NewRequestWithContext(t.Context(), http.MethodGet, destination, nil)
 						g.Expect(requestErr).ToNot(HaveOccurred())
 						var resp *http.Response

@@ -30,7 +30,10 @@ func Test_DestinationSDK_BackupInstanceResume(t *testing.T) {
 	})
 	factory, err := armdataprotection.NewClientFactory("subscription", cred, client.ClientOptions())
 	g.Expect(err).ToNot(HaveOccurred())
-	state := map[string]any{"asyncURL": "https://attacker.example.invalid/poll", "state": "InProgress"}
+	state := map[string]any{
+		"asyncURL": "https://attacker.example.invalid/poll",
+		"state":    "InProgress",
+	}
 	poller, err := factory.NewBackupInstancesClient().BeginSyncBackupInstance(
 		context.Background(), "rg", "vault", "instance", armdataprotection.SyncBackupInstanceRequest{},
 		&armdataprotection.BackupInstancesClientBeginSyncBackupInstanceOptions{

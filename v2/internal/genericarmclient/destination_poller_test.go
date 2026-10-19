@@ -106,7 +106,11 @@ func Test_DestinationPoller_ResponseCannotExpandLocationOrigin(t *testing.T) {
 		return boundaryResponse(r, http.StatusAccepted,
 			http.Header{"Location": []string{"https://attacker.example.invalid/next"}}, "{}"), nil
 	})
-	state := map[string]any{"type": "loc", "pollURL": "https://management.example.invalid/poll", "state": "InProgress"}
+	state := map[string]any{
+		"type":    "loc",
+		"pollURL": "https://management.example.invalid/poll",
+		"state":   "InProgress",
+	}
 	resumed := client.ResumeDeletePoller(genericarmclient.DeletePollerID)
 	g.Expect(resumed.Resume(context.Background(), client, boundaryToken(t, "GenericDeleteResponse", state))).To(Succeed())
 	token, err := resumed.Poller.ResumeToken()
@@ -126,7 +130,10 @@ func Test_DestinationPoller_ActionUsesSameBoundary(t *testing.T) {
 		calls++
 		return boundaryResponse(r, http.StatusOK, nil, "{}"), nil
 	})
-	state := map[string]any{"asyncURL": "https://attacker.example.invalid/poll", "state": "InProgress"}
+	state := map[string]any{
+		"asyncURL": "https://attacker.example.invalid/poll",
+		"state":    "InProgress",
+	}
 	resumed := client.ResumeActionPoller(genericarmclient.ActionPollerID)
 	err := resumed.Resume(context.Background(), client, boundaryToken(t, "GenericActionResponse", state))
 	var rejected *httpclient.DestinationError

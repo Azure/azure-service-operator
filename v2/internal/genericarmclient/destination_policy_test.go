@@ -28,11 +28,16 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/httpclient"
 )
 
-type boundaryCredential struct{ calls atomic.Int32 }
+type boundaryCredential struct {
+	calls atomic.Int32
+}
 
 func (c *boundaryCredential) GetToken(context.Context, policy.TokenRequestOptions) (azcore.AccessToken, error) {
 	c.calls.Add(1)
-	return azcore.AccessToken{Token: "boundary-test-token", ExpiresOn: time.Now().Add(time.Hour)}, nil
+	return azcore.AccessToken{
+		Token:     "boundary-test-token",
+		ExpiresOn: time.Now().Add(time.Hour),
+	}, nil
 }
 
 type boundaryRoundTripper func(*http.Request) (*http.Response, error)
@@ -45,8 +50,10 @@ func boundaryResponse(r *http.Request, status int, headers http.Header, body str
 	}
 	headers.Set("Content-Type", "application/json")
 	return &http.Response{
-		StatusCode: status, Header: headers, Request: r,
-		Body: io.NopCloser(strings.NewReader(body)),
+		StatusCode: status,
+		Header:     headers,
+		Request:    r,
+		Body:       io.NopCloser(strings.NewReader(body)),
 	}
 }
 
@@ -58,11 +65,18 @@ func boundaryClient(
 	t.Helper()
 	g := NewGomegaWithT(t)
 	cred := &boundaryCredential{}
-	cfg := cloud.Configuration{Services: map[cloud.ServiceName]cloud.ServiceConfiguration{
-		cloud.ResourceManager: {Endpoint: endpoint, Audience: "https://management.core.windows.net/"},
-	}}
+	cfg := cloud.Configuration{
+		Services: map[cloud.ServiceName]cloud.ServiceConfiguration{
+			cloud.ResourceManager: {
+				Endpoint: endpoint,
+				Audience: "https://management.core.windows.net/",
+			},
+		},
+	}
 	client, err := genericarmclient.NewGenericClient(cfg, cred, &genericarmclient.GenericClientOptions{
-		HTTPClient: &http.Client{Transport: boundaryRoundTripper(send)},
+		HTTPClient: &http.Client{
+			Transport: boundaryRoundTripper(send),
+		},
 	})
 	g.Expect(err).ToNot(HaveOccurred())
 	return client, cred
@@ -70,7 +84,10 @@ func boundaryClient(
 
 func boundaryToken(t *testing.T, resultType string, state map[string]any) string {
 	t.Helper()
-	b, err := json.Marshal(map[string]any{"type": resultType, "token": state})
+	b, err := json.Marshal(map[string]any{
+		"type":  resultType,
+		"token": state,
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -103,9 +120,14 @@ func Test_DestinationPolicy_RejectsBeforeAuthentication(t *testing.T) {
 func Test_DestinationPolicy_InvalidEndpoint(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	cfg := cloud.Configuration{Services: map[cloud.ServiceName]cloud.ServiceConfiguration{
-		cloud.ResourceManager: {Endpoint: "http://management.example.invalid", Audience: "https://management.core.windows.net/"},
-	}}
+	cfg := cloud.Configuration{
+		Services: map[cloud.ServiceName]cloud.ServiceConfiguration{
+			cloud.ResourceManager: {
+				Endpoint: "http://management.example.invalid",
+				Audience: "https://management.core.windows.net/",
+			},
+		},
+	}
 	_, err := genericarmclient.NewGenericClient(cfg, &boundaryCredential{}, nil)
 	g.Expect(err).To(HaveOccurred())
 }

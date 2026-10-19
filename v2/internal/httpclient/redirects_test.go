@@ -40,19 +40,23 @@ func TestRedirects_OriginBoundary(t *testing.T) {
 		t.Run(c.target, func(t *testing.T) {
 			t.Parallel()
 			calls := 0
-			base := &http.Client{Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
-				calls++
-				status := http.StatusOK
-				h := make(http.Header)
-				if calls == 1 {
-					status = http.StatusFound
-					h.Set("Location", c.target)
-				}
-				return &http.Response{
-					StatusCode: status, Header: h, Request: r,
-					Body: io.NopCloser(strings.NewReader("{}")),
-				}, nil
-			})}
+			base := &http.Client{
+				Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
+					calls++
+					status := http.StatusOK
+					h := make(http.Header)
+					if calls == 1 {
+						status = http.StatusFound
+						h.Set("Location", c.target)
+					}
+					return &http.Response{
+						StatusCode: status,
+						Header:     h,
+						Request:    r,
+						Body:       io.NopCloser(strings.NewReader("{}")),
+					}, nil
+				}),
+			}
 			client := NewRedirectGuardedClient(base, allowed)
 			req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://management.example.invalid/start?secret=private", nil)
 			if err != nil {
@@ -92,7 +96,9 @@ func TestRedirects_ClientSettingsAndCallbacks(t *testing.T) {
 		t.Fatal(err)
 	}
 	base := &http.Client{
-		Timeout: time.Minute, Jar: jar, Transport: &http.Transport{},
+		Timeout:   time.Minute,
+		Jar:       jar,
+		Transport: &http.Transport{},
 		CheckRedirect: func(*http.Request, []*http.Request) error {
 			calls++
 			return callbackErr
@@ -134,14 +140,17 @@ func TestRedirects_DefaultLimit(t *testing.T) {
 		t.Fatal(err)
 	}
 	calls := 0
-	base := &http.Client{Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
-		calls++
-		return &http.Response{
-			StatusCode: http.StatusFound, Request: r,
-			Header: http.Header{"Location": []string{"/loop"}},
-			Body:   io.NopCloser(strings.NewReader("")),
-		}, nil
-	})}
+	base := &http.Client{
+		Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
+			calls++
+			return &http.Response{
+				StatusCode: http.StatusFound,
+				Request:    r,
+				Header:     http.Header{"Location": []string{"/loop"}},
+				Body:       io.NopCloser(strings.NewReader("")),
+			}, nil
+		}),
+	}
 	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://management.example.invalid/loop", nil)
 	if err != nil {
 		t.Fatal(err)
@@ -188,9 +197,10 @@ func TestRedirects_UseLastResponse(t *testing.T) {
 		Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
 			calls++
 			return &http.Response{
-				StatusCode: http.StatusFound, Request: r,
-				Header: http.Header{"Location": []string{"/done"}},
-				Body:   io.NopCloser(strings.NewReader("last response")),
+				StatusCode: http.StatusFound,
+				Request:    r,
+				Header:     http.Header{"Location": []string{"/done"}},
+				Body:       io.NopCloser(strings.NewReader("last response")),
 			}, nil
 		}),
 		CheckRedirect: func(*http.Request, []*http.Request) error {
@@ -222,13 +232,17 @@ func TestRedirects_InitialRequestIsNotValidated(t *testing.T) {
 		t.Fatal(err)
 	}
 	calls := 0
-	base := &http.Client{Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
-		calls++
-		return &http.Response{
-			StatusCode: http.StatusOK, Request: r,
-			Header: make(http.Header), Body: io.NopCloser(strings.NewReader("{}")),
-		}, nil
-	})}
+	base := &http.Client{
+		Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
+			calls++
+			return &http.Response{
+				StatusCode: http.StatusOK,
+				Request:    r,
+				Header:     make(http.Header),
+				Body:       io.NopCloser(strings.NewReader("{}")),
+			}, nil
+		}),
+	}
 	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://other.example.invalid/start", nil)
 	if err != nil {
 		t.Fatal(err)

@@ -197,7 +197,10 @@ func TestOrigin_InvalidIDNA(t *testing.T) {
 			if _, err := NewOrigin("https://" + host); err == nil {
 				t.Fatal("accepted invalid IDNA endpoint")
 			}
-			err := allowed.Validate(&url.URL{Scheme: "https", Host: host})
+			err := allowed.Validate(&url.URL{
+				Scheme: "https",
+				Host:   host,
+			})
 			var rejected *DestinationError
 			if !errors.As(err, &rejected) {
 				t.Fatalf("expected DestinationError, got %s", err)

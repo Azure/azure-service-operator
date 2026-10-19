@@ -41,7 +41,8 @@ func NewOrigin(endpoint string) (Origin, error) {
 		}
 	}
 	return Origin{}, &DestinationError{
-		Allowed: "a valid HTTPS origin", Destination: "<invalid HTTPS origin>",
+		Allowed:     "a valid HTTPS origin",
+		Destination: "<invalid HTTPS origin>",
 	}
 }
 
@@ -59,7 +60,10 @@ func (o Origin) Validate(destination *url.URL) error {
 	if ok {
 		safe = candidate.String()
 	}
-	return &DestinationError{Allowed: o.String(), Destination: safe}
+	return &DestinationError{
+		Allowed:     o.String(),
+		Destination: safe,
+	}
 }
 
 func originOf(u *url.URL) (Origin, bool) {
@@ -96,5 +100,8 @@ func originOf(u *url.URL) (Origin, bool) {
 	if err != nil || n < 1 || n > 65535 {
 		return Origin{}, false
 	}
-	return Origin{host: strings.ToLower(host), port: strconv.Itoa(n)}, true
+	return Origin{
+		host: strings.ToLower(host),
+		port: strconv.Itoa(n),
+	}, true
 }

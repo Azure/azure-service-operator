@@ -35,7 +35,9 @@ func NewRedirectGuardedClient(base *http.Client, allowed Origin) *Client {
 		}
 		return allowed.Validate(req.URL)
 	}
-	return &Client{client: &client}
+	return &Client{
+		client: &client,
+	}
 }
 
 func (c *Client) Do(req *http.Request) (*http.Response, error) {

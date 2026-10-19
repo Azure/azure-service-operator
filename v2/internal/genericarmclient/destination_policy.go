@@ -13,10 +13,14 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/httpclient"
 )
 
-type destinationPolicy struct{ allowed httpclient.Origin }
+type destinationPolicy struct {
+	allowed httpclient.Origin
+}
 
 func newDestinationPolicy(allowed httpclient.Origin) policy.Policy {
-	return &destinationPolicy{allowed: allowed}
+	return &destinationPolicy{
+		allowed: allowed,
+	}
 }
 
 func (p *destinationPolicy) Do(req *policy.Request) (*http.Response, error) {

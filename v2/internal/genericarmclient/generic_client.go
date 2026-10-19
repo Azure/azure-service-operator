@@ -652,13 +652,22 @@ func IsNotFoundError(err error) bool {
 }
 
 func (client *GenericClient) ResumeDeletePoller(id string) *PollerResponse[GenericDeleteResponse] {
-	return &PollerResponse[GenericDeleteResponse]{ID: id, ErrorHandler: client.handleError}
+	return &PollerResponse[GenericDeleteResponse]{
+		ID:           id,
+		ErrorHandler: client.handleError,
+	}
 }
 
 func (client *GenericClient) ResumeCreatePoller(id string) *PollerResponse[GenericResource] {
-	return &PollerResponse[GenericResource]{ID: id, ErrorHandler: client.handleError}
+	return &PollerResponse[GenericResource]{
+		ID:           id,
+		ErrorHandler: client.handleError,
+	}
 }
 
 func (client *GenericClient) ResumeActionPoller(id string) *PollerResponse[GenericActionResponse] {
-	return &PollerResponse[GenericActionResponse]{ID: id, ErrorHandler: client.handleError}
+	return &PollerResponse[GenericActionResponse]{
+		ID:           id,
+		ErrorHandler: client.handleError,
+	}
 }

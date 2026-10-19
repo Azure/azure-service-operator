@@ -41,7 +41,8 @@ func Test_DestinationFailure_ClearsLROForNormalRecovery(t *testing.T) {
 				ARMOwnedResourceReconcilerCommon: reconcilers.ARMOwnedResourceReconcilerCommon{
 					ResourceResolver: resolver.NewResolver(NewFakeKubeClient(scheme)),
 				},
-				Obj: obj, Log: logr.Discard(),
+				Obj: obj,
+				Log: logr.Discard(),
 			}
 			allowed, err := httpclient.NewOrigin("https://management.example.invalid")
 			g.Expect(err).ToNot(HaveOccurred())
