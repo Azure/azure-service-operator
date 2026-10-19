@@ -84,9 +84,11 @@ type ServicePrincipalStatus struct {
 	// EntraID is the tenant-specific object ID, suitable for role assignments.
 	EntraID *string `json:"entraID,omitempty"`
 	// AppId is the global application (client) GUID.
-	AppId       *string                `json:"appId,omitempty"`
-	DisplayName *string                `json:"displayName,omitempty"`
-	Conditions  []conditions.Condition `json:"conditions,omitempty"`
+	AppId *string `json:"appId,omitempty"`
+	// DisplayName is the human-readable name of the service principal.
+	DisplayName *string `json:"displayName,omitempty"`
+	// Conditions represent the latest available observations of the service principal's state.
+	Conditions []conditions.Condition `json:"conditions,omitempty"`
 }
 
 func (status *ServicePrincipalStatus) AssignFromServicePrincipal(model models.ServicePrincipalable) {
