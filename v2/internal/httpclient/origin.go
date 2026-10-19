@@ -23,7 +23,11 @@ type DestinationError struct {
 }
 
 func (e *DestinationError) Error() string {
-	return fmt.Sprintf("request destination %s is not allowed; expected %s", e.Destination, e.Allowed)
+	return fmt.Sprintf(
+		"request destination %s is not allowed; expected %s",
+		e.Destination,
+		e.Allowed,
+	)
 }
 
 // Origin is an immutable HTTPS hostname and effective port.

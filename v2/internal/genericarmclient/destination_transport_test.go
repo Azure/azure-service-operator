@@ -93,8 +93,14 @@ func Test_DestinationPoller_TransportHostname(t *testing.T) {
 							g.Expect(resp.Body.Close()).To(Succeed())
 						}
 					}
-					t.Logf("tokens=%d sends=%d bearer=%t dials=%d address=%s",
-						tokenCalls, sends.Load(), authenticated.Load(), dials.Load(), address.Load())
+					t.Logf(
+						"tokens=%d sends=%d bearer=%t dials=%d address=%s",
+						tokenCalls,
+						sends.Load(),
+						authenticated.Load(),
+						dials.Load(),
+						address.Load(),
+					)
 					if guarded && !c.allowed {
 						var rejected *httpclient.DestinationError
 						g.Expect(errors.As(err, &rejected)).To(BeTrue(), "expected DestinationError, got %s", err)
