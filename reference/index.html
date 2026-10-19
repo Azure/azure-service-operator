@@ -21,7 +21,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
 	<meta itemprop="name" content="Supported Resources">
 	<meta itemprop="description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 AlertsManagement To install the CRDs for these resources, your ASO configuration must include alertsmanagement.azure.com/* as one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.">
-	<meta itemprop="wordCount" content="5457">
+	<meta itemprop="wordCount" content="5528">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Supported Resources">
 	<meta name="twitter:description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
@@ -81,7 +81,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.b63d46c3ab7c93e20de088543bdbe063.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.bfd53dc1d6bd49941c58bfe33673a4b4.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -107,7 +107,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.b63d46c3ab7c93e20de088543bdbe063.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.bfd53dc1d6bd49941c58bfe33673a4b4.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -613,6 +613,8 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     <a href="/azure-service-operator/reference/operationalinsights/v20250701/" title="operationalinsights.azure.com/v20250701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv20250701"><span class="">v20250701</span></a>
   </li>
     </ul>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceportal-li">
+    <a href="/azure-service-operator/reference/portal/" title="Portal Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceportal"><span class="">Portal</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencequota-li">
     <a href="/azure-service-operator/reference/quota/" title="Quota Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencequota"><span class="">Quota</span></a>
     <ul class="ul-2 foldable">
@@ -941,6 +943,11 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
         <li><a href="#latest-released-versions-23">Latest Released Versions</a></li>
       </ul>
     </li>
+    <li><a href="#portal">Portal</a>
+      <ul>
+        <li><a href="#next-release-7">Next Release</a></li>
+      </ul>
+    </li>
     <li><a href="#quota">Quota</a>
       <ul>
         <li><a href="#released-11">Released</a></li>
@@ -948,7 +955,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#redhatopenshift">RedHatOpenShift</a>
       <ul>
-        <li><a href="#next-release-7">Next Release</a></li>
+        <li><a href="#next-release-8">Next Release</a></li>
         <li><a href="#released-12">Released</a></li>
       </ul>
     </li>
@@ -964,7 +971,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#servicebus">ServiceBus</a>
       <ul>
-        <li><a href="#next-release-8">Next Release</a></li>
+        <li><a href="#next-release-9">Next Release</a></li>
         <li><a href="#latest-released-versions-25">Latest Released Versions</a></li>
       </ul>
     </li>
@@ -975,13 +982,13 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#sql">Sql</a>
       <ul>
-        <li><a href="#next-release-9">Next Release</a></li>
+        <li><a href="#next-release-10">Next Release</a></li>
         <li><a href="#latest-released-versions-27">Latest Released Versions</a></li>
       </ul>
     </li>
     <li><a href="#storage">Storage</a>
       <ul>
-        <li><a href="#next-release-10">Next Release</a></li>
+        <li><a href="#next-release-11">Next Release</a></li>
         <li><a href="#latest-released-versions-28">Latest Released Versions</a></li>
       </ul>
     </li>
@@ -997,7 +1004,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#web">Web</a>
       <ul>
-        <li><a href="#next-release-11">Next Release</a></li>
+        <li><a href="#next-release-12">Next Release</a></li>
         <li><a href="#latest-released-versions-29">Latest Released Versions</a></li>
       </ul>
     </li>
@@ -3732,6 +3739,31 @@ grouped by the originating ARM service.
 			</tr>
 	</tbody>
 </table>
+<h2 id="portal">Portal</h2>
+<!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
+<p>To install the CRDs for these resources, your ASO configuration must include <code>portal.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release-7">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Resource</th>
+					<th>ARM Version</th>
+					<th>CRD Version</th>
+					<th>Supported From</th>
+					<th>Sample</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Dashboard</td>
+					<td>2025-04-01-preview</td>
+					<td>v20250401preview</td>
+					<td>v2.22.0</td>
+					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/portal/v20250401preview/v20250401preview_dashboard.yaml">View</a></td>
+			</tr>
+	</tbody>
+</table>
 <h2 id="quota">Quota</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>quota.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
@@ -3760,7 +3792,7 @@ grouped by the originating ARM service.
 <h2 id="redhatopenshift">RedHatOpenShift</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>redhatopenshift.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-7">Next Release</h3>
+<h3 id="next-release-8">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
 	<thead>
@@ -3871,7 +3903,7 @@ grouped by the originating ARM service.
 <h2 id="servicebus">ServiceBus</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>servicebus.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-8">Next Release</h3>
+<h3 id="next-release-9">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
 	<thead>
@@ -4181,7 +4213,7 @@ grouped by the originating ARM service.
 <h2 id="sql">Sql</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>sql.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-9">Next Release</h3>
+<h3 id="next-release-10">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
 	<thead>
@@ -4417,7 +4449,7 @@ grouped by the originating ARM service.
 <h2 id="storage">Storage</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>storage.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-10">Next Release</h3>
+<h3 id="next-release-11">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
 	<thead>
@@ -4647,7 +4679,7 @@ grouped by the originating ARM service.
 <h2 id="web">Web</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>web.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-11">Next Release</h3>
+<h3 id="next-release-12">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
 	<thead>
