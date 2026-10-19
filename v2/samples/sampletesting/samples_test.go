@@ -26,6 +26,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -254,7 +255,7 @@ func addStatusEntraIDLiteralRedactions(
 ) {
 	for _, resource := range resources {
 		servicePrincipal, ok := resource.(*asoentra.ServicePrincipal)
-		if !ok || servicePrincipal.Status.EntraID == nil || *servicePrincipal.Status.EntraID == "" {
+		if !ok || to.Value(servicePrincipal.Status.EntraID) == "" {
 			continue
 		}
 

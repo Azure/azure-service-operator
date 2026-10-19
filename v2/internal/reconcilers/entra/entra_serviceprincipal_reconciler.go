@@ -21,6 +21,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -67,8 +68,7 @@ func (r *EntraServicePrincipalReconciler) CreateOrUpdate(
 		return ctrl.Result{}, err
 	}
 
-	if (sp.Spec.AppId == nil || *sp.Spec.AppId == "") &&
-		(sp.Spec.DisplayName == nil || *sp.Spec.DisplayName == "") {
+	if to.Value(sp.Spec.AppId) == "" && to.Value(sp.Spec.DisplayName) == "" {
 		return ctrl.Result{}, eris.Errorf("service principal %s requires appId or displayName", sp.Name)
 	}
 
@@ -90,7 +90,7 @@ func (r *EntraServicePrincipalReconciler) CreateOrUpdate(
 	}
 
 	if r.canCreate(sp) {
-		if sp.Spec.AppId == nil || *sp.Spec.AppId == "" {
+		if to.Value(sp.Spec.AppId) == "" {
 			return ctrl.Result{}, eris.Errorf("cannot create service principal %s without an appId; no principal with displayName %q was found", sp.Name, *sp.Spec.DisplayName)
 		}
 
@@ -169,7 +169,7 @@ func (r *EntraServicePrincipalReconciler) update(
 		return ctrl.Result{}, eris.Errorf(
 			"service principal %s has appId %q, expected %q",
 			id,
-			valueOrEmpty(appId),
+			to.Value(appId),
 			*sp.Spec.AppId,
 		)
 	}
@@ -205,13 +205,6 @@ func (r *EntraServicePrincipalReconciler) update(
 	return ctrl.Result{}, nil
 }
 
-func valueOrEmpty(value *string) string {
-	if value == nil {
-		return ""
-	}
-	return *value
-}
-
 func (r *EntraServicePrincipalReconciler) tryAdopt(
 	ctx context.Context,
 	sp *asoentra.ServicePrincipal,
@@ -223,7 +216,7 @@ func (r *EntraServicePrincipalReconciler) tryAdopt(
 	}
 
 	// The global application ID identifies the principal even if its display name changed.
-	if sp.Spec.AppId != nil && *sp.Spec.AppId != "" {
+	if to.Value(sp.Spec.AppId) != "" {
 		matches, err := r.findServicePrincipals(ctx, "appId", *sp.Spec.AppId, connection.Client())
 		if err != nil {
 			return "", err
@@ -236,7 +229,7 @@ func (r *EntraServicePrincipalReconciler) tryAdopt(
 		}
 	}
 
-	if sp.Spec.DisplayName != nil && *sp.Spec.DisplayName != "" {
+	if to.Value(sp.Spec.DisplayName) != "" {
 		matches, err := r.findServicePrincipals(ctx, "displayName", *sp.Spec.DisplayName, connection.Client())
 		if err != nil {
 			return "", err
@@ -247,7 +240,7 @@ func (r *EntraServicePrincipalReconciler) tryAdopt(
 		if len(matches) == 1 {
 			principal := matches[0]
 			if sp.Spec.AppId != nil && (principal.GetAppId() == nil || !strings.EqualFold(*principal.GetAppId(), *sp.Spec.AppId)) {
-				return "", eris.Errorf("service principal with display name %q has appId %q, expected %q", *sp.Spec.DisplayName, valueOrEmpty(principal.GetAppId()), *sp.Spec.AppId)
+				return "", eris.Errorf("service principal with display name %q has appId %q, expected %q", *sp.Spec.DisplayName, to.Value(principal.GetAppId()), *sp.Spec.AppId)
 			}
 			return servicePrincipalID(principal, "display name", *sp.Spec.DisplayName)
 		}
@@ -260,11 +253,11 @@ func servicePrincipalID(principal msgraphmodels.ServicePrincipalable, field, val
 	if principal == nil {
 		return "", eris.Errorf("service principal with %s %q was nil", field, value)
 	}
-	id := principal.GetId()
-	if id == nil || *id == "" {
+	id := to.Value(principal.GetId())
+	if id == "" {
 		return "", eris.Errorf("service principal with %s %q has no object ID", field, value)
 	}
-	return *id, nil
+	return id, nil
 }
 
 func (r *EntraServicePrincipalReconciler) findServicePrincipals(
@@ -291,11 +284,11 @@ func (r *EntraServicePrincipalReconciler) findServicePrincipals(
 		if len(matches) > 1 {
 			return matches, nil
 		}
-		next := result.GetOdataNextLink()
-		if next == nil || *next == "" {
+		next := to.Value(result.GetOdataNextLink())
+		if next == "" {
 			return matches, nil
 		}
-		builder = graph.ServicePrincipals().WithUrl(*next)
+		builder = graph.ServicePrincipals().WithUrl(next)
 		options = nil
 	}
 }
@@ -317,7 +310,7 @@ func (r *EntraServicePrincipalReconciler) create(
 		return ctrl.Result{}, eris.Wrapf(err, "creating service principal %s", sp.Name)
 	}
 
-	if result == nil || result.GetId() == nil || *result.GetId() == "" {
+	if result == nil || to.Value(result.GetId()) == "" {
 		return ctrl.Result{}, eris.Errorf("creating service principal %s: no object ID returned", sp.Name)
 	}
 
