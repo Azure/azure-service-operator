@@ -21,30 +21,75 @@ import (
 
 func Test_DestinationPoller_TransportHostname(t *testing.T) {
 	t.Parallel()
-	cases := []struct {
-		name        string
+	cases := map[string]struct {
 		endpoint    string
 		destination string
 		dialAddress string
 		allowed     bool
 	}{
-		{"China dotted I", "management.chinacloudapi.cn", "management.ch\u0130nacloudapi.cn", "management.xn--chinacloudapi-5nh.cn:443", false},
-		{"Government dotted I", "management.usgovcloudapi.net", "management.usgovcloudap\u0130.net", "management.xn--usgovcloudapi-goh.net:443", false},
-		{"Unicode configured", "bücher.example.invalid", "xn--bcher-kva.example.invalid", "xn--bcher-kva.example.invalid:443", true},
-		{"punycode configured", "xn--bcher-kva.example.invalid", "bücher.example.invalid", "xn--bcher-kva.example.invalid:443", true},
-		{"Unicode case", "BÜCHER.example.invalid", "bücher.example.invalid", "xn--bcher-kva.example.invalid:443", true},
-		{"mapped ASCII", "management.example.invalid", "ｍanagement.example.invalid", "management.example.invalid:443", true},
-		{"leading hyphen", "-bad.example.invalid", "-bad.example.invalid", "-bad.example.invalid:443", true},
-		{"empty DNS label", "bad..example.invalid", "bad..example.invalid", "bad..example.invalid:443", true},
+		"China dotted I": {
+			endpoint:    "management.chinacloudapi.cn",
+			destination: "management.ch\u0130nacloudapi.cn",
+			dialAddress: "management.xn--chinacloudapi-5nh.cn:443",
+			allowed:     false,
+		},
+		"Government dotted I": {
+			endpoint:    "management.usgovcloudapi.net",
+			destination: "management.usgovcloudap\u0130.net",
+			dialAddress: "management.xn--usgovcloudapi-goh.net:443",
+			allowed:     false,
+		},
+		"Unicode configured": {
+			endpoint:    "bücher.example.invalid",
+			destination: "xn--bcher-kva.example.invalid",
+			dialAddress: "xn--bcher-kva.example.invalid:443",
+			allowed:     true,
+		},
+		"punycode configured": {
+			endpoint:    "xn--bcher-kva.example.invalid",
+			destination: "bücher.example.invalid",
+			dialAddress: "xn--bcher-kva.example.invalid:443",
+			allowed:     true,
+		},
+		"Unicode case": {
+			endpoint:    "BÜCHER.example.invalid",
+			destination: "bücher.example.invalid",
+			dialAddress: "xn--bcher-kva.example.invalid:443",
+			allowed:     true,
+		},
+		"mapped ASCII": {
+			endpoint:    "management.example.invalid",
+			destination: "ｍanagement.example.invalid",
+			dialAddress: "management.example.invalid:443",
+			allowed:     true,
+		},
+		"leading hyphen": {
+			endpoint:    "-bad.example.invalid",
+			destination: "-bad.example.invalid",
+			dialAddress: "-bad.example.invalid:443",
+			allowed:     true,
+		},
+		"empty DNS label": {
+			endpoint:    "bad..example.invalid",
+			destination: "bad..example.invalid",
+			dialAddress: "bad..example.invalid:443",
+			allowed:     true,
+		},
 	}
-	for _, c := range cases {
-		t.Run(c.name, func(t *testing.T) {
+	modes := map[string]struct {
+		guarded bool
+	}{
+		"transport control": {
+			guarded: false,
+		},
+		"resumed poller": {
+			guarded: true,
+		},
+	}
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
-			for _, guarded := range []bool{false, true} {
-				name := "transport control"
-				if guarded {
-					name = "resumed poller"
-				}
+			for name, mode := range modes {
 				t.Run(name, func(t *testing.T) {
 					t.Parallel()
 					g := NewGomegaWithT(t)
@@ -71,7 +116,7 @@ func Test_DestinationPoller_TransportHostname(t *testing.T) {
 					var err error
 					var tokenCalls int32
 					destination := "https://" + c.destination + "/poll"
-					if guarded {
+					if mode.guarded {
 						client, cred := boundaryClient(t, "https://"+c.endpoint, send)
 						state := map[string]any{
 							"asyncURL": destination,
@@ -101,7 +146,7 @@ func Test_DestinationPoller_TransportHostname(t *testing.T) {
 						dials.Load(),
 						address.Load(),
 					)
-					if guarded && !c.allowed {
+					if mode.guarded && !c.allowed {
 						var rejected *httpclient.DestinationError
 						g.Expect(errors.As(err, &rejected)).To(BeTrue())
 						g.Expect(tokenCalls).To(BeZero())
@@ -114,8 +159,8 @@ func Test_DestinationPoller_TransportHostname(t *testing.T) {
 					g.Expect(sends.Load()).To(Equal(int32(1)))
 					g.Expect(dials.Load()).To(Equal(int32(1)))
 					g.Expect(address.Load()).To(Equal(c.dialAddress))
-					g.Expect(authenticated.Load()).To(Equal(guarded))
-					if guarded {
+					g.Expect(authenticated.Load()).To(Equal(mode.guarded))
+					if mode.guarded {
 						g.Expect(tokenCalls).To(Equal(int32(1)))
 					}
 				})

@@ -20,14 +20,44 @@ import (
 
 func Test_DestinationPoller_RejectsEveryPollingForm(t *testing.T) {
 	t.Parallel()
-	states := map[string]map[string]any{
-		"async":     {"asyncURL": "https://attacker.example.invalid/poll?secret=private", "state": "InProgress"},
-		"operation": {"oplocURL": "https://attacker.example.invalid/poll", "state": "InProgress"},
-		"location":  {"type": "loc", "pollURL": "https://attacker.example.invalid/poll", "state": "InProgress"},
-		"body":      {"type": "body", "pollURL": "https://attacker.example.invalid/poll", "state": "InProgress"},
-		"fake":      {"fakeURL": "https://attacker.example.invalid/poll", "apiName": "test", "status": "InProgress"},
+	cases := map[string]struct {
+		state map[string]any
+	}{
+		"async": {
+			state: map[string]any{
+				"asyncURL": "https://attacker.example.invalid/poll?secret=private",
+				"state":    "InProgress",
+			},
+		},
+		"operation": {
+			state: map[string]any{
+				"oplocURL": "https://attacker.example.invalid/poll",
+				"state":    "InProgress",
+			},
+		},
+		"location": {
+			state: map[string]any{
+				"type":    "loc",
+				"pollURL": "https://attacker.example.invalid/poll",
+				"state":   "InProgress",
+			},
+		},
+		"body": {
+			state: map[string]any{
+				"type":    "body",
+				"pollURL": "https://attacker.example.invalid/poll",
+				"state":   "InProgress",
+			},
+		},
+		"fake": {
+			state: map[string]any{
+				"fakeURL": "https://attacker.example.invalid/poll",
+				"apiName": "test",
+				"status":  "InProgress",
+			},
+		},
 	}
-	for name, state := range states {
+	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -36,7 +66,7 @@ func Test_DestinationPoller_RejectsEveryPollingForm(t *testing.T) {
 				calls++
 				return boundaryResponse(r, http.StatusOK, nil, `{"status":"Succeeded"}`), nil
 			})
-			token := boundaryToken(t, "GenericResource", state)
+			token := boundaryToken(t, "GenericResource", c.state)
 			resumed := client.ResumeCreatePoller(genericarmclient.CreatePollerID)
 			err := resumed.Resume(context.Background(), client, token)
 			var rejected *httpclient.DestinationError
@@ -52,22 +82,76 @@ func Test_DestinationPoller_FinalAndUnusedURLs(t *testing.T) {
 	t.Parallel()
 	const endpoint = "https://management.example.invalid"
 	const offOrigin = "https://regional.example.invalid/result"
-	cases := []struct {
-		name      string
+	cases := map[string]struct {
 		state     map[string]any
 		response  string
 		rejected  bool
 		wantCalls int
 	}{
-		{"async original", map[string]any{"asyncURL": endpoint + "/poll", "origURL": offOrigin, "method": "PUT"}, `{"status":"Succeeded"}`, true, 1},
-		{"async location", map[string]any{"asyncURL": endpoint + "/poll", "locURL": offOrigin, "method": "POST"}, `{"status":"Succeeded"}`, true, 1},
-		{"operation original", map[string]any{"oplocURL": endpoint + "/poll", "origURL": offOrigin, "method": "PUT"}, `{"status":"Succeeded"}`, true, 1},
-		{"operation location", map[string]any{"oplocURL": endpoint + "/poll", "locURL": offOrigin, "method": "POST", "finalState": "location"}, `{"status":"Succeeded"}`, true, 1},
-		{"operation response location", map[string]any{"oplocURL": endpoint + "/poll", "method": "POST"}, `{"status":"Succeeded","resourceLocation":"https://regional.example.invalid/result"}`, true, 1},
-		{"unused regional location", map[string]any{"asyncURL": endpoint + "/poll", "origURL": endpoint + "/resource", "locURL": offOrigin, "method": "PUT"}, `{"status":"Succeeded"}`, false, 2},
+		"async original": {
+			state: map[string]any{
+				"asyncURL": endpoint + "/poll",
+				"origURL":  offOrigin,
+				"method":   "PUT",
+			},
+			response:  `{"status":"Succeeded"}`,
+			rejected:  true,
+			wantCalls: 1,
+		},
+		"async location": {
+			state: map[string]any{
+				"asyncURL": endpoint + "/poll",
+				"locURL":   offOrigin,
+				"method":   "POST",
+			},
+			response:  `{"status":"Succeeded"}`,
+			rejected:  true,
+			wantCalls: 1,
+		},
+		"operation original": {
+			state: map[string]any{
+				"oplocURL": endpoint + "/poll",
+				"origURL":  offOrigin,
+				"method":   "PUT",
+			},
+			response:  `{"status":"Succeeded"}`,
+			rejected:  true,
+			wantCalls: 1,
+		},
+		"operation location": {
+			state: map[string]any{
+				"oplocURL":   endpoint + "/poll",
+				"locURL":     offOrigin,
+				"method":     "POST",
+				"finalState": "location",
+			},
+			response:  `{"status":"Succeeded"}`,
+			rejected:  true,
+			wantCalls: 1,
+		},
+		"operation response location": {
+			state: map[string]any{
+				"oplocURL": endpoint + "/poll",
+				"method":   "POST",
+			},
+			response:  `{"status":"Succeeded","resourceLocation":"https://regional.example.invalid/result"}`,
+			rejected:  true,
+			wantCalls: 1,
+		},
+		"unused regional location": {
+			state: map[string]any{
+				"asyncURL": endpoint + "/poll",
+				"origURL":  endpoint + "/resource",
+				"locURL":   offOrigin,
+				"method":   "PUT",
+			},
+			response:  `{"status":"Succeeded"}`,
+			rejected:  false,
+			wantCalls: 2,
+		},
 	}
-	for _, c := range cases {
-		t.Run(c.name, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 			calls := 0

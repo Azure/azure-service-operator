@@ -24,11 +24,17 @@ import (
 
 func Test_DestinationFailure_ClearsLROForNormalRecovery(t *testing.T) {
 	t.Parallel()
-	for _, deleting := range []bool{false, true} {
-		name := "create"
-		if deleting {
-			name = "delete"
-		}
+	cases := map[string]struct {
+		deleting bool
+	}{
+		"create": {
+			deleting: false,
+		},
+		"delete": {
+			deleting: true,
+		},
+	}
+	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -50,7 +56,7 @@ func Test_DestinationFailure_ClearsLROForNormalRecovery(t *testing.T) {
 			g.Expect(err).ToNot(HaveOccurred())
 			err = allowed.Validate(target)
 			g.Expect(err).To(HaveOccurred())
-			if deleting {
+			if c.deleting {
 				err = r.handleDeleteFailed(err)
 			} else {
 				err = r.handleCreateOrUpdateFailed(err)

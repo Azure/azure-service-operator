@@ -18,27 +18,65 @@ func TestOrigin(t *testing.T) {
 	g := NewGomegaWithT(t)
 	allowed, err := NewOrigin("https://management.example.invalid")
 	g.Expect(err).ToNot(HaveOccurred())
-	cases := []struct {
-		name string
-		raw  string
-		ok   bool
+	cases := map[string]struct {
+		raw string
+		ok  bool
 	}{
-		{"same", "https://management.example.invalid/subscriptions/s/operations/o?q=x", true},
-		{"case", "https://MANAGEMENT.example.invalid/path", true},
-		{"default port", "https://management.example.invalid:443/path", true},
-		{"numeric port", "https://management.example.invalid:0443/path", true},
-		{"other host", "https://other.example.invalid/path", false},
-		{"subdomain", "https://child.management.example.invalid/path", false},
-		{"suffix", "https://management.example.invalid.evil.invalid/path", false},
-		{"trailing dot", "https://management.example.invalid./path", false},
-		{"port", "https://management.example.invalid:444/path", false},
-		{"downgrade", "http://management.example.invalid/path", false},
-		{"userinfo", "https://user:private@management.example.invalid/path", false},
-		{"relative", "/operations/1", false},
-		{"opaque", "https:management.example.invalid/path", false},
+		"same": {
+			raw: "https://management.example.invalid/subscriptions/s/operations/o?q=x",
+			ok:  true,
+		},
+		"case": {
+			raw: "https://MANAGEMENT.example.invalid/path",
+			ok:  true,
+		},
+		"default port": {
+			raw: "https://management.example.invalid:443/path",
+			ok:  true,
+		},
+		"numeric port": {
+			raw: "https://management.example.invalid:0443/path",
+			ok:  true,
+		},
+		"other host": {
+			raw: "https://other.example.invalid/path",
+			ok:  false,
+		},
+		"subdomain": {
+			raw: "https://child.management.example.invalid/path",
+			ok:  false,
+		},
+		"suffix": {
+			raw: "https://management.example.invalid.evil.invalid/path",
+			ok:  false,
+		},
+		"trailing dot": {
+			raw: "https://management.example.invalid./path",
+			ok:  false,
+		},
+		"port": {
+			raw: "https://management.example.invalid:444/path",
+			ok:  false,
+		},
+		"downgrade": {
+			raw: "http://management.example.invalid/path",
+			ok:  false,
+		},
+		"userinfo": { //nolint:gosec // Dummy URL credentials test userinfo rejection.
+			raw: "https://user:private@management.example.invalid/path",
+			ok:  false,
+		},
+		"relative": {
+			raw: "/operations/1",
+			ok:  false,
+		},
+		"opaque": {
+			raw: "https:management.example.invalid/path",
+			ok:  false,
+		},
 	}
-	for _, c := range cases {
-		t.Run(c.name, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 			u, parseErr := url.Parse(c.raw)
@@ -59,63 +97,160 @@ func TestOrigin(t *testing.T) {
 
 func TestOrigin_InvalidEndpoint(t *testing.T) {
 	t.Parallel()
-	for _, raw := range []string{
-		"", "/relative", "http://example.invalid", "https://",
-		"https://u:secret@example.invalid", "https://example.invalid:",
-		"https://example.invalid:0", "https://example.invalid:65536",
-		"https://example.invalid:bad", "https://[broken",
-	} {
-		g := NewGomegaWithT(t)
-		_, err := NewOrigin(raw)
-		g.Expect(err).To(HaveOccurred())
+	cases := map[string]struct {
+		endpoint string
+	}{
+		"empty": {
+			endpoint: "",
+		},
+		"relative": {
+			endpoint: "/relative",
+		},
+		"HTTP": {
+			endpoint: "http://example.invalid",
+		},
+		"missing host": {
+			endpoint: "https://",
+		},
+		"userinfo": { //nolint:gosec // Dummy URL credentials test userinfo rejection.
+			endpoint: "https://user:private@example.invalid",
+		},
+		"empty port": {
+			endpoint: "https://example.invalid:",
+		},
+		"zero port": {
+			endpoint: "https://example.invalid:0",
+		},
+		"port out of range": {
+			endpoint: "https://example.invalid:65536",
+		},
+		"nonnumeric port": {
+			endpoint: "https://example.invalid:bad",
+		},
+		"malformed IPv6": {
+			endpoint: "https://[broken",
+		},
+	}
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			_, err := NewOrigin(c.endpoint)
+			g.Expect(err).To(HaveOccurred())
+		})
 	}
 }
 
 func TestOrigin_CustomPortsAndIPv6(t *testing.T) {
 	t.Parallel()
-	for _, endpoint := range []string{"https://localhost:8443/base", "https://[::1]:8443/base"} {
-		g := NewGomegaWithT(t)
-		allowed, err := NewOrigin(endpoint)
-		g.Expect(err).ToNot(HaveOccurred())
-		u, err := url.Parse(endpoint + "/operations/1")
-		g.Expect(err).ToNot(HaveOccurred())
-		g.Expect(allowed.Validate(u)).To(Succeed())
+	cases := map[string]struct {
+		endpoint string
+	}{
+		"localhost": {
+			endpoint: "https://localhost:8443/base",
+		},
+		"IPv6": {
+			endpoint: "https://[::1]:8443/base",
+		},
+	}
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			allowed, err := NewOrigin(c.endpoint)
+			g.Expect(err).ToNot(HaveOccurred())
+			u, err := url.Parse(c.endpoint + "/operations/1")
+			g.Expect(err).ToNot(HaveOccurred())
+			g.Expect(allowed.Validate(u)).To(Succeed())
+		})
 	}
 }
 
 func TestOrigin_ConfiguredDNSLabelsAreNotRestricted(t *testing.T) {
 	t.Parallel()
-	for _, endpoint := range []string{"https://-bad.example.invalid", "https://bad..example.invalid"} {
-		g := NewGomegaWithT(t)
-		allowed, err := NewOrigin(endpoint)
-		g.Expect(err).ToNot(HaveOccurred())
-		u, err := url.Parse(endpoint + "/operations/1")
-		g.Expect(err).ToNot(HaveOccurred())
-		g.Expect(allowed.Validate(u)).To(Succeed())
+	cases := map[string]struct {
+		endpoint string
+	}{
+		"leading hyphen": {
+			endpoint: "https://-bad.example.invalid",
+		},
+		"empty DNS label": {
+			endpoint: "https://bad..example.invalid",
+		},
+	}
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			allowed, err := NewOrigin(c.endpoint)
+			g.Expect(err).ToNot(HaveOccurred())
+			u, err := url.Parse(c.endpoint + "/operations/1")
+			g.Expect(err).ToNot(HaveOccurred())
+			g.Expect(allowed.Validate(u)).To(Succeed())
+		})
 	}
 }
 
 func TestOrigin_TransportHostname(t *testing.T) {
 	t.Parallel()
-	cases := []struct {
-		name        string
+	cases := map[string]struct {
 		endpoint    string
 		destination string
 		ok          bool
 	}{
-		{"China dotted I", "management.chinacloudapi.cn", "management.ch\u0130nacloudapi.cn", false},
-		{"Government dotted I", "management.usgovcloudapi.net", "management.usgovcloudap\u0130.net", false},
-		{"Unicode configured", "bücher.example.invalid", "xn--bcher-kva.example.invalid", true},
-		{"punycode configured", "xn--bcher-kva.example.invalid", "bücher.example.invalid", true},
-		{"Unicode case", "BÜCHER.example.invalid", "bücher.example.invalid", true},
-		{"punycode case", "XN--BCHER-KVA.example.invalid", "bücher.example.invalid", true},
-		{"mapped ASCII", "management.example.invalid", "ｍanagement.example.invalid", true},
-		{"ignored character in hostname", "management.example.invalid", "manage\u00adment.example.invalid", true},
-		{"dotted I configured", "management.ch\u0130nacloudapi.cn", "management.xn--chinacloudapi-5nh.cn", true},
-		{"dotted I is not ASCII I", "management.ch\u0130nacloudapi.cn", "management.chinacloudapi.cn", false},
+		"China dotted I": {
+			endpoint:    "management.chinacloudapi.cn",
+			destination: "management.ch\u0130nacloudapi.cn",
+			ok:          false,
+		},
+		"Government dotted I": {
+			endpoint:    "management.usgovcloudapi.net",
+			destination: "management.usgovcloudap\u0130.net",
+			ok:          false,
+		},
+		"Unicode configured": {
+			endpoint:    "bücher.example.invalid",
+			destination: "xn--bcher-kva.example.invalid",
+			ok:          true,
+		},
+		"punycode configured": {
+			endpoint:    "xn--bcher-kva.example.invalid",
+			destination: "bücher.example.invalid",
+			ok:          true,
+		},
+		"Unicode case": {
+			endpoint:    "BÜCHER.example.invalid",
+			destination: "bücher.example.invalid",
+			ok:          true,
+		},
+		"punycode case": {
+			endpoint:    "XN--BCHER-KVA.example.invalid",
+			destination: "bücher.example.invalid",
+			ok:          true,
+		},
+		"mapped ASCII": {
+			endpoint:    "management.example.invalid",
+			destination: "ｍanagement.example.invalid",
+			ok:          true,
+		},
+		"ignored character in hostname": {
+			endpoint:    "management.example.invalid",
+			destination: "manage\u00adment.example.invalid",
+			ok:          true,
+		},
+		"dotted I configured": {
+			endpoint:    "management.ch\u0130nacloudapi.cn",
+			destination: "management.xn--chinacloudapi-5nh.cn",
+			ok:          true,
+		},
+		"dotted I is not ASCII I": {
+			endpoint:    "management.ch\u0130nacloudapi.cn",
+			destination: "management.chinacloudapi.cn",
+			ok:          false,
+		},
 	}
-	for _, c := range cases {
-		t.Run(c.name, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 			allowed, err := NewOrigin("https://" + c.endpoint)
@@ -135,15 +270,21 @@ func TestOrigin_TransportHostname(t *testing.T) {
 
 func TestOrigin_EmptyIDNAHostname(t *testing.T) {
 	t.Parallel()
-	for _, c := range []struct {
-		name      string
+	cases := map[string]struct {
 		authority string
 	}{
-		{"soft hyphen", "\u00ad"},
-		{"multiple ignored characters", "\u00ad\u00ad"},
-		{"custom port", "\u00ad:8443"},
-	} {
-		t.Run(c.name, func(t *testing.T) {
+		"soft hyphen": {
+			authority: "\u00ad",
+		},
+		"multiple ignored characters": {
+			authority: "\u00ad\u00ad",
+		},
+		"custom port": {
+			authority: "\u00ad:8443",
+		},
+	}
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 			_, err := NewOrigin("https://" + c.authority)
@@ -158,20 +299,31 @@ func TestOrigin_InvalidIDNA(t *testing.T) {
 	g := NewGomegaWithT(t)
 	allowed, err := NewOrigin("https://management.example.invalid")
 	g.Expect(err).ToNot(HaveOccurred())
-	for _, host := range []string{
-		"bad\u200d.example.invalid",
-		"bad\ufffd.example.invalid",
-		"bad\xff.example.invalid",
-		"-bücher.example.invalid",
-	} {
-		t.Run(host, func(t *testing.T) {
+	cases := map[string]struct {
+		host string
+	}{
+		"joiner": {
+			host: "bad\u200d.example.invalid",
+		},
+		"replacement character": {
+			host: "bad\ufffd.example.invalid",
+		},
+		"invalid UTF-8": {
+			host: "bad\xff.example.invalid",
+		},
+		"leading hyphen with Unicode": {
+			host: "-bücher.example.invalid",
+		},
+	}
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
-			_, err := NewOrigin("https://" + host)
+			_, err := NewOrigin("https://" + c.host)
 			g.Expect(err).To(HaveOccurred())
 			err = allowed.Validate(&url.URL{
 				Scheme: "https",
-				Host:   host,
+				Host:   c.host,
 			})
 			var rejected *DestinationError
 			g.Expect(errors.As(err, &rejected)).To(BeTrue())

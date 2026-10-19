@@ -53,22 +53,34 @@ func Test_DestinationSDK_BackupInstanceResume(t *testing.T) {
 
 func Test_DestinationSDK_CloudBoundariesAreIndependent(t *testing.T) {
 	t.Parallel()
-	endpoints := []string{
-		"https://management.azure.com", "https://management.chinacloudapi.cn",
-		"https://management.usgovcloudapi.net", "https://custom.example.invalid:8443/base",
+	cases := map[string]struct {
+		endpoint string
+	}{
+		"public": {
+			endpoint: "https://management.azure.com",
+		},
+		"China": {
+			endpoint: "https://management.chinacloudapi.cn",
+		},
+		"Government": {
+			endpoint: "https://management.usgovcloudapi.net",
+		},
+		"custom": {
+			endpoint: "https://custom.example.invalid:8443/base",
+		},
 	}
-	for _, endpoint := range endpoints {
-		t.Run(endpoint, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 			calls := 0
-			client, cred := boundaryClient(t, endpoint, func(r *http.Request) (*http.Response, error) {
+			client, cred := boundaryClient(t, c.endpoint, func(r *http.Request) (*http.Response, error) {
 				calls++
 				return boundaryResponse(r, http.StatusOK, nil, "{}"), nil
 			})
 			pl, err := armruntime.NewPipeline("boundary-test", "v0.0.0", cred, runtime.PipelineOptions{}, client.ClientOptions())
 			g.Expect(err).ToNot(HaveOccurred())
-			req, err := runtime.NewRequest(context.Background(), http.MethodGet, endpoint+"/operations/1")
+			req, err := runtime.NewRequest(context.Background(), http.MethodGet, c.endpoint+"/operations/1")
 			g.Expect(err).ToNot(HaveOccurred())
 			resp, err := pl.Do(req)
 			g.Expect(err).ToNot(HaveOccurred())
@@ -106,17 +118,27 @@ func Test_DestinationSDK_ClientsRejectEachOthersOrigins(t *testing.T) {
 	secondPipeline, err := armruntime.NewPipeline("boundary-test", "v0.0.0", secondCred, runtime.PipelineOptions{}, secondClient.ClientOptions())
 	g.Expect(err).ToNot(HaveOccurred())
 
-	cases := []struct {
+	cases := map[string]struct {
 		endpoint      string
 		otherEndpoint string
 		pipeline      runtime.Pipeline
 		calls         *int
 	}{
-		{firstEndpoint, secondEndpoint, firstPipeline, &firstCalls},
-		{secondEndpoint, firstEndpoint, secondPipeline, &secondCalls},
+		firstEndpoint: {
+			endpoint:      firstEndpoint,
+			otherEndpoint: secondEndpoint,
+			pipeline:      firstPipeline,
+			calls:         &firstCalls,
+		},
+		secondEndpoint: {
+			endpoint:      secondEndpoint,
+			otherEndpoint: firstEndpoint,
+			pipeline:      secondPipeline,
+			calls:         &secondCalls,
+		},
 	}
-	for _, c := range cases {
-		t.Run(c.endpoint, func(t *testing.T) {
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 			req, err := runtime.NewRequest(context.Background(), http.MethodGet, c.endpoint+"/operations/1")

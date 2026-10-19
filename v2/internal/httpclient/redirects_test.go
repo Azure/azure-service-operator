@@ -26,19 +26,41 @@ func TestRedirects_OriginBoundary(t *testing.T) {
 	g := NewGomegaWithT(t)
 	allowed, err := NewOrigin("https://management.example.invalid")
 	g.Expect(err).ToNot(HaveOccurred())
-	for _, c := range []struct {
+	cases := map[string]struct {
 		target string
 		ok     bool
 	}{
-		{"/done", true},
-		{"https://management.example.invalid:443/done", true},
-		{"https://other.example.invalid/done?secret=private", false},
-		{"https://child.management.example.invalid/done", false},
-		{"https://management.example.invalid:444/done", false},
-		{"http://management.example.invalid/done", false},
-		{"https://user:private@management.example.invalid/done", false},
-	} {
-		t.Run(c.target, func(t *testing.T) {
+		"relative": {
+			target: "/done",
+			ok:     true,
+		},
+		"same origin": {
+			target: "https://management.example.invalid:443/done",
+			ok:     true,
+		},
+		"other host": {
+			target: "https://other.example.invalid/done?secret=private",
+			ok:     false,
+		},
+		"subdomain": {
+			target: "https://child.management.example.invalid/done",
+			ok:     false,
+		},
+		"other port": {
+			target: "https://management.example.invalid:444/done",
+			ok:     false,
+		},
+		"downgrade": {
+			target: "http://management.example.invalid/done",
+			ok:     false,
+		},
+		"userinfo": { //nolint:gosec // Dummy URL credentials test userinfo rejection.
+			target: "https://user:private@management.example.invalid/done",
+			ok:     false,
+		},
+	}
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 			calls := 0
