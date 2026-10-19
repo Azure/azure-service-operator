@@ -39,15 +39,20 @@ type Origin struct {
 // NewOrigin validates a configured HTTPS endpoint.
 func NewOrigin(endpoint string) (Origin, error) {
 	u, err := url.Parse(endpoint)
-	if err == nil {
-		if origin, ok := originOf(u); ok {
-			return origin, nil
+	if err != nil {
+		return Origin{}, &DestinationError{
+			Allowed:     "a valid HTTPS origin",
+			Destination: "<invalid HTTPS origin>",
 		}
 	}
-	return Origin{}, &DestinationError{
-		Allowed:     "a valid HTTPS origin",
-		Destination: "<invalid HTTPS origin>",
+	origin, ok := originOf(u)
+	if !ok {
+		return Origin{}, &DestinationError{
+			Allowed:     "a valid HTTPS origin",
+			Destination: "<invalid HTTPS origin>",
+		}
 	}
+	return origin, nil
 }
 
 func (o Origin) String() string {
