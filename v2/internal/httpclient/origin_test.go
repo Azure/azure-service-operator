@@ -8,16 +8,16 @@ package httpclient
 import (
 	"errors"
 	"net/url"
-	"strings"
 	"testing"
+
+	. "github.com/onsi/gomega"
 )
 
 func TestOrigin(t *testing.T) {
 	t.Parallel()
+	g := NewGomegaWithT(t)
 	allowed, err := NewOrigin("https://management.example.invalid")
-	if err != nil {
-		t.Fatal(err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 	cases := []struct {
 		name string
 		raw  string
@@ -40,28 +40,21 @@ func TestOrigin(t *testing.T) {
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
+			g := NewGomegaWithT(t)
 			u, parseErr := url.Parse(c.raw)
-			if parseErr != nil {
-				t.Fatal(parseErr)
-			}
+			g.Expect(parseErr).ToNot(HaveOccurred())
 			err := allowed.Validate(u)
-			if (err == nil) != c.ok {
-				t.Fatalf("expected allowed=%t, got allowed=%t", c.ok, err == nil)
-			}
-			if err != nil {
+			if c.ok {
+				g.Expect(err).ToNot(HaveOccurred())
+			} else {
 				var rejected *DestinationError
-				if !errors.As(err, &rejected) {
-					t.Fatalf("unexpected error type: %T", err)
-				}
-				if strings.Contains(err.Error(), "private") || strings.Contains(err.Error(), "?") {
-					t.Fatalf("unsafe diagnostic: %s", err)
-				}
+				g.Expect(errors.As(err, &rejected)).To(BeTrue())
+				g.Expect(err).ToNot(MatchError(ContainSubstring("private")))
+				g.Expect(err).ToNot(MatchError(ContainSubstring("?")))
 			}
 		})
 	}
-	if err := allowed.Validate(nil); err == nil {
-		t.Fatal("nil URL accepted")
-	}
+	g.Expect(allowed.Validate(nil)).To(HaveOccurred())
 }
 
 func TestOrigin_InvalidEndpoint(t *testing.T) {
@@ -72,43 +65,33 @@ func TestOrigin_InvalidEndpoint(t *testing.T) {
 		"https://example.invalid:0", "https://example.invalid:65536",
 		"https://example.invalid:bad", "https://[broken",
 	} {
-		if _, err := NewOrigin(raw); err == nil {
-			t.Fatalf("accepted invalid endpoint %q", raw)
-		}
+		g := NewGomegaWithT(t)
+		_, err := NewOrigin(raw)
+		g.Expect(err).To(HaveOccurred())
 	}
 }
 
 func TestOrigin_CustomPortsAndIPv6(t *testing.T) {
 	t.Parallel()
 	for _, endpoint := range []string{"https://localhost:8443/base", "https://[::1]:8443/base"} {
+		g := NewGomegaWithT(t)
 		allowed, err := NewOrigin(endpoint)
-		if err != nil {
-			t.Fatal(err)
-		}
+		g.Expect(err).ToNot(HaveOccurred())
 		u, err := url.Parse(endpoint + "/operations/1")
-		if err != nil {
-			t.Fatal(err)
-		}
-		if err := allowed.Validate(u); err != nil {
-			t.Fatal(err)
-		}
+		g.Expect(err).ToNot(HaveOccurred())
+		g.Expect(allowed.Validate(u)).To(Succeed())
 	}
 }
 
 func TestOrigin_ConfiguredDNSLabelsAreNotRestricted(t *testing.T) {
 	t.Parallel()
 	for _, endpoint := range []string{"https://-bad.example.invalid", "https://bad..example.invalid"} {
+		g := NewGomegaWithT(t)
 		allowed, err := NewOrigin(endpoint)
-		if err != nil {
-			t.Fatal(err)
-		}
+		g.Expect(err).ToNot(HaveOccurred())
 		u, err := url.Parse(endpoint + "/operations/1")
-		if err != nil {
-			t.Fatal(err)
-		}
-		if err := allowed.Validate(u); err != nil {
-			t.Fatal(err)
-		}
+		g.Expect(err).ToNot(HaveOccurred())
+		g.Expect(allowed.Validate(u)).To(Succeed())
 	}
 }
 
@@ -134,23 +117,17 @@ func TestOrigin_TransportHostname(t *testing.T) {
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
+			g := NewGomegaWithT(t)
 			allowed, err := NewOrigin("https://" + c.endpoint)
-			if err != nil {
-				t.Fatal(err)
-			}
+			g.Expect(err).ToNot(HaveOccurred())
 			u, err := url.Parse("https://" + c.destination + "/poll")
-			if err != nil {
-				t.Fatal(err)
-			}
+			g.Expect(err).ToNot(HaveOccurred())
 			err = allowed.Validate(u)
-			if (err == nil) != c.ok {
-				t.Fatalf("allowed=%t, error=%s", c.ok, err)
-			}
-			if err != nil {
+			if c.ok {
+				g.Expect(err).ToNot(HaveOccurred())
+			} else {
 				var rejected *DestinationError
-				if !errors.As(err, &rejected) {
-					t.Fatalf("unexpected error type: %T", err)
-				}
+				g.Expect(errors.As(err, &rejected)).To(BeTrue())
 			}
 		})
 	}
@@ -168,24 +145,19 @@ func TestOrigin_EmptyIDNAHostname(t *testing.T) {
 	} {
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
+			g := NewGomegaWithT(t)
 			_, err := NewOrigin("https://" + c.authority)
-			if err == nil {
-				t.Fatal("accepted an empty canonical hostname")
-			}
 			var rejected *DestinationError
-			if !errors.As(err, &rejected) {
-				t.Fatalf("unexpected error type: %T", err)
-			}
+			g.Expect(errors.As(err, &rejected)).To(BeTrue())
 		})
 	}
 }
 
 func TestOrigin_InvalidIDNA(t *testing.T) {
 	t.Parallel()
+	g := NewGomegaWithT(t)
 	allowed, err := NewOrigin("https://management.example.invalid")
-	if err != nil {
-		t.Fatal(err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 	for _, host := range []string{
 		"bad\u200d.example.invalid",
 		"bad\ufffd.example.invalid",
@@ -194,17 +166,15 @@ func TestOrigin_InvalidIDNA(t *testing.T) {
 	} {
 		t.Run(host, func(t *testing.T) {
 			t.Parallel()
-			if _, err := NewOrigin("https://" + host); err == nil {
-				t.Fatal("accepted invalid IDNA endpoint")
-			}
-			err := allowed.Validate(&url.URL{
+			g := NewGomegaWithT(t)
+			_, err := NewOrigin("https://" + host)
+			g.Expect(err).To(HaveOccurred())
+			err = allowed.Validate(&url.URL{
 				Scheme: "https",
 				Host:   host,
 			})
 			var rejected *DestinationError
-			if !errors.As(err, &rejected) {
-				t.Fatalf("expected DestinationError, got %s", err)
-			}
+			g.Expect(errors.As(err, &rejected)).To(BeTrue())
 		})
 	}
 }

@@ -13,6 +13,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	. "github.com/onsi/gomega"
 )
 
 type roundTripFunc func(*http.Request) (*http.Response, error)
@@ -21,10 +23,9 @@ func (f roundTripFunc) RoundTrip(r *http.Request) (*http.Response, error) { retu
 
 func TestRedirects_OriginBoundary(t *testing.T) {
 	t.Parallel()
+	g := NewGomegaWithT(t)
 	allowed, err := NewOrigin("https://management.example.invalid")
-	if err != nil {
-		t.Fatal(err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 	for _, c := range []struct {
 		target string
 		ok     bool
@@ -39,6 +40,7 @@ func TestRedirects_OriginBoundary(t *testing.T) {
 	} {
 		t.Run(c.target, func(t *testing.T) {
 			t.Parallel()
+			g := NewGomegaWithT(t)
 			calls := 0
 			base := &http.Client{
 				Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
@@ -59,25 +61,20 @@ func TestRedirects_OriginBoundary(t *testing.T) {
 			}
 			client := NewRedirectGuardedClient(base, allowed)
 			req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://management.example.invalid/start?secret=private", nil)
-			if err != nil {
-				t.Fatal(err)
-			}
+			g.Expect(err).ToNot(HaveOccurred())
 			resp, err := client.Do(req)
 			if resp != nil {
-				_ = resp.Body.Close()
+				g.Expect(resp.Body.Close()).To(Succeed())
 			}
 			if c.ok {
-				if err != nil || calls != 2 {
-					t.Fatalf("valid redirect failed: calls=%d error=%s", calls, err)
-				}
+				g.Expect(err).ToNot(HaveOccurred())
+				g.Expect(calls).To(Equal(2))
 			} else {
 				var rejected *DestinationError
-				if !errors.As(err, &rejected) || calls != 1 {
-					t.Fatalf("redirect not blocked: calls=%d error=%s", calls, err)
-				}
-				if strings.Contains(err.Error(), "private") || strings.Contains(err.Error(), "?") {
-					t.Fatalf("unsafe outer error: %s", err)
-				}
+				g.Expect(errors.As(err, &rejected)).To(BeTrue())
+				g.Expect(calls).To(Equal(1))
+				g.Expect(err).ToNot(MatchError(ContainSubstring("private")))
+				g.Expect(err).ToNot(MatchError(ContainSubstring("?")))
 			}
 		})
 	}
@@ -85,16 +82,13 @@ func TestRedirects_OriginBoundary(t *testing.T) {
 
 func TestRedirects_ClientSettingsAndCallbacks(t *testing.T) {
 	t.Parallel()
+	g := NewGomegaWithT(t)
 	allowed, err := NewOrigin("https://management.example.invalid")
-	if err != nil {
-		t.Fatal(err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 	callbackErr := errors.New("caller rejected redirect")
 	calls := 0
 	jar, err := cookiejar.New(nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 	base := &http.Client{
 		Timeout:   time.Minute,
 		Jar:       jar,
@@ -105,40 +99,32 @@ func TestRedirects_ClientSettingsAndCallbacks(t *testing.T) {
 		},
 	}
 	client := NewRedirectGuardedClient(base, allowed)
-	if client.client == base || client.client.Timeout != base.Timeout || client.client.Transport != base.Transport || client.client.Jar != base.Jar {
-		t.Fatal("client was not copied with settings intact")
-	}
+	g.Expect(client.client).ToNot(BeIdenticalTo(base))
+	g.Expect(client.client.Timeout).To(Equal(base.Timeout))
+	g.Expect(client.client.Transport == base.Transport).To(BeTrue())
+	g.Expect(client.client.Jar == base.Jar).To(BeTrue())
 	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://management.example.invalid/done", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if err := client.client.CheckRedirect(req, nil); !errors.Is(err, callbackErr) || calls != 1 {
-		t.Fatalf("caller callback lost: %s", err)
-	}
-	if err := base.CheckRedirect(req, nil); !errors.Is(err, callbackErr) || calls != 2 {
-		t.Fatal("base client callback was modified")
-	}
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(client.client.CheckRedirect(req, nil)).To(MatchError(callbackErr))
+	g.Expect(calls).To(Equal(1))
+	g.Expect(base.CheckRedirect(req, nil)).To(MatchError(callbackErr))
+	g.Expect(calls).To(Equal(2))
 	base.CheckRedirect = func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }
 	client = NewRedirectGuardedClient(base, allowed)
-	if err := client.client.CheckRedirect(req, nil); !errors.Is(err, http.ErrUseLastResponse) {
-		t.Fatalf("ErrUseLastResponse not preserved: %s", err)
-	}
+	g.Expect(client.client.CheckRedirect(req, nil)).To(MatchError(http.ErrUseLastResponse))
 	base.CheckRedirect = func(r *http.Request, _ []*http.Request) error {
 		r.URL.Host = "other.example.invalid"
 		return nil
 	}
 	client = NewRedirectGuardedClient(base, allowed)
-	if err := client.client.CheckRedirect(req, nil); err == nil {
-		t.Fatal("callback mutation bypassed origin check")
-	}
+	g.Expect(client.client.CheckRedirect(req, nil)).To(HaveOccurred())
 }
 
 func TestRedirects_DefaultLimit(t *testing.T) {
 	t.Parallel()
+	g := NewGomegaWithT(t)
 	allowed, err := NewOrigin("https://management.example.invalid")
-	if err != nil {
-		t.Fatal(err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 	calls := 0
 	base := &http.Client{
 		Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
@@ -152,45 +138,36 @@ func TestRedirects_DefaultLimit(t *testing.T) {
 		}),
 	}
 	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://management.example.invalid/loop", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 	resp, err := NewRedirectGuardedClient(base, allowed).Do(req)
 	if resp != nil {
-		_ = resp.Body.Close()
+		g.Expect(resp.Body.Close()).To(Succeed())
 	}
-	if err == nil || calls != 10 {
-		t.Fatalf("redirect limit changed: calls=%d error=%s", calls, err)
-	}
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(calls).To(Equal(10))
 }
 
 func TestRedirects_NilBase(t *testing.T) {
 	t.Parallel()
+	g := NewGomegaWithT(t)
 	allowed, err := NewOrigin("https://management.example.invalid")
-	if err != nil {
-		t.Fatal(err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 	client := NewRedirectGuardedClient(nil, allowed)
-	if client.client == http.DefaultClient || client.client.Timeout != http.DefaultClient.Timeout ||
-		client.client.Transport != http.DefaultClient.Transport || client.client.Jar != http.DefaultClient.Jar {
-		t.Fatal("default client was not copied with settings intact")
-	}
+	g.Expect(client.client).ToNot(BeIdenticalTo(http.DefaultClient))
+	g.Expect(client.client.Timeout).To(Equal(http.DefaultClient.Timeout))
+	g.Expect(client.client.Transport == http.DefaultClient.Transport).To(BeTrue())
+	g.Expect(client.client.Jar == http.DefaultClient.Jar).To(BeTrue())
 	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://other.example.invalid/done", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 	var rejected *DestinationError
-	if err := client.client.CheckRedirect(req, nil); !errors.As(err, &rejected) {
-		t.Fatalf("default client redirect not guarded: %s", err)
-	}
+	g.Expect(errors.As(client.client.CheckRedirect(req, nil), &rejected)).To(BeTrue())
 }
 
 func TestRedirects_UseLastResponse(t *testing.T) {
 	t.Parallel()
+	g := NewGomegaWithT(t)
 	allowed, err := NewOrigin("https://management.example.invalid")
-	if err != nil {
-		t.Fatal(err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 	calls := 0
 	callbackCalls := 0
 	base := &http.Client{
@@ -209,28 +186,26 @@ func TestRedirects_UseLastResponse(t *testing.T) {
 		},
 	}
 	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://management.example.invalid/start", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 	resp, err := NewRedirectGuardedClient(base, allowed).Do(req)
 	if resp != nil {
 		defer resp.Body.Close()
 	}
-	if err != nil || resp == nil || calls != 1 || callbackCalls != 1 || resp.StatusCode != http.StatusFound {
-		t.Fatalf("last response not preserved: response=%p calls=%d callbackCalls=%d error=%s", resp, calls, callbackCalls, err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(resp).ToNot(BeNil())
+	g.Expect(calls).To(Equal(1))
+	g.Expect(callbackCalls).To(Equal(1))
+	g.Expect(resp.StatusCode).To(Equal(http.StatusFound))
 	body, err := io.ReadAll(resp.Body)
-	if err != nil || string(body) != "last response" {
-		t.Fatalf("last response body not preserved: body=%q error=%s", body, err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(string(body)).To(Equal("last response"))
 }
 
 func TestRedirects_InitialRequestIsNotValidated(t *testing.T) {
 	t.Parallel()
+	g := NewGomegaWithT(t)
 	allowed, err := NewOrigin("https://management.example.invalid")
-	if err != nil {
-		t.Fatal(err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 	calls := 0
 	base := &http.Client{
 		Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
@@ -244,14 +219,13 @@ func TestRedirects_InitialRequestIsNotValidated(t *testing.T) {
 		}),
 	}
 	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://other.example.invalid/start", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 	resp, err := NewRedirectGuardedClient(base, allowed).Do(req)
 	if resp != nil {
 		defer resp.Body.Close()
 	}
-	if err != nil || resp == nil || calls != 1 || resp.StatusCode != http.StatusOK {
-		t.Fatalf("initial request was guarded: response=%p calls=%d error=%s", resp, calls, err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(resp).ToNot(BeNil())
+	g.Expect(calls).To(Equal(1))
+	g.Expect(resp.StatusCode).To(Equal(http.StatusOK))
 }

@@ -43,7 +43,7 @@ func Test_DestinationPoller_RejectsEveryPollingForm(t *testing.T) {
 			g.Expect(errors.As(err, &rejected)).To(BeTrue())
 			g.Expect(cred.calls.Load()).To(BeZero())
 			g.Expect(calls).To(BeZero())
-			g.Expect(err.Error()).ToNot(ContainSubstring("private"))
+			g.Expect(err).ToNot(MatchError(ContainSubstring("private")))
 		})
 	}
 }

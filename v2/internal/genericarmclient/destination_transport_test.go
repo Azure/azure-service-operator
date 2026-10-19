@@ -103,14 +103,14 @@ func Test_DestinationPoller_TransportHostname(t *testing.T) {
 					)
 					if guarded && !c.allowed {
 						var rejected *httpclient.DestinationError
-						g.Expect(errors.As(err, &rejected)).To(BeTrue(), "expected DestinationError, got %s", err)
+						g.Expect(errors.As(err, &rejected)).To(BeTrue())
 						g.Expect(tokenCalls).To(BeZero())
 						g.Expect(sends.Load()).To(BeZero())
 						g.Expect(dials.Load()).To(BeZero())
 						g.Expect(authenticated.Load()).To(BeFalse())
 						return
 					}
-					g.Expect(errors.Is(err, blocked)).To(BeTrue(), "expected blocked dial, got %s", err)
+					g.Expect(err).To(MatchError(blocked))
 					g.Expect(sends.Load()).To(Equal(int32(1)))
 					g.Expect(dials.Load()).To(Equal(int32(1)))
 					g.Expect(address.Load()).To(Equal(c.dialAddress))

@@ -58,7 +58,7 @@ func Test_DestinationFailure_ClearsLROForNormalRecovery(t *testing.T) {
 			conditionError, ok := conditions.AsReadyConditionImpactingError(err)
 			g.Expect(ok).To(BeTrue())
 			g.Expect(conditionError.Severity).To(Equal(conditions.ConditionSeverityWarning))
-			g.Expect(err.Error()).ToNot(ContainSubstring("private"))
+			g.Expect(err).ToNot(MatchError(ContainSubstring("private")))
 			_, _, hasToken := GetPollerResumeToken(obj)
 			g.Expect(hasToken).To(BeFalse())
 			g.Expect(obj.GetAnnotations()).ToNot(HaveKey(reconcilers.PollerResumeTokenAnnotation))

@@ -84,13 +84,12 @@ func boundaryClient(
 
 func boundaryToken(t *testing.T, resultType string, state map[string]any) string {
 	t.Helper()
+	g := NewGomegaWithT(t)
 	b, err := json.Marshal(map[string]any{
 		"type":  resultType,
 		"token": state,
 	})
-	if err != nil {
-		t.Fatal(err)
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 	return string(b)
 }
 
@@ -114,7 +113,7 @@ func Test_DestinationPolicy_RejectsBeforeAuthentication(t *testing.T) {
 	g.Expect(errors.As(err, &rejected)).To(BeTrue())
 	g.Expect(cred.calls.Load()).To(BeZero())
 	g.Expect(calls).To(BeZero())
-	g.Expect(err.Error()).ToNot(ContainSubstring("private"))
+	g.Expect(err).ToNot(MatchError(ContainSubstring("private")))
 }
 
 func Test_DestinationPolicy_InvalidEndpoint(t *testing.T) {
@@ -147,8 +146,8 @@ func Test_DestinationPolicy_RedirectDiagnosticIsSafe(t *testing.T) {
 	var rejected *httpclient.DestinationError
 	g.Expect(errors.As(err, &rejected)).To(BeTrue())
 	g.Expect(calls).To(Equal(1))
-	g.Expect(err.Error()).ToNot(ContainSubstring("private"))
-	g.Expect(err.Error()).ToNot(ContainSubstring("boundary-test-token"))
+	g.Expect(err).ToNot(MatchError(ContainSubstring("private")))
+	g.Expect(err).ToNot(MatchError(ContainSubstring("boundary-test-token")))
 }
 
 func Test_DestinationPolicy_RPRegistrationRedirectIsRejected(t *testing.T) {
@@ -182,6 +181,6 @@ func Test_DestinationPolicy_RPRegistrationRedirectIsRejected(t *testing.T) {
 	}))
 	var rejected *httpclient.DestinationError
 	g.Expect(errors.As(err, &rejected)).To(BeTrue())
-	g.Expect(err.Error()).ToNot(ContainSubstring("private"))
-	g.Expect(err.Error()).ToNot(ContainSubstring("boundary-test-token"))
+	g.Expect(err).ToNot(MatchError(ContainSubstring("private")))
+	g.Expect(err).ToNot(MatchError(ContainSubstring("boundary-test-token")))
 }
