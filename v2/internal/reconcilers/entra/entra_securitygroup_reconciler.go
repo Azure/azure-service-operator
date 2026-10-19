@@ -575,13 +575,24 @@ func (r *EntraSecurityGroupReconciler) loadGroupsByDisplayName(
 		QueryParameters: query,
 	}
 
-	result, err := client.Groups().Get(ctx, options)
-	if err != nil {
-		return nil, eris.Wrapf(err, "failed to search for group with name %s", displayName)
-	}
+	builder := client.Groups()
+	var matches []msgraphmodels.Groupable
+	for {
+		result, err := builder.Get(ctx, options)
+		if err != nil {
+			return nil, eris.Wrapf(err, "failed to search for group with name %s", displayName)
+		}
+		if result == nil {
+			return nil, eris.Errorf("searching groups with name %q returned no response", displayName)
+		}
+		matches = append(matches, result.GetValue()...)
+		next := to.Value(result.GetOdataNextLink())
+		if next == "" {
+			return matches, nil
+		}
 
-	groups := result.GetValue()
-	return groups, nil
+		builder = client.Groups().WithUrl(next)
+	}
 }
 
 func (r *EntraSecurityGroupReconciler) asSecurityGroup(

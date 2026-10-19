@@ -32,7 +32,7 @@ func TestCollectDirectoryObjectIDs_PaginatesAndDedupes(t *testing.T) {
 	}
 
 	ids, err := collectDirectoryObjectIDs(
-		context.Background(),
+		t.Context(),
 		func(context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
 			return pages["first"], nil
 		},
@@ -54,7 +54,7 @@ func TestCollectDirectoryObjectIDs_FirstPageError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	_, err := collectDirectoryObjectIDs(
-		context.Background(),
+		t.Context(),
 		func(context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
 			return nil, errors.New("first page failed")
 		},
@@ -72,7 +72,7 @@ func TestCollectDirectoryObjectIDs_NextPageError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	_, err := collectDirectoryObjectIDs(
-		context.Background(),
+		t.Context(),
 		func(context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
 			return makeDirectoryObjectPage(
 				[]string{"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"},

@@ -174,7 +174,9 @@ func (r *EntraServicePrincipalReconciler) update(
 		)
 	}
 
-	if sp.Spec.DisplayName != nil && r.canCreate(sp) {
+	if sp.Spec.DisplayName != nil &&
+		to.Value(sp.Spec.DisplayName) != to.Value(current.GetDisplayName()) &&
+		r.canCreate(sp) {
 		patch := msgraphmodels.NewServicePrincipal()
 		patch.SetDisplayName(sp.Spec.DisplayName)
 		updated, err := connection.Client().ServicePrincipals().ByServicePrincipalId(id).Patch(ctx, patch, nil)
@@ -281,15 +283,12 @@ func (r *EntraServicePrincipalReconciler) findServicePrincipals(
 			return nil, eris.Errorf("searching service principals by %s %q returned no response", field, value)
 		}
 		matches = append(matches, result.GetValue()...)
-		if len(matches) > 1 {
-			return matches, nil
-		}
 		next := to.Value(result.GetOdataNextLink())
 		if next == "" {
 			return matches, nil
 		}
+
 		builder = graph.ServicePrincipals().WithUrl(next)
-		options = nil
 	}
 }
 

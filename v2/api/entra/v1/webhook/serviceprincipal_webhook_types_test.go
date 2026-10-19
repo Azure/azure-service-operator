@@ -4,7 +4,6 @@
 package webhook
 
 import (
-	"context"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -17,7 +16,7 @@ func TestServicePrincipalWebhookDefaultsCreationMode(t *testing.T) {
 	t.Parallel()
 	g := NewWithT(t)
 	obj := &entra.ServicePrincipal{}
-	err := (&ServicePrincipal_Webhook{}).Default(context.Background(), obj)
+	err := (&ServicePrincipal_Webhook{}).Default(t.Context(), obj)
 	g.Expect(err).NotTo(HaveOccurred())
 	g.Expect(*obj.Spec.OperatorSpec.CreationMode).To(Equal(entra.AdoptOrCreate))
 }
@@ -30,11 +29,11 @@ func TestServicePrincipalWebhookRejectsAppIdChange(t *testing.T) {
 	}
 	newObj := oldObj.DeepCopy()
 	newObj.Spec.AppId = to.Ptr("00000003-0000-0000-c000-000000000000")
-	_, err := (&ServicePrincipal_Webhook{}).ValidateUpdate(context.Background(), oldObj, newObj)
+	_, err := (&ServicePrincipal_Webhook{}).ValidateUpdate(t.Context(), oldObj, newObj)
 	g.Expect(err).To(MatchError("spec.appId cannot be changed after creation"))
 
 	newObj.Spec.AppId = nil
 	newObj.Spec.DisplayName = to.Ptr("renamed")
-	_, err = (&ServicePrincipal_Webhook{}).ValidateUpdate(context.Background(), oldObj, newObj)
+	_, err = (&ServicePrincipal_Webhook{}).ValidateUpdate(t.Context(), oldObj, newObj)
 	g.Expect(err).To(MatchError("spec.appId cannot be changed after creation"))
 }

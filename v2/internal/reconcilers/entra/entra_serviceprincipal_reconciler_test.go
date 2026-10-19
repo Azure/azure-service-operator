@@ -82,6 +82,86 @@ func servicePrincipalTestFactory(adapter *servicePrincipalTestAdapter) EntraConn
 	}
 }
 
+func TestServicePrincipalFindAllPages(t *testing.T) {
+	t.Parallel()
+
+	const displayName = "Azure's Cassandra Service"
+	cases := map[string]struct {
+		pages     [][]string
+		failAfter bool
+	}{
+		"all matches including pages after ambiguity": {
+			pages: [][]string{{"first", "second"}, {}, {"third"}, {"fourth"}},
+		},
+		"no matches": {
+			pages: [][]string{{}},
+		},
+		"later page failure discards partial results": {
+			pages:     [][]string{{"first", "second"}},
+			failAfter: true,
+		},
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewWithT(t)
+			requests := 0
+			var wantIDs []string
+			for _, page := range c.pages {
+				wantIDs = append(wantIDs, page...)
+			}
+			adapter := &servicePrincipalTestAdapter{}
+			adapter.get = func(request *abstractions.RequestInformation) (serialization.Parsable, error) {
+				uri, err := request.GetUri()
+				g.Expect(err).NotTo(HaveOccurred())
+				g.Expect(request.Method).To(Equal(abstractions.GET))
+				g.Expect(uri.Path).To(Equal("/beta/servicePrincipals"))
+				if requests == 0 {
+					g.Expect(uri.Query().Get("$filter")).To(Equal("displayName eq 'Azure''s Cassandra Service'"))
+				} else {
+					g.Expect(uri.String()).To(Equal(fmt.Sprintf("https://graph.microsoft.com/beta/servicePrincipals?$skiptoken=page%d", requests)))
+				}
+				pageIndex := requests
+				requests++
+				if c.failAfter && pageIndex == len(c.pages) {
+					return nil, fmt.Errorf("page unavailable")
+				}
+				g.Expect(pageIndex).To(BeNumerically("<", len(c.pages)))
+				page := msgraphmodels.NewServicePrincipalCollectionResponse()
+				principals := make([]msgraphmodels.ServicePrincipalable, 0, len(c.pages[pageIndex]))
+				for _, id := range c.pages[pageIndex] {
+					principal := msgraphmodels.NewServicePrincipal()
+					principal.SetId(&id)
+					principals = append(principals, principal)
+				}
+				page.SetValue(principals)
+				if requests < len(c.pages) || c.failAfter {
+					page.SetOdataNextLink(new(fmt.Sprintf("https://graph.microsoft.com/beta/servicePrincipals?$skiptoken=page%d", requests)))
+				}
+				return page, nil
+			}
+			graph := msgraphsdk.NewGraphServiceClient(adapter)
+			reconciler := &EntraServicePrincipalReconciler{}
+
+			matches, err := reconciler.findServicePrincipals(t.Context(), "displayName", displayName, graph)
+			if c.failAfter {
+				g.Expect(err).To(MatchError(And(ContainSubstring("page unavailable"), ContainSubstring(displayName))))
+				g.Expect(matches).To(BeNil())
+				g.Expect(requests).To(Equal(len(c.pages) + 1))
+				return
+			}
+			g.Expect(err).NotTo(HaveOccurred())
+			var ids []string
+			for _, principal := range matches {
+				ids = append(ids, *principal.GetId())
+			}
+			g.Expect(ids).To(Equal(wantIDs))
+			g.Expect(requests).To(Equal(len(c.pages)))
+		})
+	}
+}
+
 func TestServicePrincipalTryAdoptByAppId(t *testing.T) {
 	t.Parallel()
 
@@ -140,7 +220,7 @@ func TestServicePrincipalTryAdoptByAppId(t *testing.T) {
 				Spec: asoentra.ServicePrincipalSpec{AppId: new(appID)},
 			}
 
-			id, err := reconciler.tryAdopt(context.Background(), obj, logr.Discard())
+			id, err := reconciler.tryAdopt(t.Context(), obj, logr.Discard())
 			if len(c.expectedErrs) > 0 {
 				for _, expected := range c.expectedErrs {
 					g.Expect(err).To(MatchError(ContainSubstring(expected)))
@@ -252,7 +332,7 @@ func TestServicePrincipalTryAdoptByDisplayName(t *testing.T) {
 				},
 			}
 
-			id, err := reconciler.tryAdopt(context.Background(), obj, logr.Discard())
+			id, err := reconciler.tryAdopt(t.Context(), obj, logr.Discard())
 			g.Expect(filters).To(Equal(c.wantFilters))
 			if c.wantErr != "" {
 				g.Expect(err).To(MatchError(ContainSubstring(c.wantErr)))
@@ -299,9 +379,9 @@ func TestServicePrincipalNameOnlyAdoptsAndUpdatesExisting(t *testing.T) {
 		Spec: asoentra.ServicePrincipalSpec{DisplayName: new(name)},
 	}
 
-	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
+	_, err := reconciler.CreateOrUpdate(t.Context(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 	g.Expect(err).NotTo(HaveOccurred())
-	g.Expect(calls).To(Equal(3))
+	g.Expect(calls).To(Equal(2))
 	g.Expect(patches).To(Equal(1))
 	g.Expect(obj.Status.EntraID).To(Equal(new(objectID)))
 	g.Expect(obj.Status.AppId).To(Equal(new(appID)))
@@ -327,7 +407,7 @@ func TestServicePrincipalNameOnlyMissingDoesNotCreate(t *testing.T) {
 		Spec: asoentra.ServicePrincipalSpec{DisplayName: new("new principal")},
 	}
 
-	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
+	_, err := reconciler.CreateOrUpdate(t.Context(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 	g.Expect(err).To(MatchError(ContainSubstring("cannot create service principal")))
 }
 
@@ -412,7 +492,7 @@ func TestServicePrincipalCreateResolvesTenantObjectID(t *testing.T) {
 		Spec: asoentra.ServicePrincipalSpec{AppId: new(appID)},
 	}
 
-	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
+	_, err := reconciler.CreateOrUpdate(t.Context(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 	g.Expect(err).NotTo(HaveOccurred())
 	g.Expect(calls).To(Equal(2))
 	id, ok := getEntraID(obj)
@@ -470,7 +550,7 @@ func TestServicePrincipalAdoptOrCreateMutatesAndDeletesAdoptedPrincipal(t *testi
 		},
 	}
 
-	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
+	_, err := reconciler.CreateOrUpdate(t.Context(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 	g.Expect(err).NotTo(HaveOccurred())
 	g.Expect(patches).To(Equal(1))
 	id, ok := getEntraID(obj)
@@ -479,7 +559,7 @@ func TestServicePrincipalAdoptOrCreateMutatesAndDeletesAdoptedPrincipal(t *testi
 	g.Expect(obj.Status.EntraID).To(Equal(new(objectID)))
 	g.Expect(obj.Status.AppId).To(Equal(new(appID)))
 
-	_, err = reconciler.Delete(context.Background(), logr.Discard(), nil, obj)
+	_, err = reconciler.Delete(t.Context(), logr.Discard(), nil, obj)
 	g.Expect(err).NotTo(HaveOccurred())
 	g.Expect(deletes).To(Equal(1))
 }
@@ -515,7 +595,7 @@ func TestServicePrincipalMissingAdoptionTargetDoesNotCreate(t *testing.T) {
 				Spec: asoentra.ServicePrincipalSpec{AppId: new(appID), OperatorSpec: c.operatorSpec},
 			}
 
-			_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
+			_, err := reconciler.CreateOrUpdate(t.Context(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 			g.Expect(err).To(HaveOccurred())
 			g.Expect(err.Error()).To(ContainSubstring("not found for adoption"))
 		})
@@ -555,9 +635,9 @@ func TestServicePrincipalAdoptOnlyDoesNotMutateAnnotatedPrincipal(t *testing.T) 
 	}
 	setEntraID(obj, objectID)
 
-	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
+	_, err := reconciler.CreateOrUpdate(t.Context(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 	g.Expect(err).NotTo(HaveOccurred())
-	_, err = reconciler.Delete(context.Background(), logr.Discard(), nil, obj)
+	_, err = reconciler.Delete(t.Context(), logr.Discard(), nil, obj)
 	g.Expect(err).NotTo(HaveOccurred())
 	g.Expect(calls).To(Equal(1))
 }
@@ -582,7 +662,7 @@ func TestServicePrincipalDeleteAdoptedByDefault(t *testing.T) {
 	obj := &asoentra.ServicePrincipal{}
 	setEntraID(obj, objectID)
 
-	_, err := reconciler.Delete(context.Background(), logr.Discard(), nil, obj)
+	_, err := reconciler.Delete(t.Context(), logr.Discard(), nil, obj)
 	g.Expect(err).NotTo(HaveOccurred())
 	g.Expect(deletes).To(Equal(1))
 }
@@ -637,7 +717,7 @@ func TestServicePrincipalDisplayNameIsPatchedWhenSpecified(t *testing.T) {
 				Spec: asoentra.ServicePrincipalSpec{AppId: new(appID), DisplayName: tc.displayName},
 			}
 			setEntraID(obj, objectID)
-			_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
+			_, err := reconciler.CreateOrUpdate(t.Context(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 			g.Expect(err).NotTo(HaveOccurred())
 			g.Expect(patches).To(Equal(tc.expectPatches))
 		})
@@ -666,7 +746,7 @@ func TestServicePrincipalDeleteCreated(t *testing.T) {
 	mode := asoentra.AdoptOrCreate
 	obj.Spec.OperatorSpec = &asoentra.ServicePrincipalOperatorSpec{CreationMode: &mode}
 
-	_, err := reconciler.Delete(context.Background(), logr.Discard(), nil, obj)
+	_, err := reconciler.Delete(t.Context(), logr.Discard(), nil, obj)
 	g.Expect(err).NotTo(HaveOccurred())
 	g.Expect(calls).To(Equal(1))
 }

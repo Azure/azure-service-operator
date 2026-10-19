@@ -58,6 +58,7 @@ type ServicePrincipalSpec struct {
 	// AppId is the global application (client) GUID, not the tenant-specific Entra object ID.
 	// Required to create a new service principal; existing principals can be adopted by displayName.
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+	// +kubebuilder:validation:XValidation:rule="!has(self.operatorSpec) || !has(self.operatorSpec.creationMode) || self.operatorSpec.creationMode != 'AlwaysCreate' || has(self.appId)",message="appId must be specified when creationMode is AlwaysCreate"
 	AppId *string `json:"appId,omitempty"`
 
 	// DisplayName identifies an existing principal for adoption, following Application's

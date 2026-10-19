@@ -4,7 +4,6 @@
 package entra
 
 import (
-	"context"
 	"strings"
 	"testing"
 
@@ -42,7 +41,7 @@ func TestApplicationAdoptOnlyMissingReturnsError(t *testing.T) {
 		},
 	}
 
-	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
+	_, err := reconciler.CreateOrUpdate(t.Context(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 	g.Expect(err).To(gomega.MatchError(gomega.ContainSubstring("application missing-application not found for adoption")))
 }
 
@@ -70,7 +69,7 @@ func TestSecurityGroupAdoptOnlyMissingReturnsError(t *testing.T) {
 		},
 	}
 
-	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
+	_, err := reconciler.CreateOrUpdate(t.Context(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 	g.Expect(err).To(gomega.MatchError(gomega.ContainSubstring("security group missing-group not found for adoption")))
 }
 
@@ -96,9 +95,9 @@ func TestApplicationAdoptOnlyDoesNotModifyOrDelete(t *testing.T) {
 		},
 	}
 	setEntraID(obj, id)
-	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
+	_, err := reconciler.CreateOrUpdate(t.Context(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 	g.Expect(err).NotTo(gomega.HaveOccurred())
-	_, err = reconciler.Delete(context.Background(), logr.Discard(), nil, obj)
+	_, err = reconciler.Delete(t.Context(), logr.Discard(), nil, obj)
 	g.Expect(err).NotTo(gomega.HaveOccurred())
 	g.Expect(calls).To(gomega.Equal(1))
 }
@@ -131,9 +130,9 @@ func TestSecurityGroupAdoptOnlyDoesNotModifyOrDelete(t *testing.T) {
 		},
 	}
 	setEntraID(obj, id)
-	_, err := reconciler.CreateOrUpdate(context.Background(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
+	_, err := reconciler.CreateOrUpdate(t.Context(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 	g.Expect(err).NotTo(gomega.HaveOccurred())
-	_, err = reconciler.Delete(context.Background(), logr.Discard(), nil, obj)
+	_, err = reconciler.Delete(t.Context(), logr.Discard(), nil, obj)
 	g.Expect(err).NotTo(gomega.HaveOccurred())
 	g.Expect(calls).To(gomega.Equal(3))
 }

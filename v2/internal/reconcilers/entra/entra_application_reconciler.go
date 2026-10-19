@@ -438,13 +438,24 @@ func (r *EntraApplicationReconciler) loadApplicationsByDisplayName(
 		QueryParameters: query,
 	}
 
-	result, err := client.Applications().Get(ctx, options)
-	if err != nil {
-		return nil, eris.Wrapf(err, "failed to search for application with name %s", displayName)
-	}
+	builder := client.Applications()
+	var matches []msgraphmodels.Applicationable
+	for {
+		result, err := builder.Get(ctx, options)
+		if err != nil {
+			return nil, eris.Wrapf(err, "failed to search for application with name %s", displayName)
+		}
+		if result == nil {
+			return nil, eris.Errorf("searching applications with name %q returned no response", displayName)
+		}
+		matches = append(matches, result.GetValue()...)
+		next := to.Value(result.GetOdataNextLink())
+		if next == "" {
+			return matches, nil
+		}
 
-	apps := result.GetValue()
-	return apps, nil
+		builder = client.Applications().WithUrl(next)
+	}
 }
 
 func (r *EntraApplicationReconciler) asApplication(
