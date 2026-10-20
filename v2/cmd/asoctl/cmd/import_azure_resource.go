@@ -9,7 +9,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"net/http"
 	"os"
 	"sync"
 	"time"
@@ -26,6 +25,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importresources"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	asocloud "github.com/Azure/azure-service-operator/v2/pkg/common/cloud"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
@@ -288,7 +288,7 @@ func newChainedCredential(
 		creds = append(creds, wiCred)
 	}
 
-	if isIMDSAvailable(ctx) {
+	if identity.IsIMDSAvailable(ctx) {
 		miCred, err := azidentity.NewManagedIdentityCredential(
 			&azidentity.ManagedIdentityCredentialOptions{
 				ClientOptions: azcore.ClientOptions{
@@ -318,31 +318,6 @@ func newChainedCredential(
 	}
 
 	return azidentity.NewChainedTokenCredential(creds, nil)
-}
-
-func isIMDSAvailable(ctx context.Context) bool {
-	probeCtx, cancel := context.WithTimeout(ctx, 1*time.Second)
-	defer cancel()
-
-	req, err := http.NewRequestWithContext(
-		probeCtx,
-		http.MethodGet,
-		"http://169.254.169.254/metadata/identity/oauth2/token",
-		nil,
-	)
-	if err != nil {
-		return false
-	}
-
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		if resp != nil && resp.Body != nil {
-			_ = resp.Body.Close()
-		}
-		return false
-	}
-	defer resp.Body.Close()
-	return true
 }
 
 // configureImportedResources applies additional configuration to imported resources

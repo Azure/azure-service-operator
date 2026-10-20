@@ -12,17 +12,18 @@ There are two key topics surrounding authentication in Azure Service Operator: T
 
 ## Credential type
 
-Azure Service Operator supports five different styles of authentication today.
+Azure Service Operator supports six different styles of authentication today.
 
 1. [Recommended for production] [Azure Workload Identity]( {{< relref "credential-format#managed-identity-via-workload-identity" >}} ) (OIDC + Managed Identity or Service Principal)
 2. [Service Principal using a Client Secret]( {{< relref "credential-format#service-principal-using-a-client-secret" >}} )
 3. [Service Principal using a Client Certificate]( {{< relref "credential-format#service-principal-using-a-client-certificate" >}} )
 4. [Deprecated] [aad-pod-identity authentication (Managed Identity)]( {{< relref "credential-format#deprecated-managed-identity-aad-pod-identity" >}} )
 5. [User Assigned Identity Credentials]( {{< relref "credential-format#user-assigned-identity-credentials" >}} )
+6. [Azure CLI]( {{< relref "credential-format#azure-cli" >}} ) (local process only; requires `--enable-azure-cli-authentication`)
 
 ## Credential scope
 
-Each supported credential type can be specified at one of three supported scopes:
+Most credential types can be specified at one of three supported scopes. Azure CLI is an exception: it applies only to the [global]( {{< relref "credential-scope#global-scope" >}} ) credential when the controller is started with `--enable-azure-cli-authentication` and runs as a local process (`az login`). It cannot be set as a namespace- or resource-scoped secret.
 
 1. [Not recommended] [Global]( {{< relref "credential-scope#global-scope" >}} ) - The credential applies to all resources managed by ASO.
 2. [Namespace]( {{< relref "credential-scope#namespace-scope" >}} ) - The credential applies to all resources managed by ASO in that namespace.
