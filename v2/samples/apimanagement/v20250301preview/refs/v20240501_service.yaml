@@ -1,7 +1,7 @@
 apiVersion: apimanagement.azure.com/v20240501
 kind: Service
 metadata:
-  name: sampleapimservice
+  name: sampleapimbackendtlsservice
   namespace: default
 spec:
   location: eastus
