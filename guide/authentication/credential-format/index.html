@@ -7,7 +7,7 @@
 <meta name="robots" content="index, follow">
 
 <title>Credential Format | Azure Service Operator</title>
-<meta name="description" content="Azure Service Operator supports four different styles of authentication today.
+<meta name="description" content="Azure Service Operator supports six different styles of authentication today.
 Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
 Allowed credential fields These fields are common across all credential scopes.
 AZURE_SUBSCRIPTION_ID AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_CLIENT_CERTIFICATE AZURE_CLIENT_CERTIFICATE_PASSWORD AZURE_ADDITIONAL_TENANTS ENTRA_APP_ID Namespace and resource credential fields These fields can be set only on namespace-scoped and per-resource credentials:
@@ -15,7 +15,7 @@ AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT Note that the global credential scope ha
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/authentication/credential-format/">
 	<meta property="og:site_name" content="Azure Service Operator">
 	<meta property="og:title" content="Credential Format">
-	<meta property="og:description" content="Azure Service Operator supports four different styles of authentication today.
+	<meta property="og:description" content="Azure Service Operator supports six different styles of authentication today.
 Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
 Allowed credential fields These fields are common across all credential scopes.
 AZURE_SUBSCRIPTION_ID AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_CLIENT_CERTIFICATE AZURE_CLIENT_CERTIFICATE_PASSWORD AZURE_ADDITIONAL_TENANTS ENTRA_APP_ID Namespace and resource credential fields These fields can be set only on namespace-scoped and per-resource credentials:
@@ -25,15 +25,15 @@ AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT Note that the global credential scope ha
 		<meta property="article:section" content="guide">
 
 	<meta itemprop="name" content="Credential Format">
-	<meta itemprop="description" content="Azure Service Operator supports four different styles of authentication today.
+	<meta itemprop="description" content="Azure Service Operator supports six different styles of authentication today.
 Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
 Allowed credential fields These fields are common across all credential scopes.
 AZURE_SUBSCRIPTION_ID AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_CLIENT_CERTIFICATE AZURE_CLIENT_CERTIFICATE_PASSWORD AZURE_ADDITIONAL_TENANTS ENTRA_APP_ID Namespace and resource credential fields These fields can be set only on namespace-scoped and per-resource credentials:
 AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT Note that the global credential scope has fields that can be set in addition to the fields documented above.">
-	<meta itemprop="wordCount" content="3295">
+	<meta itemprop="wordCount" content="3501">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Credential Format">
-	<meta name="twitter:description" content="Azure Service Operator supports four different styles of authentication today.
+	<meta name="twitter:description" content="Azure Service Operator supports six different styles of authentication today.
 Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
 Allowed credential fields These fields are common across all credential scopes.
 AZURE_SUBSCRIPTION_ID AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_CLIENT_CERTIFICATE AZURE_CLIENT_CERTIFICATE_PASSWORD AZURE_ADDITIONAL_TENANTS ENTRA_APP_ID Namespace and resource credential fields These fields can be set only on namespace-scoped and per-resource credentials:
@@ -93,7 +93,7 @@ AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT Note that the global credential scope ha
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.bfd53dc1d6bd49941c58bfe33673a4b4.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.b503eacec182810fa8ce074fb784fdc9.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -119,7 +119,7 @@ AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT Note that the global credential scope ha
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.bfd53dc1d6bd49941c58bfe33673a4b4.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.b503eacec182810fa8ce074fb784fdc9.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -321,6 +321,11 @@ AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT Note that the global credential scope ha
         <li><a href="#create-the-secret-4">Create the secret</a></li>
       </ul>
     </li>
+    <li><a href="#azure-cli">Azure CLI</a>
+      <ul>
+        <li><a href="#prerequisites-5">Prerequisites</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -346,7 +351,7 @@ AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT Note that the global credential scope ha
 	<header class="article-meta">
 		
 </header>
-	<p>Azure Service Operator supports four different styles of authentication today.</p>
+	<p>Azure Service Operator supports six different styles of authentication today.</p>
 <p>Each section below dives into one of these authentication options, including examples for how to set it up and
 use it at the different <a href="/azure-service-operator/guide/authentication/credential-scope/">credential scopes</a>.</p>
 <h2 id="allowed-credential-fields">Allowed credential fields</h2>
@@ -1307,6 +1312,26 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
     </div>
 </div>
 
+<h2 id="azure-cli">Azure CLI</h2>
+<p>The global credential chain can use <code>az login</code> when the controller runs as a <strong>local process</strong> and is started with <code>--enable-azure-cli-authentication</code>. This flag is <strong>off by default</strong>, so in-cluster pods do not invoke <code>az</code>. <code>asoctl</code> already uses Azure CLI without this flag.</p>
+<div class="alert alert-warning" role="alert"><div class="h4 alert-heading" role="heading">Warning</div>
+<p>Do not set <code>--enable-azure-cli-authentication</code> on the in-cluster operator pod. The CLI token cache cannot be mounted into a pod, and credentials need refresh. Use workload identity or a service principal in production clusters.</p>
+</div>
+<h3 id="prerequisites-5">Prerequisites</h3>
+<ol>
+<li><a href="https://learn.microsoft.com/cli/azure/install-azure-cli">Azure CLI</a> installed on the host running the controller.</li>
+<li>An <code>az login</code> session for the subscription ASO should use.</li>
+<li>Start the controller with <code>--enable-azure-cli-authentication</code>.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az login
+</span></span><span style="display:flex;"><span>az account set --subscription &lt;subscription-id&gt;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export AZURE_SUBSCRIPTION_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span> <span style="color:#75715e"># Required. The CLI credential passes this to az --subscription.</span>
+</span></span><span style="display:flex;"><span>export AZURE_TENANT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>       <span style="color:#75715e"># Set for the general controller config; not passed to az (az rejects --tenant with --subscription).</span>
+</span></span></code></pre></div><p><code>AZURE_SUBSCRIPTION_ID</code> is required to enable the global credential. The CLI path uses that subscription only; it does not pass <code>--tenant</code> to <code>az</code>.</p>
+<div class="alert alert-warning" role="alert"><div class="h4 alert-heading" role="heading">Warning</div>
+<p>Do not set <code>AZURE_CLIENT_ID</code> or <code>AZURE_CLIENT_SECRET</code> when using only Azure CLI. EnvironmentCredential is tried first and will be preferred.</p>
+</div>
+<p>If IMDS is not present, managed identity is skipped so token acquisition does not hang. Azure CLI is used only when <code>--enable-azure-cli-authentication</code> is set.</p>
 
 	
 </div>
