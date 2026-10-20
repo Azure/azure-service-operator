@@ -136,7 +136,6 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		os.Exit(1)
 	}
 
-	//nolint:contextcheck
 	clients, err := initializeClients(ctx, cfg, mgr, flgs.EnableAzureCLIAuthentication)
 	if err != nil {
 		setupLog.Error(err, "failed to initialize clients")
@@ -314,7 +313,12 @@ func getDefaultAzureCredential(ctx context.Context, cfg config.Values, setupLog 
 	), nil
 }
 
-func getDefaultAzureTokenCredential(ctx context.Context, cfg config.Values, setupLog logr.Logger, enableAzureCLI bool) (azcore.TokenCredential, error) {
+func getDefaultAzureTokenCredential(
+	ctx context.Context,
+	cfg config.Values,
+	setupLog logr.Logger,
+	enableAzureCLI bool,
+) (azcore.TokenCredential, error) {
 	// If subscriptionID is not supplied, then set default credential to not be used/nil
 	if cfg.SubscriptionID == "" {
 		setupLog.Info("No global credential configured, continuing without default global credential.")
@@ -369,7 +373,7 @@ func getDefaultAzureTokenCredential(ctx context.Context, cfg config.Values, setu
 			Cloud: cfg.Cloud(),
 		}
 
-		credential, err := dataplane.NewUserAssignedIdentityCredential(context.Background(), userAssignedCredentialsPath, dataplane.WithClientOpts(options))
+		credential, err := dataplane.NewUserAssignedIdentityCredential(ctx, userAssignedCredentialsPath, dataplane.WithClientOpts(options))
 		if err != nil {
 			return nil, eris.Wrapf(err, "unable to get user assigned identity credential")
 		}
