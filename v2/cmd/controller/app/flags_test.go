@@ -41,9 +41,56 @@ func TestLeaderElectionFlagsValidation(t *testing.T) {
 			args:          []string{"--leader-lease-duration=10s", "--leader-renew-deadline=20s"},
 			expectedError: "leader-lease-duration (10s) must be greater than leader-renew-deadline (20s)",
 		},
-		"retry period at renew deadline": {
-			args:          []string{"--leader-renew-deadline=2s"},
-			expectedError: "leader-renew-deadline (2s) must be greater than leader-retry-period (2s)",
+		"zero lease duration": {
+			args:          []string{"--leader-lease-duration=0s"},
+			expectedError: "leader-lease-duration (0s) must be greater than zero",
+		},
+		"negative lease duration": {
+			args:          []string{"--leader-lease-duration=-1s"},
+			expectedError: "leader-lease-duration (-1s) must be greater than zero",
+		},
+		"zero renew deadline": {
+			args:          []string{"--leader-renew-deadline=0s"},
+			expectedError: "leader-renew-deadline (0s) must be greater than zero",
+		},
+		"negative renew deadline": {
+			args:          []string{"--leader-renew-deadline=-1s"},
+			expectedError: "leader-renew-deadline (-1s) must be greater than zero",
+		},
+		"zero retry period": {
+			args:          []string{"--leader-retry-period=0s"},
+			expectedError: "leader-retry-period (0s) must be greater than zero",
+		},
+		"negative retry period": {
+			args:          []string{"--leader-retry-period=-1s"},
+			expectedError: "leader-retry-period (-1s) must be greater than zero",
+		},
+		"renew deadline at jitter boundary": {
+			args: []string{
+				"--leader-lease-duration=15s",
+				"--leader-renew-deadline=10800ms",
+				"--leader-retry-period=9s",
+			},
+			expectedError: "leader-renew-deadline (10.8s) must be greater than leader-retry-period (9s) multiplied by the jitter factor (1.2)",
+		},
+		"renew deadline just above jitter boundary": {
+			args: []string{
+				"--leader-lease-duration=15s",
+				"--leader-renew-deadline=10801ms",
+				"--leader-retry-period=9s",
+			},
+		},
+		"large retry period does not overflow jitter validation": {
+			args:          []string{"--leader-retry-period=2200000h"},
+			expectedError: "must be greater than leader-retry-period",
+		},
+		"jitter overflow is rejected when retry is below renew deadline": {
+			args: []string{
+				"--leader-lease-duration=2560000h",
+				"--leader-renew-deadline=2500000h",
+				"--leader-retry-period=2200000h",
+			},
+			expectedError: "multiplied by the jitter factor (1.2)",
 		},
 	}
 
@@ -55,7 +102,12 @@ func TestLeaderElectionFlagsValidation(t *testing.T) {
 			flags := InitFlags(flagSet)
 
 			g.Expect(flagSet.Parse(c.args)).To(Succeed())
-			g.Expect(flags.Validate()).To(MatchError(ContainSubstring(c.expectedError)))
+			err := flags.Validate()
+			if c.expectedError == "" {
+				g.Expect(err).To(Succeed())
+			} else {
+				g.Expect(err).To(MatchError(ContainSubstring(c.expectedError)))
+			}
 		})
 	}
 }
