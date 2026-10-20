@@ -37,7 +37,13 @@ To run commands within the development shell, with all tools available on the pa
 
 ## Verification Steps
 
-Before completing your task, you **must** run these checks in the specified order, one at a time. If any step fails, fix the issues and **start again from the beginning of the list.**
+Before completing your task, run the following checks in the specified order, one at a time.
+
+* Choose validation steps according to the changes made.
+* Restart validation when a fix invalidates an earlier result.
+* Skip irrelevant or unexpectedly expensive validation rather than needlessly expanding the task.
+
+When the following sequence applies, run the checks in the specified order, one at a time:
 
 1. **Format Code:**
 
