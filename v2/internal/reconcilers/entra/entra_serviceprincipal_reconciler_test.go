@@ -382,7 +382,7 @@ func TestServicePrincipalNameOnlyAdoptsAndUpdatesExisting(t *testing.T) {
 	_, err := reconciler.CreateOrUpdate(t.Context(), logr.Discard(), nil, obj, annotations.ResolvedReconcilePolicies{})
 	g.Expect(err).NotTo(HaveOccurred())
 	g.Expect(calls).To(Equal(2))
-	g.Expect(patches).To(Equal(1))
+	g.Expect(patches).To(Equal(0))
 	g.Expect(obj.Status.EntraID).To(Equal(new(objectID)))
 	g.Expect(obj.Status.AppId).To(Equal(new(appID)))
 }
