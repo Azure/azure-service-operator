@@ -327,6 +327,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/entra/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/entra-service-principals/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/entra/v1/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/eventgrid/</loc>
