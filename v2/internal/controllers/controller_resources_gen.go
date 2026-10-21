@@ -72,6 +72,9 @@ import (
 	authorization_v20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v20200801preview"
 	authorization_v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v20200801preview/storage"
 	authorization_v20200801pw "github.com/Azure/azure-service-operator/v2/api/authorization/v20200801preview/webhook"
+	authorization_v20201001 "github.com/Azure/azure-service-operator/v2/api/authorization/v20201001"
+	authorization_v20201001s "github.com/Azure/azure-service-operator/v2/api/authorization/v20201001/storage"
+	authorization_v20201001w "github.com/Azure/azure-service-operator/v2/api/authorization/v20201001/webhook"
 	authorization_v20220401 "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401"
 	authorization_v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/storage"
 	authorization_v20220401w "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/webhook"
@@ -1006,6 +1009,25 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20240601s.KeyValue)})
 	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20240601s.Replica)})
 	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20240601s.Snapshot)})
+	result = append(result, &registration.StorageType{
+		Obj: new(authorization_v20201001s.RoleEligibilityScheduleRequest),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.principalIdFromConfig",
+				Func: indexAuthorizationRoleEligibilityScheduleRequestPrincipalIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.principalIdFromConfig",
+					},
+					&authorization_v20201001s.RoleEligibilityScheduleRequestList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{
 		Obj: new(authorization_v20220401s.RoleAssignment),
 		Indexes: []registration.Index{
@@ -4290,6 +4312,12 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &authorization_v20200801pw.RoleAssignment{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(authorization_v20200801ps.RoleAssignment)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(authorization_v20201001.RoleEligibilityScheduleRequest),
+		Defaulter: &authorization_v20201001w.RoleEligibilityScheduleRequest{},
+		Validator: &authorization_v20201001w.RoleEligibilityScheduleRequest{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(authorization_v20201001s.RoleEligibilityScheduleRequest)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(authorization_v20220401.RoleAssignment),
 		Defaulter: &authorization_v20220401w.RoleAssignment{},
@@ -9071,6 +9099,8 @@ func createScheme() *runtime.Scheme {
 	_ = authorization_v1api20220401s.AddToScheme(scheme)
 	_ = authorization_v20200801p.AddToScheme(scheme)
 	_ = authorization_v20200801ps.AddToScheme(scheme)
+	_ = authorization_v20201001.AddToScheme(scheme)
+	_ = authorization_v20201001s.AddToScheme(scheme)
 	_ = authorization_v20220401.AddToScheme(scheme)
 	_ = authorization_v20220401s.AddToScheme(scheme)
 	_ = batch_v1api20210101.AddToScheme(scheme)
@@ -9457,6 +9487,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &appconfiguration_customizations.SnapshotExtension{})
 	result = append(result, &authorization_customizations.RoleAssignmentExtension{})
 	result = append(result, &authorization_customizations.RoleDefinitionExtension{})
+	result = append(result, &authorization_customizations.RoleEligibilityScheduleRequestExtension{})
 	result = append(result, &batch_customizations.BatchAccountExtension{})
 	result = append(result, &cache_customizations.RedisAccessPolicyAssignmentExtension{})
 	result = append(result, &cache_customizations.RedisAccessPolicyExtension{})
@@ -10184,6 +10215,18 @@ func indexAppManagedEnvironmentSharedKey(rawObj client.Object) []string {
 // indexAuthorizationRoleAssignmentPrincipalIdFromConfig an index function for authorization_v20220401s.RoleAssignment .spec.principalIdFromConfig
 func indexAuthorizationRoleAssignmentPrincipalIdFromConfig(rawObj client.Object) []string {
 	obj, ok := rawObj.(*authorization_v20220401s.RoleAssignment)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.PrincipalIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.PrincipalIdFromConfig.Index()
+}
+
+// indexAuthorizationRoleEligibilityScheduleRequestPrincipalIdFromConfig an index function for authorization_v20201001s.RoleEligibilityScheduleRequest .spec.principalIdFromConfig
+func indexAuthorizationRoleEligibilityScheduleRequestPrincipalIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*authorization_v20201001s.RoleEligibilityScheduleRequest)
 	if !ok {
 		return nil
 	}
