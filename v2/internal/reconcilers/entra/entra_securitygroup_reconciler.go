@@ -112,8 +112,7 @@ func (r *EntraSecurityGroupReconciler) CreateOrUpdate(
 		return r.create(ctx, group, log)
 	}
 
-	// Nothing to do
-	return ctrl.Result{}, nil
+	return ctrl.Result{}, eris.Errorf("security group %s not found for adoption", group.Name)
 }
 
 func (r *EntraSecurityGroupReconciler) Delete(
@@ -127,6 +126,9 @@ func (r *EntraSecurityGroupReconciler) Delete(
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "deleting security group %s", obj.GetName())
+	}
+	if !r.canCreate(group) {
+		return ctrl.Result{}, nil
 	}
 
 	// If don't know the Entra ID of the group (captured in an annotation), there's nothing to do.
@@ -205,6 +207,14 @@ func (r *EntraSecurityGroupReconciler) update(
 		return ctrl.Result{
 			Requeue: true,
 		}, nil
+	}
+
+	if !r.canCreate(group) {
+		group.Status.AssignFromGroup(g)
+		if err := r.saveAssociatedKubernetesResources(ctx, group, log); err != nil {
+			return ctrl.Result{}, eris.Wrapf(err, "saving associated Kubernetes resources for group %s", group.Name)
+		}
+		return ctrl.Result{}, nil
 	}
 
 	// Update - PATCH
@@ -565,13 +575,24 @@ func (r *EntraSecurityGroupReconciler) loadGroupsByDisplayName(
 		QueryParameters: query,
 	}
 
-	result, err := client.Groups().Get(ctx, options)
-	if err != nil {
-		return nil, eris.Wrapf(err, "failed to search for group with name %s", displayName)
-	}
+	builder := client.Groups()
+	var matches []msgraphmodels.Groupable
+	for {
+		result, err := builder.Get(ctx, options)
+		if err != nil {
+			return nil, eris.Wrapf(err, "failed to search for group with name %s", displayName)
+		}
+		if result == nil {
+			return nil, eris.Errorf("searching groups with name %q returned no response", displayName)
+		}
+		matches = append(matches, result.GetValue()...)
+		next := to.Value(result.GetOdataNextLink())
+		if next == "" {
+			return matches, nil
+		}
 
-	groups := result.GetValue()
-	return groups, nil
+		builder = client.Groups().WithUrl(next)
+	}
 }
 
 func (r *EntraSecurityGroupReconciler) asSecurityGroup(

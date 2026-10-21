@@ -96,8 +96,7 @@ func (r *EntraApplicationReconciler) CreateOrUpdate(
 		return r.create(ctx, app, log)
 	}
 
-	// Nothing to do
-	return ctrl.Result{}, nil
+	return ctrl.Result{}, eris.Errorf("application %s not found for adoption", app.Name)
 }
 
 func (r *EntraApplicationReconciler) Delete(
@@ -112,6 +111,9 @@ func (r *EntraApplicationReconciler) Delete(
 	app, err := r.asApplication(obj)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "deleting application %s", obj.GetName())
+	}
+	if !r.canCreate(app) {
+		return ctrl.Result{}, nil
 	}
 
 	// If we don't know the Entra ID of the application (captured in an annotation), there's nothing to do.
@@ -185,6 +187,14 @@ func (r *EntraApplicationReconciler) update(
 		return ctrl.Result{
 			Requeue: true,
 		}, nil
+	}
+
+	if !r.canCreate(app) {
+		app.Status.AssignFromApplication(a)
+		if err := r.saveAssociatedKubernetesResources(ctx, app, log); err != nil {
+			return ctrl.Result{}, eris.Wrapf(err, "saving associated Kubernetes resources for application %s", app.Name)
+		}
+		return ctrl.Result{}, nil
 	}
 
 	// Update - PATCH
@@ -428,13 +438,24 @@ func (r *EntraApplicationReconciler) loadApplicationsByDisplayName(
 		QueryParameters: query,
 	}
 
-	result, err := client.Applications().Get(ctx, options)
-	if err != nil {
-		return nil, eris.Wrapf(err, "failed to search for application with name %s", displayName)
-	}
+	builder := client.Applications()
+	var matches []msgraphmodels.Applicationable
+	for {
+		result, err := builder.Get(ctx, options)
+		if err != nil {
+			return nil, eris.Wrapf(err, "failed to search for application with name %s", displayName)
+		}
+		if result == nil {
+			return nil, eris.Errorf("searching applications with name %q returned no response", displayName)
+		}
+		matches = append(matches, result.GetValue()...)
+		next := to.Value(result.GetOdataNextLink())
+		if next == "" {
+			return matches, nil
+		}
 
-	apps := result.GetValue()
-	return apps, nil
+		builder = client.Applications().WithUrl(next)
+	}
 }
 
 func (r *EntraApplicationReconciler) asApplication(

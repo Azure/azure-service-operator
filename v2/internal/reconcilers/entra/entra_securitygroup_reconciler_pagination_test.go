@@ -23,7 +23,7 @@ func TestCollectDirectoryObjectIDs_PaginatesAndDedupes(t *testing.T) {
 	pages := map[string]msgraphmodels.DirectoryObjectCollectionResponseable{
 		"first": makeDirectoryObjectPage(
 			[]string{"AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA", "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"},
-			stringPtr("second"),
+			new("second"),
 		),
 		"second": makeDirectoryObjectPage(
 			[]string{"BBBBBBBB-BBBB-BBBB-BBBB-BBBBBBBBBBBB", "cccccccc-cccc-cccc-cccc-cccccccccccc", ""},
@@ -32,7 +32,7 @@ func TestCollectDirectoryObjectIDs_PaginatesAndDedupes(t *testing.T) {
 	}
 
 	ids, err := collectDirectoryObjectIDs(
-		context.Background(),
+		t.Context(),
 		func(context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
 			return pages["first"], nil
 		},
@@ -54,7 +54,7 @@ func TestCollectDirectoryObjectIDs_FirstPageError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	_, err := collectDirectoryObjectIDs(
-		context.Background(),
+		t.Context(),
 		func(context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
 			return nil, errors.New("first page failed")
 		},
@@ -72,11 +72,11 @@ func TestCollectDirectoryObjectIDs_NextPageError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	_, err := collectDirectoryObjectIDs(
-		context.Background(),
+		t.Context(),
 		func(context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
 			return makeDirectoryObjectPage(
 				[]string{"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"},
-				stringPtr("next"),
+				new("next"),
 			), nil
 		},
 		func(string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
@@ -102,8 +102,4 @@ func makeDirectoryObjectPage(ids []string, nextLink *string) msgraphmodels.Direc
 	response.SetValue(values)
 	response.SetOdataNextLink(nextLink)
 	return response
-}
-
-func stringPtr(value string) *string {
-	return &value
 }
