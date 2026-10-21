@@ -105,6 +105,8 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 
 	// For secrets we need to look across refs and samples:
 	findRefsAndCreateSecrets(tc, resources)
+
+	// Create all the resources
 	tc.CreateResourcesAndWait(resources...)
 
 	tc.DeleteResourceAndWait(rg)

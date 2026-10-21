@@ -125,6 +125,23 @@ func (r *EntraServicePrincipalReconciler) Delete(
 		return ctrl.Result{}, eris.Wrap(err, "creating entra client")
 	}
 
+	// If we're expecting a specific AppId, make sure the principal we have matches it
+	if sp.Spec.AppId != nil {
+		principal, err := connection.Client().ServicePrincipals().ByServicePrincipalId(id).Get(ctx, nil)
+		if err != nil {
+			return ctrl.Result{}, eris.Wrapf(err, "getting service principal %s for AppId check during deletion", id)
+		}
+
+		if principal == nil || principal.GetAppId() == nil || !strings.EqualFold(*principal.GetAppId(), *sp.Spec.AppId) {
+			return ctrl.Result{}, eris.Errorf(
+				"service principal %s has appId %q, expected %q",
+				id,
+				to.Value(principal.GetAppId()),
+				*sp.Spec.AppId,
+			)
+		}
+	}
+
 	err = connection.Client().ServicePrincipals().ByServicePrincipalId(id).Delete(ctx, nil)
 	if err != nil && !isNotFound(err) {
 		return ctrl.Result{}, eris.Wrapf(err, "deleting service principal %s", id)
