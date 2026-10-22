@@ -1,0 +1,32 @@
+groupModelConfiguration:
+  2024-04-01:
+    Linker:
+      $exportAs: Linker
+      $supportedFrom: v2.22.0
+    AzureResource:
+      Id:
+        $referenceType: arm
+    ConfigurationStore:
+      AppConfigurationId:
+        $referenceType: arm
+    SecretStore:
+      KeyVaultId:
+        $referenceType: arm
+    EasyAuthMicrosoftEntraIDAuthInfo:
+      ClientId:
+        $importConfigMapMode: optional
+    ServicePrincipalCertificateAuthInfo:
+      ClientId:
+        $importConfigMapMode: optional
+      PrincipalId:
+        $importConfigMapMode: optional
+    ServicePrincipalSecretAuthInfo:
+      ClientId:
+        $importConfigMapMode: optional
+      PrincipalId:
+        $importConfigMapMode: optional
+    UserAssignedIdentityAuthInfo:
+      ClientId:
+        $importConfigMapMode: optional
+      SubscriptionId:
+        $importConfigMapMode: optional
