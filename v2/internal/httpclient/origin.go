@@ -87,8 +87,13 @@ func originOf(u *url.URL) (Origin, bool) {
 		return Origin{}, false
 	}
 
-	if strings.Contains(host, ":") && net.ParseIP(host) == nil {
-		return Origin{}, false
+	// If host is an IPv6 literal, use the normalized form from net.ParseIP.
+	if strings.Contains(host, ":") {
+		if ip := net.ParseIP(host); ip == nil {
+			return Origin{}, false
+		} else {
+			host = ip.String()
+		}
 	}
 
 	// Match net/http's IDNA lookup conversion and ASCII fast path, without

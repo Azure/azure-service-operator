@@ -145,21 +145,30 @@ func TestOrigin_CustomPortsAndIPv6(t *testing.T) {
 	t.Parallel()
 	cases := map[string]struct {
 		endpoint string
+		request  string
 	}{
 		"localhost": {
 			endpoint: "https://localhost:8443/base",
+			request:  "https://localhost:8443/base/operations/1",
 		},
 		"IPv6": {
 			endpoint: "https://[::1]:8443/base",
+			request:  "https://[::1]:8443/base/operations/1",
+		},
+		"IPv6 with different representations": {
+			endpoint: "https://[2001:db8::1]/base",
+			request:  "https://[2001:0db8:0:0:0:0:0:1]/base/operations/1",
 		},
 	}
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
+
 			allowed, err := NewOrigin(c.endpoint)
 			g.Expect(err).ToNot(HaveOccurred())
-			u, err := url.Parse(c.endpoint + "/operations/1")
+
+			u, err := url.Parse(c.request)
 			g.Expect(err).ToNot(HaveOccurred())
 			g.Expect(allowed.Validate(u)).To(Succeed())
 		})
