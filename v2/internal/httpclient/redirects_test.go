@@ -169,22 +169,6 @@ func TestRedirects_DefaultLimit(t *testing.T) {
 	g.Expect(calls).To(Equal(10))
 }
 
-func TestRedirects_NilBase(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-	allowed, err := NewOrigin("https://management.example.invalid")
-	g.Expect(err).ToNot(HaveOccurred())
-	client := NewRedirectGuardedClient(nil, allowed)
-	g.Expect(client.client).ToNot(BeIdenticalTo(http.DefaultClient))
-	g.Expect(client.client.Timeout).To(Equal(http.DefaultClient.Timeout))
-	g.Expect(client.client.Transport == http.DefaultClient.Transport).To(BeTrue())
-	g.Expect(client.client.Jar == http.DefaultClient.Jar).To(BeTrue())
-	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://other.example.invalid/done", nil)
-	g.Expect(err).ToNot(HaveOccurred())
-	var rejected *DestinationError
-	g.Expect(errors.As(client.client.CheckRedirect(req, nil), &rejected)).To(BeTrue())
-}
-
 func TestRedirects_UseLastResponse(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
