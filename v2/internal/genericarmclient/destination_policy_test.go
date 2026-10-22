@@ -128,11 +128,7 @@ func Test_DestinationPolicy_InvalidEndpoint(t *testing.T) {
 		},
 	}
 	_, err := genericarmclient.NewGenericClient(cfg, &boundaryCredential{}, nil)
-	g.Expect(err).To(HaveOccurred())
-
-	var de *httpclient.DestinationError
-	g.Expect(errors.As(err, &de)).To(BeTrue())
-	g.Expect(de).To(BeAssignableToTypeOf(&httpclient.DestinationError{}))
+	g.Expect(err).To(MatchError(ContainSubstring("invalid Resource Manager endpoint")))
 }
 
 func Test_DestinationPolicy_RedirectDiagnosticIsSafe(t *testing.T) {
