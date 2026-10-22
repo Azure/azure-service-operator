@@ -7,6 +7,7 @@ package customizations
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -19,6 +20,7 @@ import (
 
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20231101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/httpclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -128,19 +130,25 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 			parameters.SyncType = to.Ptr(armdataprotection.SyncTypeDefault)
 
 			// get the resume token from the resource
-			pollerResumeToken, _ := GetPollerResumeToken(obj, log)
+			pollerResumeToken, hasResumeToken := GetPollerResumeToken(obj, log)
 
 			// BeginSyncBackupInstance is in-progress - poller resume token is available
 			log.V(Debug).Info("Starting BeginSyncBackupInstance")
 
-			poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, &armdataprotection.BackupInstancesClientBeginSyncBackupInstanceOptions{
+			opts := &armdataprotection.BackupInstancesClientBeginSyncBackupInstanceOptions{
 				ResumeToken: pollerResumeToken,
-			})
+			}
+			poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, opts)
 			if err != nil {
+				// If we had a problem with the poller redirecting to a different destination, clear the resume token
+				if _, ok := errors.AsType[*httpclient.DestinationError](err); ok {
+					ClearPollerResumeToken(obj, log)
+				}
+
 				return extensions.PostReconcileCheckResultFailure("Failed Polling for BeginSyncBackupInstance to get the result"), err
 			}
 
-			if pollerResumeToken == "" {
+			if !hasResumeToken || pollerResumeToken == "" {
 				resumeToken, resumeTokenErr := poller.ResumeToken()
 				if resumeTokenErr != nil {
 					return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), resumeTokenErr
@@ -151,6 +159,11 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 
 			_, pollErr := poller.Poll(ctx)
 			if pollErr != nil {
+				// If we had a problem with the poller redirecting to a different destination, clear the resume token
+				if _, ok := errors.AsType[*httpclient.DestinationError](pollErr); ok {
+					ClearPollerResumeToken(obj, log)
+				}
+
 				return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), pollErr
 			}
 

@@ -4,16 +4,15 @@ linktitle: Configuring ASO
 weight: 1 # This is the default weight if you just want to be ordered alphabetically
 ---
 
-Configuration of ASO is done primarily through a secret in the `azureserviceoperator-system` 
+Configuration of ASO is done primarily through a secret in the `azureserviceoperator-system`
 namespace called `aso-controller-settings`. This secret contains both details about the (optional) global credential
-as well as other operator pod options. 
+as well as other operator pod options.
 
 The supported options are:
 
-
 ### AZURE_SUBSCRIPTION_ID
 
-Azure subscription the operator will use for ARM communication if 
+Azure subscription the operator will use for ARM communication if
 no [more specific]( {{< relref "authentication/credential-scope" >}} )
 credential is specified at the per-resource or per-namespace scope.
 
@@ -79,7 +78,7 @@ credential is specified at the per-resource or per-namespace scope.
 
 ### AZURE_CLIENT_CERTIFICATE
 
-AzureClientCertificate is a PEM or PKCS12 certificate string including the private key for 
+AzureClientCertificate is a PEM or PKCS12 certificate string including the private key for
 Azure Credential Authentication.
 If the certificate is password protected,  use `AZURE_CLIENT_CERTIFICATE_PASSWORD` for the password.
 
@@ -131,7 +130,7 @@ AZURE_OPERATOR_MODE determines whether the operator should run _watchers_, _webh
 
 ### AZURE_TARGET_NAMESPACES
 
-AZURE_TARGET_NAMESPACES lists the namespaces the operator will watch for Azure resources (if the mode includes running watchers). 
+AZURE_TARGET_NAMESPACES lists the namespaces the operator will watch for Azure resources (if the mode includes running watchers).
 If it's empty the operator will watch all namespaces.
 
 Spaces after `,`'s and at the start and end of the string are ignored.
@@ -162,7 +161,7 @@ AZURE_WORKLOAD_IDENTITY_AUTH_MODE controls how namespace-scoped and per-resource
 their client assertion.
 
 * `relaxed`: ASO uses a single Federated Identity Credential (FIC) for all authentication to Azure, via the ASO controller service account. This is simple to set up but is less secure.
-  See https://github.com/Azure/azure-service-operator/issues/4810 for more details about why this is less secure.
+  See <https://github.com/Azure/azure-service-operator/issues/4810> for more details about why this is less secure.
 * `strict`: ASO uses separate Federated Identity Credentials (FICs) via separate service accounts for each authentication to Azure. This is more secure but requires more setup.
   The secret may select the ServiceAccount with `AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT`; when omitted, ASO uses `aso-workload`.
 
@@ -196,8 +195,8 @@ mode.
 
 ### AZURE_AUTHORITY_HOST
 
-AZURE_AUTHORITY_HOST is the URL of the AAD authority. If not specified, the default is the AAD URL for the public cloud: `https://login.microsoftonline.com/`. 
-See https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud
+AZURE_AUTHORITY_HOST is the URL of the AAD authority. If not specified, the default is the AAD URL for the public cloud: `https://login.microsoftonline.com/`.
+See <https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud>
 
 **Format:** `string`
 
@@ -210,8 +209,14 @@ See https://docs.microsoft.com/azure/active-directory/develop/authentication-nat
 ### AZURE_RESOURCE_MANAGER_ENDPOINT
 
 AZURE_RESOURCE_MANAGER_ENDPOINT is the Azure Resource Manager endpoint. If not specified, the default is the Public cloud resource manager endpoint.
-See https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds for details about how to find available resource manager endpoints for your cloud. 
+See <https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds> for details about how to find available resource manager endpoints for your cloud.
 Note that the resource manager endpoint is referred to as "resourceManager" in the Azure CLI.
+
+The endpoint must use HTTPS. ASO restricts ARM requests and redirects to this
+endpoint's origin: its hostname and effective port. An omitted port is equivalent
+to port 443. Polling and result URLs can use different paths on that origin.
+Requests to another origin are rejected and reported through normal
+reconciliation error handling.
 
 **Format:** `string`
 
@@ -224,7 +229,7 @@ Note that the resource manager endpoint is referred to as "resourceManager" in t
 ### AZURE_RESOURCE_MANAGER_AUDIENCE
 
 AZURE_RESOURCE_MANAGER_AUDIENCE is the Azure Resource Manager AAD audience. If not specified, the default is the Public cloud resource manager audience `https://management.core.windows.net/`.
-See https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds for details about how to find available resource manager audiences for your cloud. 
+See <https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds> for details about how to find available resource manager audiences for your cloud.
 Note that the resource manager audience is referred to as "activeDirectoryResourceId" in the Azure CLI.
 
 **Format:** `string`
@@ -273,7 +278,6 @@ Example: `00000000-0000-0000-0000-000000000000`
 
 Required: True if using Entra resources, otherwise False
 
-
 ### MAX_CONCURRENT_RECONCILES
 
 MAX_CONCURRENT_RECONCILES is the number of threads/goroutines dedicated to reconciling each resource type.
@@ -301,18 +305,18 @@ MAX_CONCURRENT_RECONCILES applies to every registered resource type being watche
 
 RateLimitMode configures the internal rate-limiting mode.
 
- * **disabled** (default): No ASO-controlled rate-limiting occurs. ASO will attempt to communicate with Azure and
+* **disabled** (default): No ASO-controlled rate-limiting occurs. ASO will attempt to communicate with Azure and
    kube-apiserver as much as needed based on load. It will back off based on throttling from
    either kube-apiserver or Azure, but will not artificially limit its throughput.
- * **bucket**: Uses a token-bucket algorithm to rate-limit reconciliations. Note that this limits how often
+* **bucket**: Uses a token-bucket algorithm to rate-limit reconciliations. Note that this limits how often
    the operator performs a reconciliation, but not every reconciliation triggers a call to kube-apiserver
    or Azure (though many do). Since this controls reconciles it can be used to coarsely control throughput
    and CPU usage of the operator, as well as the number of requests that the operator issues to Azure.
    Keep in mind that the Azure throttling limits (defined at
-   https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling)
+   <https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling>)
    differentiate between request types. Since a given reconcile for a resource may result in polling (a GET) or
    modification (a PUT) it's not possible to entirely avoid Azure throttling by tuning these bucket limits.
-   
+
    We don't recommend enabling this mode by default.
 
    If enabling this mode, we strongly recommend doing some experimentation to tune these values to something to
@@ -328,7 +332,7 @@ RateLimitMode configures the internal rate-limiting mode.
 
 ### RATE_LIMIT_QPS
 
-RATE_LIMIT_QPS is the rate (per second) that the bucket is refilled. 
+RATE_LIMIT_QPS is the rate (per second) that the bucket is refilled.
 This value only has an effect if RATE_LIMIT_MODE is 'bucket'.
 
 **Format:** `float`

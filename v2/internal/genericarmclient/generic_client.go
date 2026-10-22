@@ -19,6 +19,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"github.com/rotisserie/eris"
 
+	"github.com/Azure/azure-service-operator/v2/internal/httpclient"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 )
@@ -34,11 +35,12 @@ const (
 // which was then moved to here: https://github.com/Azure/azure-sdk-for-go/blob/main/sdk/resourcemanager/resources/armresources/client.go
 
 type GenericClient struct {
-	endpoint  string
-	pl        runtime.Pipeline
-	creds     azcore.TokenCredential
-	opts      *arm.ClientOptions
-	userAgent string
+	endpoint   string
+	pl         runtime.Pipeline
+	creds      azcore.TokenCredential
+	opts       *arm.ClientOptions
+	userAgent  string
+	httpClient *http.Client
 }
 
 // TODO: Need to do retryAfter detection in each call?
@@ -64,6 +66,11 @@ func NewGenericClient(
 		return nil, eris.New("provided cloud missing resourceManager.Endpoint entry")
 	}
 
+	allowed, err := httpclient.NewOrigin(rmConfig.Endpoint)
+	if err != nil {
+		return nil, eris.Wrap(err, "invalid Resource Manager endpoint")
+	}
+
 	if options == nil {
 		options = &GenericClientOptions{}
 	}
@@ -80,6 +87,7 @@ func NewGenericClient(
 				MaxRetries: -1, // Have to use a value less than 0 means no retries (0 does NOT, 0 gets you 3...)
 			},
 			PerCallPolicies: []policy.Policy{
+				newDestinationPolicy(allowed),
 				NewUserAgentPolicy(ua),
 			},
 		},
@@ -92,11 +100,11 @@ func NewGenericClient(
 	// We assign this HTTPClient like this because if we actually set it to nil, due to the way
 	// go interfaces wrap values, the subsequent if httpClient == nil check returns false (even though
 	// the value IN the interface IS nil).
-	if options.HTTPClient != nil {
-		opts.Transport = options.HTTPClient
-	} else {
-		opts.Transport = defaultHTTPClient
+	httpClient := options.HTTPClient
+	if httpClient == nil {
+		httpClient = defaultHTTPClient
 	}
+	opts.Transport = httpclient.NewRedirectGuardedClient(httpClient, allowed)
 
 	rpRegistrationPolicy, err := NewRPRegistrationPolicy(
 		creds,
@@ -116,11 +124,12 @@ func NewGenericClient(
 	}
 
 	return &GenericClient{
-		endpoint:  rmConfig.Endpoint,
-		pl:        pipeline,
-		creds:     creds,
-		opts:      opts,
-		userAgent: ua,
+		endpoint:   rmConfig.Endpoint,
+		pl:         pipeline,
+		creds:      creds,
+		opts:       opts,
+		userAgent:  ua,
+		httpClient: httpClient,
 	}, nil
 }
 
@@ -136,21 +145,19 @@ func (client *GenericClient) ClientOptions() *arm.ClientOptions {
 	return client.opts
 }
 
-// DataPlaneClientOptions returns options for an Azure data-plane SDK client (Key Vault, storage,
-// and so on) that should behave like this client: the same transport (so recorded tests capture the
-// data-plane traffic too), cloud configuration, retry, logging and telemetry settings, and the same
-// user agent, so that the requests are attributable to ASO. The ARM-specific per-call policies are
-// left out: resource provider registration only makes sense against ARM, and the metrics policy logs
-// an error for every URL that isn't an ARM resource ID. The transport is shared with this client and
-// must not be modified by the caller. Logging settings are shared as well: enabling request or
-// response body logging on the ARM client would also log data-plane traffic.
+// DataPlaneClientOptions returns options for an Azure data-plane SDK client (e.g.
+// for Key Vault, storage, etc).
+// Cloud, retry, logging, telemetry, and user-agent settings match the ARM client.
+// The original HTTP client and its connection pool are shared without ARM-specific
+// policies or redirect restrictions. The transport must not be modified by callers.
+// Logging settings remain shared, including request and response body logging.
 func (client *GenericClient) DataPlaneClientOptions() policy.ClientOptions {
 	return policy.ClientOptions{
 		Cloud:     client.opts.Cloud,
 		Logging:   client.opts.Logging,
 		Retry:     client.opts.Retry,
 		Telemetry: client.opts.Telemetry,
-		Transport: client.opts.Transport,
+		Transport: client.httpClient,
 		PerCallPolicies: []policy.Policy{
 			NewUserAgentPolicy(client.userAgent),
 		},
@@ -649,13 +656,22 @@ func IsNotFoundError(err error) bool {
 }
 
 func (client *GenericClient) ResumeDeletePoller(id string) *PollerResponse[GenericDeleteResponse] {
-	return &PollerResponse[GenericDeleteResponse]{ID: id, ErrorHandler: client.handleError}
+	return &PollerResponse[GenericDeleteResponse]{
+		ID:           id,
+		ErrorHandler: client.handleError,
+	}
 }
 
 func (client *GenericClient) ResumeCreatePoller(id string) *PollerResponse[GenericResource] {
-	return &PollerResponse[GenericResource]{ID: id, ErrorHandler: client.handleError}
+	return &PollerResponse[GenericResource]{
+		ID:           id,
+		ErrorHandler: client.handleError,
+	}
 }
 
 func (client *GenericClient) ResumeActionPoller(id string) *PollerResponse[GenericActionResponse] {
-	return &PollerResponse[GenericActionResponse]{ID: id, ErrorHandler: client.handleError}
+	return &PollerResponse[GenericActionResponse]{
+		ID:           id,
+		ErrorHandler: client.handleError,
+	}
 }
