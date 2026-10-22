@@ -13,6 +13,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
+	"github.com/rotisserie/eris"
 	"golang.org/x/net/idna"
 )
 
@@ -40,18 +41,14 @@ type Origin struct {
 func NewOrigin(endpoint string) (Origin, error) {
 	u, err := url.Parse(endpoint)
 	if err != nil {
-		return Origin{}, &DestinationError{
-			Allowed:     "a valid HTTPS origin",
-			Destination: "<invalid HTTPS origin>",
-		}
+		return Origin{}, eris.Wrapf(err, "creating origin for %s", endpoint)
 	}
+
 	origin, ok := originOf(u)
 	if !ok {
-		return Origin{}, &DestinationError{
-			Allowed:     "a valid HTTPS origin",
-			Destination: "<invalid HTTPS origin>",
-		}
+		return Origin{}, eris.Errorf("determining origin for %s failed", endpoint)
 	}
+
 	return origin, nil
 }
 
@@ -59,7 +56,7 @@ func (o Origin) String() string {
 	return "https://" + net.JoinHostPort(o.host, o.port)
 }
 
-// Validate checks a destination without comparing its path or query.
+// Validate checks a destination URL against an origin host+port without comparing its path or query.
 func (o Origin) Validate(destination *url.URL) error {
 	candidate, ok := originOf(destination)
 	if ok && o.host != "" && candidate == o {
@@ -79,17 +76,21 @@ func originOf(u *url.URL) (Origin, bool) {
 	if u == nil || !strings.EqualFold(u.Scheme, "https") || u.Opaque != "" || u.User != nil || u.Host == "" {
 		return Origin{}, false
 	}
+
 	authority, err := url.Parse("https://" + u.Host)
 	if err != nil || authority.Host != u.Host || authority.User != nil {
 		return Origin{}, false
 	}
+
 	host := authority.Hostname()
 	if host == "" || strings.ContainsAny(host, "%\\/?#@ \t\r\n") {
 		return Origin{}, false
 	}
+
 	if strings.Contains(host, ":") && net.ParseIP(host) == nil {
 		return Origin{}, false
 	}
+
 	// Match net/http's IDNA lookup conversion and ASCII fast path, without
 	// folding Unicode characters into a different transport destination.
 	if strings.ContainsFunc(host, func(r rune) bool { return r >= utf8.RuneSelf }) {
@@ -98,6 +99,7 @@ func originOf(u *url.URL) (Origin, bool) {
 			return Origin{}, false
 		}
 	}
+
 	port := authority.Port()
 	if port == "" {
 		if strings.HasSuffix(authority.Host, ":") {
@@ -105,10 +107,12 @@ func originOf(u *url.URL) (Origin, bool) {
 		}
 		port = "443"
 	}
+
 	n, err := strconv.Atoi(port)
 	if err != nil || n < 1 || n > 65535 {
 		return Origin{}, false
 	}
+
 	return Origin{
 		host: strings.ToLower(host),
 		port: strconv.Itoa(n),

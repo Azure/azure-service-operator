@@ -288,8 +288,7 @@ func TestOrigin_EmptyIDNAHostname(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 			_, err := NewOrigin("https://" + c.authority)
-			var rejected *DestinationError
-			g.Expect(errors.As(err, &rejected)).To(BeTrue())
+			g.Expect(err).To(MatchError(ContainSubstring(c.authority)))
 		})
 	}
 }

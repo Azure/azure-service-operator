@@ -97,6 +97,9 @@ func NewGenericClient(
 		DisableRPRegistration: true,
 	}
 
+	// We assign this HTTPClient like this because if we actually set it to nil, due to the way
+	// go interfaces wrap values, the subsequent if httpClient == nil check returns false (even though
+	// the value IN the interface IS nil).
 	httpClient := options.HTTPClient
 	if httpClient == nil {
 		httpClient = defaultHTTPClient
@@ -142,7 +145,8 @@ func (client *GenericClient) ClientOptions() *arm.ClientOptions {
 	return client.opts
 }
 
-// DataPlaneClientOptions returns options for an Azure data-plane SDK client.
+// DataPlaneClientOptions returns options for an Azure data-plane SDK client (e.g.
+// for Key Vault, storage, etc).
 // Cloud, retry, logging, telemetry, and user-agent settings match the ARM client.
 // The original HTTP client and its connection pool are shared without ARM-specific
 // policies or redirect restrictions. The transport must not be modified by callers.

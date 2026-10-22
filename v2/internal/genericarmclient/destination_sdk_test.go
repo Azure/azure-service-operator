@@ -41,10 +41,11 @@ func Test_DestinationSDK_BackupInstanceResume(t *testing.T) {
 		},
 	)
 	g.Expect(err).ToNot(HaveOccurred())
-	resp, err := poller.Poll(context.Background())
+	resp, err := poller.Poll(t.Context())
 	if resp != nil {
 		g.Expect(resp.Body.Close()).To(Succeed())
 	}
+
 	var rejected *httpclient.DestinationError
 	g.Expect(errors.As(err, &rejected)).To(BeTrue())
 	g.Expect(calls).To(BeZero())

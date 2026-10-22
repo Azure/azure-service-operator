@@ -19,7 +19,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/httpclient"
 )
 
-func Test_DestinationPoller_TransportHostname(t *testing.T) {
+func Test_DestinationPoller_MatchesGoTransportHostnameNormalization(t *testing.T) {
 	t.Parallel()
 	cases := map[string]struct {
 		endpoint    string
@@ -86,6 +86,7 @@ func Test_DestinationPoller_TransportHostname(t *testing.T) {
 			guarded: true,
 		},
 	}
+
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
