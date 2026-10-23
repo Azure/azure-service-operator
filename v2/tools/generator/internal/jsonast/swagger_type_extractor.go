@@ -305,6 +305,11 @@ func (extractor *SwaggerTypeExtractor) ExtractOneOfTypes(
 			continue
 		}
 
+		typeName := astmodel.MakeInternalTypeName(extractor.outputPackage, name)
+		if action, _ := scanner.configuration.ShouldPrune(typeName); action == config.Prune {
+			continue
+		}
+
 		// Create a wrapper type for this definition
 		schema := MakeOpenAPISchema(
 			name,
@@ -325,13 +330,6 @@ func (extractor *SwaggerTypeExtractor) ExtractOneOfTypes(
 
 		if t == nil {
 			// No type created
-			continue
-		}
-
-		typeName := astmodel.MakeInternalTypeName(extractor.outputPackage, name)
-
-		if action, _ := scanner.configuration.ShouldPrune(typeName); action == config.Prune {
-			// Pruned type
 			continue
 		}
 
@@ -967,6 +965,7 @@ var (
 	extensionScopePrefixes  = []string{
 		"/{scope}/",
 		"/{resourceUri}/",
+		"/{resourceId}/",
 	}
 )
 

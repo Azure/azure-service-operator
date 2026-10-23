@@ -7,6 +7,7 @@ package jsonast
 
 import (
 	"context"
+	"errors"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -407,6 +408,10 @@ func TestCategorizeResourceScope(t *testing.T) {
 			path:     "/{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}",
 			expected: astmodel.ResourceScopeExtension,
 		},
+		"defender for storage setting": {
+			path:     "/{resourceId}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}",
+			expected: astmodel.ResourceScopeExtension,
+		},
 	}
 
 	for name, c := range cases {
@@ -417,6 +422,51 @@ func TestCategorizeResourceScope(t *testing.T) {
 
 			scope := categorizeResourceScope(c.path)
 			g.Expect(scope).To(Equal(c.expected))
+		})
+	}
+}
+
+func TestExtractOneOfTypes_SkipsPrunedDefinitions(t *testing.T) {
+	t.Parallel()
+
+	for name, prune := range map[string]bool{"included": false, "pruned": true} {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			cfg := config.NewConfiguration()
+			if prune {
+				cfg.TypeFilters = []*config.TypeFilter{{Action: config.TypeFilterPrune}}
+			}
+			idFactory := astmodel.NewIdentifierFactory()
+			scanner := NewSchemaScanner(idFactory, cfg, logr.Discard())
+			scanner.AddTypeHandler(OneOf, func(context.Context, *SchemaScanner, Schema, logr.Logger) (astmodel.Type, error) {
+				return nil, errors.New("cannot parse this definition")
+			})
+			extractor := NewSwaggerTypeExtractor(
+				cfg,
+				idFactory,
+				spec.Swagger{SwaggerProps: spec.SwaggerProps{
+					Definitions: spec.Definitions{
+						"InvalidOneOf": {
+							SchemaProps:        spec.SchemaProps{Type: spec.StringOrArray{"object"}},
+							SwaggerSchemaProps: spec.SwaggerSchemaProps{Discriminator: "kind"},
+						},
+					},
+				}},
+				"security.json",
+				astmodel.MakeVersionedLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", "security", "2022-01-01"),
+				NewCachingFileLoader(nil),
+				logr.Discard(),
+			)
+			result := SwaggerTypes{OtherDefinitions: make(astmodel.TypeDefinitionSet)}
+			err := extractor.ExtractOneOfTypes(context.Background(), scanner, result)
+			if prune {
+				g.Expect(err).ToNot(HaveOccurred())
+				g.Expect(scanner.Definitions()).To(BeEmpty())
+			} else {
+				g.Expect(err).To(HaveOccurred())
+			}
+			g.Expect(result.OtherDefinitions).To(BeEmpty())
 		})
 	}
 }

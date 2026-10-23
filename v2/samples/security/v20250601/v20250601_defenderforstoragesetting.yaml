@@ -1,0 +1,22 @@
+apiVersion: security.azure.com/v20250601
+kind: DefenderForStorageSetting
+metadata:
+  name: sampledefenderforstorage
+  namespace: default
+  annotations:
+    # Azure does not support deleting these settings; detaching leaves them in place.
+    serviceoperator.azure.com/reconcile-policy: detach-on-delete
+spec:
+  owner:
+    group: storage.azure.com
+    kind: StorageAccount
+    name: samplestoragedefender
+  properties:
+    isEnabled: true
+    overrideSubscriptionLevelSettings: true
+    malwareScanning:
+      onUpload:
+        isEnabled: true
+        capGBPerMonth: 10000
+    sensitiveDataDiscovery:
+      isEnabled: true
