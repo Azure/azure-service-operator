@@ -175,4 +175,8 @@ require (
 	sigs.k8s.io/structured-merge-diff/v6 v6.4.2 // indirect
 )
 
-require go.opentelemetry.io/otel/log v1.47.0 // indirect
+require (
+	github.com/go-openapi/testify/enable/yaml/v2 v2.7.0 // indirect
+	go.opentelemetry.io/otel/log v1.47.0 // indirect
+	golang.org/x/mod v0.42.0 // indirect
+)
