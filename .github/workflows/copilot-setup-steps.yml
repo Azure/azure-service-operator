@@ -31,5 +31,8 @@ jobs:
       - name: Install Dependencies
         run: sudo .devcontainer/install-dependencies.sh --skip-installed
 
+      - name: Make installed tools writable by the runner
+        run: sudo chown -R "$(id -u):$(id -g)" hack/tools
+
       - name: Set custom PATH
         run: echo "PATH=$PATH:$(realpath ./hack/tools)" >> $GITHUB_ENV
