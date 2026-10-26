@@ -24,7 +24,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
 	<meta itemprop="description" content="Application Application is an Entra Application.
 Used by: ApplicationList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpecOptional status ApplicationStatusOptional ApplicationSpec Property Description Type description The description of the application. stringOptional displayName The display name of the application. stringRequired groupMembershipClaims Configures the groups claim issued in a user or OAuth 2.0 access token. stringOptional identifierUris The URIs that identify the application within its Azure AD tenant, or within a verified custom domain. string[]Optional isFallbackPublicClient Specifies the fallback application type as public client. boolOptional operatorSpec The operator specific configuration for the resource. ApplicationOperatorSpecOptional publicClient Public client (desktop/mobile) platform configuration. PublicClientApplicationOptional signInAudience Specifies the Microsoft accounts that are supported for the application. SignInAudienceOptional spa Single-page application platform configuration. SpaApplicationOptional tags Custom strings for categorizing and identifying the application. string[]Optional web Web platform configuration for the application. WebApplicationOptional ApplicationStatus Property Description Type appId The application ID assigned by Entra. stringOptional conditions The observed state of the resource conditions.Condition[]Optional description The description of the application. stringOptional displayName The display name of the application. stringOptional entraID The GUID identifying the resource in Entra stringOptional groupMembershipClaims Configures the groups claim issued in a user or OAuth 2.0 access token. stringOptional identifierUris The URIs that identify the application within its Azure AD tenant, or within a verified custom domain. string[]Optional isFallbackPublicClient Specifies the fallback application type as public client. boolOptional publicClient Public client (desktop/mobile) platform configuration. PublicClientApplicationOptional signInAudience Specifies the Microsoft accounts that are supported for the application. SignInAudienceOptional spa Single-page application platform configuration. SpaApplicationOptional tags Custom strings for categorizing and identifying the application. string[]Optional web Web platform configuration for the application. WebApplicationOptional ApplicationList Property Description Type metav1.TypeMeta metav1.ListMeta items Application[]Optional SecurityGroup SecurityGroup is an Entra Security Group.">
-	<meta itemprop="wordCount" content="1432">
+	<meta itemprop="wordCount" content="1764">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="entra.azure.com/">
 	<meta name="twitter:description" content="Application Application is an Entra Application.
@@ -85,7 +85,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.2c34060ee26965d4892830334259018a.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.c59f228be06555d09cd374ec1892e708.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -111,7 +111,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.2c34060ee26965d4892830334259018a.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.c59f228be06555d09cd374ec1892e708.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -619,8 +619,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
     <a href="/azure-service-operator/reference/operationalinsights/v20250701/" title="operationalinsights.azure.com/v20250701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv20250701"><span class="">v20250701</span></a>
   </li>
     </ul>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceportal-li">
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceportal-li">
     <a href="/azure-service-operator/reference/portal/" title="Portal Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceportal"><span class="">Portal</span></a>
+    <ul class="ul-2 foldable">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceportalv20250401preview-li">
+    <a href="/azure-service-operator/reference/portal/v20250401preview/" title="portal.azure.com/v20250401preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceportalv20250401preview"><span class="">v20250401preview</span></a>
+  </li>
+    </ul>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencequota-li">
     <a href="/azure-service-operator/reference/quota/" title="Quota Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencequota"><span class="">Quota</span></a>
     <ul class="ul-2 foldable">
@@ -788,15 +793,25 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
       </ul>
     </li>
     <li><a href="#SecurityGroupList">SecurityGroupList</a></li>
+    <li><a href="#ServicePrincipal">ServicePrincipal</a>
+      <ul>
+        <li><a href="#ServicePrincipalSpec">ServicePrincipalSpec</a></li>
+        <li><a href="#ServicePrincipalStatus">ServicePrincipalStatus</a></li>
+      </ul>
+    </li>
+    <li><a href="#ServicePrincipalList">ServicePrincipalList</a></li>
     <li><a href="#ApplicationSpec">ApplicationSpec</a></li>
     <li><a href="#ApplicationStatus">ApplicationStatus</a></li>
     <li><a href="#SecurityGroupSpec">SecurityGroupSpec</a></li>
     <li><a href="#SecurityGroupStatus">SecurityGroupStatus</a></li>
+    <li><a href="#ServicePrincipalSpec">ServicePrincipalSpec</a></li>
+    <li><a href="#ServicePrincipalStatus">ServicePrincipalStatus</a></li>
     <li><a href="#ApplicationOperatorSpec">ApplicationOperatorSpec</a></li>
     <li><a href="#PublicClientApplication">PublicClientApplication</a></li>
     <li><a href="#SecurityGroupMemberReference">SecurityGroupMemberReference</a></li>
     <li><a href="#SecurityGroupMembershipType">SecurityGroupMembershipType</a></li>
     <li><a href="#SecurityGroupOperatorSpec">SecurityGroupOperatorSpec</a></li>
+    <li><a href="#ServicePrincipalOperatorSpec">ServicePrincipalOperatorSpec</a></li>
     <li><a href="#SignInAudience">SignInAudience</a></li>
     <li><a href="#SpaApplication">SpaApplication</a></li>
     <li><a href="#WebApplication">WebApplication</a></li>
@@ -804,6 +819,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
     <li><a href="#CreationMode">CreationMode</a></li>
     <li><a href="#ImplicitGrantSettings">ImplicitGrantSettings</a></li>
     <li><a href="#SecurityGroupOperatorConfigMaps">SecurityGroupOperatorConfigMaps</a></li>
+    <li><a href="#ServicePrincipalOperatorConfigMaps">ServicePrincipalOperatorConfigMaps</a></li>
   </ul>
 </nav>
   </div>
@@ -1195,6 +1211,126 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
 			</tr>
 	</tbody>
 </table>
+<h2 id="ServicePrincipal">ServicePrincipal</h2>
+<p><br/>ServicePrincipal is an Entra service principal for an application.</p>
+<p>Used by: <a href="#ServicePrincipalList">ServicePrincipalList</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>spec</td>
+					<td></td>
+					<td><a href="#ServicePrincipalSpec">ServicePrincipalSpec</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>status</td>
+					<td></td>
+					<td><a href="#ServicePrincipalStatus">ServicePrincipalStatus</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="ServicePrincipalSpec">ServicePrincipalSpec</h3>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>appId</td>
+					<td>AppId is the global application (client) GUID, not the tenant-specific Entra object ID. Required to create a new service principal; existing principals can be adopted by displayName.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>displayName</td>
+					<td>DisplayName identifies an existing principal for adoption, following Application&rsquo;s behavior: multiple matches are an error. An appId is also required if creation is needed.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>operatorSpec</td>
+					<td>OperatorSpec configures adoption and destinations for the resolved IDs.</td>
+					<td><a href="#ServicePrincipalOperatorSpec">ServicePrincipalOperatorSpec</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="ServicePrincipalStatus">ServicePrincipalStatus</h3>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>appId</td>
+					<td>AppId is the global application (client) GUID.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>conditions</td>
+					<td>Conditions represent the latest available observations of the service principal&rsquo;s state.</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>displayName</td>
+					<td>DisplayName is the human-readable name of the service principal.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>entraID</td>
+					<td>EntraID is the tenant-specific object ID, suitable for role assignments.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="ServicePrincipalList">ServicePrincipalList</h2>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>items</td>
+					<td></td>
+					<td><a href="#ServicePrincipal">ServicePrincipal[]</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
 <h2 id="ApplicationSpec">ApplicationSpec</h2>
 <p>Used by: <a href="#Application">Application</a>.</p>
 <table>
@@ -1442,6 +1578,67 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
 			</tr>
 	</tbody>
 </table>
+<h2 id="ServicePrincipalSpec">ServicePrincipalSpec</h2>
+<p>Used by: <a href="#ServicePrincipal">ServicePrincipal</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>appId</td>
+					<td>AppId is the global application (client) GUID, not the tenant-specific Entra object ID. Required to create a new service principal; existing principals can be adopted by displayName.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>displayName</td>
+					<td>DisplayName identifies an existing principal for adoption, following Application&rsquo;s behavior: multiple matches are an error. An appId is also required if creation is needed.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>operatorSpec</td>
+					<td>OperatorSpec configures adoption and destinations for the resolved IDs.</td>
+					<td><a href="#ServicePrincipalOperatorSpec">ServicePrincipalOperatorSpec</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="ServicePrincipalStatus">ServicePrincipalStatus</h2>
+<p>Used by: <a href="#ServicePrincipal">ServicePrincipal</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>appId</td>
+					<td>AppId is the global application (client) GUID.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>conditions</td>
+					<td>Conditions represent the latest available observations of the service principal&rsquo;s state.</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>displayName</td>
+					<td>DisplayName is the human-readable name of the service principal.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>entraID</td>
+					<td>EntraID is the tenant-specific object ID, suitable for role assignments.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
 <h2 id="ApplicationOperatorSpec">ApplicationOperatorSpec</h2>
 <p>Used by: <a href="#ApplicationSpec">ApplicationSpec</a>.</p>
 <table>
@@ -1460,7 +1657,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
 			</tr>
 			<tr>
 					<td>creationMode</td>
-					<td>Specifies how ASO will try to create the resource. Specify &ldquo;AlwaysCreate&rdquo; to always create a new application when first reconciled. Or specify &ldquo;AdoptOrCreate&rdquo; to first try to adopt an existing application with the same display name. If multiple applications with the same display name are found, the resource ready condition will show an error. If not specified, defaults to &ldquo;AdoptOrCreate&rdquo;.</td>
+					<td>Specifies how ASO will try to create the resource. &ldquo;AlwaysCreate&rdquo; to always create a new application when first reconciled. &ldquo;AdoptOrCreate&rdquo; to first try to adopt an existing application with the same display name. &ldquo;AdoptOnly&rdquo; to require an existing application without creating one. If multiple applications with the same display name are found, the resource ready condition will show an error. If not specified, defaults to &ldquo;AdoptOrCreate&rdquo;.</td>
 					<td><a href="#CreationMode">CreationMode</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
@@ -1528,7 +1725,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
 			</tr>
 			<tr>
 					<td>creationMode</td>
-					<td>Specifies how ASO will try to create the resource. Specify &ldquo;AlwaysCreate&rdquo; to always create a new security group when first reconciled. Or specify &ldquo;AdoptOrCreate&rdquo; to first try to adopt an existing security group with the same display name. If multiple security groups with the same display name are found, the resource condition will show an error. If not specified, defaults to &ldquo;AdoptOrCreate&rdquo;.</td>
+					<td>Specifies how ASO will try to create the resource. &ldquo;AlwaysCreate&rdquo; to always create a new security group when first reconciled. &ldquo;AdoptOrCreate&rdquo; to first try to adopt an existing security group with the same display name. &ldquo;AdoptOnly&rdquo; to require an existing security group without creating one. If multiple security groups with the same display name are found, the resource condition will show an error. If not specified, defaults to &ldquo;AdoptOrCreate&rdquo;.</td>
+					<td><a href="#CreationMode">CreationMode</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="ServicePrincipalOperatorSpec">ServicePrincipalOperatorSpec</h2>
+<p>Used by: <a href="#ServicePrincipalSpec">ServicePrincipalSpec</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>configmaps</td>
+					<td></td>
+					<td><a href="#ServicePrincipalOperatorConfigMaps">ServicePrincipalOperatorConfigMaps</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>creationMode</td>
+					<td>CreationMode defaults to AdoptOrCreate. Set AdoptOnly to resolve an existing service principal without creating one if it is absent in this tenant.</td>
 					<td><a href="#CreationMode">CreationMode</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
@@ -1602,8 +1822,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
 	</tbody>
 </table>
 <h2 id="CreationMode">CreationMode</h2>
-<p>CreationMode specifies how ASO will try to create the Entra resource.</p>
-<p>Used by: <a href="#ApplicationOperatorSpec">ApplicationOperatorSpec</a>, and <a href="#SecurityGroupOperatorSpec">SecurityGroupOperatorSpec</a>.</p>
+<p>CreationMode specifies whether ASO will create or adopt the Entra resource.</p>
+<p>Used by: <a href="#ApplicationOperatorSpec">ApplicationOperatorSpec</a>, <a href="#SecurityGroupOperatorSpec">SecurityGroupOperatorSpec</a>, and <a href="#ServicePrincipalOperatorSpec">ServicePrincipalOperatorSpec</a>.</p>
 <h2 id="ImplicitGrantSettings">ImplicitGrantSettings</h2>
 <p>ImplicitGrantSettings specifies implicit grant flow settings</p>
 <p>Used by: <a href="#WebApplication">WebApplication</a>.</p>
@@ -1642,6 +1862,29 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationSpec
 			<tr>
 					<td>entraID</td>
 					<td>The Entra ID of the group.</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">genruntime.ConfigMapDestination</a><br/><small>Optional</small></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="ServicePrincipalOperatorConfigMaps">ServicePrincipalOperatorConfigMaps</h2>
+<p>Used by: <a href="#ServicePrincipalOperatorSpec">ServicePrincipalOperatorSpec</a>.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Type</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>appId</td>
+					<td></td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">genruntime.ConfigMapDestination</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>entraID</td>
+					<td></td>
 					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">genruntime.ConfigMapDestination</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
