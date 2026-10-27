@@ -12,6 +12,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	"github.com/go-logr/logr"
 	"github.com/sebdah/goldie/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -23,18 +24,21 @@ import (
 func makeTestResource(pkg astmodel.InternalPackageReference, name string) astmodel.TypeDefinition {
 	spec := test.CreateSpec(pkg, name)
 	status := test.CreateStatus(pkg, name)
-	return test.CreateResource(pkg, name, spec, status)
+	resource := test.CreateResource(pkg, name, spec, status)
+	rt := astmodel.MustBeResourceType(resource.Type()).WithARMType(pkg.Group() + "/" + name)
+	return resource.WithType(rt)
 }
 
-// makeAllKnownResources builds a map[group]TypeNameSet in the format expected by NewUpgradableResourcesReport.
+// makeAllKnownResources builds a map[ARMType]TypeNameSet in the format expected by NewUpgradableResourcesReport.
 func makeAllKnownResources(names ...astmodel.InternalTypeName) map[string]astmodel.TypeNameSet {
 	result := make(map[string]astmodel.TypeNameSet)
 	for _, name := range names {
-		group := name.InternalPackageReference().Group()
-		if _, ok := result[group]; !ok {
-			result[group] = make(astmodel.TypeNameSet)
+		resource := makeTestResource(name.InternalPackageReference(), name.Name())
+		armType := astmodel.MustBeResourceType(resource.Type()).ARMType()
+		if _, ok := result[armType]; !ok {
+			result[armType] = make(astmodel.TypeNameSet)
 		}
-		result[group].Add(name)
+		result[armType].Add(name)
 	}
 	return result
 }
@@ -236,6 +240,82 @@ func TestNewUpgradableResourcesReport_NoUpgradeAvailable(t *testing.T) {
 	report := NewUpgradableResourcesReport(allKnown, supported, cfg)
 
 	g.Expect(report.items).To(BeEmpty())
+}
+
+func TestNewUpgradableResourcesReport_MatchesARMTypeAcrossExportRenames(t *testing.T) {
+	t.Parallel()
+
+	for _, suffix := range []string{"", "-preview"} {
+		t.Run("version"+suffix, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			supportedPkg := test.MakeLocalPackageReference("cdn", "2023-05-01"+suffix)
+			julyPkg := test.MakeLocalPackageReference("cdn", "2026-07-01"+suffix)
+			octoberPkg := test.MakeLocalPackageReference("cdn", "2026-10-01"+suffix)
+			unrelatedPkg := test.MakeLocalPackageReference("cdn", "2027-01-01"+suffix)
+			defs := make(astmodel.TypeDefinitionSet)
+			addResource := func(pkg astmodel.InternalPackageReference, name string, armType string) {
+				spec := test.CreateSpec(pkg, name)
+				status := test.CreateStatus(pkg, name)
+				resource := test.CreateResource(pkg, name, spec, status)
+				rt := astmodel.MustBeResourceType(resource.Type()).WithARMType(armType)
+				defs.AddAll(resource.WithType(rt), spec, status)
+			}
+
+			const domainARMType = "Microsoft.Cdn/profiles/customDomains"
+			addResource(supportedPkg, "Profiles_CustomDomain", domainARMType)
+			addResource(julyPkg, "Profiles_CustomDomain", domainARMType)
+			addResource(octoberPkg, "Profiles_CustomDomain", domainARMType)
+			addResource(unrelatedPkg, "Profiles_CustomDomain", "Microsoft.Cdn/profiles/endpoints/customDomains")
+			addResource(supportedPkg, "Profile", "Microsoft.Cdn/profiles")
+			addResource(julyPkg, "Profile", "Microsoft.Cdn/profiles")
+
+			cfg := config.NewConfiguration()
+			for original, exported := range map[string]string{
+				"Profiles_CustomDomain": "AfdCustomDomain",
+				"Profile":               "Profile",
+			} {
+				g.Expect(cfg.ObjectModelConfiguration.ModifyType(
+					astmodel.MakeInternalTypeName(supportedPkg, original),
+					func(tc *config.TypeConfiguration) error {
+						tc.ExportAs.Set(exported)
+						return nil
+					},
+				)).To(Succeed())
+			}
+
+			state, err := RunTestPipeline(
+				NewState(defs),
+				CatalogKnownResources(),
+				ApplyExportFilters(cfg, logr.Discard()),
+			)
+			g.Expect(err).NotTo(HaveOccurred())
+			catalog, err := GetStateData[map[string]astmodel.TypeNameSet](state, AllKnownResources)
+			g.Expect(err).NotTo(HaveOccurred())
+
+			report := NewUpgradableResourcesReport(catalog, state.Definitions(), cfg.UpgradableResourcesReport)
+			g.Expect(report.items).To(HaveLen(2))
+			domain := report.items[0]
+			g.Expect(domain.group).To(Equal("cdn"))
+			g.Expect(domain.resource).To(Equal("AfdCustomDomain"))
+			g.Expect(report.items[1].resource).To(Equal("Profile"))
+			if suffix == "" {
+				g.Expect(domain.supportedStable).To(Equal(supportedPkg))
+				g.Expect(domain.availableStable).To(Equal(octoberPkg))
+				g.Expect(domain.availablePreview).To(BeNil())
+			} else {
+				g.Expect(domain.supportedPreview).To(Equal(supportedPkg))
+				g.Expect(domain.availablePreview).To(Equal(octoberPkg))
+				g.Expect(domain.availableStable).To(BeNil())
+			}
+
+			var buffer strings.Builder
+			report.WriteTo(&buffer)
+			g.Expect(buffer.String()).To(ContainSubstring("AfdCustomDomain"))
+			g.Expect(buffer.String()).NotTo(ContainSubstring("Profiles_CustomDomain"))
+		})
+	}
 }
 
 func TestNewUpgradableResourcesReport_RecommendPreviewUpgrade(t *testing.T) {
