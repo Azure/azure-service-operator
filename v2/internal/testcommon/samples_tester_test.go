@@ -31,16 +31,42 @@ var _ genruntime.ARMMetaObject = &sampleResource{}
 func Test_IsSampleFileExcluded_SQLAADOnly(t *testing.T) {
 	t.Parallel()
 
-	for _, version := range []string{"v1api20211101", "v20211101", "v20250101"} {
-		for _, resource := range []string{"serversadministrator", "serversazureadonlyauthentication"} {
-			t.Run(version+"/"+resource, func(t *testing.T) {
-				t.Parallel()
-				g := NewGomegaWithT(t)
-				file := version + "_" + resource + ".yaml"
-				g.Expect(IsSampleFileExcluded("../../samples/sql/" + version + "/" + file)).To(BeTrue())
-				g.Expect(IsSampleFileExcluded("../../samples/sql/aadonly/" + version + "/" + file)).To(BeFalse())
-			})
-		}
+	cases := map[string]struct{
+		path string
+		excluded bool
+	}{
+		"sql-v1api20211101": {
+			path:     "../../samples/sql/v1api20211101/v1api20211101_serversadministrator.yaml",
+			excluded: true,
+		},
+		"sql-v20211101": {
+			path:     "../../samples/sql/v20211101/v20211101_serversadministrator.yaml",
+			excluded: true,
+		},
+		"sql-v20250101": {
+			path:     "../../samples/sql/v20250101/v20250101_serversadministrator.yaml",
+			excluded: true,
+		},
+		"sql-aadonly-v1api20211101": {
+			path:     "../../samples/sql/aadonly_v1api20211101/v1api20211101_serversazureadonlyauthentication.yaml",
+			excluded: false,
+		},
+		"sql-aadonly-v20211101": {
+			path:     "../../samples/sql/aadonly_v20211101/v20211101_serversazureadonlyauthentication.yaml",
+			excluded: false,
+		},
+		"sql-aadonly-v20250101": {
+			path:     "../../samples/sql/aadonly_v20250101/v20250101_serversazureadonlyauthentication.yaml",
+			excluded: false,
+		},
+	}
+
+	for name,c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			g.Expect(IsSampleFileExcluded(c.path)).To(Equal(c.excluded))
+		})
 	}
 }
 

@@ -83,7 +83,7 @@ var exclusions = []*regexp.Regexp{
 	regexp.MustCompile(`dbforpostgresql/.*_flexibleserversvirtualendpoint.yaml`),
 
 	// The general SQL samples don't configure these separate AAD resources.
-	// Dedicated scenarios such as sql/aadonly do test them.
+	// Dedicated scenarios such as sql/aadonly_v1api20211101 do test them.
 	regexp.MustCompile(`sql/v[^/]+/.*_serversadministrator.yaml`),
 	regexp.MustCompile(`sql/v[^/]+/.*_serversazureadonlyauthentication.yaml`),
 
