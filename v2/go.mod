@@ -46,7 +46,7 @@ require (
 	github.com/kylelemons/godebug v1.1.0
 	github.com/leanovate/gopter v0.2.11
 	github.com/microsoft/go-mssqldb v1.11.2
-	github.com/microsoftgraph/msgraph-beta-sdk-go v0.166.0
+	github.com/microsoftgraph/msgraph-beta-sdk-go v0.167.0
 	github.com/microsoftgraph/msgraph-sdk-go-core v1.4.1
 	github.com/onsi/gomega v1.44.0
 	github.com/prometheus/client_golang v1.25.0
@@ -56,7 +56,7 @@ require (
 	go.uber.org/zap v1.28.0
 	golang.org/x/crypto v0.58.0
 	golang.org/x/exp v0.0.0-20260410095643-746e56fc9e2f
-	golang.org/x/net v0.60.0
+	golang.org/x/net v0.61.0
 	golang.org/x/sync v0.24.0
 	golang.org/x/text v0.43.0 // indirect
 	golang.org/x/time v0.16.0
@@ -122,11 +122,11 @@ require (
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kr/text v0.2.0 // indirect
-	github.com/microsoft/kiota-abstractions-go v1.11.2
+	github.com/microsoft/kiota-abstractions-go v1.11.4
 	github.com/microsoft/kiota-authentication-azure-go v1.3.1 // indirect
 	github.com/microsoft/kiota-http-go v1.5.6 // indirect
 	github.com/microsoft/kiota-serialization-form-go v1.1.3 // indirect
-	github.com/microsoft/kiota-serialization-json-go v1.1.2
+	github.com/microsoft/kiota-serialization-json-go v1.1.5
 	github.com/microsoft/kiota-serialization-multipart-go v1.1.2 // indirect
 	github.com/microsoft/kiota-serialization-text-go v1.1.3 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
