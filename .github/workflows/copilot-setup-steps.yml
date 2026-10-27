@@ -30,7 +30,7 @@ jobs:
 
       # Copilot cleans the checkout before reviewing fork PRs, so keep tools outside it.
       - name: Install Dependencies
-        run: sudo env ASO_TOOL_DEST="$RUNNER_TEMP/aso-tools" .devcontainer/install-dependencies.sh --skip-installed
+        run: sudo env TOOL_DEST="$RUNNER_TEMP/aso-tools" .devcontainer/install-dependencies.sh --skip-installed
 
       - name: Make installed tools writable by the runner
         run: sudo chown -R "$(id -u):$(id -g)" "$RUNNER_TEMP/aso-tools"
