@@ -15,7 +15,7 @@ jobs:
       !contains(fromJSON('["COLLABORATOR", "MEMBER", "OWNER"]'), github.event.pull_request.author_association)
     runs-on: ubuntu-latest
     permissions:
-      issues: write
+      pull-requests: write # PR labels use the issues API but require pull request permissions.
     steps:
       - name: Add external contribution label
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # pinned to v9.0.0
