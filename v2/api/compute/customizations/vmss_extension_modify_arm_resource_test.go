@@ -11,7 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	arm "github.com/Azure/azure-service-operator/v2/api/compute/v20220301/arm"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_FuzzySetExtensions(t *testing.T) {
@@ -19,9 +18,9 @@ func Test_FuzzySetExtensions(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	vmss := &arm.VirtualMachineScaleSet_Spec{
-		Location: to.Ptr("westus"),
+		Location: new("westus"),
 		Properties: &arm.VirtualMachineScaleSetProperties{
-			ZoneBalance: to.Ptr(false),
+			ZoneBalance: new(false),
 		},
 	}
 
@@ -67,15 +66,15 @@ func Test_FuzzySetExtensions(t *testing.T) {
 
 	err = setChildCollection(vmss, vmssExtensions, childCollectionPathARM...)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(vmss.Location).To(Equal(to.Ptr("westus")))
+	g.Expect(vmss.Location).To(Equal(new("westus")))
 	g.Expect(vmss.Properties).ToNot(BeNil())
 	g.Expect(vmss.Properties.VirtualMachineProfile).ToNot(BeNil())
 	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile).ToNot(BeNil())
 	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions).ToNot(BeNil())
 	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[0]).ToNot(BeNil())
-	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[0].Name).To(Equal(to.Ptr("mycustomextension")))
+	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[0].Name).To(Equal(new("mycustomextension")))
 	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[0].Properties).ToNot(BeNil())
-	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[0].Properties.Type).To(Equal(to.Ptr("CustomScript")))
+	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[0].Properties.Type).To(Equal(new("CustomScript")))
 }
 
 func Test_FuzzySetVMSS_ExtensionsMerged(t *testing.T) {
@@ -84,25 +83,25 @@ func Test_FuzzySetVMSS_ExtensionsMerged(t *testing.T) {
 
 	vmss := &arm.VirtualMachineScaleSet_Spec{
 		Name:     "asotest-vmss-idossk",
-		Location: to.Ptr("westus"),
+		Location: new("westus"),
 		Properties: &arm.VirtualMachineScaleSetProperties{
 			VirtualMachineProfile: &arm.VirtualMachineScaleSetVMProfile{
 				ExtensionProfile: &arm.VirtualMachineScaleSetExtensionProfile{
 					Extensions: []arm.VirtualMachineScaleSetExtension{
 						{
-							Name: to.Ptr("mycustomextension"),
+							Name: new("mycustomextension"),
 							Properties: &arm.VirtualMachineScaleSetExtensionProperties{
-								Publisher:          to.Ptr("Microsoft.Azure.Extensions"),
-								Type:               to.Ptr("CustomScript"),
-								TypeHandlerVersion: to.Ptr("2.0"),
+								Publisher:          new("Microsoft.Azure.Extensions"),
+								Type:               new("CustomScript"),
+								TypeHandlerVersion: new("2.0"),
 							},
 						},
 						{
-							Name: to.Ptr("mycustomextension1"),
+							Name: new("mycustomextension1"),
 							Properties: &arm.VirtualMachineScaleSetExtensionProperties{
-								Publisher:          to.Ptr("Microsoft.ManagedServices"),
-								Type:               to.Ptr("ApplicationHealthLinux"),
-								TypeHandlerVersion: to.Ptr("1.0"),
+								Publisher:          new("Microsoft.ManagedServices"),
+								Type:               new("ApplicationHealthLinux"),
+								TypeHandlerVersion: new("1.0"),
 							},
 						},
 					},
@@ -148,7 +147,7 @@ func Test_FuzzySetVMSS_ExtensionsMerged(t *testing.T) {
 
 	err = setChildCollection(vmss, vmssExtension, childCollectionPathARM...)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(vmss.Location).To(Equal(to.Ptr("westus")))
+	g.Expect(vmss.Location).To(Equal(new("westus")))
 	g.Expect(vmss.Properties).ToNot(BeNil())
 	g.Expect(vmss.Properties).ToNot(BeNil())
 	g.Expect(vmss.Properties.VirtualMachineProfile).ToNot(BeNil())
@@ -156,11 +155,11 @@ func Test_FuzzySetVMSS_ExtensionsMerged(t *testing.T) {
 	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions).ToNot(BeNil())
 	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions).To(HaveLen(2))
 	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[0]).ToNot(BeNil())
-	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[0].Name).To(Equal(to.Ptr("mycustomextension")))
+	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[0].Name).To(Equal(new("mycustomextension")))
 	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[0].Properties).ToNot(BeNil())
-	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[0].Properties.Type).To(Equal(to.Ptr("CustomScript")))
+	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[0].Properties.Type).To(Equal(new("CustomScript")))
 	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[1]).ToNot(BeNil())
-	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[1].Name).To(Equal(to.Ptr("mycustomextension1")))
+	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[1].Name).To(Equal(new("mycustomextension1")))
 	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[1].Properties).ToNot(BeNil())
-	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[1].Properties.Type).To(Equal(to.Ptr("ApplicationHealthLinux")))
+	g.Expect(vmss.Properties.VirtualMachineProfile.ExtensionProfile.Extensions[1].Properties.Type).To(Equal(new("ApplicationHealthLinux")))
 }
