@@ -453,8 +453,8 @@ func newFederatedIdentityCredential(
 		Spec: managedidentity.FederatedIdentityCredential_Spec{
 			Owner:     testcommon.AsOwner(umi),
 			Audiences: []string{"api://AzureADTokenExchange"},
-			Issuer:    to.Ptr(issuer),
-			Subject:   to.Ptr(subject),
+			Issuer:    new(issuer),
+			Subject:   new(subject),
 		},
 	}
 }
