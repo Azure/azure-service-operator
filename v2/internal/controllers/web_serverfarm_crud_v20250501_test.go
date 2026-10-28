@@ -13,7 +13,6 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/api/web/v20250501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Web_ServerFarm_v20250501_CRUD(t *testing.T) {
@@ -24,7 +23,7 @@ func Test_Web_ServerFarm_v20250501_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Flex Consumption is only available in a subset of regions.
-	tc.AzureRegion = to.Ptr("northeurope")
+	tc.AzureRegion = new("northeurope")
 	serverFarm := newServerFarmV20250501(tc, rg, *tc.AzureRegion)
 
 	tc.CreateResourceAndWait(serverFarm)
@@ -53,11 +52,11 @@ func newServerFarmV20250501(tc *testcommon.KubePerTestContext, rg *resources.Res
 		Spec: v20250501.ServerFarm_Spec{
 			Location: &location,
 			Owner:    testcommon.AsOwner(rg),
-			Kind:     to.Ptr("functionapp"),
-			Reserved: to.Ptr(true),
+			Kind:     new("functionapp"),
+			Reserved: new(true),
 			Sku: &v20250501.SkuDescription{
-				Name: to.Ptr("FC1"),
-				Tier: to.Ptr("FlexConsumption"),
+				Name: new("FC1"),
+				Tier: new("FlexConsumption"),
 			},
 		},
 	}

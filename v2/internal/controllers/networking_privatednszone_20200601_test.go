@@ -15,7 +15,6 @@ import (
 	network20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -65,9 +64,9 @@ func PrivateDNSZones_CNAME_Record_20200601_Test(tc *testcommon.KubePerTestContex
 	record := &network20200601.PrivateDnsZonesCNAMERecord{
 		ObjectMeta: tc.MakeObjectMetaWithName("record"),
 		Spec: network20200601.PrivateDnsZonesCNAMERecord_Spec{
-			CnameRecord: &network20200601.CnameRecord{Cname: to.Ptr("asotest.com")},
+			CnameRecord: &network20200601.CnameRecord{Cname: new("asotest.com")},
 			Owner:       testcommon.AsOwner(zone),
-			Ttl:         to.Ptr(3600),
+			Ttl:         new(3600),
 		},
 	}
 
@@ -107,7 +106,7 @@ func newPrivateDNSZone20200601(tc *testcommon.KubePerTestContext, name string, r
 	zone := &network.PrivateDnsZone{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: network.PrivateDnsZone_Spec{
-			Location: to.Ptr("global"),
+			Location: new("global"),
 			Owner:    testcommon.AsOwner(rg),
 		},
 	}
@@ -118,10 +117,10 @@ func newVirtualNetworkLink20200601(tc *testcommon.KubePerTestContext, dnsZone *n
 	links := &network20200601.PrivateDnsZonesVirtualNetworkLink{
 		ObjectMeta: tc.MakeObjectMetaWithName(dnsZone.Name + "-link"),
 		Spec: network20200601.PrivateDnsZonesVirtualNetworkLink_Spec{
-			Location:            to.Ptr("global"),
+			Location:            new("global"),
 			Owner:               testcommon.AsOwner(dnsZone),
 			VirtualNetwork:      &network20200601.SubResource{Reference: tc.MakeReferenceFromResource(vnet)},
-			RegistrationEnabled: to.Ptr(false),
+			RegistrationEnabled: new(false),
 		},
 	}
 	return links
