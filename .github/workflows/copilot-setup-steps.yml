@@ -28,8 +28,12 @@ jobs:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
 
+      # Copilot cleans the checkout before reviewing fork PRs, so keep tools outside it.
       - name: Install Dependencies
-        run: sudo .devcontainer/install-dependencies.sh --skip-installed
+        run: sudo env TOOL_DEST="$RUNNER_TEMP/aso-tools" .devcontainer/install-dependencies.sh --skip-installed
+
+      - name: Make installed tools writable by the runner
+        run: sudo chown -R "$(id -u):$(id -g)" "$RUNNER_TEMP/aso-tools"
 
       - name: Set custom PATH
-        run: echo "PATH=$PATH:$(realpath ./hack/tools)" >> $GITHUB_ENV
+        run: echo "PATH=$PATH:$RUNNER_TEMP/aso-tools" >> "$GITHUB_ENV"
