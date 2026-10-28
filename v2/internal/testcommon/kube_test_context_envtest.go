@@ -47,7 +47,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
@@ -252,7 +251,7 @@ func createSharedEnvTest(
 			// classifying two controllers with the same name in different EnvTest environments as conflicting
 			// when in reality they are running in separate apiservers (simulating separate operators).
 			// In a real Kubernetes deployment that might be a problem, but not in EnvTest.
-			SkipNameValidation: to.Ptr(true),
+			SkipNameValidation: new(true),
 
 			// Allow concurrent reconciliation in tests
 			MaxConcurrentReconciles: 5,
@@ -664,7 +663,6 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 			perTestContext.T.Cleanup(func() { perNamespaceResources.Remove(namespace) })
 
 			for _, otherNs := range cfg.TargetNamespaces {
-				otherNs := otherNs
 				perNamespaceResources.Add(otherNs, resources)
 				perTestContext.T.Cleanup(func() { perNamespaceResources.Remove(otherNs) })
 			}

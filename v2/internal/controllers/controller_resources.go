@@ -488,7 +488,7 @@ func watchEntity(c client.Client, log logr.Logger, keys []string, objList client
 		var allMatches []client.Object
 
 		for _, key := range keys {
-			matchingResources, castOk := reflect.New(listType).Interface().(client.ObjectList)
+			matchingResources, castOk := reflect.TypeAssert[client.ObjectList](reflect.New(listType))
 			if !castOk {
 				log.V(Status).Info("Somehow reflect.New() returned non client.ObjectList", "actual", fmt.Sprintf("%T", o))
 				continue

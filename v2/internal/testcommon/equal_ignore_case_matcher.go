@@ -23,7 +23,7 @@ type equalsIgnoreCaseMatcher struct {
 	Expected string
 }
 
-func (matcher *equalsIgnoreCaseMatcher) Match(actual interface{}) (success bool, err error) {
+func (matcher *equalsIgnoreCaseMatcher) Match(actual any) (success bool, err error) {
 	actualString, ok := actual.(string)
 	if !ok {
 		return false, fmt.Errorf("EqualsIgnoreCaseMatcher matcher requires a string .\nGot:%s", format.Object(actual, 1))
@@ -32,10 +32,10 @@ func (matcher *equalsIgnoreCaseMatcher) Match(actual interface{}) (success bool,
 	return strings.EqualFold(actualString, matcher.Expected), nil
 }
 
-func (matcher *equalsIgnoreCaseMatcher) FailureMessage(actual interface{}) (message string) {
+func (matcher *equalsIgnoreCaseMatcher) FailureMessage(actual any) (message string) {
 	return format.Message(actual, "to match (case insensitive)", matcher.Expected)
 }
 
-func (matcher *equalsIgnoreCaseMatcher) NegatedFailureMessage(actual interface{}) (message string) {
+func (matcher *equalsIgnoreCaseMatcher) NegatedFailureMessage(actual any) (message string) {
 	return format.Message(actual, "not to match (case insensitive)", matcher.Expected)
 }

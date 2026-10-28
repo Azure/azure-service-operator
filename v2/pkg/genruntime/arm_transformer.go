@@ -35,12 +35,12 @@ type ConvertToARMResolvedDetails struct {
 
 type ToARMConverter interface {
 	// ConvertToARM converts this to an ARM resource.
-	ConvertToARM(resolved ConvertToARMResolvedDetails) (interface{}, error)
+	ConvertToARM(resolved ConvertToARMResolvedDetails) (any, error)
 }
 
 type FromARMConverter interface {
 	NewEmptyARMValue() ARMResourceStatus
-	PopulateFromARM(owner ArbitraryOwnerReference, input interface{}) error
+	PopulateFromARM(owner ArbitraryOwnerReference, input any) error
 }
 
 // TODO: Consider ArmSpecTransformer and ARMTransformer, so we don't have to pass owningName/name through all the calls

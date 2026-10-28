@@ -16,7 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
 
-func actualAsStr(actual interface{}) (string, error) {
+func actualAsStr(actual any) (string, error) {
 	str, ok := actual.(string)
 	strPtr, okPtr := actual.(*string)
 
@@ -39,7 +39,7 @@ type BeDeletedInAzureMatcher struct {
 
 var _ types.GomegaMatcher = &BeDeletedInAzureMatcher{}
 
-func (m *BeDeletedInAzureMatcher) Match(actual interface{}) (bool, error) {
+func (m *BeDeletedInAzureMatcher) Match(actual any) (bool, error) {
 	if actual == nil {
 		return false, nil
 	}
@@ -61,7 +61,7 @@ func (m *BeDeletedInAzureMatcher) Match(actual interface{}) (bool, error) {
 	return !exists, nil
 }
 
-func (m *BeDeletedInAzureMatcher) message(actual interface{}, negate bool) string {
+func (m *BeDeletedInAzureMatcher) message(actual any, negate bool) string {
 	id, err := actualAsStr(actual)
 	if err != nil {
 		// Gomegas contract is that it won't call one of the message functions
@@ -78,11 +78,11 @@ func (m *BeDeletedInAzureMatcher) message(actual interface{}, negate bool) strin
 	return gomegaformat.Message(id, fmt.Sprintf("%sto be deleted", notStr))
 }
 
-func (m *BeDeletedInAzureMatcher) FailureMessage(actual interface{}) string {
+func (m *BeDeletedInAzureMatcher) FailureMessage(actual any) string {
 	return m.message(actual, false)
 }
 
-func (m *BeDeletedInAzureMatcher) NegatedFailureMessage(actual interface{}) string {
+func (m *BeDeletedInAzureMatcher) NegatedFailureMessage(actual any) string {
 	return m.message(actual, true)
 }
 

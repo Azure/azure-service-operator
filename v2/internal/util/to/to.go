@@ -14,6 +14,8 @@ func Value[T any](v *T) T {
 }
 
 // Ptr returns a pointer to the provided value.
+//
+//go:fix inline
 func Ptr[T any](v T) *T {
-	return &v
+	return new(v)
 }

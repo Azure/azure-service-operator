@@ -6,6 +6,8 @@
 package genruntime
 
 import (
+	"slices"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 
@@ -35,13 +37,7 @@ const (
 )
 
 func (o ResourceOperation) IsSupportedBy(obj SupportedResourceOperations) bool {
-	for _, op := range obj.GetSupportedOperations() {
-		if op == o {
-			return true
-		}
-	}
-
-	return false
+	return slices.Contains(obj.GetSupportedOperations(), o)
 }
 
 // TODO: It's weird that this is isn't with the other annotations
@@ -137,10 +133,7 @@ type ARMResourceSpec interface {
 }
 
 // ARMResourceStatus is an ARM resource status
-type ARMResourceStatus interface { // TODO: Unsure what the actual content of this interface needs to be.
-	// TODO: We need to define it and generate the code for it
-	// GetId() string
-}
+type ARMResourceStatus any
 
 type ARMResource interface {
 	Spec() ARMResourceSpec
