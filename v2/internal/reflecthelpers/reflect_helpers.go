@@ -306,7 +306,7 @@ func GetObjectListItems(listPtr client.ObjectList) ([]client.Object, error) {
 			item = item.Addr()
 		}
 
-		typedItem, ok := item.Interface().(client.Object)
+		typedItem, ok := reflect.TypeAssert[client.Object](item)
 		if !ok {
 			return nil, eris.Errorf("provided list elements did not implement client.Object interface")
 		}
@@ -467,8 +467,7 @@ func setPropertyCore(obj any, propertyPath []string, value any) (err error) {
 func GetJSONTags(t reflect.Type) set.Set[string] {
 	tags := set.Make[string]()
 
-	for i := 0; i < t.NumField(); i++ {
-		fieldType := t.Field(i)
+	for fieldType := range t.Fields() {
 		tag := fieldType.Tag.Get("json")
 		if tag != "" {
 			// Split the tag to handle omitempty and other options

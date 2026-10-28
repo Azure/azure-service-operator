@@ -34,7 +34,7 @@ func (d *ISO8601) MarshalJSON() ([]byte, error) {
 }
 
 func (d *ISO8601) UnmarshalJSON(b []byte) error {
-	var v interface{}
+	var v any
 	if err := json.Unmarshal(b, &v); err != nil {
 		return err
 	}

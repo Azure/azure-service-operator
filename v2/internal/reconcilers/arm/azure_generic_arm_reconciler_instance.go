@@ -1058,7 +1058,7 @@ func (r *azureDeploymentReconcilerInstance) saveAssociatedKubernetesResources(ct
 		return eris.Errorf("unexpected results len %d not equal to Kuberentes resources length %d", len(results), len(resources))
 	}
 
-	for i := 0; i < len(merged); i++ {
+	for i := range merged {
 		resource := merged[i]
 		result := results[i]
 

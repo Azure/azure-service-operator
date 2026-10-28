@@ -114,9 +114,9 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		LeaderElection:   flgs.EnableLeaderElection,
 		LeaderElectionID: "controllers-leader-election-azinfra-generated",
 		// Set explicitly rather than left to controller-runtime's defaults so that our CRD leader elector reuses them.
-		LeaseDuration:           to.Ptr(flgs.LeaseDuration),
-		RenewDeadline:           to.Ptr(flgs.RenewDeadline),
-		RetryPeriod:             to.Ptr(flgs.RetryPeriod),
+		LeaseDuration:           new(flgs.LeaseDuration),
+		RenewDeadline:           new(flgs.RenewDeadline),
+		RetryPeriod:             new(flgs.RetryPeriod),
 		GracefulShutdownTimeout: to.Ptr(30 * time.Second),
 		// It's only safe to set LeaderElectionReleaseOnCancel to true if the manager binary ends
 		// when the manager exits. This is the case with us today, so we set this to true whenever
@@ -509,7 +509,7 @@ func initializeClients(ctx context.Context, cfg config.Values, mgr ctrl.Manager,
 		&identity.CredentialProviderOptions{
 			ServiceAccountTokenProvider: serviceAccountTokenProvider,
 			WorkloadIdentityAuthMode:    cfg.WorkloadIdentityAuthMode,
-			Cloud:                       to.Ptr(cfg.Cloud()),
+			Cloud:                       new(cfg.Cloud()),
 			AllowMultiEnvManagement:     cfg.AllowMultiEnvManagement,
 			FederatedTokenFilePath:      cfg.FederatedTokenFilePath,
 		},

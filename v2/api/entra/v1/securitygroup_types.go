@@ -9,7 +9,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -239,7 +238,7 @@ func resolveMemberObjectIDs(
 
 // AssignToGroup configures the provided instance with the details of the group
 func (spec *SecurityGroupSpec) AssignToGroup(model models.Groupable) {
-	model.SetSecurityEnabled(to.Ptr(true))
+	model.SetSecurityEnabled(new(true))
 	model.SetDisplayName(spec.DisplayName)
 
 	if spec.MailNickname != nil {
@@ -275,7 +274,7 @@ func (spec *SecurityGroupSpec) AssignToGroup(model models.Groupable) {
 	}
 
 	// This is a security group, not a mail distribution group
-	model.SetMailEnabled(to.Ptr(false))
+	model.SetMailEnabled(new(false))
 }
 
 type SecurityGroupStatus struct {

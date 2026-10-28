@@ -229,7 +229,7 @@ func (ref *ResourceReference) GroupKind() schema.GroupKind {
 // LookupOwnerGroupKind looks up an owners group and kind annotations using reflection.
 // This is primarily used to convert from a KnownResourceReference to the more general
 // ResourceReference
-func LookupOwnerGroupKind(v interface{}) (string, string) {
+func LookupOwnerGroupKind(v any) (string, string) {
 	t := reflect.TypeOf(v)
 	if t.Kind() == reflect.Pointer {
 		t = t.Elem()

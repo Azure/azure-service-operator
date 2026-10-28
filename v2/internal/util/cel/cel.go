@@ -404,7 +404,7 @@ func makeUnexpectedResultError(ast *cel.Ast, allowed ...*cel.Type) error {
 
 func valToMap(val ref.Val) (map[string]string, error) {
 	// Convert the CEL value to a native Go map
-	nativeVal, err := val.ConvertToNative(reflect.TypeOf(map[string]string{}))
+	nativeVal, err := val.ConvertToNative(reflect.TypeFor[map[string]string]())
 	if err != nil {
 		return nil, eris.Wrap(err, "error converting CEL value to native")
 	}
@@ -453,8 +453,7 @@ func findTypesRecursive(t reflect.Type) []reflect.Type { // Returns any here bec
 
 		result = append(result, t)
 
-		for i := 0; i < t.NumField(); i++ {
-			field := t.Field(i)
+		for field := range t.Fields() {
 			if !field.IsExported() {
 				continue
 			}

@@ -6,6 +6,7 @@
 package genruntime
 
 import (
+	"maps"
 	"math"
 
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
@@ -37,9 +38,7 @@ func CloneMapOfStringToString(input map[string]string) map[string]string {
 	}
 
 	result := make(map[string]string, len(input))
-	for k, v := range input {
-		result[k] = v
-	}
+	maps.Copy(result, input)
 
 	return result
 }
