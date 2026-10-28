@@ -23,7 +23,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	asolabels "github.com/Azure/azure-service-operator/v2/pkg/common/labels"
 )
 
@@ -69,8 +68,8 @@ func Test_LoadCRDs_FixesNamespace(t *testing.T) {
 				Service: &apiextensions.ServiceReference{
 					Name:      "azureserviceoperator-webhook-service",
 					Namespace: "azureserviceoperator-system",
-					Path:      to.Ptr("/convert"),
-					Port:      to.Ptr(port),
+					Path:      new("/convert"),
+					Port:      new(port),
 				},
 				CABundle: makeFakeCABundle(),
 			},
@@ -411,7 +410,6 @@ func Test_DetermineCRDsToInstallOrUpgrade(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 

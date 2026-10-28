@@ -37,7 +37,6 @@ func Test_ToEnum_WhenCalled_ReturnsExpectedResult(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(
 			c.str,
 			func(t *testing.T) {

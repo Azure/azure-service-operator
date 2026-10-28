@@ -28,7 +28,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
@@ -94,7 +93,7 @@ func createResourceGroup(name string) *resources.ResourceGroup {
 			},
 		},
 		Spec: resources.ResourceGroup_Spec{
-			Location:  to.Ptr("West US"),
+			Location:  new("West US"),
 			AzureName: name, // defaulter webhook will copy Name to AzureName
 		},
 	}
@@ -382,7 +381,7 @@ func Test_ResolveResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(len(originalHierarchy)).To(Equal(len(hierarchy)))
 
-	for i := 0; i < len(hierarchy); i++ {
+	for i := range hierarchy {
 		desired := originalHierarchy[i]
 		actual := hierarchy[i]
 

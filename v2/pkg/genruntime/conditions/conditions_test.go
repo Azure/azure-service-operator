@@ -278,7 +278,6 @@ func Test_SetCondition_OverwritesAsExpected(t *testing.T) {
 
 	// Append all the combinations of gen2 overwrites gen1
 	for _, gen1 := range gen1List {
-		gen1 := gen1
 		for _, gen2 := range gen2List {
 			tests = append(
 				tests,
@@ -293,7 +292,6 @@ func Test_SetCondition_OverwritesAsExpected(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -410,7 +408,6 @@ func Test_SetConditionReasonAware_OverwritesAsExpected(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
