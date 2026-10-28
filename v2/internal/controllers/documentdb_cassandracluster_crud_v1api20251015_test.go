@@ -25,7 +25,7 @@ func Test_DocumentDB_CassandraCluster_v1api20251015_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
-	tc.AzureRegion = to.Ptr("eastus")
+	tc.AzureRegion = new("eastus")
 
 	// Create our resource group
 	rg := tc.CreateTestResourceGroupAndWait()
@@ -64,14 +64,14 @@ func Test_DocumentDB_CassandraCluster_v1api20251015_CRUD(t *testing.T) {
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Properties: &documentdb.CassandraCluster_Properties_Spec{
-				CassandraVersion: to.Ptr("4.0"),
+				CassandraVersion: new("4.0"),
 				DelegatedManagementSubnetReference: &genruntime.ResourceReference{
 					Group: network.GroupVersion.Group,
 					Kind:  "VirtualNetworksSubnet",
 					Name:  mgmtSubnet.Name,
 				},
 				InitialCassandraAdminPassword: &adminPasswordSecretRef,
-				RepairEnabled:                 to.Ptr(true),
+				RepairEnabled:                 new(true),
 			},
 		},
 	}
@@ -111,7 +111,7 @@ func Test_DocumentDB_CassandraCluster_v1api20251015_CRUD(t *testing.T) {
 
 	// Update the data center to ensure that works
 	oldDataCenter := dataCenter.DeepCopy()
-	dataCenter.Spec.Properties.NodeCount = to.Ptr(5)
+	dataCenter.Spec.Properties.NodeCount = new(5)
 	tc.PatchResourceAndWait(oldDataCenter, dataCenter)
 
 	// Delete the cluster and make sure it goes away
@@ -141,13 +141,13 @@ func newCassandraDataCenter(tc *testcommon.KubePerTestContext, cassandraCluster 
 		Spec: documentdb.CassandraDataCenter_Spec{
 			Owner: testcommon.AsOwner(cassandraCluster),
 			Properties: &documentdb.CassandraClusters_DataCenter_Properties_Spec{
-				DataCenterLocation: to.Ptr("eastus"),
+				DataCenterLocation: new("eastus"),
 				DelegatedSubnetReference: &genruntime.ResourceReference{
 					Group: network.GroupVersion.Group,
 					Kind:  "VirtualNetworksSubnet",
 					Name:  dcSubnet.Name,
 				},
-				NodeCount: to.Ptr(3),
+				NodeCount: new(3),
 			},
 		},
 	}
@@ -173,7 +173,7 @@ func newCassandraManagementSubnet(tc *testcommon.KubePerTestContext, owner *genr
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         owner,
-			AddressPrefix: to.Ptr("10.0.0.0/24"),
+			AddressPrefix: new("10.0.0.0/24"),
 		},
 	}
 }
@@ -183,11 +183,11 @@ func newCassandraDataCenterSubnet(tc *testcommon.KubePerTestContext, owner *genr
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         owner,
-			AddressPrefix: to.Ptr("10.0.1.0/24"),
+			AddressPrefix: new("10.0.1.0/24"),
 			Delegations: []network.Delegation{
 				{
-					Name:        to.Ptr("cassandraClustersDelegation"),
-					ServiceName: to.Ptr("Microsoft.DocumentDB/cassandraClusters"),
+					Name:        new("cassandraClustersDelegation"),
+					ServiceName: new("Microsoft.DocumentDB/cassandraClusters"),
 				},
 			},
 		},
@@ -206,7 +206,7 @@ func newCassandraRoleAssignment(
 			// Needs to be the principle within the current subscription
 			// Hard coded for testing, because ASO doesn't currently allow looking this up automatically
 			// TODO: Remove this once ASO can do the lookup.
-			PrincipalId:   to.Ptr("e5007d2c-4b13-4a74-9b6a-605d99f03501"),
+			PrincipalId:   new("e5007d2c-4b13-4a74-9b6a-605d99f03501"),
 			PrincipalType: to.Ptr(authorization.RoleAssignmentProperties_PrincipalType_ServicePrincipal),
 			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
 				WellKnownName: "Network Contributor",

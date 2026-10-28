@@ -17,7 +17,6 @@ import (
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -26,7 +25,7 @@ func Test_DocumentDB_SQLDatabase_v20231115_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	// Capacity constraints
-	tc.AzureRegion = to.Ptr("australiaeast")
+	tc.AzureRegion = new("australiaeast")
 
 	// Create our resource group
 	rg := tc.CreateTestResourceGroupAndWait()
@@ -44,10 +43,10 @@ func Test_DocumentDB_SQLDatabase_v20231115_CRUD(t *testing.T) {
 			Owner:                    testcommon.AsOwner(rg),
 			Kind:                     &kind,
 			DatabaseAccountOfferType: &offerType,
-			DisableLocalAuth:         to.Ptr(true),
+			DisableLocalAuth:         new(true),
 			Locations: []documentdb.Location{
 				{
-					LocationName: to.Ptr("australiaeast"), // Capacity constraints // tc.AzureRegion
+					LocationName: new("australiaeast"), // Capacity constraints // tc.AzureRegion
 				},
 			},
 		},
@@ -58,11 +57,11 @@ func Test_DocumentDB_SQLDatabase_v20231115_CRUD(t *testing.T) {
 	db := &documentdb.SqlDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(dbName),
 		Spec: documentdb.SqlDatabase_Spec{
-			Location: to.Ptr("australiaeast"), // Capacity constraints // tc.AzureRegion
+			Location: new("australiaeast"), // Capacity constraints // tc.AzureRegion
 			Owner:    testcommon.AsOwner(acct),
 			Options: &documentdb.CreateUpdateOptions{
 				AutoscaleSettings: &documentdb.AutoscaleSettings{
-					MaxThroughput: to.Ptr(4000),
+					MaxThroughput: new(4000),
 				},
 			},
 			Resource: &documentdb.SqlDatabaseResource{
@@ -123,9 +122,9 @@ func CosmosDB_SQL_Container_v20231115_CRUD(tc *testcommon.KubePerTestContext, db
 	container := &documentdb.SqlDatabaseContainer{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.SqlDatabaseContainer_Spec{
-			Location: to.Ptr("australiaeast"), // Capacity constraints // tc.AzureRegion
+			Location: new("australiaeast"), // Capacity constraints // tc.AzureRegion
 			Options: &documentdb.CreateUpdateOptions{
-				Throughput: to.Ptr(400),
+				Throughput: new(400),
 			},
 			Owner: testcommon.AsOwner(db),
 			Resource: &documentdb.SqlContainerResource{
@@ -133,14 +132,14 @@ func CosmosDB_SQL_Container_v20231115_CRUD(tc *testcommon.KubePerTestContext, db
 				ConflictResolutionPolicy: &documentdb.ConflictResolutionPolicy{
 					Mode: &lastWriterWins,
 				},
-				DefaultTtl: to.Ptr(200),
+				DefaultTtl: new(200),
 				IndexingPolicy: &documentdb.IndexingPolicy{
 					IndexingMode: &consistent,
 					IncludedPaths: []documentdb.IncludedPath{{
-						Path: to.Ptr("/*"),
+						Path: new("/*"),
 					}},
 					ExcludedPaths: []documentdb.ExcludedPath{{
-						Path: to.Ptr("/myPathToNotIndex/*"),
+						Path: new("/myPathToNotIndex/*"),
 					}},
 				},
 				PartitionKey: &documentdb.ContainerPartitionKey{
@@ -182,7 +181,7 @@ func CosmosDB_SQL_Container_v20231115_CRUD(tc *testcommon.KubePerTestContext, db
 
 	tc.LogSubsectionf("Updating the default TTL on container %q", name)
 	old := container.DeepCopy()
-	container.Spec.Resource.DefaultTtl = to.Ptr(400)
+	container.Spec.Resource.DefaultTtl = new(400)
 	tc.PatchResourceAndWait(old, container)
 	tc.Expect(container.Status.Resource).ToNot(BeNil())
 	tc.Expect(container.Status.Resource.DefaultTtl).ToNot(BeNil())
@@ -199,13 +198,13 @@ func CosmosDB_SQL_Trigger_v20231115_CRUD(tc *testcommon.KubePerTestContext, cont
 	trigger := documentdb.SqlDatabaseContainerTrigger{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.SqlDatabaseContainerTrigger_Spec{
-			Location: to.Ptr("australiaeast"), // Capacity constraints // tc.AzureRegion
+			Location: new("australiaeast"), // Capacity constraints // tc.AzureRegion
 			Owner:    testcommon.AsOwner(container),
 			Resource: &documentdb.SqlTriggerResource{
 				Id:               &name,
 				TriggerType:      &pre,
 				TriggerOperation: &create,
-				Body:             to.Ptr(triggerBody_v20231115),
+				Body:             new(triggerBody_v20231115),
 			},
 		},
 	}
@@ -242,11 +241,11 @@ func CosmosDB_SQL_StoredProcedure_v20231115_CRUD(tc *testcommon.KubePerTestConte
 	storedProcedure := documentdb.SqlDatabaseContainerStoredProcedure{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.SqlDatabaseContainerStoredProcedure_Spec{
-			Location: to.Ptr("australiaeast"), // Capacity constraints // tc.AzureRegion
+			Location: new("australiaeast"), // Capacity constraints // tc.AzureRegion
 			Owner:    testcommon.AsOwner(container),
 			Resource: &documentdb.SqlStoredProcedureResource{
 				Id:   &name,
-				Body: to.Ptr(storedProcedureBody_v20231115),
+				Body: new(storedProcedureBody_v20231115),
 			},
 		},
 	}
@@ -278,11 +277,11 @@ func CosmosDB_SQL_UserDefinedFunction_v20231115_CRUD(tc *testcommon.KubePerTestC
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.SqlDatabaseContainerUserDefinedFunction_Spec{
 			AzureName: name,
-			Location:  to.Ptr("australiaeast"), // Capacity constraints // tc.AzureRegion
+			Location:  new("australiaeast"), // Capacity constraints // tc.AzureRegion
 			Owner:     testcommon.AsOwner(container),
 			Resource: &documentdb.SqlUserDefinedFunctionResource{
 				Id:   &name,
-				Body: to.Ptr(userDefinedFunctionBody_v20231115),
+				Body: new(userDefinedFunctionBody_v20231115),
 			},
 		},
 	}
@@ -323,7 +322,7 @@ func CosmosDB_SQL_Database_ThroughputSettings_v20231115_CRUD(tc *testcommon.Kube
 				// We cannot change this to be a fixed throughput as we already created the database using
 				// autoscale and they do not allow switching back to fixed from that.
 				AutoscaleSettings: &documentdb.AutoscaleSettingsResource{
-					MaxThroughput: to.Ptr(5000),
+					MaxThroughput: new(5000),
 				},
 			},
 		},
@@ -339,15 +338,15 @@ func CosmosDB_SQL_Database_ThroughputSettings_v20231115_CRUD(tc *testcommon.Kube
 	// Ensure that the status is what we expect
 	tc.Expect(throughputSettings.Status.Id).ToNot(BeNil())
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(to.Ptr(5000)))
+	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(new(5000)))
 
 	tc.LogSubsectionf("increase max throughput to 6000")
 	old := throughputSettings.DeepCopy()
-	throughputSettings.Spec.Resource.AutoscaleSettings.MaxThroughput = to.Ptr(6000)
+	throughputSettings.Spec.Resource.AutoscaleSettings.MaxThroughput = new(6000)
 	tc.PatchResourceAndWait(old, &throughputSettings)
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
 	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(to.Ptr(6000)))
+	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(new(6000)))
 	tc.T.Log("throughput successfully updated in status")
 }
 
@@ -360,7 +359,7 @@ func CosmosDB_SQL_Database_Container_ThroughputSettings_v20231115_CRUD(tc *testc
 		Spec: documentdb.SqlDatabaseContainerThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(container),
 			Resource: &documentdb.ThroughputSettingsResource{
-				Throughput: to.Ptr(500),
+				Throughput: new(500),
 			},
 		},
 	}
@@ -375,14 +374,14 @@ func CosmosDB_SQL_Database_Container_ThroughputSettings_v20231115_CRUD(tc *testc
 	// Ensure that the status is what we expect
 	tc.Expect(throughputSettings.Status.Id).ToNot(BeNil())
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(to.Ptr(500)))
+	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(new(500)))
 
 	tc.T.Log("increase throughput to 600")
 	old := throughputSettings.DeepCopy()
-	throughputSettings.Spec.Resource.Throughput = to.Ptr(600)
+	throughputSettings.Spec.Resource.Throughput = new(600)
 	tc.PatchResourceAndWait(old, &throughputSettings)
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(to.Ptr(600)))
+	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(new(600)))
 	tc.T.Log("throughput successfully updated in status")
 }
 
@@ -396,7 +395,7 @@ func CosmosDB_SQL_RoleAssignment_v20231115_CRUD(tc *testcommon.KubePerTestContex
 	mi := &managedidentity.UserAssignedIdentity{
 		ObjectMeta: tc.MakeObjectMeta("mi"),
 		Spec: managedidentity.UserAssignedIdentity_Spec{
-			Location: to.Ptr("australiaeast"), // Capacity constraints // tc.AzureRegion
+			Location: new("australiaeast"), // Capacity constraints // tc.AzureRegion
 			Owner:    testcommon.AsOwner(rg),
 			OperatorSpec: &managedidentity.UserAssignedIdentityOperatorSpec{
 				ConfigMaps: &managedidentity.UserAssignedIdentityOperatorConfigMaps{

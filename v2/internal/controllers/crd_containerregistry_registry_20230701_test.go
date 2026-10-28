@@ -29,7 +29,7 @@ func Test_ContainerRegistry_Registry_20230701_CRUD(t *testing.T) {
 	registry := &containerregistry.Registry{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: containerregistry.Registry_Spec{
-			AdminUserEnabled:    to.Ptr(false),
+			AdminUserEnabled:    new(false),
 			AzureName:           name,
 			Location:            tc.AzureRegion,
 			Owner:               testcommon.AsOwner(rg),
@@ -46,9 +46,9 @@ func Test_ContainerRegistry_Registry_20230701_CRUD(t *testing.T) {
 	replication := &containerregistry.RegistryReplication{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: containerregistry.RegistryReplication_Spec{
-			Location:              to.Ptr("australiaeast"), // Has to be different from tc.AzureRegion
+			Location:              new("australiaeast"), // Has to be different from tc.AzureRegion
 			Owner:                 testcommon.AsOwner(registry),
-			RegionEndpointEnabled: to.Ptr(false),
+			RegionEndpointEnabled: new(false),
 			ZoneRedundancy:        to.Ptr(containerregistry.ReplicationProperties_ZoneRedundancy_Disabled),
 		},
 	}
