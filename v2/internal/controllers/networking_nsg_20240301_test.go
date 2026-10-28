@@ -14,7 +14,6 @@ import (
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Networking_NetworkSecurityGroup_20240301_CRUD(t *testing.T) {
@@ -74,14 +73,14 @@ func NetworkSecurityGroup_SecurityRules_20240301_CRUD(tc *testcommon.KubePerTest
 		Spec: network.NetworkSecurityGroupsSecurityRule_Spec{
 			Owner:                    testcommon.AsOwner(nsg),
 			Protocol:                 &protocol,
-			SourcePortRange:          to.Ptr("23-45"),
-			DestinationPortRange:     to.Ptr("46-56"),
-			SourceAddressPrefix:      to.Ptr("*"),
-			DestinationAddressPrefix: to.Ptr("*"),
+			SourcePortRange:          new("23-45"),
+			DestinationPortRange:     new("46-56"),
+			SourceAddressPrefix:      new("*"),
+			DestinationAddressPrefix: new("*"),
 			Access:                   &allow,
-			Priority:                 to.Ptr(123),
+			Priority:                 new(123),
 			Direction:                &direction,
-			Description:              to.Ptr("The first rule of networking is don't talk about networking"),
+			Description:              new("The first rule of networking is don't talk about networking"),
 		},
 	}
 
@@ -95,11 +94,11 @@ func NetworkSecurityGroup_SecurityRules_20240301_CRUD(tc *testcommon.KubePerTest
 				"23-45",
 				"5000-5100",
 			},
-			DestinationPortRange:     to.Ptr("*"),
-			SourceAddressPrefix:      to.Ptr("*"),
-			DestinationAddressPrefix: to.Ptr("*"),
+			DestinationPortRange:     new("*"),
+			SourceAddressPrefix:      new("*"),
+			DestinationAddressPrefix: new("*"),
 			Access:                   &deny,
-			Priority:                 to.Ptr(124),
+			Priority:                 new(124),
 			Direction:                &direction,
 		},
 	}

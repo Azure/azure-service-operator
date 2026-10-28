@@ -14,7 +14,6 @@ import (
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -40,14 +39,14 @@ func newVirtualMachine20220301(
 				// Specifying AdminPassword here rather than SSH Key to ensure that handling and injection
 				// of secrets works.
 				AdminPassword: &secretRef,
-				ComputerName:  to.Ptr("poppy"),
+				ComputerName:  new("poppy"),
 			},
 			StorageProfile: &compute2022.StorageProfile{
 				ImageReference: &compute2022.ImageReference{
-					Offer:     to.Ptr("UbuntuServer"),
-					Publisher: to.Ptr("Canonical"),
-					Sku:       to.Ptr("18.04-LTS"),
-					Version:   to.Ptr("latest"),
+					Offer:     new("UbuntuServer"),
+					Publisher: new("Canonical"),
+					Sku:       new("18.04-LTS"),
+					Version:   new("latest"),
 				},
 			},
 			NetworkProfile: &compute2022.NetworkProfile{
@@ -79,7 +78,7 @@ func Test_Compute_VM_20220301_CRUD(t *testing.T) {
 	old := vm.DeepCopy()
 	vm.Spec.DiagnosticsProfile = &compute2022.DiagnosticsProfile{
 		BootDiagnostics: &compute2022.BootDiagnostics{
-			Enabled: to.Ptr(true),
+			Enabled: new(true),
 		},
 	}
 
@@ -114,9 +113,9 @@ func VM_Extension_20220301_CRUD(tc *testcommon.KubePerTestContext, vmOwnerRef *g
 		Spec: compute2022.VirtualMachinesExtension_Spec{
 			Owner:              vmOwnerRef,
 			Location:           tc.AzureRegion,
-			Publisher:          to.Ptr("Microsoft.ManagedServices"),
-			Type:               to.Ptr("ApplicationHealthLinux"),
-			TypeHandlerVersion: to.Ptr("1.0"),
+			Publisher:          new("Microsoft.ManagedServices"),
+			Type:               new("ApplicationHealthLinux"),
+			TypeHandlerVersion: new("1.0"),
 		},
 	}
 

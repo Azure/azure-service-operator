@@ -27,7 +27,7 @@ func Test_SQL_ManagedInstance_v20250101_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	tc.AzureRegion = to.Ptr("westus2")
+	tc.AzureRegion = new("westus2")
 
 	secretName := "sqlmisecret"
 	adminPasswordKey := "adminPassword"
@@ -45,17 +45,17 @@ func Test_SQL_ManagedInstance_v20250101_CRUD(t *testing.T) {
 		Spec: sql.ManagedInstance_Spec{
 			Location:                   tc.AzureRegion,
 			Owner:                      testcommon.AsOwner(rg),
-			AdministratorLogin:         to.Ptr("miadmin"),
+			AdministratorLogin:         new("miadmin"),
 			AdministratorLoginPassword: &adminPasswordSecretRef,
 			SubnetReference:            tc.MakeReferenceFromResource(subnet),
 			Sku: &sql.Sku{
-				Name: to.Ptr("GP_Gen5"),
-				Tier: to.Ptr("GeneralPurpose"),
+				Name: new("GP_Gen5"),
+				Tier: new("GeneralPurpose"),
 			},
-			VCores:                           to.Ptr(4),
-			StorageSizeInGB:                  to.Ptr(32),
+			VCores:                           new(4),
+			StorageSizeInGB:                  new(32),
 			LicenseType:                      to.Ptr(sql.ManagedInstanceLicenseType_LicenseIncluded),
-			PublicDataEndpointEnabled:        to.Ptr(false),
+			PublicDataEndpointEnabled:        new(false),
 			RequestedBackupStorageRedundancy: to.Ptr(sql.BackupStorageRedundancy_Geo),
 			OperatorSpec: &sql.ManagedInstanceOperatorSpec{
 				ConfigMaps: &sql.ManagedInstanceOperatorConfigMaps{
@@ -109,7 +109,7 @@ func SQL_ManagedInstance_Database_v20250101_CRUD(tc *testcommon.KubePerTestConte
 		Spec: sql.ManagedInstancesDatabase_Spec{
 			Owner:     testcommon.AsOwner(mi),
 			Location:  tc.AzureRegion,
-			Collation: to.Ptr("SQL_Latin1_General_CP1_CI_AS"),
+			Collation: new("SQL_Latin1_General_CP1_CI_AS"),
 		},
 	}
 
@@ -160,8 +160,8 @@ func Test_SQL_InstanceFailoverGroup_v20250101_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	primaryRegion := to.Ptr("westeurope")
-	secondaryRegion := to.Ptr("germanywestcentral")
+	primaryRegion := new("westeurope")
+	secondaryRegion := new("germanywestcentral")
 	tc.AzureRegion = primaryRegion
 
 	secretName := "sqlmisecret"
@@ -187,17 +187,17 @@ func Test_SQL_InstanceFailoverGroup_v20250101_CRUD(t *testing.T) {
 			Spec: sql.ManagedInstance_Spec{
 				Location:                   region,
 				Owner:                      testcommon.AsOwner(rg),
-				AdministratorLogin:         to.Ptr("miadmin"),
+				AdministratorLogin:         new("miadmin"),
 				AdministratorLoginPassword: &adminPasswordSecretRef,
 				SubnetReference:            tc.MakeReferenceFromResource(subnet),
 				Sku: &sql.Sku{
-					Name: to.Ptr("GP_Gen5"),
-					Tier: to.Ptr("GeneralPurpose"),
+					Name: new("GP_Gen5"),
+					Tier: new("GeneralPurpose"),
 				},
-				VCores:                    to.Ptr(4),
-				StorageSizeInGB:           to.Ptr(32),
+				VCores:                    new(4),
+				StorageSizeInGB:           new(32),
 				LicenseType:               to.Ptr(sql.ManagedInstanceLicenseType_LicenseIncluded),
-				PublicDataEndpointEnabled: to.Ptr(false),
+				PublicDataEndpointEnabled: new(false),
 			},
 		}
 	}
@@ -232,7 +232,7 @@ func Test_SQL_InstanceFailoverGroup_v20250101_CRUD(t *testing.T) {
 			},
 			ReadWriteEndpoint: &sql.InstanceFailoverGroupReadWriteEndpoint{
 				FailoverPolicy:                         to.Ptr(sql.ReadWriteEndpointFailoverPolicy_Automatic),
-				FailoverWithDataLossGracePeriodMinutes: to.Ptr(60),
+				FailoverWithDataLossGracePeriodMinutes: new(60),
 			},
 		},
 	}
@@ -349,11 +349,11 @@ func newManagedInstanceNetworkInRegion(
 		ObjectMeta: tc.MakeObjectMeta(name + "subnet"),
 		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
-			AddressPrefix: to.Ptr(subnetPrefix),
+			AddressPrefix: new(subnetPrefix),
 			Delegations: []network.Delegation{
 				{
-					Name:        to.Ptr("managedinstancedelegation"),
-					ServiceName: to.Ptr("Microsoft.Sql/managedInstances"),
+					Name:        new("managedinstancedelegation"),
+					ServiceName: new("Microsoft.Sql/managedInstances"),
 				},
 			},
 			NetworkSecurityGroup: &network.NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded{
@@ -374,14 +374,14 @@ func newManagedInstanceNetworkInRegion(
 			ObjectMeta: tc.MakeObjectMeta(name + r.name),
 			Spec: network.NetworkSecurityGroupsSecurityRule_Spec{
 				Owner:                    testcommon.AsOwner(nsg),
-				Priority:                 to.Ptr(r.priority),
-				Direction:                to.Ptr(r.direction),
-				Access:                   to.Ptr(allow),
-				Protocol:                 to.Ptr(r.protocol),
-				SourceAddressPrefix:      to.Ptr(r.source),
-				SourcePortRange:          to.Ptr("*"),
-				DestinationAddressPrefix: to.Ptr(r.dest),
-				DestinationPortRange:     to.Ptr(r.destPort),
+				Priority:                 new(r.priority),
+				Direction:                new(r.direction),
+				Access:                   new(allow),
+				Protocol:                 new(r.protocol),
+				SourceAddressPrefix:      new(r.source),
+				SourcePortRange:          new("*"),
+				DestinationAddressPrefix: new(r.dest),
+				DestinationPortRange:     new(r.destPort),
 			},
 		})
 	}
@@ -402,8 +402,8 @@ func newManagedInstancePeering(
 		ObjectMeta: tc.MakeObjectMeta(name),
 		Spec: network.VirtualNetworksVirtualNetworkPeering_Spec{
 			Owner:                     testcommon.AsOwner(from),
-			AllowVirtualNetworkAccess: to.Ptr(true),
-			AllowForwardedTraffic:     to.Ptr(true),
+			AllowVirtualNetworkAccess: new(true),
+			AllowForwardedTraffic:     new(true),
 			RemoteVirtualNetwork: &network.SubResource{
 				Reference: tc.MakeReferenceFromResource(remote),
 			},
