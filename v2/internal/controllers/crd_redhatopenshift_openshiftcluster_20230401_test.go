@@ -48,7 +48,7 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 
 	serviceEndpoints := []network.ServiceEndpointPropertiesFormat{
 		{
-			Service: to.Ptr("Microsoft.ContainerRegistry"),
+			Service: new("Microsoft.ContainerRegistry"),
 		},
 	}
 
@@ -60,10 +60,10 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 
 	contributorRoleId := fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription)
 	roleAssignmentToVNET := newRoleAssignment(tc, vnet, "roleassingment", contributorRoleId)
-	roleAssignmentToVNET.Spec.PrincipalId = to.Ptr(details.objectId)
+	roleAssignmentToVNET.Spec.PrincipalId = new(details.objectId)
 
 	roleAssingmentFromRPtoVnet := newRoleAssignment(tc, vnet, "rollassginmentrp", contributorRoleId)
-	roleAssingmentFromRPtoVnet.Spec.PrincipalId = to.Ptr(azureRedHadOpenshiftRPIdentityPrincipalId)
+	roleAssingmentFromRPtoVnet.Spec.PrincipalId = new(azureRedHadOpenshiftRPIdentityPrincipalId)
 
 	outputSecretName := "my-secret"
 	cluster := &aro.OpenShiftCluster{
@@ -75,38 +75,38 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 				Visibility: to.Ptr(aro.Visibility_Private),
 			},
 			ClusterProfile: &aro.ClusterProfile{
-				Domain:  to.Ptr("aro-example.com"),
-				Version: to.Ptr("4.14.16"),
+				Domain:  new("aro-example.com"),
+				Version: new("4.14.16"),
 				// This is RG below is created by the RP.
-				ResourceGroupId:      to.Ptr(fmt.Sprintf("/subscriptions/%s/resourceGroups/%s", tc.AzureSubscription, tc.Namer.GenerateName("cluster-rg"))),
+				ResourceGroupId:      new(fmt.Sprintf("/subscriptions/%s/resourceGroups/%s", tc.AzureSubscription, tc.Namer.GenerateName("cluster-rg"))),
 				FipsValidatedModules: to.Ptr(aro.FipsValidatedModules_Disabled),
 			},
 			IngressProfiles: []aro.IngressProfile{
 				{
-					Name:       to.Ptr("default"),
+					Name:       new("default"),
 					Visibility: to.Ptr(aro.Visibility_Private),
 				},
 			},
 			MasterProfile: &aro.MasterProfile{
 				SubnetReference:  tc.MakeReferenceFromResource(masterSubnet),
-				VmSize:           to.Ptr("Standard_D8s_v3"),
+				VmSize:           new("Standard_D8s_v3"),
 				EncryptionAtHost: to.Ptr(aro.EncryptionAtHost_Disabled),
 			},
 			NetworkProfile: &aro.NetworkProfile{
-				PodCidr:     to.Ptr("10.128.0.0/14"),
-				ServiceCidr: to.Ptr("172.30.0.0/16"),
+				PodCidr:     new("10.128.0.0/14"),
+				ServiceCidr: new("172.30.0.0/16"),
 			},
 			ServicePrincipalProfile: &aro.ServicePrincipalProfile{
-				ClientId:     to.Ptr(details.clientId),
+				ClientId:     new(details.clientId),
 				ClientSecret: &clientSecretRef,
 			},
 			WorkerProfiles: []aro.WorkerProfile{
 				{
-					Count:            to.Ptr(3),
-					Name:             to.Ptr("worker"),
+					Count:            new(3),
+					Name:             new("worker"),
 					SubnetReference:  tc.MakeReferenceFromResource(workerSubnet),
-					VmSize:           to.Ptr("Standard_D4s_v3"),
-					DiskSizeGB:       to.Ptr(128),
+					VmSize:           new("Standard_D4s_v3"),
+					DiskSizeGB:       new(128),
 					EncryptionAtHost: to.Ptr(aro.EncryptionAtHost_Disabled),
 				},
 			},

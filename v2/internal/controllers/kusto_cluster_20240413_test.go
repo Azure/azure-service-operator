@@ -29,7 +29,7 @@ func Test_Kusto_Cluster_20240413_CRUD(t *testing.T) {
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &kusto.AzureSku{
-				Capacity: to.Ptr(2),
+				Capacity: new(2),
 				Name:     to.Ptr(kusto.AzureSku_Name_Standard_D13_V2),
 				Tier:     to.Ptr(kusto.AzureSku_Tier_Standard),
 			},
@@ -46,7 +46,7 @@ func Test_Kusto_Cluster_20240413_CRUD(t *testing.T) {
 			ReadWrite: &kusto.ReadWriteDatabase{
 				Kind:             to.Ptr(kusto.ReadWriteDatabase_Kind_ReadWrite),
 				Location:         tc.AzureRegion,
-				SoftDeletePeriod: to.Ptr("P1D"),
+				SoftDeletePeriod: new("P1D"),
 			},
 		},
 	}
@@ -59,7 +59,7 @@ func Test_Kusto_Cluster_20240413_CRUD(t *testing.T) {
 
 	var tenantId *string
 	if cluster.Status.Identity.TenantId != nil {
-		tenantId = to.Ptr(*cluster.Status.Identity.TenantId)
+		tenantId = new(*cluster.Status.Identity.TenantId)
 	}
 
 	tc.RunParallelSubtests(
@@ -90,7 +90,7 @@ func Test_Kusto_Cluster_20240413_CRUD(t *testing.T) {
 func KustoClusterUpdate(cluster *kusto.Cluster) func(tc *testcommon.KubePerTestContext) {
 	return func(tc *testcommon.KubePerTestContext) {
 		old := cluster.DeepCopy()
-		cluster.Spec.EnablePurge = to.Ptr(true)
+		cluster.Spec.EnablePurge = new(true)
 		tc.PatchResourceAndWait(old, cluster)
 		tc.Expect(cluster.Status.EnablePurge).ToNot(BeNil())
 		tc.Expect(*cluster.Status.EnablePurge).To(BeTrue())
@@ -100,10 +100,10 @@ func KustoClusterUpdate(cluster *kusto.Cluster) func(tc *testcommon.KubePerTestC
 func KustoDatabaseUpdate(db *kusto.Database) func(tc *testcommon.KubePerTestContext) {
 	return func(tc *testcommon.KubePerTestContext) {
 		old := db.DeepCopy()
-		db.Spec.ReadWrite.SoftDeletePeriod = to.Ptr("P3D")
+		db.Spec.ReadWrite.SoftDeletePeriod = new("P3D")
 		tc.PatchResourceAndWait(old, db)
 		tc.Expect(db.Status.ReadWrite).ToNot(BeNil())
-		tc.Expect(db.Status.ReadWrite.SoftDeletePeriod).To(Equal(to.Ptr("P3D")))
+		tc.Expect(db.Status.ReadWrite.SoftDeletePeriod).To(Equal(new("P3D")))
 	}
 }
 
@@ -113,7 +113,7 @@ func KustoClusterPrincipalAssignmentCRUD(cluster *kusto.Cluster, principalID str
 			ObjectMeta: tc.MakeObjectMeta("clusterpriass"),
 			Spec: kustov20240413.ClusterPrincipalAssignment_Spec{
 				Owner:         testcommon.AsOwner(cluster),
-				PrincipalId:   to.Ptr(principalID),
+				PrincipalId:   new(principalID),
 				PrincipalType: to.Ptr(kustov20240413.ClusterPrincipalProperties_PrincipalType_App),
 				Role:          to.Ptr(kustov20240413.ClusterPrincipalProperties_Role_AllDatabasesViewer),
 				TenantId:      tenantID,
@@ -144,7 +144,7 @@ func KustoPrincipalAssignmentCRUD(db *kusto.Database, principalID string, tenant
 			ObjectMeta: tc.MakeObjectMeta("priass"),
 			Spec: kusto.PrincipalAssignment_Spec{
 				Owner:         testcommon.AsOwner(db),
-				PrincipalId:   to.Ptr(principalID),
+				PrincipalId:   new(principalID),
 				PrincipalType: to.Ptr(kusto.DatabasePrincipalProperties_PrincipalType("App")),
 				Role:          to.Ptr(kusto.DatabasePrincipalProperties_Role("Admin")),
 				TenantId:      tenantID,

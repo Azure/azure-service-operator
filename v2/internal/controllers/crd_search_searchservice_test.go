@@ -34,9 +34,9 @@ func Test_Search_SearchService_CRUD(t *testing.T) {
 			},
 			Location:            tc.AzureRegion,
 			Owner:               testcommon.AsOwner(rg),
-			PartitionCount:      to.Ptr(1),
+			PartitionCount:      new(1),
 			PublicNetworkAccess: to.Ptr(search.SearchServiceProperties_PublicNetworkAccess_Disabled),
-			ReplicaCount:        to.Ptr(1),
+			ReplicaCount:        new(1),
 			Sku:                 &search.Sku{Name: to.Ptr(search.Sku_Name_Standard)},
 		},
 	}

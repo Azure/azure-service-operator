@@ -16,7 +16,6 @@ import (
 
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -79,9 +78,9 @@ func FederatedIdentityCredentials_20230131_CRUD(tc *testcommon.KubePerTestContex
 			},
 			// For Workload Identity, Issuer should be the OIDC endpoint of the cluster. For AKS this will look like
 			// https://oidc.prod-aks.azure.com/00000000-0000-0000-0000-00000000000/
-			Issuer: to.Ptr("https://oidc.prod-aks.azure.com/00000000-0000-0000-0000-00000000000/"),
+			Issuer: new("https://oidc.prod-aks.azure.com/00000000-0000-0000-0000-00000000000/"),
 			// For Workload Identity, Subject should always be system:serviceaccount:<namespace>:<serviceaccount>
-			Subject: to.Ptr(fmt.Sprintf("system:serviceaccount:%s:%s", tc.Namespace, "default")),
+			Subject: new(fmt.Sprintf("system:serviceaccount:%s:%s", tc.Namespace, "default")),
 		},
 	}
 
@@ -92,7 +91,7 @@ func FederatedIdentityCredentials_20230131_CRUD(tc *testcommon.KubePerTestContex
 
 	// Update the FIC
 	old := fic.DeepCopy()
-	fic.Spec.Issuer = to.Ptr("https://oidc.prod-aks.azure.com/1234/")
+	fic.Spec.Issuer = new("https://oidc.prod-aks.azure.com/1234/")
 	tc.Patch(old, fic)
 
 	objectKey := client.ObjectKeyFromObject(fic)
@@ -102,7 +101,7 @@ func FederatedIdentityCredentials_20230131_CRUD(tc *testcommon.KubePerTestContex
 		updated := &managedidentity.FederatedIdentityCredential{}
 		tc.GetResource(objectKey, updated)
 		return updated.Status.Issuer
-	}).Should(Equal(to.Ptr("https://oidc.prod-aks.azure.com/1234/")))
+	}).Should(Equal(new("https://oidc.prod-aks.azure.com/1234/")))
 
 	tc.DeleteResourceAndWait(fic)
 

@@ -27,7 +27,7 @@ func Test_DatabaseWatcher_Target_v20241001preview_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 	// Database Watcher isn't available in the default test region
-	tc.AzureRegion = to.Ptr("australiaeast")
+	tc.AzureRegion = new("australiaeast")
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -79,7 +79,7 @@ func Test_DatabaseWatcher_Target_v20241001preview_CRUD(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			Administrators: &sql.ServerExternalAdministrator{
 				AdministratorType:         to.Ptr(sql.ServerExternalAdministrator_AdministratorType_ActiveDirectory),
-				AzureADOnlyAuthentication: to.Ptr(true),
+				AzureADOnlyAuthentication: new(true),
 				PrincipalType:             to.Ptr(sql.ServerExternalAdministrator_PrincipalType_Application),
 				LoginFromConfig: &genruntime.ConfigMapReference{
 					Name: identityConfigMap,
@@ -94,7 +94,7 @@ func Test_DatabaseWatcher_Target_v20241001preview_CRUD(t *testing.T) {
 					Key:  identityConfigTenantID,
 				},
 			},
-			Version: to.Ptr("12.0"),
+			Version: new("12.0"),
 			OperatorSpec: &sql.ServerOperatorSpec{
 				ConfigMaps: &sql.ServerOperatorConfigMaps{
 					FullyQualifiedDomainName: &genruntime.ConfigMapDestination{
@@ -149,9 +149,9 @@ func Test_DatabaseWatcher_Target_v20241001preview_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("spl"),
 		Spec: databasewatcher.SharedPrivateLink_Spec{
 			Owner:                        testcommon.AsOwner(watcher),
-			GroupId:                      to.Ptr("sqlServer"),
+			GroupId:                      new("sqlServer"),
 			PrivateLinkResourceReference: tc.MakeReferenceFromResource(server),
-			RequestMessage:               to.Ptr("Please approve the connection from the database watcher"),
+			RequestMessage:               new("Please approve the connection from the database watcher"),
 		},
 	}
 
@@ -165,7 +165,7 @@ func Test_DatabaseWatcher_Target_v20241001preview_CRUD(t *testing.T) {
 	tc.Expect(target.Status.Properties.SqlDb).ToNot(BeNil())
 
 	tc.Expect(sharedPrivateLink.Status.Id).ToNot(BeNil())
-	tc.Expect(sharedPrivateLink.Status.GroupId).To(Equal(to.Ptr("sqlServer")))
+	tc.Expect(sharedPrivateLink.Status.GroupId).To(Equal(new("sqlServer")))
 
 	// Status.Status is where ARM documents the connection state, but it reports nothing there at any point,
 	// so the link is only ready once the connection on the server itself says it was approved
@@ -173,9 +173,9 @@ func Test_DatabaseWatcher_Target_v20241001preview_CRUD(t *testing.T) {
 	tc.Expect(connectionStateFromAzure(tc, server)).To(Equal("Approved"))
 
 	old := target.DeepCopy()
-	target.Spec.Properties.SqlDb.ReadIntent = to.Ptr(true)
+	target.Spec.Properties.SqlDb.ReadIntent = new(true)
 	tc.PatchResourceAndWait(old, target)
-	tc.Expect(target.Status.Properties.SqlDb.ReadIntent).To(Equal(to.Ptr(true)))
+	tc.Expect(target.Status.Properties.SqlDb.ReadIntent).To(Equal(new(true)))
 
 	// The status on the watcher itself is only as fresh as the watcher's last reconcile, so ask Azure
 	tc.Expect(watcherStatusFromAzure(tc, watcher)).To(Equal("Running"))
@@ -212,11 +212,11 @@ func databaseWatcherDatastore(subscription string, resourceGroup string, cluster
 	// the adx and free offerings
 	return &databasewatcher.Datastore{
 		AdxClusterResourceReference: &genruntime.ResourceReference{ARMID: kustoClusterID},
-		KustoClusterDisplayName:     to.Ptr(clusterName),
-		KustoClusterUri:             to.Ptr(fmt.Sprintf("https://%s.eastus.kusto.windows.net", clusterName)),
-		KustoDataIngestionUri:       to.Ptr(fmt.Sprintf("https://ingest-%s.eastus.kusto.windows.net", clusterName)),
-		KustoDatabaseName:           to.Ptr("watcher-data"),
-		KustoManagementUrl:          to.Ptr("https://portal.azure.com/"),
+		KustoClusterDisplayName:     new(clusterName),
+		KustoClusterUri:             new(fmt.Sprintf("https://%s.eastus.kusto.windows.net", clusterName)),
+		KustoDataIngestionUri:       new(fmt.Sprintf("https://ingest-%s.eastus.kusto.windows.net", clusterName)),
+		KustoDatabaseName:           new("watcher-data"),
+		KustoManagementUrl:          new("https://portal.azure.com/"),
 		KustoOfferingType:           to.Ptr(databasewatcher.KustoOfferingType_Adx),
 	}
 }

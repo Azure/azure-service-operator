@@ -29,23 +29,23 @@ func Test_Portal_Dashboard_v20250401preview_CRUD(t *testing.T) {
 			Properties: &portal.DashboardPropertiesWithProvisioningState{
 				Lenses: []portal.DashboardLens{
 					{
-						Order: to.Ptr(0),
+						Order: new(0),
 						Parts: []portal.DashboardParts{
 							{
 								Position: &portal.DashboardPartsPosition{
-									ColSpan: to.Ptr(6),
-									RowSpan: to.Ptr(4),
-									X:       to.Ptr(0),
-									Y:       to.Ptr(0),
+									ColSpan: new(6),
+									RowSpan: new(4),
+									X:       new(0),
+									Y:       new(0),
 								},
 								Metadata: &portal.DashboardPartMetadata{
 									ExtensionHubsExtensionPartTypeMarkdownPart: &portal.MarkdownPartMetadata{
 										Type: to.Ptr(portal.DashboardPartMetadataType_ExtensionHubsExtensionPartTypeMarkdownPart),
 										Settings: &portal.MarkdownPartMetadataSettings{
 											Content: &portal.MarkdownPartMetadataSettingsContent{
-												Content:  to.Ptr("# Azure Service Operator"),
-												Subtitle: to.Ptr("Managed by ASO"),
-												Title:    to.Ptr("Dashboard"),
+												Content:  new("# Azure Service Operator"),
+												Subtitle: new("Managed by ASO"),
+												Title:    new("Dashboard"),
 											},
 										},
 									},

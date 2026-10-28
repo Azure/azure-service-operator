@@ -29,11 +29,11 @@ func Test_MachineLearning_Workspaces_20240401_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	tc.AzureRegion = to.Ptr("westus3")
+	tc.AzureRegion = new("westus3")
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	sa := newStorageAccount(tc, rg)
-	sa.Spec.AllowBlobPublicAccess = to.Ptr(false)
+	sa.Spec.AllowBlobPublicAccess = new(false)
 
 	kv := newVault20210401preview("kv", tc, rg)
 	kv.Spec.Properties.CreateMode = to.Ptr(keyvault.VaultProperties_CreateMode_CreateOrRecover)
@@ -94,10 +94,10 @@ func newWorkspace_20240401(tc *testcommon.KubePerTestContext, owner *genruntime.
 			Location: location,
 			Owner:    owner,
 			Sku: &machinelearningservices.Sku{
-				Name: to.Ptr("Standard_S1"),
+				Name: new("Standard_S1"),
 				Tier: to.Ptr(machinelearningservices.SkuTier_Free),
 			},
-			AllowPublicAccessWhenBehindVnet: to.Ptr(false),
+			AllowPublicAccessWhenBehindVnet: new(false),
 			Identity: &machinelearningservices.ManagedServiceIdentity{
 				Type: to.Ptr(machinelearningservices.ManagedServiceIdentityType_SystemAssigned),
 			},
@@ -119,8 +119,8 @@ func WorkspaceConnection_20240401_CRUD(tc *testcommon.KubePerTestContext, worksp
 				None: &machinelearningservices.NoneAuthTypeWorkspaceConnectionProperties{
 					AuthType:    to.Ptr(machinelearningservices.NoneAuthTypeWorkspaceConnectionProperties_AuthType_None),
 					Category:    to.Ptr(machinelearningservices.ConnectionCategory_ContainerRegistry),
-					Target:      to.Ptr("www.microsoft.com"),
-					Value:       to.Ptr(jsonValue),
+					Target:      new("www.microsoft.com"),
+					Value:       new(jsonValue),
 					ValueFormat: to.Ptr(machinelearningservices.NoneAuthTypeWorkspaceConnectionProperties_ValueFormat_JSON),
 				},
 			},
@@ -170,21 +170,21 @@ func newWorkspacesCompute_20240401(tc *testcommon.KubePerTestContext, owner *gen
 			Location: tc.AzureRegion,
 			Owner:    owner,
 			Sku: &machinelearningservices.Sku{
-				Name: to.Ptr("Standard_S1"),
+				Name: new("Standard_S1"),
 				Tier: to.Ptr(machinelearningservices.SkuTier_Free),
 			},
 			Properties: &machinelearningservices.Compute{
 				VirtualMachine: &machinelearningservices.VirtualMachine{
 					ComputeLocation:   tc.AzureRegion,
 					ComputeType:       to.Ptr(machinelearningservices.VirtualMachine_ComputeType_VirtualMachine),
-					DisableLocalAuth:  to.Ptr(true),
+					DisableLocalAuth:  new(true),
 					ResourceReference: tc.MakeReferenceFromResource(vm),
 					Properties: &machinelearningservices.VirtualMachine_Properties{
 						AdministratorAccount: &machinelearningservices.VirtualMachineSshCredentials{
 							Password: &secret,
-							Username: to.Ptr("bloom"),
+							Username: new("bloom"),
 						},
-						SshPort: to.Ptr(22),
+						SshPort: new(22),
 					},
 				},
 			},
