@@ -151,7 +151,7 @@ func validateCRDPatternsForTemplate(
 	warnings := 0
 	for _, p := range crdPatterns {
 		// We split patterns by `;` so we can check them individually and provide more fine-grained feedback
-		for _, pattern := range strings.Split(p, ";") {
+		for pattern := range strings.SplitSeq(p, ";") {
 			count := countCRDsMatchingPattern(knownCRDs, pattern)
 			if count == 0 {
 				log.V(Status).Info("No CRDs matched pattern", "pattern", pattern)
