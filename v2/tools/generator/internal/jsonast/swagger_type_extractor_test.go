@@ -100,7 +100,7 @@ func Test_extractLastPathParam_ExtractsParameter(t *testing.T) {
 
 	param := spec.Parameter{
 		CommonValidations: spec.CommonValidations{
-			Enum: []interface{}{"yes", "no"},
+			Enum: []any{"yes", "no"},
 		},
 		ParamProps: spec.ParamProps{
 			In:       "path",
@@ -121,7 +121,7 @@ func Test_extractLastPathParam_ExtractsParameterFromMultipleParameters(t *testin
 	extractor := SwaggerTypeExtractor{}
 	param := spec.Parameter{
 		CommonValidations: spec.CommonValidations{
-			Enum: []interface{}{"orange", "blue"},
+			Enum: []any{"orange", "blue"},
 		},
 		ParamProps: spec.ParamProps{
 			In:       "path",
@@ -133,7 +133,7 @@ func Test_extractLastPathParam_ExtractsParameterFromMultipleParameters(t *testin
 	lastParam, ok := extractor.extractLastPathParam("/some/{value1}/{value2}", []spec.Parameter{
 		{
 			CommonValidations: spec.CommonValidations{
-				Enum: []interface{}{"yes", "no"},
+				Enum: []any{"yes", "no"},
 			},
 			ParamProps: spec.ParamProps{
 				In:       "path",
@@ -164,7 +164,7 @@ func Test_extractLastPathParam_StaticParameterName(t *testing.T) {
 			Description: "The name",
 		},
 		CommonValidations: spec.CommonValidations{
-			Enum: []interface{}{
+			Enum: []any{
 				"default",
 			},
 		},
@@ -173,7 +173,7 @@ func Test_extractLastPathParam_StaticParameterName(t *testing.T) {
 	lastParam, ok := extractor.extractLastPathParam("/some/{value1}/default", []spec.Parameter{
 		{
 			CommonValidations: spec.CommonValidations{
-				Enum: []interface{}{"yes", "no"},
+				Enum: []any{"yes", "no"},
 			},
 			ParamProps: spec.ParamProps{
 				In:       "path",
@@ -256,7 +256,7 @@ func Test_ExpandAndCanonicalizePath_ExpandsSingleValueEnumInNameLocationWithDefa
 				Schema: &spec.Schema{
 					SchemaProps: spec.SchemaProps{
 						Type: spec.StringOrArray{"string"},
-						Enum: []interface{}{
+						Enum: []any{
 							"default",
 						},
 					},
@@ -295,7 +295,7 @@ func Test_ExpandAndCanonicalizePath_DoesNotExpandSingleValueEnumWithoutDefault(t
 				Schema: &spec.Schema{
 					SchemaProps: spec.SchemaProps{
 						Type: spec.StringOrArray{"string"},
-						Enum: []interface{}{
+						Enum: []any{
 							"current",
 						},
 					},
@@ -334,7 +334,7 @@ func Test_ExpandAndCanonicalizePath_ExpandsEnumInResourceTypePath(t *testing.T) 
 				Schema: &spec.Schema{
 					SchemaProps: spec.SchemaProps{
 						Type: spec.StringOrArray{"string"},
-						Enum: []interface{}{
+						Enum: []any{
 							"a",
 							"b",
 							"c",
@@ -410,7 +410,6 @@ func TestCategorizeResourceScope(t *testing.T) {
 	}
 
 	for name, c := range cases {
-		c := c
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)

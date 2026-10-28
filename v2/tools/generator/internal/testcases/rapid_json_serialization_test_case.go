@@ -8,6 +8,7 @@ package testcases
 import (
 	"fmt"
 	"go/token"
+	"slices"
 	"sort"
 
 	"github.com/dave/dst"
@@ -647,9 +648,7 @@ func (r *RapidJSONSerializationTestCase) collectGeneratorAssignments(
 	for name := range properties {
 		toGenerate = append(toGenerate, name)
 	}
-	sort.Slice(toGenerate, func(i, j int) bool {
-		return toGenerate[i] < toGenerate[j]
-	})
+	slices.Sort(toGenerate)
 
 	for _, name := range toGenerate {
 		prop := properties[name]

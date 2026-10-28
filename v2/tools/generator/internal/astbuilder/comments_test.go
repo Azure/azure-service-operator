@@ -50,7 +50,6 @@ func TestDocumentationCommentFormatting(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.comment, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -77,7 +76,6 @@ func TestWordWrap(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.text, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
