@@ -7,7 +7,7 @@ package astmodel
 
 import (
 	"fmt"
-	"sort"
+	"slices"
 	"strings"
 
 	"github.com/dave/dst"
@@ -156,9 +156,7 @@ func (allOf *AllOfType) String() string {
 		subStrings = append(subStrings, t.String())
 	})
 
-	sort.Slice(subStrings, func(i, j int) bool {
-		return subStrings[i] < subStrings[j]
-	})
+	slices.Sort(subStrings)
 
 	return fmt.Sprintf("(allOf: %s)", strings.Join(subStrings, ", "))
 }

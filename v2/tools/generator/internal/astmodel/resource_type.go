@@ -8,6 +8,7 @@ package astmodel
 import (
 	"fmt"
 	"go/token"
+	maps0 "maps"
 	"sort"
 	"strings"
 
@@ -817,17 +818,11 @@ func (resource *ResourceType) copy() *ResourceType {
 		InterfaceImplementer: resource.InterfaceImplementer.copy(),
 	}
 
-	for key, property := range resource.properties {
-		result.properties[key] = property
-	}
+	maps0.Copy(result.properties, resource.properties)
 
-	for key, testcase := range resource.testcases {
-		result.testcases[key] = testcase
-	}
+	maps0.Copy(result.testcases, resource.testcases)
 
-	for key, fn := range resource.functions {
-		result.functions[key] = fn
-	}
+	maps0.Copy(result.functions, resource.functions)
 
 	result.supportedOperations.AddAll(resource.supportedOperations)
 

@@ -271,7 +271,7 @@ func generateSpecTypes(
 		}
 
 		rewriter := astmodel.TypeVisitorBuilder[any]{
-			VisitObjectType: func(this *astmodel.TypeVisitor[any], it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+			VisitObjectType: func(this *astmodel.TypeVisitor[any], it *astmodel.ObjectType, ctx any) (astmodel.Type, error) {
 				// strip all readonly props
 				var propsToRemove []astmodel.PropertyName
 				it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
@@ -358,7 +358,7 @@ var (
 	lastLogTime *time.Time
 )
 
-func logInfoSparse(log logr.Logger, message string, keysAndValues ...interface{}) {
+func logInfoSparse(log logr.Logger, message string, keysAndValues ...any) {
 	loadingLock.Lock()
 	defer loadingLock.Unlock()
 
@@ -954,7 +954,7 @@ func versionFromPath(filePath string, rootPath string) string {
 
 func addResource(spec astmodel.TypeDefinition, resourceName astmodel.TypeName) (astmodel.TypeDefinition, error) {
 	visitor := astmodel.TypeVisitorBuilder[any]{
-		VisitObjectType: func(this *astmodel.TypeVisitor[any], it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+		VisitObjectType: func(this *astmodel.TypeVisitor[any], it *astmodel.ObjectType, ctx any) (astmodel.Type, error) {
 			it = it.WithResource(resourceName).WithIsResource(true)
 			return it, nil
 		},

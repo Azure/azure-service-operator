@@ -42,9 +42,9 @@ func NewTypeMerger(fallback MergerFunc) *TypeMerger {
 }
 
 var (
-	typeInterface  reflect.Type = reflect.TypeOf((*Type)(nil)).Elem() // yuck
-	errorInterface reflect.Type = reflect.TypeOf((*error)(nil)).Elem()
-	mergerFuncType reflect.Type = reflect.TypeOf((*MergerFunc)(nil)).Elem()
+	typeInterface  reflect.Type = reflect.TypeFor[Type]() // yuck
+	errorInterface reflect.Type = reflect.TypeFor[error]()
+	mergerFuncType reflect.Type = reflect.TypeFor[MergerFunc]()
 )
 
 type validatedMerger struct {

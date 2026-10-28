@@ -43,7 +43,7 @@ func (injector *InterfaceImplementationInjector) Inject(
 // injectInterfaceImplementationIntoObject takes the interface implementationprovided as a context and includes it on
 // the provided object type
 func (*InterfaceImplementationInjector) injectInterfaceImplementationIntoObject(
-	_ *TypeVisitor[any], ot *ObjectType, ctx interface{},
+	_ *TypeVisitor[any], ot *ObjectType, ctx any,
 ) (Type, error) {
 	impl := ctx.(*InterfaceImplementation)
 	return ot.WithInterface(impl), nil
@@ -52,7 +52,7 @@ func (*InterfaceImplementationInjector) injectInterfaceImplementationIntoObject(
 // injectInterfaceImplementationIntoResource takes the interface implementation provided as a context and includes it on
 // the provided resource type
 func (*InterfaceImplementationInjector) injectInterfaceImplementationIntoResource(
-	_ *TypeVisitor[any], rt *ResourceType, ctx interface{},
+	_ *TypeVisitor[any], rt *ResourceType, ctx any,
 ) (Type, error) {
 	impl := ctx.(*InterfaceImplementation)
 	return rt.WithInterface(impl), nil

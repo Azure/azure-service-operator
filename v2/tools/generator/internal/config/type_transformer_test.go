@@ -487,7 +487,6 @@ func Test_TypeTransformer_WhenTransformingTypeName_ReturnsExpectedTypeName(t *te
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(
 			c.name,
 			func(t *testing.T) {
@@ -684,8 +683,6 @@ func TestTransformProperty_DoesTransformProperty_IfTypeDoesMatch(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
-
 		t.Run(
 			c.name,
 			func(t *testing.T) {
@@ -771,8 +768,6 @@ func TestTransformProperty_CanRemoveProperty(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
-
 		t.Run(
 			c.name,
 			func(t *testing.T) {

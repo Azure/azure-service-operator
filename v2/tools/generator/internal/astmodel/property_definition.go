@@ -7,7 +7,7 @@ package astmodel
 
 import (
 	"fmt"
-	"sort"
+	slices0 "slices"
 	"strings"
 
 	"github.com/dave/dst"
@@ -395,9 +395,7 @@ func (property *PropertyDefinition) Secrecy() ImportSecretMode {
 func (property *PropertyDefinition) renderedTags() string {
 	orderedKeys := property.tags.Keys()
 
-	sort.Slice(orderedKeys, func(i, j int) bool {
-		return orderedKeys[i] < orderedKeys[j]
-	})
+	slices0.Sort(orderedKeys)
 
 	tags := make([]string, 0, len(orderedKeys))
 	for _, key := range orderedKeys {
