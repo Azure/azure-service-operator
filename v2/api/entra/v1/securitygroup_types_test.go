@@ -11,7 +11,6 @@ import (
 	"github.com/google/uuid"
 	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -21,10 +20,10 @@ func TestSecurityGroupSpec_AssignODataBindOnCreate_UsesInlineObjectID(t *testing
 
 	spec := &SecurityGroupSpec{
 		Owners: []SecurityGroupMemberReference{{
-			ObjectID: to.Ptr("11111111-1111-1111-1111-111111111111"),
+			ObjectID: new("11111111-1111-1111-1111-111111111111"),
 		}},
 		Members: []SecurityGroupMemberReference{{
-			ObjectID: to.Ptr("22222222-2222-2222-2222-222222222222"),
+			ObjectID: new("22222222-2222-2222-2222-222222222222"),
 		}},
 	}
 
@@ -117,7 +116,7 @@ func TestSecurityGroupSpec_ResolveOwnerObjectIDs_ErrorsOnDuplicateResolvedValues
 
 	spec := &SecurityGroupSpec{
 		Owners: []SecurityGroupMemberReference{
-			{ObjectID: to.Ptr("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA")},
+			{ObjectID: new("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA")},
 			{ObjectIDFromConfig: &ref},
 		},
 	}
@@ -136,7 +135,7 @@ func TestSecurityGroupSpec_ResolveMemberObjectIDs_ErrorsOnDuplicateResolvedValue
 
 	spec := &SecurityGroupSpec{
 		Members: []SecurityGroupMemberReference{
-			{ObjectID: to.Ptr("22222222-2222-2222-2222-222222222222")},
+			{ObjectID: new("22222222-2222-2222-2222-222222222222")},
 			{ObjectIDFromConfig: &ref},
 		},
 	}
@@ -152,8 +151,8 @@ func TestSecurityGroupSpec_ResolveOwnerObjectIDs_PreservesInputOrder(t *testing.
 
 	spec := &SecurityGroupSpec{
 		Owners: []SecurityGroupMemberReference{
-			{ObjectID: to.Ptr("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA")},
-			{ObjectID: to.Ptr("22222222-2222-2222-2222-222222222222")},
+			{ObjectID: new("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA")},
+			{ObjectID: new("22222222-2222-2222-2222-222222222222")},
 		},
 	}
 
@@ -173,10 +172,10 @@ func TestSecurityGroupSpec_HasDynamicMembership(t *testing.T) {
 		expected       bool
 	}{
 		"default assigned":       {expected: false},
-		"assigned":               {membershipType: to.Ptr(SecurityGroupMembershipTypeAssigned), expected: false},
-		"assigned Microsoft 365": {membershipType: to.Ptr(SecurityGroupMembershipTypeAssignedM365), expected: false},
-		"dynamic":                {membershipType: to.Ptr(SecurityGroupMembershipTypeDynamic), expected: true},
-		"dynamic Microsoft 365":  {membershipType: to.Ptr(SecurityGroupMembershipTypeDynamicM365), expected: true},
+		"assigned":               {membershipType: new(SecurityGroupMembershipTypeAssigned), expected: false},
+		"assigned Microsoft 365": {membershipType: new(SecurityGroupMembershipTypeAssignedM365), expected: false},
+		"dynamic":                {membershipType: new(SecurityGroupMembershipTypeDynamic), expected: true},
+		"dynamic Microsoft 365":  {membershipType: new(SecurityGroupMembershipTypeDynamicM365), expected: true},
 	}
 
 	for name, test := range tests {

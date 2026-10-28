@@ -8,8 +8,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/microsoftgraph/msgraph-beta-sdk-go/models"
-
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func TestApplicationStatus_AssignFromApplication(t *testing.T) {
@@ -17,8 +15,8 @@ func TestApplicationStatus_AssignFromApplication(t *testing.T) {
 	g := NewWithT(t)
 
 	implicitGrantSettings := models.NewImplicitGrantSettings()
-	implicitGrantSettings.SetEnableIdTokenIssuance(to.Ptr(true))
-	implicitGrantSettings.SetEnableAccessTokenIssuance(to.Ptr(true))
+	implicitGrantSettings.SetEnableIdTokenIssuance(new(true))
+	implicitGrantSettings.SetEnableAccessTokenIssuance(new(true))
 
 	web := models.NewWebApplication()
 	web.SetRedirectUris([]string{"https://example.com/web"})
@@ -31,34 +29,34 @@ func TestApplicationStatus_AssignFromApplication(t *testing.T) {
 	publicClient.SetRedirectUris([]string{"https://example.com/public-client"})
 
 	application := models.NewApplication()
-	application.SetId(to.Ptr("entra-id"))
-	application.SetAppId(to.Ptr("app-id"))
-	application.SetDisplayName(to.Ptr("application"))
-	application.SetDescription(to.Ptr("description"))
-	application.SetSignInAudience(to.Ptr("AzureADMyOrg"))
+	application.SetId(new("entra-id"))
+	application.SetAppId(new("app-id"))
+	application.SetDisplayName(new("application"))
+	application.SetDescription(new("description"))
+	application.SetSignInAudience(new("AzureADMyOrg"))
 	application.SetIdentifierUris([]string{"api://application"})
 	application.SetWeb(web)
 	application.SetSpa(spa)
 	application.SetPublicClient(publicClient)
 	application.SetTags([]string{"first", "second"})
-	application.SetIsFallbackPublicClient(to.Ptr(true))
-	application.SetGroupMembershipClaims(to.Ptr("All"))
+	application.SetIsFallbackPublicClient(new(true))
+	application.SetGroupMembershipClaims(new("All"))
 
 	status := ApplicationStatus{}
 	status.AssignFromApplication(application)
 
 	g.Expect(status).To(Equal(ApplicationStatus{
-		EntraID:        to.Ptr("entra-id"),
-		AppId:          to.Ptr("app-id"),
-		DisplayName:    to.Ptr("application"),
-		Description:    to.Ptr("description"),
-		SignInAudience: to.Ptr(SignInAudienceAzureADMyOrg),
+		EntraID:        new("entra-id"),
+		AppId:          new("app-id"),
+		DisplayName:    new("application"),
+		Description:    new("description"),
+		SignInAudience: new(SignInAudienceAzureADMyOrg),
 		IdentifierUris: []string{"api://application"},
 		Web: &WebApplication{
 			RedirectUris: []string{"https://example.com/web"},
 			ImplicitGrantSettings: &ImplicitGrantSettings{
-				EnableIdTokenIssuance:     to.Ptr(true),
-				EnableAccessTokenIssuance: to.Ptr(true),
+				EnableIdTokenIssuance:     new(true),
+				EnableAccessTokenIssuance: new(true),
 			},
 		},
 		Spa: &SpaApplication{
@@ -68,7 +66,7 @@ func TestApplicationStatus_AssignFromApplication(t *testing.T) {
 			RedirectUris: []string{"https://example.com/public-client"},
 		},
 		Tags:                   []string{"first", "second"},
-		IsFallbackPublicClient: to.Ptr(true),
-		GroupMembershipClaims:  to.Ptr("All"),
+		IsFallbackPublicClient: new(true),
+		GroupMembershipClaims:  new("All"),
 	}))
 }

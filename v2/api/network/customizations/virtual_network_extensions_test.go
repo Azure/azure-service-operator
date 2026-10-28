@@ -17,7 +17,6 @@ import (
 	"github.com/leanovate/gopter/arbitrary"
 
 	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_FuzzySetSubnets(t *testing.T) {
@@ -25,9 +24,9 @@ func Test_FuzzySetSubnets(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	vnet := &arm.VirtualNetwork_Spec{
-		Location: to.Ptr("westus"),
+		Location: new("westus"),
 		Properties: &arm.VirtualNetworkPropertiesFormat{
-			EnableDdosProtection: to.Ptr(true),
+			EnableDdosProtection: new(true),
 		},
 	}
 
@@ -78,22 +77,22 @@ func Test_FuzzySetSubnets(t *testing.T) {
 
 	err = setChildCollection(vnet, azureSubnets, "Subnets")
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(vnet.Location).To(Equal(to.Ptr("westus")))
+	g.Expect(vnet.Location).To(Equal(new("westus")))
 	g.Expect(vnet.Properties).ToNot(BeNil())
 	g.Expect(vnet.Properties.EnableDdosProtection).ToNot(BeNil())
 	g.Expect(*vnet.Properties.EnableDdosProtection).To(Equal(true))
 	g.Expect(vnet.Properties.Subnets).To(HaveLen(1))
 	g.Expect(vnet.Properties.Subnets[0].Properties).ToNot(BeNil())
-	g.Expect(vnet.Properties.Subnets[0].Name).To(Equal(to.Ptr("asotest-subnet-occbrr")))
-	g.Expect(vnet.Properties.Subnets[0].Properties.AddressPrefix).To(Equal(to.Ptr("10.0.0.0/24")))
+	g.Expect(vnet.Properties.Subnets[0].Name).To(Equal(new("asotest-subnet-occbrr")))
+	g.Expect(vnet.Properties.Subnets[0].Properties.AddressPrefix).To(Equal(new("10.0.0.0/24")))
 	g.Expect(vnet.Properties.Subnets[0].Properties.NatGateway).ToNot(BeNil())
-	g.Expect(vnet.Properties.Subnets[0].Properties.NatGateway.Id).To(Equal(to.Ptr("/this/is/a/test")))
+	g.Expect(vnet.Properties.Subnets[0].Properties.NatGateway.Id).To(Equal(new("/this/is/a/test")))
 }
 
 func Test_FuzzySetSubnet(t *testing.T) {
 	t.Parallel()
 
-	embeddedType := reflect.TypeOf(arm.Subnet_VirtualNetwork_SubResourceEmbedded{})
+	embeddedType := reflect.TypeFor[arm.Subnet_VirtualNetwork_SubResourceEmbedded]()
 	properties := gopter.NewProperties(nil)
 	arbitraries := arbitrary.DefaultArbitraries()
 

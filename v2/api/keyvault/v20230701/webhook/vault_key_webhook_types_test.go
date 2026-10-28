@@ -14,7 +14,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	v20230701 "github.com/Azure/azure-service-operator/v2/api/keyvault/v20230701"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -28,9 +27,9 @@ func newTestVaultKeyObj() *v20230701.VaultKey {
 			AzureName: "mykey",
 			Properties: &v20230701.KeyProperties{
 				Kty:     &kty,
-				KeySize: to.Ptr(2048),
+				KeySize: new(2048),
 				Attributes: &v20230701.KeyAttributes{
-					Enabled: to.Ptr(true),
+					Enabled: new(true),
 				},
 			},
 		},
@@ -49,7 +48,7 @@ func markClaimed(obj *v20230701.VaultKey) *v20230701.VaultKey {
 // markCreated additionally populates status from Azure, as happens once the key exists there.
 func markCreated(obj *v20230701.VaultKey) *v20230701.VaultKey {
 	markClaimed(obj)
-	obj.Status.Id = to.Ptr(testKeyARMID)
+	obj.Status.Id = new(testKeyARMID)
 	return obj
 }
 
@@ -62,7 +61,7 @@ func Test_VaultKey_ValidateNotExportable(t *testing.T) {
 		g := NewGomegaWithT(t)
 
 		obj := newTestVaultKeyObj()
-		obj.Spec.Properties.Attributes.Exportable = to.Ptr(true)
+		obj.Spec.Properties.Attributes.Exportable = new(true)
 
 		_, err := webhook.validateNotExportable(context.Background(), obj)
 		g.Expect(err).To(HaveOccurred())
@@ -74,7 +73,7 @@ func Test_VaultKey_ValidateNotExportable(t *testing.T) {
 		g := NewGomegaWithT(t)
 
 		obj := newTestVaultKeyObj()
-		obj.Spec.Properties.Attributes.Exportable = to.Ptr(false)
+		obj.Spec.Properties.Attributes.Exportable = new(false)
 
 		_, err := webhook.validateNotExportable(context.Background(), obj)
 		g.Expect(err).ToNot(HaveOccurred())
@@ -95,7 +94,7 @@ func Test_VaultKey_ValidateNotExportable(t *testing.T) {
 		g := NewGomegaWithT(t)
 
 		newObj := markCreated(newTestVaultKeyObj())
-		newObj.Spec.Properties.Attributes.Exportable = to.Ptr(true)
+		newObj.Spec.Properties.Attributes.Exportable = new(true)
 
 		_, err := webhook.validateNotExportable(context.Background(), newObj)
 		g.Expect(err).To(HaveOccurred())
@@ -171,7 +170,7 @@ func Test_VaultKey_ValidateIntrinsicallyImmutable(t *testing.T) {
 
 		oldObj := newTestVaultKeyObj()
 		newObj := newTestVaultKeyObj()
-		newObj.Spec.Properties.KeySize = to.Ptr(4096)
+		newObj.Spec.Properties.KeySize = new(4096)
 
 		_, err := webhook.validateIntrinsicallyImmutable(context.Background(), oldObj, newObj)
 		g.Expect(err).ToNot(HaveOccurred())
@@ -197,7 +196,7 @@ func Test_VaultKey_ValidateIntrinsicallyImmutable(t *testing.T) {
 
 		oldObj := markCreated(newTestVaultKeyObj())
 		newObj := markCreated(newTestVaultKeyObj())
-		newObj.Spec.Properties.KeySize = to.Ptr(4096)
+		newObj.Spec.Properties.KeySize = new(4096)
 
 		_, err := webhook.validateIntrinsicallyImmutable(context.Background(), oldObj, newObj)
 		g.Expect(err).To(HaveOccurred())
@@ -224,7 +223,7 @@ func Test_VaultKey_ValidateIntrinsicallyImmutable(t *testing.T) {
 
 		oldObj := markCreated(newTestVaultKeyObj())
 		newObj := markCreated(newTestVaultKeyObj())
-		newObj.Spec.Properties.Attributes.Enabled = to.Ptr(false)
+		newObj.Spec.Properties.Attributes.Enabled = new(false)
 
 		_, err := webhook.validateIntrinsicallyImmutable(context.Background(), oldObj, newObj)
 		g.Expect(err).ToNot(HaveOccurred())
@@ -265,7 +264,7 @@ func Test_VaultKey_UpdateValidations_AllowMutablePropertyChanges(t *testing.T) {
 
 		oldObj := markCreated(newTestVaultKeyObj())
 		newObj := markCreated(newTestVaultKeyObj())
-		newObj.Spec.Properties.Attributes.Enabled = to.Ptr(false)
+		newObj.Spec.Properties.Attributes.Enabled = new(false)
 
 		g.Expect(runUpdateValidations(webhook, oldObj, newObj)).To(Succeed())
 	})
@@ -325,7 +324,7 @@ func Test_VaultKey_UpdateValidations_AllowMutablePropertyChanges(t *testing.T) {
 
 		oldObj := markCreated(newTestVaultKeyObj())
 		newObj := markCreated(newTestVaultKeyObj())
-		newObj.Spec.Properties.Attributes.Exportable = to.Ptr(true)
+		newObj.Spec.Properties.Attributes.Exportable = new(true)
 
 		err := runUpdateValidations(webhook, oldObj, newObj)
 		g.Expect(err).To(HaveOccurred())

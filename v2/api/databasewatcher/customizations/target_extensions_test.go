@@ -169,7 +169,7 @@ func Test_ForeignWatcher_WhenTargetAndWatcherAreClaimedByDifferentOperators_Retu
 		},
 		Spec: databasewatcher.Watcher_Spec{
 			Datastore: &databasewatcher.Datastore{
-				KustoOfferingType: to.Ptr("adx"),
+				KustoOfferingType: new("adx"),
 			},
 		},
 	}
@@ -191,17 +191,17 @@ func Test_DifferingCredential_GivenAnnotations_ReturnsExpectedResult(t *testing.
 	}{
 		"Neither annotated, so both take whatever the namespace or operator provides": {},
 		"Both naming the same secret": {
-			targetCredential:  to.Ptr("shared"),
-			watcherCredential: to.Ptr("shared"),
+			targetCredential:  new("shared"),
+			watcherCredential: new("shared"),
 		},
 		// Carrying the annotation names a secret even when it names an empty one, which the provider then
 		// tries and fails to load; that is not what an unannotated resource gets
 		"Target's empty annotation against the watcher's none": {
-			targetCredential: to.Ptr(""),
+			targetCredential: new(""),
 			expected:         true,
 		},
 		"Watcher's empty annotation against the target's none": {
-			watcherCredential: to.Ptr(""),
+			watcherCredential: new(""),
 			expected:          true,
 		},
 		// These two agree only if the namespace has an aso-credential secret, which can't be seen here
@@ -214,16 +214,16 @@ func Test_DifferingCredential_GivenAnnotations_ReturnsExpectedResult(t *testing.
 			expected:         true,
 		},
 		"Only the watcher names a secret": {
-			watcherCredential: to.Ptr("watcher-credential"),
+			watcherCredential: new("watcher-credential"),
 			expected:          true,
 		},
 		"Only the target names a secret": {
-			targetCredential: to.Ptr("target-credential"),
+			targetCredential: new("target-credential"),
 			expected:         true,
 		},
 		"Each naming a different secret": {
-			targetCredential:  to.Ptr("target-credential"),
-			watcherCredential: to.Ptr("watcher-credential"),
+			targetCredential:  new("target-credential"),
+			watcherCredential: new("watcher-credential"),
 			expected:          true,
 		},
 	}
