@@ -14,7 +14,6 @@ import (
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -45,7 +44,7 @@ func Test_Insights_DiagnosticSetting_v20210501preview_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccount_Spec{
 			Location:              tc.AzureRegion,
-			AllowBlobPublicAccess: to.Ptr(false),
+			AllowBlobPublicAccess: new(false),
 			Owner:                 testcommon.AsOwner(rg),
 			Kind:                  &kind,
 			Sku: &storage.Sku{
@@ -66,8 +65,8 @@ func Test_Insights_DiagnosticSetting_v20210501preview_CRUD(t *testing.T) {
 			},
 			Logs: []insights.DiagnosticsLogSettings{
 				{
-					CategoryGroup: to.Ptr("allLogs"),
-					Enabled:       to.Ptr(true),
+					CategoryGroup: new("allLogs"),
+					Enabled:       new(true),
 				},
 			},
 			StorageAccountReference: tc.MakeReferenceFromResource(acct),

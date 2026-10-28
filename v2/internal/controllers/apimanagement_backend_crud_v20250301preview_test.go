@@ -26,12 +26,12 @@ func Test_ApiManagement_Backend_CRUD_v20250301preview(t *testing.T) {
 	service := &apimservice.Service{
 		ObjectMeta: tc.MakeObjectMeta("apim"),
 		Spec: apimservice.Service_Spec{
-			Location:       to.Ptr("eastus"),
+			Location:       new("eastus"),
 			Owner:          testcommon.AsOwner(rg),
-			PublisherEmail: to.Ptr("ASO@testing.com"),
-			PublisherName:  to.Ptr("ASOTesting"),
+			PublisherEmail: new("ASO@testing.com"),
+			PublisherName:  new("ASOTesting"),
 			Sku: &apimservice.ApiManagementServiceSkuProperties{
-				Capacity: to.Ptr(1),
+				Capacity: new(1),
 				Name:     to.Ptr(apimservice.ApiManagementServiceSkuProperties_Name_StandardV2),
 			},
 		},
@@ -42,15 +42,15 @@ func Test_ApiManagement_Backend_CRUD_v20250301preview(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("backend"),
 		Spec: apim.Backend_Spec{
 			AzureName:   "test_backend",
-			Description: to.Ptr("Backend with a custom TLS certificate"),
+			Description: new("Backend with a custom TLS certificate"),
 			Owner:       testcommon.AsOwner(service),
 			Protocol:    to.Ptr(apim.BackendProtocol_Http),
 			Tls: &apim.BackendTlsProperties{
 				ServerCertificateThumbprints: thumbprints,
-				ValidateCertificateChain:     to.Ptr(true),
-				ValidateCertificateName:      to.Ptr(true),
+				ValidateCertificateChain:     new(true),
+				ValidateCertificateName:      new(true),
 			},
-			Url: to.Ptr("https://www.bing.com"),
+			Url: new("https://www.bing.com"),
 		},
 	}
 

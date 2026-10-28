@@ -63,7 +63,7 @@ func ContainerApps_AuthConfig_CRUD(tc *testcommon.KubePerTestContext, containerA
 		ObjectMeta: tc.MakeObjectMetaWithName("current"),
 		Spec: app.AuthConfig_Spec{
 			HttpSettings: &app.HttpSettings{
-				RequireHttps: to.Ptr(true),
+				RequireHttps: new(true),
 			},
 			Owner: testcommon.AsOwner(containerApp),
 		},
@@ -78,8 +78,8 @@ func newContainerApp(tc *testcommon.KubePerTestContext, managedEnv *app.ManagedE
 		Spec: app.ContainerApp_Spec{
 			Configuration: &app.Configuration{
 				Ingress: &app.Ingress{
-					AllowInsecure: to.Ptr(false),
-					TargetPort:    to.Ptr(80),
+					AllowInsecure: new(false),
+					TargetPort:    new(80),
 				},
 			},
 			EnvironmentReference: tc.MakeReferenceFromResource(managedEnv),
@@ -88,12 +88,12 @@ func newContainerApp(tc *testcommon.KubePerTestContext, managedEnv *app.ManagedE
 			Template: &app.Template{
 				Containers: []app.Container{
 					{
-						Image: to.Ptr("nginx:latest"),
-						Name:  to.Ptr("nginx"),
+						Image: new("nginx:latest"),
+						Name:  new("nginx"),
 						VolumeMounts: []app.VolumeMount{
 							{
-								MountPath:  to.Ptr("/usr/share/nginx/html"),
-								VolumeName: to.Ptr("shared"),
+								MountPath:  new("/usr/share/nginx/html"),
+								VolumeName: new("shared"),
 							},
 						},
 					},
@@ -105,19 +105,19 @@ func newContainerApp(tc *testcommon.KubePerTestContext, managedEnv *app.ManagedE
 							"echo Hello World",
 						},
 						Command: []string{"/bin/sh"},
-						Image:   to.Ptr("debian:latest"),
-						Name:    to.Ptr("debian"),
+						Image:   new("debian:latest"),
+						Name:    new("debian"),
 						VolumeMounts: []app.VolumeMount{
 							{
-								MountPath:  to.Ptr("/shared"),
-								VolumeName: to.Ptr("shared"),
+								MountPath:  new("/shared"),
+								VolumeName: new("shared"),
 							},
 						},
 					},
 				},
 				Volumes: []app.Volume{
 					{
-						Name:        to.Ptr("shared"),
+						Name:        new("shared"),
 						StorageType: to.Ptr(app.Volume_StorageType_EmptyDir),
 					},
 				},

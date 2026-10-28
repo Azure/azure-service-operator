@@ -26,7 +26,7 @@ func Test_Insights_DataCollectionEndpoint_v20240311_CRUD(t *testing.T) {
 	endpoint := &insights.DataCollectionEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("dce"),
 		Spec: insights.DataCollectionEndpoint_Spec{
-			Description: to.Ptr("Data collection endpoint for testing"),
+			Description: new("Data collection endpoint for testing"),
 			Kind:        to.Ptr(insights.KnownDataCollectionEndpointResourceKind_Linux),
 			Location:    tc.AzureRegion,
 			Owner:       testcommon.AsOwner(rg),

@@ -23,7 +23,7 @@ func Test_CognitiveServices_Account_20250601_CRUD(t *testing.T) {
 
 	// Moving test to a different region:
 	// AI Foundry not available in westus2: https://learn.microsoft.com/en-us/azure/ai-foundry/reference/region-support
-	tc.AzureRegion = to.Ptr("westus3")
+	tc.AzureRegion = new("westus3")
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -33,7 +33,7 @@ func Test_CognitiveServices_Account_20250601_CRUD(t *testing.T) {
 			Identity: &cognitiveservices.Identity{
 				Type: to.Ptr(cognitiveservices.Identity_Type_SystemAssigned),
 			},
-			Kind:     to.Ptr("AIServices"),
+			Kind:     new("AIServices"),
 			Location: tc.AzureRegion,
 			OperatorSpec: &cognitiveservices.AccountOperatorSpec{
 				Secrets: &cognitiveservices.AccountOperatorSecrets{
@@ -55,12 +55,12 @@ func Test_CognitiveServices_Account_20250601_CRUD(t *testing.T) {
 			},
 			Owner: testcommon.AsOwner(rg),
 			Properties: &cognitiveservices.AccountProperties{
-				AllowProjectManagement: to.Ptr(true),
-				CustomSubDomainName:    to.Ptr(tc.NoSpaceNamer.GenerateName("cogsvcacc")),
+				AllowProjectManagement: new(true),
+				CustomSubDomainName:    new(tc.NoSpaceNamer.GenerateName("cogsvcacc")),
 				PublicNetworkAccess:    to.Ptr(cognitiveservices.AccountProperties_PublicNetworkAccess_Enabled),
 			},
 			Sku: &cognitiveservices.Sku{
-				Name: to.Ptr("S0"),
+				Name: new("S0"),
 			},
 		},
 	}
@@ -111,8 +111,8 @@ func cognitiveServicesProjectCRUD(account *cognitiveservices.Account) func(tc *t
 				Location: tc.AzureRegion,
 				Owner:    testcommon.AsOwner(account),
 				Properties: &cognitiveservices.ProjectProperties{
-					Description: to.Ptr("Test project for ASO integration tests"),
-					DisplayName: to.Ptr("ASO Test Project"),
+					Description: new("Test project for ASO integration tests"),
+					DisplayName: new("ASO Test Project"),
 				},
 			},
 		}
@@ -120,13 +120,13 @@ func cognitiveServicesProjectCRUD(account *cognitiveservices.Account) func(tc *t
 		tc.CreateResourcesAndWait(project)
 		tc.Expect(project.Status.Id).ToNot(BeNil())
 		tc.Expect(project.Status.Properties).ToNot(BeNil())
-		tc.Expect(project.Status.Properties.DisplayName).To(Equal(to.Ptr("ASO Test Project")))
+		tc.Expect(project.Status.Properties.DisplayName).To(Equal(new("ASO Test Project")))
 
 		// Update the project description
 		oldProject := project.DeepCopy()
-		project.Spec.Properties.Description = to.Ptr("Updated description")
+		project.Spec.Properties.Description = new("Updated description")
 		tc.PatchResourceAndWait(oldProject, project)
-		tc.Expect(project.Status.Properties.Description).To(Equal(to.Ptr("Updated description")))
+		tc.Expect(project.Status.Properties.Description).To(Equal(new("Updated description")))
 
 		tc.DeleteResourceAndWait(project)
 		exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, *project.Status.Id, string(cognitiveservices.APIVersion_Value))
@@ -143,15 +143,15 @@ func cognitiveServicesDeploymentCRUD(account *cognitiveservices.Account) func(tc
 				Owner: testcommon.AsOwner(account),
 				Properties: &cognitiveservices.DeploymentProperties{
 					Model: &cognitiveservices.DeploymentModel{
-						Name:      to.Ptr("gpt-4o"),
-						Format:    to.Ptr("OpenAI"),
-						Publisher: to.Ptr("OpenAI"),
-						Version:   to.Ptr("2024-11-20"),
+						Name:      new("gpt-4o"),
+						Format:    new("OpenAI"),
+						Publisher: new("OpenAI"),
+						Version:   new("2024-11-20"),
 					},
 				},
 				Sku: &cognitiveservices.Sku{
-					Capacity: to.Ptr(1),
-					Name:     to.Ptr("Standard"),
+					Capacity: new(1),
+					Name:     new("Standard"),
 				},
 			},
 		}
@@ -160,9 +160,9 @@ func cognitiveServicesDeploymentCRUD(account *cognitiveservices.Account) func(tc
 		tc.Expect(deployment.Status.Id).ToNot(BeNil())
 
 		oldDep := deployment.DeepCopy()
-		deployment.Spec.Sku.Capacity = to.Ptr(2)
+		deployment.Spec.Sku.Capacity = new(2)
 		tc.PatchResourceAndWait(oldDep, deployment)
-		tc.Expect(deployment.Status.Sku.Capacity).To(Equal(to.Ptr(2)))
+		tc.Expect(deployment.Status.Sku.Capacity).To(Equal(new(2)))
 		tc.DeleteResourceAndWait(deployment)
 		exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, *deployment.Status.Id, string(cognitiveservices.APIVersion_Value))
 		tc.Expect(err).ToNot(HaveOccurred())
