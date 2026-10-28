@@ -19,6 +19,7 @@ linters:
     - gosmopolitan
     - loggercheck
     - makezero
+    - modernize
     - nilerr
     - nilnesserr
     - nolintlint
