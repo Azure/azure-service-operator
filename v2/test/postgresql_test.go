@@ -30,7 +30,7 @@ func Test_PostgreSQL_Combined(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 	// Force this test to run in a region that is not capacity constrained.
-	tc.AzureRegion = to.Ptr(postgresqlTestRegion)
+	tc.AzureRegion = new(postgresqlTestRegion)
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	adminUsername := "myadmin"
@@ -320,7 +320,7 @@ func Test_PostgreSQL_User(t *testing.T) {
 	t.Skip("2026-03 Taking too long to run in live mode, timing out after 30 minutes, needs investigation")
 
 	tc := globalTestContext.ForTest(t)
-	tc.AzureRegion = to.Ptr(postgresqlTestRegion)
+	tc.AzureRegion = new(postgresqlTestRegion)
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	adminUsername := "myadmin"
@@ -383,13 +383,13 @@ func newPostgreSQLServer(tc *testcommon.KubePerTestContext, rg *resources.Resour
 			Owner:    testcommon.AsOwner(rg),
 			Version:  to.Ptr(postgresql.PostgresMajorVersion_18),
 			Sku: &postgresql.Sku{
-				Name: to.Ptr("Standard_D4s_v3"),
+				Name: new("Standard_D4s_v3"),
 				Tier: to.Ptr(postgresql.SkuTier_GeneralPurpose),
 			},
-			AdministratorLogin:         to.Ptr(adminUsername),
+			AdministratorLogin:         new(adminUsername),
 			AdministratorLoginPassword: &secretRef,
 			Storage: &postgresql.Storage{
-				StorageSizeGB: to.Ptr(32),
+				StorageSizeGB: new(32),
 			},
 		},
 	}
@@ -404,8 +404,8 @@ func newPostgreSQLServerOpenFirewallRule(tc *testcommon.KubePerTestContext, flex
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
 		Spec: postgresql.FlexibleServersFirewallRule_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
-			StartIpAddress: to.Ptr("0.0.0.0"),
-			EndIpAddress:   to.Ptr("255.255.255.255"),
+			StartIpAddress: new("0.0.0.0"),
+			EndIpAddress:   new("255.255.255.255"),
 		},
 	}
 
