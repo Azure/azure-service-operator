@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20261001/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -12,6 +13,44 @@ import (
 	"pgregory.net/rapid"
 	"testing"
 )
+
+// Test_ExternalAuthClaimProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ExternalAuthClaimProfile can be assigned to storage and back losslessly
+func Test_ExternalAuthClaimProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ExternalAuthClaimProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ExternalAuthClaimProfile
+		err := copied.AssignProperties_To_ExternalAuthClaimProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ExternalAuthClaimProfile
+		err = actual.AssignProperties_From_ExternalAuthClaimProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
 
 func Test_ExternalAuthClaimProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -70,6 +109,44 @@ func ExternalAuthClaimProfileGenerator() *rapid.Generator[ExternalAuthClaimProfi
 	})
 
 	return externalAuthClaimProfileGenerator
+}
+
+// Test_ExternalAuthClaimProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ExternalAuthClaimProfile_STATUS can be assigned to storage and back losslessly
+func Test_ExternalAuthClaimProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ExternalAuthClaimProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ExternalAuthClaimProfile_STATUS
+		err := copied.AssignProperties_To_ExternalAuthClaimProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ExternalAuthClaimProfile_STATUS
+		err = actual.AssignProperties_From_ExternalAuthClaimProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ExternalAuthClaimProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -131,6 +208,44 @@ func ExternalAuthClaimProfile_STATUSGenerator() *rapid.Generator[ExternalAuthCla
 	return externalAuthClaimProfile_STATUSGenerator
 }
 
+// Test_ExternalAuthClientComponentProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ExternalAuthClientComponentProfile can be assigned to storage and back losslessly
+func Test_ExternalAuthClientComponentProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ExternalAuthClientComponentProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ExternalAuthClientComponentProfile
+		err := copied.AssignProperties_To_ExternalAuthClientComponentProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ExternalAuthClientComponentProfile
+		err = actual.AssignProperties_From_ExternalAuthClientComponentProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_ExternalAuthClientComponentProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -189,6 +304,44 @@ func ExternalAuthClientComponentProfileGenerator() *rapid.Generator[ExternalAuth
 	return externalAuthClientComponentProfileGenerator
 }
 
+// Test_ExternalAuthClientComponentProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ExternalAuthClientComponentProfile_STATUS can be assigned to storage and back losslessly
+func Test_ExternalAuthClientComponentProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ExternalAuthClientComponentProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ExternalAuthClientComponentProfile_STATUS
+		err := copied.AssignProperties_To_ExternalAuthClientComponentProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ExternalAuthClientComponentProfile_STATUS
+		err = actual.AssignProperties_From_ExternalAuthClientComponentProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_ExternalAuthClientComponentProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -245,6 +398,44 @@ func ExternalAuthClientComponentProfile_STATUSGenerator() *rapid.Generator[Exter
 	})
 
 	return externalAuthClientComponentProfile_STATUSGenerator
+}
+
+// Test_ExternalAuthClientProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ExternalAuthClientProfile can be assigned to storage and back losslessly
+func Test_ExternalAuthClientProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ExternalAuthClientProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ExternalAuthClientProfile
+		err := copied.AssignProperties_To_ExternalAuthClientProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ExternalAuthClientProfile
+		err = actual.AssignProperties_From_ExternalAuthClientProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ExternalAuthClientProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -309,6 +500,44 @@ func ExternalAuthClientProfileGenerator() *rapid.Generator[ExternalAuthClientPro
 	return externalAuthClientProfileGenerator
 }
 
+// Test_ExternalAuthClientProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ExternalAuthClientProfile_STATUS can be assigned to storage and back losslessly
+func Test_ExternalAuthClientProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ExternalAuthClientProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ExternalAuthClientProfile_STATUS
+		err := copied.AssignProperties_To_ExternalAuthClientProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ExternalAuthClientProfile_STATUS
+		err = actual.AssignProperties_From_ExternalAuthClientProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_ExternalAuthClientProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -371,6 +600,44 @@ func ExternalAuthClientProfile_STATUSGenerator() *rapid.Generator[ExternalAuthCl
 	return externalAuthClientProfile_STATUSGenerator
 }
 
+// Test_ExternalAuthProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ExternalAuthProperties can be assigned to storage and back losslessly
+func Test_ExternalAuthProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ExternalAuthPropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ExternalAuthProperties
+		err := copied.AssignProperties_To_ExternalAuthProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ExternalAuthProperties
+		err = actual.AssignProperties_From_ExternalAuthProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_ExternalAuthProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -430,6 +697,44 @@ func ExternalAuthPropertiesGenerator() *rapid.Generator[ExternalAuthProperties] 
 	})
 
 	return externalAuthPropertiesGenerator
+}
+
+// Test_ExternalAuthProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ExternalAuthProperties_STATUS can be assigned to storage and back losslessly
+func Test_ExternalAuthProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ExternalAuthProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ExternalAuthProperties_STATUS
+		err := copied.AssignProperties_To_ExternalAuthProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ExternalAuthProperties_STATUS
+		err = actual.AssignProperties_From_ExternalAuthProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ExternalAuthProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -497,6 +802,44 @@ func ExternalAuthProperties_STATUSGenerator() *rapid.Generator[ExternalAuthPrope
 	return externalAuthProperties_STATUSGenerator
 }
 
+// Test_GroupClaimProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of GroupClaimProfile can be assigned to storage and back losslessly
+func Test_GroupClaimProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := GroupClaimProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.GroupClaimProfile
+		err := copied.AssignProperties_To_GroupClaimProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual GroupClaimProfile
+		err = actual.AssignProperties_From_GroupClaimProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_GroupClaimProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -552,6 +895,44 @@ func GroupClaimProfileGenerator() *rapid.Generator[GroupClaimProfile] {
 	})
 
 	return groupClaimProfileGenerator
+}
+
+// Test_GroupClaimProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of GroupClaimProfile_STATUS can be assigned to storage and back losslessly
+func Test_GroupClaimProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := GroupClaimProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.GroupClaimProfile_STATUS
+		err := copied.AssignProperties_To_GroupClaimProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual GroupClaimProfile_STATUS
+		err = actual.AssignProperties_From_GroupClaimProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_GroupClaimProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -610,6 +991,82 @@ func GroupClaimProfile_STATUSGenerator() *rapid.Generator[GroupClaimProfile_STAT
 	})
 
 	return groupClaimProfile_STATUSGenerator
+}
+
+// Test_HcpOpenShiftClustersExternalAuth_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftClustersExternalAuth round trips to the hub storage version and back losslessly
+func Test_HcpOpenShiftClustersExternalAuth_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClustersExternalAuthGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.HcpOpenShiftClustersExternalAuth
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual HcpOpenShiftClustersExternalAuth
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
+// Test_HcpOpenShiftClustersExternalAuth_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftClustersExternalAuth can be assigned to storage and back losslessly
+func Test_HcpOpenShiftClustersExternalAuth_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClustersExternalAuthGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HcpOpenShiftClustersExternalAuth
+		err := copied.AssignProperties_To_HcpOpenShiftClustersExternalAuth(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HcpOpenShiftClustersExternalAuth
+		err = actual.AssignProperties_From_HcpOpenShiftClustersExternalAuth(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HcpOpenShiftClustersExternalAuth_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -671,6 +1128,44 @@ func HcpOpenShiftClustersExternalAuthGenerator() *rapid.Generator[HcpOpenShiftCl
 	return hcpOpenShiftClustersExternalAuthGenerator
 }
 
+// Test_HcpOpenShiftClustersExternalAuthOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftClustersExternalAuthOperatorSpec can be assigned to storage and back losslessly
+func Test_HcpOpenShiftClustersExternalAuthOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClustersExternalAuthOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HcpOpenShiftClustersExternalAuthOperatorSpec
+		err := copied.AssignProperties_To_HcpOpenShiftClustersExternalAuthOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HcpOpenShiftClustersExternalAuthOperatorSpec
+		err = actual.AssignProperties_From_HcpOpenShiftClustersExternalAuthOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_HcpOpenShiftClustersExternalAuthOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -720,6 +1215,44 @@ func HcpOpenShiftClustersExternalAuthOperatorSpecGenerator() *rapid.Generator[Hc
 	hcpOpenShiftClustersExternalAuthOperatorSpecGenerator = rapid.Just(HcpOpenShiftClustersExternalAuthOperatorSpec{})
 
 	return hcpOpenShiftClustersExternalAuthOperatorSpecGenerator
+}
+
+// Test_HcpOpenShiftClustersExternalAuth_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftClustersExternalAuth_STATUS can be assigned to storage and back losslessly
+func Test_HcpOpenShiftClustersExternalAuth_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClustersExternalAuth_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HcpOpenShiftClustersExternalAuth_STATUS
+		err := copied.AssignProperties_To_HcpOpenShiftClustersExternalAuth_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HcpOpenShiftClustersExternalAuth_STATUS
+		err = actual.AssignProperties_From_HcpOpenShiftClustersExternalAuth_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HcpOpenShiftClustersExternalAuth_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -785,6 +1318,44 @@ func HcpOpenShiftClustersExternalAuth_STATUSGenerator() *rapid.Generator[HcpOpen
 	return hcpOpenShiftClustersExternalAuth_STATUSGenerator
 }
 
+// Test_HcpOpenShiftClustersExternalAuth_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftClustersExternalAuth_Spec can be assigned to storage and back losslessly
+func Test_HcpOpenShiftClustersExternalAuth_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClustersExternalAuth_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HcpOpenShiftClustersExternalAuth_Spec
+		err := copied.AssignProperties_To_HcpOpenShiftClustersExternalAuth_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HcpOpenShiftClustersExternalAuth_Spec
+		err = actual.AssignProperties_From_HcpOpenShiftClustersExternalAuth_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_HcpOpenShiftClustersExternalAuth_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -847,6 +1418,44 @@ func HcpOpenShiftClustersExternalAuth_SpecGenerator() *rapid.Generator[HcpOpenSh
 	return hcpOpenShiftClustersExternalAuth_SpecGenerator
 }
 
+// Test_TokenClaimMappingsProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of TokenClaimMappingsProfile can be assigned to storage and back losslessly
+func Test_TokenClaimMappingsProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := TokenClaimMappingsProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.TokenClaimMappingsProfile
+		err := copied.AssignProperties_To_TokenClaimMappingsProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual TokenClaimMappingsProfile
+		err = actual.AssignProperties_From_TokenClaimMappingsProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_TokenClaimMappingsProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -904,6 +1513,44 @@ func TokenClaimMappingsProfileGenerator() *rapid.Generator[TokenClaimMappingsPro
 	})
 
 	return tokenClaimMappingsProfileGenerator
+}
+
+// Test_TokenClaimMappingsProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of TokenClaimMappingsProfile_STATUS can be assigned to storage and back losslessly
+func Test_TokenClaimMappingsProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := TokenClaimMappingsProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.TokenClaimMappingsProfile_STATUS
+		err := copied.AssignProperties_To_TokenClaimMappingsProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual TokenClaimMappingsProfile_STATUS
+		err = actual.AssignProperties_From_TokenClaimMappingsProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_TokenClaimMappingsProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -965,6 +1612,44 @@ func TokenClaimMappingsProfile_STATUSGenerator() *rapid.Generator[TokenClaimMapp
 	return tokenClaimMappingsProfile_STATUSGenerator
 }
 
+// Test_TokenClaimValidationRule_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of TokenClaimValidationRule can be assigned to storage and back losslessly
+func Test_TokenClaimValidationRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := TokenClaimValidationRuleGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.TokenClaimValidationRule
+		err := copied.AssignProperties_To_TokenClaimValidationRule(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual TokenClaimValidationRule
+		err = actual.AssignProperties_From_TokenClaimValidationRule(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_TokenClaimValidationRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1022,6 +1707,44 @@ func TokenClaimValidationRuleGenerator() *rapid.Generator[TokenClaimValidationRu
 	})
 
 	return tokenClaimValidationRuleGenerator
+}
+
+// Test_TokenClaimValidationRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of TokenClaimValidationRule_STATUS can be assigned to storage and back losslessly
+func Test_TokenClaimValidationRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := TokenClaimValidationRule_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.TokenClaimValidationRule_STATUS
+		err := copied.AssignProperties_To_TokenClaimValidationRule_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual TokenClaimValidationRule_STATUS
+		err = actual.AssignProperties_From_TokenClaimValidationRule_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_TokenClaimValidationRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1083,6 +1806,44 @@ func TokenClaimValidationRule_STATUSGenerator() *rapid.Generator[TokenClaimValid
 	return tokenClaimValidationRule_STATUSGenerator
 }
 
+// Test_TokenIssuerProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of TokenIssuerProfile can be assigned to storage and back losslessly
+func Test_TokenIssuerProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := TokenIssuerProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.TokenIssuerProfile
+		err := copied.AssignProperties_To_TokenIssuerProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual TokenIssuerProfile
+		err = actual.AssignProperties_From_TokenIssuerProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_TokenIssuerProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1140,6 +1901,44 @@ func TokenIssuerProfileGenerator() *rapid.Generator[TokenIssuerProfile] {
 	})
 
 	return tokenIssuerProfileGenerator
+}
+
+// Test_TokenIssuerProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of TokenIssuerProfile_STATUS can be assigned to storage and back losslessly
+func Test_TokenIssuerProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := TokenIssuerProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.TokenIssuerProfile_STATUS
+		err := copied.AssignProperties_To_TokenIssuerProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual TokenIssuerProfile_STATUS
+		err = actual.AssignProperties_From_TokenIssuerProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_TokenIssuerProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1202,6 +2001,44 @@ func TokenIssuerProfile_STATUSGenerator() *rapid.Generator[TokenIssuerProfile_ST
 	return tokenIssuerProfile_STATUSGenerator
 }
 
+// Test_TokenRequiredClaim_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of TokenRequiredClaim can be assigned to storage and back losslessly
+func Test_TokenRequiredClaim_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := TokenRequiredClaimGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.TokenRequiredClaim
+		err := copied.AssignProperties_To_TokenRequiredClaim(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual TokenRequiredClaim
+		err = actual.AssignProperties_From_TokenRequiredClaim(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_TokenRequiredClaim_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1257,6 +2094,44 @@ func TokenRequiredClaimGenerator() *rapid.Generator[TokenRequiredClaim] {
 	})
 
 	return tokenRequiredClaimGenerator
+}
+
+// Test_TokenRequiredClaim_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of TokenRequiredClaim_STATUS can be assigned to storage and back losslessly
+func Test_TokenRequiredClaim_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := TokenRequiredClaim_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.TokenRequiredClaim_STATUS
+		err := copied.AssignProperties_To_TokenRequiredClaim_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual TokenRequiredClaim_STATUS
+		err = actual.AssignProperties_From_TokenRequiredClaim_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_TokenRequiredClaim_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1317,6 +2192,44 @@ func TokenRequiredClaim_STATUSGenerator() *rapid.Generator[TokenRequiredClaim_ST
 	return tokenRequiredClaim_STATUSGenerator
 }
 
+// Test_UsernameClaimProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UsernameClaimProfile can be assigned to storage and back losslessly
+func Test_UsernameClaimProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UsernameClaimProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UsernameClaimProfile
+		err := copied.AssignProperties_To_UsernameClaimProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UsernameClaimProfile
+		err = actual.AssignProperties_From_UsernameClaimProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_UsernameClaimProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1374,6 +2287,44 @@ func UsernameClaimProfileGenerator() *rapid.Generator[UsernameClaimProfile] {
 	})
 
 	return usernameClaimProfileGenerator
+}
+
+// Test_UsernameClaimProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UsernameClaimProfile_STATUS can be assigned to storage and back losslessly
+func Test_UsernameClaimProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UsernameClaimProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UsernameClaimProfile_STATUS
+		err := copied.AssignProperties_To_UsernameClaimProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UsernameClaimProfile_STATUS
+		err = actual.AssignProperties_From_UsernameClaimProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UsernameClaimProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
