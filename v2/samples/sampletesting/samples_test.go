@@ -28,6 +28,11 @@ import (
 
 const samplesPath = "../../samples"
 
+// sampleDirectoryRegex defines the regular expression used to match valid sample directory names.
+// Sample directories are typically just version numbers, but may also include an optional scenario prefix
+// for when we have a sample that demonstrates a specific scenario.
+var sampleDirectoryRegex = regexp.MustCompile("^([-A-Za-z0-9]+_)?v(1api)?[a-z0-9]*$")
+
 // randomNameExclusions slice contains groups for which we don't want to use random names
 var randomNameExclusions = []string{
 	"/authorization/",
@@ -47,17 +52,12 @@ var randomNameExclusions = []string{
 func Test_Samples_CreationAndDeletion(t *testing.T) {
 	t.Parallel()
 
-	g := NewGomegaWithT(t)
-
-	regex, err := regexp.Compile("^v(1api)?[a-z0-9]*$")
-	g.Expect(err).To(BeNil())
-
 	_ = filepath.WalkDir(samplesPath,
 		func(filePath string, info os.DirEntry, err error) error {
 			if info.IsDir() && !testcommon.IsSampleFolderExcluded(filePath) {
 				basePath := filepath.Base(filePath)
-				// proceed only if the base path is the matching versions.
-				if regex.MatchString(basePath) {
+				// Match versions with an optional scenario prefix.
+				if sampleDirectoryRegex.MatchString(basePath) {
 
 					testName := getTestName(filepath.Base(filepath.Dir(filePath)), basePath)
 					t.Run(testName, func(t *testing.T) {
@@ -70,6 +70,31 @@ func Test_Samples_CreationAndDeletion(t *testing.T) {
 			}
 			return err
 		})
+}
+
+func TestSampleDirectoryRegex(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]bool{
+		"v1api20211101":             true,
+		"v20211101":                 true,
+		"v1api":                     true,
+		"aadonly_v1api20211101":     true,
+		"Scenario2_v20211101":       true,
+		"aadonly":                   false,
+		"refs":                      false,
+		"_v20211101":                false,
+		"multiple_prefix_v20211101": false,
+		"scenario-name_v20211101":   true,
+	}
+
+	for name, expected := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			g.Expect(sampleDirectoryRegex.MatchString(name)).To(Equal(expected))
+		})
+	}
 }
 
 func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
