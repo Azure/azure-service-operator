@@ -31,8 +31,8 @@ var _ genruntime.ARMMetaObject = &sampleResource{}
 func Test_IsSampleFileExcluded_SQLAADOnly(t *testing.T) {
 	t.Parallel()
 
-	cases := map[string]struct{
-		path string
+	cases := map[string]struct {
+		path     string
 		excluded bool
 	}{
 		"sql-v1api20211101": {
@@ -61,7 +61,7 @@ func Test_IsSampleFileExcluded_SQLAADOnly(t *testing.T) {
 		},
 	}
 
-	for name,c := range cases {
+	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
