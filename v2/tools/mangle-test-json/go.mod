@@ -1,6 +1,6 @@
 module github.com/Azure/azure-service-operator/v2/tools/mangle-test-json
 
-go 1.26
+go 1.26.0
 
 require (
 	github.com/go-logr/logr v1.4.4
@@ -11,5 +11,5 @@ require (
 require (
 	github.com/mattn/go-colorable v0.1.15 // indirect
 	github.com/mattn/go-isatty v0.0.22 // indirect
-	golang.org/x/sys v0.45.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
 )
