@@ -75,7 +75,7 @@ type HcpOpenShiftClusterProperties struct {
 	// especially relevant to cluster upgrades.
 	// Valid values are in minutes and from 0 to 10080 minutes (1 week).
 	// 0 means that the MachinePool can be drained without any time limitation.
-	// This is the value is used a default for all NodePools. It can be overridden
+	// This value is used as a default for all NodePools. It can be overridden
 	// by specifying nodeDrainTimeoutMinutes for a given NodePool
 	NodeDrainTimeoutMinutes *int `json:"nodeDrainTimeoutMinutes,omitempty"`
 
@@ -110,12 +110,13 @@ type ClusterAutoscalingProfile struct {
 	// provisioning to be unsuccessful. The default is 900 seconds, or 15 minutes.
 	MaxNodeProvisionTimeSeconds *int `json:"maxNodeProvisionTimeSeconds,omitempty"`
 
-	// MaxNodesTotal: maxNodesTotal is the maximum allowable number of nodes for the Autoscaler scale out to be operational.
-	// The autoscaler will not grow the cluster beyond this number. If omitted, the autoscaler will not have a maximum limit.
+	// MaxNodesTotal: maxNodesTotal is the maximum allowable number of nodes. The autoscaler will not grow the cluster beyond
+	// this number.
+	// If omitted, the autoscaler will not have a maximum limit.
 	MaxNodesTotal *int `json:"maxNodesTotal,omitempty"`
 
-	// MaxPodGracePeriodSeconds: maxPodGracePeriod is the maximum seconds to wait for graceful pod termination before scaling
-	// down a NodePool.
+	// MaxPodGracePeriodSeconds: maxPodGracePeriodSeconds is the maximum amount of time in seconds to wait for graceful pod
+	// termination before scaling down a NodePool.
 	// The default is 600 seconds.
 	MaxPodGracePeriodSeconds *int `json:"maxPodGracePeriodSeconds,omitempty"`
 
@@ -139,8 +140,8 @@ type ClusterImageRegistryProfile struct {
 
 // DNS contains the DNS settings of the cluster
 type DnsProfile struct {
-	// BaseDomainPrefix: BaseDomainPrefix is the unique name of the cluster representing the OpenShift's cluster name.
-	// BaseDomainPrefix is the name that will appear in the cluster's DNS, provisioned cloud providers resources
+	// BaseDomainPrefix: BaseDomainPrefix is the base domain prefix for the cluster ingress. It will be used to
+	// configure ingress in the cluster through the subdomain "BaseDomainPrefix.BaseDomain".
 	BaseDomainPrefix *string `json:"baseDomainPrefix,omitempty"`
 }
 
@@ -248,7 +249,7 @@ type NetworkProfile struct {
 
 // Azure specific configuration
 type PlatformProfile struct {
-	// ManagedResourceGroup: Resource group name to put cluster resources
+	// ManagedResourceGroup: The name of the resource group to put cluster resources in.
 	// If not specified then a unique name is generated from the
 	// following pattern
 	// "aro-hcp-" + clusterName + "-" + UUID
@@ -267,7 +268,7 @@ type PlatformProfile struct {
 	// OutboundType: The core outgoing configuration
 	OutboundType *PlatformProfile_OutboundType `json:"outboundType,omitempty"`
 
-	// SubnetId: The Azure resource ID of the worker subnet
+	// SubnetId: The Azure resource ID of the worker subnet.
 	// Note that a subnet cannot be reused between ARO-HCP Clusters.
 	SubnetId *string `json:"subnetId,omitempty"`
 
@@ -287,6 +288,8 @@ type VersionProfile struct {
 	// ChannelGroup: ChannelGroup is the name of the set to which this version belongs.
 	// Each version belongs to only a single set.
 	// If not specified, the default value is 'stable'.
+	// This property is intended to be updateable, but that support is not yet
+	// complete. Until then, changing this value after cluster creation is rejected.
 	ChannelGroup *string `json:"channelGroup,omitempty"`
 
 	// Id: ID is the desired X.Y version of the cluster control plane.

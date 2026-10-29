@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20210601.FlexibleServersDatabase
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/Databases.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2021-06-01/Databases.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/databases/{databaseName}
 type FlexibleServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -259,7 +259,7 @@ func (database *FlexibleServersDatabase) OriginalGVK() *schema.GroupVersionKind 
 // +kubebuilder:object:root=true
 // Storage version of v20210601.FlexibleServersDatabase
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/Databases.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2021-06-01/Databases.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/databases/{databaseName}
 type FlexibleServersDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`

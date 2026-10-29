@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20220901.StorageAccountsTableServicesTable
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2022-09-01/table.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2022-09-01/table.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}
 type StorageAccountsTableServicesTable struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -259,7 +259,7 @@ func (table *StorageAccountsTableServicesTable) OriginalGVK() *schema.GroupVersi
 // +kubebuilder:object:root=true
 // Storage version of v20220901.StorageAccountsTableServicesTable
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2022-09-01/table.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2022-09-01/table.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}
 type StorageAccountsTableServicesTableList struct {
 	metav1.TypeMeta `json:",inline"`

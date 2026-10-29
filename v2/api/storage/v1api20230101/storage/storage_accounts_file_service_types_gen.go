@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230101.StorageAccountsFileService
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/file.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/file.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default
 type StorageAccountsFileService struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -258,7 +258,7 @@ func (service *StorageAccountsFileService) OriginalGVK() *schema.GroupVersionKin
 // +kubebuilder:object:root=true
 // Storage version of v1api20230101.StorageAccountsFileService
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/file.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/file.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default
 type StorageAccountsFileServiceList struct {
 	metav1.TypeMeta `json:",inline"`

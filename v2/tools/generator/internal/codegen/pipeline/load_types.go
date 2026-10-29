@@ -451,6 +451,17 @@ func mergeTypesForPackage(
 		renames[ix] = make(astmodel.TypeAssociation)
 	}
 
+	// Apply explicit loader renames to resource definitions before merging files. This lets us
+	// disambiguate a resource name from a non-resource type name (including names synthesized
+	// later from discriminated unions).
+	for ix, typesFromFile := range typesFromFiles {
+		for resourceName, resource := range typesFromFile.ResourceDefinitions {
+			if newName, renamed := tryRename(resourceName, resource, cfg); renamed {
+				renames[ix][resourceName] = newName
+			}
+		}
+	}
+
 	for name, count := range typeNameCounts {
 		colliding := findCollidingTypeNames(typesFromFiles, name, count)
 		if colliding == nil {
@@ -459,6 +470,10 @@ func mergeTypesForPackage(
 
 		names := make([]string, len(colliding))
 		for ix, ttc := range colliding {
+			if _, explicitlyRenamed := renames[ttc.typesFromFileIx][name]; explicitlyRenamed {
+				continue
+			}
+
 			newName := generateRenaming(idFactory, name, typesFromFiles[ttc.typesFromFileIx].filePath, typeNameCounts)
 			names[ix] = newName.Name()
 			renames[ttc.typesFromFileIx][name] = newName
@@ -468,7 +483,12 @@ func mergeTypesForPackage(
 	for ix := range typesFromFiles {
 		renamesForFile := renames[ix]
 		if len(renamesForFile) > 0 {
-			typesFromFiles[ix] = applyRenames(renamesForFile, typesFromFiles[ix])
+			renamedTypes, err := applyRenames(renamesForFile, typesFromFiles[ix])
+			if err != nil {
+				return nil, err
+			}
+
+			typesFromFiles[ix] = renamedTypes
 		}
 	}
 
@@ -671,29 +691,43 @@ func generateRenaming(
 func applyRenames(
 	renames astmodel.TypeAssociation,
 	typesFromFile typesFromFile,
-) typesFromFile {
+) (typesFromFile, error) {
 	visitor := astmodel.NewRenamingVisitor(renames)
 
 	// visit all other types
 	newOtherTypes, err := visitor.RenameAll(typesFromFile.OtherDefinitions)
 	if err != nil {
-		panic(err)
+		return typesFromFile, err
 	}
 
 	// visit all resource types
 	newResourceTypes := make(jsonast.ResourceDefinitionSet)
 	for rn, rt := range typesFromFile.ResourceDefinitions {
+		newResourceName := rn
+		if renamedName, ok := renames[rn]; ok {
+			newResourceName = renamedName
+		}
+
+		if _, exists := newResourceTypes[newResourceName]; exists {
+			return typesFromFile, eris.Errorf(
+				"renaming resource %s to %s in %s results in a duplicate resource",
+				rn,
+				newResourceName,
+				typesFromFile.filePath,
+			)
+		}
+
 		newSpecType, err := visitor.Rename(rt.SpecType)
 		if err != nil {
-			panic(err)
+			return typesFromFile, err
 		}
 
 		newStatusType, err := visitor.Rename(rt.StatusType)
 		if err != nil {
-			panic(err)
+			return typesFromFile, err
 		}
 
-		newResourceTypes[rn] = jsonast.ResourceDefinition{
+		newResourceTypes[newResourceName] = jsonast.ResourceDefinition{
 			SpecType:            newSpecType,
 			StatusType:          newStatusType,
 			SourceFile:          rt.SourceFile,
@@ -706,7 +740,7 @@ func applyRenames(
 
 	typesFromFile.OtherDefinitions = newOtherTypes
 	typesFromFile.ResourceDefinitions = newResourceTypes
-	return typesFromFile
+	return typesFromFile, nil
 }
 
 // structurallyIdentical checks if the two provided types are structurally identical
