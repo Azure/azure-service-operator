@@ -12,7 +12,6 @@ import (
 
 	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Insights_Workbook_v20230601_CRUD(t *testing.T) {
@@ -34,11 +33,11 @@ func Test_Insights_Workbook_v20230601_CRUD(t *testing.T) {
 			AzureName:   uuid.String(),
 			Location:    tc.AzureRegion,
 			Owner:       testcommon.AsOwner(rg),
-			Category:    to.Ptr("workbook"),
+			Category:    new("workbook"),
 			Kind:        &kind,
-			DisplayName: to.Ptr("Test Workbook"),
-			Description: to.Ptr("A test workbook created by ASO integration tests"),
-			SerializedData: to.Ptr(`{
+			DisplayName: new("Test Workbook"),
+			Description: new("A test workbook created by ASO integration tests"),
+			SerializedData: new(`{
 				"version": "Notebook/1.0",
 				"items": [
 					{
@@ -64,7 +63,7 @@ func Test_Insights_Workbook_v20230601_CRUD(t *testing.T) {
 				"isLocked": false,
 				"fallbackResourceIds": []
 			}`),
-			Version: to.Ptr("Notebook/1.0"),
+			Version: new("Notebook/1.0"),
 			Tags: map[string]string{
 				"purpose": "testing",
 				"source":  "azure-service-operator",
@@ -82,7 +81,7 @@ func Test_Insights_Workbook_v20230601_CRUD(t *testing.T) {
 	// Test updating the workbook
 	tc.LogSectionf("Updating workbook description and tags")
 	old := workbook.DeepCopy()
-	workbook.Spec.Description = to.Ptr("Updated test workbook description")
+	workbook.Spec.Description = new("Updated test workbook description")
 	workbook.Spec.Tags["updated"] = "true"
 	tc.PatchResourceAndWait(old, workbook)
 

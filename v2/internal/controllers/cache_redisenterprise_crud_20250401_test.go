@@ -184,7 +184,7 @@ func RedisEnterprise_Database_AccessPolicyAssignment_20250401_CRUD(tc *testcommo
 		ObjectMeta: tc.MakeObjectMetaWithName(assignmentName),
 		Spec: cache.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec{
 			Owner:            testcommon.AsOwner(&db),
-			AccessPolicyName: to.Ptr("default"),
+			AccessPolicyName: new("default"),
 			User: &cache.AccessPolicyAssignmentProperties_User{
 				ObjectIdFromConfig: &genruntime.ConfigMapReference{
 					Name: configMapName,

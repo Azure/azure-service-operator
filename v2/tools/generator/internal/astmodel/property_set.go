@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	maps0 "maps"
 	"sort"
 
 	"golang.org/x/exp/maps"
@@ -151,9 +152,7 @@ func (p PropertySet) AddSet(properties PropertySet) {
 // Copy returns a new property set with the same properties as this one
 func (p PropertySet) Copy() PropertySet {
 	result := make(PropertySet, len(p))
-	for name, prop := range p {
-		result[name] = prop
-	}
+	maps0.Copy(result, p)
 
 	return result
 }

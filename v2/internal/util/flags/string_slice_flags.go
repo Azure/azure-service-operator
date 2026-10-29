@@ -25,8 +25,8 @@ func (i *SliceFlags) Set(value string) error {
 
 	if strings.Contains(value, ",") {
 		// split
-		split := strings.Split(value, ",")
-		for _, s := range split {
+		split := strings.SplitSeq(value, ",")
+		for s := range split {
 			*i = append(*i, s)
 		}
 		return nil

@@ -33,7 +33,7 @@ func Test_SQL_Server_v20250101_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 	// Use a different region where we have quota
-	tc.AzureRegion = to.Ptr("australiaeast")
+	tc.AzureRegion = new("australiaeast")
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -86,7 +86,7 @@ func Test_SQL_Server_v20250101_CRUD(t *testing.T) {
 			Administrators: &sql.ServerExternalAdministrator{
 				AdministratorType:         to.Ptr(sql.AdministratorType_ActiveDirectory),
 				PrincipalType:             to.Ptr(sql.PrincipalType_Application),
-				AzureADOnlyAuthentication: to.Ptr(true),
+				AzureADOnlyAuthentication: new(true),
 				LoginFromConfig: &genruntime.ConfigMapReference{
 					Name: identityConfigMap,
 					Key:  "name",
@@ -100,7 +100,7 @@ func Test_SQL_Server_v20250101_CRUD(t *testing.T) {
 					Key:  "tenant",
 				},
 			},
-			Version: to.Ptr("12.0"),
+			Version: new("12.0"),
 			OperatorSpec: &sql.ServerOperatorSpec{
 				ConfigMaps: &sql.ServerOperatorConfigMaps{
 					FullyQualifiedDomainName: &genruntime.ConfigMapDestination{
@@ -258,14 +258,14 @@ func SQL_Server_VulnerabilityAssessments_v20250101_CRUD(tc *testcommon.KubePerTe
 		Spec: sql.ServersVulnerabilityAssessment_Spec{
 			Owner: testcommon.AsOwner(server),
 			RecurringScans: &sql.VulnerabilityAssessmentRecurringScansProperties{
-				IsEnabled: to.Ptr(false),
+				IsEnabled: new(false),
 			},
 			StorageAccountAccessKey: &genruntime.SecretReference{
 				Name: storageDetails.secretName,
 				Key:  storageDetails.keySecretKey,
 			},
 			// TODO: Make this easier to build a combined path in ASO itself
-			StorageContainerPath: to.Ptr(fmt.Sprintf("%s%s", blobEndpoint, storageDetails.container)),
+			StorageContainerPath: new(fmt.Sprintf("%s%s", blobEndpoint, storageDetails.container)),
 		},
 	}
 
@@ -289,8 +289,8 @@ func SQL_Server_FirewallRules_v20250101_CRUD(tc *testcommon.KubePerTestContext, 
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
 		Spec: sql.ServersFirewallRule_Spec{
 			Owner:          testcommon.AsOwner(server),
-			StartIpAddress: to.Ptr("0.0.0.0"),
-			EndIpAddress:   to.Ptr("0.0.0.0"),
+			StartIpAddress: new("0.0.0.0"),
+			EndIpAddress:   new("0.0.0.0"),
 		},
 	}
 
@@ -308,8 +308,8 @@ func SQL_Server_IPV6_FirewallRules_v20250101_CRUD(tc *testcommon.KubePerTestCont
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
 		Spec: sql.ServersIPV6FirewallRule_Spec{
 			Owner:            testcommon.AsOwner(server),
-			StartIPv6Address: to.Ptr("2001:db8::"),
-			EndIPv6Address:   to.Ptr("2001:db8:0000:0000:0000:0000:00ff:ffff"),
+			StartIPv6Address: new("2001:db8::"),
+			EndIPv6Address:   new("2001:db8:0000:0000:0000:0000:00ff:ffff"),
 		},
 	}
 
@@ -332,7 +332,7 @@ func SQL_Server_AuditingSetting_v20250101_CRUD(tc *testcommon.KubePerTestContext
 		Spec: sql.ServersAuditingSetting_Spec{
 			Owner:                        testcommon.AsOwner(server),
 			State:                        &enabled,
-			StorageAccountSubscriptionId: to.Ptr(sql.AzureCoreUuid(tc.AzureSubscription)), // TODO: Make this easier for users to set? Via configmap?
+			StorageAccountSubscriptionId: new(sql.AzureCoreUuid(tc.AzureSubscription)), // TODO: Make this easier for users to set? Via configmap?
 			StorageAccountAccessKey: &genruntime.SecretReference{
 				Name: storageDetails.secretName,
 				Key:  storageDetails.keySecretKey,
@@ -439,13 +439,13 @@ func SQL_Server_ElasticPool_v20250101_CRUD(tc *testcommon.KubePerTestContext, se
 			Owner:    testcommon.AsOwner(server),
 			Location: tc.AzureRegion,
 			Sku: &sql.Sku{
-				Name:     to.Ptr("StandardPool"),
-				Tier:     to.Ptr("Standard"),
-				Capacity: to.Ptr(100),
+				Name:     new("StandardPool"),
+				Tier:     new("Standard"),
+				Capacity: new(100),
 			},
 			PerDatabaseSettings: &sql.ElasticPoolPerDatabaseSettings{
-				MinCapacity: to.Ptr(float64(0)),
-				MaxCapacity: to.Ptr(float64(100)),
+				MinCapacity: new(float64(0)),
+				MaxCapacity: new(float64(100)),
 			},
 		},
 	}
@@ -488,7 +488,7 @@ func SQL_Databases_v20250101_CRUD(tc *testcommon.KubePerTestContext, server *sql
 		Spec: sql.ServersDatabase_Spec{
 			Owner:     testcommon.AsOwner(server),
 			Location:  tc.AzureRegion,
-			Collation: to.Ptr("SQL_Latin1_General_CP1_CI_AS"),
+			Collation: new("SQL_Latin1_General_CP1_CI_AS"),
 		},
 	}
 
@@ -546,7 +546,7 @@ func SQL_BackupLongTermRetention_v20250101_CRUD(tc *testcommon.KubePerTestContex
 		ObjectMeta: tc.MakeObjectMeta("db"),
 		Spec: sql.ServersDatabasesBackupLongTermRetentionPolicy_Spec{
 			Owner:           testcommon.AsOwner(db),
-			WeeklyRetention: to.Ptr("P30D"),
+			WeeklyRetention: new("P30D"),
 		},
 	}
 
@@ -580,14 +580,14 @@ func SQL_Database_VulnerabilityAssessment_v20250101_CRUD(tc *testcommon.KubePerT
 		Spec: sql.ServersDatabasesVulnerabilityAssessment_Spec{
 			Owner: testcommon.AsOwner(db),
 			RecurringScans: &sql.VulnerabilityAssessmentRecurringScansProperties{
-				IsEnabled: to.Ptr(false),
+				IsEnabled: new(false),
 			},
 			StorageAccountAccessKey: &genruntime.SecretReference{
 				Name: storageDetails.secretName,
 				Key:  storageDetails.keySecretKey,
 			},
 			// TODO: Make this easier to build a combined path in ASO itself
-			StorageContainerPath: to.Ptr(fmt.Sprintf("%s%s", blobEndpoint, storageDetails.container)),
+			StorageContainerPath: new(fmt.Sprintf("%s%s", blobEndpoint, storageDetails.container)),
 		},
 	}
 
@@ -611,7 +611,7 @@ func SQL_Database_AuditingSetting_v20250101_CRUD(tc *testcommon.KubePerTestConte
 		Spec: sql.ServersDatabasesAuditingSetting_Spec{
 			Owner:                        testcommon.AsOwner(db),
 			State:                        &enabled,
-			StorageAccountSubscriptionId: to.Ptr(sql.AzureCoreUuid(tc.AzureSubscription)), // TODO: Make this easier for users to set? Via configmap?
+			StorageAccountSubscriptionId: new(sql.AzureCoreUuid(tc.AzureSubscription)), // TODO: Make this easier for users to set? Via configmap?
 			StorageAccountAccessKey: &genruntime.SecretReference{
 				Name: storageDetails.secretName,
 				Key:  storageDetails.keySecretKey,
@@ -750,10 +750,10 @@ func makeSubnetForSQLServer_v20250101(tc *testcommon.KubePerTestContext, rg *res
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
-			AddressPrefix: to.Ptr("10.0.0.0/24"),
+			AddressPrefix: new("10.0.0.0/24"),
 			ServiceEndpoints: []network.ServiceEndpointPropertiesFormat{
 				{
-					Service: to.Ptr("Microsoft.Sql"),
+					Service: new("Microsoft.Sql"),
 				},
 			},
 			PrivateEndpointNetworkPolicies:    &privateEndpointNetworkPolicyDisabled,
@@ -781,19 +781,19 @@ func SQL_Server_Key_And_EncryptionProtector_v20250101_CRUD(tc *testcommon.KubePe
 					Family: to.Ptr(keyvault.Sku_Family_A),
 					Name:   to.Ptr(keyvault.Sku_Name_Standard),
 				},
-				TenantId:                     to.Ptr(tc.AzureTenant),
-				EnableSoftDelete:             to.Ptr(true),
-				SoftDeleteRetentionInDays:    to.Ptr(7),
-				EnablePurgeProtection:        to.Ptr(true),
-				EnabledForDiskEncryption:     to.Ptr(true),
-				EnableRbacAuthorization:      to.Ptr(false),
-				EnabledForDeployment:         to.Ptr(true),
-				EnabledForTemplateDeployment: to.Ptr(true),
+				TenantId:                     new(tc.AzureTenant),
+				EnableSoftDelete:             new(true),
+				SoftDeleteRetentionInDays:    new(7),
+				EnablePurgeProtection:        new(true),
+				EnabledForDiskEncryption:     new(true),
+				EnableRbacAuthorization:      new(false),
+				EnabledForDeployment:         new(true),
+				EnabledForTemplateDeployment: new(true),
 				AccessPolicies: []keyvault.AccessPolicyEntry{
 					{
 						// Access policy for the current user/SP running the test
-						TenantId: to.Ptr(tc.AzureTenant),
-						ObjectId: to.Ptr(tc.AzureTenant),
+						TenantId: new(tc.AzureTenant),
+						ObjectId: new(tc.AzureTenant),
 						Permissions: &keyvault.Permissions{
 							Keys: []keyvault.Permissions_Keys{
 								keyvault.Permissions_Keys_Get,
@@ -806,8 +806,8 @@ func SQL_Server_Key_And_EncryptionProtector_v20250101_CRUD(tc *testcommon.KubePe
 					},
 					{
 						// Access policy for the SQL Server's managed identity
-						TenantId: to.Ptr(tc.AzureTenant),
-						ObjectId: to.Ptr(*mi.Status.PrincipalId),
+						TenantId: new(tc.AzureTenant),
+						ObjectId: new(*mi.Status.PrincipalId),
 						Permissions: &keyvault.Permissions{
 							Keys: []keyvault.Permissions_Keys{
 								keyvault.Permissions_Keys_Get,
@@ -848,7 +848,7 @@ func SQL_Server_Key_And_EncryptionProtector_v20250101_CRUD(tc *testcommon.KubePe
 			AzureName:     serverKeyName,
 			Owner:         testcommon.AsOwner(server),
 			ServerKeyType: to.Ptr(sql.ServerKeyType_AzureKeyVault),
-			Uri:           to.Ptr(keyURI),
+			Uri:           new(keyURI),
 		},
 	}
 
@@ -861,8 +861,8 @@ func SQL_Server_Key_And_EncryptionProtector_v20250101_CRUD(tc *testcommon.KubePe
 		Spec: sql.ServersEncryptionProtector_Spec{
 			Owner:               testcommon.AsOwner(server),
 			ServerKeyType:       to.Ptr(sql.ServerKeyType_AzureKeyVault),
-			ServerKeyName:       to.Ptr(serverKeyName),
-			AutoRotationEnabled: to.Ptr(true),
+			ServerKeyName:       new(serverKeyName),
+			AutoRotationEnabled: new(true),
 		},
 	}
 
@@ -880,9 +880,9 @@ func createKeyVaultKeyForSQL_v20250101(tc *testcommon.KubePerTestContext, kv *ke
 	keyProperties := armkeyvault.KeyCreateParameters{
 		Properties: &armkeyvault.KeyProperties{
 			Attributes: &armkeyvault.KeyAttributes{
-				Enabled: to.Ptr(true),
+				Enabled: new(true),
 			},
-			KeySize: to.Ptr(int32(2048)),
+			KeySize: new(int32(2048)),
 			Kty:     to.Ptr(armkeyvault.JSONWebKeyTypeRSA),
 		},
 	}

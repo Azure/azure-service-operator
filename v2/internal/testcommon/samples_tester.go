@@ -282,7 +282,7 @@ func (t *SamplesTester) handleObject(sample client.Object, samples map[string]cl
 }
 
 func (t *SamplesTester) getObjectFromFile(path string) (client.Object, error) {
-	jsonMap := make(map[string]interface{})
+	jsonMap := make(map[string]any)
 
 	byteData, err := os.ReadFile(path)
 	if err != nil {
@@ -465,7 +465,7 @@ func (t *SamplesTester) updateFieldsForTest(obj genruntime.ARMMetaObject) error 
 // visitStruct checks and sets the SubscriptionID and ResourceGroup name for ARM references to current values
 func (t *SamplesTester) visitStruct(this *reflecthelpers.ReflectVisitor, it reflect.Value, ctx any) error {
 	// Configure any ResourceReference we find
-	if it.Type() == reflect.TypeOf(genruntime.ResourceReference{}) {
+	if it.Type() == reflect.TypeFor[genruntime.ResourceReference]() {
 		return t.visitResourceReference(this, it, ctx)
 	}
 

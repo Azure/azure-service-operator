@@ -25,7 +25,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	testreflect "github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
@@ -180,7 +179,7 @@ func Test_SecretsSpecifiedHcp_AllSecretsSpecifiedAllSecretsReturned(t *testing.T
 	}
 
 	secretNames := secretsSpecifiedHcp(cluster)
-	expectedTags := reflecthelpers.GetJSONTags(reflect.TypeOf(storage.HcpOpenShiftClusterOperatorSecrets{}))
+	expectedTags := reflecthelpers.GetJSONTags(reflect.TypeFor[storage.HcpOpenShiftClusterOperatorSecrets]())
 	// $propertyBag exists because this is the storage version, but it isn't a secret.
 	expectedTags.Remove("$propertyBag")
 
@@ -258,7 +257,7 @@ func Test_PreReconcileCheck_ClusterDeleting_BlocksReconcile(t *testing.T) {
 	cluster := &storage.HcpOpenShiftCluster{
 		Status: storage.HcpOpenShiftCluster_STATUS{
 			Properties: &storage.HcpOpenShiftClusterProperties_STATUS{
-				ProvisioningState: to.Ptr("Deleting"),
+				ProvisioningState: new("Deleting"),
 			},
 		},
 	}
@@ -289,7 +288,7 @@ func Test_PreReconcileCheck_ClusterDeletingCaseInsensitive_BlocksReconcile(t *te
 	cluster := &storage.HcpOpenShiftCluster{
 		Status: storage.HcpOpenShiftCluster_STATUS{
 			Properties: &storage.HcpOpenShiftClusterProperties_STATUS{
-				ProvisioningState: to.Ptr("deleting"),
+				ProvisioningState: new("deleting"),
 			},
 		},
 	}
@@ -313,7 +312,7 @@ func Test_PreReconcileCheck_ClusterNotDeleting_CallsNext(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	for _, state := range []*string{nil, to.Ptr("Succeeded"), to.Ptr("Failed")} {
+	for _, state := range []*string{nil, new("Succeeded"), new("Failed")} {
 		cluster := &storage.HcpOpenShiftCluster{}
 		if state != nil {
 			cluster.Status.Properties = &storage.HcpOpenShiftClusterProperties_STATUS{ProvisioningState: state}

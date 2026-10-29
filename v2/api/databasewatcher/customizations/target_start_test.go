@@ -25,7 +25,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
@@ -343,7 +342,7 @@ func Test_TargetPostReconcileCheck_givenWatcherOptedOutOfAutoStart_leavesItAlone
 
 	target, watcher := startableTargetAndWatcher()
 	watcher.Spec.OperatorSpec = &databasewatcher.WatcherOperatorSpec{
-		AutoStart: to.Ptr(false),
+		AutoStart: new(false),
 	}
 
 	result, err := startCheck(g, server, target, watcher)()
@@ -393,7 +392,7 @@ func Test_TargetPostReconcileCheck_givenOptOutWhileStarting_seesTheStartThrough(
 
 	// The opt-out arrives while Azure is still starting the watcher
 	watcher.Spec.OperatorSpec = &databasewatcher.WatcherOperatorSpec{
-		AutoStart: to.Ptr(false),
+		AutoStart: new(false),
 	}
 	operationStatus = "Succeeded"
 
@@ -465,7 +464,7 @@ func startableTargetAndWatcher() (*databasewatcher.Target, *databasewatcher.Watc
 		},
 		Spec: databasewatcher.Watcher_Spec{
 			Datastore: &databasewatcher.Datastore{
-				KustoOfferingType: to.Ptr("adx"),
+				KustoOfferingType: new("adx"),
 			},
 		},
 	}

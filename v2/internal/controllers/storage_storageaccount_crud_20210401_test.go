@@ -16,7 +16,6 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -286,7 +285,7 @@ func StorageAccount_ManagementPolicy_20210401_CRUD(tc *testcommon.KubePerTestCon
 							Actions: &storage.ManagementPolicyAction{
 								Version: &storage.ManagementPolicyVersion{
 									Delete: &storage.DateAfterCreation{
-										DaysAfterCreationGreaterThan: to.Ptr(30),
+										DaysAfterCreationGreaterThan: new(30),
 									},
 								},
 							},
@@ -295,8 +294,8 @@ func StorageAccount_ManagementPolicy_20210401_CRUD(tc *testcommon.KubePerTestCon
 								PrefixMatch: []string{"sample-container/blob1"},
 							},
 						},
-						Enabled: to.Ptr(true),
-						Name:    to.Ptr("test-rule"),
+						Enabled: new(true),
+						Name:    new("test-rule"),
 						Type:    &ruleType,
 					},
 				},

@@ -29,7 +29,6 @@ import (
 	internalconfig "github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	asocloud "github.com/Azure/azure-service-operator/v2/pkg/common/cloud"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
@@ -60,7 +59,7 @@ func testCredentialProviderSetupWithOptions(cloud *cloud.Configuration, opts *Cr
 	s := createTestScheme()
 
 	if cloud == nil {
-		cloud = to.Ptr(asocloud.Configuration{}.Cloud())
+		cloud = new(asocloud.Configuration{}.Cloud())
 	}
 
 	// Global creds
@@ -886,7 +885,7 @@ func newResourceGroup(namespace string) *resources.ResourceGroup {
 			Namespace: namespace,
 		},
 		Spec: resources.ResourceGroup_Spec{
-			Location:  to.Ptr("West US"),
+			Location:  new("West US"),
 			AzureName: "my-rg", // defaulter webhook will copy Name to AzureName
 		},
 	}

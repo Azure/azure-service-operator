@@ -12,7 +12,6 @@ import (
 
 	web "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Web_Site_v20220301_CRUD(t *testing.T) {
@@ -24,7 +23,7 @@ func Test_Web_Site_v20220301_CRUD(t *testing.T) {
 
 	// Our default region (West US 2) is capacity constrained for web at the moment.
 	// location := tc.AzureRegion
-	tc.AzureRegion = to.Ptr("westus3")
+	tc.AzureRegion = new("westus3")
 
 	serverFarm := newServerFarm(tc, rg, *tc.AzureRegion)
 
@@ -33,7 +32,7 @@ func Test_Web_Site_v20220301_CRUD(t *testing.T) {
 	site := &web.Site{
 		ObjectMeta: tc.MakeObjectMeta("function"),
 		Spec: web.Site_Spec{
-			Enabled:             to.Ptr(true),
+			Enabled:             new(true),
 			Owner:               testcommon.AsOwner(rg),
 			Location:            tc.AzureRegion,
 			ServerFarmReference: tc.MakeReferenceFromResource(serverFarm),
@@ -44,9 +43,9 @@ func Test_Web_Site_v20220301_CRUD(t *testing.T) {
 
 	armId := *site.Status.Id
 	old := site.DeepCopy()
-	site.Spec.Enabled = to.Ptr(false)
+	site.Spec.Enabled = new(false)
 	tc.PatchResourceAndWait(old, site)
-	tc.Expect(site.Status.Enabled).To(gomega.Equal(to.Ptr(false)))
+	tc.Expect(site.Status.Enabled).To(gomega.Equal(new(false)))
 
 	tc.DeleteResourceAndWait(site)
 

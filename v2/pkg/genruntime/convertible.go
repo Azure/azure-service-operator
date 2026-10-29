@@ -15,7 +15,7 @@ import (
 )
 
 func findStorageGVK(scheme *runtime.Scheme, gk schema.GroupKind) (schema.GroupVersionKind, error) {
-	interfaceType := reflect.TypeOf((*conversion.Hub)(nil)).Elem()
+	interfaceType := reflect.TypeFor[conversion.Hub]()
 
 	for gvk, rt := range scheme.AllKnownTypes() {
 		if gvk.Group != gk.Group || gvk.Kind != gk.Kind {

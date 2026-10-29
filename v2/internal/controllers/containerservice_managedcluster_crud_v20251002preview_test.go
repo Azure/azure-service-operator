@@ -20,7 +20,7 @@ func Test_AKS_ManagedCluster_20251002preview_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	tc.AzureRegion = to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
+	tc.AzureRegion = new("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -29,12 +29,12 @@ func Test_AKS_ManagedCluster_20251002preview_CRUD(t *testing.T) {
 		Spec: aks.ManagedCluster_Spec{
 			Location:  tc.AzureRegion,
 			Owner:     testcommon.AsOwner(rg),
-			DnsPrefix: to.Ptr("aso"),
+			DnsPrefix: new("aso"),
 			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
 				{
-					Name:   to.Ptr("ap1"),
-					Count:  to.Ptr(1),
-					VmSize: to.Ptr("Standard_DS2_v2"),
+					Name:   new("ap1"),
+					Count:  new(1),
+					VmSize: new("Standard_DS2_v2"),
 					OsType: to.Ptr(aks.ManagedClusterAgentPoolProfile_OsType_Linux),
 					Mode:   to.Ptr(aks.AgentPoolMode_System),
 				},
@@ -105,8 +105,8 @@ func AKS_ManagedCluster_AgentPool_20251002preview_CRUD(tc *testcommon.KubePerTes
 		ObjectMeta: tc.MakeObjectMetaWithName("ap2"),
 		Spec: aks.ManagedClustersAgentPool_Spec{
 			Owner:  testcommon.AsOwner(cluster),
-			Count:  to.Ptr(1),
-			VmSize: to.Ptr("Standard_DS2_v2"),
+			Count:  new(1),
+			VmSize: new("Standard_DS2_v2"),
 			OsType: &osType,
 			Mode:   to.Ptr(aks.AgentPoolMode_System),
 		},
@@ -122,7 +122,7 @@ func AKS_ManagedCluster_AgentPool_20251002preview_CRUD(tc *testcommon.KubePerTes
 	tc.Expect(agentPool.Status.Id).ToNot(BeNil())
 
 	// a basic assertion on a few properties
-	tc.Expect(agentPool.Status.Count).To(Equal(to.Ptr(1)))
+	tc.Expect(agentPool.Status.Count).To(Equal(new(1)))
 	tc.Expect(agentPool.Status.OsType).ToNot(BeNil())
 	tc.Expect(string(*agentPool.Status.OsType)).To(Equal(string(osType)))
 
@@ -158,11 +158,11 @@ func AKS_ManagedCluster_MaintenanceConfiguration_20251002preview_CRUD(tc *testco
 				Schedule: &aks.Schedule{
 					Weekly: &aks.WeeklySchedule{
 						DayOfWeek:     to.Ptr(aks.WeekDay_Saturday),
-						IntervalWeeks: to.Ptr(1),
+						IntervalWeeks: new(1),
 					},
 				},
-				DurationHours: to.Ptr(12),
-				StartTime:     to.Ptr("00:00"),
+				DurationHours: new(12),
+				StartTime:     new("00:00"),
 			},
 		},
 	}
@@ -179,7 +179,7 @@ func AKS_ManagedCluster_MaintenanceConfiguration_20251002preview_CRUD(tc *testco
 
 	// Perform a simple patch
 	old := mtcConfiguration.DeepCopy()
-	mtcConfiguration.Spec.MaintenanceWindow.DurationHours = to.Ptr(8)
+	mtcConfiguration.Spec.MaintenanceWindow.DurationHours = new(8)
 	tc.PatchResourceAndWait(old, mtcConfiguration)
 	tc.Expect(mtcConfiguration.Status.MaintenanceWindow.DurationHours).ToNot(BeNil())
 	tc.Expect(*mtcConfiguration.Status.MaintenanceWindow.DurationHours).To(Equal(8))

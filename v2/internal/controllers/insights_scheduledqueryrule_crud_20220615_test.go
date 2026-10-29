@@ -32,25 +32,25 @@ func Test_Insights_ScheduledQueryRule_CRUD(t *testing.T) {
 				AllOf: []insights.Condition{
 					{
 						FailingPeriods: &insights.ConditionFailingPeriods{
-							MinFailingPeriodsToAlert:  to.Ptr(1),
-							NumberOfEvaluationPeriods: to.Ptr(1),
+							MinFailingPeriodsToAlert:  new(1),
+							NumberOfEvaluationPeriods: new(1),
 						},
 						Operator:                  to.Ptr(insights.Condition_Operator_LessThan),
-						Query:                     to.Ptr("requests | summarize CountByCountry=count() by client_CountryOrRegion"),
+						Query:                     new("requests | summarize CountByCountry=count() by client_CountryOrRegion"),
 						ResourceIdColumnReference: nil,
-						Threshold:                 to.Ptr(10.0),
+						Threshold:                 new(10.0),
 						TimeAggregation:           to.Ptr(insights.Condition_TimeAggregation_Count),
 					},
 				},
 			},
-			EvaluationFrequency: to.Ptr("PT10M"),
+			EvaluationFrequency: new("PT10M"),
 			Location:            tc.AzureRegion,
 			Owner:               testcommon.AsOwner(rg),
 			ScopesReferences: []genruntime.ResourceReference{
 				*tc.MakeReferenceFromResource(component),
 			},
 			Severity:   to.Ptr(insights.ScheduledQueryRuleProperties_Severity_0),
-			WindowSize: to.Ptr("PT10M"),
+			WindowSize: new("PT10M"),
 		},
 	}
 

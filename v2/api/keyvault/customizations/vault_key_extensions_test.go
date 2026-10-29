@@ -219,17 +219,17 @@ func testVaultKey(fake *fakeKeyVault, mutate func(*keys.VaultKey)) *keys.VaultKe
 		Spec: keys.VaultKey_Spec{
 			AzureName: testKeyName,
 			Properties: &keys.KeyProperties{
-				Kty:     to.Ptr("RSA"),
-				KeySize: to.Ptr(2048),
+				Kty:     new("RSA"),
+				KeySize: new(2048),
 				KeyOps:  []string{"encrypt", "decrypt"},
 				Attributes: &keys.KeyAttributes{
-					Enabled: to.Ptr(true),
+					Enabled: new(true),
 				},
 			},
 			Tags: map[string]string{"env": "test"},
 		},
 		Status: keys.VaultKey_STATUS{
-			KeyUri: to.Ptr(fake.server.URL + keyPath),
+			KeyUri: new(fake.server.URL + keyPath),
 		},
 	}
 	genruntime.SetResourceID(key, testKeyID)
@@ -243,13 +243,13 @@ func testVaultKey(fake *fakeKeyVault, mutate func(*keys.VaultKey)) *keys.VaultKe
 
 func withCreateMode(mode string) func(*keys.VaultKey) {
 	return func(key *keys.VaultKey) {
-		key.Spec.OperatorSpec = &keys.VaultKeyOperatorSpec{CreateMode: to.Ptr(mode)}
+		key.Spec.OperatorSpec = &keys.VaultKeyOperatorSpec{CreateMode: new(mode)}
 	}
 }
 
 func withDeleteMode(mode string) func(*keys.VaultKey) {
 	return func(key *keys.VaultKey) {
-		key.Spec.OperatorSpec = &keys.VaultKeyOperatorSpec{DeleteMode: to.Ptr(mode)}
+		key.Spec.OperatorSpec = &keys.VaultKeyOperatorSpec{DeleteMode: new(mode)}
 	}
 }
 
@@ -306,7 +306,7 @@ func Test_VaultKeyDeleteMode_DefaultsToDetach(t *testing.T) {
 	g.Expect(vaultKeyDeleteMode(&keys.VaultKey{
 		Spec: keys.VaultKey_Spec{
 			OperatorSpec: &keys.VaultKeyOperatorSpec{
-				DeleteMode: to.Ptr(DeleteMode_Delete),
+				DeleteMode: new(DeleteMode_Delete),
 			},
 		},
 	})).To(Equal(DeleteMode_Delete))
@@ -350,7 +350,7 @@ func Test_VaultKeyExtension_Delete_RejectsUnknownDeleteMode(t *testing.T) {
 		Spec: keys.VaultKey_Spec{
 			AzureName: "my-key",
 			OperatorSpec: &keys.VaultKeyOperatorSpec{
-				DeleteMode: to.Ptr("obliterate"),
+				DeleteMode: new("obliterate"),
 			},
 		},
 	}
@@ -505,7 +505,7 @@ func Test_VaultKeyExtension_Delete_FallsBackToARMForVaultURL(t *testing.T) {
 
 	key := testVaultKey(fake, func(key *keys.VaultKey) {
 		key.Status.KeyUri = nil
-		key.Spec.OperatorSpec = &keys.VaultKeyOperatorSpec{DeleteMode: to.Ptr(DeleteMode_Delete)}
+		key.Spec.OperatorSpec = &keys.VaultKeyOperatorSpec{DeleteMode: new(DeleteMode_Delete)}
 	})
 
 	result, err := (&VaultKeyExtension{}).Delete(context.Background(), logr.Discard(), nil, newARMClient(g, fake.server), key, nil)
@@ -552,7 +552,7 @@ func Test_VaultKeyCreateMode_DefaultsToDefault(t *testing.T) {
 	g.Expect(vaultKeyCreateMode(&keys.VaultKey{
 		Spec: keys.VaultKey_Spec{
 			OperatorSpec: &keys.VaultKeyOperatorSpec{
-				CreateMode: to.Ptr(CreateMode_CreateOrRecover),
+				CreateMode: new(CreateMode_CreateOrRecover),
 			},
 		},
 	})).To(Equal(CreateMode_CreateOrRecover))
@@ -595,7 +595,7 @@ func Test_VaultKeyExtension_PreReconcileCheck_DataPlane(t *testing.T) {
 		},
 		"a live key with different generation-time properties blocks with guidance": {
 			mutate: func(key *keys.VaultKey) {
-				key.Spec.Properties.Kty = to.Ptr("EC")
+				key.Spec.Properties.Kty = new("EC")
 				key.Spec.Properties.KeySize = nil
 			},
 			routes:      []route{{http.MethodGet, keyPath, http.StatusOK, rsaKeyJSON(true, false)}},
@@ -855,10 +855,10 @@ func Test_VaultKeyExtension_PostReconcileCheck_DataPlane(t *testing.T) {
 
 	withRotationPolicy := func(key *keys.VaultKey) {
 		key.Spec.Properties.RotationPolicy = &keys.RotationPolicy{
-			Attributes: &keys.KeyRotationPolicyAttributes{ExpiryTime: to.Ptr("P2Y")},
+			Attributes: &keys.KeyRotationPolicyAttributes{ExpiryTime: new("P2Y")},
 			LifetimeActions: []keys.LifetimeAction{{
-				Action:  &keys.Action{Type: to.Ptr("rotate")},
-				Trigger: &keys.Trigger{TimeAfterCreate: to.Ptr("P90D")},
+				Action:  &keys.Action{Type: new("rotate")},
+				Trigger: &keys.Trigger{TimeAfterCreate: new("P90D")},
 			}},
 		}
 	}
@@ -866,7 +866,7 @@ func Test_VaultKeyExtension_PostReconcileCheck_DataPlane(t *testing.T) {
 	releasePolicy := []byte(`{"anyOf":[{"allOf":[{"claim":"x-ms-sgx-is-debuggable","equals":"false"}]}]}`)
 	withReleasePolicy := func(key *keys.VaultKey) {
 		key.Spec.Properties.Release_Policy = &keys.KeyReleasePolicy{
-			Data: to.Ptr(base64.RawURLEncoding.EncodeToString(releasePolicy)),
+			Data: new(base64.RawURLEncoding.EncodeToString(releasePolicy)),
 		}
 	}
 	keyWithEmptyPolicy := `{"key":{"kty":"RSA","n":"` + rsaModulus() + `","key_ops":["encrypt","decrypt"]},"attributes":{"enabled":true},` +
@@ -904,7 +904,7 @@ func Test_VaultKeyExtension_PostReconcileCheck_DataPlane(t *testing.T) {
 		"a content type change carries the key's current policy along": {
 			mutate: func(key *keys.VaultKey) {
 				key.Spec.Properties.Release_Policy = &keys.KeyReleasePolicy{
-					ContentType: to.Ptr("application/json; charset=utf-8"),
+					ContentType: new("application/json; charset=utf-8"),
 				}
 			},
 			routes: []route{
@@ -945,7 +945,7 @@ func Test_VaultKeyExtension_PostReconcileCheck_DataPlane(t *testing.T) {
 		"an immutable release policy that differs from the spec is fatal": {
 			mutate: func(key *keys.VaultKey) {
 				key.Spec.Properties.Release_Policy = &keys.KeyReleasePolicy{
-					Data: to.Ptr(base64.RawURLEncoding.EncodeToString([]byte(`{"anyOf":[{"allOf":[{"claim":"x","equals":"1"}]}]}`))),
+					Data: new(base64.RawURLEncoding.EncodeToString([]byte(`{"anyOf":[{"allOf":[{"claim":"x","equals":"1"}]}]}`))),
 				}
 			},
 			routes: []route{{
@@ -1035,12 +1035,12 @@ func Test_IntrinsicMismatch(t *testing.T) {
 
 	// Matching properties pass
 	g.Expect(intrinsicMismatch(keyWith(&keys.KeyProperties{
-		Kty:     to.Ptr("RSA"),
-		KeySize: to.Ptr(2048),
+		Kty:     new("RSA"),
+		KeySize: new(2048),
 	}), rsa2048)).To(BeEmpty())
 	g.Expect(intrinsicMismatch(keyWith(&keys.KeyProperties{
-		Kty:       to.Ptr("EC"),
-		CurveName: to.Ptr("P-256"),
+		Kty:       new("EC"),
+		CurveName: new("P-256"),
 	}), ecP256)).To(BeEmpty())
 
 	// Unset spec properties match anything
@@ -1048,21 +1048,21 @@ func Test_IntrinsicMismatch(t *testing.T) {
 
 	// Mismatches are reported per property
 	g.Expect(intrinsicMismatch(keyWith(&keys.KeyProperties{
-		Kty: to.Ptr("EC"),
+		Kty: new("EC"),
 	}), rsa2048)).To(ContainSubstring("kty"))
 	g.Expect(intrinsicMismatch(keyWith(&keys.KeyProperties{
-		Kty:     to.Ptr("RSA"),
-		KeySize: to.Ptr(4096),
+		Kty:     new("RSA"),
+		KeySize: new(4096),
 	}), rsa2048)).To(ContainSubstring("keySize"))
 	g.Expect(intrinsicMismatch(keyWith(&keys.KeyProperties{
-		Kty:       to.Ptr("EC"),
-		CurveName: to.Ptr("P-384"),
+		Kty:       new("EC"),
+		CurveName: new("P-384"),
 	}), ecP256)).To(ContainSubstring("curveName"))
 
 	// keySize can't be verified for keys without an RSA modulus, so it's left to the service
 	g.Expect(intrinsicMismatch(keyWith(&keys.KeyProperties{
-		Kty:     to.Ptr("EC"),
-		KeySize: to.Ptr(2048),
+		Kty:     new("EC"),
+		KeySize: new(2048),
 	}), ecP256)).To(BeEmpty())
 }
 
@@ -1077,14 +1077,14 @@ func Test_KeyUpdatesNeeded_NothingManagedMeansNoUpdate(t *testing.T) {
 			AzureName: "my-key",
 			Tags:      map[string]string{},
 			Properties: &keys.KeyProperties{
-				Kty:    to.Ptr("RSA"),
+				Kty:    new("RSA"),
 				KeyOps: []string{},
 			},
 		},
 	}
 	actual := azkeys.KeyBundle{
-		Attributes: &azkeys.KeyAttributes{Enabled: to.Ptr(false)},
-		Tags:       map[string]*string{"unmanaged": to.Ptr("tag")},
+		Attributes: &azkeys.KeyAttributes{Enabled: new(false)},
+		Tags:       map[string]*string{"unmanaged": new("tag")},
 		Key: &azkeys.JSONWebKey{
 			KeyOps: []*azkeys.KeyOperation{to.Ptr(azkeys.KeyOperationEncrypt)},
 		},
@@ -1107,18 +1107,18 @@ func Test_KeyUpdatesNeeded_MatchingSpecMeansNoUpdate(t *testing.T) {
 			Properties: &keys.KeyProperties{
 				KeyOps: []string{"encrypt", "decrypt"},
 				Attributes: &keys.KeyAttributes{
-					Enabled: to.Ptr(true),
-					Exp:     to.Ptr(exp),
+					Enabled: new(true),
+					Exp:     new(exp),
 				},
 			},
 		},
 	}
 	actual := azkeys.KeyBundle{
 		Attributes: &azkeys.KeyAttributes{
-			Enabled: to.Ptr(true),
-			Expires: to.Ptr(time.Unix(int64(exp), 0)),
+			Enabled: new(true),
+			Expires: new(time.Unix(int64(exp), 0)),
 		},
-		Tags: map[string]*string{"env": to.Ptr("test")},
+		Tags: map[string]*string{"env": new("test")},
 		Key: &azkeys.JSONWebKey{
 			// Order deliberately differs from the spec; keyOps compare as a set
 			KeyOps: []*azkeys.KeyOperation{
@@ -1145,15 +1145,15 @@ func Test_KeyUpdatesNeeded_DivergedPropertiesAreUpdated(t *testing.T) {
 			Properties: &keys.KeyProperties{
 				KeyOps: []string{"sign", "verify"},
 				Attributes: &keys.KeyAttributes{
-					Enabled: to.Ptr(true),
-					Nbf:     to.Ptr(nbf),
+					Enabled: new(true),
+					Nbf:     new(nbf),
 				},
 			},
 		},
 	}
 	actual := azkeys.KeyBundle{
 		// No attributes reported at all: everything the spec sets must be applied
-		Tags: map[string]*string{"env": to.Ptr("test")},
+		Tags: map[string]*string{"env": new("test")},
 		Key: &azkeys.JSONWebKey{
 			KeyOps: []*azkeys.KeyOperation{to.Ptr(azkeys.KeyOperationEncrypt)},
 		},
@@ -1172,10 +1172,10 @@ func Test_KeyUpdatesNeeded_DivergedPropertiesAreUpdated(t *testing.T) {
 
 	// A diverged expiry is applied on its own
 	exp := 1893456000 // 2030-01-01T00:00:00Z
-	key.Spec.Properties.Attributes = &keys.KeyAttributes{Exp: to.Ptr(exp)}
+	key.Spec.Properties.Attributes = &keys.KeyAttributes{Exp: new(exp)}
 	key.Spec.Properties.KeyOps = nil
 	key.Spec.Tags = nil
-	actual.Attributes = &azkeys.KeyAttributes{Expires: to.Ptr(time.Unix(int64(exp)-86400, 0))}
+	actual.Attributes = &azkeys.KeyAttributes{Expires: new(time.Unix(int64(exp)-86400, 0))}
 
 	params, changed, err = keyUpdatesNeeded(key, actual)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -1195,7 +1195,7 @@ func Test_KeyUpdatesNeeded_ImmutableReleasePolicyIsFatal(t *testing.T) {
 			AzureName: "my-key",
 			Properties: &keys.KeyProperties{
 				Release_Policy: &keys.KeyReleasePolicy{
-					Data: to.Ptr(base64.RawURLEncoding.EncodeToString([]byte(`{"anyOf":[]}`))),
+					Data: new(base64.RawURLEncoding.EncodeToString([]byte(`{"anyOf":[]}`))),
 				},
 			},
 		},
@@ -1203,7 +1203,7 @@ func Test_KeyUpdatesNeeded_ImmutableReleasePolicyIsFatal(t *testing.T) {
 	actual := azkeys.KeyBundle{
 		ReleasePolicy: &azkeys.KeyReleasePolicy{
 			EncodedPolicy: []byte(`{}`),
-			Immutable:     to.Ptr(true),
+			Immutable:     new(true),
 		},
 	}
 
@@ -1224,7 +1224,7 @@ func Test_ReleasePolicyUpdateNeeded(t *testing.T) {
 	policyJSON := []byte(`{"anyOf":[{"allOf":[{"claim":"x-ms-sgx-is-debuggable","equals":"false"}]}]}`)
 	encoded := base64.RawURLEncoding.EncodeToString(policyJSON)
 
-	spec := &keys.KeyReleasePolicy{Data: to.Ptr(encoded)}
+	spec := &keys.KeyReleasePolicy{Data: new(encoded)}
 
 	// Matching policy: no update
 	_, changed, err := releasePolicyUpdateNeeded(spec, &azkeys.KeyReleasePolicy{EncodedPolicy: policyJSON})
@@ -1238,7 +1238,7 @@ func Test_ReleasePolicyUpdateNeeded(t *testing.T) {
 	g.Expect(changed).To(BeFalse())
 
 	// Padded base64url in the spec decodes the same way
-	padded := &keys.KeyReleasePolicy{Data: to.Ptr(base64.URLEncoding.EncodeToString(policyJSON))}
+	padded := &keys.KeyReleasePolicy{Data: new(base64.URLEncoding.EncodeToString(policyJSON))}
 	_, changed, err = releasePolicyUpdateNeeded(padded, &azkeys.KeyReleasePolicy{EncodedPolicy: policyJSON})
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(changed).To(BeFalse())
@@ -1255,14 +1255,14 @@ func Test_ReleasePolicyUpdateNeeded(t *testing.T) {
 	g.Expect(changed).To(BeTrue())
 
 	// Content type is compared when the spec sets it
-	typed := &keys.KeyReleasePolicy{Data: to.Ptr(encoded), ContentType: to.Ptr("application/json; charset=utf-8")}
+	typed := &keys.KeyReleasePolicy{Data: new(encoded), ContentType: new("application/json; charset=utf-8")}
 	_, changed, err = releasePolicyUpdateNeeded(typed, &azkeys.KeyReleasePolicy{EncodedPolicy: policyJSON})
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(changed).To(BeTrue())
 
 	// A content type on its own carries the key's current policy, since the service won't take one
 	// without the other; with no policy on the key there is nothing to change
-	typeOnly := &keys.KeyReleasePolicy{ContentType: to.Ptr("application/json; charset=utf-8")}
+	typeOnly := &keys.KeyReleasePolicy{ContentType: new("application/json; charset=utf-8")}
 	desired, changed, err = releasePolicyUpdateNeeded(typeOnly, &azkeys.KeyReleasePolicy{EncodedPolicy: policyJSON})
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(changed).To(BeTrue())
@@ -1272,7 +1272,7 @@ func Test_ReleasePolicyUpdateNeeded(t *testing.T) {
 	g.Expect(changed).To(BeFalse())
 
 	// Invalid base64 in the spec is fatal, not a silent no-op and not a retry loop
-	_, _, err = releasePolicyUpdateNeeded(&keys.KeyReleasePolicy{Data: to.Ptr("!!not-base64!!")}, nil)
+	_, _, err = releasePolicyUpdateNeeded(&keys.KeyReleasePolicy{Data: new("!!not-base64!!")}, nil)
 	expectFatal(g, err, "base64url")
 }
 
@@ -1281,13 +1281,13 @@ func Test_RotationPolicyUpdateNeeded(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	spec := &keys.RotationPolicy{
-		Attributes: &keys.KeyRotationPolicyAttributes{ExpiryTime: to.Ptr("P2Y")},
+		Attributes: &keys.KeyRotationPolicyAttributes{ExpiryTime: new("P2Y")},
 		LifetimeActions: []keys.LifetimeAction{
 			{
 				// ARM spells the action lowercase; the data plane answers with "Rotate".
 				// The comparison must be case-insensitive per the service contract.
-				Action:  &keys.Action{Type: to.Ptr("rotate")},
-				Trigger: &keys.Trigger{TimeAfterCreate: to.Ptr("P90D")},
+				Action:  &keys.Action{Type: new("rotate")},
+				Trigger: &keys.Trigger{TimeAfterCreate: new("P90D")},
 			},
 		},
 	}
@@ -1295,16 +1295,16 @@ func Test_RotationPolicyUpdateNeeded(t *testing.T) {
 	rotate := func(afterCreate string) *azkeys.LifetimeAction {
 		return &azkeys.LifetimeAction{
 			Action:  &azkeys.LifetimeActionType{Type: to.Ptr(azkeys.KeyRotationPolicyActionRotate)},
-			Trigger: &azkeys.LifetimeActionTrigger{TimeAfterCreate: to.Ptr(afterCreate)},
+			Trigger: &azkeys.LifetimeActionTrigger{TimeAfterCreate: new(afterCreate)},
 		}
 	}
 	notify := func(beforeExpiry string) *azkeys.LifetimeAction {
 		return &azkeys.LifetimeAction{
 			Action:  &azkeys.LifetimeActionType{Type: to.Ptr(azkeys.KeyRotationPolicyActionNotify)},
-			Trigger: &azkeys.LifetimeActionTrigger{TimeBeforeExpiry: to.Ptr(beforeExpiry)},
+			Trigger: &azkeys.LifetimeActionTrigger{TimeBeforeExpiry: new(beforeExpiry)},
 		}
 	}
-	expiry := &azkeys.KeyRotationPolicyAttributes{ExpiryTime: to.Ptr("P2Y")}
+	expiry := &azkeys.KeyRotationPolicyAttributes{ExpiryTime: new("P2Y")}
 
 	// The service-added default notify action must be tolerated, or every reconcile would apply
 	// the policy again forever
@@ -1349,12 +1349,12 @@ func Test_RotationPolicyUpdateNeeded(t *testing.T) {
 	// erased when the policy is replaced for another reason
 	specNoExpiry := &keys.RotationPolicy{LifetimeActions: spec.LifetimeActions}
 	_, changed = rotationPolicyUpdateNeeded(specNoExpiry, azkeys.KeyRotationPolicy{
-		Attributes:      &azkeys.KeyRotationPolicyAttributes{ExpiryTime: to.Ptr("P1Y")},
+		Attributes:      &azkeys.KeyRotationPolicyAttributes{ExpiryTime: new("P1Y")},
 		LifetimeActions: []*azkeys.LifetimeAction{rotate("P90D"), notify("P30D")},
 	})
 	g.Expect(changed).To(BeFalse())
 	desired, changed = rotationPolicyUpdateNeeded(specNoExpiry, azkeys.KeyRotationPolicy{
-		Attributes:      &azkeys.KeyRotationPolicyAttributes{ExpiryTime: to.Ptr("P1Y")},
+		Attributes:      &azkeys.KeyRotationPolicyAttributes{ExpiryTime: new("P1Y")},
 		LifetimeActions: []*azkeys.LifetimeAction{rotate("P180D")},
 	})
 	g.Expect(changed).To(BeTrue())
@@ -1365,8 +1365,8 @@ func Test_RotationPolicyUpdateNeeded(t *testing.T) {
 	specWithNotify := &keys.RotationPolicy{
 		Attributes: spec.Attributes,
 		LifetimeActions: append(spec.LifetimeActions, keys.LifetimeAction{
-			Action:  &keys.Action{Type: to.Ptr("notify")},
-			Trigger: &keys.Trigger{TimeBeforeExpiry: to.Ptr("P60D")},
+			Action:  &keys.Action{Type: new("notify")},
+			Trigger: &keys.Trigger{TimeBeforeExpiry: new("P60D")},
 		}),
 	}
 	_, changed = rotationPolicyUpdateNeeded(specWithNotify, azkeys.KeyRotationPolicy{

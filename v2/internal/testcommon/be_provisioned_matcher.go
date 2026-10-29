@@ -17,7 +17,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-func actualAsConditioner(actual interface{}) (conditions.Conditioner, error) {
+func actualAsConditioner(actual any) (conditions.Conditioner, error) {
 	c, ok := actual.(conditions.Conditioner)
 	if !ok {
 		return nil, eris.Errorf("expected conditions.Conditioner, was: %T", actual)
@@ -37,7 +37,7 @@ type DesiredStateMatcher struct {
 
 var _ types.GomegaMatcher = &DesiredStateMatcher{}
 
-func (m *DesiredStateMatcher) Match(actual interface{}) (bool, error) {
+func (m *DesiredStateMatcher) Match(actual any) (bool, error) {
 	if actual == nil {
 		return false, nil
 	}
@@ -50,7 +50,7 @@ func (m *DesiredStateMatcher) Match(actual interface{}) (bool, error) {
 	return m.verify.HasState(m.ctx, obj, m.readyGoalStatus, m.readyGoalSeverity, m.originalGeneration)
 }
 
-func (m *DesiredStateMatcher) FailureMessage(actual interface{}) string {
+func (m *DesiredStateMatcher) FailureMessage(actual any) string {
 	conditioner, err := actualAsConditioner(actual)
 	if err != nil {
 		// Gomegas contract is that it won't call one of the message functions
@@ -74,7 +74,7 @@ func (m *DesiredStateMatcher) FailureMessage(actual interface{}) string {
 	)
 }
 
-func (m *DesiredStateMatcher) NegatedFailureMessage(actual interface{}) string {
+func (m *DesiredStateMatcher) NegatedFailureMessage(actual any) string {
 	conditioner, err := actualAsConditioner(actual)
 	if err != nil {
 		// Gomegas contract is that it won't call one of the message functions
@@ -99,7 +99,7 @@ func (m *DesiredStateMatcher) NegatedFailureMessage(actual interface{}) string {
 }
 
 // MatchMayChangeInTheFuture implements OracleMatcher which of course isn't exported so we can't type-assert we implement it
-func (m *DesiredStateMatcher) MatchMayChangeInTheFuture(actual interface{}) bool {
+func (m *DesiredStateMatcher) MatchMayChangeInTheFuture(actual any) bool {
 	if actual == nil {
 		return false
 	}

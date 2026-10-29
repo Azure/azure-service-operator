@@ -25,7 +25,7 @@ func Test_Network_PublicIPAddress_creationNotBlockedByPublicIPPrefix_20240301(t 
 		Spec: network.PublicIPPrefix_Spec{
 			Location:               tc.AzureRegion,
 			Owner:                  testcommon.AsOwner(rg),
-			PrefixLength:           to.Ptr(29),
+			PrefixLength:           new(29),
 			PublicIPAddressVersion: to.Ptr(network.IPVersion_IPv4),
 			Sku: &network.PublicIPPrefixSku{
 				Name: to.Ptr(network.PublicIPPrefixSku_Name_Standard),

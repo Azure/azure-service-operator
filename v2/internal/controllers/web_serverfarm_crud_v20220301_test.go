@@ -13,7 +13,6 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/api/web/v20220301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Web_ServerFarm_v20220301_CRUD(t *testing.T) {
@@ -25,16 +24,16 @@ func Test_Web_ServerFarm_v20220301_CRUD(t *testing.T) {
 
 	// Our default region (West US 2) is capacity constrained for web at the moment.
 	// location := tc.AzureRegion
-	tc.AzureRegion = to.Ptr("westus3")
+	tc.AzureRegion = new("westus3")
 	serverFarm := newServerFarm(tc, rg, *tc.AzureRegion)
 
 	tc.CreateResourceAndWait(serverFarm)
 
 	armId := *serverFarm.Status.Id
 	old := serverFarm.DeepCopy()
-	serverFarm.Spec.PerSiteScaling = to.Ptr(true)
+	serverFarm.Spec.PerSiteScaling = new(true)
 	tc.PatchResourceAndWait(old, serverFarm)
-	tc.Expect(serverFarm.Status.PerSiteScaling).To(gomega.Equal(to.Ptr(true)))
+	tc.Expect(serverFarm.Status.PerSiteScaling).To(gomega.Equal(new(true)))
 
 	tc.DeleteResourcesAndWait(serverFarm)
 
@@ -54,7 +53,7 @@ func newServerFarm(tc *testcommon.KubePerTestContext, rg *resources.ResourceGrou
 			Location: &location,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &v20220301.SkuDescription{
-				Name: to.Ptr("P1v2"),
+				Name: new("P1v2"),
 			},
 		},
 	}

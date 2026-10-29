@@ -117,24 +117,24 @@ func newVault20210401preview(name string, tc *testcommon.KubePerTestContext, rg 
 			Owner:    testcommon.AsOwner(rg),
 			Properties: &keyvault.VaultProperties{
 				AccessPolicies: []keyvault.AccessPolicyEntry{{
-					ApplicationId: to.Ptr(tc.AzureTenant),
-					ObjectId:      to.Ptr(tc.AzureTenant),
+					ApplicationId: new(tc.AzureTenant),
+					ObjectId:      new(tc.AzureTenant),
 					Permissions: &keyvault.Permissions{
 						Certificates: []keyvault.Permissions_Certificates{keyvault.Permissions_Certificates_Get},
 						Keys:         []keyvault.Permissions_Keys{keyvault.Permissions_Keys_Get},
 						Secrets:      []keyvault.Permissions_Secrets{keyvault.Permissions_Secrets_Get},
 						Storage:      []keyvault.Permissions_Storage{keyvault.Permissions_Storage_Get},
 					},
-					TenantId: to.Ptr(tc.AzureTenant),
+					TenantId: new(tc.AzureTenant),
 				}},
 				Sku: &keyvault.Sku{
 					Family: to.Ptr(keyvault.Sku_Family_A),
 					Name:   to.Ptr(keyvault.Sku_Name_Standard),
 				},
-				TenantId: to.Ptr(tc.AzureTenant),
+				TenantId: new(tc.AzureTenant),
 				// EnableSoftDelete is true as default. We need to set this false to purge delete the KeyVault so there's no conflict while re-running tests.
 				// This is not best practice and should be left to true for any production KV, it is only set to false here for test purposes
-				EnableSoftDelete: to.Ptr(false),
+				EnableSoftDelete: new(false),
 				CreateMode:       to.Ptr(keyvault.VaultProperties_CreateMode_PurgeThenCreate),
 			},
 		},

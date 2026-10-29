@@ -34,7 +34,7 @@ func Test_ApiManagement_20240501_CRUD(t *testing.T) {
 	// The v2 SKU has a much quicker start up time.
 	// Use BasicV2 or StandardV2 SKU for testing
 	sku := apim.ApiManagementServiceSkuProperties{
-		Capacity: to.Ptr(1),
+		Capacity: new(1),
 		Name:     to.Ptr(apim.ApiManagementServiceSkuProperties_Name_BasicV2),
 	}
 
@@ -43,10 +43,10 @@ func Test_ApiManagement_20240501_CRUD(t *testing.T) {
 	service := apim.Service{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("apimanagementv4")),
 		Spec: apim.Service_Spec{
-			Location:       to.Ptr("eastus"), // Not supported in West US 2
+			Location:       new("eastus"), // Not supported in West US 2
 			Owner:          testcommon.AsOwner(rg),
-			PublisherEmail: to.Ptr("ASO@testing.com"),
-			PublisherName:  to.Ptr("ASOTesting"),
+			PublisherEmail: new("ASO@testing.com"),
+			PublisherName:  new("ASOTesting"),
 			Sku:            &sku,
 		},
 	}
@@ -176,8 +176,8 @@ func APIM_Subscription20240501_CRUD(tc *testcommon.KubePerTestContext, service c
 	subscription := apim.Subscription{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("sub1")),
 		Spec: apim.Subscription_Spec{
-			DisplayName: to.Ptr("Subscription for all APIs"),
-			Scope:       to.Ptr("/apis"),
+			DisplayName: new("Subscription for all APIs"),
+			Scope:       new("/apis"),
 			Owner:       testcommon.AsOwner(service),
 		},
 	}
@@ -214,9 +214,9 @@ func APIM_Backend20240501_CRUD(tc *testcommon.KubePerTestContext, service client
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("backend")),
 		Spec: apim.Backend_Spec{
 			AzureName:   "test_backend",
-			Description: to.Ptr("A Description about the backend"),
+			Description: new("A Description about the backend"),
 			Protocol:    to.Ptr(apim.BackendContractProperties_Protocol_Http),
-			Url:         to.Ptr("https://www.bing.com"),
+			Url:         new("https://www.bing.com"),
 			Owner:       testcommon.AsOwner(service),
 		},
 	}
@@ -236,9 +236,9 @@ func APIM_NamedValue20240501_CRUD(tc *testcommon.KubePerTestContext, service cli
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("namedvalue")),
 		Spec: apim.NamedValue_Spec{
 			AzureName:   "test_namedvalue",
-			DisplayName: to.Ptr("My_Key"),
-			Value:       to.Ptr("It's value"),
-			Secret:      to.Ptr(false),
+			DisplayName: new("My_Key"),
+			Value:       new("It's value"),
+			Secret:      new(false),
 			Owner:       testcommon.AsOwner(service),
 		},
 	}
@@ -257,7 +257,7 @@ func APIM_Policy20240501_CRUD(tc *testcommon.KubePerTestContext, service client.
 	policy := apim.Policy{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("policy")),
 		Spec: apim.Policy_Spec{
-			Value: to.Ptr("<policies><inbound /><backend><forward-request /></backend><outbound /></policies>"),
+			Value: new("<policies><inbound /><backend><forward-request /></backend><outbound /></policies>"),
 			Owner: testcommon.AsOwner(service),
 		},
 	}
@@ -276,8 +276,8 @@ func APIM_PolicyFragment20240501_CRUD(tc *testcommon.KubePerTestContext, service
 	policyFragment := apim.PolicyFragment{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("policyfragment")),
 		Spec: apim.PolicyFragment_Spec{
-			Description: to.Ptr("A Description about the policy fragment"),
-			Value:       to.Ptr("<fragment></fragment>"),
+			Description: new("A Description about the policy fragment"),
+			Value:       new("<fragment></fragment>"),
 			Owner:       testcommon.AsOwner(service),
 		},
 	}
@@ -298,9 +298,9 @@ func APIM_Product20240501_CRUD(tc *testcommon.KubePerTestContext, service client
 		ObjectMeta: tc.MakeObjectMetaWithName(productName),
 		Spec: apim.Product_Spec{
 			Owner:                testcommon.AsOwner(service),
-			DisplayName:          to.Ptr("Customer 1"),
-			Description:          to.Ptr("A product for customer 1"),
-			SubscriptionRequired: to.Ptr(false), // This creates a subscription which then makes the subscription test fail.
+			DisplayName:          new("Customer 1"),
+			Description:          new("A product for customer 1"),
+			SubscriptionRequired: new(false), // This creates a subscription which then makes the subscription test fail.
 		},
 	}
 
@@ -326,9 +326,9 @@ func APIM_Product_Policy20240501_CRUD(tc *testcommon.KubePerTestContext, service
 		ObjectMeta: tc.MakeObjectMetaWithName(productName),
 		Spec: apim.Product_Spec{
 			Owner:                testcommon.AsOwner(service),
-			DisplayName:          to.Ptr("Product Policy Test"),
-			Description:          to.Ptr("A product policy example"),
-			SubscriptionRequired: to.Ptr(false), // This creates a subscription anyway!
+			DisplayName:          new("Product Policy Test"),
+			Description:          new("A product policy example"),
+			SubscriptionRequired: new(false), // This creates a subscription anyway!
 		},
 	}
 
@@ -342,7 +342,7 @@ func APIM_Product_Policy20240501_CRUD(tc *testcommon.KubePerTestContext, service
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("productpolicy")),
 		Spec: apim.ProductPolicy_Spec{
 			Owner: testcommon.AsOwner(&product),
-			Value: to.Ptr("<policies><inbound><set-variable name=\"asoTest\" value=\"ProductPolicy Value\" /></inbound><backend><forward-request /></backend><outbound /></policies>"),
+			Value: new("<policies><inbound><set-variable name=\"asoTest\" value=\"ProductPolicy Value\" /></inbound><backend><forward-request /></backend><outbound /></policies>"),
 		},
 	}
 
@@ -364,9 +364,9 @@ func APIM_Product_Api20240501_CRUD(tc *testcommon.KubePerTestContext, service cl
 		ObjectMeta: tc.MakeObjectMetaWithName(productName),
 		Spec: apim.Product_Spec{
 			Owner:                testcommon.AsOwner(service),
-			DisplayName:          to.Ptr("Product Api Test"),
-			Description:          to.Ptr("A product Api example"),
-			SubscriptionRequired: to.Ptr(false), // This creates a subscription anyway!
+			DisplayName:          new("Product Api Test"),
+			Description:          new("A product Api example"),
+			SubscriptionRequired: new(false), // This creates a subscription anyway!
 		},
 	}
 
@@ -379,8 +379,8 @@ func APIM_Product_Api20240501_CRUD(tc *testcommon.KubePerTestContext, service cl
 	versionSet := apim.ApiVersionSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs2")),
 		Spec: apim.ApiVersionSet_Spec{
-			DisplayName:      to.Ptr("vs2"),
-			Description:      to.Ptr("A version set for the account api"),
+			DisplayName:      new("vs2"),
+			Description:      new("A version set for the account api"),
 			Owner:            testcommon.AsOwner(service),
 			VersioningScheme: to.Ptr(apim.ApiVersionSetContractProperties_VersioningScheme_Segment),
 		},
@@ -397,28 +397,28 @@ func APIM_Product_Api20240501_CRUD(tc *testcommon.KubePerTestContext, service cl
 	api := apim.Api{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("api2")),
 		Spec: apim.Api_Spec{
-			APIVersion:             to.Ptr("2.0.0"),
-			ApiRevision:            to.Ptr("v1"),
-			ApiRevisionDescription: to.Ptr("First Revision"),
-			ApiVersionDescription:  to.Ptr("Second Version"),
+			APIVersion:             new("2.0.0"),
+			ApiRevision:            new("v1"),
+			ApiRevisionDescription: new("First Revision"),
+			ApiVersionDescription:  new("Second Version"),
 			ApiVersionSetReference: &versionSetReference,
-			Description:            to.Ptr("A Description about the api"),
-			DisplayName:            to.Ptr("account-api2"),
+			Description:            new("A Description about the api"),
+			DisplayName:            new("account-api2"),
 			Owner:                  testcommon.AsOwner(service),
-			Path:                   to.Ptr("/account-api2"),
-			SubscriptionRequired:   to.Ptr(false),
-			IsCurrent:              to.Ptr(true),
+			Path:                   new("/account-api2"),
+			SubscriptionRequired:   new(false),
+			IsCurrent:              new(true),
 			Contact: &apim.ApiContactInformation{
-				Email: to.Ptr("test@test.com"),
-				Name:  to.Ptr("Test"),
-				Url:   to.Ptr("https://www.bing.com"),
+				Email: new("test@test.com"),
+				Name:  new("Test"),
+				Url:   new("https://www.bing.com"),
 			},
 
 			Protocols: []apim.ApiCreateOrUpdateProperties_Protocols{
 				apim.ApiCreateOrUpdateProperties_Protocols_Https,
 			},
 
-			TermsOfServiceUrl: to.Ptr("https://www.bing.com/tos"),
+			TermsOfServiceUrl: new("https://www.bing.com/tos"),
 			Type:              to.Ptr(apim.ApiCreateOrUpdateProperties_Type_Http),
 		},
 	}
@@ -450,8 +450,8 @@ func APIM_Api20240501_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 	versionSet := apim.ApiVersionSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs")),
 		Spec: apim.ApiVersionSet_Spec{
-			DisplayName:      to.Ptr("/apiVersionSets/account-api"),
-			Description:      to.Ptr("A version set for the account api"),
+			DisplayName:      new("/apiVersionSets/account-api"),
+			Description:      new("A version set for the account api"),
 			Owner:            testcommon.AsOwner(service),
 			VersioningScheme: to.Ptr(apim.ApiVersionSetContractProperties_VersioningScheme_Segment),
 		},
@@ -468,28 +468,28 @@ func APIM_Api20240501_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 	api := apim.Api{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("api")),
 		Spec: apim.Api_Spec{
-			APIVersion:             to.Ptr("2.0.0"),
-			ApiRevision:            to.Ptr("v1"),
-			ApiRevisionDescription: to.Ptr("First Revision"),
-			ApiVersionDescription:  to.Ptr("Second Version"),
+			APIVersion:             new("2.0.0"),
+			ApiRevision:            new("v1"),
+			ApiRevisionDescription: new("First Revision"),
+			ApiVersionDescription:  new("Second Version"),
 			ApiVersionSetReference: &versionSetReference,
-			Description:            to.Ptr("A Description about the api"),
-			DisplayName:            to.Ptr("account-api"),
+			Description:            new("A Description about the api"),
+			DisplayName:            new("account-api"),
 			Owner:                  testcommon.AsOwner(service),
-			Path:                   to.Ptr("/account-api"),
-			SubscriptionRequired:   to.Ptr(false),
-			IsCurrent:              to.Ptr(true),
+			Path:                   new("/account-api"),
+			SubscriptionRequired:   new(false),
+			IsCurrent:              new(true),
 			Contact: &apim.ApiContactInformation{
-				Email: to.Ptr("test@test.com"),
-				Name:  to.Ptr("Test"),
-				Url:   to.Ptr("https://www.bing.com"),
+				Email: new("test@test.com"),
+				Name:  new("Test"),
+				Url:   new("https://www.bing.com"),
 			},
 
 			Protocols: []apim.ApiCreateOrUpdateProperties_Protocols{
 				apim.ApiCreateOrUpdateProperties_Protocols_Https,
 			},
 
-			TermsOfServiceUrl: to.Ptr("https://www.bing.com/tos"),
+			TermsOfServiceUrl: new("https://www.bing.com/tos"),
 			Type:              to.Ptr(apim.ApiCreateOrUpdateProperties_Type_Http),
 		},
 	}
@@ -507,8 +507,8 @@ func APIM_AuthorizationProvider20240501_CRUD(tc *testcommon.KubePerTestContext, 
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
 		Spec: apim.AuthorizationProvider_Spec{
-			DisplayName:      to.Ptr("sampleauthcode"),
-			IdentityProvider: to.Ptr("aad"),
+			DisplayName:      new("sampleauthcode"),
+			IdentityProvider: new("aad"),
 			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
 				GrantTypes: &apim.AuthorizationProviderOAuth2GrantTypes{
 					AuthorizationCode: secretsMap,
@@ -531,8 +531,8 @@ func APIM_AuthorizationProviders_Authorization20240501_CRUD(tc *testcommon.KubeP
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
 		Spec: apim.AuthorizationProvider_Spec{
-			DisplayName:      to.Ptr("sampleauthcode"),
-			IdentityProvider: to.Ptr("aad"),
+			DisplayName:      new("sampleauthcode"),
+			IdentityProvider: new("aad"),
 			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
 				GrantTypes: &apim.AuthorizationProviderOAuth2GrantTypes{
 					AuthorizationCode: secretsMap,
@@ -570,8 +570,8 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy20240501_CRUD(tc *te
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
 		Spec: apim.AuthorizationProvider_Spec{
-			DisplayName:      to.Ptr("sampleauthcode"),
-			IdentityProvider: to.Ptr("aad"),
+			DisplayName:      new("sampleauthcode"),
+			IdentityProvider: new("aad"),
 			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
 				GrantTypes: &apim.AuthorizationProviderOAuth2GrantTypes{
 					AuthorizationCode: secretsMap,
@@ -697,8 +697,8 @@ func APIM_ApiPolicy20240501_CRUD(tc *testcommon.KubePerTestContext, service clie
 	versionSet := apim.ApiVersionSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs")),
 		Spec: apim.ApiVersionSet_Spec{
-			DisplayName:      to.Ptr("api-policy-test-vs"),
-			Description:      to.Ptr("A version set for the api policy test"),
+			DisplayName:      new("api-policy-test-vs"),
+			Description:      new("A version set for the api policy test"),
 			Owner:            testcommon.AsOwner(service),
 			VersioningScheme: to.Ptr(apim.ApiVersionSetContractProperties_VersioningScheme_Segment),
 		},
@@ -715,15 +715,15 @@ func APIM_ApiPolicy20240501_CRUD(tc *testcommon.KubePerTestContext, service clie
 	api := apim.Api{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("api")),
 		Spec: apim.Api_Spec{
-			APIVersion:             to.Ptr("1.0.0"),
-			ApiRevision:            to.Ptr("v1"),
+			APIVersion:             new("1.0.0"),
+			ApiRevision:            new("v1"),
 			ApiVersionSetReference: &versionSetReference,
-			Description:            to.Ptr("An API for policy testing"),
-			DisplayName:            to.Ptr("api-policy-test-api"),
+			Description:            new("An API for policy testing"),
+			DisplayName:            new("api-policy-test-api"),
 			Owner:                  testcommon.AsOwner(service),
-			Path:                   to.Ptr("/api-policy-test"),
-			SubscriptionRequired:   to.Ptr(false),
-			IsCurrent:              to.Ptr(true),
+			Path:                   new("/api-policy-test"),
+			SubscriptionRequired:   new(false),
+			IsCurrent:              new(true),
 			Protocols: []apim.ApiCreateOrUpdateProperties_Protocols{
 				apim.ApiCreateOrUpdateProperties_Protocols_Https,
 			},
@@ -739,7 +739,7 @@ func APIM_ApiPolicy20240501_CRUD(tc *testcommon.KubePerTestContext, service clie
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("apipolicy")),
 		Spec: apim.ApiPolicy_Spec{
 			Owner: testcommon.AsOwner(&api),
-			Value: to.Ptr("<policies><inbound><set-variable name=\"asoTest\" value=\"ApiPolicy Value\" /></inbound><backend><forward-request /></backend><outbound /></policies>"),
+			Value: new("<policies><inbound><set-variable name=\"asoTest\" value=\"ApiPolicy Value\" /></inbound><backend><forward-request /></backend><outbound /></policies>"),
 		},
 	}
 
@@ -759,8 +759,8 @@ func APIM_Group20240501_CRUD(tc *testcommon.KubePerTestContext, service client.O
 	group := apim.Group{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("group")),
 		Spec: apim.Group_Spec{
-			DisplayName: to.Ptr("Sample Group"),
-			Description: to.Ptr("A sample APIM group"),
+			DisplayName: new("Sample Group"),
+			Description: new("A sample APIM group"),
 			Owner:       testcommon.AsOwner(service),
 		},
 	}
@@ -781,9 +781,9 @@ func APIM_Product_Group20240501_CRUD(tc *testcommon.KubePerTestContext, service 
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("product3")),
 		Spec: apim.Product_Spec{
 			Owner:                testcommon.AsOwner(service),
-			DisplayName:          to.Ptr("Product Group Test"),
-			Description:          to.Ptr("A product for testing group assignment"),
-			SubscriptionRequired: to.Ptr(false),
+			DisplayName:          new("Product Group Test"),
+			Description:          new("A product for testing group assignment"),
+			SubscriptionRequired: new(false),
 		},
 	}
 
@@ -798,8 +798,8 @@ func APIM_Product_Group20240501_CRUD(tc *testcommon.KubePerTestContext, service 
 	group := apim.Group{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("group2")),
 		Spec: apim.Group_Spec{
-			DisplayName: to.Ptr("Custom Group"),
-			Description: to.Ptr("A custom APIM group for product assignment"),
+			DisplayName: new("Custom Group"),
+			Description: new("A custom APIM group for product assignment"),
 			Owner:       testcommon.AsOwner(service),
 		},
 	}
@@ -839,7 +839,7 @@ func APIM_Logger20240501_CRUD(tc *testcommon.KubePerTestContext, rg *resources.R
 			Location:         tc.AzureRegion,
 			Owner:            testcommon.AsOwner(rg),
 			Application_Type: &applicationType,
-			Kind:             to.Ptr("web"),
+			Kind:             new("web"),
 			OperatorSpec: &insights.ComponentOperatorSpec{
 				SecretExpressions: []*core.DestinationExpression{
 					{
@@ -862,7 +862,7 @@ func APIM_Logger20240501_CRUD(tc *testcommon.KubePerTestContext, rg *resources.R
 	logger := apim.Logger{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("logger")),
 		Spec: apim.Logger_Spec{
-			Description: to.Ptr("An Application Insights logger"),
+			Description: new("An Application Insights logger"),
 			LoggerType:  to.Ptr(apim.LoggerContractProperties_LoggerType_ApplicationInsights),
 			Owner:       testcommon.AsOwner(service),
 			Credentials: &genruntime.SecretMapReference{
@@ -911,7 +911,7 @@ func APIM_Diagnostic20240501_CRUD(tc *testcommon.KubePerTestContext, service cli
 				ARMID: *logger.Status.Id,
 			},
 			Sampling: &apim.SamplingSettings{
-				Percentage:   to.Ptr(100),
+				Percentage:   new(100),
 				SamplingType: to.Ptr(apim.SamplingSettings_SamplingType_Fixed),
 			},
 			Verbosity: to.Ptr(apim.DiagnosticContractProperties_Verbosity_Information),
@@ -933,8 +933,8 @@ func APIM_ApiDiagnostic20240501_CRUD(tc *testcommon.KubePerTestContext, service 
 	versionSet := apim.ApiVersionSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs")),
 		Spec: apim.ApiVersionSet_Spec{
-			DisplayName:      to.Ptr("diagnostic-test-vs"),
-			Description:      to.Ptr("A version set for the diagnostic test"),
+			DisplayName:      new("diagnostic-test-vs"),
+			Description:      new("A version set for the diagnostic test"),
 			Owner:            testcommon.AsOwner(service),
 			VersioningScheme: to.Ptr(apim.ApiVersionSetContractProperties_VersioningScheme_Segment),
 		},
@@ -951,15 +951,15 @@ func APIM_ApiDiagnostic20240501_CRUD(tc *testcommon.KubePerTestContext, service 
 	api := apim.Api{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("api")),
 		Spec: apim.Api_Spec{
-			APIVersion:             to.Ptr("1.0.0"),
-			ApiRevision:            to.Ptr("v1"),
+			APIVersion:             new("1.0.0"),
+			ApiRevision:            new("v1"),
 			ApiVersionSetReference: &versionSetReference,
-			Description:            to.Ptr("An API for diagnostic testing"),
-			DisplayName:            to.Ptr("diagnostic-test-api"),
+			Description:            new("An API for diagnostic testing"),
+			DisplayName:            new("diagnostic-test-api"),
 			Owner:                  testcommon.AsOwner(service),
-			Path:                   to.Ptr("/diagnostic-test"),
-			SubscriptionRequired:   to.Ptr(false),
-			IsCurrent:              to.Ptr(true),
+			Path:                   new("/diagnostic-test"),
+			SubscriptionRequired:   new(false),
+			IsCurrent:              new(true),
 			Protocols: []apim.ApiCreateOrUpdateProperties_Protocols{
 				apim.ApiCreateOrUpdateProperties_Protocols_Https,
 			},
@@ -980,7 +980,7 @@ func APIM_ApiDiagnostic20240501_CRUD(tc *testcommon.KubePerTestContext, service 
 				ARMID: *logger.Status.Id,
 			},
 			Sampling: &apim.SamplingSettings{
-				Percentage:   to.Ptr(100),
+				Percentage:   new(100),
 				SamplingType: to.Ptr(apim.SamplingSettings_SamplingType_Fixed),
 			},
 			Verbosity: to.Ptr(apim.DiagnosticContractProperties_Verbosity_Information),
@@ -1003,9 +1003,9 @@ func APIM_User20240501_CRUD(tc *testcommon.KubePerTestContext, service client.Ob
 	user := apim.User{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("user")),
 		Spec: apim.User_Spec{
-			Email:     to.Ptr("asotest@example.com"),
-			FirstName: to.Ptr("ASO"),
-			LastName:  to.Ptr("Test"),
+			Email:     new("asotest@example.com"),
+			FirstName: new("ASO"),
+			LastName:  new("Test"),
 			Owner:     testcommon.AsOwner(service),
 		},
 	}

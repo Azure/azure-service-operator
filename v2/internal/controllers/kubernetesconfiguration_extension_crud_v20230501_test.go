@@ -33,15 +33,15 @@ func Test_KubernetesConfiguration_Extension_20230501_CRUD(t *testing.T) {
 	extension := &kubernetesconfiguration.Extension{
 		ObjectMeta: tc.MakeObjectMeta("extension"),
 		Spec: kubernetesconfiguration.Extension_Spec{
-			AutoUpgradeMinorVersion: to.Ptr(true),
-			ExtensionType:           to.Ptr("microsoft.flux"),
+			AutoUpgradeMinorVersion: new(true),
+			ExtensionType:           new("microsoft.flux"),
 			Identity: &kubernetesconfiguration.Identity{
 				Type: to.Ptr(kubernetesconfiguration.Identity_Type_SystemAssigned),
 			},
 			Owner: tc.AsExtensionOwner(cluster),
 			Scope: &kubernetesconfiguration.Scope{
 				Cluster: &kubernetesconfiguration.ScopeCluster{
-					ReleaseNamespace: to.Ptr("kube-system"),
+					ReleaseNamespace: new("kube-system"),
 				},
 			},
 		},
@@ -90,15 +90,15 @@ func Test_KubernetesConfiguration_Extension_ProtectedSettings_20230501(t *testin
 	extension := &kubernetesconfiguration.Extension{
 		ObjectMeta: tc.MakeObjectMeta("extension"),
 		Spec: kubernetesconfiguration.Extension_Spec{
-			AutoUpgradeMinorVersion: to.Ptr(true),
-			ExtensionType:           to.Ptr("microsoft.flux"),
+			AutoUpgradeMinorVersion: new(true),
+			ExtensionType:           new("microsoft.flux"),
 			Identity: &kubernetesconfiguration.Identity{
 				Type: to.Ptr(kubernetesconfiguration.Identity_Type_SystemAssigned),
 			},
 			Owner: tc.AsExtensionOwner(cluster),
 			Scope: &kubernetesconfiguration.Scope{
 				Cluster: &kubernetesconfiguration.ScopeCluster{
-					ReleaseNamespace: to.Ptr("kube-system"),
+					ReleaseNamespace: new("kube-system"),
 				},
 			},
 			ConfigurationProtectedSettings: &genruntime.SecretMapReference{

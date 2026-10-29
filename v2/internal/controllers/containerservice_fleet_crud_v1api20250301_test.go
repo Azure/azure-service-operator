@@ -22,7 +22,7 @@ func Test_AKS_Fleet_20250301_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	tc.AzureRegion = to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
+	tc.AzureRegion = new("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
 
 	rg := tc.CreateTestResourceGroupAndWait()
 	region := tc.AzureRegion
@@ -32,7 +32,7 @@ func Test_AKS_Fleet_20250301_CRUD(t *testing.T) {
 			Location: region,
 			Owner:    testcommon.AsOwner(rg),
 			HubProfile: &fleet.FleetHubProfile{
-				DnsPrefix: to.Ptr("aso"),
+				DnsPrefix: new("aso"),
 			},
 			Tags: map[string]string{
 				"name": "test-tag",
@@ -63,12 +63,12 @@ func Test_AKS_Fleet_20250301_CRUD(t *testing.T) {
 		Spec: aks.ManagedCluster_Spec{
 			Location:  region,
 			Owner:     testcommon.AsOwner(rg),
-			DnsPrefix: to.Ptr("aso"),
+			DnsPrefix: new("aso"),
 			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
 				{
-					Name:   to.Ptr("ap1"),
-					Count:  to.Ptr(1),
-					VmSize: to.Ptr("Standard_DS2_v2"),
+					Name:   new("ap1"),
+					Count:  new(1),
+					VmSize: new("Standard_DS2_v2"),
 					OsType: to.Ptr(aks.OSType_Linux),
 					Mode:   to.Ptr(aks.AgentPoolMode_System),
 				},
@@ -87,9 +87,9 @@ func Test_AKS_Fleet_20250301_CRUD(t *testing.T) {
 				Type: to.Ptr(aks.ManagedClusterIdentity_Type_SystemAssigned),
 			},
 			OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
-				Enabled: to.Ptr(true),
+				Enabled: new(true),
 			},
-			KubernetesVersion: to.Ptr("1.33.5"),
+			KubernetesVersion: new("1.33.5"),
 		},
 	}
 	tc.CreateResourceAndWait(cluster)
@@ -154,7 +154,7 @@ func AKS_Fleet_UpdateRun_20250301_CRUD(tc *testcommon.KubePerTestContext, flt *f
 			ManagedClusterUpdate: &fleet.ManagedClusterUpdate{
 				Upgrade: &fleet.ManagedClusterUpgradeSpec{
 					Type:              to.Ptr(fleet.ManagedClusterUpgradeType_Full),
-					KubernetesVersion: to.Ptr("1.32.7"),
+					KubernetesVersion: new("1.32.7"),
 				},
 			},
 			Owner: testcommon.AsOwner(flt),
@@ -188,10 +188,10 @@ func AKS_Fleet_UpdateStrategy_202150301_CRUD(tc *testcommon.KubePerTestContext, 
 			Strategy: &fleet.UpdateRunStrategy{
 				Stages: []fleet.UpdateStage{
 					{
-						Name: to.Ptr("stage1"),
+						Name: new("stage1"),
 						Groups: []fleet.UpdateGroup{
 							{
-								Name: to.Ptr("group1"),
+								Name: new("group1"),
 							},
 						},
 					},

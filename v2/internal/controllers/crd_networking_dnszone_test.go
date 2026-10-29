@@ -13,7 +13,6 @@ import (
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -54,9 +53,9 @@ func DNSZones_CNAME_Record_Test(tc *testcommon.KubePerTestContext, zone *network
 	record := &network.DnsZonesCNAMERecord{
 		ObjectMeta: tc.MakeObjectMetaWithName("record"),
 		Spec: network.DnsZonesCNAMERecord_Spec{
-			CNAMERecord: &network.CnameRecord{Cname: to.Ptr("asotest.com")},
+			CNAMERecord: &network.CnameRecord{Cname: new("asotest.com")},
 			Owner:       testcommon.AsOwner(zone),
-			TTL:         to.Ptr(3600),
+			TTL:         new(3600),
 		},
 	}
 
@@ -78,7 +77,7 @@ func newDNSZone(tc *testcommon.KubePerTestContext, name string, rg *resources.Re
 	zone := &network.DnsZone{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: network.DnsZone_Spec{
-			Location: to.Ptr("global"),
+			Location: new("global"),
 			Owner:    testcommon.AsOwner(rg),
 		},
 	}

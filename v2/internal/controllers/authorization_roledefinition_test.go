@@ -12,7 +12,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -42,14 +41,14 @@ func Test_Authorization_RoleDefinitionSubscriptionScope_CRUD(t *testing.T) {
 			Owner: &genruntime.ArbitraryOwnerReference{
 				ARMID: subARMID,
 			},
-			Type:      to.Ptr("customRole"),
+			Type:      new("customRole"),
 			AzureName: azureName.String(),
 			AssignableScopesReferences: []genruntime.ResourceReference{
 				{
 					ARMID: subARMID,
 				},
 			},
-			RoleName: to.Ptr(om.Name),
+			RoleName: new(om.Name),
 			Permissions: []authorization.Permission{
 				{
 					Actions: []string{
@@ -88,11 +87,11 @@ func Test_Authorization_RoleDefinitionResourceGroupScope_CRUD(t *testing.T) {
 		ObjectMeta: om,
 		Spec: authorization.RoleDefinition_Spec{
 			Owner: tc.AsExtensionOwner(rg),
-			Type:  to.Ptr("customRole"),
+			Type:  new("customRole"),
 			AssignableScopesReferences: []genruntime.ResourceReference{
 				*tc.MakeReferenceFromResource(rg),
 			},
-			RoleName: to.Ptr(om.Name),
+			RoleName: new(om.Name),
 			Permissions: []authorization.Permission{
 				{
 					Actions: []string{

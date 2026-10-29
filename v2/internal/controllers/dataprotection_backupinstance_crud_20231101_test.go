@@ -61,7 +61,7 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 
 	acct := newStorageAccount(tc, rg)
 	// Not allowed by the policy anymore. Will need to update the storage account and respective tests
-	acct.Spec.AllowBlobPublicAccess = to.Ptr(false)
+	acct.Spec.AllowBlobPublicAccess = new(false)
 
 	blobService := &storage.StorageAccountsBlobService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
@@ -126,23 +126,23 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 		Spec: dataprotection.BackupVaultsBackupInstance_Spec{
 			Owner: testcommon.AsOwner(backupVault),
 			Properties: &dataprotection.BackupInstance{
-				ObjectType:   to.Ptr("BackupInstance"),
-				FriendlyName: to.Ptr(biName),
+				ObjectType:   new("BackupInstance"),
+				FriendlyName: new(biName),
 				DataSourceInfo: &dataprotection.Datasource{
-					ObjectType:        to.Ptr("Datasource"),
-					DatasourceType:    to.Ptr(cluster.GetType()),
+					ObjectType:        new("Datasource"),
+					DatasourceType:    new(cluster.GetType()),
 					ResourceUri:       cluster.Status.Id,
-					ResourceName:      to.Ptr(cluster.AzureName()),
+					ResourceName:      new(cluster.AzureName()),
 					ResourceLocation:  cluster.Spec.Location,
-					ResourceType:      to.Ptr(cluster.GetType()),
+					ResourceType:      new(cluster.GetType()),
 					ResourceReference: tc.MakeReferenceFromResource(cluster),
 				},
 				DataSourceSetInfo: &dataprotection.DatasourceSet{
-					ObjectType:        to.Ptr("DatasourceSet"),
-					DatasourceType:    to.Ptr(cluster.GetType()),
+					ObjectType:        new("DatasourceSet"),
+					DatasourceType:    new(cluster.GetType()),
 					ResourceUri:       cluster.Status.Id,
-					ResourceName:      to.Ptr(cluster.AzureName()),
-					ResourceType:      to.Ptr(cluster.GetType()),
+					ResourceName:      new(cluster.AzureName()),
+					ResourceType:      new(cluster.GetType()),
 					ResourceLocation:  cluster.Spec.Location,
 					ResourceReference: tc.MakeReferenceFromResource(cluster),
 				},
@@ -161,8 +161,8 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 						BackupDatasourceParametersList: []dataprotection.BackupDatasourceParameters{
 							{
 								KubernetesCluster: &dataprotection.KubernetesClusterBackupDatasourceParameters{
-									SnapshotVolumes:              to.Ptr(true),
-									IncludeClusterScopeResources: to.Ptr(true),
+									SnapshotVolumes:              new(true),
+									IncludeClusterScopeResources: new(true),
 									ObjectType:                   to.Ptr(dataprotection.KubernetesClusterBackupDatasourceParameters_ObjectType_KubernetesClusterBackupDatasourceParameters),
 								},
 							},
@@ -193,8 +193,8 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 
 	// Assertions and Expectations
 	tc.Expect(backupInstance.Status.Id).ToNot(BeNil())
-	tc.Expect(backupInstance.Status.Properties.FriendlyName).To(BeEquivalentTo(to.Ptr(biName)))
-	tc.Expect(backupInstance.Status.Properties.ProvisioningState).To(BeEquivalentTo(to.Ptr("Succeeded")))
+	tc.Expect(backupInstance.Status.Properties.FriendlyName).To(BeEquivalentTo(new(biName)))
+	tc.Expect(backupInstance.Status.Properties.ProvisioningState).To(BeEquivalentTo(new("Succeeded")))
 
 	// Ensure state got updated in Azure.
 	tc.Eventually(func() bool {
@@ -259,12 +259,12 @@ func newBackupInstanceKubernetesExtension(tc *testcommon.KubePerTestContext, clu
 	extension := &kubernetesconfiguration.Extension{
 		ObjectMeta: tc.MakeObjectMeta("extension"),
 		Spec: kubernetesconfiguration.Extension_Spec{
-			ReleaseTrain:  to.Ptr("stable"),
-			ExtensionType: to.Ptr("microsoft.dataprotection.kubernetes"),
+			ReleaseTrain:  new("stable"),
+			ExtensionType: new("microsoft.dataprotection.kubernetes"),
 			Owner:         tc.AsExtensionOwner(cluster),
 			Scope: &kubernetesconfiguration.Scope{
 				Cluster: &kubernetesconfiguration.ScopeCluster{
-					ReleaseNamespace: to.Ptr("dataprotection-microsoft"),
+					ReleaseNamespace: new("dataprotection-microsoft"),
 				},
 			},
 			ConfigurationSettings: map[string]string{
@@ -285,12 +285,12 @@ func newBackupInstanceManagedCluster(tc *testcommon.KubePerTestContext, rg *reso
 		Spec: aks.ManagedCluster_Spec{
 			Location:  tc.AzureRegion,
 			Owner:     testcommon.AsOwner(rg),
-			DnsPrefix: to.Ptr("aso"),
+			DnsPrefix: new("aso"),
 			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
 				{
-					Name:   to.Ptr("agentpool"),
-					Count:  to.Ptr(3),
-					VmSize: to.Ptr("Standard_DS2_v2"),
+					Name:   new("agentpool"),
+					Count:  new(3),
+					VmSize: new("Standard_DS2_v2"),
 					OsType: to.Ptr(aks.OSType_Linux),
 					OsSKU:  to.Ptr(aks.OSSKU_AzureLinux),
 					Mode:   to.Ptr(aks.AgentPoolMode_System),
@@ -302,10 +302,10 @@ func newBackupInstanceManagedCluster(tc *testcommon.KubePerTestContext, rg *reso
 			AutoUpgradeProfile: &aks.ManagedClusterAutoUpgradeProfile{
 				UpgradeChannel: to.Ptr(aks.ManagedClusterAutoUpgradeProfile_UpgradeChannel_NodeImage),
 			},
-			EnableRBAC: to.Ptr(true),
+			EnableRBAC: new(true),
 			AddonProfiles: map[string]aks.ManagedClusterAddonProfile{
 				"azurepolicy": {
-					Enabled: to.Ptr(true),
+					Enabled: new(true),
 				},
 			},
 		},

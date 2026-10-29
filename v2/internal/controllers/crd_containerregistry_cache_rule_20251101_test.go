@@ -41,8 +41,8 @@ func Test_ContainerRegistry_CacheRule_20251101_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("cache-rule"),
 		Spec: containerregistry.RegistryCacheRule_Spec{
 			Owner:            testcommon.AsOwner(acr),
-			SourceRepository: to.Ptr("mcr.microsoft.com/azuredocs/aci-helloworld"),
-			TargetRepository: to.Ptr("cached-mcr/aci-helloworld"),
+			SourceRepository: new("mcr.microsoft.com/azuredocs/aci-helloworld"),
+			TargetRepository: new("cached-mcr/aci-helloworld"),
 		},
 	}
 

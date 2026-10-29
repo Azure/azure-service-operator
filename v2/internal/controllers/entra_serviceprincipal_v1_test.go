@@ -28,7 +28,7 @@ func Test_Entra_ServicePrincipal_v1_Adopt(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("cassandra-service-principal"),
 		Spec: entra.ServicePrincipalSpec{
 			// This is the Principal ID for  Azure Cosmos DB
-			AppId: to.Ptr("a232010e-820c-4083-83bb-3ace5fc29d0b"),
+			AppId: new("a232010e-820c-4083-83bb-3ace5fc29d0b"),
 			OperatorSpec: &entra.ServicePrincipalOperatorSpec{
 				CreationMode: to.Ptr(entra.AdoptOnly),
 				ConfigMaps: &entra.ServicePrincipalOperatorConfigMaps{
@@ -58,7 +58,7 @@ func Test_Entra_ServicePrincipal_v1_Adopt(t *testing.T) {
 	second := &entra.ServicePrincipal{
 		ObjectMeta: tc.MakeObjectMeta("cassandra-service-principal-again"),
 		Spec: entra.ServicePrincipalSpec{
-			AppId: to.Ptr("a232010e-820c-4083-83bb-3ace5fc29d0b"),
+			AppId: new("a232010e-820c-4083-83bb-3ace5fc29d0b"),
 			OperatorSpec: &entra.ServicePrincipalOperatorSpec{
 				CreationMode: to.Ptr(entra.AdoptOnly),
 			},

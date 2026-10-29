@@ -13,7 +13,6 @@ import (
 	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230311"
 	operationalinsights "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Insights_DataCollectionRule_v20210601_CRUD(t *testing.T) {
@@ -42,17 +41,17 @@ func Test_Insights_DataCollectionRule_v20210601_CRUD(t *testing.T) {
 		Spec: insights.DataCollectionRule_Spec{
 			Location:    tc.AzureRegion,
 			Owner:       testcommon.AsOwner(rg),
-			Description: to.Ptr("Test data collection rule for Azure Service Operator"),
+			Description: new("Test data collection rule for Azure Service Operator"),
 			DataSources: &insights.DataSourcesSpec{
 				PerformanceCounters: []insights.PerfCounterDataSource{
 					{
-						Name: to.Ptr("perfCounterDataSource"),
+						Name: new("perfCounterDataSource"),
 						CounterSpecifiers: []string{
 							"\\Processor Information(_Total)\\% Processor Time",
 							"\\Processor Information(_Total)\\% Privileged Time",
 							"\\Processor Information(_Total)\\% User Time",
 						},
-						SamplingFrequencyInSeconds: to.Ptr(10),
+						SamplingFrequencyInSeconds: new(10),
 						Streams: []string{
 							"Microsoft-Perf",
 						},
@@ -62,7 +61,7 @@ func Test_Insights_DataCollectionRule_v20210601_CRUD(t *testing.T) {
 			Destinations: &insights.DestinationsSpec{
 				LogAnalytics: []insights.LogAnalyticsDestination{
 					{
-						Name:                       to.Ptr("logAnalyticsDestination"),
+						Name:                       new("logAnalyticsDestination"),
 						WorkspaceResourceReference: tc.MakeReferenceFromResource(workspace),
 					},
 				},
@@ -88,9 +87,9 @@ func Test_Insights_DataCollectionRule_v20210601_CRUD(t *testing.T) {
 
 	// Perform a simple patch - update the description
 	old := dataCollectionRule.DeepCopy()
-	dataCollectionRule.Spec.Description = to.Ptr("Updated description for test data collection rule")
+	dataCollectionRule.Spec.Description = new("Updated description for test data collection rule")
 	tc.PatchResourceAndWait(old, dataCollectionRule)
-	tc.Expect(dataCollectionRule.Status.Description).To(Equal(to.Ptr("Updated description for test data collection rule")))
+	tc.Expect(dataCollectionRule.Status.Description).To(Equal(new("Updated description for test data collection rule")))
 
 	tc.DeleteResourceAndWait(dataCollectionRule)
 

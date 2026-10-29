@@ -23,7 +23,7 @@ func Test_Latest_Reconciled_Generation_Reconciles_AllEvents(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	tc.AzureRegion = to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
+	tc.AzureRegion = new("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -32,12 +32,12 @@ func Test_Latest_Reconciled_Generation_Reconciles_AllEvents(t *testing.T) {
 		Spec: aks.ManagedCluster_Spec{
 			Location:  tc.AzureRegion,
 			Owner:     testcommon.AsOwner(rg),
-			DnsPrefix: to.Ptr("aso"),
+			DnsPrefix: new("aso"),
 			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
 				{
-					Name:   to.Ptr("ap1"),
-					Count:  to.Ptr(1),
-					VmSize: to.Ptr("Standard_DS2_v2"),
+					Name:   new("ap1"),
+					Count:  new(1),
+					VmSize: new("Standard_DS2_v2"),
 					OsType: to.Ptr(aks.OSType_Linux),
 					Mode:   to.Ptr(aks.AgentPoolMode_System),
 				},
@@ -45,7 +45,7 @@ func Test_Latest_Reconciled_Generation_Reconciles_AllEvents(t *testing.T) {
 			Identity: &aks.ManagedClusterIdentity{
 				Type: to.Ptr(aks.ManagedClusterIdentity_Type_SystemAssigned),
 			},
-			KubernetesVersion: to.Ptr("1.33.5"),
+			KubernetesVersion: new("1.33.5"),
 		},
 	}
 
@@ -55,23 +55,23 @@ func Test_Latest_Reconciled_Generation_Reconciles_AllEvents(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName("ap2"),
 		Spec: aks.ManagedClustersAgentPool_Spec{
 			Owner:               testcommon.AsOwner(cluster),
-			Count:               to.Ptr(1),
-			VmSize:              to.Ptr("Standard_DS2_v2"),
+			Count:               new(1),
+			VmSize:              new("Standard_DS2_v2"),
 			OsType:              to.Ptr(aks.OSType_Linux),
 			Mode:                to.Ptr(aks.AgentPoolMode_User),
-			OrchestratorVersion: to.Ptr("1.32.9"),
+			OrchestratorVersion: new("1.32.9"),
 		},
 	}
 
 	tc.CreateResourceAndWait(agentPool)
 
 	old := agentPool.DeepCopy()
-	agentPool.Spec.OrchestratorVersion = to.Ptr("1.33.5") // Start an upgrade that we know will take a bit
+	agentPool.Spec.OrchestratorVersion = new("1.33.5") // Start an upgrade that we know will take a bit
 
 	tc.PatchResourceAndWaitForState(old, agentPool, metav1.ConditionFalse, conditions.ConditionSeverityInfo)
 
 	old = agentPool.DeepCopy()
-	agentPool.Spec.Count = to.Ptr(2) // Scale count immediately after upgrade starts
+	agentPool.Spec.Count = new(2) // Scale count immediately after upgrade starts
 
 	tc.Patch(old, agentPool)
 

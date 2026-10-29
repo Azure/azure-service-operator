@@ -12,7 +12,6 @@ import (
 
 	sql "github.com/Azure/azure-service-operator/v2/api/sql/v20211101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -23,9 +22,9 @@ func Test_SQL_Server_FailoverGroup_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 	// Use a different region where we have quota
-	tc.AzureRegion = to.Ptr("westus2")
+	tc.AzureRegion = new("westus2")
 
-	secondaryRegion := to.Ptr("eastus2")
+	secondaryRegion := new("eastus2")
 
 	secretName := "sqlsecret"
 	adminPasswordKey := "adminPassword"
@@ -39,9 +38,9 @@ func Test_SQL_Server_FailoverGroup_CRUD(t *testing.T) {
 		Spec: sql.Server_Spec{
 			Location:                   tc.AzureRegion,
 			Owner:                      testcommon.AsOwner(rg),
-			AdministratorLogin:         to.Ptr("myadmin"),
+			AdministratorLogin:         new("myadmin"),
 			AdministratorLoginPassword: &adminPasswordSecretRef,
-			Version:                    to.Ptr("12.0"),
+			Version:                    new("12.0"),
 		},
 	}
 
@@ -50,9 +49,9 @@ func Test_SQL_Server_FailoverGroup_CRUD(t *testing.T) {
 		Spec: sql.Server_Spec{
 			Location:                   secondaryRegion, // Must not be in the same region as the primary server
 			Owner:                      testcommon.AsOwner(rg),
-			AdministratorLogin:         to.Ptr("myadmin"),
+			AdministratorLogin:         new("myadmin"),
 			AdministratorLoginPassword: &adminPasswordSecretRef,
-			Version:                    to.Ptr("12.0"),
+			Version:                    new("12.0"),
 		},
 	}
 
@@ -64,7 +63,7 @@ func Test_SQL_Server_FailoverGroup_CRUD(t *testing.T) {
 		Spec: sql.ServersDatabase_Spec{
 			Owner:     testcommon.AsOwner(serverPrimary),
 			Location:  tc.AzureRegion,
-			Collation: to.Ptr("SQL_Latin1_General_CP1_CI_AS"),
+			Collation: new("SQL_Latin1_General_CP1_CI_AS"),
 		},
 	}
 
@@ -85,7 +84,7 @@ func Test_SQL_Server_FailoverGroup_CRUD(t *testing.T) {
 			},
 			ReadWriteEndpoint: &sql.FailoverGroupReadWriteEndpoint{
 				FailoverPolicy:                         &automatic,
-				FailoverWithDataLossGracePeriodMinutes: to.Ptr(60),
+				FailoverWithDataLossGracePeriodMinutes: new(60),
 			},
 		},
 	}

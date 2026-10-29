@@ -80,7 +80,7 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
-			AddressPrefix: to.Ptr("10.0.0.0/24"),
+			AddressPrefix: new("10.0.0.0/24"),
 		},
 	}
 
@@ -356,19 +356,19 @@ func Test_OwnerARMID_ChildResourceImplementsPreReconcileHook(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	tc.AzureRegion = to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
+	tc.AzureRegion = new("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
 
 	cluster := &aks.ManagedCluster{
 		ObjectMeta: tc.MakeObjectMeta("mc"),
 		Spec: aks.ManagedCluster_Spec{
 			Location:  tc.AzureRegion,
 			Owner:     testcommon.AsOwner(rg),
-			DnsPrefix: to.Ptr("aso"),
+			DnsPrefix: new("aso"),
 			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
 				{
-					Name:   to.Ptr("ap1"),
-					Count:  to.Ptr(1),
-					VmSize: to.Ptr("Standard_DS2_v2"),
+					Name:   new("ap1"),
+					Count:  new(1),
+					VmSize: new("Standard_DS2_v2"),
 					OsType: to.Ptr(aks.OSType_Linux),
 					Mode:   to.Ptr(aks.AgentPoolMode_System),
 				},
@@ -388,8 +388,8 @@ func Test_OwnerARMID_ChildResourceImplementsPreReconcileHook(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName("ap2"),
 		Spec: aks.ManagedClustersAgentPool_Spec{
 			Owner:  testcommon.AsARMIDOwner(armId),
-			Count:  to.Ptr(1),
-			VmSize: to.Ptr("Standard_DS2_v2"),
+			Count:  new(1),
+			VmSize: new("Standard_DS2_v2"),
 			OsType: to.Ptr(aks.OSType_Linux),
 			Mode:   to.Ptr(aks.AgentPoolMode_System),
 		},

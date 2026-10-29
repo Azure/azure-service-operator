@@ -20,7 +20,6 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -55,7 +54,7 @@ func newVMSubnet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResou
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         owner,
-			AddressPrefix: to.Ptr("10.0.0.0/24"),
+			AddressPrefix: new("10.0.0.0/24"),
 		},
 	}
 }
@@ -65,7 +64,7 @@ func newVMSubnet20240301(tc *testcommon.KubePerTestContext, owner *genruntime.Kn
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network20240301.VirtualNetworksSubnet_Spec{
 			Owner:         owner,
-			AddressPrefix: to.Ptr("10.0.0.0/24"),
+			AddressPrefix: new("10.0.0.0/24"),
 		},
 	}
 }
@@ -124,16 +123,16 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 			},
 			InboundNatPools: []network.InboundNatPool{
 				{
-					Name: to.Ptr("MyFancyNatPool"),
+					Name: new("MyFancyNatPool"),
 					FrontendIPConfiguration: &network.SubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: frontIPConfigurationARMID,
 						},
 					},
 					Protocol:               &protocol,
-					FrontendPortRangeStart: to.Ptr(50_000),
-					FrontendPortRangeEnd:   to.Ptr(51_000),
-					BackendPort:            to.Ptr(22),
+					FrontendPortRangeStart: new(50_000),
+					FrontendPortRangeEnd:   new(51_000),
+					BackendPort:            new(22),
 				},
 			},
 		},
@@ -163,33 +162,33 @@ func newVMSS20201201(
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute2020.Sku{
-				Name:     to.Ptr("STANDARD_D1_v2"),
-				Capacity: to.Ptr(1),
+				Name:     new("STANDARD_D1_v2"),
+				Capacity: new(1),
 			},
-			PlatformFaultDomainCount: to.Ptr(3),
-			SinglePlacementGroup:     to.Ptr(false),
+			PlatformFaultDomainCount: new(3),
+			SinglePlacementGroup:     new(false),
 			UpgradePolicy: &compute2020.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
 			VirtualMachineProfile: &compute2020.VirtualMachineScaleSetVMProfile{
 				StorageProfile: &compute2020.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute2020.ImageReference{
-						Publisher: to.Ptr("Canonical"),
-						Offer:     to.Ptr("UbuntuServer"),
-						Sku:       to.Ptr("18.04-lts"),
-						Version:   to.Ptr("latest"),
+						Publisher: new("Canonical"),
+						Offer:     new("UbuntuServer"),
+						Sku:       new("18.04-lts"),
+						Version:   new("latest"),
 					},
 				},
 				OsProfile: &compute2020.VirtualMachineScaleSetOSProfile{
-					ComputerNamePrefix: to.Ptr("computer"),
+					ComputerNamePrefix: new("computer"),
 					AdminUsername:      &adminUsername,
 					LinuxConfiguration: &compute2020.LinuxConfiguration{
-						DisablePasswordAuthentication: to.Ptr(true),
+						DisablePasswordAuthentication: new(true),
 						Ssh: &compute2020.SshConfiguration{
 							PublicKeys: []compute2020.SshPublicKeySpec{
 								{
 									KeyData: sshPublicKey,
-									Path:    to.Ptr(fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUsername)),
+									Path:    new(fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUsername)),
 								},
 							},
 						},
@@ -198,11 +197,11 @@ func newVMSS20201201(
 				NetworkProfile: &compute2020.VirtualMachineScaleSetNetworkProfile{
 					NetworkInterfaceConfigurations: []compute2020.VirtualMachineScaleSetNetworkConfiguration{
 						{
-							Name:    to.Ptr("mynicconfig"),
-							Primary: to.Ptr(true),
+							Name:    new("mynicconfig"),
+							Primary: new(true),
 							IpConfigurations: []compute2020.VirtualMachineScaleSetIPConfiguration{
 								{
-									Name: to.Ptr("myipconfiguration"),
+									Name: new("myipconfiguration"),
 									Subnet: &compute2020.ApiEntityReference{
 										Reference: tc.MakeReferenceFromResource(subnet),
 									},
@@ -226,7 +225,7 @@ func Test_Compute_VMSS_20201201_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 	// Move to a different region where we have quota
-	tc.AzureRegion = to.Ptr("westeurope")
+	tc.AzureRegion = new("westeurope")
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -253,9 +252,9 @@ func Test_Compute_VMSS_20201201_CRUD(t *testing.T) {
 		Extensions: []compute2020.VirtualMachineScaleSetExtension{
 			{
 				Name:               &extensionName,
-				Publisher:          to.Ptr("Microsoft.Azure.Extensions"),
-				Type:               to.Ptr("CustomScript"),
-				TypeHandlerVersion: to.Ptr("2.0"),
+				Publisher:          new("Microsoft.Azure.Extensions"),
+				Type:               new("CustomScript"),
+				TypeHandlerVersion: new("2.0"),
 				Settings: map[string]v1.JSON{
 					"commandToExecute": {
 						Raw: []byte(`"/bin/bash -c \"echo hello\""`),
@@ -323,9 +322,9 @@ func VMSS_Extension_20201201_CRUD(tc *testcommon.KubePerTestContext, vmss *compu
 		ObjectMeta: tc.MakeObjectMetaWithName(extensionName),
 		Spec: compute2020.VirtualMachineScaleSetsExtension_Spec{
 			Owner:              testcommon.AsOwner(vmss),
-			Publisher:          to.Ptr("Microsoft.ManagedServices"),
-			Type:               to.Ptr("ApplicationHealthLinux"),
-			TypeHandlerVersion: to.Ptr("1.0"),
+			Publisher:          new("Microsoft.ManagedServices"),
+			Type:               new("ApplicationHealthLinux"),
+			TypeHandlerVersion: new("1.0"),
 		},
 	}
 

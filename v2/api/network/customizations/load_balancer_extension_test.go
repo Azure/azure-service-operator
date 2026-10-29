@@ -11,7 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_FuzzySetLoadBalancers(t *testing.T) {
@@ -19,15 +18,15 @@ func Test_FuzzySetLoadBalancers(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	lb := &arm.LoadBalancer_Spec{
-		Location: to.Ptr("westus"),
+		Location: new("westus"),
 		Name:     "mylb",
 		Properties: &arm.LoadBalancerPropertiesFormat{
 			InboundNatRules: []arm.InboundNatRule_LoadBalancer_SubResourceEmbedded{
 				{
-					Name: to.Ptr("myrule"),
+					Name: new("myrule"),
 					Properties: &arm.InboundNatRulePropertiesFormat{
-						BackendPort:  to.Ptr(80),
-						FrontendPort: to.Ptr(90),
+						BackendPort:  new(80),
+						FrontendPort: new(90),
 					},
 				},
 			},
@@ -64,7 +63,7 @@ func Test_FuzzySetLoadBalancers(t *testing.T) {
 
 	err = setInboundNatRules(lb, azureInboundNatRules)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(lb.Location).To(Equal(to.Ptr("westus")))
+	g.Expect(lb.Location).To(Equal(new("westus")))
 	g.Expect(lb.Properties).ToNot(BeNil())
 	g.Expect(lb.Properties.InboundNatRules).To(HaveLen(2))
 
@@ -72,11 +71,11 @@ func Test_FuzzySetLoadBalancers(t *testing.T) {
 	rule1 := lb.Properties.InboundNatRules[1]
 
 	g.Expect(rule0.Properties).ToNot(BeNil())
-	g.Expect(rule0.Name).To(Equal(to.Ptr("myrule")))
+	g.Expect(rule0.Name).To(Equal(new("myrule")))
 	g.Expect(rule0.Properties.BackendPort).ToNot(BeNil())
 	g.Expect(rule0.Properties.FrontendPort).ToNot(BeNil())
 	g.Expect(rule1.Properties).ToNot(BeNil())
-	g.Expect(rule1.Name).To(Equal(to.Ptr("myrule1")))
+	g.Expect(rule1.Name).To(Equal(new("myrule1")))
 	g.Expect(rule1.Properties.BackendPort).ToNot(BeNil())
 	g.Expect(rule1.Properties.FrontendPort).ToNot(BeNil())
 }
@@ -86,22 +85,22 @@ func Test_FuzzySetLoadBalancers_NatRulesMerged(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	lb := &arm.LoadBalancer_Spec{
-		Location: to.Ptr("westus"),
+		Location: new("westus"),
 		Name:     "mylb",
 		Properties: &arm.LoadBalancerPropertiesFormat{
 			InboundNatRules: []arm.InboundNatRule_LoadBalancer_SubResourceEmbedded{
 				{
-					Name: to.Ptr("myrule"),
+					Name: new("myrule"),
 					Properties: &arm.InboundNatRulePropertiesFormat{
-						BackendPort:  to.Ptr(80),
-						FrontendPort: to.Ptr(90),
+						BackendPort:  new(80),
+						FrontendPort: new(90),
 					},
 				},
 				{
-					Name: to.Ptr("myrule1"),
+					Name: new("myrule1"),
 					Properties: &arm.InboundNatRulePropertiesFormat{
-						BackendPort:  to.Ptr(22),
-						FrontendPort: to.Ptr(23),
+						BackendPort:  new(22),
+						FrontendPort: new(23),
 					},
 				},
 			},
@@ -138,7 +137,7 @@ func Test_FuzzySetLoadBalancers_NatRulesMerged(t *testing.T) {
 
 	err = setInboundNatRules(lb, azureInboundNatRules)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(lb.Location).To(Equal(to.Ptr("westus")))
+	g.Expect(lb.Location).To(Equal(new("westus")))
 	g.Expect(lb.Properties).ToNot(BeNil())
 	g.Expect(lb.Properties.InboundNatRules).To(HaveLen(2))
 
@@ -146,11 +145,11 @@ func Test_FuzzySetLoadBalancers_NatRulesMerged(t *testing.T) {
 	rule1 := lb.Properties.InboundNatRules[1]
 
 	g.Expect(rule0.Properties).ToNot(BeNil())
-	g.Expect(rule0.Name).To(Equal(to.Ptr("myrule")))
+	g.Expect(rule0.Name).To(Equal(new("myrule")))
 	g.Expect(rule0.Properties.BackendPort).ToNot(BeNil())
 	g.Expect(rule0.Properties.FrontendPort).ToNot(BeNil())
 	g.Expect(rule1.Properties).ToNot(BeNil())
-	g.Expect(rule1.Name).To(Equal(to.Ptr("myrule1")))
+	g.Expect(rule1.Name).To(Equal(new("myrule1")))
 	g.Expect(rule1.Properties.BackendPort).ToNot(BeNil())
 	g.Expect(rule1.Properties.FrontendPort).ToNot(BeNil())
 }

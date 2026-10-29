@@ -115,7 +115,6 @@ func writeFiles(
 	eg.SetLimit(8)
 
 	for _, pkg := range pkgs {
-		pkg := pkg
 		eg.Go(func() error {
 			// create directory if not already there
 			outputDir := filepath.Join(outputPath, pkg.Path)

@@ -162,8 +162,8 @@ func newSoftDeletingKeyVault(
 			Properties: &keyvault.VaultProperties{
 				CreateMode: mode,
 				AccessPolicies: []keyvault.AccessPolicyEntry{{
-					ApplicationId: to.Ptr(tc.AzureTenant),
-					ObjectId:      to.Ptr(tc.AzureTenant),
+					ApplicationId: new(tc.AzureTenant),
+					ObjectId:      new(tc.AzureTenant),
 					Permissions: &keyvault.Permissions{
 						Certificates: []keyvault.Permissions_Certificates{
 							keyvault.Permissions_Certificates_Get,
@@ -179,14 +179,14 @@ func newSoftDeletingKeyVault(
 							keyvault.Permissions_Storage_Get,
 						},
 					},
-					TenantId: to.Ptr(tc.AzureTenant),
+					TenantId: new(tc.AzureTenant),
 				}},
 				Sku: &keyvault.Sku{
 					Family: to.Ptr(keyvault.Sku_Family_A),
 					Name:   to.Ptr(keyvault.Sku_Name_Standard),
 				},
-				TenantId:         to.Ptr(tc.AzureTenant),
-				EnableSoftDelete: to.Ptr(true),
+				TenantId:         new(tc.AzureTenant),
+				EnableSoftDelete: new(true),
 			},
 		},
 	}

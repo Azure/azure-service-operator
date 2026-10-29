@@ -75,7 +75,6 @@ func Test_ARMResourceImporter_GroupKindFromARMID(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			c := c
 			t.Parallel()
@@ -149,7 +148,6 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 	armRsrc := importableARMResource{}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 

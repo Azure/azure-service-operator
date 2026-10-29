@@ -32,8 +32,8 @@ func Test_KubernetesConfiguration_FluxConfiguration_20241101_CRUD(t *testing.T) 
 	fluxExtension := &kubernetesconfiguration.Extension{
 		ObjectMeta: tc.MakeObjectMeta("extension"),
 		Spec: kubernetesconfiguration.Extension_Spec{
-			AutoUpgradeMinorVersion: to.Ptr(true),
-			ExtensionType:           to.Ptr("microsoft.flux"),
+			AutoUpgradeMinorVersion: new(true),
+			ExtensionType:           new("microsoft.flux"),
 			Owner:                   tc.AsExtensionOwner(cluster),
 		},
 	}
@@ -47,17 +47,17 @@ func Test_KubernetesConfiguration_FluxConfiguration_20241101_CRUD(t *testing.T) 
 			SourceKind: to.Ptr(kubernetesconfiguration.SourceKindDefinition_GitRepository),
 			GitRepository: &kubernetesconfiguration.GitRepositoryDefinition{
 				RepositoryRef: &kubernetesconfiguration.RepositoryRefDefinition{
-					Branch: to.Ptr("master"),
+					Branch: new("master"),
 				},
-				Url:      to.Ptr("https://github.com/kubernetes-sigs/kustomize"),
+				Url:      new("https://github.com/kubernetes-sigs/kustomize"),
 				Provider: to.Ptr(kubernetesconfiguration.GitRepositoryDefinition_Provider_Generic),
 			},
 			Kustomizations: map[string]kubernetesconfiguration.KustomizationDefinition{
 				"hello-world": {
-					Path: to.Ptr("./examples/helloWorld"),
+					Path: new("./examples/helloWorld"),
 				},
 			},
-			Namespace: to.Ptr("flux-ns"),
+			Namespace: new("flux-ns"),
 		},
 	}
 

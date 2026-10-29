@@ -130,9 +130,9 @@ func newVaultForDiskEncryptionSet(name string, tc *testcommon.KubePerTestContext
 					Family: to.Ptr(keyvault.Sku_Family_A),
 					Name:   to.Ptr(keyvault.Sku_Name_Standard),
 				},
-				TenantId:                  to.Ptr(tc.AzureTenant),
-				EnabledForDiskEncryption:  to.Ptr(true),
-				SoftDeleteRetentionInDays: to.Ptr(7),
+				TenantId:                  new(tc.AzureTenant),
+				EnabledForDiskEncryption:  new(true),
+				SoftDeleteRetentionInDays: new(7),
 			},
 		},
 	}
@@ -147,9 +147,9 @@ func createKeyVaultKey(tc *testcommon.KubePerTestContext, kv *keyvault.Vault, rg
 	keyProperties := armkeyvault.KeyCreateParameters{
 		Properties: &armkeyvault.KeyProperties{
 			Attributes: &armkeyvault.KeyAttributes{
-				Enabled: to.Ptr(true),
+				Enabled: new(true),
 			},
-			KeySize: to.Ptr(int32(2048)),
+			KeySize: new(int32(2048)),
 			Kty:     to.Ptr(armkeyvault.JSONWebKeyTypeRSA),
 		},
 	}
