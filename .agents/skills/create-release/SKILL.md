@@ -54,7 +54,7 @@ Invoke the `create-release-notes` skill (defined in `.agents/skills/create-relea
 
 1. Running `scripts/v2/generate-raw-changelog.sh` to get the raw changelog
 2. Running `scripts/v2/generate-raw-changelog.sh --api-only` to identify API group changes
-3. Formatting the changelog into sections: New resources, Features, Bug fixes, Documentation
+3. Formatting the changelog into sections: Breaking changes (if any), Upcoming breaking changes (if any), New resources, Features, Bug fixes, Documentation
 
 Save the release notes to a temp file:
 ```bash
@@ -110,13 +110,32 @@ If the milestone does not exist, create it following the pattern of existing mil
 gh api repos/Azure/azure-service-operator/milestones -f title="v2.XX.0" -f description="" -f due_on="YYYY-MM-DDT00:00:00Z" -f state="open"
 ```
 
-### 4e. Commit and open PR
+### 4e. Document breaking changes
+
+If this release includes breaking changes, create or update `docs/hugo/content/guide/breaking-changes/breaking-changes-<VERSION>.md` (for example, `breaking-changes-v2.22.0.md`). Use the release notes' **Breaking changes** section, the changelog, and relevant release-planning issues to identify the changes.
+
+Follow the pattern of the existing [v2.21.0 breaking changes page](../../../docs/hugo/content/guide/breaking-changes/breaking-changes-v2.21.0.md) and other recent pages in that directory:
+
+- Set YAML frontmatter `title` to `"<VERSION> Breaking Changes"` and `linkTitle` to `"<VERSION>"`.
+- Set `weight` to 5 lower than the most recent preceding breaking changes page (for example, `-85` after v2.21.0's `-80`). Preserve the explanatory comment used by existing pages.
+- Add a `## Breaking changes` section describing each change's user-visible impact and the migration steps, configuration changes, or workarounds needed before upgrading. Include relevant PR or issue references.
+- If upcoming changes also need to be announced, add a separate `## Future breaking changes` section, following the existing documentation convention. Clearly distinguish future plans or proposals from changes taking effect in this release.
+- Keep the page consistent with the release notes. Do not overwrite an earlier release's page to document the new release.
+- Update `docs/hugo/content/guide/breaking-changes/_index.md` if it still lists a change taking effect in this release as upcoming.
+
+If there are no breaking changes in this release, skip creating a version-specific breaking changes page. Do not create an empty `## Breaking changes` section.
+
+Include any breaking changes documentation updates in the documentation PR below. Run `./dev.sh -c 'task doc:frontmatter-check'` when adding or updating these pages.
+
+### 4f. Commit and open PR
+
+Follow the Conventional Commits guidance in [AGENTS.md](../../../AGENTS.md#detailed-instructions) and [CONTRIBUTING.md](../../../CONTRIBUTING.md#pull-request-titles-and-commit-messages) for both the documentation commit message and PR title.
 
 1. Create a branch named `<user>/X.XX-docs` (e.g. `matthchr/2.20-docs`)
-2. Commit all changes with message `Update docs for <major>.<minor>` (e.g. `Update docs for 2.20`)
+2. Commit all changes with message `docs: update docs for <major>.<minor>` (e.g. `docs: update docs for 2.20`)
 3. Push the branch
 4. Open a PR against `main` in `Azure/azure-service-operator` with:
-   - **Title:** `Update docs for <major>.<minor>`
+   - **Title:** `docs: update docs for <major>.<minor>`
    - **Body:**
      ```
      - [x] this PR contains documentation
@@ -138,11 +157,12 @@ At the end of the run, produce a summary report including:
 
 3. **Documentation PR:**
    - PR URL (if created)
+   - Breaking changes documentation path (if created or updated), or confirmation that this release has no breaking changes
 
 4. **Remaining manual steps:**
    - Review and publish the draft release on GitHub
    - After publishing, verify the release GitHub Action completes successfully
-   - Catalog any breaking changes (see `docs/hugo/content/contributing/create-a-new-release.md`)
+   - After publishing, compare the released CRDs with the prior release to check for additional breaking changes and update the documentation if needed (see `docs/hugo/content/contributing/create-a-new-release.md`)
    - Perform smoke testing (see same doc)
    - Create a blog post
    - Post a message in the Slack channel
