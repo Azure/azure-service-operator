@@ -85,7 +85,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.c59f228be06555d09cd374ec1892e708.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.2fa4901479201454b1e26eb515fb7f19.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -111,7 +111,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.c59f228be06555d09cd374ec1892e708.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.2fa4901479201454b1e26eb515fb7f19.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -2760,28 +2760,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	</tbody>
 </table>
 <ul>
-<li>
-<p>host[:port]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]/repo for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository">ImageRepository[]</a><br/><small>Required</small>| | source| source matches the repository that users refer to, e.g. in image pull specifications. Setting source to a registry hostname, e.g. docker.io, quay.io, or registry.redhat.io, will match the image pull specification of the corresponding registry. source uses one of the following formats:</p>
-</li>
-<li>
-<p>host[:port]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]/repo</p>
-</li>
-<li>
-<p>[*.]host for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository">ImageRepository</a><br/><small>Required</small>|</p>
-</li>
+<li>host[:port]</li>
+<li>host[:port]/namespace[/namespace&hellip;]</li>
+<li>host[:port]/namespace[/namespace&hellip;]/repo</li>
 </ul>
+<p>for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository">ImageRepository[]</a><br/><small>Required</small>| | source| source matches the repository that users refer to, e.g. in image pull specifications. Setting source to a registry hostname, e.g. docker.io, quay.io, or registry.redhat.io, will match the image pull specification of the corresponding registry. source uses one of the following formats:</p>
+<ul>
+<li>host[:port]</li>
+<li>host[:port]/namespace[/namespace&hellip;]</li>
+<li>host[:port]/namespace[/namespace&hellip;]/repo</li>
+<li>[*.]host</li>
+</ul>
+<p>for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository">ImageRepository</a><br/><small>Required</small>|</p>
 <h2 id="ImageDigestMirror_STATUS">ImageDigestMirror_STATUS</h2>
 <p>ImageDigestMirror specifies a set of mirror registries to redirect image pulls targeting the specified source registries.</p>
 <p>Used by: <a href="#HcpOpenShiftClusterProperties_STATUS">HcpOpenShiftClusterProperties_STATUS</a>.</p>
@@ -2802,28 +2792,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	</tbody>
 </table>
 <ul>
-<li>
-<p>host[:port]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]/repo for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository_STATUS">ImageRepository_STATUS[]</a><br/><small>Required</small>| | source| source matches the repository that users refer to, e.g. in image pull specifications. Setting source to a registry hostname, e.g. docker.io, quay.io, or registry.redhat.io, will match the image pull specification of the corresponding registry. source uses one of the following formats:</p>
-</li>
-<li>
-<p>host[:port]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]/repo</p>
-</li>
-<li>
-<p>[*.]host for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository_STATUS">ImageRepository_STATUS</a><br/><small>Required</small>|</p>
-</li>
+<li>host[:port]</li>
+<li>host[:port]/namespace[/namespace&hellip;]</li>
+<li>host[:port]/namespace[/namespace&hellip;]/repo</li>
 </ul>
+<p>for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository_STATUS">ImageRepository_STATUS[]</a><br/><small>Required</small>| | source| source matches the repository that users refer to, e.g. in image pull specifications. Setting source to a registry hostname, e.g. docker.io, quay.io, or registry.redhat.io, will match the image pull specification of the corresponding registry. source uses one of the following formats:</p>
+<ul>
+<li>host[:port]</li>
+<li>host[:port]/namespace[/namespace&hellip;]</li>
+<li>host[:port]/namespace[/namespace&hellip;]/repo</li>
+<li>[*.]host</li>
+</ul>
+<p>for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository_STATUS">ImageRepository_STATUS</a><br/><small>Required</small>|</p>
 <h2 id="IngressProfile">IngressProfile</h2>
 <p>Information about the Ingress of a cluster.</p>
 <p>Used by: <a href="#HcpOpenShiftClusterProperties">HcpOpenShiftClusterProperties</a>.</p>

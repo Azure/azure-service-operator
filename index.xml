@@ -14,6 +14,13 @@
 		
 			<atom:link href="https://azure.github.io/azure-service-operator/index.xml" rel="self" type="application/rss+xml" />
 			<item>
+				<title>v2.22.0 Breaking Changes</title>
+				<link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.22.0/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.22.0/</guid>
+				<description>&lt;h2 id=&#34;breaking-changes&#34;&gt;Breaking changes&lt;/h2&gt;&#xA;&lt;h3 id=&#34;tls-13-by-default&#34;&gt;TLS 1.3 by default&lt;/h3&gt;&#xA;&lt;p&gt;The webhook and secure metrics servers now require TLS 1.3 by default. Clients that only support TLS 1.2 can no longer connect unless you explicitly enable TLS 1.2.&lt;/p&gt;&#xA;&lt;p&gt;Upgrade clients to support TLS 1.3 where possible. If you still need TLS 1.2, set the controller environment variable &lt;code&gt;TLS_MIN_VERSION=VersionTLS12&lt;/code&gt;. For Helm installations, set the following value:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;tlsMinVersion&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;VersionTLS12&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;https://azure.github.io/azure-service-operator/guide/aso-controller-settings-options/#tls_min_version&#34;&gt;controller TLS settings&lt;/a&gt; and &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5748&#34;&gt;#5748&lt;/a&gt; for details.&lt;/p&gt;&#xA;&lt;h3 id=&#34;removal-of-azure-database-for-mariadb-resources&#34;&gt;Removal of Azure Database for MariaDB resources&lt;/h3&gt;&#xA;&lt;p&gt;ASO no longer supports resources in the &lt;code&gt;dbformariadb.azure.com&lt;/code&gt; group following the retirement of Azure Database for MariaDB. The resource APIs and controller registrations have been removed.&lt;/p&gt;</description>
+			</item>
+			<item>
 				<title>v2.21.0 Breaking Changes</title>
 				<link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.21.0/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

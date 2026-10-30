@@ -21,7 +21,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
 	<meta itemprop="name" content="Supported Resources">
 	<meta itemprop="description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 AlertsManagement To install the CRDs for these resources, your ASO configuration must include alertsmanagement.azure.com/* as one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.">
-	<meta itemprop="wordCount" content="5665">
+	<meta itemprop="wordCount" content="4877">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Supported Resources">
 	<meta name="twitter:description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
@@ -81,7 +81,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.c59f228be06555d09cd374ec1892e708.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.2fa4901479201454b1e26eb515fb7f19.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -107,7 +107,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.c59f228be06555d09cd374ec1892e708.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.2fa4901479201454b1e26eb515fb7f19.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -782,7 +782,6 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#apimanagement">ApiManagement</a>
       <ul>
-        <li><a href="#next-release">Next Release</a></li>
         <li><a href="#latest-released-versions">Latest Released Versions</a></li>
       </ul>
     </li>
@@ -838,13 +837,11 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#containerregistry">ContainerRegistry</a>
       <ul>
-        <li><a href="#next-release-1">Next Release</a></li>
         <li><a href="#latest-released-versions-8">Latest Released Versions</a></li>
       </ul>
     </li>
     <li><a href="#containerservice">ContainerService</a>
       <ul>
-        <li><a href="#next-release-2">Next Release</a></li>
         <li><a href="#latest-released-versions-9">Latest Released Versions</a></li>
       </ul>
     </li>
@@ -870,13 +867,11 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#dbforpostgresql">DBforPostgreSQL</a>
       <ul>
-        <li><a href="#next-release-3">Next Release</a></li>
         <li><a href="#latest-released-versions-12">Latest Released Versions</a></li>
       </ul>
     </li>
     <li><a href="#devices">Devices</a>
       <ul>
-        <li><a href="#next-release-4">Next Release</a></li>
         <li><a href="#released-6">Released</a></li>
       </ul>
     </li>
@@ -887,19 +882,16 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#entra">Entra</a>
       <ul>
-        <li><a href="#next-release-5">Next Release</a></li>
         <li><a href="#released-7">Released</a></li>
       </ul>
     </li>
     <li><a href="#eventgrid">EventGrid</a>
       <ul>
-        <li><a href="#next-release-6">Next Release</a></li>
         <li><a href="#latest-released-versions-14">Latest Released Versions</a></li>
       </ul>
     </li>
     <li><a href="#eventhub">EventHub</a>
       <ul>
-        <li><a href="#next-release-7">Next Release</a></li>
         <li><a href="#latest-released-versions-15">Latest Released Versions</a></li>
       </ul>
     </li>
@@ -910,7 +902,6 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#keyvault">KeyVault</a>
       <ul>
-        <li><a href="#next-release-8">Next Release</a></li>
         <li><a href="#latest-released-versions-17">Latest Released Versions</a></li>
       </ul>
     </li>
@@ -961,23 +952,22 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#portal">Portal</a>
       <ul>
-        <li><a href="#next-release-9">Next Release</a></li>
+        <li><a href="#released-11">Released</a></li>
       </ul>
     </li>
     <li><a href="#quota">Quota</a>
       <ul>
-        <li><a href="#released-11">Released</a></li>
+        <li><a href="#released-12">Released</a></li>
       </ul>
     </li>
     <li><a href="#redhatopenshift">RedHatOpenShift</a>
       <ul>
-        <li><a href="#next-release-10">Next Release</a></li>
-        <li><a href="#released-12">Released</a></li>
+        <li><a href="#released-13">Released</a></li>
       </ul>
     </li>
     <li><a href="#resources">Resources</a>
       <ul>
-        <li><a href="#released-13">Released</a></li>
+        <li><a href="#released-14">Released</a></li>
       </ul>
     </li>
     <li><a href="#search">Search</a>
@@ -987,13 +977,12 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#servicebus">ServiceBus</a>
       <ul>
-        <li><a href="#next-release-11">Next Release</a></li>
         <li><a href="#latest-released-versions-25">Latest Released Versions</a></li>
       </ul>
     </li>
     <li><a href="#servicelinker">ServiceLinker</a>
       <ul>
-        <li><a href="#next-release-12">Next Release</a></li>
+        <li><a href="#released-15">Released</a></li>
       </ul>
     </li>
     <li><a href="#signalrservice">SignalRService</a>
@@ -1003,29 +992,26 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#sql">Sql</a>
       <ul>
-        <li><a href="#next-release-13">Next Release</a></li>
         <li><a href="#latest-released-versions-27">Latest Released Versions</a></li>
       </ul>
     </li>
     <li><a href="#storage">Storage</a>
       <ul>
-        <li><a href="#next-release-14">Next Release</a></li>
         <li><a href="#latest-released-versions-28">Latest Released Versions</a></li>
       </ul>
     </li>
     <li><a href="#subscription">Subscription</a>
       <ul>
-        <li><a href="#released-14">Released</a></li>
+        <li><a href="#released-16">Released</a></li>
       </ul>
     </li>
     <li><a href="#synapse">Synapse</a>
       <ul>
-        <li><a href="#released-15">Released</a></li>
+        <li><a href="#released-17">Released</a></li>
       </ul>
     </li>
     <li><a href="#web">Web</a>
       <ul>
-        <li><a href="#next-release-15">Next Release</a></li>
         <li><a href="#latest-released-versions-29">Latest Released Versions</a></li>
       </ul>
     </li>
@@ -1088,28 +1074,6 @@ grouped by the originating ARM service.
 <h2 id="apimanagement">ApiManagement</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>apimanagement.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
-<table>
-	<thead>
-			<tr>
-					<th>Resource</th>
-					<th>ARM Version</th>
-					<th>CRD Version</th>
-					<th>Supported From</th>
-					<th>Sample</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td><a href="/azure-service-operator/reference/apimanagement/v20250301preview/#Backend">Backend</a></td>
-					<td>2025-03-01-preview</td>
-					<td>v20250301preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20250301preview/v20250301preview_backend.yaml">View</a></td>
-			</tr>
-	</tbody>
-</table>
 <h3 id="latest-released-versions">Latest Released Versions</h3>
 <p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
 <table>
@@ -1850,8 +1814,8 @@ grouped by the originating ARM service.
 <h2 id="containerregistry">ContainerRegistry</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>containerregistry.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-1">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="latest-released-versions-8">Latest Released Versions</h3>
+<p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
 <table>
 	<thead>
 			<tr>
@@ -1871,18 +1835,11 @@ grouped by the originating ARM service.
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v20251101/v20251101_registry.yaml">View</a></td>
 			</tr>
 			<tr>
-					<td><a href="/azure-service-operator/reference/containerregistry/v20230701/#Registry">Registry</a></td>
-					<td>2023-07-01</td>
-					<td>v20230701</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v20230701/v20230701_registry.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/containerregistry/v20210901/#Registry">Registry</a></td>
-					<td>2021-09-01</td>
-					<td>v20210901</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v20210901/v20210901_registry.yaml">View</a></td>
+					<td><a href="/azure-service-operator/reference/containerregistry/v20251101/#RegistryCacheRule">RegistryCacheRule</a></td>
+					<td>2025-11-01</td>
+					<td>v20251101</td>
+					<td>v2.21.0</td>
+					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v20251101/v20251101_registrycacherule.yaml">View</a></td>
 			</tr>
 			<tr>
 					<td><a href="/azure-service-operator/reference/containerregistry/v20251101/#RegistryReplication">RegistryReplication</a></td>
@@ -1891,104 +1848,11 @@ grouped by the originating ARM service.
 					<td>v2.22.0</td>
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v20251101/v20251101_registryreplication.yaml">View</a></td>
 			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/containerregistry/v20230701/#RegistryReplication">RegistryReplication</a></td>
-					<td>2023-07-01</td>
-					<td>v20230701</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v20230701/v20230701_registryreplication.yaml">View</a></td>
-			</tr>
-	</tbody>
-</table>
-<h3 id="latest-released-versions-8">Latest Released Versions</h3>
-<p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
-<table>
-	<thead>
-			<tr>
-					<th>Resource</th>
-					<th>ARM Version</th>
-					<th>CRD Version</th>
-					<th>Supported From</th>
-					<th>Sample</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td><a href="/azure-service-operator/reference/containerregistry/v1api20230701/#Registry">Registry</a></td>
-					<td>2023-07-01</td>
-					<td>v1api20230701</td>
-					<td>v2.12.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v1api20230701/v1api20230701_registry.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/containerregistry/v20251101/#RegistryCacheRule">RegistryCacheRule</a></td>
-					<td>2025-11-01</td>
-					<td>v20251101</td>
-					<td>v2.21.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v20251101/v20251101_registrycacherule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/containerregistry/v1api20230701/#RegistryReplication">RegistryReplication</a></td>
-					<td>2023-07-01</td>
-					<td>v1api20230701</td>
-					<td>v2.12.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v1api20230701/v1api20230701_registryreplication.yaml">View</a></td>
-			</tr>
 	</tbody>
 </table>
 <h2 id="containerservice">ContainerService</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>containerservice.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-2">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
-<table>
-	<thead>
-			<tr>
-					<th>Resource</th>
-					<th>ARM Version</th>
-					<th>CRD Version</th>
-					<th>Supported From</th>
-					<th>Sample</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td><a href="/azure-service-operator/reference/containerservice/v20260501/#IdentityBinding">IdentityBinding</a></td>
-					<td>2026-05-01</td>
-					<td>v20260501</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20260501/v20260501_identitybinding.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/containerservice/v20260501/#MaintenanceConfiguration">MaintenanceConfiguration</a></td>
-					<td>2026-05-01</td>
-					<td>v20260501</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20260501/v20260501_maintenanceconfiguration.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/containerservice/v20260501/#ManagedCluster">ManagedCluster</a></td>
-					<td>2026-05-01</td>
-					<td>v20260501</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20260501/v20260501_managedcluster.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/containerservice/v20260501/#ManagedClustersAgentPool">ManagedClustersAgentPool</a></td>
-					<td>2026-05-01</td>
-					<td>v20260501</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20260501/v20260501_managedclustersagentpool.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/containerservice/v20260501/#TrustedAccessRoleBinding">TrustedAccessRoleBinding</a></td>
-					<td>2026-05-01</td>
-					<td>v20260501</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20260501/v20260501_trustedaccessrolebinding.yaml">View</a></td>
-			</tr>
-	</tbody>
-</table>
 <h3 id="latest-released-versions-9">Latest Released Versions</h3>
 <p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
 <table>
@@ -2038,32 +1902,39 @@ grouped by the originating ARM service.
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250301/v1api20250301_fleetsupdatestrategy.yaml">View</a></td>
 			</tr>
 			<tr>
-					<td><a href="/azure-service-operator/reference/containerservice/v1api20250801/#MaintenanceConfiguration">MaintenanceConfiguration</a></td>
-					<td>2025-08-01</td>
-					<td>v1api20250801</td>
-					<td>v2.16.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250801/v1api20250801_maintenanceconfiguration.yaml">View</a></td>
+					<td><a href="/azure-service-operator/reference/containerservice/v20260501/#IdentityBinding">IdentityBinding</a></td>
+					<td>2026-05-01</td>
+					<td>v20260501</td>
+					<td>v2.22.0</td>
+					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20260501/v20260501_identitybinding.yaml">View</a></td>
 			</tr>
 			<tr>
-					<td><a href="/azure-service-operator/reference/containerservice/v1api20250801/#ManagedCluster">ManagedCluster</a></td>
-					<td>2025-08-01</td>
-					<td>v1api20250801</td>
-					<td>v2.16.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250801/v1api20250801_managedcluster.yaml">View</a></td>
+					<td><a href="/azure-service-operator/reference/containerservice/v20260501/#MaintenanceConfiguration">MaintenanceConfiguration</a></td>
+					<td>2026-05-01</td>
+					<td>v20260501</td>
+					<td>v2.22.0</td>
+					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20260501/v20260501_maintenanceconfiguration.yaml">View</a></td>
 			</tr>
 			<tr>
-					<td><a href="/azure-service-operator/reference/containerservice/v1api20250801/#ManagedClustersAgentPool">ManagedClustersAgentPool</a></td>
-					<td>2025-08-01</td>
-					<td>v1api20250801</td>
-					<td>v2.16.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250801/v1api20250801_managedclustersagentpool.yaml">View</a></td>
+					<td><a href="/azure-service-operator/reference/containerservice/v20260501/#ManagedCluster">ManagedCluster</a></td>
+					<td>2026-05-01</td>
+					<td>v20260501</td>
+					<td>v2.22.0</td>
+					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20260501/v20260501_managedcluster.yaml">View</a></td>
 			</tr>
 			<tr>
-					<td><a href="/azure-service-operator/reference/containerservice/v1api20250801/#TrustedAccessRoleBinding">TrustedAccessRoleBinding</a></td>
-					<td>2025-08-01</td>
-					<td>v1api20250801</td>
-					<td>v2.16.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20250801/v1api20250801_trustedaccessrolebinding.yaml">View</a></td>
+					<td><a href="/azure-service-operator/reference/containerservice/v20260501/#ManagedClustersAgentPool">ManagedClustersAgentPool</a></td>
+					<td>2026-05-01</td>
+					<td>v20260501</td>
+					<td>v2.22.0</td>
+					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20260501/v20260501_managedclustersagentpool.yaml">View</a></td>
+			</tr>
+			<tr>
+					<td><a href="/azure-service-operator/reference/containerservice/v20260501/#TrustedAccessRoleBinding">TrustedAccessRoleBinding</a></td>
+					<td>2026-05-01</td>
+					<td>v20260501</td>
+					<td>v2.22.0</td>
+					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v20260501/v20260501_trustedaccessrolebinding.yaml">View</a></td>
 			</tr>
 	</tbody>
 </table>
@@ -2235,182 +2106,6 @@ grouped by the originating ARM service.
 <h2 id="dbforpostgresql">DBforPostgreSQL</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>dbforpostgresql.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-3">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
-<table>
-	<thead>
-			<tr>
-					<th>Resource</th>
-					<th>ARM Version</th>
-					<th>CRD Version</th>
-					<th>Supported From</th>
-					<th>Sample</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20240801/#FlexibleServer">FlexibleServer</a></td>
-					<td>2024-08-01</td>
-					<td>v20240801</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20240801/v20240801_flexibleserver.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20230601preview/#FlexibleServer">FlexibleServer</a></td>
-					<td>2023-06-01-preview</td>
-					<td>v20230601preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20230601preview/v20230601preview_flexibleserver.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20221201/#FlexibleServer">FlexibleServer</a></td>
-					<td>2022-12-01</td>
-					<td>v20221201</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20221201/v20221201_flexibleserver.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20220120preview/#FlexibleServer">FlexibleServer</a></td>
-					<td>2022-01-20-preview</td>
-					<td>v20220120preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20220120preview/v20220120preview_flexibleserver.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20210601/#FlexibleServer">FlexibleServer</a></td>
-					<td>2021-06-01</td>
-					<td>v20210601</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20210601/v20210601_flexibleserver.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20240801/#FlexibleServersAdvancedThreatProtectionSettings">FlexibleServersAdvancedThreatProtectionSettings</a></td>
-					<td>2024-08-01</td>
-					<td>v20240801</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20240801/v20240801_flexibleserversadvancedthreatprotectionsettings.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20240801/#FlexibleServersBackup">FlexibleServersBackup</a></td>
-					<td>2024-08-01</td>
-					<td>v20240801</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20240801/v20240801_flexibleserversbackup.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20240801/#FlexibleServersConfiguration">FlexibleServersConfiguration</a></td>
-					<td>2024-08-01</td>
-					<td>v20240801</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20240801/v20240801_flexibleserversconfiguration.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20230601preview/#FlexibleServersConfiguration">FlexibleServersConfiguration</a></td>
-					<td>2023-06-01-preview</td>
-					<td>v20230601preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20230601preview/v20230601preview_flexibleserversconfiguration.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20221201/#FlexibleServersConfiguration">FlexibleServersConfiguration</a></td>
-					<td>2022-12-01</td>
-					<td>v20221201</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20221201/v20221201_flexibleserversconfiguration.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20220120preview/#FlexibleServersConfiguration">FlexibleServersConfiguration</a></td>
-					<td>2022-01-20-preview</td>
-					<td>v20220120preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20220120preview/v20220120preview_flexibleserversconfiguration.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20210601/#FlexibleServersConfiguration">FlexibleServersConfiguration</a></td>
-					<td>2021-06-01</td>
-					<td>v20210601</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20210601/v20210601_flexibleserversconfiguration.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20240801/#FlexibleServersDatabase">FlexibleServersDatabase</a></td>
-					<td>2024-08-01</td>
-					<td>v20240801</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20240801/v20240801_flexibleserversdatabase.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20230601preview/#FlexibleServersDatabase">FlexibleServersDatabase</a></td>
-					<td>2023-06-01-preview</td>
-					<td>v20230601preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20230601preview/v20230601preview_flexibleserversdatabase.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20221201/#FlexibleServersDatabase">FlexibleServersDatabase</a></td>
-					<td>2022-12-01</td>
-					<td>v20221201</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20221201/v20221201_flexibleserversdatabase.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20220120preview/#FlexibleServersDatabase">FlexibleServersDatabase</a></td>
-					<td>2022-01-20-preview</td>
-					<td>v20220120preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20220120preview/v20220120preview_flexibleserversdatabase.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20210601/#FlexibleServersDatabase">FlexibleServersDatabase</a></td>
-					<td>2021-06-01</td>
-					<td>v20210601</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20210601/v20210601_flexibleserversdatabase.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20240801/#FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
-					<td>2024-08-01</td>
-					<td>v20240801</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20240801/v20240801_flexibleserversfirewallrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20230601preview/#FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
-					<td>2023-06-01-preview</td>
-					<td>v20230601preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20230601preview/v20230601preview_flexibleserversfirewallrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20221201/#FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
-					<td>2022-12-01</td>
-					<td>v20221201</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20221201/v20221201_flexibleserversfirewallrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20220120preview/#FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
-					<td>2022-01-20-preview</td>
-					<td>v20220120preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20220120preview/v20220120preview_flexibleserversfirewallrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20210601/#FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
-					<td>2021-06-01</td>
-					<td>v20210601</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20210601/v20210601_flexibleserversfirewallrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/dbforpostgresql/v20240801/#FlexibleServersVirtualEndpoint">FlexibleServersVirtualEndpoint</a></td>
-					<td>2024-08-01</td>
-					<td>v20240801</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v20240801/v20240801_flexibleserversvirtualendpoint.yaml">View</a></td>
-			</tr>
-	</tbody>
-</table>
 <h3 id="latest-released-versions-12">Latest Released Versions</h3>
 <p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
 <table>
@@ -2492,8 +2187,8 @@ grouped by the originating ARM service.
 <h2 id="devices">Devices</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>devices.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-4">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="released-6">Released</h3>
+<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 	<thead>
 			<tr>
@@ -2511,28 +2206,6 @@ grouped by the originating ARM service.
 					<td>v20210702</td>
 					<td>v2.22.0</td>
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/devices/v20210702/v20210702_iothub.yaml">View</a></td>
-			</tr>
-	</tbody>
-</table>
-<h3 id="released-6">Released</h3>
-<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
-<table>
-	<thead>
-			<tr>
-					<th>Resource</th>
-					<th>ARM Version</th>
-					<th>CRD Version</th>
-					<th>Supported From</th>
-					<th>Sample</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td><a href="/azure-service-operator/reference/devices/v1api20210702/#IotHub">IotHub</a></td>
-					<td>2021-07-02</td>
-					<td>v1api20210702</td>
-					<td>v2.1.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/devices/v1api/v1api20210702_iothub.yaml">View</a></td>
 			</tr>
 	</tbody>
 </table>
@@ -2690,28 +2363,6 @@ grouped by the originating ARM service.
 <h2 id="entra">Entra</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>entra.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-5">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
-<table>
-	<thead>
-			<tr>
-					<th>Resource</th>
-					<th>ARM Version</th>
-					<th>CRD Version</th>
-					<th>Supported From</th>
-					<th>Sample</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td><a href="/azure-service-operator/reference/entra/v1/#ServicePrincipal">ServicePrincipal</a></td>
-					<td>v1</td>
-					<td>v1</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/entra/v1/v1_serviceprincipal.yaml">View</a></td>
-			</tr>
-	</tbody>
-</table>
 <h3 id="released-7">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
@@ -2739,40 +2390,18 @@ grouped by the originating ARM service.
 					<td>v2.14.0</td>
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/entra/v1/v1_securitygroup.yaml">View</a></td>
 			</tr>
+			<tr>
+					<td><a href="/azure-service-operator/reference/entra/v1/#ServicePrincipal">ServicePrincipal</a></td>
+					<td>v1</td>
+					<td>v1</td>
+					<td>v2.22.0</td>
+					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/entra/v1/v1_serviceprincipal.yaml">View</a></td>
+			</tr>
 	</tbody>
 </table>
 <h2 id="eventgrid">EventGrid</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>eventgrid.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-6">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
-<table>
-	<thead>
-			<tr>
-					<th>Resource</th>
-					<th>ARM Version</th>
-					<th>CRD Version</th>
-					<th>Supported From</th>
-					<th>Sample</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td><a href="/azure-service-operator/reference/eventgrid/v20250215/#Namespace">Namespace</a></td>
-					<td>2025-02-15</td>
-					<td>v20250215</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_namespace.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/eventgrid/v20250215/#NamespaceTopic">NamespaceTopic</a></td>
-					<td>2025-02-15</td>
-					<td>v20250215</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_namespacetopic.yaml">View</a></td>
-			</tr>
-	</tbody>
-</table>
 <h3 id="latest-released-versions-14">Latest Released Versions</h3>
 <p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
 <table>
@@ -2808,6 +2437,20 @@ grouped by the originating ARM service.
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_eventsubscription.yaml">View</a></td>
 			</tr>
 			<tr>
+					<td><a href="/azure-service-operator/reference/eventgrid/v20250215/#Namespace">Namespace</a></td>
+					<td>2025-02-15</td>
+					<td>v20250215</td>
+					<td>v2.22.0</td>
+					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_namespace.yaml">View</a></td>
+			</tr>
+			<tr>
+					<td><a href="/azure-service-operator/reference/eventgrid/v20250215/#NamespaceTopic">NamespaceTopic</a></td>
+					<td>2025-02-15</td>
+					<td>v20250215</td>
+					<td>v2.22.0</td>
+					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_namespacetopic.yaml">View</a></td>
+			</tr>
+			<tr>
 					<td><a href="/azure-service-operator/reference/eventgrid/v20250215/#Topic">Topic</a></td>
 					<td>2025-02-15</td>
 					<td>v20250215</td>
@@ -2819,8 +2462,8 @@ grouped by the originating ARM service.
 <h2 id="eventhub">EventHub</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>eventhub.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-7">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="latest-released-versions-15">Latest Released Versions</h3>
+<p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
 <table>
 	<thead>
 			<tr>
@@ -2840,25 +2483,11 @@ grouped by the originating ARM service.
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20240101/v20240101_namespace.yaml">View</a></td>
 			</tr>
 			<tr>
-					<td><a href="/azure-service-operator/reference/eventhub/v20211101/#Namespace">Namespace</a></td>
-					<td>2021-11-01</td>
-					<td>v20211101</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20211101/v20211101_namespace.yaml">View</a></td>
-			</tr>
-			<tr>
 					<td><a href="/azure-service-operator/reference/eventhub/v20240101/#NamespacesAuthorizationRule">NamespacesAuthorizationRule</a></td>
 					<td>2024-01-01</td>
 					<td>v20240101</td>
 					<td>v2.22.0</td>
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20240101/v20240101_namespacesauthorizationrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/eventhub/v20211101/#NamespacesAuthorizationRule">NamespacesAuthorizationRule</a></td>
-					<td>2021-11-01</td>
-					<td>v20211101</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20211101/v20211101_namespacesauthorizationrule.yaml">View</a></td>
 			</tr>
 			<tr>
 					<td><a href="/azure-service-operator/reference/eventhub/v20240101/#NamespacesEventhub">NamespacesEventhub</a></td>
@@ -2868,13 +2497,6 @@ grouped by the originating ARM service.
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20240101/v20240101_namespaceseventhub.yaml">View</a></td>
 			</tr>
 			<tr>
-					<td><a href="/azure-service-operator/reference/eventhub/v20211101/#NamespacesEventhub">NamespacesEventhub</a></td>
-					<td>2021-11-01</td>
-					<td>v20211101</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20211101/v20211101_namespaceseventhub.yaml">View</a></td>
-			</tr>
-			<tr>
 					<td><a href="/azure-service-operator/reference/eventhub/v20240101/#NamespacesEventhubsAuthorizationRule">NamespacesEventhubsAuthorizationRule</a></td>
 					<td>2024-01-01</td>
 					<td>v20240101</td>
@@ -2882,75 +2504,11 @@ grouped by the originating ARM service.
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20240101/v20240101_namespaceseventhubsauthorizationrule.yaml">View</a></td>
 			</tr>
 			<tr>
-					<td><a href="/azure-service-operator/reference/eventhub/v20211101/#NamespacesEventhubsAuthorizationRule">NamespacesEventhubsAuthorizationRule</a></td>
-					<td>2021-11-01</td>
-					<td>v20211101</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20211101/v20211101_namespaceseventhubsauthorizationrule.yaml">View</a></td>
-			</tr>
-			<tr>
 					<td><a href="/azure-service-operator/reference/eventhub/v20240101/#NamespacesEventhubsConsumerGroup">NamespacesEventhubsConsumerGroup</a></td>
 					<td>2024-01-01</td>
 					<td>v20240101</td>
 					<td>v2.22.0</td>
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20240101/v20240101_namespaceseventhubsconsumergroup.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/eventhub/v20211101/#NamespacesEventhubsConsumerGroup">NamespacesEventhubsConsumerGroup</a></td>
-					<td>2021-11-01</td>
-					<td>v20211101</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v20211101/v20211101_namespaceseventhubsconsumergroup.yaml">View</a></td>
-			</tr>
-	</tbody>
-</table>
-<h3 id="latest-released-versions-15">Latest Released Versions</h3>
-<p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
-<table>
-	<thead>
-			<tr>
-					<th>Resource</th>
-					<th>ARM Version</th>
-					<th>CRD Version</th>
-					<th>Supported From</th>
-					<th>Sample</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td><a href="/azure-service-operator/reference/eventhub/v1api20240101/#Namespace">Namespace</a></td>
-					<td>2024-01-01</td>
-					<td>v1api20240101</td>
-					<td>v2.12.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api20240101/v1api20240101_namespace.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/eventhub/v1api20240101/#NamespacesAuthorizationRule">NamespacesAuthorizationRule</a></td>
-					<td>2024-01-01</td>
-					<td>v1api20240101</td>
-					<td>v2.12.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api20240101/v1api20240101_namespacesauthorizationrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/eventhub/v1api20240101/#NamespacesEventhub">NamespacesEventhub</a></td>
-					<td>2024-01-01</td>
-					<td>v1api20240101</td>
-					<td>v2.12.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api20240101/v1api20240101_namespaceseventhub.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/eventhub/v1api20240101/#NamespacesEventhubsAuthorizationRule">NamespacesEventhubsAuthorizationRule</a></td>
-					<td>2024-01-01</td>
-					<td>v1api20240101</td>
-					<td>v2.12.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api20240101/v1api20240101_namespaceseventhubsauthorizationrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/eventhub/v1api20240101/#NamespacesEventhubsConsumerGroup">NamespacesEventhubsConsumerGroup</a></td>
-					<td>2024-01-01</td>
-					<td>v1api20240101</td>
-					<td>v2.12.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api20240101/v1api20240101_namespaceseventhubsconsumergroup.yaml">View</a></td>
 			</tr>
 	</tbody>
 </table>
@@ -3066,28 +2624,6 @@ grouped by the originating ARM service.
 <h2 id="keyvault">KeyVault</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>keyvault.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-8">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
-<table>
-	<thead>
-			<tr>
-					<th>Resource</th>
-					<th>ARM Version</th>
-					<th>CRD Version</th>
-					<th>Supported From</th>
-					<th>Sample</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td><a href="/azure-service-operator/reference/keyvault/v20230701/#VaultKey">VaultKey</a></td>
-					<td>2023-07-01</td>
-					<td>v20230701</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v20230701/v20230701_vaultkey.yaml">View</a></td>
-			</tr>
-	</tbody>
-</table>
 <h3 id="latest-released-versions-17">Latest Released Versions</h3>
 <p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
 <table>
@@ -3107,6 +2643,13 @@ grouped by the originating ARM service.
 					<td>v1api20230701</td>
 					<td>v2.5.0</td>
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v1api20230701/v1api20230701_vault.yaml">View</a></td>
+			</tr>
+			<tr>
+					<td><a href="/azure-service-operator/reference/keyvault/v20230701/#VaultKey">VaultKey</a></td>
+					<td>2023-07-01</td>
+					<td>v20230701</td>
+					<td>v2.22.0</td>
+					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v20230701/v20230701_vaultkey.yaml">View</a></td>
 			</tr>
 	</tbody>
 </table>
@@ -3807,8 +3350,8 @@ grouped by the originating ARM service.
 <h2 id="portal">Portal</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>portal.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-9">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="released-11">Released</h3>
+<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 	<thead>
 			<tr>
@@ -3832,7 +3375,7 @@ grouped by the originating ARM service.
 <h2 id="quota">Quota</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>quota.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="released-11">Released</h3>
+<h3 id="released-12">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 	<thead>
@@ -3857,8 +3400,8 @@ grouped by the originating ARM service.
 <h2 id="redhatopenshift">RedHatOpenShift</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>redhatopenshift.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-10">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="released-13">Released</h3>
+<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 	<thead>
 			<tr>
@@ -3891,21 +3434,6 @@ grouped by the originating ARM service.
 					<td>v2.22.0</td>
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/redhatopenshift/v20260901preview/v20260901preview_hcpopenshiftclustersnodepool.yaml">View</a></td>
 			</tr>
-	</tbody>
-</table>
-<h3 id="released-12">Released</h3>
-<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
-<table>
-	<thead>
-			<tr>
-					<th>Resource</th>
-					<th>ARM Version</th>
-					<th>CRD Version</th>
-					<th>Supported From</th>
-					<th>Sample</th>
-			</tr>
-	</thead>
-	<tbody>
 			<tr>
 					<td><a href="/azure-service-operator/reference/redhatopenshift/v1api20231122/#OpenShiftCluster">OpenShiftCluster</a></td>
 					<td>2023-11-22</td>
@@ -3918,7 +3446,7 @@ grouped by the originating ARM service.
 <h2 id="resources">Resources</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>resources.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="released-13">Released</h3>
+<h3 id="released-14">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 	<thead>
@@ -3968,8 +3496,8 @@ grouped by the originating ARM service.
 <h2 id="servicebus">ServiceBus</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>servicebus.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-11">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="latest-released-versions-25">Latest Released Versions</h3>
+<p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
 <table>
 	<thead>
 			<tr>
@@ -3989,53 +3517,11 @@ grouped by the originating ARM service.
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20240101/v20240101_namespace.yaml">View</a></td>
 			</tr>
 			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20221001preview/#Namespace">Namespace</a></td>
-					<td>2022-10-01-preview</td>
-					<td>v20221001preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20221001preview/v20221001preview_namespace.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20211101/#Namespace">Namespace</a></td>
-					<td>2021-11-01</td>
-					<td>v20211101</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20211101/v20211101_namespace.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20210101preview/#Namespace">Namespace</a></td>
-					<td>2021-01-01-preview</td>
-					<td>v20210101preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20210101preview/v20210101preview_namespace.yaml">View</a></td>
-			</tr>
-			<tr>
 					<td><a href="/azure-service-operator/reference/servicebus/v20240101/#NamespacesAuthorizationRule">NamespacesAuthorizationRule</a></td>
 					<td>2024-01-01</td>
 					<td>v20240101</td>
 					<td>v2.22.0</td>
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20240101/v20240101_namespacesauthorizationrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20221001preview/#NamespacesAuthorizationRule">NamespacesAuthorizationRule</a></td>
-					<td>2022-10-01-preview</td>
-					<td>v20221001preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20221001preview/v20221001preview_namespacesauthorizationrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20211101/#NamespacesAuthorizationRule">NamespacesAuthorizationRule</a></td>
-					<td>2021-11-01</td>
-					<td>v20211101</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20211101/v20211101_namespacesauthorizationrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20210101preview/#NamespacesAuthorizationRule">NamespacesAuthorizationRule</a></td>
-					<td>2021-01-01-preview</td>
-					<td>v20210101preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20210101preview/v20210101preview_namespacesauthorizationrule.yaml">View</a></td>
 			</tr>
 			<tr>
 					<td><a href="/azure-service-operator/reference/servicebus/v20240101/#NamespacesQueue">NamespacesQueue</a></td>
@@ -4045,53 +3531,11 @@ grouped by the originating ARM service.
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20240101/v20240101_namespacesqueue.yaml">View</a></td>
 			</tr>
 			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20221001preview/#NamespacesQueue">NamespacesQueue</a></td>
-					<td>2022-10-01-preview</td>
-					<td>v20221001preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20221001preview/v20221001preview_namespacesqueue.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20211101/#NamespacesQueue">NamespacesQueue</a></td>
-					<td>2021-11-01</td>
-					<td>v20211101</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20211101/v20211101_namespacesqueue.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20210101preview/#NamespacesQueue">NamespacesQueue</a></td>
-					<td>2021-01-01-preview</td>
-					<td>v20210101preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20210101preview/v20210101preview_namespacesqueue.yaml">View</a></td>
-			</tr>
-			<tr>
 					<td><a href="/azure-service-operator/reference/servicebus/v20240101/#NamespacesTopic">NamespacesTopic</a></td>
 					<td>2024-01-01</td>
 					<td>v20240101</td>
 					<td>v2.22.0</td>
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20240101/v20240101_namespacestopic.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20221001preview/#NamespacesTopic">NamespacesTopic</a></td>
-					<td>2022-10-01-preview</td>
-					<td>v20221001preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20221001preview/v20221001preview_namespacestopic.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20211101/#NamespacesTopic">NamespacesTopic</a></td>
-					<td>2021-11-01</td>
-					<td>v20211101</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20211101/v20211101_namespacestopic.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20210101preview/#NamespacesTopic">NamespacesTopic</a></td>
-					<td>2021-01-01-preview</td>
-					<td>v20210101preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20210101preview/v20210101preview_namespacestopic.yaml">View</a></td>
 			</tr>
 			<tr>
 					<td><a href="/azure-service-operator/reference/servicebus/v20240101/#NamespacesTopicsSubscription">NamespacesTopicsSubscription</a></td>
@@ -4101,53 +3545,11 @@ grouped by the originating ARM service.
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20240101/v20240101_namespacestopicssubscription.yaml">View</a></td>
 			</tr>
 			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20221001preview/#NamespacesTopicsSubscription">NamespacesTopicsSubscription</a></td>
-					<td>2022-10-01-preview</td>
-					<td>v20221001preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20221001preview/v20221001preview_namespacestopicssubscription.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20211101/#NamespacesTopicsSubscription">NamespacesTopicsSubscription</a></td>
-					<td>2021-11-01</td>
-					<td>v20211101</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20211101/v20211101_namespacestopicssubscription.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20210101preview/#NamespacesTopicsSubscription">NamespacesTopicsSubscription</a></td>
-					<td>2021-01-01-preview</td>
-					<td>v20210101preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20210101preview/v20210101preview_namespacestopicssubscription.yaml">View</a></td>
-			</tr>
-			<tr>
 					<td><a href="/azure-service-operator/reference/servicebus/v20240101/#NamespacesTopicsSubscriptionsRule">NamespacesTopicsSubscriptionsRule</a></td>
 					<td>2024-01-01</td>
 					<td>v20240101</td>
 					<td>v2.22.0</td>
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20240101/v20240101_namespacestopicssubscriptionsrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20221001preview/#NamespacesTopicsSubscriptionsRule">NamespacesTopicsSubscriptionsRule</a></td>
-					<td>2022-10-01-preview</td>
-					<td>v20221001preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20221001preview/v20221001preview_namespacestopicssubscriptionsrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20211101/#NamespacesTopicsSubscriptionsRule">NamespacesTopicsSubscriptionsRule</a></td>
-					<td>2021-11-01</td>
-					<td>v20211101</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20211101/v20211101_namespacestopicssubscriptionsrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v20210101preview/#NamespacesTopicsSubscriptionsRule">NamespacesTopicsSubscriptionsRule</a></td>
-					<td>2021-01-01-preview</td>
-					<td>v20210101preview</td>
-					<td>v2.22.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v20210101preview/v20210101preview_namespacestopicssubscriptionsrule.yaml">View</a></td>
 			</tr>
 			<tr>
 					<td><a href="/azure-service-operator/reference/servicebus/v20240101/#QueueAuthorizationRule">QueueAuthorizationRule</a></td>
@@ -4165,75 +3567,11 @@ grouped by the originating ARM service.
 			</tr>
 	</tbody>
 </table>
-<h3 id="latest-released-versions-25">Latest Released Versions</h3>
-<p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
-<table>
-	<thead>
-			<tr>
-					<th>Resource</th>
-					<th>ARM Version</th>
-					<th>CRD Version</th>
-					<th>Supported From</th>
-					<th>Sample</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v1api20240101/#Namespace">Namespace</a></td>
-					<td>2024-01-01</td>
-					<td>v1api20240101</td>
-					<td>v2.12.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespace.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v1api20240101/#NamespacesAuthorizationRule">NamespacesAuthorizationRule</a></td>
-					<td>2024-01-01</td>
-					<td>v1api20240101</td>
-					<td>v2.12.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespacesauthorizationrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v1api20240101/#NamespacesQueue">NamespacesQueue</a></td>
-					<td>2024-01-01</td>
-					<td>v1api20240101</td>
-					<td>v2.12.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespacesqueue.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v1api20240101/#NamespacesTopic">NamespacesTopic</a></td>
-					<td>2024-01-01</td>
-					<td>v1api20240101</td>
-					<td>v2.12.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespacestopic.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v1api20240101/#NamespacesTopicsSubscription">NamespacesTopicsSubscription</a></td>
-					<td>2024-01-01</td>
-					<td>v1api20240101</td>
-					<td>v2.12.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespacestopicssubscription.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v1api20240101/#NamespacesTopicsSubscriptionsRule">NamespacesTopicsSubscriptionsRule</a></td>
-					<td>2024-01-01</td>
-					<td>v1api20240101</td>
-					<td>v2.12.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_namespacestopicssubscriptionsrule.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/servicebus/v1api20240101/#TopicAuthorizationRule">TopicAuthorizationRule</a></td>
-					<td>2024-01-01</td>
-					<td>v1api20240101</td>
-					<td>v2.13.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api20240101/v1api20240101_topicauthorizationrule.yaml">View</a></td>
-			</tr>
-	</tbody>
-</table>
 <h2 id="servicelinker">ServiceLinker</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>servicelinker.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-12">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="released-15">Released</h3>
+<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 	<thead>
 			<tr>
@@ -4303,8 +3641,8 @@ grouped by the originating ARM service.
 <h2 id="sql">Sql</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>sql.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-13">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="latest-released-versions-27">Latest Released Versions</h3>
+<p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
 <table>
 	<thead>
 			<tr>
@@ -4320,45 +3658,30 @@ grouped by the originating ARM service.
 					<td><a href="/azure-service-operator/reference/sql/v20250101/#InstanceFailoverGroup">InstanceFailoverGroup</a></td>
 					<td>2025-01-01</td>
 					<td>v20250101</td>
-					<td>v2.23.0</td>
+					<td>v2.22.0</td>
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_instancefailovergroup.yaml">View</a></td>
 			</tr>
 			<tr>
 					<td><a href="/azure-service-operator/reference/sql/v20250101/#ManagedInstance">ManagedInstance</a></td>
 					<td>2025-01-01</td>
 					<td>v20250101</td>
-					<td>v2.23.0</td>
+					<td>v2.22.0</td>
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_managedinstance.yaml">View</a></td>
 			</tr>
 			<tr>
 					<td><a href="/azure-service-operator/reference/sql/v20250101/#ManagedInstancesDatabase">ManagedInstancesDatabase</a></td>
 					<td>2025-01-01</td>
 					<td>v20250101</td>
-					<td>v2.23.0</td>
+					<td>v2.22.0</td>
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_managedinstancesdatabase.yaml">View</a></td>
 			</tr>
 			<tr>
 					<td><a href="/azure-service-operator/reference/sql/v20250101/#ManagedInstancesDatabasesTransparentDataEncryption">ManagedInstancesDatabasesTransparentDataEncryption</a></td>
 					<td>2025-01-01</td>
 					<td>v20250101</td>
-					<td>v2.23.0</td>
+					<td>v2.22.0</td>
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20250101/v20250101_managedinstancesdatabasestransparentdataencryption.yaml">View</a></td>
 			</tr>
-	</tbody>
-</table>
-<h3 id="latest-released-versions-27">Latest Released Versions</h3>
-<p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
-<table>
-	<thead>
-			<tr>
-					<th>Resource</th>
-					<th>ARM Version</th>
-					<th>CRD Version</th>
-					<th>Supported From</th>
-					<th>Sample</th>
-			</tr>
-	</thead>
-	<tbody>
 			<tr>
 					<td><a href="/azure-service-operator/reference/sql/v20250101/#Server">Server</a></td>
 					<td>2025-01-01</td>
@@ -4539,8 +3862,8 @@ grouped by the originating ARM service.
 <h2 id="storage">Storage</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>storage.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-14">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="latest-released-versions-28">Latest Released Versions</h3>
+<p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
 <table>
 	<thead>
 			<tr>
@@ -4624,95 +3947,10 @@ grouped by the originating ARM service.
 			</tr>
 	</tbody>
 </table>
-<h3 id="latest-released-versions-28">Latest Released Versions</h3>
-<p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
-<table>
-	<thead>
-			<tr>
-					<th>Resource</th>
-					<th>ARM Version</th>
-					<th>CRD Version</th>
-					<th>Supported From</th>
-					<th>Sample</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td><a href="/azure-service-operator/reference/storage/v20250601/#StorageAccount">StorageAccount</a></td>
-					<td>2025-06-01</td>
-					<td>v20250601</td>
-					<td>v2.18.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccount.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/storage/v20250601/#StorageAccountsBlobService">StorageAccountsBlobService</a></td>
-					<td>2025-06-01</td>
-					<td>v20250601</td>
-					<td>v2.18.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsblobservice.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/storage/v20250601/#StorageAccountsBlobServicesContainer">StorageAccountsBlobServicesContainer</a></td>
-					<td>2025-06-01</td>
-					<td>v20250601</td>
-					<td>v2.18.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsblobservicescontainer.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/storage/v20250601/#StorageAccountsFileService">StorageAccountsFileService</a></td>
-					<td>2025-06-01</td>
-					<td>v20250601</td>
-					<td>v2.18.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsfileservice.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/storage/v20250601/#StorageAccountsFileServicesShare">StorageAccountsFileServicesShare</a></td>
-					<td>2025-06-01</td>
-					<td>v20250601</td>
-					<td>v2.18.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsfileservicesshare.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/storage/v20250601/#StorageAccountsManagementPolicy">StorageAccountsManagementPolicy</a></td>
-					<td>2025-06-01</td>
-					<td>v20250601</td>
-					<td>v2.18.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsmanagementpolicy.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/storage/v20250601/#StorageAccountsQueueService">StorageAccountsQueueService</a></td>
-					<td>2025-06-01</td>
-					<td>v20250601</td>
-					<td>v2.18.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsqueueservice.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/storage/v20250601/#StorageAccountsQueueServicesQueue">StorageAccountsQueueServicesQueue</a></td>
-					<td>2025-06-01</td>
-					<td>v20250601</td>
-					<td>v2.18.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountsqueueservicesqueue.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/storage/v20250601/#StorageAccountsTableService">StorageAccountsTableService</a></td>
-					<td>2025-06-01</td>
-					<td>v20250601</td>
-					<td>v2.18.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountstableservice.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/storage/v20250601/#StorageAccountsTableServicesTable">StorageAccountsTableServicesTable</a></td>
-					<td>2025-06-01</td>
-					<td>v20250601</td>
-					<td>v2.18.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v20250601/v20250601_storageaccountstableservicestable.yaml">View</a></td>
-			</tr>
-	</tbody>
-</table>
 <h2 id="subscription">Subscription</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>subscription.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="released-14">Released</h3>
+<h3 id="released-16">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 	<thead>
@@ -4737,7 +3975,7 @@ grouped by the originating ARM service.
 <h2 id="synapse">Synapse</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>synapse.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="released-15">Released</h3>
+<h3 id="released-17">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 	<thead>
@@ -4769,8 +4007,8 @@ grouped by the originating ARM service.
 <h2 id="web">Web</h2>
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 <p>To install the CRDs for these resources, your ASO configuration must include <code>web.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-15">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="latest-released-versions-29">Latest Released Versions</h3>
+<p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
 <table>
 	<thead>
 			<tr>
@@ -4802,42 +4040,6 @@ grouped by the originating ARM service.
 					<td>v20260715</td>
 					<td>v2.22.0</td>
 					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20260715/v20260715_sitessourcecontrol.yaml">View</a></td>
-			</tr>
-	</tbody>
-</table>
-<h3 id="latest-released-versions-29">Latest Released Versions</h3>
-<p>These resource(s) are the latest versions available for use in the current release of ASO.</p>
-<table>
-	<thead>
-			<tr>
-					<th>Resource</th>
-					<th>ARM Version</th>
-					<th>CRD Version</th>
-					<th>Supported From</th>
-					<th>Sample</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td><a href="/azure-service-operator/reference/web/v20250501/#ServerFarm">ServerFarm</a></td>
-					<td>2025-05-01</td>
-					<td>v20250501</td>
-					<td>v2.21.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20250501/v20250501_serverfarm.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/web/v20250501/#Site">Site</a></td>
-					<td>2025-05-01</td>
-					<td>v20250501</td>
-					<td>v2.21.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20250501/v20250501_site.yaml">View</a></td>
-			</tr>
-			<tr>
-					<td><a href="/azure-service-operator/reference/web/v20250501/#SitesSourcecontrol">SitesSourcecontrol</a></td>
-					<td>2025-05-01</td>
-					<td>v20250501</td>
-					<td>v2.21.0</td>
-					<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20250501/v20250501_sitessourcecontrol.yaml">View</a></td>
 			</tr>
 	</tbody>
 </table>
