@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package arm
 
-// Represents a mongo cluster resource.
+// Represents a DocumentDB cluster resource.
 type MongoCluster_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. E.g.
 	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
@@ -28,27 +28,27 @@ type MongoCluster_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-// The properties of a mongo cluster.
+// The properties of a DocumentDB cluster.
 type MongoClusterProperties_STATUS struct {
-	// Administrator: The local administrator properties for the mongo cluster.
+	// Administrator: The local administrator properties for the DocumentDB cluster.
 	Administrator *AdministratorProperties_STATUS `json:"administrator,omitempty"`
 
-	// Backup: The backup properties of the mongo cluster.
+	// Backup: The backup properties of the DocumentDB cluster.
 	Backup *BackupProperties_STATUS `json:"backup,omitempty"`
 
-	// ClusterStatus: The status of the mongo cluster.
+	// ClusterStatus: The status of the DocumentDB cluster.
 	ClusterStatus *MongoClusterStatus_STATUS `json:"clusterStatus,omitempty"`
 
-	// Compute: The compute properties of the mongo cluster.
+	// Compute: The compute properties of the DocumentDB cluster.
 	Compute *ComputeProperties_STATUS `json:"compute,omitempty"`
 
 	// ConnectionString: The default mongo connection string for the cluster.
 	ConnectionString *string `json:"connectionString,omitempty"`
 
-	// CreateMode: The mode to create a mongo cluster.
+	// CreateMode: The mode to create a DocumentDB cluster.
 	CreateMode *CreateMode_STATUS `json:"createMode,omitempty"`
 
-	// HighAvailability: The high availability properties of the mongo cluster.
+	// HighAvailability: The high availability properties of the DocumentDB cluster.
 	HighAvailability *HighAvailabilityProperties_STATUS `json:"highAvailability,omitempty"`
 
 	// InfrastructureVersion: The infrastructure version the cluster is provisioned on.
@@ -60,28 +60,28 @@ type MongoClusterProperties_STATUS struct {
 	// PrivateEndpointConnections: List of private endpoint connections.
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
 
-	// ProvisioningState: The provisioning state of the mongo cluster.
+	// ProvisioningState: The provisioning state of the DocumentDB cluster.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
-	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this mongo cluster.
+	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this DocumentDB cluster.
 	PublicNetworkAccess *PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 
-	// Replica: The replication properties for the mongo cluster
+	// Replica: The replication properties for the DocumentDB cluster
 	Replica *ReplicationProperties_STATUS `json:"replica,omitempty"`
 
-	// ReplicaParameters: The parameters to create a replica mongo cluster.
+	// ReplicaParameters: The parameters to create a replica DocumentDB cluster.
 	ReplicaParameters *MongoClusterReplicaParameters_STATUS `json:"replicaParameters,omitempty"`
 
-	// RestoreParameters: The parameters to create a point-in-time restore mongo cluster.
+	// RestoreParameters: The parameters to create a point-in-time restore DocumentDB cluster.
 	RestoreParameters *MongoClusterRestoreParameters_STATUS `json:"restoreParameters,omitempty"`
 
 	// ServerVersion: The Mongo DB server version. Defaults to the latest available version if not specified.
 	ServerVersion *string `json:"serverVersion,omitempty"`
 
-	// Sharding: The sharding properties of the mongo cluster.
+	// Sharding: The sharding properties of the DocumentDB cluster.
 	Sharding *ShardingProperties_STATUS `json:"sharding,omitempty"`
 
-	// Storage: The storage properties of the mongo cluster.
+	// Storage: The storage properties of the DocumentDB cluster.
 	Storage *StorageProperties_STATUS `json:"storage,omitempty"`
 }
 
@@ -105,7 +105,7 @@ type ComputeProperties_STATUS struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-// The mode that the Mongo Cluster is created with.
+// The mode that the DocumentDB cluster is created with.
 type CreateMode_STATUS string
 
 const (
@@ -140,14 +140,14 @@ type MongoClusterReplicaParameters_STATUS struct {
 
 // Parameters used for restore operations
 type MongoClusterRestoreParameters_STATUS struct {
-	// PointInTimeUTC: UTC point in time to restore a mongo cluster
+	// PointInTimeUTC: UTC point in time to restore a DocumentDB cluster
 	PointInTimeUTC *string `json:"pointInTimeUTC,omitempty"`
 
 	// SourceResourceId: Resource ID to locate the source cluster to restore
 	SourceResourceId *string `json:"sourceResourceId,omitempty"`
 }
 
-// The status of the Mongo cluster resource.
+// The status of the DocumentDB cluster resource.
 type MongoClusterStatus_STATUS string
 
 const (
@@ -171,7 +171,7 @@ var mongoClusterStatus_STATUS_Values = map[string]MongoClusterStatus_STATUS{
 	"updating":     MongoClusterStatus_STATUS_Updating,
 }
 
-// Preview features that can be enabled on a mongo cluster.
+// Preview features that can be enabled on a DocumentDB cluster.
 type PreviewFeature_STATUS string
 
 const PreviewFeature_STATUS_GeoReplicas = PreviewFeature_STATUS("GeoReplicas")
@@ -188,7 +188,7 @@ type PrivateEndpointConnection_STATUS struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Whether or not public endpoint access is allowed for this Mongo cluster.  Value is optional and default value is
+// Whether or not public endpoint access is allowed for this DocumentDB cluster.  Value is optional and default value is
 // 'Enabled'
 type PublicNetworkAccess_STATUS string
 
@@ -203,7 +203,7 @@ var publicNetworkAccess_STATUS_Values = map[string]PublicNetworkAccess_STATUS{
 	"enabled":  PublicNetworkAccess_STATUS_Enabled,
 }
 
-// Replica properties of the mongo cluster.
+// Replica properties of the DocumentDB cluster.
 type ReplicationProperties_STATUS struct {
 	// ReplicationState: The replication link state of the replica cluster.
 	ReplicationState *ReplicationState_STATUS `json:"replicationState,omitempty"`
@@ -243,7 +243,7 @@ var highAvailabilityMode_STATUS_Values = map[string]HighAvailabilityMode_STATUS{
 	"zoneredundantpreferred": HighAvailabilityMode_STATUS_ZoneRedundantPreferred,
 }
 
-// Replication role of the mongo cluster.
+// Replication role of the DocumentDB cluster.
 type ReplicationRole_STATUS string
 
 const (

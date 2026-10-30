@@ -4,7 +4,9 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/storage"
+	"fmt"
+	v20231122s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/storage"
+	v20261001s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20261001/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -13,15 +15,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=redhatopenshift.azure.com,resources=hcpopenshiftclusters,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=redhatopenshift.azure.com,resources={hcpopenshiftclusters/status,hcpopenshiftclusters/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,redhatopenshift}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -47,6 +46,28 @@ func (cluster *HcpOpenShiftCluster) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (cluster *HcpOpenShiftCluster) SetConditions(conditions conditions.Conditions) {
 	cluster.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &HcpOpenShiftCluster{}
+
+// ConvertFrom populates our HcpOpenShiftCluster from the provided hub HcpOpenShiftCluster
+func (cluster *HcpOpenShiftCluster) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v20261001s.HcpOpenShiftCluster)
+	if !ok {
+		return fmt.Errorf("expected redhatopenshift/v20261001/storage/HcpOpenShiftCluster but received %T instead", hub)
+	}
+
+	return cluster.AssignProperties_From_HcpOpenShiftCluster(source)
+}
+
+// ConvertTo populates the provided hub HcpOpenShiftCluster from our HcpOpenShiftCluster
+func (cluster *HcpOpenShiftCluster) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v20261001s.HcpOpenShiftCluster)
+	if !ok {
+		return fmt.Errorf("expected redhatopenshift/v20261001/storage/HcpOpenShiftCluster but received %T instead", hub)
+	}
+
+	return cluster.AssignProperties_To_HcpOpenShiftCluster(destination)
 }
 
 var _ configmaps.Exporter = &HcpOpenShiftCluster{}
@@ -144,8 +165,75 @@ func (cluster *HcpOpenShiftCluster) SetStatus(status genruntime.ConvertibleStatu
 	return nil
 }
 
-// Hub marks that this HcpOpenShiftCluster is the hub type for conversion
-func (cluster *HcpOpenShiftCluster) Hub() {}
+// AssignProperties_From_HcpOpenShiftCluster populates our HcpOpenShiftCluster from the provided source HcpOpenShiftCluster
+func (cluster *HcpOpenShiftCluster) AssignProperties_From_HcpOpenShiftCluster(source *v20261001s.HcpOpenShiftCluster) error {
+
+	// ObjectMeta
+	cluster.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec HcpOpenShiftCluster_Spec
+	err := spec.AssignProperties_From_HcpOpenShiftCluster_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_HcpOpenShiftCluster_Spec() to populate field Spec")
+	}
+	cluster.Spec = spec
+
+	// Status
+	var status HcpOpenShiftCluster_STATUS
+	err = status.AssignProperties_From_HcpOpenShiftCluster_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_HcpOpenShiftCluster_STATUS() to populate field Status")
+	}
+	cluster.Status = status
+
+	// Invoke the augmentConversionForHcpOpenShiftCluster interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForHcpOpenShiftCluster); ok {
+		err := augmentedCluster.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HcpOpenShiftCluster populates the provided destination HcpOpenShiftCluster from our HcpOpenShiftCluster
+func (cluster *HcpOpenShiftCluster) AssignProperties_To_HcpOpenShiftCluster(destination *v20261001s.HcpOpenShiftCluster) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *cluster.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v20261001s.HcpOpenShiftCluster_Spec
+	err := cluster.Spec.AssignProperties_To_HcpOpenShiftCluster_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_HcpOpenShiftCluster_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v20261001s.HcpOpenShiftCluster_STATUS
+	err = cluster.Status.AssignProperties_To_HcpOpenShiftCluster_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_HcpOpenShiftCluster_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForHcpOpenShiftCluster interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForHcpOpenShiftCluster); ok {
+		err := augmentedCluster.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (cluster *HcpOpenShiftCluster) OriginalGVK() *schema.GroupVersionKind {
@@ -173,6 +261,11 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2026-09-01-preview")
 
+type augmentConversionForHcpOpenShiftCluster interface {
+	AssignPropertiesFrom(src *v20261001s.HcpOpenShiftCluster) error
+	AssignPropertiesTo(dst *v20261001s.HcpOpenShiftCluster) error
+}
+
 // Storage version of v20260901preview.HcpOpenShiftCluster_Spec
 type HcpOpenShiftCluster_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -197,20 +290,212 @@ var _ genruntime.ConvertibleSpec = &HcpOpenShiftCluster_Spec{}
 
 // ConvertSpecFrom populates our HcpOpenShiftCluster_Spec from the provided source
 func (cluster *HcpOpenShiftCluster_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == cluster {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v20261001s.HcpOpenShiftCluster_Spec)
+	if ok {
+		// Populate our instance from source
+		return cluster.AssignProperties_From_HcpOpenShiftCluster_Spec(src)
 	}
 
-	return source.ConvertSpecTo(cluster)
+	// Convert to an intermediate form
+	src = &v20261001s.HcpOpenShiftCluster_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = cluster.AssignProperties_From_HcpOpenShiftCluster_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our HcpOpenShiftCluster_Spec
 func (cluster *HcpOpenShiftCluster_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == cluster {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v20261001s.HcpOpenShiftCluster_Spec)
+	if ok {
+		// Populate destination from our instance
+		return cluster.AssignProperties_To_HcpOpenShiftCluster_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(cluster)
+	// Convert to an intermediate form
+	dst = &v20261001s.HcpOpenShiftCluster_Spec{}
+	err := cluster.AssignProperties_To_HcpOpenShiftCluster_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_HcpOpenShiftCluster_Spec populates our HcpOpenShiftCluster_Spec from the provided source HcpOpenShiftCluster_Spec
+func (cluster *HcpOpenShiftCluster_Spec) AssignProperties_From_HcpOpenShiftCluster_Spec(source *v20261001s.HcpOpenShiftCluster_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	cluster.AzureName = source.AzureName
+
+	// Identity
+	if source.Identity != nil {
+		var identity ManagedServiceIdentity
+		err := identity.AssignProperties_From_ManagedServiceIdentity(source.Identity)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedServiceIdentity() to populate field Identity")
+		}
+		cluster.Identity = &identity
+	} else {
+		cluster.Identity = nil
+	}
+
+	// Location
+	cluster.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec HcpOpenShiftClusterOperatorSpec
+		err := operatorSpec.AssignProperties_From_HcpOpenShiftClusterOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_HcpOpenShiftClusterOperatorSpec() to populate field OperatorSpec")
+		}
+		cluster.OperatorSpec = &operatorSpec
+	} else {
+		cluster.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	cluster.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		cluster.Owner = &owner
+	} else {
+		cluster.Owner = nil
+	}
+
+	// Properties
+	if source.Properties != nil {
+		var property HcpOpenShiftClusterProperties
+		err := property.AssignProperties_From_HcpOpenShiftClusterProperties(source.Properties)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_HcpOpenShiftClusterProperties() to populate field Properties")
+		}
+		cluster.Properties = &property
+	} else {
+		cluster.Properties = nil
+	}
+
+	// Tags
+	cluster.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		cluster.PropertyBag = propertyBag
+	} else {
+		cluster.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftCluster_Spec interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForHcpOpenShiftCluster_Spec); ok {
+		err := augmentedCluster.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HcpOpenShiftCluster_Spec populates the provided destination HcpOpenShiftCluster_Spec from our HcpOpenShiftCluster_Spec
+func (cluster *HcpOpenShiftCluster_Spec) AssignProperties_To_HcpOpenShiftCluster_Spec(destination *v20261001s.HcpOpenShiftCluster_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(cluster.PropertyBag)
+
+	// AzureName
+	destination.AzureName = cluster.AzureName
+
+	// Identity
+	if cluster.Identity != nil {
+		var identity v20261001s.ManagedServiceIdentity
+		err := cluster.Identity.AssignProperties_To_ManagedServiceIdentity(&identity)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(cluster.Location)
+
+	// OperatorSpec
+	if cluster.OperatorSpec != nil {
+		var operatorSpec v20261001s.HcpOpenShiftClusterOperatorSpec
+		err := cluster.OperatorSpec.AssignProperties_To_HcpOpenShiftClusterOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_HcpOpenShiftClusterOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = cluster.OriginalVersion
+
+	// Owner
+	if cluster.Owner != nil {
+		owner := cluster.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Properties
+	if cluster.Properties != nil {
+		var property v20261001s.HcpOpenShiftClusterProperties
+		err := cluster.Properties.AssignProperties_To_HcpOpenShiftClusterProperties(&property)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_HcpOpenShiftClusterProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(cluster.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftCluster_Spec interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForHcpOpenShiftCluster_Spec); ok {
+		err := augmentedCluster.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20260901preview.HcpOpenShiftCluster_STATUS
@@ -232,20 +517,228 @@ var _ genruntime.ConvertibleStatus = &HcpOpenShiftCluster_STATUS{}
 
 // ConvertStatusFrom populates our HcpOpenShiftCluster_STATUS from the provided source
 func (cluster *HcpOpenShiftCluster_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == cluster {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v20261001s.HcpOpenShiftCluster_STATUS)
+	if ok {
+		// Populate our instance from source
+		return cluster.AssignProperties_From_HcpOpenShiftCluster_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(cluster)
+	// Convert to an intermediate form
+	src = &v20261001s.HcpOpenShiftCluster_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = cluster.AssignProperties_From_HcpOpenShiftCluster_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our HcpOpenShiftCluster_STATUS
 func (cluster *HcpOpenShiftCluster_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == cluster {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v20261001s.HcpOpenShiftCluster_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return cluster.AssignProperties_To_HcpOpenShiftCluster_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(cluster)
+	// Convert to an intermediate form
+	dst = &v20261001s.HcpOpenShiftCluster_STATUS{}
+	err := cluster.AssignProperties_To_HcpOpenShiftCluster_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_HcpOpenShiftCluster_STATUS populates our HcpOpenShiftCluster_STATUS from the provided source HcpOpenShiftCluster_STATUS
+func (cluster *HcpOpenShiftCluster_STATUS) AssignProperties_From_HcpOpenShiftCluster_STATUS(source *v20261001s.HcpOpenShiftCluster_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	cluster.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	cluster.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Identity
+	if source.Identity != nil {
+		var identity ManagedServiceIdentity_STATUS
+		err := identity.AssignProperties_From_ManagedServiceIdentity_STATUS(source.Identity)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedServiceIdentity_STATUS() to populate field Identity")
+		}
+		cluster.Identity = &identity
+	} else {
+		cluster.Identity = nil
+	}
+
+	// Location
+	cluster.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	cluster.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Properties
+	if source.Properties != nil {
+		var property HcpOpenShiftClusterProperties_STATUS
+		err := property.AssignProperties_From_HcpOpenShiftClusterProperties_STATUS(source.Properties)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_HcpOpenShiftClusterProperties_STATUS() to populate field Properties")
+		}
+		cluster.Properties = &property
+	} else {
+		cluster.Properties = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDataSTATUSStash v20231122s.SystemData_STATUS
+		err := systemDataSTATUSStash.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData_STATUSStash from SystemData")
+		}
+		var systemDatum SystemData_STATUS
+		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData from SystemData_STATUSStash")
+		}
+		cluster.SystemData = &systemDatum
+	} else {
+		cluster.SystemData = nil
+	}
+
+	// Tags
+	cluster.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	cluster.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		cluster.PropertyBag = propertyBag
+	} else {
+		cluster.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftCluster_STATUS interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForHcpOpenShiftCluster_STATUS); ok {
+		err := augmentedCluster.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HcpOpenShiftCluster_STATUS populates the provided destination HcpOpenShiftCluster_STATUS from our HcpOpenShiftCluster_STATUS
+func (cluster *HcpOpenShiftCluster_STATUS) AssignProperties_To_HcpOpenShiftCluster_STATUS(destination *v20261001s.HcpOpenShiftCluster_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(cluster.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(cluster.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(cluster.Id)
+
+	// Identity
+	if cluster.Identity != nil {
+		var identity v20261001s.ManagedServiceIdentity_STATUS
+		err := cluster.Identity.AssignProperties_To_ManagedServiceIdentity_STATUS(&identity)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedServiceIdentity_STATUS() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(cluster.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(cluster.Name)
+
+	// Properties
+	if cluster.Properties != nil {
+		var property v20261001s.HcpOpenShiftClusterProperties_STATUS
+		err := cluster.Properties.AssignProperties_To_HcpOpenShiftClusterProperties_STATUS(&property)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_HcpOpenShiftClusterProperties_STATUS() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// SystemData
+	if cluster.SystemData != nil {
+		var systemDataSTATUSStash v20231122s.SystemData_STATUS
+		err := cluster.SystemData.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSStash from SystemData")
+		}
+		var systemDatum v20261001s.SystemData_STATUS
+		err = systemDataSTATUSStash.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData from SystemData_STATUSStash")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(cluster.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(cluster.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftCluster_STATUS interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForHcpOpenShiftCluster_STATUS); ok {
+		err := augmentedCluster.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForHcpOpenShiftCluster_Spec interface {
+	AssignPropertiesFrom(src *v20261001s.HcpOpenShiftCluster_Spec) error
+	AssignPropertiesTo(dst *v20261001s.HcpOpenShiftCluster_Spec) error
+}
+
+type augmentConversionForHcpOpenShiftCluster_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.HcpOpenShiftCluster_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.HcpOpenShiftCluster_STATUS) error
 }
 
 // Storage version of v20260901preview.HcpOpenShiftClusterOperatorSpec
@@ -255,6 +748,144 @@ type HcpOpenShiftClusterOperatorSpec struct {
 	PropertyBag          genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression       `json:"secretExpressions,omitempty"`
 	Secrets              *HcpOpenShiftClusterOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignProperties_From_HcpOpenShiftClusterOperatorSpec populates our HcpOpenShiftClusterOperatorSpec from the provided source HcpOpenShiftClusterOperatorSpec
+func (operator *HcpOpenShiftClusterOperatorSpec) AssignProperties_From_HcpOpenShiftClusterOperatorSpec(source *v20261001s.HcpOpenShiftClusterOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret HcpOpenShiftClusterOperatorSecrets
+		err := secret.AssignProperties_From_HcpOpenShiftClusterOperatorSecrets(source.Secrets)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_HcpOpenShiftClusterOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftClusterOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForHcpOpenShiftClusterOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HcpOpenShiftClusterOperatorSpec populates the provided destination HcpOpenShiftClusterOperatorSpec from our HcpOpenShiftClusterOperatorSpec
+func (operator *HcpOpenShiftClusterOperatorSpec) AssignProperties_To_HcpOpenShiftClusterOperatorSpec(destination *v20261001s.HcpOpenShiftClusterOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v20261001s.HcpOpenShiftClusterOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_HcpOpenShiftClusterOperatorSecrets(&secret)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_HcpOpenShiftClusterOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftClusterOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForHcpOpenShiftClusterOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20260901preview.HcpOpenShiftClusterProperties
@@ -273,6 +904,336 @@ type HcpOpenShiftClusterProperties struct {
 	Platform                *PlatformProfile             `json:"platform,omitempty"`
 	PropertyBag             genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 	Version                 *VersionProfile              `json:"version,omitempty"`
+}
+
+// AssignProperties_From_HcpOpenShiftClusterProperties populates our HcpOpenShiftClusterProperties from the provided source HcpOpenShiftClusterProperties
+func (properties *HcpOpenShiftClusterProperties) AssignProperties_From_HcpOpenShiftClusterProperties(source *v20261001s.HcpOpenShiftClusterProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Api
+	if source.Api != nil {
+		var api ApiProfile
+		err := api.AssignProperties_From_ApiProfile(source.Api)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ApiProfile() to populate field Api")
+		}
+		properties.Api = &api
+	} else {
+		properties.Api = nil
+	}
+
+	// Autoscaling
+	if source.Autoscaling != nil {
+		var autoscaling ClusterAutoscalingProfile
+		err := autoscaling.AssignProperties_From_ClusterAutoscalingProfile(source.Autoscaling)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ClusterAutoscalingProfile() to populate field Autoscaling")
+		}
+		properties.Autoscaling = &autoscaling
+	} else {
+		properties.Autoscaling = nil
+	}
+
+	// ClusterImageRegistry
+	if source.ClusterImageRegistry != nil {
+		var clusterImageRegistry ClusterImageRegistryProfile
+		err := clusterImageRegistry.AssignProperties_From_ClusterImageRegistryProfile(source.ClusterImageRegistry)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ClusterImageRegistryProfile() to populate field ClusterImageRegistry")
+		}
+		properties.ClusterImageRegistry = &clusterImageRegistry
+	} else {
+		properties.ClusterImageRegistry = nil
+	}
+
+	// CryptoRestrictions
+	properties.CryptoRestrictions = genruntime.ClonePointerToString(source.CryptoRestrictions)
+
+	// Dns
+	if source.Dns != nil {
+		var dnsDNS DnsProfile
+		err := dnsDNS.AssignProperties_From_DnsProfile(source.Dns)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DnsProfile() to populate field Dns")
+		}
+		properties.Dns = &dnsDNS
+	} else {
+		properties.Dns = nil
+	}
+
+	// Etcd
+	if source.Etcd != nil {
+		var etcd EtcdProfile
+		err := etcd.AssignProperties_From_EtcdProfile(source.Etcd)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_EtcdProfile() to populate field Etcd")
+		}
+		properties.Etcd = &etcd
+	} else {
+		properties.Etcd = nil
+	}
+
+	// ImageDigestMirrors
+	if source.ImageDigestMirrors != nil {
+		imageDigestMirrorList := make([]ImageDigestMirror, len(source.ImageDigestMirrors))
+		for imageDigestMirrorIndex, imageDigestMirrorItem := range source.ImageDigestMirrors {
+			var imageDigestMirror ImageDigestMirror
+			err := imageDigestMirror.AssignProperties_From_ImageDigestMirror(&imageDigestMirrorItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_ImageDigestMirror() to populate field ImageDigestMirrors")
+			}
+			imageDigestMirrorList[imageDigestMirrorIndex] = imageDigestMirror
+		}
+		properties.ImageDigestMirrors = imageDigestMirrorList
+	} else {
+		properties.ImageDigestMirrors = nil
+	}
+
+	// Ingress
+	if source.Ingress != nil {
+		var ingressProfileStash v20231122s.IngressProfile
+		err := ingressProfileStash.AssignProperties_From_IngressProfile(source.Ingress)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_IngressProfile() to populate field IngressProfileStash from Ingress")
+		}
+		var ingress IngressProfile
+		err = ingress.AssignProperties_From_IngressProfile(&ingressProfileStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_IngressProfile() to populate field Ingress from IngressProfileStash")
+		}
+		properties.Ingress = &ingress
+	} else {
+		properties.Ingress = nil
+	}
+
+	// Network
+	if source.Network != nil {
+		var networkProfileStash v20231122s.NetworkProfile
+		err := networkProfileStash.AssignProperties_From_NetworkProfile(source.Network)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkProfile() to populate field NetworkProfileStash from Network")
+		}
+		var network NetworkProfile
+		err = network.AssignProperties_From_NetworkProfile(&networkProfileStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkProfile() to populate field Network from NetworkProfileStash")
+		}
+		properties.Network = &network
+	} else {
+		properties.Network = nil
+	}
+
+	// NodeDrainTimeoutMinutes
+	properties.NodeDrainTimeoutMinutes = genruntime.ClonePointerToInt(source.NodeDrainTimeoutMinutes)
+
+	// Platform
+	if source.Platform != nil {
+		var platform PlatformProfile
+		err := platform.AssignProperties_From_PlatformProfile(source.Platform)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_PlatformProfile() to populate field Platform")
+		}
+		properties.Platform = &platform
+	} else {
+		properties.Platform = nil
+	}
+
+	// Version
+	if source.Version != nil {
+		var version VersionProfile
+		err := version.AssignProperties_From_VersionProfile(source.Version)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_VersionProfile() to populate field Version")
+		}
+		properties.Version = &version
+	} else {
+		properties.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftClusterProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForHcpOpenShiftClusterProperties); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HcpOpenShiftClusterProperties populates the provided destination HcpOpenShiftClusterProperties from our HcpOpenShiftClusterProperties
+func (properties *HcpOpenShiftClusterProperties) AssignProperties_To_HcpOpenShiftClusterProperties(destination *v20261001s.HcpOpenShiftClusterProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// Api
+	if properties.Api != nil {
+		var api v20261001s.ApiProfile
+		err := properties.Api.AssignProperties_To_ApiProfile(&api)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ApiProfile() to populate field Api")
+		}
+		destination.Api = &api
+	} else {
+		destination.Api = nil
+	}
+
+	// Autoscaling
+	if properties.Autoscaling != nil {
+		var autoscaling v20261001s.ClusterAutoscalingProfile
+		err := properties.Autoscaling.AssignProperties_To_ClusterAutoscalingProfile(&autoscaling)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ClusterAutoscalingProfile() to populate field Autoscaling")
+		}
+		destination.Autoscaling = &autoscaling
+	} else {
+		destination.Autoscaling = nil
+	}
+
+	// ClusterImageRegistry
+	if properties.ClusterImageRegistry != nil {
+		var clusterImageRegistry v20261001s.ClusterImageRegistryProfile
+		err := properties.ClusterImageRegistry.AssignProperties_To_ClusterImageRegistryProfile(&clusterImageRegistry)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ClusterImageRegistryProfile() to populate field ClusterImageRegistry")
+		}
+		destination.ClusterImageRegistry = &clusterImageRegistry
+	} else {
+		destination.ClusterImageRegistry = nil
+	}
+
+	// CryptoRestrictions
+	destination.CryptoRestrictions = genruntime.ClonePointerToString(properties.CryptoRestrictions)
+
+	// Dns
+	if properties.Dns != nil {
+		var dnsDNS v20261001s.DnsProfile
+		err := properties.Dns.AssignProperties_To_DnsProfile(&dnsDNS)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DnsProfile() to populate field Dns")
+		}
+		destination.Dns = &dnsDNS
+	} else {
+		destination.Dns = nil
+	}
+
+	// Etcd
+	if properties.Etcd != nil {
+		var etcd v20261001s.EtcdProfile
+		err := properties.Etcd.AssignProperties_To_EtcdProfile(&etcd)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_EtcdProfile() to populate field Etcd")
+		}
+		destination.Etcd = &etcd
+	} else {
+		destination.Etcd = nil
+	}
+
+	// ImageDigestMirrors
+	if properties.ImageDigestMirrors != nil {
+		imageDigestMirrorList := make([]v20261001s.ImageDigestMirror, len(properties.ImageDigestMirrors))
+		for imageDigestMirrorIndex, imageDigestMirrorItem := range properties.ImageDigestMirrors {
+			var imageDigestMirror v20261001s.ImageDigestMirror
+			err := imageDigestMirrorItem.AssignProperties_To_ImageDigestMirror(&imageDigestMirror)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_ImageDigestMirror() to populate field ImageDigestMirrors")
+			}
+			imageDigestMirrorList[imageDigestMirrorIndex] = imageDigestMirror
+		}
+		destination.ImageDigestMirrors = imageDigestMirrorList
+	} else {
+		destination.ImageDigestMirrors = nil
+	}
+
+	// Ingress
+	if properties.Ingress != nil {
+		var ingressProfileStash v20231122s.IngressProfile
+		err := properties.Ingress.AssignProperties_To_IngressProfile(&ingressProfileStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_IngressProfile() to populate field IngressProfileStash from Ingress")
+		}
+		var ingress v20261001s.IngressProfile
+		err = ingressProfileStash.AssignProperties_To_IngressProfile(&ingress)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_IngressProfile() to populate field Ingress from IngressProfileStash")
+		}
+		destination.Ingress = &ingress
+	} else {
+		destination.Ingress = nil
+	}
+
+	// Network
+	if properties.Network != nil {
+		var networkProfileStash v20231122s.NetworkProfile
+		err := properties.Network.AssignProperties_To_NetworkProfile(&networkProfileStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkProfile() to populate field NetworkProfileStash from Network")
+		}
+		var network v20261001s.NetworkProfile
+		err = networkProfileStash.AssignProperties_To_NetworkProfile(&network)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkProfile() to populate field Network from NetworkProfileStash")
+		}
+		destination.Network = &network
+	} else {
+		destination.Network = nil
+	}
+
+	// NodeDrainTimeoutMinutes
+	destination.NodeDrainTimeoutMinutes = genruntime.ClonePointerToInt(properties.NodeDrainTimeoutMinutes)
+
+	// Platform
+	if properties.Platform != nil {
+		var platform v20261001s.PlatformProfile
+		err := properties.Platform.AssignProperties_To_PlatformProfile(&platform)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_PlatformProfile() to populate field Platform")
+		}
+		destination.Platform = &platform
+	} else {
+		destination.Platform = nil
+	}
+
+	// Version
+	if properties.Version != nil {
+		var version v20261001s.VersionProfile
+		err := properties.Version.AssignProperties_To_VersionProfile(&version)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_VersionProfile() to populate field Version")
+		}
+		destination.Version = &version
+	} else {
+		destination.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftClusterProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForHcpOpenShiftClusterProperties); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20260901preview.HcpOpenShiftClusterProperties_STATUS
@@ -296,12 +1257,470 @@ type HcpOpenShiftClusterProperties_STATUS struct {
 	Version                 *VersionProfile_STATUS              `json:"version,omitempty"`
 }
 
+// AssignProperties_From_HcpOpenShiftClusterProperties_STATUS populates our HcpOpenShiftClusterProperties_STATUS from the provided source HcpOpenShiftClusterProperties_STATUS
+func (properties *HcpOpenShiftClusterProperties_STATUS) AssignProperties_From_HcpOpenShiftClusterProperties_STATUS(source *v20261001s.HcpOpenShiftClusterProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Api
+	if source.Api != nil {
+		var api ApiProfile_STATUS
+		err := api.AssignProperties_From_ApiProfile_STATUS(source.Api)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ApiProfile_STATUS() to populate field Api")
+		}
+		properties.Api = &api
+	} else {
+		properties.Api = nil
+	}
+
+	// Autoscaling
+	if source.Autoscaling != nil {
+		var autoscaling ClusterAutoscalingProfile_STATUS
+		err := autoscaling.AssignProperties_From_ClusterAutoscalingProfile_STATUS(source.Autoscaling)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ClusterAutoscalingProfile_STATUS() to populate field Autoscaling")
+		}
+		properties.Autoscaling = &autoscaling
+	} else {
+		properties.Autoscaling = nil
+	}
+
+	// ClusterImageRegistry
+	if source.ClusterImageRegistry != nil {
+		var clusterImageRegistry ClusterImageRegistryProfile_STATUS
+		err := clusterImageRegistry.AssignProperties_From_ClusterImageRegistryProfile_STATUS(source.ClusterImageRegistry)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ClusterImageRegistryProfile_STATUS() to populate field ClusterImageRegistry")
+		}
+		properties.ClusterImageRegistry = &clusterImageRegistry
+	} else {
+		properties.ClusterImageRegistry = nil
+	}
+
+	// Console
+	if source.Console != nil {
+		var consoleProfileSTATUSStash v20231122s.ConsoleProfile_STATUS
+		err := consoleProfileSTATUSStash.AssignProperties_From_ConsoleProfile_STATUS(source.Console)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ConsoleProfile_STATUS() to populate field ConsoleProfile_STATUSStash from Console")
+		}
+		var console ConsoleProfile_STATUS
+		err = console.AssignProperties_From_ConsoleProfile_STATUS(&consoleProfileSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ConsoleProfile_STATUS() to populate field Console from ConsoleProfile_STATUSStash")
+		}
+		properties.Console = &console
+	} else {
+		properties.Console = nil
+	}
+
+	// CryptoRestrictions
+	properties.CryptoRestrictions = genruntime.ClonePointerToString(source.CryptoRestrictions)
+
+	// Dns
+	if source.Dns != nil {
+		var dnsDNS DnsProfile_STATUS
+		err := dnsDNS.AssignProperties_From_DnsProfile_STATUS(source.Dns)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DnsProfile_STATUS() to populate field Dns")
+		}
+		properties.Dns = &dnsDNS
+	} else {
+		properties.Dns = nil
+	}
+
+	// Etcd
+	if source.Etcd != nil {
+		var etcd EtcdProfile_STATUS
+		err := etcd.AssignProperties_From_EtcdProfile_STATUS(source.Etcd)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_EtcdProfile_STATUS() to populate field Etcd")
+		}
+		properties.Etcd = &etcd
+	} else {
+		properties.Etcd = nil
+	}
+
+	// ImageDigestMirrors
+	if source.ImageDigestMirrors != nil {
+		imageDigestMirrorList := make([]ImageDigestMirror_STATUS, len(source.ImageDigestMirrors))
+		for imageDigestMirrorIndex, imageDigestMirrorItem := range source.ImageDigestMirrors {
+			var imageDigestMirror ImageDigestMirror_STATUS
+			err := imageDigestMirror.AssignProperties_From_ImageDigestMirror_STATUS(&imageDigestMirrorItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_ImageDigestMirror_STATUS() to populate field ImageDigestMirrors")
+			}
+			imageDigestMirrorList[imageDigestMirrorIndex] = imageDigestMirror
+		}
+		properties.ImageDigestMirrors = imageDigestMirrorList
+	} else {
+		properties.ImageDigestMirrors = nil
+	}
+
+	// Ingress
+	if source.Ingress != nil {
+		var ingressProfileSTATUSStash v20231122s.IngressProfile_STATUS
+		err := ingressProfileSTATUSStash.AssignProperties_From_IngressProfile_STATUS(source.Ingress)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_IngressProfile_STATUS() to populate field IngressProfile_STATUSStash from Ingress")
+		}
+		var ingress IngressProfile_STATUS
+		err = ingress.AssignProperties_From_IngressProfile_STATUS(&ingressProfileSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_IngressProfile_STATUS() to populate field Ingress from IngressProfile_STATUSStash")
+		}
+		properties.Ingress = &ingress
+	} else {
+		properties.Ingress = nil
+	}
+
+	// Network
+	if source.Network != nil {
+		var networkProfileSTATUSStash v20231122s.NetworkProfile_STATUS
+		err := networkProfileSTATUSStash.AssignProperties_From_NetworkProfile_STATUS(source.Network)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkProfile_STATUS() to populate field NetworkProfile_STATUSStash from Network")
+		}
+		var network NetworkProfile_STATUS
+		err = network.AssignProperties_From_NetworkProfile_STATUS(&networkProfileSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_NetworkProfile_STATUS() to populate field Network from NetworkProfile_STATUSStash")
+		}
+		properties.Network = &network
+	} else {
+		properties.Network = nil
+	}
+
+	// NodeDrainTimeoutMinutes
+	properties.NodeDrainTimeoutMinutes = genruntime.ClonePointerToInt(source.NodeDrainTimeoutMinutes)
+
+	// Platform
+	if source.Platform != nil {
+		var platform PlatformProfile_STATUS
+		err := platform.AssignProperties_From_PlatformProfile_STATUS(source.Platform)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_PlatformProfile_STATUS() to populate field Platform")
+		}
+		properties.Platform = &platform
+	} else {
+		properties.Platform = nil
+	}
+
+	// ProvisioningState
+	properties.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// Version
+	if source.Version != nil {
+		var version VersionProfile_STATUS
+		err := version.AssignProperties_From_VersionProfile_STATUS(source.Version)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_VersionProfile_STATUS() to populate field Version")
+		}
+		properties.Version = &version
+	} else {
+		properties.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftClusterProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForHcpOpenShiftClusterProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HcpOpenShiftClusterProperties_STATUS populates the provided destination HcpOpenShiftClusterProperties_STATUS from our HcpOpenShiftClusterProperties_STATUS
+func (properties *HcpOpenShiftClusterProperties_STATUS) AssignProperties_To_HcpOpenShiftClusterProperties_STATUS(destination *v20261001s.HcpOpenShiftClusterProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// Api
+	if properties.Api != nil {
+		var api v20261001s.ApiProfile_STATUS
+		err := properties.Api.AssignProperties_To_ApiProfile_STATUS(&api)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ApiProfile_STATUS() to populate field Api")
+		}
+		destination.Api = &api
+	} else {
+		destination.Api = nil
+	}
+
+	// Autoscaling
+	if properties.Autoscaling != nil {
+		var autoscaling v20261001s.ClusterAutoscalingProfile_STATUS
+		err := properties.Autoscaling.AssignProperties_To_ClusterAutoscalingProfile_STATUS(&autoscaling)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ClusterAutoscalingProfile_STATUS() to populate field Autoscaling")
+		}
+		destination.Autoscaling = &autoscaling
+	} else {
+		destination.Autoscaling = nil
+	}
+
+	// ClusterImageRegistry
+	if properties.ClusterImageRegistry != nil {
+		var clusterImageRegistry v20261001s.ClusterImageRegistryProfile_STATUS
+		err := properties.ClusterImageRegistry.AssignProperties_To_ClusterImageRegistryProfile_STATUS(&clusterImageRegistry)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ClusterImageRegistryProfile_STATUS() to populate field ClusterImageRegistry")
+		}
+		destination.ClusterImageRegistry = &clusterImageRegistry
+	} else {
+		destination.ClusterImageRegistry = nil
+	}
+
+	// Console
+	if properties.Console != nil {
+		var consoleProfileSTATUSStash v20231122s.ConsoleProfile_STATUS
+		err := properties.Console.AssignProperties_To_ConsoleProfile_STATUS(&consoleProfileSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ConsoleProfile_STATUS() to populate field ConsoleProfile_STATUSStash from Console")
+		}
+		var console v20261001s.ConsoleProfile_STATUS
+		err = consoleProfileSTATUSStash.AssignProperties_To_ConsoleProfile_STATUS(&console)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ConsoleProfile_STATUS() to populate field Console from ConsoleProfile_STATUSStash")
+		}
+		destination.Console = &console
+	} else {
+		destination.Console = nil
+	}
+
+	// CryptoRestrictions
+	destination.CryptoRestrictions = genruntime.ClonePointerToString(properties.CryptoRestrictions)
+
+	// Dns
+	if properties.Dns != nil {
+		var dnsDNS v20261001s.DnsProfile_STATUS
+		err := properties.Dns.AssignProperties_To_DnsProfile_STATUS(&dnsDNS)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DnsProfile_STATUS() to populate field Dns")
+		}
+		destination.Dns = &dnsDNS
+	} else {
+		destination.Dns = nil
+	}
+
+	// Etcd
+	if properties.Etcd != nil {
+		var etcd v20261001s.EtcdProfile_STATUS
+		err := properties.Etcd.AssignProperties_To_EtcdProfile_STATUS(&etcd)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_EtcdProfile_STATUS() to populate field Etcd")
+		}
+		destination.Etcd = &etcd
+	} else {
+		destination.Etcd = nil
+	}
+
+	// ImageDigestMirrors
+	if properties.ImageDigestMirrors != nil {
+		imageDigestMirrorList := make([]v20261001s.ImageDigestMirror_STATUS, len(properties.ImageDigestMirrors))
+		for imageDigestMirrorIndex, imageDigestMirrorItem := range properties.ImageDigestMirrors {
+			var imageDigestMirror v20261001s.ImageDigestMirror_STATUS
+			err := imageDigestMirrorItem.AssignProperties_To_ImageDigestMirror_STATUS(&imageDigestMirror)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_ImageDigestMirror_STATUS() to populate field ImageDigestMirrors")
+			}
+			imageDigestMirrorList[imageDigestMirrorIndex] = imageDigestMirror
+		}
+		destination.ImageDigestMirrors = imageDigestMirrorList
+	} else {
+		destination.ImageDigestMirrors = nil
+	}
+
+	// Ingress
+	if properties.Ingress != nil {
+		var ingressProfileSTATUSStash v20231122s.IngressProfile_STATUS
+		err := properties.Ingress.AssignProperties_To_IngressProfile_STATUS(&ingressProfileSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_IngressProfile_STATUS() to populate field IngressProfile_STATUSStash from Ingress")
+		}
+		var ingress v20261001s.IngressProfile_STATUS
+		err = ingressProfileSTATUSStash.AssignProperties_To_IngressProfile_STATUS(&ingress)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_IngressProfile_STATUS() to populate field Ingress from IngressProfile_STATUSStash")
+		}
+		destination.Ingress = &ingress
+	} else {
+		destination.Ingress = nil
+	}
+
+	// Network
+	if properties.Network != nil {
+		var networkProfileSTATUSStash v20231122s.NetworkProfile_STATUS
+		err := properties.Network.AssignProperties_To_NetworkProfile_STATUS(&networkProfileSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkProfile_STATUS() to populate field NetworkProfile_STATUSStash from Network")
+		}
+		var network v20261001s.NetworkProfile_STATUS
+		err = networkProfileSTATUSStash.AssignProperties_To_NetworkProfile_STATUS(&network)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_NetworkProfile_STATUS() to populate field Network from NetworkProfile_STATUSStash")
+		}
+		destination.Network = &network
+	} else {
+		destination.Network = nil
+	}
+
+	// NodeDrainTimeoutMinutes
+	destination.NodeDrainTimeoutMinutes = genruntime.ClonePointerToInt(properties.NodeDrainTimeoutMinutes)
+
+	// Platform
+	if properties.Platform != nil {
+		var platform v20261001s.PlatformProfile_STATUS
+		err := properties.Platform.AssignProperties_To_PlatformProfile_STATUS(&platform)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_PlatformProfile_STATUS() to populate field Platform")
+		}
+		destination.Platform = &platform
+	} else {
+		destination.Platform = nil
+	}
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(properties.ProvisioningState)
+
+	// Version
+	if properties.Version != nil {
+		var version v20261001s.VersionProfile_STATUS
+		err := properties.Version.AssignProperties_To_VersionProfile_STATUS(&version)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_VersionProfile_STATUS() to populate field Version")
+		}
+		destination.Version = &version
+	} else {
+		destination.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftClusterProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForHcpOpenShiftClusterProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.ManagedServiceIdentity
 // Managed service identity (system assigned and/or user assigned identities)
 type ManagedServiceIdentity struct {
 	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Type                   *string                       `json:"type,omitempty"`
 	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
+}
+
+// AssignProperties_From_ManagedServiceIdentity populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity
+func (identity *ManagedServiceIdentity) AssignProperties_From_ManagedServiceIdentity(source *v20261001s.ManagedServiceIdentity) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Type
+	identity.Type = genruntime.ClonePointerToString(source.Type)
+
+	// UserAssignedIdentities
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
+		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
+			var userAssignedIdentity UserAssignedIdentityDetails
+			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+			}
+			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
+		}
+		identity.UserAssignedIdentities = userAssignedIdentityList
+	} else {
+		identity.UserAssignedIdentities = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		identity.PropertyBag = propertyBag
+	} else {
+		identity.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedServiceIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedServiceIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedServiceIdentity populates the provided destination ManagedServiceIdentity from our ManagedServiceIdentity
+func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdentity(destination *v20261001s.ManagedServiceIdentity) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
+
+	// UserAssignedIdentities
+	if identity.UserAssignedIdentities != nil {
+		userAssignedIdentityList := make([]v20261001s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
+			var userAssignedIdentity v20261001s.UserAssignedIdentityDetails
+			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+			}
+			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
+		}
+		destination.UserAssignedIdentities = userAssignedIdentityList
+	} else {
+		destination.UserAssignedIdentities = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedServiceIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedServiceIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20260901preview.ManagedServiceIdentity_STATUS
@@ -312,6 +1731,106 @@ type ManagedServiceIdentity_STATUS struct {
 	TenantId               *string                                `json:"tenantId,omitempty"`
 	Type                   *string                                `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
+}
+
+// AssignProperties_From_ManagedServiceIdentity_STATUS populates our ManagedServiceIdentity_STATUS from the provided source ManagedServiceIdentity_STATUS
+func (identity *ManagedServiceIdentity_STATUS) AssignProperties_From_ManagedServiceIdentity_STATUS(source *v20261001s.ManagedServiceIdentity_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// PrincipalId
+	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+
+	// TenantId
+	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// Type
+	identity.Type = genruntime.ClonePointerToString(source.Type)
+
+	// UserAssignedIdentities
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]UserAssignedIdentity_STATUS, len(source.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
+			var userAssignedIdentity UserAssignedIdentity_STATUS
+			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentity_STATUS(&userAssignedIdentityValue)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+		}
+		identity.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		identity.UserAssignedIdentities = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		identity.PropertyBag = propertyBag
+	} else {
+		identity.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedServiceIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedServiceIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedServiceIdentity_STATUS populates the provided destination ManagedServiceIdentity_STATUS from our ManagedServiceIdentity_STATUS
+func (identity *ManagedServiceIdentity_STATUS) AssignProperties_To_ManagedServiceIdentity_STATUS(destination *v20261001s.ManagedServiceIdentity_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
+
+	// PrincipalId
+	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
+
+	// UserAssignedIdentities
+	if identity.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v20261001s.UserAssignedIdentity_STATUS, len(identity.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
+			var userAssignedIdentity v20261001s.UserAssignedIdentity_STATUS
+			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentity)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+		}
+		destination.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		destination.UserAssignedIdentities = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedServiceIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedServiceIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20260901preview.SystemData_STATUS
@@ -327,7 +1846,7 @@ type SystemData_STATUS struct {
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20231122s.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -370,7 +1889,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *s
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20231122s.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
 
@@ -420,6 +1939,68 @@ type ApiProfile struct {
 	Visibility      *string                `json:"visibility,omitempty"`
 }
 
+// AssignProperties_From_ApiProfile populates our ApiProfile from the provided source ApiProfile
+func (profile *ApiProfile) AssignProperties_From_ApiProfile(source *v20261001s.ApiProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AuthorizedCidrs
+	profile.AuthorizedCidrs = genruntime.CloneSliceOfString(source.AuthorizedCidrs)
+
+	// Visibility
+	profile.Visibility = genruntime.ClonePointerToString(source.Visibility)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForApiProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForApiProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ApiProfile populates the provided destination ApiProfile from our ApiProfile
+func (profile *ApiProfile) AssignProperties_To_ApiProfile(destination *v20261001s.ApiProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// AuthorizedCidrs
+	destination.AuthorizedCidrs = genruntime.CloneSliceOfString(profile.AuthorizedCidrs)
+
+	// Visibility
+	destination.Visibility = genruntime.ClonePointerToString(profile.Visibility)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForApiProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForApiProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.ApiProfile_STATUS
 // Information about the API of a cluster.
 type ApiProfile_STATUS struct {
@@ -429,9 +2010,102 @@ type ApiProfile_STATUS struct {
 	Visibility      *string                `json:"visibility,omitempty"`
 }
 
+// AssignProperties_From_ApiProfile_STATUS populates our ApiProfile_STATUS from the provided source ApiProfile_STATUS
+func (profile *ApiProfile_STATUS) AssignProperties_From_ApiProfile_STATUS(source *v20261001s.ApiProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AuthorizedCidrs
+	profile.AuthorizedCidrs = genruntime.CloneSliceOfString(source.AuthorizedCidrs)
+
+	// Url
+	profile.Url = genruntime.ClonePointerToString(source.Url)
+
+	// Visibility
+	profile.Visibility = genruntime.ClonePointerToString(source.Visibility)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForApiProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForApiProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ApiProfile_STATUS populates the provided destination ApiProfile_STATUS from our ApiProfile_STATUS
+func (profile *ApiProfile_STATUS) AssignProperties_To_ApiProfile_STATUS(destination *v20261001s.ApiProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// AuthorizedCidrs
+	destination.AuthorizedCidrs = genruntime.CloneSliceOfString(profile.AuthorizedCidrs)
+
+	// Url
+	destination.Url = genruntime.ClonePointerToString(profile.Url)
+
+	// Visibility
+	destination.Visibility = genruntime.ClonePointerToString(profile.Visibility)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForApiProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForApiProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForHcpOpenShiftClusterOperatorSpec interface {
+	AssignPropertiesFrom(src *v20261001s.HcpOpenShiftClusterOperatorSpec) error
+	AssignPropertiesTo(dst *v20261001s.HcpOpenShiftClusterOperatorSpec) error
+}
+
+type augmentConversionForHcpOpenShiftClusterProperties interface {
+	AssignPropertiesFrom(src *v20261001s.HcpOpenShiftClusterProperties) error
+	AssignPropertiesTo(dst *v20261001s.HcpOpenShiftClusterProperties) error
+}
+
+type augmentConversionForHcpOpenShiftClusterProperties_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.HcpOpenShiftClusterProperties_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.HcpOpenShiftClusterProperties_STATUS) error
+}
+
+type augmentConversionForManagedServiceIdentity interface {
+	AssignPropertiesFrom(src *v20261001s.ManagedServiceIdentity) error
+	AssignPropertiesTo(dst *v20261001s.ManagedServiceIdentity) error
+}
+
+type augmentConversionForManagedServiceIdentity_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.ManagedServiceIdentity_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.ManagedServiceIdentity_STATUS) error
+}
+
 type augmentConversionForSystemData_STATUS interface {
-	AssignPropertiesFrom(src *storage.SystemData_STATUS) error
-	AssignPropertiesTo(dst *storage.SystemData_STATUS) error
+	AssignPropertiesFrom(src *v20231122s.SystemData_STATUS) error
+	AssignPropertiesTo(dst *v20231122s.SystemData_STATUS) error
 }
 
 // Storage version of v20260901preview.ClusterAutoscalingProfile
@@ -445,6 +2119,80 @@ type ClusterAutoscalingProfile struct {
 	PropertyBag                 genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_ClusterAutoscalingProfile populates our ClusterAutoscalingProfile from the provided source ClusterAutoscalingProfile
+func (profile *ClusterAutoscalingProfile) AssignProperties_From_ClusterAutoscalingProfile(source *v20261001s.ClusterAutoscalingProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// MaxNodeProvisionTimeSeconds
+	profile.MaxNodeProvisionTimeSeconds = genruntime.ClonePointerToInt(source.MaxNodeProvisionTimeSeconds)
+
+	// MaxNodesTotal
+	profile.MaxNodesTotal = genruntime.ClonePointerToInt(source.MaxNodesTotal)
+
+	// MaxPodGracePeriodSeconds
+	profile.MaxPodGracePeriodSeconds = genruntime.ClonePointerToInt(source.MaxPodGracePeriodSeconds)
+
+	// PodPriorityThreshold
+	profile.PodPriorityThreshold = genruntime.ClonePointerToInt(source.PodPriorityThreshold)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForClusterAutoscalingProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForClusterAutoscalingProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ClusterAutoscalingProfile populates the provided destination ClusterAutoscalingProfile from our ClusterAutoscalingProfile
+func (profile *ClusterAutoscalingProfile) AssignProperties_To_ClusterAutoscalingProfile(destination *v20261001s.ClusterAutoscalingProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// MaxNodeProvisionTimeSeconds
+	destination.MaxNodeProvisionTimeSeconds = genruntime.ClonePointerToInt(profile.MaxNodeProvisionTimeSeconds)
+
+	// MaxNodesTotal
+	destination.MaxNodesTotal = genruntime.ClonePointerToInt(profile.MaxNodesTotal)
+
+	// MaxPodGracePeriodSeconds
+	destination.MaxPodGracePeriodSeconds = genruntime.ClonePointerToInt(profile.MaxPodGracePeriodSeconds)
+
+	// PodPriorityThreshold
+	destination.PodPriorityThreshold = genruntime.ClonePointerToInt(profile.PodPriorityThreshold)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForClusterAutoscalingProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForClusterAutoscalingProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.ClusterAutoscalingProfile_STATUS
 // ClusterAutoscaling specifies auto-scaling behavior that
 // applies to all NodePools associated with a control plane.
@@ -456,6 +2204,80 @@ type ClusterAutoscalingProfile_STATUS struct {
 	PropertyBag                 genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_ClusterAutoscalingProfile_STATUS populates our ClusterAutoscalingProfile_STATUS from the provided source ClusterAutoscalingProfile_STATUS
+func (profile *ClusterAutoscalingProfile_STATUS) AssignProperties_From_ClusterAutoscalingProfile_STATUS(source *v20261001s.ClusterAutoscalingProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// MaxNodeProvisionTimeSeconds
+	profile.MaxNodeProvisionTimeSeconds = genruntime.ClonePointerToInt(source.MaxNodeProvisionTimeSeconds)
+
+	// MaxNodesTotal
+	profile.MaxNodesTotal = genruntime.ClonePointerToInt(source.MaxNodesTotal)
+
+	// MaxPodGracePeriodSeconds
+	profile.MaxPodGracePeriodSeconds = genruntime.ClonePointerToInt(source.MaxPodGracePeriodSeconds)
+
+	// PodPriorityThreshold
+	profile.PodPriorityThreshold = genruntime.ClonePointerToInt(source.PodPriorityThreshold)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForClusterAutoscalingProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForClusterAutoscalingProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ClusterAutoscalingProfile_STATUS populates the provided destination ClusterAutoscalingProfile_STATUS from our ClusterAutoscalingProfile_STATUS
+func (profile *ClusterAutoscalingProfile_STATUS) AssignProperties_To_ClusterAutoscalingProfile_STATUS(destination *v20261001s.ClusterAutoscalingProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// MaxNodeProvisionTimeSeconds
+	destination.MaxNodeProvisionTimeSeconds = genruntime.ClonePointerToInt(profile.MaxNodeProvisionTimeSeconds)
+
+	// MaxNodesTotal
+	destination.MaxNodesTotal = genruntime.ClonePointerToInt(profile.MaxNodesTotal)
+
+	// MaxPodGracePeriodSeconds
+	destination.MaxPodGracePeriodSeconds = genruntime.ClonePointerToInt(profile.MaxPodGracePeriodSeconds)
+
+	// PodPriorityThreshold
+	destination.PodPriorityThreshold = genruntime.ClonePointerToInt(profile.PodPriorityThreshold)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForClusterAutoscalingProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForClusterAutoscalingProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.ClusterImageRegistryProfile
 // OpenShift cluster image registry
 type ClusterImageRegistryProfile struct {
@@ -463,11 +2285,123 @@ type ClusterImageRegistryProfile struct {
 	State       *string                `json:"state,omitempty"`
 }
 
+// AssignProperties_From_ClusterImageRegistryProfile populates our ClusterImageRegistryProfile from the provided source ClusterImageRegistryProfile
+func (profile *ClusterImageRegistryProfile) AssignProperties_From_ClusterImageRegistryProfile(source *v20261001s.ClusterImageRegistryProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// State
+	profile.State = genruntime.ClonePointerToString(source.State)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForClusterImageRegistryProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForClusterImageRegistryProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ClusterImageRegistryProfile populates the provided destination ClusterImageRegistryProfile from our ClusterImageRegistryProfile
+func (profile *ClusterImageRegistryProfile) AssignProperties_To_ClusterImageRegistryProfile(destination *v20261001s.ClusterImageRegistryProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// State
+	destination.State = genruntime.ClonePointerToString(profile.State)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForClusterImageRegistryProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForClusterImageRegistryProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.ClusterImageRegistryProfile_STATUS
 // OpenShift cluster image registry
 type ClusterImageRegistryProfile_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	State       *string                `json:"state,omitempty"`
+}
+
+// AssignProperties_From_ClusterImageRegistryProfile_STATUS populates our ClusterImageRegistryProfile_STATUS from the provided source ClusterImageRegistryProfile_STATUS
+func (profile *ClusterImageRegistryProfile_STATUS) AssignProperties_From_ClusterImageRegistryProfile_STATUS(source *v20261001s.ClusterImageRegistryProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// State
+	profile.State = genruntime.ClonePointerToString(source.State)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForClusterImageRegistryProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForClusterImageRegistryProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ClusterImageRegistryProfile_STATUS populates the provided destination ClusterImageRegistryProfile_STATUS from our ClusterImageRegistryProfile_STATUS
+func (profile *ClusterImageRegistryProfile_STATUS) AssignProperties_To_ClusterImageRegistryProfile_STATUS(destination *v20261001s.ClusterImageRegistryProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// State
+	destination.State = genruntime.ClonePointerToString(profile.State)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForClusterImageRegistryProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForClusterImageRegistryProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20260901preview.ConsoleProfile_STATUS
@@ -478,7 +2412,7 @@ type ConsoleProfile_STATUS struct {
 }
 
 // AssignProperties_From_ConsoleProfile_STATUS populates our ConsoleProfile_STATUS from the provided source ConsoleProfile_STATUS
-func (profile *ConsoleProfile_STATUS) AssignProperties_From_ConsoleProfile_STATUS(source *storage.ConsoleProfile_STATUS) error {
+func (profile *ConsoleProfile_STATUS) AssignProperties_From_ConsoleProfile_STATUS(source *v20231122s.ConsoleProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -506,7 +2440,7 @@ func (profile *ConsoleProfile_STATUS) AssignProperties_From_ConsoleProfile_STATU
 }
 
 // AssignProperties_To_ConsoleProfile_STATUS populates the provided destination ConsoleProfile_STATUS from our ConsoleProfile_STATUS
-func (profile *ConsoleProfile_STATUS) AssignProperties_To_ConsoleProfile_STATUS(destination *storage.ConsoleProfile_STATUS) error {
+func (profile *ConsoleProfile_STATUS) AssignProperties_To_ConsoleProfile_STATUS(destination *v20231122s.ConsoleProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -540,12 +2474,130 @@ type DnsProfile struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_DnsProfile populates our DnsProfile from the provided source DnsProfile
+func (profile *DnsProfile) AssignProperties_From_DnsProfile(source *v20261001s.DnsProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BaseDomainPrefix
+	profile.BaseDomainPrefix = genruntime.ClonePointerToString(source.BaseDomainPrefix)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDnsProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForDnsProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DnsProfile populates the provided destination DnsProfile from our DnsProfile
+func (profile *DnsProfile) AssignProperties_To_DnsProfile(destination *v20261001s.DnsProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// BaseDomainPrefix
+	destination.BaseDomainPrefix = genruntime.ClonePointerToString(profile.BaseDomainPrefix)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDnsProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForDnsProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.DnsProfile_STATUS
 // DNS contains the DNS settings of the cluster
 type DnsProfile_STATUS struct {
 	BaseDomain       *string                `json:"baseDomain,omitempty"`
 	BaseDomainPrefix *string                `json:"baseDomainPrefix,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_DnsProfile_STATUS populates our DnsProfile_STATUS from the provided source DnsProfile_STATUS
+func (profile *DnsProfile_STATUS) AssignProperties_From_DnsProfile_STATUS(source *v20261001s.DnsProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BaseDomain
+	profile.BaseDomain = genruntime.ClonePointerToString(source.BaseDomain)
+
+	// BaseDomainPrefix
+	profile.BaseDomainPrefix = genruntime.ClonePointerToString(source.BaseDomainPrefix)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDnsProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForDnsProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DnsProfile_STATUS populates the provided destination DnsProfile_STATUS from our DnsProfile_STATUS
+func (profile *DnsProfile_STATUS) AssignProperties_To_DnsProfile_STATUS(destination *v20261001s.DnsProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// BaseDomain
+	destination.BaseDomain = genruntime.ClonePointerToString(profile.BaseDomain)
+
+	// BaseDomainPrefix
+	destination.BaseDomainPrefix = genruntime.ClonePointerToString(profile.BaseDomainPrefix)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDnsProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForDnsProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20260901preview.EtcdProfile
@@ -555,6 +2607,80 @@ type EtcdProfile struct {
 	PropertyBag    genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_EtcdProfile populates our EtcdProfile from the provided source EtcdProfile
+func (profile *EtcdProfile) AssignProperties_From_EtcdProfile(source *v20261001s.EtcdProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DataEncryption
+	if source.DataEncryption != nil {
+		var dataEncryption EtcdDataEncryptionProfile
+		err := dataEncryption.AssignProperties_From_EtcdDataEncryptionProfile(source.DataEncryption)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_EtcdDataEncryptionProfile() to populate field DataEncryption")
+		}
+		profile.DataEncryption = &dataEncryption
+	} else {
+		profile.DataEncryption = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEtcdProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForEtcdProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EtcdProfile populates the provided destination EtcdProfile from our EtcdProfile
+func (profile *EtcdProfile) AssignProperties_To_EtcdProfile(destination *v20261001s.EtcdProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// DataEncryption
+	if profile.DataEncryption != nil {
+		var dataEncryption v20261001s.EtcdDataEncryptionProfile
+		err := profile.DataEncryption.AssignProperties_To_EtcdDataEncryptionProfile(&dataEncryption)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_EtcdDataEncryptionProfile() to populate field DataEncryption")
+		}
+		destination.DataEncryption = &dataEncryption
+	} else {
+		destination.DataEncryption = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEtcdProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForEtcdProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.EtcdProfile_STATUS
 // The ETCD settings and configuration options.
 type EtcdProfile_STATUS struct {
@@ -562,10 +2688,150 @@ type EtcdProfile_STATUS struct {
 	PropertyBag    genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_EtcdProfile_STATUS populates our EtcdProfile_STATUS from the provided source EtcdProfile_STATUS
+func (profile *EtcdProfile_STATUS) AssignProperties_From_EtcdProfile_STATUS(source *v20261001s.EtcdProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DataEncryption
+	if source.DataEncryption != nil {
+		var dataEncryption EtcdDataEncryptionProfile_STATUS
+		err := dataEncryption.AssignProperties_From_EtcdDataEncryptionProfile_STATUS(source.DataEncryption)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_EtcdDataEncryptionProfile_STATUS() to populate field DataEncryption")
+		}
+		profile.DataEncryption = &dataEncryption
+	} else {
+		profile.DataEncryption = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEtcdProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForEtcdProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EtcdProfile_STATUS populates the provided destination EtcdProfile_STATUS from our EtcdProfile_STATUS
+func (profile *EtcdProfile_STATUS) AssignProperties_To_EtcdProfile_STATUS(destination *v20261001s.EtcdProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// DataEncryption
+	if profile.DataEncryption != nil {
+		var dataEncryption v20261001s.EtcdDataEncryptionProfile_STATUS
+		err := profile.DataEncryption.AssignProperties_To_EtcdDataEncryptionProfile_STATUS(&dataEncryption)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_EtcdDataEncryptionProfile_STATUS() to populate field DataEncryption")
+		}
+		destination.DataEncryption = &dataEncryption
+	} else {
+		destination.DataEncryption = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEtcdProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForEtcdProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.HcpOpenShiftClusterOperatorSecrets
 type HcpOpenShiftClusterOperatorSecrets struct {
 	AdminCredentials *genruntime.SecretDestination `json:"adminCredentials,omitempty"`
 	PropertyBag      genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_HcpOpenShiftClusterOperatorSecrets populates our HcpOpenShiftClusterOperatorSecrets from the provided source HcpOpenShiftClusterOperatorSecrets
+func (secrets *HcpOpenShiftClusterOperatorSecrets) AssignProperties_From_HcpOpenShiftClusterOperatorSecrets(source *v20261001s.HcpOpenShiftClusterOperatorSecrets) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdminCredentials
+	if source.AdminCredentials != nil {
+		adminCredential := *source.AdminCredentials.DeepCopy()
+		secrets.AdminCredentials = &adminCredential
+	} else {
+		secrets.AdminCredentials = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		secrets.PropertyBag = propertyBag
+	} else {
+		secrets.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftClusterOperatorSecrets interface (if implemented) to customize the conversion
+	var secretsAsAny any = secrets
+	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForHcpOpenShiftClusterOperatorSecrets); ok {
+		err := augmentedSecrets.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HcpOpenShiftClusterOperatorSecrets populates the provided destination HcpOpenShiftClusterOperatorSecrets from our HcpOpenShiftClusterOperatorSecrets
+func (secrets *HcpOpenShiftClusterOperatorSecrets) AssignProperties_To_HcpOpenShiftClusterOperatorSecrets(destination *v20261001s.HcpOpenShiftClusterOperatorSecrets) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(secrets.PropertyBag)
+
+	// AdminCredentials
+	if secrets.AdminCredentials != nil {
+		adminCredential := *secrets.AdminCredentials.DeepCopy()
+		destination.AdminCredentials = &adminCredential
+	} else {
+		destination.AdminCredentials = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftClusterOperatorSecrets interface (if implemented) to customize the conversion
+	var secretsAsAny any = secrets
+	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForHcpOpenShiftClusterOperatorSecrets); ok {
+		err := augmentedSecrets.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20260901preview.ImageDigestMirror
@@ -577,6 +2843,68 @@ type ImageDigestMirror struct {
 	Source      *string                `json:"source,omitempty"`
 }
 
+// AssignProperties_From_ImageDigestMirror populates our ImageDigestMirror from the provided source ImageDigestMirror
+func (mirror *ImageDigestMirror) AssignProperties_From_ImageDigestMirror(source *v20261001s.ImageDigestMirror) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Mirrors
+	mirror.Mirrors = genruntime.CloneSliceOfString(source.Mirrors)
+
+	// Source
+	mirror.Source = genruntime.ClonePointerToString(source.Source)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		mirror.PropertyBag = propertyBag
+	} else {
+		mirror.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForImageDigestMirror interface (if implemented) to customize the conversion
+	var mirrorAsAny any = mirror
+	if augmentedMirror, ok := mirrorAsAny.(augmentConversionForImageDigestMirror); ok {
+		err := augmentedMirror.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ImageDigestMirror populates the provided destination ImageDigestMirror from our ImageDigestMirror
+func (mirror *ImageDigestMirror) AssignProperties_To_ImageDigestMirror(destination *v20261001s.ImageDigestMirror) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(mirror.PropertyBag)
+
+	// Mirrors
+	destination.Mirrors = genruntime.CloneSliceOfString(mirror.Mirrors)
+
+	// Source
+	destination.Source = genruntime.ClonePointerToString(mirror.Source)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForImageDigestMirror interface (if implemented) to customize the conversion
+	var mirrorAsAny any = mirror
+	if augmentedMirror, ok := mirrorAsAny.(augmentConversionForImageDigestMirror); ok {
+		err := augmentedMirror.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.ImageDigestMirror_STATUS
 // ImageDigestMirror specifies a set of mirror registries to redirect image
 // pulls targeting the specified source registries.
@@ -584,6 +2912,68 @@ type ImageDigestMirror_STATUS struct {
 	Mirrors     []string               `json:"mirrors,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Source      *string                `json:"source,omitempty"`
+}
+
+// AssignProperties_From_ImageDigestMirror_STATUS populates our ImageDigestMirror_STATUS from the provided source ImageDigestMirror_STATUS
+func (mirror *ImageDigestMirror_STATUS) AssignProperties_From_ImageDigestMirror_STATUS(source *v20261001s.ImageDigestMirror_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Mirrors
+	mirror.Mirrors = genruntime.CloneSliceOfString(source.Mirrors)
+
+	// Source
+	mirror.Source = genruntime.ClonePointerToString(source.Source)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		mirror.PropertyBag = propertyBag
+	} else {
+		mirror.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForImageDigestMirror_STATUS interface (if implemented) to customize the conversion
+	var mirrorAsAny any = mirror
+	if augmentedMirror, ok := mirrorAsAny.(augmentConversionForImageDigestMirror_STATUS); ok {
+		err := augmentedMirror.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ImageDigestMirror_STATUS populates the provided destination ImageDigestMirror_STATUS from our ImageDigestMirror_STATUS
+func (mirror *ImageDigestMirror_STATUS) AssignProperties_To_ImageDigestMirror_STATUS(destination *v20261001s.ImageDigestMirror_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(mirror.PropertyBag)
+
+	// Mirrors
+	destination.Mirrors = genruntime.CloneSliceOfString(mirror.Mirrors)
+
+	// Source
+	destination.Source = genruntime.ClonePointerToString(mirror.Source)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForImageDigestMirror_STATUS interface (if implemented) to customize the conversion
+	var mirrorAsAny any = mirror
+	if augmentedMirror, ok := mirrorAsAny.(augmentConversionForImageDigestMirror_STATUS); ok {
+		err := augmentedMirror.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20260901preview.IngressProfile
@@ -594,7 +2984,7 @@ type IngressProfile struct {
 }
 
 // AssignProperties_From_IngressProfile populates our IngressProfile from the provided source IngressProfile
-func (profile *IngressProfile) AssignProperties_From_IngressProfile(source *storage.IngressProfile) error {
+func (profile *IngressProfile) AssignProperties_From_IngressProfile(source *v20231122s.IngressProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -646,7 +3036,7 @@ func (profile *IngressProfile) AssignProperties_From_IngressProfile(source *stor
 }
 
 // AssignProperties_To_IngressProfile populates the provided destination IngressProfile from our IngressProfile
-func (profile *IngressProfile) AssignProperties_To_IngressProfile(destination *storage.IngressProfile) error {
+func (profile *IngressProfile) AssignProperties_To_IngressProfile(destination *v20231122s.IngressProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -711,7 +3101,7 @@ type IngressProfile_STATUS struct {
 }
 
 // AssignProperties_From_IngressProfile_STATUS populates our IngressProfile_STATUS from the provided source IngressProfile_STATUS
-func (profile *IngressProfile_STATUS) AssignProperties_From_IngressProfile_STATUS(source *storage.IngressProfile_STATUS) error {
+func (profile *IngressProfile_STATUS) AssignProperties_From_IngressProfile_STATUS(source *v20231122s.IngressProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -770,7 +3160,7 @@ func (profile *IngressProfile_STATUS) AssignProperties_From_IngressProfile_STATU
 }
 
 // AssignProperties_To_IngressProfile_STATUS populates the provided destination IngressProfile_STATUS from our IngressProfile_STATUS
-func (profile *IngressProfile_STATUS) AssignProperties_To_IngressProfile_STATUS(destination *storage.IngressProfile_STATUS) error {
+func (profile *IngressProfile_STATUS) AssignProperties_To_IngressProfile_STATUS(destination *v20231122s.IngressProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -852,7 +3242,7 @@ type NetworkProfile struct {
 }
 
 // AssignProperties_From_NetworkProfile populates our NetworkProfile from the provided source NetworkProfile
-func (profile *NetworkProfile) AssignProperties_From_NetworkProfile(source *storage.NetworkProfile) error {
+func (profile *NetworkProfile) AssignProperties_From_NetworkProfile(source *v20231122s.NetworkProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -943,7 +3333,7 @@ func (profile *NetworkProfile) AssignProperties_From_NetworkProfile(source *stor
 }
 
 // AssignProperties_To_NetworkProfile populates the provided destination NetworkProfile from our NetworkProfile
-func (profile *NetworkProfile) AssignProperties_To_NetworkProfile(destination *storage.NetworkProfile) error {
+func (profile *NetworkProfile) AssignProperties_To_NetworkProfile(destination *v20231122s.NetworkProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -956,7 +3346,7 @@ func (profile *NetworkProfile) AssignProperties_To_NetworkProfile(destination *s
 
 	// LoadBalancerProfile
 	if propertyBag.Contains("LoadBalancerProfile") {
-		var loadBalancerProfile storage.LoadBalancerProfile
+		var loadBalancerProfile v20231122s.LoadBalancerProfile
 		err := propertyBag.Pull("LoadBalancerProfile", &loadBalancerProfile)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'LoadBalancerProfile' from propertyBag")
@@ -1045,7 +3435,7 @@ type NetworkProfile_STATUS struct {
 }
 
 // AssignProperties_From_NetworkProfile_STATUS populates our NetworkProfile_STATUS from the provided source NetworkProfile_STATUS
-func (profile *NetworkProfile_STATUS) AssignProperties_From_NetworkProfile_STATUS(source *storage.NetworkProfile_STATUS) error {
+func (profile *NetworkProfile_STATUS) AssignProperties_From_NetworkProfile_STATUS(source *v20231122s.NetworkProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1136,7 +3526,7 @@ func (profile *NetworkProfile_STATUS) AssignProperties_From_NetworkProfile_STATU
 }
 
 // AssignProperties_To_NetworkProfile_STATUS populates the provided destination NetworkProfile_STATUS from our NetworkProfile_STATUS
-func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(destination *storage.NetworkProfile_STATUS) error {
+func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(destination *v20231122s.NetworkProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -1149,7 +3539,7 @@ func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(
 
 	// LoadBalancerProfile
 	if propertyBag.Contains("LoadBalancerProfile") {
-		var loadBalancerProfile storage.LoadBalancerProfile_STATUS
+		var loadBalancerProfile v20231122s.LoadBalancerProfile_STATUS
 		err := propertyBag.Pull("LoadBalancerProfile", &loadBalancerProfile)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'LoadBalancerProfile' from propertyBag")
@@ -1240,7 +3630,7 @@ type PlatformProfile struct {
 	PropertyBag                   genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SubnetReference: The Azure resource ID of the worker subnet
+	// SubnetReference: The Azure resource ID of the worker subnet.
 	// Note that a subnet cannot be reused between ARO-HCP Clusters.
 	SubnetReference *genruntime.ResourceReference `armReference:"SubnetId" json:"subnetReference,omitempty"`
 
@@ -1250,6 +3640,160 @@ type PlatformProfile struct {
 	// and your cluster's nodes. This subnet must be dedicated to ARO HCP
 	// and cannot be shared with the cluster subnet or any node pool subnets.
 	VnetIntegrationSubnetReference *genruntime.ResourceReference `armReference:"VnetIntegrationSubnetId" json:"vnetIntegrationSubnetReference,omitempty"`
+}
+
+// AssignProperties_From_PlatformProfile populates our PlatformProfile from the provided source PlatformProfile
+func (profile *PlatformProfile) AssignProperties_From_PlatformProfile(source *v20261001s.PlatformProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ContainerRegistry
+	if source.ContainerRegistry != nil {
+		propertyBag.Add("ContainerRegistry", *source.ContainerRegistry)
+	} else {
+		propertyBag.Remove("ContainerRegistry")
+	}
+
+	// ManagedResourceGroup
+	profile.ManagedResourceGroup = genruntime.ClonePointerToString(source.ManagedResourceGroup)
+
+	// NetworkSecurityGroupReference
+	if source.NetworkSecurityGroupReference != nil {
+		networkSecurityGroupReference := source.NetworkSecurityGroupReference.Copy()
+		profile.NetworkSecurityGroupReference = &networkSecurityGroupReference
+	} else {
+		profile.NetworkSecurityGroupReference = nil
+	}
+
+	// OperatorsAuthentication
+	if source.OperatorsAuthentication != nil {
+		var operatorsAuthentication OperatorsAuthenticationProfile
+		err := operatorsAuthentication.AssignProperties_From_OperatorsAuthenticationProfile(source.OperatorsAuthentication)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_OperatorsAuthenticationProfile() to populate field OperatorsAuthentication")
+		}
+		profile.OperatorsAuthentication = &operatorsAuthentication
+	} else {
+		profile.OperatorsAuthentication = nil
+	}
+
+	// OutboundType
+	profile.OutboundType = genruntime.ClonePointerToString(source.OutboundType)
+
+	// SubnetReference
+	if source.SubnetReference != nil {
+		subnetReference := source.SubnetReference.Copy()
+		profile.SubnetReference = &subnetReference
+	} else {
+		profile.SubnetReference = nil
+	}
+
+	// VnetIntegrationSubnetReference
+	if source.VnetIntegrationSubnetReference != nil {
+		vnetIntegrationSubnetReference := source.VnetIntegrationSubnetReference.Copy()
+		profile.VnetIntegrationSubnetReference = &vnetIntegrationSubnetReference
+	} else {
+		profile.VnetIntegrationSubnetReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPlatformProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForPlatformProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PlatformProfile populates the provided destination PlatformProfile from our PlatformProfile
+func (profile *PlatformProfile) AssignProperties_To_PlatformProfile(destination *v20261001s.PlatformProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// ContainerRegistry
+	if propertyBag.Contains("ContainerRegistry") {
+		var containerRegistry v20261001s.ContainerRegistryProfile
+		err := propertyBag.Pull("ContainerRegistry", &containerRegistry)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ContainerRegistry' from propertyBag")
+		}
+
+		destination.ContainerRegistry = &containerRegistry
+	} else {
+		destination.ContainerRegistry = nil
+	}
+
+	// ManagedResourceGroup
+	destination.ManagedResourceGroup = genruntime.ClonePointerToString(profile.ManagedResourceGroup)
+
+	// NetworkSecurityGroupReference
+	if profile.NetworkSecurityGroupReference != nil {
+		networkSecurityGroupReference := profile.NetworkSecurityGroupReference.Copy()
+		destination.NetworkSecurityGroupReference = &networkSecurityGroupReference
+	} else {
+		destination.NetworkSecurityGroupReference = nil
+	}
+
+	// OperatorsAuthentication
+	if profile.OperatorsAuthentication != nil {
+		var operatorsAuthentication v20261001s.OperatorsAuthenticationProfile
+		err := profile.OperatorsAuthentication.AssignProperties_To_OperatorsAuthenticationProfile(&operatorsAuthentication)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_OperatorsAuthenticationProfile() to populate field OperatorsAuthentication")
+		}
+		destination.OperatorsAuthentication = &operatorsAuthentication
+	} else {
+		destination.OperatorsAuthentication = nil
+	}
+
+	// OutboundType
+	destination.OutboundType = genruntime.ClonePointerToString(profile.OutboundType)
+
+	// SubnetReference
+	if profile.SubnetReference != nil {
+		subnetReference := profile.SubnetReference.Copy()
+		destination.SubnetReference = &subnetReference
+	} else {
+		destination.SubnetReference = nil
+	}
+
+	// VnetIntegrationSubnetReference
+	if profile.VnetIntegrationSubnetReference != nil {
+		vnetIntegrationSubnetReference := profile.VnetIntegrationSubnetReference.Copy()
+		destination.VnetIntegrationSubnetReference = &vnetIntegrationSubnetReference
+	} else {
+		destination.VnetIntegrationSubnetReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPlatformProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForPlatformProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20260901preview.PlatformProfile_STATUS
@@ -1263,6 +3807,136 @@ type PlatformProfile_STATUS struct {
 	PropertyBag             genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 	SubnetId                *string                                `json:"subnetId,omitempty"`
 	VnetIntegrationSubnetId *string                                `json:"vnetIntegrationSubnetId,omitempty"`
+}
+
+// AssignProperties_From_PlatformProfile_STATUS populates our PlatformProfile_STATUS from the provided source PlatformProfile_STATUS
+func (profile *PlatformProfile_STATUS) AssignProperties_From_PlatformProfile_STATUS(source *v20261001s.PlatformProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ContainerRegistry
+	if source.ContainerRegistry != nil {
+		propertyBag.Add("ContainerRegistry", *source.ContainerRegistry)
+	} else {
+		propertyBag.Remove("ContainerRegistry")
+	}
+
+	// IssuerUrl
+	profile.IssuerUrl = genruntime.ClonePointerToString(source.IssuerUrl)
+
+	// ManagedResourceGroup
+	profile.ManagedResourceGroup = genruntime.ClonePointerToString(source.ManagedResourceGroup)
+
+	// NetworkSecurityGroupId
+	profile.NetworkSecurityGroupId = genruntime.ClonePointerToString(source.NetworkSecurityGroupId)
+
+	// OperatorsAuthentication
+	if source.OperatorsAuthentication != nil {
+		var operatorsAuthentication OperatorsAuthenticationProfile_STATUS
+		err := operatorsAuthentication.AssignProperties_From_OperatorsAuthenticationProfile_STATUS(source.OperatorsAuthentication)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_OperatorsAuthenticationProfile_STATUS() to populate field OperatorsAuthentication")
+		}
+		profile.OperatorsAuthentication = &operatorsAuthentication
+	} else {
+		profile.OperatorsAuthentication = nil
+	}
+
+	// OutboundType
+	profile.OutboundType = genruntime.ClonePointerToString(source.OutboundType)
+
+	// SubnetId
+	profile.SubnetId = genruntime.ClonePointerToString(source.SubnetId)
+
+	// VnetIntegrationSubnetId
+	profile.VnetIntegrationSubnetId = genruntime.ClonePointerToString(source.VnetIntegrationSubnetId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPlatformProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForPlatformProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PlatformProfile_STATUS populates the provided destination PlatformProfile_STATUS from our PlatformProfile_STATUS
+func (profile *PlatformProfile_STATUS) AssignProperties_To_PlatformProfile_STATUS(destination *v20261001s.PlatformProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// ContainerRegistry
+	if propertyBag.Contains("ContainerRegistry") {
+		var containerRegistry v20261001s.ContainerRegistryProfile_STATUS
+		err := propertyBag.Pull("ContainerRegistry", &containerRegistry)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ContainerRegistry' from propertyBag")
+		}
+
+		destination.ContainerRegistry = &containerRegistry
+	} else {
+		destination.ContainerRegistry = nil
+	}
+
+	// IssuerUrl
+	destination.IssuerUrl = genruntime.ClonePointerToString(profile.IssuerUrl)
+
+	// ManagedResourceGroup
+	destination.ManagedResourceGroup = genruntime.ClonePointerToString(profile.ManagedResourceGroup)
+
+	// NetworkSecurityGroupId
+	destination.NetworkSecurityGroupId = genruntime.ClonePointerToString(profile.NetworkSecurityGroupId)
+
+	// OperatorsAuthentication
+	if profile.OperatorsAuthentication != nil {
+		var operatorsAuthentication v20261001s.OperatorsAuthenticationProfile_STATUS
+		err := profile.OperatorsAuthentication.AssignProperties_To_OperatorsAuthenticationProfile_STATUS(&operatorsAuthentication)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_OperatorsAuthenticationProfile_STATUS() to populate field OperatorsAuthentication")
+		}
+		destination.OperatorsAuthentication = &operatorsAuthentication
+	} else {
+		destination.OperatorsAuthentication = nil
+	}
+
+	// OutboundType
+	destination.OutboundType = genruntime.ClonePointerToString(profile.OutboundType)
+
+	// SubnetId
+	destination.SubnetId = genruntime.ClonePointerToString(profile.SubnetId)
+
+	// VnetIntegrationSubnetId
+	destination.VnetIntegrationSubnetId = genruntime.ClonePointerToString(profile.VnetIntegrationSubnetId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPlatformProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForPlatformProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20260901preview.ResourceStatus_STATUS
@@ -1280,11 +3954,129 @@ type UserAssignedIdentity_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v20261001s.UserAssignedIdentity_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ClientId
+	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
+
+	// PrincipalId
+	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		identity.PropertyBag = propertyBag
+	} else {
+		identity.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v20261001s.UserAssignedIdentity_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
+
+	// ClientId
+	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
+
+	// PrincipalId
+	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.UserAssignedIdentityDetails
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
 	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
+}
+
+// AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20261001s.UserAssignedIdentityDetails) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	details.Reference = source.Reference.Copy()
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		details.PropertyBag = propertyBag
+	} else {
+		details.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentityDetails interface (if implemented) to customize the conversion
+	var detailsAsAny any = details
+	if augmentedDetails, ok := detailsAsAny.(augmentConversionForUserAssignedIdentityDetails); ok {
+		err := augmentedDetails.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20261001s.UserAssignedIdentityDetails) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(details.PropertyBag)
+
+	// Reference
+	destination.Reference = details.Reference.Copy()
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentityDetails interface (if implemented) to customize the conversion
+	var detailsAsAny any = details
+	if augmentedDetails, ok := detailsAsAny.(augmentConversionForUserAssignedIdentityDetails); ok {
+		err := augmentedDetails.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20260901preview.VersionProfile
@@ -1295,6 +4087,68 @@ type VersionProfile struct {
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_VersionProfile populates our VersionProfile from the provided source VersionProfile
+func (profile *VersionProfile) AssignProperties_From_VersionProfile(source *v20261001s.VersionProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ChannelGroup
+	profile.ChannelGroup = genruntime.ClonePointerToString(source.ChannelGroup)
+
+	// Id
+	profile.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForVersionProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForVersionProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VersionProfile populates the provided destination VersionProfile from our VersionProfile
+func (profile *VersionProfile) AssignProperties_To_VersionProfile(destination *v20261001s.VersionProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// ChannelGroup
+	destination.ChannelGroup = genruntime.ClonePointerToString(profile.ChannelGroup)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(profile.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForVersionProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForVersionProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.VersionProfile_STATUS
 // Versions represents an OpenShift version.
 type VersionProfile_STATUS struct {
@@ -1303,29 +4157,186 @@ type VersionProfile_STATUS struct {
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_VersionProfile_STATUS populates our VersionProfile_STATUS from the provided source VersionProfile_STATUS
+func (profile *VersionProfile_STATUS) AssignProperties_From_VersionProfile_STATUS(source *v20261001s.VersionProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ChannelGroup
+	profile.ChannelGroup = genruntime.ClonePointerToString(source.ChannelGroup)
+
+	// Id
+	profile.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForVersionProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForVersionProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VersionProfile_STATUS populates the provided destination VersionProfile_STATUS from our VersionProfile_STATUS
+func (profile *VersionProfile_STATUS) AssignProperties_To_VersionProfile_STATUS(destination *v20261001s.VersionProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// ChannelGroup
+	destination.ChannelGroup = genruntime.ClonePointerToString(profile.ChannelGroup)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(profile.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForVersionProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForVersionProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForApiProfile interface {
+	AssignPropertiesFrom(src *v20261001s.ApiProfile) error
+	AssignPropertiesTo(dst *v20261001s.ApiProfile) error
+}
+
+type augmentConversionForApiProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.ApiProfile_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.ApiProfile_STATUS) error
+}
+
+type augmentConversionForClusterAutoscalingProfile interface {
+	AssignPropertiesFrom(src *v20261001s.ClusterAutoscalingProfile) error
+	AssignPropertiesTo(dst *v20261001s.ClusterAutoscalingProfile) error
+}
+
+type augmentConversionForClusterAutoscalingProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.ClusterAutoscalingProfile_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.ClusterAutoscalingProfile_STATUS) error
+}
+
+type augmentConversionForClusterImageRegistryProfile interface {
+	AssignPropertiesFrom(src *v20261001s.ClusterImageRegistryProfile) error
+	AssignPropertiesTo(dst *v20261001s.ClusterImageRegistryProfile) error
+}
+
+type augmentConversionForClusterImageRegistryProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.ClusterImageRegistryProfile_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.ClusterImageRegistryProfile_STATUS) error
+}
+
 type augmentConversionForConsoleProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ConsoleProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ConsoleProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231122s.ConsoleProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231122s.ConsoleProfile_STATUS) error
+}
+
+type augmentConversionForDnsProfile interface {
+	AssignPropertiesFrom(src *v20261001s.DnsProfile) error
+	AssignPropertiesTo(dst *v20261001s.DnsProfile) error
+}
+
+type augmentConversionForDnsProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.DnsProfile_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.DnsProfile_STATUS) error
+}
+
+type augmentConversionForEtcdProfile interface {
+	AssignPropertiesFrom(src *v20261001s.EtcdProfile) error
+	AssignPropertiesTo(dst *v20261001s.EtcdProfile) error
+}
+
+type augmentConversionForEtcdProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.EtcdProfile_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.EtcdProfile_STATUS) error
+}
+
+type augmentConversionForHcpOpenShiftClusterOperatorSecrets interface {
+	AssignPropertiesFrom(src *v20261001s.HcpOpenShiftClusterOperatorSecrets) error
+	AssignPropertiesTo(dst *v20261001s.HcpOpenShiftClusterOperatorSecrets) error
+}
+
+type augmentConversionForImageDigestMirror interface {
+	AssignPropertiesFrom(src *v20261001s.ImageDigestMirror) error
+	AssignPropertiesTo(dst *v20261001s.ImageDigestMirror) error
+}
+
+type augmentConversionForImageDigestMirror_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.ImageDigestMirror_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.ImageDigestMirror_STATUS) error
 }
 
 type augmentConversionForIngressProfile interface {
-	AssignPropertiesFrom(src *storage.IngressProfile) error
-	AssignPropertiesTo(dst *storage.IngressProfile) error
+	AssignPropertiesFrom(src *v20231122s.IngressProfile) error
+	AssignPropertiesTo(dst *v20231122s.IngressProfile) error
 }
 
 type augmentConversionForIngressProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.IngressProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.IngressProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231122s.IngressProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231122s.IngressProfile_STATUS) error
 }
 
 type augmentConversionForNetworkProfile interface {
-	AssignPropertiesFrom(src *storage.NetworkProfile) error
-	AssignPropertiesTo(dst *storage.NetworkProfile) error
+	AssignPropertiesFrom(src *v20231122s.NetworkProfile) error
+	AssignPropertiesTo(dst *v20231122s.NetworkProfile) error
 }
 
 type augmentConversionForNetworkProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.NetworkProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.NetworkProfile_STATUS) error
+	AssignPropertiesFrom(src *v20231122s.NetworkProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231122s.NetworkProfile_STATUS) error
+}
+
+type augmentConversionForPlatformProfile interface {
+	AssignPropertiesFrom(src *v20261001s.PlatformProfile) error
+	AssignPropertiesTo(dst *v20261001s.PlatformProfile) error
+}
+
+type augmentConversionForPlatformProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.PlatformProfile_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.PlatformProfile_STATUS) error
+}
+
+type augmentConversionForUserAssignedIdentity_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.UserAssignedIdentity_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.UserAssignedIdentity_STATUS) error
+}
+
+type augmentConversionForUserAssignedIdentityDetails interface {
+	AssignPropertiesFrom(src *v20261001s.UserAssignedIdentityDetails) error
+	AssignPropertiesTo(dst *v20261001s.UserAssignedIdentityDetails) error
+}
+
+type augmentConversionForVersionProfile interface {
+	AssignPropertiesFrom(src *v20261001s.VersionProfile) error
+	AssignPropertiesTo(dst *v20261001s.VersionProfile) error
+}
+
+type augmentConversionForVersionProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.VersionProfile_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.VersionProfile_STATUS) error
 }
 
 // Storage version of v20260901preview.Condition_STATUS
@@ -1339,12 +4350,172 @@ type Condition_STATUS struct {
 	Type               *string                `json:"type,omitempty"`
 }
 
+// AssignProperties_From_Condition_STATUS populates our Condition_STATUS from the provided source Condition_STATUS
+func (condition *Condition_STATUS) AssignProperties_From_Condition_STATUS(source *v20261001s.Condition_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// LastTransitionTime
+	condition.LastTransitionTime = genruntime.ClonePointerToString(source.LastTransitionTime)
+
+	// Message
+	condition.Message = genruntime.ClonePointerToString(source.Message)
+
+	// Reason
+	condition.Reason = genruntime.ClonePointerToString(source.Reason)
+
+	// Status
+	condition.Status = genruntime.ClonePointerToString(source.Status)
+
+	// Type
+	condition.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		condition.PropertyBag = propertyBag
+	} else {
+		condition.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCondition_STATUS interface (if implemented) to customize the conversion
+	var conditionAsAny any = condition
+	if augmentedCondition, ok := conditionAsAny.(augmentConversionForCondition_STATUS); ok {
+		err := augmentedCondition.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Condition_STATUS populates the provided destination Condition_STATUS from our Condition_STATUS
+func (condition *Condition_STATUS) AssignProperties_To_Condition_STATUS(destination *v20261001s.Condition_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
+
+	// LastTransitionTime
+	destination.LastTransitionTime = genruntime.ClonePointerToString(condition.LastTransitionTime)
+
+	// Message
+	destination.Message = genruntime.ClonePointerToString(condition.Message)
+
+	// Reason
+	destination.Reason = genruntime.ClonePointerToString(condition.Reason)
+
+	// Status
+	destination.Status = genruntime.ClonePointerToString(condition.Status)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(condition.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCondition_STATUS interface (if implemented) to customize the conversion
+	var conditionAsAny any = condition
+	if augmentedCondition, ok := conditionAsAny.(augmentConversionForCondition_STATUS); ok {
+		err := augmentedCondition.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.EtcdDataEncryptionProfile
 // The ETCD data encryption settings.
 type EtcdDataEncryptionProfile struct {
 	CustomerManaged   *CustomerManagedEncryptionProfile `json:"customerManaged,omitempty"`
 	KeyManagementMode *string                           `json:"keyManagementMode,omitempty"`
 	PropertyBag       genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_EtcdDataEncryptionProfile populates our EtcdDataEncryptionProfile from the provided source EtcdDataEncryptionProfile
+func (profile *EtcdDataEncryptionProfile) AssignProperties_From_EtcdDataEncryptionProfile(source *v20261001s.EtcdDataEncryptionProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CustomerManaged
+	if source.CustomerManaged != nil {
+		var customerManaged CustomerManagedEncryptionProfile
+		err := customerManaged.AssignProperties_From_CustomerManagedEncryptionProfile(source.CustomerManaged)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_CustomerManagedEncryptionProfile() to populate field CustomerManaged")
+		}
+		profile.CustomerManaged = &customerManaged
+	} else {
+		profile.CustomerManaged = nil
+	}
+
+	// KeyManagementMode
+	profile.KeyManagementMode = genruntime.ClonePointerToString(source.KeyManagementMode)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEtcdDataEncryptionProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForEtcdDataEncryptionProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EtcdDataEncryptionProfile populates the provided destination EtcdDataEncryptionProfile from our EtcdDataEncryptionProfile
+func (profile *EtcdDataEncryptionProfile) AssignProperties_To_EtcdDataEncryptionProfile(destination *v20261001s.EtcdDataEncryptionProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// CustomerManaged
+	if profile.CustomerManaged != nil {
+		var customerManaged v20261001s.CustomerManagedEncryptionProfile
+		err := profile.CustomerManaged.AssignProperties_To_CustomerManagedEncryptionProfile(&customerManaged)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_CustomerManagedEncryptionProfile() to populate field CustomerManaged")
+		}
+		destination.CustomerManaged = &customerManaged
+	} else {
+		destination.CustomerManaged = nil
+	}
+
+	// KeyManagementMode
+	destination.KeyManagementMode = genruntime.ClonePointerToString(profile.KeyManagementMode)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEtcdDataEncryptionProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForEtcdDataEncryptionProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20260901preview.EtcdDataEncryptionProfile_STATUS
@@ -1355,6 +4526,86 @@ type EtcdDataEncryptionProfile_STATUS struct {
 	PropertyBag       genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_EtcdDataEncryptionProfile_STATUS populates our EtcdDataEncryptionProfile_STATUS from the provided source EtcdDataEncryptionProfile_STATUS
+func (profile *EtcdDataEncryptionProfile_STATUS) AssignProperties_From_EtcdDataEncryptionProfile_STATUS(source *v20261001s.EtcdDataEncryptionProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CustomerManaged
+	if source.CustomerManaged != nil {
+		var customerManaged CustomerManagedEncryptionProfile_STATUS
+		err := customerManaged.AssignProperties_From_CustomerManagedEncryptionProfile_STATUS(source.CustomerManaged)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_CustomerManagedEncryptionProfile_STATUS() to populate field CustomerManaged")
+		}
+		profile.CustomerManaged = &customerManaged
+	} else {
+		profile.CustomerManaged = nil
+	}
+
+	// KeyManagementMode
+	profile.KeyManagementMode = genruntime.ClonePointerToString(source.KeyManagementMode)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEtcdDataEncryptionProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForEtcdDataEncryptionProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EtcdDataEncryptionProfile_STATUS populates the provided destination EtcdDataEncryptionProfile_STATUS from our EtcdDataEncryptionProfile_STATUS
+func (profile *EtcdDataEncryptionProfile_STATUS) AssignProperties_To_EtcdDataEncryptionProfile_STATUS(destination *v20261001s.EtcdDataEncryptionProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// CustomerManaged
+	if profile.CustomerManaged != nil {
+		var customerManaged v20261001s.CustomerManagedEncryptionProfile_STATUS
+		err := profile.CustomerManaged.AssignProperties_To_CustomerManagedEncryptionProfile_STATUS(&customerManaged)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_CustomerManagedEncryptionProfile_STATUS() to populate field CustomerManaged")
+		}
+		destination.CustomerManaged = &customerManaged
+	} else {
+		destination.CustomerManaged = nil
+	}
+
+	// KeyManagementMode
+	destination.KeyManagementMode = genruntime.ClonePointerToString(profile.KeyManagementMode)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEtcdDataEncryptionProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForEtcdDataEncryptionProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.OperatorsAuthenticationProfile
 // The configuration that the operators of the cluster have to authenticate to Azure.
 type OperatorsAuthenticationProfile struct {
@@ -1362,11 +4613,184 @@ type OperatorsAuthenticationProfile struct {
 	UserAssignedIdentities *UserAssignedIdentitiesProfile `json:"userAssignedIdentities,omitempty"`
 }
 
+// AssignProperties_From_OperatorsAuthenticationProfile populates our OperatorsAuthenticationProfile from the provided source OperatorsAuthenticationProfile
+func (profile *OperatorsAuthenticationProfile) AssignProperties_From_OperatorsAuthenticationProfile(source *v20261001s.OperatorsAuthenticationProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// UserAssignedIdentities
+	if source.UserAssignedIdentities != nil {
+		var userAssignedIdentity UserAssignedIdentitiesProfile
+		err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentitiesProfile(source.UserAssignedIdentities)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentitiesProfile() to populate field UserAssignedIdentities")
+		}
+		profile.UserAssignedIdentities = &userAssignedIdentity
+	} else {
+		profile.UserAssignedIdentities = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForOperatorsAuthenticationProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForOperatorsAuthenticationProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_OperatorsAuthenticationProfile populates the provided destination OperatorsAuthenticationProfile from our OperatorsAuthenticationProfile
+func (profile *OperatorsAuthenticationProfile) AssignProperties_To_OperatorsAuthenticationProfile(destination *v20261001s.OperatorsAuthenticationProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// UserAssignedIdentities
+	if profile.UserAssignedIdentities != nil {
+		var userAssignedIdentity v20261001s.UserAssignedIdentitiesProfile
+		err := profile.UserAssignedIdentities.AssignProperties_To_UserAssignedIdentitiesProfile(&userAssignedIdentity)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentitiesProfile() to populate field UserAssignedIdentities")
+		}
+		destination.UserAssignedIdentities = &userAssignedIdentity
+	} else {
+		destination.UserAssignedIdentities = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForOperatorsAuthenticationProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForOperatorsAuthenticationProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.OperatorsAuthenticationProfile_STATUS
 // The configuration that the operators of the cluster have to authenticate to Azure.
 type OperatorsAuthenticationProfile_STATUS struct {
 	PropertyBag            genruntime.PropertyBag                `json:"$propertyBag,omitempty"`
 	UserAssignedIdentities *UserAssignedIdentitiesProfile_STATUS `json:"userAssignedIdentities,omitempty"`
+}
+
+// AssignProperties_From_OperatorsAuthenticationProfile_STATUS populates our OperatorsAuthenticationProfile_STATUS from the provided source OperatorsAuthenticationProfile_STATUS
+func (profile *OperatorsAuthenticationProfile_STATUS) AssignProperties_From_OperatorsAuthenticationProfile_STATUS(source *v20261001s.OperatorsAuthenticationProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// UserAssignedIdentities
+	if source.UserAssignedIdentities != nil {
+		var userAssignedIdentity UserAssignedIdentitiesProfile_STATUS
+		err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentitiesProfile_STATUS(source.UserAssignedIdentities)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserAssignedIdentitiesProfile_STATUS() to populate field UserAssignedIdentities")
+		}
+		profile.UserAssignedIdentities = &userAssignedIdentity
+	} else {
+		profile.UserAssignedIdentities = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForOperatorsAuthenticationProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForOperatorsAuthenticationProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_OperatorsAuthenticationProfile_STATUS populates the provided destination OperatorsAuthenticationProfile_STATUS from our OperatorsAuthenticationProfile_STATUS
+func (profile *OperatorsAuthenticationProfile_STATUS) AssignProperties_To_OperatorsAuthenticationProfile_STATUS(destination *v20261001s.OperatorsAuthenticationProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// UserAssignedIdentities
+	if profile.UserAssignedIdentities != nil {
+		var userAssignedIdentity v20261001s.UserAssignedIdentitiesProfile_STATUS
+		err := profile.UserAssignedIdentities.AssignProperties_To_UserAssignedIdentitiesProfile_STATUS(&userAssignedIdentity)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_UserAssignedIdentitiesProfile_STATUS() to populate field UserAssignedIdentities")
+		}
+		destination.UserAssignedIdentities = &userAssignedIdentity
+	} else {
+		destination.UserAssignedIdentities = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForOperatorsAuthenticationProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForOperatorsAuthenticationProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForCondition_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.Condition_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.Condition_STATUS) error
+}
+
+type augmentConversionForEtcdDataEncryptionProfile interface {
+	AssignPropertiesFrom(src *v20261001s.EtcdDataEncryptionProfile) error
+	AssignPropertiesTo(dst *v20261001s.EtcdDataEncryptionProfile) error
+}
+
+type augmentConversionForEtcdDataEncryptionProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.EtcdDataEncryptionProfile_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.EtcdDataEncryptionProfile_STATUS) error
+}
+
+type augmentConversionForOperatorsAuthenticationProfile interface {
+	AssignPropertiesFrom(src *v20261001s.OperatorsAuthenticationProfile) error
+	AssignPropertiesTo(dst *v20261001s.OperatorsAuthenticationProfile) error
+}
+
+type augmentConversionForOperatorsAuthenticationProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.OperatorsAuthenticationProfile_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.OperatorsAuthenticationProfile_STATUS) error
 }
 
 // Storage version of v20260901preview.CustomerManagedEncryptionProfile
@@ -1377,12 +4801,172 @@ type CustomerManagedEncryptionProfile struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_CustomerManagedEncryptionProfile populates our CustomerManagedEncryptionProfile from the provided source CustomerManagedEncryptionProfile
+func (profile *CustomerManagedEncryptionProfile) AssignProperties_From_CustomerManagedEncryptionProfile(source *v20261001s.CustomerManagedEncryptionProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EncryptionType
+	profile.EncryptionType = genruntime.ClonePointerToString(source.EncryptionType)
+
+	// Kms
+	if source.Kms != nil {
+		var km KmsEncryptionProfile
+		err := km.AssignProperties_From_KmsEncryptionProfile(source.Kms)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_KmsEncryptionProfile() to populate field Kms")
+		}
+		profile.Kms = &km
+	} else {
+		profile.Kms = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCustomerManagedEncryptionProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForCustomerManagedEncryptionProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CustomerManagedEncryptionProfile populates the provided destination CustomerManagedEncryptionProfile from our CustomerManagedEncryptionProfile
+func (profile *CustomerManagedEncryptionProfile) AssignProperties_To_CustomerManagedEncryptionProfile(destination *v20261001s.CustomerManagedEncryptionProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// EncryptionType
+	destination.EncryptionType = genruntime.ClonePointerToString(profile.EncryptionType)
+
+	// Kms
+	if profile.Kms != nil {
+		var km v20261001s.KmsEncryptionProfile
+		err := profile.Kms.AssignProperties_To_KmsEncryptionProfile(&km)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_KmsEncryptionProfile() to populate field Kms")
+		}
+		destination.Kms = &km
+	} else {
+		destination.Kms = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCustomerManagedEncryptionProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForCustomerManagedEncryptionProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.CustomerManagedEncryptionProfile_STATUS
 // Customer managed encryption key profile.
 type CustomerManagedEncryptionProfile_STATUS struct {
 	EncryptionType *string                      `json:"encryptionType,omitempty"`
 	Kms            *KmsEncryptionProfile_STATUS `json:"kms,omitempty"`
 	PropertyBag    genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_CustomerManagedEncryptionProfile_STATUS populates our CustomerManagedEncryptionProfile_STATUS from the provided source CustomerManagedEncryptionProfile_STATUS
+func (profile *CustomerManagedEncryptionProfile_STATUS) AssignProperties_From_CustomerManagedEncryptionProfile_STATUS(source *v20261001s.CustomerManagedEncryptionProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EncryptionType
+	profile.EncryptionType = genruntime.ClonePointerToString(source.EncryptionType)
+
+	// Kms
+	if source.Kms != nil {
+		var km KmsEncryptionProfile_STATUS
+		err := km.AssignProperties_From_KmsEncryptionProfile_STATUS(source.Kms)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_KmsEncryptionProfile_STATUS() to populate field Kms")
+		}
+		profile.Kms = &km
+	} else {
+		profile.Kms = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCustomerManagedEncryptionProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForCustomerManagedEncryptionProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CustomerManagedEncryptionProfile_STATUS populates the provided destination CustomerManagedEncryptionProfile_STATUS from our CustomerManagedEncryptionProfile_STATUS
+func (profile *CustomerManagedEncryptionProfile_STATUS) AssignProperties_To_CustomerManagedEncryptionProfile_STATUS(destination *v20261001s.CustomerManagedEncryptionProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// EncryptionType
+	destination.EncryptionType = genruntime.ClonePointerToString(profile.EncryptionType)
+
+	// Kms
+	if profile.Kms != nil {
+		var km v20261001s.KmsEncryptionProfile_STATUS
+		err := profile.Kms.AssignProperties_To_KmsEncryptionProfile_STATUS(&km)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_KmsEncryptionProfile_STATUS() to populate field Kms")
+		}
+		destination.Kms = &km
+	} else {
+		destination.Kms = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCustomerManagedEncryptionProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForCustomerManagedEncryptionProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20260901preview.UserAssignedIdentitiesProfile
@@ -1400,6 +4984,116 @@ type UserAssignedIdentitiesProfile struct {
 	ServiceManagedIdentityReference *genruntime.ResourceReference `armReference:"ServiceManagedIdentity" json:"serviceManagedIdentityReference,omitempty"`
 }
 
+// AssignProperties_From_UserAssignedIdentitiesProfile populates our UserAssignedIdentitiesProfile from the provided source UserAssignedIdentitiesProfile
+func (profile *UserAssignedIdentitiesProfile) AssignProperties_From_UserAssignedIdentitiesProfile(source *v20261001s.UserAssignedIdentitiesProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ControlPlaneOperatorsReferences
+	if source.ControlPlaneOperatorsReferences != nil {
+		controlPlaneOperatorsReferenceMap := make(map[string]genruntime.ResourceReference, len(source.ControlPlaneOperatorsReferences))
+		for controlPlaneOperatorsReferenceKey, controlPlaneOperatorsReferenceValue := range source.ControlPlaneOperatorsReferences {
+			controlPlaneOperatorsReferenceMap[controlPlaneOperatorsReferenceKey] = controlPlaneOperatorsReferenceValue.Copy()
+		}
+		profile.ControlPlaneOperatorsReferences = controlPlaneOperatorsReferenceMap
+	} else {
+		profile.ControlPlaneOperatorsReferences = nil
+	}
+
+	// DataPlaneOperatorsReferences
+	if source.DataPlaneOperatorsReferences != nil {
+		dataPlaneOperatorsReferenceMap := make(map[string]genruntime.ResourceReference, len(source.DataPlaneOperatorsReferences))
+		for dataPlaneOperatorsReferenceKey, dataPlaneOperatorsReferenceValue := range source.DataPlaneOperatorsReferences {
+			dataPlaneOperatorsReferenceMap[dataPlaneOperatorsReferenceKey] = dataPlaneOperatorsReferenceValue.Copy()
+		}
+		profile.DataPlaneOperatorsReferences = dataPlaneOperatorsReferenceMap
+	} else {
+		profile.DataPlaneOperatorsReferences = nil
+	}
+
+	// ServiceManagedIdentityReference
+	if source.ServiceManagedIdentityReference != nil {
+		serviceManagedIdentityReference := source.ServiceManagedIdentityReference.Copy()
+		profile.ServiceManagedIdentityReference = &serviceManagedIdentityReference
+	} else {
+		profile.ServiceManagedIdentityReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentitiesProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForUserAssignedIdentitiesProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentitiesProfile populates the provided destination UserAssignedIdentitiesProfile from our UserAssignedIdentitiesProfile
+func (profile *UserAssignedIdentitiesProfile) AssignProperties_To_UserAssignedIdentitiesProfile(destination *v20261001s.UserAssignedIdentitiesProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// ControlPlaneOperatorsReferences
+	if profile.ControlPlaneOperatorsReferences != nil {
+		controlPlaneOperatorsReferenceMap := make(map[string]genruntime.ResourceReference, len(profile.ControlPlaneOperatorsReferences))
+		for controlPlaneOperatorsReferenceKey, controlPlaneOperatorsReferenceValue := range profile.ControlPlaneOperatorsReferences {
+			controlPlaneOperatorsReferenceMap[controlPlaneOperatorsReferenceKey] = controlPlaneOperatorsReferenceValue.Copy()
+		}
+		destination.ControlPlaneOperatorsReferences = controlPlaneOperatorsReferenceMap
+	} else {
+		destination.ControlPlaneOperatorsReferences = nil
+	}
+
+	// DataPlaneOperatorsReferences
+	if profile.DataPlaneOperatorsReferences != nil {
+		dataPlaneOperatorsReferenceMap := make(map[string]genruntime.ResourceReference, len(profile.DataPlaneOperatorsReferences))
+		for dataPlaneOperatorsReferenceKey, dataPlaneOperatorsReferenceValue := range profile.DataPlaneOperatorsReferences {
+			dataPlaneOperatorsReferenceMap[dataPlaneOperatorsReferenceKey] = dataPlaneOperatorsReferenceValue.Copy()
+		}
+		destination.DataPlaneOperatorsReferences = dataPlaneOperatorsReferenceMap
+	} else {
+		destination.DataPlaneOperatorsReferences = nil
+	}
+
+	// ServiceManagedIdentityReference
+	if profile.ServiceManagedIdentityReference != nil {
+		serviceManagedIdentityReference := profile.ServiceManagedIdentityReference.Copy()
+		destination.ServiceManagedIdentityReference = &serviceManagedIdentityReference
+	} else {
+		destination.ServiceManagedIdentityReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentitiesProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForUserAssignedIdentitiesProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.UserAssignedIdentitiesProfile_STATUS
 // Represents the information related to Azure User-Assigned managed identities needed
 // to perform Operators authentication
@@ -1409,6 +5103,94 @@ type UserAssignedIdentitiesProfile_STATUS struct {
 	DataPlaneOperators     map[string]string      `json:"dataPlaneOperators,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServiceManagedIdentity *string                `json:"serviceManagedIdentity,omitempty"`
+}
+
+// AssignProperties_From_UserAssignedIdentitiesProfile_STATUS populates our UserAssignedIdentitiesProfile_STATUS from the provided source UserAssignedIdentitiesProfile_STATUS
+func (profile *UserAssignedIdentitiesProfile_STATUS) AssignProperties_From_UserAssignedIdentitiesProfile_STATUS(source *v20261001s.UserAssignedIdentitiesProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ControlPlaneOperators
+	profile.ControlPlaneOperators = genruntime.CloneMapOfStringToString(source.ControlPlaneOperators)
+
+	// DataPlaneOperators
+	profile.DataPlaneOperators = genruntime.CloneMapOfStringToString(source.DataPlaneOperators)
+
+	// ServiceManagedIdentity
+	profile.ServiceManagedIdentity = genruntime.ClonePointerToString(source.ServiceManagedIdentity)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentitiesProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForUserAssignedIdentitiesProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentitiesProfile_STATUS populates the provided destination UserAssignedIdentitiesProfile_STATUS from our UserAssignedIdentitiesProfile_STATUS
+func (profile *UserAssignedIdentitiesProfile_STATUS) AssignProperties_To_UserAssignedIdentitiesProfile_STATUS(destination *v20261001s.UserAssignedIdentitiesProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// ControlPlaneOperators
+	destination.ControlPlaneOperators = genruntime.CloneMapOfStringToString(profile.ControlPlaneOperators)
+
+	// DataPlaneOperators
+	destination.DataPlaneOperators = genruntime.CloneMapOfStringToString(profile.DataPlaneOperators)
+
+	// ServiceManagedIdentity
+	destination.ServiceManagedIdentity = genruntime.ClonePointerToString(profile.ServiceManagedIdentity)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentitiesProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForUserAssignedIdentitiesProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForCustomerManagedEncryptionProfile interface {
+	AssignPropertiesFrom(src *v20261001s.CustomerManagedEncryptionProfile) error
+	AssignPropertiesTo(dst *v20261001s.CustomerManagedEncryptionProfile) error
+}
+
+type augmentConversionForCustomerManagedEncryptionProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.CustomerManagedEncryptionProfile_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.CustomerManagedEncryptionProfile_STATUS) error
+}
+
+type augmentConversionForUserAssignedIdentitiesProfile interface {
+	AssignPropertiesFrom(src *v20261001s.UserAssignedIdentitiesProfile) error
+	AssignPropertiesTo(dst *v20261001s.UserAssignedIdentitiesProfile) error
+}
+
+type augmentConversionForUserAssignedIdentitiesProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.UserAssignedIdentitiesProfile_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.UserAssignedIdentitiesProfile_STATUS) error
 }
 
 // Storage version of v20260901preview.KmsEncryptionProfile
@@ -1424,6 +5206,112 @@ type KmsEncryptionProfile struct {
 	Visibility  *string                `json:"visibility,omitempty"`
 }
 
+// AssignProperties_From_KmsEncryptionProfile populates our KmsEncryptionProfile from the provided source KmsEncryptionProfile
+func (profile *KmsEncryptionProfile) AssignProperties_From_KmsEncryptionProfile(source *v20261001s.KmsEncryptionProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ActiveKey
+	if source.ActiveKey != nil {
+		var activeKey KmsKey
+		err := activeKey.AssignProperties_From_KmsKey(source.ActiveKey)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_KmsKey() to populate field ActiveKey")
+		}
+		profile.ActiveKey = &activeKey
+	} else {
+		profile.ActiveKey = nil
+	}
+
+	// KeyVaultType
+	if source.KeyVaultType != nil {
+		propertyBag.Add("KeyVaultType", *source.KeyVaultType)
+	} else {
+		propertyBag.Remove("KeyVaultType")
+	}
+
+	// VaultName
+	profile.VaultName = genruntime.ClonePointerToString(source.VaultName)
+
+	// Visibility
+	profile.Visibility = genruntime.ClonePointerToString(source.Visibility)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKmsEncryptionProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForKmsEncryptionProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_KmsEncryptionProfile populates the provided destination KmsEncryptionProfile from our KmsEncryptionProfile
+func (profile *KmsEncryptionProfile) AssignProperties_To_KmsEncryptionProfile(destination *v20261001s.KmsEncryptionProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// ActiveKey
+	if profile.ActiveKey != nil {
+		var activeKey v20261001s.KmsKey
+		err := profile.ActiveKey.AssignProperties_To_KmsKey(&activeKey)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_KmsKey() to populate field ActiveKey")
+		}
+		destination.ActiveKey = &activeKey
+	} else {
+		destination.ActiveKey = nil
+	}
+
+	// KeyVaultType
+	if propertyBag.Contains("KeyVaultType") {
+		var keyVaultType string
+		err := propertyBag.Pull("KeyVaultType", &keyVaultType)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'KeyVaultType' from propertyBag")
+		}
+
+		destination.KeyVaultType = &keyVaultType
+	} else {
+		destination.KeyVaultType = nil
+	}
+
+	// VaultName
+	destination.VaultName = genruntime.ClonePointerToString(profile.VaultName)
+
+	// Visibility
+	destination.Visibility = genruntime.ClonePointerToString(profile.Visibility)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKmsEncryptionProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForKmsEncryptionProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.KmsEncryptionProfile_STATUS
 // Configure etcd encryption Key Management Service (KMS) key.
 // Your Microsoft Entra application used to create the cluster
@@ -1437,6 +5325,122 @@ type KmsEncryptionProfile_STATUS struct {
 	Visibility  *string                `json:"visibility,omitempty"`
 }
 
+// AssignProperties_From_KmsEncryptionProfile_STATUS populates our KmsEncryptionProfile_STATUS from the provided source KmsEncryptionProfile_STATUS
+func (profile *KmsEncryptionProfile_STATUS) AssignProperties_From_KmsEncryptionProfile_STATUS(source *v20261001s.KmsEncryptionProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ActiveKey
+	if source.ActiveKey != nil {
+		var activeKey KmsKey_STATUS
+		err := activeKey.AssignProperties_From_KmsKey_STATUS(source.ActiveKey)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_KmsKey_STATUS() to populate field ActiveKey")
+		}
+		profile.ActiveKey = &activeKey
+	} else {
+		profile.ActiveKey = nil
+	}
+
+	// KeyVaultType
+	if source.KeyVaultType != nil {
+		propertyBag.Add("KeyVaultType", *source.KeyVaultType)
+	} else {
+		propertyBag.Remove("KeyVaultType")
+	}
+
+	// VaultName
+	profile.VaultName = genruntime.ClonePointerToString(source.VaultName)
+
+	// Visibility
+	profile.Visibility = genruntime.ClonePointerToString(source.Visibility)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKmsEncryptionProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForKmsEncryptionProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_KmsEncryptionProfile_STATUS populates the provided destination KmsEncryptionProfile_STATUS from our KmsEncryptionProfile_STATUS
+func (profile *KmsEncryptionProfile_STATUS) AssignProperties_To_KmsEncryptionProfile_STATUS(destination *v20261001s.KmsEncryptionProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// ActiveKey
+	if profile.ActiveKey != nil {
+		var activeKey v20261001s.KmsKey_STATUS
+		err := profile.ActiveKey.AssignProperties_To_KmsKey_STATUS(&activeKey)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_KmsKey_STATUS() to populate field ActiveKey")
+		}
+		destination.ActiveKey = &activeKey
+	} else {
+		destination.ActiveKey = nil
+	}
+
+	// KeyVaultType
+	if propertyBag.Contains("KeyVaultType") {
+		var keyVaultType string
+		err := propertyBag.Pull("KeyVaultType", &keyVaultType)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'KeyVaultType' from propertyBag")
+		}
+
+		destination.KeyVaultType = &keyVaultType
+	} else {
+		destination.KeyVaultType = nil
+	}
+
+	// VaultName
+	destination.VaultName = genruntime.ClonePointerToString(profile.VaultName)
+
+	// Visibility
+	destination.Visibility = genruntime.ClonePointerToString(profile.Visibility)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKmsEncryptionProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForKmsEncryptionProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForKmsEncryptionProfile interface {
+	AssignPropertiesFrom(src *v20261001s.KmsEncryptionProfile) error
+	AssignPropertiesTo(dst *v20261001s.KmsEncryptionProfile) error
+}
+
+type augmentConversionForKmsEncryptionProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.KmsEncryptionProfile_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.KmsEncryptionProfile_STATUS) error
+}
+
 // Storage version of v20260901preview.KmsKey
 // A representation of a KeyVault Secret.
 type KmsKey struct {
@@ -1445,12 +5449,146 @@ type KmsKey struct {
 	Version     *string                `json:"version,omitempty"`
 }
 
+// AssignProperties_From_KmsKey populates our KmsKey from the provided source KmsKey
+func (kmsKey *KmsKey) AssignProperties_From_KmsKey(source *v20261001s.KmsKey) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	kmsKey.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Version
+	kmsKey.Version = genruntime.ClonePointerToString(source.Version)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		kmsKey.PropertyBag = propertyBag
+	} else {
+		kmsKey.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKmsKey interface (if implemented) to customize the conversion
+	var kmsKeyAsAny any = kmsKey
+	if augmentedKmsKey, ok := kmsKeyAsAny.(augmentConversionForKmsKey); ok {
+		err := augmentedKmsKey.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_KmsKey populates the provided destination KmsKey from our KmsKey
+func (kmsKey *KmsKey) AssignProperties_To_KmsKey(destination *v20261001s.KmsKey) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(kmsKey.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(kmsKey.Name)
+
+	// Version
+	destination.Version = genruntime.ClonePointerToString(kmsKey.Version)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKmsKey interface (if implemented) to customize the conversion
+	var kmsKeyAsAny any = kmsKey
+	if augmentedKmsKey, ok := kmsKeyAsAny.(augmentConversionForKmsKey); ok {
+		err := augmentedKmsKey.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20260901preview.KmsKey_STATUS
 // A representation of a KeyVault Secret.
 type KmsKey_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Version     *string                `json:"version,omitempty"`
+}
+
+// AssignProperties_From_KmsKey_STATUS populates our KmsKey_STATUS from the provided source KmsKey_STATUS
+func (kmsKey *KmsKey_STATUS) AssignProperties_From_KmsKey_STATUS(source *v20261001s.KmsKey_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	kmsKey.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Version
+	kmsKey.Version = genruntime.ClonePointerToString(source.Version)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		kmsKey.PropertyBag = propertyBag
+	} else {
+		kmsKey.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKmsKey_STATUS interface (if implemented) to customize the conversion
+	var kmsKeyAsAny any = kmsKey
+	if augmentedKmsKey, ok := kmsKeyAsAny.(augmentConversionForKmsKey_STATUS); ok {
+		err := augmentedKmsKey.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_KmsKey_STATUS populates the provided destination KmsKey_STATUS from our KmsKey_STATUS
+func (kmsKey *KmsKey_STATUS) AssignProperties_To_KmsKey_STATUS(destination *v20261001s.KmsKey_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(kmsKey.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(kmsKey.Name)
+
+	// Version
+	destination.Version = genruntime.ClonePointerToString(kmsKey.Version)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKmsKey_STATUS interface (if implemented) to customize the conversion
+	var kmsKeyAsAny any = kmsKey
+	if augmentedKmsKey, ok := kmsKeyAsAny.(augmentConversionForKmsKey_STATUS); ok {
+		err := augmentedKmsKey.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForKmsKey interface {
+	AssignPropertiesFrom(src *v20261001s.KmsKey) error
+	AssignPropertiesTo(dst *v20261001s.KmsKey) error
+}
+
+type augmentConversionForKmsKey_STATUS interface {
+	AssignPropertiesFrom(src *v20261001s.KmsKey_STATUS) error
+	AssignPropertiesTo(dst *v20261001s.KmsKey_STATUS) error
 }
 
 func init() {

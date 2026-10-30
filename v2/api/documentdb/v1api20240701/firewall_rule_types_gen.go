@@ -830,16 +830,16 @@ func (operator *FirewallRuleOperatorSpec) AssignProperties_To_FirewallRuleOperat
 	return nil
 }
 
-// The properties of a mongo cluster firewall rule.
+// The properties of a DocumentDB cluster firewall rule.
 type FirewallRuleProperties struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-	// EndIpAddress: The end IP address of the mongo cluster firewall rule. Must be IPv4 format.
+	// EndIpAddress: The end IP address of the DocumentDB cluster firewall rule. Must be IPv4 format.
 	EndIpAddress *string `json:"endIpAddress,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-	// StartIpAddress: The start IP address of the mongo cluster firewall rule. Must be IPv4 format.
+	// StartIpAddress: The start IP address of the DocumentDB cluster firewall rule. Must be IPv4 format.
 	StartIpAddress *string `json:"startIpAddress,omitempty"`
 }
 
@@ -942,15 +942,15 @@ func (properties *FirewallRuleProperties) Initialize_From_FirewallRuleProperties
 	return nil
 }
 
-// The properties of a mongo cluster firewall rule.
+// The properties of a DocumentDB cluster firewall rule.
 type FirewallRuleProperties_STATUS struct {
-	// EndIpAddress: The end IP address of the mongo cluster firewall rule. Must be IPv4 format.
+	// EndIpAddress: The end IP address of the DocumentDB cluster firewall rule. Must be IPv4 format.
 	EndIpAddress *string `json:"endIpAddress,omitempty"`
 
 	// ProvisioningState: The provisioning state of the firewall rule.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
-	// StartIpAddress: The start IP address of the mongo cluster firewall rule. Must be IPv4 format.
+	// StartIpAddress: The start IP address of the DocumentDB cluster firewall rule. Must be IPv4 format.
 	StartIpAddress *string `json:"startIpAddress,omitempty"`
 }
 

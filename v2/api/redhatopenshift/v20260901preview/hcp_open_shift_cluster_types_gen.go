@@ -51,22 +51,36 @@ var _ conversion.Convertible = &HcpOpenShiftCluster{}
 
 // ConvertFrom populates our HcpOpenShiftCluster from the provided hub HcpOpenShiftCluster
 func (cluster *HcpOpenShiftCluster) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.HcpOpenShiftCluster)
-	if !ok {
-		return fmt.Errorf("expected redhatopenshift/v20260901preview/storage/HcpOpenShiftCluster but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.HcpOpenShiftCluster
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return cluster.AssignProperties_From_HcpOpenShiftCluster(source)
+	err = cluster.AssignProperties_From_HcpOpenShiftCluster(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to cluster")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub HcpOpenShiftCluster from our HcpOpenShiftCluster
 func (cluster *HcpOpenShiftCluster) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.HcpOpenShiftCluster)
-	if !ok {
-		return fmt.Errorf("expected redhatopenshift/v20260901preview/storage/HcpOpenShiftCluster but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.HcpOpenShiftCluster
+	err := cluster.AssignProperties_To_HcpOpenShiftCluster(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from cluster")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return cluster.AssignProperties_To_HcpOpenShiftCluster(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &HcpOpenShiftCluster{}
@@ -87,17 +101,6 @@ func (cluster *HcpOpenShiftCluster) SecretDestinationExpressions() []*core.Desti
 		return nil
 	}
 	return cluster.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &HcpOpenShiftCluster{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (cluster *HcpOpenShiftCluster) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*HcpOpenShiftCluster_STATUS); ok {
-		return cluster.Spec.Initialize_From_HcpOpenShiftCluster_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type HcpOpenShiftCluster_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &HcpOpenShiftCluster{}
@@ -574,43 +577,6 @@ func (cluster *HcpOpenShiftCluster_Spec) AssignProperties_To_HcpOpenShiftCluster
 	return nil
 }
 
-// Initialize_From_HcpOpenShiftCluster_STATUS populates our HcpOpenShiftCluster_Spec from the provided source HcpOpenShiftCluster_STATUS
-func (cluster *HcpOpenShiftCluster_Spec) Initialize_From_HcpOpenShiftCluster_STATUS(source *HcpOpenShiftCluster_STATUS) error {
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
-		}
-		cluster.Identity = &identity
-	} else {
-		cluster.Identity = nil
-	}
-
-	// Location
-	cluster.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Properties
-	if source.Properties != nil {
-		var property HcpOpenShiftClusterProperties
-		err := property.Initialize_From_HcpOpenShiftClusterProperties_STATUS(source.Properties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_HcpOpenShiftClusterProperties_STATUS() to populate field Properties")
-		}
-		cluster.Properties = &property
-	} else {
-		cluster.Properties = nil
-	}
-
-	// Tags
-	cluster.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (cluster *HcpOpenShiftCluster_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1082,7 +1048,7 @@ type HcpOpenShiftClusterProperties struct {
 	// especially relevant to cluster upgrades.
 	// Valid values are in minutes and from 0 to 10080 minutes (1 week).
 	// 0 means that the MachinePool can be drained without any time limitation.
-	// This is the value is used a default for all NodePools. It can be overridden
+	// This value is used as a default for all NodePools. It can be overridden
 	// by specifying nodeDrainTimeoutMinutes for a given NodePool
 	NodeDrainTimeoutMinutes *int `json:"nodeDrainTimeoutMinutes,omitempty"`
 
@@ -1652,148 +1618,6 @@ func (properties *HcpOpenShiftClusterProperties) AssignProperties_To_HcpOpenShif
 	return nil
 }
 
-// Initialize_From_HcpOpenShiftClusterProperties_STATUS populates our HcpOpenShiftClusterProperties from the provided source HcpOpenShiftClusterProperties_STATUS
-func (properties *HcpOpenShiftClusterProperties) Initialize_From_HcpOpenShiftClusterProperties_STATUS(source *HcpOpenShiftClusterProperties_STATUS) error {
-
-	// Api
-	if source.Api != nil {
-		var api ApiProfile
-		err := api.Initialize_From_ApiProfile_STATUS(source.Api)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ApiProfile_STATUS() to populate field Api")
-		}
-		properties.Api = &api
-	} else {
-		properties.Api = nil
-	}
-
-	// Autoscaling
-	if source.Autoscaling != nil {
-		var autoscaling ClusterAutoscalingProfile
-		err := autoscaling.Initialize_From_ClusterAutoscalingProfile_STATUS(source.Autoscaling)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ClusterAutoscalingProfile_STATUS() to populate field Autoscaling")
-		}
-		properties.Autoscaling = &autoscaling
-	} else {
-		properties.Autoscaling = nil
-	}
-
-	// ClusterImageRegistry
-	if source.ClusterImageRegistry != nil {
-		var clusterImageRegistry ClusterImageRegistryProfile
-		err := clusterImageRegistry.Initialize_From_ClusterImageRegistryProfile_STATUS(source.ClusterImageRegistry)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ClusterImageRegistryProfile_STATUS() to populate field ClusterImageRegistry")
-		}
-		properties.ClusterImageRegistry = &clusterImageRegistry
-	} else {
-		properties.ClusterImageRegistry = nil
-	}
-
-	// CryptoRestrictions
-	if source.CryptoRestrictions != nil {
-		cryptoRestriction := genruntime.ToEnum(string(*source.CryptoRestrictions), hcpOpenShiftClusterProperties_CryptoRestrictions_Values)
-		properties.CryptoRestrictions = &cryptoRestriction
-	} else {
-		properties.CryptoRestrictions = nil
-	}
-
-	// Dns
-	if source.Dns != nil {
-		var dnsDNS DnsProfile
-		err := dnsDNS.Initialize_From_DnsProfile_STATUS(source.Dns)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DnsProfile_STATUS() to populate field Dns")
-		}
-		properties.Dns = &dnsDNS
-	} else {
-		properties.Dns = nil
-	}
-
-	// Etcd
-	if source.Etcd != nil {
-		var etcd EtcdProfile
-		err := etcd.Initialize_From_EtcdProfile_STATUS(source.Etcd)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_EtcdProfile_STATUS() to populate field Etcd")
-		}
-		properties.Etcd = &etcd
-	} else {
-		properties.Etcd = nil
-	}
-
-	// ImageDigestMirrors
-	if source.ImageDigestMirrors != nil {
-		imageDigestMirrorList := make([]ImageDigestMirror, len(source.ImageDigestMirrors))
-		for imageDigestMirrorIndex, imageDigestMirrorItem := range source.ImageDigestMirrors {
-			var imageDigestMirror ImageDigestMirror
-			err := imageDigestMirror.Initialize_From_ImageDigestMirror_STATUS(&imageDigestMirrorItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ImageDigestMirror_STATUS() to populate field ImageDigestMirrors")
-			}
-			imageDigestMirrorList[imageDigestMirrorIndex] = imageDigestMirror
-		}
-		properties.ImageDigestMirrors = imageDigestMirrorList
-	} else {
-		properties.ImageDigestMirrors = nil
-	}
-
-	// Ingress
-	if source.Ingress != nil {
-		var ingress IngressProfile
-		err := ingress.Initialize_From_IngressProfile_STATUS(source.Ingress)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_IngressProfile_STATUS() to populate field Ingress")
-		}
-		properties.Ingress = &ingress
-	} else {
-		properties.Ingress = nil
-	}
-
-	// Network
-	if source.Network != nil {
-		var network NetworkProfile
-		err := network.Initialize_From_NetworkProfile_STATUS(source.Network)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_NetworkProfile_STATUS() to populate field Network")
-		}
-		properties.Network = &network
-	} else {
-		properties.Network = nil
-	}
-
-	// NodeDrainTimeoutMinutes
-	properties.NodeDrainTimeoutMinutes = genruntime.ClonePointerToInt(source.NodeDrainTimeoutMinutes)
-
-	// Platform
-	if source.Platform != nil {
-		var platform PlatformProfile
-		err := platform.Initialize_From_PlatformProfile_STATUS(source.Platform)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_PlatformProfile_STATUS() to populate field Platform")
-		}
-		properties.Platform = &platform
-	} else {
-		properties.Platform = nil
-	}
-
-	// Version
-	if source.Version != nil {
-		var version VersionProfile
-		err := version.Initialize_From_VersionProfile_STATUS(source.Version)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VersionProfile_STATUS() to populate field Version")
-		}
-		properties.Version = &version
-	} else {
-		properties.Version = nil
-	}
-
-	// No error
-	return nil
-}
-
 // HCP cluster properties
 type HcpOpenShiftClusterProperties_STATUS struct {
 	// Api: Shows the cluster API server profile
@@ -1835,7 +1659,7 @@ type HcpOpenShiftClusterProperties_STATUS struct {
 	// especially relevant to cluster upgrades.
 	// Valid values are in minutes and from 0 to 10080 minutes (1 week).
 	// 0 means that the MachinePool can be drained without any time limitation.
-	// This is the value is used a default for all NodePools. It can be overridden
+	// This value is used as a default for all NodePools. It can be overridden
 	// by specifying nodeDrainTimeoutMinutes for a given NodePool
 	NodeDrainTimeoutMinutes *int `json:"nodeDrainTimeoutMinutes,omitempty"`
 
@@ -2523,33 +2347,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 	return nil
 }
 
-// Initialize_From_ManagedServiceIdentity_STATUS populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity_STATUS
-func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_STATUS(source *ManagedServiceIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), managedServiceIdentityType_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Managed service identity (system assigned and/or user assigned identities)
 type ManagedServiceIdentity_STATUS struct {
 	// PrincipalId: The service principal ID of the system assigned identity. This property will only be provided for a system
@@ -2974,24 +2771,6 @@ func (profile *ApiProfile) AssignProperties_To_ApiProfile(destination *storage.A
 	return nil
 }
 
-// Initialize_From_ApiProfile_STATUS populates our ApiProfile from the provided source ApiProfile_STATUS
-func (profile *ApiProfile) Initialize_From_ApiProfile_STATUS(source *ApiProfile_STATUS) error {
-
-	// AuthorizedCidrs
-	profile.AuthorizedCidrs = genruntime.CloneSliceOfString(source.AuthorizedCidrs)
-
-	// Visibility
-	if source.Visibility != nil {
-		visibility := genruntime.ToEnum(string(*source.Visibility), apiProfile_Visibility_Values)
-		profile.Visibility = &visibility
-	} else {
-		profile.Visibility = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Information about the API of a cluster.
 type ApiProfile_STATUS struct {
 	// AuthorizedCidrs: The list of authorized IPv4 CIDR blocks allowed to access the API server. Maximum 500 entries.
@@ -3103,13 +2882,14 @@ type ClusterAutoscalingProfile struct {
 	MaxNodeProvisionTimeSeconds *int `json:"maxNodeProvisionTimeSeconds,omitempty"`
 
 	// +kubebuilder:validation:Minimum=0
-	// MaxNodesTotal: maxNodesTotal is the maximum allowable number of nodes for the Autoscaler scale out to be operational.
-	// The autoscaler will not grow the cluster beyond this number. If omitted, the autoscaler will not have a maximum limit.
+	// MaxNodesTotal: maxNodesTotal is the maximum allowable number of nodes. The autoscaler will not grow the cluster beyond
+	// this number.
+	// If omitted, the autoscaler will not have a maximum limit.
 	MaxNodesTotal *int `json:"maxNodesTotal,omitempty"`
 
 	// +kubebuilder:validation:Minimum=0
-	// MaxPodGracePeriodSeconds: maxPodGracePeriod is the maximum seconds to wait for graceful pod termination before scaling
-	// down a NodePool.
+	// MaxPodGracePeriodSeconds: maxPodGracePeriodSeconds is the maximum amount of time in seconds to wait for graceful pod
+	// termination before scaling down a NodePool.
 	// The default is 600 seconds.
 	MaxPodGracePeriodSeconds *int `json:"maxPodGracePeriodSeconds,omitempty"`
 
@@ -3243,25 +3023,6 @@ func (profile *ClusterAutoscalingProfile) AssignProperties_To_ClusterAutoscaling
 	return nil
 }
 
-// Initialize_From_ClusterAutoscalingProfile_STATUS populates our ClusterAutoscalingProfile from the provided source ClusterAutoscalingProfile_STATUS
-func (profile *ClusterAutoscalingProfile) Initialize_From_ClusterAutoscalingProfile_STATUS(source *ClusterAutoscalingProfile_STATUS) error {
-
-	// MaxNodeProvisionTimeSeconds
-	profile.MaxNodeProvisionTimeSeconds = genruntime.ClonePointerToInt(source.MaxNodeProvisionTimeSeconds)
-
-	// MaxNodesTotal
-	profile.MaxNodesTotal = genruntime.ClonePointerToInt(source.MaxNodesTotal)
-
-	// MaxPodGracePeriodSeconds
-	profile.MaxPodGracePeriodSeconds = genruntime.ClonePointerToInt(source.MaxPodGracePeriodSeconds)
-
-	// PodPriorityThreshold
-	profile.PodPriorityThreshold = genruntime.ClonePointerToInt(source.PodPriorityThreshold)
-
-	// No error
-	return nil
-}
-
 // ClusterAutoscaling specifies auto-scaling behavior that
 // applies to all NodePools associated with a control plane.
 type ClusterAutoscalingProfile_STATUS struct {
@@ -3270,12 +3031,13 @@ type ClusterAutoscalingProfile_STATUS struct {
 	// provisioning to be unsuccessful. The default is 900 seconds, or 15 minutes.
 	MaxNodeProvisionTimeSeconds *int `json:"maxNodeProvisionTimeSeconds,omitempty"`
 
-	// MaxNodesTotal: maxNodesTotal is the maximum allowable number of nodes for the Autoscaler scale out to be operational.
-	// The autoscaler will not grow the cluster beyond this number. If omitted, the autoscaler will not have a maximum limit.
+	// MaxNodesTotal: maxNodesTotal is the maximum allowable number of nodes. The autoscaler will not grow the cluster beyond
+	// this number.
+	// If omitted, the autoscaler will not have a maximum limit.
 	MaxNodesTotal *int `json:"maxNodesTotal,omitempty"`
 
-	// MaxPodGracePeriodSeconds: maxPodGracePeriod is the maximum seconds to wait for graceful pod termination before scaling
-	// down a NodePool.
+	// MaxPodGracePeriodSeconds: maxPodGracePeriodSeconds is the maximum amount of time in seconds to wait for graceful pod
+	// termination before scaling down a NodePool.
 	// The default is 600 seconds.
 	MaxPodGracePeriodSeconds *int `json:"maxPodGracePeriodSeconds,omitempty"`
 
@@ -3469,21 +3231,6 @@ func (profile *ClusterImageRegistryProfile) AssignProperties_To_ClusterImageRegi
 	return nil
 }
 
-// Initialize_From_ClusterImageRegistryProfile_STATUS populates our ClusterImageRegistryProfile from the provided source ClusterImageRegistryProfile_STATUS
-func (profile *ClusterImageRegistryProfile) Initialize_From_ClusterImageRegistryProfile_STATUS(source *ClusterImageRegistryProfile_STATUS) error {
-
-	// State
-	if source.State != nil {
-		state := genruntime.ToEnum(string(*source.State), clusterImageRegistryProfile_State_Values)
-		profile.State = &state
-	} else {
-		profile.State = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OpenShift cluster image registry
 type ClusterImageRegistryProfile_STATUS struct {
 	// State: state indicates the desired ImageStream-backed cluster image registry installation mode.
@@ -3623,8 +3370,8 @@ func (profile *ConsoleProfile_STATUS) AssignProperties_To_ConsoleProfile_STATUS(
 type DnsProfile struct {
 	// +kubebuilder:validation:MaxLength=15
 	// +kubebuilder:validation:Pattern="^[a-z]([-a-z0-9]*[a-z0-9])?$"
-	// BaseDomainPrefix: BaseDomainPrefix is the unique name of the cluster representing the OpenShift's cluster name.
-	// BaseDomainPrefix is the name that will appear in the cluster's DNS, provisioned cloud providers resources
+	// BaseDomainPrefix: BaseDomainPrefix is the base domain prefix for the cluster ingress. It will be used to
+	// configure ingress in the cluster through the subdomain "BaseDomainPrefix.BaseDomain".
 	BaseDomainPrefix *string `json:"baseDomainPrefix,omitempty"`
 }
 
@@ -3696,23 +3443,13 @@ func (profile *DnsProfile) AssignProperties_To_DnsProfile(destination *storage.D
 	return nil
 }
 
-// Initialize_From_DnsProfile_STATUS populates our DnsProfile from the provided source DnsProfile_STATUS
-func (profile *DnsProfile) Initialize_From_DnsProfile_STATUS(source *DnsProfile_STATUS) error {
-
-	// BaseDomainPrefix
-	profile.BaseDomainPrefix = genruntime.ClonePointerToString(source.BaseDomainPrefix)
-
-	// No error
-	return nil
-}
-
 // DNS contains the DNS settings of the cluster
 type DnsProfile_STATUS struct {
 	// BaseDomain: BaseDomain is the base DNS domain of the cluster.
 	BaseDomain *string `json:"baseDomain,omitempty"`
 
-	// BaseDomainPrefix: BaseDomainPrefix is the unique name of the cluster representing the OpenShift's cluster name.
-	// BaseDomainPrefix is the name that will appear in the cluster's DNS, provisioned cloud providers resources
+	// BaseDomainPrefix: BaseDomainPrefix is the base domain prefix for the cluster ingress. It will be used to
+	// configure ingress in the cluster through the subdomain "BaseDomainPrefix.BaseDomain".
 	BaseDomainPrefix *string `json:"baseDomainPrefix,omitempty"`
 }
 
@@ -3877,25 +3614,6 @@ func (profile *EtcdProfile) AssignProperties_To_EtcdProfile(destination *storage
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_EtcdProfile_STATUS populates our EtcdProfile from the provided source EtcdProfile_STATUS
-func (profile *EtcdProfile) Initialize_From_EtcdProfile_STATUS(source *EtcdProfile_STATUS) error {
-
-	// DataEncryption
-	if source.DataEncryption != nil {
-		var dataEncryption EtcdDataEncryptionProfile
-		err := dataEncryption.Initialize_From_EtcdDataEncryptionProfile_STATUS(source.DataEncryption)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_EtcdDataEncryptionProfile_STATUS() to populate field DataEncryption")
-		}
-		profile.DataEncryption = &dataEncryption
-	} else {
-		profile.DataEncryption = nil
 	}
 
 	// No error
@@ -4209,32 +3927,6 @@ func (mirror *ImageDigestMirror) AssignProperties_To_ImageDigestMirror(destinati
 	return nil
 }
 
-// Initialize_From_ImageDigestMirror_STATUS populates our ImageDigestMirror from the provided source ImageDigestMirror_STATUS
-func (mirror *ImageDigestMirror) Initialize_From_ImageDigestMirror_STATUS(source *ImageDigestMirror_STATUS) error {
-
-	// Mirrors
-	if source.Mirrors != nil {
-		mirrorList := make([]ImageRepository, len(source.Mirrors))
-		for mirrorIndex, mirrorItem := range source.Mirrors {
-			mirrorList[mirrorIndex] = ImageRepository(mirrorItem)
-		}
-		mirror.Mirrors = mirrorList
-	} else {
-		mirror.Mirrors = nil
-	}
-
-	// Source
-	if source.Source != nil {
-		sourceTemp := ImageRepository(*source.Source)
-		mirror.Source = &sourceTemp
-	} else {
-		mirror.Source = nil
-	}
-
-	// No error
-	return nil
-}
-
 // ImageDigestMirror specifies a set of mirror registries to redirect image
 // pulls targeting the specified source registries.
 type ImageDigestMirror_STATUS struct {
@@ -4450,21 +4142,6 @@ func (profile *IngressProfile) AssignProperties_To_IngressProfile(destination *s
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_IngressProfile_STATUS populates our IngressProfile from the provided source IngressProfile_STATUS
-func (profile *IngressProfile) Initialize_From_IngressProfile_STATUS(source *IngressProfile_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), ingressProfile_Type_Values)
-		profile.Type = &typeVar
-	} else {
-		profile.Type = nil
 	}
 
 	// No error
@@ -4753,33 +4430,6 @@ func (profile *NetworkProfile) AssignProperties_To_NetworkProfile(destination *s
 	return nil
 }
 
-// Initialize_From_NetworkProfile_STATUS populates our NetworkProfile from the provided source NetworkProfile_STATUS
-func (profile *NetworkProfile) Initialize_From_NetworkProfile_STATUS(source *NetworkProfile_STATUS) error {
-
-	// HostPrefix
-	profile.HostPrefix = genruntime.ClonePointerToInt(source.HostPrefix)
-
-	// MachineCidr
-	profile.MachineCidr = genruntime.ClonePointerToString(source.MachineCidr)
-
-	// NetworkType
-	if source.NetworkType != nil {
-		networkType := genruntime.ToEnum(string(*source.NetworkType), networkProfile_NetworkType_Values)
-		profile.NetworkType = &networkType
-	} else {
-		profile.NetworkType = nil
-	}
-
-	// PodCidr
-	profile.PodCidr = genruntime.ClonePointerToString(source.PodCidr)
-
-	// ServiceCidr
-	profile.ServiceCidr = genruntime.ClonePointerToString(source.ServiceCidr)
-
-	// No error
-	return nil
-}
-
 // OpenShift networking configuration
 type NetworkProfile_STATUS struct {
 	// HostPrefix: Network host prefix
@@ -4914,7 +4564,7 @@ func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(
 
 // Azure specific configuration
 type PlatformProfile struct {
-	// ManagedResourceGroup: Resource group name to put cluster resources
+	// ManagedResourceGroup: The name of the resource group to put cluster resources in.
 	// If not specified then a unique name is generated from the
 	// following pattern
 	// "aro-hcp-" + clusterName + "-" + UUID
@@ -4936,7 +4586,7 @@ type PlatformProfile struct {
 	OutboundType *PlatformProfile_OutboundType `json:"outboundType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SubnetReference: The Azure resource ID of the worker subnet
+	// SubnetReference: The Azure resource ID of the worker subnet.
 	// Note that a subnet cannot be reused between ARO-HCP Clusters.
 	SubnetReference *genruntime.ResourceReference `armReference:"SubnetId" json:"subnetReference,omitempty"`
 
@@ -5178,67 +4828,13 @@ func (profile *PlatformProfile) AssignProperties_To_PlatformProfile(destination 
 	return nil
 }
 
-// Initialize_From_PlatformProfile_STATUS populates our PlatformProfile from the provided source PlatformProfile_STATUS
-func (profile *PlatformProfile) Initialize_From_PlatformProfile_STATUS(source *PlatformProfile_STATUS) error {
-
-	// ManagedResourceGroup
-	profile.ManagedResourceGroup = genruntime.ClonePointerToString(source.ManagedResourceGroup)
-
-	// NetworkSecurityGroupReference
-	if source.NetworkSecurityGroupId != nil {
-		networkSecurityGroupReference := genruntime.CreateResourceReferenceFromARMID(*source.NetworkSecurityGroupId)
-		profile.NetworkSecurityGroupReference = &networkSecurityGroupReference
-	} else {
-		profile.NetworkSecurityGroupReference = nil
-	}
-
-	// OperatorsAuthentication
-	if source.OperatorsAuthentication != nil {
-		var operatorsAuthentication OperatorsAuthenticationProfile
-		err := operatorsAuthentication.Initialize_From_OperatorsAuthenticationProfile_STATUS(source.OperatorsAuthentication)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_OperatorsAuthenticationProfile_STATUS() to populate field OperatorsAuthentication")
-		}
-		profile.OperatorsAuthentication = &operatorsAuthentication
-	} else {
-		profile.OperatorsAuthentication = nil
-	}
-
-	// OutboundType
-	if source.OutboundType != nil {
-		outboundType := genruntime.ToEnum(string(*source.OutboundType), platformProfile_OutboundType_Values)
-		profile.OutboundType = &outboundType
-	} else {
-		profile.OutboundType = nil
-	}
-
-	// SubnetReference
-	if source.SubnetId != nil {
-		subnetReference := genruntime.CreateResourceReferenceFromARMID(*source.SubnetId)
-		profile.SubnetReference = &subnetReference
-	} else {
-		profile.SubnetReference = nil
-	}
-
-	// VnetIntegrationSubnetReference
-	if source.VnetIntegrationSubnetId != nil {
-		vnetIntegrationSubnetReference := genruntime.CreateResourceReferenceFromARMID(*source.VnetIntegrationSubnetId)
-		profile.VnetIntegrationSubnetReference = &vnetIntegrationSubnetReference
-	} else {
-		profile.VnetIntegrationSubnetReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Azure specific configuration
 type PlatformProfile_STATUS struct {
 	// IssuerUrl: URL for the OIDC provider to be used for authentication
 	// to authenticate against user Azure cloud account
 	IssuerUrl *string `json:"issuerUrl,omitempty"`
 
-	// ManagedResourceGroup: Resource group name to put cluster resources
+	// ManagedResourceGroup: The name of the resource group to put cluster resources in.
 	// If not specified then a unique name is generated from the
 	// following pattern
 	// "aro-hcp-" + clusterName + "-" + UUID
@@ -5257,7 +4853,7 @@ type PlatformProfile_STATUS struct {
 	// OutboundType: The core outgoing configuration
 	OutboundType *PlatformProfile_OutboundType_STATUS `json:"outboundType,omitempty"`
 
-	// SubnetId: The Azure resource ID of the worker subnet
+	// SubnetId: The Azure resource ID of the worker subnet.
 	// Note that a subnet cannot be reused between ARO-HCP Clusters.
 	SubnetId *string `json:"subnetId,omitempty"`
 
@@ -5689,6 +5285,8 @@ type VersionProfile struct {
 	// ChannelGroup: ChannelGroup is the name of the set to which this version belongs.
 	// Each version belongs to only a single set.
 	// If not specified, the default value is 'stable'.
+	// This property is intended to be updateable, but that support is not yet
+	// complete. Until then, changing this value after cluster creation is rejected.
 	ChannelGroup *string `json:"channelGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -5782,24 +5380,13 @@ func (profile *VersionProfile) AssignProperties_To_VersionProfile(destination *s
 	return nil
 }
 
-// Initialize_From_VersionProfile_STATUS populates our VersionProfile from the provided source VersionProfile_STATUS
-func (profile *VersionProfile) Initialize_From_VersionProfile_STATUS(source *VersionProfile_STATUS) error {
-
-	// ChannelGroup
-	profile.ChannelGroup = genruntime.ClonePointerToString(source.ChannelGroup)
-
-	// Id
-	profile.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
 // Versions represents an OpenShift version.
 type VersionProfile_STATUS struct {
 	// ChannelGroup: ChannelGroup is the name of the set to which this version belongs.
 	// Each version belongs to only a single set.
 	// If not specified, the default value is 'stable'.
+	// This property is intended to be updateable, but that support is not yet
+	// complete. Until then, changing this value after cluster creation is rejected.
 	ChannelGroup *string `json:"channelGroup,omitempty"`
 
 	// Id: ID is the desired X.Y version of the cluster control plane.
@@ -6221,33 +5808,6 @@ func (profile *EtcdDataEncryptionProfile) AssignProperties_To_EtcdDataEncryption
 	return nil
 }
 
-// Initialize_From_EtcdDataEncryptionProfile_STATUS populates our EtcdDataEncryptionProfile from the provided source EtcdDataEncryptionProfile_STATUS
-func (profile *EtcdDataEncryptionProfile) Initialize_From_EtcdDataEncryptionProfile_STATUS(source *EtcdDataEncryptionProfile_STATUS) error {
-
-	// CustomerManaged
-	if source.CustomerManaged != nil {
-		var customerManaged CustomerManagedEncryptionProfile
-		err := customerManaged.Initialize_From_CustomerManagedEncryptionProfile_STATUS(source.CustomerManaged)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CustomerManagedEncryptionProfile_STATUS() to populate field CustomerManaged")
-		}
-		profile.CustomerManaged = &customerManaged
-	} else {
-		profile.CustomerManaged = nil
-	}
-
-	// KeyManagementMode
-	if source.KeyManagementMode != nil {
-		keyManagementMode := genruntime.ToEnum(string(*source.KeyManagementMode), etcdDataEncryptionKeyManagementModeType_Values)
-		profile.KeyManagementMode = &keyManagementMode
-	} else {
-		profile.KeyManagementMode = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The ETCD data encryption settings.
 type EtcdDataEncryptionProfile_STATUS struct {
 	// CustomerManaged: Specify customer managed encryption key details.
@@ -6526,25 +6086,6 @@ func (profile *OperatorsAuthenticationProfile) AssignProperties_To_OperatorsAuth
 	return nil
 }
 
-// Initialize_From_OperatorsAuthenticationProfile_STATUS populates our OperatorsAuthenticationProfile from the provided source OperatorsAuthenticationProfile_STATUS
-func (profile *OperatorsAuthenticationProfile) Initialize_From_OperatorsAuthenticationProfile_STATUS(source *OperatorsAuthenticationProfile_STATUS) error {
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		var userAssignedIdentity UserAssignedIdentitiesProfile
-		err := userAssignedIdentity.Initialize_From_UserAssignedIdentitiesProfile_STATUS(source.UserAssignedIdentities)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UserAssignedIdentitiesProfile_STATUS() to populate field UserAssignedIdentities")
-		}
-		profile.UserAssignedIdentities = &userAssignedIdentity
-	} else {
-		profile.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The configuration that the operators of the cluster have to authenticate to Azure.
 type OperatorsAuthenticationProfile_STATUS struct {
 	// UserAssignedIdentities: Represents the information related to Azure User-Assigned managed identities needed
@@ -6797,33 +6338,6 @@ func (profile *CustomerManagedEncryptionProfile) AssignProperties_To_CustomerMan
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CustomerManagedEncryptionProfile_STATUS populates our CustomerManagedEncryptionProfile from the provided source CustomerManagedEncryptionProfile_STATUS
-func (profile *CustomerManagedEncryptionProfile) Initialize_From_CustomerManagedEncryptionProfile_STATUS(source *CustomerManagedEncryptionProfile_STATUS) error {
-
-	// EncryptionType
-	if source.EncryptionType != nil {
-		encryptionType := genruntime.ToEnum(string(*source.EncryptionType), customerManagedEncryptionProfile_EncryptionType_Values)
-		profile.EncryptionType = &encryptionType
-	} else {
-		profile.EncryptionType = nil
-	}
-
-	// Kms
-	if source.Kms != nil {
-		var km KmsEncryptionProfile
-		err := km.Initialize_From_KmsEncryptionProfile_STATUS(source.Kms)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_KmsEncryptionProfile_STATUS() to populate field Kms")
-		}
-		profile.Kms = &km
-	} else {
-		profile.Kms = nil
 	}
 
 	// No error
@@ -7152,13 +6666,6 @@ func (profile *UserAssignedIdentitiesProfile) AssignProperties_To_UserAssignedId
 	return nil
 }
 
-// Initialize_From_UserAssignedIdentitiesProfile_STATUS populates our UserAssignedIdentitiesProfile from the provided source UserAssignedIdentitiesProfile_STATUS
-func (profile *UserAssignedIdentitiesProfile) Initialize_From_UserAssignedIdentitiesProfile_STATUS(source *UserAssignedIdentitiesProfile_STATUS) error {
-
-	// No error
-	return nil
-}
-
 // Represents the information related to Azure User-Assigned managed identities needed
 // to perform Operators authentication
 // based on Azure User-Assigned Managed Identities
@@ -7445,36 +6952,6 @@ func (profile *KmsEncryptionProfile) AssignProperties_To_KmsEncryptionProfile(de
 	return nil
 }
 
-// Initialize_From_KmsEncryptionProfile_STATUS populates our KmsEncryptionProfile from the provided source KmsEncryptionProfile_STATUS
-func (profile *KmsEncryptionProfile) Initialize_From_KmsEncryptionProfile_STATUS(source *KmsEncryptionProfile_STATUS) error {
-
-	// ActiveKey
-	if source.ActiveKey != nil {
-		var activeKey KmsKey
-		err := activeKey.Initialize_From_KmsKey_STATUS(source.ActiveKey)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_KmsKey_STATUS() to populate field ActiveKey")
-		}
-		profile.ActiveKey = &activeKey
-	} else {
-		profile.ActiveKey = nil
-	}
-
-	// VaultName
-	profile.VaultName = genruntime.ClonePointerToString(source.VaultName)
-
-	// Visibility
-	if source.Visibility != nil {
-		visibility := genruntime.ToEnum(string(*source.Visibility), keyVaultVisibility_Values)
-		profile.Visibility = &visibility
-	} else {
-		profile.Visibility = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Configure etcd encryption Key Management Service (KMS) key.
 // Your Microsoft Entra application used to create the cluster
 // must be authorized to access this keyvault,
@@ -7729,19 +7206,6 @@ func (kmsKey *KmsKey) AssignProperties_To_KmsKey(destination *storage.KmsKey) er
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_KmsKey_STATUS populates our KmsKey from the provided source KmsKey_STATUS
-func (kmsKey *KmsKey) Initialize_From_KmsKey_STATUS(source *KmsKey_STATUS) error {
-
-	// Name
-	kmsKey.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Version
-	kmsKey.Version = genruntime.ClonePointerToString(source.Version)
 
 	// No error
 	return nil

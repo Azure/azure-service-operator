@@ -145,16 +145,19 @@ typeFilters:
     group: costmanagement
     because: QueryFilter is a self-referential, infinitely recursive type. We can't easily unroll it and controller-gen doesn't support recursive types
 #
-# When loading resources, it's possible for us to end up with a name collision if two resources 
-# specify similar URLs (we derive the names from the structure of the ARM URL specified for the 
-# resource). This is an extremely rare event.
-# Because this happens so early in the operation of our pipeline, our existing mechanisms for 
-# disambiguation and renaming can't be applied, so we special case them here.
+# When loading resources, a resource can collide with a name generated from another schema,
+# such as a discriminated union. This happens before the regular object model configuration
+# can be applied, so these renames are applied during Swagger loading.
 #
-# This is configuration of last resort; in most cases, you should use the objectModelConfiguration
-# to rename things as it is much more flexible.
+# This is configuration of last resort; in most cases, use objectModelConfiguration, which is
+# more flexible.
 #
 typeLoaderRenames:
+  - group: cdn
+    version: v20261001
+    name: EdgeAction
+    renameTo: EdgeActionResource
+    because: The CDN rule-action union also generates a type named EdgeAction
   - group: insights
     name: DiagnosticSetting
     scope: Location
