@@ -112,6 +112,14 @@ These resource(s) are the latest versions available for use in the current relea
 
 To install the CRDs for these resources, your ASO configuration must include `authorization.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                       | ARM Version | CRD Version | Supported From | Sample                                                                                                                                             |
+|--------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| RoleEligibilityScheduleRequest | 2020-10-01  | v20201001   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v20201001/v20201001_roleeligibilityschedulerequest.yaml) |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
