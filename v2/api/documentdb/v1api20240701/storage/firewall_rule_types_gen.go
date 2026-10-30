@@ -250,7 +250,7 @@ type FirewallRuleOperatorSpec struct {
 }
 
 // Storage version of v1api20240701.FirewallRuleProperties
-// The properties of a mongo cluster firewall rule.
+// The properties of a DocumentDB cluster firewall rule.
 type FirewallRuleProperties struct {
 	EndIpAddress   *string                `json:"endIpAddress,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -258,7 +258,7 @@ type FirewallRuleProperties struct {
 }
 
 // Storage version of v1api20240701.FirewallRuleProperties_STATUS
-// The properties of a mongo cluster firewall rule.
+// The properties of a DocumentDB cluster firewall rule.
 type FirewallRuleProperties_STATUS struct {
 	EndIpAddress      *string                `json:"endIpAddress,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`

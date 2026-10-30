@@ -35,21 +35,29 @@ The following resources have newer versions available in the Azure REST API spec
 |------|--------------|------------------|------------------|-------------------|-------------------|
 | 💡    | BatchAccount | **2025-06-01**   | 2024-07-01       | -                 | -                 |
 
+## cache
+
+|      | Resource                                      | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|-----------------------------------------------|------------------|------------------|-------------------|-------------------|
+| 💡    | RedisEnterprise                               | **2026-09-01**   | 2025-07-01       | -                 | -                 |
+| 💡    | RedisEnterpriseDatabase                       | **2026-09-01**   | 2025-07-01       | -                 | -                 |
+| 💡    | RedisEnterpriseDatabaseAccessPolicyAssignment | **2026-09-01**   | 2025-07-01       | -                 | -                 |
+
 ## cdn
 
 |      | Resource         | Available Stable | Supported Stable | Available Preview | Supported Preview |
 |------|------------------|------------------|------------------|-------------------|-------------------|
-| 💡    | AfdCustomDomain  | **2026-07-01**   | 2023-05-01       | -                 | -                 |
-| 💡    | AfdEndpoint      | **2026-07-01**   | 2023-05-01       | -                 | -                 |
-| 💡    | AfdOrigin        | **2026-07-01**   | 2023-05-01       | -                 | -                 |
-| 💡    | AfdOriginGroup   | **2026-07-01**   | 2023-05-01       | -                 | -                 |
-| 💡    | Profile          | **2026-07-01**   | 2023-05-01       | -                 | -                 |
-| 💡    | ProfilesEndpoint | **2026-07-01**   | 2021-06-01       | -                 | -                 |
-| 💡    | Route            | **2026-07-01**   | 2023-05-01       | -                 | -                 |
-| 💡    | Rule             | **2026-07-01**   | 2023-05-01       | -                 | -                 |
-| 💡    | RuleSet          | **2026-07-01**   | 2023-05-01       | -                 | -                 |
-| 💡    | Secret           | **2026-07-01**   | 2023-05-01       | -                 | -                 |
-| 💡    | SecurityPolicy   | **2026-07-01**   | 2023-05-01       | -                 | -                 |
+| 💡    | AfdCustomDomain  | **2026-10-01**   | 2023-05-01       | -                 | -                 |
+| 💡    | AfdEndpoint      | **2026-10-01**   | 2023-05-01       | -                 | -                 |
+| 💡    | AfdOrigin        | **2026-10-01**   | 2023-05-01       | -                 | -                 |
+| 💡    | AfdOriginGroup   | **2026-10-01**   | 2023-05-01       | -                 | -                 |
+| 💡    | Profile          | **2026-10-01**   | 2023-05-01       | -                 | -                 |
+| 💡    | ProfilesEndpoint | **2026-10-01**   | 2021-06-01       | -                 | -                 |
+| 💡    | Route            | **2026-10-01**   | 2023-05-01       | -                 | -                 |
+| 💡    | Rule             | **2026-10-01**   | 2023-05-01       | -                 | -                 |
+| 💡    | RuleSet          | **2026-10-01**   | 2023-05-01       | -                 | -                 |
+| 💡    | Secret           | **2026-10-01**   | 2023-05-01       | -                 | -                 |
+| 💡    | SecurityPolicy   | **2026-10-01**   | 2023-05-01       | -                 | -                 |
 
 ## cognitiveservices
 
@@ -100,11 +108,11 @@ The following resources have newer versions available in the Azure REST API spec
 | 💡    | FleetsMember             | **2026-06-01**   | 2025-03-01       | 2026-06-02-preview     | -                  |
 | 💡    | FleetsUpdateRun          | **2026-06-01**   | 2025-03-01       | 2026-06-02-preview     | -                  |
 | 💡    | FleetsUpdateStrategy     | **2026-06-01**   | 2025-03-01       | 2026-06-02-preview     | -                  |
-|      | IdentityBinding          | 2026-07-01       | 2026-05-01       | 2026-07-02-preview     | -                  |
-| 💡    | MaintenanceConfiguration | 2026-07-01       | 2026-05-01       | **2026-07-02-preview** | 2025-10-02-preview |
-| 💡    | ManagedCluster           | 2026-07-01       | 2026-05-01       | **2026-07-02-preview** | 2025-10-02-preview |
-| 💡    | ManagedClustersAgentPool | 2026-07-01       | 2026-05-01       | **2026-07-02-preview** | 2025-10-02-preview |
-| 💡    | TrustedAccessRoleBinding | 2026-07-01       | 2026-05-01       | **2026-07-02-preview** | 2025-10-02-preview |
+|      | IdentityBinding          | 2026-08-01       | 2026-05-01       | 2026-08-02-preview     | -                  |
+| 💡    | MaintenanceConfiguration | 2026-08-01       | 2026-05-01       | **2026-08-02-preview** | 2025-10-02-preview |
+| 💡    | ManagedCluster           | 2026-08-01       | 2026-05-01       | **2026-08-02-preview** | 2025-10-02-preview |
+| 💡    | ManagedClustersAgentPool | 2026-08-01       | 2026-05-01       | **2026-08-02-preview** | 2025-10-02-preview |
+| 💡    | TrustedAccessRoleBinding | 2026-08-01       | 2026-05-01       | **2026-08-02-preview** | 2025-10-02-preview |
 
 ## dataprotection
 
@@ -113,6 +121,19 @@ The following resources have newer versions available in the Azure REST API spec
 | 💡    | BackupVault                | **2026-07-01**   | 2023-11-01       | -                 | -                 |
 | 💡    | BackupVaultsBackupInstance | **2026-07-01**   | 2023-11-01       | -                 | -                 |
 | 💡    | BackupVaultsBackupPolicy   | **2026-07-01**   | 2023-11-01       | -                 | -                 |
+
+## dbforpostgresql
+
+|      | Resource                                        | Available Stable | Supported Stable | Available Preview  | Supported Preview  |
+|------|-------------------------------------------------|------------------|------------------|--------------------|--------------------|
+| 💡    | FlexibleServer                                  | **2026-10-01**   | 2025-08-01       |                    | 2023-06-01-preview |
+| 💡    | FlexibleServersAdministrator                    | **2026-10-01**   | 2025-08-01       | 2023-06-01-preview | -                  |
+| 💡    | FlexibleServersAdvancedThreatProtectionSettings | **2026-10-01**   | 2025-08-01       | 2023-06-01-preview | -                  |
+| 💡    | FlexibleServersBackup                           | **2026-10-01**   | 2025-08-01       | -                  | -                  |
+| 💡    | FlexibleServersConfiguration                    | **2026-10-01**   | 2025-08-01       |                    | 2023-06-01-preview |
+| 💡    | FlexibleServersDatabase                         | **2026-10-01**   | 2025-08-01       |                    | 2023-06-01-preview |
+| 💡    | FlexibleServersFirewallRule                     | **2026-10-01**   | 2025-08-01       |                    | 2023-06-01-preview |
+| 💡    | FlexibleServersVirtualEndpoint                  | **2026-10-01**   | 2025-08-01       | 2023-06-01-preview | -                  |
 
 ## devices
 
@@ -188,10 +209,10 @@ The following resources have newer versions available in the Azure REST API spec
 
 |      | Resource             | Available Stable | Supported Stable | Available Preview | Supported Preview |
 |------|----------------------|------------------|------------------|-------------------|-------------------|
-| 💡    | Registry             | **2026-07-01**   | 2024-04-01       | -                 | -                 |
-| 💡    | Workspace            | **2026-07-01**   | 2024-04-01       | -                 | -                 |
-| 💡    | WorkspacesCompute    | **2026-07-01**   | 2024-04-01       | -                 | -                 |
-| 💡    | WorkspacesConnection | **2026-07-01**   | 2024-04-01       | -                 | -                 |
+| 💡    | Registry             | **2026-09-01**   | 2024-04-01       | -                 | -                 |
+| 💡    | Workspace            | **2026-09-01**   | 2024-04-01       | -                 | -                 |
+| 💡    | WorkspacesCompute    | **2026-09-01**   | 2024-04-01       | -                 | -                 |
+| 💡    | WorkspacesConnection | **2026-09-01**   | 2024-04-01       | -                 | -                 |
 
 ## managedidentity
 
@@ -210,42 +231,42 @@ The following resources have newer versions available in the Azure REST API spec
 
 |      | Resource                                | Available Stable | Supported Stable | Available Preview | Supported Preview |
 |------|-----------------------------------------|------------------|------------------|-------------------|-------------------|
-| 💡    | ApplicationGateway                      | **2026-01-01**   | 2022-07-01       | -                 | -                 |
-| 💡    | ApplicationSecurityGroup                | **2026-01-01**   | 2024-01-01       | -                 | -                 |
-|      | AzureFirewall                           | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | BastionHost                             | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | DdosProtectionPlan                      | 2026-01-01       | 2025-03-01       | -                 | -                 |
+| 💡    | ApplicationGateway                      | **2026-03-01**   | 2022-07-01       | -                 | -                 |
+| 💡    | ApplicationSecurityGroup                | **2026-03-01**   | 2024-01-01       | -                 | -                 |
+|      | AzureFirewall                           | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | BastionHost                             | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | DdosProtectionPlan                      | 2026-03-01       | 2025-03-01       | -                 | -                 |
 | 💡    | DnsForwardingRuleSetsForwardingRule     | **2025-05-01**   | 2022-07-01       | -                 | -                 |
 | 💡    | DnsForwardingRuleSetsVirtualNetworkLink | **2025-05-01**   | 2022-07-01       | -                 | -                 |
 | 💡    | DnsForwardingRuleset                    | **2025-05-01**   | 2022-07-01       | -                 | -                 |
 | 💡    | DnsResolver                             | **2025-05-01**   | 2022-07-01       | -                 | -                 |
 | 💡    | DnsResolversInboundEndpoint             | **2025-05-01**   | 2022-07-01       | -                 | -                 |
 | 💡    | DnsResolversOutboundEndpoint            | **2025-05-01**   | 2022-07-01       | -                 | -                 |
-|      | FirewallPoliciesRuleCollectionGroup     | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | FirewallPolicy                          | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | LoadBalancer                            | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | LoadBalancersInboundNatRule             | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | NatGateway                              | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | NetworkInterface                        | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | NetworkSecurityGroup                    | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | NetworkSecurityGroupsSecurityRule       | 2026-01-01       | 2025-03-01       | -                 | -                 |
-| 💡    | NetworkWatcher                          | **2026-01-01**   | 2024-10-01       | -                 | -                 |
-| 💡    | NetworkWatchersFlowLog                  | **2026-01-01**   | 2024-10-01       | -                 | -                 |
-|      | PrivateEndpoint                         | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | PrivateLinkService                      | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | PublicIPAddress                         | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | PublicIPPrefix                          | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | RouteTable                              | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | RouteTablesRoute                        | 2026-01-01       | 2025-03-01       | -                 | -                 |
+|      | FirewallPoliciesRuleCollectionGroup     | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | FirewallPolicy                          | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | LoadBalancer                            | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | LoadBalancersInboundNatRule             | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | NatGateway                              | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | NetworkInterface                        | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | NetworkSecurityGroup                    | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | NetworkSecurityGroupsSecurityRule       | 2026-03-01       | 2025-03-01       | -                 | -                 |
+| 💡    | NetworkWatcher                          | **2026-03-01**   | 2024-10-01       | -                 | -                 |
+| 💡    | NetworkWatchersFlowLog                  | **2026-03-01**   | 2024-10-01       | -                 | -                 |
+|      | PrivateEndpoint                         | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | PrivateLinkService                      | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | PublicIPAddress                         | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | PublicIPPrefix                          | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | RouteTable                              | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | RouteTablesRoute                        | 2026-03-01       | 2025-03-01       | -                 | -                 |
 | 💡    | TrafficManagerProfile                   | **2026-09-01**   | 2022-04-01       | -                 | -                 |
 | 💡    | TrafficManagerProfilesAzureEndpoint     | **2026-09-01**   | 2022-04-01       | -                 | -                 |
 | 💡    | TrafficManagerProfilesExternalEndpoint  | **2026-09-01**   | 2022-04-01       | -                 | -                 |
 | 💡    | TrafficManagerProfilesNestedEndpoint    | **2026-09-01**   | 2022-04-01       | -                 | -                 |
-|      | VirtualNetwork                          | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | VirtualNetworkGateway                   | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | VirtualNetworksSubnet                   | 2026-01-01       | 2025-03-01       | -                 | -                 |
-|      | VirtualNetworksVirtualNetworkPeering    | 2026-01-01       | 2025-03-01       | -                 | -                 |
-| 💡    | WebApplicationFirewallPolicy            | **2026-01-01**   | 2024-01-01       | -                 | -                 |
+|      | VirtualNetwork                          | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | VirtualNetworkGateway                   | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | VirtualNetworksSubnet                   | 2026-03-01       | 2025-03-01       | -                 | -                 |
+|      | VirtualNetworksVirtualNetworkPeering    | 2026-03-01       | 2025-03-01       | -                 | -                 |
+| 💡    | WebApplicationFirewallPolicy            | **2026-03-01**   | 2024-01-01       | -                 | -                 |
 
 ## network.frontdoor
 
@@ -275,7 +296,7 @@ The following resources have newer versions available in the Azure REST API spec
 
 |      | Resource      | Available Stable | Supported Stable | Available Preview | Supported Preview |
 |------|---------------|------------------|------------------|-------------------|-------------------|
-| 💡    | SearchService | **2025-05-01**   | 2023-11-01       | -                 | -                 |
+| 💡    | SearchService | **2026-11-01**   | 2023-11-01       | -                 | -                 |
 
 ## servicebus
 

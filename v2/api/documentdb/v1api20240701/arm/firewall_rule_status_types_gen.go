@@ -21,15 +21,15 @@ type FirewallRule_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-// The properties of a mongo cluster firewall rule.
+// The properties of a DocumentDB cluster firewall rule.
 type FirewallRuleProperties_STATUS struct {
-	// EndIpAddress: The end IP address of the mongo cluster firewall rule. Must be IPv4 format.
+	// EndIpAddress: The end IP address of the DocumentDB cluster firewall rule. Must be IPv4 format.
 	EndIpAddress *string `json:"endIpAddress,omitempty"`
 
 	// ProvisioningState: The provisioning state of the firewall rule.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
-	// StartIpAddress: The start IP address of the mongo cluster firewall rule. Must be IPv4 format.
+	// StartIpAddress: The start IP address of the DocumentDB cluster firewall rule. Must be IPv4 format.
 	StartIpAddress *string `json:"startIpAddress,omitempty"`
 }
 
