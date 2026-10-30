@@ -7,15 +7,6 @@ no_list: true
 
 To install the CRDs for these resources, your ASO configuration must include `eventgrid.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                         | ARM Version | CRD Version | Supported From | Sample                                                                                                                         |
-|----------------------------------------------------------------------------------|-------------|-------------|----------------|--------------------------------------------------------------------------------------------------------------------------------|
-| [Namespace]({{< relref "/reference/eventgrid/v20250215#Namespace" >}})           | 2025-02-15  | v20250215   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_namespace.yaml)      |
-| [NamespaceTopic]({{< relref "/reference/eventgrid/v20250215#NamespaceTopic" >}}) | 2025-02-15  | v20250215   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_namespacetopic.yaml) |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
@@ -24,6 +15,8 @@ These resource(s) are the latest versions available for use in the current relea
 | [Domain]({{< relref "/reference/eventgrid/v20250215#Domain" >}})                       | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_domain.yaml)            |
 | [DomainsTopic]({{< relref "/reference/eventgrid/v20250215#DomainsTopic" >}})           | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_domainstopic.yaml)      |
 | [EventSubscription]({{< relref "/reference/eventgrid/v20250215#EventSubscription" >}}) | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_eventsubscription.yaml) |
+| [Namespace]({{< relref "/reference/eventgrid/v20250215#Namespace" >}})                 | 2025-02-15  | v20250215   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_namespace.yaml)         |
+| [NamespaceTopic]({{< relref "/reference/eventgrid/v20250215#NamespaceTopic" >}})       | 2025-02-15  | v20250215   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_namespacetopic.yaml)    |
 | [Topic]({{< relref "/reference/eventgrid/v20250215#Topic" >}})                         | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_topic.yaml)             |
 
 ### Other Supported Versions
