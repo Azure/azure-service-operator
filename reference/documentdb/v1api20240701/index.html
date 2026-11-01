@@ -85,7 +85,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.2fa4901479201454b1e26eb515fb7f19.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.2c18779e2bd528972f98fdc4f68972ea.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -111,7 +111,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.2fa4901479201454b1e26eb515fb7f19.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.2c18779e2bd528972f98fdc4f68972ea.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -1305,7 +1305,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	</tbody>
 </table>
 <h2 id="MongoCluster_STATUS">MongoCluster_STATUS</h2>
-<p>Represents a mongo cluster resource.</p>
+<p>Represents a DocumentDB cluster resource.</p>
 <p>Used by: <a href="#MongoCluster">MongoCluster</a>.</p>
 <table>
 	<thead>
@@ -1383,7 +1383,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	</tbody>
 </table>
 <h2 id="FirewallRuleProperties">FirewallRuleProperties</h2>
-<p>The properties of a mongo cluster firewall rule.</p>
+<p>The properties of a DocumentDB cluster firewall rule.</p>
 <p>Used by: <a href="#FirewallRule_Spec">FirewallRule_Spec</a>.</p>
 <table>
 	<thead>
@@ -1396,18 +1396,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	<tbody>
 			<tr>
 					<td>endIpAddress</td>
-					<td>The end IP address of the mongo cluster firewall rule. Must be IPv4 format.</td>
+					<td>The end IP address of the DocumentDB cluster firewall rule. Must be IPv4 format.</td>
 					<td>string<br/><small>Required</small></td>
 			</tr>
 			<tr>
 					<td>startIpAddress</td>
-					<td>The start IP address of the mongo cluster firewall rule. Must be IPv4 format.</td>
+					<td>The start IP address of the DocumentDB cluster firewall rule. Must be IPv4 format.</td>
 					<td>string<br/><small>Required</small></td>
 			</tr>
 	</tbody>
 </table>
 <h2 id="FirewallRuleProperties_STATUS">FirewallRuleProperties_STATUS</h2>
-<p>The properties of a mongo cluster firewall rule.</p>
+<p>The properties of a DocumentDB cluster firewall rule.</p>
 <p>Used by: <a href="#FirewallRule_STATUS">FirewallRule_STATUS</a>.</p>
 <table>
 	<thead>
@@ -1420,7 +1420,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	<tbody>
 			<tr>
 					<td>endIpAddress</td>
-					<td>The end IP address of the mongo cluster firewall rule. Must be IPv4 format.</td>
+					<td>The end IP address of the DocumentDB cluster firewall rule. Must be IPv4 format.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -1430,7 +1430,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 			</tr>
 			<tr>
 					<td>startIpAddress</td>
-					<td>The start IP address of the mongo cluster firewall rule. Must be IPv4 format.</td>
+					<td>The start IP address of the DocumentDB cluster firewall rule. Must be IPv4 format.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
@@ -1460,7 +1460,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	</tbody>
 </table>
 <h2 id="MongoClusterProperties">MongoClusterProperties</h2>
-<p>The properties of a mongo cluster.</p>
+<p>The properties of a DocumentDB cluster.</p>
 <p>Used by: <a href="#MongoCluster_Spec">MongoCluster_Spec</a>.</p>
 <table>
 	<thead>
@@ -1473,22 +1473,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	<tbody>
 			<tr>
 					<td>administrator</td>
-					<td>The local administrator properties for the mongo cluster.</td>
+					<td>The local administrator properties for the DocumentDB cluster.</td>
 					<td><a href="#AdministratorProperties">AdministratorProperties</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>compute</td>
-					<td>The compute properties of the mongo cluster.</td>
+					<td>The compute properties of the DocumentDB cluster.</td>
 					<td><a href="#ComputeProperties">ComputeProperties</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>createMode</td>
-					<td>The mode to create a mongo cluster.</td>
+					<td>The mode to create a DocumentDB cluster.</td>
 					<td><a href="#CreateMode">CreateMode</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>highAvailability</td>
-					<td>The high availability properties of the mongo cluster.</td>
+					<td>The high availability properties of the DocumentDB cluster.</td>
 					<td><a href="#HighAvailabilityProperties">HighAvailabilityProperties</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -1498,17 +1498,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 			</tr>
 			<tr>
 					<td>publicNetworkAccess</td>
-					<td>Whether or not public endpoint access is allowed for this mongo cluster.</td>
+					<td>Whether or not public endpoint access is allowed for this DocumentDB cluster.</td>
 					<td><a href="#PublicNetworkAccess">PublicNetworkAccess</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>replicaParameters</td>
-					<td>The parameters to create a replica mongo cluster.</td>
+					<td>The parameters to create a replica DocumentDB cluster.</td>
 					<td><a href="#MongoClusterReplicaParameters">MongoClusterReplicaParameters</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>restoreParameters</td>
-					<td>The parameters to create a point-in-time restore mongo cluster.</td>
+					<td>The parameters to create a point-in-time restore DocumentDB cluster.</td>
 					<td><a href="#MongoClusterRestoreParameters">MongoClusterRestoreParameters</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -1518,18 +1518,18 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 			</tr>
 			<tr>
 					<td>sharding</td>
-					<td>The sharding properties of the mongo cluster.</td>
+					<td>The sharding properties of the DocumentDB cluster.</td>
 					<td><a href="#ShardingProperties">ShardingProperties</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>storage</td>
-					<td>The storage properties of the mongo cluster.</td>
+					<td>The storage properties of the DocumentDB cluster.</td>
 					<td><a href="#StorageProperties">StorageProperties</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
 <h2 id="MongoClusterProperties_STATUS">MongoClusterProperties_STATUS</h2>
-<p>The properties of a mongo cluster.</p>
+<p>The properties of a DocumentDB cluster.</p>
 <p>Used by: <a href="#MongoCluster_STATUS">MongoCluster_STATUS</a>.</p>
 <table>
 	<thead>
@@ -1542,22 +1542,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	<tbody>
 			<tr>
 					<td>administrator</td>
-					<td>The local administrator properties for the mongo cluster.</td>
+					<td>The local administrator properties for the DocumentDB cluster.</td>
 					<td><a href="#AdministratorProperties_STATUS">AdministratorProperties_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>backup</td>
-					<td>The backup properties of the mongo cluster.</td>
+					<td>The backup properties of the DocumentDB cluster.</td>
 					<td><a href="#BackupProperties_STATUS">BackupProperties_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>clusterStatus</td>
-					<td>The status of the mongo cluster.</td>
+					<td>The status of the DocumentDB cluster.</td>
 					<td><a href="#MongoClusterStatus_STATUS">MongoClusterStatus_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>compute</td>
-					<td>The compute properties of the mongo cluster.</td>
+					<td>The compute properties of the DocumentDB cluster.</td>
 					<td><a href="#ComputeProperties_STATUS">ComputeProperties_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -1567,12 +1567,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 			</tr>
 			<tr>
 					<td>createMode</td>
-					<td>The mode to create a mongo cluster.</td>
+					<td>The mode to create a DocumentDB cluster.</td>
 					<td><a href="#CreateMode_STATUS">CreateMode_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>highAvailability</td>
-					<td>The high availability properties of the mongo cluster.</td>
+					<td>The high availability properties of the DocumentDB cluster.</td>
 					<td><a href="#HighAvailabilityProperties_STATUS">HighAvailabilityProperties_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -1592,27 +1592,27 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 			</tr>
 			<tr>
 					<td>provisioningState</td>
-					<td>The provisioning state of the mongo cluster.</td>
+					<td>The provisioning state of the DocumentDB cluster.</td>
 					<td><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>publicNetworkAccess</td>
-					<td>Whether or not public endpoint access is allowed for this mongo cluster.</td>
+					<td>Whether or not public endpoint access is allowed for this DocumentDB cluster.</td>
 					<td><a href="#PublicNetworkAccess_STATUS">PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>replica</td>
-					<td>The replication properties for the mongo cluster</td>
+					<td>The replication properties for the DocumentDB cluster</td>
 					<td><a href="#ReplicationProperties_STATUS">ReplicationProperties_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>replicaParameters</td>
-					<td>The parameters to create a replica mongo cluster.</td>
+					<td>The parameters to create a replica DocumentDB cluster.</td>
 					<td><a href="#MongoClusterReplicaParameters_STATUS">MongoClusterReplicaParameters_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>restoreParameters</td>
-					<td>The parameters to create a point-in-time restore mongo cluster.</td>
+					<td>The parameters to create a point-in-time restore DocumentDB cluster.</td>
 					<td><a href="#MongoClusterRestoreParameters_STATUS">MongoClusterRestoreParameters_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -1622,12 +1622,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 			</tr>
 			<tr>
 					<td>sharding</td>
-					<td>The sharding properties of the mongo cluster.</td>
+					<td>The sharding properties of the DocumentDB cluster.</td>
 					<td><a href="#ShardingProperties_STATUS">ShardingProperties_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>storage</td>
-					<td>The storage properties of the mongo cluster.</td>
+					<td>The storage properties of the DocumentDB cluster.</td>
 					<td><a href="#StorageProperties_STATUS">StorageProperties_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
@@ -1777,7 +1777,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	</tbody>
 </table>
 <h2 id="CreateMode">CreateMode</h2>
-<p>The mode that the Mongo Cluster is created with.</p>
+<p>The mode that the DocumentDB cluster is created with.</p>
 <p>Used by: <a href="#MongoClusterProperties">MongoClusterProperties</a>.</p>
 <table>
 	<thead>
@@ -1806,7 +1806,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	</tbody>
 </table>
 <h2 id="CreateMode_STATUS">CreateMode_STATUS</h2>
-<p>The mode that the Mongo Cluster is created with.</p>
+<p>The mode that the DocumentDB cluster is created with.</p>
 <p>Used by: <a href="#MongoClusterProperties_STATUS">MongoClusterProperties_STATUS</a>.</p>
 <table>
 	<thead>
@@ -1934,7 +1934,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	<tbody>
 			<tr>
 					<td>pointInTimeUTC</td>
-					<td>UTC point in time to restore a mongo cluster</td>
+					<td>UTC point in time to restore a DocumentDB cluster</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -1958,7 +1958,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	<tbody>
 			<tr>
 					<td>pointInTimeUTC</td>
-					<td>UTC point in time to restore a mongo cluster</td>
+					<td>UTC point in time to restore a DocumentDB cluster</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -1969,7 +1969,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	</tbody>
 </table>
 <h2 id="MongoClusterStatus_STATUS">MongoClusterStatus_STATUS</h2>
-<p>The status of the Mongo cluster resource.</p>
+<p>The status of the DocumentDB cluster resource.</p>
 <p>Used by: <a href="#MongoClusterProperties_STATUS">MongoClusterProperties_STATUS</a>.</p>
 <table>
 	<thead>
@@ -2010,7 +2010,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	</tbody>
 </table>
 <h2 id="PreviewFeature">PreviewFeature</h2>
-<p>Preview features that can be enabled on a mongo cluster.</p>
+<p>Preview features that can be enabled on a DocumentDB cluster.</p>
 <p>Used by: <a href="#MongoClusterProperties">MongoClusterProperties</a>.</p>
 <table>
 	<thead>
@@ -2027,7 +2027,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	</tbody>
 </table>
 <h2 id="PreviewFeature_STATUS">PreviewFeature_STATUS</h2>
-<p>Preview features that can be enabled on a mongo cluster.</p>
+<p>Preview features that can be enabled on a DocumentDB cluster.</p>
 <p>Used by: <a href="#MongoClusterProperties_STATUS">MongoClusterProperties_STATUS</a>.</p>
 <table>
 	<thead>
@@ -2100,7 +2100,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	</tbody>
 </table>
 <h2 id="PublicNetworkAccess">PublicNetworkAccess</h2>
-<p>Whether or not public endpoint access is allowed for this Mongo cluster. Value is optional and default value is <code>Enabled</code></p>
+<p>Whether or not public endpoint access is allowed for this DocumentDB cluster. Value is optional and default value is <code>Enabled</code></p>
 <p>Used by: <a href="#MongoClusterProperties">MongoClusterProperties</a>.</p>
 <table>
 	<thead>
@@ -2121,7 +2121,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	</tbody>
 </table>
 <h2 id="PublicNetworkAccess_STATUS">PublicNetworkAccess_STATUS</h2>
-<p>Whether or not public endpoint access is allowed for this Mongo cluster. Value is optional and default value is <code>Enabled</code></p>
+<p>Whether or not public endpoint access is allowed for this DocumentDB cluster. Value is optional and default value is <code>Enabled</code></p>
 <p>Used by: <a href="#MongoClusterProperties_STATUS">MongoClusterProperties_STATUS</a>.</p>
 <table>
 	<thead>
@@ -2142,7 +2142,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	</tbody>
 </table>
 <h2 id="ReplicationProperties_STATUS">ReplicationProperties_STATUS</h2>
-<p>Replica properties of the mongo cluster.</p>
+<p>Replica properties of the DocumentDB cluster.</p>
 <p>Used by: <a href="#MongoClusterProperties_STATUS">MongoClusterProperties_STATUS</a>.</p>
 <table>
 	<thead>
@@ -2353,7 +2353,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec FirewallRule_Sp
 	</tbody>
 </table>
 <h2 id="ReplicationRole_STATUS">ReplicationRole_STATUS</h2>
-<p>Replication role of the mongo cluster.</p>
+<p>Replication role of the DocumentDB cluster.</p>
 <p>Used by: <a href="#ReplicationProperties_STATUS">ReplicationProperties_STATUS</a>.</p>
 <table>
 	<thead>

@@ -24,7 +24,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<meta itemprop="description" content="APIVersion Value Description “2026-09-01-preview” HcpOpenShiftCluster Generator information:
 Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpopenshiftclusters/preview/2026-09-01-preview/openapi.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.RedHatOpenShift/​hcpOpenShiftClusters/​{hcpOpenShiftClusterName} Used by: HcpOpenShiftClusterList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftCluster_SpecOptional status HcpOpenShiftCluster_STATUSOptional HcpOpenShiftCluster_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional identity The managed service identities assigned to this resource. ManagedServiceIdentityOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure HcpOpenShiftClusterOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired properties The resource-specific properties for this resource. HcpOpenShiftClusterPropertiesOptional tags Resource tags. map[string]stringOptional HcpOpenShiftCluster_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity The managed service identities assigned to this resource. ManagedServiceIdentity_STATUSOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional properties The resource-specific properties for this resource. HcpOpenShiftClusterProperties_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional HcpOpenShiftClusterList Generator information:">
-	<meta itemprop="wordCount" content="8470">
+	<meta itemprop="wordCount" content="8702">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="redhatopenshift.azure.com/v20260901preview">
 	<meta name="twitter:description" content="APIVersion Value Description “2026-09-01-preview” HcpOpenShiftCluster Generator information:
@@ -85,7 +85,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.2fa4901479201454b1e26eb515fb7f19.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.2c18779e2bd528972f98fdc4f68972ea.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -111,7 +111,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.2fa4901479201454b1e26eb515fb7f19.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.2c18779e2bd528972f98fdc4f68972ea.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -1905,7 +1905,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>nodeDrainTimeoutMinutes</td>
-					<td>nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are in minutes and from 0 to 10080 minutes (1 week). 0 means that the MachinePool can be drained without any time limitation. This is the value is used a default for all NodePools. It can be overridden by specifying nodeDrainTimeoutMinutes for a given NodePool</td>
+					<td>nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are in minutes and from 0 to 10080 minutes (1 week). 0 means that the MachinePool can be drained without any time limitation. This value is used as a default for all NodePools. It can be overridden by specifying nodeDrainTimeoutMinutes for a given NodePool</td>
 					<td>int<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -1984,7 +1984,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>nodeDrainTimeoutMinutes</td>
-					<td>nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are in minutes and from 0 to 10080 minutes (1 week). 0 means that the MachinePool can be drained without any time limitation. This is the value is used a default for all NodePools. It can be overridden by specifying nodeDrainTimeoutMinutes for a given NodePool</td>
+					<td>nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are in minutes and from 0 to 10080 minutes (1 week). 0 means that the MachinePool can be drained without any time limitation. This value is used as a default for all NodePools. It can be overridden by specifying nodeDrainTimeoutMinutes for a given NodePool</td>
 					<td>int<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -2129,7 +2129,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>autoRepair</td>
-					<td>Auto-repair</td>
+					<td>autoRepair specifies whether health checks should be enabled for machines in the NodePool. Enabling this feature will cause the controller to automatically delete unhealthy machines. The unhealthy criteria are determined by checking the Node Ready condition and a timeout that might vary depending on the platform provider. autoRepair will not take action when more than 2 Nodes are unhealthy at the same time, giving time for the cluster to stabilize or for the user to manually intervene.</td>
 					<td>bool<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -2139,7 +2139,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>labels</td>
-					<td>Kubernetes labels to propagate to the NodePool Nodes Note that when the labels are updated this is only applied to newly create nodes in the Nodepool, existing node labels remain unchanged.</td>
+					<td>Kubernetes labels to propagate to the NodePool Nodes. Note that when the labels are updated this is only applied to newly created nodes in the NodePool, existing node labels remain unchanged.</td>
 					<td><a href="#Label">Label[]</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -2162,7 +2162,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 <ul>
 <li>Minimum: 0</li>
 <li>Maximum: 200 (only when availabilityZone is not specified)</li>
-<li>No maximum when availabilityZone is specified| int<br/><small>Optional</small>| | taints| Taints for the nodes| <a href="#Taint">Taint[]</a><br/><small>Optional</small>| | version| OpenShift version for the nodepool| <a href="#NodePoolVersionProfile">NodePoolVersionProfile</a><br/><small>Optional</small>|</li>
+<li>No maximum when availabilityZone is specified| int<br/><small>Optional</small>| | taints| Taints for the nodes.| <a href="#Taint">Taint[]</a><br/><small>Optional</small>| | version| OpenShift version for the nodepool| <a href="#NodePoolVersionProfile">NodePoolVersionProfile</a><br/><small>Optional</small>|</li>
 </ul>
 <h2 id="NodePoolProperties_STATUS">NodePoolProperties_STATUS</h2>
 <p>Represents the node pool properties</p>
@@ -2178,7 +2178,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>autoRepair</td>
-					<td>Auto-repair</td>
+					<td>autoRepair specifies whether health checks should be enabled for machines in the NodePool. Enabling this feature will cause the controller to automatically delete unhealthy machines. The unhealthy criteria are determined by checking the Node Ready condition and a timeout that might vary depending on the platform provider. autoRepair will not take action when more than 2 Nodes are unhealthy at the same time, giving time for the cluster to stabilize or for the user to manually intervene.</td>
 					<td>bool<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -2188,7 +2188,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>labels</td>
-					<td>Kubernetes labels to propagate to the NodePool Nodes Note that when the labels are updated this is only applied to newly create nodes in the Nodepool, existing node labels remain unchanged.</td>
+					<td>Kubernetes labels to propagate to the NodePool Nodes. Note that when the labels are updated this is only applied to newly created nodes in the NodePool, existing node labels remain unchanged.</td>
 					<td><a href="#Label_STATUS">Label_STATUS[]</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -2216,7 +2216,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 <ul>
 <li>Minimum: 0</li>
 <li>Maximum: 200 (only when availabilityZone is not specified)</li>
-<li>No maximum when availabilityZone is specified| int<br/><small>Optional</small>| | status| Status of the node pool resource| <a href="#ResourceStatus_STATUS">ResourceStatus_STATUS</a><br/><small>Optional</small>| | taints| Taints for the nodes| <a href="#Taint_STATUS">Taint_STATUS[]</a><br/><small>Optional</small>| | version| OpenShift version for the nodepool| <a href="#NodePoolVersionProfile_STATUS">NodePoolVersionProfile_STATUS</a><br/><small>Optional</small>|</li>
+<li>No maximum when availabilityZone is specified| int<br/><small>Optional</small>| | status| Status of the node pool resource| <a href="#ResourceStatus_STATUS">ResourceStatus_STATUS</a><br/><small>Optional</small>| | taints| Taints for the nodes.| <a href="#Taint_STATUS">Taint_STATUS[]</a><br/><small>Optional</small>| | version| OpenShift version for the nodepool| <a href="#NodePoolVersionProfile_STATUS">NodePoolVersionProfile_STATUS</a><br/><small>Optional</small>|</li>
 </ul>
 <h2 id="SystemData_STATUS">SystemData_STATUS</h2>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
@@ -2334,12 +2334,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>maxNodesTotal</td>
-					<td>maxNodesTotal is the maximum allowable number of nodes for the Autoscaler scale out to be operational. The autoscaler will not grow the cluster beyond this number. If omitted, the autoscaler will not have a maximum limit.</td>
+					<td>maxNodesTotal is the maximum allowable number of nodes. The autoscaler will not grow the cluster beyond this number. If omitted, the autoscaler will not have a maximum limit.</td>
 					<td>int<br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>maxPodGracePeriodSeconds</td>
-					<td>maxPodGracePeriod is the maximum seconds to wait for graceful pod termination before scaling down a NodePool. The default is 600 seconds.</td>
+					<td>maxPodGracePeriodSeconds is the maximum amount of time in seconds to wait for graceful pod termination before scaling down a NodePool. The default is 600 seconds.</td>
 					<td>int<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -2368,12 +2368,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>maxNodesTotal</td>
-					<td>maxNodesTotal is the maximum allowable number of nodes for the Autoscaler scale out to be operational. The autoscaler will not grow the cluster beyond this number. If omitted, the autoscaler will not have a maximum limit.</td>
+					<td>maxNodesTotal is the maximum allowable number of nodes. The autoscaler will not grow the cluster beyond this number. If omitted, the autoscaler will not have a maximum limit.</td>
 					<td>int<br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>maxPodGracePeriodSeconds</td>
-					<td>maxPodGracePeriod is the maximum seconds to wait for graceful pod termination before scaling down a NodePool. The default is 600 seconds.</td>
+					<td>maxPodGracePeriodSeconds is the maximum amount of time in seconds to wait for graceful pod termination before scaling down a NodePool. The default is 600 seconds.</td>
 					<td>int<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -2454,7 +2454,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>baseDomainPrefix</td>
-					<td>BaseDomainPrefix is the unique name of the cluster representing the OpenShift&rsquo;s cluster name. BaseDomainPrefix is the name that will appear in the cluster&rsquo;s DNS, provisioned cloud providers resources</td>
+					<td>BaseDomainPrefix is the base domain prefix for the cluster ingress. It will be used to configure ingress in the cluster through the subdomain &ldquo;BaseDomainPrefix.BaseDomain&rdquo;.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
@@ -2478,7 +2478,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>baseDomainPrefix</td>
-					<td>BaseDomainPrefix is the unique name of the cluster representing the OpenShift&rsquo;s cluster name. BaseDomainPrefix is the name that will appear in the cluster&rsquo;s DNS, provisioned cloud providers resources</td>
+					<td>BaseDomainPrefix is the base domain prefix for the cluster ingress. It will be used to configure ingress in the cluster through the subdomain &ldquo;BaseDomainPrefix.BaseDomain&rdquo;.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
@@ -2535,12 +2535,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>mappings</td>
-					<td>The claim mappings</td>
+					<td>The claim mappings.</td>
 					<td><a href="#TokenClaimMappingsProfile">TokenClaimMappingsProfile</a><br/><small>Required</small></td>
 			</tr>
 			<tr>
 					<td>validationRules</td>
-					<td>The claim validation rules</td>
+					<td>The claim validation rules.</td>
 					<td><a href="#TokenClaimValidationRule">TokenClaimValidationRule[]</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
@@ -2559,12 +2559,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>mappings</td>
-					<td>The claim mappings</td>
+					<td>The claim mappings.</td>
 					<td><a href="#TokenClaimMappingsProfile_STATUS">TokenClaimMappingsProfile_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>validationRules</td>
-					<td>The claim validation rules</td>
+					<td>The claim validation rules.</td>
 					<td><a href="#TokenClaimValidationRule_STATUS">TokenClaimValidationRule_STATUS[]</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
@@ -2760,18 +2760,28 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	</tbody>
 </table>
 <ul>
-<li>host[:port]</li>
-<li>host[:port]/namespace[/namespace&hellip;]</li>
-<li>host[:port]/namespace[/namespace&hellip;]/repo</li>
+<li>
+<p>host[:port]</p>
+</li>
+<li>
+<p>host[:port]/namespace[/namespace&hellip;]</p>
+</li>
+<li>
+<p>host[:port]/namespace[/namespace&hellip;]/repo for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository">ImageRepository[]</a><br/><small>Required</small>| | source| source matches the repository that users refer to, e.g. in image pull specifications. Setting source to a registry hostname, e.g. docker.io, quay.io, or registry.redhat.io, will match the image pull specification of the corresponding registry. source uses one of the following formats:</p>
+</li>
+<li>
+<p>host[:port]</p>
+</li>
+<li>
+<p>host[:port]/namespace[/namespace&hellip;]</p>
+</li>
+<li>
+<p>host[:port]/namespace[/namespace&hellip;]/repo</p>
+</li>
+<li>
+<p>[*.]host for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository">ImageRepository</a><br/><small>Required</small>|</p>
+</li>
 </ul>
-<p>for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository">ImageRepository[]</a><br/><small>Required</small>| | source| source matches the repository that users refer to, e.g. in image pull specifications. Setting source to a registry hostname, e.g. docker.io, quay.io, or registry.redhat.io, will match the image pull specification of the corresponding registry. source uses one of the following formats:</p>
-<ul>
-<li>host[:port]</li>
-<li>host[:port]/namespace[/namespace&hellip;]</li>
-<li>host[:port]/namespace[/namespace&hellip;]/repo</li>
-<li>[*.]host</li>
-</ul>
-<p>for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository">ImageRepository</a><br/><small>Required</small>|</p>
 <h2 id="ImageDigestMirror_STATUS">ImageDigestMirror_STATUS</h2>
 <p>ImageDigestMirror specifies a set of mirror registries to redirect image pulls targeting the specified source registries.</p>
 <p>Used by: <a href="#HcpOpenShiftClusterProperties_STATUS">HcpOpenShiftClusterProperties_STATUS</a>.</p>
@@ -2792,18 +2802,28 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	</tbody>
 </table>
 <ul>
-<li>host[:port]</li>
-<li>host[:port]/namespace[/namespace&hellip;]</li>
-<li>host[:port]/namespace[/namespace&hellip;]/repo</li>
+<li>
+<p>host[:port]</p>
+</li>
+<li>
+<p>host[:port]/namespace[/namespace&hellip;]</p>
+</li>
+<li>
+<p>host[:port]/namespace[/namespace&hellip;]/repo for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository_STATUS">ImageRepository_STATUS[]</a><br/><small>Required</small>| | source| source matches the repository that users refer to, e.g. in image pull specifications. Setting source to a registry hostname, e.g. docker.io, quay.io, or registry.redhat.io, will match the image pull specification of the corresponding registry. source uses one of the following formats:</p>
+</li>
+<li>
+<p>host[:port]</p>
+</li>
+<li>
+<p>host[:port]/namespace[/namespace&hellip;]</p>
+</li>
+<li>
+<p>host[:port]/namespace[/namespace&hellip;]/repo</p>
+</li>
+<li>
+<p>[*.]host for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository_STATUS">ImageRepository_STATUS</a><br/><small>Required</small>|</p>
+</li>
 </ul>
-<p>for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository_STATUS">ImageRepository_STATUS[]</a><br/><small>Required</small>| | source| source matches the repository that users refer to, e.g. in image pull specifications. Setting source to a registry hostname, e.g. docker.io, quay.io, or registry.redhat.io, will match the image pull specification of the corresponding registry. source uses one of the following formats:</p>
-<ul>
-<li>host[:port]</li>
-<li>host[:port]/namespace[/namespace&hellip;]</li>
-<li>host[:port]/namespace[/namespace&hellip;]/repo</li>
-<li>[*.]host</li>
-</ul>
-<p>for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository_STATUS">ImageRepository_STATUS</a><br/><small>Required</small>|</p>
 <h2 id="IngressProfile">IngressProfile</h2>
 <p>Information about the Ingress of a cluster.</p>
 <p>Used by: <a href="#HcpOpenShiftClusterProperties">HcpOpenShiftClusterProperties</a>.</p>
@@ -3125,7 +3145,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 </table>
 <ul>
 <li>
-<p><a href="https://learn.microsoft.com/en-us/azure/availability-zones/az-overview">https://learn.microsoft.com/en-us/azure/availability-zones/az-overview</a>| string<br/><small>Optional</small>| | enableEncryptionAtHost| Whether to enable host based OS and data drive encryption. - <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data">https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data</a>| bool<br/><small>Optional</small>| | osDisk| The settings and configuration options for OSDisk| <a href="#OsDiskProfile">OsDiskProfile</a><br/><small>Optional</small>| | subnetReference| The Azure resource ID of the worker subnet Note that a subnet cannot be reused between ARO-HCP Clusters, however the same subnet can be used for NodePools of the same cluster.| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small>| | vmSize| The VM size according to the documentation:</p>
+<p><a href="https://learn.microsoft.com/en-us/azure/availability-zones/az-overview">https://learn.microsoft.com/en-us/azure/availability-zones/az-overview</a>| string<br/><small>Optional</small>| | enableEncryptionAtHost| Whether to enable host based OS and data drive encryption. - <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data">https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data</a>| bool<br/><small>Optional</small>| | osDisk| The settings and configuration options for OSDisk| <a href="#OsDiskProfile">OsDiskProfile</a><br/><small>Optional</small>| | subnetReference| The Azure resource ID of the worker subnet. Note that a subnet cannot be reused between ARO-HCP Clusters, however the same subnet can be used for NodePools of the same cluster.| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small>| | vmSize| The VM size according to the documentation:</p>
 </li>
 <li>
 <p><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/sizes">https://learn.microsoft.com/en-us/azure/virtual-machines/sizes</a>| string<br/><small>Required</small>|</p>
@@ -3152,7 +3172,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 </table>
 <ul>
 <li>
-<p><a href="https://learn.microsoft.com/en-us/azure/availability-zones/az-overview">https://learn.microsoft.com/en-us/azure/availability-zones/az-overview</a>| string<br/><small>Optional</small>| | enableEncryptionAtHost| Whether to enable host based OS and data drive encryption. - <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data">https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data</a>| bool<br/><small>Optional</small>| | osDisk| The settings and configuration options for OSDisk| <a href="#OsDiskProfile_STATUS">OsDiskProfile_STATUS</a><br/><small>Optional</small>| | subnetId| The Azure resource ID of the worker subnet Note that a subnet cannot be reused between ARO-HCP Clusters, however the same subnet can be used for NodePools of the same cluster.| string<br/><small>Optional</small>| | vmSize| The VM size according to the documentation:</p>
+<p><a href="https://learn.microsoft.com/en-us/azure/availability-zones/az-overview">https://learn.microsoft.com/en-us/azure/availability-zones/az-overview</a>| string<br/><small>Optional</small>| | enableEncryptionAtHost| Whether to enable host based OS and data drive encryption. - <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data">https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data</a>| bool<br/><small>Optional</small>| | osDisk| The settings and configuration options for OSDisk| <a href="#OsDiskProfile_STATUS">OsDiskProfile_STATUS</a><br/><small>Optional</small>| | subnetId| The Azure resource ID of the worker subnet. Note that a subnet cannot be reused between ARO-HCP Clusters, however the same subnet can be used for NodePools of the same cluster.| string<br/><small>Optional</small>| | vmSize| The VM size according to the documentation:</p>
 </li>
 <li>
 <p><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/sizes">https://learn.microsoft.com/en-us/azure/virtual-machines/sizes</a>| string<br/><small>Optional</small>|</p>
@@ -3172,7 +3192,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>channelGroup</td>
-					<td>ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is <code>stable</code>.</td>
+					<td>ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is <code>stable</code>. This property is intended to be updateable, but that support is not yet complete. Until then, changing this value after node pool creation is rejected.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -3196,7 +3216,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>channelGroup</td>
-					<td>ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is <code>stable</code>.</td>
+					<td>ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is <code>stable</code>. This property is intended to be updateable, but that support is not yet complete. Until then, changing this value after node pool creation is rejected.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -3220,7 +3240,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>managedResourceGroup</td>
-					<td>Resource group name to put cluster resources If not specified then a unique name is generated from the following pattern &ldquo;aro-hcp-&rdquo; + clusterName + &ldquo;-&rdquo; + UUID where clusterName means the hcpOpenShiftClusters resource name (up to 45 characters) followed by a 16-byte universally unique identifier per RFC 4122.</td>
+					<td>The name of the resource group to put cluster resources in. If not specified then a unique name is generated from the following pattern &ldquo;aro-hcp-&rdquo; + clusterName + &ldquo;-&rdquo; + UUID where clusterName means the hcpOpenShiftClusters resource name (up to 45 characters) followed by a 16-byte universally unique identifier per RFC 4122.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -3240,7 +3260,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>subnetReference</td>
-					<td>The Azure resource ID of the worker subnet Note that a subnet cannot be reused between ARO-HCP Clusters.</td>
+					<td>The Azure resource ID of the worker subnet. Note that a subnet cannot be reused between ARO-HCP Clusters.</td>
 					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
 			</tr>
 			<tr>
@@ -3269,7 +3289,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>managedResourceGroup</td>
-					<td>Resource group name to put cluster resources If not specified then a unique name is generated from the following pattern &ldquo;aro-hcp-&rdquo; + clusterName + &ldquo;-&rdquo; + UUID where clusterName means the hcpOpenShiftClusters resource name (up to 45 characters) followed by a 16-byte universally unique identifier per RFC 4122.</td>
+					<td>The name of the resource group to put cluster resources in. If not specified then a unique name is generated from the following pattern &ldquo;aro-hcp-&rdquo; + clusterName + &ldquo;-&rdquo; + UUID where clusterName means the hcpOpenShiftClusters resource name (up to 45 characters) followed by a 16-byte universally unique identifier per RFC 4122.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -3289,7 +3309,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>subnetId</td>
-					<td>The Azure resource ID of the worker subnet Note that a subnet cannot be reused between ARO-HCP Clusters.</td>
+					<td>The Azure resource ID of the worker subnet. Note that a subnet cannot be reused between ARO-HCP Clusters.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -3487,12 +3507,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>audiences</td>
-					<td>This configures the acceptable audiences the JWT token, issued by the identity provider, must be issued to. At least one of the entries must match the <code>aud</code> claim in the JWT token. audiences must contain at least one entry and must not exceed ten entries.</td>
+					<td>This configures the acceptable audiences for JWT tokens issued by the identity provider. At least one of the entries must match the <code>aud</code> claim in the JWT token. Audiences must contain at least one entry and must not exceed ten entries.</td>
 					<td>string[]<br/><small>Required</small></td>
 			</tr>
 			<tr>
 					<td>ca</td>
-					<td>The issuer of the token Certificate bundle to use to validate server certificates for the configured URL. It must be PEM encoded and when not specified, the system trust is used.</td>
+					<td>The issuer of the token. Certificate bundle to use to validate server certificates for the configured URL. It must be PEM encoded and when not specified, the system trust is used.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -3516,12 +3536,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>audiences</td>
-					<td>This configures the acceptable audiences the JWT token, issued by the identity provider, must be issued to. At least one of the entries must match the <code>aud</code> claim in the JWT token. audiences must contain at least one entry and must not exceed ten entries.</td>
+					<td>This configures the acceptable audiences for JWT tokens issued by the identity provider. At least one of the entries must match the <code>aud</code> claim in the JWT token. Audiences must contain at least one entry and must not exceed ten entries.</td>
 					<td>string[]<br/><small>Optional</small></td>
 			</tr>
 			<tr>
 					<td>ca</td>
-					<td>The issuer of the token Certificate bundle to use to validate server certificates for the configured URL. It must be PEM encoded and when not specified, the system trust is used.</td>
+					<td>The issuer of the token. Certificate bundle to use to validate server certificates for the configured URL. It must be PEM encoded and when not specified, the system trust is used.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -3588,7 +3608,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>channelGroup</td>
-					<td>ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is <code>stable</code>.</td>
+					<td>ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is <code>stable</code>. This property is intended to be updateable, but that support is not yet complete. Until then, changing this value after cluster creation is rejected.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -3612,7 +3632,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>channelGroup</td>
-					<td>ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is <code>stable</code>.</td>
+					<td>ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is <code>stable</code>. This property is intended to be updateable, but that support is not yet complete. Until then, changing this value after cluster creation is rejected.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -4367,7 +4387,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>prefix</td>
-					<td>Prefix for the claim external profile If this is specified prefixPolicy will be set to &ldquo;Prefix&rdquo; by default</td>
+					<td>Prefix for the claim external profile. If this is specified, prefixPolicy will be set to &ldquo;Prefix&rdquo; by default.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
@@ -4391,7 +4411,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>prefix</td>
-					<td>Prefix for the claim external profile If this is specified prefixPolicy will be set to &ldquo;Prefix&rdquo; by default</td>
+					<td>Prefix for the claim external profile. If this is specified, prefixPolicy will be set to &ldquo;Prefix&rdquo; by default.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
@@ -4666,7 +4686,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>prefix</td>
-					<td>Prefix for the claim external profile Must be set when the prefixPolicy field is set to <code>Prefix</code> and must be unset otherwise.</td>
+					<td>Prefix for the claim external profile. Must be set when the prefixPolicy field is set to <code>Prefix</code> and must be unset otherwise.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
@@ -4695,7 +4715,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>prefix</td>
-					<td>Prefix for the claim external profile Must be set when the prefixPolicy field is set to <code>Prefix</code> and must be unset otherwise.</td>
+					<td>Prefix for the claim external profile. Must be set when the prefixPolicy field is set to <code>Prefix</code> and must be unset otherwise.</td>
 					<td>string<br/><small>Optional</small></td>
 			</tr>
 			<tr>
