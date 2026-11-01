@@ -5,7 +5,9 @@ package customizations
 
 import (
 	v20260901p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview"
-	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/storage"
+	v20260901ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/storage"
+	v20261001 "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20261001"
+	v20261001s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20261001/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -16,5 +18,7 @@ type HcpOpenShiftClustersExternalAuthExtension struct {
 func (extension *HcpOpenShiftClustersExternalAuthExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20260901p.HcpOpenShiftClustersExternalAuth{},
-		&storage.HcpOpenShiftClustersExternalAuth{}}
+		&v20260901ps.HcpOpenShiftClustersExternalAuth{},
+		&v20261001.HcpOpenShiftClustersExternalAuth{},
+		&v20261001s.HcpOpenShiftClustersExternalAuth{}}
 }
