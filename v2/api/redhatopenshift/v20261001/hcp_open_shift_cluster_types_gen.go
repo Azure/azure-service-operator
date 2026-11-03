@@ -8104,17 +8104,21 @@ var kmsEncryptionProfile_KeyVaultType_STATUS_Values = map[string]KmsEncryptionPr
 
 // A representation of a KeyVault Secret.
 type KmsKey struct {
-	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=255
 	// +kubebuilder:validation:MinLength=1
 	// Name: name is the name of the keyvault key used for encryption/decryption.
-	Name *string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty" optionalConfigMapPair:"Name"`
 
-	// +kubebuilder:validation:Required
+	// NameFromConfig: name is the name of the keyvault key used for encryption/decryption.
+	NameFromConfig *genruntime.ConfigMapReference `json:"nameFromConfig,omitempty" optionalConfigMapPair:"Name"`
+
 	// +kubebuilder:validation:MaxLength=255
 	// +kubebuilder:validation:MinLength=1
 	// Version: version contains the version of the key to use.
-	Version *string `json:"version,omitempty"`
+	Version *string `json:"version,omitempty" optionalConfigMapPair:"Version"`
+
+	// VersionFromConfig: version contains the version of the key to use.
+	VersionFromConfig *genruntime.ConfigMapReference `json:"versionFromConfig,omitempty" optionalConfigMapPair:"Version"`
 }
 
 var _ genruntime.ARMTransformer = &KmsKey{}
@@ -8131,10 +8135,26 @@ func (kmsKey *KmsKey) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 		name := *kmsKey.Name
 		result.Name = &name
 	}
+	if kmsKey.NameFromConfig != nil {
+		nameValue, err := resolved.ResolvedConfigMaps.Lookup(*kmsKey.NameFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property Name")
+		}
+		name := nameValue
+		result.Name = &name
+	}
 
 	// Set property "Version":
 	if kmsKey.Version != nil {
 		version := *kmsKey.Version
+		result.Version = &version
+	}
+	if kmsKey.VersionFromConfig != nil {
+		versionValue, err := resolved.ResolvedConfigMaps.Lookup(*kmsKey.VersionFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property Version")
+		}
+		version := versionValue
 		result.Version = &version
 	}
 	return result, nil
@@ -8158,11 +8178,15 @@ func (kmsKey *KmsKey) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 		kmsKey.Name = &name
 	}
 
+	// no assignment for property "NameFromConfig"
+
 	// Set property "Version":
 	if typedInput.Version != nil {
 		version := *typedInput.Version
 		kmsKey.Version = &version
 	}
+
+	// no assignment for property "VersionFromConfig"
 
 	// No error
 	return nil
@@ -8174,8 +8198,24 @@ func (kmsKey *KmsKey) AssignProperties_From_KmsKey(source *storage.KmsKey) error
 	// Name
 	kmsKey.Name = genruntime.ClonePointerToString(source.Name)
 
+	// NameFromConfig
+	if source.NameFromConfig != nil {
+		nameFromConfig := source.NameFromConfig.Copy()
+		kmsKey.NameFromConfig = &nameFromConfig
+	} else {
+		kmsKey.NameFromConfig = nil
+	}
+
 	// Version
 	kmsKey.Version = genruntime.ClonePointerToString(source.Version)
+
+	// VersionFromConfig
+	if source.VersionFromConfig != nil {
+		versionFromConfig := source.VersionFromConfig.Copy()
+		kmsKey.VersionFromConfig = &versionFromConfig
+	} else {
+		kmsKey.VersionFromConfig = nil
+	}
 
 	// No error
 	return nil
@@ -8189,8 +8229,24 @@ func (kmsKey *KmsKey) AssignProperties_To_KmsKey(destination *storage.KmsKey) er
 	// Name
 	destination.Name = genruntime.ClonePointerToString(kmsKey.Name)
 
+	// NameFromConfig
+	if kmsKey.NameFromConfig != nil {
+		nameFromConfig := kmsKey.NameFromConfig.Copy()
+		destination.NameFromConfig = &nameFromConfig
+	} else {
+		destination.NameFromConfig = nil
+	}
+
 	// Version
 	destination.Version = genruntime.ClonePointerToString(kmsKey.Version)
+
+	// VersionFromConfig
+	if kmsKey.VersionFromConfig != nil {
+		versionFromConfig := kmsKey.VersionFromConfig.Copy()
+		destination.VersionFromConfig = &versionFromConfig
+	} else {
+		destination.VersionFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

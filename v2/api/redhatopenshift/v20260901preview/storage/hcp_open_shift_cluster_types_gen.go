@@ -5444,9 +5444,11 @@ type augmentConversionForKmsEncryptionProfile_STATUS interface {
 // Storage version of v20260901preview.KmsKey
 // A representation of a KeyVault Secret.
 type KmsKey struct {
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Version     *string                `json:"version,omitempty"`
+	Name              *string                        `json:"name,omitempty" optionalConfigMapPair:"Name"`
+	NameFromConfig    *genruntime.ConfigMapReference `json:"nameFromConfig,omitempty" optionalConfigMapPair:"Name"`
+	PropertyBag       genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Version           *string                        `json:"version,omitempty" optionalConfigMapPair:"Version"`
+	VersionFromConfig *genruntime.ConfigMapReference `json:"versionFromConfig,omitempty" optionalConfigMapPair:"Version"`
 }
 
 // AssignProperties_From_KmsKey populates our KmsKey from the provided source KmsKey
@@ -5457,8 +5459,24 @@ func (kmsKey *KmsKey) AssignProperties_From_KmsKey(source *v20261001s.KmsKey) er
 	// Name
 	kmsKey.Name = genruntime.ClonePointerToString(source.Name)
 
+	// NameFromConfig
+	if source.NameFromConfig != nil {
+		nameFromConfig := source.NameFromConfig.Copy()
+		kmsKey.NameFromConfig = &nameFromConfig
+	} else {
+		kmsKey.NameFromConfig = nil
+	}
+
 	// Version
 	kmsKey.Version = genruntime.ClonePointerToString(source.Version)
+
+	// VersionFromConfig
+	if source.VersionFromConfig != nil {
+		versionFromConfig := source.VersionFromConfig.Copy()
+		kmsKey.VersionFromConfig = &versionFromConfig
+	} else {
+		kmsKey.VersionFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5488,8 +5506,24 @@ func (kmsKey *KmsKey) AssignProperties_To_KmsKey(destination *v20261001s.KmsKey)
 	// Name
 	destination.Name = genruntime.ClonePointerToString(kmsKey.Name)
 
+	// NameFromConfig
+	if kmsKey.NameFromConfig != nil {
+		nameFromConfig := kmsKey.NameFromConfig.Copy()
+		destination.NameFromConfig = &nameFromConfig
+	} else {
+		destination.NameFromConfig = nil
+	}
+
 	// Version
 	destination.Version = genruntime.ClonePointerToString(kmsKey.Version)
+
+	// VersionFromConfig
+	if kmsKey.VersionFromConfig != nil {
+		versionFromConfig := kmsKey.VersionFromConfig.Copy()
+		destination.VersionFromConfig = &versionFromConfig
+	} else {
+		destination.VersionFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

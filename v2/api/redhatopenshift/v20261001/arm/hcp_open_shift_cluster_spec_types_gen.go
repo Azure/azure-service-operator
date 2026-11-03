@@ -496,8 +496,8 @@ var kmsEncryptionProfile_KeyVaultType_Values = map[string]KmsEncryptionProfile_K
 // A representation of a KeyVault Secret.
 type KmsKey struct {
 	// Name: name is the name of the keyvault key used for encryption/decryption.
-	Name *string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty" optionalConfigMapPair:"Name"`
 
 	// Version: version contains the version of the key to use.
-	Version *string `json:"version,omitempty"`
+	Version *string `json:"version,omitempty" optionalConfigMapPair:"Version"`
 }

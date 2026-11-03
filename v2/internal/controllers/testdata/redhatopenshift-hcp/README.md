@@ -1,10 +1,11 @@
 # HCP OpenShift integration test
 
-`Test_RedHatOpenShift_HcpOpenShiftCluster_v20260901preview_CRUD` uses ASO's
-controller envtest and Azure record/replay framework. It submits a cluster,
-node pool, and external-auth resource together, verifies their status, updates
-each resource, deletes the external-auth and cluster, and checks that all
-three resources are absent in Azure.
+`Test_RedHatOpenShift_HcpOpenShiftCluster_v20260901preview_CRUD` and
+`Test_RedHatOpenShift_HcpOpenShiftCluster_v20261001_CRUD` use ASO's controller
+envtest and Azure record/replay framework. Each submits a cluster, node pool,
+and external-auth resource together, verifies their status, updates each
+resource, deletes the external-auth and cluster, and checks that all three
+resources are absent in Azure. Each API version has its own recording.
 
 The external-auth issuer URL and client ID need not identify a real Entra ID
 app registration. ARM's own "maximum fuzz" example for this resource (see
@@ -40,10 +41,11 @@ including both maps of operator identities.
 
 ## Recording
 
-Use an Azure subscription with access to the `2026-09-01-preview` HCP API, the
-required HCP roles, and permission to create the resources and role assignments
-above. No Entra ID app registration is needed for the external-auth issuer or
-client ID (see above); the checked-in example values work for recording as-is.
+Use an Azure subscription with access to the HCP API version being recorded,
+the required HCP roles, and permission to create the resources and role
+assignments above. No Entra ID app registration is needed for the external-auth
+issuer or client ID (see above); the checked-in example values work for
+recording as-is.
 
 Copy `config.example.json` outside the repository and fill in its five values:
 location, cluster version, node-pool version, issuer URL, and client ID. The
@@ -83,7 +85,9 @@ an arbitrary string, not a real Entra ID application, and is separate from the
 global Azure credential used to provision test resources. Playback uses
 recorded responses and requires neither credential.
 
-From the repository root:
+From the repository root, choose the API version's test name. The example below
+records the preview API; replace the filter with the GA test name to record
+`2026-10-01`:
 
 ```bash
 ARO_HCP_TEST_CONFIG=/absolute/path/hcp-test-config.json \
@@ -101,7 +105,7 @@ The recorder replaces the five configuration values with the checked-in example 
 in addition to standard ASO redactions. Inspect the resulting cassette for
 environment-specific information before committing it:
 
-`v2/internal/controllers/recordings/Test_RedHatOpenShift_HcpOpenShiftCluster_v20260901preview_CRUD.yaml`
+`v2/internal/controllers/recordings/<test-name>.yaml`
 
 A cassette is checked in, so CI replays this test automatically. Without a
 cassette or `ARO_HCP_TEST_CONFIG`, the test would explicitly skip instead of
@@ -110,10 +114,11 @@ re-record, move the existing cassette aside before running the command above.
 
 ## Playback
 
-With the cassette present, no Azure credentials or configuration file are needed:
+With the version-specific cassette present, no Azure credentials or
+configuration file are needed. For example, replay the GA test with:
 
 ```bash
-TEST_FILTER='^Test_RedHatOpenShift_HcpOpenShiftCluster_v20260901preview_CRUD$' \
+TEST_FILTER='^Test_RedHatOpenShift_HcpOpenShiftCluster_v20261001_CRUD$' \
   task controller:test-controllers
 ```
 
@@ -136,15 +141,16 @@ TEST_FILTER='Test_Samples_CreationAndDeletion/Test_<Group>_<version>_CreationAnd
   task controller:test-samples
 ```
 
-The HCP sample manifests under `v2/samples/redhatopenshift/v20260901preview` use
+The HCP sample manifests under `v2/samples/redhatopenshift/v20260901preview` and
+`v2/samples/redhatopenshift/v20261001` use
 generic placeholder values (subscription `00000000-0000-0000-0000-000000000000`,
 `aso-sample-*` names), matching the rest of the sample suite, but they still
 reference external prerequisites (VNet, NSG, managed identities, Key Vault) that
-don't exist within the sample directory itself. `v2/internal/testcommon/samples_tester.go`
-therefore excludes `/redhatopenshift/v20260901preview/` specifically (the older
-`/redhatopenshift/v1api/` directory remains separately excluded because it requires
-service-principal creation).
-This dedicated controller test supplies lifecycle coverage once recorded;
-automatic sample coverage still requires adding self-contained prerequisites
-under the sample directory's `refs/` folder, removing the `v20260901preview`
-exclusion above, and recording `Test_RedHatOpenShift_v20260901preview_CreationAndDeletion`.
+don't exist within the sample directory itself. The GA sample includes its
+managed identity resources under `refs/`, but the remaining prerequisites are
+external. `v2/internal/testcommon/samples_tester.go` therefore excludes both
+directories (the older `/redhatopenshift/v1api/` directory remains separately
+excluded because it requires service-principal creation). These dedicated
+controller tests supply lifecycle coverage once their recordings are checked
+in; automatic sample coverage still requires making the samples self-contained,
+removing the exclusions, and recording their sample tests.

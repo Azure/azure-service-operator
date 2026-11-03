@@ -45,6 +45,7 @@ var wholeSampleExclusions = []*regexp.Regexp{
 	// HCP samples reference external prerequisites (VNet, NSG, managed identities, Key Vault) that
 	// aren't yet self-contained in the sample directory; see v2/internal/controllers/testdata/redhatopenshift-hcp/README.md.
 	regexp.MustCompile(`/redhatopenshift/v20260901preview(?:/|$)`),
+	regexp.MustCompile(`/redhatopenshift/v20261001(?:/|$)`),
 	regexp.MustCompile(`/documentdb/sqldatabase/v1api20210515`), // This is blocked by corp policy (can't set DisableLocalAuth)
 	regexp.MustCompile(`/compute/v20250401`),                    // Quota restrictions mean we can't rerecord capacity reservation
 	// TODO: remove once Test_Keyvault_v20230701_CreationAndDeletion.yaml has been recorded. The VaultKey

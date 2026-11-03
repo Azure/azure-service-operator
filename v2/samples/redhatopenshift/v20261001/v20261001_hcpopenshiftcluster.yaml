@@ -14,25 +14,45 @@ spec:
     type: UserAssigned
     userAssignedIdentities:
         - reference:
-            armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-cloud-controller-manager"
+          group: managedidentity.azure.com
+          kind: UserAssignedIdentity
+          name: aso-sample-cp-cloud-controller-manager
         - reference:
-            armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-cloud-network-config"
+          group: managedidentity.azure.com
+          kind: UserAssignedIdentity
+          name: aso-sample-cp-cloud-network-config
         - reference:
-            armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-cluster-api-azure"
+          group: managedidentity.azure.com
+          kind: UserAssignedIdentity
+          name: aso-sample-cp-cluster-api-azure
         - reference:
-            armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-control-plane"
+          group: managedidentity.azure.com
+          kind: UserAssignedIdentity
+          name: aso-sample-cp-control-plane
         - reference:
-            armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-disk-csi-driver"
+          group: managedidentity.azure.com
+          kind: UserAssignedIdentity
+          name: aso-sample-cp-disk-csi-driver
         - reference:
-            armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-file-csi-driver"
+          group: managedidentity.azure.com
+          kind: UserAssignedIdentity
+          name: aso-sample-cp-file-csi-driver
         - reference:
-            armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-image-registry"
+          group: managedidentity.azure.com
+          kind: UserAssignedIdentity
+          name: aso-sample-cp-image-registry
         - reference:
-            armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-ingress"
+          group: managedidentity.azure.com
+          kind: UserAssignedIdentity
+          name: aso-sample-cp-ingress
         - reference:
-            armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-kms"
+          group: managedidentity.azure.com
+          kind: UserAssignedIdentity
+          name: aso-sample-cp-kms
         - reference:
-            armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-service-managed-identity"
+          group: managedidentity.azure.com
+          kind: UserAssignedIdentity
+          name: aso-sample-service-managed-identity
   properties:
     platform:
       networkSecurityGroupReference:
@@ -43,32 +63,58 @@ spec:
         userAssignedIdentities:
           controlPlaneOperatorsReferences:
             cloud-controller-manager:
-              armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-cloud-controller-manager"
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-cloud-controller-manager
             cloud-network-config:
-              armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-cloud-network-config"
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-cloud-network-config
             cluster-api-azure:
-              armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-cluster-api-azure"
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-cluster-api-azure
             control-plane:
-              armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-control-plane"
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-control-plane
             disk-csi-driver:
-              armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-disk-csi-driver"
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-disk-csi-driver
             file-csi-driver:
-              armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-file-csi-driver"
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-file-csi-driver
             image-registry:
-              armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-image-registry"
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-image-registry
             ingress:
-              armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-ingress"
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-ingress
             kms:
-              armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-cp-kms"
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-kms
           dataPlaneOperatorsReferences:
             disk-csi-driver:
-              armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-dp-disk-csi-driver"
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-dp-disk-csi-driver
             file-csi-driver:
-              armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-dp-file-csi-driver"
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-dp-file-csi-driver
             image-registry:
-              armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-dp-image-registry"
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-dp-image-registry
           serviceManagedIdentityReference:
-            armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/aso-sample-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-service-managed-identity"
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-service-managed-identity
       subnetReference:
         group: network.azure.com
         kind: VirtualNetworksSubnet

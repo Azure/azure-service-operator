@@ -47,10 +47,12 @@ HcpOpenShiftCluster: Resource
 │   │   │   │   ├── CustomerManaged: *Object (3 properties)
 │   │   │   │   │   ├── EncryptionType: *string
 │   │   │   │   │   ├── Kms: *Object (5 properties)
-│   │   │   │   │   │   ├── ActiveKey: *Object (3 properties)
+│   │   │   │   │   │   ├── ActiveKey: *Object (5 properties)
 │   │   │   │   │   │   │   ├── Name: *string
+│   │   │   │   │   │   │   ├── NameFromConfig: *genruntime.ConfigMapReference
 │   │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │   │   └── Version: *string
+│   │   │   │   │   │   │   ├── Version: *string
+│   │   │   │   │   │   │   └── VersionFromConfig: *genruntime.ConfigMapReference
 │   │   │   │   │   │   ├── KeyVaultType: *string
 │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   │   ├── VaultName: *string

@@ -31,6 +31,9 @@ groupModelConfiguration:
         $importSecretMode: required
       ClientId:
         $importConfigMapMode: optional
+  # HCP GA added activeVersions to the cluster and node-pool status schemas.
+  # The manual augment conversions preserve that field in the preview status property bag,
+  # which does not model it directly.
   2026-09-01-preview:
     HcpOpenShiftClusterProperties_STATUS:
       Status:
@@ -42,16 +45,21 @@ groupModelConfiguration:
       Status:
         $conversionStrategy: manual
     HcpOpenShiftClusters_NodePool:
-      $supportedFrom: v2.22.0
+      $supportedFrom: v2.23.0
       $exportAs: HcpOpenShiftClustersNodePool
     HcpOpenShiftClusters_ExternalAuth:
-      $supportedFrom: v2.22.0
+      $supportedFrom: v2.23.0
       $exportAs: HcpOpenShiftClustersExternalAuth
     HcpOpenShiftCluster:
       $exportAs: HcpOpenShiftCluster
-      $supportedFrom: v2.22.0
+      $supportedFrom: v2.23.0
       $azureGeneratedSecrets:
         - AdminCredentials
+    KmsKey:
+      Name:
+        $importConfigMapMode: optional
+      Version:
+        $importConfigMapMode: optional
     # Configure references for complex types
     NodePoolVersionProfile:
       Id:
@@ -70,16 +78,21 @@ groupModelConfiguration:
       Status:
         $conversionStrategy: manual
     HcpOpenShiftClusters_NodePool:
-      $supportedFrom: v2.22.0
+      $supportedFrom: v2.23.0
       $exportAs: HcpOpenShiftClustersNodePool
     HcpOpenShiftClusters_ExternalAuth:
-      $supportedFrom: v2.22.0
+      $supportedFrom: v2.23.0
       $exportAs: HcpOpenShiftClustersExternalAuth
     HcpOpenShiftCluster:
       $exportAs: HcpOpenShiftCluster
-      $supportedFrom: v2.22.0
+      $supportedFrom: v2.23.0
       $azureGeneratedSecrets:
         - AdminCredentials
+    KmsKey:
+      Name:
+        $importConfigMapMode: optional
+      Version:
+        $importConfigMapMode: optional
     # Configure references for complex types
     NodePoolVersionProfile:
       Id:

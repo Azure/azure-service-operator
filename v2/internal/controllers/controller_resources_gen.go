@@ -3054,7 +3054,30 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20261001s.HcpOpenShiftCluster)})
+	result = append(result, &registration.StorageType{
+		Obj: new(redhatopenshift_v20261001s.HcpOpenShiftCluster),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.etcd.dataEncryption.customerManaged.kms.activeKey.nameFromConfig",
+				Func: indexRedhatopenshiftHcpOpenShiftClusterNameFromConfig,
+			},
+			{
+				Key:  ".spec.properties.etcd.dataEncryption.customerManaged.kms.activeKey.versionFromConfig",
+				Func: indexRedhatopenshiftHcpOpenShiftClusterVersionFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.properties.etcd.dataEncryption.customerManaged.kms.activeKey.nameFromConfig",
+						".spec.properties.etcd.dataEncryption.customerManaged.kms.activeKey.versionFromConfig",
+					},
+					&redhatopenshift_v20261001s.HcpOpenShiftClusterList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20261001s.HcpOpenShiftClustersExternalAuth)})
 	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20261001s.HcpOpenShiftClustersNodePool)})
 	result = append(result, &registration.StorageType{Obj: new(resources_v20200601s.ResourceGroup)})
@@ -14494,6 +14517,66 @@ func indexNotificationhubsNotificationHubXiaomiCredentialEndpoint(rawObj client.
 		return nil
 	}
 	return obj.Spec.Properties.XiaomiCredential.Properties.Endpoint.Index()
+}
+
+// indexRedhatopenshiftHcpOpenShiftClusterNameFromConfig an index function for redhatopenshift_v20261001s.HcpOpenShiftCluster .spec.properties.etcd.dataEncryption.customerManaged.kms.activeKey.nameFromConfig
+func indexRedhatopenshiftHcpOpenShiftClusterNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*redhatopenshift_v20261001s.HcpOpenShiftCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Etcd == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Etcd.DataEncryption == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Etcd.DataEncryption.CustomerManaged == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Etcd.DataEncryption.CustomerManaged.Kms == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Etcd.DataEncryption.CustomerManaged.Kms.ActiveKey == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Etcd.DataEncryption.CustomerManaged.Kms.ActiveKey.NameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.Etcd.DataEncryption.CustomerManaged.Kms.ActiveKey.NameFromConfig.Index()
+}
+
+// indexRedhatopenshiftHcpOpenShiftClusterVersionFromConfig an index function for redhatopenshift_v20261001s.HcpOpenShiftCluster .spec.properties.etcd.dataEncryption.customerManaged.kms.activeKey.versionFromConfig
+func indexRedhatopenshiftHcpOpenShiftClusterVersionFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*redhatopenshift_v20261001s.HcpOpenShiftCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Etcd == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Etcd.DataEncryption == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Etcd.DataEncryption.CustomerManaged == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Etcd.DataEncryption.CustomerManaged.Kms == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Etcd.DataEncryption.CustomerManaged.Kms.ActiveKey == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Etcd.DataEncryption.CustomerManaged.Kms.ActiveKey.VersionFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.Etcd.DataEncryption.CustomerManaged.Kms.ActiveKey.VersionFromConfig.Index()
 }
 
 // indexRedhatopenshiftOpenShiftClusterClientIdFromConfig an index function for redhatopenshift_v20231122s.OpenShiftCluster .spec.servicePrincipalProfile.clientIdFromConfig

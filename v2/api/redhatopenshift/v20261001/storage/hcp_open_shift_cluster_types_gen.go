@@ -696,9 +696,11 @@ type KmsEncryptionProfile_STATUS struct {
 // Storage version of v20261001.KmsKey
 // A representation of a KeyVault Secret.
 type KmsKey struct {
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Version     *string                `json:"version,omitempty"`
+	Name              *string                        `json:"name,omitempty" optionalConfigMapPair:"Name"`
+	NameFromConfig    *genruntime.ConfigMapReference `json:"nameFromConfig,omitempty" optionalConfigMapPair:"Name"`
+	PropertyBag       genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Version           *string                        `json:"version,omitempty" optionalConfigMapPair:"Version"`
+	VersionFromConfig *genruntime.ConfigMapReference `json:"versionFromConfig,omitempty" optionalConfigMapPair:"Version"`
 }
 
 // Storage version of v20261001.KmsKey_STATUS

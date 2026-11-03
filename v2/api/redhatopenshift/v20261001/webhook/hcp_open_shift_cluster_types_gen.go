@@ -121,6 +121,7 @@ func (cluster *HcpOpenShiftCluster) createValidations() []func(ctx context.Conte
 		cluster.validateOwnerReference,
 		cluster.validateSecretDestinations,
 		cluster.validateConfigMapDestinations,
+		cluster.validateOptionalConfigMapReferences,
 	}
 }
 
@@ -145,6 +146,9 @@ func (cluster *HcpOpenShiftCluster) updateValidations() []func(ctx context.Conte
 		func(ctx context.Context, oldObj *v20261001.HcpOpenShiftCluster, newObj *v20261001.HcpOpenShiftCluster) (admission.Warnings, error) {
 			return cluster.validateConfigMapDestinations(ctx, newObj)
 		},
+		func(ctx context.Context, oldObj *v20261001.HcpOpenShiftCluster, newObj *v20261001.HcpOpenShiftCluster) (admission.Warnings, error) {
+			return cluster.validateOptionalConfigMapReferences(ctx, newObj)
+		},
 	}
 }
 
@@ -154,6 +158,15 @@ func (cluster *HcpOpenShiftCluster) validateConfigMapDestinations(ctx context.Co
 		return nil, nil
 	}
 	return configmaps.ValidateDestinations(obj, nil, obj.Spec.OperatorSpec.ConfigMapExpressions)
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (cluster *HcpOpenShiftCluster) validateOptionalConfigMapReferences(ctx context.Context, obj *v20261001.HcpOpenShiftCluster) (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&obj.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field

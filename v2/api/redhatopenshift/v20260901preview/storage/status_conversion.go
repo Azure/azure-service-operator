@@ -10,6 +10,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
+// These augment hooks handle only the Status properties marked with
+// $conversionStrategy: manual. Generated conversions still handle the other
+// properties. The GA cluster and node-pool status schemas add activeVersions,
+// which the preview ResourceStatus schema cannot represent directly, so keep
+// it in the preview status property bag and restore it when converting back.
 const activeVersionsProperty = "activeVersions"
 
 func (properties *HcpOpenShiftClusterProperties_STATUS) AssignPropertiesFrom(src *hubstorage.HcpOpenShiftClusterProperties_STATUS) error {

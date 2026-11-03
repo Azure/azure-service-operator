@@ -56,13 +56,15 @@ HcpOpenShiftCluster: Resource
 │   │   │       │   ├── EncryptionType: *Enum (1 value)
 │   │   │       │   │   └── "KMS"
 │   │   │       │   └── Kms: *Object (4 properties)
-│   │   │       │       ├── ActiveKey: *Object (2 properties)
+│   │   │       │       ├── ActiveKey: *Object (4 properties)
 │   │   │       │       │   ├── Name: Validated<*string> (2 rules)
 │   │   │       │       │   │   ├── Rule 0: MaxLength: 255
 │   │   │       │       │   │   └── Rule 1: MinLength: 1
-│   │   │       │       │   └── Version: Validated<*string> (2 rules)
-│   │   │       │       │       ├── Rule 0: MaxLength: 255
-│   │   │       │       │       └── Rule 1: MinLength: 1
+│   │   │       │       │   ├── NameFromConfig: *genruntime.ConfigMapReference
+│   │   │       │       │   ├── Version: Validated<*string> (2 rules)
+│   │   │       │       │   │   ├── Rule 0: MaxLength: 255
+│   │   │       │       │   │   └── Rule 1: MinLength: 1
+│   │   │       │       │   └── VersionFromConfig: *genruntime.ConfigMapReference
 │   │   │       │       ├── KeyVaultType: *Enum (2 values)
 │   │   │       │       │   ├── "KeyVault"
 │   │   │       │       │   └── "ManagedHSM"

@@ -2127,6 +2127,11 @@ func (in *KmsKey) DeepCopyInto(out *KmsKey) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.NameFromConfig != nil {
+		in, out := &in.NameFromConfig, &out.NameFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -2137,6 +2142,11 @@ func (in *KmsKey) DeepCopyInto(out *KmsKey) {
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
 		*out = new(string)
+		**out = **in
+	}
+	if in.VersionFromConfig != nil {
+		in, out := &in.VersionFromConfig, &out.VersionFromConfig
+		*out = new(genruntime.ConfigMapReference)
 		**out = **in
 	}
 }
