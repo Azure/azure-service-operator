@@ -14,45 +14,45 @@ spec:
     type: UserAssigned
     userAssignedIdentities:
         - reference:
-          group: managedidentity.azure.com
-          kind: UserAssignedIdentity
-          name: aso-sample-cp-cloud-controller-manager
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-cloud-controller-manager
         - reference:
-          group: managedidentity.azure.com
-          kind: UserAssignedIdentity
-          name: aso-sample-cp-cloud-network-config
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-cloud-network-config
         - reference:
-          group: managedidentity.azure.com
-          kind: UserAssignedIdentity
-          name: aso-sample-cp-cluster-api-azure
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-cluster-api-azure
         - reference:
-          group: managedidentity.azure.com
-          kind: UserAssignedIdentity
-          name: aso-sample-cp-control-plane
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-control-plane
         - reference:
-          group: managedidentity.azure.com
-          kind: UserAssignedIdentity
-          name: aso-sample-cp-disk-csi-driver
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-disk-csi-driver
         - reference:
-          group: managedidentity.azure.com
-          kind: UserAssignedIdentity
-          name: aso-sample-cp-file-csi-driver
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-file-csi-driver
         - reference:
-          group: managedidentity.azure.com
-          kind: UserAssignedIdentity
-          name: aso-sample-cp-image-registry
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-image-registry
         - reference:
-          group: managedidentity.azure.com
-          kind: UserAssignedIdentity
-          name: aso-sample-cp-ingress
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-ingress
         - reference:
-          group: managedidentity.azure.com
-          kind: UserAssignedIdentity
-          name: aso-sample-cp-kms
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-kms
         - reference:
-          group: managedidentity.azure.com
-          kind: UserAssignedIdentity
-          name: aso-sample-service-managed-identity
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-service-managed-identity
   properties:
     platform:
       networkSecurityGroupReference:

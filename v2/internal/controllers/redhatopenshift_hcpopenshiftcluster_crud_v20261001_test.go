@@ -92,10 +92,18 @@ func Test_RedHatOpenShift_HcpOpenShiftCluster_v20261001_CRUD(t *testing.T) {
 	tc.Expect(cluster.Status.Id).ToNot(BeNil())
 	tc.Expect(cluster.Status.Properties).ToNot(BeNil())
 	tc.Expect(cluster.Status.Properties.ProvisioningState).To(Equal(to.Ptr(aro.ProvisioningState_STATUS_Succeeded)))
+	tc.Expect(cluster.Status.Properties.Status).ToNot(BeNil())
+	tc.Expect(cluster.Status.Properties.Status.ActiveVersions).To(ContainElement(
+		aro.ClusterActiveVersion_STATUS{Version: to.Ptr(values["clusterVersion"])},
+	))
 	tc.Expect(nodePool.Status.Id).ToNot(BeNil())
 	tc.Expect(nodePool.Status.Properties).ToNot(BeNil())
 	tc.Expect(nodePool.Status.Properties.ProvisioningState).To(Equal(to.Ptr(aro.ProvisioningState_STATUS_Succeeded)))
 	tc.Expect(nodePool.Status.Properties.Replicas).To(Equal(to.Ptr(2)))
+	tc.Expect(nodePool.Status.Properties.Status).ToNot(BeNil())
+	tc.Expect(nodePool.Status.Properties.Status.ActiveVersions).To(ContainElement(
+		aro.NodePoolActiveVersion_STATUS{Version: to.Ptr(values["nodePoolVersion"])},
+	))
 	tc.Expect(externalAuth.Status.Id).ToNot(BeNil())
 	tc.Expect(externalAuth.Status.Properties).ToNot(BeNil())
 	tc.Expect(externalAuth.Status.Properties.ProvisioningState).To(Equal(to.Ptr(aro.ExternalAuthProvisioningState_STATUS_Succeeded)))

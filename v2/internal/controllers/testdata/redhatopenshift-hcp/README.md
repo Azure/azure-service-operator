@@ -27,11 +27,13 @@ cluster is relied on instead, with all three ARM resources confirmed gone
 afterward.
 
 The fixtures follow the CAPZ `mv1-tests-stage/aro.yaml` scenario: OpenShift
-4.20 / node pool 4.20.17, the experimental SingleReplica/Minimal tags, and Entra
-external authentication with the `oid` username claim. The test creates its own
-resource group, VNet, NSG, worker subnet, delegated integration subnet, 13 managed
-identities, Key Vault, and 32 role assignments. It exports identity principal IDs
-to ConfigMaps and uses them in role assignments, just like the CAPZ manifests.
+4.20 / node pool 4.20.17, the experimental Minimal size-override tag, and Entra
+external authentication with the `oid` username claim. Both API-version tests
+omit the single-replica tag because the HCP API rejects it. Each test creates its
+own resource group, VNet, NSG, worker subnet, delegated integration subnet, 13
+managed identities, Key Vault, and 32 role assignments. It exports identity
+principal IDs to ConfigMaps and uses them in role assignments, just like the
+CAPZ manifests.
 
 The KMS key is created through the repository's existing recorded ARM helper
 because ASO does not yet expose a Key Vault key resource. All generated names use
