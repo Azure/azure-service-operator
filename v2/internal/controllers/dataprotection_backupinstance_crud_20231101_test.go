@@ -272,7 +272,7 @@ func newBackupInstanceKubernetesExtension(tc *testcommon.KubePerTestContext, clu
 				"configuration.backupStorageLocation.config.resourceGroup":  rg.Name,
 				"configuration.backupStorageLocation.config.storageAccount": acct.Name,
 				"configuration.backupStorageLocation.config.subscriptionId": tc.AzureSubscription,
-				"credentials.tenantId":                                      tc.AzureTenant,
+				"credentials.tenantId": tc.AzureTenant,
 			},
 		},
 	}
