@@ -186,7 +186,7 @@ func GetKnownStorageTypes(
 		&registration.StorageType{
 			Obj:  &entrav1.SecurityGroup{},
 			Name: "entra_securitygroup",
-			Reconciler: entrareconciler.NewEntraSecurityGroupReconciler(
+			Reconciler: entrareconciler.NewSecurityGroupReconciler(
 				clients.KubeClient,
 				clients.EntraConnectionFactory,
 				resourceResolver,

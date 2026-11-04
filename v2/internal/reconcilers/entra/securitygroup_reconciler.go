@@ -47,25 +47,25 @@ import (
 // Terraform and other tools use the BETA SDK for the same (or similar) reasons.
 //
 
-// EntraSecurityGroupReconciler reconciles an Entra security group.
+// SecurityGroupReconciler reconciles an Entra security group.
 // TODO: Factor out common code shared with other Entra resources into entraGenericReconciler
-type EntraSecurityGroupReconciler struct {
+type SecurityGroupReconciler struct {
 	reconcilers.ReconcilerCommon
 	ResourceResolver   *resolver.Resolver
 	Config             config.Values
 	EntraClientFactory EntraConnectionFactory
 }
 
-var _ genruntime.Reconciler = &EntraSecurityGroupReconciler{}
+var _ genruntime.Reconciler = &SecurityGroupReconciler{}
 
-func NewEntraSecurityGroupReconciler(
+func NewSecurityGroupReconciler(
 	kubeClient kubeclient.Client,
 	entraClientFactory EntraConnectionFactory,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
 	cfg config.Values,
-) *EntraSecurityGroupReconciler {
-	return &EntraSecurityGroupReconciler{
+) *SecurityGroupReconciler {
+	return &SecurityGroupReconciler{
 		ResourceResolver:   resourceResolver,
 		Config:             cfg,
 		EntraClientFactory: entraClientFactory,
@@ -76,7 +76,7 @@ func NewEntraSecurityGroupReconciler(
 	}
 }
 
-func (r *EntraSecurityGroupReconciler) CreateOrUpdate(
+func (r *SecurityGroupReconciler) CreateOrUpdate(
 	ctx context.Context,
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
@@ -115,7 +115,7 @@ func (r *EntraSecurityGroupReconciler) CreateOrUpdate(
 	return ctrl.Result{}, eris.Errorf("security group %s not found for adoption", group.Name)
 }
 
-func (r *EntraSecurityGroupReconciler) Delete(
+func (r *SecurityGroupReconciler) Delete(
 	ctx context.Context,
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
@@ -161,7 +161,7 @@ func (r *EntraSecurityGroupReconciler) Delete(
 	return ctrl.Result{}, nil
 }
 
-func (r *EntraSecurityGroupReconciler) Claim(
+func (r *SecurityGroupReconciler) Claim(
 	ctx context.Context,
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
@@ -178,7 +178,7 @@ func (r *EntraSecurityGroupReconciler) Claim(
 // group is the security group to update.
 // eventRecorder is used to record events for the group.
 // log is the logger to use for logging.
-func (r *EntraSecurityGroupReconciler) update(
+func (r *SecurityGroupReconciler) update(
 	ctx context.Context,
 	id string,
 	group *asoentra.SecurityGroup,
@@ -278,7 +278,7 @@ func (r *EntraSecurityGroupReconciler) update(
 // Returns the Entra ID of the group to adopt, and nil if found;
 // nil, nil if no group was found to adopt;
 // or nil, error if there was a problem finding the group.
-func (r *EntraSecurityGroupReconciler) tryAdopt(
+func (r *SecurityGroupReconciler) tryAdopt(
 	ctx context.Context,
 	group *asoentra.SecurityGroup,
 	log logr.Logger,
@@ -336,7 +336,7 @@ func (r *EntraSecurityGroupReconciler) tryAdopt(
 // group is the security group to create.
 // eventRecorder is used to record events for the group.
 // log is the logger to use for logging.
-func (r *EntraSecurityGroupReconciler) create(
+func (r *SecurityGroupReconciler) create(
 	ctx context.Context,
 	group *asoentra.SecurityGroup,
 	log logr.Logger,
@@ -391,7 +391,7 @@ func (r *EntraSecurityGroupReconciler) create(
 	return ctrl.Result{}, nil
 }
 
-func (r *EntraSecurityGroupReconciler) UpdateStatus(
+func (r *SecurityGroupReconciler) UpdateStatus(
 	ctx context.Context,
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
@@ -438,7 +438,7 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 
 // loadGroupByID loads the group from Entra, if it exists.
 // Returns the group and nil if it exists, nil and nil if it doesn't, or nil and an error if there was a problem.
-func (r *EntraSecurityGroupReconciler) loadGroupByID(
+func (r *SecurityGroupReconciler) loadGroupByID(
 	ctx context.Context,
 	id string,
 	client *msgraphsdkgo.GraphServiceClient,
@@ -473,7 +473,7 @@ func (r *EntraSecurityGroupReconciler) loadGroupByID(
 }
 
 // listOwners retrieves the list of owner object IDs for the specified group from Entra.
-func (r *EntraSecurityGroupReconciler) listOwners(
+func (r *SecurityGroupReconciler) listOwners(
 	ctx context.Context,
 	id string,
 	client *msgraphsdkgo.GraphServiceClient,
@@ -509,7 +509,7 @@ func ownerIDRequestConfiguration() *groups.ItemOwnersRequestBuilderGetRequestCon
 }
 
 // listMembers retrieves the list of member object IDs for the specified group from Entra.
-func (r *EntraSecurityGroupReconciler) listMembers(
+func (r *SecurityGroupReconciler) listMembers(
 	ctx context.Context,
 	id string,
 	client *msgraphsdkgo.GraphServiceClient,
@@ -556,7 +556,7 @@ func makeDirectoryObjects(ids []uuid.UUID) []msgraphmodels.DirectoryObjectable {
 }
 
 // loadGroupsByDisplayName loads groups from Entra by display name.
-func (r *EntraSecurityGroupReconciler) loadGroupsByDisplayName(
+func (r *SecurityGroupReconciler) loadGroupsByDisplayName(
 	ctx context.Context,
 	displayName string,
 	client *msgraphsdkgo.GraphServiceClient,
@@ -595,7 +595,7 @@ func (r *EntraSecurityGroupReconciler) loadGroupsByDisplayName(
 	}
 }
 
-func (r *EntraSecurityGroupReconciler) asSecurityGroup(
+func (r *SecurityGroupReconciler) asSecurityGroup(
 	obj genruntime.MetaObject,
 ) (*asoentra.SecurityGroup, error) {
 	typedObj, ok := obj.(*asoentra.SecurityGroup)
@@ -606,7 +606,7 @@ func (r *EntraSecurityGroupReconciler) asSecurityGroup(
 	return typedObj, nil
 }
 
-func (r *EntraSecurityGroupReconciler) canAdopt(group *asoentra.SecurityGroup) bool {
+func (r *SecurityGroupReconciler) canAdopt(group *asoentra.SecurityGroup) bool {
 	if group.Spec.OperatorSpec == nil {
 		// Default is AdoptOrCreate
 		return true
@@ -615,7 +615,7 @@ func (r *EntraSecurityGroupReconciler) canAdopt(group *asoentra.SecurityGroup) b
 	return group.Spec.OperatorSpec.AdoptionAllowed()
 }
 
-func (r *EntraSecurityGroupReconciler) canCreate(group *asoentra.SecurityGroup) bool {
+func (r *SecurityGroupReconciler) canCreate(group *asoentra.SecurityGroup) bool {
 	if group.Spec.OperatorSpec == nil {
 		// Default is AdoptOrCreate
 		return true
@@ -627,7 +627,7 @@ func (r *EntraSecurityGroupReconciler) canCreate(group *asoentra.SecurityGroup) 
 // saveAssociatedKubernetesResources retrieves Kubernetes resources to create and saves them to Kubernetes.
 // If there are no resources to save this method is a no-op.
 // TODO: Currently hard coded, but we should extract common features for reuse across other Entra resources
-func (r *EntraSecurityGroupReconciler) saveAssociatedKubernetesResources(
+func (r *SecurityGroupReconciler) saveAssociatedKubernetesResources(
 	ctx context.Context,
 	group *asoentra.SecurityGroup,
 	log logr.Logger,

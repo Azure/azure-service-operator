@@ -57,7 +57,7 @@ func TestSecurityGroupAdoptOnlyMissingReturnsError(t *testing.T) {
 		g.Expect(uri.Path).To(gomega.Equal("/beta/groups"))
 		return msgraphmodels.NewGroupCollectionResponse(), nil
 	}
-	reconciler := &EntraSecurityGroupReconciler{
+	reconciler := &SecurityGroupReconciler{
 		EntraClientFactory: servicePrincipalTestFactory(adapter),
 	}
 	obj := &asoentra.SecurityGroup{
@@ -120,7 +120,7 @@ func TestSecurityGroupAdoptOnlyDoesNotModifyOrDelete(t *testing.T) {
 		result.SetId(new(id))
 		return result, nil
 	}
-	reconciler := &EntraSecurityGroupReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
+	reconciler := &SecurityGroupReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
 	mode := asoentra.AdoptOnly
 	obj := &asoentra.SecurityGroup{
 		Spec: asoentra.SecurityGroupSpec{
