@@ -30,7 +30,7 @@ func TestApplicationAdoptOnlyMissingReturnsError(t *testing.T) {
 		g.Expect(uri.Path).To(gomega.Equal("/beta/applications"))
 		return msgraphmodels.NewApplicationCollectionResponse(), nil
 	}
-	reconciler := &EntraApplicationReconciler{
+	reconciler := &ApplicationReconciler{
 		EntraClientFactory: servicePrincipalTestFactory(adapter),
 	}
 	obj := &asoentra.Application{
@@ -57,7 +57,7 @@ func TestSecurityGroupAdoptOnlyMissingReturnsError(t *testing.T) {
 		g.Expect(uri.Path).To(gomega.Equal("/beta/groups"))
 		return msgraphmodels.NewGroupCollectionResponse(), nil
 	}
-	reconciler := &EntraSecurityGroupReconciler{
+	reconciler := &SecurityGroupReconciler{
 		EntraClientFactory: servicePrincipalTestFactory(adapter),
 	}
 	obj := &asoentra.SecurityGroup{
@@ -86,7 +86,7 @@ func TestApplicationAdoptOnlyDoesNotModifyOrDelete(t *testing.T) {
 		result.SetId(new(id))
 		return result, nil
 	}
-	reconciler := &EntraApplicationReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
+	reconciler := &ApplicationReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
 	mode := asoentra.AdoptOnly
 	obj := &asoentra.Application{
 		Spec: asoentra.ApplicationSpec{
@@ -120,7 +120,7 @@ func TestSecurityGroupAdoptOnlyDoesNotModifyOrDelete(t *testing.T) {
 		result.SetId(new(id))
 		return result, nil
 	}
-	reconciler := &EntraSecurityGroupReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
+	reconciler := &SecurityGroupReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
 	mode := asoentra.AdoptOnly
 	obj := &asoentra.SecurityGroup{
 		Spec: asoentra.SecurityGroupSpec{

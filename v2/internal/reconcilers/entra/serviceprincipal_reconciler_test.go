@@ -142,7 +142,7 @@ func TestServicePrincipalFindAllPages(t *testing.T) {
 				return page, nil
 			}
 			graph := msgraphsdk.NewGraphServiceClient(adapter)
-			reconciler := &EntraServicePrincipalReconciler{}
+			reconciler := &ServicePrincipalReconciler{}
 
 			matches, err := reconciler.findServicePrincipals(t.Context(), "displayName", displayName, graph)
 			if c.failAfter {
@@ -213,7 +213,7 @@ func TestServicePrincipalTryAdoptByAppId(t *testing.T) {
 				page.SetValue(principals)
 				return page, nil
 			}
-			reconciler := &EntraServicePrincipalReconciler{
+			reconciler := &ServicePrincipalReconciler{
 				EntraClientFactory: servicePrincipalTestFactory(adapter),
 			}
 			obj := &asoentra.ServicePrincipal{
@@ -322,7 +322,7 @@ func TestServicePrincipalTryAdoptByDisplayName(t *testing.T) {
 				}
 				return page, nil
 			}
-			reconciler := &EntraServicePrincipalReconciler{
+			reconciler := &ServicePrincipalReconciler{
 				EntraClientFactory: servicePrincipalTestFactory(adapter),
 			}
 			obj := &asoentra.ServicePrincipal{
@@ -374,7 +374,7 @@ func TestServicePrincipalNameOnlyAdoptsAndUpdatesExisting(t *testing.T) {
 		}
 		return principal, nil
 	}
-	reconciler := &EntraServicePrincipalReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
+	reconciler := &ServicePrincipalReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
 	obj := &asoentra.ServicePrincipal{
 		Spec: asoentra.ServicePrincipalSpec{DisplayName: new(name)},
 	}
@@ -402,7 +402,7 @@ func TestServicePrincipalNameOnlyMissingDoesNotCreate(t *testing.T) {
 		g.Expect(request.Method).To(Equal(abstractions.GET))
 		return msgraphmodels.NewServicePrincipalCollectionResponse(), nil
 	}
-	reconciler := &EntraServicePrincipalReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
+	reconciler := &ServicePrincipalReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
 	obj := &asoentra.ServicePrincipal{
 		Spec: asoentra.ServicePrincipalSpec{DisplayName: new("new principal")},
 	}
@@ -436,7 +436,7 @@ func TestServicePrincipalCreationModes(t *testing.T) {
 		},
 	}
 
-	reconciler := &EntraServicePrincipalReconciler{}
+	reconciler := &ServicePrincipalReconciler{}
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
@@ -447,8 +447,8 @@ func TestServicePrincipalCreationModes(t *testing.T) {
 					OperatorSpec: &asoentra.ServicePrincipalOperatorSpec{CreationMode: &c.mode},
 				},
 			}
-			g.Expect(reconciler.canAdopt(typedObj)).To(Equal(c.canAdopt))
-			g.Expect(reconciler.canCreate(typedObj)).To(Equal(c.canCreate))
+			g.Expect(reconciler.canAdopt(typedObj.Spec.OperatorSpec)).To(Equal(c.canAdopt))
+			g.Expect(reconciler.canCreate(typedObj.Spec.OperatorSpec)).To(Equal(c.canCreate))
 		})
 	}
 }
@@ -485,7 +485,7 @@ func TestServicePrincipalCreateResolvesTenantObjectID(t *testing.T) {
 			return nil, nil
 		}
 	}
-	reconciler := &EntraServicePrincipalReconciler{
+	reconciler := &ServicePrincipalReconciler{
 		EntraClientFactory: servicePrincipalTestFactory(adapter),
 	}
 	obj := &asoentra.ServicePrincipal{
@@ -540,7 +540,7 @@ func TestServicePrincipalAdoptOrCreateMutatesAndDeletesAdoptedPrincipal(t *testi
 		deletes++
 		return nil
 	}
-	reconciler := &EntraServicePrincipalReconciler{
+	reconciler := &ServicePrincipalReconciler{
 		EntraClientFactory: servicePrincipalTestFactory(adapter),
 	}
 	obj := &asoentra.ServicePrincipal{
@@ -588,7 +588,7 @@ func TestServicePrincipalMissingAdoptionTargetDoesNotCreate(t *testing.T) {
 				g.Expect(request.Method).To(Equal(abstractions.GET))
 				return msgraphmodels.NewServicePrincipalCollectionResponse(), nil
 			}
-			reconciler := &EntraServicePrincipalReconciler{
+			reconciler := &ServicePrincipalReconciler{
 				EntraClientFactory: servicePrincipalTestFactory(adapter),
 			}
 			obj := &asoentra.ServicePrincipal{
@@ -620,7 +620,7 @@ func TestServicePrincipalAdoptOnlyDoesNotMutateAnnotatedPrincipal(t *testing.T) 
 		principal.SetAppId(new(appID))
 		return principal, nil
 	}
-	reconciler := &EntraServicePrincipalReconciler{
+	reconciler := &ServicePrincipalReconciler{
 		EntraClientFactory: servicePrincipalTestFactory(adapter),
 	}
 	mode := asoentra.AdoptOnly
@@ -656,7 +656,7 @@ func TestServicePrincipalDeleteAdoptedByDefault(t *testing.T) {
 		deletes++
 		return nil
 	}
-	reconciler := &EntraServicePrincipalReconciler{
+	reconciler := &ServicePrincipalReconciler{
 		EntraClientFactory: servicePrincipalTestFactory(adapter),
 	}
 	obj := &asoentra.ServicePrincipal{}
@@ -710,7 +710,7 @@ func TestServicePrincipalDisplayNameIsPatchedWhenSpecified(t *testing.T) {
 				principal.SetAppId(new(appID))
 				return principal, nil
 			}
-			reconciler := &EntraServicePrincipalReconciler{
+			reconciler := &ServicePrincipalReconciler{
 				EntraClientFactory: servicePrincipalTestFactory(adapter),
 			}
 			obj := &asoentra.ServicePrincipal{
@@ -738,7 +738,7 @@ func TestServicePrincipalDeleteCreated(t *testing.T) {
 		calls++
 		return nil
 	}
-	reconciler := &EntraServicePrincipalReconciler{
+	reconciler := &ServicePrincipalReconciler{
 		EntraClientFactory: servicePrincipalTestFactory(adapter),
 	}
 	obj := &asoentra.ServicePrincipal{}

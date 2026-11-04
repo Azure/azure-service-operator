@@ -11,15 +11,6 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
-	"github.com/go-logr/logr"
-	msgraphsdkgo "github.com/microsoftgraph/msgraph-beta-sdk-go"
-	"github.com/microsoftgraph/msgraph-beta-sdk-go/applications"
-	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
-	"github.com/rotisserie/eris"
-	"k8s.io/client-go/tools/record"
-	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-
 	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
@@ -30,44 +21,54 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
+	msgraphsdkgo "github.com/microsoftgraph/msgraph-beta-sdk-go"
+	"github.com/microsoftgraph/msgraph-beta-sdk-go/applications"
+	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
+	"github.com/rotisserie/eris"
+	"k8s.io/client-go/tools/record"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-// EntraApplicationReconciler reconciles an Entra application.
-type EntraApplicationReconciler struct {
-	reconcilers.ReconcilerCommon
+// ApplicationReconciler reconciles an Entra application.
+type ApplicationReconciler struct {
+	reconcilerBase[*asoentra.Application, msgraphmodels.Applicationable]
 	ResourceResolver   *resolver.Resolver
 	Config             config.Values
 	EntraClientFactory EntraConnectionFactory
 }
 
-var _ genruntime.Reconciler = &EntraApplicationReconciler{}
+var _ genruntime.Reconciler = &ApplicationReconciler{}
 
-func NewEntraApplicationReconciler(
+func NewApplicationReconciler(
 	kubeClient kubeclient.Client,
 	entraClientFactory EntraConnectionFactory,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
 	cfg config.Values,
-) *EntraApplicationReconciler {
-	return &EntraApplicationReconciler{
+) *ApplicationReconciler {
+	return &ApplicationReconciler{
 		ResourceResolver:   resourceResolver,
 		Config:             cfg,
 		EntraClientFactory: entraClientFactory,
-		ReconcilerCommon: reconcilers.ReconcilerCommon{
-			KubeClient:         kubeClient,
-			PositiveConditions: positiveConditions,
+		reconcilerBase: reconcilerBase[*asoentra.Application, msgraphmodels.Applicationable]{
+			ReconcilerCommon: reconcilers.ReconcilerCommon{
+				KubeClient:         kubeClient,
+				PositiveConditions: positiveConditions,
+			},
 		},
 	}
 }
 
-func (r *EntraApplicationReconciler) CreateOrUpdate(
+func (r *ApplicationReconciler) CreateOrUpdate(
 	ctx context.Context,
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
 	_ annotations.ResolvedReconcilePolicies,
 ) (ctrl.Result, error) {
-	app, err := r.asApplication(obj)
+	app, err := r.asResource(obj)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "creating or updating application %s", obj.GetName())
 	}
@@ -78,7 +79,7 @@ func (r *EntraApplicationReconciler) CreateOrUpdate(
 	}
 
 	// If we're allowed to adopt the application, we can try to find it
-	if r.canAdopt(app) {
+	if r.canAdopt(app.Spec.OperatorSpec) {
 		id, err := r.tryAdopt(ctx, app, log)
 		if err != nil {
 			return ctrl.Result{}, eris.Wrapf(err, "trying to adopt application %s", app.Name)
@@ -92,14 +93,14 @@ func (r *EntraApplicationReconciler) CreateOrUpdate(
 	}
 
 	// If we can't adopt, or didn't find an application to adopt, we can create a new one
-	if r.canCreate(app) {
+	if r.canCreate(app.Spec.OperatorSpec) {
 		return r.create(ctx, app, log)
 	}
 
 	return ctrl.Result{}, eris.Errorf("application %s not found for adoption", app.Name)
 }
 
-func (r *EntraApplicationReconciler) Delete(
+func (r *ApplicationReconciler) Delete(
 	ctx context.Context,
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
@@ -108,11 +109,11 @@ func (r *EntraApplicationReconciler) Delete(
 	log.V(Status).Info("Deleting Entra application")
 
 	// Ensure we have an application (as we shouldn't delete anything else)
-	app, err := r.asApplication(obj)
+	app, err := r.asResource(obj)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "deleting application %s", obj.GetName())
 	}
-	if !r.canCreate(app) {
+	if !r.canCreate(app.Spec.OperatorSpec) {
 		return ctrl.Result{}, nil
 	}
 
@@ -147,7 +148,7 @@ func (r *EntraApplicationReconciler) Delete(
 	return ctrl.Result{}, nil
 }
 
-func (r *EntraApplicationReconciler) Claim(
+func (r *ApplicationReconciler) Claim(
 	ctx context.Context,
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
@@ -158,7 +159,7 @@ func (r *EntraApplicationReconciler) Claim(
 }
 
 // update completes our reconciliation by updating an existing Entra application.
-func (r *EntraApplicationReconciler) update(
+func (r *ApplicationReconciler) update(
 	ctx context.Context,
 	id string,
 	app *asoentra.Application,
@@ -189,7 +190,7 @@ func (r *EntraApplicationReconciler) update(
 		}, nil
 	}
 
-	if !r.canCreate(app) {
+	if !r.canCreate(app.Spec.OperatorSpec) {
 		app.Status.AssignFromApplication(a)
 		if err := r.saveAssociatedKubernetesResources(ctx, app, log); err != nil {
 			return ctrl.Result{}, eris.Wrapf(err, "saving associated Kubernetes resources for application %s", app.Name)
@@ -240,7 +241,7 @@ func (r *EntraApplicationReconciler) update(
 // Returns the Entra ID of the application to adopt, and nil if found;
 // nil, nil if no application was found to adopt;
 // or nil, error if there was a problem finding the application.
-func (r *EntraApplicationReconciler) tryAdopt(
+func (r *ApplicationReconciler) tryAdopt(
 	ctx context.Context,
 	app *asoentra.Application,
 	log logr.Logger,
@@ -315,7 +316,7 @@ func (r *EntraApplicationReconciler) tryAdopt(
 }
 
 // create completes our reconciliation by creating a new Entra application.
-func (r *EntraApplicationReconciler) create(
+func (r *ApplicationReconciler) create(
 	ctx context.Context,
 	app *asoentra.Application,
 	log logr.Logger,
@@ -355,14 +356,14 @@ func (r *EntraApplicationReconciler) create(
 	return ctrl.Result{}, nil
 }
 
-func (r *EntraApplicationReconciler) UpdateStatus(
+func (r *ApplicationReconciler) UpdateStatus(
 	ctx context.Context,
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
 	_ annotations.ResolvedReconcilePolicies,
 ) error {
-	app, err := r.asApplication(obj)
+	app, err := r.asResource(obj)
 	if err != nil {
 		return eris.Wrapf(err, "updating status of application %s", obj.GetName())
 	}
@@ -402,94 +403,54 @@ func (r *EntraApplicationReconciler) UpdateStatus(
 
 // loadApplicationByID loads the application from Entra, if it exists.
 // Returns the application and nil if it exists, nil and nil if it doesn't, or nil and an error if there was a problem.
-func (r *EntraApplicationReconciler) loadApplicationByID(
+func (r *ApplicationReconciler) loadApplicationByID(
 	ctx context.Context,
 	id string,
 	client *msgraphsdkgo.GraphServiceClient,
 ) (msgraphmodels.Applicationable, error) {
-	// Try to get the application by ID
-	applicationable, err := client.Applications().ByApplicationId(id).Get(ctx, nil)
-	if err != nil {
-		// If the only problem is that the application doesn't exist, return nil and nil
-		if isNotFound(err) {
-			return nil, nil
-		}
-
-		return nil, err
+	fetch := func(
+		ctx context.Context,
+		id string,
+	) (msgraphmodels.Applicationable, error) {
+		return client.Applications().ByApplicationId(id).Get(ctx, nil)
 	}
 
-	return applicationable, nil
+	return r.loadByID(ctx, id, fetch)
 }
 
 // loadApplicationsByDisplayName loads applications from Entra by display name.
-func (r *EntraApplicationReconciler) loadApplicationsByDisplayName(
+func (r *ApplicationReconciler) loadApplicationsByDisplayName(
 	ctx context.Context,
 	displayName string,
 	client *msgraphsdkgo.GraphServiceClient,
 ) ([]msgraphmodels.Applicationable, error) {
-	// Try to get the application by display name
-	filterStr := fmt.Sprintf("displayName eq '%s'", escapeODataString(displayName))
-
-	query := &applications.ApplicationsRequestBuilderGetQueryParameters{
-		Filter: &filterStr,
-	}
-
-	options := &applications.ApplicationsRequestBuilderGetRequestConfiguration{
-		QueryParameters: query,
-	}
-
-	builder := client.Applications()
-	var matches []msgraphmodels.Applicationable
-	for {
-		result, err := builder.Get(ctx, options)
-		if err != nil {
-			return nil, eris.Wrapf(err, "failed to search for application with name %s", displayName)
+	fetchPage := func(
+		ctx context.Context,
+		filter string,
+		nextLink string,
+	) (msgraphmodels.ApplicationCollectionResponseable, error) {
+		options := &applications.ApplicationsRequestBuilderGetRequestConfiguration{
+			QueryParameters: &applications.ApplicationsRequestBuilderGetQueryParameters{Filter: &filter},
 		}
-		if result == nil {
-			return nil, eris.Errorf("searching applications with name %q returned no response", displayName)
+		builder := client.Applications()
+		if nextLink != "" {
+			builder = builder.WithUrl(nextLink)
 		}
-		matches = append(matches, result.GetValue()...)
-		next := to.Value(result.GetOdataNextLink())
-		if next == "" {
-			return matches, nil
-		}
-
-		builder = client.Applications().WithUrl(next)
-	}
-}
-
-func (r *EntraApplicationReconciler) asApplication(
-	obj genruntime.MetaObject,
-) (*asoentra.Application, error) {
-	typedObj, ok := obj.(*asoentra.Application)
-	if !ok {
-		return nil, eris.Errorf("cannot modify resource that is not of type *entra.Application. Type is %T", obj)
+		return builder.Get(ctx, options)
 	}
 
-	return typedObj, nil
-}
-
-func (r *EntraApplicationReconciler) canAdopt(app *asoentra.Application) bool {
-	if app.Spec.OperatorSpec == nil {
-		// Default is AdoptOrCreate
-		return true
+	readPage := func(
+		page msgraphmodels.ApplicationCollectionResponseable,
+	) ([]msgraphmodels.Applicationable, *string) {
+		return page.GetValue(), page.GetOdataNextLink()
 	}
 
-	return app.Spec.OperatorSpec.AdoptionAllowed()
-}
-
-func (r *EntraApplicationReconciler) canCreate(app *asoentra.Application) bool {
-	if app.Spec.OperatorSpec == nil {
-		// Default is AdoptOrCreate
-		return true
-	}
-
-	return app.Spec.OperatorSpec.CreationAllowed()
+	return r.query(ctx, "displayName", displayName, fetchPage, readPage)
 }
 
 // saveAssociatedKubernetesResources retrieves Kubernetes resources to create and saves them to Kubernetes.
 // If there are no resources to save this method is a no-op.
-func (r *EntraApplicationReconciler) saveAssociatedKubernetesResources(
+func (r *ApplicationReconciler) saveAssociatedKubernetesResources(
 	ctx context.Context,
 	app *asoentra.Application,
 	log logr.Logger,
