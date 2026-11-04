@@ -33,6 +33,36 @@ func (r *reconcilerBase[R, E]) asResource(obj genruntime.MetaObject) (R, error) 
 	return typedObj, nil
 }
 
+type adoptionAllower interface {
+	comparable
+	AdoptionAllowed() bool
+}
+
+// canAdopt checks whether spec allows adoption. A nil spec allows adoption by default.
+func (r *reconcilerBase[R, E]) canAdopt[P adoptionAllower](spec P) bool {
+	var nilSpec P
+	if spec == nilSpec {
+		return true
+	}
+
+	return spec.AdoptionAllowed()
+}
+
+type creationAllower interface {
+	comparable
+	CreationAllowed() bool
+}
+
+// canCreate checks whether spec allows creation. A nil spec allows creation by default.
+func (r *reconcilerBase[R, E]) canCreate[P creationAllower](spec P) bool {
+	var nilSpec P
+	if spec == nilSpec {
+		return true
+	}
+
+	return spec.CreationAllowed()
+}
+
 // escapeODataString escapes a string value for use in an OData filter expression.
 // Single quotes in OData are escaped by doubling them.
 func (r *reconcilerBase[R, E]) escapeODataString(s string) string {

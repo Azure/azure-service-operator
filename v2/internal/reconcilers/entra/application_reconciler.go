@@ -79,7 +79,7 @@ func (r *ApplicationReconciler) CreateOrUpdate(
 	}
 
 	// If we're allowed to adopt the application, we can try to find it
-	if r.canAdopt(app) {
+	if r.canAdopt(app.Spec.OperatorSpec) {
 		id, err := r.tryAdopt(ctx, app, log)
 		if err != nil {
 			return ctrl.Result{}, eris.Wrapf(err, "trying to adopt application %s", app.Name)
@@ -93,7 +93,7 @@ func (r *ApplicationReconciler) CreateOrUpdate(
 	}
 
 	// If we can't adopt, or didn't find an application to adopt, we can create a new one
-	if r.canCreate(app) {
+	if r.canCreate(app.Spec.OperatorSpec) {
 		return r.create(ctx, app, log)
 	}
 
@@ -113,7 +113,7 @@ func (r *ApplicationReconciler) Delete(
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "deleting application %s", obj.GetName())
 	}
-	if !r.canCreate(app) {
+	if !r.canCreate(app.Spec.OperatorSpec) {
 		return ctrl.Result{}, nil
 	}
 
@@ -190,7 +190,7 @@ func (r *ApplicationReconciler) update(
 		}, nil
 	}
 
-	if !r.canCreate(app) {
+	if !r.canCreate(app.Spec.OperatorSpec) {
 		app.Status.AssignFromApplication(a)
 		if err := r.saveAssociatedKubernetesResources(ctx, app, log); err != nil {
 			return ctrl.Result{}, eris.Wrapf(err, "saving associated Kubernetes resources for application %s", app.Name)
@@ -457,24 +457,6 @@ func (r *ApplicationReconciler) loadApplicationsByDisplayName(
 
 		builder = client.Applications().WithUrl(next)
 	}
-}
-
-func (r *ApplicationReconciler) canAdopt(app *asoentra.Application) bool {
-	if app.Spec.OperatorSpec == nil {
-		// Default is AdoptOrCreate
-		return true
-	}
-
-	return app.Spec.OperatorSpec.AdoptionAllowed()
-}
-
-func (r *ApplicationReconciler) canCreate(app *asoentra.Application) bool {
-	if app.Spec.OperatorSpec == nil {
-		// Default is AdoptOrCreate
-		return true
-	}
-
-	return app.Spec.OperatorSpec.CreationAllowed()
 }
 
 // saveAssociatedKubernetesResources retrieves Kubernetes resources to create and saves them to Kubernetes.

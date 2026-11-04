@@ -59,3 +59,48 @@ func TestReconcilerBaseAsResource(t *testing.T) {
 		})
 	}
 }
+
+func TestReconcilerBaseCreationModes(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		spec      *asoentra.ApplicationOperatorSpec
+		canAdopt  bool
+		canCreate bool
+	}{
+		"nil spec": {
+			canAdopt:  true,
+			canCreate: true,
+		},
+		"default mode": {
+			spec:      &asoentra.ApplicationOperatorSpec{},
+			canAdopt:  true,
+			canCreate: true,
+		},
+		"AdoptOnly": {
+			spec:      &asoentra.ApplicationOperatorSpec{CreationMode: new(asoentra.AdoptOnly)},
+			canAdopt:  true,
+			canCreate: false,
+		},
+		"AdoptOrCreate": {
+			spec:      &asoentra.ApplicationOperatorSpec{CreationMode: new(asoentra.AdoptOrCreate)},
+			canAdopt:  true,
+			canCreate: true,
+		},
+		"AlwaysCreate": {
+			spec:      &asoentra.ApplicationOperatorSpec{CreationMode: new(asoentra.AlwaysCreate)},
+			canAdopt:  false,
+			canCreate: true,
+		},
+	}
+
+	base := &reconcilerBase[*asoentra.Application, msgraphmodels.Applicationable]{}
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewWithT(t)
+			g.Expect(base.canAdopt(c.spec)).To(Equal(c.canAdopt))
+			g.Expect(base.canCreate(c.spec)).To(Equal(c.canCreate))
+		})
+	}
+}

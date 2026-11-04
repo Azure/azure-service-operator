@@ -447,8 +447,8 @@ func TestServicePrincipalCreationModes(t *testing.T) {
 					OperatorSpec: &asoentra.ServicePrincipalOperatorSpec{CreationMode: &c.mode},
 				},
 			}
-			g.Expect(reconciler.canAdopt(typedObj)).To(Equal(c.canAdopt))
-			g.Expect(reconciler.canCreate(typedObj)).To(Equal(c.canCreate))
+			g.Expect(reconciler.canAdopt(typedObj.Spec.OperatorSpec)).To(Equal(c.canAdopt))
+			g.Expect(reconciler.canCreate(typedObj.Spec.OperatorSpec)).To(Equal(c.canCreate))
 		})
 	}
 }

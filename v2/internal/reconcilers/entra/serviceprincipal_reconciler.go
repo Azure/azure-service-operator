@@ -78,7 +78,7 @@ func (r *ServicePrincipalReconciler) CreateOrUpdate(
 		return r.update(ctx, id, sp, log)
 	}
 
-	if r.canAdopt(sp) {
+	if r.canAdopt(sp.Spec.OperatorSpec) {
 		id, err := r.tryAdopt(ctx, sp, log)
 		if err != nil {
 			return ctrl.Result{}, eris.Wrapf(err, "trying to adopt service principal %s", sp.Name)
@@ -91,7 +91,7 @@ func (r *ServicePrincipalReconciler) CreateOrUpdate(
 		}
 	}
 
-	if r.canCreate(sp) {
+	if r.canCreate(sp.Spec.OperatorSpec) {
 		if to.Value(sp.Spec.AppId) == "" {
 			return ctrl.Result{}, eris.Errorf("cannot create service principal %s without an appId; no principal with displayName %q was found", sp.Name, *sp.Spec.DisplayName)
 		}
@@ -113,7 +113,7 @@ func (r *ServicePrincipalReconciler) Delete(
 		return ctrl.Result{}, err
 	}
 
-	if !r.canCreate(sp) {
+	if !r.canCreate(sp.Spec.OperatorSpec) {
 		return ctrl.Result{}, nil
 	}
 
@@ -195,7 +195,7 @@ func (r *ServicePrincipalReconciler) update(
 
 	if sp.Spec.DisplayName != nil &&
 		to.Value(sp.Spec.DisplayName) != to.Value(current.GetDisplayName()) &&
-		r.canCreate(sp) {
+		r.canCreate(sp.Spec.OperatorSpec) {
 		patch := msgraphmodels.NewServicePrincipal()
 		patch.SetDisplayName(sp.Spec.DisplayName)
 		updated, err := connection.Client().ServicePrincipals().ByServicePrincipalId(id).Patch(ctx, patch, nil)
@@ -381,14 +381,6 @@ func (r *ServicePrincipalReconciler) loadServicePrincipalByID(
 		return nil, nil
 	}
 	return result, err
-}
-
-func (r *ServicePrincipalReconciler) canAdopt(sp *asoentra.ServicePrincipal) bool {
-	return sp.Spec.OperatorSpec == nil || sp.Spec.OperatorSpec.AdoptionAllowed()
-}
-
-func (r *ServicePrincipalReconciler) canCreate(sp *asoentra.ServicePrincipal) bool {
-	return sp.Spec.OperatorSpec == nil || sp.Spec.OperatorSpec.CreationAllowed()
 }
 
 func (r *ServicePrincipalReconciler) saveAssociatedKubernetesResources(

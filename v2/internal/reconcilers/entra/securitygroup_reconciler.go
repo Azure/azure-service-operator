@@ -95,7 +95,7 @@ func (r *SecurityGroupReconciler) CreateOrUpdate(
 	}
 
 	// If we're allowed to adopt the group, we can try to find it
-	if r.canAdopt(group) {
+	if r.canAdopt(group.Spec.OperatorSpec) {
 		id, err := r.tryAdopt(ctx, group, log)
 		if err != nil {
 			return ctrl.Result{}, eris.Wrapf(err, "trying to adopt security group %s", group.Name)
@@ -109,7 +109,7 @@ func (r *SecurityGroupReconciler) CreateOrUpdate(
 	}
 
 	// If we can't adopt, or didn't find a group to adopt, we can create a new one
-	if r.canCreate(group) {
+	if r.canCreate(group.Spec.OperatorSpec) {
 		return r.create(ctx, group, log)
 	}
 
@@ -128,7 +128,7 @@ func (r *SecurityGroupReconciler) Delete(
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "deleting security group %s", obj.GetName())
 	}
-	if !r.canCreate(group) {
+	if !r.canCreate(group.Spec.OperatorSpec) {
 		return ctrl.Result{}, nil
 	}
 
@@ -210,7 +210,7 @@ func (r *SecurityGroupReconciler) update(
 		}, nil
 	}
 
-	if !r.canCreate(group) {
+	if !r.canCreate(group.Spec.OperatorSpec) {
 		group.Status.AssignFromGroup(g)
 		if err := r.saveAssociatedKubernetesResources(ctx, group, log); err != nil {
 			return ctrl.Result{}, eris.Wrapf(err, "saving associated Kubernetes resources for group %s", group.Name)
@@ -591,24 +591,6 @@ func (r *SecurityGroupReconciler) loadGroupsByDisplayName(
 
 		builder = client.Groups().WithUrl(next)
 	}
-}
-
-func (r *SecurityGroupReconciler) canAdopt(group *asoentra.SecurityGroup) bool {
-	if group.Spec.OperatorSpec == nil {
-		// Default is AdoptOrCreate
-		return true
-	}
-
-	return group.Spec.OperatorSpec.AdoptionAllowed()
-}
-
-func (r *SecurityGroupReconciler) canCreate(group *asoentra.SecurityGroup) bool {
-	if group.Spec.OperatorSpec == nil {
-		// Default is AdoptOrCreate
-		return true
-	}
-
-	return group.Spec.OperatorSpec.CreationAllowed()
 }
 
 // saveAssociatedKubernetesResources retrieves Kubernetes resources to create and saves them to Kubernetes.
