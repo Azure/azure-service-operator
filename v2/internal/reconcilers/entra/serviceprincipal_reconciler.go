@@ -28,24 +28,24 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 )
 
-// EntraServicePrincipalReconciler reconciles tenant service principals by application ID.
-type EntraServicePrincipalReconciler struct {
+// ServicePrincipalReconciler reconciles tenant service principals by application ID.
+type ServicePrincipalReconciler struct {
 	reconcilers.ReconcilerCommon
 	ResourceResolver   *resolver.Resolver
 	Config             config.Values
 	EntraClientFactory EntraConnectionFactory
 }
 
-var _ genruntime.Reconciler = &EntraServicePrincipalReconciler{}
+var _ genruntime.Reconciler = &ServicePrincipalReconciler{}
 
-func NewEntraServicePrincipalReconciler(
+func NewServicePrincipalReconciler(
 	kubeClient kubeclient.Client,
 	entraClientFactory EntraConnectionFactory,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
 	cfg config.Values,
-) *EntraServicePrincipalReconciler {
-	return &EntraServicePrincipalReconciler{
+) *ServicePrincipalReconciler {
+	return &ServicePrincipalReconciler{
 		ResourceResolver:   resourceResolver,
 		Config:             cfg,
 		EntraClientFactory: entraClientFactory,
@@ -56,7 +56,7 @@ func NewEntraServicePrincipalReconciler(
 	}
 }
 
-func (r *EntraServicePrincipalReconciler) CreateOrUpdate(
+func (r *ServicePrincipalReconciler) CreateOrUpdate(
 	ctx context.Context,
 	log logr.Logger,
 	_ record.EventRecorder,
@@ -100,7 +100,7 @@ func (r *EntraServicePrincipalReconciler) CreateOrUpdate(
 	return ctrl.Result{}, eris.Errorf("service principal %s not found for adoption", sp.Name)
 }
 
-func (r *EntraServicePrincipalReconciler) Delete(
+func (r *ServicePrincipalReconciler) Delete(
 	ctx context.Context,
 	_ logr.Logger,
 	_ record.EventRecorder,
@@ -150,7 +150,7 @@ func (r *EntraServicePrincipalReconciler) Delete(
 	return ctrl.Result{}, nil
 }
 
-func (r *EntraServicePrincipalReconciler) Claim(
+func (r *ServicePrincipalReconciler) Claim(
 	_ context.Context,
 	_ logr.Logger,
 	_ record.EventRecorder,
@@ -159,7 +159,7 @@ func (r *EntraServicePrincipalReconciler) Claim(
 	return nil
 }
 
-func (r *EntraServicePrincipalReconciler) update(
+func (r *ServicePrincipalReconciler) update(
 	ctx context.Context,
 	id string,
 	sp *asoentra.ServicePrincipal,
@@ -224,7 +224,7 @@ func (r *EntraServicePrincipalReconciler) update(
 	return ctrl.Result{}, nil
 }
 
-func (r *EntraServicePrincipalReconciler) tryAdopt(
+func (r *ServicePrincipalReconciler) tryAdopt(
 	ctx context.Context,
 	sp *asoentra.ServicePrincipal,
 	_ logr.Logger,
@@ -279,7 +279,7 @@ func servicePrincipalID(principal msgraphmodels.ServicePrincipalable, field, val
 	return id, nil
 }
 
-func (r *EntraServicePrincipalReconciler) findServicePrincipals(
+func (r *ServicePrincipalReconciler) findServicePrincipals(
 	ctx context.Context,
 	field string,
 	value string,
@@ -309,7 +309,7 @@ func (r *EntraServicePrincipalReconciler) findServicePrincipals(
 	}
 }
 
-func (r *EntraServicePrincipalReconciler) create(
+func (r *ServicePrincipalReconciler) create(
 	ctx context.Context,
 	sp *asoentra.ServicePrincipal,
 	log logr.Logger,
@@ -339,7 +339,7 @@ func (r *EntraServicePrincipalReconciler) create(
 	return ctrl.Result{}, nil
 }
 
-func (r *EntraServicePrincipalReconciler) UpdateStatus(
+func (r *ServicePrincipalReconciler) UpdateStatus(
 	ctx context.Context,
 	log logr.Logger,
 	_ record.EventRecorder,
@@ -369,7 +369,7 @@ func (r *EntraServicePrincipalReconciler) UpdateStatus(
 	return r.saveAssociatedKubernetesResources(ctx, sp, log)
 }
 
-func (r *EntraServicePrincipalReconciler) loadServicePrincipalByID(
+func (r *ServicePrincipalReconciler) loadServicePrincipalByID(
 	ctx context.Context,
 	id string,
 	graph *msgraphsdk.GraphServiceClient,
@@ -381,7 +381,7 @@ func (r *EntraServicePrincipalReconciler) loadServicePrincipalByID(
 	return result, err
 }
 
-func (r *EntraServicePrincipalReconciler) asServicePrincipal(
+func (r *ServicePrincipalReconciler) asServicePrincipal(
 	obj genruntime.MetaObject,
 ) (*asoentra.ServicePrincipal, error) {
 	sp, ok := obj.(*asoentra.ServicePrincipal)
@@ -391,15 +391,15 @@ func (r *EntraServicePrincipalReconciler) asServicePrincipal(
 	return sp, nil
 }
 
-func (r *EntraServicePrincipalReconciler) canAdopt(sp *asoentra.ServicePrincipal) bool {
+func (r *ServicePrincipalReconciler) canAdopt(sp *asoentra.ServicePrincipal) bool {
 	return sp.Spec.OperatorSpec == nil || sp.Spec.OperatorSpec.AdoptionAllowed()
 }
 
-func (r *EntraServicePrincipalReconciler) canCreate(sp *asoentra.ServicePrincipal) bool {
+func (r *ServicePrincipalReconciler) canCreate(sp *asoentra.ServicePrincipal) bool {
 	return sp.Spec.OperatorSpec == nil || sp.Spec.OperatorSpec.CreationAllowed()
 }
 
-func (r *EntraServicePrincipalReconciler) saveAssociatedKubernetesResources(
+func (r *ServicePrincipalReconciler) saveAssociatedKubernetesResources(
 	ctx context.Context,
 	sp *asoentra.ServicePrincipal,
 	_ logr.Logger,

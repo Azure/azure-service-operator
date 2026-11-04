@@ -222,7 +222,7 @@ func GetKnownStorageTypes(
 		&registration.StorageType{
 			Obj:  &entrav1.ServicePrincipal{},
 			Name: "entra_serviceprincipal",
-			Reconciler: entrareconciler.NewEntraServicePrincipalReconciler(
+			Reconciler: entrareconciler.NewServicePrincipalReconciler(
 				clients.KubeClient,
 				clients.EntraConnectionFactory,
 				resourceResolver,
