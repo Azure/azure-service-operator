@@ -10,9 +10,16 @@
 		
 		
 		
-			<lastBuildDate>Mon, 31 Aug 2026 00:00:00 +0000</lastBuildDate>
+			<lastBuildDate>Mon, 02 Nov 2026 00:00:00 +0000</lastBuildDate>
 		
 			<atom:link href="https://azure.github.io/azure-service-operator/blogs/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>ASO v2.22 Release Notes</title>
+				<link>https://azure.github.io/azure-service-operator/blogs/2026-11-02-release-notes-v2.22.0/</link>
+				<pubDate>Mon, 02 Nov 2026 00:00:00 +0000</pubDate>
+				<guid>https://azure.github.io/azure-service-operator/blogs/2026-11-02-release-notes-v2.22.0/</guid>
+				<description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.22.0! This release adds stricter Workload Identity isolation and support for Entra service principals and several new Azure resources. It also defaults the webhook and secure metrics servers to TLS 1.3 and removes support for the retired Azure Database for MariaDB service.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;h3 id=&#34;more-control-over-workload-identity&#34;&gt;More control over Workload Identity&lt;/h3&gt;&#xA;&lt;p&gt;ASO now supports an opt-in &lt;strong&gt;strict Workload Identity mode&lt;/strong&gt;. Namespace-scoped and per-resource credentials can use separate Kubernetes ServiceAccounts rather than sharing the ASO controller&amp;rsquo;s ServiceAccount subject. This lets you configure separate Federated Identity Credentials for those credentials, improving isolation in multitenant deployments.&lt;/p&gt;</description>
+			</item>
 			<item>
 				<title>ASO v2.21 Release Notes</title>
 				<link>https://azure.github.io/azure-service-operator/blogs/2026-08-31-release-notes-v2.21.0/</link>
