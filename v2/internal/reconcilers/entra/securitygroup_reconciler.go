@@ -562,35 +562,28 @@ func (r *SecurityGroupReconciler) loadGroupsByDisplayName(
 	displayName string,
 	client *msgraphsdkgo.GraphServiceClient,
 ) ([]msgraphmodels.Groupable, error) {
-	// Try to get the group by display name.
-	filterStr := fmt.Sprintf("displayName eq '%s'", r.escapeODataString(displayName))
-
-	query := &groups.GroupsRequestBuilderGetQueryParameters{
-		Filter: &filterStr,
+	fetchPage := func(
+		ctx context.Context,
+		filter string,
+		nextLink string,
+	) (msgraphmodels.GroupCollectionResponseable, error) {
+		options := &groups.GroupsRequestBuilderGetRequestConfiguration{
+			QueryParameters: &groups.GroupsRequestBuilderGetQueryParameters{Filter: &filter},
+		}
+		builder := client.Groups()
+		if nextLink != "" {
+			builder = builder.WithUrl(nextLink)
+		}
+		return builder.Get(ctx, options)
 	}
 
-	options := &groups.GroupsRequestBuilderGetRequestConfiguration{
-		QueryParameters: query,
+	readPage := func(
+		page msgraphmodels.GroupCollectionResponseable,
+	) ([]msgraphmodels.Groupable, *string) {
+		return page.GetValue(), page.GetOdataNextLink()
 	}
 
-	builder := client.Groups()
-	var matches []msgraphmodels.Groupable
-	for {
-		result, err := builder.Get(ctx, options)
-		if err != nil {
-			return nil, eris.Wrapf(err, "failed to search for group with name %s", displayName)
-		}
-		if result == nil {
-			return nil, eris.Errorf("searching groups with name %q returned no response", displayName)
-		}
-		matches = append(matches, result.GetValue()...)
-		next := to.Value(result.GetOdataNextLink())
-		if next == "" {
-			return matches, nil
-		}
-
-		builder = client.Groups().WithUrl(next)
-	}
+	return r.query(ctx, "displayName", displayName, fetchPage, readPage)
 }
 
 // saveAssociatedKubernetesResources retrieves Kubernetes resources to create and saves them to Kubernetes.

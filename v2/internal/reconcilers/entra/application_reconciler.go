@@ -428,35 +428,28 @@ func (r *ApplicationReconciler) loadApplicationsByDisplayName(
 	displayName string,
 	client *msgraphsdkgo.GraphServiceClient,
 ) ([]msgraphmodels.Applicationable, error) {
-	// Try to get the application by display name
-	filterStr := fmt.Sprintf("displayName eq '%s'", r.escapeODataString(displayName))
-
-	query := &applications.ApplicationsRequestBuilderGetQueryParameters{
-		Filter: &filterStr,
+	fetchPage := func(
+		ctx context.Context,
+		filter string,
+		nextLink string,
+	) (msgraphmodels.ApplicationCollectionResponseable, error) {
+		options := &applications.ApplicationsRequestBuilderGetRequestConfiguration{
+			QueryParameters: &applications.ApplicationsRequestBuilderGetQueryParameters{Filter: &filter},
+		}
+		builder := client.Applications()
+		if nextLink != "" {
+			builder = builder.WithUrl(nextLink)
+		}
+		return builder.Get(ctx, options)
 	}
 
-	options := &applications.ApplicationsRequestBuilderGetRequestConfiguration{
-		QueryParameters: query,
+	readPage := func(
+		page msgraphmodels.ApplicationCollectionResponseable,
+	) ([]msgraphmodels.Applicationable, *string) {
+		return page.GetValue(), page.GetOdataNextLink()
 	}
 
-	builder := client.Applications()
-	var matches []msgraphmodels.Applicationable
-	for {
-		result, err := builder.Get(ctx, options)
-		if err != nil {
-			return nil, eris.Wrapf(err, "failed to search for application with name %s", displayName)
-		}
-		if result == nil {
-			return nil, eris.Errorf("searching applications with name %q returned no response", displayName)
-		}
-		matches = append(matches, result.GetValue()...)
-		next := to.Value(result.GetOdataNextLink())
-		if next == "" {
-			return matches, nil
-		}
-
-		builder = client.Applications().WithUrl(next)
-	}
+	return r.query(ctx, "displayName", displayName, fetchPage, readPage)
 }
 
 // saveAssociatedKubernetesResources retrieves Kubernetes resources to create and saves them to Kubernetes.

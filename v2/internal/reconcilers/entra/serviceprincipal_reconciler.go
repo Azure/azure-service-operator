@@ -5,7 +5,6 @@ package entra
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	"github.com/go-logr/logr"
@@ -287,28 +286,28 @@ func (r *ServicePrincipalReconciler) findServicePrincipals(
 	value string,
 	graph *msgraphsdk.GraphServiceClient,
 ) ([]msgraphmodels.ServicePrincipalable, error) {
-	filter := fmt.Sprintf("%s eq '%s'", field, r.escapeODataString(value))
-	options := &serviceprincipals.ServicePrincipalsRequestBuilderGetRequestConfiguration{
-		QueryParameters: &serviceprincipals.ServicePrincipalsRequestBuilderGetQueryParameters{Filter: &filter},
+	fetchPage := func(
+		ctx context.Context,
+		filter string,
+		nextLink string,
+	) (msgraphmodels.ServicePrincipalCollectionResponseable, error) {
+		options := &serviceprincipals.ServicePrincipalsRequestBuilderGetRequestConfiguration{
+			QueryParameters: &serviceprincipals.ServicePrincipalsRequestBuilderGetQueryParameters{Filter: &filter},
+		}
+		builder := graph.ServicePrincipals()
+		if nextLink != "" {
+			builder = builder.WithUrl(nextLink)
+		}
+		return builder.Get(ctx, options)
 	}
-	builder := graph.ServicePrincipals()
-	var matches []msgraphmodels.ServicePrincipalable
-	for {
-		result, err := builder.Get(ctx, options)
-		if err != nil {
-			return nil, eris.Wrapf(err, "searching service principals by %s %q", field, value)
-		}
-		if result == nil {
-			return nil, eris.Errorf("searching service principals by %s %q returned no response", field, value)
-		}
-		matches = append(matches, result.GetValue()...)
-		next := to.Value(result.GetOdataNextLink())
-		if next == "" {
-			return matches, nil
-		}
 
-		builder = graph.ServicePrincipals().WithUrl(next)
+	readPage := func(
+		page msgraphmodels.ServicePrincipalCollectionResponseable,
+	) ([]msgraphmodels.ServicePrincipalable, *string) {
+		return page.GetValue(), page.GetOdataNextLink()
 	}
+
+	return r.query(ctx, field, value, fetchPage, readPage)
 }
 
 func (r *ServicePrincipalReconciler) create(

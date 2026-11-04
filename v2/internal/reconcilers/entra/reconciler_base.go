@@ -6,12 +6,15 @@ Licensed under the MIT license.
 package entra
 
 import (
+	"context"
+	"fmt"
 	"strings"
 
 	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 	"github.com/rotisserie/eris"
 
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -61,6 +64,41 @@ func (r *reconcilerBase[R, E]) canCreate[P creationAllower](spec P) bool {
 	}
 
 	return spec.CreationAllowed()
+}
+
+// query finds Entra resources whose field equals value, collecting results from every page.
+// fetchPage receives the escaped filter and next-link URL, which is empty for the first page.
+// readPage extracts the resources and next link from a response. Any failure discards partial results.
+func (r *reconcilerBase[R, E]) query[C comparable](
+	ctx context.Context,
+	field string,
+	value string,
+	fetchPage func(context.Context, string, string) (C, error),
+	readPage func(C) ([]E, *string),
+) ([]E, error) {
+	filter := fmt.Sprintf("%s eq '%s'", field, r.escapeODataString(value))
+	var resource R
+	var nilPage C
+	var results []E
+	nextLink := ""
+	for {
+		page, err := fetchPage(ctx, filter, nextLink)
+		if err != nil {
+			return nil, eris.Wrapf(err, "searching %T by %s %q", resource, field, value)
+		}
+
+		if page == nilPage {
+			return nil, eris.Errorf("searching %T by %s %q returned no response", resource, field, value)
+		}
+
+		values, next := readPage(page)
+		results = append(results, values...)
+
+		nextLink = to.Value(next)
+		if nextLink == "" {
+			return results, nil
+		}
+	}
 }
 
 // escapeODataString escapes a string value for use in an OData filter expression.
