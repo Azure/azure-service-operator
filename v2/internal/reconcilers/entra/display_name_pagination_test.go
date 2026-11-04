@@ -104,7 +104,7 @@ func TestLoadByDisplayNamePagination(t *testing.T) {
 						}
 					} else {
 						var values []msgraphmodels.Applicationable
-						values, err = (&EntraApplicationReconciler{}).loadApplicationsByDisplayName(t.Context(), displayName, graph)
+						values, err = (&ApplicationReconciler{}).loadApplicationsByDisplayName(t.Context(), displayName, graph)
 						for _, value := range values {
 							ids = append(ids, *value.GetId())
 						}

@@ -204,7 +204,7 @@ func GetKnownStorageTypes(
 		&registration.StorageType{
 			Obj:  &entrav1.Application{},
 			Name: "entra_application",
-			Reconciler: entrareconciler.NewEntraApplicationReconciler(
+			Reconciler: entrareconciler.NewApplicationReconciler(
 				clients.KubeClient,
 				clients.EntraConnectionFactory,
 				resourceResolver,

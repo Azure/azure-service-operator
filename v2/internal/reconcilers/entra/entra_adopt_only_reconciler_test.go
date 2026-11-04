@@ -30,7 +30,7 @@ func TestApplicationAdoptOnlyMissingReturnsError(t *testing.T) {
 		g.Expect(uri.Path).To(gomega.Equal("/beta/applications"))
 		return msgraphmodels.NewApplicationCollectionResponse(), nil
 	}
-	reconciler := &EntraApplicationReconciler{
+	reconciler := &ApplicationReconciler{
 		EntraClientFactory: servicePrincipalTestFactory(adapter),
 	}
 	obj := &asoentra.Application{
@@ -86,7 +86,7 @@ func TestApplicationAdoptOnlyDoesNotModifyOrDelete(t *testing.T) {
 		result.SetId(new(id))
 		return result, nil
 	}
-	reconciler := &EntraApplicationReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
+	reconciler := &ApplicationReconciler{EntraClientFactory: servicePrincipalTestFactory(adapter)}
 	mode := asoentra.AdoptOnly
 	obj := &asoentra.Application{
 		Spec: asoentra.ApplicationSpec{
