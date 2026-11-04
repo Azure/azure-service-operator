@@ -6,6 +6,7 @@ package entra
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"testing"
 
 	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
@@ -14,6 +15,70 @@ import (
 	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
+
+func TestReconcilerBaseLoadByID(t *testing.T) {
+	t.Parallel()
+
+	app := msgraphmodels.NewApplication()
+	notFound := makeODataError(http.StatusNotFound, nil)
+	forbidden := makeODataError(http.StatusForbidden, nil)
+	failure := fmt.Errorf("request failed")
+	cases := map[string]struct {
+		response      msgraphmodels.Applicationable
+		err           error
+		expected      msgraphmodels.Applicationable
+		expectedError error
+	}{
+		"found": {
+			response: app,
+			expected: app,
+		},
+		"not found": {
+			err: notFound,
+		},
+		"other Graph error": {
+			err:           forbidden,
+			expectedError: forbidden,
+		},
+		"other error": {
+			err:           failure,
+			expectedError: failure,
+		},
+		"empty response": {},
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewWithT(t)
+			ctx := t.Context()
+			const id = "application-object-id"
+			calls := 0
+			fetch := func(fetchContext context.Context, fetchID string) (msgraphmodels.Applicationable, error) {
+				g.Expect(fetchContext).To(Equal(ctx))
+				g.Expect(fetchID).To(Equal(id))
+				calls++
+				return c.response, c.err
+			}
+
+			base := &reconcilerBase[*asoentra.Application, msgraphmodels.Applicationable]{}
+			result, err := base.loadByID(ctx, id, fetch)
+			if c.expectedError == nil {
+				g.Expect(err).NotTo(HaveOccurred())
+			} else {
+				g.Expect(err).To(BeIdenticalTo(c.expectedError))
+			}
+
+			if c.expected == nil {
+				g.Expect(result).To(BeNil())
+			} else {
+				g.Expect(result).To(BeIdenticalTo(c.expected))
+			}
+
+			g.Expect(calls).To(Equal(1))
+		})
+	}
+}
 
 func TestReconcilerBaseAsResource(t *testing.T) {
 	t.Parallel()

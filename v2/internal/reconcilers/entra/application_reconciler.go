@@ -408,18 +408,14 @@ func (r *ApplicationReconciler) loadApplicationByID(
 	id string,
 	client *msgraphsdkgo.GraphServiceClient,
 ) (msgraphmodels.Applicationable, error) {
-	// Try to get the application by ID
-	applicationable, err := client.Applications().ByApplicationId(id).Get(ctx, nil)
-	if err != nil {
-		// If the only problem is that the application doesn't exist, return nil and nil
-		if isNotFound(err) {
-			return nil, nil
-		}
-
-		return nil, err
+	fetch := func(
+		ctx context.Context,
+		id string,
+	) (msgraphmodels.Applicationable, error) {
+		return client.Applications().ByApplicationId(id).Get(ctx, nil)
 	}
 
-	return applicationable, nil
+	return r.loadByID(ctx, id, fetch)
 }
 
 // loadApplicationsByDisplayName loads applications from Entra by display name.

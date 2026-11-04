@@ -444,16 +444,19 @@ func (r *SecurityGroupReconciler) loadGroupByID(
 	id string,
 	client *msgraphsdkgo.GraphServiceClient,
 ) (msgraphmodels.Groupable, error) {
-	// Try to get the group by ID
-	groupBuilder := client.Groups().ByGroupId(id)
-	groupable, err := groupBuilder.Get(ctx, nil)
-	if err != nil {
-		// If the only problem is that the group doesn't exist, return nil and nil
-		if isNotFound(err) {
-			return nil, nil
-		}
+	fetch := func(
+		ctx context.Context,
+		id string,
+	) (msgraphmodels.Groupable, error) {
+		return client.Groups().ByGroupId(id).Get(ctx, nil)
+	}
 
+	groupable, err := r.loadByID(ctx, id, fetch)
+	if err != nil {
 		return nil, err
+	}
+	if groupable == nil {
+		return nil, nil
 	}
 
 	// Load the owners of the group from Entra

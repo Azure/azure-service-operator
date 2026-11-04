@@ -375,11 +375,14 @@ func (r *ServicePrincipalReconciler) loadServicePrincipalByID(
 	id string,
 	graph *msgraphsdk.GraphServiceClient,
 ) (msgraphmodels.ServicePrincipalable, error) {
-	result, err := graph.ServicePrincipals().ByServicePrincipalId(id).Get(ctx, nil)
-	if isNotFound(err) {
-		return nil, nil
+	fetch := func(
+		ctx context.Context,
+		id string,
+	) (msgraphmodels.ServicePrincipalable, error) {
+		return graph.ServicePrincipals().ByServicePrincipalId(id).Get(ctx, nil)
 	}
-	return result, err
+
+	return r.loadByID(ctx, id, fetch)
 }
 
 func (r *ServicePrincipalReconciler) saveAssociatedKubernetesResources(

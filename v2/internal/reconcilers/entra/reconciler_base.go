@@ -66,6 +66,22 @@ func (r *reconcilerBase[R, E]) canCreate[P creationAllower](spec P) bool {
 	return spec.CreationAllowed()
 }
 
+// loadByID loads an Entra resource by ID using fetch.
+// A 404 returns the zero value of E without an error; other results and errors are returned unchanged.
+func (r *reconcilerBase[R, E]) loadByID(
+	ctx context.Context,
+	id string,
+	fetch func(context.Context, string) (E, error),
+) (E, error) {
+	resource, err := fetch(ctx, id)
+	if isNotFound(err) {
+		var zero E
+		return zero, nil
+	}
+
+	return resource, err
+}
+
 // query finds Entra resources whose field equals value, collecting results from every page.
 // fetchPage receives the escaped filter and next-link URL, which is empty for the first page.
 // readPage extracts the resources and next link from a response. Any failure discards partial results.
