@@ -97,6 +97,17 @@ github_subdir = "docs/hugo"
 # Enable Lunr.js offline search
 offlineSearch = true
 
+# Keep generated API references out of the browser-built search index. They balloon the index to >15mb
+# and the index is rebuilt on every page load. This results in very slow loading/unresponsive pages 
+# (I was observing) 5-10s of freeze on every page load.
+# If we want to include reference documentation in site search we can move to do lazy initialization of
+# the search cache the first time somebody uses search on each page.
+[[cascade]]
+  [cascade.params]
+    exclude_search = true
+  [cascade.target]
+    path = "/reference{,/**}"
+
 # Enable syntax highlighting and copy buttons on code blocks with Prism
 prism_syntax_highlighting = false
 
