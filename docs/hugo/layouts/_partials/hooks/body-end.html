@@ -1,0 +1,6 @@
+{{ if .Site.Params.offlineSearch -}}
+  {{ $worker := resources.Get "js/offline-search-worker.js" | fingerprint -}}
+  <script id="aso-search-config" type="application/json">
+    {{ dict "workerURL" $worker.RelPermalink | jsonify | safeJS }}
+  </script>
+{{ end -}}

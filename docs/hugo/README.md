@@ -14,3 +14,25 @@ task doc:build-site
 ```
 
 Markdown files go under `/content/`, static files like images under `/static/`.
+
+## Local search customization
+
+The site overrides Docsy's `assets/js/offline-search.js`. Search starts on the first submitted query
+(Enter or leaving the search field), not on page load. A Web Worker downloads the search JSON, builds
+the Lunr index, and runs queries without blocking page interaction. Results use Docsy's existing popover.
+The worker and index are reused for subsequent queries on that page, but not across page navigations.
+
+Search is scoped to the current Hugo section: pages in `reference` search only the API reference;
+all other pages search only non-reference documentation. The `search-input.html` partial selects
+the index URL and labels the search field accordingly. The shared `assets/json/offline-search-index.json`
+template generates separate documentation and reference JSON files, respecting `exclude_search` in both.
+Only the selected index is downloaded and built by the worker.
+
+The worker URL is published by `layouts/_partials/hooks/body-end.html`. The worker uses the same Lunr
+version and query weighting as Docsy; check these overrides when updating the theme.
+
+After building the site with search enabled, run the unit tests from the repository root with:
+
+```sh
+node --test docs/hugo/tests/*.test.cjs
+```
