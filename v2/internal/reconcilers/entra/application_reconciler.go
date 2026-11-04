@@ -11,15 +11,6 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
-	"github.com/go-logr/logr"
-	msgraphsdkgo "github.com/microsoftgraph/msgraph-beta-sdk-go"
-	"github.com/microsoftgraph/msgraph-beta-sdk-go/applications"
-	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
-	"github.com/rotisserie/eris"
-	"k8s.io/client-go/tools/record"
-	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-
 	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
@@ -30,11 +21,19 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
+	msgraphsdkgo "github.com/microsoftgraph/msgraph-beta-sdk-go"
+	"github.com/microsoftgraph/msgraph-beta-sdk-go/applications"
+	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
+	"github.com/rotisserie/eris"
+	"k8s.io/client-go/tools/record"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // ApplicationReconciler reconciles an Entra application.
 type ApplicationReconciler struct {
-	reconcilers.ReconcilerCommon
+	reconcilerBase
 	ResourceResolver   *resolver.Resolver
 	Config             config.Values
 	EntraClientFactory EntraConnectionFactory
@@ -53,9 +52,11 @@ func NewApplicationReconciler(
 		ResourceResolver:   resourceResolver,
 		Config:             cfg,
 		EntraClientFactory: entraClientFactory,
-		ReconcilerCommon: reconcilers.ReconcilerCommon{
-			KubeClient:         kubeClient,
-			PositiveConditions: positiveConditions,
+		reconcilerBase: reconcilerBase{
+			ReconcilerCommon: reconcilers.ReconcilerCommon{
+				KubeClient:         kubeClient,
+				PositiveConditions: positiveConditions,
+			},
 		},
 	}
 }
