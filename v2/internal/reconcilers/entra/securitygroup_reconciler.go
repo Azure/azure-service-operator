@@ -84,7 +84,7 @@ func (r *SecurityGroupReconciler) CreateOrUpdate(
 	obj genruntime.MetaObject,
 	_ annotations.ResolvedReconcilePolicies,
 ) (ctrl.Result, error) {
-	group, err := r.asSecurityGroup(obj)
+	group, err := r.asResource(obj)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", obj.GetName())
 	}
@@ -124,7 +124,7 @@ func (r *SecurityGroupReconciler) Delete(
 ) (ctrl.Result, error) {
 	log.V(Status).Info("Deleting Entra security group")
 
-	group, err := r.asSecurityGroup(obj)
+	group, err := r.asResource(obj)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "deleting security group %s", obj.GetName())
 	}
@@ -399,7 +399,7 @@ func (r *SecurityGroupReconciler) UpdateStatus(
 	obj genruntime.MetaObject,
 	_ annotations.ResolvedReconcilePolicies,
 ) error {
-	group, err := r.asSecurityGroup(obj)
+	group, err := r.asResource(obj)
 	if err != nil {
 		return eris.Wrapf(err, "updating status of security group %s", obj.GetName())
 	}
@@ -591,17 +591,6 @@ func (r *SecurityGroupReconciler) loadGroupsByDisplayName(
 
 		builder = client.Groups().WithUrl(next)
 	}
-}
-
-func (r *SecurityGroupReconciler) asSecurityGroup(
-	obj genruntime.MetaObject,
-) (*asoentra.SecurityGroup, error) {
-	typedObj, ok := obj.(*asoentra.SecurityGroup)
-	if !ok {
-		return nil, eris.Errorf("cannot modify resource that is not of type *entra.SecurityGroup. Type is %T", obj)
-	}
-
-	return typedObj, nil
 }
 
 func (r *SecurityGroupReconciler) canAdopt(group *asoentra.SecurityGroup) bool {

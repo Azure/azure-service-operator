@@ -65,7 +65,7 @@ func (r *ServicePrincipalReconciler) CreateOrUpdate(
 	obj genruntime.MetaObject,
 	_ annotations.ResolvedReconcilePolicies,
 ) (ctrl.Result, error) {
-	sp, err := r.asServicePrincipal(obj)
+	sp, err := r.asResource(obj)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -108,7 +108,7 @@ func (r *ServicePrincipalReconciler) Delete(
 	_ record.EventRecorder,
 	obj genruntime.MetaObject,
 ) (ctrl.Result, error) {
-	sp, err := r.asServicePrincipal(obj)
+	sp, err := r.asResource(obj)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -348,7 +348,7 @@ func (r *ServicePrincipalReconciler) UpdateStatus(
 	obj genruntime.MetaObject,
 	_ annotations.ResolvedReconcilePolicies,
 ) error {
-	sp, err := r.asServicePrincipal(obj)
+	sp, err := r.asResource(obj)
 	if err != nil {
 		return err
 	}
@@ -381,16 +381,6 @@ func (r *ServicePrincipalReconciler) loadServicePrincipalByID(
 		return nil, nil
 	}
 	return result, err
-}
-
-func (r *ServicePrincipalReconciler) asServicePrincipal(
-	obj genruntime.MetaObject,
-) (*asoentra.ServicePrincipal, error) {
-	sp, ok := obj.(*asoentra.ServicePrincipal)
-	if !ok {
-		return nil, eris.Errorf("cannot modify resource that is not of type *entra.ServicePrincipal. Type is %T", obj)
-	}
-	return sp, nil
 }
 
 func (r *ServicePrincipalReconciler) canAdopt(sp *asoentra.ServicePrincipal) bool {

@@ -68,7 +68,7 @@ func (r *ApplicationReconciler) CreateOrUpdate(
 	obj genruntime.MetaObject,
 	_ annotations.ResolvedReconcilePolicies,
 ) (ctrl.Result, error) {
-	app, err := r.asApplication(obj)
+	app, err := r.asResource(obj)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "creating or updating application %s", obj.GetName())
 	}
@@ -109,7 +109,7 @@ func (r *ApplicationReconciler) Delete(
 	log.V(Status).Info("Deleting Entra application")
 
 	// Ensure we have an application (as we shouldn't delete anything else)
-	app, err := r.asApplication(obj)
+	app, err := r.asResource(obj)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "deleting application %s", obj.GetName())
 	}
@@ -363,7 +363,7 @@ func (r *ApplicationReconciler) UpdateStatus(
 	obj genruntime.MetaObject,
 	_ annotations.ResolvedReconcilePolicies,
 ) error {
-	app, err := r.asApplication(obj)
+	app, err := r.asResource(obj)
 	if err != nil {
 		return eris.Wrapf(err, "updating status of application %s", obj.GetName())
 	}
@@ -457,17 +457,6 @@ func (r *ApplicationReconciler) loadApplicationsByDisplayName(
 
 		builder = client.Applications().WithUrl(next)
 	}
-}
-
-func (r *ApplicationReconciler) asApplication(
-	obj genruntime.MetaObject,
-) (*asoentra.Application, error) {
-	typedObj, ok := obj.(*asoentra.Application)
-	if !ok {
-		return nil, eris.Errorf("cannot modify resource that is not of type *entra.Application. Type is %T", obj)
-	}
-
-	return typedObj, nil
 }
 
 func (r *ApplicationReconciler) canAdopt(app *asoentra.Application) bool {
