@@ -30,7 +30,7 @@ Each section below dives into one of these authentication options, including exa
 Allowed credential fields These fields are common across all credential scopes.
 AZURE_SUBSCRIPTION_ID AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET AZURE_CLIENT_CERTIFICATE AZURE_CLIENT_CERTIFICATE_PASSWORD AZURE_ADDITIONAL_TENANTS ENTRA_APP_ID Namespace and resource credential fields These fields can be set only on namespace-scoped and per-resource credentials:
 AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT Note that the global credential scope has fields that can be set in addition to the fields documented above.">
-	<meta itemprop="wordCount" content="3501">
+	<meta itemprop="wordCount" content="3520">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Credential Format">
 	<meta name="twitter:description" content="Azure Service Operator supports six different styles of authentication today.
@@ -93,7 +93,7 @@ AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT Note that the global credential scope ha
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.dab966eba941caa87954e51408956c93.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.68b70246b9dbd328081e24347875df4b.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -119,7 +119,7 @@ AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT Note that the global credential scope ha
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.dab966eba941caa87954e51408956c93.json"
+    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.68b70246b9dbd328081e24347875df4b.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -172,6 +172,8 @@ AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT Note that the global credential scope ha
     <a href="/azure-service-operator/guide/authentication/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationmultitenant-deployment"><span class="">Multitenancy</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthenticationreducing-access-li">
     <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthenticationworkload-identity-isolation-li">
+    <a href="/azure-service-operator/guide/authentication/workload-identity-isolation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationworkload-identity-isolation"><span class="">Workload Identity isolation</span></a>
   </li>
     </ul>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebest-practices-li">
@@ -445,6 +447,8 @@ where the default path may hold a token that isn&rsquo;t valid for Azure AD fede
     <div class="tab-body tab-pane fade show active"
         id="tabs-11-01" role="tabpanel" aria-labelled-by="tabs-11-01-tab" tabindex="11">
         <p>In the default <code>relaxed</code> mode, all Workload Identity credentials use the ASO controller ServiceAccount subject.</p>
+<p><strong>Note:</strong> We recommend <code>strict</code> mode in production as it is more secure. See <a href="/azure-service-operator/guide/authentication/workload-identity-isolation/">Workload Identity isolation</a>
+for more details.</p>
 <p>Create the Federated Identity Credential registering your service account with AAD:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az identity federated-credential create --name aso-federated-credential --identity-name <span style="color:#e6db74">${</span>MI_NAME<span style="color:#e6db74">}</span> --resource-group <span style="color:#e6db74">${</span>MI_RESOURCE_GROUP<span style="color:#e6db74">}</span> --issuer <span style="color:#e6db74">${</span>SERVICE_ACCOUNT_ISSUER<span style="color:#e6db74">}</span> --subject <span style="color:#e6db74">&#34;system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default&#34;</span> --audiences <span style="color:#e6db74">&#34;api://AzureADTokenExchange&#34;</span>
 </span></span></code></pre></div>

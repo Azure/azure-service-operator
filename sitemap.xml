@@ -830,6 +830,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/web/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/authentication/workload-identity-isolation/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-year-month-title/</loc>
   </url>
 </urlset>
