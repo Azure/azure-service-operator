@@ -49,7 +49,7 @@ import (
 // SecurityGroupReconciler reconciles an Entra security group.
 // TODO: Factor out common code shared with other Entra resources into entraGenericReconciler
 type SecurityGroupReconciler struct {
-	reconcilerBase
+	reconcilerBase[*asoentra.SecurityGroup, msgraphmodels.Groupable]
 	ResourceResolver   *resolver.Resolver
 	Config             config.Values
 	EntraClientFactory EntraConnectionFactory
@@ -68,7 +68,7 @@ func NewSecurityGroupReconciler(
 		ResourceResolver:   resourceResolver,
 		Config:             cfg,
 		EntraClientFactory: entraClientFactory,
-		reconcilerBase: reconcilerBase{
+		reconcilerBase: reconcilerBase[*asoentra.SecurityGroup, msgraphmodels.Groupable]{
 			ReconcilerCommon: reconcilers.ReconcilerCommon{
 				KubeClient:         kubeClient,
 				PositiveConditions: positiveConditions,

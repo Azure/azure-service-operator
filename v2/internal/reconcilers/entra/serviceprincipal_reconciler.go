@@ -30,7 +30,7 @@ import (
 
 // ServicePrincipalReconciler reconciles tenant service principals by application ID.
 type ServicePrincipalReconciler struct {
-	reconcilerBase
+	reconcilerBase[*asoentra.ServicePrincipal, msgraphmodels.ServicePrincipalable]
 	ResourceResolver   *resolver.Resolver
 	Config             config.Values
 	EntraClientFactory EntraConnectionFactory
@@ -49,7 +49,7 @@ func NewServicePrincipalReconciler(
 		ResourceResolver:   resourceResolver,
 		Config:             cfg,
 		EntraClientFactory: entraClientFactory,
-		reconcilerBase: reconcilerBase{
+		reconcilerBase: reconcilerBase[*asoentra.ServicePrincipal, msgraphmodels.ServicePrincipalable]{
 			ReconcilerCommon: reconcilers.ReconcilerCommon{
 				KubeClient:         kubeClient,
 				PositiveConditions: positiveConditions,

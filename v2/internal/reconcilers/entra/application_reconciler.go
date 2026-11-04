@@ -33,7 +33,7 @@ import (
 
 // ApplicationReconciler reconciles an Entra application.
 type ApplicationReconciler struct {
-	reconcilerBase
+	reconcilerBase[*asoentra.Application, msgraphmodels.Applicationable]
 	ResourceResolver   *resolver.Resolver
 	Config             config.Values
 	EntraClientFactory EntraConnectionFactory
@@ -52,7 +52,7 @@ func NewApplicationReconciler(
 		ResourceResolver:   resourceResolver,
 		Config:             cfg,
 		EntraClientFactory: entraClientFactory,
-		reconcilerBase: reconcilerBase{
+		reconcilerBase: reconcilerBase[*asoentra.Application, msgraphmodels.Applicationable]{
 			ReconcilerCommon: reconcilers.ReconcilerCommon{
 				KubeClient:         kubeClient,
 				PositiveConditions: positiveConditions,
