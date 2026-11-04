@@ -287,7 +287,7 @@ func (r *ServicePrincipalReconciler) findServicePrincipals(
 	value string,
 	graph *msgraphsdk.GraphServiceClient,
 ) ([]msgraphmodels.ServicePrincipalable, error) {
-	filter := fmt.Sprintf("%s eq '%s'", field, escapeODataString(value))
+	filter := fmt.Sprintf("%s eq '%s'", field, r.escapeODataString(value))
 	options := &serviceprincipals.ServicePrincipalsRequestBuilderGetRequestConfiguration{
 		QueryParameters: &serviceprincipals.ServicePrincipalsRequestBuilderGetQueryParameters{Filter: &filter},
 	}

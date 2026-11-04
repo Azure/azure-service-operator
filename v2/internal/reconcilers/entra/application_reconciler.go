@@ -429,7 +429,7 @@ func (r *ApplicationReconciler) loadApplicationsByDisplayName(
 	client *msgraphsdkgo.GraphServiceClient,
 ) ([]msgraphmodels.Applicationable, error) {
 	// Try to get the application by display name
-	filterStr := fmt.Sprintf("displayName eq '%s'", escapeODataString(displayName))
+	filterStr := fmt.Sprintf("displayName eq '%s'", r.escapeODataString(displayName))
 
 	query := &applications.ApplicationsRequestBuilderGetQueryParameters{
 		Filter: &filterStr,
