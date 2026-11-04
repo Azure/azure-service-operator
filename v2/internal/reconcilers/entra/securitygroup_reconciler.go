@@ -8,7 +8,6 @@ package entra
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
@@ -564,10 +563,7 @@ func (r *SecurityGroupReconciler) loadGroupsByDisplayName(
 	client *msgraphsdkgo.GraphServiceClient,
 ) ([]msgraphmodels.Groupable, error) {
 	// Try to get the group by display name.
-	// Escape single quotes in the display name per the OData v4 spec: a single quote
-	// within a string literal is represented as two consecutive single quotes.
-	escapedDisplayName := strings.ReplaceAll(displayName, "'", "''")
-	filterStr := fmt.Sprintf("displayName eq '%s'", escapedDisplayName)
+	filterStr := fmt.Sprintf("displayName eq '%s'", r.escapeODataString(displayName))
 
 	query := &groups.GroupsRequestBuilderGetQueryParameters{
 		Filter: &filterStr,
